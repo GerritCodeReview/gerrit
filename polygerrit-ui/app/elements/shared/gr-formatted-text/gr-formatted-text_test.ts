@@ -145,8 +145,8 @@ suite('gr-formatted-text tests', () => {
     assertPreBlock(result[0], comment);
   });
 
-  test('parse one space pre', () => {
-    const comment = ' One space indent.\n Another line.';
+  test('parse multi-line space pre', () => {
+    const comment = '    One space indent.\n    Another line.';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 1);
     assertPreBlock(result[0], comment);

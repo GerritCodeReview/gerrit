@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "55e432d7_872a7124",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-23T07:25:04Z",
+      "side": 1,
+      "message": "Added a TODO to do this as a follow-up.",
+      "parentUuid": "4261bc7e_f06bb0c4",
+      "range": {
+        "startLine": 216,
+        "startChar": 2,
+        "endLine": 218,
+        "endChar": 61
+      },
+      "revId": "87b0bf3cace3d92d5c2b531d4051af0b521bc1c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ec3ab57e_1220c715",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-06-22T14:49:51Z",
       "side": 1,
       "message": "Doing this on *every* render seems potentially be too much. E.g. the `changeComments` property will likely change a lot and trigger rendering updates?",
+      "range": {
+        "startLine": 741,
+        "startChar": 1,
+        "endLine": 742,
+        "endChar": 34
+      },
+      "revId": "87b0bf3cace3d92d5c2b531d4051af0b521bc1c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83cb8e2c_d9dad2c0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 742,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-23T07:25:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec3ab57e_1220c715",
       "range": {
         "startLine": 741,
         "startChar": 1,
@@ -81,6 +129,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae9a078f_54124019",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1041,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-23T07:25:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "460dbbee_8a47ae58",
+      "revId": "87b0bf3cace3d92d5c2b531d4051af0b521bc1c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e083e493_5942fce0",
@@ -94,6 +160,30 @@
       "writtenOn": "2022-06-22T14:49:51Z",
       "side": 1,
       "message": "Maybe rename to `fetchFiles`. Or make this method obsolete by just subscribing to the files model. (That would have the additional benefit of the change and diff view sharing the data and only making one request.).",
+      "range": {
+        "startLine": 1052,
+        "startChar": 2,
+        "endLine": 1052,
+        "endChar": 10
+      },
+      "revId": "87b0bf3cace3d92d5c2b531d4051af0b521bc1c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fa23d63_43ef382c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1052,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-23T07:25:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e083e493_5942fce0",
       "range": {
         "startLine": 1052,
         "startChar": 2,

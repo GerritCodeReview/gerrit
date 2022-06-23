@@ -57,7 +57,7 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilderLegacy {
 
     const pairs = group.getSideBySidePairs();
     for (let i = 0; i < pairs.length; i++) {
-      sectionEl.appendChild(this.createRow(pairs[i].left, pairs[i].right));
+      sectionEl.appendChild(this.createRow(pairs[i].left, pairs[i].right, i));
     }
     return sectionEl;
   }
@@ -92,11 +92,20 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilderLegacy {
     outputEl.appendChild(colgroup);
   }
 
-  private createRow(leftLine: GrDiffLine, rightLine: GrDiffLine) {
+  private createRow(leftLine: GrDiffLine, rightLine: GrDiffLine, i: number) {
     const row = createElementDiff('tr');
     row.classList.add('diff-row', 'side-by-side');
     row.setAttribute('left-type', leftLine.type);
     row.setAttribute('right-type', rightLine.type);
+    // role="region"
+    // row.setAttribute('role', 'region');
+    row.setAttribute('role', 'button');
+    row.setAttribute('aria-roledescription', 'Code line');
+    // row.id = `${i}`;
+    // row.setAttribute(
+    //   'aria-labelledby',
+    //   `left${leftLine.beforeNumber} right${rightLine.afterNumber}`
+    // );
     // TabIndex makes screen reader read a row when navigating with j/k
     row.tabIndex = -1;
 

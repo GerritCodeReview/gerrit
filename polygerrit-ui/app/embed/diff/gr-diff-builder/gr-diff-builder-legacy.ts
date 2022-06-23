@@ -364,7 +364,8 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
         line.text,
         responsiveMode,
         this._prefs.tab_size,
-        this._prefs.line_length
+        this._prefs.line_length,
+        side === Side.LEFT ? `left${beforeNumber}` : `right${afterNumber}`
       );
 
       if (side) {

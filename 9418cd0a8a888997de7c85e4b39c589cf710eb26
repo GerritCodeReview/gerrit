@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95cd8117_8e9b69c1",
+        "filename": "java/com/google/gerrit/index/Schema.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-23T12:25:22Z",
+      "side": 1,
+      "message": "Why did we need to change the type to ImmutableSet\u003cString\u003e? Could you please also add a TODO that this field is going to be removed?",
+      "range": {
+        "startLine": 157,
+        "startChar": 16,
+        "endLine": 157,
+        "endChar": 36
+      },
+      "revId": "9418cd0a8a888997de7c85e4b39c589cf710eb26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a3e71ee_94d7cb00",
+        "filename": "java/com/google/gerrit/index/Schema.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-23T12:25:22Z",
+      "side": 1,
+      "message": "Can we add tests to make sure to field name is defined as both FieldDef and IndexField/SearchSpec at the same time?",
+      "revId": "9418cd0a8a888997de7c85e4b39c589cf710eb26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10d463e9_a50d4c82",
+        "filename": "javatests/com/google/gerrit/index/SchemaUtilTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-23T12:25:22Z",
+      "side": 1,
+      "message": "Could you please add an assertion for the error message? Just to make it instantly clear to the future reader why this operation failed.\n\nSame for other methods.",
+      "revId": "9418cd0a8a888997de7c85e4b39c589cf710eb26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30431510_b8f8369b",
+        "filename": "javatests/com/google/gerrit/index/SchemaUtilTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-23T12:25:22Z",
+      "side": 1,
+      "message": "I think this is also failing because there we don\u0027t supply a search spec. otherwise, what\u0027s the difference between this and the previous test?",
+      "revId": "9418cd0a8a888997de7c85e4b39c589cf710eb26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79faae45_9636671b",
+        "filename": "javatests/com/google/gerrit/index/SchemaUtilTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-23T12:25:22Z",
+      "side": 1,
+      "message": "nit: remove final, here and in L149.",
+      "range": {
+        "startLine": 138,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 9
+      },
+      "revId": "9418cd0a8a888997de7c85e4b39c589cf710eb26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

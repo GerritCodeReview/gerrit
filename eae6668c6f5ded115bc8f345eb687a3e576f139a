@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28f0d83c_d460f18e",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-23T09:59:50Z",
+      "side": 0,
+      "message": "So this can be removed because it is not in SEARCH_OPERATORS_WITH_NEGATIONS_SET ?",
+      "range": {
+        "startLine": 262,
+        "startChar": 6,
+        "endLine": 263,
+        "endChar": 51
+      },
+      "revId": "eae6668c6f5ded115bc8f345eb687a3e576f139a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

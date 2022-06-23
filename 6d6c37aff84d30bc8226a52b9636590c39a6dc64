@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ea3c01b_f41d4b6f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-06-23T08:05:03Z",
+      "side": 1,
+      "message": "Not sure why tests are failed - please take a look. The change LGTM",
+      "revId": "6d6c37aff84d30bc8226a52b9636590c39a6dc64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

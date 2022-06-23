@@ -63,6 +63,30 @@
       },
       "revId": "01171d328fb5ce0dbb836ef1ae8898de9e5c9b8b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f0a076a_416de334",
+        "filename": "resources/com/google/gerrit/server/commit-msg_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2022-06-23T09:59:21Z",
+      "side": 1,
+      "message": "The ideal test would use \"git commit --squash\" instead of writing a custom commit message.\n\nThis test exercises the code without showing the end-to-end user flow that motivates it, but \"git blame\" would then help someone find this change that provides the motivation, so I don\u0027t mind it too much.",
+      "parentUuid": "ea06751f_dfecdcbc",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 15
+      },
+      "revId": "01171d328fb5ce0dbb836ef1ae8898de9e5c9b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

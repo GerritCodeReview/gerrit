@@ -95,6 +95,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cce9a141_60057035",
+        "filename": "java/com/google/gerrit/sshd/commands/PatchSetParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1117824
+      },
+      "writtenOn": "2022-06-23T16:35:27Z",
+      "side": 1,
+      "message": "At line 67 i can see that method \"byBranchCommit\" requires branch parameter as string, for this reason i think using branch parameter as string makes sense.",
+      "parentUuid": "e9f8ff28_d567d3fb",
+      "range": {
+        "startLine": 66,
+        "startChar": 10,
+        "endLine": 66,
+        "endChar": 45
+      },
+      "revId": "3cba0a5f324dc4801c96a04e6216e141836c52c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b89c972b_a771fe3b",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeReviewIT.java",
         "patchSetId": 4

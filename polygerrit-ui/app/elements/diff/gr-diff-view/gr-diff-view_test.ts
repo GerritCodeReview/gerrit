@@ -64,6 +64,7 @@ import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions'
 import {CommentMap} from '../../../utils/comment-util';
 import {ParsedChangeInfo} from '../../../types/types';
 import {assertIsDefined} from '../../../utils/common-util';
+import {GrDiffModeSelector} from '../../../embed/diff/gr-diff-mode-selector/gr-diff-mode-selector';
 
 const basicFixture = fixtureFromElement('gr-diff-view');
 
@@ -119,22 +120,21 @@ suite('gr-diff-view tests', () => {
       stubRestApi('getPortedComments').returns(Promise.resolve({}));
 
       element = basicFixture.instantiate();
-      element._changeNum = 42 as NumericChangeId;
-      element._path = 'some/path.txt';
-      element._change = createParsedChange();
-      element._diff = {...createDiff(), content: []};
+      element.changeNum = 42 as NumericChangeId;
+      element.path = 'some/path.txt';
+      element.change = createParsedChange();
+      element.diff = {...createDiff(), content: []};
       getDiffRestApiStub = stubRestApi('getDiff');
-      // Delayed in case a test updates element._diff.
-      getDiffRestApiStub.callsFake(() => Promise.resolve(element._diff));
-      element._patchRange = createPatchRange();
-      element._changeComments = new ChangeComments({
+      // Delayed in case a test updates element.diff.
+      getDiffRestApiStub.callsFake(() => Promise.resolve(element.diff));
+      element.patchRange = createPatchRange();
+      element.changeComments = new ChangeComments({
         '/COMMIT_MSG': [
           createComment('c1', 10, 2, '/COMMIT_MSG'),
           createComment('c3', 10, PARENT, '/COMMIT_MSG'),
         ],
       });
-      await flush();
-      await element.$.diffHost.updateComplete;
+      await element.updateComplete;
 
       element.getCommentsModel().setState({
         comments: {},
@@ -153,10 +153,11 @@ suite('gr-diff-view tests', () => {
 
     test('params change triggers diffViewDisplayed()', () => {
       const diffViewDisplayedStub = stubReporting('diffViewDisplayed');
-      sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
+      assertIsDefined(element.diffHost);
+      sinon.stub(element.diffHost, 'reload').returns(Promise.resolve());
       sinon.stub(element, 'initPatchRange');
-      sinon.stub(element, '_getFiles');
-      const paramsChangedSpy = sinon.spy(element, '_paramsChanged');
+      sinon.stub(element, 'fetchFiles');
+      const paramsChangedSpy = sinon.spy(element, 'paramsChanged');
       element.params = {
         view: GerritNav.View.DIFF,
         changeNum: 42 as NumericChangeId,
@@ -164,8 +165,8 @@ suite('gr-diff-view tests', () => {
         basePatchNum: 1 as BasePatchSetNum,
         path: '/COMMIT_MSG',
       };
-      element._path = '/COMMIT_MSG';
-      element._patchRange = createPatchRange();
+      element.path = '/COMMIT_MSG';
+      element.patchRange = createPatchRange();
       return paramsChangedSpy.returnValues[0]?.then(() => {
         assert.isTrue(diffViewDisplayedStub.calledOnce);
       });
@@ -183,10 +184,11 @@ suite('gr-diff-view tests', () => {
         );
         getUrlStub = sinon.stub(GerritNav, 'getUrlForDiffById');
         replaceStateStub = sinon.stub(history, 'replaceState');
-        sinon.stub(element, '_getFiles');
+        sinon.stub(element, 'fetchFiles');
         stubReporting('diffViewDisplayed');
-        sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
-        paramsChangedSpy = sinon.spy(element, '_paramsChanged');
+        assertIsDefined(element.diffHost);
+        sinon.stub(element.diffHost, 'reload').returns(Promise.resolve());
+        paramsChangedSpy = sinon.spy(element, 'paramsChanged');
         element.getChangeModel().setState({
           change: {
             ...createParsedChange(),
@@ -218,7 +220,7 @@ suite('gr-diff-view tests', () => {
           path: 'abcd',
           patchNum: 1 as RevisionPatchSetNum,
         };
-        element._change = {
+        element.change = {
           ...createParsedChange(),
           revisions: createRevisions(11),
         };
@@ -226,12 +228,9 @@ suite('gr-diff-view tests', () => {
           assert.isTrue(
             initLineOfInterestAndCursorStub.calledWithExactly(true)
           );
-          assert.equal(element._focusLineNum, 10);
-          assert.equal(
-            element._patchRange?.patchNum,
-            11 as RevisionPatchSetNum
-          );
-          assert.equal(element._patchRange?.basePatchNum, 2 as BasePatchSetNum);
+          assert.equal(element.focusLineNum, 10);
+          assert.equal(element.patchRange?.patchNum, 11 as RevisionPatchSetNum);
+          assert.equal(element.patchRange?.basePatchNum, 2 as BasePatchSetNum);
           assert.isTrue(replaceStateStub.called);
           assert.isTrue(
             getUrlStub.calledWithExactly(
@@ -250,13 +249,14 @@ suite('gr-diff-view tests', () => {
 
     test('params change causes blame to load if it was set to true', () => {
       // Blame loads for subsequent files if it was loaded for one file
-      element._isBlameLoaded = true;
+      element.isBlameLoaded = true;
       stubReporting('diffViewDisplayed');
       const loadBlameStub = sinon.stub(element, 'loadBlame');
-      sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
-      const paramsChangedSpy = sinon.spy(element, '_paramsChanged');
+      assertIsDefined(element.diffHost);
+      sinon.stub(element.diffHost, 'reload').returns(Promise.resolve());
+      const paramsChangedSpy = sinon.spy(element, 'paramsChanged');
       sinon.stub(element, 'initPatchRange');
-      sinon.stub(element, '_getFiles');
+      sinon.stub(element, 'fetchFiles');
       element.params = {
         view: GerritNav.View.DIFF,
         changeNum: 42 as NumericChangeId,
@@ -264,10 +264,10 @@ suite('gr-diff-view tests', () => {
         basePatchNum: 1 as BasePatchSetNum,
         path: '/COMMIT_MSG',
       };
-      element._path = '/COMMIT_MSG';
-      element._patchRange = createPatchRange();
+      element.path = '/COMMIT_MSG';
+      element.patchRange = createPatchRange();
       return paramsChangedSpy.returnValues[0]!.then(() => {
-        assert.isTrue(element._isBlameLoaded);
+        assert.isTrue(element.isBlameLoaded);
         assert.isTrue(loadBlameStub.calledOnce);
       });
     });
@@ -289,9 +289,10 @@ suite('gr-diff-view tests', () => {
       });
       stubReporting('diffViewDisplayed');
       sinon.stub(element, 'loadBlame');
-      sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
+      assertIsDefined(element.diffHost);
+      sinon.stub(element.diffHost, 'reload').returns(Promise.resolve());
       sinon.stub(element, 'isFileUnchanged').returns(true);
-      const paramsChangedSpy = sinon.spy(element, '_paramsChanged');
+      const paramsChangedSpy = sinon.spy(element, 'paramsChanged');
       element.getChangeModel().setState({
         change: {
           ...createParsedChange(),
@@ -306,14 +307,14 @@ suite('gr-diff-view tests', () => {
         commentLink: true,
         commentId: 'c1' as UrlEncodedCommentId,
       };
-      element._change = {
+      element.change = {
         ...createParsedChange(),
         revisions: createRevisions(11),
       };
       return paramsChangedSpy.returnValues[0]?.then(() => {
         assert.isTrue(
           diffNavStub.lastCall.calledWithExactly(
-            element._change!,
+            element.change!,
             '/COMMIT_MSG',
             2 as RevisionPatchSetNum,
             PARENT,
@@ -340,9 +341,10 @@ suite('gr-diff-view tests', () => {
       });
       stubReporting('diffViewDisplayed');
       sinon.stub(element, 'loadBlame');
-      sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
+      assertIsDefined(element.diffHost);
+      sinon.stub(element.diffHost, 'reload').returns(Promise.resolve());
       sinon.stub(element, 'isFileUnchanged').returns(true);
-      const paramsChangedSpy = sinon.spy(element, '_paramsChanged');
+      const paramsChangedSpy = sinon.spy(element, 'paramsChanged');
       element.getChangeModel().setState({
         change: {
           ...createParsedChange(),
@@ -357,7 +359,7 @@ suite('gr-diff-view tests', () => {
         commentLink: true,
         commentId: 'c3' as UrlEncodedCommentId,
       };
-      element._change = {
+      element.change = {
         ...createParsedChange(),
         revisions: createRevisions(11),
       };
@@ -415,9 +417,10 @@ suite('gr-diff-view tests', () => {
 
       stubReporting('diffViewDisplayed');
       sinon.stub(element, 'loadBlame');
-      sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
-      const paramsChangedSpy = sinon.spy(element, '_paramsChanged');
-      element._change = undefined;
+      assertIsDefined(element.diffHost);
+      sinon.stub(element.diffHost, 'reload').returns(Promise.resolve());
+      const paramsChangedSpy = sinon.spy(element, 'paramsChanged');
+      element.change = undefined;
       element.getChangeModel().setState({
         change: {
           ...createParsedChange(),
@@ -425,7 +428,7 @@ suite('gr-diff-view tests', () => {
         },
         loadingStatus: LoadingStatus.LOADED,
       });
-      element._patchRange = {
+      element.patchRange = {
         patchNum: 2 as RevisionPatchSetNum,
         basePatchNum: 1 as BasePatchSetNum,
       };
@@ -443,139 +446,138 @@ suite('gr-diff-view tests', () => {
     });
 
     test('toggle left diff with a hotkey', () => {
-      const toggleLeftDiffStub = sinon.stub(
-        element.$.diffHost,
-        'toggleLeftDiff'
-      );
+      assertIsDefined(element.diffHost);
+      const toggleLeftDiffStub = sinon.stub(element.diffHost, 'toggleLeftDiff');
       MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'A');
       assert.isTrue(toggleLeftDiffStub.calledOnce);
     });
 
     test('keyboard shortcuts', async () => {
       clock = sinon.useFakeTimers();
-      element._changeNum = 42 as NumericChangeId;
+      element.changeNum = 42 as NumericChangeId;
       element.getBrowserModel().setScreenWidth(0);
-      element._patchRange = {
+      element.patchRange = {
         basePatchNum: PARENT,
         patchNum: 10 as RevisionPatchSetNum,
       };
-      element._change = {
+      element.change = {
         ...createParsedChange(),
         _number: 42 as NumericChangeId,
         revisions: {
           a: createRevision(10),
         },
       };
-      element._files = getFilesFromFileList([
+      element.files = getFilesFromFileList([
         'chell.go',
         'glados.txt',
         'wheatley.md',
       ]);
-      element._path = 'glados.txt';
-      element._loggedIn = true;
-      await flush();
+      element.path = 'glados.txt';
+      element.loggedIn = true;
+      await element.updateComplete;
 
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       const changeNavStub = sinon.stub(GerritNav, 'navigateToChange');
 
       MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
       assert(
-        changeNavStub.lastCall.calledWith(element._change),
+        changeNavStub.lastCall.calledWith(element.change),
         'Should navigate to /c/42/'
       );
-      await flush();
+      await element.updateComplete;
 
       MockInteractions.pressAndReleaseKeyOn(element, 221, null, ']');
       assert(
         diffNavStub.lastCall.calledWith(
-          element._change,
+          element.change,
           'wheatley.md',
           10 as RevisionPatchSetNum,
           PARENT
         ),
         'Should navigate to /c/42/10/wheatley.md'
       );
-      element._path = 'wheatley.md';
-      await flush();
+      element.path = 'wheatley.md';
+      await element.updateComplete;
 
-      assert.isTrue(element._loading);
+      assert.isTrue(element.loading);
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert(
         diffNavStub.lastCall.calledWith(
-          element._change,
+          element.change,
           'glados.txt',
           10 as RevisionPatchSetNum,
           PARENT
         ),
         'Should navigate to /c/42/10/glados.txt'
       );
-      element._path = 'glados.txt';
-      await flush();
+      element.path = 'glados.txt';
+      await element.updateComplete;
 
-      assert.isTrue(element._loading);
+      assert.isTrue(element.loading);
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert(
         diffNavStub.lastCall.calledWith(
-          element._change,
+          element.change,
           'chell.go',
           10 as RevisionPatchSetNum,
           PARENT
         ),
         'Should navigate to /c/42/10/chell.go'
       );
-      element._path = 'chell.go';
-      await flush();
+      element.path = 'chell.go';
+      await element.updateComplete;
 
-      assert.isTrue(element._loading);
+      assert.isTrue(element.loading);
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert(
-        changeNavStub.lastCall.calledWith(element._change),
+        changeNavStub.lastCall.calledWith(element.change),
         'Should navigate to /c/42/'
       );
-      await flush();
-      assert.isTrue(element._loading);
+      await element.updateComplete;
+      assert.isTrue(element.loading);
 
+      assertIsDefined(element.diffPreferencesDialog);
       const showPrefsStub = sinon
-        .stub(element.$.diffPreferencesDialog, 'open')
+        .stub(element.diffPreferencesDialog, 'open')
         .callsFake(() => Promise.resolve());
 
       MockInteractions.pressAndReleaseKeyOn(element, 188, null, ',');
-      await flush();
+      await element.updateComplete;
       assert(showPrefsStub.calledOnce);
 
       assertIsDefined(element.cursor);
       let scrollStub = sinon.stub(element.cursor, 'moveToNextChunk');
       MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
-      await flush();
+      await element.updateComplete;
       assert(scrollStub.calledOnce);
 
       scrollStub = sinon.stub(element.cursor, 'moveToPreviousChunk');
       MockInteractions.pressAndReleaseKeyOn(element, 80, null, 'p');
-      await flush();
+      await element.updateComplete;
       assert(scrollStub.calledOnce);
 
       scrollStub = sinon.stub(element.cursor, 'moveToNextCommentThread');
       MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'N');
-      await flush();
+      await element.updateComplete;
       assert(scrollStub.calledOnce);
 
       scrollStub = sinon.stub(element.cursor, 'moveToPreviousCommentThread');
       MockInteractions.pressAndReleaseKeyOn(element, 80, null, 'P');
-      await flush();
+      await element.updateComplete;
       assert(scrollStub.calledOnce);
 
-      assertIsDefined(element.$.diffHost.diffElement);
+      assertIsDefined(element.diffHost);
+      assertIsDefined(element.diffHost.diffElement);
       const computeContainerClassStub = sinon.stub(
-        element.$.diffHost.diffElement,
+        element.diffHost.diffElement,
         '_computeContainerClass'
       );
       MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
-      await flush();
-      await element.$.diffHost.updateComplete;
-      await flush();
+
+      await element.updateComplete;
       assert(
         computeContainerClassStub.lastCall.calledWithExactly(
           true,
@@ -585,7 +587,7 @@ suite('gr-diff-view tests', () => {
       );
 
       MockInteractions.pressAndReleaseKeyOn(element, 27, null, 'Escape');
-      await flush();
+      await element.updateComplete;
       assert(
         computeContainerClassStub.lastCall.calledWithExactly(
           true,
@@ -595,10 +597,11 @@ suite('gr-diff-view tests', () => {
       );
 
       // Note that stubbing setReviewed means that the value of the
-      // `element.$.reviewed` checkbox is not flipped.
+      // `element.reviewed` checkbox is not flipped.
       const setReviewedStub = sinon.stub(element, 'setReviewed');
       const handleToggleSpy = sinon.spy(element, 'handleToggleFileReviewed');
-      element.$.reviewed.checked = false;
+      assertIsDefined(element.reviewed);
+      element.reviewed.checked = false;
       assert.isFalse(handleToggleSpy.called);
       assert.isFalse(setReviewedStub.called);
 
@@ -620,40 +623,40 @@ suite('gr-diff-view tests', () => {
       clock.restore();
     });
 
-    test('moveToNextCommentThread navigates to next file', () => {
+    test('moveToNextCommentThread navigates to next file', async () => {
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
-      const diffChangeStub = sinon.stub(element, '_navigateToChange');
+      const diffChangeStub = sinon.stub(element, 'navigateToChange');
       assertIsDefined(element.cursor);
       sinon.stub(element.cursor, 'isAtEnd').returns(true);
-      element._changeNum = 42 as NumericChangeId;
+      element.changeNum = 42 as NumericChangeId;
       const comment: PathToCommentsInfoMap = {
         'wheatley.md': [createComment('c2', 21, 10, 'wheatley.md')],
       };
-      element._changeComments = new ChangeComments(comment);
-      element._patchRange = {
+      element.changeComments = new ChangeComments(comment);
+      element.patchRange = {
         basePatchNum: PARENT,
         patchNum: 10 as RevisionPatchSetNum,
       };
-      element._change = {
+      element.change = {
         ...createParsedChange(),
         _number: 42 as NumericChangeId,
         revisions: {
           a: createRevision(10),
         },
       };
-      element._files = getFilesFromFileList([
+      element.files = getFilesFromFileList([
         'chell.go',
         'glados.txt',
         'wheatley.md',
       ]);
-      element._path = 'glados.txt';
-      element._loggedIn = true;
+      element.path = 'glados.txt';
+      element.loggedIn = true;
 
       MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'N');
-      flush();
+      await element.updateComplete;
       assert.isTrue(
         diffNavStub.calledWithExactly(
-          element._change,
+          element.change,
           'wheatley.md',
           10 as RevisionPatchSetNum,
           PARENT,
@@ -661,26 +664,28 @@ suite('gr-diff-view tests', () => {
         )
       );
 
-      element._path = 'wheatley.md'; // navigated to next file
+      element.path = 'wheatley.md'; // navigated to next file
 
       MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'N');
-      flush();
+      await element.updateComplete;
 
       assert.isTrue(diffChangeStub.called);
     });
 
-    test('shift+x shortcut toggles all diff context', () => {
-      const toggleStub = sinon.stub(element.$.diffHost, 'toggleAllContext');
+    test('shift+x shortcut toggles all diff context', async () => {
+      assertIsDefined(element.diffHost);
+      const toggleStub = sinon.stub(element.diffHost, 'toggleAllContext');
       MockInteractions.pressAndReleaseKeyOn(element, 88, null, 'X');
-      flush();
+      await element.updateComplete;
       assert.isTrue(toggleStub.called);
     });
 
-    test('diff against base', () => {
-      element._patchRange = {
+    test('diff against base', async () => {
+      element.patchRange = {
         basePatchNum: 5 as BasePatchSetNum,
         patchNum: 10 as RevisionPatchSetNum,
       };
+      await element.updateComplete;
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       element.handleDiffAgainstBase();
       const args = diffNavStub.getCall(0).args;
@@ -688,15 +693,17 @@ suite('gr-diff-view tests', () => {
       assert.isNotOk(args[3]);
     });
 
-    test('diff against latest', () => {
-      element._change = {
+    test('diff against latest', async () => {
+      element.path = 'foo';
+      element.change = {
         ...createParsedChange(),
         revisions: createRevisions(12),
       };
-      element._patchRange = {
+      element.patchRange = {
         basePatchNum: 5 as BasePatchSetNum,
         patchNum: 10 as RevisionPatchSetNum,
       };
+      await element.updateComplete;
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       element.handleDiffAgainstLatest();
       const args = diffNavStub.getCall(0).args;
@@ -704,12 +711,13 @@ suite('gr-diff-view tests', () => {
       assert.equal(args[3], 5 as BasePatchSetNum);
     });
 
-    test('handleDiffBaseAgainstLeft', () => {
-      element._change = {
+    test('handleDiffBaseAgainstLeft', async () => {
+      element.path = 'foo';
+      element.change = {
         ...createParsedChange(),
         revisions: createRevisions(10),
       };
-      element._patchRange = {
+      element.patchRange = {
         patchNum: 3 as RevisionPatchSetNum,
         basePatchNum: 1 as BasePatchSetNum,
       };
@@ -717,6 +725,7 @@ suite('gr-diff-view tests', () => {
         view: GerritView.DASHBOARD,
         dashboard: 'id' as DashboardId,
       };
+      await element.updateComplete;
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       element.handleDiffBaseAgainstLeft();
       assert(diffNavStub.called);
@@ -727,21 +736,21 @@ suite('gr-diff-view tests', () => {
     });
 
     test('handleDiffBaseAgainstLeft when initially navigating to a comment', () => {
-      element._change = {
+      element.change = {
         ...createParsedChange(),
         revisions: createRevisions(10),
       };
-      element._patchRange = {
+      element.patchRange = {
         patchNum: 3 as RevisionPatchSetNum,
         basePatchNum: 1 as BasePatchSetNum,
       };
-      sinon.stub(element, '_paramsChanged');
+      sinon.stub(element, 'paramsChanged');
       element.params = {
         commentLink: true,
         view: GerritView.DIFF,
         changeNum: 42 as NumericChangeId,
       };
-      element._focusLineNum = 10;
+      element.focusLineNum = 10;
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       element.handleDiffBaseAgainstLeft();
       assert(diffNavStub.called);
@@ -751,15 +760,17 @@ suite('gr-diff-view tests', () => {
       assert.equal(args[4], 10);
     });
 
-    test('handleDiffRightAgainstLatest', () => {
-      element._change = {
+    test('handleDiffRightAgainstLatest', async () => {
+      element.path = 'foo';
+      element.change = {
         ...createParsedChange(),
         revisions: createRevisions(10),
       };
-      element._patchRange = {
+      element.patchRange = {
         basePatchNum: 1 as BasePatchSetNum,
         patchNum: 3 as RevisionPatchSetNum,
       };
+      await element.updateComplete;
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       element.handleDiffRightAgainstLatest();
       assert(diffNavStub.called);
@@ -768,15 +779,16 @@ suite('gr-diff-view tests', () => {
       assert.equal(args[3], 3 as BasePatchSetNum);
     });
 
-    test('handleDiffBaseAgainstLatest', () => {
-      element._change = {
+    test('handleDiffBaseAgainstLatest', async () => {
+      element.change = {
         ...createParsedChange(),
         revisions: createRevisions(10),
       };
-      element._patchRange = {
+      element.patchRange = {
         basePatchNum: 1 as BasePatchSetNum,
         patchNum: 3 as RevisionPatchSetNum,
       };
+      await element.updateComplete;
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       element.handleDiffBaseAgainstLatest();
       assert(diffNavStub.called);
@@ -787,11 +799,11 @@ suite('gr-diff-view tests', () => {
 
     test('A fires an error event when not logged in', async () => {
       const changeNavStub = sinon.stub(GerritNav, 'navigateToChange');
-      sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(false));
+      element.loggedIn = false;
       const loggedInErrorSpy = sinon.spy();
       element.addEventListener('show-auth-required', loggedInErrorSpy);
       MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
-      await flush();
+      await element.updateComplete;
       assert.isTrue(
         changeNavStub.notCalled,
         'The `a` keyboard shortcut ' +
@@ -801,12 +813,12 @@ suite('gr-diff-view tests', () => {
     });
 
     test('A navigates to change with logged in', async () => {
-      element._changeNum = 42 as NumericChangeId;
-      element._patchRange = {
+      element.changeNum = 42 as NumericChangeId;
+      element.patchRange = {
         basePatchNum: 5 as BasePatchSetNum,
         patchNum: 10 as RevisionPatchSetNum,
       };
-      element._change = {
+      element.change = {
         ...createParsedChange(),
         _number: 42 as NumericChangeId,
         revisions: {
@@ -815,13 +827,13 @@ suite('gr-diff-view tests', () => {
         },
       };
       const changeNavStub = sinon.stub(GerritNav, 'navigateToChange');
-      sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
+      element.loggedIn = true;
       const loggedInErrorSpy = sinon.spy();
       element.addEventListener('show-auth-required', loggedInErrorSpy);
       MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
-      await flush();
+      await element.updateComplete;
       assert(
-        changeNavStub.lastCall.calledWithExactly(element._change, {
+        changeNavStub.lastCall.calledWithExactly(element.change, {
           patchNum: 10 as RevisionPatchSetNum,
           basePatchNum: 5 as BasePatchSetNum,
           openReplyDialog: true,
@@ -832,12 +844,12 @@ suite('gr-diff-view tests', () => {
     });
 
     test('A navigates to change with old patch number with logged in', async () => {
-      element._changeNum = 42 as NumericChangeId;
-      element._patchRange = {
+      element.changeNum = 42 as NumericChangeId;
+      element.patchRange = {
         basePatchNum: PARENT,
         patchNum: 1 as RevisionPatchSetNum,
       };
-      element._change = {
+      element.change = {
         ...createParsedChange(),
         _number: 42 as NumericChangeId,
         revisions: {
@@ -846,13 +858,13 @@ suite('gr-diff-view tests', () => {
         },
       };
       const changeNavStub = sinon.stub(GerritNav, 'navigateToChange');
-      sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
+      element.loggedIn = true;
       const loggedInErrorSpy = sinon.spy();
       element.addEventListener('show-auth-required', loggedInErrorSpy);
       MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
-      await flush();
+      await element.updateComplete;
       assert(
-        changeNavStub.lastCall.calledWithExactly(element._change, {
+        changeNavStub.lastCall.calledWithExactly(element.change, {
           patchNum: 1 as RevisionPatchSetNum,
           basePatchNum: PARENT,
           openReplyDialog: true,
@@ -863,12 +875,12 @@ suite('gr-diff-view tests', () => {
     });
 
     test('keyboard shortcuts with patch range', () => {
-      element._changeNum = 42 as NumericChangeId;
-      element._patchRange = {
+      element.changeNum = 42 as NumericChangeId;
+      element.patchRange = {
         basePatchNum: 5 as BasePatchSetNum,
         patchNum: 10 as RevisionPatchSetNum,
       };
-      element._change = {
+      element.change = {
         ...createParsedChange(),
         _number: 42 as NumericChangeId,
         revisions: {
@@ -876,19 +888,19 @@ suite('gr-diff-view tests', () => {
           b: createRevision(5),
         },
       };
-      element._files = getFilesFromFileList([
+      element.files = getFilesFromFileList([
         'chell.go',
         'glados.txt',
         'wheatley.md',
       ]);
-      element._path = 'glados.txt';
+      element.path = 'glados.txt';
 
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       const changeNavStub = sinon.stub(GerritNav, 'navigateToChange');
 
       MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
       assert(
-        changeNavStub.lastCall.calledWithExactly(element._change, {
+        changeNavStub.lastCall.calledWithExactly(element.change, {
           patchNum: 10 as RevisionPatchSetNum,
           basePatchNum: 5 as BasePatchSetNum,
           openReplyDialog: false,
@@ -897,10 +909,10 @@ suite('gr-diff-view tests', () => {
       );
 
       MockInteractions.pressAndReleaseKeyOn(element, 221, null, ']');
-      assert.isTrue(element._loading);
+      assert.isTrue(element.loading);
       assert(
         diffNavStub.lastCall.calledWithExactly(
-          element._change,
+          element.change,
           'wheatley.md',
           10 as RevisionPatchSetNum,
           5 as BasePatchSetNum,
@@ -908,13 +920,13 @@ suite('gr-diff-view tests', () => {
         ),
         'Should navigate to /c/42/5..10/wheatley.md'
       );
-      element._path = 'wheatley.md';
+      element.path = 'wheatley.md';
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
-      assert.isTrue(element._loading);
+      assert.isTrue(element.loading);
       assert(
         diffNavStub.lastCall.calledWithExactly(
-          element._change,
+          element.change,
           'glados.txt',
           10 as RevisionPatchSetNum,
           5 as BasePatchSetNum,
@@ -922,13 +934,13 @@ suite('gr-diff-view tests', () => {
         ),
         'Should navigate to /c/42/5..10/glados.txt'
       );
-      element._path = 'glados.txt';
+      element.path = 'glados.txt';
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
-      assert.isTrue(element._loading);
+      assert.isTrue(element.loading);
       assert(
         diffNavStub.lastCall.calledWithExactly(
-          element._change,
+          element.change,
           'chell.go',
           10 as RevisionPatchSetNum,
           5 as BasePatchSetNum,
@@ -936,12 +948,12 @@ suite('gr-diff-view tests', () => {
         ),
         'Should navigate to /c/42/5..10/chell.go'
       );
-      element._path = 'chell.go';
+      element.path = 'chell.go';
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
-      assert.isTrue(element._loading);
+      assert.isTrue(element.loading);
       assert(
-        changeNavStub.lastCall.calledWithExactly(element._change, {
+        changeNavStub.lastCall.calledWithExactly(element.change, {
           patchNum: 10 as RevisionPatchSetNum,
           basePatchNum: 5 as BasePatchSetNum,
           openReplyDialog: false,
@@ -949,20 +961,21 @@ suite('gr-diff-view tests', () => {
         'Should navigate to /c/42/5..10'
       );
 
+      assertIsDefined(element.downloadOverlay);
       const downloadOverlayStub = sinon
-        .stub(element.$.downloadOverlay, 'open')
+        .stub(element.downloadOverlay, 'open')
         .returns(Promise.resolve());
       MockInteractions.pressAndReleaseKeyOn(element, 68, null, 'd');
       assert.isTrue(downloadOverlayStub.called);
     });
 
     test('keyboard shortcuts with old patch number', () => {
-      element._changeNum = 42 as NumericChangeId;
-      element._patchRange = {
+      element.changeNum = 42 as NumericChangeId;
+      element.patchRange = {
         basePatchNum: PARENT,
         patchNum: 1 as RevisionPatchSetNum,
       };
-      element._change = {
+      element.change = {
         ...createParsedChange(),
         _number: 42 as NumericChangeId,
         revisions: {
@@ -970,19 +983,19 @@ suite('gr-diff-view tests', () => {
           b: createRevision(2),
         },
       };
-      element._files = getFilesFromFileList([
+      element.files = getFilesFromFileList([
         'chell.go',
         'glados.txt',
         'wheatley.md',
       ]);
-      element._path = 'glados.txt';
+      element.path = 'glados.txt';
 
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       const changeNavStub = sinon.stub(GerritNav, 'navigateToChange');
 
       MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
       assert(
-        changeNavStub.lastCall.calledWithExactly(element._change, {
+        changeNavStub.lastCall.calledWithExactly(element.change, {
           patchNum: 1 as RevisionPatchSetNum,
           basePatchNum: PARENT,
           openReplyDialog: false,
@@ -993,7 +1006,7 @@ suite('gr-diff-view tests', () => {
       MockInteractions.pressAndReleaseKeyOn(element, 221, null, ']');
       assert(
         diffNavStub.lastCall.calledWithExactly(
-          element._change,
+          element.change,
           'wheatley.md',
           1 as RevisionPatchSetNum,
           PARENT,
@@ -1001,12 +1014,12 @@ suite('gr-diff-view tests', () => {
         ),
         'Should navigate to /c/42/1/wheatley.md'
       );
-      element._path = 'wheatley.md';
+      element.path = 'wheatley.md';
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert(
         diffNavStub.lastCall.calledWithExactly(
-          element._change,
+          element.change,
           'glados.txt',
           1 as RevisionPatchSetNum,
           PARENT,
@@ -1014,12 +1027,12 @@ suite('gr-diff-view tests', () => {
         ),
         'Should navigate to /c/42/1/glados.txt'
       );
-      element._path = 'glados.txt';
+      element.path = 'glados.txt';
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert(
         diffNavStub.lastCall.calledWithExactly(
-          element._change,
+          element.change,
           'chell.go',
           1 as RevisionPatchSetNum,
           PARENT,
@@ -1027,12 +1040,12 @@ suite('gr-diff-view tests', () => {
         ),
         'Should navigate to /c/42/1/chell.go'
       );
-      element._path = 'chell.go';
+      element.path = 'chell.go';
 
       changeNavStub.reset();
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert(
-        changeNavStub.lastCall.calledWithExactly(element._change, {
+        changeNavStub.lastCall.calledWithExactly(element.change, {
           patchNum: 1 as RevisionPatchSetNum,
           basePatchNum: PARENT,
           openReplyDialog: false,
@@ -1043,13 +1056,13 @@ suite('gr-diff-view tests', () => {
     });
 
     test('edit should redirect to edit page', async () => {
-      element._loggedIn = true;
-      element._path = 't.txt';
-      element._patchRange = {
+      element.loggedIn = true;
+      element.path = 't.txt';
+      element.patchRange = {
         basePatchNum: PARENT,
         patchNum: 1 as RevisionPatchSetNum,
       };
-      element._change = {
+      element.change = {
         ...createParsedChange(),
         _number: 42 as NumericChangeId,
         project: 'gerrit' as RepoName,
@@ -1060,7 +1073,7 @@ suite('gr-diff-view tests', () => {
         },
       };
       const redirectStub = sinon.stub(GerritNav, 'navigateToRelativeUrl');
-      await flush();
+      await element.updateComplete;
       const editBtn = queryAndAssert(element, '.editButton gr-button');
       assert.isTrue(!!editBtn);
       MockInteractions.tap(editBtn);
@@ -1068,9 +1081,9 @@ suite('gr-diff-view tests', () => {
       assert.isTrue(
         redirectStub.lastCall.calledWithExactly(
           GerritNav.getEditUrlForDiff(
-            element._change,
-            element._path,
-            element._patchRange.patchNum
+            element.change,
+            element.path,
+            element.patchRange.patchNum
           )
         )
       );
@@ -1078,13 +1091,13 @@ suite('gr-diff-view tests', () => {
 
     test('edit should redirect to edit page with line number', async () => {
       const lineNumber = 42;
-      element._loggedIn = true;
-      element._path = 't.txt';
-      element._patchRange = {
+      element.loggedIn = true;
+      element.path = 't.txt';
+      element.patchRange = {
         basePatchNum: PARENT,
         patchNum: 1 as RevisionPatchSetNum,
       };
-      element._change = {
+      element.change = {
         ...createParsedChange(),
         _number: 42 as NumericChangeId,
         project: 'gerrit' as RepoName,
@@ -1099,7 +1112,7 @@ suite('gr-diff-view tests', () => {
         .stub(element.cursor, 'getAddress')
         .returns({number: lineNumber, leftSide: false});
       const redirectStub = sinon.stub(GerritNav, 'navigateToRelativeUrl');
-      await flush();
+      await element.updateComplete;
       const editBtn = queryAndAssert(element, '.editButton gr-button');
       assert.isTrue(!!editBtn);
       MockInteractions.tap(editBtn);
@@ -1107,9 +1120,9 @@ suite('gr-diff-view tests', () => {
       assert.isTrue(
         redirectStub.lastCall.calledWithExactly(
           GerritNav.getEditUrlForDiff(
-            element._change,
-            element._path,
-            element._patchRange.patchNum,
+            element.change,
+            element.path,
+            element.patchRange.patchNum,
             lineNumber
           )
         )
@@ -1124,13 +1137,13 @@ suite('gr-diff-view tests', () => {
       changeStatus: ChangeStatus;
     }) {
       return new Promise(resolve => {
-        element._loggedIn = loggedIn;
-        element._path = 't.txt';
-        element._patchRange = {
+        element.loggedIn = loggedIn;
+        element.path = 't.txt';
+        element.patchRange = {
           basePatchNum: PARENT,
           patchNum: 1 as RevisionPatchSetNum,
         };
-        element._change = {
+        element.change = {
           ...createParsedChange(),
           _number: 42 as NumericChangeId,
           status: changeStatus,
@@ -1192,34 +1205,34 @@ suite('gr-diff-view tests', () => {
     });
 
     suite('diff prefs hidden', () => {
-      test('when no prefs or logged out', () => {
-        element._prefs = undefined;
-        element._loggedIn = false;
-        flush();
-        assert.isTrue(element.$.diffPrefsContainer.hidden);
+      test('when no prefs or logged out', async () => {
+        const getDiffPrefsContainer = () =>
+          query<HTMLSpanElement>(element, '#diffPrefsContainer');
+        element.prefs = undefined;
+        element.loggedIn = false;
+        await element.updateComplete;
+        assert.isNotOk(getDiffPrefsContainer());
 
-        element._loggedIn = true;
-        flush();
-        assert.isTrue(element.$.diffPrefsContainer.hidden);
+        element.loggedIn = true;
+        await element.updateComplete;
+        assert.isNotOk(getDiffPrefsContainer());
 
-        element._loggedIn = false;
-        element._prefs = {...createDefaultDiffPrefs(), font_size: 12};
-        flush();
-        assert.isTrue(element.$.diffPrefsContainer.hidden);
+        element.loggedIn = false;
+        element.prefs = {...createDefaultDiffPrefs(), font_size: 12};
+        await element.updateComplete;
+        assert.isNotOk(getDiffPrefsContainer());
 
-        element._loggedIn = true;
-        element._prefs = {...createDefaultDiffPrefs(), font_size: 12};
-        flush();
-        assert.isFalse(element.$.diffPrefsContainer.hidden);
+        element.loggedIn = true;
+        element.prefs = {...createDefaultDiffPrefs(), font_size: 12};
+        await element.updateComplete;
+        assert.isOk(getDiffPrefsContainer());
       });
     });
 
     test('prefsButton opens gr-diff-preferences', () => {
-      const handlePrefsTapSpy = sinon.spy(element, '_handlePrefsTap');
-      const overlayOpenStub = sinon.stub(
-        element.$.diffPreferencesDialog,
-        'open'
-      );
+      const handlePrefsTapSpy = sinon.spy(element, 'handlePrefsTap');
+      assertIsDefined(element.diffPreferencesDialog);
+      const overlayOpenStub = sinon.stub(element.diffPreferencesDialog, 'open');
       const prefsButton = queryAndAssert(element, '.prefsButton');
       MockInteractions.tap(prefsButton);
 
@@ -1229,7 +1242,7 @@ suite('gr-diff-view tests', () => {
 
     suite('url params', () => {
       setup(() => {
-        sinon.stub(element, '_getFiles');
+        sinon.stub(element, 'fetchFiles');
         sinon
           .stub(GerritNav, 'getUrlForDiff')
           .callsFake((c, p, pn, bpn) => `${c._number}-${p}-${pn}-${bpn}`);
@@ -1241,23 +1254,23 @@ suite('gr-diff-view tests', () => {
       });
 
       test('_formattedFiles', () => {
-        element._changeNum = 42 as NumericChangeId;
-        element._patchRange = {
+        element.changeNum = 42 as NumericChangeId;
+        element.patchRange = {
           basePatchNum: PARENT,
           patchNum: 10 as RevisionPatchSetNum,
         };
-        element._change = {
+        element.change = {
           ...createParsedChange(),
           _number: 42 as NumericChangeId,
         };
-        element._files = getFilesFromFileList([
+        element.files = getFilesFromFileList([
           'chell.go',
           'glados.txt',
           'wheatley.md',
           '/COMMIT_MSG',
           '/MERGE_LIST',
         ]);
-        element._path = 'glados.txt';
+        element.path = 'glados.txt';
         const expectedFormattedFiles: DropdownItem[] = [
           {
             text: 'chell.go',
@@ -1311,30 +1324,33 @@ suite('gr-diff-view tests', () => {
           },
         ];
 
-        assert.deepEqual(element._formattedFiles, expectedFormattedFiles);
-        assert.equal(element._formattedFiles?.[1].value, element._path);
+        const result = element.formatFilesForDropdown();
+
+        assert.deepEqual(result, expectedFormattedFiles);
+        assert.equal(result[1].value, element.path);
       });
 
-      test('prev/up/next links', () => {
-        element._changeNum = 42 as NumericChangeId;
-        element._patchRange = {
+      test('prev/up/next links', async () => {
+        element.changeNum = 42 as NumericChangeId;
+        element.patchRange = {
           basePatchNum: PARENT,
           patchNum: 10 as RevisionPatchSetNum,
         };
-        element._change = {
+        element.change = {
           ...createParsedChange(),
           _number: 42 as NumericChangeId,
           revisions: {
             a: createRevision(10),
           },
         };
-        element._files = getFilesFromFileList([
+        element.files = getFilesFromFileList([
           'chell.go',
           'glados.txt',
           'wheatley.md',
         ]);
-        element._path = 'glados.txt';
-        flush();
+        element.path = 'glados.txt';
+        await element.updateComplete;
+
         const linkEls = queryAll(element, '.navLink');
         assert.equal(linkEls.length, 3);
         assert.equal(linkEls[0].getAttribute('href'), '42-chell.go-10-PARENT');
@@ -1343,24 +1359,24 @@ suite('gr-diff-view tests', () => {
           linkEls[2].getAttribute('href'),
           '42-wheatley.md-10-PARENT'
         );
-        element._path = 'wheatley.md';
-        flush();
+        element.path = 'wheatley.md';
+        await element.updateComplete;
         assert.equal(
           linkEls[0].getAttribute('href'),
           '42-glados.txt-10-PARENT'
         );
         assert.equal(linkEls[1].getAttribute('href'), '42-undefined-undefined');
         assert.equal(linkEls[2].getAttribute('href'), '42-undefined-undefined');
-        element._path = 'chell.go';
-        flush();
+        element.path = 'chell.go';
+        await element.updateComplete;
         assert.equal(linkEls[0].getAttribute('href'), '42-undefined-undefined');
         assert.equal(linkEls[1].getAttribute('href'), '42-undefined-undefined');
         assert.equal(
           linkEls[2].getAttribute('href'),
           '42-glados.txt-10-PARENT'
         );
-        element._path = 'not_a_real_file';
-        flush();
+        element.path = 'not_a_real_file';
+        await element.updateComplete;
         assert.equal(
           linkEls[0].getAttribute('href'),
           '42-wheatley.md-10-PARENT'
@@ -1369,13 +1385,13 @@ suite('gr-diff-view tests', () => {
         assert.equal(linkEls[2].getAttribute('href'), '42-chell.go-10-PARENT');
       });
 
-      test('prev/up/next links with patch range', () => {
-        element._changeNum = 42 as NumericChangeId;
-        element._patchRange = {
+      test('prev/up/next links with patch range', async () => {
+        element.changeNum = 42 as NumericChangeId;
+        element.patchRange = {
           basePatchNum: 5 as BasePatchSetNum,
           patchNum: 10 as RevisionPatchSetNum,
         };
-        element._change = {
+        element.change = {
           ...createParsedChange(),
           _number: 42 as NumericChangeId,
           revisions: {
@@ -1383,58 +1399,59 @@ suite('gr-diff-view tests', () => {
             b: createRevision(10),
           },
         };
-        element._files = getFilesFromFileList([
+        element.files = getFilesFromFileList([
           'chell.go',
           'glados.txt',
           'wheatley.md',
         ]);
-        element._path = 'glados.txt';
-        flush();
+        element.path = 'glados.txt';
+        await element.updateComplete;
         const linkEls = queryAll(element, '.navLink');
         assert.equal(linkEls.length, 3);
         assert.equal(linkEls[0].getAttribute('href'), '42-chell.go-10-5');
         assert.equal(linkEls[1].getAttribute('href'), '42-10-5');
         assert.equal(linkEls[2].getAttribute('href'), '42-wheatley.md-10-5');
-        element._path = 'wheatley.md';
-        flush();
+        element.path = 'wheatley.md';
+        await element.updateComplete;
         assert.equal(linkEls[0].getAttribute('href'), '42-glados.txt-10-5');
         assert.equal(linkEls[1].getAttribute('href'), '42-10-5');
         assert.equal(linkEls[2].getAttribute('href'), '42-10-5');
-        element._path = 'chell.go';
-        flush();
+        element.path = 'chell.go';
+        await element.updateComplete;
         assert.equal(linkEls[0].getAttribute('href'), '42-10-5');
         assert.equal(linkEls[1].getAttribute('href'), '42-10-5');
         assert.equal(linkEls[2].getAttribute('href'), '42-glados.txt-10-5');
       });
     });
 
-    test('_handlePatchChange calls navigateToDiff correctly', () => {
+    test('handlePatchChange calls navigateToDiff correctly', async () => {
       const navigateStub = sinon.stub(GerritNav, 'navigateToDiff');
-      element._change = {
+      element.change = {
         ...createParsedChange(),
         _number: 321 as NumericChangeId,
         project: 'foo/bar' as RepoName,
       };
-      element._path = 'path/to/file.txt';
+      element.path = 'path/to/file.txt';
 
-      element._patchRange = {
+      element.patchRange = {
         basePatchNum: PARENT,
         patchNum: 3 as RevisionPatchSetNum,
       };
+      await element.updateComplete;
 
       const detail = {
         basePatchNum: PARENT,
         patchNum: 1 as RevisionPatchSetNum,
       };
 
-      element.$.rangeSelect.dispatchEvent(
+      queryAndAssert(element, '#rangeSelect').dispatchEvent(
         new CustomEvent('patch-range-change', {detail, bubbles: false})
       );
 
       assert(
         navigateStub.lastCall.calledWithExactly(
-          element._change,
-          element._path,
+          element.change,
+          element.path,
           1 as RevisionPatchSetNum,
           PARENT
         )
@@ -1451,8 +1468,9 @@ suite('gr-diff-view tests', () => {
 
         const setReviewedStatusStub = sinon.spy(element, 'setReviewedStatus');
 
-        sinon.stub(element.$.diffHost, 'reload');
-        sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
+        assertIsDefined(element.diffHost);
+        sinon.stub(element.diffHost, 'reload');
+        element.loggedIn = true;
         const diffPreferences = {
           ...createDefaultDiffPrefs(),
           manual_review: true,
@@ -1470,7 +1488,7 @@ suite('gr-diff-view tests', () => {
           view: GerritView.DIFF,
           patchNum: 2 as RevisionPatchSetNum,
         });
-        element._patchRange = {
+        element.patchRange = {
           patchNum: 2 as RevisionPatchSetNum,
           basePatchNum: 1 as BasePatchSetNum,
         };
@@ -1482,7 +1500,7 @@ suite('gr-diff-view tests', () => {
         // if prefs are updated then the reviewed status should not be set again
         element.userModel.setDiffPreferences(createDefaultDiffPrefs());
 
-        await flush();
+        await element.updateComplete;
         assert.isFalse(setReviewedFileStatusStub.called);
       }
     );
@@ -1492,8 +1510,9 @@ suite('gr-diff-view tests', () => {
         .stub(element.getChangeModel(), 'setReviewedFilesStatus')
         .callsFake(() => Promise.resolve());
 
-      sinon.stub(element.$.diffHost, 'reload');
-      sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
+      assertIsDefined(element.diffHost);
+      sinon.stub(element.diffHost, 'reload');
+      element.loggedIn = true;
       const diffPreferences = {
         ...createDefaultDiffPrefs(),
         manual_review: false,
@@ -1511,7 +1530,7 @@ suite('gr-diff-view tests', () => {
         view: GerritView.DIFF,
         patchNum: 22 as RevisionPatchSetNum,
       });
-      element._patchRange = {
+      element.patchRange = {
         patchNum: 2 as RevisionPatchSetNum,
         basePatchNum: 1 as BasePatchSetNum,
       };
@@ -1528,11 +1547,12 @@ suite('gr-diff-view tests', () => {
         reviewedFiles: [],
         loadingStatus: LoadingStatus.LOADED,
       });
-      sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
+      element.loggedIn = true;
       const saveReviewedStub = sinon
         .stub(element.getChangeModel(), 'setReviewedFilesStatus')
         .callsFake(() => Promise.resolve());
-      sinon.stub(element.$.diffHost, 'reload');
+      assertIsDefined(element.diffHost);
+      sinon.stub(element.diffHost, 'reload');
 
       element.userModel.setDiffPreferences(createDefaultDiffPrefs());
 
@@ -1542,7 +1562,7 @@ suite('gr-diff-view tests', () => {
         patchNum: 2 as RevisionPatchSetNum,
       });
 
-      element._patchRange = {
+      element.patchRange = {
         patchNum: 2 as RevisionPatchSetNum,
         basePatchNum: 1 as BasePatchSetNum,
       };
@@ -1550,7 +1570,7 @@ suite('gr-diff-view tests', () => {
       await waitUntil(() => saveReviewedStub.called);
 
       element.getChangeModel().updateStateFileReviewed('/COMMIT_MSG', true);
-      await flush();
+      await element.updateComplete;
 
       const reviewedStatusCheckBox = queryAndAssert<HTMLInputElement>(
         element,
@@ -1575,7 +1595,7 @@ suite('gr-diff-view tests', () => {
       ]);
 
       element.getChangeModel().updateStateFileReviewed('/COMMIT_MSG', false);
-      await flush();
+      await element.updateComplete;
 
       MockInteractions.tap(reviewedStatusCheckBox);
       assert.isTrue(reviewedStatusCheckBox.checked);
@@ -1588,8 +1608,12 @@ suite('gr-diff-view tests', () => {
 
       const callCount = saveReviewedStub.callCount;
 
-      element.set('params.view', GerritNav.View.CHANGE);
-      await flush();
+      element.params = {
+        view: GerritNav.View.CHANGE,
+        changeNum: 42 as NumericChangeId,
+        project: 'test' as RepoName,
+      };
+      await element.updateComplete;
 
       // saveReviewedState observer observes params, but should not fire when
       // view !== GerritNav.View.DIFF.
@@ -1602,22 +1626,23 @@ suite('gr-diff-view tests', () => {
         'setReviewedFilesStatus'
       );
 
-      element._patchRange = {
+      element.patchRange = {
         basePatchNum: 1 as BasePatchSetNum,
         patchNum: EDIT,
       };
       flush();
 
-      assert.isTrue(element._editMode);
+      assert.isTrue(element.computeEditMode());
       element.setReviewed(true);
       assert.isFalse(saveReviewedStub.called);
     });
 
     test('hash is determined from params', async () => {
-      sinon.stub(element.$.diffHost, 'reload');
+      assertIsDefined(element.diffHost);
+      sinon.stub(element.diffHost, 'reload');
       const initLineStub = sinon.stub(element, 'initLineOfInterestAndCursor');
 
-      element._loggedIn = true;
+      element.loggedIn = true;
       element.params = {
         view: GerritNav.View.DIFF,
         changeNum: 42 as NumericChangeId,
@@ -1626,14 +1651,16 @@ suite('gr-diff-view tests', () => {
         path: '/COMMIT_MSG',
       };
 
+      await element.updateComplete;
       await flush();
       assert.isTrue(initLineStub.calledOnce);
     });
 
-    test('diff mode selector correctly toggles the diff', () => {
-      const select = element.$.modeSelect;
-      const diffDisplay = element.$.diffHost;
-      element._userPrefs = {
+    test('diff mode selector correctly toggles the diff', async () => {
+      const select = queryAndAssert<GrDiffModeSelector>(element, '#modeSelect');
+      const diffDisplay = element.diffHost;
+      assertIsDefined(diffDisplay);
+      element.userPrefs = {
         ...createDefaultPreferences(),
         diff_view: DiffViewMode.SIDE_BY_SIDE,
       };
@@ -1641,9 +1668,9 @@ suite('gr-diff-view tests', () => {
 
       const userStub = stubUsers('updatePreferences');
 
-      flush();
+      await element.updateComplete;
       // The mode selected in the view state reflects the selected option.
-      // assert.equal(element._userPrefs.diff_view, select.mode);
+      // assert.equal(element.userPrefs.diff_view, select.mode);
 
       // The mode selected in the view state reflects the view rednered in the
       // diff.
@@ -1659,18 +1686,18 @@ suite('gr-diff-view tests', () => {
     });
 
     test('diff mode selector should be hidden for binary', async () => {
-      element._diff = {
+      element.diff = {
         ...createDiff(),
         binary: true,
         content: [],
       };
 
-      await flush();
+      await element.updateComplete;
       const diffModeSelector = queryAndAssert(element, '.diffModeSelector');
       assert.isTrue(diffModeSelector.classList.contains('hide'));
     });
 
-    suite('_commitRange', () => {
+    suite('commitRange', () => {
       const change: ParsedChangeInfo = {
         ...createParsedChange(),
         _number: 42 as NumericChangeId,
@@ -1695,11 +1722,12 @@ suite('gr-diff-view tests', () => {
         },
       };
       setup(async () => {
-        sinon.stub(element.$.diffHost, 'reload');
+        assertIsDefined(element.diffHost);
+        sinon.stub(element.diffHost, 'reload');
         sinon.stub(element, 'initCursor');
-        element._change = change;
-        await flush();
-        await element.$.diffHost.updateComplete;
+        element.change = change;
+        await element.updateComplete;
+        await element.diffHost.updateComplete;
       });
 
       test('uses the patchNum and basePatchNum ', async () => {
@@ -1710,10 +1738,10 @@ suite('gr-diff-view tests', () => {
           basePatchNum: 2 as BasePatchSetNum,
           path: '/COMMIT_MSG',
         };
-        element._change = change;
+        element.change = change;
+        await element.updateComplete;
         await flush();
-        await element.$.diffHost.updateComplete;
-        assert.deepEqual(element._commitRange, {
+        assert.deepEqual(element.commitRange, {
           baseCommit: 'commit-sha-2' as CommitId,
           commit: 'commit-sha-4' as CommitId,
         });
@@ -1726,10 +1754,10 @@ suite('gr-diff-view tests', () => {
           patchNum: 5 as RevisionPatchSetNum,
           path: '/COMMIT_MSG',
         };
-        element._change = change;
+        element.change = change;
+        await element.updateComplete;
         await flush();
-        await element.$.diffHost.updateComplete;
-        assert.deepEqual(element._commitRange, {
+        assert.deepEqual(element.commitRange, {
           commit: 'commit-sha-5' as CommitId,
           baseCommit: 'sha-5-parent' as CommitId,
         });
@@ -1750,40 +1778,40 @@ suite('gr-diff-view tests', () => {
 
       // Revision hash: specifies lineNum but not side.
 
-      element._focusLineNum = 234;
+      element.focusLineNum = 234;
       element.initCursor(false);
       assert.equal(element.cursor.initialLineNumber, 234);
       assert.equal(element.cursor.side, Side.RIGHT);
 
       // Base hash: specifies lineNum and side.
-      element._focusLineNum = 345;
+      element.focusLineNum = 345;
       element.initCursor(true);
       assert.equal(element.cursor.initialLineNumber, 345);
       assert.equal(element.cursor.side, Side.LEFT);
 
       // Specifies right side:
-      element._focusLineNum = 123;
+      element.focusLineNum = 123;
       element.initCursor(false);
       assert.equal(element.cursor.initialLineNumber, 123);
       assert.equal(element.cursor.side, Side.RIGHT);
     });
 
-    test('_getLineOfInterest', () => {
-      assert.isUndefined(element._getLineOfInterest(false));
+    test('getLineOfInterest', () => {
+      assert.isUndefined(element.getLineOfInterest(false));
 
-      element._focusLineNum = 12;
-      let result = element._getLineOfInterest(false);
+      element.focusLineNum = 12;
+      let result = element.getLineOfInterest(false);
       assert.isOk(result);
       assert.equal(result!.lineNum, 12);
       assert.equal(result!.side, Side.RIGHT);
 
-      result = element._getLineOfInterest(true);
+      result = element.getLineOfInterest(true);
       assert.isOk(result);
       assert.equal(result!.lineNum, 12);
       assert.equal(result!.side, Side.LEFT);
     });
 
-    test('_onLineSelected', () => {
+    test('onLineSelected', () => {
       const getUrlStub = sinon.stub(GerritNav, 'getUrlForDiffById');
       const replaceStateStub = sinon.stub(history, 'replaceState');
       assertIsDefined(element.cursor);
@@ -1791,20 +1819,19 @@ suite('gr-diff-view tests', () => {
         .stub(element.cursor, 'getAddress')
         .returns({number: 123, leftSide: false});
 
-      element._changeNum = 321 as NumericChangeId;
-      element._change = {
+      element.changeNum = 321 as NumericChangeId;
+      element.change = {
         ...createParsedChange(),
         _number: 321 as NumericChangeId,
         project: 'foo/bar' as RepoName,
       };
-      element._patchRange = {
+      element.patchRange = {
         basePatchNum: 3 as BasePatchSetNum,
         patchNum: 5 as RevisionPatchSetNum,
       };
-      const e = {} as CustomEvent;
-      const detail = {number: 123, side: Side.RIGHT};
+      const e = {detail: {number: 123, side: Side.RIGHT}} as CustomEvent;
 
-      element._onLineSelected(e, detail);
+      element.onLineSelected(e);
 
       assert.isTrue(replaceStateStub.called);
       assert.isTrue(getUrlStub.called);
@@ -1819,20 +1846,19 @@ suite('gr-diff-view tests', () => {
         .stub(element.cursor, 'getAddress')
         .returns({number: 123, leftSide: true});
 
-      element._changeNum = 321 as NumericChangeId;
-      element._change = {
+      element.changeNum = 321 as NumericChangeId;
+      element.change = {
         ...createParsedChange(),
         _number: 321 as NumericChangeId,
         project: 'foo/bar' as RepoName,
       };
-      element._patchRange = {
+      element.patchRange = {
         basePatchNum: 3 as BasePatchSetNum,
         patchNum: 5 as RevisionPatchSetNum,
       };
-      const e = {} as CustomEvent;
-      const detail = {number: 123, side: Side.LEFT};
+      const e = {detail: {number: 123, side: Side.LEFT}} as CustomEvent;
 
-      element._onLineSelected(e, detail);
+      element.onLineSelected(e);
 
       assert.isTrue(replaceStateStub.called);
       assert.isTrue(getUrlStub.called);
@@ -1841,7 +1867,7 @@ suite('gr-diff-view tests', () => {
 
     test('handleToggleDiffMode', () => {
       const userStub = stubUsers('updatePreferences');
-      element._userPrefs = {
+      element.userPrefs = {
         ...createDefaultPreferences(),
         diff_view: DiffViewMode.SIDE_BY_SIDE,
       };
@@ -1851,7 +1877,7 @@ suite('gr-diff-view tests', () => {
         diff_view: DiffViewMode.UNIFIED,
       });
 
-      element._userPrefs = {
+      element.userPrefs = {
         ...createDefaultPreferences(),
         diff_view: DiffViewMode.UNIFIED,
       };
@@ -1871,41 +1897,41 @@ suite('gr-diff-view tests', () => {
           patchNum: 3 as RevisionPatchSetNum,
           path: 'abcd',
         };
-        await flush();
+        await element.updateComplete;
       });
       test('empty', () => {
-        sinon.stub(element, '_getPaths').returns({});
+        sinon.stub(element, 'getPaths').returns({});
         element.initPatchRange();
-        assert.equal(Object.keys(element._commentMap ?? {}).length, 0);
+        assert.equal(Object.keys(element.commentMap ?? {}).length, 0);
       });
 
       test('has paths', () => {
-        sinon.stub(element, '_getFiles');
-        sinon.stub(element, '_getPaths').returns({
+        sinon.stub(element, 'fetchFiles');
+        sinon.stub(element, 'getPaths').returns({
           'path/to/file/one.cpp': true,
           'path-to/file/two.py': true,
         });
-        element._changeNum = 42 as NumericChangeId;
-        element._patchRange = {
+        element.changeNum = 42 as NumericChangeId;
+        element.patchRange = {
           basePatchNum: 3 as BasePatchSetNum,
           patchNum: 5 as RevisionPatchSetNum,
         };
         element.initPatchRange();
-        assert.deepEqual(Object.keys(element._commentMap ?? {}), [
+        assert.deepEqual(Object.keys(element.commentMap ?? {}), [
           'path/to/file/one.cpp',
           'path-to/file/two.py',
         ]);
       });
     });
 
-    suite('_computeCommentSkips', () => {
+    suite('computeCommentSkips', () => {
       test('empty file list', () => {
         const commentMap = {
           'path/one.jpg': true,
           'path/three.wav': true,
         };
         const path = 'path/two.m4v';
-        const result = element._computeCommentSkips(commentMap, [], path);
+        const result = element.computeCommentSkips(commentMap, [], path);
         assert.isOk(result);
         assert.isNotOk(result!.previous);
         assert.isNotOk(result!.next);
@@ -1919,28 +1945,28 @@ suite('gr-diff-view tests', () => {
         commentMap[fileList[1]] = false;
         commentMap[fileList[2]] = true;
 
-        let result = element._computeCommentSkips(commentMap, fileList, path);
+        let result = element.computeCommentSkips(commentMap, fileList, path);
         assert.isOk(result);
         assert.equal(result!.previous, fileList[0]);
         assert.equal(result!.next, fileList[2]);
 
         commentMap[fileList[1]] = true;
 
-        result = element._computeCommentSkips(commentMap, fileList, path);
+        result = element.computeCommentSkips(commentMap, fileList, path);
         assert.isOk(result);
         assert.equal(result!.previous, fileList[0]);
         assert.equal(result!.next, fileList[2]);
 
         path = fileList[0];
 
-        result = element._computeCommentSkips(commentMap, fileList, path);
+        result = element.computeCommentSkips(commentMap, fileList, path);
         assert.isOk(result);
         assert.isNull(result!.previous);
         assert.equal(result!.next, fileList[1]);
 
         path = fileList[2];
 
-        result = element._computeCommentSkips(commentMap, fileList, path);
+        result = element.computeCommentSkips(commentMap, fileList, path);
         assert.isOk(result);
         assert.equal(result!.previous, fileList[1]);
         assert.isNull(result!.next);
@@ -1953,12 +1979,12 @@ suite('gr-diff-view tests', () => {
         setup(() => {
           navToChangeStub = sinon.stub(element, 'navToChangeView');
           navToDiffStub = sinon.stub(GerritNav, 'navigateToDiff');
-          element._files = getFilesFromFileList([
+          element.files = getFilesFromFileList([
             'path/one.jpg',
             'path/two.m4v',
             'path/three.wav',
           ]);
-          element._patchRange = {
+          element.patchRange = {
             patchNum: 2 as RevisionPatchSetNum,
             basePatchNum: 1 as BasePatchSetNum,
           };
@@ -1971,26 +1997,28 @@ suite('gr-diff-view tests', () => {
             assert.isFalse(navToDiffStub.called);
           });
 
-          test('no previous', () => {
+          test('no previous', async () => {
             const commentMap: CommentMap = {};
-            commentMap[element._fileList![0]!] = false;
-            commentMap[element._fileList![1]!] = false;
-            commentMap[element._fileList![2]!] = true;
-            element._commentMap = commentMap;
-            element._path = element._fileList![1]!;
+            commentMap[element.files.sortedFileList[0]!] = false;
+            commentMap[element.files.sortedFileList[1]!] = false;
+            commentMap[element.files.sortedFileList[2]!] = true;
+            element.commentMap = commentMap;
+            element.path = element.files.sortedFileList[1];
+            await element.updateComplete;
 
             element.moveToPreviousFileWithComment();
             assert.isTrue(navToChangeStub.calledOnce);
             assert.isFalse(navToDiffStub.called);
           });
 
-          test('w/ previous', () => {
+          test('w/ previous', async () => {
             const commentMap: CommentMap = {};
-            commentMap[element._fileList![0]!] = true;
-            commentMap[element._fileList![1]!] = false;
-            commentMap[element._fileList![2]!] = true;
-            element._commentMap = commentMap;
-            element._path = element._fileList![1]!;
+            commentMap[element.files.sortedFileList[0]!] = true;
+            commentMap[element.files.sortedFileList[1]!] = false;
+            commentMap[element.files.sortedFileList[2]!] = true;
+            element.commentMap = commentMap;
+            element.path = element.files.sortedFileList[1];
+            await element.updateComplete;
 
             element.moveToPreviousFileWithComment();
             assert.isFalse(navToChangeStub.called);
@@ -2005,26 +2033,28 @@ suite('gr-diff-view tests', () => {
             assert.isFalse(navToDiffStub.called);
           });
 
-          test('no previous', () => {
+          test('no previous', async () => {
             const commentMap: CommentMap = {};
-            commentMap[element._fileList![0]!] = true;
-            commentMap[element._fileList![1]!] = false;
-            commentMap[element._fileList![2]!] = false;
-            element._commentMap = commentMap;
-            element._path = element._fileList![1];
+            commentMap[element.files.sortedFileList[0]!] = true;
+            commentMap[element.files.sortedFileList[1]!] = false;
+            commentMap[element.files.sortedFileList[2]!] = false;
+            element.commentMap = commentMap;
+            element.path = element.files.sortedFileList[1];
+            await element.updateComplete;
 
             element.moveToNextFileWithComment();
             assert.isTrue(navToChangeStub.calledOnce);
             assert.isFalse(navToDiffStub.called);
           });
 
-          test('w/ previous', () => {
+          test('w/ previous', async () => {
             const commentMap: CommentMap = {};
-            commentMap[element._fileList![0]!] = true;
-            commentMap[element._fileList![1]!] = false;
-            commentMap[element._fileList![2]!] = true;
-            element._commentMap = commentMap;
-            element._path = element._fileList![1];
+            commentMap[element.files.sortedFileList[0]!] = true;
+            commentMap[element.files.sortedFileList[1]!] = false;
+            commentMap[element.files.sortedFileList[2]!] = true;
+            element.commentMap = commentMap;
+            element.path = element.files.sortedFileList[1];
+            await element.updateComplete;
 
             element.moveToNextFileWithComment();
             assert.isFalse(navToChangeStub.called);
@@ -2035,8 +2065,10 @@ suite('gr-diff-view tests', () => {
     });
 
     test('_computeEditMode', () => {
-      const callCompute = (range: PatchRange) =>
-        element._computeEditMode({base: range, path: '', value: range});
+      const callCompute = (range: PatchRange) => {
+        element.patchRange = range;
+        return element.computeEditMode();
+      };
       assert.isFalse(
         callCompute({
           basePatchNum: PARENT,
@@ -2051,16 +2083,18 @@ suite('gr-diff-view tests', () => {
       );
     });
 
-    test('_computeFileNum', () => {
+    test('computeFileNum', () => {
+      element.path = '/foo';
       assert.equal(
-        element._computeFileNum('/foo', [
+        element.computeFileNum([
           {text: '/foo', value: '/foo'},
           {text: '/bar', value: '/bar'},
         ]),
         1
       );
+      element.path = '/bar';
       assert.equal(
-        element._computeFileNum('/bar', [
+        element.computeFileNum([
           {text: '/foo', value: '/foo'},
           {text: '/bar', value: '/bar'},
         ]),
@@ -2068,10 +2102,10 @@ suite('gr-diff-view tests', () => {
       );
     });
 
-    test('_computeFileNumClass', () => {
-      assert.equal(element._computeFileNumClass(0, []), '');
+    test('computeFileNumClass', () => {
+      assert.equal(element.computeFileNumClass(0, []), '');
       assert.equal(
-        element._computeFileNumClass(1, [
+        element.computeFileNumClass(1, [
           {text: '/foo', value: '/foo'},
           {text: '/bar', value: '/bar'},
         ]),
@@ -2079,24 +2113,27 @@ suite('gr-diff-view tests', () => {
       );
     });
 
-    test('f open file dropdown', () => {
-      assert.isFalse(element.$.dropdown.$.dropdown.opened);
+    test('f open file dropdown', async () => {
+      assertIsDefined(element.dropdown);
+      assert.isFalse(element.dropdown.$.dropdown.opened);
       MockInteractions.pressAndReleaseKeyOn(element, 70, null, 'f');
-      flush();
-      assert.isTrue(element.$.dropdown.$.dropdown.opened);
+      await element.updateComplete;
+      assert.isTrue(element.dropdown.$.dropdown.opened);
     });
 
     suite('blame', () => {
       test('toggle blame with button', () => {
+        assertIsDefined(element.diffHost);
         const toggleBlame = sinon
-          .stub(element.$.diffHost, 'loadBlame')
+          .stub(element.diffHost, 'loadBlame')
           .callsFake(() => Promise.resolve([]));
-        MockInteractions.tap(element.$.toggleBlame);
+        MockInteractions.tap(queryAndAssert(element, '#toggleBlame'));
         assert.isTrue(toggleBlame.calledOnce);
       });
       test('toggle blame with shortcut', () => {
+        assertIsDefined(element.diffHost);
         const toggleBlame = sinon
-          .stub(element.$.diffHost, 'loadBlame')
+          .stub(element.diffHost, 'loadBlame')
           .callsFake(() => Promise.resolve([]));
         MockInteractions.pressAndReleaseKeyOn(element, 66, null, 'b');
         assert.isTrue(toggleBlame.calledOnce);
@@ -2104,19 +2141,22 @@ suite('gr-diff-view tests', () => {
     });
 
     suite('editMode behavior', () => {
-      setup(() => {
-        element._loggedIn = true;
+      setup(async () => {
+        element.loggedIn = true;
+        await element.updateComplete;
       });
 
-      test('reviewed checkbox', () => {
-        sinon.stub(element, '_handlePatchChange');
-        element._patchRange = createPatchRange();
+      test('reviewed checkbox', async () => {
+        sinon.stub(element, 'handlePatchChange');
+        element.patchRange = createPatchRange();
+        await element.updateComplete;
+        assertIsDefined(element.reviewed);
         // Reviewed checkbox should be shown.
-        assert.isTrue(isVisible(element.$.reviewed));
-        element.set('_patchRange.patchNum', EDIT);
-        flush();
+        assert.isTrue(isVisible(element.reviewed));
+        element.patchRange = {...element.patchRange, patchNum: EDIT};
+        await element.updateComplete;
 
-        assert.isFalse(isVisible(element.$.reviewed));
+        assert.isFalse(isVisible(element.reviewed));
       });
     });
 
@@ -2158,9 +2198,9 @@ suite('gr-diff-view tests', () => {
         moveToNextChunkStub.returns(CursorMoveResult.CLIPPED);
         isAtEndStub.returns(true);
 
-        element._files = getFilesFromFileList(['file1', 'file2', 'file3']);
+        element.files = getFilesFromFileList(['file1', 'file2', 'file3']);
         element.reviewedFiles = new Set(['file2']);
-        element._path = 'file1';
+        element.path = 'file1';
 
         nowStub.returns(5);
         MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
@@ -2168,11 +2208,7 @@ suite('gr-diff-view tests', () => {
         MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
 
         assert.isTrue(navToFileStub.called);
-        assert.deepEqual(navToFileStub.lastCall.args, [
-          'file1',
-          ['file1', 'file3'],
-          1,
-        ]);
+        assert.deepEqual(navToFileStub.lastCall.args, [['file1', 'file3'], 1]);
       });
 
       test('does not navigate if n is tapped twice too slow', () => {
@@ -2202,9 +2238,9 @@ suite('gr-diff-view tests', () => {
         moveToPreviousChunkStub.returns(CursorMoveResult.CLIPPED);
         isAtStartStub.returns(true);
 
-        element._files = getFilesFromFileList(['file1', 'file2', 'file3']);
+        element.files = getFilesFromFileList(['file1', 'file2', 'file3']);
         element.reviewedFiles = new Set(['file2']);
-        element._path = 'file3';
+        element.path = 'file3';
 
         nowStub.returns(5);
         MockInteractions.pressAndReleaseKeyOn(element, 80, null, 'p');
@@ -2212,11 +2248,7 @@ suite('gr-diff-view tests', () => {
         MockInteractions.pressAndReleaseKeyOn(element, 80, null, 'p');
 
         assert.isTrue(navToFileStub.called);
-        assert.deepEqual(navToFileStub.lastCall.args, [
-          'file3',
-          ['file1', 'file3'],
-          -1,
-        ]);
+        assert.deepEqual(navToFileStub.lastCall.args, [['file1', 'file3'], -1]);
       });
 
       test('does not navigate if p is tapped twice too slow', () => {
@@ -2249,20 +2281,20 @@ suite('gr-diff-view tests', () => {
     });
 
     test('shift+m navigates to next unreviewed file', () => {
-      element._files = getFilesFromFileList(['file1', 'file2', 'file3']);
+      element.files = getFilesFromFileList(['file1', 'file2', 'file3']);
       element.reviewedFiles = new Set(['file1', 'file2']);
-      element._path = 'file1';
+      element.path = 'file1';
       const reviewedStub = sinon.stub(element, 'setReviewed');
       const navStub = sinon.stub(element, 'navToFile');
       MockInteractions.pressAndReleaseKeyOn(element, 77, null, 'M');
       flush();
 
       assert.isTrue(reviewedStub.lastCall.args[0]);
-      assert.deepEqual(navStub.lastCall.args, ['file1', ['file1', 'file3'], 1]);
+      assert.deepEqual(navStub.lastCall.args, [['file1', 'file3'], 1]);
     });
 
     test('File change should trigger navigateToDiff once', async () => {
-      element._files = getFilesFromFileList(['file1', 'file2', 'file3']);
+      element.files = getFilesFromFileList(['file1', 'file2', 'file3']);
       sinon.stub(element, 'initLineOfInterestAndCursor');
       const navigateToDiffStub = sinon.stub(GerritNav, 'navigateToDiff');
 
@@ -2274,19 +2306,19 @@ suite('gr-diff-view tests', () => {
         project: 'test-project' as RepoName,
         path: 'file1',
       };
-      element._patchRange = {
+      element.patchRange = {
         patchNum: 1 as RevisionPatchSetNum,
         basePatchNum: PARENT,
       };
-      element._change = {
+      element.change = {
         ...createParsedChange(),
         revisions: createRevisions(1),
       };
-      await flush();
+      await element.updateComplete;
       assert.isTrue(navigateToDiffStub.notCalled);
 
       // Switch to file2
-      element._handleFileChange(
+      element.handleFileChange(
         new CustomEvent('value-change', {detail: {value: 'file2'}})
       );
       assert.isTrue(navigateToDiffStub.calledOnce);
@@ -2299,7 +2331,7 @@ suite('gr-diff-view tests', () => {
         project: 'test-project' as RepoName,
         path: 'file2',
       };
-      element._patchRange = {
+      element.patchRange = {
         patchNum: 1 as RevisionPatchSetNum,
         basePatchNum: PARENT,
       };
@@ -2324,21 +2356,16 @@ suite('gr-diff-view tests', () => {
         },
       ];
 
-      const base = {
+      element.change = createParsedChange();
+      element.change.project = 'test' as RepoName;
+      element.changeNum = 12 as NumericChangeId;
+      element.patchRange = {
         patchNum: 1 as RevisionPatchSetNum,
         basePatchNum: PARENT,
       };
-
-      assert.deepEqual(
-        element._computeDownloadDropdownLinks(
-          'test' as RepoName,
-          12 as NumericChangeId,
-          base,
-          'index.php',
-          createDiff()
-        ),
-        downloadLinks
-      );
+      element.path = 'index.php';
+      element.diff = createDiff();
+      assert.deepEqual(element.computeDownloadDropdownLinks(), downloadLinks);
     });
 
     test('_computeDownloadDropdownLinks diff returns renamed', () => {
@@ -2361,26 +2388,21 @@ suite('gr-diff-view tests', () => {
       diff.change_type = 'RENAMED';
       diff.meta_a!.name = 'index2.php';
 
-      const base = {
+      element.change = createParsedChange();
+      element.change.project = 'test' as RepoName;
+      element.changeNum = 12 as NumericChangeId;
+      element.patchRange = {
         patchNum: 3 as RevisionPatchSetNum,
         basePatchNum: 2 as BasePatchSetNum,
       };
-
-      assert.deepEqual(
-        element._computeDownloadDropdownLinks(
-          'test' as RepoName,
-          12 as NumericChangeId,
-          base,
-          'index.php',
-          diff
-        ),
-        downloadLinks
-      );
+      element.path = 'index.php';
+      element.diff = diff;
+      assert.deepEqual(element.computeDownloadDropdownLinks(), downloadLinks);
     });
 
-    test('_computeDownloadFileLink', () => {
+    test('computeDownloadFileLink', () => {
       assert.equal(
-        element._computeDownloadFileLink(
+        element.computeDownloadFileLink(
           'test' as RepoName,
           12 as NumericChangeId,
           {patchNum: 1 as PatchSetNumber, basePatchNum: PARENT},
@@ -2391,7 +2413,7 @@ suite('gr-diff-view tests', () => {
       );
 
       assert.equal(
-        element._computeDownloadFileLink(
+        element.computeDownloadFileLink(
           'test' as RepoName,
           12 as NumericChangeId,
           {patchNum: 1 as PatchSetNumber, basePatchNum: -2 as PatchSetNumber},
@@ -2402,7 +2424,7 @@ suite('gr-diff-view tests', () => {
       );
 
       assert.equal(
-        element._computeDownloadFileLink(
+        element.computeDownloadFileLink(
           'test' as RepoName,
           12 as NumericChangeId,
           {patchNum: 3 as PatchSetNumber, basePatchNum: 2 as PatchSetNumber},
@@ -2413,7 +2435,7 @@ suite('gr-diff-view tests', () => {
       );
 
       assert.equal(
-        element._computeDownloadFileLink(
+        element.computeDownloadFileLink(
           'test' as RepoName,
           12 as NumericChangeId,
           {patchNum: 3 as PatchSetNumber, basePatchNum: 2 as PatchSetNumber},
@@ -2424,9 +2446,9 @@ suite('gr-diff-view tests', () => {
       );
     });
 
-    test('_computeDownloadPatchLink', () => {
+    test('computeDownloadPatchLink', () => {
       assert.equal(
-        element._computeDownloadPatchLink(
+        element.computeDownloadPatchLink(
           'test' as RepoName,
           12 as NumericChangeId,
           {basePatchNum: PARENT, patchNum: 1 as RevisionPatchSetNum},
@@ -2453,39 +2475,31 @@ suite('gr-diff-view tests', () => {
       stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
       stubRestApi('getReviewedFiles').returns(Promise.resolve([]));
       element = basicFixture.instantiate();
-      element._changeNum = 42 as NumericChangeId;
+      element.changeNum = 42 as NumericChangeId;
     });
 
-    test('_getFiles add files with comments without changes', () => {
-      const patchChangeRecord = {
-        base: {
-          basePatchNum: 5 as BasePatchSetNum,
-          patchNum: 10 as RevisionPatchSetNum,
-        },
-        value: {
-          basePatchNum: 5 as BasePatchSetNum,
-          patchNum: 10 as RevisionPatchSetNum,
-        },
-        path: '',
+    test('fetchFiles add files with comments without changes', () => {
+      element.patchRange = {
+        basePatchNum: 5 as BasePatchSetNum,
+        patchNum: 10 as RevisionPatchSetNum,
       };
-      const changeComments = {
+      element.changeComments = {
         getPaths: sinon.stub().returns({
           'file2.txt': {},
           'file1.txt': {},
         }),
       } as unknown as ChangeComments;
-      return element
-        ._getFiles(23 as NumericChangeId, patchChangeRecord, changeComments)
-        .then(() => {
-          assert.deepEqual(element._files, {
-            sortedFileList: ['a/b/test.c', 'file1.txt', 'file2.txt'],
-            changeFilesByPath: {
-              'file1.txt': createFileInfo(),
-              'file2.txt': {status: 'U'} as FileInfo,
-              'a/b/test.c': createFileInfo(),
-            },
-          });
+      element.changeNum = 23 as NumericChangeId;
+      return element.fetchFiles().then(() => {
+        assert.deepEqual(element.files, {
+          sortedFileList: ['a/b/test.c', 'file1.txt', 'file2.txt'],
+          changeFilesByPath: {
+            'file1.txt': createFileInfo(),
+            'file2.txt': {status: 'U'} as FileInfo,
+            'a/b/test.c': createFileInfo(),
+          },
         });
+      });
     });
   });
 });

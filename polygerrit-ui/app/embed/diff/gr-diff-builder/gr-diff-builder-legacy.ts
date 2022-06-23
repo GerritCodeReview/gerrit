@@ -302,6 +302,8 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
       button.classList.add('lineNumButton');
       button.classList.add(side);
       button.dataset['value'] = number.toString();
+      button.id =
+        side === Side.LEFT ? `leftButton${number}` : `rightButton${number}`;
       button.textContent = number === 'FILE' ? 'File' : number.toString();
       if (number === 'FILE') {
         button.setAttribute('aria-label', 'Add file comment');
@@ -316,6 +318,8 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
           button.setAttribute('aria-label', `${number} removed`);
         } else if (line.type === GrDiffLineType.ADD) {
           button.setAttribute('aria-label', `${number} added`);
+        } else {
+          button.setAttribute('aria-label', `${number} unmodified`);
         }
       }
       this.addLineNumberMouseEvents(td, number, side);
@@ -364,7 +368,10 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
         line.text,
         responsiveMode,
         this._prefs.tab_size,
-        this._prefs.line_length
+        this._prefs.line_length,
+        side === Side.LEFT
+          ? `leftContent${beforeNumber}`
+          : `rightContent${afterNumber}`
       );
 
       if (side) {

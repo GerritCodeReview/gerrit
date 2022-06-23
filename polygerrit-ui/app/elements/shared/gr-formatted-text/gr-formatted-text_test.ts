@@ -145,15 +145,22 @@ suite('gr-formatted-text tests', () => {
     assertPreBlock(result[0], comment);
   });
 
-  test('parse one space pre', () => {
+  test('one space is not a pre', () => {
     const comment = ' One space indent.\n Another line.';
+    const result = element._computeBlocks(comment);
+    assert.lengthOf(result, 1);
+    assertSimpleTextBlock(result[0], comment);
+  });
+
+  test('parse multi-line space pre', () => {
+    const comment = '    One space indent.\n    Another line.';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 1);
     assertPreBlock(result[0], comment);
   });
 
   test('parse tab pre', () => {
-    const comment = '\tOne tab indent.\n\tAnother line.\n  Yet another!';
+    const comment = '\tOne tab indent.\n\tAnother line.\n    Yet another!';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 1);
     assertPreBlock(result[0], comment);
@@ -350,61 +357,61 @@ suite('gr-formatted-text tests', () => {
 
   test('nested list will NOT be recognized', () => {
     // will be rendered as two separate lists
-    const comment = '- line 1\n  - line with indentation\n- line 2';
+    const comment = '- line 1\n    - line with indentation\n- line 2';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 3);
     assertListBlock(result[0], [{spans: [{type: 'text', text: 'line 1'}]}]);
-    assertPreBlock(result[1], '  - line with indentation');
+    assertPreBlock(result[1], '    - line with indentation');
     assertListBlock(result[2], [{spans: [{type: 'text', text: 'line 2'}]}]);
   });
 
   test('pre format 1', () => {
-    const comment = 'A\n  This is pre\n  formatted';
+    const comment = 'A\n    This is pre\n    formatted';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 2);
     assertSimpleTextBlock(result[0], 'A');
-    assertPreBlock(result[1], '  This is pre\n  formatted');
+    assertPreBlock(result[1], '    This is pre\n    formatted');
   });
 
   test('pre format 2', () => {
-    const comment = 'A\n  This is pre\n  formatted\n\nbut this is not';
+    const comment = 'A\n    This is pre\n    formatted\n\nbut this is not';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 3);
     assertSimpleTextBlock(result[0], 'A');
-    assertPreBlock(result[1], '  This is pre\n  formatted');
+    assertPreBlock(result[1], '    This is pre\n    formatted');
     assertSimpleTextBlock(result[2], 'but this is not');
   });
 
   test('pre format 3', () => {
-    const comment = 'A\n  Q\n    <R>\n  S\n\nB';
+    const comment = 'A\n    Q\n    <R>\n    S\n\nB';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 3);
     assertSimpleTextBlock(result[0], 'A');
-    assertPreBlock(result[1], '  Q\n    <R>\n  S');
+    assertPreBlock(result[1], '    Q\n    <R>\n    S');
     assertSimpleTextBlock(result[2], 'B');
   });
 
   test('pre format 4', () => {
-    const comment = '  Q\n    <R>\n  S\n\nB';
+    const comment = '    Q\n    <R>\n    S\n\nB';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 2);
-    assertPreBlock(result[0], '  Q\n    <R>\n  S');
+    assertPreBlock(result[0], '    Q\n    <R>\n    S');
     assertSimpleTextBlock(result[1], 'B');
   });
 
   test('pre format 5', () => {
-    const comment = '  Q\n    <R>\n  S\n \nB';
+    const comment = '    Q\n    <R>\n    S\n \nB';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 2);
-    assertPreBlock(result[0], '  Q\n    <R>\n  S');
+    assertPreBlock(result[0], '    Q\n    <R>\n    S');
     assertSimpleTextBlock(result[1], ' \nB');
   });
 
   test('pre format 6', () => {
-    const comment = '  Q\n    <R>\n\n  S\n \nB';
+    const comment = '    Q\n    <R>\n\n    S\n \nB';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 2);
-    assertPreBlock(result[0], '  Q\n    <R>\n\n  S');
+    assertPreBlock(result[0], '    Q\n    <R>\n\n    S');
     assertSimpleTextBlock(result[1], ' \nB');
   });
 
@@ -485,7 +492,7 @@ suite('gr-formatted-text tests', () => {
 
   test('mix all 1', () => {
     const comment =
-      ' bullets:\n- bullet 1\n- bullet 2\n\ncode example:\n' +
+      '    bullets:\n- bullet 1\n- bullet 2\n\ncode example:\n' +
       '```\n// test code\n```\n\n> reference is here';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 5);

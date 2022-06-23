@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac99f654_013201cf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1117824
+      },
+      "writtenOn": "2022-06-23T07:50:41Z",
+      "side": 1,
+      "message": "Error that is occurring without this fix can be checked here :\n\nhttps://gerrit-ci.gerritforge.com/job/Gerrit-verifier-chrome-69/1402/console\n",
+      "revId": "b9589edcd5018953ee84c10368260bbd769f38fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -22,6 +22,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.CharStreams;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelValue;
 import com.google.gerrit.entities.PatchSet;
@@ -87,7 +88,11 @@ public class ReviewCommand extends SshCommand {
       usage = "list of commits or patch sets to review")
   void addPatchSetId(String token) {
     try {
-      PatchSet ps = psParser.parsePatchSet(token, projectState, branch);
+      BranchNameKey branchKey = null;
+      if (branch != null) {
+        branchKey = BranchNameKey.create(projectState.getNameKey().get(), branch);
+      }
+      PatchSet ps = psParser.parsePatchSet(token, projectState, branchKey);
       patchSets.add(ps);
     } catch (UnloggedFailure e) {
       throw new IllegalArgumentException(e.getMessage(), e);

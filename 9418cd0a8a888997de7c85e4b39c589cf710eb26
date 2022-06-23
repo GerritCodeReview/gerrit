@@ -59,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "637bdd33_b3dbcc3e",
+        "filename": "java/com/google/gerrit/index/Schema.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-23T13:50:02Z",
+      "side": 1,
+      "message": "I am not planing to remove this fields: this is the list of fields that is stored in the secondary index and can be returned from there directly.\n\nI did not find cases when the full FieldDef is required. If the callers need it, they can use #getFields().get(storedFieldName)",
+      "parentUuid": "95cd8117_8e9b69c1",
+      "range": {
+        "startLine": 157,
+        "startChar": 16,
+        "endLine": 157,
+        "endChar": 36
+      },
+      "revId": "9418cd0a8a888997de7c85e4b39c589cf710eb26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "10d463e9_a50d4c82",
@@ -72,6 +96,24 @@
       "writtenOn": "2022-06-23T12:25:22Z",
       "side": 1,
       "message": "Could you please add an assertion for the error message? Just to make it instantly clear to the future reader why this operation failed.\n\nSame for other methods.",
+      "revId": "9418cd0a8a888997de7c85e4b39c589cf710eb26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a62c4cd1_8ac84ad4",
+        "filename": "javatests/com/google/gerrit/index/SchemaUtilTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-23T13:50:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10d463e9_a50d4c82",
       "revId": "9418cd0a8a888997de7c85e4b39c589cf710eb26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -93,6 +135,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f999af4b_677df983",
+        "filename": "javatests/com/google/gerrit/index/SchemaUtilTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-23T13:50:02Z",
+      "side": 1,
+      "message": "I think it should be valid to add a field to the base table, but do not add specify any searches on it.\n\nThe difference is that here IndexedField is duplicated, not StoredSpec.",
+      "parentUuid": "30431510_b8f8369b",
+      "revId": "9418cd0a8a888997de7c85e4b39c589cf710eb26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "79faae45_9636671b",
@@ -106,6 +166,30 @@
       "writtenOn": "2022-06-23T12:25:22Z",
       "side": 1,
       "message": "nit: remove final, here and in L149.",
+      "range": {
+        "startLine": 138,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 9
+      },
+      "revId": "9418cd0a8a888997de7c85e4b39c589cf710eb26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbc3ad01_c8f5e208",
+        "filename": "javatests/com/google/gerrit/index/SchemaUtilTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-23T13:50:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79faae45_9636671b",
       "range": {
         "startLine": 138,
         "startChar": 4,

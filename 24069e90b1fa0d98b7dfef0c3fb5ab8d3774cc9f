@@ -16,6 +16,24 @@
       "message": "Please wrap the lines with 72 chars/line.",
       "revId": "24069e90b1fa0d98b7dfef0c3fb5ab8d3774cc9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50e7f8ec_50c6efde",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-23T13:50:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb36bbd4_fba50403",
+      "revId": "24069e90b1fa0d98b7dfef0c3fb5ab8d3774cc9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

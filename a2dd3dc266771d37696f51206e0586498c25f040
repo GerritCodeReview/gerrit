@@ -70,6 +70,30 @@
       },
       "revId": "a2dd3dc266771d37696f51206e0586498c25f040",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66c61bd6_2e424d40",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-23T10:10:03Z",
+      "side": 1,
+      "message": "OK, thanks for clarifying. I misunderstood the first question and tried to relate it with this change.\n\n\u003e If I manually create a SR with the same name as a label function will the SR override the label function?\n\nYes and no. Gerrit server evaluates all submit requirements and all legacy submit rules {label functions, custom, prolog}.\nFor each label emitted from a legacy submit rule result (e.g. a blocked label in a MaxWithBlock function), the server checks if there\u0027s an SR with the same name, and\nif both results are matching (i.e. they both block or allow submission), only the new SR result is returned with the change detail API (and displayed on the change page). Otherwise, the API returns both results.\n\nThis is actually how we selectively migrated some hosts to SRs: we first added new submit requirements, allowing them to run beside label functions / prolog, then we removed label functions / prolog.\n\n\u003e If not, how can you be sure that a SR with the same name represents the same thing?\n\nAfter adding SRs, you could check these metrics [1] for how many times a SR was matching with a legacy SR result.\n\n[1] https://gerrit.googlesource.com/gerrit/+/b3ee73ea8dab65ea0041a5409608087d9c036c96/java/com/google/gerrit/server/project/SubmitRequirementsUtil.java#58",
+      "parentUuid": "099e3665_34e26ca1",
+      "range": {
+        "startLine": 25,
+        "startChar": 10,
+        "endLine": 25,
+        "endChar": 69
+      },
+      "revId": "a2dd3dc266771d37696f51206e0586498c25f040",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

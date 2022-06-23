@@ -15,9 +15,11 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeFinder;
@@ -62,6 +64,8 @@ public class PatchSetParser {
       if (projectState != null) {
         Project.NameKey p = projectState.getNameKey();
         if (branch != null) {
+          BranchNameKey branchKey = BranchNameKey.create(p.get(), branch);
+          branch = branchKey.branch();
           cds = query.byBranchCommit(p.get(), branch, token);
         } else {
           cds = query.byProjectCommit(p, token);

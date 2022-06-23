@@ -71,10 +71,10 @@ export class GrOverlay extends base {
     // TODO(TS): to avoid ts error for:
     // Only public and protected methods of the base class are accessible
     // via the 'super' keyword.
-    // we call IronFocsablesHelper directly here
-    // Currently IronFocsablesHelper is not exported from iron-focusables-helper
-    // as it should so we use Polymer.IronFocsablesHelper here instead
-    // (can not use the IronFocsablesHelperClass
+    // we call IronFocusablesHelper directly here
+    // Currently IronFocusablesHelper is not exported from iron-focusables-helper
+    // as it should so we use Polymer.IronFocusablesHelper here instead
+    // (can not use the IronFocusablesHelperClass
     // in case different behavior due to singleton)
     // once the type contains the exported member,
     // should replace with:

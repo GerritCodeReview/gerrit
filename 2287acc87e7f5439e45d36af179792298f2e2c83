@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcd99e6b_47b512f9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-23T11:54:19Z",
+      "side": 1,
+      "message": "@Nasser, I\u0027m putting a +1 to wait for your feedback. Please let us know if you have any other concerns before we approve.",
+      "revId": "2287acc87e7f5439e45d36af179792298f2e2c83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

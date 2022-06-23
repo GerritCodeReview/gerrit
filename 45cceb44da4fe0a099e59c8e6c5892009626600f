@@ -34,6 +34,24 @@
       "parentUuid": "8a145709_1130a076",
       "revId": "45cceb44da4fe0a099e59c8e6c5892009626600f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b79eb64_a3a24ebc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-23T04:36:46Z",
+      "side": 1,
+      "message": "\u003e can you perform an E2E Gatling test before and after the change?\n\nAs pointed out by Nasser, it does not affect production gerrit, except documentation search, that is not covered by Gatling AFAIK.\n\n\u003e Can you (also) check that doc search continues working as expected?\n\nConfirmed, I set up new gerrit site with release.war built from this change and documentation search works as expected.",
+      "parentUuid": "298c0b19_92921c53",
+      "revId": "45cceb44da4fe0a099e59c8e6c5892009626600f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

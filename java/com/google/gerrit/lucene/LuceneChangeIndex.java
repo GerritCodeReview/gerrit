@@ -83,7 +83,7 @@ import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.TopFieldDocs;
-import org.apache.lucene.store.RAMDirectory;
+import org.apache.lucene.store.ByteBuffersDirectory;
 import org.apache.lucene.util.BytesRef;
 import org.eclipse.jgit.lib.Config;
 
@@ -170,7 +170,7 @@ public class LuceneChangeIndex implements ChangeIndex {
           new ChangeSubIndex(
               schema,
               sitePaths,
-              new RAMDirectory(),
+              new ByteBuffersDirectory(),
               "ramOpen",
               skipFields,
               openConfig,
@@ -180,7 +180,7 @@ public class LuceneChangeIndex implements ChangeIndex {
           new ChangeSubIndex(
               schema,
               sitePaths,
-              new RAMDirectory(),
+              new ByteBuffersDirectory(),
               "ramClosed",
               skipFields,
               closedConfig,

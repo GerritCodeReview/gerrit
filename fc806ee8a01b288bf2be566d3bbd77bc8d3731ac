@@ -70,6 +70,30 @@
       },
       "revId": "fc806ee8a01b288bf2be566d3bbd77bc8d3731ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "176277e1_dd3ec301",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 972,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-23T12:01:32Z",
+      "side": 1,
+      "message": "Oh, ok. I rewrote change to original text.",
+      "parentUuid": "5d16dc54_16f69e3e",
+      "range": {
+        "startLine": 972,
+        "startChar": 26,
+        "endLine": 972,
+        "endChar": 39
+      },
+      "revId": "fc806ee8a01b288bf2be566d3bbd77bc8d3731ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -258,9 +258,11 @@ export function formatText(
   text: string,
   responsiveMode: DiffResponsiveMode,
   tabSize: number,
-  lineLimit: number
+  lineLimit: number,
+  elementId?: string
 ): HTMLElement {
   const contentText = createElementDiff('div', 'contentText');
+  if (elementId) contentText.id = elementId;
   let columnPos = 0;
   let textOffset = 0;
   for (const segment of text.split(REGEX_TAB_OR_SURROGATE_PAIR)) {

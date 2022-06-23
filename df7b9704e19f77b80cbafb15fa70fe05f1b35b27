@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a4842aa8_8ab33ae8",
+        "filename": "java/com/google/gerrit/index/IndexedField.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-23T16:41:24Z",
+      "side": 1,
+      "message": "\u003e +1, this was also discussed here https://gerrit-review.googlesource.com/c/gerrit/+/339336/comments/b63671a8_6fcfc081.\n\u003e \n\u003e There are no tests with this change, but all fields as tested in AbstractQuery* as Maria mentioned.\n\nI would assume this class has new functionality not covered by existing tests? Don\u0027t we want to at least confirm we can use it in the way the commit message describes?",
+      "parentUuid": "bc9974df_6bcdb08c",
+      "revId": "df7b9704e19f77b80cbafb15fa70fe05f1b35b27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "91454f67_8bba5c2d",
         "filename": "java/com/google/gerrit/index/SearchOption.java",
         "patchSetId": 17
@@ -167,6 +185,30 @@
       "side": 1,
       "message": "I also +1 Maria\u0027s comments. This change is just adding protos as a new field type but is not using it anywhere yet.\n\nI\u0027ve also preferred to extract the new asProto() methods in StoredValue and its implementations in their own change, with their own proper commit message for better clarity (https://gerrit-review.googlesource.com/c/gerrit/+/339336/comments/fd71e832_af7a7d7c). @Maria, could you maybe extract those changes in a predecessor change to this one.",
       "parentUuid": "c6f2d7fe_736fad5c",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 24
+      },
+      "revId": "df7b9704e19f77b80cbafb15fa70fe05f1b35b27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a77407c_f9ef0385",
+        "filename": "java/com/google/gerrit/index/StoredValue.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-23T16:41:24Z",
+      "side": 1,
+      "message": "\u003e I also +1 Maria\u0027s comments. This change is just adding protos as a new field type but is not using it anywhere yet.\n\nTo me, adding unused methods is more of a reason for a separate change with its own commit message that describes the intent.\n\n\u003e \n\u003e I\u0027ve also preferred to extract the new asProto() methods in StoredValue and its implementations in their own change, with their own proper commit message for better clarity (https://gerrit-review.googlesource.com/c/gerrit/+/339336/comments/fd71e832_af7a7d7c). @Maria, could you maybe extract those changes in a predecessor change to this one.\n\nI would appreciate that. I don\u0027t know if a predecessor or immediate successor is more appropriate (do these asProto*() methods make sense without this change?).",
+      "parentUuid": "f16df2a0_9b4f213a",
       "range": {
         "startLine": 52,
         "startChar": 0,

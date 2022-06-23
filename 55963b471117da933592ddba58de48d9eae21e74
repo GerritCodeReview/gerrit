@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81afb1ad_1d6c21e0",
+        "filename": "javatests/com/google/gerrit/server/cache/PerThreadCacheTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-23T05:12:24Z",
+      "side": 1,
+      "message": "Is this something needed for IntelliJ? Because in Eclipse I\u0027m getting a unused warning here.",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 44
+      },
+      "revId": "55963b471117da933592ddba58de48d9eae21e74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

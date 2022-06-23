@@ -97,6 +97,18 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilderLegacy {
     row.classList.add('diff-row', 'side-by-side');
     row.setAttribute('left-type', leftLine.type);
     row.setAttribute('right-type', rightLine.type);
+    // This is small hack to enable screen reader to read a row
+    row.setAttribute('role', 'button');
+    row.setAttribute('aria-roledescription', 'Code line');
+    row.setAttribute(
+      'aria-labelledby',
+      [
+        `leftButton${leftLine.beforeNumber}`,
+        `leftContent${leftLine.beforeNumber}`,
+        `rightButton${rightLine.afterNumber}`,
+        `rightContent${rightLine.afterNumber}`,
+      ].join(' ')
+    );
     // TabIndex makes screen reader read a row when navigating with j/k
     row.tabIndex = -1;
 

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b28534fa_299ac1b6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/ApplyProvidedFixIT.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-23T23:30:56Z",
+      "side": 1,
+      "message": "nit: I don\u0027t think you need to repeat the whole class name for each test. It would be fine with me to shorten to \"fix\", so this would become \"fixWithinALineCanBeApplied\". You can also leave it the way you have it, either is fine with me.",
+      "range": {
+        "startLine": 82,
+        "startChar": 14,
+        "endLine": 82,
+        "endChar": 30
+      },
+      "revId": "71cde38edcf07db9ab59298d52511e811af46408",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8eef8e5b_a8036f43",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/ApplyProvidedFixIT.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-23T23:30:56Z",
+      "side": 1,
+      "message": "s/Stored/Provided/ ?\n\nUnless if you\u0027re shortening like I suggest above, then just s/Stored//.",
+      "range": {
+        "startLine": 461,
+        "startChar": 14,
+        "endLine": 461,
+        "endChar": 48
+      },
+      "revId": "71cde38edcf07db9ab59298d52511e811af46408",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

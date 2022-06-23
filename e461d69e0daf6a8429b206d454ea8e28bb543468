@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea1b6f41_a0539ec2",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyProvidedFix.java",
+        "patchSetId": 48
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-23T23:30:56Z",
+      "side": 1,
+      "message": "nit: inline as revisionResource.getNotes() and remove the (now) single-use \u0027changeNotes\u0027",
+      "range": {
+        "startLine": 96,
+        "startChar": 26,
+        "endLine": 96,
+        "endChar": 37
+      },
+      "revId": "e461d69e0daf6a8429b206d454ea8e28bb543468",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

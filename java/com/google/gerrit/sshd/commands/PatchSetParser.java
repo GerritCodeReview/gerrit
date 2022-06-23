@@ -15,6 +15,7 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
@@ -52,7 +53,7 @@ public class PatchSetParser {
     this.changeFinder = changeFinder;
   }
 
-  public PatchSet parsePatchSet(String token, ProjectState projectState, String branch)
+  public PatchSet parsePatchSet(String token, ProjectState projectState, BranchNameKey branch)
       throws UnloggedFailure {
     // By commit?
     //
@@ -62,7 +63,7 @@ public class PatchSetParser {
       if (projectState != null) {
         Project.NameKey p = projectState.getNameKey();
         if (branch != null) {
-          cds = query.byBranchCommit(p.get(), branch, token);
+          cds = query.byBranchCommit(p.get(), branch.branch(), token);
         } else {
           cds = query.byProjectCommit(p, token);
         }
@@ -112,7 +113,7 @@ public class PatchSetParser {
           throw error("change " + change.getId() + " not in project " + projectState.getName());
         }
         if (!inBranch(change, branch)) {
-          throw error("change " + change.getId() + " not in branch " + branch);
+          throw error("change " + change.getId() + " not in branch " + branch.branch());
         }
       }
       return patchSet;
@@ -141,12 +142,12 @@ public class PatchSetParser {
     return projectState.getNameKey().equals(change.getProject());
   }
 
-  private static boolean inBranch(Change change, String branch) {
+  private static boolean inBranch(Change change, BranchNameKey branch) {
     if (branch == null) {
       // No --branch option, so they want every branch.
       return true;
     }
-    return change.getDest().branch().equals(branch);
+    return change.getDest().equals(branch);
   }
 
   public static UnloggedFailure error(String msg) {

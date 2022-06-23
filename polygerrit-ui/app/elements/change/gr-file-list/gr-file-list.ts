@@ -60,7 +60,7 @@ import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
 import {GrCursorManager} from '../../shared/gr-cursor-manager/gr-cursor-manager';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {ParsedChangeInfo, PatchSetFile} from '../../../types/types';
-import {Timing} from '../../../constants/reporting';
+import {Interaction, Timing} from '../../../constants/reporting';
 import {RevisionInfo} from '../../shared/revision-info/revision-info';
 import {select} from '../../../utils/observable-util';
 import {resolve} from '../../../models/dependency';
@@ -1598,6 +1598,10 @@ export class GrFileList extends LitElement {
     if (!this.diffs.length) {
       return;
     }
+    this.reporting.reportInteraction(
+      Interaction.DIFF_AUTOCLOSE_RELOAD_FILELIST_PREFS
+    );
+
     // Re-render all expanded diffs sequentially.
     this.renderInOrder(this.expandedFiles, this.diffs);
   }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb36bbd4_fba50403",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-23T12:27:48Z",
+      "side": 1,
+      "message": "Please wrap the lines with 72 chars/line.",
+      "revId": "24069e90b1fa0d98b7dfef0c3fb5ab8d3774cc9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

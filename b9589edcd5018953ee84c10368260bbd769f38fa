@@ -47,6 +47,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f95a6bd4_187c1d7b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1117824
+      },
+      "writtenOn": "2022-06-23T10:16:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df4824b9_ce2026a4",
+      "range": {
+        "startLine": 10,
+        "startChar": 6,
+        "endLine": 10,
+        "endChar": 7
+      },
+      "revId": "b9589edcd5018953ee84c10368260bbd769f38fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a70fcbc_ceb07419",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1117824
+      },
+      "writtenOn": "2022-06-23T10:16:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18cbd8f2_342581d6",
+      "range": {
+        "startLine": 10,
+        "startChar": 65,
+        "endLine": 10,
+        "endChar": 74
+      },
+      "revId": "b9589edcd5018953ee84c10368260bbd769f38fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d5ed9b01_f6b8a1b2",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-06-23T08:10:27Z",
       "side": 1,
       "message": "s/ref query/ref operator/",
+      "range": {
+        "startLine": 13,
+        "startChar": 4,
+        "endLine": 13,
+        "endChar": 9
+      },
+      "revId": "b9589edcd5018953ee84c10368260bbd769f38fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1565e99_06593664",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1117824
+      },
+      "writtenOn": "2022-06-23T10:16:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5ed9b01_f6b8a1b2",
       "range": {
         "startLine": 13,
         "startChar": 4,
@@ -118,6 +190,54 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "ff5af418_4323743e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1117824
+      },
+      "writtenOn": "2022-06-23T10:16:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca873746_6f64d040",
+      "range": {
+        "startLine": 22,
+        "startChar": 68,
+        "endLine": 22,
+        "endChar": 69
+      },
+      "revId": "b9589edcd5018953ee84c10368260bbd769f38fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad43210a_4cfd7a2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1117824
+      },
+      "writtenOn": "2022-06-23T10:16:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f18b0c1b_f4d03111",
+      "range": {
+        "startLine": 22,
+        "startChar": 15,
+        "endLine": 22,
+        "endChar": 68
+      },
+      "revId": "b9589edcd5018953ee84c10368260bbd769f38fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ac99f654_013201cf",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -146,6 +266,30 @@
       "writtenOn": "2022-06-23T08:10:27Z",
       "side": 1,
       "message": "Why do you need to split?\n\nuse .getCommit().getName()",
+      "range": {
+        "startLine": 34,
+        "startChar": 35,
+        "endLine": 34,
+        "endChar": 60
+      },
+      "revId": "b9589edcd5018953ee84c10368260bbd769f38fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "079e6969_2cb78c75",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeReviewIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1117824
+      },
+      "writtenOn": "2022-06-23T10:16:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ea1c700_67fe8373",
       "range": {
         "startLine": 34,
         "startChar": 35,

@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d798e665_088d3315",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-23T16:00:38Z",
+      "side": 1,
+      "message": "I just realized this says \"pgm\", but you\u0027re not adding a pgm class, only a server class. How will someone run this?",
+      "range": {
+        "startLine": 7,
+        "startChar": 6,
+        "endLine": 7,
+        "endChar": 9
+      },
+      "revId": "bb2c4e7d256c289775034f3548ec04c881aa8acc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb5da239_fc91deff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-23T16:00:38Z",
+      "side": 1,
+      "message": "I think your intent is to make this safe to run ahead of upgrading. Is that true? If yes, how could someone do that?",
+      "range": {
+        "startLine": 28,
+        "startChar": 37,
+        "endLine": 29,
+        "endChar": 15
+      },
+      "revId": "bb2c4e7d256c289775034f3548ec04c881aa8acc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68c48759_807c16df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-23T16:00:38Z",
+      "side": 1,
+      "message": "Assuming this does become a pgm someone can run, it should be mentioned in the release notes.",
+      "range": {
+        "startLine": 31,
+        "startChar": 15,
+        "endLine": 31,
+        "endChar": 19
+      },
+      "revId": "bb2c4e7d256c289775034f3548ec04c881aa8acc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5b810ff_81cd0320",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-23T16:00:38Z",
+      "side": 1,
+      "message": "I think we only call things programs if they live in com.google.gerrit.pgm?",
+      "range": {
+        "startLine": 38,
+        "startChar": 3,
+        "endLine": 38,
+        "endChar": 8
+      },
+      "revId": "bb2c4e7d256c289775034f3548ec04c881aa8acc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c16e89f0_47b996f4",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-23T16:00:38Z",
+      "side": 1,
+      "message": "nit: inline the single-use variable\n\n if (anyProjectHasProlog(allProjects)) {",
+      "range": {
+        "startLine": 76,
+        "startChar": 8,
+        "endLine": 76,
+        "endChar": 17
+      },
+      "revId": "bb2c4e7d256c289775034f3548ec04c881aa8acc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "865726ff_ed272855",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-23T16:00:38Z",
+      "side": 1,
+      "message": "nit: you can be more specific about the criteria, \"at least one project\"",
+      "range": {
+        "startLine": 78,
+        "startChar": 42,
+        "endLine": 78,
+        "endChar": 66
+      },
+      "revId": "bb2c4e7d256c289775034f3548ec04c881aa8acc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4c48eac_b3135b1a",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-23T16:00:38Z",
+      "side": 1,
+      "message": "nit: inline the single-use variable\n\n for (Project.NameKey project : sortProjectsWithInheritance(allProjects)) {",
+      "range": {
+        "startLine": 82,
+        "startChar": 35,
+        "endLine": 82,
+        "endChar": 49
+      },
+      "revId": "bb2c4e7d256c289775034f3548ec04c881aa8acc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61fdc282_a9a29f0c",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-23T16:00:38Z",
+      "side": 1,
+      "message": "Since you\u0027re not catching the exceptions here, this will stop and block on the first project with any problems always. Is that the behavior you want?",
+      "range": {
+        "startLine": 83,
+        "startChar": 6,
+        "endLine": 83,
+        "endChar": 32
+      },
+      "revId": "bb2c4e7d256c289775034f3548ec04c881aa8acc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -94,6 +94,30 @@
       },
       "revId": "a2dd3dc266771d37696f51206e0586498c25f040",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ca0fa04_1ce6ad37",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-23T16:00:38Z",
+      "side": 1,
+      "message": "\u003e OK, thanks for clarifying. I misunderstood the first question and tried to relate it with this change.\n\nWell it is tied a bit, since this change assumes same name is same thing, but yeah, I see the confusion. I\u0027ll try to be clearer upfront next time 😊\n\n\u003e \n\u003e \u003e If I manually create a SR with the same name as a label function will the SR override the label function?\n\u003e \n\u003e Yes and no. Gerrit server evaluates all submit requirements and all legacy submit rules {label functions, custom, prolog}.\n\u003e For each label emitted from a legacy submit rule result (e.g. a blocked label in a MaxWithBlock function), the server checks if there\u0027s an SR with the same name, and\n\u003e if both results are matching (i.e. they both block or allow submission), only the new SR result is returned with the change detail API (and displayed on the change page). Otherwise, the API returns both results.\n\u003e \n\u003e This is actually how we selectively migrated some hosts to SRs: we first added new submit requirements, allowing them to run beside label functions / prolog, then we removed label functions / prolog.\n\nThanks for the detailed explanation, that really helps.\n\n\u003e \n\u003e \u003e If not, how can you be sure that a SR with the same name represents the same thing?\n\u003e \n\u003e After adding SRs, you could check these metrics [1] for how many times a SR was matching with a legacy SR result.\n\nOk, but this change isn\u0027t checking those metrics, so how can you be sure the SR you found with the same name was added by a prior run of this code vs manually (with potentially non-matching results)?\n\nI do think it\u0027s unlikely someone would be (intentionally or accidentally) using the same name for a SR and legacy-submit-rule-label for different things, but it\u0027s not impossible and it sounds like the server code would handle it correctly (if their results are different, both are included in the API response). If they did though, this change would miss migrating the legacy-submit-rule-label to a SR, correct?\n\nMaybe we could mitigate that by adding a dry-run/report mode that doesn\u0027t change anything but tells the user what would change and if any duplicate names were found?\n\n\u003e \n\u003e [1] https://gerrit.googlesource.com/gerrit/+/b3ee73ea8dab65ea0041a5409608087d9c036c96/java/com/google/gerrit/server/project/SubmitRequirementsUtil.java#58",
+      "parentUuid": "66c61bd6_2e424d40",
+      "range": {
+        "startLine": 25,
+        "startChar": 10,
+        "endLine": 25,
+        "endChar": 69
+      },
+      "revId": "a2dd3dc266771d37696f51206e0586498c25f040",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

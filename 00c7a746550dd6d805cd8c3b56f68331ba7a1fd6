@@ -22,6 +22,30 @@
       },
       "revId": "00c7a746550dd6d805cd8c3b56f68331ba7a1fd6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15aae9d7_1c29a154",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 984,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-23T12:30:45Z",
+      "side": 1,
+      "message": "This.change.topic is empty when fire is sent. I have to save it to variable.",
+      "parentUuid": "f2b1819a_47c7352e",
+      "range": {
+        "startLine": 984,
+        "startChar": 4,
+        "endLine": 984,
+        "endChar": 36
+      },
+      "revId": "00c7a746550dd6d805cd8c3b56f68331ba7a1fd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

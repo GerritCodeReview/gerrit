@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4ee44fa_a2356b59",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-23T23:35:44Z",
+      "side": 1,
+      "message": "Instead of just a reference to other changes, can you give some context of what those changes are?\n\n In changes 339336 and 339316 we create the SchemaField, IndexedField, and\n SearchSpec classes to gradually replace all usage of FieldDef.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 32
+      },
+      "revId": "685b4b9b10097f4797c74a3e2f34d3acaf942249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

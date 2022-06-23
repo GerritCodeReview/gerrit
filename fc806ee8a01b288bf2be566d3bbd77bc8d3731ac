@@ -46,6 +46,30 @@
       },
       "revId": "fc806ee8a01b288bf2be566d3bbd77bc8d3731ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d16dc54_16f69e3e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 972,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-23T11:38:00Z",
+      "side": 1,
+      "message": "FWIW I prefer the original text but I can let Delphine decide.",
+      "parentUuid": "3081eeb8_008ca9f3",
+      "range": {
+        "startLine": 972,
+        "startChar": 26,
+        "endLine": 972,
+        "endChar": 39
+      },
+      "revId": "fc806ee8a01b288bf2be566d3bbd77bc8d3731ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a50d00a2_e1fa1dd5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-06-23T13:10:35Z",
+      "side": 1,
+      "message": "consider a screenshot so it\u0027s clear where this is changing",
+      "revId": "55053515a10f84c25b2c8e7bf4fa60a020edfa80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

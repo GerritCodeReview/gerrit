@@ -203,6 +203,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "45ae8c9e_c951197e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 45
+      },
+      "lineNbr": 5386,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-23T17:52:01Z",
+      "side": 1,
+      "message": "I have made changes so that the fixes can only be applied on current patchset, irrespective of whether a change-edit exists or not. The reason to not care for existing chang edit, as pointed by you, is the user will click \u0027Apply Fix\u0027 button one after the other.\n\nMy thoughts for not allowing fixes on previous patchsets or previous patchsets with change edit is:\nSince, automated tool will suggest fixes whenever a new patchset is uploaded, it is not useful to allow old suggestions to be applied. They may run the risk of pointing to code blocks that may have moved from its original location or may have become orphaned.",
+      "parentUuid": "dff9e7bb_d63912ed",
+      "range": {
+        "startLine": 5386,
+        "startChar": 6,
+        "endLine": 5386,
+        "endChar": 7
+      },
+      "revId": "889d456281ee0a84f78e43ff5cc50f90668ca477",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "08a4defe_5af03dba",
         "filename": "java/com/google/gerrit/server/restapi/change/ApplyProvidedFix.java",
         "patchSetId": 45
@@ -319,6 +343,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "58cbf195_2efafa72",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyProvidedFix.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-23T17:52:01Z",
+      "side": 1,
+      "message": "Done.\nLet\u0027s discuss this is in the comment there only. I have removed this condition.",
+      "parentUuid": "7f13e465_b7a57496",
+      "range": {
+        "startLine": 95,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 5
+      },
+      "revId": "889d456281ee0a84f78e43ff5cc50f90668ca477",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b6fdfd1_b8d9d0ab",
@@ -368,6 +416,24 @@
       "side": 1,
       "message": "\u003e \"Please check if the user has \"ADD_PATCH_SET\" permission (via PermissionBackend)\n\u003e \n\u003e And add a test that the operation fails in case the user lacks that permission.\"\n\nIf you add a version of that test adapted to the `fixes/{fix-id}/apply` API, does it pass or fail? Or if you remove this check here, does your test still behave as desired (I expect it will)?\n\nThe ChangeEdits APIs all seem to end up calling ChangeEditModifier.assertCanEdit() and your call to combineWithModifiedPatchSetTree() calls that as well, so I think explicitly checking for ADD_PATCH_SET here is duplicate work and unnecessary.",
       "parentUuid": "cb63d2d6_c20b76fd",
+      "revId": "889d456281ee0a84f78e43ff5cc50f90668ca477",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfcfaef8_0970c86d",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyProvidedFix.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-23T17:52:01Z",
+      "side": 1,
+      "message": "You are right, even without the highlighted text, the test `applyProvidedFixRestWithoutAddPatchSetPermissionCannotBeApplied` passes.\n\nRemoved the check",
+      "parentUuid": "e774df60_7b4e4e2c",
       "revId": "889d456281ee0a84f78e43ff5cc50f90668ca477",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

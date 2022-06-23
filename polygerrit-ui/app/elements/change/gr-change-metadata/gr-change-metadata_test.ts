@@ -50,6 +50,7 @@ import {
   queryAndAssert,
   resetPlugins,
   stubRestApi,
+  waitUntilCalled,
 } from '../../../test/test-utils';
 import {ParsedChangeInfo} from '../../../types/types';
 import {GrLinkedChip} from '../../shared/gr-linked-chip/gr-linked-chip';
@@ -898,20 +899,26 @@ suite('gr-change-metadata tests', () => {
       await element.updateComplete;
     });
 
-    test('changing topic', () => {
+    test('changing topic', async () => {
       const newTopic = 'the new topic' as TopicName;
       const setChangeTopicStub = stubRestApi('setChangeTopic').returns(
         Promise.resolve(newTopic)
       );
+      const alertStub = sinon.stub();
+      element.addEventListener('show-alert', alertStub);
       element.handleTopicChanged(new CustomEvent('test', {detail: newTopic}));
       const topicChangedSpy = sinon.spy();
       element.addEventListener('topic-changed', topicChangedSpy);
       assert.isTrue(
         setChangeTopicStub.calledWith(42 as NumericChangeId, newTopic)
       );
-      return setChangeTopicStub.lastCall.returnValue.then(() => {
-        assert.equal(element.change!.topic, newTopic);
-        assert.isTrue(topicChangedSpy.called);
+      await setChangeTopicStub.lastCall.returnValue;
+      assert.equal(element.change!.topic, newTopic);
+      assert.isTrue(topicChangedSpy.called);
+      await waitUntilCalled(alertStub, 'alertStub');
+      assert.deepEqual(alertStub.lastCall.args[0].detail, {
+        message: "Topic 'the new topic' created.",
+        showDismiss: true,
       });
     });
 
@@ -920,6 +927,8 @@ suite('gr-change-metadata tests', () => {
       const setChangeTopicStub = stubRestApi('setChangeTopic').returns(
         Promise.resolve(newTopic)
       );
+      const alertStub = sinon.stub();
+      element.addEventListener('show-alert', alertStub);
       sinon.stub(GerritNav, 'getUrlForTopic').returns('/q/topic:the+new+topic');
       await element.updateComplete;
       const chip = queryAndAssert<GrLinkedChip>(element, 'gr-linked-chip');
@@ -929,10 +938,14 @@ suite('gr-change-metadata tests', () => {
       tap(remove);
       assert.isTrue(chip?.disabled);
       assert.isTrue(setChangeTopicStub.calledWith(42 as NumericChangeId));
-      return setChangeTopicStub.lastCall.returnValue.then(() => {
-        assert.isFalse(chip?.disabled);
-        assert.equal(element.change!.topic, '' as TopicName);
-        assert.isTrue(topicChangedSpy.called);
+      await setChangeTopicStub.lastCall.returnValue;
+      assert.isFalse(chip?.disabled);
+      assert.equal(element.change!.topic, '' as TopicName);
+      assert.isTrue(topicChangedSpy.called);
+      await waitUntilCalled(alertStub, 'alertStub');
+      assert.deepEqual(alertStub.lastCall.args[0].detail, {
+        message: "Topic 'the topic' removed from change.",
+        showDismiss: true,
       });
     });
 
@@ -942,6 +955,8 @@ suite('gr-change-metadata tests', () => {
       const setChangeHashtagStub = stubRestApi('setChangeHashtag').returns(
         Promise.resolve(newHashtag)
       );
+      const alertStub = sinon.stub();
+      element.addEventListener('show-alert', alertStub);
       element.handleHashtagChanged(
         new CustomEvent('test', {detail: 'new hashtag'})
       );
@@ -950,8 +965,12 @@ suite('gr-change-metadata tests', () => {
           add: ['new hashtag' as Hashtag],
         })
       );
-      return setChangeHashtagStub.lastCall.returnValue.then(() => {
-        assert.equal(element.change!.hashtags, newHashtag);
+      await setChangeHashtagStub.lastCall.returnValue;
+      assert.equal(element.change!.hashtags, newHashtag);
+      await waitUntilCalled(alertStub, 'alertStub');
+      assert.deepEqual(alertStub.lastCall.args[0].detail, {
+        message: "Hashtag 'new hashtag' created.",
+        showDismiss: true,
       });
     });
   });

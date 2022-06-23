@@ -18,4 +18,11 @@ public class AccountAttribute {
   public String name;
   public String email;
   public String username;
+  public Integer accountId;
+
+  public AccountAttribute(Integer id) {
+    this.accountId = id;
+  }
+
+  public AccountAttribute() {}
 }

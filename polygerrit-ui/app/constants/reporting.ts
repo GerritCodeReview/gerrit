@@ -128,4 +128,11 @@ export enum Interaction {
   COMMENTS_AUTOCLOSE_CHECKS_UPDATED = 'comments-autoclose-checks-updated',
   COMMENTS_AUTOCLOSE_THREADS_UPDATED = 'comments-autoclose-threads-updated',
   COMMENTS_AUTOCLOSE_COMMENT_REMOVED = 'comments-autoclose-comment-removed',
+  // The following interactions are logged for investigating a spurious bug of
+  // auto-closing diffs.
+  DIFF_AUTOCLOSE_DIFF_UNDEFINED = 'diff-autoclose-diff-undefined',
+  DIFF_AUTOCLOSE_DIFF_ONGOING = 'diff-autoclose-diff-ongoing',
+  DIFF_AUTOCLOSE_RELOAD_ON_WHITESPACE = 'diff-autoclose-reload-on-whitespace',
+  DIFF_AUTOCLOSE_RELOAD_ON_SYNTAX = 'diff-autoclose-reload-on-syntax',
+  DIFF_AUTOCLOSE_RELOAD_FILELIST_PREFS = 'diff-autoclose-reload-filelist-prefs',
 }

@@ -774,7 +774,7 @@ export class GrChecksRuns extends LitElement {
       <div class="${status.toLowerCase()} ${expandedClass}">
         <div class="sectionHeader" @click=${() => this.toggleExpanded(status)}>
           <iron-icon class="expandIcon" icon=${icon}></iron-icon>
-          <h3 class="heading-3">${header}</h3>
+          <h3 class="heading-3">${header} (${runs.length})</h3>
         </div>
         <div class="sectionRuns">${runs.map(run => this.renderRun(run))}</div>
       </div>

@@ -63,7 +63,7 @@ suite('gr-checks-runs test', () => {
               class="expandIcon"
               icon="gr-icons:expand-less"
             ></iron-icon>
-            <h3 class="heading-3">Running / Scheduled</h3>
+            <h3 class="heading-3">Running / Scheduled (2)</h3>
           </div>
           <div class="sectionRuns">
             <gr-checks-run></gr-checks-run>
@@ -76,7 +76,7 @@ suite('gr-checks-runs test', () => {
               class="expandIcon"
               icon="gr-icons:expand-less"
             ></iron-icon>
-            <h3 class="heading-3">Completed</h3>
+            <h3 class="heading-3">Completed (3)</h3>
           </div>
           <div class="sectionRuns">
             <gr-checks-run></gr-checks-run>
@@ -90,7 +90,7 @@ suite('gr-checks-runs test', () => {
               class="expandIcon"
               icon="gr-icons:expand-less"
             ></iron-icon>
-            <h3 class="heading-3">Not run</h3>
+            <h3 class="heading-3">Not run (1)</h3>
           </div>
           <div class="sectionRuns">
             <gr-checks-run></gr-checks-run>

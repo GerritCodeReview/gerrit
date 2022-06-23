@@ -34,6 +34,23 @@
       "parentUuid": "a47242e3_3a6de715",
       "revId": "cfa70c01351e5a80cedc7e94ceb6a7ac8c2b1d88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bd5071f_6420a486",
+        "filename": "java/com/google/gerrit/server/project/LabelConfigValidator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-23T14:46:22Z",
+      "side": 1,
+      "message": "general question: instead of testing that specific combinations are disallowed, should we tighten our checks and reject any configs that are unknown to us?\n\nMaybe that could be a future feature request.",
+      "revId": "cfa70c01351e5a80cedc7e94ceb6a7ac8c2b1d88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e23849ba_f5e8b5d7",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalCopier.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-23T14:46:22Z",
+      "side": 0,
+      "message": "I\u0027m very happy we\u0027re getting rid of all this code. Well done!",
+      "revId": "f78c1fccd972255bb19ed6ac7fa1423356a76ca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0e67772_09246350",
+        "filename": "java/com/google/gerrit/server/cache/serialize/entities/LabelTypeSerializer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-23T14:46:22Z",
+      "side": 0,
+      "message": "I think we don\u0027t need to invalidate the project cache; the code here can still parse the old entities (with all copy* fields, now marked as reserved) and will ignore (i.e. not set) these fields here.",
+      "revId": "f78c1fccd972255bb19ed6ac7fa1423356a76ca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b4f2284_dd7469d6",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateLabelIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-23T14:46:22Z",
+      "side": 0,
+      "message": "Do we have tests covering different predicates for copying?",
+      "revId": "f78c1fccd972255bb19ed6ac7fa1423356a76ca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

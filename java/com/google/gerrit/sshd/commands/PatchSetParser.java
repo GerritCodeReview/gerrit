@@ -15,6 +15,7 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
@@ -52,7 +53,7 @@ public class PatchSetParser {
     this.changeFinder = changeFinder;
   }
 
-  public PatchSet parsePatchSet(String token, ProjectState projectState, String branch)
+  public PatchSet parsePatchSet(String token, ProjectState projectState, BranchNameKey branchKey)
       throws UnloggedFailure {
     // By commit?
     //
@@ -61,8 +62,8 @@ public class PatchSetParser {
       List<ChangeData> cds;
       if (projectState != null) {
         Project.NameKey p = projectState.getNameKey();
-        if (branch != null) {
-          cds = query.byBranchCommit(p.get(), branch, token);
+        if (branchKey != null) {
+          cds = query.byBranchCommit(p.get(), branchKey.branch(), token);
         } else {
           cds = query.byProjectCommit(p, token);
         }
@@ -72,7 +73,7 @@ public class PatchSetParser {
       List<PatchSet> matches = new ArrayList<>(cds.size());
       for (ChangeData cd : cds) {
         Change c = cd.change();
-        if (!(inProject(c, projectState) && inBranch(c, branch))) {
+        if (!(inProject(c, projectState) && inBranch(c, branchKey))) {
           continue;
         }
         for (PatchSet ps : cd.patchSets()) {
@@ -106,13 +107,13 @@ public class PatchSetParser {
       if (patchSet == null) {
         throw error("\"" + token + "\" no such patch set");
       }
-      if (projectState != null || branch != null) {
+      if (projectState != null || branchKey != null) {
         Change change = notes.getChange();
         if (!inProject(change, projectState)) {
           throw error("change " + change.getId() + " not in project " + projectState.getName());
         }
-        if (!inBranch(change, branch)) {
-          throw error("change " + change.getId() + " not in branch " + branch);
+        if (!inBranch(change, branchKey)) {
+          throw error("change " + change.getId() + " not in branch " + branchKey.branch());
         }
       }
       return patchSet;
@@ -141,12 +142,12 @@ public class PatchSetParser {
     return projectState.getNameKey().equals(change.getProject());
   }
 
-  private static boolean inBranch(Change change, String branch) {
+  private static boolean inBranch(Change change, BranchNameKey branch) {
     if (branch == null) {
       // No --branch option, so they want every branch.
       return true;
     }
-    return change.getDest().branch().equals(branch);
+    return change.getDest().equals(branch);
   }
 
   public static UnloggedFailure error(String msg) {

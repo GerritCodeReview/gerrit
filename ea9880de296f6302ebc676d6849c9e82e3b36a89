@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5abf6078_239a2f31",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2022-06-24T13:30:10Z",
+      "side": 1,
+      "message": "Thanks! Do we know why it was disabled in the first place? E.g., was this an optimization or was there some other motivation?",
+      "revId": "ea9880de296f6302ebc676d6849c9e82e3b36a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -49,6 +49,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ca9cf0c7_1f45af85",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1853,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-24T09:36:47Z",
+      "side": 1,
+      "message": "registering",
+      "range": {
+        "startLine": 1853,
+        "startChar": 19,
+        "endLine": 1853,
+        "endChar": 31
+      },
+      "revId": "6d0b1a875a74dbc611cf91ab0d124e8a8fb33dca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "96bf9579_02383d68",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
         "patchSetId": 2
@@ -89,6 +112,52 @@
         "startChar": 8,
         "endLine": 1854,
         "endChar": 53
+      },
+      "revId": "6d0b1a875a74dbc611cf91ab0d124e8a8fb33dca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bbf9b7d_51a2ba33",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1860,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-24T09:36:47Z",
+      "side": 1,
+      "message": "Just interesting, that diffcursor works only when you expand all files and it\u0027s not enough to expand 1 file to have diffcursor",
+      "range": {
+        "startLine": 1860,
+        "startChar": 31,
+        "endLine": 1860,
+        "endChar": 53
+      },
+      "revId": "6d0b1a875a74dbc611cf91ab0d124e8a8fb33dca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd00cbfa_c94b4f5f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1873,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-24T09:36:47Z",
+      "side": 1,
+      "message": "registering",
+      "range": {
+        "startLine": 1873,
+        "startChar": 19,
+        "endLine": 1873,
+        "endChar": 31
       },
       "revId": "6d0b1a875a74dbc611cf91ab0d124e8a8fb33dca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

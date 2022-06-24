@@ -275,6 +275,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "85518ff6_12ceff7e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 45
+      },
+      "lineNbr": 5386,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-24T16:48:25Z",
+      "side": 1,
+      "message": "\u003e Can you update this doc to note that it will \"creates a new change edit or updates an existing change edit\"?\n\nNot done on PS50?",
+      "parentUuid": "c5161b69_f14905e7",
+      "range": {
+        "startLine": 5386,
+        "startChar": 6,
+        "endLine": 5386,
+        "endChar": 7
+      },
+      "revId": "889d456281ee0a84f78e43ff5cc50f90668ca477",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "08a4defe_5af03dba",
         "filename": "java/com/google/gerrit/server/restapi/change/ApplyProvidedFix.java",
         "patchSetId": 45

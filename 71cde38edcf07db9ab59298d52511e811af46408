@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7da2b999_f2959593",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/ApplyProvidedFixIT.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-24T16:48:25Z",
+      "side": 1,
+      "message": "Not done on PS50? Or did you mean \"Ack: Leaving as-is\"?",
+      "parentUuid": "302fea71_e820cf16",
+      "range": {
+        "startLine": 82,
+        "startChar": 14,
+        "endLine": 82,
+        "endChar": 30
+      },
+      "revId": "71cde38edcf07db9ab59298d52511e811af46408",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8eef8e5b_a8036f43",
         "filename": "javatests/com/google/gerrit/acceptance/api/revision/ApplyProvidedFixIT.java",
         "patchSetId": 49
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "8eef8e5b_a8036f43",
+      "range": {
+        "startLine": 461,
+        "startChar": 14,
+        "endLine": 461,
+        "endChar": 48
+      },
+      "revId": "71cde38edcf07db9ab59298d52511e811af46408",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b6b3693_c2460b35",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/ApplyProvidedFixIT.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-24T16:48:25Z",
+      "side": 1,
+      "message": "Not done on PS50?",
+      "parentUuid": "6aa95d87_6c80a35d",
       "range": {
         "startLine": 461,
         "startChar": 14,

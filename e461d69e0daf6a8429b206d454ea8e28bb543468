@@ -46,6 +46,30 @@
       },
       "revId": "e461d69e0daf6a8429b206d454ea8e28bb543468",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c2b2593_9274b943",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyProvidedFix.java",
+        "patchSetId": 48
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-24T16:48:25Z",
+      "side": 1,
+      "message": "Not done on PS50?",
+      "parentUuid": "c58a0082_d59534a8",
+      "range": {
+        "startLine": 96,
+        "startChar": 26,
+        "endLine": 96,
+        "endChar": 37
+      },
+      "revId": "e461d69e0daf6a8429b206d454ea8e28bb543468",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

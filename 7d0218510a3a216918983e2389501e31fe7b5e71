@@ -49,6 +49,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a715e755_67efbdb0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-24T09:08:36Z",
+      "side": 1,
+      "message": "Typo, I meant:\n\n  see package: javatests/com/google/gerrit/integration",
+      "parentUuid": "44308ed8_8bc33563",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 52
+      },
+      "revId": "7d0218510a3a216918983e2389501e31fe7b5e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f549b13d_03844c78",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

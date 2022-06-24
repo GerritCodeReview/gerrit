@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9daccd0e_f8c4caab",
+        "filename": "project.config",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-24T10:12:17Z",
+      "side": 1,
+      "message": "I believe it is good to have this check also on stable branches: if we change something on a stable branch on entities or notedb we have to declare that we checked and verified the FW-COMPATIBLE side of it.\n\nI am wondering if the author self-declaring that the change is FW-COMPATIBLE is enough, or we need a FW-COMPATIBLE label instead?",
+      "range": {
+        "startLine": 120,
+        "startChar": 16,
+        "endLine": 120,
+        "endChar": 40
+      },
+      "revId": "5a6650e91a05f2e307e5807d8dfb23d3c4d6efb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

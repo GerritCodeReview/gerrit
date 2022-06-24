@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6152c484_d25740b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-06-24T12:00:02Z",
+      "side": 1,
+      "message": "I don\u0027t understand this sentence, maybe some punctuation is missing ?",
+      "revId": "31cd9161e583d0c7f346ffc26f6a0bc237f495e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c17ada34_ea199438",
+        "filename": "java/com/google/gerrit/server/util/GuiceRequestScopePropagator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-06-24T12:00:02Z",
+      "side": 1,
+      "message": "Is the result cached ? There is only one such class.",
+      "revId": "31cd9161e583d0c7f346ffc26f6a0bc237f495e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

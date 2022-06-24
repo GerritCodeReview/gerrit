@@ -16,6 +16,7 @@ package com.google.gerrit.index;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.CharMatcher;
@@ -27,11 +28,17 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.SchemaFieldDefs.Getter;
 import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import com.google.gerrit.index.SchemaFieldDefs.Setter;
+import com.google.gerrit.proto.Protos;
+import com.google.protobuf.MessageLite;
 import java.io.IOException;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 /**
  * Definition of a field stored in the secondary index.
@@ -63,6 +70,9 @@ public abstract class IndexedField<I, T> {
   public static TypeToken<byte[]> BYTE_ARRAY_TYPE = new TypeToken<>() {};
   public static TypeToken<Iterable<byte[]>> ITERABLE_BYTE_ARRAY_TYPE = new TypeToken<>() {};
   public static TypeToken<Timestamp> TIMESTAMP_TYPE = new TypeToken<>() {};
+
+  // Should not be used directly, only used to check if the proto is stored
+  private static TypeToken<MessageLite> MESSAGE_TYPE = new TypeToken<>() {};
 
   public static <I, T> Builder<I, T> builder(String name, TypeToken<T> fieldType) {
     return new AutoValue_IndexedField.Builder<I, T>()
@@ -427,7 +437,63 @@ public abstract class IndexedField<I, T> {
       checkState(!repeatable(), "can't repeat timestamp values");
       fieldSetter().get().set(object, (T) doc.asTimestamp());
       return true;
+    } else if (isProtoType()) {
+      MessageLite proto = doc.asProto();
+      if (proto != null) {
+        fieldSetter().get().set(object, (T) proto);
+        return true;
+      }
+      byte[] bytes = doc.asByteArray();
+      if (bytes != null && protoConverter().isPresent()) {
+        fieldSetter().get().set(object, (T) parseProtoFrom(bytes));
+        return true;
+      }
+    } else if (isProtoIterableType()) {
+      Iterable<MessageLite> protos = doc.asProtos();
+      if (protos != null) {
+        fieldSetter().get().set(object, (T) protos);
+        return true;
+      }
+      Iterable<byte[]> bytes = doc.asByteArrays();
+      if (bytes != null && protoConverter().isPresent()) {
+        fieldSetter().get().set(object, (T) decodeProtos(bytes));
+        return true;
+      }
     }
     return false;
+  }
+
+  /** Returns true if the {@link #fieldType} is a proto message. */
+  public boolean isProtoType() {
+    if (repeatable()) {
+      return false;
+    }
+    return MESSAGE_TYPE.isSupertypeOf(fieldType());
+  }
+
+  /** Returns true if the {@link #fieldType} is a list of proto messages. */
+  public boolean isProtoIterableType() {
+    if (!repeatable()) {
+      return false;
+    }
+    if (!(fieldType().getType() instanceof ParameterizedType)) {
+      return false;
+    }
+    ParameterizedType parameterizedType = (ParameterizedType) fieldType().getType();
+    if (parameterizedType.getActualTypeArguments().length != 1) {
+      return false;
+    }
+    Type type = parameterizedType.getActualTypeArguments()[0];
+    return MESSAGE_TYPE.isSupertypeOf(type);
+  }
+
+  private List<MessageLite> decodeProtos(Iterable<byte[]> raw) {
+    return StreamSupport.stream(raw.spliterator(), false)
+        .map(bytes -> parseProtoFrom(bytes))
+        .collect(toImmutableList());
+  }
+
+  private MessageLite parseProtoFrom(byte[] bytes) {
+    return Protos.parseUnchecked(protoConverter().get().getParser(), bytes);
   }
 }

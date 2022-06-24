@@ -519,8 +519,10 @@ suite('gr-change-view tests', () => {
       );
       const primaryTabs = element.shadowRoot!.querySelector('#primaryTabs')!;
       const paperTabs = primaryTabs.querySelectorAll<HTMLElement>('paper-tab');
-      // 4 Tabs are : Files, Comment Threads, Plugin, Findings
-      assert.equal(primaryTabs.querySelectorAll('paper-tab').length, 4);
+      // 4 Tabs are : Files, Comment Threads, Plugin
+      assert.equal(primaryTabs.querySelectorAll('paper-tab').length, 3);
+      assert.equal(paperTabs[0].dataset.name, 'files');
+      assert.equal(paperTabs[1].dataset.name, 'comments');
       assert.equal(paperTabs[2].dataset.name, 'change-view-tab-header-url');
     });
 
@@ -555,10 +557,10 @@ suite('gr-change-view tests', () => {
       element.params = {
         ...createAppElementChangeViewParams(),
         ...element.params,
-        tab: PrimaryTab.FINDINGS,
+        tab: PrimaryTab.COMMENT_THREADS,
       };
       await element.updateComplete;
-      assert.equal(element.activeTabs[0], PrimaryTab.FINDINGS);
+      assert.equal(element.activeTabs[0], PrimaryTab.COMMENT_THREADS);
     });
 
     test('invalid param change should not switch primary tab', async () => {
@@ -893,7 +895,10 @@ suite('gr-change-view tests', () => {
       element.commentThreads = THREADS;
       await element.updateComplete;
       const paperTabs = element.shadowRoot!.querySelector('#primaryTabs')!;
-      tap(paperTabs.querySelectorAll('paper-tab')[1]);
+      const tabs = paperTabs.querySelectorAll('paper-tab');
+      assert.isTrue(tabs.length > 1);
+      assert.equal(tabs[1].dataset.name, 'comments');
+      tap(tabs[1]);
       await element.updateComplete;
     });
 
@@ -927,9 +932,13 @@ suite('gr-change-view tests', () => {
         current_revision: 'rev4' as CommitId,
       };
       element.commentThreads = THREADS;
+      element.showFindingsTab = true;
       await element.updateComplete;
       const paperTabs = element.shadowRoot!.querySelector('#primaryTabs')!;
-      tap(paperTabs.querySelectorAll('paper-tab')[3]);
+      const tabs = paperTabs.querySelectorAll('paper-tab');
+      assert.isTrue(tabs.length > 3);
+      assert.equal(tabs[3].dataset.name, 'findings');
+      tap(tabs[3]);
       await element.updateComplete;
     });
 

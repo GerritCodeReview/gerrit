@@ -226,6 +226,16 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
     commentState => commentState.comments
   );
 
+  public readonly robotComments$ = select(
+    this.state$,
+    commentState => commentState.robotComments
+  );
+
+  public readonly robotCommentCount$ = select(
+    this.robotComments$,
+    robotComments => Object.values(robotComments ?? {}).flat().length
+  );
+
   public readonly drafts$ = select(
     this.state$,
     commentState => commentState.drafts

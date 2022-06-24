@@ -15,14 +15,22 @@
 package com.google.gerrit.index.testing;
 
 import com.google.gerrit.index.StoredValue;
+import com.google.protobuf.MessageLite;
 import java.sql.Timestamp;
 
 /** Bridge to recover fields from the fake index. */
 public class FakeStoredValue implements StoredValue {
   private final Object field;
+  private final boolean isProto;
 
   public FakeStoredValue(Object field) {
     this.field = field;
+    this.isProto = false;
+  }
+
+  public FakeStoredValue(Object field, boolean isProto) {
+    this.field = field;
+    this.isProto = isProto;
   }
 
   @Override
@@ -66,6 +74,22 @@ public class FakeStoredValue implements StoredValue {
   @Override
   public byte[] asByteArray() {
     return (byte[]) field;
+  }
+
+  @Override
+  public MessageLite asProto() {
+    if (isProto) {
+      return (MessageLite) field;
+    }
+    return null;
+  }
+
+  @Override
+  public Iterable<MessageLite> asProtos() {
+    if (isProto) {
+      return (Iterable<MessageLite>) field;
+    }
+    return null;
   }
 
   @Override

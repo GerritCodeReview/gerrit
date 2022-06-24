@@ -96,7 +96,7 @@ public class SuggestReviewers {
     if ("OFF".equalsIgnoreCase(suggest) || "false".equalsIgnoreCase(suggest)) {
       this.suggestAccounts = false;
     } else {
-      this.suggestAccounts = (av != AccountVisibility.NONE);
+      this.suggestAccounts = true;
     }
 
     this.maxAllowed =

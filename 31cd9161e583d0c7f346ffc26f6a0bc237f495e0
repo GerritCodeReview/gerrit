@@ -87,6 +87,24 @@
       "parentUuid": "c17ada34_ea199438",
       "revId": "31cd9161e583d0c7f346ffc26f6a0bc237f495e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e79cf49_a5343fc6",
+        "filename": "java/com/google/gerrit/server/util/GuiceRequestScopePropagator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-06-24T13:53:55Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a75284ef_eb31c75d",
+      "revId": "31cd9161e583d0c7f346ffc26f6a0bc237f495e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

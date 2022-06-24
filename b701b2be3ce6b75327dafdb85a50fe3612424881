@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de906845_d40f4e10",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-side-by-side.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-24T07:46:23Z",
+      "side": 1,
+      "message": "Maybe add more information to the comment. Why is this a hack? Is this going to be replace by something better? Or is this \"hack\" expected to be long-lived? What would a perfect solution roughly look like?",
+      "revId": "b701b2be3ce6b75327dafdb85a50fe3612424881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e74f0b65_75182c14",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-side-by-side.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-24T07:46:23Z",
+      "side": 1,
+      "message": "Optional nit:\n\nPersonally I would prefer `left-button-123` or at least `leftButton-123`. Same for the content id.",
+      "range": {
+        "startLine": 114,
+        "startChar": 35,
+        "endLine": 114,
+        "endChar": 45
+      },
+      "revId": "b701b2be3ce6b75327dafdb85a50fe3612424881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf16bf8e_bffff8c1",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-24T07:46:23Z",
+      "side": 1,
+      "message": "Optional nit:\n\nMaybe make this parameter required, because there is only one caller.\n\nMaybe use the line number as the parameter and let this function decide the format of the id.",
+      "revId": "b701b2be3ce6b75327dafdb85a50fe3612424881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

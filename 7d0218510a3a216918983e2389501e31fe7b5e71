@@ -266,6 +266,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "27542163_2cbed12e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-06-24T09:52:53Z",
+      "side": 1,
+      "message": "Moved to stable-3.4",
+      "parentUuid": "9d83a2db_8043fc95",
+      "revId": "7d0218510a3a216918983e2389501e31fe7b5e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "efe3dea7_94da97af",

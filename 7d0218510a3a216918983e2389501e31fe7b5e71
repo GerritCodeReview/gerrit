@@ -22,6 +22,126 @@
       },
       "revId": "7d0218510a3a216918983e2389501e31fe7b5e71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44308ed8_8bc33563",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-24T09:06:17Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we try to have test coverage for that?\n\nWe introduced integration tests, see package: `java/com/google/gerrit/server/util/GuiceRequestScopePropagator.java` where we already do extensive integration tests for git and ssh. Could the missing test be implemented similarly, by extending the existing or writing a new integration test?",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 52
+      },
+      "revId": "7d0218510a3a216918983e2389501e31fe7b5e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f549b13d_03844c78",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-24T09:06:17Z",
+      "side": 1,
+      "message": "Is the whole stack trace really needed or could it be shorten to a couple of lines?",
+      "revId": "7d0218510a3a216918983e2389501e31fe7b5e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57c215cb_3c670867",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-24T09:06:17Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this fix be targeting the oldest supported stable branch (stable-3.4) an be merged up to master?",
+      "revId": "7d0218510a3a216918983e2389501e31fe7b5e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efe3dea7_94da97af",
+        "filename": "java/com/google/gerrit/server/util/GuiceRequestScopePropagator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-24T09:06:17Z",
+      "side": 1,
+      "message": "requestProvider?",
+      "range": {
+        "startLine": 40,
+        "startChar": 45,
+        "endLine": 40,
+        "endChar": 52
+      },
+      "revId": "7d0218510a3a216918983e2389501e31fe7b5e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4276c36_17d2c769",
+        "filename": "java/com/google/gerrit/server/util/GuiceRequestScopePropagator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-24T09:06:17Z",
+      "side": 1,
+      "message": "Nit: Unneeded new line.",
+      "revId": "7d0218510a3a216918983e2389501e31fe7b5e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "762831b4_4d08768f",
+        "filename": "java/com/google/gerrit/server/util/GuiceRequestScopePropagator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-24T09:06:17Z",
+      "side": 1,
+      "message": "Optional: leave a comment why we do this?",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 58,
+        "endChar": 5
+      },
+      "revId": "7d0218510a3a216918983e2389501e31fe7b5e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

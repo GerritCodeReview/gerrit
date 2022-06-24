@@ -427,6 +427,39 @@ public interface ChangeApi {
 
   ChangeInfo check(FixInput fix) throws RestApiException;
 
+  abstract class CheckSubmitRequirementRequest {
+    /** Submit requirement name. */
+    private String name;
+
+    /**
+     * A change number in {@link com.google.gerrit.entities.RefNames#REFS_CONFIG} branch from which
+     * the submit-requirement will be loaded.
+     */
+    private Integer refsConfigChangeNumber;
+
+    public abstract SubmitRequirementResultInfo get() throws RestApiException;
+
+    public CheckSubmitRequirementRequest srName(String srName) {
+      this.name = srName;
+      return this;
+    }
+
+    public CheckSubmitRequirementRequest refsConfigChangeNumber(Integer changeNumber) {
+      this.refsConfigChangeNumber = changeNumber;
+      return this;
+    }
+
+    protected String srName() {
+      return name;
+    }
+
+    protected Integer getRefsConfigChangeNumber() {
+      return refsConfigChangeNumber;
+    }
+  }
+
+  CheckSubmitRequirementRequest checkSubmitRequirementRequest() throws RestApiException;
+
   /** Returns the result of evaluating the {@link SubmitRequirementInput} input on the change. */
   SubmitRequirementResultInfo checkSubmitRequirement(SubmitRequirementInput input)
       throws RestApiException;
@@ -763,6 +796,11 @@ public interface ChangeApi {
 
     @Override
     public ChangeInfo check(FixInput fix) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public CheckSubmitRequirementRequest checkSubmitRequirementRequest() throws RestApiException {
       throw new NotImplementedException();
     }
 

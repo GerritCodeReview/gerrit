@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.common.UsedAt.Project.PLUGIN_GIT_REPO_METRICS;
 
 import com.google.gerrit.common.UsedAt;
 import java.io.File;
@@ -65,7 +66,8 @@ public class DelegateRepository extends Repository {
     this.delegate = delegate;
   }
 
-  Repository delegate() {
+  @UsedAt(PLUGIN_GIT_REPO_METRICS)
+  public Repository delegate() {
     return delegate;
   }
 

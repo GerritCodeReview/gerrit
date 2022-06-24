@@ -43,6 +43,7 @@ public @interface UsedAt {
     PLUGIN_HIGH_AVAILABILITY,
     PLUGIN_MULTI_SITE,
     PLUGIN_WEBSESSION_FLATFILE,
+    PLUGIN_GIT_REPO_METRICS,
     PLUGINS_ALL, // Use this project if a method/type is generally made available to all plugins.
   }
 

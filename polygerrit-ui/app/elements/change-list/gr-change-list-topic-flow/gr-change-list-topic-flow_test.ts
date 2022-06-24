@@ -5,12 +5,14 @@
  */
 import {fixture, html} from '@open-wc/testing-helpers';
 import {IronDropdownElement} from '@polymer/iron-dropdown';
+import {SinonStubbedMember} from 'sinon';
 import {
   BulkActionsModel,
   bulkActionsModelToken,
 } from '../../../models/bulk-actions/bulk-actions-model';
 import {wrapInProvider} from '../../../models/di-provider-element';
 import {getAppContext} from '../../../services/app-context';
+import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import '../../../test/common-test-setup-karma';
 import {createChange} from '../../../test/test-data-generators';
 import {
@@ -19,6 +21,7 @@ import {
   query,
   queryAll,
   queryAndAssert,
+  stubReporting,
   stubRestApi,
   waitUntil,
   waitUntilCalled,
@@ -33,6 +36,11 @@ import type {GrChangeListTopicFlow} from './gr-change-list-topic-flow';
 suite('gr-change-list-topic-flow tests', () => {
   let element: GrChangeListTopicFlow;
   let model: BulkActionsModel;
+  let reportingStub: SinonStubbedMember<ReportingService['reportInteraction']>;
+
+  setup(() => {
+    reportingStub = stubReporting('reportInteraction');
+  });
 
   async function selectChange(change: ChangeInfo) {
     model.addSelectedChangeNum(change._number);
@@ -338,6 +346,10 @@ suite('gr-change-list-topic-flow tests', () => {
         message: 'topic1 removed from changes',
         showDismiss: true,
       });
+      assert.deepEqual(reportingStub.lastCall.args[1], {
+        type: 'removing-topic',
+        selectedChangeCount: 2,
+      });
     });
 
     test('remove multiple topics', async () => {
@@ -447,6 +459,10 @@ suite('gr-change-list-topic-flow tests', () => {
       assert.deepEqual(alertStub.lastCall.args[0].detail, {
         message: 'topic1 applied to all changes',
         showDismiss: true,
+      });
+      assert.deepEqual(reportingStub.lastCall.args[1], {
+        type: 'apply-topic-to-all',
+        selectedChangeCount: 2,
       });
     });
   });
@@ -617,6 +633,10 @@ suite('gr-change-list-topic-flow tests', () => {
         message: 'foo created',
         showDismiss: true,
       });
+      assert.deepEqual(reportingStub.lastCall.args[1], {
+        type: 'add-topic',
+        selectedChangeCount: 2,
+      });
     });
 
     test('shows error when create topic fails', async () => {
@@ -699,6 +719,10 @@ suite('gr-change-list-topic-flow tests', () => {
       assert.deepEqual(alertStub.lastCall.args[0].detail, {
         message: '2 Changes added to foo',
         showDismiss: true,
+      });
+      assert.deepEqual(reportingStub.lastCall.args[1], {
+        type: 'add-topic',
+        selectedChangeCount: 2,
       });
     });
 

@@ -99,6 +99,7 @@ public class StaticModule extends ServletModule {
 
   private static final String DOC_SERVLET = "DocServlet";
   private static final String FAVICON_SERVLET = "FaviconServlet";
+  private static final String SERVICE_WORKER_SERVLET = "ServiceWorkerServlet";
   private static final String POLYGERRIT_INDEX_SERVLET = "PolyGerritUiIndexServlet";
   private static final String ROBOTS_TXT_SERVLET = "RobotsTxtServlet";
 
@@ -167,6 +168,7 @@ public class StaticModule extends ServletModule {
     public void configureServlets() {
       serve("/robots.txt").with(named(ROBOTS_TXT_SERVLET));
       serve("/favicon.ico").with(named(FAVICON_SERVLET));
+      serve("/service-worker.js").with(named(SERVICE_WORKER_SERVLET));
     }
 
     @Provides
@@ -199,6 +201,17 @@ public class StaticModule extends ServletModule {
         return new SingleFileServlet(cache, p.warFs.getPath("/favicon.ico"), false);
       }
       return new SingleFileServlet(cache, webappSourcePath("favicon.ico"), true);
+    }
+
+    @Provides
+    @Singleton
+    @Named(SERVICE_WORKER_SERVLET)
+    HttpServlet getFaviconServlet(@Named(CACHE) Cache<Path, Resource> cache) {
+      Paths p = getPaths();
+      if (p.warFs != null) {
+        return new SingleFileServlet(cache, p.warFs.getPath("/workers/service-worker.js"), false);
+      }
+      return new SingleFileServlet(cache, webappSourcePath("workers/service-worker.js"), true);
     }
 
     private Path webappSourcePath(String name) {

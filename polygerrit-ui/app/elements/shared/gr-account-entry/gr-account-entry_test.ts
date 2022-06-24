@@ -9,7 +9,7 @@ import {GrAccountEntry} from './gr-account-entry';
 import {fixture, html} from '@open-wc/testing-helpers';
 import {queryAndAssert, waitUntil} from '../../../test/test-utils';
 import {GrAutocomplete} from '../gr-autocomplete/gr-autocomplete';
-import {PaperInputElementExt} from '../../../types/types';
+import {PaperInputElement} from '@polymer/paper-input/paper-input';
 
 suite('gr-account-entry tests', () => {
   let element: GrAccountEntry;
@@ -56,7 +56,7 @@ suite('gr-account-entry tests', () => {
 
     const input = queryAndAssert<GrAutocomplete>(element, '#input');
     assert.equal(
-      queryAndAssert<PaperInputElementExt>(input, '#input').value,
+      queryAndAssert<PaperInputElement>(input, '#input').value,
       'test text'
     );
     assert.isFalse(suggestStub.called);

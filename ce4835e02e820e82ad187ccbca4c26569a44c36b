@@ -22,6 +22,30 @@
       },
       "revId": "ce4835e02e820e82ad187ccbca4c26569a44c36b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d1b1572_e7b90ddf",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-24T08:32:29Z",
+      "side": 1,
+      "message": "It\u0027s used in other places as well as a follow up change hence I created Change 339778 for it.",
+      "parentUuid": "a6257709_4f766555",
+      "range": {
+        "startLine": 346,
+        "startChar": 44,
+        "endLine": 346,
+        "endChar": 58
+      },
+      "revId": "ce4835e02e820e82ad187ccbca4c26569a44c36b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

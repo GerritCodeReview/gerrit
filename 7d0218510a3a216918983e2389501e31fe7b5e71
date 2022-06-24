@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b383bb0_77f7e278",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-06-24T09:45:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b18ffe28_33ded325",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 17
+      },
+      "revId": "7d0218510a3a216918983e2389501e31fe7b5e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "44308ed8_8bc33563",
@@ -173,6 +197,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e5e519a6_202c6926",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-06-24T09:45:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7af1be76_ad93dec5",
+      "revId": "7d0218510a3a216918983e2389501e31fe7b5e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "57c215cb_3c670867",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -284,6 +326,24 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "a4276c36_17d2c769",
+      "revId": "7d0218510a3a216918983e2389501e31fe7b5e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34493bac_e9923313",
+        "filename": "java/com/google/gerrit/server/util/GuiceRequestScopePropagator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-06-24T09:45:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68f6b41b_260ddacf",
       "revId": "7d0218510a3a216918983e2389501e31fe7b5e71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

@@ -21,6 +21,7 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.a
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.testing.TestLabels.label;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -66,6 +67,7 @@ import com.google.gerrit.extensions.common.SubmitRequirementExpressionInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementInput;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo.Status;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.httpd.raw.IndexPreloadingUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -82,10 +84,12 @@ import java.util.Optional;
 import java.util.stream.IntStream;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
+import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.junit.Test;
 
@@ -141,6 +145,159 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
       assertThat(label.status).isEqualTo(SubmitRecordInfo.Label.Status.OK);
       assertThat(label.appliedBy._accountId).isEqualTo(admin.id().get());
     }
+  }
+
+  @Test
+  public void checkSubmitRequirement_fromRefsConfigChange_satisfied() throws Exception {
+    String oldHead = projectOperations.project(project).getHead("master").name();
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.OWNER).ref("refs/*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref("refs/for/refs/meta/config").group(REGISTERED_USERS))
+        .add(allow(Permission.READ).ref("refs/meta/config").group(REGISTERED_USERS))
+        .add(allow(Permission.SUBMIT).ref(RefNames.REFS_CONFIG).group(REGISTERED_USERS))
+        .update();
+    fetchRefsMetaConfig();
+    PushOneCommit.Result configResult =
+        createConfigChangeWithSubmitRequirement("Foo", "label:Code-Review=+2");
+
+    // Upload a normal change. Check the SR against it.
+    testRepo.reset(oldHead);
+    PushOneCommit.Result r2 = createChange();
+    String changeId = r2.getChangeId();
+    SubmitRequirementResultInfo info =
+        gApi.changes()
+            .id(changeId)
+            .checkSubmitRequirementRequest()
+            .srName("Foo")
+            .refsConfigChangeId(configResult.getChange().getId().toString())
+            .get();
+    assertThat(info.status).isEqualTo(SubmitRequirementResultInfo.Status.UNSATISFIED);
+    voteLabel(changeId, "Code-Review", 2);
+    info =
+        gApi.changes()
+            .id(changeId)
+            .checkSubmitRequirementRequest()
+            .srName("Foo")
+            .refsConfigChangeId(configResult.getChange().getId().toString())
+            .get();
+    assertThat(info.status).isEqualTo(SubmitRequirementResultInfo.Status.SATISFIED);
+  }
+
+  @Test
+  public void checkSubmitRequirement_fromRefsConfigChange_failsForNonExistingSR() throws Exception {
+    String oldHead = projectOperations.project(project).getHead("master").name();
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.OWNER).ref("refs/*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref("refs/for/refs/meta/config").group(REGISTERED_USERS))
+        .add(allow(Permission.READ).ref("refs/meta/config").group(REGISTERED_USERS))
+        .add(allow(Permission.SUBMIT).ref(RefNames.REFS_CONFIG).group(REGISTERED_USERS))
+        .update();
+    fetchRefsMetaConfig();
+    PushOneCommit.Result configResult =
+        createConfigChangeWithSubmitRequirement("Foo", "label:Code-Review=+2");
+
+    // Upload a normal change. Check the SR against it.
+    testRepo.reset(oldHead);
+    PushOneCommit.Result r2 = createChange();
+    String changeId = r2.getChangeId();
+    Exception thrown =
+        assertThrows(
+            BadRequestException.class,
+            () ->
+                gApi.changes()
+                    .id(changeId)
+                    .checkSubmitRequirementRequest()
+                    .srName("Bar")
+                    .refsConfigChangeId(configResult.getChange().getId().toString())
+                    .get());
+    assertThat(thrown).hasMessageThat().isEqualTo("No submit requirement matching name 'Bar'");
+  }
+
+  @Test
+  public void checkSubmitRequirement_notAllowedFromNonRefsConfigChange() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    Exception thrown =
+        assertThrows(
+            BadRequestException.class,
+            () ->
+                gApi.changes()
+                    .id(changeId)
+                    .checkSubmitRequirementRequest()
+                    .srName("Foo")
+                    .refsConfigChangeId(r.getChange().getId().toString())
+                    .get());
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo(
+            String.format(
+                "Change '%s' is not in refs/meta/config branch.", r.getChange().getId().get()));
+  }
+
+  @Test
+  public void checkSubmitRequirement_notAllowedFromNonExistingChange() throws Exception {
+    String invalidChangeNumber = "2134789";
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    Exception thrown =
+        assertThrows(
+            BadRequestException.class,
+            () ->
+                gApi.changes()
+                    .id(changeId)
+                    .checkSubmitRequirementRequest()
+                    .srName("Foo")
+                    .refsConfigChangeId(invalidChangeNumber)
+                    .get());
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo(String.format("Change '%s' does not exist", invalidChangeNumber));
+  }
+
+  @Test
+  public void checkSubmitRequirement_fromRefsConfigChange_failsIfBothParametersAreNotSet()
+      throws Exception {
+    String oldHead = projectOperations.project(project).getHead("master").name();
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.OWNER).ref("refs/*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref("refs/for/refs/meta/config").group(REGISTERED_USERS))
+        .add(allow(Permission.READ).ref("refs/meta/config").group(REGISTERED_USERS))
+        .add(allow(Permission.SUBMIT).ref(RefNames.REFS_CONFIG).group(REGISTERED_USERS))
+        .update();
+    fetchRefsMetaConfig();
+    PushOneCommit.Result configResult =
+        createConfigChangeWithSubmitRequirement("Foo", "label:Code-Review=+2");
+
+    // Upload a normal change. Check the SR against it.
+    testRepo.reset(oldHead);
+    PushOneCommit.Result r2 = createChange();
+    String changeId = r2.getChangeId();
+    Exception thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.changes().id(changeId).checkSubmitRequirementRequest().srName("Bar").get());
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo("Both 'sr-name' and 'refs-config-change-id' parameters must be set");
+
+    thrown =
+        assertThrows(
+            BadRequestException.class,
+            () ->
+                gApi.changes()
+                    .id(changeId)
+                    .checkSubmitRequirementRequest()
+                    .refsConfigChangeId(configResult.getChangeId())
+                    .get());
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo("Both 'sr-name' and 'refs-config-change-id' parameters must be set");
   }
 
   @Test
@@ -2913,5 +3070,31 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
     ci.line = 1;
     in.comments = ImmutableMap.of("foo", ImmutableList.of(ci));
     gApi.changes().id(changeId).current().review(in);
+  }
+
+  private void fetchRefsMetaConfig() throws Exception {
+    git().fetch().setRefSpecs(new RefSpec("refs/meta/config:refs/meta/config")).call();
+    testRepo.reset(RefNames.REFS_CONFIG);
+  }
+
+  private PushOneCommit.Result createConfigChangeWithSubmitRequirement(
+      String srName, String submitExpression) throws Exception {
+    Config cfg = projectOperations.project(project).getConfig();
+    cfg.setString(
+        ProjectConfig.SUBMIT_REQUIREMENT,
+        srName,
+        ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
+        submitExpression);
+    return createConfigChange(cfg);
+  }
+
+  private PushOneCommit.Result createConfigChange(Config cfg) throws Exception {
+    PushOneCommit.Result r =
+        pushFactory
+            .create(
+                admin.newIdent(), testRepo, "Update project config", "project.config", cfg.toText())
+            .to("refs/for/refs/meta/config");
+    r.assertOkStatus();
+    return r;
   }
 }

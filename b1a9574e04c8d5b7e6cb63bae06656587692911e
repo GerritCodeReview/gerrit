@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "066e80e7_cb59ede2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-24T17:14:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb3fd181_6920de54",
+      "range": {
+        "startLine": 248,
+        "startChar": 0,
+        "endLine": 252,
+        "endChar": 0
+      },
+      "revId": "b1a9574e04c8d5b7e6cb63bae06656587692911e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cc7495ed_a3fbc0ab",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-06-24T09:36:35Z",
       "side": 1,
       "message": "reflow text to avoid overflowing line limit. I use a vscode extension called Rewrap",
+      "range": {
+        "startLine": 166,
+        "startChar": 80,
+        "endLine": 166,
+        "endChar": 81
+      },
+      "revId": "b1a9574e04c8d5b7e6cb63bae06656587692911e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ac621af_337a6b85",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-24T17:14:47Z",
+      "side": 1,
+      "message": "Thanks for the tip!",
+      "parentUuid": "cc7495ed_a3fbc0ab",
       "range": {
         "startLine": 166,
         "startChar": 80,

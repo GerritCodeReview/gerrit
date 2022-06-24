@@ -14,25 +14,35 @@
 
 package com.google.gerrit.server.index;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.reflect.TypeToken;
+import com.google.gerrit.entities.converter.ChangeProtoConverter;
 import com.google.gerrit.index.IndexedField;
 import com.google.gerrit.index.IndexedField.SearchSpec;
 import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import com.google.gerrit.index.StoredValue;
 import com.google.gerrit.index.testing.FakeStoredValue;
+import com.google.gerrit.proto.Entities;
+import com.google.gerrit.proto.Entities.Change;
+import com.google.gerrit.proto.Entities.Change_Id;
+import com.google.gerrit.proto.Protos;
+import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.List;
+import java.util.Map.Entry;
 import org.junit.Test;
+import org.junit.experimental.theories.DataPoints;
+import org.junit.experimental.theories.FromDataPoints;
+import org.junit.experimental.theories.Theories;
+import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
 
 /** Tests for {@link com.google.gerrit.index.IndexedField} */
-@RunWith(Parameterized.class)
+@RunWith(Theories.class)
 public class IndexedFieldTest {
 
   static class TestIndexedData {
@@ -82,28 +92,126 @@ public class IndexedFieldTest {
 
   static SearchSpec STORED_BYTE_SPEC = STORED_BYTE_FIELD.storedOnly("test");
 
-  @Parameter(0)
-  public SchemaField schemaField;
+  static IndexedField<TestIndexedData, Entities.Change> STORED_PROTO_FIELD =
+      IndexedField.<TestIndexedData, Entities.Change>builder(
+              "TestChange", new TypeToken<Entities.Change>() {})
+          .stored()
+          .build(
+              testData -> (Entities.Change) testData.getTestField(),
+              (testData, field) -> testData.setTestField(field),
+              ChangeProtoConverter.INSTANCE);
 
-  @Parameter(1)
-  public Object docValue;
+  static SearchSpec STORED_PROTO_FIELD_SPEC = STORED_PROTO_FIELD.storedOnly("test_change");
 
-  @Parameters
-  public static Collection<Object[]> data() {
-    return Arrays.asList(
-        new Object[][] {
-          {INTEGER_FIELD_SPEC, 123456},
-          {ITERABLE_STRING_FIELD_SPEC, ImmutableList.of("123456")},
-          {ITERABLE_STORED_BYTE_SPEC, ImmutableList.of("123456".getBytes(StandardCharsets.UTF_8))},
-          {STORED_BYTE_SPEC, "123456".getBytes(StandardCharsets.UTF_8)},
-        });
+  static IndexedField<TestIndexedData, Iterable<Entities.Change>> ITERABLE_STORED_PROTO_FIELD =
+      IndexedField.<TestIndexedData, Iterable<Entities.Change>>builder(
+              "TestChange", new TypeToken<Iterable<Entities.Change>>() {})
+          .stored()
+          .build(
+              testData -> (Iterable<Entities.Change>) testData.getTestField(),
+              (testData, field) -> testData.setTestField(field),
+              ChangeProtoConverter.INSTANCE);
+
+  static SearchSpec ITERABLE_PROTO_FIELD_SPEC =
+      ITERABLE_STORED_PROTO_FIELD.storedOnly("test_change");
+
+  @DataPoints("nonProtoTypes")
+  public static final ImmutableList<Entry<IndexedField.SearchSpec, Serializable>>
+      fieldToStoredValue =
+          ImmutableMap.of(
+                  INTEGER_FIELD_SPEC,
+                  123456,
+                  ITERABLE_STRING_FIELD_SPEC,
+                  ImmutableList.of("123456"),
+                  ITERABLE_STORED_BYTE_SPEC,
+                  ImmutableList.of("123456".getBytes(StandardCharsets.UTF_8)),
+                  STORED_BYTE_SPEC,
+                  "123456".getBytes(StandardCharsets.UTF_8))
+              .entrySet()
+              .asList();
+
+  @DataPoints("protoTypes")
+  public static final ImmutableList<Entry<IndexedField.SearchSpec, Serializable>>
+      protoFieldToStoredValue =
+          ImmutableMap.of(
+                  STORED_PROTO_FIELD_SPEC,
+                  createChangeProto(12345),
+                  ITERABLE_PROTO_FIELD_SPEC,
+                  ImmutableList.of(createChangeProto(12345), createChangeProto(54321)))
+              .entrySet()
+              .asList();
+
+  @Theory
+  public void testSetIfPossible(
+      @FromDataPoints("nonProtoTypes") Entry<SearchSpec, Object> fieldToStoredValue) {
+    Object docValue = fieldToStoredValue.getValue();
+    SchemaField searchSpec = fieldToStoredValue.getKey();
+    StoredValue storedValue = new FakeStoredValue(fieldToStoredValue.getValue());
+    TestIndexedData testIndexedData = new TestIndexedData();
+    searchSpec.setIfPossible(testIndexedData, storedValue);
+    assertThat(testIndexedData.getTestField()).isEqualTo(docValue);
+  }
+
+  @Theory
+  public void testSetIfPossible_protoFromBytes() {
+    Entities.Change changeProto = createChangeProto(12345);
+    StoredValue storedValue = new FakeStoredValue(Protos.toByteArray(changeProto));
+    TestIndexedData testIndexedData = new TestIndexedData();
+    STORED_PROTO_FIELD_SPEC.setIfPossible(testIndexedData, storedValue);
+    assertThat(testIndexedData.getTestField()).isEqualTo(changeProto);
+  }
+
+  @Theory
+  public void testSetIfPossible_iterableProtoFromIterableBytes() {
+    List<Entities.Change> changeProtos =
+        ImmutableList.of(createChangeProto(12345), createChangeProto(54321));
+    StoredValue storedValue =
+        new FakeStoredValue(
+            changeProtos.stream()
+                .map(proto -> Protos.toByteArray(proto))
+                .collect(toImmutableList()));
+    TestIndexedData testIndexedData = new TestIndexedData();
+    ITERABLE_STORED_PROTO_FIELD.setIfPossible(testIndexedData, storedValue);
+    assertThat(testIndexedData.getTestField()).isEqualTo(changeProtos);
+  }
+
+  @Theory
+  public void testSetIfPossible_fromProto(
+      @FromDataPoints("protoTypes") Entry<SearchSpec, Object> fieldToStoredValue) {
+    Object docValue = fieldToStoredValue.getValue();
+    SchemaField searchSpec = fieldToStoredValue.getKey();
+    StoredValue storedValue = new FakeStoredValue(fieldToStoredValue.getValue(), /*isProto=*/ true);
+    TestIndexedData testIndexedData = new TestIndexedData();
+    searchSpec.setIfPossible(testIndexedData, storedValue);
+    assertThat(testIndexedData.getTestField()).isEqualTo(docValue);
   }
 
   @Test
-  public void testSetIfPossible() {
-    StoredValue storedValue = new FakeStoredValue(docValue);
-    TestIndexedData testIndexedData = new TestIndexedData();
-    schemaField.setIfPossible(testIndexedData, storedValue);
-    assertThat(testIndexedData.getTestField()).isEqualTo(docValue);
+  public void test_isProtoType() {
+    assertThat(STORED_PROTO_FIELD.isProtoType()).isTrue();
+
+    assertThat(ITERABLE_STORED_PROTO_FIELD.isProtoType()).isFalse();
+    assertThat(INTEGER_FIELD.isProtoType()).isFalse();
+    assertThat(ITERABLE_STRING_FIELD.isProtoType()).isFalse();
+    assertThat(STORED_BYTE_FIELD.isProtoType()).isFalse();
+    assertThat(ITERABLE_STORED_BYTE_FIELD.isProtoType()).isFalse();
+  }
+
+  @Test
+  public void test_isProtoIterableType() {
+
+    assertThat(ITERABLE_STORED_PROTO_FIELD.isProtoIterableType()).isTrue();
+
+    assertThat(STORED_PROTO_FIELD.isProtoIterableType()).isFalse();
+    assertThat(INTEGER_FIELD.isProtoIterableType()).isFalse();
+    assertThat(ITERABLE_STRING_FIELD.isProtoIterableType()).isFalse();
+    assertThat(STORED_BYTE_FIELD.isProtoIterableType()).isFalse();
+    assertThat(ITERABLE_STORED_BYTE_FIELD.isProtoType()).isFalse();
+  }
+
+  private static Change createChangeProto(int id) {
+    return Entities.Change.newBuilder()
+        .setChangeId(Change_Id.newBuilder().setId(id).build())
+        .build();
   }
 }

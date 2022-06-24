@@ -275,11 +275,10 @@ export class GrDiffHost extends LitElement {
   @state()
   private fetchDiffPromise: Promise<DiffInfo> | null = null;
 
-  // Do not use, use blame instead through the getters and setters.
-  // This is not a regular @state because we need to also send tgetImagesForDiffhe
-  // 'is-blame-loading-changed' event when it is changed. And if we
-  // rely on @state then the name to look for in willUpdate/update/updated
-  // is '_blame'.
+  // Do not use, use blame instead through the getters and setters. This is not
+  // a regular @state because we need to also send the
+  // 'is-blame-loading-changed' event when it is changed. And if we rely on
+  // @state then the name to look for in willUpdate/update/updated is '_blame'.
   private _blame: BlameInfo[] | null = null;
 
   @state()

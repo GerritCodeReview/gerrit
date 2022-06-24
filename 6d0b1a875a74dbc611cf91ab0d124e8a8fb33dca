@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53c5f6bf_3d02f5a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-24T08:23:51Z",
+      "side": 1,
+      "message": "preventing",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 11
+      },
+      "revId": "6d0b1a875a74dbc611cf91ab0d124e8a8fb33dca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c003121_48717f66",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-24T08:23:51Z",
+      "side": 1,
+      "message": "deciding",
+      "range": {
+        "startLine": 17,
+        "startChar": 46,
+        "endLine": 17,
+        "endChar": 52
+      },
+      "revId": "6d0b1a875a74dbc611cf91ab0d124e8a8fb33dca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96bf9579_02383d68",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1854,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-24T08:23:51Z",
+      "side": 1,
+      "message": "does this mean this is not triggered when files are not all expanded?\nBefore I guess key down triggered this so we are changing this behaviour?\n\nIf so mention in the commit message.\n\n```\nthis.fileCursor.next({circular: true});\nthis.selectedIndex \u003d this.fileCursor.index;\n```",
+      "range": {
+        "startLine": 1854,
+        "startChar": 8,
+        "endLine": 1854,
+        "endChar": 53
+      },
+      "revId": "6d0b1a875a74dbc611cf91ab0d124e8a8fb33dca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

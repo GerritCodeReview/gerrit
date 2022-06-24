@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb1575c9_ebae7f37",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-24T09:04:48Z",
+      "side": 1,
+      "message": "Could you add tests for the service-worker-installer?",
+      "revId": "ef36bd5203fe5db95881faef4e0239e8bd7f0d15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

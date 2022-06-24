@@ -93,11 +93,7 @@ public class SuggestReviewers {
         cfg.getInt("suggest", "maxSuggestedReviewers", DEFAULT_MAX_SUGGESTED);
     this.limit = this.maxSuggestedReviewers;
     String suggest = cfg.getString("suggest", null, "accounts");
-    if ("OFF".equalsIgnoreCase(suggest) || "false".equalsIgnoreCase(suggest)) {
-      this.suggestAccounts = false;
-    } else {
-      this.suggestAccounts = (av != AccountVisibility.NONE);
-    }
+    this.suggestAccounts = !"OFF".equalsIgnoreCase(suggest) && !"false".equalsIgnoreCase(suggest);
 
     this.maxAllowed =
         cfg.getInt("addreviewer", "maxAllowed", ReviewerModifier.DEFAULT_MAX_REVIEWERS);

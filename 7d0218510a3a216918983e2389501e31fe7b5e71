@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b18ffe28_33ded325",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-06-24T09:30:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e1580cfa_6a776401",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 17
+      },
+      "revId": "7d0218510a3a216918983e2389501e31fe7b5e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "44308ed8_8bc33563",
@@ -73,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cf03ae84_b112f6df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-06-24T09:30:31Z",
+      "side": 1,
+      "message": "\u003e Shouldn\u0027t we try to have test coverage for that?\n\nYes, we should. Any hints how to improve the PushAccountIT to eliminate false positives?",
+      "parentUuid": "a715e755_67efbdb0",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 52
+      },
+      "revId": "7d0218510a3a216918983e2389501e31fe7b5e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f549b13d_03844c78",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -84,6 +132,24 @@
       "writtenOn": "2022-06-24T09:06:17Z",
       "side": 1,
       "message": "Is the whole stack trace really needed or could it be shorten to a couple of lines?",
+      "revId": "7d0218510a3a216918983e2389501e31fe7b5e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea9eb46b_5182ba2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-06-24T09:30:31Z",
+      "side": 1,
+      "message": "Likely not. I will reduce it to the minimum.",
+      "parentUuid": "f549b13d_03844c78",
       "revId": "7d0218510a3a216918983e2389501e31fe7b5e71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -122,6 +188,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d83a2db_8043fc95",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-06-24T09:30:31Z",
+      "side": 1,
+      "message": "Yes, sure, it should start from stable-3.4. ATM I would like to collect some feedback on this fix as it is not as nice as I would like it to be. So let\u0027s continue here for a while and then I will move this to stable-3.4",
+      "parentUuid": "57c215cb_3c670867",
+      "revId": "7d0218510a3a216918983e2389501e31fe7b5e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "efe3dea7_94da97af",
@@ -135,6 +219,30 @@
       "writtenOn": "2022-06-24T09:06:17Z",
       "side": 1,
       "message": "requestProvider?",
+      "range": {
+        "startLine": 40,
+        "startChar": 45,
+        "endLine": 40,
+        "endChar": 52
+      },
+      "revId": "7d0218510a3a216918983e2389501e31fe7b5e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cf4499b_d2301471",
+        "filename": "java/com/google/gerrit/server/util/GuiceRequestScopePropagator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-06-24T09:30:31Z",
+      "side": 1,
+      "message": "It is quite common in Gerrit code base to omit the ...Provider suffix in such cases, examples:\n\n  Provider\u003cCurrentUser\u003e self;\n  ...\n  self.get()\n  \n  Provider\u003cSshSession\u003e session;\n  ...\n  session.get()\n  \nI personally prefer this style :-)",
+      "parentUuid": "efe3dea7_94da97af",
       "range": {
         "startLine": 40,
         "startChar": 45,
@@ -162,6 +270,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "68f6b41b_260ddacf",
+        "filename": "java/com/google/gerrit/server/util/GuiceRequestScopePropagator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-06-24T09:30:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a4276c36_17d2c769",
+      "revId": "7d0218510a3a216918983e2389501e31fe7b5e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "762831b4_4d08768f",
@@ -175,6 +301,30 @@
       "writtenOn": "2022-06-24T09:06:17Z",
       "side": 1,
       "message": "Optional: leave a comment why we do this?",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 58,
+        "endChar": 5
+      },
+      "revId": "7d0218510a3a216918983e2389501e31fe7b5e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed86b91a_4429067a",
+        "filename": "java/com/google/gerrit/server/util/GuiceRequestScopePropagator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-06-24T09:30:31Z",
+      "side": 1,
+      "message": "This part I don\u0027t really like but didn\u0027t find any better way without moving WebSession class down to the \"server\" layer.\n\nWill provide a comment",
+      "parentUuid": "762831b4_4d08768f",
       "range": {
         "startLine": 54,
         "startChar": 4,

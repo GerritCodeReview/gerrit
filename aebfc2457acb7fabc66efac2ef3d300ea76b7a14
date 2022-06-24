@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "691529cb_eb1ebee0",
+        "filename": "java/com/google/gerrit/server/restapi/change/SuggestReviewers.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-24T16:44:21Z",
+      "side": 0,
+      "message": "I think looking up reviewer suggestions can be expensive, so this was likely an optimization. Maybe move this optimization to ReviewersUtil.java instead and skip it if the user has the View All Accounts capability?",
+      "range": {
+        "startLine": 99,
+        "startChar": 30,
+        "endLine": 99,
+        "endChar": 58
+      },
+      "revId": "aebfc2457acb7fabc66efac2ef3d300ea76b7a14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

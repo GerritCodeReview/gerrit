@@ -9,7 +9,6 @@ import '../../../styles/shared-styles';
 import '../gr-button/gr-button';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
-import {PaperInputElementExt} from '../../../types/types';
 import {
   AutocompleteQuery,
   GrAutocomplete,
@@ -19,6 +18,7 @@ import {queryAndAssert} from '../../../utils/common-util';
 import {LitElement, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import {sharedStyles} from '../../../styles/shared-styles';
+import {PaperInputElement} from '@polymer/paper-input/paper-input';
 
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
@@ -79,7 +79,7 @@ export class GrEditableLabel extends LitElement {
   query: AutocompleteQuery = () => Promise.resolve([]);
 
   @query('#input')
-  input?: PaperInputElementExt;
+  input?: PaperInputElement;
 
   @query('#autocomplete')
   grAutocomplete?: GrAutocomplete;

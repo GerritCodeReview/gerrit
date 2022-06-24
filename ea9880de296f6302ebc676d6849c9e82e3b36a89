@@ -34,6 +34,24 @@
       "parentUuid": "5abf6078_239a2f31",
       "revId": "ea9880de296f6302ebc676d6849c9e82e3b36a89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e5e5a72_357e0da7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2022-06-24T13:33:39Z",
+      "side": 1,
+      "message": "(If someone\u0027s really curious, it could be interesting to dive deeper into the gwtjsonrpc predecessor of that REST call, but it seems academic.)",
+      "parentUuid": "79725f6c_d9f0445d",
+      "revId": "ea9880de296f6302ebc676d6849c9e82e3b36a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

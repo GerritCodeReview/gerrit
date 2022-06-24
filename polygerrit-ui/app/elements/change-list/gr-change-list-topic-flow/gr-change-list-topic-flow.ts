@@ -27,6 +27,7 @@ import {allSettled} from '../../../utils/async-util';
 import {fireReload} from '../../../utils/event-util';
 import {fireAlert} from '../../../utils/event-util';
 import {pluralize} from '../../../utils/string-util';
+import {Interaction} from '../../../constants/reporting';
 
 @customElement('gr-change-list-topic-flow')
 export class GrChangeListTopicFlow extends LitElement {
@@ -366,7 +367,7 @@ export class GrChangeListTopicFlow extends LitElement {
   }
 
   private removeTopics() {
-    this.reportingService.reportInteraction('bulk-action', {
+    this.reportingService.reportInteraction(Interaction.BULK_ACTION, {
       type: 'removing-topic',
       selectedChangeCount: this.selectedChanges.length,
     });
@@ -386,7 +387,7 @@ export class GrChangeListTopicFlow extends LitElement {
   }
 
   private applyTopicToAll() {
-    this.reportingService.reportInteraction('bulk-action', {
+    this.reportingService.reportInteraction(Interaction.BULK_ACTION, {
       type: 'apply-topic-to-all',
       selectedChangeCount: this.selectedChanges.length,
     });
@@ -402,7 +403,7 @@ export class GrChangeListTopicFlow extends LitElement {
   }
 
   private addTopic(loadingText: string, creatingTopic?: boolean) {
-    this.reportingService.reportInteraction('bulk-action', {
+    this.reportingService.reportInteraction(Interaction.BULK_ACTION, {
       type: 'add-topic',
       selectedChangeCount: this.selectedChanges.length,
     });

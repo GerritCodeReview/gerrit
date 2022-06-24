@@ -39,6 +39,7 @@ import {allSettled} from '../../../utils/async-util';
 import {pluralize} from '../../../utils/string-util';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
+import {Interaction} from '../../../constants/reporting';
 
 @customElement('gr-change-list-bulk-vote-flow')
 export class GrChangeListBulkVoteFlow extends LitElement {
@@ -308,7 +309,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
 
   private async handleConfirm() {
     this.progressByChange.clear();
-    this.reportingService.reportInteraction('bulk-action', {
+    this.reportingService.reportInteraction(Interaction.BULK_ACTION, {
       type: 'vote',
       selectedChangeCount: this.selectedChanges.length,
     });

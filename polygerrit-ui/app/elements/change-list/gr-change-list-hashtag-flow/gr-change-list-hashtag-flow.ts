@@ -343,7 +343,7 @@ export class GrChangeListHashtagFlow extends LitElement {
         }`;
       }
     }
-    this.reportingService.reportInteraction('bulk-action', {
+    this.reportingService.reportInteraction(Interaction.BULK_ACTIONS, {
       type: creatingHashtag ? 'create-hashtag' : 'apply-hashtag',
       selectedChangeCount: this.selectedChanges.length,
       hashtagsApplied: allHashtagsToApply.length,

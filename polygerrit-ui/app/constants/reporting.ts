@@ -97,6 +97,7 @@ export enum Interaction {
   TOGGLE_SHOW_ALL_BUTTON = 'toggle show all button',
   SHOW_TAB = 'show-tab',
   ATTENTION_SET_CHIP = 'attention-set-chip',
+  BULK_ACTION = 'bulk-action',
   SAVE_COMMENT = 'save-comment',
   COMMENT_SAVED = 'comment-saved',
   DISCARD_COMMENT = 'discard-comment',

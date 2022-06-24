@@ -19,6 +19,7 @@ import {
   Modifier,
   Binding,
   shouldSuppress,
+  ShortcutOptions,
 } from '../../utils/dom-util';
 import {ReportingService} from '../gr-reporting/gr-reporting';
 import {Finalizable} from '../registry';
@@ -154,10 +155,9 @@ export class ShortcutsService implements Finalizable {
     element: HTMLElement,
     shortcut: Binding,
     listener: (e: KeyboardEvent) => void,
-    options: {
-      shouldSuppress: boolean;
-    } = {
+    options: ShortcutOptions = {
       shouldSuppress: true,
+      doNotPrevent: false,
     }
   ) {
     const wrappedListener = (e: KeyboardEvent) => {
@@ -173,8 +173,9 @@ export class ShortcutsService implements Finalizable {
       // `shouldSuppress` is false (e.g.for Ctrl - ENTER), then don't disable
       // the shortcut.
       if (options.shouldSuppress && this.shortcutsDisabled) return;
-      e.preventDefault();
-      e.stopPropagation();
+      if (!options.doNotPrevent) e.preventDefault();
+      if (!options.doNotPrevent) e.stopPropagation();
+      console.log(`wrappedListener ${options.doNotPrevent}`);
       this.reportTriggered(e);
       listener(e);
     };
@@ -216,7 +217,8 @@ export class ShortcutsService implements Finalizable {
    */
   addShortcutListener(
     shortcut: Shortcut,
-    listener: (e: KeyboardEvent) => void
+    listener: (e: KeyboardEvent) => void,
+    options?: ShortcutOptions
   ) {
     const cleanups: (() => void)[] = [];
     this.activeShortcuts.add(shortcut);
@@ -227,7 +229,9 @@ export class ShortcutsService implements Finalizable {
     const bindings = this.getBindingsForShortcut(shortcut);
     for (const binding of bindings ?? []) {
       if (binding.docOnly) continue;
-      cleanups.push(this.addShortcut(document.body, binding, listener));
+      cleanups.push(
+        this.addShortcut(document.body, binding, listener, options)
+      );
     }
     this.notifyViewListeners();
     return () => {

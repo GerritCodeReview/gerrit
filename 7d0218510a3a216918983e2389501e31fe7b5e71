@@ -178,6 +178,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90d8aab1_996e34ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-06-24T09:46:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea9eb46b_5182ba2a",
+      "revId": "7d0218510a3a216918983e2389501e31fe7b5e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7af1be76_ad93dec5",
@@ -295,6 +313,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e53b034c_008099e8",
+        "filename": "java/com/google/gerrit/server/util/GuiceRequestScopePropagator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-06-24T09:46:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8cf4499b_d2301471",
+      "range": {
+        "startLine": 40,
+        "startChar": 45,
+        "endLine": 40,
+        "endChar": 52
+      },
+      "revId": "7d0218510a3a216918983e2389501e31fe7b5e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a4276c36_17d2c769",
@@ -385,6 +427,30 @@
       "side": 1,
       "message": "This part I don\u0027t really like but didn\u0027t find any better way without moving WebSession class down to the \"server\" layer.\n\nWill provide a comment",
       "parentUuid": "762831b4_4d08768f",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 58,
+        "endChar": 5
+      },
+      "revId": "7d0218510a3a216918983e2389501e31fe7b5e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e79a269a_be1a6d86",
+        "filename": "java/com/google/gerrit/server/util/GuiceRequestScopePropagator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-06-24T09:46:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed86b91a_4429067a",
       "range": {
         "startLine": 54,
         "startChar": 4,

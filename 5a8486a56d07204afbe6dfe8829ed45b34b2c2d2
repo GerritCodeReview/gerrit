@@ -39,6 +39,29 @@
       "message": "CC\u0027d Chris since he has done the latest changes to gr-formatted-text afaik.",
       "revId": "5a8486a56d07204afbe6dfe8829ed45b34b2c2d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e765907e_5ff2f21a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-24T11:14:29Z",
+      "side": 1,
+      "message": "maybe add a test checking the previous string doesn\u0027t match the pattern as well?",
+      "range": {
+        "startLine": 148,
+        "startChar": 2,
+        "endLine": 148,
+        "endChar": 30
+      },
+      "revId": "5a8486a56d07204afbe6dfe8829ed45b34b2c2d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -516,6 +516,9 @@ export class GrChangeView extends LitElement {
   private showChecksTab = false;
 
   @state()
+  private showFindingsTab = false;
+
+  @state()
   private isViewCurrent = false;
 
   @state()
@@ -697,6 +700,13 @@ export class GrChangeView extends LitElement {
       () => this.getChecksModel().aPluginHasRegistered$,
       b => {
         this.showChecksTab = b;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getCommentsModel().robotCommentCount$,
+      count => {
+        this.showFindingsTab = count > 0;
       }
     );
     subscribe(
@@ -1428,12 +1438,17 @@ export class GrChangeView extends LitElement {
           </paper-tab>
         `
       )}
-      <paper-tab
-        data-name=${PrimaryTab.FINDINGS}
-        @click=${this.onPaperTabClick}
-      >
-        <span>Findings</span>
-      </paper-tab>
+      ${when(
+        this.showFindingsTab,
+        () => html`
+          <paper-tab
+            data-name=${PrimaryTab.FINDINGS}
+            @click=${this.onPaperTabClick}
+          >
+            <span>Findings</span>
+          </paper-tab>
+        `
+      )}
     </paper-tabs>`;
   }
 

@@ -9,7 +9,6 @@ import '../gr-cursor-manager/gr-cursor-manager';
 import '../gr-icons/gr-icons';
 import '../../../styles/shared-styles';
 import {GrAutocompleteDropdown} from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
-import {PaperInputElementExt} from '../../../types/types';
 import {fire, fireEvent} from '../../../utils/event-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {PropertyType} from '../../../types/common';
@@ -18,6 +17,8 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, html, css, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import {ValueChangedEvent} from '../../../types/events';
+import {PaperInputElement} from '@polymer/paper-input/paper-input';
+import {IronInputElement} from '@polymer/iron-input';
 
 const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;
 const DEBOUNCE_WAIT_MS = 200;
@@ -84,7 +85,7 @@ export class GrAutocomplete extends LitElement {
   @property({type: Object})
   query?: AutocompleteQuery = () => Promise.resolve([]);
 
-  @query('#input') input?: PaperInputElementExt;
+  @query('#input') input?: PaperInputElement;
 
   @query('#suggestions') suggestionsDropdown?: GrAutocompleteDropdown;
 
@@ -180,7 +181,8 @@ export class GrAutocomplete extends LitElement {
   private updateSuggestionsTask?: DelayedTask;
 
   get nativeInput() {
-    return this.input!.$.nativeInput as HTMLInputElement;
+    return (this.input!.inputElement as IronInputElement)
+      .inputElement as HTMLInputElement;
   }
 
   static override styles = [

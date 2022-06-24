@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95042091_2578461f",
+        "filename": "java/com/google/gerrit/server/git/DelegateRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-24T19:52:59Z",
+      "side": 1,
+      "message": "There are currently zero tests on this method: because this becomes public, we need to make sure that its contract is tested.\n\nAlso, we should have the associated JavaDocs.",
+      "range": {
+        "startLine": 70,
+        "startChar": 2,
+        "endLine": 70,
+        "endChar": 30
+      },
+      "revId": "f5e3dd3b65c0fc19a06bd707f493c8615f64bca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

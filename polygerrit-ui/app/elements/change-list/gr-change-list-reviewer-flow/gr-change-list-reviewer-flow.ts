@@ -42,6 +42,7 @@ import {accountOrGroupKey} from '../../../utils/account-util';
 import {ValueChangedEvent} from '../../../types/events';
 import {fireAlert, fireReload} from '../../../utils/event-util';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
+import {Interaction} from '../../../constants/reporting';
 
 @customElement('gr-change-list-reviewer-flow')
 export class GrChangeListReviewerFlow extends LitElement {
@@ -509,7 +510,7 @@ export class GrChangeListReviewerFlow extends LitElement {
   }
 
   private async saveReviewers() {
-    this.reportingService.reportInteraction('bulk-action', {
+    this.reportingService.reportInteraction(Interaction.BULK_ACTION, {
       type: 'add-reviewer',
       selectedChangeCount: this.selectedChanges.length,
     });

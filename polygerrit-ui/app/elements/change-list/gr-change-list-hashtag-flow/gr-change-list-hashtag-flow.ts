@@ -26,6 +26,7 @@ import {ProgressStatus} from '../../../constants/constants';
 import {allSettled} from '../../../utils/async-util';
 import {fireAlert} from '../../../utils/event-util';
 import {pluralize} from '../../../utils/string-util';
+import {Interaction} from '../../../constants/reporting';
 
 @customElement('gr-change-list-hashtag-flow')
 export class GrChangeListHashtagFlow extends LitElement {
@@ -344,7 +345,7 @@ export class GrChangeListHashtagFlow extends LitElement {
         }`;
       }
     }
-    this.reportingService.reportInteraction('bulk-action', {
+    this.reportingService.reportInteraction(Interaction.BULK_ACTION, {
       type: creatingHashtag ? 'create-hashtag' : 'apply-hashtag',
       selectedChangeCount: this.selectedChanges.length,
       hashtagsApplied: allHashtagsToApply.length,

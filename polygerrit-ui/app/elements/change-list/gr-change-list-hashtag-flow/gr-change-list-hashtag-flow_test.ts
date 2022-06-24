@@ -5,12 +5,14 @@
  */
 import {fixture, html} from '@open-wc/testing-helpers';
 import {IronDropdownElement} from '@polymer/iron-dropdown';
+import {SinonStubbedMember} from 'sinon';
 import {
   BulkActionsModel,
   bulkActionsModelToken,
 } from '../../../models/bulk-actions/bulk-actions-model';
 import {wrapInProvider} from '../../../models/di-provider-element';
 import {getAppContext} from '../../../services/app-context';
+import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import '../../../test/common-test-setup-karma';
 import {createChange} from '../../../test/test-data-generators';
 import {
@@ -19,6 +21,7 @@ import {
   query,
   queryAll,
   queryAndAssert,
+  stubReporting,
   stubRestApi,
   waitUntil,
   waitUntilCalled,
@@ -33,6 +36,11 @@ import type {GrChangeListHashtagFlow} from './gr-change-list-hashtag-flow';
 suite('gr-change-list-hashtag-flow tests', () => {
   let element: GrChangeListHashtagFlow;
   let model: BulkActionsModel;
+  let reportingStub: SinonStubbedMember<ReportingService['reportInteraction']>;
+
+  setup(() => {
+    reportingStub = stubReporting('reportInteraction');
+  });
 
   async function selectChange(change: ChangeInfo) {
     model.addSelectedChangeNum(change._number);
@@ -332,6 +340,11 @@ suite('gr-change-list-hashtag-flow tests', () => {
         message: '3 Changes added to hashtag1',
         showDismiss: true,
       });
+      assert.deepEqual(reportingStub.lastCall.args[1], {
+        type: 'apply-hashtag',
+        selectedChangeCount: 3,
+        hashtagsApplied: 1,
+      });
       assert.isTrue(
         queryAndAssert<IronDropdownElement>(element, 'iron-dropdown').opened
       );
@@ -406,6 +419,11 @@ suite('gr-change-list-hashtag-flow tests', () => {
         message: '2 hashtags added to changes',
         showDismiss: true,
       });
+      assert.deepEqual(reportingStub.lastCall.args[1], {
+        type: 'apply-hashtag',
+        selectedChangeCount: 3,
+        hashtagsApplied: 2,
+      });
     });
 
     test('apply existing hashtag not on selected changes', async () => {
@@ -456,6 +474,11 @@ suite('gr-change-list-hashtag-flow tests', () => {
       assert.deepEqual(alertStub.lastCall.args[0].detail, {
         message: '3 Changes added to foo',
         showDismiss: true,
+      });
+      assert.deepEqual(reportingStub.lastCall.args[1], {
+        type: 'apply-hashtag',
+        selectedChangeCount: 3,
+        hashtagsApplied: 1,
       });
       assert.isTrue(
         queryAndAssert<IronDropdownElement>(element, 'iron-dropdown').opened
@@ -513,6 +536,11 @@ suite('gr-change-list-hashtag-flow tests', () => {
       assert.deepEqual(alertStub.lastCall.args[0].detail, {
         message: 'foo created',
         showDismiss: true,
+      });
+      assert.deepEqual(reportingStub.lastCall.args[1], {
+        type: 'create-hashtag',
+        selectedChangeCount: 3,
+        hashtagsApplied: 1,
       });
       assert.isTrue(
         queryAndAssert<IronDropdownElement>(element, 'iron-dropdown').opened

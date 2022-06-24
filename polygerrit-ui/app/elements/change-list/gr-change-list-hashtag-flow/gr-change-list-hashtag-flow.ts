@@ -52,6 +52,8 @@ export class GrChangeListHashtagFlow extends LitElement {
 
   private restApiService = getAppContext().restApiService;
 
+  private readonly reportingService = getAppContext().reportingService;
+
   static override get styles() {
     return [
       spinnerStyles,
@@ -341,6 +343,11 @@ export class GrChangeListHashtagFlow extends LitElement {
         }`;
       }
     }
+    this.reportingService.reportInteraction('bulk-action', {
+      type: creatingHashtag ? 'create-hashtag' : 'apply-hashtag',
+      selectedChangeCount: this.selectedChanges.length,
+      hashtagsApplied: allHashtagsToApply.length,
+    });
     this.loadingText = loadingText;
     this.trackPromises(
       this.getBulkActionsModel().addHashtags(allHashtagsToApply),

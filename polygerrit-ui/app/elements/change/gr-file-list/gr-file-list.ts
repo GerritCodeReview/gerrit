@@ -638,20 +638,28 @@ export class GrFileList extends LitElement {
       Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS,
       _ => toggleClass(this, 'hideComments')
     );
-    this.shortcutsController.addAbstract(Shortcut.CURSOR_NEXT_FILE, e =>
-      this.handleCursorNext(e)
+    this.shortcutsController.addAbstract(
+      Shortcut.CURSOR_NEXT_FILE,
+      e => this.handleCursorNext(e),
+      {doNotPrevent: true}
     );
-    this.shortcutsController.addAbstract(Shortcut.CURSOR_PREV_FILE, e =>
-      this.handleCursorPrev(e)
+    this.shortcutsController.addAbstract(
+      Shortcut.CURSOR_PREV_FILE,
+      e => this.handleCursorPrev(e),
+      {doNotPrevent: true}
     );
     // This is already been taken care of by CURSOR_NEXT_FILE above. The two
     // shortcuts share the same bindings. It depends on whether all files
     // are expanded whether the cursor moves to the next file or line.
-    this.shortcutsController.addAbstract(Shortcut.NEXT_LINE, _ => {}); // docOnly
+    this.shortcutsController.addAbstract(Shortcut.NEXT_LINE, _ => {}, {
+      doNotPrevent: true,
+    }); // docOnly
     // This is already been taken care of by CURSOR_PREV_FILE above. The two
     // shortcuts share the same bindings. It depends on whether all files
     // are expanded whether the cursor moves to the previous file or line.
-    this.shortcutsController.addAbstract(Shortcut.PREV_LINE, _ => {}); // docOnly
+    this.shortcutsController.addAbstract(Shortcut.PREV_LINE, _ => {}, {
+      doNotPrevent: true,
+    }); // docOnly
     this.shortcutsController.addAbstract(Shortcut.NEW_COMMENT, _ =>
       this.handleNewComment()
     );
@@ -1840,11 +1848,19 @@ export class GrFileList extends LitElement {
 
   // Private but used in tests.
   handleCursorNext(e: KeyboardEvent) {
+    // We want to allow users to use arrow keys for standard browser scrolling
+    // when files are not expanded. That is also why we use the `doNotPrevent`
+    // option when registering the shortcut.
+    if (this.filesExpanded !== FilesExpandedState.ALL && e.key === Key.DOWN) {
+      return;
+    }
+
+    e.preventDefault();
+    e.stopPropagation();
     if (this.filesExpanded === FilesExpandedState.ALL) {
       this.diffCursor?.moveDown();
       this.displayLine = true;
     } else {
-      if (e.key === Key.DOWN) return;
       this.fileCursor.next({circular: true});
       this.selectedIndex = this.fileCursor.index;
     }
@@ -1852,11 +1868,19 @@ export class GrFileList extends LitElement {
 
   // Private but used in tests.
   handleCursorPrev(e: KeyboardEvent) {
+    // We want to allow users to use arrow keys for standard browser scrolling
+    // when files are not expanded. That is also why we use the `doNotPrevent`
+    // option when registering the shortcut.
+    if (this.filesExpanded !== FilesExpandedState.ALL && e.key === Key.UP) {
+      return;
+    }
+
+    e.preventDefault();
+    e.stopPropagation();
     if (this.filesExpanded === FilesExpandedState.ALL) {
       this.diffCursor?.moveUp();
       this.displayLine = true;
     } else {
-      if (e.key === Key.UP) return;
       this.fileCursor.previous({circular: true});
       this.selectedIndex = this.fileCursor.index;
     }

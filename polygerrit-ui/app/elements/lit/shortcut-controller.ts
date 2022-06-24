@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {ReactiveController, ReactiveControllerHost} from 'lit';
-import {Binding} from '../../utils/dom-util';
+import {Binding, ShortcutOptions} from '../../utils/dom-util';
 import {shortcutsServiceToken} from '../../services/shortcuts/shortcuts-service';
 import {Shortcut} from '../../services/shortcuts/shortcuts-config';
 import {resolve} from '../../models/dependency';
@@ -18,6 +18,7 @@ interface ShortcutListener {
 interface AbstractListener {
   shortcut: Shortcut;
   listener: (e: KeyboardEvent) => void;
+  options?: ShortcutOptions;
 }
 
 type Cleanup = () => void;
@@ -60,8 +61,12 @@ export class ShortcutController implements ReactiveController {
    * Use this method when you are migrating from Polymer to Lit. Call it for
    * each entry of keyboardShortcuts().
    */
-  addAbstract(shortcut: Shortcut, listener: (e: KeyboardEvent) => void) {
-    this.listenersAbstract.push({shortcut, listener});
+  addAbstract(
+    shortcut: Shortcut,
+    listener: (e: KeyboardEvent) => void,
+    options?: ShortcutOptions
+  ) {
+    this.listenersAbstract.push({shortcut, listener, options});
   }
 
   hostConnected() {
@@ -77,8 +82,12 @@ export class ShortcutController implements ReactiveController {
       );
       this.cleanups.push(cleanup);
     }
-    for (const {shortcut, listener} of this.listenersAbstract) {
-      const cleanup = shortcutsService.addShortcutListener(shortcut, listener);
+    for (const {shortcut, listener, options} of this.listenersAbstract) {
+      const cleanup = shortcutsService.addShortcutListener(
+        shortcut,
+        listener,
+        options
+      );
       this.cleanups.push(cleanup);
     }
     for (const {binding, listener} of this.listenersGlobal) {

@@ -46,6 +46,19 @@ def polygerrit_bundle(name, srcs, outs, entry_point, app_name):
         ],
     )
 
+    rollup_bundle(
+        name = "service-worker",
+        srcs = [app_name + "-full-src"],
+        config_file = ":rollup.config.js",
+        entry_point = "_pg_ts_out/workers/service-worker.js",
+        rollup_bin = "//tools/node_tools:rollup-bin",
+        silent = True,
+        sourcemap = "hidden",
+        deps = [
+            "@tools_npm//rollup-plugin-node-resolve",
+        ],
+    )
+
     native.filegroup(
         name = name + "_app_sources",
         srcs = [
@@ -62,6 +75,7 @@ def polygerrit_bundle(name, srcs, outs, entry_point, app_name):
         name = name + "_worker_sources",
         srcs = [
             "syntax-worker.js",
+            "service-worker.js",
         ],
     )
 

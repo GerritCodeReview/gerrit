@@ -20,6 +20,7 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.inject.Inject;
 import com.google.inject.Key;
 import com.google.inject.Provider;
+import com.google.inject.ProvisionException;
 import com.google.inject.servlet.ServletScopes;
 import com.google.inject.util.Providers;
 import com.google.inject.util.Types;
@@ -29,21 +30,32 @@ import java.net.SocketAddress;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
+import javax.servlet.http.HttpServletRequest;
 
 /** Propagator for Guice's built-in servlet scope. */
 public class GuiceRequestScopePropagator extends RequestScopePropagator {
 
   private final String url;
   private final SocketAddress peer;
+  private final Provider<HttpServletRequest> request;
+
+  private final Class<?> webSessionClass;
 
   @Inject
   GuiceRequestScopePropagator(
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
       @RemotePeer Provider<SocketAddress> remotePeerProvider,
-      ThreadLocalRequestContext local) {
+      ThreadLocalRequestContext local,
+      Provider<HttpServletRequest> request) {
     super(ServletScopes.REQUEST, local);
     this.url = urlProvider != null ? urlProvider.get() : null;
     this.peer = remotePeerProvider.get();
+    this.request = request;
+    try {
+      this.webSessionClass = Class.forName("com.google.gerrit.httpd.WebSession");
+    } catch (ClassNotFoundException e) {
+      throw new ProvisionException(e.getMessage(), e);
+    }
   }
 
   /** @see RequestScopePropagator#wrap(Callable) */
@@ -63,6 +75,11 @@ public class GuiceRequestScopePropagator extends RequestScopePropagator {
 
     seedMap.put(Key.get(typeOfProvider(SocketAddress.class), RemotePeer.class), Providers.of(peer));
     seedMap.put(Key.get(SocketAddress.class, RemotePeer.class), peer);
+
+    Key<?> webSessionAttrKey = Key.get(webSessionClass);
+    Object webSessionAttrValue = request.get().getAttribute(webSessionAttrKey.toString());
+    seedMap.put(webSessionAttrKey, webSessionAttrValue);
+    seedMap.put(Key.get(typeOfProvider(webSessionClass)), Providers.of(webSessionAttrValue));
 
     return ServletScopes.continueRequest(callable, seedMap);
   }

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c4d533a_ae4170c7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-06-24T09:36:35Z",
+      "side": 1,
+      "message": "+2 but you still have css syntax errors and attribute name problems that CI caught, and some dev logging left in.",
+      "revId": "b1a9574e04c8d5b7e6cb63bae06656587692911e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb3fd181_6920de54",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-06-24T09:36:35Z",
+      "side": 1,
+      "message": "revert this handler change or at least remove the log",
+      "range": {
+        "startLine": 248,
+        "startChar": 0,
+        "endLine": 252,
+        "endChar": 0
+      },
+      "revId": "b1a9574e04c8d5b7e6cb63bae06656587692911e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc7495ed_a3fbc0ab",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-06-24T09:36:35Z",
+      "side": 1,
+      "message": "reflow text to avoid overflowing line limit. I use a vscode extension called Rewrap",
+      "range": {
+        "startLine": 166,
+        "startChar": 80,
+        "endLine": 166,
+        "endChar": 81
+      },
+      "revId": "b1a9574e04c8d5b7e6cb63bae06656587692911e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -70,6 +70,30 @@
       },
       "revId": "e461d69e0daf6a8429b206d454ea8e28bb543468",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "217ec717_9ea9cb2d",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyProvidedFix.java",
+        "patchSetId": 48
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-24T17:09:58Z",
+      "side": 1,
+      "message": "Sorry, didn\u0027t upload the changes. Now it should be fixed.",
+      "parentUuid": "0c2b2593_9274b943",
+      "range": {
+        "startLine": 96,
+        "startChar": 26,
+        "endLine": 96,
+        "endChar": 37
+      },
+      "revId": "e461d69e0daf6a8429b206d454ea8e28bb543468",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

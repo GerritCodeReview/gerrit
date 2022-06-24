@@ -297,6 +297,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a496f578_f7655c1a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 45
+      },
+      "lineNbr": 5386,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-24T17:09:58Z",
+      "side": 1,
+      "message": "Sorry, didn\u0027t upload the changes. Now it should be fixed.",
+      "parentUuid": "85518ff6_12ceff7e",
+      "range": {
+        "startLine": 5386,
+        "startChar": 6,
+        "endLine": 5386,
+        "endChar": 7
+      },
+      "revId": "889d456281ee0a84f78e43ff5cc50f90668ca477",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08a4defe_5af03dba",

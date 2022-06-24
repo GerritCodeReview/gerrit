@@ -44,14 +44,6 @@ export enum ErrorType {
 }
 
 /**
- * We would like to access the the typed `nativeInput` of PaperInputElement, so
- * we are creating this wrapper.
- */
-export type PaperInputElementExt = PaperInputElement & {
-  $: {nativeInput?: Element};
-};
-
-/**
  * If Polymer would have exported DomApiNative from its dom.js utility, then we
  * would probably not need this type. We just use it for casting the return
  * value of dom(element).

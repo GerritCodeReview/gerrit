@@ -19,7 +19,6 @@ import {
 import {ReviewerSuggestionsProvider} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
 import {GrAccountEntry} from '../gr-account-entry/gr-account-entry';
 import {GrAccountChip} from '../gr-account-chip/gr-account-chip';
-import {PaperInputElementExt} from '../../../types/types';
 import {fire, fireAlert} from '../../../utils/event-util';
 import {accountOrGroupKey} from '../../../utils/account-util';
 import {LitElement, css, html, PropertyValues} from 'lit';
@@ -33,6 +32,7 @@ import {
 } from '../gr-autocomplete/gr-autocomplete';
 import {ValueChangedEvent} from '../../../types/events';
 import {queryAndAssert} from '../../../utils/common-util';
+import {PaperInputElement} from '@polymer/paper-input/paper-input';
 
 const VALID_EMAIL_ALERT = 'Please input a valid email.';
 
@@ -386,10 +386,8 @@ export class GrAccountList extends LitElement {
   }
 
   // private but used in test
-  getOwnNativeInput(paperInput: PaperInputElementExt) {
-    // In Polymer 2 inputElement isn't nativeInput anymore
-    return (paperInput.$.nativeInput ||
-      paperInput.inputElement) as HTMLTextAreaElement;
+  getOwnNativeInput(paperInput: PaperInputElement) {
+    return paperInput.inputElement as HTMLInputElement;
   }
 
   private handleInputKeydown(e: KeyboardEvent) {

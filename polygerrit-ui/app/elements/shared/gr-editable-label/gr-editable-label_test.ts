@@ -31,10 +31,8 @@ suite('gr-editable-label tests', () => {
     `);
     label = queryAndAssert<HTMLLabelElement>(element, 'label');
 
-    // In Polymer 2 inputElement isn't nativeInput anymore
     const paperInput = queryAndAssert<PaperInputElement>(element, '#input');
-    input = (paperInput.$.nativeInput ||
-      paperInput.inputElement) as HTMLInputElement;
+    input = paperInput.inputElement as HTMLInputElement;
   });
 
   test('renders', () => {

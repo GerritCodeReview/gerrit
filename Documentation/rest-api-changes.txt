@@ -2825,8 +2825,18 @@ describes the updated change message.
 --
 
 Tests a submit requirement and returns the result as a
-link:#submit-requirement-result-info[SubmitRequirementResultInfo]. The request
-body must contain a link:#submit-requirement-input[SubmitRequirementInput].
+link:#submit-requirement-result-info[SubmitRequirementResultInfo].
+
+The submit requirement can be specified in one of the following ways:
+
+  * In the request body as a link:#submit-requirement-input[SubmitRequirementInput].
+  * By passing the two request parameters `sr-name` and
+ `refs-config-change-number`. The submit requirement will then be loaded from
+ the project config pointed to by the latest patchset of this change number.
+ The `sr-name` should point to an existing submit-requirement and the
+ `refs-config-change-number` must be a valid change number in the
+ refs/meta/config branch, otherwise the request would fail with with
+ `400 Bad Request`.
 
 Note that this endpoint does not modify the change resource.
 

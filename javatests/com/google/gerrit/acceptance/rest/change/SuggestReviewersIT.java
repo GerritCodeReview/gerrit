@@ -21,6 +21,7 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.a
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.entities.Permission.READ;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toList;
 
@@ -81,20 +82,50 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "accounts.visibility", value = "NONE")
-  public void suggestReviewersNoResult1() throws Exception {
+  @GerritConfig(name = "suggest.accounts", value = "false")
+  public void suggestReviewers_withSuggestDisabled() throws Exception {
     String changeId = createChange().getChangeId();
     List<SuggestedReviewerInfo> reviewers = suggestReviewers(changeId, name("u"), 6);
     assertThat(reviewers).isEmpty();
   }
 
   @Test
+  @GerritConfig(name = "accounts.visibility", value = "NONE")
+  public void suggestReviewers_accountVisibilityNone_onlyOwnAccountSuggested() throws Exception {
+    // Change is created by admin
+    String changeId = createChange().getChangeId();
+    requestScopeOperations.setApiUser(user2.id());
+    List<SuggestedReviewerInfo> reviewers = suggestReviewers(changeId, name("u"), 6);
+    // only own account is returned
+    assertReviewers(reviewers, ImmutableList.of(user2), ImmutableList.of(group2));
+  }
+
+  @Test
   @GerritConfig(name = "suggest.from", value = "1")
   @GerritConfig(name = "accounts.visibility", value = "NONE")
-  public void suggestReviewersNoResult2() throws Exception {
+  public void suggestReviewers_accountVisibilityNone_withSuggestFrom_onlyOwnAccountSuggested()
+      throws Exception {
+    // Change is created by admin
     String changeId = createChange().getChangeId();
+    requestScopeOperations.setApiUser(user2.id());
     List<SuggestedReviewerInfo> reviewers = suggestReviewers(changeId, name("u"), 6);
-    assertThat(reviewers).isEmpty();
+    // only own account is returned
+    assertReviewers(reviewers, ImmutableList.of(user2), ImmutableList.of(group2));
+  }
+
+  @Test
+  @GerritConfig(name = "accounts.visibility", value = "NONE")
+  public void suggestReviewers_accountVisibilityNone_withGlobalCapability_allAccountsSuggested()
+      throws Exception {
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.VIEW_ALL_ACCOUNTS).group(REGISTERED_USERS))
+        .update();
+    String changeId = createChange().getChangeId();
+
+    requestScopeOperations.setApiUser(user2.id());
+    List<SuggestedReviewerInfo> reviewers = suggestReviewers(changeId, name("u"), 6);
+    assertReviewers(reviewers, ImmutableList.of(user1, user2, user3), ImmutableList.of(group2));
   }
 
   @Test

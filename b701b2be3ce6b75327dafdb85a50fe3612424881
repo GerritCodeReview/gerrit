@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "85ff964c_2296912d",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-side-by-side.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-24T10:57:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de906845_d40f4e10",
+      "revId": "b701b2be3ce6b75327dafdb85a50fe3612424881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e74f0b65_75182c14",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f221a8c1_6b3f949e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-side-by-side.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-24T10:57:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e74f0b65_75182c14",
+      "range": {
+        "startLine": 114,
+        "startChar": 35,
+        "endLine": 114,
+        "endChar": 45
+      },
+      "revId": "b701b2be3ce6b75327dafdb85a50fe3612424881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cf16bf8e_bffff8c1",
@@ -54,6 +96,24 @@
       "writtenOn": "2022-06-24T07:46:23Z",
       "side": 1,
       "message": "Optional nit:\n\nMaybe make this parameter required, because there is only one caller.\n\nMaybe use the line number as the parameter and let this function decide the format of the id.",
+      "revId": "b701b2be3ce6b75327dafdb85a50fe3612424881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80d0b8bf_14618a24",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-24T10:57:31Z",
+      "side": 1,
+      "message": "I made this parameter required.\nfor moving computation of id inside function: We would need to pass side, line number. I think it\u0027s ok to leave computation to caller.",
+      "parentUuid": "cf16bf8e_bffff8c1",
       "revId": "b701b2be3ce6b75327dafdb85a50fe3612424881",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

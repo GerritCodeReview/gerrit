@@ -19,10 +19,10 @@ suite('gr-diff-utils tests', () => {
   test('formatText newlines 1', () => {
     let text = 'abcdef';
 
-    assert.equal(formatText(text, 'NONE', 4, 10).innerHTML, text);
+    assert.equal(formatText(text, 'NONE', 4, 10, '').innerHTML, text);
     text = 'a'.repeat(20);
     assert.equal(
-      formatText(text, 'NONE', 4, 10).innerHTML,
+      formatText(text, 'NONE', 4, 10, '').innerHTML,
       'a'.repeat(10) + LINE_BREAK_HTML + 'a'.repeat(10)
     );
   });
@@ -30,7 +30,7 @@ suite('gr-diff-utils tests', () => {
   test('formatText newlines 2', () => {
     const text = '<span class="thumbsup">👍</span>';
     assert.equal(
-      formatText(text, 'NONE', 4, 10).innerHTML,
+      formatText(text, 'NONE', 4, 10, '').innerHTML,
       '&lt;span clas' +
         LINE_BREAK_HTML +
         's="thumbsu' +
@@ -44,7 +44,7 @@ suite('gr-diff-utils tests', () => {
   test('formatText newlines 3', () => {
     const text = '01234\t56789';
     assert.equal(
-      formatText(text, 'NONE', 4, 10).innerHTML,
+      formatText(text, 'NONE', 4, 10, '').innerHTML,
       '01234' + createTabWrapper(3).outerHTML + '56' + LINE_BREAK_HTML + '789'
     );
   });
@@ -52,7 +52,7 @@ suite('gr-diff-utils tests', () => {
   test('formatText newlines 4', () => {
     const text = '👍'.repeat(58);
     assert.equal(
-      formatText(text, 'NONE', 4, 20).innerHTML,
+      formatText(text, 'NONE', 4, 20, '').innerHTML,
       '👍'.repeat(20) +
         LINE_BREAK_HTML +
         '👍'.repeat(20) +
@@ -81,7 +81,7 @@ suite('gr-diff-utils tests', () => {
     assert.ok(wrapper);
     assert.equal(wrapper.innerText, '\t');
     assert.equal(
-      formatText(html, 'NONE', tabSize, Infinity).innerHTML,
+      formatText(html, 'NONE', tabSize, Infinity, '').innerHTML,
       'abc' + wrapper.outerHTML + 'def'
     );
   });
@@ -94,20 +94,27 @@ suite('gr-diff-utils tests', () => {
       input,
       'NONE',
       1,
-      Number.POSITIVE_INFINITY
+      Number.POSITIVE_INFINITY,
+      ''
     ).innerHTML;
     assert.equal(result, expected);
 
     input = '& < > " \' / `';
     expected = '&amp; &lt; &gt; " \' / `';
-    result = formatText(input, 'NONE', 1, Number.POSITIVE_INFINITY).innerHTML;
+    result = formatText(
+      input,
+      'NONE',
+      1,
+      Number.POSITIVE_INFINITY,
+      ''
+    ).innerHTML;
     assert.equal(result, expected);
   });
 
   test('text length with tabs and unicode', () => {
     function expectTextLength(text: string, tabSize: number, expected: number) {
       // Formatting to |expected| columns should not introduce line breaks.
-      const result = formatText(text, 'NONE', tabSize, expected);
+      const result = formatText(text, 'NONE', tabSize, expected, '');
       assert.isNotOk(
         result.querySelector('.contentText > .br'),
         '  Expected the result of: \n' +
@@ -118,17 +125,17 @@ suite('gr-diff-utils tests', () => {
 
       // Increasing the line limit should produce the same markup.
       assert.equal(
-        formatText(text, 'NONE', tabSize, Infinity).innerHTML,
+        formatText(text, 'NONE', tabSize, Infinity, '').innerHTML,
         result.innerHTML
       );
       assert.equal(
-        formatText(text, 'NONE', tabSize, expected + 1).innerHTML,
+        formatText(text, 'NONE', tabSize, expected + 1, '').innerHTML,
         result.innerHTML
       );
 
       // Decreasing the line limit should introduce line breaks.
       if (expected > 0) {
-        const tooSmall = formatText(text, 'NONE', tabSize, expected - 1);
+        const tooSmall = formatText(text, 'NONE', tabSize, expected - 1, '');
         assert.isOk(
           tooSmall.querySelector('.contentText > .br'),
           '  Expected the result of: \n' +

@@ -99,6 +99,31 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilderLegacy {
     row.setAttribute('right-type', rightLine.type);
     // TabIndex makes screen reader read a row when navigating with j/k
     row.tabIndex = -1;
+    // Before Chrome 102, Chrome was able to compute a11y label from children
+    // content. Now Chrome 102 and Firefox are not computing a11y label because
+    // tr is not expected to have aria label. Adding aria role button is
+    // pushing browser to compute aria even for tr. This can be removed, once
+    // browsers will again compute a11y label even for tr when it is focused.
+    if (
+      leftLine.beforeNumber !== 'FILE' &&
+      leftLine.beforeNumber !== 'LOST' &&
+      rightLine.beforeNumber !== 'FILE' &&
+      rightLine.beforeNumber !== 'LOST'
+    ) {
+      row.setAttribute('role', 'button');
+      row.setAttribute('aria-roledescription', 'Code line');
+      row.setAttribute(
+        'aria-labelledby',
+        [
+          leftLine.beforeNumber ? `left-button-${leftLine.beforeNumber}` : '',
+          leftLine.beforeNumber ? `left-content-${leftLine.beforeNumber}` : '',
+          rightLine.afterNumber ? `right-button-${rightLine.afterNumber}` : '',
+          rightLine.afterNumber ? `right-content-${rightLine.afterNumber}` : '',
+        ]
+          .join(' ')
+          .trim()
+      );
+    }
 
     row.appendChild(this.createBlameCell(leftLine.beforeNumber));
 

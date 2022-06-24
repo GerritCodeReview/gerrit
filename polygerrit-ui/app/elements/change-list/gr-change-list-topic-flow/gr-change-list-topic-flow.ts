@@ -53,6 +53,8 @@ export class GrChangeListTopicFlow extends LitElement {
 
   private restApiService = getAppContext().restApiService;
 
+  private readonly reportingService = getAppContext().reportingService;
+
   static override get styles() {
     return [
       spinnerStyles,
@@ -364,6 +366,10 @@ export class GrChangeListTopicFlow extends LitElement {
   }
 
   private removeTopics() {
+    this.reportingService.reportInteraction('bulk-action', {
+      type: 'removing-topic',
+      selectedChangeCount: this.selectedChanges.length,
+    });
     this.loadingText = `Removing topic${
       this.selectedExistingTopics.size > 1 ? 's' : ''
     }...`;
@@ -380,6 +386,10 @@ export class GrChangeListTopicFlow extends LitElement {
   }
 
   private applyTopicToAll() {
+    this.reportingService.reportInteraction('bulk-action', {
+      type: 'apply-topic-to-all',
+      selectedChangeCount: this.selectedChanges.length,
+    });
     this.loadingText = 'Applying to all';
     const topic = Array.from(this.selectedExistingTopics.values())[0];
     this.trackPromises(
@@ -392,6 +402,10 @@ export class GrChangeListTopicFlow extends LitElement {
   }
 
   private addTopic(loadingText: string, creatingTopic?: boolean) {
+    this.reportingService.reportInteraction('bulk-action', {
+      type: 'add-topic',
+      selectedChangeCount: this.selectedChanges.length,
+    });
     let alert = '';
     if (creatingTopic) {
       alert = `${this.topicToAdd} created`;

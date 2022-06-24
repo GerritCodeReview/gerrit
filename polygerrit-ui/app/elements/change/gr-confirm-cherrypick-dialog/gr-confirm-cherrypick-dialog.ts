@@ -499,7 +499,6 @@ export class GrConfirmCherrypickDialog extends LitElement {
   }
 
   private computeMessage() {
-    // Polymer 2: check for undefined
     if (
       this.changeStatus === undefined ||
       this.commitNum === undefined ||

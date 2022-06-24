@@ -112,7 +112,6 @@ export class GrAccountDropdown extends LitElement {
   }
 
   _getLinks(switchAccountUrl?: string, path?: string) {
-    // Polymer 2: check for undefined
     if (switchAccountUrl === undefined || path === undefined) {
       return undefined;
     }

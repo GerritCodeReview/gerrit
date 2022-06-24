@@ -486,7 +486,6 @@ export class GrMainHeader extends LitElement {
     // defaultLinks parameter is used in tests only
     defaultLinks = DEFAULT_LINKS
   ) {
-    // Polymer 2: check for undefined
     if (
       userLinks === undefined ||
       adminLinks === undefined ||

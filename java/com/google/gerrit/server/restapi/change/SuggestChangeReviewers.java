@@ -93,6 +93,7 @@ public class SuggestChangeReviewers extends SuggestReviewers
       throw new BadRequestException(
           String.format("Unsupported reviewer state: %s", ReviewerState.REMOVED));
     }
+
     return Response.ok(
         reviewersUtil.suggestReviewers(
             reviewerState,

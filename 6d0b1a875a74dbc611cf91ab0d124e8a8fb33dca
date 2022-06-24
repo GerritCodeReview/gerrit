@@ -68,6 +68,30 @@
       },
       "revId": "6d0b1a875a74dbc611cf91ab0d124e8a8fb33dca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce7a66c2_baae5a20",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1854,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-24T08:47:00Z",
+      "side": 1,
+      "message": "`if (e.key \u003d\u003d\u003d Key.DOWN) return;` was there, didn\u0027t see so this was never being triggered in the first place.",
+      "parentUuid": "96bf9579_02383d68",
+      "range": {
+        "startLine": 1854,
+        "startChar": 8,
+        "endLine": 1854,
+        "endChar": 53
+      },
+      "revId": "6d0b1a875a74dbc611cf91ab0d124e8a8fb33dca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

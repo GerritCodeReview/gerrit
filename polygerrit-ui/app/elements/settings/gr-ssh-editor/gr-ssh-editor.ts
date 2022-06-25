@@ -18,7 +18,6 @@ import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import '../../shared/gr-overlay/gr-overlay';
-import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {SshKeyInfo} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
@@ -240,14 +239,14 @@ export class GrSshEditor extends LitElement {
   }
 
   private showKey(e: Event) {
-    const el = (dom(e) as EventApi).localTarget as GrButton;
+    const el = e.target as GrButton;
     const index = Number(el.getAttribute('data-index')!);
     this.keyToView = this.keys[index];
     this.viewKeyOverlay.open();
   }
 
   private handleDeleteKey(e: Event) {
-    const el = (dom(e) as EventApi).localTarget as GrButton;
+    const el = e.target as GrButton;
     const index = Number(el.getAttribute('data-index')!);
     this.keysToRemove.push(this.keys[index]);
     this.keys.splice(index, 1);

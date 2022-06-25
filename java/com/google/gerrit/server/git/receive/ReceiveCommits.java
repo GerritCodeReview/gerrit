@@ -3469,7 +3469,7 @@ class ReceiveCommits {
                     rw.markStart(newTip);
                     rw.markUninteresting(rw.parseCommit(cmd.getOldId()));
 
-                    Map<Change.Key, ChangeNotes> byKey = null;
+                    Map<Change.Key, ChangeData> changeDataByKey = null;
                     List<ReplaceRequest> replaceAndClose = new ArrayList<>();
 
                     int existingPatchSets = 0;
@@ -3505,8 +3505,8 @@ class ReceiveCommits {
 
                       for (String changeId :
                           ChangeUtil.getChangeIdsFromFooter(c, urlFormatter.get())) {
-                        if (byKey == null) {
-                          byKey =
+                        if (changeDataByKey == null) {
+                          changeDataByKey =
                               retryHelper
                                   .changeIndexQuery(
                                       "queryOpenChangesByKeyByBranch",
@@ -3514,14 +3514,15 @@ class ReceiveCommits {
                                   .call();
                         }
 
-                        ChangeNotes onto = byKey.get(Change.key(changeId.trim()));
+                        ChangeData onto = changeDataByKey.get(Change.key(changeId.trim()));
                         if (onto != null) {
                           newPatchSets++;
                           // Hold onto this until we're done with the walk, as the call to
                           // req.validate below calls isMergedInto which resets the walk.
+                          ChangeNotes ontoNotes = onto.notes();
                           ReplaceRequest req =
-                              new ReplaceRequest(onto.getChangeId(), c, cmd, false);
-                          req.notes = onto;
+                              new ReplaceRequest(ontoNotes.getChangeId(), c, cmd, false);
+                          req.notes = ontoNotes;
                           replaceAndClose.add(req);
                           continue COMMIT;
                         }
@@ -3594,14 +3595,17 @@ class ReceiveCommits {
     }
   }
 
-  private Map<Change.Key, ChangeNotes> openChangesByKeyByBranch(
+  private Map<Change.Key, ChangeData> openChangesByKeyByBranch(
       InternalChangeQuery internalChangeQuery, BranchNameKey branch) {
     try (TraceTimer traceTimer =
         newTimer("openChangesByKeyByBranch", Metadata.builder().branchName(branch.branch()))) {
-      Map<Change.Key, ChangeNotes> r = new HashMap<>();
+      Map<Change.Key, ChangeData> r = new HashMap<>();
       for (ChangeData cd : internalChangeQuery.byBranchOpen(branch)) {
         try {
-          r.put(cd.change().getKey(), cd.notes());
+          // ChangeData is not materialised into a ChangeNotes for avoiding
+          // to load a potentially large number of changes meta-data into memory
+          // which would cause unnecessary disk I/O, CPU and heap utilisation.
+          r.put(cd.change().getKey(), cd);
         } catch (NoSuchChangeException e) {
           // Ignore deleted change
         }

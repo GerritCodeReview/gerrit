@@ -30,6 +30,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.index.account.AccountIndexRewriter;
 import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
+import com.google.gerrit.server.notedb.Sequences;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -41,6 +42,7 @@ import com.google.inject.Provider;
  */
 public class AccountQueryProcessor extends QueryProcessor<AccountState> {
   private final AccountControl.Factory accountControlFactory;
+  private final Sequences sequences;
 
   static {
     // It is assumed that basic rewrites do not touch visibleto predicates.
@@ -57,7 +59,8 @@ public class AccountQueryProcessor extends QueryProcessor<AccountState> {
       IndexConfig indexConfig,
       AccountIndexCollection indexes,
       AccountIndexRewriter rewriter,
-      AccountControl.Factory accountControlFactory) {
+      AccountControl.Factory accountControlFactory,
+      Sequences sequences) {
     super(
         metricMaker,
         AccountSchemaDefinitions.INSTANCE,
@@ -67,6 +70,7 @@ public class AccountQueryProcessor extends QueryProcessor<AccountState> {
         FIELD_LIMIT,
         () -> limitsFactory.create(userProvider.get()).getQueryLimit());
     this.accountControlFactory = accountControlFactory;
+    this.sequences = sequences;
   }
 
   @Override
@@ -78,5 +82,15 @@ public class AccountQueryProcessor extends QueryProcessor<AccountState> {
   @Override
   protected String formatForLogging(AccountState accountState) {
     return accountState.account().id().toString();
+  }
+
+  @Override
+  protected int getIndexSize() {
+    return sequences.lastAccountId();
+  }
+
+  @Override
+  protected int getBatchSize() {
+    return sequences.accountBatchSize();
   }
 }

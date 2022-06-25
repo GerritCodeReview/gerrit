@@ -107,11 +107,19 @@ public class DocIndexer {
 
         String title;
         try (BufferedReader titleReader = Files.newBufferedReader(file.toPath(), UTF_8)) {
-          title = titleReader.readLine();
-          if (title != null && title.startsWith("[[")) {
+          while ((title = titleReader.readLine()) != null) {
             // Generally the first line of the txt is the title. In a few cases the
-            // first line is a "[[tag]]" and the second line is the title.
-            title = titleReader.readLine();
+            // first lines are "[[tag]]" and or ":attribute:" and the next line
+            // after those  is the title.
+            if (title.startsWith("[[")) {
+              continue;
+            }
+            // Skip attributes such as :linkattrs:
+            if (title.startsWith(":") && title.endsWith(":")) {
+              continue;
+            }
+            // We found the title
+            break;
           }
         }
         Matcher matcher = SECTION_HEADER.matcher(title);

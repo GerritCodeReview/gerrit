@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "391539c3_9ca519dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-25T15:03:58Z",
+      "side": 1,
+      "message": "Personally, this is not how I would prefer to get fixes merged to stable branches, but try to always target the oldest supported branch and merge the fix up to master.\n\nBut I agree, that our process doesn\u0027t really enforce one way or another, as it\u0027s saying, see `Documentation/dev-crafting-changes.txt`:\n\n```\n[...]\n* Improvements of existing features should also generally go into\n  `master`. But we understand that if you cannot run `master`, it\n  might take a while until you could benefit from it. In that case,\n  implement the feature on master and, if you really need it on an\n  earlier `stable-*` branch, cherry-pick the change and build\n  Gerrit on your own environent.\n* Bug-fixes should generally at least cover the oldest affected and\n  still supported version. If you\u0027re affected and run an even older\n  version, you\u0027re welcome to upload to that older version, even if\n  it is no longer officially supported, bearing in mind that\n  verification and release may happen only once merged upstream.\n```",
+      "parentUuid": "dc7cea9f_1ea05a9e",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 29
+      },
+      "revId": "f5e3dd3b65c0fc19a06bd707f493c8615f64bca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "078a9afa_7438a5b0",
@@ -274,6 +298,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5b1ceacb_6a035212",
+        "filename": "java/com/google/gerrit/common/UsedAt.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-25T15:03:58Z",
+      "side": 1,
+      "message": "We should try to improve the code if we are touching it. To minimize the diff, you could fix the wrong sorting order in its own change, rebase this change on top of it and add new entry alphabetically sorted.",
+      "parentUuid": "a25af975_987800f7",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 28
+      },
+      "revId": "f5e3dd3b65c0fc19a06bd707f493c8615f64bca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2ab7d002_0b6e53dc",
         "filename": "java/com/google/gerrit/server/git/DelegateRepository.java",
         "patchSetId": 2
@@ -333,6 +381,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "2ab7d002_0b6e53dc",
+      "range": {
+        "startLine": 69,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 34
+      },
+      "revId": "f5e3dd3b65c0fc19a06bd707f493c8615f64bca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b2f98e4_d7f277b8",
+        "filename": "java/com/google/gerrit/server/git/DelegateRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-25T15:03:58Z",
+      "side": 1,
+      "message": "\u003e Otherwise I see someone in the near future to bring that back as package protected because isn\u0027t used externally, isn\u0027t it?\n\nNot really. See my another comment: if you suggest to add a test to call this public method in addition to already existing caller site from com.google.gerrit.server.git.GarbageCollection#run() we could add a test to the  existing or new class in a *different* package than com.google.gerrit.server.git. Therefore if someone would change the method from public to package private or protected then the test wouldn\u0027t compile until she would also remove the test 😊.\n\nThat\u0027s why I suggest to only add the annotation, but not the test or vice versa.",
+      "parentUuid": "68af492e_488a80a3",
       "range": {
         "startLine": 69,
         "startChar": 2,
@@ -428,6 +500,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "a6ff7aa5_60360265",
+      "range": {
+        "startLine": 70,
+        "startChar": 2,
+        "endLine": 70,
+        "endChar": 30
+      },
+      "revId": "f5e3dd3b65c0fc19a06bd707f493c8615f64bca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d93c4b7b_2fdc2d51",
+        "filename": "java/com/google/gerrit/server/git/DelegateRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-25T15:03:58Z",
+      "side": 1,
+      "message": "\u003e True, but test coverage isn\u0027t necessarily contract testing. \n\nThe existing test is actually triggering an invocation of this method, see: GarbageCollection:89\n\n```\n            Git.wrap(\n                    repo instanceof DelegateRepository\n                        ? ((DelegateRepository) repo).delegate()\n                        : repo)\n                .gc();\n```",
+      "parentUuid": "7a1f91c4_495607f2",
       "range": {
         "startLine": 70,
         "startChar": 2,

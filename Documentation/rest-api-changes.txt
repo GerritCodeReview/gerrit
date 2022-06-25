@@ -7376,12 +7376,12 @@ Only set if the file was renamed or copied.
 Number of inserted lines. +
 Not set for binary files or if no lines were inserted. +
 An empty last line is not included in the count and hence this number can
-differ by one from details provided in <<#diff-info,DiffInfo>>.
+differ by one from details provided in <<diff-info,DiffInfo>>.
 |`lines_deleted` |optional|
 Number of deleted lines. +
 Not set for binary files or if no lines were deleted. +
 An empty last line is not included in the count and hence this number can
-differ by one from details provided in <<#diff-info,DiffInfo>>.
+differ by one from details provided in <<diff-info,DiffInfo>>.
 |`size_delta`    ||
 Number of bytes by which the file size increased/decreased.
 |`size`          ||

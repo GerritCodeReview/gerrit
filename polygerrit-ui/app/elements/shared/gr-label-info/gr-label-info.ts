@@ -11,7 +11,6 @@ import '../gr-account-chip/gr-account-chip';
 import '../gr-button/gr-button';
 import '../gr-icons/gr-icons';
 import '../gr-tooltip-content/gr-tooltip-content';
-import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {
   AccountInfo,
   LabelInfo,
@@ -253,7 +252,7 @@ export class GrLabelInfo extends LitElement {
     if (!this.change) return;
 
     e.preventDefault();
-    let target = (dom(e) as EventApi).rootTarget as GrButton;
+    let target = e.composedPath()[0] as GrButton;
     while (!target.classList.contains('deleteBtn')) {
       if (!target.parentElement) {
         return;

@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e8e48f2d_89573fc1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-25T11:58:32Z",
+      "side": 1,
+      "message": "+1, but I\u0027d wait first to get some consensus on master, WDYT?",
+      "parentUuid": "c1ec5b24_93de3a61",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 29
+      },
+      "revId": "f5e3dd3b65c0fc19a06bd707f493c8615f64bca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "078a9afa_7438a5b0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -60,6 +84,30 @@
       "writtenOn": "2022-06-25T11:03:37Z",
       "side": 1,
       "message": "We usually reference change with change number, change 339244 or using abbreviated Change-Id: Ia3fbdc7e96.",
+      "range": {
+        "startLine": 13,
+        "startChar": 22,
+        "endLine": 15,
+        "endChar": 79
+      },
+      "revId": "f5e3dd3b65c0fc19a06bd707f493c8615f64bca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77d36a93_1b69bb56",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-25T11:58:32Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "95839d48_40fbd6a2",
       "range": {
         "startLine": 13,
         "startChar": 22,
@@ -135,6 +183,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f81a23c3_5a8f91d9",
+        "filename": "java/com/google/gerrit/server/git/DelegateRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-25T11:58:32Z",
+      "side": 1,
+      "message": "Agreed, but this should stay IMHO to indicate the reason why it is public and not package protected. Otherwise I see someone in the near future to bring that back as package protected because isn\u0027t used externally, isn\u0027t it?",
+      "parentUuid": "2ab7d002_0b6e53dc",
+      "range": {
+        "startLine": 69,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 34
+      },
+      "revId": "f5e3dd3b65c0fc19a06bd707f493c8615f64bca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "95042091_2578461f",
         "filename": "java/com/google/gerrit/server/git/DelegateRepository.java",
         "patchSetId": 2
@@ -170,6 +242,30 @@
       "side": 1,
       "message": "\u003e There are currently zero tests on this method: because this becomes public, we need to make sure that its contract is tested.\n\nThis is not accurate. Original change 326777 added test coverage for this method, see: [1]\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/326777/4/javatests/com/google/gerrit/server/git/GarbageCollectionTest.java\n\n\u003e Also, we should have the associated JavaDocs.\n\n+1.",
       "parentUuid": "95042091_2578461f",
+      "range": {
+        "startLine": 70,
+        "startChar": 2,
+        "endLine": 70,
+        "endChar": 30
+      },
+      "revId": "f5e3dd3b65c0fc19a06bd707f493c8615f64bca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6ff7aa5_60360265",
+        "filename": "java/com/google/gerrit/server/git/DelegateRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-25T11:58:32Z",
+      "side": 1,
+      "message": "\u003e \u003e There are currently zero tests on this method: because this becomes public, we need to make sure that its contract is tested.\n\u003e \n\u003e This is not accurate. Original change 326777 added test coverage for this method, see: [1]\n\u003e \n\u003e [1] https://gerrit-review.googlesource.com/c/gerrit/+/326777/4/javatests/com/google/gerrit/server/git/GarbageCollectionTest.java\n\nTrue, but test coverage isn\u0027t necessarily contract testing. I believe we should test the documented behaviour: when you create a delegate repo wrapper, then the delegate() should return the wrapped repo.",
+      "parentUuid": "24298cb3_03d3e8f2",
       "range": {
         "startLine": 70,
         "startChar": 2,

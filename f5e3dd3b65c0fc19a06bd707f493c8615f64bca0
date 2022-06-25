@@ -3,6 +3,138 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c1ec5b24_93de3a61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-25T11:03:37Z",
+      "side": 1,
+      "message": "This methods was added as package protected on stable-3.5 branch. Should this change also be moved to stable-3.5 branch so that the plugins could already access it when targeting 3.5.x release line?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 29
+      },
+      "revId": "f5e3dd3b65c0fc19a06bd707f493c8615f64bca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "078a9afa_7438a5b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-25T11:03:37Z",
+      "side": 1,
+      "message": "Can you provide more context, may be reference original Issue 14945 with change 326777 where it was introduce to solve git gc problem for sites using multi-site plugin, to access underlying repository. And may be mention, that the only caller of this method was performed from the same package, and that\u0027s why the method was made package private in the first place.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 30
+      },
+      "revId": "f5e3dd3b65c0fc19a06bd707f493c8615f64bca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95839d48_40fbd6a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-25T11:03:37Z",
+      "side": 1,
+      "message": "We usually reference change with change number, change 339244 or using abbreviated Change-Id: Ia3fbdc7e96.",
+      "range": {
+        "startLine": 13,
+        "startChar": 22,
+        "endLine": 15,
+        "endChar": 79
+      },
+      "revId": "f5e3dd3b65c0fc19a06bd707f493c8615f64bca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78164bfe_7c664afb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-25T11:03:37Z",
+      "side": 1,
+      "message": "Reference Bug: Issue 15997?",
+      "revId": "f5e3dd3b65c0fc19a06bd707f493c8615f64bca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d16695f_42b6d886",
+        "filename": "java/com/google/gerrit/common/UsedAt.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-25T11:03:37Z",
+      "side": 1,
+      "message": "Sort alphabetically (it is already in wrong order, though)?",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 28
+      },
+      "revId": "f5e3dd3b65c0fc19a06bd707f493c8615f64bca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ab7d002_0b6e53dc",
+        "filename": "java/com/google/gerrit/server/git/DelegateRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-25T11:03:37Z",
+      "side": 1,
+      "message": "This method is already called from git package in Gerrit core. If another caller site in gerrit core, outside of the git package would need to call this method, then we could probably remove this annotation.",
+      "range": {
+        "startLine": 69,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 34
+      },
+      "revId": "f5e3dd3b65c0fc19a06bd707f493c8615f64bca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "95042091_2578461f",
         "filename": "java/com/google/gerrit/server/git/DelegateRepository.java",
         "patchSetId": 2
@@ -14,6 +146,30 @@
       "writtenOn": "2022-06-24T19:52:59Z",
       "side": 1,
       "message": "There are currently zero tests on this method: because this becomes public, we need to make sure that its contract is tested.\n\nAlso, we should have the associated JavaDocs.",
+      "range": {
+        "startLine": 70,
+        "startChar": 2,
+        "endLine": 70,
+        "endChar": 30
+      },
+      "revId": "f5e3dd3b65c0fc19a06bd707f493c8615f64bca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24298cb3_03d3e8f2",
+        "filename": "java/com/google/gerrit/server/git/DelegateRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-25T11:03:37Z",
+      "side": 1,
+      "message": "\u003e There are currently zero tests on this method: because this becomes public, we need to make sure that its contract is tested.\n\nThis is not accurate. Original change 326777 added test coverage for this method, see: [1]\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/326777/4/javatests/com/google/gerrit/server/git/GarbageCollectionTest.java\n\n\u003e Also, we should have the associated JavaDocs.\n\n+1.",
+      "parentUuid": "95042091_2578461f",
       "range": {
         "startLine": 70,
         "startChar": 2,

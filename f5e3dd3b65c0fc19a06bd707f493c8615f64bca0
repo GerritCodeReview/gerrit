@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc7cea9f_1ea05a9e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-06-25T13:26:50Z",
+      "side": 1,
+      "message": "The idea would be to merge it in master and eventually port it back to the other stable branches.",
+      "parentUuid": "c1ec5b24_93de3a61",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 29
+      },
+      "revId": "f5e3dd3b65c0fc19a06bd707f493c8615f64bca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "078a9afa_7438a5b0",
@@ -61,6 +85,30 @@
       "writtenOn": "2022-06-25T11:03:37Z",
       "side": 1,
       "message": "Can you provide more context, may be reference original Issue 14945 with change 326777 where it was introduce to solve git gc problem for sites using multi-site plugin, to access underlying repository. And may be mention, that the only caller of this method was performed from the same package, and that\u0027s why the method was made package private in the first place.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 30
+      },
+      "revId": "f5e3dd3b65c0fc19a06bd707f493c8615f64bca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa269412_ee5d3fd6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-06-25T13:26:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "078a9afa_7438a5b0",
       "range": {
         "startLine": 9,
         "startChar": 0,
@@ -118,6 +166,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6365413a_2f07484f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-06-25T13:26:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77d36a93_1b69bb56",
+      "range": {
+        "startLine": 13,
+        "startChar": 22,
+        "endLine": 15,
+        "endChar": 79
+      },
+      "revId": "f5e3dd3b65c0fc19a06bd707f493c8615f64bca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "78164bfe_7c664afb",
@@ -135,6 +207,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc974f8a_8b4954c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-06-25T13:26:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78164bfe_7c664afb",
+      "revId": "f5e3dd3b65c0fc19a06bd707f493c8615f64bca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9d16695f_42b6d886",
@@ -148,6 +238,30 @@
       "writtenOn": "2022-06-25T11:03:37Z",
       "side": 1,
       "message": "Sort alphabetically (it is already in wrong order, though)?",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 28
+      },
+      "revId": "f5e3dd3b65c0fc19a06bd707f493c8615f64bca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a25af975_987800f7",
+        "filename": "java/com/google/gerrit/common/UsedAt.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-06-25T13:26:50Z",
+      "side": 1,
+      "message": "I thought about that, but they are in the wrong order, hence I preferred adding it at the bottom of the `PLUGIN_` section to minimise the diff.",
+      "parentUuid": "9d16695f_42b6d886",
       "range": {
         "startLine": 46,
         "startChar": 4,
@@ -194,6 +308,30 @@
       "writtenOn": "2022-06-25T11:58:32Z",
       "side": 1,
       "message": "Agreed, but this should stay IMHO to indicate the reason why it is public and not package protected. Otherwise I see someone in the near future to bring that back as package protected because isn\u0027t used externally, isn\u0027t it?",
+      "parentUuid": "2ab7d002_0b6e53dc",
+      "range": {
+        "startLine": 69,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 34
+      },
+      "revId": "f5e3dd3b65c0fc19a06bd707f493c8615f64bca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68af492e_488a80a3",
+        "filename": "java/com/google/gerrit/server/git/DelegateRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-06-25T13:26:50Z",
+      "side": 1,
+      "message": "Ack",
       "parentUuid": "2ab7d002_0b6e53dc",
       "range": {
         "startLine": 69,
@@ -266,6 +404,30 @@
       "side": 1,
       "message": "\u003e \u003e There are currently zero tests on this method: because this becomes public, we need to make sure that its contract is tested.\n\u003e \n\u003e This is not accurate. Original change 326777 added test coverage for this method, see: [1]\n\u003e \n\u003e [1] https://gerrit-review.googlesource.com/c/gerrit/+/326777/4/javatests/com/google/gerrit/server/git/GarbageCollectionTest.java\n\nTrue, but test coverage isn\u0027t necessarily contract testing. I believe we should test the documented behaviour: when you create a delegate repo wrapper, then the delegate() should return the wrapped repo.",
       "parentUuid": "24298cb3_03d3e8f2",
+      "range": {
+        "startLine": 70,
+        "startChar": 2,
+        "endLine": 70,
+        "endChar": 30
+      },
+      "revId": "f5e3dd3b65c0fc19a06bd707f493c8615f64bca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a1f91c4_495607f2",
+        "filename": "java/com/google/gerrit/server/git/DelegateRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-06-25T13:26:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6ff7aa5_60360265",
       "range": {
         "startLine": 70,
         "startChar": 2,

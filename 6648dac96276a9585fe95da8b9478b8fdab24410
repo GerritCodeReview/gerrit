@@ -52,6 +52,75 @@
       "parentUuid": "a513c41c_5a2c88e4",
       "revId": "6648dac96276a9585fe95da8b9478b8fdab24410",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f24d6e03_43c70679",
+        "filename": "project.config",
+        "patchSetId": 5
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-25T11:41:29Z",
+      "side": 1,
+      "message": "This doesn\u0027t appear to work as expected, as it is flagging (merge) changes that didn\u0027t change any files from those directories to require SR: Change-Is-FW-Compatible.\n\nShould this be reverted to unblock approving and merging changes?",
+      "range": {
+        "startLine": 120,
+        "startChar": 45,
+        "endLine": 120,
+        "endChar": 164
+      },
+      "revId": "6648dac96276a9585fe95da8b9478b8fdab24410",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9618bfed_eb3df53e",
+        "filename": "project.config",
+        "patchSetId": 5
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-25T11:41:29Z",
+      "side": 1,
+      "message": "Is this actually needed (or copy/paste from the previous rule)? There is a restriction to changes in Java files in specified directories, that would never be added to the refs/meta/config branch.",
+      "range": {
+        "startLine": 120,
+        "startChar": 16,
+        "endLine": 120,
+        "endChar": 44
+      },
+      "revId": "6648dac96276a9585fe95da8b9478b8fdab24410",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d36fe61_ca99a77d",
+        "filename": "project.config",
+        "patchSetId": 5
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-25T11:41:29Z",
+      "side": 1,
+      "message": "Is this needed? Gerrit project doesn\u0027t have any child project.",
+      "range": {
+        "startLine": 122,
+        "startChar": 1,
+        "endLine": 122,
+        "endChar": 35
+      },
+      "revId": "6648dac96276a9585fe95da8b9478b8fdab24410",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

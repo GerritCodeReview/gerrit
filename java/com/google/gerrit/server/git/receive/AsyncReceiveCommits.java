@@ -35,6 +35,7 @@ import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PublishCommentsOp;
+import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -381,7 +382,7 @@ public class AsyncReceiveCommits {
         () -> {
           String oldName = Thread.currentThread().getName();
           Thread.currentThread().setName(oldName + "-for-" + currentThreadName);
-          try {
+          try (PerThreadCache threadLocalCache = PerThreadCache.create()) {
             return receiveCommits.processCommands(commands, monitor);
           } finally {
             Thread.currentThread().setName(oldName);

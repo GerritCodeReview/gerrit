@@ -5135,6 +5135,9 @@ Supported key exchange algorithms:
 * `ecdh-sha2-nistp521`
 * `ecdh-sha2-nistp384`
 * `ecdh-sha2-nistp256`
+* `curve25519-sha256`
+* `curve25519-sha256@libssh.org`
+* `curve448-sha512`
 * `diffie-hellman-group-exchange-sha256`
 * `diffie-hellman-group18-sha512`
 * `diffie-hellman-group17-sha512`

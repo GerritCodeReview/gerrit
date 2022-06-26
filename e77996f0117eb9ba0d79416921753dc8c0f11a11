@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "37dbe841_e555cfb4",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5083,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-26T09:11:10Z",
+      "side": 1,
+      "message": "I think this is a documentation problem in Apache MINA. Should be fixed in: [1].\n\n[1] https://github.com/apache/mina-sshd/pull/228",
+      "parentUuid": "51051fbe_237b5f3a",
+      "range": {
+        "startLine": 5083,
+        "startChar": 0,
+        "endLine": 5083,
+        "endChar": 12
+      },
+      "revId": "e77996f0117eb9ba0d79416921753dc8c0f11a11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f3b97fb4_4476862c",
@@ -37,6 +61,24 @@
       "writtenOn": "2022-06-26T07:38:18Z",
       "side": 1,
       "message": "optional: it would be useful to add a reference to the associated Apache Mina documentation [1].\n\n[1] https://github.com/apache/mina-sshd/blob/\u003cversion\u003e/README.md#implementedavailable-support",
+      "revId": "e77996f0117eb9ba0d79416921753dc8c0f11a11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cae60e22_b181eff1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5084,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-26T09:11:10Z",
+      "side": 1,
+      "message": "Good idea, this should be done in a follow-up change.\n\nAlso if we would add this external reference, we would have to update the links, when MINA SSHD release is bumped:\n\n  https://github.com/apache/mina-sshd/blob/sshd-2.8.0/README.md#implementedavailable-support",
+      "parentUuid": "f3b97fb4_4476862c",
       "revId": "e77996f0117eb9ba0d79416921753dc8c0f11a11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

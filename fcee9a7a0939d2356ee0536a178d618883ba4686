@@ -16,6 +16,23 @@
       "message": "@Kaushik I ported your original change 337374 to stable-3.6 branch, after `gr-message.ts` was migrated to `lit` in change 336816. Thorough review is needed.\n\nAnother option would be to revert this change in this merge series, and upload new implementation to stable-3.6 branch as a new change. In the first patch set of this merge change I did just that, but then figured how to re-implement your fix after `lit` migration. Can you verify that legacy change messages still work as expected with this change?\n\nAdding also Polygerrit maintainers to confirm correct resolution of non trivial conflicts in front end code.\n",
       "revId": "fcee9a7a0939d2356ee0536a178d618883ba4686",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25d2c35d_20c6b9f9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-06-26T16:30:02Z",
+      "side": 1,
+      "message": "Frontend changes look good to me (+2 for the frontend changes).",
+      "revId": "fcee9a7a0939d2356ee0536a178d618883ba4686",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -81,6 +81,24 @@
       "parentUuid": "f3b97fb4_4476862c",
       "revId": "e77996f0117eb9ba0d79416921753dc8c0f11a11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9b8b37e_45b6be54",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5084,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-26T09:54:25Z",
+      "side": 1,
+      "message": "It would be also nice to link to the specific implementations section, e.g. in Gerrit\u0027s `sshd.ciphers` to link to Apache MINA\u0027s https://github.com/davido/mina-sshd/tree/extract_anchors_for_implementation_algorithms#ciphers .\n\nI\u0027ve sent this PR to support the implementataion details specific sections in README.md: [2].\n\n[2] https://github.com/apache/mina-sshd/pull/229",
+      "parentUuid": "cae60e22_b181eff1",
+      "revId": "e77996f0117eb9ba0d79416921753dc8c0f11a11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

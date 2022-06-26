@@ -308,44 +308,6 @@ public class PushAccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void pushAccountConfigToUserBranchForReviewIsRejectedOnSubmitIfOwnAccountIsDeactivated()
-      throws Exception {
-    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
-    try (Registration registration =
-        extensionRegistry.newRegistration().add(accountIndexedCounter)) {
-      String userRef = RefNames.refsUsers(admin.id());
-      TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
-      fetch(allUsersRepo, userRef + ":userRef");
-      allUsersRepo.reset("userRef");
-
-      Config ac = getAccountConfig(allUsersRepo);
-      ac.setBoolean(AccountProperties.ACCOUNT, null, AccountProperties.KEY_ACTIVE, false);
-
-      PushOneCommit.Result r =
-          pushFactory
-              .create(
-                  admin.newIdent(),
-                  allUsersRepo,
-                  "Update account config",
-                  AccountProperties.ACCOUNT_CONFIG,
-                  ac.toText())
-              .to(MagicBranch.NEW_CHANGE + userRef);
-      r.assertOkStatus();
-      accountIndexedCounter.assertNoReindex();
-      assertThat(r.getChange().change().getDest().branch()).isEqualTo(userRef);
-
-      gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
-      ResourceConflictException thrown =
-          assertThrows(
-              ResourceConflictException.class,
-              () -> gApi.changes().id(r.getChangeId()).current().submit());
-      assertThat(thrown)
-          .hasMessageThat()
-          .contains("invalid account configuration: cannot deactivate own account");
-    }
-  }
-
-  @Test
   public void pushAccountConfigToUserBranchForReviewDeactivateOtherAccount() throws Exception {
     AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
     try (Registration registration =
@@ -624,33 +586,6 @@ public class PushAccountIT extends AbstractDaemonTest {
       AccountInfo info = gApi.accounts().id(foo.id().get()).get();
       assertThat(info.email).isEqualTo(email);
       assertThat(info.name).isEqualTo(foo.fullName());
-    }
-  }
-
-  @Test
-  public void pushAccountConfigToUserBranchIsRejectedIfOwnAccountIsDeactivated() throws Exception {
-    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
-    try (Registration registration =
-        extensionRegistry.newRegistration().add(accountIndexedCounter)) {
-      TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
-      fetch(allUsersRepo, RefNames.refsUsers(admin.id()) + ":userRef");
-      allUsersRepo.reset("userRef");
-
-      Config ac = getAccountConfig(allUsersRepo);
-      ac.setBoolean(AccountProperties.ACCOUNT, null, AccountProperties.KEY_ACTIVE, false);
-
-      PushOneCommit.Result r =
-          pushFactory
-              .create(
-                  admin.newIdent(),
-                  allUsersRepo,
-                  "Update account config",
-                  AccountProperties.ACCOUNT_CONFIG,
-                  ac.toText())
-              .to(RefNames.REFS_USERS_SELF);
-      r.assertErrorStatus("invalid account configuration");
-      r.assertMessage("cannot deactivate own account");
-      accountIndexedCounter.assertNoReindex();
     }
   }
 

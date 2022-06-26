@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "42a229ef_524e93b9",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5083,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-26T10:03:59Z",
+      "side": 1,
+      "message": "Turns out this is a documentation bug in Apache MINA, see Thomas Wolf\u0027s comment in my PR: `When that was written, the Java enum constant names were used by mistake instead of the algorithm names.`",
+      "parentUuid": "37dbe841_e555cfb4",
+      "range": {
+        "startLine": 5083,
+        "startChar": 0,
+        "endLine": 5083,
+        "endChar": 12
+      },
+      "revId": "e77996f0117eb9ba0d79416921753dc8c0f11a11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f3b97fb4_4476862c",

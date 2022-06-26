@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e28cae3d_6bbb574a",
+        "filename": "javatests/com/google/gerrit/integration/git/NoAccessSameAsNotFoundIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-26T18:37:32Z",
+      "side": 1,
+      "message": "I just realized that this test is not actually executed during bazel test phase, because the dedicated BUILD file only specify Archive and Git protocol v2 tests:\n\n  $ bazel test javatests/com/google/gerrit/integration/git/...\n  INFO: Build completed successfully, 190 total actions\n  //javatests/com/google/gerrit/integration/git:protocol-v2                PASSED in 38.8s\n  //javatests/com/google/gerrit/integration/git:upload-archive             PASSED in 29.0s",
+      "revId": "2fc16a4f7083a859fd4d36403c89402e53b8a497",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

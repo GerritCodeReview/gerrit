@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68c6a254_4affa6d3",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 3534,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-27T10:32:29Z",
+      "side": 1,
+      "message": "nit: the caller",
+      "range": {
+        "startLine": 3534,
+        "startChar": 44,
+        "endLine": 3534,
+        "endChar": 50
+      },
+      "revId": "0dbd1e7c03871681fc34f01a39469586973d3e08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0060e84d_87f98059",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 3535,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-27T10:32:29Z",
+      "side": 1,
+      "message": "nit: `refs/meta/config` branch",
+      "range": {
+        "startLine": 3535,
+        "startChar": 0,
+        "endLine": 3535,
+        "endChar": 18
+      },
+      "revId": "0dbd1e7c03871681fc34f01a39469586973d3e08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f5f38e1_0c9879af",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 3535,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-27T10:32:29Z",
+      "side": 1,
+      "message": "nit: maybe \"all parent projects\" or \"the parent projects\"",
+      "range": {
+        "startLine": 3535,
+        "startChar": 22,
+        "endLine": 3535,
+        "endChar": 37
+      },
+      "revId": "0dbd1e7c03871681fc34f01a39469586973d3e08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f589d4d2_b760e88c",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListSubmitRequirements.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-27T10:32:29Z",
+      "side": 1,
+      "message": "[optional] Maybe change this to ImmutableList so that callers know that they cannot modify the returned list.",
+      "range": {
+        "startLine": 81,
+        "startChar": 10,
+        "endLine": 81,
+        "endChar": 14
+      },
+      "revId": "0dbd1e7c03871681fc34f01a39469586973d3e08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

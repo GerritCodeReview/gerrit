@@ -22,6 +22,7 @@ export class GrRangedCommentHint extends LitElement {
       css`
         .row {
           display: flex;
+          --gr-range-header-color: var(--ranged-comment-hint-text-color);
         }
         gr-range-header {
           flex-grow: 1;
@@ -31,22 +32,11 @@ export class GrRangedCommentHint extends LitElement {
   }
 
   override render() {
-    // To pass CSS mixins for @apply to Polymer components, they need to appear
-    // in <style> inside the template.
-    /* eslint-disable lit/prefer-static-styles */
-    const customStyle = html`
-      <style>
-        .row {
-          --gr-range-header-color: var(--ranged-comment-hint-text-color);
-        }
-      </style>
-    `;
-    return html`${customStyle}
-      <div class="rangeHighlight row">
-        <gr-range-header icon="gr-icons:comment"
-          >${this._computeRangeLabel(this.range)}</gr-range-header
-        >
-      </div>`;
+    return html`<div class="rangeHighlight row">
+      <gr-range-header icon="gr-icons:comment"
+        >${this._computeRangeLabel(this.range)}</gr-range-header
+      >
+    </div>`;
   }
 
   _computeRangeLabel(range?: CommentRange): string {

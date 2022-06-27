@@ -49,6 +49,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0dc8bb69_46c069ae",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-06-27T10:21:11Z",
+      "side": 1,
+      "message": "Looks like after [Milutin\u0027s change](https://gerrit-review.googlesource.com/c/gerrit/+/339914) it is only needed [here](https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer.ts;l\u003d576;drc\u003d17bbf1b46455aed84f8f4eee36c2045991cb2d20) still (and in this change).",
+      "parentUuid": "6f2476b6_bb82c5eb",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 28
+      },
+      "revId": "241c74f8343b5f5742c4779df55727fc1b59ffb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6aee5e45_988560e7",
         "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
         "patchSetId": 4

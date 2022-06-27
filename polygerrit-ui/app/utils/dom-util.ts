@@ -385,23 +385,7 @@ export interface ShortcutOptions {
 }
 
 /**
- * @deprecated
- *
- * For LitElement use the shortcut-controller.
- */
-export function addGlobalShortcut(
-  shortcut: Binding,
-  listener: (e: KeyboardEvent) => void,
-  options: ShortcutOptions = {
-    shouldSuppress: true,
-    doNotPrevent: false,
-  }
-) {
-  return addShortcut(document.body, shortcut, listener, options);
-}
-
-/**
- * @deprecated
+ * @deprecated.
  *
  * For LitElement use the shortcut-controller.
  */

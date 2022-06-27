@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26b2789c_c47ec68e",
+        "filename": "java/com/google/gerrit/server/git/DelegateRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-27T21:23:36Z",
+      "side": 1,
+      "message": "As Davido suggested, if we test that the method is public we do not necessarily need to say who is using it.",
+      "range": {
+        "startLine": 70,
+        "startChar": 2,
+        "endLine": 70,
+        "endChar": 34
+      },
+      "revId": "c27f9ecb901afa2f39c0be01f3d1ed5731340e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63e12c70_17b459bc",
+        "filename": "javatests/com/google/gerrit/server/git/delegate/DelegateRepositoryTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-27T21:23:36Z",
+      "side": 1,
+      "message": "Why not just renaming the one you have created in the parent change?",
+      "revId": "c27f9ecb901afa2f39c0be01f3d1ed5731340e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

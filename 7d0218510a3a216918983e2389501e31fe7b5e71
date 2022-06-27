@@ -217,6 +217,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "300cd2fe_2ca70e8b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-06-27T08:31:26Z",
+      "side": 1,
+      "message": "\u003e \u003e Ideally we would make PushAccountIT [...]\n\u003e \n\u003e As I said in my previous comment, PushAccountIT is an acceptance test (derived from AbstractDaemonTest) that is using InProcessProtocol.\n\nThe InProcessProtocol is a performance optimization due to which the issue addressed in this change was hidden. Shall we be worried about that?\nMaybe we would see more such issues if more acceptance tests would be (re)written\nas standalone site tests.\n\n\u003e \n\u003e I wrote a real integration test, derived from StandaloneSiteTest, to reproduce this problem, see change 339671. Also note, that the test is passing, because I reverted non working test for own account deactivation in parent change 339668.\n\nThanks I would use your standalone test.",
+      "parentUuid": "49b5361d_2df9e72a",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 52
+      },
+      "revId": "7d0218510a3a216918983e2389501e31fe7b5e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f549b13d_03844c78",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

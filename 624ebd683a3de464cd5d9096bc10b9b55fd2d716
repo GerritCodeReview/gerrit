@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ead85d4d_7a6ab157",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-06-27T08:31:26Z",
+      "side": 1,
+      "message": "Thank you for your further investigation on this issue.\n\n\u003e As mentioned in the Issue 16038 I did some investigation, and it seems that the problem was introduced in change 115151, with this check in AccountValidator, see the commit message\n\u003e \n\u003e ```\n\u003e   However pushing updates to an account.config file is still rejected if:\n\u003e   [...]\n\u003e   - the own account is deactivated\n\u003e ```\n\u003e \n\u003e If I swap the order of conditions:\n\u003e \n\u003e   if (!newAccount.get().isActive() \u0026\u0026 accountId.equals(self.get().getAccountId())) {\n\u003e       messages.add(\"cannot deactivate own account\");\n\u003e     }\n\u003e \n\u003e the code would work unless the account is indeed deactivated, during push to refs/users/* over HTTP.\n\u003e \n\u003e As an alternative approach we could remove the check, see change 339668.\n\nBoth approaches avoid getting the current user from a thread where current user is not propagated.\n\nSo we have two approaches:\n1. avoid using current user when not in a request processing thread\n2. propagate the WebSession to the request scope of the task submitted to run in another thread pool\n\nI lean towards the approach 2.\nFor example, remember that we also have refs/users/${shardeduserid} pattern and that we\nneed the current user to resolve ${sharededuserid}. Without propagating the\nWebSession, the resolution may work (when done from the request processing thread)\nor may fail (when done from another thread, like AsyncReceiveCommits).\n\nIf we go for the approach 1 then that means that all (permission) evaluations which request current user have to be done in the request processing thread before submitting any asynchronous tasks which continue processing of that request. If that assumption is not made explicit, this issue will hit us again in the future.\n\nWDYT? approach 1 or 2?\n\n\u003e \n\u003e Given that change 115151 was included since 2.15 release, this regression wasn\u0027t detected for years.\n\u003e \n\u003e Optional: provide the above context in the commit message?\n\nSure, we can add more context to the commit message.",
+      "parentUuid": "c3e69258_01a0eccc",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 18
+      },
+      "revId": "624ebd683a3de464cd5d9096bc10b9b55fd2d716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0e7348d9_0b2c537d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -43,6 +67,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "acf55e64_13eb39ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-06-27T08:31:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0e7348d9_0b2c537d",
+      "revId": "624ebd683a3de464cd5d9096bc10b9b55fd2d716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d4c0991e_d2627232",
         "filename": "java/com/google/gerrit/server/util/GuiceRequestScopePropagator.java",
         "patchSetId": 4
@@ -54,6 +96,30 @@
       "writtenOn": "2022-06-27T04:03:45Z",
       "side": 1,
       "message": "To fix the build dependency and to allow import of `WebSession` here, I tried two different approaches:\n\n* Move `WebSession` class to `com.google.gerrit.server?` package, see change 339669, but gave up, as it\u0027s too intrusive change and just feels totally wrong to me from the clear separation of concerns: `WebSession` actually belongs per definition to `c.g.g.httpd` package\n* Move GuiceRequestScopePropagator class to `com.google.gerrit.httpd` package, see change 339670, especially because the only caller of this class is WebModule, that itself already located in this package. This approach sounds right and looks promising.",
+      "range": {
+        "startLine": 57,
+        "startChar": 5,
+        "endLine": 57,
+        "endChar": 88
+      },
+      "revId": "624ebd683a3de464cd5d9096bc10b9b55fd2d716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "498aa9e1_0f6cc6a7",
+        "filename": "java/com/google/gerrit/server/util/GuiceRequestScopePropagator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-06-27T08:31:26Z",
+      "side": 1,
+      "message": "The second approach sounds right, I agree fully.",
+      "parentUuid": "d4c0991e_d2627232",
       "range": {
         "startLine": 57,
         "startChar": 5,

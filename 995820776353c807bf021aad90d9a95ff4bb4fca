@@ -16,6 +16,29 @@
       "message": "Thanks, PTAL",
       "revId": "995820776353c807bf021aad90d9a95ff4bb4fca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "619237da_5b8e703f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-06-27T14:35:47Z",
+      "side": 1,
+      "message": "is this one ok? Usually it is `_-_` and this is `-_-`",
+      "range": {
+        "startLine": 157,
+        "startChar": 22,
+        "endLine": 157,
+        "endChar": 25
+      },
+      "revId": "995820776353c807bf021aad90d9a95ff4bb4fca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

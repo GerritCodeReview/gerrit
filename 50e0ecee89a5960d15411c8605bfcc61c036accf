@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd71b9fa_773b93ba",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-27T15:21:22Z",
+      "side": 1,
+      "message": "If condition fits on a single line.",
+      "revId": "50e0ecee89a5960d15411c8605bfcc61c036accf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69d4a70d_db5b3e86",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-27T15:21:22Z",
+      "side": 1,
+      "message": "If you make this function async, even the start of it will be done asynchronously.\n\nMaybe instead:\n\n```\nprivate focusWithoutSuggestions() {\n  this.disableSuggestions \u003d true;\n  this.focus();\n  \n  this.updateComplete().then(() \u003d\u003e this.disableSuggestions \u003d false};\n}\n```\n\nEspecially given you don\u0027t actually want to wait for the promise.",
+      "revId": "50e0ecee89a5960d15411c8605bfcc61c036accf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ef49c0b_cafdd4a4",
+        "filename": "polygerrit-ui/app/test/test-utils.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-27T15:21:22Z",
+      "side": 1,
+      "message": "Unrelated change? You don\u0027t seem to be using this new functionality in the tests.",
+      "revId": "50e0ecee89a5960d15411c8605bfcc61c036accf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

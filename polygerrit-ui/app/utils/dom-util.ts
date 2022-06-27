@@ -3,13 +3,6 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-
-/**
- * Event emitted from polymer elements.
- */
-export interface PolymerEvent extends EventApi, Event {}
-
 interface ElementWithShadowRoot extends Element {
   shadowRoot: ShadowRoot;
 }
@@ -391,6 +384,11 @@ export interface ShortcutOptions {
   doNotPrevent?: boolean;
 }
 
+/**
+ * Deprecated.
+ *
+ * For LitElement use the shortcut-controller.
+ */
 export function addGlobalShortcut(
   shortcut: Binding,
   listener: (e: KeyboardEvent) => void,
@@ -406,7 +404,6 @@ export function addGlobalShortcut(
  * Deprecated.
  *
  * For LitElement use the shortcut-controller.
- * For PolymerElement use the keyboard-shortcut-mixin.
  */
 export function addShortcut(
   element: HTMLElement,

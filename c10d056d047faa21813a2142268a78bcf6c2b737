@@ -22,6 +22,30 @@
       },
       "revId": "c10d056d047faa21813a2142268a78bcf6c2b737",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e0d237b_f6503bcf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-06-27T13:08:46Z",
+      "side": 1,
+      "message": "I wouldn’t have thought so but that’s unrelated to this change.",
+      "parentUuid": "2da4fd40_e97477d8",
+      "range": {
+        "startLine": 248,
+        "startChar": 28,
+        "endLine": 248,
+        "endChar": 35
+      },
+      "revId": "c10d056d047faa21813a2142268a78bcf6c2b737",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

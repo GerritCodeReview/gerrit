@@ -30,7 +30,7 @@ import org.eclipse.jgit.lib.ObjectId;
  *
  * <p>All returned collections are unmodifiable.
  */
-interface ExternalIdCache {
+public interface ExternalIdCache {
   Optional<ExternalId> byKey(ExternalId.Key key) throws IOException;
 
   ImmutableSet<ExternalId> byAccount(Account.Id accountId) throws IOException;

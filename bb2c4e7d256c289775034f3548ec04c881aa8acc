@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fe26b1f7_a56132a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-27T13:30:16Z",
+      "side": 1,
+      "message": "Yeah, this is not a pgm (aka a program that is a server side administrative tool [1]), but I also think it doesn\u0027t need to be one, as we are intending to make this a schema migration (see l. 27-29) below. A pgm is only needed if for some reason it\u0027s not possible to implement this as a schema migration. So I think rephrasing this should be sufficient.\n\n[1] https://gerrit-review.googlesource.com/Documentation/pgm-index.html",
+      "parentUuid": "d798e665_088d3315",
+      "range": {
+        "startLine": 7,
+        "startChar": 6,
+        "endLine": 7,
+        "endChar": 9
+      },
+      "revId": "bb2c4e7d256c289775034f3548ec04c881aa8acc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bb5da239_fc91deff",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -37,6 +61,30 @@
       "writtenOn": "2022-06-23T16:00:38Z",
       "side": 1,
       "message": "I think your intent is to make this safe to run ahead of upgrading. Is that true? If yes, how could someone do that?",
+      "range": {
+        "startLine": 28,
+        "startChar": 37,
+        "endLine": 29,
+        "endChar": 15
+      },
+      "revId": "bb2c4e7d256c289775034f3548ec04c881aa8acc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ae4514d_b74883fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-27T13:30:16Z",
+      "side": 1,
+      "message": "We have a custom framework to run migrations against all our live servers. For such a migration we write custom code, and in this case this code will get the MigrateLabelFunctionsToSubmitRequirement class injected to do the migration of the project configs, the same way as the upstream schema migration will get the MigrateLabelFunctionsToSubmitRequirement class injected to do the migration of the project configs.\n\nFWIW the upstream schema migration could be part of this change, instead of being a follow-up change. I believe this change followed the example of the MigrateLabelConfigToCopyCondition migration were this was split in 2 changes. In that case I\u0027ve split this in 2 changes because we were waiting for another migration (persist copied votes) to be done in the latest stable branch, and we had to avoid a clash between the schema versions, hence the migration in master could only be submitted after the other migration landed in the stable branch and was merged into master (note that in the end persisting copied votes had been implemented as a pgm program and not as a schema migration, so in retrospect this was not necessary).",
+      "parentUuid": "bb5da239_fc91deff",
       "range": {
         "startLine": 28,
         "startChar": 37,
@@ -66,6 +114,23 @@
         "endLine": 31,
         "endChar": 19
       },
+      "revId": "bb2c4e7d256c289775034f3548ec04c881aa8acc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d2d0a0a_7e285511",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-27T13:30:16Z",
+      "side": 1,
+      "message": "Didn\u0027t review the code yet.",
       "revId": "bb2c4e7d256c289775034f3548ec04c881aa8acc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

@@ -13,6 +13,7 @@ import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import {BindValueChangeEvent} from '../../../types/events';
 import {SuggestedReviewerInfo} from '../../../types/common';
+import {PaperInputElement} from '@polymer/paper-input/paper-input';
 
 /**
  * gr-account-entry is an element for entering account
@@ -89,7 +90,7 @@ export class GrAccountEntry extends LitElement {
     }
   }
 
-  get focusStart() {
+  get focusStart(): PaperInputElement | undefined {
     return this.input!.focusStart;
   }
 

@@ -74,7 +74,7 @@ import {
 import {CommentThread, isUnresolved} from '../../../utils/comment-util';
 import {GrTextarea} from '../../shared/gr-textarea/gr-textarea';
 import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
-import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
+import {GrOverlay, GrOverlayStops} from '../../shared/gr-overlay/gr-overlay';
 import {
   getApprovalInfo,
   getMaxAccounts,
@@ -1225,7 +1225,7 @@ export class GrReplyDialog extends LitElement {
     this.focusOn(FocusTarget.ANY);
   }
 
-  getFocusStops() {
+  getFocusStops(): GrOverlayStops | undefined {
     const end = this.sendDisabled ? this.cancelButton : this.sendButton;
     if (!this.reviewersList?.focusStart || !end) return undefined;
     return {

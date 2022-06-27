@@ -21,7 +21,7 @@ import {PaperInputElement} from '@polymer/paper-input/paper-input';
  */
 @customElement('gr-account-entry')
 export class GrAccountEntry extends LitElement {
-  @query('#input') private input?: GrAutocomplete;
+  @query('#input') input?: GrAutocomplete;
 
   /**
    * Fired when an account is entered.

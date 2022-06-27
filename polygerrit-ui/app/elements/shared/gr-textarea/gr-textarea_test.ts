@@ -244,12 +244,12 @@ suite('gr-textarea tests', () => {
     assert.equal(element.text, 'test test 😂');
   });
 
-  test('updateCaratPosition', async () => {
+  test('updateEmojiCaratPosition', async () => {
     element.textarea!.selectionStart = 4;
     element.textarea!.selectionEnd = 4;
     element.text = 'test';
     await element.updateComplete;
-    element.updateCaratPosition();
+    element.updateEmojiCaratPosition();
     assert.deepEqual(
       element.hiddenText!.innerHTML,
       element.text + element.caratSpan!.outerHTML

@@ -265,6 +265,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5fdf842b_fd11dbfd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-06-27T10:22:23Z",
+      "side": 1,
+      "message": "\u003e Remember Shawn\u0027s statement: \"Performance is a feature\". This also applies to the tests.\n\nSure, I agree with that. However, tests shouldn\u0027t only be fast but also correct.\nMy concern was about the fact that the PushAccountIT gave us a false sense of safety: we feel like we tested push to refs/users/* and all tests are passing but in production the same scenario fails.",
+      "parentUuid": "106ebf9d_59dc7ec2",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 52
+      },
+      "revId": "7d0218510a3a216918983e2389501e31fe7b5e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f549b13d_03844c78",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

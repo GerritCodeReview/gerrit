@@ -16,6 +16,24 @@
       "message": "Do you agree that we rebase this change onto master and submit it? It doesn\u0027t really depend on any of its parent changes.",
       "revId": "3f4a828b3a201f028310b67b9788d078a41bfec6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a0d8fe5_19840697",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-06-27T10:27:25Z",
+      "side": 1,
+      "message": "Actually I would move this change to stable-3.4 in order to provide this as a predecessor of 339779",
+      "parentUuid": "f57ead01_7525de64",
+      "revId": "3f4a828b3a201f028310b67b9788d078a41bfec6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

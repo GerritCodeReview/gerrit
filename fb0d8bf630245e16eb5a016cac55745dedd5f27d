@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e69dde42_43b9ed1c",
+        "filename": "javatests/com/google/gerrit/integration/git/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-06-27T11:20:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e95b82b_ad4c62c2",
+      "range": {
+        "startLine": 3,
+        "startChar": 61,
+        "endLine": 3,
+        "endChar": 63
+      },
+      "revId": "fb0d8bf630245e16eb5a016cac55745dedd5f27d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1677f2ea_c080d667",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-06-27T11:13:40Z",
       "side": 1,
       "message": "particularly",
+      "range": {
+        "startLine": 4,
+        "startChar": 54,
+        "endLine": 4,
+        "endChar": 66
+      },
+      "revId": "fb0d8bf630245e16eb5a016cac55745dedd5f27d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ea507d4_281df62a",
+        "filename": "javatests/com/google/gerrit/integration/git/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-06-27T11:20:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1677f2ea_c080d667",
       "range": {
         "startLine": 4,
         "startChar": 54,

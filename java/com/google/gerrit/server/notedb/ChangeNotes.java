@@ -406,6 +406,10 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return state.metaId();
   }
 
+  public String getServerId() {
+    return state.serverId();
+  }
+
   public ImmutableSortedMap<PatchSet.Id, PatchSet> getPatchSets() {
     if (patchSets == null) {
       ImmutableSortedMap.Builder<PatchSet.Id, PatchSet> b =
@@ -655,7 +659,9 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
      * be to bump the cache version, but that would invalidate all persistent cache entries, what we
      * rather try to avoid.
      */
-    if (!Strings.isNullOrEmpty(stateServerId) && !args.serverId.equals(stateServerId)) {
+    if (!Strings.isNullOrEmpty(stateServerId)
+        && !args.serverId.equals(stateServerId)
+        && !args.importedServerIds.contains(stateServerId)) {
       throw new InvalidServerIdException(args.serverId, stateServerId);
     }
 

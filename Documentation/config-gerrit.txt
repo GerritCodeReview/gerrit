@@ -2543,6 +2543,21 @@ Rolling upgrade may or may not be possible depending on the changes introduced
 by the target version of the upgrade. Refer to the release notes and check whether
 the rolling upgrade is possible or not and the associated constraints.
 
+[[gerrit.importedServerId]]gerrit.importedServerId::
++
+ServerId of the repositories imported from other Gerrit servers. Changes coming
+associated with the imported serverIds are indexed and displayed in the UI.
++
+Specify multiple `gerrit.importedServerId` for allowing the import from multiple
+Gerrit servers with different serverIds. The servers associated with the imported
+serverIds need to have the same or a subset of the account Ids of the hosting
+Gerrit server.
++
+If this value is not set, all changes imported from other Gerrit servers will be
+ignored.
++
+By default empty.
+
 [[gerrit.serverId]]gerrit.serverId::
 +
 Used by NoteDb to, amongst other things, identify author identities from

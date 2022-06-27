@@ -1005,6 +1005,18 @@ export class GrChangeView extends LitElement {
           box-sizing: border-box;
           max-width: 12em;
           --paper-tab-ink: var(--link-color);
+          --paper-font-common-base_-_font-family: var(--header-font-family);
+          --paper-font-common-base_-_-webkit-font-smoothing: initial;
+          --paper-tab-content_-_margin-bottom: var(--spacing-s);
+          /* paper-tabs uses 700 here, which can look awkward */
+          --paper-tab-content-focused_-_font-weight: var(--font-weight-h3);
+          --paper-tab-content-focused_-_background: var(
+            --gray-background-focus
+          );
+          --paper-tab-content-unselected_-_opacity: 1;
+          --paper-tab-content-unselected_-_color: var(
+            --deemphasized-text-color
+          );
         }
         gr-thread-list,
         gr-messages-list {
@@ -1384,57 +1396,59 @@ export class GrChangeView extends LitElement {
   }
 
   private renderPaperTabs() {
-    return html` <paper-tabs
-      id="primaryTabs"
-      @selected-changed=${this.setActivePrimaryTab}
-    >
-      <paper-tab @click=${this.onPaperTabClick} data-name=${PrimaryTab.FILES}
-        ><span>Files</span></paper-tab
+    return html`
+      <paper-tabs
+        id="primaryTabs"
+        @selected-changed=${this.setActivePrimaryTab}
       >
-      <paper-tab
-        @click=${this.onPaperTabClick}
-        data-name=${PrimaryTab.COMMENT_THREADS}
-        class="commentThreads"
-      >
-        <gr-tooltip-content
-          has-tooltip
-          title=${ifDefined(this.computeTotalCommentCounts())}
+        <paper-tab @click=${this.onPaperTabClick} data-name=${PrimaryTab.FILES}
+          ><span>Files</span></paper-tab
         >
-          <span>Comments</span></gr-tooltip-content
+        <paper-tab
+          @click=${this.onPaperTabClick}
+          data-name=${PrimaryTab.COMMENT_THREADS}
+          class="commentThreads"
         >
-      </paper-tab>
-      ${when(
-        this.showChecksTab,
-        () => html`
-          <paper-tab
-            data-name=${PrimaryTab.CHECKS}
-            @click=${this.onPaperTabClick}
-            ><span>Checks</span></paper-tab
+          <gr-tooltip-content
+            has-tooltip
+            title=${ifDefined(this.computeTotalCommentCounts())}
           >
-        `
-      )}
-      ${this.dynamicTabHeaderEndpoints.map(
-        tabHeader => html`
-          <paper-tab data-name=${tabHeader}>
-            <gr-endpoint-decorator name=${tabHeader}>
-              <gr-endpoint-param name="change" .value=${this.change}>
-              </gr-endpoint-param>
-              <gr-endpoint-param
-                name="revision"
-                .value=${this.selectedRevision}
-              >
-              </gr-endpoint-param>
-            </gr-endpoint-decorator>
-          </paper-tab>
-        `
-      )}
-      <paper-tab
-        data-name=${PrimaryTab.FINDINGS}
-        @click=${this.onPaperTabClick}
-      >
-        <span>Findings</span>
-      </paper-tab>
-    </paper-tabs>`;
+            <span>Comments</span></gr-tooltip-content
+          >
+        </paper-tab>
+        ${when(
+          this.showChecksTab,
+          () => html`
+            <paper-tab
+              data-name=${PrimaryTab.CHECKS}
+              @click=${this.onPaperTabClick}
+              ><span>Checks</span></paper-tab
+            >
+          `
+        )}
+        ${this.dynamicTabHeaderEndpoints.map(
+          tabHeader => html`
+            <paper-tab data-name=${tabHeader}>
+              <gr-endpoint-decorator name=${tabHeader}>
+                <gr-endpoint-param name="change" .value=${this.change}>
+                </gr-endpoint-param>
+                <gr-endpoint-param
+                  name="revision"
+                  .value=${this.selectedRevision}
+                >
+                </gr-endpoint-param>
+              </gr-endpoint-decorator>
+            </paper-tab>
+          `
+        )}
+        <paper-tab
+          data-name=${PrimaryTab.FINDINGS}
+          @click=${this.onPaperTabClick}
+        >
+          <span>Findings</span>
+        </paper-tab>
+      </paper-tabs>
+    `;
   }
 
   private renderPatchInfoSection() {

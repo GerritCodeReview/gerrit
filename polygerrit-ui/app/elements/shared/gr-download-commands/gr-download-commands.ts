@@ -95,6 +95,18 @@ export class GrDownloadCommands extends LitElement {
           max-width: 15rem;
           text-transform: uppercase;
           --paper-tab-ink: var(--link-color);
+          --paper-font-common-base_-_font-family: var(--header-font-family);
+          --paper-font-common-base_-_-webkit-font-smoothing: initial;
+          --paper-tab-content_-_margin-bottom: var(--spacing-s);
+          /* paper-tabs uses 700 here, which can look awkward */
+          --paper-tab-content-focused_-_font-weight: var(--font-weight-h3);
+          --paper-tab-content-focused_-_background: var(
+            --gray-background-focus
+          );
+          --paper-tab-content-unselected_-_opacity: 1;
+          --paper-tab-content-unselected_-_color: var(
+            --deemphasized-text-color
+          );
         }
         label,
         input {

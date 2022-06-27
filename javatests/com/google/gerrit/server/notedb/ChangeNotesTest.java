@@ -2084,7 +2084,13 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     try (ChangeNotesRevWalk rw = ChangeNotesCommit.newRevWalk(repo)) {
       ChangeNotesParser notesWithComments =
           new ChangeNotesParser(
-              c.getId(), commitWithComments.copy(), rw, changeNoteJson, args.metrics);
+              c.getId(),
+              commitWithComments.copy(),
+              rw,
+              changeNoteJson,
+              args.metrics,
+              serverId,
+              externalIdCache);
       ChangeNotesState state = notesWithComments.parseAll();
       assertThat(state.approvals()).isEmpty();
       assertThat(state.publishedComments()).hasSize(1);
@@ -2093,7 +2099,13 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     try (ChangeNotesRevWalk rw = ChangeNotesCommit.newRevWalk(repo)) {
       ChangeNotesParser notesWithApprovals =
           new ChangeNotesParser(
-              c.getId(), commitWithApprovals.copy(), rw, changeNoteJson, args.metrics);
+              c.getId(),
+              commitWithApprovals.copy(),
+              rw,
+              changeNoteJson,
+              args.metrics,
+              serverId,
+              externalIdCache);
 
       ChangeNotesState state = notesWithApprovals.parseAll();
       assertThat(state.approvals()).hasSize(1);

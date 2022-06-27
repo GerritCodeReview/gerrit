@@ -101,16 +101,18 @@ for the list of available variables.
 Just add code like this to your JavaScript plugin:
 
 ``` js
-    const styleEl = document.createElement('style');
-    styleEl.innerHTML = `
-        html {
-          --header-background-color: #c3d9ff;
-        }
-        html.darkTheme {
-          --header-background-color: #c3d9ff90;
-        }
-    `;
-    document.head.appendChild(styleEl);
+Gerrit.install(plugin => {
+  const styleEl = document.createElement('style');
+  styleEl.innerHTML = `
+      html {
+        --header-background-color: #c3d9ff;
+      }
+      html.darkTheme {
+        --header-background-color: #c3d9ff90;
+      }
+  `;
+  document.head.appendChild(styleEl);
+});
 ```
 
 [[high-level-api-concepts]]

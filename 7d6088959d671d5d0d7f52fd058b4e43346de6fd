@@ -52,6 +52,24 @@
       "parentUuid": "6a80a670_03c4c2cd",
       "revId": "7d6088959d671d5d0d7f52fd058b4e43346de6fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "805d99fc_91c91c3c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 791,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-27T13:54:54Z",
+      "side": 1,
+      "message": "Without *this* change",
+      "parentUuid": "825cc459_69fd91eb",
+      "revId": "7d6088959d671d5d0d7f52fd058b4e43346de6fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

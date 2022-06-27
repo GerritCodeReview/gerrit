@@ -51,6 +51,24 @@
       "parentUuid": "fc021102_9fdb3092",
       "revId": "d4a8dbe4129693cf4a0b075d130772ffea9a1f39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a681f393_2cd8a0cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-27T17:05:42Z",
+      "side": 1,
+      "message": "I was able to reproduce.\n\nI cloned the gerrit repo and debugged it locally. I found that the regex expression matcher deduces that this change has 3 changed files (for latest PS against auto-merge):\n\n  * java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java\n  * java/com/google/gerrit/server/git/receive/ReceiveCommits.java\n  * java/com/google/gerrit/server/notedb/ChangeNotes.java\n  \nThe last file path matches with the regex. I was much wondering how the third one  is touched although it\u0027s not shown on the UI. I looked at the network tab in chrome for the /files request and it returns the following:\n\n  * /COMMIT_MSG: {status: \"A\", lines_inserted: 16, size_delta: 614, size: 614}\n  * /MERGE_LIST: {status: \"A\", lines_inserted: 5, size_delta: 198, size: 198}\n  * java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java: {lines_inserted: 1, lines_deleted: 10, size_delta: -424, size: 16188}\n  * java/com/google/gerrit/server/git/receive/ReceiveCommits.java: {lines_inserted: 1, lines_deleted: 7, size_delta: -325, size: 126077}\n  * java/com/google/gerrit/server/notedb/ChangeNotes.java: {lines_deleted: 108, size_delta: -4505, size: 19272}\n\nThat looks like a front-end issue, i.e. why it\u0027s displaying\n`java/com/google/gerrit/server/git/RepoRefCache.java`\n\ninstead of \n`java/com/google/gerrit/server/notedb/ChangeNotes.java`\n?\n\nI\u0027ll file a bug for the front-end team to investigate.\n\nOne can also verify that the file was modified by visiting:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/339719/1/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+      "parentUuid": "02a96a2f_f68e3648",
+      "revId": "d4a8dbe4129693cf4a0b075d130772ffea9a1f39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

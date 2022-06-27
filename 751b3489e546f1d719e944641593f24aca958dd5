@@ -16,6 +16,24 @@
       "message": "nit: wrong comment?\nSame below in line 112",
       "revId": "751b3489e546f1d719e944641593f24aca958dd5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5f12c7b_f84a0813",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-27T12:39:03Z",
+      "side": 1,
+      "message": "Sorry, that was on the old patch set.",
+      "parentUuid": "fe006382_e29bdc66",
+      "revId": "751b3489e546f1d719e944641593f24aca958dd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -28,7 +28,6 @@ import {
   ChangeStatus,
   ProgressStatus,
 } from '../../../constants/constants';
-import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {fireEvent} from '../../../utils/event-util';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -412,9 +411,7 @@ export class GrConfirmCherrypickDialog extends LitElement {
   }
 
   private toggleChangeSelected(e: Event) {
-    const changeId = ((dom(e) as EventApi).localTarget as HTMLElement).dataset[
-      'item'
-    ]! as ChangeInfoId;
+    const changeId = (e.target as HTMLElement).dataset['item']! as ChangeInfoId;
     if (this.selectedChangeIds.has(changeId))
       this.selectedChangeIds.delete(changeId);
     else this.selectedChangeIds.add(changeId);

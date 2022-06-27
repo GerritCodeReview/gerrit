@@ -14,10 +14,11 @@ import {
   shouldSuppress,
   strToClassName,
 } from './dom-util';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {html} from '@polymer/polymer/lib/utils/html-tag';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {mockPromise, queryAndAssert} from '../test/test-utils';
+import {fixture} from '@open-wc/testing-helpers';
+import {LitElement, html} from 'lit';
+import {customElement} from 'lit/decorators';
 
 /**
  * You might think that instead of passing in the callback with assertions as a
@@ -41,12 +42,9 @@ function keyEventOn(
   return promise;
 }
 
-class TestEle extends PolymerElement {
-  static get is() {
-    return 'dom-util-test-element';
-  }
-
-  static get template() {
+@customElement('dom-util-test-element')
+export class TestElement extends LitElement {
+  override render() {
     return html`
       <div>
         <div class="a">
@@ -61,15 +59,13 @@ class TestEle extends PolymerElement {
   }
 }
 
-customElements.define(TestEle.is, TestEle);
-
-const basicFixture = fixtureFromTemplate(html`
-  <div id="test" class="a b c">
+async function createFixture() {
+  return await fixture<HTMLElement>(html` <div id="test" class="a b c">
     <a class="testBtn" style="color:red;"></a>
     <dom-util-test-element></dom-util-test-element>
     <span class="ss"></span>
-  </div>
-`);
+  </div>`);
+}
 
 suite('dom-util tests', () => {
   suite('getEventPath', () => {
@@ -124,25 +120,21 @@ suite('dom-util tests', () => {
       );
     });
 
-    test('event with real click', () => {
-      const element = basicFixture.instantiate() as HTMLElement;
+    test('event with real click', async () => {
+      const element = await createFixture();
       const aLink = queryAndAssert(element, 'a');
       let path;
       aLink.addEventListener('click', (e: Event) => {
         path = getEventPath(e as MouseEvent);
       });
       MockInteractions.click(aLink);
-      assert.equal(
-        path,
-        `html.lightTheme>body>test-fixture#${basicFixture.fixtureId}>` +
-          'div#test.a.b.c>a.testBtn'
-      );
+      assert.equal(path, 'html.lightTheme>body>div>div#test.a.b.c>a.testBtn');
     });
   });
 
   suite('querySelector and querySelectorAll', () => {
-    test('query cross shadow dom', () => {
-      const element = basicFixture.instantiate() as HTMLElement;
+    test('query cross shadow dom', async () => {
+      const element = await createFixture();
       const theFirstEl = queryAndAssert(element, '.ss');
       const allEls = querySelectorAll(element, '.ss');
       assert.equal(allEls.length, 3);
@@ -151,16 +143,16 @@ suite('dom-util tests', () => {
   });
 
   suite('getComputedStyleValue', () => {
-    test('color style', () => {
-      const element = basicFixture.instantiate() as HTMLElement;
+    test('color style', async () => {
+      const element = await createFixture();
       const testBtn = queryAndAssert(element, '.testBtn');
       assert.equal(getComputedStyleValue('color', testBtn), 'rgb(255, 0, 0)');
     });
   });
 
   suite('descendedFromClass', () => {
-    test('basic tests', () => {
-      const element = basicFixture.instantiate() as HTMLElement;
+    test('basic tests', async () => {
+      const element = await createFixture();
       const testEl = queryAndAssert(element, 'dom-util-test-element');
       // .c is a child of .a and not vice versa.
       assert.isTrue(descendedFromClass(queryAndAssert(testEl, '.c'), 'a'));

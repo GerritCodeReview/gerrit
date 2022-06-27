@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "64fb4395_4ef6ad1b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-06-27T11:06:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "890ae0f0_7a8a3a20",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 18
+      },
+      "revId": "624ebd683a3de464cd5d9096bc10b9b55fd2d716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0e7348d9_0b2c537d",
@@ -103,6 +127,24 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "0e7348d9_0b2c537d",
+      "revId": "624ebd683a3de464cd5d9096bc10b9b55fd2d716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ea59abc_2d5f7139",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-06-27T11:06:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "acf55e64_13eb39ac",
       "revId": "624ebd683a3de464cd5d9096bc10b9b55fd2d716",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -192,6 +234,30 @@
       "side": 1,
       "message": "It works, I am preparing a next patch-set which will be uploaded soon.",
       "parentUuid": "61f34759_1f5dd6a0",
+      "range": {
+        "startLine": 57,
+        "startChar": 5,
+        "endLine": 57,
+        "endChar": 88
+      },
+      "revId": "624ebd683a3de464cd5d9096bc10b9b55fd2d716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2337b75e_16ae2d9f",
+        "filename": "java/com/google/gerrit/server/util/GuiceRequestScopePropagator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-06-27T11:06:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7281043_46c4cde7",
       "range": {
         "startLine": 57,
         "startChar": 5,

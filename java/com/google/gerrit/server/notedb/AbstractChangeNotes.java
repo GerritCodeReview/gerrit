@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Change;
@@ -24,6 +25,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.GerritImportedServerIds;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
@@ -51,6 +53,7 @@ public abstract class AbstractChangeNotes<T> {
     public final AllUsersName allUsers;
     public final NoteDbMetrics metrics;
     public final String serverId;
+    public final ImmutableSet<String> importedServerIds;
 
     // Providers required to avoid dependency cycles.
 
@@ -64,7 +67,8 @@ public abstract class AbstractChangeNotes<T> {
         ChangeNoteJson changeNoteJson,
         NoteDbMetrics metrics,
         Provider<ChangeNotesCache> cache,
-        @GerritServerId String serverId) {
+        @GerritServerId String serverId,
+        @GerritImportedServerIds ImmutableSet<String> importedServerIds) {
       this.failOnLoadForTest = new AtomicBoolean();
       this.repoManager = repoManager;
       this.allUsers = allUsers;
@@ -72,6 +76,7 @@ public abstract class AbstractChangeNotes<T> {
       this.metrics = metrics;
       this.cache = cache;
       this.serverId = serverId;
+      this.importedServerIds = importedServerIds;
     }
   }
 

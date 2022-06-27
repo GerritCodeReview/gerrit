@@ -51,6 +51,24 @@
       "parentUuid": "664a90ff_49ae9fb1",
       "revId": "190bed3ed74d74f86097ea75b853a9834e1c7464",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30090f38_1476ee40",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-06-27T14:57:06Z",
+      "side": 1,
+      "message": "\u003e I think another issue with this would be that html emails would need to be rendered/generated per user, rather than once, and rendering/generation html emails is expensive?\n\nno, as the templates would be still processed only once (for each of plain and html) - the body is invariant.",
+      "parentUuid": "203aac8a_87990687",
+      "revId": "190bed3ed74d74f86097ea75b853a9834e1c7464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

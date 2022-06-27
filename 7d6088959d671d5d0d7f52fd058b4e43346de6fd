@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84859fed_8a87e431",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 791,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-27T13:45:16Z",
+      "side": 1,
+      "message": "This re-introduces the bug that the diff-cursor is not set when navigating between change-page, diff-page, change-page and same diff-page because the render event is never thrown.\n\nHow to test:\nOn change-page:  ] u ]\nNotice the cursor is gone on the second entry of diff-page.",
+      "revId": "7d6088959d671d5d0d7f52fd058b4e43346de6fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -12,6 +12,7 @@ import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {GrButton} from '../gr-button/gr-button';
 import {fixture, html} from '@open-wc/testing-helpers';
 import {IronDropdownElement} from '@polymer/iron-dropdown';
+import {IronInputElement} from '@polymer/iron-input';
 
 suite('gr-editable-label tests', () => {
   let element: GrEditableLabel;
@@ -31,10 +32,9 @@ suite('gr-editable-label tests', () => {
     `);
     label = queryAndAssert<HTMLLabelElement>(element, 'label');
 
-    // In Polymer 2 inputElement isn't nativeInput anymore
     const paperInput = queryAndAssert<PaperInputElement>(element, '#input');
-    input = (paperInput.$.nativeInput ||
-      paperInput.inputElement) as HTMLInputElement;
+    input = (paperInput.inputElement as IronInputElement)
+      .inputElement as HTMLInputElement;
   });
 
   test('renders', () => {

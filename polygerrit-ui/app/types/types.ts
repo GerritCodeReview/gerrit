@@ -7,7 +7,6 @@ import {DiffLayer as DiffLayerApi} from '../api/diff';
 import {MessageTag, Side} from '../constants/constants';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes-observer';
-import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {
   AccountInfo,
   BasePatchSetNum,
@@ -42,14 +41,6 @@ export enum ErrorType {
   NETWORK = 'NETWORK',
   GENERIC = 'GENERIC',
 }
-
-/**
- * We would like to access the the typed `nativeInput` of PaperInputElement, so
- * we are creating this wrapper.
- */
-export type PaperInputElementExt = PaperInputElement & {
-  $: {nativeInput?: Element};
-};
 
 /**
  * If Polymer would have exported DomApiNative from its dom.js utility, then we

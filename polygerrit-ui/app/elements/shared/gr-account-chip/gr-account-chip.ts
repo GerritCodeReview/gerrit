@@ -136,16 +136,6 @@ export class GrAccountChip extends LitElement {
           --account-label-padding-right: 3px;
           --account-label-circle-padding-right: 3px;
         }
-      `,
-    ];
-  }
-
-  override render() {
-    // To pass CSS mixins for @apply to Polymer components, they need to appear
-    // in <style> inside the template.
-    /* eslint-disable lit/prefer-static-styles */
-    const customStyle = html`
-      <style>
         gr-button.remove::part(paper-button),
         gr-button.remove:hover::part(paper-button),
         gr-button.remove:focus::part(paper-button) {
@@ -162,38 +152,40 @@ export class GrAccountChip extends LitElement {
           padding: 0 2px 0 1px;
           text-decoration: none;
         }
-      </style>
-    `;
-    return html`${customStyle}
-      <div
-        class=${classMap({
-          ...this.computeVoteClasses(),
-          container: true,
-          closeShown: this.removable,
-        })}
-      >
-        <div>
-          <gr-account-label
-            .account=${this.account}
-            .change=${this.change}
-            ?forceAttention=${this.forceAttention}
-            ?highlightAttention=${this.highlightAttention}
-            clickable
-          >
-          </gr-account-label>
-        </div>
-        <slot name="vote-chip"></slot>
-        <gr-button
-          id="remove"
-          link=""
-          ?hidden=${!this.removable}
-          aria-label="Remove"
-          class="remove"
-          @click=${this.handleRemoveTap}
+      `,
+    ];
+  }
+
+  override render() {
+    return html`<div
+      class=${classMap({
+        ...this.computeVoteClasses(),
+        container: true,
+        closeShown: this.removable,
+      })}
+    >
+      <div>
+        <gr-account-label
+          .account=${this.account}
+          .change=${this.change}
+          ?forceAttention=${this.forceAttention}
+          ?highlightAttention=${this.highlightAttention}
+          clickable
         >
-          <iron-icon icon="gr-icons:close"></iron-icon>
-        </gr-button>
-      </div>`;
+        </gr-account-label>
+      </div>
+      <slot name="vote-chip"></slot>
+      <gr-button
+        id="remove"
+        link=""
+        ?hidden=${!this.removable}
+        aria-label="Remove"
+        class="remove"
+        @click=${this.handleRemoveTap}
+      >
+        <iron-icon icon="gr-icons:close"></iron-icon>
+      </gr-button>
+    </div>`;
   }
 
   constructor() {

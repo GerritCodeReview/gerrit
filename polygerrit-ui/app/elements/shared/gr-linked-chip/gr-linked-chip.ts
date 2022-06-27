@@ -61,16 +61,6 @@ export class GrLinkedChip extends LitElement {
           height: 1.2rem;
           width: 1.2rem;
         }
-      `,
-    ];
-  }
-
-  override render() {
-    // To pass CSS mixins for @apply to Polymer components, they need to appear
-    // in <style> inside the template.
-    /* eslint-disable lit/prefer-static-styles */
-    const customStyle = html`
-      <style>
         gr-button::part(paper-button),
         gr-button.remove:hover::part(paper-button),
         gr-button.remove:focus::part(paper-button) {
@@ -86,26 +76,28 @@ export class GrLinkedChip extends LitElement {
           padding: 0;
           text-decoration: none;
         }
-      </style>
-    `;
-    return html`${customStyle}
-      <div class="container">
-        <a href=${this.href}>
-          <gr-limited-text
-            .limit=${this.limit}
-            .text=${this.text}
-          ></gr-limited-text>
-        </a>
-        <gr-button
-          id="remove"
-          link=""
-          ?hidden=${!this.removable}
-          class="remove"
-          @click=${this.handleRemoveTap}
-        >
-          <iron-icon icon="gr-icons:close"></iron-icon>
-        </gr-button>
-      </div>`;
+      `,
+    ];
+  }
+
+  override render() {
+    return html`<div class="container">
+      <a href=${this.href}>
+        <gr-limited-text
+          .limit=${this.limit}
+          .text=${this.text}
+        ></gr-limited-text>
+      </a>
+      <gr-button
+        id="remove"
+        link=""
+        ?hidden=${!this.removable}
+        class="remove"
+        @click=${this.handleRemoveTap}
+      >
+        <iron-icon icon="gr-icons:close"></iron-icon>
+      </gr-button>
+    </div>`;
   }
 
   private handleRemoveTap(e: Event) {

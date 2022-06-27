@@ -732,26 +732,14 @@ export class GrDiffView extends LitElement {
     }
   }
 
+  private reInitCursor() {
+    assertIsDefined(this.diffHost, 'diffHost');
+    this.cursor?.replaceDiffs([this.diffHost]);
+    this.cursor?.reInitCursor();
+  }
+
   protected override updated(changedProperties: PropertyValues): void {
     super.updated(changedProperties);
-    assertIsDefined(this.diffHost, 'diffHost');
-    if (
-      changedProperties.has('change') ||
-      changedProperties.has('changeNum') ||
-      changedProperties.has('cursor') ||
-      changedProperties.has('commitRange') ||
-      changedProperties.has('path') ||
-      changedProperties.has('patchRange') ||
-      changedProperties.has('files')
-    ) {
-      // We have to wait until render because at the time of updated,
-      // gr-diff-host has not been rendered yet.
-      this.diffHost.updateComplete.then(() => {
-        assertIsDefined(this.diffHost, 'diffHost');
-        this.cursor?.replaceDiffs([this.diffHost]);
-        this.cursor?.reInitCursor();
-      });
-    }
     if (
       changedProperties.has('changeComments') ||
       changedProperties.has('path') ||
@@ -759,7 +747,7 @@ export class GrDiffView extends LitElement {
       changedProperties.has('files')
     ) {
       if (this.changeComments && this.path && this.patchRange) {
-        assertIsDefined(this.diffHost);
+        assertIsDefined(this.diffHost, 'diffHost');
         const file = this.files?.changeFilesByPath
           ? this.files.changeFilesByPath[this.path]
           : undefined;
@@ -800,6 +788,7 @@ export class GrDiffView extends LitElement {
         @edit-weblinks-changed=${this.onEditWeblinksChanged}
         @files-weblinks-changed=${this.onFilesWeblinksChanged}
         @is-image-diff-changed=${this.onIsImageDiffChanged}
+        @render=${this.reInitCursor}
       >
       </gr-diff-host>
       ${this.renderDialogs()}
@@ -1645,7 +1634,7 @@ export class GrDiffView extends LitElement {
       // Make sure to re-initialize the cursor because this is typically
       // done on the 'render' event which doesn't fire in this path as
       // rerendering is avoided.
-      this.cursor?.reInitCursor();
+      this.reInitCursor();
       return;
     }
 

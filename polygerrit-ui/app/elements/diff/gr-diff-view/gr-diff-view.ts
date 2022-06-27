@@ -1645,6 +1645,7 @@ export class GrDiffView extends LitElement {
       // done on the 'render' event which doesn't fire in this path as
       // rerendering is avoided.
       this.cursor?.reInitCursor();
+      this.diffHost?.initLayers();
       return;
     }
 

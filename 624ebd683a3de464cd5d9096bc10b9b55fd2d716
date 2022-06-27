@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "890ae0f0_7a8a3a20",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-27T09:43:44Z",
+      "side": 1,
+      "message": "\u003e Both approaches avoid getting the current user from a thread where current user is not propagated.\n\nThis is not accurate, only swapping the conditions in the if statement wouldn\u0027t solve this:\n\n  if (!newAccount.get().isActive() \u0026\u0026 accountId.equals(self.get().getAccountId())) {\n    messages.add(\"cannot deactivate own account\");\n  }\n\nthe provider wouldn\u0027t be materialized unless the account was indeed deactivated, so that the second check would have to be performed to detect that user is trying to deactivate its own account.\n\n\u003e If that assumption is not made explicit, this issue will hit us again in the future.\n\nI agree with your assessment that we should propagate current user to the asynchronous tasks.",
+      "parentUuid": "ead85d4d_7a6ab157",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 18
+      },
+      "revId": "624ebd683a3de464cd5d9096bc10b9b55fd2d716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0e7348d9_0b2c537d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -120,6 +144,30 @@
       "side": 1,
       "message": "The second approach sounds right, I agree fully.",
       "parentUuid": "d4c0991e_d2627232",
+      "range": {
+        "startLine": 57,
+        "startChar": 5,
+        "endLine": 57,
+        "endChar": 88
+      },
+      "revId": "624ebd683a3de464cd5d9096bc10b9b55fd2d716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61f34759_1f5dd6a0",
+        "filename": "java/com/google/gerrit/server/util/GuiceRequestScopePropagator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-27T09:43:44Z",
+      "side": 1,
+      "message": "Can you confirm that if you use my approach, then this dynamic class loading with Class.forName() wouldn\u0027t be needed?",
+      "parentUuid": "498aa9e1_0f6cc6a7",
       "range": {
         "startLine": 57,
         "startChar": 5,

@@ -241,6 +241,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "106ebf9d_59dc7ec2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-27T09:43:44Z",
+      "side": 1,
+      "message": "\u003e The InProcessProtocol is a performance optimization due to which the issue addressed in this change was hidden. Shall we be worried about that?\n\nRemember Shawn\u0027s statement: \"Performance is a feature\". This also applies to the tests. That\u0027s why I think the combination of the two approaches is the right way to go: We used optimized environment for the majority of the tests, but defer to the standalone integration tests, to actually use production code path in places, that don\u0027t use in optimized test environment. This is of course not a contradiction to the fact that we may figure out the way to move some tests from category 2 test to \nthe category 1 test.",
+      "parentUuid": "300cd2fe_2ca70e8b",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 52
+      },
+      "revId": "7d0218510a3a216918983e2389501e31fe7b5e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f549b13d_03844c78",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

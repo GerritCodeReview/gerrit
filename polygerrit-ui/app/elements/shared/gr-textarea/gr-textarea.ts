@@ -23,6 +23,16 @@ import {customElement, property, query, state} from 'lit/decorators';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {PropertyValues} from 'lit';
 import {classMap} from 'lit/directives/class-map';
+import {GrReviewerSuggestionsProvider} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
+import {ChangeInfo, ReviewerState, ServerInfo} from '../../../api/rest-api';
+import {AutocompleteSuggestion} from '../gr-autocomplete/gr-autocomplete';
+import {SuggestedReviewerInfo} from '../../../types/common';
+import {subscribe} from '../../lit/subscription-controller';
+import {resolve} from '../../../models/dependency';
+import {changeModelToken} from '../../../models/change/change-model';
+import {ParsedChangeInfo} from '../../../types/types';
+import {configModelToken} from '../../../models/config/config-model';
+import { GrAccountEntry } from '../gr-account-entry/gr-account-entry';
 
 const MAX_ITEMS_DROPDOWN = 10;
 
@@ -69,6 +79,8 @@ export class GrTextarea extends LitElement {
 
   @query('#emojiSuggestions') emojiSuggestions?: GrAutocompleteDropdown;
 
+  @query('#reviewerSuggestions') reviewerSuggestions?: GrAccountEntry;
+
   @query('#caratSpan', true) caratSpan?: HTMLSpanElement;
 
   @query('#hiddenText') hiddenText?: HTMLDivElement;
@@ -96,7 +108,11 @@ export class GrTextarea extends LitElement {
 
   @state() colonIndex: number | null = null;
 
+  @state() atIndex: number | null = null;
+
   @state() currentSearchString?: string;
+
+  @state() reviewerSuggestionString?: string;
 
   @state() hideEmojiAutocomplete = true;
 
@@ -111,6 +127,32 @@ export class GrTextarea extends LitElement {
 
   /** Called in disconnectedCallback. */
   private cleanups: (() => void)[] = [];
+
+  private change?: ParsedChangeInfo;
+
+  private serverConfig?: ServerInfo;
+
+  private getChangeModel = resolve(this, changeModelToken);
+
+  private readonly getConfigModel = resolve(this, configModelToken);
+
+  private readonly restApiService = getAppContext().restApiService;
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getChangeModel().change$,
+      x => (this.change = x)
+    );
+    subscribe(
+      this,
+      () => this.getConfigModel().serverConfig$,
+      config => {
+        this.serverConfig = config;
+      }
+    );
+  }
 
   override disconnectedCallback() {
     super.disconnectedCallback();
@@ -204,7 +246,35 @@ export class GrTextarea extends LitElement {
     `,
   ];
 
+  getReviewerSuggestionsProvider(change?: ChangeInfo) {
+    if (!change) return;
+    const provider = new GrReviewerSuggestionsProvider(
+      this.restApiService,
+      ReviewerState.REVIEWER,
+      this.serverConfig,
+      true,
+      change
+    );
+    return provider;
+  }
+
+  getSuggestions(
+    input: string
+  ): Promise<AutocompleteSuggestion<SuggestedReviewerInfo>[]> {
+    const provider = this.getReviewerSuggestionsProvider(
+      this.change as ChangeInfo
+    );
+    if (!provider) return Promise.resolve([]);
+    return provider.getSuggestions(input).then(suggestions => {
+      if (!suggestions) return [];
+      return suggestions.map(suggestion =>
+        provider.makeSuggestionItem(suggestion)
+      );
+    });
+  }
+
   override render() {
+    const querySuggestions = (input:any) => this.getSuggestions(input);
     return html`
       <div id="hiddenText"></div>
       <!-- When the autocomplete is open, the span is moved at the end of
@@ -220,6 +290,15 @@ export class GrTextarea extends LitElement {
         @item-selected=${this.handleEmojiSelect}
       >
       </gr-autocomplete-dropdown>
+      <gr-account-entry
+        borderless=""
+        id="reviewerSuggestions"
+        .placeholder=${this.placeholder}
+        .allowAnyInput=${true}
+        .querySuggestions=${querySuggestions}
+      >
+      </gr-account-entry>
+
       <iron-autogrow-textarea
         id="textarea"
         class=${classMap({noBorder: this.hideBorder})}
@@ -392,9 +471,6 @@ export class GrTextarea extends LitElement {
       e.detail && e.detail.value
         ? e.detail.value[this.textarea!.selectionStart - 1]
         : '';
-    if (charAtCursor !== ':' && this.colonIndex === null) {
-      return;
-    }
 
     // When a colon is detected, set a colon index. We are interested only on
     // colons after space or in beginning of textarea
@@ -406,36 +482,56 @@ export class GrTextarea extends LitElement {
         this.colonIndex = this.textarea!.selectionStart - 1;
       }
     }
-    if (this.colonIndex === null) {
-      return;
+    if (this.colonIndex) {
+      this.currentSearchString = (e.detail.value ?? '').substr(
+        this.colonIndex + 1,
+        this.textarea!.selectionStart - this.colonIndex - 1
+      );
+      this.determineSuggestions(this.currentSearchString);
+      // Under the following conditions, close and reset the dropdown:
+      // - The cursor is no longer at the end of the current search string
+      // - The search string is an space or new line
+      // - The colon has been removed
+      // - There are no suggestions that match the search string
+      if (
+        this.textarea!.selectionStart !==
+          this.currentSearchString.length + this.colonIndex + 1 ||
+        this.currentSearchString === ' ' ||
+        this.currentSearchString === '\n' ||
+        !((e.detail.value ?? '')[this.colonIndex] === ':') ||
+        !this.suggestions ||
+        !this.suggestions.length
+      ) {
+        this.resetEmojiDropdown();
+        // Otherwise open the dropdown and set the position to be just below the
+        // cursor.
+      } else if (this.emojiSuggestions!.isHidden) {
+        this.updateCaratPosition();
+      }
+      this.textarea!.textarea.focus();
     }
 
-    this.currentSearchString = (e.detail.value ?? '').substr(
-      this.colonIndex + 1,
-      this.textarea!.selectionStart - this.colonIndex - 1
-    );
-    this.determineSuggestions(this.currentSearchString);
-    // Under the following conditions, close and reset the dropdown:
-    // - The cursor is no longer at the end of the current search string
-    // - The search string is an space or new line
-    // - The colon has been removed
-    // - There are no suggestions that match the search string
-    if (
-      this.textarea!.selectionStart !==
-        this.currentSearchString.length + this.colonIndex + 1 ||
-      this.currentSearchString === ' ' ||
-      this.currentSearchString === '\n' ||
-      !((e.detail.value ?? '')[this.colonIndex] === ':') ||
-      !this.suggestions ||
-      !this.suggestions.length
-    ) {
-      this.resetEmojiDropdown();
-      // Otherwise open the dropdown and set the position to be just below the
-      // cursor.
-    } else if (this.emojiSuggestions!.isHidden) {
-      this.updateCaratPosition();
+    // When @ is detected, set a @ index. We are interested only on
+    // @ after space or in beginning of textarea
+    if (charAtCursor === '@') {
+      if (
+        this.textarea!.selectionStart < 2 ||
+        (e.detail.value ?? '')[this.textarea!.selectionStart - 2] === ' '
+      ) {
+        this.atIndex = this.textarea!.selectionStart - 1;
+      }
     }
-    this.textarea!.textarea.focus();
+    if (this.atIndex) {
+      this.reviewerSuggestionString = (e.detail.value ?? '').substr(
+        this.atIndex + 1,
+        this.textarea!.selectionStart - this.atIndex - 1
+      );
+    }
+  }
+
+  private openReviewerDropdown() {
+    this.reviewerSuggestions!.input!.open();
+    this.reporting.reportInteraction('open-emoji-dropdown');
   }
 
   private openEmojiDropdown() {

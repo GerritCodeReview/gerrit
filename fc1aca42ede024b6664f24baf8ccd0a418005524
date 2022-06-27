@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbea34c5_a49ed428",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-27T14:47:01Z",
+      "side": 1,
+      "message": "Thank you for reworking the change! LGTM.",
+      "revId": "fc1aca42ede024b6664f24baf8ccd0a418005524",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61b61bfd_a0ad4aba",
+        "filename": "javatests/com/google/gerrit/server/index/IndexedFieldTest.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-27T14:47:01Z",
+      "side": 1,
+      "message": "nit: Please fix the license header",
+      "revId": "fc1aca42ede024b6664f24baf8ccd0a418005524",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

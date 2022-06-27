@@ -40,6 +40,7 @@ import com.google.gerrit.server.account.FakeRealm;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.account.ServiceUserClassifier;
+import com.google.gerrit.server.account.externalids.ExternalIdCache;
 import com.google.gerrit.server.approval.PatchSetApprovalUuidGenerator;
 import com.google.gerrit.server.approval.testing.TestPatchSetApprovalUuidGenerator;
 import com.google.gerrit.server.config.AllUsersName;
@@ -118,6 +119,8 @@ public abstract class AbstractChangeNotesTest {
   @Inject protected AbstractChangeNotes.Args args;
 
   @Inject @GerritServerId protected String serverId;
+
+  @Inject protected ExternalIdCache externalIdCache;
 
   protected Injector injector;
   private String systemTimeZone;

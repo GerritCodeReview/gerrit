@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "24f2500f_90e584f2",
         "filename": "Documentation/config-gerrit.txt",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "we use 10 minutes and this works for us",
       "revId": "7d59382b2d5ed22e4d38ca8aa11904bc407e42dd",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "9d78006b_bf4a259e",
         "filename": "Documentation/config-gerrit.txt",
@@ -32,10 +33,10 @@
       "message": "Yes, I think 10 minutes could also be a \u0027sane\u0027 default, but also 60 could be. It just depends. I just observed that my local Git client takes 10 minutes as timeout and taking a bit more as the default seems a good idea to me.\n\nAre you saying that I should make it 10 minutes? (as this is an unresolved comment)\n\nIf so, do you have a better argument than \"works for us\"?",
       "parentUuid": "24f2500f_90e584f2",
       "revId": "7d59382b2d5ed22e4d38ca8aa11904bc407e42dd",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "b56365f9_760a7ed8",
         "filename": "Documentation/config-gerrit.txt",
@@ -50,10 +51,10 @@
       "message": "The number of ssh threads is limited to sshd.threads. The larger sshd.idleTimeout\nthe higher is the impact of clients with a bad network connection reducing the number of\nsshd threads available for other more responsive clients.\n\nIf idleTimeout is too large responsive clients may have to wait since threads are occupied\nby non-responsive clients. If it\u0027s too small then non-responsive clients could get kicked out\ntoo early. Hence I\u0027d lean towards a smaller timeout default and document how to tune this\nif clients with poor network link get kicked out too often.\n\nThis could be further improved by either auto-tuning idleTimeout depending on the request rate\nand queue length or by autoscaling resources available to the Gerrit server (on Kubernetes\nwe could use horizontal pod autoscaler). But this is beyond the scope of setting reasonable defaults.",
       "parentUuid": "9d78006b_bf4a259e",
       "revId": "7d59382b2d5ed22e4d38ca8aa11904bc407e42dd",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "c6d0d815_91d5055a",
         "filename": "Documentation/config-gerrit.txt",
@@ -68,10 +69,10 @@
       "message": "Yes, I can follow your reasoning and agree to some extent. However, my opinion is that we should focus on \u0027regular\u0027 installations and the need for tweaking the defaults only if you want to do large scale installations.\n\nLet\u0027s say your average Gerrit server is up for 100 days and you have 10 non-graceful SSH connection terminations per day which stay open stale:\n\nSetting it to ~ 30 minutes is solving the problem.\nSetting it to ~ 10 minutes is likely to break a few more cases compared to 30 minutes.\n\nIf you have a site that big and have a relative large number of non-graceful terminations of connections within 30 minutes then that\u0027s something to reconfigure manually before this change.",
       "parentUuid": "b56365f9_760a7ed8",
       "revId": "7d59382b2d5ed22e4d38ca8aa11904bc407e42dd",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "97897a72_6aff1f8e",
         "filename": "Documentation/config-gerrit.txt",
@@ -86,10 +87,10 @@
       "message": "I am in favour of this change. However, I agree with Matthias that 30 mins is too big as idle timeout. If I have a remote client that is inactive and does not send/receive any data for 10 minutes, it is pretty much dead.\n\nA separate problem is the non-Git SSH traffic (e.g. stream events, GC, other) that should be addressed separately.\n\nIdeally we should have one timeout for Git/SSH traffic (set 10 mins) and another for the other nonGit/SSH connections.",
       "parentUuid": "c6d0d815_91d5055a",
       "revId": "7d59382b2d5ed22e4d38ca8aa11904bc407e42dd",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "8880a796_d067dfb4",
         "filename": "Documentation/config-gerrit.txt",
@@ -104,8 +105,220 @@
       "message": "Okay, thanks for your views.\n\nWhat I suggest is the following:\n\n- set the default to 10 minutes, but, before we can do this we also need to\n- find ways to reduce/minimize/remove the impact of this setting on true usage of idle connections, such as the non-Git SSH use with \u0027gerrit gc\u0027 commands that can take hours without output and the use of low-traffic on stream-events.\n\nI will have a look into what options we have on the latter point later this week.\n\nIf this would be easy from the our/server side, that would be great, but if it means we have to recommend users to change some SSH client keepalive (OpenSSH: ServerAliveInterval) for these commands (that presumably only admins use), that will also over that as far as I am concerned.",
       "parentUuid": "97897a72_6aff1f8e",
       "revId": "7d59382b2d5ed22e4d38ca8aa11904bc407e42dd",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
+  "submitRequirementResults": [
+    {
+      "submitRequirement": {
+        "name": "Change-Is-FW-Compatible",
+        "description": {
+          "value": "Changes to NoteDb or entities packages require careful consideration. \t\t      Make sure your change is forward compatible and add the footer \t\t      \u0027FW-COMPATIBLE: checked\u0027 to your commit message"
+        },
+        "applicabilityExpression": {
+          "value": {
+            "expressionString": "-branch:refs/meta/config AND (file:\"^java/com/google/gerrit/server/notedb/.*\\\\.java$\" OR file:\"^java/com/google/gerrit/entities/.*\\\\.java$\")"
+          }
+        },
+        "submittabilityExpression": {
+          "expressionString": "hasfooter:\"FW-COMPATIBLE\""
+        },
+        "overrideExpression": {},
+        "allowOverrideInChildProjects": false
+      },
+      "applicabilityExpressionResult": {
+        "value": {"expression":{"expressionString":"-branch:refs/meta/config AND (file:\"^java/com/google/gerrit/server/notedb/.*\\\\.java$\" OR file:\"^java/com/google/gerrit/entities/.*\\\\.java$\")"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config","file:\"^java/com/google/gerrit/server/notedb/.*\\\\.java$\"","file:\"^java/com/google/gerrit/entities/.*\\\\.java$\""]}
+      },
+      "submittabilityExpressionResult": {
+        "value": {"expression":{"expressionString":"hasfooter:\"FW-COMPATIBLE\""},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[]}
+      },
+      "overrideExpressionResult": {},
+      "patchSetCommitId": "7d59382b2d5ed22e4d38ca8aa11904bc407e42dd",
+      "legacy": {
+        "value": false
+      },
+      "forced": {},
+      "hidden": {}
+    },
+    {
+      "submitRequirement": {
+        "name": "Code-Review",
+        "description": {
+          "value": "At least one maximum vote for label \u0027Code-Review\u0027 is required"
+        },
+        "applicabilityExpression": {},
+        "submittabilityExpression": {
+          "expressionString": "label:Code-Review\u003dMAX,user\u003dnon_uploader AND -label:Code-Review\u003dMIN"
+        },
+        "overrideExpression": {},
+        "allowOverrideInChildProjects": true
+      },
+      "applicabilityExpressionResult": {},
+      "submittabilityExpressionResult": {
+        "value": {"expression":{"expressionString":"label:Code-Review=MAX,user=non_uploader AND -label:Code-Review=MIN"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":["label:Code-Review=MIN"],"failingAtoms":["label:Code-Review=MAX,user=non_uploader"]}
+      },
+      "overrideExpressionResult": {},
+      "patchSetCommitId": "7d59382b2d5ed22e4d38ca8aa11904bc407e42dd",
+      "legacy": {
+        "value": false
+      },
+      "forced": {},
+      "hidden": {}
+    },
+    {
+      "submitRequirement": {
+        "name": "Code-Style",
+        "description": {
+          "value": "Code has correct style and format"
+        },
+        "applicabilityExpression": {
+          "value": {
+            "expressionString": "-branch:refs/meta/config"
+          }
+        },
+        "submittabilityExpression": {
+          "expressionString": "label:Code-Style\u003dMAX AND -label:Code-Style\u003dMIN"
+        },
+        "overrideExpression": {},
+        "allowOverrideInChildProjects": false
+      },
+      "applicabilityExpressionResult": {
+        "value": {"expression":{"expressionString":"-branch:refs/meta/config"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config"]}
+      },
+      "submittabilityExpressionResult": {
+        "value": {"expression":{"expressionString":"label:Code-Style=MAX AND -label:Code-Style=MIN"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["label:Code-Style=MAX"],"failingAtoms":["label:Code-Style=MIN"]}
+      },
+      "overrideExpressionResult": {},
+      "patchSetCommitId": "7d59382b2d5ed22e4d38ca8aa11904bc407e42dd",
+      "legacy": {
+        "value": false
+      },
+      "forced": {},
+      "hidden": {}
+    },
+    {
+      "submitRequirement": {
+        "name": "Library-Compliance",
+        "description": {
+          "value": "Changes to specific library/metadata files require additional approval"
+        },
+        "applicabilityExpression": {
+          "value": {
+            "expressionString": "-branch:refs/meta/config AND (file:\"^lib/.*\" OR file:\"^WORKSPACE$\" OR file:\"^.gitmodule$\" OR file:\"^tools/deps.bzl$\")"
+          }
+        },
+        "submittabilityExpression": {
+          "expressionString": "label:Library-Compliance\u003dMAX,user\u003dnon_uploader AND -label:Library-Compliance\u003dMIN"
+        },
+        "overrideExpression": {},
+        "allowOverrideInChildProjects": false
+      },
+      "applicabilityExpressionResult": {
+        "value": {"expression":{"expressionString":"-branch:refs/meta/config AND (file:\"^lib/.*\" OR file:\"^WORKSPACE$\" OR file:\"^.gitmodule$\" OR file:\"^tools/deps.bzl$\")"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config","file:\"^lib/.*\"","file:\"^WORKSPACE$\"","file:\"^.gitmodule$\"","file:\"^tools/deps.bzl$\""]}
+      },
+      "submittabilityExpressionResult": {
+        "value": {"expression":{"expressionString":"label:Library-Compliance=MAX,user=non_uploader AND -label:Library-Compliance=MIN"},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[]}
+      },
+      "overrideExpressionResult": {},
+      "patchSetCommitId": "7d59382b2d5ed22e4d38ca8aa11904bc407e42dd",
+      "legacy": {
+        "value": false
+      },
+      "forced": {},
+      "hidden": {}
+    },
+    {
+      "submitRequirement": {
+        "name": "Release-Notes",
+        "description": {
+          "value": "Changes must include a \u0027Release-Notes\u0027 footer with a single sentence to mention in the release notes. Changes not worth mentioning in the release notes should put \u0027Release-Notes: skip\u0027"
+        },
+        "applicabilityExpression": {
+          "value": {
+            "expressionString": "-branch:refs/meta/config"
+          }
+        },
+        "submittabilityExpression": {
+          "expressionString": "hasfooter:\"Release-Notes\""
+        },
+        "overrideExpression": {},
+        "allowOverrideInChildProjects": false
+      },
+      "applicabilityExpressionResult": {
+        "value": {"expression":{"expressionString":"-branch:refs/meta/config"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config"]}
+      },
+      "submittabilityExpressionResult": {
+        "value": {"expression":{"expressionString":"hasfooter:\"Release-Notes\""},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["hasfooter:\"Release-Notes\""]}
+      },
+      "overrideExpressionResult": {},
+      "patchSetCommitId": "7d59382b2d5ed22e4d38ca8aa11904bc407e42dd",
+      "legacy": {
+        "value": false
+      },
+      "forced": {},
+      "hidden": {}
+    },
+    {
+      "submitRequirement": {
+        "name": "Review-Enforcement",
+        "description": {
+          "value": "Two Google employees must approve the change. Uploading the change or voting positively on Code-Review count as approval."
+        },
+        "applicabilityExpression": {
+          "value": {
+            "expressionString": "is:review-enforced_gerrit"
+          }
+        },
+        "submittabilityExpression": {
+          "expressionString": "is:review-enforcement-satisfied_gerrit"
+        },
+        "overrideExpression": {},
+        "allowOverrideInChildProjects": false
+      },
+      "applicabilityExpressionResult": {
+        "value": {"expression":{"expressionString":"is:review-enforced_gerrit"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["is:review-enforced_gerrit"]}
+      },
+      "submittabilityExpressionResult": {
+        "value": {"expression":{"expressionString":"is:review-enforcement-satisfied_gerrit"},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[]}
+      },
+      "overrideExpressionResult": {},
+      "patchSetCommitId": "7d59382b2d5ed22e4d38ca8aa11904bc407e42dd",
+      "legacy": {
+        "value": false
+      },
+      "forced": {},
+      "hidden": {}
+    },
+    {
+      "submitRequirement": {
+        "name": "Verified",
+        "description": {
+          "value": "CI result status for build and tests is passing"
+        },
+        "applicabilityExpression": {
+          "value": {
+            "expressionString": "-branch:refs/meta/config"
+          }
+        },
+        "submittabilityExpression": {
+          "expressionString": "label:Verified\u003dMAX AND -label:Verified\u003dMIN"
+        },
+        "overrideExpression": {},
+        "allowOverrideInChildProjects": true
+      },
+      "applicabilityExpressionResult": {
+        "value": {"expression":{"expressionString":"-branch:refs/meta/config"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config"]}
+      },
+      "submittabilityExpressionResult": {
+        "value": {"expression":{"expressionString":"label:Verified=MAX AND -label:Verified=MIN"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["label:Verified=MAX"],"failingAtoms":["label:Verified=MIN"]}
+      },
+      "overrideExpressionResult": {},
+      "patchSetCommitId": "7d59382b2d5ed22e4d38ca8aa11904bc407e42dd",
+      "legacy": {
+        "value": false
+      },
+      "forced": {},
+      "hidden": {}
     }
   ]
 }

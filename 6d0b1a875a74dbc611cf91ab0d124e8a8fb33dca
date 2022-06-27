@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2512b37_374a8aa0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-27T12:25:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53c5f6bf_3d02f5a2",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 11
+      },
+      "revId": "6d0b1a875a74dbc611cf91ab0d124e8a8fb33dca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5c003121_48717f66",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "987bcb3b_76d30b8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-27T12:25:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c003121_48717f66",
+      "range": {
+        "startLine": 17,
+        "startChar": 46,
+        "endLine": 17,
+        "endChar": 52
+      },
+      "revId": "6d0b1a875a74dbc611cf91ab0d124e8a8fb33dca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca9cf0c7_1f45af85",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-06-24T09:36:47Z",
       "side": 1,
       "message": "registering",
+      "range": {
+        "startLine": 1853,
+        "startChar": 19,
+        "endLine": 1853,
+        "endChar": 31
+      },
+      "revId": "6d0b1a875a74dbc611cf91ab0d124e8a8fb33dca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfb9138f_d1fe84fe",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1853,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-27T12:25:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca9cf0c7_1f45af85",
       "range": {
         "startLine": 1853,
         "startChar": 19,
@@ -140,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "939a3cfe_0fa834bb",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1860,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-27T12:25:31Z",
+      "side": 1,
+      "message": "Yeah, I was wondering the same, but that is how it is. I do not want to change something that I don\u0027t fully understand and that I never use myself. I am not aware of anyone complaining about it.",
+      "parentUuid": "5bbf9b7d_51a2ba33",
+      "range": {
+        "startLine": 1860,
+        "startChar": 31,
+        "endLine": 1860,
+        "endChar": 53
+      },
+      "revId": "6d0b1a875a74dbc611cf91ab0d124e8a8fb33dca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dd00cbfa_c94b4f5f",
@@ -153,6 +249,30 @@
       "writtenOn": "2022-06-24T09:36:47Z",
       "side": 1,
       "message": "registering",
+      "range": {
+        "startLine": 1873,
+        "startChar": 19,
+        "endLine": 1873,
+        "endChar": 31
+      },
+      "revId": "6d0b1a875a74dbc611cf91ab0d124e8a8fb33dca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b3f7c40_d61719da",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1873,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-27T12:25:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd00cbfa_c94b4f5f",
       "range": {
         "startLine": 1873,
         "startChar": 19,

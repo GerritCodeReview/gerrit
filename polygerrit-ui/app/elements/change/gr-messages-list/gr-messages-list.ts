@@ -32,7 +32,7 @@ import {
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {resolve} from '../../../models/dependency';
-import {queryAll} from '../../../utils/common-util';
+import {query, queryAll} from '../../../utils/common-util';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {subscribe} from '../../lit/subscription-controller';
@@ -44,6 +44,7 @@ import {
   ShortcutSection,
   shortcutsServiceToken,
 } from '../../../services/shortcuts/shortcuts-service';
+import {GrFormattedText} from '../../shared/gr-formatted-text/gr-formatted-text';
 
 /**
  * The content of the enum is also used in the UI for the button text.
@@ -443,8 +444,11 @@ export class GrMessagesList extends LitElement {
     }
 
     el.message.expanded = true;
+    // Must wait for message to expand and render before we can scroll to it
     el.requestUpdate();
     await el.updateComplete;
+    await query<GrFormattedText>(el, 'gr-formatted-text.message')
+      ?.updateComplete;
     let top = el.offsetTop;
     for (
       let offsetParent = el.offsetParent as HTMLElement | null;

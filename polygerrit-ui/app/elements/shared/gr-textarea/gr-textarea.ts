@@ -96,7 +96,11 @@ export class GrTextarea extends LitElement {
 
   @state() colonIndex: number | null = null;
 
+  @state() atIndex: number | null = null;
+
   @state() currentSearchString?: string;
+
+  @state() reviewerSuggestionString?: string;
 
   @state() hideEmojiAutocomplete = true;
 
@@ -213,6 +217,14 @@ export class GrTextarea extends LitElement {
       <span id="caratSpan"></span>
       <gr-autocomplete-dropdown
         id="emojiSuggestions"
+        .suggestions=${this.suggestions}
+        .index=${this.index}
+        .verticalOffset=${20}
+        @dropdown-closed=${this.resetEmojiDropdown}
+        @item-selected=${this.handleEmojiSelect}
+      >
+      <gr-autocomplete-dropdown
+        id="reviewerSuggestions"
         .suggestions=${this.suggestions}
         .index=${this.index}
         .verticalOffset=${20}
@@ -406,36 +418,53 @@ export class GrTextarea extends LitElement {
         this.colonIndex = this.textarea!.selectionStart - 1;
       }
     }
-    if (this.colonIndex === null) {
-      return;
+    if (this.colonIndex) {
+      this.currentSearchString = (e.detail.value ?? '').substr(
+        this.colonIndex + 1,
+        this.textarea!.selectionStart - this.colonIndex - 1
+      );
+      this.determineSuggestions(this.currentSearchString);
+      // Under the following conditions, close and reset the dropdown:
+      // - The cursor is no longer at the end of the current search string
+      // - The search string is an space or new line
+      // - The colon has been removed
+      // - There are no suggestions that match the search string
+      if (
+        this.textarea!.selectionStart !==
+          this.currentSearchString.length + this.colonIndex + 1 ||
+        this.currentSearchString === ' ' ||
+        this.currentSearchString === '\n' ||
+        !((e.detail.value ?? '')[this.colonIndex] === ':') ||
+        !this.suggestions ||
+        !this.suggestions.length
+      ) {
+        this.resetEmojiDropdown();
+        // Otherwise open the dropdown and set the position to be just below the
+        // cursor.
+      } else if (this.emojiSuggestions!.isHidden) {
+        this.updateCaratPosition();
+      }
+      this.textarea!.textarea.focus();
     }
 
-    this.currentSearchString = (e.detail.value ?? '').substr(
-      this.colonIndex + 1,
-      this.textarea!.selectionStart - this.colonIndex - 1
-    );
-    this.determineSuggestions(this.currentSearchString);
-    // Under the following conditions, close and reset the dropdown:
-    // - The cursor is no longer at the end of the current search string
-    // - The search string is an space or new line
-    // - The colon has been removed
-    // - There are no suggestions that match the search string
-    if (
-      this.textarea!.selectionStart !==
-        this.currentSearchString.length + this.colonIndex + 1 ||
-      this.currentSearchString === ' ' ||
-      this.currentSearchString === '\n' ||
-      !((e.detail.value ?? '')[this.colonIndex] === ':') ||
-      !this.suggestions ||
-      !this.suggestions.length
-    ) {
-      this.resetEmojiDropdown();
-      // Otherwise open the dropdown and set the position to be just below the
-      // cursor.
-    } else if (this.emojiSuggestions!.isHidden) {
-      this.updateCaratPosition();
+    // When @ is detected, set a @ index. We are interested only on
+    // @ after space or in beginning of textarea
+    if (charAtCursor === '@') {
+      if (
+        this.textarea!.selectionStart < 2 ||
+        (e.detail.value ?? '')[this.textarea!.selectionStart - 2] === ' '
+      ) {
+        this.atIndex = this.textarea!.selectionStart - 1;
+      }
     }
-    this.textarea!.textarea.focus();
+    if (this.atIndex) {
+      this.reviewerSuggestionString = (e.detail.value ?? '').substr(
+        this.atIndex + 1,
+        this.textarea!.selectionStart - this.atIndex - 1
+      );
+    }
+
+    
   }
 
   private openEmojiDropdown() {

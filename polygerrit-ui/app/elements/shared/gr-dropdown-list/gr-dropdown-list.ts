@@ -246,6 +246,7 @@ export class GrDropdownList extends LitElement {
   }
 
   private renderPaperItem(item: DropdownItem) {
+    console.log(item);
     return html`
       <paper-item ?disabled=${item.disabled} data-value=${item.value}>
         <div class="topContent">

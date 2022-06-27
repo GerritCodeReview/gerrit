@@ -16,6 +16,24 @@
       "message": "Missing Release-Notes footer.",
       "revId": "dacfbddcc3a73c76cf69a93e07cfe9fc036c82fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f3d8948_b2820efd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-06-27T21:29:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d35ec5e2_49c9c9d8",
+      "revId": "dacfbddcc3a73c76cf69a93e07cfe9fc036c82fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -33,7 +33,6 @@ import {
   SpecialFilePath,
 } from '../../../constants/constants';
 import {
-  addGlobalShortcut,
   addShortcut,
   descendedFromClass,
   Key,
@@ -682,6 +681,9 @@ export class GrFileList extends LitElement {
     this.shortcutsController.addAbstract(Shortcut.TOGGLE_LEFT_PANE, _ =>
       this.handleToggleLeftPane()
     );
+    this.shortcutsController.addGlobal({key: Key.ESC}, _ =>
+      this.handleEscKey()
+    );
     this.shortcutsController.addAbstract(
       Shortcut.EXPAND_ALL_COMMENT_THREADS,
       _ => {}
@@ -817,7 +819,6 @@ export class GrFileList extends LitElement {
         }
       });
     this.cleanups.push(
-      addGlobalShortcut({key: Key.ESC}, _ => this.handleEscKey()),
       addShortcut(this, {key: Key.ENTER}, _ => this.handleOpenFile(), {
         shouldSuppress: true,
       })

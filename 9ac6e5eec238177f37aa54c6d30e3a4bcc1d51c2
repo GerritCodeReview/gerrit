@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "674c2c26_e5ccdbda",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-27T14:40:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8eec394a_3b8c3aeb",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 51
+      },
+      "revId": "9ac6e5eec238177f37aa54c6d30e3a4bcc1d51c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "054755c6_bb7a6670",
@@ -37,6 +61,24 @@
       "writtenOn": "2022-06-27T10:40:11Z",
       "side": 1,
       "message": "Should we add tests to all types: int, int[], long, long[], byte[], byte[][], and timestamp?",
+      "revId": "9ac6e5eec238177f37aa54c6d30e3a4bcc1d51c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aab70631_0357abee",
+        "filename": "javatests/com/google/gerrit/server/index/IndexedFieldTest.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-27T14:40:25Z",
+      "side": 1,
+      "message": "I really do not think it is necessary.\nE.g. we currently do not have any long[] fields. \n\nI am tired to argue so I give up and add this :)",
+      "parentUuid": "054755c6_bb7a6670",
       "revId": "9ac6e5eec238177f37aa54c6d30e3a4bcc1d51c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

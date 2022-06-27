@@ -16,6 +16,23 @@
       "message": "And Luca has done the merge dance to all the other stable branches so I am set. Thank you everyone.",
       "revId": "ff89f79e83691d6d093a57187ecda094507600be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e2cb917_9016e12d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-06-27T18:36:59Z",
+      "side": 1,
+      "message": "I have ported that to the bazlets repository https://gerrit-review.googlesource.com/c/bazlets/+/339932 :)",
+      "revId": "ff89f79e83691d6d093a57187ecda094507600be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

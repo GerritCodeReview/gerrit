@@ -31,7 +31,6 @@ import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revi
 import {ChangeComments} from '../gr-comment-api/gr-comment-api';
 import {
   DropdownItem,
-  DropDownValueChangeEvent,
   GrDropdownList,
 } from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {GeneratedWebLink} from '../../core/gr-navigation/gr-navigation';
@@ -44,6 +43,7 @@ import {subscribe} from '../../lit/subscription-controller';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {resolve} from '../../../models/dependency';
 import {ifDefined} from 'lit/directives/if-defined';
+import {ValueChangedEvent} from '../../../types/events';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
@@ -65,9 +65,6 @@ export interface FilesWebLinks {
 }
 
 declare global {
-  interface HTMLElementEventMap {
-    'value-change': DropDownValueChangeEvent;
-  }
   interface HTMLElementTagNameMap {
     'gr-patch-range-select': GrPatchRangeSelect;
   }
@@ -433,7 +430,7 @@ export class GrPatchRangeSelect extends LitElement {
    * Catches value-change events from the patchset dropdowns and determines
    * whether or not a patch change event should be fired.
    */
-  private handlePatchChange(e: DropDownValueChangeEvent) {
+  private handlePatchChange(e: ValueChangedEvent<string>) {
     const detail: PatchRangeChangeDetail = {
       patchNum: this.patchNum,
       basePatchNum: this.basePatchNum,

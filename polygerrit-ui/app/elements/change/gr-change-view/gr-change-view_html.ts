@@ -362,7 +362,6 @@ export const htmlTemplate = html`
             change="[[_change]]"
             disable-edit="[[disableEdit]]"
             has-parent="[[hasParent]]"
-            actions="[[_change.actions]]"
             revision-actions="[[_currentRevisionActions]]"
             account="[[_account]]"
             change-num="[[_changeNum]]"

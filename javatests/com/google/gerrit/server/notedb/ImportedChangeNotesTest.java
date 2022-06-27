@@ -16,9 +16,18 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdCache;
 import com.google.gerrit.server.git.RepositoryCaseMismatchException;
+import com.google.inject.AbstractModule;
+import java.util.Optional;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,6 +37,8 @@ public class ImportedChangeNotesTest extends AbstractChangeNotesTest {
   private static final String FOREIGN_SERVER_ID = "foreign-server-id";
   private static final String IMPORTED_SERVER_ID = "gerrit-imported-1";
 
+  private ExternalIdCache externalIdCacheMock;
+
   @Before
   @Override
   public void setUpTestEnvironment() throws Exception {
@@ -36,7 +47,17 @@ public class ImportedChangeNotesTest extends AbstractChangeNotesTest {
 
   private void initServerIds(String serverId, String... importedServerIds)
       throws Exception, RepositoryCaseMismatchException, RepositoryNotFoundException {
-    injector = createTestInjector(serverId, importedServerIds);
+    externalIdCacheMock = mock(ExternalIdCache.class);
+    injector =
+        createTestInjector(
+            new AbstractModule() {
+              @Override
+              protected void configure() {
+                bind(ExternalIdCache.class).toInstance(externalIdCacheMock);
+              }
+            },
+            serverId,
+            importedServerIds);
     injector.injectMembers(this);
     createAllUsers(injector);
   }
@@ -44,6 +65,17 @@ public class ImportedChangeNotesTest extends AbstractChangeNotesTest {
   @Test
   public void allowChangeFromImportedServerId() throws Exception {
     initServerIds(LOCAL_SERVER_ID, IMPORTED_SERVER_ID);
+
+    ExternalId.Key importedAccountIdKey =
+        ExternalId.Key.create(
+            ExternalId.SCHEME_IMPORTED,
+            changeOwner.getAccountId() + "@" + IMPORTED_SERVER_ID,
+            false);
+    ExternalId importedAccountId =
+        ExternalId.create(importedAccountIdKey, changeOwner.getAccountId(), null, null, null);
+
+    when(externalIdCacheMock.byKey(eq(importedAccountIdKey)))
+        .thenReturn(Optional.of(importedAccountId));
 
     Change importedChange = newChange(createTestInjector(IMPORTED_SERVER_ID), false);
     Change localChange = newChange();
@@ -55,6 +87,8 @@ public class ImportedChangeNotesTest extends AbstractChangeNotesTest {
   @Test
   public void rejectChangeWithForeignServerId() throws Exception {
     initServerIds(LOCAL_SERVER_ID);
+    when(externalIdCacheMock.byKey(any())).thenReturn(Optional.empty());
+
     Change foreignChange = newChange(createTestInjector(FOREIGN_SERVER_ID), false);
 
     InvalidServerIdException invalidServerIdEx =
@@ -63,5 +97,18 @@ public class ImportedChangeNotesTest extends AbstractChangeNotesTest {
     String invalidServerIdMessage = invalidServerIdEx.getMessage();
     assertThat(invalidServerIdMessage).contains("expected " + LOCAL_SERVER_ID);
     assertThat(invalidServerIdMessage).contains("actual: " + FOREIGN_SERVER_ID);
+  }
+
+  @Test
+  public void changeFromImportedServerIdWithUnknownAccountId() throws Exception {
+    initServerIds(LOCAL_SERVER_ID, IMPORTED_SERVER_ID);
+
+    when(externalIdCacheMock.byKey(any())).thenReturn(Optional.empty());
+
+    Change importedChange = newChange(createTestInjector(IMPORTED_SERVER_ID), false);
+    assertThat(newNotes(importedChange).getServerId()).isEqualTo(IMPORTED_SERVER_ID);
+
+    assertThat(newNotes(importedChange).getChange().getOwner())
+        .isEqualTo(Account.UNKN0WN_ACCOUNT_ID);
   }
 }

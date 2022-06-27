@@ -135,6 +135,9 @@ public abstract class ExternalId implements Serializable {
   /** Scheme used for GPG public keys. */
   public static final String SCHEME_GPGKEY = "gpgkey";
 
+  /** Scheme for imported accounts from other servers with different GerritServerId */
+  public static final String SCHEME_IMPORTED = "imported";
+
   /** Scheme for external auth used during authentication, e.g. OAuth Token */
   public static final String SCHEME_EXTERNAL = "external";
 

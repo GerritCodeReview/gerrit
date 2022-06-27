@@ -31,6 +31,8 @@ interface RepeatState<T> {
 
 class IncrementalRepeat<T> extends AsyncDirective {
   private parts: ChildPart[] = [];
+  // The options that were used to render each of the child parts.
+  private options: RepeatOptions<T>[] = [];
 
   private part!: ChildPart;
 
@@ -47,21 +49,36 @@ class IncrementalRepeat<T> extends AsyncDirective {
     return values;
   }
 
+  private appendPart(options: RepeatOptions<T>) {
+    const part = insertPart(this.part);
+    this.parts.push(part);
+    this.options.push(options);
+    setChildPartValue(part, this.render(options));
+  }
+
+  private clearParts() {
+    for (let i = 0; i < this.parts.length; i++) {
+      removePart(this.parts[i]);
+    }
+    this.parts = [];
+    this.options = [];
+  }
+
+  private updateParts() {
+    for (let i = 0; i < this.parts.length; ++i) {
+      setChildPartValue(this.parts[i], this.render(this.options[i]));
+    }
+  }
+
   override update(part: ChildPart, [options]: DirectiveParameters<this>) {
-    if (
-      options.values !== this.state?.values ||
-      options.mapFn !== this.state?.mapFn
-    ) {
+    if (options.values !== this.state?.values) {
       if (this.nextScheduledFrameWork !== undefined)
         cancelAnimationFrame(this.nextScheduledFrameWork);
       this.nextScheduledFrameWork = requestAnimationFrame(
         this.animationFrameHandler
       );
       this.part = part;
-      for (let i = 0; i < this.parts.length; i++) {
-        removePart(this.parts[i]);
-      }
-      this.parts = [];
+      this.clearParts();
       this.state = {
         values: options.values,
         mapFn: options.mapFn,
@@ -70,6 +87,8 @@ class IncrementalRepeat<T> extends AsyncDirective {
         lastRenderedAt: performance.now(),
         targetFrameRate: options.targetFrameRate ?? 30,
       };
+    } else {
+      this.updateParts();
     }
     return this.render(options);
   }
@@ -81,22 +100,21 @@ class IncrementalRepeat<T> extends AsyncDirective {
     const frameRate = 1000 / (now - this.state.lastRenderedAt);
     if (frameRate < this.state.targetFrameRate) {
       // https://en.wikipedia.org/wiki/Additive_increase/multiplicative_decrease
-      this.state.incrementAmount = Math.max(1, this.state.incrementAmount / 2);
+      this.state.incrementAmount = Math.max(
+        1,
+        Math.round(this.state.incrementAmount / 2)
+      );
     } else {
       this.state.incrementAmount++;
     }
     this.state.lastRenderedAt = now;
-    const part = insertPart(this.part);
-    this.parts.push(part);
-    setChildPartValue(
-      part,
-      this.render({
-        mapFn: this.state.mapFn,
-        values: this.state.values,
-        initialCount: this.state.incrementAmount,
-        startAt: this.state.startAt,
-      })
-    );
+    this.appendPart({
+      mapFn: this.state.mapFn,
+      values: this.state.values,
+      initialCount: this.state.incrementAmount,
+      startAt: this.state.startAt,
+    });
+
     this.state.startAt += this.state.incrementAmount;
     if (this.state.startAt < this.state.values.length) {
       this.nextScheduledFrameWork = requestAnimationFrame(

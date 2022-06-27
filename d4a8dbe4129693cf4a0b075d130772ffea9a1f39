@@ -33,6 +33,24 @@
       "message": "Hi Youssef, can you understand why the FW-COMPATIBLE is required on this merge?",
       "revId": "d4a8dbe4129693cf4a0b075d130772ffea9a1f39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02a96a2f_f68e3648",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-27T09:36:25Z",
+      "side": 1,
+      "message": "The submit requirement was added with change https://gerrit-review.googlesource.com/c/gerrit/+/339146\n\n\u003e applicableIf \u003d -branch:refs/meta/config AND (file:\\\"^java/com/google/gerrit/server/notedb/.*\\\\\\\\.java$\\\" OR file:\\\"^java/com/google/gerrit/entities/.*\\\\\\\\.java$\\\")\n\nIt seems like the \"file\" operator is wrongly matching this change but I\u0027m not sure why. I\u0027ll take a closer look and check why it does not work.\n\nTo unblock you, you can revert change https://gerrit-review.googlesource.com/c/gerrit/+/339146, or otherwise - maybe less recommended - append the footer to this change.",
+      "parentUuid": "fc021102_9fdb3092",
+      "revId": "d4a8dbe4129693cf4a0b075d130772ffea9a1f39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

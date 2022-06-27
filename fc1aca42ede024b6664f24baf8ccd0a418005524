@@ -33,6 +33,24 @@
       "message": "nit: Please fix the license header",
       "revId": "fc1aca42ede024b6664f24baf8ccd0a418005524",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46cade1b_03a6180d",
+        "filename": "javatests/com/google/gerrit/server/index/IndexedFieldTest.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-27T14:53:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61b61bfd_a0ad4aba",
+      "revId": "fc1aca42ede024b6664f24baf8ccd0a418005524",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

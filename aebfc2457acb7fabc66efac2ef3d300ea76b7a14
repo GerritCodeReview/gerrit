@@ -22,6 +22,30 @@
       },
       "revId": "aebfc2457acb7fabc66efac2ef3d300ea76b7a14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b277736_50626819",
+        "filename": "java/com/google/gerrit/server/restapi/change/SuggestReviewers.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-27T08:39:25Z",
+      "side": 0,
+      "message": "To me it seems like a questionable optimization, since with AccountVisibility.None the reviewer functionality is completely broken (you can not add other people to review, you can only add yourself by replying to the change).\n\nI guess AccountVisibility.NONE was never ever used, so it was left unnoticed.\n\nI added your suggestion though.",
+      "parentUuid": "691529cb_eb1ebee0",
+      "range": {
+        "startLine": 99,
+        "startChar": 30,
+        "endLine": 99,
+        "endChar": 58
+      },
+      "revId": "aebfc2457acb7fabc66efac2ef3d300ea76b7a14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,187 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba50f1d8_dda9367b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-27T10:24:09Z",
+      "side": 1,
+      "message": "nit: Extra space",
+      "range": {
+        "startLine": 9,
+        "startChar": 49,
+        "endLine": 9,
+        "endChar": 50
+      },
+      "revId": "3b6c742cc2e6e0a610dfd70de2c50328750fb64c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbc5b20f_f3455e74",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-27T10:24:09Z",
+      "side": 1,
+      "message": "Nit: Forgot a \".\"",
+      "range": {
+        "startLine": 10,
+        "startChar": 48,
+        "endLine": 10,
+        "endChar": 49
+      },
+      "revId": "3b6c742cc2e6e0a610dfd70de2c50328750fb64c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0283497e_c962abf1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-27T10:24:09Z",
+      "side": 1,
+      "message": "nit: IndexedField",
+      "range": {
+        "startLine": 12,
+        "startChar": 28,
+        "endLine": 12,
+        "endChar": 39
+      },
+      "revId": "3b6c742cc2e6e0a610dfd70de2c50328750fb64c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d54b5353_e1218d35",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-27T10:24:09Z",
+      "side": 1,
+      "message": "Please also add that, when we\u0027ll add new proto fields in the future, they\u0027ll be test covered with their own AbstractQuery* tests.",
+      "revId": "3b6c742cc2e6e0a610dfd70de2c50328750fb64c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fcdacdc_045315b7",
+        "filename": "java/com/google/gerrit/index/IndexedField.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-27T10:24:09Z",
+      "side": 1,
+      "message": "Why did we decide not to add a protoBuilder() in this change as well?",
+      "revId": "3b6c742cc2e6e0a610dfd70de2c50328750fb64c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c99c0d13_b825c28d",
+        "filename": "java/com/google/gerrit/index/testing/FakeStoredValue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-27T10:24:09Z",
+      "side": 1,
+      "message": "Maybe better to throw an exception?",
+      "revId": "3b6c742cc2e6e0a610dfd70de2c50328750fb64c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae9a8745_c9510a45",
+        "filename": "javatests/com/google/gerrit/server/index/IndexedFieldTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-27T10:24:09Z",
+      "side": 1,
+      "message": "nit: could be omitted.",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 57
+      },
+      "revId": "3b6c742cc2e6e0a610dfd70de2c50328750fb64c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "592a4c3e_45a67fdf",
+        "filename": "javatests/com/google/gerrit/server/index/IndexedFieldTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-27T10:24:09Z",
+      "side": 1,
+      "message": "nit: could be omitted.",
+      "range": {
+        "startLine": 108,
+        "startChar": 51,
+        "endLine": 108,
+        "endChar": 66
+      },
+      "revId": "3b6c742cc2e6e0a610dfd70de2c50328750fb64c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88e56a8c_777d9fc0",
+        "filename": "javatests/com/google/gerrit/server/index/IndexedFieldTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-27T10:24:09Z",
+      "side": 1,
+      "message": "Should this be changed to @Test? I\u0027m not familiar with theories but shouldn\u0027t they be parametrized? I understood that the idea is to run the same test multiple times with different data points.",
+      "revId": "3b6c742cc2e6e0a610dfd70de2c50328750fb64c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -34,16 +34,16 @@ import java.lang.annotation.Target;
 public @interface UsedAt {
   /** Enumeration of projects that call a method/type/field. */
   enum Project {
-    GOOGLE,
     COLLABNET,
+    GOOGLE,
+    PLUGINS_ALL, // Use this project if a method/type is generally made available to all plugins.
     PLUGIN_CHECKS,
     PLUGIN_CODE_OWNERS,
     PLUGIN_DELETE_PROJECT,
-    PLUGIN_SERVICEUSER,
     PLUGIN_HIGH_AVAILABILITY,
     PLUGIN_MULTI_SITE,
+    PLUGIN_SERVICEUSER,
     PLUGIN_WEBSESSION_FLATFILE,
-    PLUGINS_ALL, // Use this project if a method/type is generally made available to all plugins.
   }
 
   /** Reference to the project that uses the method annotated with this annotation. */

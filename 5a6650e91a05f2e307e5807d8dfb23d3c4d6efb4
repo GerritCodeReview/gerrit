@@ -22,6 +22,30 @@
       },
       "revId": "5a6650e91a05f2e307e5807d8dfb23d3c4d6efb4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5345e857_9763540a",
+        "filename": "project.config",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-27T14:57:57Z",
+      "side": 1,
+      "message": "\u003e I believe it is good to have this check also on stable branches:\n\nOkay, I will leave as is then and abandon this change. Thanks for the input. I also added this change after the discussion in https://groups.google.com/g/repo-discuss/c/wI9dVGBesHA, but it seems like the FW-COMPATIBLE submit requirement does not work as intended, i.e. it is wrongly matching some file patterns that it should not match.\n\n\u003e I am wondering if the author self-declaring that the change is FW-COMPATIBLE is enough, or we need a FW-COMPATIBLE label instead?\n\nThis was discussed in https://gerrit-review.googlesource.com/c/gerrit/+/339146/comments/1f078eae_41936ea0 and in other comments. I don\u0027t have a strong preference here.",
+      "parentUuid": "9daccd0e_f8c4caab",
+      "range": {
+        "startLine": 120,
+        "startChar": 16,
+        "endLine": 120,
+        "endChar": 40
+      },
+      "revId": "5a6650e91a05f2e307e5807d8dfb23d3c4d6efb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

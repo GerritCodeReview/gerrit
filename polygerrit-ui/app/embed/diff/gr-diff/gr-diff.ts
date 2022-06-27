@@ -298,15 +298,12 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
 
   override connectedCallback() {
     super.connectedCallback();
-    this._observeNodes();
     this.isAttached = true;
   }
 
   override disconnectedCallback() {
     this.isAttached = false;
     this.renderDiffTableTask?.cancel();
-    this._unobserveIncrementalNodes();
-    this._unobserveNodes();
     this.diffSelection.cleanup();
     this.highlights.cleanup();
     this.diffBuilder.cancel();
@@ -376,7 +373,10 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
       : document.getSelection();
   }
 
+  // TODO: Merge _nodeObserver and _incrementalNodeObserver. It is not clear why
+  // we have two separate observers.
   _observeNodes() {
+    this._unobserveNodes();
     this._nodeObserver = (dom(this) as PolymerDomWrapper).observeNodes(info => {
       const addedThreadEls = info.addedNodes.filter(isThreadEl);
       const removedThreadEls = info.removedNodes.filter(isThreadEl);
@@ -831,6 +831,8 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   }
 
   _renderDiffTable() {
+    this._unobserveNodes();
+    this._unobserveIncrementalNodes();
     if (!this.prefs) {
       fireEvent(this, 'render');
       return;
@@ -874,10 +876,15 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
       element.remove()
     );
     this._setLoading(false);
-    this._unobserveIncrementalNodes();
+    this._observeNodes();
+    this._observeIncrementalNodes();
     // We are just converting 'render-content' into 'render' here. Maybe we
     // should retire the 'render' event in favor of 'render-content'?
     fireEvent(this, 'render');
+  }
+
+  private _observeIncrementalNodes() {
+    this._unobserveIncrementalNodes();
     this._incrementalNodeObserver = (
       dom(this) as PolymerDomWrapper
     ).observeNodes(info => {
@@ -972,12 +979,14 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
       (dom(this) as PolymerDomWrapper).unobserveNodes(
         this._incrementalNodeObserver
       );
+      this._incrementalNodeObserver = undefined;
     }
   }
 
   _unobserveNodes() {
     if (this._nodeObserver) {
       (dom(this) as PolymerDomWrapper).unobserveNodes(this._nodeObserver);
+      this._nodeObserver = undefined;
     }
   }
 
@@ -992,6 +1001,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   }
 
   clearDiffContent() {
+    this._unobserveNodes();
     this._unobserveIncrementalNodes();
     while (this.$.diffTable.hasChildNodes()) {
       this.$.diffTable.removeChild(this.$.diffTable.lastChild!);

@@ -211,6 +211,7 @@ export class GrAutocompleteDropdown extends base {
 
   @observe('suggestions')
   onSuggestionsChanged() {
+    console.log('suggestions, ', this.suggestions);
     if (this.suggestions.length > 0) {
       if (!this.isHidden) {
         flush();

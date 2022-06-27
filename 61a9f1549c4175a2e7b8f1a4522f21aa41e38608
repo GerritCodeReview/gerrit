@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a9d1cc1_2be4801e",
+        "filename": "java/com/google/gerrit/index/Schema.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-27T12:21:42Z",
+      "side": 1,
+      "message": "Thank you for the comment!\nMy first idea was to keep them separate, and merge when extracting the values. This was primarily to avoid renaming of methods/fields when we get rid of FieldDefs.\nNow I reconsidered this approach: I think it is more clean to have FieldDefs and SearchSpecs in the same map and de-dup them in the builder.\nI also added more tests.",
+      "parentUuid": "9f6812be_fd684624",
+      "range": {
+        "startLine": 39,
+        "startChar": 22,
+        "endLine": 39,
+        "endChar": 30
+      },
+      "revId": "61a9f1549c4175a2e7b8f1a4522f21aa41e38608",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "faf0dda8_1c6887f8",
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "25663f7d_8f692199",
+        "filename": "java/com/google/gerrit/index/Schema.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-27T12:21:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "faf0dda8_1c6887f8",
+      "range": {
+        "startLine": 234,
+        "startChar": 53,
+        "endLine": 234,
+        "endChar": 61
+      },
+      "revId": "61a9f1549c4175a2e7b8f1a4522f21aa41e38608",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ed1c9f9_ff782172",
@@ -77,6 +125,30 @@
       "writtenOn": "2022-06-23T23:31:41Z",
       "side": 1,
       "message": "Should this be returning a set of SchemaFields now?",
+      "range": {
+        "startLine": 235,
+        "startChar": 28,
+        "endLine": 235,
+        "endChar": 34
+      },
+      "revId": "61a9f1549c4175a2e7b8f1a4522f21aa41e38608",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9007eeaa_5d54210b",
+        "filename": "java/com/google/gerrit/index/Schema.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-27T12:21:42Z",
+      "side": 1,
+      "message": "See the comment [1].\nCallers can call schema.getSchemaFields().get(fieldName), if they need the full spec.\nhttps://gerrit-review.googlesource.com/c/gerrit/+/339316/comments/95cd8117_8e9b69c1",
+      "parentUuid": "1ed1c9f9_ff782172",
       "range": {
         "startLine": 235,
         "startChar": 28,

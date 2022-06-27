@@ -18,6 +18,7 @@ import static com.google.inject.Scopes.SINGLETON;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
@@ -48,6 +49,7 @@ import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.DefaultUrlFormatter.DefaultUrlFormatterModule;
 import com.google.gerrit.server.config.EnablePeerIPInReflogRecord;
+import com.google.gerrit.server.config.GerritImportedServerIds;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -67,6 +69,7 @@ import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.TypeLiteral;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.concurrent.ExecutorService;
@@ -146,6 +149,9 @@ public abstract class AbstractChangeNotesTest {
                 install(NoteDbModule.forTest());
                 bind(AllUsersName.class).toProvider(AllUsersNameProvider.class);
                 bind(String.class).annotatedWith(GerritServerId.class).toInstance("gerrit");
+                bind(new TypeLiteral<ImmutableSet<String>>() {})
+                    .annotatedWith(GerritImportedServerIds.class)
+                    .toInstance(ImmutableSet.of());
                 bind(GitRepositoryManager.class).toInstance(repoManager);
                 bind(ProjectCache.class).to(NullProjectCache.class);
                 bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(testConfig);

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ca5d183_e6288abf",
+        "filename": "javatests/com/google/gerrit/server/git/DelegateRepositoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-06-27T11:13:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c1534e37_48a00c87",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 68
+      },
+      "revId": "0b25d5792d88310cdede354ae0c010a0a08ab7d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2da904f3_336cc3a3",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-06-25T15:03:58Z",
       "side": 1,
       "message": "Why is all this setup actually needed? Original test was testing git gc. All you want is to wrap an instance of a Repository class no matter whether it disk or just in memory repository, so you could just say:\n\n  Repository foo \u003d new \n  InMemoryRepositoryManager().createRepository(Project.nameKey(\"foo\"));\n  try (DelegateRepository delegateRepository \u003d new DelegateRepository(foo)) {\n    assertThat(delegateRepository.delegate()).isSameInstanceAs(foo);\n  }",
+      "range": {
+        "startLine": 36,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 3
+      },
+      "revId": "0b25d5792d88310cdede354ae0c010a0a08ab7d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "add904ef_537148ff",
+        "filename": "javatests/com/google/gerrit/server/git/DelegateRepositoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-06-27T11:13:14Z",
+      "side": 1,
+      "message": "👍",
+      "parentUuid": "2da904f3_336cc3a3",
       "range": {
         "startLine": 36,
         "startChar": 2,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "13fc1177_39a7cb5c",
+        "filename": "javatests/com/google/gerrit/server/git/DelegateRepositoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-06-27T11:13:14Z",
+      "side": 1,
+      "message": "Makes sense. However, I have added this test in a different change since I think it is still useful. I agree it is not testing the current change.",
+      "parentUuid": "5380b5d7_057d0341",
+      "range": {
+        "startLine": 45,
+        "startChar": 3,
+        "endLine": 46,
+        "endChar": 61
+      },
+      "revId": "0b25d5792d88310cdede354ae0c010a0a08ab7d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "af037263_c88b0d4f",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-06-25T15:03:58Z",
       "side": 1,
       "message": "I\u0027m getting this warning in Eclipse on this line:\n\n  Resource leak: \u0027\u003cunassigned Closeable value\u003e\u0027 is never closed.",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 91
+      },
+      "revId": "0b25d5792d88310cdede354ae0c010a0a08ab7d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "392230a4_c4d1e920",
+        "filename": "javatests/com/google/gerrit/server/git/DelegateRepositoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-06-27T11:13:14Z",
+      "side": 1,
+      "message": "this is not part of the code anymore",
+      "parentUuid": "af037263_c88b0d4f",
       "range": {
         "startLine": 48,
         "startChar": 4,

@@ -39,6 +39,24 @@
       "message": "Why not just renaming the one you have created in the parent change?",
       "revId": "c27f9ecb901afa2f39c0be01f3d1ed5731340e41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7b9da13_45b04980",
+        "filename": "javatests/com/google/gerrit/server/git/delegate/DelegateRepositoryTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-06-27T21:26:51Z",
+      "side": 1,
+      "message": "They are 2 different tests. This one is just checking `delegate()` is accessible from a different package name.\n\nThe test in the parent change is testing the `delegate()` method does what it is supposed to do.\n\nI think it is valuable keeping both of them.",
+      "parentUuid": "63e12c70_17b459bc",
+      "revId": "c27f9ecb901afa2f39c0be01f3d1ed5731340e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

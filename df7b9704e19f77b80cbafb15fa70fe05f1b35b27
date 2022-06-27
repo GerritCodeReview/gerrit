@@ -107,6 +107,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "31251de0_7d3d5d56",
+        "filename": "java/com/google/gerrit/index/IndexedField.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-27T14:41:13Z",
+      "side": 1,
+      "message": "Resolving, since I added the test.",
+      "parentUuid": "aeb0a6f4_b7d60530",
+      "revId": "df7b9704e19f77b80cbafb15fa70fe05f1b35b27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "91454f67_8bba5c2d",

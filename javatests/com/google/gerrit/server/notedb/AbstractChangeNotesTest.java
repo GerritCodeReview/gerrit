@@ -40,6 +40,8 @@ import com.google.gerrit.server.account.FakeRealm;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.account.ServiceUserClassifier;
+import com.google.gerrit.server.account.externalids.DisabledExternalIdCache;
+import com.google.gerrit.server.account.externalids.ExternalIdCache;
 import com.google.gerrit.server.approval.PatchSetApprovalUuidGenerator;
 import com.google.gerrit.server.approval.testing.TestPatchSetApprovalUuidGenerator;
 import com.google.gerrit.server.config.AllUsersName;
@@ -70,6 +72,7 @@ import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -119,6 +122,8 @@ public abstract class AbstractChangeNotesTest {
 
   @Inject @GerritServerId protected String serverId;
 
+  @Inject protected ExternalIdCache externalIdCache;
+
   protected Injector injector;
   private String systemTimeZone;
 
@@ -157,11 +162,17 @@ public abstract class AbstractChangeNotesTest {
 
   protected Injector createTestInjector(String serverId, String... importedServerIds)
       throws Exception {
+    return createTestInjector(DisabledExternalIdCache.module(), serverId, importedServerIds);
+  }
+
+  protected Injector createTestInjector(
+      Module extraGuiceModule, String serverId, String... importedServerIds) throws Exception {
 
     return Guice.createInjector(
         new FactoryModule() {
           @Override
           public void configure() {
+            install(extraGuiceModule);
             install(new GitModule());
 
             install(new DefaultUrlFormatterModule());

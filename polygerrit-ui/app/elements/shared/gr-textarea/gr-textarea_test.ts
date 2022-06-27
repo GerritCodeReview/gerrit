@@ -29,7 +29,14 @@ suite('gr-textarea tests', () => {
           horizontal-align="left"
           vertical-align="top"
           is-hidden=""
-          style="position: fixed; top: 150px; left: 392.5px; box-sizing: border-box; max-height: 300px; max-width: 785px;"
+        >
+        </gr-autocomplete-dropdown>
+        <gr-autocomplete-dropdown
+          horizontal-align="left"
+          id="reviewerSuggestions"
+          is-hidden=""
+          role="listbox"
+          vertical-align="top"
         >
         </gr-autocomplete-dropdown>
         <iron-autogrow-textarea aria-disabled="false" id="textarea">
@@ -202,7 +209,7 @@ suite('gr-textarea tests', () => {
   });
 
   test('emoji selector closes when text changes before the colon', async () => {
-    const resetStub = sinon.stub(element, 'resetEmojiDropdown');
+    const resetStub = sinon.stub(element, 'resetDropdown');
     MockInteractions.focus(element.textarea!);
     await waitUntil(() => element.textarea!.focused === true);
     await element.updateComplete;
@@ -226,16 +233,16 @@ suite('gr-textarea tests', () => {
     assert.isTrue(resetStub.called);
   });
 
-  test('resetEmojiDropdown', async () => {
+  test('resetDropdown', async () => {
     const closeSpy = sinon.spy(element, 'closeDropdown');
-    element.resetEmojiDropdown();
+    element.resetDropdown();
     assert.equal(element.currentSearchString, '');
     assert.isFalse(!element.emojiSuggestions!.isHidden);
     assert.equal(element.colonIndex, null);
 
     element.emojiSuggestions!.open();
     await element.updateComplete;
-    element.resetEmojiDropdown();
+    element.resetDropdown();
     assert.isTrue(closeSpy.called);
   });
 
@@ -286,12 +293,13 @@ suite('gr-textarea tests', () => {
     assert.equal(element.text, 'test test 😂');
   });
 
-  test('updateCaratPosition', async () => {
+  test('updateEmojiCaratPosition', async () => {
     element.textarea!.selectionStart = 4;
     element.textarea!.selectionEnd = 4;
     element.text = 'test';
     await element.updateComplete;
-    element.updateCaratPosition();
+    element.emojiSuggestions!.positionTarget = element.updateCaratPosition();
+    element.emojiSuggestions!.open();
     assert.deepEqual(
       element.hiddenText!.innerHTML,
       element.text + element.caratSpan!.outerHTML
@@ -344,7 +352,7 @@ suite('gr-textarea tests', () => {
     }
 
     test('escape key', async () => {
-      const resetSpy = sinon.spy(element, 'resetEmojiDropdown');
+      const resetSpy = sinon.spy(element, 'resetDropdown');
       MockInteractions.pressAndReleaseKeyOn(
         element.textarea!,
         27,

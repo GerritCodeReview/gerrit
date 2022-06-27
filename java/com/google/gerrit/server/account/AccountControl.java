@@ -176,7 +176,7 @@ public class AccountControl {
       logger.atFine().log(
           "user %s can see own account %d", user.getLoggableName(), otherUser.getId().get());
       return true;
-    } else if (viewAll()) {
+    } else if (canViewAll()) {
       logger.atFine().log(
           "user %s can see account %d (view all accounts = true)",
           user.getLoggableName(), otherUser.getId().get());
@@ -255,7 +255,7 @@ public class AccountControl {
     }
   }
 
-  private boolean viewAll() {
+  public boolean canViewAll() {
     if (viewAll == null) {
       try {
         viewAll = perm.test(GlobalPermission.VIEW_ALL_ACCOUNTS);

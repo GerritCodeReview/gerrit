@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24bb5ddc_b11c01ec",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-27T13:16:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2d86726_f64d3ac6",
+      "range": {
+        "startLine": 248,
+        "startChar": 0,
+        "endLine": 250,
+        "endChar": 0
+      },
+      "revId": "241c74f8343b5f5742c4779df55727fc1b59ffb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6f2476b6_bb82c5eb",
@@ -71,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcccd2b1_c8bb2984",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-27T13:16:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0dc8bb69_46c069ae",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 28
+      },
+      "revId": "241c74f8343b5f5742c4779df55727fc1b59ffb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6aee5e45_988560e7",
@@ -84,6 +132,30 @@
       "writtenOn": "2022-06-27T08:37:50Z",
       "side": 1,
       "message": "format",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 82
+      },
+      "revId": "241c74f8343b5f5742c4779df55727fc1b59ffb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22bb861c_0bd9237c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-27T13:16:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6aee5e45_988560e7",
       "range": {
         "startLine": 122,
         "startChar": 0,
@@ -117,6 +189,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "455404a7_0989afc1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-27T13:16:41Z",
+      "side": 1,
+      "message": "For some reason it gives an error with snake-case attributes, probably because they haven\u0027t been defined as @attr on the iron-dropdown. Going the property route.",
+      "parentUuid": "85368f95_94d03a43",
+      "range": {
+        "startLine": 219,
+        "startChar": 0,
+        "endLine": 224,
+        "endChar": 0
+      },
+      "revId": "241c74f8343b5f5742c4779df55727fc1b59ffb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "573177d0_e917d5a9",
@@ -130,6 +226,30 @@
       "writtenOn": "2022-06-27T08:37:50Z",
       "side": 1,
       "message": "nit: can you add newline after the opening tick and before the closing tick so the formatting is nicer like everywhere else?",
+      "range": {
+        "startLine": 258,
+        "startChar": 16,
+        "endLine": 258,
+        "endChar": 17
+      },
+      "revId": "241c74f8343b5f5742c4779df55727fc1b59ffb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2ebcae1_f8d6a80c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-27T13:16:41Z",
+      "side": 1,
+      "message": "That\u0027s what I usually do, eslintfix tends to create them like this.",
+      "parentUuid": "573177d0_e917d5a9",
       "range": {
         "startLine": 258,
         "startChar": 16,

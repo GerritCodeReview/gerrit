@@ -864,7 +864,7 @@ export class GrChangeActions
       return undefined;
     }
     if (revisionActions[actionName] === undefined) {
-      // Return null to fire an event when reveisionActions was loaded
+      // Return null to fire an event when revisionActions was loaded
       // but doesn't contain actionName. undefined doesn't fire an event
       return null;
     }
@@ -1332,7 +1332,7 @@ export class GrChangeActions
   }
 
   /**
-   * Capitalize the first letter and lowecase all others.
+   * Capitalize the first letter and lowercase all others.
    *
    * private but used in test
    */
@@ -2110,7 +2110,6 @@ export class GrChangeActions
    * values.
    */
   private computeAllActions(): UIActionInfo[] {
-    // Polymer 2: check for undefined
     if (this.change === undefined) {
       return [];
     }

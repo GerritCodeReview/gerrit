@@ -325,7 +325,6 @@ export class GrLabelScoreRow extends LitElement {
 
   // Private but used in tests.
   _computeLabelValue() {
-    // Polymer 2+ undefined check
     if (!this.labels || !this.permittedLabels || !this.label) {
       return undefined;
     }

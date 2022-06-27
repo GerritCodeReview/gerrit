@@ -120,7 +120,6 @@ export class GrMessageScores extends LitElement {
   }
 
   _computeScoreClass(score?: Score, labelExtremes?: LabelExtreme) {
-    // Polymer 2: check for undefined
     if (score === undefined || labelExtremes === undefined) {
       return '';
     }

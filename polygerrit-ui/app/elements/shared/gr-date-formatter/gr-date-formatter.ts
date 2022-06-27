@@ -248,7 +248,6 @@ export class GrDateFormatter extends LitElement {
   }
 
   private computeFullDateStr() {
-    // Polymer 2: check for undefined
     if (
       [this.dateStr, this.timeFormat].includes(undefined) ||
       !this.dateFormat

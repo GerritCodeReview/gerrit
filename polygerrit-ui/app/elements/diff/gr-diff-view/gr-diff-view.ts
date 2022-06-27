@@ -1067,7 +1067,6 @@ export class GrDiffView extends LitElement {
 
   // Private but used in tests.
   fetchFiles() {
-    // Polymer 2: check for undefined
     if (!this.changeNum || !this.patchRange || !this.changeComments) {
       return Promise.resolve();
     }

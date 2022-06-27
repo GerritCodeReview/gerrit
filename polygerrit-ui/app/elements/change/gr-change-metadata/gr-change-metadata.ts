@@ -1172,11 +1172,12 @@ export class GrChangeMetadata extends LitElement {
     if (this.topicReadOnly || !this.change || this.change.topic) {
       return;
     }
-    // Cannot use `this.$.ID` syntax because the element exists inside of a
-    // dom-if.
-    (
-      this.shadowRoot!.querySelector('.topicEditableLabel') as GrEditableLabel
-    ).open();
+    const topicEditableLabel = this.shadowRoot!.querySelector<GrEditableLabel>(
+      '.topicEditableLabel'
+    );
+    if (topicEditableLabel) {
+      topicEditableLabel.open();
+    }
   }
 
   private getTopicSuggestions(

@@ -79,6 +79,7 @@ import com.google.gerrit.server.AssigneeStatusUpdate;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
+import com.google.gerrit.server.account.externalids.ExternalIdCache;
 import com.google.gerrit.server.notedb.ChangeNoteUtil.ParsedPatchSetApproval;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.util.LabelVote;
@@ -200,17 +201,25 @@ class ChangeNotesParser {
   private Optional<PatchSet.Id> cherryPickOf;
   private Instant mergedOn;
 
+  private final ExternalIdCache externalIdCache;
+
+  private final String gerritServerId;
+
   ChangeNotesParser(
       Change.Id changeId,
       ObjectId tip,
       ChangeNotesRevWalk walk,
       ChangeNoteJson changeNoteJson,
-      NoteDbMetrics metrics) {
+      NoteDbMetrics metrics,
+      String gerritServerId,
+      ExternalIdCache externalIdCache) {
     this.id = changeId;
     this.tip = tip;
     this.walk = walk;
     this.changeNoteJson = changeNoteJson;
     this.metrics = metrics;
+    this.externalIdCache = externalIdCache;
+    this.gerritServerId = gerritServerId;
     approvals = new LinkedHashMap<>();
     bufferedApprovals = new ArrayList<>();
     reviewers = HashBasedTable.create();
@@ -1406,7 +1415,7 @@ class ChangeNotesParser {
   }
 
   private Account.Id parseIdent(PersonIdent ident) throws ConfigInvalidException {
-    return NoteDbUtil.parseIdent(ident)
+    return NoteDbUtil.parseIdent(ident, gerritServerId, externalIdCache)
         .orElseThrow(
             () -> parseException("cannot retrieve account id: %s", ident.getEmailAddress()));
   }

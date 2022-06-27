@@ -92,7 +92,7 @@ import {
 import {fireAlert, fireEvent, fireTitleChange} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
 import {assertIsDefined} from '../../../utils/common-util';
-import {addGlobalShortcut, Key, toggleClass} from '../../../utils/dom-util';
+import {Key, toggleClass} from '../../../utils/dom-util';
 import {CursorMoveResult} from '../../../api/core';
 import {isFalse, throttleWrap, until} from '../../../utils/async-util';
 import {filter, take, switchMap} from 'rxjs/operators';
@@ -282,9 +282,6 @@ export class GrDiffView extends LitElement {
   @state()
   focusLineNum?: number;
 
-  /** Called in disconnectedCallback. */
-  private cleanups: (() => void)[] = [];
-
   // visible for testing
   reviewedFiles = new Set<string>();
 
@@ -382,6 +379,10 @@ export class GrDiffView extends LitElement {
     );
     listen(Shortcut.EXPAND_ALL_COMMENT_THREADS, _ => {}); // docOnly
     listen(Shortcut.COLLAPSE_ALL_COMMENT_THREADS, _ => {}); // docOnly
+    this.shortcutsController.addGlobal({key: Key.ESC}, _ => {
+      assertIsDefined(this.diffHost, 'diffHost');
+      this.diffHost.displayLine = false;
+    });
   }
 
   private setupSubscriptions() {
@@ -690,18 +691,10 @@ export class GrDiffView extends LitElement {
     );
     this.addEventListener('open-fix-preview', e => this.onOpenFixPreview(e));
     this.cursor = new GrDiffCursor();
-    this.cleanups.push(
-      addGlobalShortcut({key: Key.ESC}, _ => {
-        assertIsDefined(this.diffHost, 'diffHost');
-        this.diffHost.displayLine = false;
-      })
-    );
   }
 
   override disconnectedCallback() {
     this.cursor?.dispose();
-    for (const cleanup of this.cleanups) cleanup();
-    this.cleanups = [];
     this.connected$.next(false);
     super.disconnectedCallback();
   }

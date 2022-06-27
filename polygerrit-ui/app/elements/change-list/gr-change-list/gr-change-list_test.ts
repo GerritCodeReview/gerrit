@@ -247,7 +247,7 @@ suite('gr-change-list basic tests', () => {
     const navStub = sinon.stub(GerritNav, 'navigateToChange');
     assert.equal(element.selectedIndex, 2);
     pressKey(element, Key.ENTER);
-    await waitUntil(() => navStub.callCount > 1);
+    await waitUntil(() => navStub.callCount >= 1);
     await element.updateComplete;
     assert.deepEqual(
       navStub.lastCall.args[0],

@@ -47,6 +47,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "609e7c5c_78cf8b21",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-28T08:59:28Z",
+      "side": 1,
+      "message": "It is linkified. Apologies.",
+      "parentUuid": "d7a6f6f8_5a445b44",
+      "range": {
+        "startLine": 17,
+        "startChar": 24,
+        "endLine": 17,
+        "endChar": 80
+      },
+      "revId": "50e0ecee89a5960d15411c8605bfcc61c036accf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "32e8a100_5c55a761",

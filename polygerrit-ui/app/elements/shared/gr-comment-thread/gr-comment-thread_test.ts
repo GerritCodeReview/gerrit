@@ -161,14 +161,6 @@ suite('gr-comment-thread tests', () => {
           <div id="actionsContainer">
             <span id="unresolvedLabel"> Resolved </span>
             <div id="actions">
-              <iron-icon
-                class="copy link-icon"
-                icon="gr-icons:link"
-                role="button"
-                tabindex="0"
-                title="Copy link to this comment"
-              >
-              </iron-icon>
               <gr-button
                 aria-disabled="false"
                 class="action reply"
@@ -189,6 +181,14 @@ suite('gr-comment-thread tests', () => {
               >
                 Quote
               </gr-button>
+              <iron-icon
+                class="copy link-icon"
+                icon="gr-icons:link"
+                role="button"
+                tabindex="0"
+                title="Copy link to this comment"
+              >
+              </iron-icon>
             </div>
           </div>
         </div>
@@ -208,14 +208,6 @@ suite('gr-comment-thread tests', () => {
           <div id="actionsContainer">
             <span id="unresolvedLabel"> Unresolved </span>
             <div id="actions">
-              <iron-icon
-                class="copy link-icon"
-                icon="gr-icons:link"
-                role="button"
-                tabindex="0"
-                title="Copy link to this comment"
-              >
-              </iron-icon>
               <gr-button
                 aria-disabled="false"
                 class="action reply"
@@ -256,6 +248,14 @@ suite('gr-comment-thread tests', () => {
               >
                 Done
               </gr-button>
+              <iron-icon
+                class="copy link-icon"
+                icon="gr-icons:link"
+                role="button"
+                tabindex="0"
+                title="Copy link to this comment"
+              >
+              </iron-icon>
             </div>
           </div>
         </div>

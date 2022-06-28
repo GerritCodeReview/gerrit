@@ -109,6 +109,12 @@ export interface DelayedPromise<T> extends Promise<T> {
   isActive: () => boolean;
 }
 
+export class CancelationError extends Error {}
+
+interface DelayedPromiseInternal<T> extends DelayedPromise<T> {
+  stop: () => void;
+}
+
 function delayedPromise<T>(
   callback: () => Promise<T>,
   waitMs = 0
@@ -119,14 +125,18 @@ function delayedPromise<T>(
   const promise = new Promise<T | undefined>((resolve, reject) => {
     res = resolve;
     rej = reject;
-  }) as DelayedPromise<T>;
+  }) as DelayedPromiseInternal<T>;
   promise.resolve = res!;
   promise.reject = rej!;
   promise.isActive = () => timer !== undefined;
-  promise.cancel = () => {
+  promise.stop = () => {
     if (!promise.isActive()) return;
     window.clearTimeout(timer);
     timer = undefined;
+  };
+  promise.cancel = () => {
+    promise.stop();
+    promise.reject(new CancelationError());
   };
   timer = window.setTimeout(async () => {
     timer = undefined;
@@ -152,7 +162,7 @@ export function debounceP<T>(
   if (!existingPromise || !existingPromise.isActive()) {
     return delayedPromise<T>(callback, waitMs);
   } else {
-    existingPromise.cancel();
+    (existingPromise as DelayedPromiseInternal<T>).stop();
     const promise = delayedPromise<T>(callback, waitMs);
     promise
       .then((v: T) => existingPromise.resolve(v))

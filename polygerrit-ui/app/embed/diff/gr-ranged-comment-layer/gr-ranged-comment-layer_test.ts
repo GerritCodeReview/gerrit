@@ -149,7 +149,7 @@ suite('gr-ranged-comment-layer', () => {
       assert.equal(lastCall.args[2], expectedLength);
       assert.equal(
         lastCall.args[3],
-        'style-scope gr-diff range rangeHighlight generated_a'
+        'gr-diff range rangeHighlight generated_a'
       );
     });
 
@@ -169,7 +169,7 @@ suite('gr-ranged-comment-layer', () => {
       assert.equal(lastCall.args[2], expectedLength);
       assert.equal(
         lastCall.args[3],
-        'style-scope gr-diff range rangeHighlight generated_a'
+        'gr-diff range rangeHighlight generated_a'
       );
     });
 
@@ -200,7 +200,7 @@ suite('gr-ranged-comment-layer', () => {
       assert.equal(lastCall.args[2], expectedLength);
       assert.equal(
         lastCall.args[3],
-        'style-scope gr-diff range rangeHighlight generated_b'
+        'gr-diff range rangeHighlight generated_b'
       );
     });
 
@@ -214,7 +214,7 @@ suite('gr-ranged-comment-layer', () => {
       assert.isTrue(annotateElementStub.called);
       assert.equal(
         annotateElementStub.lastCall.args[3],
-        'style-scope gr-diff range generated_right-60-1-71-1'
+        'gr-diff range generated_right-60-1-71-1'
       );
     });
 

@@ -702,7 +702,7 @@ suite('gr-diff tests', () => {
     });
 
     suite('change in preferences', () => {
-      setup(() => {
+      setup(async () => {
         element.diff = {
           meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
           meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 560},
@@ -711,47 +711,47 @@ suite('gr-diff tests', () => {
           change_type: 'MODIFIED',
           content: [{skip: 66}],
         };
-        element.renderDiffTableTask?.flush();
+        await element.renderDiffTableTask?.flush();
       });
 
-      test('change in preferences re-renders diff', () => {
+      test('change in preferences re-renders diff', async () => {
         const stub = sinon.stub(element, '_renderDiffTable');
         element.prefs = {
           ...MINIMAL_PREFS,
         };
-        element.renderDiffTableTask?.flush();
+        await element.renderDiffTableTask?.flush();
         assert.isTrue(stub.called);
       });
 
-      test('adding/removing property in preferences re-renders diff', () => {
+      test('adding/removing property in preferences re-renders diff', async () => {
         const stub = sinon.stub(element, '_renderDiffTable');
         const newPrefs1: DiffPreferencesInfo = {
           ...MINIMAL_PREFS,
           line_wrapping: true,
         };
         element.prefs = newPrefs1;
-        element.renderDiffTableTask?.flush();
+        await element.renderDiffTableTask?.flush();
         assert.isTrue(stub.called);
         stub.reset();
 
         const newPrefs2 = {...newPrefs1};
         delete newPrefs2.line_wrapping;
         element.prefs = newPrefs2;
-        element.renderDiffTableTask?.flush();
+        await element.renderDiffTableTask?.flush();
         assert.isTrue(stub.called);
       });
 
       test(
         'change in preferences does not re-renders diff with ' +
           'noRenderOnPrefsChange',
-        () => {
+        async () => {
           const stub = sinon.stub(element, '_renderDiffTable');
           element.noRenderOnPrefsChange = true;
           element.prefs = {
             ...MINIMAL_PREFS,
             context: 12,
           };
-          element.renderDiffTableTask?.flush();
+          await element.renderDiffTableTask?.flush();
           assert.isFalse(stub.called);
         }
       );

@@ -5,6 +5,7 @@
  */
 import {Observable} from 'rxjs';
 import {filter, take} from 'rxjs/operators';
+import {assertIsDefined} from './common-util';
 
 /**
  * @param fn An iteratee function to be passed each element of
@@ -102,52 +103,76 @@ export function debounce(
   return new DelayedTask(callback, waitMs);
 }
 
-export interface DelayedPromise<T> extends Promise<T> {
-  resolve: (value?: T) => void;
-  reject: (reason?: unknown) => void;
-  cancel: () => void;
-  isActive: () => boolean;
-}
-
 export class CancelationError extends Error {}
 
-interface DelayedPromiseInternal<T> extends DelayedPromise<T> {
-  stop: () => void;
-}
+export class DelayedPromise<T> extends Promise<T> {
+  private readonly resolve: (value: PromiseLike<T> | T) => void;
 
-function delayedPromise<T>(
-  callback: () => Promise<T>,
-  waitMs = 0
-): DelayedPromise<T> {
-  let res: (value?: T) => void;
-  let rej: (reason?: unknown) => void;
-  let timer: number | undefined;
-  const promise = new Promise<T | undefined>((resolve, reject) => {
-    res = resolve;
-    rej = reject;
-  }) as DelayedPromiseInternal<T>;
-  promise.resolve = res!;
-  promise.reject = rej!;
-  promise.isActive = () => timer !== undefined;
-  promise.stop = () => {
-    if (!promise.isActive()) return;
-    window.clearTimeout(timer);
-    timer = undefined;
-  };
-  promise.cancel = () => {
-    promise.stop();
-    promise.reject(new CancelationError());
-  };
-  timer = window.setTimeout(async () => {
-    timer = undefined;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private readonly reject: (reason?: any) => void;
+
+  private timer: number | undefined;
+
+  constructor(private readonly callback: () => Promise<T>, waitMs = 0) {
+    let resolve: ((value: PromiseLike<T> | T) => void) | undefined;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let reject: ((reason?: any) => void) | undefined;
+    super((res, rej) => {
+      resolve = res;
+      reject = rej;
+    });
+    assertIsDefined(resolve);
+    assertIsDefined(reject);
+    this.resolve = resolve;
+    this.reject = reject;
+    this.timer = window.setTimeout(async () => {
+      await this.flush();
+    }, waitMs);
+  }
+
+  private stop() {
+    if (this.timer === undefined) return false;
+    window.clearTimeout(this.timer);
+    this.timer = undefined;
+    return true;
+  }
+
+  async flush() {
+    if (!this.stop()) return;
     try {
-      const result = await callback();
-      promise.resolve(result);
+      this.resolve(await this.callback());
     } catch (e) {
-      promise.reject(e);
+      this.reject(e);
     }
-  }, waitMs);
-  return promise;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  cancel(reason?: any) {
+    if (!this.stop()) return;
+    this.reject(reason ?? new CancelationError());
+  }
+
+  delegate(other: Promise<T>) {
+    if (!this.stop()) return;
+    other.then((value: T) => this.resolve(value));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    other.catch((reason?: any) => this.reject(reason));
+  }
+
+  // From ECMAScript specification:
+  // https://tc39.es/ecma262/#sec-get-promise-@@species
+  //    Promise prototype methods normally use their this value's constructor to
+  //    create a derived object. However, a subclass constructor may over-ride
+  //    that default behaviour by redefining its @@species property.
+  // NOTE: This is required otherwise .then and .catch on a DelayedPromise
+  // will try to instantiate a DelayedPromise with 'resolve, reject' arguments.
+  static get [Symbol.species]() {
+    return Promise;
+  }
+
+  get [Symbol.toStringTag]() {
+    return 'DelayedPromise';
+  }
 }
 
 /**
@@ -159,16 +184,9 @@ export function debounceP<T>(
   callback: () => Promise<T>,
   waitMs = 0
 ): DelayedPromise<T> {
-  if (!existingPromise || !existingPromise.isActive()) {
-    return delayedPromise<T>(callback, waitMs);
-  } else {
-    (existingPromise as DelayedPromiseInternal<T>).stop();
-    const promise = delayedPromise<T>(callback, waitMs);
-    promise
-      .then((v: T) => existingPromise.resolve(v))
-      .catch((e: unknown) => existingPromise.reject(e));
-    return promise;
-  }
+  const promise = new DelayedPromise<T>(callback, waitMs);
+  if (existingPromise) existingPromise.delegate(promise);
+  return promise;
 }
 const THROTTLE_INTERVAL_MS = 500;
 

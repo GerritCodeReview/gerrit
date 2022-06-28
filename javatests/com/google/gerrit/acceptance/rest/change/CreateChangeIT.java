@@ -47,6 +47,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
+import com.google.gerrit.extensions.api.changes.ApplyPatchInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -923,6 +924,14 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createPatchApplyingChangeUnimplemented() throws Exception {
+    requestScopeOperations.setApiUser(user.id());
+    ChangeInput input = newPatchApplyingChangeInput("foo", "master");
+    input.newBranch = true;
+    assertCreateFails(input, RestApiException.class, "Patch applying is not yet implemented");
+  }
+
+  @Test
   @UseSystemTime
   public void sha1sOfTwoNewChangesDiffer() throws Exception {
     ChangeInput changeInput = newChangeInput(ChangeStatus.NEW);
@@ -1171,6 +1180,19 @@ public class CreateChangeIT extends AbstractDaemonTest {
       in.merge.strategy = strategy;
     }
     in.merge.allowConflicts = allowConflicts;
+    return in;
+  }
+
+  private ChangeInput newPatchApplyingChangeInput(String targetBranch, String patch) {
+    // create a change applying the given patch on the target branch in gerrit
+    ChangeInput in = new ChangeInput();
+    in.project = project.get();
+    in.branch = targetBranch;
+    in.subject = "apply patch " + patch + " to " + targetBranch;
+    in.status = ChangeStatus.NEW;
+    ApplyPatchInput patchInput = new ApplyPatchInput();
+    patchInput.patch = patch;
+    in.patch = patchInput;
     return in;
   }
 

@@ -2124,6 +2124,66 @@ otherwise only by administrators.
   HTTP/1.1 204 No Content
 ----
 
+[[apply-patch]]
+=== Create patch-set from patch
+--
+'POST /changes/link:#change-id[\{change-id\}]/patch:apply'
+--
+
+Creates a new patch set on a destination change from the provided patch.
+
+The patch must be provided in the request body, inside a
+link:#applypatchpatchset-input[ApplyPatchPatchSetInput] entity.
+
+If a base commit is given, the patch is applied on top of it. Otherwise, the
+patch is applied on top of the target change's branch tip.
+
+Applying the patch will fail if the destination change is closed, or in case of any conflicts.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/patch:apply HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "patch": {
+      "patch": "new file mode 100644\n--- /dev/null\n+++ b/a_new_file.txt\n@@ -0,0 +1,2 @@ \
++Patch compatible `git diff` output \
++For example: `link:#get-patch[<gerrit patch>] | base64 -d | sed -z 's/\n/\\n/g'`"
+    }
+  }
+----
+
+As response a link:#change-info[ChangeInfo] entity is returned that
+describes the destination change after applying the patch.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9941",
+    "project": "myProject",
+    "branch": "release-branch",
+    "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9941",
+    "subject": "Original change subject",
+    "status": "NEW",
+    "created": "2013-02-01 09:59:32.126000000",
+    "updated": "2013-02-21 11:16:36.775000000",
+    "mergeable": true,
+    "insertions": 12,
+    "deletions": 11,
+    "_number": 3965,
+    "owner": {
+      "name": "John Doe"
+    },
+    "current_revision": "184ebe53805e102605d11f6b143486d15c23a09c"
+  }
+----
+
 [[get-included-in]]
 === Get Included In
 --
@@ -6506,6 +6566,46 @@ likely allowed to execute it. This may change if state is updated
 at the server or permissions are modified. Not present if false.
 |====================================
 
+[[applypatch-input]]
+=== ApplyPatchInput
+The `ApplyPatchInput` entity contains information about a patch to apply.
+
+A new commit will be created from the patch, and saved as a new patch set.
+
+[options="header",cols="1,^1,5"]
+|=================================
+|Field Name          ||Description
+|`patch`             |required|
+The patch to be applied. Must be compatible with `git diff` output.
+For example, link:#get-patch[Get Patch] output.
+|=================================
+
+[[applypatchpatchset-input]]
+=== ApplyPatchPatchSetInput
+The `ApplyPatchPatchSetInput` entity contains information for creating a new patch set from a
+given patch.
+
+[options="header",cols="1,^1,5"]
+|=================================
+|Field Name           ||Description
+|`patch`              |required|
+The details of the patch to be applied as a link:#applypatch-input[ApplyPatchInput] entity.
+|`commit_message`     |optional|
+The commit message for the new patch set. If not specified, a predefined message will be used.
+|`base`               |optional|
+40-hex digit SHA-1 of the commit which will be the parent commit of the newly created patch set.
+If set, it must be a merged commit or a change revision on the destination branch.
+Otherwise, the target change's branch tip will be used.
+|`author`             |optional|
+The author of the commit to create. Must be an
+link:rest-api-accounts.html#account-input[AccountInput] entity with at least
+the `name` and `email` fields set.
+The caller needs "Forge Author" permission when using this field, unless specifies their own details.
+This field does not affect the owner of the change, which will continue to use the identity of the
+caller.
+|=================================
+
+
 [[approval-info]]
 === ApprovalInfo
 The `ApprovalInfo` entity contains information about an approval from a
@@ -6878,10 +6978,12 @@ The detail of a merge commit as a link:#merge-input[MergeInput] entity.
 If set, the target branch (see  `branch` field) must exist (it is not
 possible to create it automatically by setting the `new_branch` field
 to `true`.
+|`patch`              |optional|
+The detail of a patch to be applied as an link:#applypatch-input[ApplyPatchInput] entity.
 |`author`             |optional|
-An link:rest-api-accounts.html#account-input[AccountInput] entity
-that will set the author of the commit to create. The author must be
-specified as name/email combination.
+The author of the commit to create. Must be an
+link:rest-api-accounts.html#account-input[AccountInput] entity with at least
+the `name` and `email` fields set.
 The caller needs "Forge Author" permission when using this field.
 This field does not affect the owner of the change, which will
 continue to use the identity of the caller.
@@ -7719,11 +7821,11 @@ it's set. Otherwise, the current branch tip of the destination branch will be us
 The detail of the source commit for merge as a link:#merge-input[MergeInput]
 entity.
 |`author`             |optional|
-An link:rest-api-accounts.html#account-input[AccountInput] entity
-that will set the author of the commit to create. The author must be
-specified as name/email combination.
+The author of the commit to create. Must be an
+link:rest-api-accounts.html#account-input[AccountInput] entity with at least
+the `name` and `email` fields set.
 The caller needs "Forge Author" permission when using this field.
-This field does not affect the owner of the change, which will
+This field does not affect the owner or the committer of the change, which will
 continue to use the identity of the caller.
 |==================================
 

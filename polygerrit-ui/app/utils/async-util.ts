@@ -107,6 +107,7 @@ export interface DelayedPromise<T> extends Promise<T> {
   reject: (reason?: unknown) => void;
   cancel: () => void;
   isActive: () => boolean;
+  flush: () => Promise<T | void>;
 }
 
 export class CancelationError extends Error {}
@@ -138,6 +139,13 @@ function delayedPromise<T>(
     promise.stop();
     promise.reject(new CancelationError());
   };
+  promise.flush = async () => {
+    if (promise.isActive()) {
+      promise.stop();
+      return await callback();
+    }
+    return;
+  }
   timer = window.setTimeout(async () => {
     timer = undefined;
     try {

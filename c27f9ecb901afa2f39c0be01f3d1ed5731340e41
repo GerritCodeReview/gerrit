@@ -81,6 +81,24 @@
       "parentUuid": "63e12c70_17b459bc",
       "revId": "c27f9ecb901afa2f39c0be01f3d1ed5731340e41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a77b8c68_fd9b2464",
+        "filename": "javatests/com/google/gerrit/server/git/delegate/DelegateRepositoryTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-28T05:24:38Z",
+      "side": 1,
+      "message": "\u003e Why not just renaming the one you have created in the parent change?\n\n+1.\n\n\u003e The test in the parent change is testing the  delegate()  method does what it is supposed to do.\n\nAnd it could still do it if the to classes are merged, right?\n\nWe should not having two classes with the same name in two different packages. You haven\u0027t explained in javadocs or comment why they both exist in the tree and haven\u0027t referenced from one class to another. Frankly speaking, I would just merge those two tests in a single one in a follow-up clean-up.\n\nAlso, from performance perspective it should be better to add new method instead of  new class to the tests suite.",
+      "parentUuid": "c7b9da13_45b04980",
+      "revId": "c27f9ecb901afa2f39c0be01f3d1ed5731340e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

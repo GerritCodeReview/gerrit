@@ -526,7 +526,6 @@ export class GrChangeMetadata extends LitElement {
               <gr-commit-info
                 .change=${this.change}
                 .commitInfo=${parent}
-                .serverConfig=${this.serverConfig}
               ></gr-commit-info>
               <gr-tooltip-content
                 id="parentNotCurrentMessage"
@@ -553,7 +552,6 @@ export class GrChangeMetadata extends LitElement {
             this.change?.current_revision,
             this.change?.revisions
           )}
-          .serverConfig=${this.serverConfig}
         ></gr-commit-info>
       </span>
     </section>`;
@@ -570,7 +568,6 @@ export class GrChangeMetadata extends LitElement {
         <gr-commit-info
           .change=${this.change}
           .commitInfo=${this.computeRevertCommit()}
-          .serverConfig=${this.serverConfig}
         ></gr-commit-info>
       </span>
     </section>`;

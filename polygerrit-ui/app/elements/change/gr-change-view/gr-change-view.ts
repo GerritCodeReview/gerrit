@@ -1221,7 +1221,6 @@ export class GrChangeView extends LitElement {
               .permittedLabels=${this.change?.permitted_labels}
               .draftCommentThreads=${this.draftCommentThreads}
               .projectConfig=${this.projectConfig}
-              .serverConfig=${this.serverConfig}
               .canBeStarted=${this.canStartReview()}
               @send=${this.handleReplySent}
               @cancel=${this.handleReplyCancel}
@@ -1485,7 +1484,6 @@ export class GrChangeView extends LitElement {
             .changeUrl=${this.computeChangeUrl()}
             .editMode=${this.getEditMode()}
             .loggedIn=${this.loggedIn}
-            .serverConfig=${this.serverConfig}
             .shownFileCount=${this.shownFileCount}
             .patchNum=${this.patchRange?.patchNum}
             .basePatchNum=${this.patchRange?.basePatchNum}

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fde5a6ba_dd2552f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-06-28T10:31:37Z",
+      "side": 1,
+      "message": "It used to be, that hitting enter while in input would pick the first suggestion, same as after hitting up and down bunch of times to select a suggestion and then pressing enter. But it was also subtly different, for ex. in terms of where the focus is afterwards.",
+      "parentUuid": "de8faca6_7f5399df",
+      "range": {
+        "startLine": 13,
+        "startChar": 2,
+        "endLine": 14,
+        "endChar": 10
+      },
+      "revId": "50e0ecee89a5960d15411c8605bfcc61c036accf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d7a6f6f8_5a445b44",
@@ -94,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f613f39_00b6901c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-06-28T10:31:37Z",
+      "side": 1,
+      "message": "Reworded. PTAL",
+      "parentUuid": "32e8a100_5c55a761",
+      "range": {
+        "startLine": 174,
+        "startChar": 18,
+        "endLine": 174,
+        "endChar": 37
+      },
+      "revId": "50e0ecee89a5960d15411c8605bfcc61c036accf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fd71b9fa_773b93ba",
@@ -107,6 +155,24 @@
       "writtenOn": "2022-06-27T15:21:22Z",
       "side": 1,
       "message": "If condition fits on a single line.",
+      "revId": "50e0ecee89a5960d15411c8605bfcc61c036accf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6eb2c34c_7ceb4487",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-06-28T10:31:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd71b9fa_773b93ba",
       "revId": "50e0ecee89a5960d15411c8605bfcc61c036accf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -151,6 +217,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "81b1a4c0_4a773ee6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-06-28T10:31:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dee85422_b23dc016",
+      "range": {
+        "startLine": 340,
+        "startChar": 16,
+        "endLine": 340,
+        "endChar": 39
+      },
+      "revId": "50e0ecee89a5960d15411c8605bfcc61c036accf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d197e35f_a7e862a4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-06-28T10:31:37Z",
+      "side": 1,
+      "message": "Done. Also updated SetText, from which I copied the logic.",
+      "parentUuid": "69d4a70d_db5b3e86",
+      "revId": "50e0ecee89a5960d15411c8605bfcc61c036accf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d5f2e4f_c8a3e78d",
@@ -164,6 +272,30 @@
       "writtenOn": "2022-06-28T08:31:14Z",
       "side": 1,
       "message": "would `disableDisplayingSuggestions` be a better name?",
+      "range": {
+        "startLine": 341,
+        "startChar": 9,
+        "endLine": 341,
+        "endChar": 27
+      },
+      "revId": "50e0ecee89a5960d15411c8605bfcc61c036accf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccd2a2d3_f6508556",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-06-28T10:31:37Z",
+      "side": 1,
+      "message": "Sounds about the same to me. Don\u0027t have the strong opinion so done.",
+      "parentUuid": "5d5f2e4f_c8a3e78d",
       "range": {
         "startLine": 341,
         "startChar": 9,
@@ -199,6 +331,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "25d4dc5d_9cb787dd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-06-28T10:31:37Z",
+      "side": 1,
+      "message": "I don\u0027t really understand what the comment was referring to. I think the test is clear without it, so I removed it.",
+      "parentUuid": "3cb0a6b8_75b80036",
+      "range": {
+        "startLine": 547,
+        "startChar": 6,
+        "endLine": 547,
+        "endChar": 70
+      },
+      "revId": "50e0ecee89a5960d15411c8605bfcc61c036accf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "7ef49c0b_cafdd4a4",
         "filename": "polygerrit-ui/app/test/test-utils.ts",
         "patchSetId": 7
@@ -210,6 +366,24 @@
       "writtenOn": "2022-06-27T15:21:22Z",
       "side": 1,
       "message": "Unrelated change? You don\u0027t seem to be using this new functionality in the tests.",
+      "revId": "50e0ecee89a5960d15411c8605bfcc61c036accf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c56d56dd_026267d0",
+        "filename": "polygerrit-ui/app/test/test-utils.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-06-28T10:31:37Z",
+      "side": 1,
+      "message": "I decided to keep it in, since it was useful for debugging",
+      "parentUuid": "7ef49c0b_cafdd4a4",
       "revId": "50e0ecee89a5960d15411c8605bfcc61c036accf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

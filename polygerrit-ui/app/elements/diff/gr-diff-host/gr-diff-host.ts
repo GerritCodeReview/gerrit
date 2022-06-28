@@ -92,7 +92,11 @@ import {CODE_MAX_LINES} from '../../../services/highlight/highlight-service';
 import {html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import {ValueChangedEvent} from '../../../types/events';
-import {debounceP, DelayedPromise} from '../../../utils/async-util';
+import {
+  debounceP,
+  CancelationError,
+  DelayedPromise
+} from '../../../utils/async-util';
 import {subscribe} from '../../lit/subscription-controller';
 
 const EMPTY_BLAME = 'No blame information for this diff.';
@@ -471,7 +475,9 @@ export class GrDiffHost extends LitElement {
         await this.reloadPromise;
       } catch (e: unknown) {
         // TODO: Consider moving this logic to a helper method on
-        if (e instanceof Error) {
+        if (e instanceof CancelationError) {
+          // Do nothing.
+        } else if (e instanceof Error) {
           this.reporting.error(e);
         } else {
           this.reporting.error(new Error('reloadPromise error'), undefined, e);

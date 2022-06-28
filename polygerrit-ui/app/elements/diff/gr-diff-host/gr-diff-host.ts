@@ -398,7 +398,7 @@ export class GrDiffHost extends LitElement {
 
   override disconnectedCallback() {
     if (this.reloadPromise) {
-      this.reloadPromise.cancel();
+      this.reloadPromise.cancel(new CancelationError());
       this.reloadPromise = undefined;
     }
     if (this.checksSubscription) {

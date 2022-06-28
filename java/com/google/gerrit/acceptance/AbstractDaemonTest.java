@@ -45,6 +45,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.jimfs.Jimfs;
 import com.google.common.primitives.Chars;
 import com.google.common.testing.FakeTicker;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
@@ -153,7 +154,14 @@ import com.google.inject.Provider;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Modifier;
+import java.nio.file.DirectoryStream;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -176,6 +184,7 @@ import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
@@ -185,7 +194,11 @@ import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.transport.FetchResult;
+import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.Transport;
+import org.eclipse.jgit.transport.TransportBundleStream;
+import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
@@ -1191,6 +1204,58 @@ public abstract class AbstractDaemonTest {
     assertThat(replyTo.getString()).doesNotContain(email);
   }
 
+  /**
+   * Fetches each bundle into a newly cloned repository, then it applies the bundle, and returns the
+   * resulting tree id.
+   *
+   * <p>Omits NoteDb meta refs.
+   */
+  protected Map<BranchNameKey, ObjectId> fetchFromBundles(BinaryResult bundles) throws Exception {
+    assertThat(bundles.getContentType()).isEqualTo("application/x-zip");
+
+    FileSystem fs = Jimfs.newFileSystem();
+    Path previewPath = fs.getPath("preview.zip");
+    try (OutputStream out = Files.newOutputStream(previewPath)) {
+      bundles.writeTo(out);
+    }
+    Map<BranchNameKey, ObjectId> ret = new HashMap<>();
+    try (FileSystem zipFs = FileSystems.newFileSystem(previewPath, (ClassLoader) null);
+        DirectoryStream<Path> dirStream =
+            Files.newDirectoryStream(Iterables.getOnlyElement(zipFs.getRootDirectories()))) {
+      for (Path p : dirStream) {
+        if (!Files.isRegularFile(p)) {
+          continue;
+        }
+        String bundleName = p.getFileName().toString();
+        int len = bundleName.length();
+        assertThat(bundleName).endsWith(".git");
+        String repoName = bundleName.substring(0, len - 4);
+        Project.NameKey proj = Project.nameKey(repoName);
+        TestRepository<?> localRepo = cloneProject(proj);
+
+        try (InputStream bundleStream = Files.newInputStream(p);
+            TransportBundleStream tbs =
+                new TransportBundleStream(
+                    localRepo.getRepository(), new URIish(bundleName), bundleStream)) {
+          FetchResult fr =
+              tbs.fetch(
+                  NullProgressMonitor.INSTANCE,
+                  Arrays.asList(new RefSpec("refs/*:refs/preview/*")));
+          for (Ref r : fr.getAdvertisedRefs()) {
+            String refName = r.getName();
+            if (RefNames.isNoteDbMetaRef(refName)) {
+              continue;
+            }
+            RevCommit c = localRepo.getRevWalk().parseCommit(r.getObjectId());
+            ret.put(BranchNameKey.create(proj, refName), c.getTree().copy());
+          }
+        }
+      }
+    }
+    assertThat(ret).isNotEmpty();
+    return ret;
+  }
+
   /** Assert that the given branches have the given tree ids. */
   protected void assertTrees(Project.NameKey proj, Map<BranchNameKey, ObjectId> trees)
       throws Exception {
@@ -1214,34 +1279,44 @@ public abstract class AbstractDaemonTest {
     assertThat(refValues.keySet()).containsAnyIn(trees.keySet());
   }
 
+  protected void assertDiffForFullyModifiedFile(
+      DiffInfo diff, @Nullable RevCommit commit, String path, String expectedContentSideA, String expectedContentSideB) throws Exception {
+    assertDiffForFile(diff, commit, path);
+
+    List<String> expectedOldLines = ImmutableList.copyOf(expectedContentSideA.split("\n", -1));
+    List<String> expectedNewLines = ImmutableList.copyOf(expectedContentSideB.split("\n", -1));
+
+    assertThat(diff.changeType).isEqualTo(ChangeType.MODIFIED);
+
+    assertThat(diff.metaA).isNotNull();
+    assertThat(diff.metaB).isNotNull();
+
+    assertThat(diff.metaA.lines).isEqualTo(expectedOldLines.size());
+    assertThat(diff.metaB.lines).isEqualTo(expectedNewLines.size());
+
+    DiffInfo.ContentEntry contentEntry = diff.content.get(0);
+    assertThat(contentEntry.a).containsExactlyElementsIn(expectedOldLines).inOrder();
+    assertThat(contentEntry.b).containsExactlyElementsIn(expectedNewLines).inOrder();
+    assertThat(contentEntry.ab).isNull();
+    assertThat(contentEntry.common).isNull();
+    assertThat(contentEntry.editA).isNull();
+    assertThat(contentEntry.editB).isNull();
+    assertThat(contentEntry.skip).isNull();
+  }
+
   protected void assertDiffForNewFile(
-      DiffInfo diff, RevCommit commit, String path, String expectedContentSideB) throws Exception {
+      DiffInfo diff, @Nullable RevCommit commit, String path, String expectedContentSideB) throws Exception {
+    assertDiffForFile(diff, commit, path);
+
     List<String> expectedLines = ImmutableList.copyOf(expectedContentSideB.split("\n", -1));
 
-    assertThat(diff.binary).isNull();
     assertThat(diff.changeType).isEqualTo(ChangeType.ADDED);
-    assertThat(diff.diffHeader).isNotNull();
-    assertThat(diff.intralineStatus).isNull();
-    assertThat(diff.webLinks).isNull();
-    assertThat(diff.editWebLinks).isNull();
 
     assertThat(diff.metaA).isNull();
     assertThat(diff.metaB).isNotNull();
-    assertThat(diff.metaB.commitId).isEqualTo(commit.name());
-
-    String expectedContentType = "text/plain";
-    if (COMMIT_MSG.equals(path)) {
-      expectedContentType = FileContentUtil.TEXT_X_GERRIT_COMMIT_MESSAGE;
-    } else if (MERGE_LIST.equals(path)) {
-      expectedContentType = FileContentUtil.TEXT_X_GERRIT_MERGE_LIST;
-    }
-    assertThat(diff.metaB.contentType).isEqualTo(expectedContentType);
 
     assertThat(diff.metaB.lines).isEqualTo(expectedLines.size());
-    assertThat(diff.metaB.name).isEqualTo(path);
-    assertThat(diff.metaB.webLinks).isNull();
 
-    assertThat(diff.content).hasSize(1);
     DiffInfo.ContentEntry contentEntry = diff.content.get(0);
     assertThat(contentEntry.b).containsExactlyElementsIn(expectedLines).inOrder();
     assertThat(contentEntry.a).isNull();
@@ -1250,6 +1325,56 @@ public abstract class AbstractDaemonTest {
     assertThat(contentEntry.editA).isNull();
     assertThat(contentEntry.editB).isNull();
     assertThat(contentEntry.skip).isNull();
+  }
+
+  protected void assertDiffForDeletedFile(
+      DiffInfo diff, @Nullable RevCommit commit, String path, String expectedContentSideA) throws Exception {
+    assertDiffForFile(diff, commit, path);
+
+    List<String> expectedOriginalLines = ImmutableList.copyOf(expectedContentSideA.split("\n", -1));
+
+    assertThat(diff.changeType).isEqualTo(ChangeType.DELETED);
+
+    assertThat(diff.metaA).isNotNull();
+    assertThat(diff.metaB).isNull();
+
+    assertThat(diff.metaA.lines).isEqualTo(expectedOriginalLines.size());
+
+    DiffInfo.ContentEntry contentEntry = diff.content.get(0);
+    assertThat(contentEntry.a).containsExactlyElementsIn(expectedOriginalLines).inOrder();
+    assertThat(contentEntry.b).isNull();
+    assertThat(contentEntry.ab).isNull();
+    assertThat(contentEntry.common).isNull();
+    assertThat(contentEntry.editA).isNull();
+    assertThat(contentEntry.editB).isNull();
+    assertThat(contentEntry.skip).isNull();
+  }
+
+  private void assertDiffForFile(
+      DiffInfo diff, @Nullable RevCommit commit, String path) throws Exception {
+    assertThat(diff.binary).isNull();
+    assertThat(diff.diffHeader).isNotNull();
+    assertThat(diff.intralineStatus).isNull();
+    assertThat(diff.webLinks).isNull();
+    assertThat(diff.editWebLinks).isNull();
+
+    if (commit!=null) {
+      assertThat(diff.metaB.commitId).isEqualTo(commit.name());
+    }
+
+    assertThat(path).isNotEmpty(); // DO NOT SUBMIT - delete
+    // DO NOT SUBMIT - uncomment.
+//    String expectedContentType = "text/plain";
+//    if (COMMIT_MSG.equals(path)) {
+//      expectedContentType = FileContentUtil.TEXT_X_GERRIT_COMMIT_MESSAGE;
+//    } else if (MERGE_LIST.equals(path)) {
+//      expectedContentType = FileContentUtil.TEXT_X_GERRIT_MERGE_LIST;
+//    }
+//
+//    assertThat(diff.metaB.contentType).isEqualTo(expectedContentType);
+//
+//    assertThat(diff.metaB.name).isEqualTo(path);
+//    assertThat(diff.metaB.webLinks).isNull();
   }
 
   protected void assertPermitted(ChangeInfo info, String label, Integer... expected) {

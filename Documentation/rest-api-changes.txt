@@ -2124,6 +2124,65 @@ otherwise only by administrators.
   HTTP/1.1 204 No Content
 ----
 
+[[apply-patch]]
+=== Apply Patch to a change
+--
+'POST /changes/link:#change-id[\{change-id\}]//applypatch'
+--
+
+Applies a patch into the destination change.
+
+The patch must be provided in the request body, inside a
+link:#applypatch-input[ApplyPatchInput] entity.
+
+Some fields of the destination change can be overriden as part of the request.
+If not set, the original values are kept.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/applypatch HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "patch" : diff --git a/a_new_file.txt b/a_new_file.txt
+              new file mode 100644
+              index 0000000..f0eec86
+              --- /dev/null
+              +++ b/a_new_file.txt
+              @@ -0,0 +1 @@
+              +Patch compatible `git diff` output"
+  }
+----
+
+As response a link:#change-info[ChangeInfo] entity is returned that
+describes the destination change after applying the patch.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9941",
+    "project": "myProject",
+    "branch": "release-branch",
+    "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9941",
+    "subject": "Implementing Feature X",
+    "status": "NEW",
+    "created": "2013-02-01 09:59:32.126000000",
+    "updated": "2013-02-21 11:16:36.775000000",
+    "mergeable": true,
+    "insertions": 12,
+    "deletions": 11,
+    "_number": 3965,
+    "owner": {
+      "name": "John Doe"
+    }
+  }
+----
+
 [[get-included-in]]
 === Get Included In
 --
@@ -6418,6 +6477,49 @@ If true the action is permitted at this time and the caller is
 likely allowed to execute it. This may change if state is updated
 at the server or permissions are modified. Not present if false.
 |====================================
+
+[[applypatch-input]]
+=== ApplyPatchInput
+The `ApplyPatchInput` entity contains information for applying a patch into an existing commit.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name          ||Description
+|`patch`             |required|
+The patch to be applied. Must be compatible with `git diff` output.
+|`message`           |optional|
+Commit message for the applied change. If not set, the commit message of
+the destination commit is kept.
+|`topic`             |optional|
+The topic of the destination change. If not set, the destination change topic is kept.
+|`notify`            |optional|
+Notify handling that defines to whom email notifications should be sent
+after the patch is applied. +
+Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
+If not set, the default is `ALL`.
+|`notify_details`    |optional|
+Additional information about whom to notify about the update as a map
+of link:user-notify.html#recipient-types[recipient type] to
+link:#notify-info[NotifyInfo] entity.
+|`allow_conflicts`   |optional, defaults to false|
+If `true`, apply-patch succeeds also if there are conflicts. If there are
+conflicts the file contents of the created change contain git conflict
+markers to indicate the conflicts.
+Callers can find out if there were conflicts by checking the
+`contains_git_conflicts` field in the link:#change-info[ChangeInfo]. If
+there are conflicts the cherry-pick change is marked as
+work-in-progress.
+|`work_in_progress`   |optional, not set if `false`|
+When present, destination change is marked as Work In Progress.
+|`validation_options`|optional|
+Map with key-value pairs that are forwarded as options to the commit validation
+listeners (e.g. can be used to skip certain validations). Which validation
+options are supported depends on the installed commit validation listeners.
+Gerrit core doesn't support any validation options, but commit validation
+listeners that are implemented in plugins may. Please refer to the
+documentation of the installed plugins to learn whether they support validation
+options. Unknown validation options are silently ignored.
+|===========================
 
 [[approval-info]]
 === ApprovalInfo

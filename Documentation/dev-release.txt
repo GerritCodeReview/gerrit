@@ -327,6 +327,20 @@ Push the new Release Tag on the plugins:
   git submodule foreach '[ "$sm_path" == "modules/jgit" ] || git push gerrit-review tag "v$version"'
 ----
 
+[[publish-typescript-plugin-api]]
+==== Publish TypeScript Plugin API
+
+Only applies to major and minor releases! Not required for patch releases.
+
+* Publish a new version of the npm package `@gerritcodereview/typescript-api`.
+See link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/api/README.md[api/README.md,role=external,window=_blank]
+for details.
+
+* The plugins in the stable branch of the minor release and the master branch
+be changed to use the new API version, see
+link:https://gerrit-review.googlesource.com/c/gerrit/+/340069[
+example change,role=external,window=_blank]
+
 [[upload-documentation]]
 ==== Upload the Documentation
 

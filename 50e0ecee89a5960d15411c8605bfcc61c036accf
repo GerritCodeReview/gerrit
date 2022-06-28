@@ -3,6 +3,75 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "de8faca6_7f5399df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-28T08:31:14Z",
+      "side": 1,
+      "message": "I don´t understand this.\n\nEnter on a suggestion or the input is the same behavior?",
+      "range": {
+        "startLine": 13,
+        "startChar": 2,
+        "endLine": 14,
+        "endChar": 10
+      },
+      "revId": "50e0ecee89a5960d15411c8605bfcc61c036accf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7a6f6f8_5a445b44",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-28T08:31:14Z",
+      "side": 1,
+      "message": "Replace with `Change 339782` and the change will be linkified.\nNot sure why itś not being linkified now(maybe a bug?)",
+      "range": {
+        "startLine": 17,
+        "startChar": 24,
+        "endLine": 17,
+        "endChar": 80
+      },
+      "revId": "50e0ecee89a5960d15411c8605bfcc61c036accf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32e8a100_5c55a761",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-28T08:31:14Z",
+      "side": 1,
+      "message": "what changes are needed?\ncomment is a bit confusing",
+      "range": {
+        "startLine": 174,
+        "startChar": 18,
+        "endLine": 174,
+        "endChar": 37
+      },
+      "revId": "50e0ecee89a5960d15411c8605bfcc61c036accf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fd71b9fa_773b93ba",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
         "patchSetId": 7
@@ -31,6 +100,75 @@
       "writtenOn": "2022-06-27T15:21:22Z",
       "side": 1,
       "message": "If you make this function async, even the start of it will be done asynchronously.\n\nMaybe instead:\n\n```\nprivate focusWithoutSuggestions() {\n  this.disableSuggestions \u003d true;\n  this.focus();\n  \n  this.updateComplete().then(() \u003d\u003e this.disableSuggestions \u003d false};\n}\n```\n\nEspecially given you don\u0027t actually want to wait for the promise.",
+      "revId": "50e0ecee89a5960d15411c8605bfcc61c036accf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dee85422_b23dc016",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-28T08:31:14Z",
+      "side": 1,
+      "message": "focusWithoutDisplayingSuggestions?",
+      "range": {
+        "startLine": 340,
+        "startChar": 16,
+        "endLine": 340,
+        "endChar": 39
+      },
+      "revId": "50e0ecee89a5960d15411c8605bfcc61c036accf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d5f2e4f_c8a3e78d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-28T08:31:14Z",
+      "side": 1,
+      "message": "would `disableDisplayingSuggestions` be a better name?",
+      "range": {
+        "startLine": 341,
+        "startChar": 9,
+        "endLine": 341,
+        "endChar": 27
+      },
+      "revId": "50e0ecee89a5960d15411c8605bfcc61c036accf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cb0a6b8_75b80036",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-28T08:31:14Z",
+      "side": 1,
+      "message": "can you take a look at this comment now?",
+      "range": {
+        "startLine": 547,
+        "startChar": 6,
+        "endLine": 547,
+        "endChar": 70
+      },
       "revId": "50e0ecee89a5960d15411c8605bfcc61c036accf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

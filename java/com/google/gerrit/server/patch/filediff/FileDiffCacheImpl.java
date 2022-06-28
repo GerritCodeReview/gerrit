@@ -97,7 +97,7 @@ public class FileDiffCacheImpl implements FileDiffCache {
         persist(DIFF, FileDiffCacheKey.class, FileDiffOutput.class)
             .maximumWeight(10 << 20)
             .weigher(FileDiffWeigher.class)
-            .version(8)
+            .version(9)
             .keySerializer(FileDiffCacheKey.Serializer.INSTANCE)
             .valueSerializer(FileDiffOutput.Serializer.INSTANCE)
             .loader(FileDiffLoader.class);
@@ -443,6 +443,8 @@ public class FileDiffCacheImpl implements FileDiffCache {
                 .patchType(mainGitDiff.patchType())
                 .oldPath(mainGitDiff.oldPath())
                 .newPath(mainGitDiff.newPath())
+                .oldMode(mainGitDiff.oldMode())
+                .newMode(mainGitDiff.newMode())
                 .headerLines(FileHeaderUtil.getHeaderLines(mainGitDiff.fileHeader()))
                 .edits(asTaggedEdits(mainGitDiff.edits(), rebaseEdits))
                 .size(newSize)

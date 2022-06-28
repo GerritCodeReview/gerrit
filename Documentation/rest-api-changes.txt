@@ -7471,8 +7471,13 @@ An empty last line is not included in the count and hence this number can
 differ by one from details provided in <<diff-info,DiffInfo>>.
 |`size_delta`    ||
 Number of bytes by which the file size increased/decreased.
-|`size`          ||
-File size in bytes.
+|`size`          || File size in bytes.
+|`old_mode`        ||File mode in octal (e.g. 100644) at the old commit. The
+first three digits indicate the file type and the last three digits contain the
+file permission bits. For added files, this field will contain 000000.
+|`new_mode`        ||File mode in octal (e.g. 100644) at the new commit. The
+first three digits indicate the file type and the last three digits contain the
+file permission bits. For deleted files, this field will contain 000000.
 |=============================
 
 [[fix-input]]

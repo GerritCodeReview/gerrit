@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Patch;
+import com.google.gerrit.entities.Patch.FileMode;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.common.FileInfo;
@@ -102,6 +103,14 @@ public class FileInfoJsonImpl implements FileInfoJson {
       fileInfo.oldPath = FilePathAdapter.getOldPath(fileDiff.oldPath(), fileDiff.changeType());
       fileInfo.sizeDelta = fileDiff.sizeDelta();
       fileInfo.size = fileDiff.size();
+      fileInfo.oldMode =
+          fileDiff.oldMode().isPresent()
+              ? fileDiff.oldMode().get().getMode()
+              : FileMode.MISSING.getMode();
+      fileInfo.newMode =
+          fileDiff.newMode().isPresent()
+              ? fileDiff.newMode().get().getMode()
+              : FileMode.MISSING.getMode();
       if (fileDiff.patchType().get() == Patch.PatchType.BINARY) {
         fileInfo.binary = true;
       } else {

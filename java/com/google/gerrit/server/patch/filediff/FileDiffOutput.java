@@ -17,9 +17,12 @@ package com.google.gerrit.server.patch.filediff;
 import static com.google.gerrit.server.patch.DiffUtil.stringSize;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.base.Converter;
+import com.google.common.base.Enums;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Patch.ChangeType;
+import com.google.gerrit.entities.Patch.FileMode;
 import com.google.gerrit.entities.Patch.PatchType;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.cache.proto.Cache.FileDiffOutputProto;
@@ -60,6 +63,18 @@ public abstract class FileDiffOutput implements Serializable {
    * {@link ChangeType#DELETED}.
    */
   public abstract Optional<String> newPath();
+
+  /**
+   * The file mode of the old file at the old git tree diff identified by {@link #oldCommitId()}
+   * ()}.
+   */
+  public abstract Optional<Patch.FileMode> oldMode();
+
+  /**
+   * The file mode of the new file at the new git tree diff identified by {@link #newCommitId()}
+   * ()}.
+   */
+  public abstract Optional<Patch.FileMode> newMode();
 
   /** The change type of the underlying file, e.g. added, deleted, renamed, etc... */
   public abstract Patch.ChangeType changeType();
@@ -201,6 +216,10 @@ public abstract class FileDiffOutput implements Serializable {
 
     public abstract Builder newPath(Optional<String> value);
 
+    public abstract Builder oldMode(Optional<Patch.FileMode> oldMode);
+
+    public abstract Builder newMode(Optional<Patch.FileMode> newMode);
+
     public abstract Builder changeType(ChangeType value);
 
     public abstract Builder patchType(Optional<PatchType> value);
@@ -221,6 +240,9 @@ public abstract class FileDiffOutput implements Serializable {
   public enum Serializer implements CacheSerializer<FileDiffOutput> {
     INSTANCE;
 
+    private static final Converter<String, FileMode> FILE_MODE_CONVERTER =
+        Enums.stringConverter(Patch.FileMode.class);
+
     private static final FieldDescriptor OLD_PATH_DESCRIPTOR =
         FileDiffOutputProto.getDescriptor().findFieldByNumber(1);
 
@@ -232,6 +254,12 @@ public abstract class FileDiffOutput implements Serializable {
 
     private static final FieldDescriptor NEGATIVE_DESCRIPTOR =
         FileDiffOutputProto.getDescriptor().findFieldByNumber(12);
+
+    private static final FieldDescriptor OLD_MODE_DESCRIPTOR =
+        FileDiffOutputProto.getDescriptor().findFieldByNumber(13);
+
+    private static final FieldDescriptor NEW_MODE_DESCRIPTOR =
+        FileDiffOutputProto.getDescriptor().findFieldByNumber(14);
 
     @Override
     public byte[] serialize(FileDiffOutput fileDiff) {
@@ -277,6 +305,13 @@ public abstract class FileDiffOutput implements Serializable {
         builder.setNegative(fileDiff.negative().get());
       }
 
+      if (fileDiff.oldMode().isPresent()) {
+        builder.setOldMode(FILE_MODE_CONVERTER.reverse().convert(fileDiff.oldMode().get()));
+      }
+      if (fileDiff.newMode().isPresent()) {
+        builder.setNewMode(FILE_MODE_CONVERTER.reverse().convert(fileDiff.newMode().get()));
+      }
+
       return Protos.toByteArray(builder.build());
     }
 
@@ -317,6 +352,12 @@ public abstract class FileDiffOutput implements Serializable {
       }
       if (proto.hasField(NEGATIVE_DESCRIPTOR)) {
         builder.negative(Optional.of(proto.getNegative()));
+      }
+      if (proto.hasField(OLD_MODE_DESCRIPTOR)) {
+        builder.oldMode(Optional.of(FILE_MODE_CONVERTER.convert(proto.getOldMode())));
+      }
+      if (proto.hasField(NEW_MODE_DESCRIPTOR)) {
+        builder.newMode(Optional.of(FILE_MODE_CONVERTER.convert(proto.getNewMode())));
       }
       return builder.build();
     }

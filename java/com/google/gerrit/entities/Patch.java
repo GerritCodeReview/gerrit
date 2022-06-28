@@ -168,32 +168,39 @@ public final class Patch {
    */
   public enum FileMode implements CodedEnum {
     /** Mode indicating an entry is a tree (aka directory). */
-    TREE('T'),
+    TREE('T', 0040000),
 
     /** Mode indicating an entry is a symbolic link. */
-    SYMLINK('S'),
+    SYMLINK('S', 0120000),
 
     /** Mode indicating an entry is a non-executable file. */
-    REGULAR_FILE('R'),
+    REGULAR_FILE('R', 0100644),
 
     /** Mode indicating an entry is an executable file. */
-    EXECUTABLE_FILE('E'),
+    EXECUTABLE_FILE('E', 0100755),
 
     /** Mode indicating an entry is a submodule commit in another repository. */
-    GITLINK('G'),
+    GITLINK('G', 0160000),
 
     /** Mode indicating an entry is missing during parallel walks. */
-    MISSING('M');
+    MISSING('M', 0000000);
 
     private final char code;
 
-    FileMode(char c) {
+    private final int mode;
+
+    FileMode(char c, int m) {
       code = c;
+      mode = m;
     }
 
     @Override
     public char getCode() {
       return code;
+    }
+
+    public int getMode() {
+      return mode;
     }
   }
 

@@ -34,6 +34,24 @@
       "parentUuid": "0e3818f9_144776db",
       "revId": "326264842d2ee737367682cb2c8714c1a7b5c378",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e111df8f_2871a180",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-06-28T12:01:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e1b2406_723ffe85",
+      "revId": "326264842d2ee737367682cb2c8714c1a7b5c378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

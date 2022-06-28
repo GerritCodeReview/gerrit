@@ -56,6 +56,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0cdfc037_17c1f91f",
+        "filename": "project.config",
+        "patchSetId": 5
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-28T05:58:17Z",
+      "side": 1,
+      "message": "Upper-Case and \u0027-\u0027 with \u0027_\u0027 mismatch is inconsistent with previous SR: \"Release-Notes\":\n\n  Release-Notes: skip\n  FW_COMPATIBLE: checked\n  \nCan we use consistent spelling of both SR? May be:\n\n  Release-Notes: skip\n  Forward-Compatible: checked",
+      "range": {
+        "startLine": 119,
+        "startChar": 9,
+        "endLine": 119,
+        "endChar": 22
+      },
+      "revId": "6648dac96276a9585fe95da8b9478b8fdab24410",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f24d6e03_43c70679",
         "filename": "project.config",
         "patchSetId": 5

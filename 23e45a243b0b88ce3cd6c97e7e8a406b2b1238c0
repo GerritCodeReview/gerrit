@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a40e9d13_48b83857",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-28T10:09:14Z",
+      "side": 1,
+      "message": "I am working on the merge series stable-2.16 \u003d\u003e master, see: [1].\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/339817",
+      "revId": "23e45a243b0b88ce3cd6c97e7e8a406b2b1238c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

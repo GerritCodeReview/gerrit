@@ -136,8 +136,9 @@ public class RepoRefCache implements RefCache {
     }
 
     try {
-      ObjectId diskId = refdb.exactRef(refName).getObjectId();
-      boolean isStale = !Optional.ofNullable(diskId).equals(id);
+      Optional<ObjectId> diskId =
+          Optional.ofNullable(refdb.exactRef(refName)).map(Ref::getObjectId);
+      boolean isStale = !diskId.equals(id);
       if (isStale) {
         log.atSevere().log(
             "Repository "

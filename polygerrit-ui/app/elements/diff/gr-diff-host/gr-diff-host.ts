@@ -95,7 +95,7 @@ import {ValueChangedEvent} from '../../../types/events';
 import {
   debounceP,
   CancelationError,
-  DelayedPromise
+  DelayedPromise,
 } from '../../../utils/async-util';
 import {subscribe} from '../../lit/subscription-controller';
 

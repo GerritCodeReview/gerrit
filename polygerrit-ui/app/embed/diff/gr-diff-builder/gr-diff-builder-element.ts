@@ -168,7 +168,7 @@ export class GrDiffBuilderElement implements GroupConsumer {
     this.coverageLayerRight.setRanges(rs.filter(r => r?.side === Side.RIGHT));
   }
 
-  render(keyLocations: KeyLocations): void {
+  render(keyLocations: KeyLocations): Promise<void> {
     // Setting up annotation layers must happen after plugins are
     // installed, and |render| satisfies the requirement, however,
     // |attached| doesn't because in the diff view page, the element is
@@ -209,24 +209,26 @@ export class GrDiffBuilderElement implements GroupConsumer {
       this.processor.process(this.diff.content, isBinary)
     );
     // All then/catch/finally clauses must be outside of makeCancelable().
-    this.cancelableRenderPromise
-      .then(async () => {
-        if (this.isImageDiff) {
-          (this.builder as GrDiffBuilderImage).renderDiff();
-        }
-        await this.untilGroupsRendered();
-        this.fireDiffEvent('render-content');
-      })
-      // Mocha testing does not like uncaught rejections, so we catch
-      // the cancels which are expected and should not throw errors in
-      // tests.
-      .catch(e => {
-        if (!e.isCanceled) return Promise.reject(e);
-        return;
-      })
-      .finally(() => {
-        this.cancelableRenderPromise = null;
-      });
+    return (
+      this.cancelableRenderPromise
+        .then(async () => {
+          if (this.isImageDiff) {
+            (this.builder as GrDiffBuilderImage).renderDiff();
+          }
+          await this.untilGroupsRendered();
+          this.fireDiffEvent('render-content');
+        })
+        // Mocha testing does not like uncaught rejections, so we catch
+        // the cancels which are expected and should not throw errors in
+        // tests.
+        .catch(e => {
+          if (!e.isCanceled) return Promise.reject(e);
+          return;
+        })
+        .finally(() => {
+          this.cancelableRenderPromise = null;
+        })
+    );
   }
 
   // visible for testing

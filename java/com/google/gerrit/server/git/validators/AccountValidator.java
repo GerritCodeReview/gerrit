@@ -91,7 +91,7 @@ public class AccountValidator {
       return ImmutableList.of(String.format("account '%s' does not exist", accountId.get()));
     }
 
-    if (accountId.equals(self.get().getAccountId()) && !newAccount.get().isActive()) {
+    if (!newAccount.get().isActive() && accountId.equals(self.get().getAccountId())) {
       messages.add("cannot deactivate own account");
     }
 

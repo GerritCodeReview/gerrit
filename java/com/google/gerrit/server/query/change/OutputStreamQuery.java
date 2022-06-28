@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelTypes;
@@ -28,6 +29,8 @@ import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.server.DynamicOptions;
+import com.google.gerrit.server.account.AccountAttributeLoader;
+import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.PatchSetAttribute;
@@ -86,6 +89,7 @@ public class OutputStreamQuery {
   private final EventFactory eventFactory;
   private final TrackingFooters trackingFooters;
   private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
+  private final AccountAttributeLoader.Factory accountAttributeLoaderFactory;
 
   private OutputFormat outputFormat = OutputFormat.TEXT;
   private boolean includePatchSets;
@@ -110,13 +114,15 @@ public class OutputStreamQuery {
       ChangeQueryProcessor queryProcessor,
       EventFactory eventFactory,
       TrackingFooters trackingFooters,
-      SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory) {
+      SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory,
+      AccountAttributeLoader.Factory accountAttributeLoaderFactory) {
     this.repoManager = repoManager;
     this.queryBuilder = queryBuilder;
     this.queryProcessor = queryProcessor;
     this.eventFactory = eventFactory;
     this.trackingFooters = trackingFooters;
     this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
+    this.accountAttributeLoaderFactory = accountAttributeLoaderFactory;
   }
 
   void setLimit(int n) {
@@ -205,7 +211,7 @@ public class OutputStreamQuery {
         return;
       }
 
-      try {
+      try (PerThreadCache ignored = PerThreadCache.create()) {
         final QueryStatsAttribute stats = new QueryStatsAttribute();
         stats.runTimeMilliseconds = TimeUtil.nowMs();
 
@@ -214,9 +220,13 @@ public class OutputStreamQuery {
         QueryResult<ChangeData> results = queryProcessor.query(queryBuilder.parse(queryString));
         pluginInfosByChange = queryProcessor.createPluginDefinedInfos(results.entities());
         try {
+          AccountAttributeLoader accountLoader = accountAttributeLoaderFactory.create();
+          List<ChangeAttribute> changeAttributes = new ArrayList<>();
           for (ChangeData d : results.entities()) {
-            show(buildChangeAttribute(d, repos, revWalks));
+            changeAttributes.add(buildChangeAttribute(d, repos, revWalks, accountLoader));
           }
+          accountLoader.fill();
+          changeAttributes.forEach(c -> show(c));
         } finally {
           closeAll(revWalks.values(), repos.values());
         }
@@ -247,10 +257,14 @@ public class OutputStreamQuery {
   }
 
   private ChangeAttribute buildChangeAttribute(
-      ChangeData d, Map<Project.NameKey, Repository> repos, Map<Project.NameKey, RevWalk> revWalks)
+      ChangeData d,
+      Map<Project.NameKey, Repository> repos,
+      Map<Project.NameKey, RevWalk> revWalks,
+      AccountAttributeLoader accountLoader)
       throws IOException {
     LabelTypes labelTypes = d.getLabelTypes();
-    ChangeAttribute c = eventFactory.asChangeAttribute(d.change(), d.notes());
+    ChangeAttribute c = eventFactory.asChangeAttribute(d.change(), accountLoader);
+    c.hashtags = Lists.newArrayList(d.hashtags());
     eventFactory.extend(c, d.change());
 
     if (!trackingFooters.isEmpty()) {
@@ -258,13 +272,14 @@ public class OutputStreamQuery {
     }
 
     if (includeAllReviewers) {
-      eventFactory.addAllReviewers(c, d.notes());
+      eventFactory.addAllReviewers(c, d.notes(), accountLoader);
     }
 
     if (includeSubmitRecords) {
       SubmitRuleOptions options =
           SubmitRuleOptions.builder().recomputeOnClosedChanges(true).build();
-      eventFactory.addSubmitRecords(c, submitRuleEvaluatorFactory.create(options).evaluate(d));
+      eventFactory.addSubmitRecords(
+          c, submitRuleEvaluatorFactory.create(options).evaluate(d), accountLoader);
     }
 
     if (includeCommitMessage) {
@@ -292,26 +307,28 @@ public class OutputStreamQuery {
           includeApprovals ? d.approvals().asMap() : null,
           includeFiles,
           d.change(),
-          labelTypes);
+          labelTypes,
+          accountLoader);
     }
 
     if (includeCurrentPatchSet) {
       PatchSet current = d.currentPatchSet();
       if (current != null) {
         c.currentPatchSet = eventFactory.asPatchSetAttribute(rw, d.change(), current);
-        eventFactory.addApprovals(c.currentPatchSet, d.currentApprovals(), labelTypes);
+        eventFactory.addApprovals(
+            c.currentPatchSet, d.currentApprovals(), labelTypes, accountLoader);
 
         if (includeFiles) {
           eventFactory.addPatchSetFileNames(c.currentPatchSet, d.change(), d.currentPatchSet());
         }
         if (includeComments) {
-          eventFactory.addPatchSetComments(c.currentPatchSet, d.publishedComments());
+          eventFactory.addPatchSetComments(c.currentPatchSet, d.publishedComments(), accountLoader);
         }
       }
     }
 
     if (includeComments) {
-      eventFactory.addComments(c, d.messages());
+      eventFactory.addComments(c, d.messages(), accountLoader);
       if (includePatchSets) {
         eventFactory.addPatchSets(
             rw,
@@ -320,9 +337,10 @@ public class OutputStreamQuery {
             includeApprovals ? d.approvals().asMap() : null,
             includeFiles,
             d.change(),
-            labelTypes);
+            labelTypes,
+            accountLoader);
         for (PatchSetAttribute attribute : c.patchSets) {
-          eventFactory.addPatchSetComments(attribute, d.publishedComments());
+          eventFactory.addPatchSetComments(attribute, d.publishedComments(), accountLoader);
         }
       }
     }

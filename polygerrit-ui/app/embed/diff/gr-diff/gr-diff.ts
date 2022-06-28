@@ -255,14 +255,6 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   _diffLength?: number;
 
   /**
-   * Observes comment nodes added or removed after the initial render.
-   * Can be used to unregister when the entire diff is (re-)rendered or upon
-   * detachment.
-   */
-  @property({type: Object})
-  _incrementalNodeObserver?: FlattenedNodesObserver;
-
-  /**
    * Observes comment nodes added or removed at any point.
    * Can be used to unregister upon detachment.
    */
@@ -371,20 +363,6 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
       : isSafari()
       ? getContentEditableRange()
       : document.getSelection();
-  }
-
-  // TODO: Merge _nodeObserver and _incrementalNodeObserver. It is not clear why
-  // we have two separate observers.
-  _observeNodes() {
-    this._unobserveNodes();
-    this._nodeObserver = (dom(this) as PolymerDomWrapper).observeNodes(info => {
-      const addedThreadEls = info.addedNodes.filter(isThreadEl);
-      const removedThreadEls = info.removedNodes.filter(isThreadEl);
-      this._updateRanges(addedThreadEls, removedThreadEls);
-      addedThreadEls.forEach(threadEl =>
-        this._redispatchHoverEvents(threadEl, threadEl)
-      );
-    });
   }
 
   _updateRanges(
@@ -832,7 +810,6 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
 
   _renderDiffTable() {
     this._unobserveNodes();
-    this._unobserveIncrementalNodes();
     if (!this.prefs) {
       fireEvent(this, 'render');
       return;
@@ -877,18 +854,30 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     );
     this._setLoading(false);
     this._observeNodes();
-    this._observeIncrementalNodes();
     // We are just converting 'render-content' into 'render' here. Maybe we
     // should retire the 'render' event in favor of 'render-content'?
     fireEvent(this, 'render');
   }
 
-  private _observeIncrementalNodes() {
-    this._unobserveIncrementalNodes();
-    this._incrementalNodeObserver = (
+  _unobserveNodes() {
+    if (this._nodeObserver) {
+      (dom(this) as PolymerDomWrapper).unobserveNodes(this._nodeObserver);
+      this._nodeObserver = undefined;
+    }
+  }
+
+  private _observeNodes() {
+    this._unobserveNodes();
+    this._nodeObserver = (
       dom(this) as PolymerDomWrapper
     ).observeNodes(info => {
       const addedThreadEls = info.addedNodes.filter(isThreadEl);
+      const removedThreadEls = info.removedNodes.filter(isThreadEl);
+
+      this._updateRanges(addedThreadEls, removedThreadEls);
+      addedThreadEls.forEach(threadEl =>
+        this._redispatchHoverEvents(threadEl, threadEl)
+      );
       // Removed nodes do not need to be handled because all this code does is
       // adding a slot for the added thread elements, and the extra slots do
       // not hurt. It's probably a bigger performance cost to remove them than
@@ -954,7 +943,6 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
         lastEl.replaceWith(lastEl);
       }
 
-      const removedThreadEls = info.removedNodes.filter(isThreadEl);
       for (const threadEl of removedThreadEls) {
         this.querySelector(
           `gr-ranged-comment-hint[threadElRootId="${threadEl.rootId}"]`
@@ -974,21 +962,6 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     return div;
   }
 
-  _unobserveIncrementalNodes() {
-    if (this._incrementalNodeObserver) {
-      (dom(this) as PolymerDomWrapper).unobserveNodes(
-        this._incrementalNodeObserver
-      );
-      this._incrementalNodeObserver = undefined;
-    }
-  }
-
-  _unobserveNodes() {
-    if (this._nodeObserver) {
-      (dom(this) as PolymerDomWrapper).unobserveNodes(this._nodeObserver);
-      this._nodeObserver = undefined;
-    }
-  }
 
   /**
    * Get the preferences object including the safety bypass context (if any).
@@ -1002,7 +975,6 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
 
   clearDiffContent() {
     this._unobserveNodes();
-    this._unobserveIncrementalNodes();
     while (this.$.diffTable.hasChildNodes()) {
       this.$.diffTable.removeChild(this.$.diffTable.lastChild!);
     }

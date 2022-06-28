@@ -36,6 +36,7 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.account.AccountAttributeLoader;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Emails;
@@ -121,7 +122,7 @@ public class EventFactory {
     this.accountTemplateUtil = accountTemplateUtil;
   }
 
-  public ChangeAttribute asChangeAttribute(Change change) {
+  public ChangeAttribute asChangeAttribute(Change change, AccountAttributeLoader accountLoader) {
     ChangeAttribute a = new ChangeAttribute();
     a.project = change.getProject().get();
     a.branch = change.getDest().shortName();
@@ -129,15 +130,9 @@ public class EventFactory {
     a.id = change.getKey().get();
     a.number = change.getId().get();
     a.subject = change.getSubject();
-    try {
-      a.commitMessage = changeDataFactory.create(change).commitMessage();
-    } catch (Exception e) {
-      logger.atSevere().withCause(e).log(
-          "Error while getting full commit message for change %d", a.number);
-    }
     a.url = getChangeUrl(change);
-    a.owner = asAccountAttribute(change.getOwner());
-    a.assignee = asAccountAttribute(change.getAssignee());
+    a.owner = asAccountAttribute(change.getOwner(), accountLoader);
+    a.assignee = asAccountAttribute(change.getAssignee(), accountLoader);
     a.status = change.getStatus();
     a.createdOn = change.getCreatedOn().getEpochSecond();
     a.wip = change.isWorkInProgress() ? true : null;
@@ -151,12 +146,9 @@ public class EventFactory {
 
   /** Create a {@link ChangeAttribute} instance from the specified change. */
   public ChangeAttribute asChangeAttribute(Change change, ChangeNotes notes) {
-    ChangeAttribute a = asChangeAttribute(change);
-    Set<String> hashtags = notes.load().getHashtags();
-    if (!hashtags.isEmpty()) {
-      a.hashtags = new ArrayList<>(hashtags.size());
-      a.hashtags.addAll(hashtags);
-    }
+    ChangeAttribute a = asChangeAttribute(change, (AccountAttributeLoader) null);
+    addHashTags(a, notes);
+    addCommitMessage(a, notes);
     return a;
   }
   /**
@@ -180,25 +172,27 @@ public class EventFactory {
   }
 
   /** Add allReviewers to an existing {@link ChangeAttribute}. */
-  public void addAllReviewers(ChangeAttribute a, ChangeNotes notes) {
+  public void addAllReviewers(
+      ChangeAttribute a, ChangeNotes notes, AccountAttributeLoader accountLoader) {
     Collection<Account.Id> reviewers = approvalsUtil.getReviewers(notes).all();
     if (!reviewers.isEmpty()) {
       a.allReviewers = Lists.newArrayListWithCapacity(reviewers.size());
       for (Account.Id id : reviewers) {
-        a.allReviewers.add(asAccountAttribute(id));
+        a.allReviewers.add(asAccountAttribute(id, accountLoader));
       }
     }
   }
 
   /** Add submitRecords to an existing {@link ChangeAttribute}. */
-  public void addSubmitRecords(ChangeAttribute ca, List<SubmitRecord> submitRecords) {
+  public void addSubmitRecords(
+      ChangeAttribute ca, List<SubmitRecord> submitRecords, AccountAttributeLoader accountLoader) {
     ca.submitRecords = new ArrayList<>();
 
     for (SubmitRecord submitRecord : submitRecords) {
       SubmitRecordAttribute sa = new SubmitRecordAttribute();
       sa.status = submitRecord.status.name();
       if (submitRecord.status != SubmitRecord.Status.RULE_ERROR) {
-        addSubmitRecordLabels(submitRecord, sa);
+        addSubmitRecordLabels(submitRecord, sa, accountLoader);
         addSubmitRecordRequirements(submitRecord, sa);
       }
       ca.submitRecords.add(sa);
@@ -209,7 +203,8 @@ public class EventFactory {
     }
   }
 
-  private void addSubmitRecordLabels(SubmitRecord submitRecord, SubmitRecordAttribute sa) {
+  private void addSubmitRecordLabels(
+      SubmitRecord submitRecord, SubmitRecordAttribute sa, AccountAttributeLoader accountLoader) {
     if (submitRecord.labels != null && !submitRecord.labels.isEmpty()) {
       sa.labels = new ArrayList<>();
       for (SubmitRecord.Label lbl : submitRecord.labels) {
@@ -217,7 +212,7 @@ public class EventFactory {
         la.label = lbl.label;
         la.status = lbl.status.name();
         if (lbl.appliedBy != null) {
-          la.by = asAccountAttribute(lbl.appliedBy);
+          la.by = asAccountAttribute(lbl.appliedBy, accountLoader);
         }
         sa.labels.add(la);
       }
@@ -352,13 +347,23 @@ public class EventFactory {
     a.commitMessage = commitMessage;
   }
 
+  private void addCommitMessage(ChangeAttribute changeAttribute, ChangeNotes notes) {
+    try {
+      addCommitMessage(changeAttribute, changeDataFactory.create(notes).commitMessage());
+    } catch (Exception e) {
+      logger.atSevere().withCause(e).log(
+          "Error while getting full commit message for change %d", changeAttribute.number);
+    }
+  }
+
   public void addPatchSets(
       RevWalk revWalk,
       ChangeAttribute ca,
       Collection<PatchSet> ps,
       Map<PatchSet.Id, Collection<PatchSetApproval>> approvals,
-      LabelTypes labelTypes) {
-    addPatchSets(revWalk, ca, ps, approvals, false, null, labelTypes);
+      LabelTypes labelTypes,
+      AccountAttributeLoader accountLoader) {
+    addPatchSets(revWalk, ca, ps, approvals, false, null, labelTypes, accountLoader);
   }
 
   public void addPatchSets(
@@ -368,13 +373,14 @@ public class EventFactory {
       Map<PatchSet.Id, Collection<PatchSetApproval>> approvals,
       boolean includeFiles,
       Change change,
-      LabelTypes labelTypes) {
+      LabelTypes labelTypes,
+      AccountAttributeLoader accountLoader) {
     if (!ps.isEmpty()) {
       ca.patchSets = new ArrayList<>(ps.size());
       for (PatchSet p : ps) {
-        PatchSetAttribute psa = asPatchSetAttribute(revWalk, change, p);
+        PatchSetAttribute psa = asPatchSetAttribute(revWalk, change, p, accountLoader);
         if (approvals != null) {
-          addApprovals(psa, p.id(), approvals, labelTypes);
+          addApprovals(psa, p.id(), approvals, labelTypes, accountLoader);
         }
         ca.patchSets.add(psa);
         if (includeFiles) {
@@ -385,13 +391,15 @@ public class EventFactory {
   }
 
   public void addPatchSetComments(
-      PatchSetAttribute patchSetAttribute, Collection<HumanComment> comments) {
+      PatchSetAttribute patchSetAttribute,
+      Collection<HumanComment> comments,
+      AccountAttributeLoader accountLoader) {
     for (HumanComment comment : comments) {
       if (comment.key.patchSetId == patchSetAttribute.number) {
         if (patchSetAttribute.comments == null) {
           patchSetAttribute.comments = new ArrayList<>();
         }
-        patchSetAttribute.comments.add(asPatchSetLineAttribute(comment));
+        patchSetAttribute.comments.add(asPatchSetLineAttribute(comment, accountLoader));
       }
     }
   }
@@ -421,22 +429,30 @@ public class EventFactory {
     }
   }
 
-  public void addComments(ChangeAttribute ca, Collection<ChangeMessage> messages) {
+  public void addComments(
+      ChangeAttribute ca,
+      Collection<ChangeMessage> messages,
+      AccountAttributeLoader accountLoader) {
     if (!messages.isEmpty()) {
       ca.comments = new ArrayList<>();
       for (ChangeMessage message : messages) {
-        ca.comments.add(asMessageAttribute(message));
+        ca.comments.add(asMessageAttribute(message, accountLoader));
       }
     }
   }
 
-  /** Create a PatchSetAttribute for the given patchset suitable for serialization to JSON. */
   public PatchSetAttribute asPatchSetAttribute(RevWalk revWalk, Change change, PatchSet patchSet) {
+    return asPatchSetAttribute(revWalk, change, patchSet, null);
+  }
+
+  /** Create a PatchSetAttribute for the given patchset suitable for serialization to JSON. */
+  public PatchSetAttribute asPatchSetAttribute(
+      RevWalk revWalk, Change change, PatchSet patchSet, AccountAttributeLoader accountLoader) {
     PatchSetAttribute p = new PatchSetAttribute();
     p.revision = patchSet.commitId().name();
     p.number = patchSet.number();
     p.ref = patchSet.refName();
-    p.uploader = asAccountAttribute(patchSet.uploader());
+    p.uploader = asAccountAttribute(patchSet.uploader(), accountLoader);
     p.createdOn = patchSet.createdOn().getEpochSecond();
     PatchSet.Id pId = patchSet.id();
     try {
@@ -453,7 +469,7 @@ public class EventFactory {
         p.author.name = author.getName();
         p.author.username = "";
       } else {
-        p.author = asAccountAttribute(author.getAccount());
+        p.author = asAccountAttribute(author.getAccount(), accountLoader);
       }
 
       Map<String, FileDiffOutput> modifiedFiles =
@@ -476,26 +492,34 @@ public class EventFactory {
       PatchSetAttribute p,
       PatchSet.Id id,
       Map<PatchSet.Id, Collection<PatchSetApproval>> all,
-      LabelTypes labelTypes) {
+      LabelTypes labelTypes,
+      AccountAttributeLoader accountLoader) {
     Collection<PatchSetApproval> list = all.get(id);
     if (list != null) {
-      addApprovals(p, list, labelTypes);
+      addApprovals(p, list, labelTypes, accountLoader);
     }
   }
 
   public void addApprovals(
-      PatchSetAttribute p, Collection<PatchSetApproval> list, LabelTypes labelTypes) {
+      PatchSetAttribute p,
+      Collection<PatchSetApproval> list,
+      LabelTypes labelTypes,
+      AccountAttributeLoader accountLoader) {
     if (!list.isEmpty()) {
       p.approvals = new ArrayList<>(list.size());
       for (PatchSetApproval a : list) {
         if (a.value() != 0) {
-          p.approvals.add(asApprovalAttribute(a, labelTypes));
+          p.approvals.add(asApprovalAttribute(a, labelTypes, accountLoader));
         }
       }
       if (p.approvals.isEmpty()) {
         p.approvals = null;
       }
     }
+  }
+
+  public AccountAttribute asAccountAttribute(Account.Id id, AccountAttributeLoader accountLoader) {
+    return accountLoader != null ? accountLoader.get(id) : asAccountAttribute(id);
   }
 
   /** Create an AuthorAttribute for the given account suitable for serialization to JSON. */
@@ -529,11 +553,12 @@ public class EventFactory {
    * @param labelTypes label types for the containing project
    * @return object suitable for serialization to JSON
    */
-  public ApprovalAttribute asApprovalAttribute(PatchSetApproval approval, LabelTypes labelTypes) {
+  public ApprovalAttribute asApprovalAttribute(
+      PatchSetApproval approval, LabelTypes labelTypes, AccountAttributeLoader accountLoader) {
     ApprovalAttribute a = new ApprovalAttribute();
     a.type = approval.labelId().get();
     a.value = Short.toString(approval.value());
-    a.by = asAccountAttribute(approval.accountId());
+    a.by = asAccountAttribute(approval.accountId(), accountLoader);
     a.grantedOn = approval.granted().getEpochSecond();
     a.oldValue = null;
 
@@ -542,20 +567,22 @@ public class EventFactory {
     return a;
   }
 
-  public MessageAttribute asMessageAttribute(ChangeMessage message) {
+  public MessageAttribute asMessageAttribute(
+      ChangeMessage message, AccountAttributeLoader accountLoader) {
     MessageAttribute a = new MessageAttribute();
     a.timestamp = message.getWrittenOn().getEpochSecond();
     a.reviewer =
         message.getAuthor() != null
-            ? asAccountAttribute(message.getAuthor())
+            ? asAccountAttribute(message.getAuthor(), accountLoader)
             : asAccountAttribute(myIdent.get());
     a.message = accountTemplateUtil.replaceTemplates(message.getMessage());
     return a;
   }
 
-  public PatchSetCommentAttribute asPatchSetLineAttribute(HumanComment c) {
+  public PatchSetCommentAttribute asPatchSetLineAttribute(
+      HumanComment c, AccountAttributeLoader accountLoader) {
     PatchSetCommentAttribute a = new PatchSetCommentAttribute();
-    a.reviewer = asAccountAttribute(c.author.getId());
+    a.reviewer = asAccountAttribute(c.author.getId(), accountLoader);
     a.file = c.key.filename;
     a.line = c.lineNbr;
     a.message = c.message;
@@ -568,5 +595,13 @@ public class EventFactory {
       return urlFormatter.get().getChangeViewUrl(change.getProject(), change.getId()).orElse(null);
     }
     return null;
+  }
+
+  private void addHashTags(ChangeAttribute changeAttribute, ChangeNotes notes) {
+    Set<String> hashtags = notes.load().getHashtags();
+    if (!hashtags.isEmpty()) {
+      changeAttribute.hashtags = new ArrayList<>(hashtags.size());
+      changeAttribute.hashtags.addAll(hashtags);
+    }
   }
 }

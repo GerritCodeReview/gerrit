@@ -97,6 +97,7 @@ import {
   HashtagsInput,
   ImagesForDiff,
   IncludedInInfo,
+  LabelNameToLabelTypeInfoMap,
   MergeableInfo,
   NameToProjectInfoMap,
   NumericChangeId,
@@ -130,11 +131,13 @@ import {
   TagInput,
   TopMenuEntryInfo,
   UrlEncodedCommentId,
+  UrlEncodedRepoName,
 } from '../../types/common';
 import {
   DiffInfo,
   DiffPreferencesInfo,
   IgnoreWhitespaceType,
+  WebLinkInfo,
 } from '../../types/diff';
 import {
   CancelConditionCallback,
@@ -148,6 +151,7 @@ import {
   createDefaultEditPrefs,
   createDefaultPreferences,
   HttpMethod,
+  ProjectState,
   ReviewerState,
 } from '../../constants/constants';
 import {firePageError, fireServerError} from '../../utils/event-util';
@@ -1429,36 +1433,26 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     filter: string | undefined,
     reposPerPage: number,
     offset?: number
-  ) {
-    const defaultFilter = 'state:active OR state:read-only';
-    const namePartDelimiters = /[@.\-\s/_]/g;
+  ): [boolean, string] {
+    const defaultFilter = '';
     offset = offset || 0;
-
-    if (filter && !filter.includes(':') && filter.match(namePartDelimiters)) {
-      // The query language specifies hyphens as operators. Split the string
-      // by hyphens and 'AND' the parts together as 'inname:' queries.
-      // If the filter includes a semicolon, the user is using a more complex
-      // query so we trust them and don't do any magic under the hood.
-      const originalFilter = filter;
-      filter = '';
-      originalFilter.split(namePartDelimiters).forEach(part => {
-        if (part) {
-          filter += (filter === '' ? 'inname:' : ' AND inname:') + part;
-        }
-      });
-    }
-    // Check if filter is now empty which could be either because the user did
-    // not provide it or because the user provided only a split character.
-    if (!filter) {
-      filter = defaultFilter;
-    }
-
-    filter = filter.trim();
+    filter ??= defaultFilter;
     const encodedFilter = encodeURIComponent(filter);
 
-    return (
-      `/projects/?n=${reposPerPage + 1}&S=${offset}` + `&query=${encodedFilter}`
-    );
+    if (filter.includes(':')) {
+      // If the filter includes a semicolon, the user is using a more complex
+      // query so we trust them and don't do any magic under the hood.
+      return [
+        true,
+        `/projects/?n=${reposPerPage + 1}&S=${offset}` +
+          `&query=${encodedFilter}`,
+      ];
+    }
+
+    return [
+      false,
+      `/projects/?n=${reposPerPage + 1}&S=${offset}` + `&d=&m=${encodedFilter}`,
+    ];
   }
 
   invalidateGroupsCache() {
@@ -1491,14 +1485,47 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     reposPerPage: number,
     offset?: number
   ): Promise<ProjectInfoWithName[] | undefined> {
-    const url = this._getReposUrl(filter, reposPerPage, offset);
+    const [isQuery, url] = this._getReposUrl(filter, reposPerPage, offset);
 
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
-    return this._fetchSharedCacheURL({
-      url, // The url contains query,so the response is an array, not map
-      anonymizedUrl: '/projects/?*',
-    }) as Promise<ProjectInfoWithName[] | undefined>;
+    // If query then return directly as the result will be expected to be an array
+    if (isQuery) {
+      return this._fetchSharedCacheURL({
+        url, // The url contains query,so the response is an array, not map
+        anonymizedUrl: '/projects/?*',
+      }) as Promise<ProjectInfoWithName[] | undefined>;
+    }
+    const result: Promise<NameToProjectInfoMap[] | undefined> =
+      this._fetchSharedCacheURL({
+        url, // The url contains query,so the response is an array, not map
+        anonymizedUrl: '/projects/?*',
+      }) as Promise<NameToProjectInfoMap[] | undefined>;
+    return this._transformToArray(result);
+  }
+
+  _transformToArray(
+    res: Promise<NameToProjectInfoMap[] | undefined>
+  ): Promise<ProjectInfoWithName[] | undefined> {
+    return res.then(response => {
+      const reposList: ProjectInfoWithName[] = [];
+      for (const [name, project] of Object.entries(response ?? {})) {
+        const projectInfo: ProjectInfoWithName = {
+          id: project.id as unknown as UrlEncodedRepoName,
+          name: name as RepoName,
+          parent: project.parent as unknown as RepoName,
+          description: project.description as unknown as string,
+          state: project.state as unknown as ProjectState,
+          branches: project.branches as unknown as {
+            [branchName: string]: CommitId;
+          },
+          labels: project.labels as unknown as LabelNameToLabelTypeInfoMap,
+          web_links: project.web_links as unknown as WebLinkInfo[],
+        };
+        reposList.push(projectInfo);
+      }
+      return reposList;
+    });
   }
 
   setRepoHead(repo: RepoName, ref: GitRef) {

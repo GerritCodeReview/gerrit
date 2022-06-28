@@ -103,7 +103,7 @@ export function debounce(
   return new DelayedTask(callback, waitMs);
 }
 
-export class CancelationError extends Error {}
+export class DelayedCancelation {}
 
 export class DelayedPromise<T> extends Promise<T> {
   private readonly resolve: (value: PromiseLike<T> | T) => void;
@@ -149,7 +149,7 @@ export class DelayedPromise<T> extends Promise<T> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   cancel(reason?: any) {
     if (!this.stop()) return;
-    this.reject(reason ?? new CancelationError());
+    this.reject(reason ?? new DelayedCancelation());
   }
 
   delegate(other: Promise<T>) {

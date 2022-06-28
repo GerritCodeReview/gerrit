@@ -232,9 +232,7 @@ export class GrDiffBuilderElement implements GroupConsumer {
 
   // visible for testing
   async untilGroupsRendered(groups: readonly GrDiffGroup[] = this.groups) {
-    for (const g of groups) {
-      await g.waitUntilRendered();
-    }
+    return Promise.all(groups.map(g => g.waitUntilRendered()));
   }
 
   private onDiffContextExpanded = (

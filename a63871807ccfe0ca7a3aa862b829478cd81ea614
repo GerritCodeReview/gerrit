@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "706a0881_c6815d66",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-28T20:42:39Z",
+      "side": 1,
+      "message": "@Paladox, can you please re-check the front end changes in the latest patch set? I had to redo the merges in the whole series, due to new `Submit-Requirement` footer added recently: `Forward-Compatible: check`, see change 339719. Thanks.",
+      "revId": "a63871807ccfe0ca7a3aa862b829478cd81ea614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

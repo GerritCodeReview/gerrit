@@ -166,6 +166,8 @@ public interface ChangeApi {
   /** Create a merge patch set for the change. */
   ChangeInfo createMergePatchSet(MergePatchSetInput in) throws RestApiException;
 
+  ChangeInfo applyPatch(ApplyPatchInput in) throws RestApiException;
+
   default List<ChangeInfo> submittedTogether() throws RestApiException {
     SubmittedTogetherInfo info =
         submittedTogether(
@@ -796,6 +798,11 @@ public interface ChangeApi {
 
     @Override
     public ChangeInfo createMergePatchSet(MergePatchSetInput in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ChangeInfo applyPatch(ApplyPatchInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 

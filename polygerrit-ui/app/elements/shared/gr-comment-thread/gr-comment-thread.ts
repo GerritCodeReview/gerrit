@@ -409,6 +409,7 @@ export class GrCommentThread extends LitElement {
          * height, so the link icon does not need a top:4px in gr-comment_html.
          */
         .link-icon {
+          margin-left: var(--spacing-m);
           position: relative;
           top: 4px;
           cursor: pointer;
@@ -527,15 +528,7 @@ export class GrCommentThread extends LitElement {
           this.unresolved ? 'Unresolved' : 'Resolved'
         }</span>
         <div id="actions">
-          <iron-icon
-              class="link-icon copy"
-              @click=${this.handleCopyLink}
-              title="Copy link to this comment"
-              icon="gr-icons:link"
-              role="button"
-              tabindex="0"
-          >
-          </iron-icon>
+
           <gr-button
               id="replyBtn"
               link
@@ -574,9 +567,18 @@ export class GrCommentThread extends LitElement {
                 `
               : ''
           }
+          <iron-icon
+            class="link-icon copy"
+            @click=${this.handleCopyLink}
+            title="Copy link to this comment"
+            icon="gr-icons:link"
+            role="button"
+            tabindex="0"
+          >
+          </iron-icon>
         </div>
       </div>
-      </div>
+    </div>
     `;
   }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34f84c0c_9a337b3b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-28T10:01:58Z",
+      "side": 1,
+      "message": "@nasser.grainawi@linaro.org\n\nCould you, please, take another look?\nWe would like to merge this change since it is blocking us :)",
+      "revId": "831d8e3f6c1c33a43f9c4d89680fbb219060c8ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

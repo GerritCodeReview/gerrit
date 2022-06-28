@@ -239,7 +239,7 @@ export class GrContextControls extends LitElement {
 
   private createExpandAllButtonContainer() {
     return html` <div
-      class="style-scope gr-diff aboveBelowButtons fullExpansion"
+      class="gr-diff aboveBelowButtons fullExpansion"
     >
       ${this.createContextButton(ContextButtonType.ALL, this.numLines())}
     </div>`;

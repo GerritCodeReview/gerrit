@@ -80,7 +80,7 @@ function annotateSymbols(
       contentEl,
       pos,
       1,
-      `style-scope gr-diff ${className}`
+      `gr-diff ${className}`
     );
 
     pos++;
@@ -486,7 +486,7 @@ export class GrDiffBuilderElement implements GroupConsumer {
       // differences to highlight and apply them to the element as
       // annotations.
       annotate(contentEl: HTMLElement, _: HTMLElement, line: GrDiffLine) {
-        const HL_CLASS = 'style-scope gr-diff intraline';
+        const HL_CLASS = 'gr-diff intraline';
         for (const highlight of line.highlights) {
           // The start and end indices could be the same if a highlight is
           // meant to start at the end of a line and continue onto the
@@ -566,7 +566,7 @@ export class GrDiffBuilderElement implements GroupConsumer {
             contentEl,
             index,
             length,
-            'style-scope gr-diff trailing-whitespace'
+            'gr-diff trailing-whitespace'
           );
         }
       },

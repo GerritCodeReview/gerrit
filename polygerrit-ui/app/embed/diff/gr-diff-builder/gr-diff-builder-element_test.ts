@@ -38,8 +38,8 @@ suite('gr-diff-builder tests', () => {
   let builder: GrDiffBuilderLegacy;
   let diffTable: HTMLTableElement;
 
-  const LINE_BREAK_HTML = '<span class="style-scope gr-diff br"></span>';
-  const WBR_HTML = '<wbr class="style-scope gr-diff">';
+  const LINE_BREAK_HTML = '<span class="gr-diff br"></span>';
+  const WBR_HTML = '<wbr class="gr-diff">';
 
   const setBuilderPrefs = (prefs: Partial<DiffPreferencesInfo>) => {
     builder = new GrDiffBuilderSideBySide(
@@ -1106,13 +1106,13 @@ suite('gr-diff-builder tests', () => {
       assert.isTrue(getBlameStub.calledWithExactly(3));
       assert.equal(result.getAttribute('data-line-number'), '3');
       expect(result).dom.to.equal(/* HTML */ `
-        <span class="gr-diff style-scope">
-          <a class="blameDate gr-diff style-scope" href="/r/q/1234567890">
+        <span class="gr-diff">
+          <a class="blameDate gr-diff" href="/r/q/1234567890">
             12/12/2019
           </a>
-          <span class="blameAuthor gr-diff style-scope">Clark</span>
-          <gr-hovercard class="gr-diff style-scope">
-            <span class="blameHoverCard gr-diff style-scope">
+          <span class="blameAuthor gr-diff">Clark</span>
+          <gr-hovercard class="gr-diff">
+            <span class="blameHoverCard gr-diff">
               Commit 1234567890<br />
               Author: Clark Kent<br />
               Date: 12/12/2019<br />

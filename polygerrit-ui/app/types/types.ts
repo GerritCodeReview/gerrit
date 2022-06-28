@@ -6,7 +6,6 @@
 import {DiffLayer as DiffLayerApi} from '../api/diff';
 import {MessageTag, Side} from '../constants/constants';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
-import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes-observer';
 import {
   AccountInfo,
   BasePatchSetNum,
@@ -42,91 +41,9 @@ export enum ErrorType {
   GENERIC = 'GENERIC',
 }
 
-/**
- * If Polymer would have exported DomApiNative from its dom.js utility, then we
- * would probably not need this type. We just use it for casting the return
- * value of dom(element).
- */
-export interface PolymerDomWrapper {
-  getOwnerRoot(): Node & OwnerRoot;
-  getEffectiveChildNodes(): Node[];
-  observeNodes(
-    callback: (p0: {
-      target: HTMLElement;
-      addedNodes: Element[];
-      removedNodes: Element[];
-    }) => void
-  ): FlattenedNodesObserver;
-  unobserveNodes(observerHandle: FlattenedNodesObserver): void;
-}
-
+/*
 export interface OwnerRoot {
   host?: HTMLElement;
-}
-
-/**
- * Event type for an event fired by Polymer for an element generated from a
- * dom-repeat template.
- */
-export interface PolymerDomRepeatEvent<TModel = unknown> extends Event {
-  model: PolymerDomRepeatEventModel<TModel>;
-}
-
-/**
- * Event type for an event fired by Polymer for an element generated from a
- * dom-repeat template.
- */
-export interface PolymerDomRepeatCustomEvent<
-  TModel = unknown,
-  TDetail = unknown
-> extends CustomEvent<TDetail> {
-  model: PolymerDomRepeatEventModel<TModel>;
-}
-
-/**
- * Model containing additional information about the dom-repeat element
- * that fired an event.
- *
- * Note: This interface is valid only if both dom-repeat properties 'as' and
- * 'indexAs' have default values ('item' and 'index' correspondingly)
- */
-export interface PolymerDomRepeatEventModel<T> {
-  /**
-   * The item corresponding to the element in the dom-repeat.
-   */
-  item: T;
-
-  /**
-   * The index of the element in the dom-repeat.
-   */
-  index: number;
-  get(name: 'item'): T;
-  // Typed get for item.prop_name
-  get<K extends keyof T>(name: `item.${K extends string ? K : never}`): T[K];
-  // Typed get for item.prop_name.nested_prop_name
-  get<K1 extends keyof T, K2 extends keyof T[K1]>(
-    name: `item.${K1 extends string ? K1 : never}.${K2 extends string
-      ? K2
-      : never}`
-  ): T[K1][K2];
-  // Untyped get for other cases
-  get(name: string): unknown; // force get(...) as Type for nested properties
-
-  set(name: 'item', val: T): void;
-  // Typed set for item.prop_name
-  set<K extends keyof T>(
-    name: `item.${K extends string ? K : never}`,
-    val: T[K]
-  ): void;
-  // Typed get for item.prop_name.nested_prop_name
-  set<K1 extends keyof T, K2 extends keyof T[K1]>(
-    name: `item.${K1 extends string ? K1 : never}.${K2 extends string
-      ? K2
-      : never}`,
-    val: T[K1][K2]
-  ): void;
-  // Untyped set for other cases
-  set(name: string, val: unknown): void;
 }
 
 /** https://highlightjs.readthedocs.io/en/latest/api.html */

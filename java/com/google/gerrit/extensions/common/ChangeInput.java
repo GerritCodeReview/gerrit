@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.common;
 
 import com.google.gerrit.extensions.api.accounts.AccountInput;
+import com.google.gerrit.extensions.api.changes.ApplyPatchInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.NotifyInfo;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -35,6 +36,7 @@ public class ChangeInput {
   public Boolean newBranch;
   public Map<String, String> validationOptions;
   public MergeInput merge;
+  public ApplyPatchInput patch;
 
   public AccountInput author;
 

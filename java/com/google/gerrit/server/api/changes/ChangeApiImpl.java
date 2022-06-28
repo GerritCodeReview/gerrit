@@ -21,6 +21,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
+import com.google.gerrit.extensions.api.changes.ApplyPatchInput;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.api.changes.AttentionSetApi;
 import com.google.gerrit.extensions.api.changes.AttentionSetInput;
@@ -72,6 +73,7 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.WorkInProgressOp;
 import com.google.gerrit.server.restapi.change.Abandon;
 import com.google.gerrit.server.restapi.change.AddToAttentionSet;
+import com.google.gerrit.server.restapi.change.ApplyPatch;
 import com.google.gerrit.server.restapi.change.AttentionSet;
 import com.google.gerrit.server.restapi.change.ChangeIncludedIn;
 import com.google.gerrit.server.restapi.change.ChangeMessages;
@@ -144,6 +146,7 @@ class ChangeApiImpl implements ChangeApi {
   private final RevertSubmission revertSubmission;
   private final Restore restore;
   private final CreateMergePatchSet updateByMerge;
+  private final ApplyPatch applyPatch;
   private final Provider<SubmittedTogether> submittedTogether;
   private final Rebase.CurrentRevision rebase;
   private final DeleteChange deleteChange;
@@ -199,6 +202,7 @@ class ChangeApiImpl implements ChangeApi {
       RevertSubmission revertSubmission,
       Restore restore,
       CreateMergePatchSet updateByMerge,
+      ApplyPatch applyPatch,
       Provider<SubmittedTogether> submittedTogether,
       Rebase.CurrentRevision rebase,
       DeleteChange deleteChange,
@@ -252,6 +256,7 @@ class ChangeApiImpl implements ChangeApi {
     this.abandon = abandon;
     this.restore = restore;
     this.updateByMerge = updateByMerge;
+    this.applyPatch = applyPatch;
     this.submittedTogether = submittedTogether;
     this.rebase = rebase;
     this.deleteChange = deleteChange;
@@ -399,6 +404,15 @@ class ChangeApiImpl implements ChangeApi {
       return updateByMerge.apply(change, in).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot update change by merge", e);
+    }
+  }
+
+  @Override
+  public ChangeInfo applyPatch(ApplyPatchInput in) throws RestApiException {
+    try {
+      return applyPatch.apply(change, in).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot apply patch", e);
     }
   }
 

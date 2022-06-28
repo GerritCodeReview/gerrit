@@ -86,6 +86,24 @@
       "parentUuid": "8474b172_547a2f7d",
       "revId": "74ea08e62c00b3ff25e59b1e59f62fe671d05078",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcf01075_2f3b51d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-28T17:24:07Z",
+      "side": 1,
+      "message": "I fixed the test. I\u0027m not sure why it was expecting navigation stub to be called twice. If you look at the logic inside of gr-change-list, when pressing enter it should be called once.\n\nRunning the test on a clean checkout results in openPage being called more than once for the ENTER key, so I think this was a test bug.",
+      "parentUuid": "e1d1d262_ac633115",
+      "revId": "74ea08e62c00b3ff25e59b1e59f62fe671d05078",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

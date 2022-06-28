@@ -10,7 +10,6 @@ import {
   PARENT,
   NumericChangeId,
   PatchSetNum,
-  PatchSetNumber,
   PreferencesInfo,
   RevisionPatchSetNum,
 } from '../../types/common';
@@ -48,7 +47,6 @@ import {assertIsDefined} from '../../utils/common-util';
 import {Model} from '../model';
 import {UserModel} from '../user/user-model';
 import {define} from '../dependency';
-import {RevisionInfo} from '../../elements/shared/revision-info/revision-info';
 
 export enum LoadingStatus {
   NOT_LOADED = 'NOT_LOADED',
@@ -116,6 +114,9 @@ export function updateChangeWithEdit(
  * Derives the base patchset number from all the data that can potentially
  * influence it. Mostly just returns `routerBasePatchNum` or PARENT, but has
  * some special logic when looking at merge commits.
+ *
+ * NOTE: At the moment this returns just `routerBasePatchNum ?? PARENT`, see
+ * TODO below.
  */
 function computeBase(
   routerBasePatchNum: BasePatchSetNum | undefined,
@@ -127,13 +128,24 @@ function computeBase(
     return routerBasePatchNum;
   }
   if (!change || !patchNum) return PARENT;
+
   const preferFirst =
     preferences.default_base_for_merges === DefaultBase.FIRST_PARENT;
   if (!preferFirst) return PARENT;
 
-  const revisionInfo = new RevisionInfo(change);
-  const isMergeCommit = revisionInfo.isMergeCommit(patchNum);
-  return isMergeCommit ? (-1 as PatchSetNumber) : PARENT;
+  // TODO: Re-enable respecting the default_base_for_merges preference.
+  // For the Polygerrit UI this was originally implemented in change 214432,
+  // but we are not sure whether this was ever 100% working correctly. A
+  // major challenge is being able to select PARENT explicitly even if your
+  // preference for the default choice is FIRST_PARENT. <gr-file-list-header>
+  // just uses `GerritNav.navigateToChange()` and the router does not have any
+  // way of forcing the basePatchSetNum to stick to PARENT without being
+  // altered back to FIRST_PARENT here.
+  // See also corresponding TODO in gr-settings-view.
+  return PARENT;
+  // const revisionInfo = new RevisionInfo(change);
+  // const isMergeCommit = revisionInfo.isMergeCommit(patchNum);
+  // return isMergeCommit ? (-1 as PatchSetNumber) : PARENT;
 }
 
 // TODO: Figure out how to best enforce immutability of all states. Use Immer?

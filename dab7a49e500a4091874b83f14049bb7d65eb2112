@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c75dde05_bf996489",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-28T15:08:56Z",
+      "side": 1,
+      "message": "I am not sure I understand how this is going to simplify the lifecycle, but I believe that you have a plan. :-)",
+      "revId": "dab7a49e500a4091874b83f14049bb7d65eb2112",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

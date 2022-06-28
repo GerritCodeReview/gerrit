@@ -811,7 +811,7 @@ suite('gr-diff tests', () => {
         diffTable.dispatchEvent(
           new CustomEvent('render', {bubbles: true, composed: true})
         );
-        return Promise.resolve({});
+        return Promise.resolve();
       });
       sinon.stub(element, 'getDiffLength').returns(10000);
       element.diff = createDiff();

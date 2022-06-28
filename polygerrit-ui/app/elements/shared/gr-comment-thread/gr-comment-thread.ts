@@ -64,6 +64,7 @@ import {commentsModelToken} from '../../../models/comments/comments-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {whenRendered} from '../../../utils/dom-util';
 import {Interaction} from '../../../constants/reporting';
+import {GrDiff} from '../../../embed/diff/gr-diff/gr-diff';
 
 const NEWLINE_PATTERN = /\n/g;
 
@@ -95,6 +96,9 @@ declare global {
  */
 @customElement('gr-comment-thread')
 export class GrCommentThread extends LitElement {
+  @query('#diff')
+  grDiff?: GrDiff;
+
   @query('#replyBtn')
   replyBtn?: GrButton;
 

@@ -45,6 +45,16 @@ public class FileInfoSubject extends Subject {
     return check("linesDeleted").that(fileInfo.linesDeleted);
   }
 
+  public IntegerSubject oldMode() {
+    isNotNull();
+    return check("oldMode").that(fileInfo.oldMode);
+  }
+
+  public IntegerSubject newMode() {
+    isNotNull();
+    return check("newMode").that(fileInfo.newMode);
+  }
+
   public ComparableSubject<Character> status() {
     isNotNull();
     return check("status").that(fileInfo.status);

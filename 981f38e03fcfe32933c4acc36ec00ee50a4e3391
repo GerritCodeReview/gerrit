@@ -16,6 +16,24 @@
       "message": "Could you add a bit of context what observing nodes is used for?",
       "revId": "981f38e03fcfe32933c4acc36ec00ee50a4e3391",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d4c35a8_8cf595c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-28T08:58:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0adc3567_77fd7c07",
+      "revId": "981f38e03fcfe32933c4acc36ec00ee50a4e3391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

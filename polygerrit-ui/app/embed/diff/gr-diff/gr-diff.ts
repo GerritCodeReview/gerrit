@@ -65,7 +65,7 @@ import {
 } from '../../../api/diff';
 import {isSafari, toggleClass} from '../../../utils/dom-util';
 import {assertIsDefined} from '../../../utils/common-util';
-import {debounce, DelayedTask} from '../../../utils/async-util';
+import {debounceP, DelayedPromise} from '../../../utils/async-util';
 import {GrDiffSelection} from '../gr-diff-selection/gr-diff-selection';
 import {deepEqual} from '../../../utils/deep-util';
 
@@ -268,7 +268,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   isAttached = false;
 
   // visible for testing
-  renderDiffTableTask?: DelayedTask;
+  renderDiffTableTask?: DelayedPromise<void>;
 
   private diffSelection = new GrDiffSelection();
 
@@ -803,8 +803,9 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     // async render is needed and that they can wait for a further `render`
     // event to actually take further action.
     fireEvent(this, 'render-required');
-    this.renderDiffTableTask = debounce(this.renderDiffTableTask, () =>
-      this._renderDiffTable()
+    this.renderDiffTableTask = debounceP(
+      this.renderDiffTableTask,
+      async () => await this._renderDiffTable()
     );
   }
 

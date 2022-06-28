@@ -6,7 +6,7 @@
 import '../../../test/common-test-setup-karma';
 import {createElementDiff, formatText, createTabWrapper} from './gr-diff-utils';
 
-const LINE_BREAK_HTML = '<span class="style-scope gr-diff br"></span>';
+const LINE_BREAK_HTML = '<span class="gr-diff br"></span>';
 
 suite('gr-diff-utils tests', () => {
   test('createElementDiff classStr applies all classes', () => {
@@ -63,7 +63,7 @@ suite('gr-diff-utils tests', () => {
 
   test('tab wrapper style', () => {
     const pattern = new RegExp(
-      '^<span class="style-scope gr-diff tab" ' +
+      '^<span class="gr-diff tab" ' +
         'style="((?:-moz-)?tab-size: (\\d+);.?)+">\\t<\\/span>$'
     );
 

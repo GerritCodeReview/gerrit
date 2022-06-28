@@ -99,6 +99,24 @@
       "parentUuid": "c7b9da13_45b04980",
       "revId": "c27f9ecb901afa2f39c0be01f3d1ed5731340e41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad086731_6eed6345",
+        "filename": "javatests/com/google/gerrit/server/git/delegate/DelegateRepositoryTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-06-28T07:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a77b8c68_fd9b2464",
+      "revId": "c27f9ecb901afa2f39c0be01f3d1ed5731340e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -8,7 +8,10 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {ChangeInfo, CommitInfo, ServerInfo} from '../../../types/common';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property, state} from 'lit/decorators';
+import {subscribe} from '../../lit/subscription-controller';
+import {resolve} from '../../../models/dependency';
+import {configModelToken} from '../../../models/config/config-model';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -28,8 +31,9 @@ export class GrCommitInfo extends LitElement {
   @property({type: Object})
   commitInfo: CommitInfo | undefined;
 
-  @property({type: Object})
-  serverConfig: ServerInfo | undefined;
+  @state() serverConfig: ServerInfo | undefined;
+
+  private readonly getConfigModel = resolve(this, configModelToken);
 
   static override get styles() {
     return [
@@ -41,6 +45,17 @@ export class GrCommitInfo extends LitElement {
         }
       `,
     ];
+  }
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getConfigModel().serverConfig$,
+      config => {
+        this.serverConfig = config;
+      }
+    );
   }
 
   override render() {

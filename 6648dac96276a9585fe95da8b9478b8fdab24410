@@ -100,6 +100,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4960eb0_a289f3cc",
+        "filename": "project.config",
+        "patchSetId": 5
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-28T05:39:54Z",
+      "side": 1,
+      "message": "This one was clarified, the merge commit actually touched a file from those directories. Sorry for the noise.",
+      "parentUuid": "f24d6e03_43c70679",
+      "range": {
+        "startLine": 120,
+        "startChar": 45,
+        "endLine": 120,
+        "endChar": 164
+      },
+      "revId": "6648dac96276a9585fe95da8b9478b8fdab24410",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d36fe61_ca99a77d",

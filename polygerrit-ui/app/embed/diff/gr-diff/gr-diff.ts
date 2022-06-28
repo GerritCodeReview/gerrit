@@ -808,7 +808,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     );
   }
 
-  _renderDiffTable() {
+  async _renderDiffTable() {
     this._unobserveNodes();
     if (!this.prefs) {
       fireEvent(this, 'render');
@@ -845,7 +845,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     this.diffBuilder.diffElement = this.$.diffTable;
     this.diffBuilder.updateCommentRanges(this._commentRanges);
     this.diffBuilder.updateCoverageRanges(this.coverageRanges);
-    this.diffBuilder.render(keyLocations);
+    await this.diffBuilder.render(keyLocations);
   }
 
   _handleRenderContent() {

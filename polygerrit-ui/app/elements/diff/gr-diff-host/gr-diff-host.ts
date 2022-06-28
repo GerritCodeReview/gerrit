@@ -94,8 +94,8 @@ import {customElement, property, query, state} from 'lit/decorators';
 import {ValueChangedEvent} from '../../../types/events';
 import {
   debounceP,
-  CancelationError,
   DelayedPromise,
+  DELAYED_CANCELLATION,
 } from '../../../utils/async-util';
 import {subscribe} from '../../lit/subscription-controller';
 
@@ -476,8 +476,8 @@ export class GrDiffHost extends LitElement {
         // that any changes are captured in another update.
         await this.reloadPromise;
       } catch (e: unknown) {
-        // TODO: Consider moving this logic to a helper method on
-        if (e instanceof CancelationError) {
+        // TODO: Consider moving this logic to a helper method.
+        if (e === DELAYED_CANCELLATION) {
           // Do nothing.
         } else if (e instanceof Error) {
           this.reporting.error(e);

@@ -16,6 +16,24 @@
       "message": "I am not sure I understand how this is going to simplify the lifecycle, but I believe that you have a plan. :-)",
       "revId": "dab7a49e500a4091874b83f14049bb7d65eb2112",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ea6969f_45940ff5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-28T15:10:57Z",
+      "side": 1,
+      "message": "In Lit it\u0027s possible to override getUpdateComplete. The plan is to wait for the renderDiffTable to finish in getUpdateComplete, so when you do await grDiff.updateComplete, it will wait until it\u0027s fully rendered.",
+      "parentUuid": "c75dde05_bf996489",
+      "revId": "dab7a49e500a4091874b83f14049bb7d65eb2112",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

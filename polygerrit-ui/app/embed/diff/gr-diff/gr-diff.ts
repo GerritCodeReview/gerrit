@@ -412,6 +412,9 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
 
   _coverageRangesObserver() {
     this.diffBuilder.updateCoverageRanges(this.coverageRanges);
+    if (this.diff) {
+      this._debounceRenderDiffTable();
+    }
   }
 
   /**
@@ -795,6 +798,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
    * render once.
    */
   _debounceRenderDiffTable() {
+    console.trace();
     // at this point gr-diff might be considered as rendered from the outside
     // (client), although it was not actually rendered. Clients need to know
     // when it is safe to perform operations like cursor moves, for example,
@@ -809,6 +813,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   }
 
   _renderDiffTable() {
+    console.trace();
     this._unobserveNodes();
     if (!this.prefs) {
       fireEvent(this, 'render');
@@ -824,6 +829,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
       fireEvent(this, 'render');
       return;
     }
+
 
     this._showWarning = false;
 

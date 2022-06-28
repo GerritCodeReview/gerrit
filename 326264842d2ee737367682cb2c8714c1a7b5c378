@@ -221,6 +221,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cdcd17a0_31d8ebec",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label_test.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-28T12:20:42Z",
+      "side": 1,
+      "message": "this should be restored since itś happening after `await element.updateComplete;`.\n\nI would propose removing only if no await/major change happened after the waitUntil",
+      "range": {
+        "startLine": 340,
+        "startChar": 6,
+        "endLine": 340,
+        "endChar": 64
+      },
+      "revId": "326264842d2ee737367682cb2c8714c1a7b5c378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "556557fe_cb8354ff",
         "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label_test.ts",
         "patchSetId": 8

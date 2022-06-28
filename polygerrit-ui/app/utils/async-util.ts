@@ -103,50 +103,48 @@ export function debounce(
 }
 
 export interface DelayedPromise<T> extends Promise<T> {
-  resolve: (value?: T) => void;
-  reject: (reason?: unknown) => void;
-  cancel: () => void;
-  isActive: () => boolean;
+  cancel: (reason?: any) => void;
+  flush: () => Promise<void>;
+  delegate: (promise: Promise<T>) => void;
 }
 
 export class CancelationError extends Error {}
-
-interface DelayedPromiseInternal<T> extends DelayedPromise<T> {
-  stop: () => void;
-}
 
 function delayedPromise<T>(
   callback: () => Promise<T>,
   waitMs = 0
 ): DelayedPromise<T> {
-  let res: (value?: T) => void;
-  let rej: (reason?: unknown) => void;
+  let resolve: (value: PromiseLike<T> | T) => void;
+  let reject: (reason?: any) => void;
   let timer: number | undefined;
-  const promise = new Promise<T | undefined>((resolve, reject) => {
-    res = resolve;
-    rej = reject;
-  }) as DelayedPromiseInternal<T>;
-  promise.resolve = res!;
-  promise.reject = rej!;
-  promise.isActive = () => timer !== undefined;
-  promise.stop = () => {
-    if (!promise.isActive()) return;
+  const promise = new Promise<T>((res, rej) => {
+    resolve = res;
+    reject = rej;
+  }) as DelayedPromise<T>;
+  const stop = () => {
+    if (timer === undefined) return false;
     window.clearTimeout(timer);
     timer = undefined;
+    return true;
   };
-  promise.cancel = () => {
-    promise.stop();
-    promise.reject(new CancelationError());
+  promise.cancel = (reason?: any) => {
+    if (stop()) return;
+    reject(reason);
   };
-  timer = window.setTimeout(async () => {
-    timer = undefined;
+  promise.flush = async () => {
+    if (!stop()) return;
     try {
-      const result = await callback();
-      promise.resolve(result);
+      resolve(await callback());
     } catch (e) {
-      promise.reject(e);
+      reject(e);
     }
-  }, waitMs);
+  };
+  promise.delegate = (other: Promise<T>) => {
+    if (!stop()) return;
+    other.then((value: T) => resolve(value));
+    other.catch((reason?: any) => reject(reason));
+  }
+  timer = window.setTimeout(async () => { await promise.flush(); }, waitMs);
   return promise;
 }
 
@@ -159,16 +157,9 @@ export function debounceP<T>(
   callback: () => Promise<T>,
   waitMs = 0
 ): DelayedPromise<T> {
-  if (!existingPromise || !existingPromise.isActive()) {
-    return delayedPromise<T>(callback, waitMs);
-  } else {
-    (existingPromise as DelayedPromiseInternal<T>).stop();
-    const promise = delayedPromise<T>(callback, waitMs);
-    promise
-      .then((v: T) => existingPromise.resolve(v))
-      .catch((e: unknown) => existingPromise.reject(e));
-    return promise;
-  }
+  const promise = delayedPromise<T>(callback, waitMs);
+  if (existingPromise) existingPromise.delegate(promise);
+  return promise;
 }
 const THROTTLE_INTERVAL_MS = 500;
 

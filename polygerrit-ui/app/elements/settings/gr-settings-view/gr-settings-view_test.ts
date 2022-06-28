@@ -253,17 +253,6 @@ suite('gr-settings-view tests', () => {
               </span>
             </section>
             <section>
-              <span class="title"> Default Base For Merges </span>
-              <span class="value">
-                <gr-select>
-                  <select id="defaultBaseForMergesSelect">
-                    <option value="AUTO_MERGE">Auto Merge</option>
-                    <option value="FIRST_PARENT">First Parent</option>
-                  </select>
-                </gr-select>
-              </span>
-            </section>
-            <section>
               <label class="title" for="relativeDateInChangeTable">
                 Show Relative Dates In Changes Table
               </label>
@@ -596,13 +585,6 @@ suite('gr-settings-view tests', () => {
       (valueOf('Email format', 'preferences')!.firstElementChild as GrSelect)
         .bindValue,
       preferences.email_format
-    );
-    assert.equal(
-      (
-        valueOf('Default Base For Merges', 'preferences')!
-          .firstElementChild as GrSelect
-      ).bindValue,
-      preferences.default_base_for_merges
     );
     assert.equal(
       (

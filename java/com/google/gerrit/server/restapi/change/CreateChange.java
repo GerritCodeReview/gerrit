@@ -41,6 +41,7 @@ import com.google.gerrit.extensions.common.MergeInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -291,6 +292,11 @@ public class CreateChange
           || submitType.equals(SubmitType.MERGE_IF_NECESSARY))) {
         throw new BadRequestException("Submit type: " + submitType + " is not supported");
       }
+    }
+
+    if (input.patch != null) {
+      throw RestApiException.wrap(
+          "Patch applying is not yet implemented.", new NotImplementedException());
     }
 
     if (input.author != null

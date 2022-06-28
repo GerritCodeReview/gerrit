@@ -52,6 +52,92 @@
       "parentUuid": "4e1b2406_723ffe85",
       "revId": "326264842d2ee737367682cb2c8714c1a7b5c378",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "327f303a_efd86d23",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label_test.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-28T12:02:09Z",
+      "side": 1,
+      "message": "I think you can merge this test with the one above?\n\nThe first Esc is completely duplicated.\nWDYT?",
+      "range": {
+        "startLine": 291,
+        "startChar": 10,
+        "endLine": 291,
+        "endChar": 48
+      },
+      "revId": "326264842d2ee737367682cb2c8714c1a7b5c378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b06c2bd5_006975ec",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label_test.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-28T12:02:09Z",
+      "side": 1,
+      "message": "chooses?",
+      "range": {
+        "startLine": 321,
+        "startChar": 36,
+        "endLine": 321,
+        "endChar": 41
+      },
+      "revId": "326264842d2ee737367682cb2c8714c1a7b5c378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e35c4f7c_eaac9aad",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label_test.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-28T12:02:09Z",
+      "side": 1,
+      "message": "asserting the same waitUntil condition?",
+      "range": {
+        "startLine": 326,
+        "startChar": 6,
+        "endLine": 326,
+        "endChar": 65
+      },
+      "revId": "326264842d2ee737367682cb2c8714c1a7b5c378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "556557fe_cb8354ff",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label_test.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-28T12:02:09Z",
+      "side": 1,
+      "message": "saves?",
+      "revId": "326264842d2ee737367682cb2c8714c1a7b5c378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

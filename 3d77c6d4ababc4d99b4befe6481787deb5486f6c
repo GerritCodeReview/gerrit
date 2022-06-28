@@ -22,6 +22,30 @@
       },
       "revId": "3d77c6d4ababc4d99b4befe6481787deb5486f6c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45a2f3ec_8f89c3f9",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-28T16:17:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "560a6452_d774056c",
+      "range": {
+        "startLine": 336,
+        "startChar": 41,
+        "endLine": 336,
+        "endChar": 48
+      },
+      "revId": "3d77c6d4ababc4d99b4befe6481787deb5486f6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

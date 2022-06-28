@@ -16,6 +16,24 @@
       "message": "What stops us from doing the TODO right away?",
       "revId": "529261fb06d5d9149d7b22c88c1d71a348e04886",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54b8e522_5d6ddbe3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-06-28T13:44:29Z",
+      "side": 1,
+      "message": "I think it will be best to have at least a separate change so that this change would have less time and bumps to get to our prod sites to fix this issue.",
+      "parentUuid": "ed613475_751e2ce7",
+      "revId": "529261fb06d5d9149d7b22c88c1d71a348e04886",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

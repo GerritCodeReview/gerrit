@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e3818f9_144776db",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-28T11:03:17Z",
+      "side": 1,
+      "message": "Drop `async` if you\u0027re going with the this.updateComplete.then pattern.\n\nI also don\u0027t think it makes sense to return a promise, the caller doesn\u0027t seem to wait on it.",
+      "revId": "326264842d2ee737367682cb2c8714c1a7b5c378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

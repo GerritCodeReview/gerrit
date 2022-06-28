@@ -16,6 +16,24 @@
       "message": "Drop `async` if you\u0027re going with the this.updateComplete.then pattern.\n\nI also don\u0027t think it makes sense to return a promise, the caller doesn\u0027t seem to wait on it.",
       "revId": "326264842d2ee737367682cb2c8714c1a7b5c378",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e1b2406_723ffe85",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-06-28T11:55:17Z",
+      "side": 1,
+      "message": "The setText calls do have await (https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts;drc\u003d58109b7206bb3858865af6232a69c279b519b0e1;l\u003d612) next to them, that\u0027s why I returned a promise and kept \"async\".\n\nIt doesn\u0027t seem to matter too much that they wait though. So I can remove it.",
+      "parentUuid": "0e3818f9_144776db",
+      "revId": "326264842d2ee737367682cb2c8714c1a7b5c378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

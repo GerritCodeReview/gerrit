@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.server.git.delegate;
 
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.server.git.DelegateRepository;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import java.io.IOException;
 import org.eclipse.jgit.lib.Repository;
@@ -25,10 +26,16 @@ import org.junit.Test;
 public class DelegateRepositoryTest {
 
   @Test
-  public void shouldDelegateRepository() throws IOException {
+  public void shouldDelegateRepositoryFromAnyPackage() throws IOException {
     Repository foo = new InMemoryRepositoryManager().createRepository(Project.nameKey("foo"));
-    try (DelegateRepository delegateRepository = new DelegateRepository(foo)) {
+    try (TestDelegateRepository delegateRepository = new TestDelegateRepository(foo)) {
       assertThat(delegateRepository.delegate()).isSameInstanceAs(foo);
+    }
+  }
+
+  static class TestDelegateRepository extends DelegateRepository {
+    protected TestDelegateRepository(Repository delegate) {
+      super(delegate);
     }
   }
 }

@@ -58,6 +58,9 @@ link:cmd-apropos.html[gerrit apropos]::
 link:cmd-ban-commit.html[gerrit ban-commit]::
 	Bans a commit from a project's repository.
 
+link:cmd-copy-approvals.html[gerrit copy-approvals]::
+	Copy all inferred approvals labels to the latest patch-set.
+
 link:cmd-create-branch.html[gerrit create-branch]::
 	Create a new project branch.
 

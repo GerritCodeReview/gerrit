@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import java.util.Set;
 
@@ -24,7 +25,7 @@ import java.util.Set;
  * <p>Implementations supply data to Gerrit about user accounts.
  */
 public abstract class AccountDirectory {
-  /** Fields to be populated for a REST API response. */
+  /** Fields to be populated for SSH or REST API response. */
   public enum FillOptions {
     /** Full name or username. */
     NAME,
@@ -59,4 +60,6 @@ public abstract class AccountDirectory {
 
   public abstract void fillAccountInfo(Iterable<? extends AccountInfo> in, Set<FillOptions> options)
       throws PermissionBackendException;
+
+  public abstract void fillAccountAttributeInfo(Iterable<? extends AccountAttribute> in);
 }

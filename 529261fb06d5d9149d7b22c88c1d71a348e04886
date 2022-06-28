@@ -51,6 +51,24 @@
       "message": "Makes sense, thank you",
       "revId": "529261fb06d5d9149d7b22c88c1d71a348e04886",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d4ba5ce_5599ea18",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-28T13:52:33Z",
+      "side": 1,
+      "message": "From the TODO:\n```\n  // A major challenge is being able to select PARENT explicitly even if your\n  // preference for the default choice is FIRST_PARENT. \u003cgr-file-list-header\u003e\n  // just uses `GerritNav.navigateToChange()` and the router does not have any\n  // way of forcing the basePatchSetNum to stick to PARENT without being\n  // altered back to FIRST_PARENT here.\n```\nFrom the commit message:\n```\nFixing the feature and setting for good will likely take more than a\nday, and it comes with a certain amount of risk. We cannot neither take\nthat risk nor prioritize this apparently low valued feature. So we are\ndisabling it and leaving TODOs.\n```",
+      "parentUuid": "ed613475_751e2ce7",
+      "revId": "529261fb06d5d9149d7b22c88c1d71a348e04886",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

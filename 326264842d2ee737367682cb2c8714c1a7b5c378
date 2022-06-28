@@ -77,6 +77,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cb06cfe_fb9895ba",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label_test.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-06-28T12:14:46Z",
+      "side": 1,
+      "message": "I like having two tests, because they test different parts. The fact that the setup of the 2nd has to involve the first is is \"coincidence\". You can get information immediately if one test fails and another doesn\u0027t.\n\nI could do a test, where the suggestions dropdown never opened. But I felt like this is more representative of real behavior.",
+      "parentUuid": "327f303a_efd86d23",
+      "range": {
+        "startLine": 291,
+        "startChar": 10,
+        "endLine": 291,
+        "endChar": 48
+      },
+      "revId": "326264842d2ee737367682cb2c8714c1a7b5c378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b06c2bd5_006975ec",
@@ -90,6 +114,30 @@
       "writtenOn": "2022-06-28T12:02:09Z",
       "side": 1,
       "message": "chooses?",
+      "range": {
+        "startLine": 321,
+        "startChar": 36,
+        "endLine": 321,
+        "endChar": 41
+      },
+      "revId": "326264842d2ee737367682cb2c8714c1a7b5c378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a74a7662_7e74da68",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label_test.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-06-28T12:14:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b06c2bd5_006975ec",
       "range": {
         "startLine": 321,
         "startChar": 36,
@@ -123,6 +171,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3774d955_6f317ff4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label_test.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-06-28T12:14:46Z",
+      "side": 1,
+      "message": "Removed here and in other tests.",
+      "parentUuid": "e35c4f7c_eaac9aad",
+      "range": {
+        "startLine": 326,
+        "startChar": 6,
+        "endLine": 326,
+        "endChar": 65
+      },
+      "revId": "326264842d2ee737367682cb2c8714c1a7b5c378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "556557fe_cb8354ff",
@@ -136,6 +208,24 @@
       "writtenOn": "2022-06-28T12:02:09Z",
       "side": 1,
       "message": "saves?",
+      "revId": "326264842d2ee737367682cb2c8714c1a7b5c378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbb271eb_50fa8ac8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label_test.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-06-28T12:14:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "556557fe_cb8354ff",
       "revId": "326264842d2ee737367682cb2c8714c1a7b5c378",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

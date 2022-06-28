@@ -7385,6 +7385,8 @@ differ by one from details provided in <<#diff-info,DiffInfo>>.
 |`size_delta`    ||
 Number of bytes by which the file size increased/decreased.
 |`size`          ||
+|`old_mode`        |optional|File mode in octal (e.g. 100644) at the old commit.
+|`new_mode`        |optional|File mode in octal (e.g. 100644) at the new commit.
 File size in bytes.
 |=============================
 

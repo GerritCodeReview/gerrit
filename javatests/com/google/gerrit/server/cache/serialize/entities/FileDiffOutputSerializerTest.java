@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Patch.ChangeType;
+import com.google.gerrit.entities.Patch.FileMode;
 import com.google.gerrit.entities.Patch.PatchType;
 import com.google.gerrit.server.patch.ComparisonType;
 import com.google.gerrit.server.patch.filediff.Edit;
@@ -42,6 +43,8 @@ public class FileDiffOutputSerializerTest {
             .comparisonType(ComparisonType.againstOtherPatchSet())
             .oldPath(Optional.of("old_file_path.txt"))
             .newPath(Optional.empty())
+            .oldMode(Optional.of(FileMode.REGULAR_FILE))
+            .newMode(Optional.of(FileMode.SYMLINK))
             .changeType(ChangeType.DELETED)
             .patchType(Optional.of(PatchType.UNIFIED))
             .size(23)

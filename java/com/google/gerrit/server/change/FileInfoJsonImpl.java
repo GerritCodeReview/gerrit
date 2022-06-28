@@ -31,6 +31,7 @@ import com.google.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 import org.eclipse.jgit.errors.NoMergeBaseException;
+import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 
 /** Implementation of {@link FileInfoJson} using {@link DiffOperations}. */
@@ -102,6 +103,14 @@ public class FileInfoJsonImpl implements FileInfoJson {
       fileInfo.oldPath = FilePathAdapter.getOldPath(fileDiff.oldPath(), fileDiff.changeType());
       fileInfo.sizeDelta = fileDiff.sizeDelta();
       fileInfo.size = fileDiff.size();
+      fileInfo.oldMode =
+          fileDiff.oldMode().isPresent()
+              ? toOctal(fileDiff.oldMode().get().getMode())
+              : FileMode.TYPE_MISSING;
+      fileInfo.newMode =
+          fileDiff.newMode().isPresent()
+              ? toOctal(fileDiff.newMode().get().getMode())
+              : FileMode.TYPE_MISSING;
       if (fileDiff.patchType().get() == Patch.PatchType.BINARY) {
         fileInfo.binary = true;
       } else {
@@ -111,5 +120,9 @@ public class FileInfoJsonImpl implements FileInfoJson {
       result.put(path, fileInfo);
     }
     return result;
+  }
+
+  private static int toOctal(int decimal) {
+    return Integer.parseInt(Integer.toString(decimal, 8));
   }
 }

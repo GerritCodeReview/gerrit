@@ -693,7 +693,7 @@ message FileDiffKeyProto {
 
 // Serialized form of
 // com.google.gerrit.server.patch.filediff.FileDiffOutput
-// Next ID: 13
+// Next ID: 15
 message FileDiffOutputProto {
   // Next ID: 5
   message Edit {
@@ -725,4 +725,6 @@ message FileDiffOutputProto {
   bytes new_commit = 10;
   ComparisonType comparison_type = 11;
   bool negative = 12;
+  string old_mode = 13; // ENUM as string
+  string new_mode = 14; // ENUM as string
 }

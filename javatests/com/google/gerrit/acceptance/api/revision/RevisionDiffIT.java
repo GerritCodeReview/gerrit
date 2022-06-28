@@ -227,6 +227,66 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void fileModeChangeIsIncludedInListFilesDiff() throws Exception {
+    String fileName = "file.txt";
+    PushOneCommit push =
+        pushFactory
+            .create(admin.newIdent(), testRepo, "Commit Subject", /* files= */ ImmutableMap.of())
+            .addFile(fileName, "content", /* fileMode= */ 0100644);
+    PushOneCommit.Result result = push.to("refs/for/master");
+    String commitRev1 = gApi.changes().id(result.getChangeId()).get().currentRevision;
+    push =
+        pushFactory
+            .create(admin.newIdent(), testRepo, result.getChangeId())
+            .addFile(fileName, "content", /* fileMode= */ 0100755);
+    result = push.to("refs/for/master");
+    String commitRev2 = gApi.changes().id(result.getChangeId()).get().currentRevision;
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(result.getChangeId()).revision(commitRev2).files(commitRev1);
+
+    assertThat(changedFiles.get(fileName)).oldMode().isEqualTo(0100644);
+    assertThat(changedFiles.get(fileName)).newMode().isEqualTo(0100755);
+  }
+
+  @Test
+  public void fileMode_oldMode_isMissingInListFilesDiff_forAddedFile() throws Exception {
+    String fileName = "file.txt";
+    PushOneCommit push =
+        pushFactory
+            .create(admin.newIdent(), testRepo, "Commit Subject", /* files= */ ImmutableMap.of())
+            .addFile(fileName, "content", /* fileMode= */ 0100644);
+    PushOneCommit.Result result = push.to("refs/for/master");
+    String commitRev = gApi.changes().id(result.getChangeId()).get().currentRevision;
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(result.getChangeId()).revision(commitRev).files();
+
+    assertThat(changedFiles.get(fileName)).oldMode().isNull();
+    assertThat(changedFiles.get(fileName)).newMode().isEqualTo(0100644);
+  }
+
+  @Test
+  public void fileMode_newMode_isMissingInListFilesDiff_forDeletedFile() throws Exception {
+    String fileName = "file.txt";
+    PushOneCommit push =
+        pushFactory
+            .create(admin.newIdent(), testRepo, "Commit Subject", /* files= */ ImmutableMap.of())
+            .addFile(fileName, "content", /* fileMode= */ 0100644);
+    PushOneCommit.Result result = push.to("refs/for/master");
+    String commitRev1 = gApi.changes().id(result.getChangeId()).get().currentRevision;
+    push = pushFactory.create(admin.newIdent(), testRepo, result.getChangeId()).rmFile(fileName);
+    result = push.to("refs/for/master");
+    String commitRev2 = gApi.changes().id(result.getChangeId()).get().currentRevision;
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(result.getChangeId()).revision(commitRev2).files(commitRev1);
+
+    assertThat(changedFiles.get(fileName)).oldMode().isEqualTo(0100644);
+    assertThat(changedFiles.get(fileName)).newMode().isNull();
+  }
+
+  @Test
   public void numberOfLinesInDiffOfDeletedFileWithoutNewlineAtEndIsCorrect() throws Exception {
     String filePath = "a_new_file.txt";
     String fileContent = "Line 1\nLine 2\nLine 3";

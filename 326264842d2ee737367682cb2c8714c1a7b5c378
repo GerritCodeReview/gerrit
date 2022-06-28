@@ -125,6 +125,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "deba991e_d45e628a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label_test.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-06-28T12:31:02Z",
+      "side": 1,
+      "message": "I\u0027ve updated the test name to more clearly represent what is the setup and what is being tested.",
+      "parentUuid": "1e74722d_f1df21fc",
+      "range": {
+        "startLine": 291,
+        "startChar": 10,
+        "endLine": 291,
+        "endChar": 48
+      },
+      "revId": "326264842d2ee737367682cb2c8714c1a7b5c378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b06c2bd5_006975ec",
@@ -232,6 +256,30 @@
       "writtenOn": "2022-06-28T12:20:42Z",
       "side": 1,
       "message": "this should be restored since itś happening after `await element.updateComplete;`.\n\nI would propose removing only if no await/major change happened after the waitUntil",
+      "range": {
+        "startLine": 340,
+        "startChar": 6,
+        "endLine": 340,
+        "endChar": 64
+      },
+      "revId": "326264842d2ee737367682cb2c8714c1a7b5c378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6bb6657_1aee4e08",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label_test.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-06-28T12:31:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cdcd17a0_31d8ebec",
       "range": {
         "startLine": 340,
         "startChar": 6,

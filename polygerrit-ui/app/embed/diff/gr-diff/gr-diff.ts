@@ -412,6 +412,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
 
   _coverageRangesObserver() {
     this.diffBuilder.updateCoverageRanges(this.coverageRanges);
+    this._debounceRenderDiffTable();
   }
 
   /**

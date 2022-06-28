@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb85fdf6_795b396c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-06-28T16:38:55Z",
+      "side": 1,
+      "message": "It seems like more direct solution is changing that tab index. But I have no strong opinion about position of a link icon otherwise",
+      "revId": "c414204108636aa5c582cd517c90f9f9819f0cbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

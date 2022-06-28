@@ -2124,6 +2124,63 @@ otherwise only by administrators.
   HTTP/1.1 204 No Content
 ----
 
+[[apply-patch]]
+=== Apply Patch to a change
+--
+'POST /changes/link:#change-id[\{change-id\}]//applypatch'
+--
+
+Applies a patch into a new patch-set in the destination change.
+
+The patch must be provided in the request body, inside a
+link:#applypatchaspatchset-input[ApplyPatchAsPatchSetInput] entity.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/applypatch HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "patch": {
+      "patch": "diff --git a/a_new_file.txt b/a_new_file.txt
+                new file mode 100644
+                --- /dev/null
+                +++ b/a_new_file.txt
+                @@ -0,0 +1 @@
+                +Patch compatible `git diff` output"
+    }
+  }
+----
+
+As response a link:#change-info[ChangeInfo] entity is returned that
+describes the destination change after applying the patch.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9941",
+    "project": "myProject",
+    "branch": "release-branch",
+    "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9941",
+    "subject": "Original change subject",
+    "status": "NEW",
+    "created": "2013-02-01 09:59:32.126000000",
+    "updated": "2013-02-21 11:16:36.775000000",
+    "mergeable": true,
+    "insertions": 12,
+    "deletions": 11,
+    "_number": 3965,
+    "owner": {
+      "name": "John Doe"
+    }
+  }
+----
+
 [[get-included-in]]
 === Get Included In
 --
@@ -6506,6 +6563,43 @@ likely allowed to execute it. This may change if state is updated
 at the server or permissions are modified. Not present if false.
 |====================================
 
+[[applypatch-input]]
+=== ApplyPatchInput
+The `ApplyPatchInput` entity contains information for applying a patch into an existing commit.
+
+[options="header",cols="1,^1,5"]
+|=================================
+|Field Name          ||Description
+|`patch`             |required|
+The patch to be applied. Must be compatible with `git diff` output.
+For example, link:#get-patch[Get Patch] output.
+|=================================
+
+[[applypatchaspatchset-input]]
+=== ApplyPatchAsPatchSetInput
+The `ApplyPatchAsPatchSetInput` entity contains information for applying a patch into a new
+patch-set.
+
+[options="header",cols="1,^1,5"]
+|=================================
+|Field Name           ||Description
+|`patch`              |required|
+The details of the patch to be applied as a link:#applypatch-input[ApplyPatchInput] entity.
+|`subject`            |optional|
+The new subject for the change, if not specified, will reuse the current patch set's subject.
+|`base`               |optional|
+40-hex digit SHA-1 of the commit which will be the parent commit of the newly created change.
+If set, it must be a merged commit or a change revision on the destination branch.
+|`author`             |optional|
+An link:rest-api-accounts.html#account-input[AccountInput] entity that will set the author of
+the commit to create.
+The author must be specified as name/email combination.
+The caller needs "Forge Author" permission when using this field.
+This field does not affect the owner of the change, which will continue to use the identity of the
+caller.
+|=================================
+
+
 [[approval-info]]
 === ApprovalInfo
 The `ApprovalInfo` entity contains information about an approval from a
@@ -6878,6 +6972,8 @@ The detail of a merge commit as a link:#merge-input[MergeInput] entity.
 If set, the target branch (see  `branch` field) must exist (it is not
 possible to create it automatically by setting the `new_branch` field
 to `true`.
+|`patch`              |optional|
+The detail of a patch to be applied as an link:#applypatch-input[ApplyPatch] entity.
 |`author`             |optional|
 An link:rest-api-accounts.html#account-input[AccountInput] entity
 that will set the author of the commit to create. The author must be

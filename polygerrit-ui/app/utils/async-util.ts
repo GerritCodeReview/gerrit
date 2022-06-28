@@ -103,49 +103,53 @@ export function debounce(
 }
 
 export interface DelayedPromise<T> extends Promise<T> {
-  resolve: (value?: T) => void;
-  reject: (reason?: unknown) => void;
-  cancel: () => void;
-  isActive: () => boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  cancel: (reason?: any) => void;
+  flush: () => Promise<void>;
+  delegate: (promise: Promise<T>) => void;
 }
 
 export class CancelationError extends Error {}
-
-interface DelayedPromiseInternal<T> extends DelayedPromise<T> {
-  stop: () => void;
-}
 
 function delayedPromise<T>(
   callback: () => Promise<T>,
   waitMs = 0
 ): DelayedPromise<T> {
-  let res: (value?: T) => void;
-  let rej: (reason?: unknown) => void;
+  let resolve: (value: PromiseLike<T> | T) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let reject: (reason?: any) => void;
   let timer: number | undefined;
-  const promise = new Promise<T | undefined>((resolve, reject) => {
-    res = resolve;
-    rej = reject;
-  }) as DelayedPromiseInternal<T>;
-  promise.resolve = res!;
-  promise.reject = rej!;
-  promise.isActive = () => timer !== undefined;
-  promise.stop = () => {
-    if (!promise.isActive()) return;
+  const promise = new Promise<T>((res, rej) => {
+    resolve = res;
+    reject = rej;
+  }) as DelayedPromise<T>;
+  const stop = () => {
+    if (timer === undefined) return false;
     window.clearTimeout(timer);
     timer = undefined;
+    return true;
   };
-  promise.cancel = () => {
-    promise.stop();
-    promise.reject(new CancelationError());
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  promise.cancel = (reason?: any) => {
+    if (!stop()) return;
+    reject(reason);
+  };
+  promise.flush = async () => {
+    if (!stop()) return;
+    try {
+      resolve(await callback());
+    } catch (e) {
+      reject(e);
+    }
+  };
+  promise.delegate = (other: Promise<T>) => {
+    if (!stop()) return;
+    other.then((value: T) => resolve(value));
+    // / eslint-disable-next-line @typescript-eslint/no-explicit-any
+    other.catch((reason?: any) => reject(reason));
   };
   timer = window.setTimeout(async () => {
-    timer = undefined;
-    try {
-      const result = await callback();
-      promise.resolve(result);
-    } catch (e) {
-      promise.reject(e);
-    }
+    await promise.flush();
   }, waitMs);
   return promise;
 }
@@ -159,16 +163,9 @@ export function debounceP<T>(
   callback: () => Promise<T>,
   waitMs = 0
 ): DelayedPromise<T> {
-  if (!existingPromise || !existingPromise.isActive()) {
-    return delayedPromise<T>(callback, waitMs);
-  } else {
-    (existingPromise as DelayedPromiseInternal<T>).stop();
-    const promise = delayedPromise<T>(callback, waitMs);
-    promise
-      .then((v: T) => existingPromise.resolve(v))
-      .catch((e: unknown) => existingPromise.reject(e));
-    return promise;
-  }
+  const promise = delayedPromise<T>(callback, waitMs);
+  if (existingPromise) existingPromise.delegate(promise);
+  return promise;
 }
 const THROTTLE_INTERVAL_MS = 500;
 

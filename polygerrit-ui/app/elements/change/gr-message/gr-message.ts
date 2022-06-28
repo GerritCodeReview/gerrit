@@ -25,6 +25,7 @@ import '../gr-message-scores/gr-message-scores';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {MessageTag, SpecialFilePath} from '../../../constants/constants';
 import {customElement, property, state} from 'lit/decorators';
+import {hasOwnProperty} from '../../../utils/common-util';
 import {
   ChangeInfo,
   ServerInfo,
@@ -36,6 +37,7 @@ import {
   PatchSetNum,
   AccountInfo,
   BasePatchSetNum,
+  LabelNameToInfoMap,
 } from '../../../types/common';
 import {
   ChangeMessage,
@@ -44,6 +46,7 @@ import {
   LabelExtreme,
   PATCH_SET_PREFIX_PATTERN,
 } from '../../../utils/comment-util';
+import {LABEL_TITLE_SCORE_PATTERN} from '../gr-message-scores/gr-message-scores';
 import {getAppContext} from '../../../services/app-context';
 import {pluralize} from '../../../utils/string-util';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
@@ -377,7 +380,8 @@ export class GrMessage extends LitElement {
         false,
         this.message.message.substring(0, 1000),
         this.message.accounts_in_message,
-        this.message.tag
+        this.message.tag,
+        this.change?.labels
       ) || this.patchsetCommentSummary();
     return html` <div class="content messageContent">
       <div class="message hideOnOpen">${messageContentCollapsed}</div>
@@ -391,7 +395,8 @@ export class GrMessage extends LitElement {
       true,
       this.message.message,
       this.message.accounts_in_message,
-      this.message.tag
+      this.message.tag,
+      this.change?.labels
     );
     return html`
       <gr-formatted-text
@@ -594,7 +599,8 @@ export class GrMessage extends LitElement {
     isExpanded: boolean,
     content?: string,
     accountsInMessage?: AccountInfo[],
-    tag?: ReviewInputTag
+    tag?: ReviewInputTag,
+    labels?: LabelNameToInfoMap
   ) {
     if (!content) return '';
     const isNewPatchSet = this.isNewPatchsetTag(tag);
@@ -614,8 +620,24 @@ export class GrMessage extends LitElement {
       if (line.startsWith('(') && line.endsWith(' comments)')) {
         return false;
       }
-      if (!isNewPatchSet && line.match(PATCH_SET_PREFIX_PATTERN)) {
-        return false;
+      if (!isNewPatchSet && labels) {
+        // Legacy change messages may contain the 'Patch Set' prefix
+        // and a message(not containing label scores) on the same line.
+        // To handle them correctly, only filter out lines which contain
+        // the 'Patch Set' prefix and label scores.
+        const match = line.match(PATCH_SET_PREFIX_PATTERN);
+        if (match && match[1]) {
+          const message = match[1].split(' ');
+          if (
+            message
+              .map(s => s.match(LABEL_TITLE_SCORE_PATTERN))
+              .filter(
+                ms => ms && ms.length === 4 && hasOwnProperty(labels, ms[2])
+              ).length === message.length
+          ) {
+            return false;
+          }
+        }
       }
       return true;
     });
@@ -630,7 +652,7 @@ export class GrMessage extends LitElement {
       // Only make this replacement if the line starts with Patch Set, since if
       // it starts with "Uploaded patch set" (e.g for votes) we want to keep the
       // "Uploaded patch set".
-      if (isNewPatchSet && line.startsWith('Patch Set')) {
+      if (line.startsWith('Patch Set')) {
         line = line.replace(PATCH_SET_PREFIX_PATTERN, '$1');
       }
       return line;

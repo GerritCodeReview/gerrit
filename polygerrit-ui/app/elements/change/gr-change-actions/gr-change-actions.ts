@@ -28,6 +28,7 @@ import '../gr-confirm-rebase-dialog/gr-confirm-rebase-dialog';
 import '../gr-confirm-revert-dialog/gr-confirm-revert-dialog';
 import '../gr-confirm-submit-dialog/gr-confirm-submit-dialog';
 import '../../../styles/shared-styles';
+import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {getAppContext} from '../../../services/app-context';
@@ -403,7 +404,7 @@ export class GrChangeActions
   @property({type: Object})
   change?: ChangeViewChangeInfo;
 
-  @state()
+  @property({type: Object})
   actions: ActionNameToActionInfoMap = {};
 
   @property({type: Array})
@@ -1433,7 +1434,7 @@ export class GrChangeActions
 
   private handleOverflowItemTap(e: CustomEvent<MenuAction>) {
     e.preventDefault();
-    const el = e.target as Element;
+    const el = (dom(e) as EventApi).localTarget as Element;
     const key = e.detail.action.__key;
     if (
       key.startsWith(ADDITIONAL_ACTION_KEY_PREFIX) ||

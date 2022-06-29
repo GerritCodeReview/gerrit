@@ -199,7 +199,7 @@ export class GrLabelScoreRow extends LitElement {
     return items.map(
       (value, index) => html`
         <gr-button
-          role="radio"
+          role="button"
           title=${ifDefined(this.computeLabelValueTitle(value))}
           data-vote=${this._computeVoteAttribute(
             Number(value),

@@ -198,7 +198,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
       <div class="code-review-message-container">
         <div class="code-review-message-layout-container">
           <div>
-            <iron-icon icon="gr-icons:info-outline"></iron-icon>
+            <iron-icon icon="gr-icons:info-outline" role="img"></iron-icon>
             <span>
               Code Review vote is only available on the individual change page
             </span>

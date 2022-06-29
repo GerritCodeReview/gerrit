@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "3a87fef2_c3d59906",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-29T19:15:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ecad3300_81f67621",
+      "range": {
+        "startLine": 12,
+        "startChar": 43,
+        "endLine": 12,
+        "endChar": 51
+      },
+      "revId": "b1a689649c0e5a0546a1870abc6cf26ffd0b4819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "529f7751_ca909f7f",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 13
@@ -66,6 +90,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2c63629c_7ce91ad2",
+        "filename": "java/com/google/gerrit/server/restapi/change/PreviewProvidedFix.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-29T19:15:03Z",
+      "side": 1,
+      "message": "In ApplyProvidedFix.java, we had made this parameter to be @NonNull. I am making it the same thing here, to be consistent in both files. If you feel that we should enable empty requests,  I can change that in both this and ApplyProvidedFix.java file.\nRight now, by keeping it @NotNull, the newly added lines in javatests/com/google/gerrit/acceptance/rest/binding/ChangesRestApiBindingsIT.java are failings.\nIf we decided to keep the @NonNull, I will need pointers in how I can fix those.",
+      "parentUuid": "78c3fa08_adb20a16",
+      "range": {
+        "startLine": 71,
+        "startChar": 8,
+        "endLine": 71,
+        "endChar": 49
+      },
+      "revId": "b1a689649c0e5a0546a1870abc6cf26ffd0b4819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "53bf1ea1_85829ef3",
         "filename": "java/com/google/gerrit/server/restapi/change/PreviewStoredFix.java",
         "patchSetId": 13
@@ -77,6 +125,24 @@
       "writtenOn": "2022-06-29T12:33:07Z",
       "side": 1,
       "message": "I think this method can stay private, can\u0027t it?",
+      "revId": "b1a689649c0e5a0546a1870abc6cf26ffd0b4819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "656277a3_df360096",
+        "filename": "java/com/google/gerrit/server/restapi/change/PreviewStoredFix.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-29T19:15:03Z",
+      "side": 1,
+      "message": "Yes it can. Done.",
+      "parentUuid": "53bf1ea1_85829ef3",
       "revId": "b1a689649c0e5a0546a1870abc6cf26ffd0b4819",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -98,6 +164,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e122d614_d9d05712",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/PreviewProvidedFixIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-29T19:15:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "032e8712_8953f8ba",
+      "revId": "b1a689649c0e5a0546a1870abc6cf26ffd0b4819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "061c157f_691fe7d3",
@@ -111,6 +195,24 @@
       "writtenOn": "2022-06-29T12:33:07Z",
       "side": 1,
       "message": "This class is testing the PreviewProvidedFix REST endpoint via the extensions java API (aka RevisionApi). This is good, but it means the test will also succeeded if the wiring of the REST endpoint to handle actual REST requests is missing/broken. To cover this wiring we have ChangesRestApiBindingsIT that iterates over all /changes/ REST endpoints and sends an actual REST request to them to see if a reasonable status is returned. Can you please add a call to this new REST endpoint to ChangesRestApiBindingsIT.REVISION_ENDPOINTS to make sure it\u0027s covered there too?",
+      "revId": "b1a689649c0e5a0546a1870abc6cf26ffd0b4819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a5ed579_4cc17404",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/PreviewProvidedFixIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-29T19:15:03Z",
+      "side": 1,
+      "message": "I have added them. It\u0027s failing now. What to do next will depend on if we want to allow @NonNull as discussed in comments on file java/com/google/gerrit/server/restapi/change/PreviewProvidedFix.java",
+      "parentUuid": "061c157f_691fe7d3",
       "revId": "b1a689649c0e5a0546a1870abc6cf26ffd0b4819",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

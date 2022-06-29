@@ -79,7 +79,7 @@ public class SubmitRequirementConfigValidator implements CommitValidationListene
         throw new CommitValidationException(
             String.format(
                 "invalid submit requirement expressions in %s (revision = %s)",
-                ProjectConfig.PROJECT_CONFIG, projectConfig.getRevision()),
+                ProjectConfig.PROJECT_CONFIG, projectConfig.getRevision().name()),
             new ImmutableList.Builder<CommitValidationMessage>()
                 .add(
                     new CommitValidationMessage(

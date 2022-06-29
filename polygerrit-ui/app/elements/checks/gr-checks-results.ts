@@ -97,6 +97,9 @@ export class GrResultRow extends LitElement {
   @state()
   labels?: LabelNameToInfoMap;
 
+  @state()
+  latestPatchNum?: PatchSetNumber;
+
   private getChangeModel = resolve(this, changeModelToken);
 
   private getChecksModel = resolve(this, checksModelToken);
@@ -109,6 +112,11 @@ export class GrResultRow extends LitElement {
       this,
       () => this.getChangeModel().labels$,
       x => (this.labels = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().latestPatchNum$,
+      x => (this.latestPatchNum = x)
     );
   }
 
@@ -442,6 +450,12 @@ export class GrResultRow extends LitElement {
     const label = this.result?.labelName;
     if (!label) return;
     if (!this.result?.isLatestAttempt) return;
+    // For check results on older patchsets it is impossible to decide whether
+    // the current label score is still influenced by them. But typically it
+    // is really confusing for the user, if we claim that an old (error) result
+    // influences the current (positive) score. So we prefer to be conservative
+    // and only display the label chip for checks results on the latest ps.
+    if (this.result.patchset !== this.latestPatchNum) return;
     const info = this.labels?.[label];
     const status = getLabelStatus(info).toLowerCase();
     const value = getRepresentativeValue(info);

@@ -11,6 +11,9 @@ import {fixture} from '@open-wc/testing-helpers';
 import {checksModelToken} from '../../models/checks/checks-model';
 import {fakeRun0, setAllFakeRuns} from '../../models/checks/checks-fakes';
 import {resolve} from '../../models/dependency';
+import {createLabelInfo} from '../../test/test-data-generators';
+import {queryAndAssert, query} from '../../utils/common-util';
+import {PatchSetNumber} from '../../api/rest-api';
 
 suite('gr-result-row test', () => {
   let element: GrResultRow;
@@ -21,6 +24,34 @@ suite('gr-result-row test', () => {
       html`<gr-result-row .result=${result}></gr-result-row>`
     );
     element.shouldRender = true;
+  });
+
+  test('renders label association', async () => {
+    element.result = {...element.result!, labelName: 'test-label', patchset: 1};
+    element.labels = {'test-label': createLabelInfo()};
+
+    // don't show when patchset does not match latest
+    element.latestPatchNum = 2 as PatchSetNumber;
+    await element.updateComplete;
+    let labelDiv = query(element, '.label');
+    assert.isNotOk(labelDiv);
+
+    element.latestPatchNum = 1 as PatchSetNumber;
+    await element.updateComplete;
+    labelDiv = queryAndAssert(element, '.label');
+    expect(labelDiv).dom.to.equal(/* HTML */ `
+      <div class="approved label">
+        <span> test-label +1 </span>
+        <paper-tooltip
+          fittovisiblebounds=""
+          offset="5"
+          role="tooltip"
+          tabindex="-1"
+        >
+          The check result has (probably) influenced this label vote.
+        </paper-tooltip>
+      </div>
+    `);
   });
 
   test('renders', async () => {

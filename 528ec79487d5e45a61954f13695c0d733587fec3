@@ -16,6 +16,24 @@
       "message": "Should we report an error if this happens?",
       "revId": "528ec79487d5e45a61954f13695c0d733587fec3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95b9c16c_2c3c075c",
+        "filename": "polygerrit-ui/app/workers/service-worker-installer.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-29T12:42:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18f98294_cd9f1ed3",
+      "revId": "528ec79487d5e45a61954f13695c0d733587fec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

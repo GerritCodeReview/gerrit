@@ -1,0 +1,41 @@
+= copy-approval
+
+== NAME
+copy-approval - Copy inferred approvals to the latest patch-set.
+
+== SYNOPSIS
+[verse]
+--
+_java_ -jar gerrit.war _copy-approvals_
+  -d <SITE_PATH>
+--
+
+== DESCRIPTION
+Gerrit has historically computed votes using an inference algorithm that
+was cumulating them from all the patch-sets. That was not efficient since
+it had to take into account copied votes from very old patchsets.
+E.g, votes sometimes need to be copied from ps1 to ps10.
+
+Gerrit copy the approvals from the inferred votes to the latest patch-sets
+once a change receives a new label update.
+
+The copy-approval site program scans all the changes of a project and looks
+for all votes that have not been copied yet, calculate the inferred score
+and apply that as copied label to the latest patch-set.
+
+NOTE: The label copied as part of this process receives the grant date of
+the timestamp of the copy-approval command execution, not the one associated
+with the inferred vote.
+
+== CONTEXT
+This site program should be executed prior to migration to Gerrit 3.6 release.
+
+Also note that this site program can be executed online as ssh command, see
+link:cmd-copy-approvals.html[gerrit copy-approvals].
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

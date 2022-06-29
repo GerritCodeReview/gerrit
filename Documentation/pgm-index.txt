@@ -8,6 +8,8 @@ through the Java command line.  For example:
 Tool should be one of the following names:
 
 == Tools
+link:pgm-copy-approvals.html[copy-approvals]::
+	Copy inferred approvals to the latest patch-set.
 
 link:pgm-init.html[init]::
 	Initialize a new Gerrit server installation.

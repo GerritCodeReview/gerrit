@@ -160,7 +160,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
               <div class="code-review-message-container">
                 <div class="code-review-message-layout-container">
                 <div>
-                  <iron-icon icon="gr-icons:info-outline" role="img"> </iron-icon>
+                  <iron-icon aria-label="Information" icon="gr-icons:info-outline" role="img"> </iron-icon>
                   <span>
                     Code Review vote is only available on the individual change page
                   </span>
@@ -172,6 +172,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
                     flatten=""
                     link=""
                     role="button"
+                    aria-label="Open 1 change in different tabs"
                     tabindex="0"
                   >
                     Open 1 change
@@ -247,7 +248,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
               <div class="code-review-message-container">
                 <div class="code-review-message-layout-container">
                 <div>
-                  <iron-icon icon="gr-icons:info-outline" role="img"> </iron-icon>
+                  <iron-icon aria-label="Information" icon="gr-icons:info-outline" role="img"> </iron-icon>
                   <span>
                     Code Review vote is only available on the individual change page
                   </span>
@@ -259,6 +260,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
                     flatten=""
                     link=""
                     role="button"
+                    aria-label="Open 1 change in different tabs"
                     tabindex="0"
                   >
                     Open 1 change

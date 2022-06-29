@@ -78,7 +78,7 @@ declare global {
 }
 
 @customElement('gr-result-row')
-class GrResultRow extends LitElement {
+export class GrResultRow extends LitElement {
   @query('td.nameCol div.name')
   nameEl?: HTMLElement;
 
@@ -430,7 +430,9 @@ class GrResultRow extends LitElement {
     return html`
       <!-- The &nbsp; is for being able to shrink a tiny amount without
        the text itself getting shrunk with an ellipsis. -->
-      <div class="summary" @click=${this.toggleExpanded}>${text}&nbsp;</div>
+      <div class="summary" @click=${this.toggleExpanded} title=${text}>
+        ${text}&nbsp;
+      </div>
     `;
   }
 

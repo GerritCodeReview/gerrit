@@ -22,7 +22,7 @@ import {
 import {fire, fireEvent, fireReload} from '../../../utils/event-util';
 import {ColumnNames, ScrollMode} from '../../../constants/constants';
 import {getRequirements} from '../../../utils/label-util';
-import {addGlobalShortcut, Key} from '../../../utils/dom-util';
+import {Key} from '../../../utils/dom-util';
 import {assertIsDefined, unique} from '../../../utils/common-util';
 import {changeListStyles} from '../../../styles/gr-change-list-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';
@@ -164,7 +164,7 @@ export class GrChangeList extends LitElement {
     this.shortcuts.addAbstract(Shortcut.TOGGLE_CHECKBOX, () =>
       this.toggleCheckbox()
     );
-    addGlobalShortcut({key: Key.ENTER}, () => this.openChange());
+    this.shortcuts.addGlobal({key: Key.ENTER}, () => this.openChange());
   }
 
   override connectedCallback() {

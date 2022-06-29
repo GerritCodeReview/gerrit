@@ -147,6 +147,24 @@
       "parentUuid": "cae60e22_b181eff1",
       "revId": "e77996f0117eb9ba0d79416921753dc8c0f11a11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34b564bf_9ec330c1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5084,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-29T10:51:23Z",
+      "side": 1,
+      "message": "The PR [2] has been merged, do you want to add the pointer in a follow-up change?",
+      "parentUuid": "e9b8b37e_45b6be54",
+      "revId": "e77996f0117eb9ba0d79416921753dc8c0f11a11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

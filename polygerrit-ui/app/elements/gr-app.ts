@@ -40,7 +40,7 @@ import {
 import {injectAppContext} from '../services/app-context';
 import {html, LitElement} from 'lit';
 import {customElement} from 'lit/decorators';
-import {ServiceWorkerInstaller} from '../workers/service-worker-installer';
+import {ServiceWorkerInstaller} from '../services/service-worker-installer';
 
 const appContext = createAppContext();
 injectAppContext(appContext);

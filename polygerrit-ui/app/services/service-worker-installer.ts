@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {FlagsService, KnownExperimentId} from '../services/flags/flags';
+import {FlagsService, KnownExperimentId} from './flags/flags';
 
 export class ServiceWorkerInstaller {
   initialized = false;

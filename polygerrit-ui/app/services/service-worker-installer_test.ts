@@ -3,7 +3,7 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {getAppContext} from '../services/app-context';
+import {getAppContext} from './app-context';
 import '../test/common-test-setup-karma';
 import {ServiceWorkerInstaller} from './service-worker-installer';
 

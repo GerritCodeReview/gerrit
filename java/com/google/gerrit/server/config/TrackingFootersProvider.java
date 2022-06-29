@@ -32,7 +32,7 @@ import org.eclipse.jgit.lib.Config;
 public class TrackingFootersProvider implements Provider<TrackingFooters> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private static final int MAX_LENGTH = 10;
+  private static final int MAX_LENGTH = 20;
 
   private static final String TRACKING_ID_TAG = "trackingid";
   private static final String FOOTER_TAG = "footer";

@@ -167,7 +167,7 @@ class ChangeApiImpl implements ChangeApi {
   private final Provider<ListChangeDrafts> listDraftsProvider;
   private final ChangeEditApiImpl.Factory changeEditApi;
   private final Check check;
-  private final CheckSubmitRequirement checkSubmitRequirement;
+  private final Provider<CheckSubmitRequirement> checkSubmitRequirementProvider;
   private final Index index;
   private final Move move;
   private final PostPrivate postPrivate;
@@ -222,7 +222,7 @@ class ChangeApiImpl implements ChangeApi {
       Provider<ListChangeDrafts> listDraftsProvider,
       ChangeEditApiImpl.Factory changeEditApi,
       Check check,
-      CheckSubmitRequirement checkSubmitRequirement,
+      Provider<CheckSubmitRequirement> checkSubmitRequirement,
       Index index,
       Move move,
       PostPrivate postPrivate,
@@ -275,7 +275,7 @@ class ChangeApiImpl implements ChangeApi {
     this.listDraftsProvider = listDraftsProvider;
     this.changeEditApi = changeEditApi;
     this.check = check;
-    this.checkSubmitRequirement = checkSubmitRequirement;
+    this.checkSubmitRequirementProvider = checkSubmitRequirement;
     this.index = index;
     this.move = move;
     this.postPrivate = postPrivate;
@@ -714,10 +714,27 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
+  public CheckSubmitRequirementRequest checkSubmitRequirementRequest() {
+    return new CheckSubmitRequirementRequest() {
+      @Override
+      public SubmitRequirementResultInfo get() throws RestApiException {
+        try {
+          CheckSubmitRequirement check = checkSubmitRequirementProvider.get();
+          check.setSrName(this.srName());
+          check.setRefsConfigChangeId(this.getRefsConfigChangeId());
+          return check.apply(change, null).value();
+        } catch (Exception e) {
+          throw asRestApiException("Cannot check submit requirement", e);
+        }
+      }
+    };
+  }
+
+  @Override
   public SubmitRequirementResultInfo checkSubmitRequirement(SubmitRequirementInput input)
       throws RestApiException {
     try {
-      return checkSubmitRequirement.apply(change, input).value();
+      return checkSubmitRequirementProvider.get().apply(change, input).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot check submit requirement", e);
     }

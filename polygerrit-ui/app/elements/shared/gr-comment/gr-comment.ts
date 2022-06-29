@@ -448,6 +448,7 @@ export class GrComment extends LitElement {
           margin: 0 var(--spacing-m);
         }
         .link-icon {
+          margin-left: var(--spacing-m);
           cursor: pointer;
         }
       `,
@@ -704,9 +705,9 @@ export class GrComment extends LitElement {
     return html`
       <div class="rightActions">
         ${this.autoSaving ? html`.&nbsp;&nbsp;` : ''}
-        ${this.renderCopyLinkIcon()} ${this.renderDiscardButton()}
-        ${this.renderEditButton()} ${this.renderCancelButton()}
-        ${this.renderSaveButton()}
+        ${this.renderDiscardButton()} ${this.renderEditButton()}
+        ${this.renderCancelButton()} ${this.renderSaveButton()}
+        ${this.renderCopyLinkIcon()}
       </div>
     `;
   }

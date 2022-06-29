@@ -87,6 +87,24 @@
       "parentUuid": "a681f393_2cd8a0cd",
       "revId": "d4a8dbe4129693cf4a0b075d130772ffea9a1f39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab88987a_bdfb07f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-29T06:32:15Z",
+      "side": 1,
+      "message": "front-end team confirmed it\u0027s a recent regression (UI displays the vs. parent1 instead of the vs. automerge diff). This should be fixed soon.",
+      "parentUuid": "434d3536_38768292",
+      "revId": "d4a8dbe4129693cf4a0b075d130772ffea9a1f39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

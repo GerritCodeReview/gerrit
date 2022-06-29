@@ -460,28 +460,3 @@ export function shouldSuppress(e: KeyboardEvent): boolean {
   }
   return false;
 }
-
-/** Returns a promise that waits for the element's height to become > 0. */
-export function untilRendered(el: HTMLElement) {
-  return new Promise(resolve => {
-    whenRendered(el, resolve);
-  });
-}
-
-/** Executes the given callback when the element's height is > 0. */
-export function whenRendered(
-  el: HTMLElement,
-  callback: (value?: unknown) => void
-) {
-  if (el.clientHeight > 0) {
-    callback();
-    return;
-  }
-  const obs = new ResizeObserver(() => {
-    if (el.clientHeight > 0) {
-      callback();
-      obs.unobserve(el);
-    }
-  });
-  obs.observe(el);
-}

@@ -37,6 +37,7 @@ import {
 import {getLineNumber, getSideByLineEl} from '../gr-diff/gr-diff-utils';
 import {fireAlert, fireEvent} from '../../../utils/event-util';
 import {assertIsDefined} from '../../../utils/common-util';
+import {LitElement} from 'lit';
 
 const TRAILING_WHITESPACE_PATTERN = /\s+$/;
 const COMMIT_MSG_PATH = '/COMMIT_MSG';
@@ -232,9 +233,17 @@ export class GrDiffBuilderElement implements GroupConsumer {
 
   // visible for testing
   async untilGroupsRendered(groups: readonly GrDiffGroup[] = this.groups) {
-    for (const g of groups) {
-      await g.waitUntilRendered();
-    }
+    const litElements: LitElement[] = groups
+      .map(g => g.element)
+      .filter(e => e !== undefined)
+      .filter(e => e instanceof LitElement)
+      .map(e => e as LitElement);
+    await Promise.all(
+      litElements.map(async g => await g.updateComplete)
+    );
+    await new Promise((resolve, _reject) => {
+      requestAnimationFrame(() => setTimeout(resolve));
+    });
   }
 
   private onDiffContextExpanded = (

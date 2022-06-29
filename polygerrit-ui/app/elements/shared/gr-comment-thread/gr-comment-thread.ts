@@ -62,7 +62,6 @@ import {notDeepEqual} from '../../../utils/deep-util';
 import {resolve} from '../../../models/dependency';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {changeModelToken} from '../../../models/change/change-model';
-import {whenRendered} from '../../../utils/dom-util';
 import {Interaction} from '../../../constants/reporting';
 
 const NEWLINE_PATTERN = /\n/g;
@@ -653,7 +652,7 @@ export class GrCommentThread extends LitElement {
 
   override firstUpdated() {
     if (this.shouldScrollIntoView) {
-      whenRendered(this, () => {
+      this.updateComplete.then(() => {
         this.expandCollapseComments(false);
         this.commentBox?.focus();
         this.scrollIntoView({block: 'center'});

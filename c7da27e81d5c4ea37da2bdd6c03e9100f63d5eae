@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "360b95da_3026ba71",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-29T16:54:57Z",
+      "side": 1,
+      "message": "`requestAnimationFrame` does not work when tab is in background.\n\nSee change 337210.",
+      "range": {
+        "startLine": 245,
+        "startChar": 6,
+        "endLine": 245,
+        "endChar": 27
+      },
+      "revId": "c7da27e81d5c4ea37da2bdd6c03e9100f63d5eae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -86,7 +86,6 @@ import {
   HashtagsInput,
   ImagesForDiff,
   IncludedInInfo,
-  LabelNameToLabelTypeInfoMap,
   MergeableInfo,
   NameToProjectInfoMap,
   NumericChangeId,
@@ -120,13 +119,11 @@ import {
   TagInput,
   TopMenuEntryInfo,
   UrlEncodedCommentId,
-  UrlEncodedRepoName,
 } from '../../types/common';
 import {
   DiffInfo,
   DiffPreferencesInfo,
   IgnoreWhitespaceType,
-  WebLinkInfo,
 } from '../../types/diff';
 import {
   CancelConditionCallback,
@@ -140,7 +137,6 @@ import {
   createDefaultEditPrefs,
   createDefaultPreferences,
   HttpMethod,
-  ProjectState,
   ReviewerState,
 } from '../../constants/constants';
 import {firePageError, fireServerError} from '../../utils/event-util';
@@ -1118,7 +1114,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
         ListChangesOption.CURRENT_ACTIONS,
         ListChangesOption.CURRENT_REVISION,
         ListChangesOption.DETAILED_LABELS,
-        // TODO: remove this option and merge requirements from dashbaord req
+        // TODO: remove this option and merge requirements from dashboard req
         ListChangesOption.SUBMIT_REQUIREMENTS
       )
     );
@@ -1469,7 +1465,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }) as Promise<GroupNameToGroupInfoMap | undefined>;
   }
 
-  getRepos(
+  async getRepos(
     filter: string | undefined,
     reposPerPage: number,
     offset?: number
@@ -1478,43 +1474,28 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
-    // If query then return directly as the result will be expected to be an array
+
+    // If the request is a query then return the response directly as the result
+    // will already be the expected array. If it is not a query, transform the
+    // map to an array.
     if (isQuery) {
       return this._fetchSharedCacheURL({
-        url, // The url contains query,so the response is an array, not map
+        url,
         anonymizedUrl: '/projects/?*',
       }) as Promise<ProjectInfoWithName[] | undefined>;
-    }
-    const result: Promise<NameToProjectInfoMap[] | undefined> =
-      this._fetchSharedCacheURL({
-        url, // The url contains query,so the response is an array, not map
+    } else {
+      const result = await (this._fetchSharedCacheURL({
+        url,
         anonymizedUrl: '/projects/?*',
-      }) as Promise<NameToProjectInfoMap[] | undefined>;
-    return this._transformToArray(result);
-  }
-
-  _transformToArray(
-    res: Promise<NameToProjectInfoMap[] | undefined>
-  ): Promise<ProjectInfoWithName[] | undefined> {
-    return res.then(response => {
-      const reposList: ProjectInfoWithName[] = [];
-      for (const [name, project] of Object.entries(response ?? {})) {
-        const projectInfo: ProjectInfoWithName = {
-          id: project.id as unknown as UrlEncodedRepoName,
+      }) as Promise<NameToProjectInfoMap | undefined>);
+      if (result === undefined) return [];
+      return Object.entries(result).map(([name, project]) => {
+        return {
+          ...project,
           name: name as RepoName,
-          parent: project.parent as unknown as RepoName,
-          description: project.description as unknown as string,
-          state: project.state as unknown as ProjectState,
-          branches: project.branches as unknown as {
-            [branchName: string]: CommitId;
-          },
-          labels: project.labels as unknown as LabelNameToLabelTypeInfoMap,
-          web_links: project.web_links as unknown as WebLinkInfo[],
         };
-        reposList.push(projectInfo);
-      }
-      return reposList;
-    });
+      });
+    }
   }
 
   setRepoHead(repo: RepoName, ref: GitRef) {

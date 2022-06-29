@@ -54,6 +54,7 @@ import {Interaction} from '../../../constants/reporting';
 import {roleDetails} from '../../../utils/change-util';
 
 import {SummaryChipStyles} from './gr-summary-chip';
+import {when} from 'lit/directives/when';
 
 function handleSpaceOrEnter(e: KeyboardEvent, handler: () => void) {
   if (modifierPressed(e)) return;
@@ -185,6 +186,7 @@ export class GrChangeSummary extends LitElement {
         .loading.zeroState {
           margin-right: var(--spacing-m);
         }
+        div.info,
         div.error,
         .login {
           display: flex;
@@ -193,20 +195,31 @@ export class GrChangeSummary extends LitElement {
           margin: var(--spacing-xs) 0;
           width: 490px;
         }
+        div.info {
+          background-color: var(--info-background);
+        }
         div.error {
           background-color: var(--error-background);
         }
+        div.info iron-icon,
         div.error iron-icon {
-          color: var(--error-foreground);
           width: 16px;
           height: 16px;
           position: relative;
           top: 4px;
           margin-right: var(--spacing-s);
         }
+        div.info iron-icon {
+          color: var(--info-foreground);
+        }
+        div.error iron-icon {
+          color: var(--error-foreground);
+        }
+        div.info .right,
         div.error .right {
           overflow: hidden;
         }
+        div.info .right .message,
         div.error .right .message {
           overflow: hidden;
           text-overflow: ellipsis;
@@ -274,10 +287,6 @@ export class GrChangeSummary extends LitElement {
     ];
   }
 
-  private renderSummaryMessage() {
-    return this.messages.map(m => html`<div class="summaryMessage">${m}</div>`);
-  }
-
   private renderActions() {
     const actions = this.actions ?? [];
     const summaryActions = actions.filter(a => a.summary).slice(0, 2);
@@ -331,6 +340,21 @@ export class GrChangeSummary extends LitElement {
         <span id="moreMessage">More</span>
       </gr-dropdown>
     `;
+  }
+
+  private renderSummaryMessage() {
+    return this.messages.map(
+      m => html`
+        <div class="info">
+          <div class="left">
+            <iron-icon icon="gr-icons:info"></iron-icon>
+          </div>
+          <div class="right">
+            <div class="message" title=${m}>${m}</div>
+          </div>
+        </div>
+      `
+    );
   }
 
   renderErrorMessages() {
@@ -559,10 +583,10 @@ export class GrChangeSummary extends LitElement {
                 )}${hasNonRunningChip && hasRunningChip
                   ? html`<br />`
                   : ''}${this.renderChecksChipRunning()}
-                <span
-                  class="loadingSpin"
-                  ?hidden=${!this.someProvidersAreLoading}
-                ></span>
+                ${when(
+                  this.someProvidersAreLoading,
+                  () => html`<span class="loadingSpin"></span>`
+                )}
                 ${this.renderErrorMessages()} ${this.renderChecksLogin()}
                 ${this.renderSummaryMessage()} ${this.renderActions()}
               </div>

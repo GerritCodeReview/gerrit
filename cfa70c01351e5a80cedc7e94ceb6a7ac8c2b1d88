@@ -51,6 +51,24 @@
       "message": "general question: instead of testing that specific combinations are disallowed, should we tighten our checks and reject any configs that are unknown to us?\n\nMaybe that could be a future feature request.",
       "revId": "cfa70c01351e5a80cedc7e94ceb6a7ac8c2b1d88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bafa5450_309127c2",
+        "filename": "java/com/google/gerrit/server/project/LabelConfigValidator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-29T13:01:32Z",
+      "side": 1,
+      "message": "This would be nice, but I\u0027m not sure we can easily do this, since also plugins may store random parameters in project.config which we should not reject here. Actually plugins should only store parameters in their own plugin subsection (ie under \u0027plugins.\u003cplugin-name\u003e\u0027), so we could exclude those parameters from the check, but I\u0027m not sure all plugins comply to this, so this could potentially break those. Still something we could consider doing.\n\nMarking as resolved, since this is not blocking this change.",
+      "parentUuid": "1bd5071f_6420a486",
+      "revId": "cfa70c01351e5a80cedc7e94ceb6a7ac8c2b1d88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

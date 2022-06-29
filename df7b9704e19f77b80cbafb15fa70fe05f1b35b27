@@ -125,6 +125,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3d2c398_88b3a7ae",
+        "filename": "java/com/google/gerrit/index/IndexedField.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-29T04:40:24Z",
+      "side": 1,
+      "message": "Sorry I didn\u0027t reply for a few days.\n\n\u003e This change does not add any new functionality.\n\u003e The functionality is exactly as with the previous fields defs, just the new properties and storage abstraction is added.\n\nJust to clarify what I was looking for, I thought this new class adds the support for this text from the commit message:\n\n```\n we would like to store the actual field\n data once (in index primary storage), and enable different token\n generation strategies on the same field, referencing the base storage\n from the token indexes\n```\n \nSo I was thinking it would be good to test that we can do that. I don\u0027t think we need exhaustive tests for every data type or anything like that.\n\n\u003e \n\u003e The next changes confirm it can be used in a way we plan.\n\u003e I added some tests for the type conversion, please, take a look.\n\u003e Thank you for thorough review :)\n\nYou\u0027re welcome! I hope the feedback is helpful.",
+      "parentUuid": "aeb0a6f4_b7d60530",
+      "revId": "df7b9704e19f77b80cbafb15fa70fe05f1b35b27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "91454f67_8bba5c2d",

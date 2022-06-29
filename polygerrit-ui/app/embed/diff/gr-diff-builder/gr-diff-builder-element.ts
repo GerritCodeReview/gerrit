@@ -37,7 +37,6 @@ import {
 import {getLineNumber, getSideByLineEl} from '../gr-diff/gr-diff-utils';
 import {fireAlert, fireEvent} from '../../../utils/event-util';
 import {assertIsDefined} from '../../../utils/common-util';
-import {untilRendered} from '../../../utils/dom-util';
 
 const TRAILING_WHITESPACE_PATTERN = /\s+$/;
 const COMMIT_MSG_PATH = '/COMMIT_MSG';
@@ -234,12 +233,7 @@ export class GrDiffBuilderElement implements GroupConsumer {
   // visible for testing
   async untilGroupsRendered(groups: readonly GrDiffGroup[] = this.groups) {
     for (const g of groups) {
-      // The LOST or FILE lines may be hidden and thus never resolve an
-      // untilRendered() promise.
-      const lineNumber = g.lines?.[0]?.beforeNumber;
-      if (g.skip || lineNumber === 'LOST' || lineNumber === 'FILE') continue;
-      assertIsDefined(g.element);
-      await untilRendered(g.element);
+      await g.waitUntilRendered();
     }
   }
 

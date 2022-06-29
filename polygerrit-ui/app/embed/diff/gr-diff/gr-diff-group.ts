@@ -7,6 +7,7 @@ import {BLANK_LINE, GrDiffLine, GrDiffLineType} from './gr-diff-line';
 import {LineRange, Side} from '../../../api/diff';
 import {LineNumber} from './gr-diff-line';
 import {assertIsDefined, check} from '../../../utils/common-util';
+import {untilRendered} from '../../../utils/dom-util';
 
 export enum GrDiffGroupType {
   /** Unchanged context. */
@@ -455,6 +456,18 @@ export class GrDiffGroup {
         this.lineRange.left.end_line = line.beforeNumber;
       }
     }
+  }
+
+  async waitUntilRendered() {
+    const lineNumber = this.lines[0]?.beforeNumber;
+    // The LOST or FILE lines may be hidden and thus never resolve an
+    // untilRendered() promise.
+    if (this.skip || lineNumber === 'LOST' || lineNumber === 'FILE' ||
+        this.type === GrDiffGroupType.CONTEXT_CONTROL) {
+      return Promise.resolve();
+    }
+    assertIsDefined(this.element);
+    await untilRendered(this.element);
   }
 
   /**

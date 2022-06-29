@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5399ca67_56b734b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-29T11:51:08Z",
+      "side": 1,
+      "message": "nit: s#refs/meta/config/branch#refs/meta/config branch",
+      "range": {
+        "startLine": 19,
+        "startChar": 34,
+        "endLine": 19,
+        "endChar": 57
+      },
+      "revId": "e993eafc315524b01cca1af1446a7036afeb3d2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83246832_ba322f18",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2838,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-29T11:51:08Z",
+      "side": 1,
+      "message": "s/with with/with",
+      "range": {
+        "startLine": 2838,
+        "startChar": 59,
+        "endLine": 2838,
+        "endChar": 68
+      },
+      "revId": "e993eafc315524b01cca1af1446a7036afeb3d2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68c86539_cccad3b1",
+        "filename": "java/com/google/gerrit/server/restapi/change/CheckSubmitRequirement.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-29T11:51:08Z",
+      "side": 1,
+      "message": "With the addition of parameters this class can\u0027t be a singleton and hence this TODO can be dropped now.",
+      "revId": "e993eafc315524b01cca1af1446a7036afeb3d2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68dff842_53fc5bb1",
+        "filename": "java/com/google/gerrit/server/restapi/change/CheckSubmitRequirement.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-29T11:51:08Z",
+      "side": 1,
+      "message": "Can we change this to accept any change identifier that is supported in the REST API [1]? It feels inconsistent that in all of the REST API you can choose the change identifier you like, but only here you are forced to use the change number.\n\nYou should be able to resolve an arbitrary change identifier via changesCollection.parse(TopLevelResource.INSTANCE, id);\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#change-id",
+      "range": {
+        "startLine": 76,
+        "startChar": 2,
+        "endLine": 79,
+        "endChar": 3
+      },
+      "revId": "e993eafc315524b01cca1af1446a7036afeb3d2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ced40da2_b6e5e1c2",
+        "filename": "java/com/google/gerrit/server/restapi/change/CheckSubmitRequirement.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-29T11:51:08Z",
+      "side": 1,
+      "message": "Maybe fail with Bad Request if either of the params is provided, but not the other.",
+      "range": {
+        "startLine": 98,
+        "startChar": 8,
+        "endLine": 98,
+        "endChar": 56
+      },
+      "revId": "e993eafc315524b01cca1af1446a7036afeb3d2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f21a411_99b24a21",
+        "filename": "java/com/google/gerrit/server/restapi/change/CheckSubmitRequirement.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-29T11:51:08Z",
+      "side": 1,
+      "message": "Maybe just pass in the project instead, I was wondering why this would need to change to be tested and there was no @param explanation for it.",
+      "range": {
+        "startLine": 131,
+        "startChar": 69,
+        "endLine": 131,
+        "endChar": 88
+      },
+      "revId": "e993eafc315524b01cca1af1446a7036afeb3d2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a59708b_1aca0e24",
+        "filename": "java/com/google/gerrit/server/restapi/change/CheckSubmitRequirement.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-29T11:51:08Z",
+      "side": 1,
+      "message": "I think we can avoid initialising this var with ObjectId.zeroId(), if we change the exception handling below (if IOException is added to the throws declaration, then the try/catch block to catch ConfigInvalidException can be just around the \"cfg.load(git, revisionId)\" call). As it is now, it seems to be possible that the user gets a Bad Request status with a message that contains the null revision and I\u0027m not sure users would be able to understand this message.",
+      "revId": "e993eafc315524b01cca1af1446a7036afeb3d2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8696da72_5fc63d35",
+        "filename": "java/com/google/gerrit/server/restapi/change/CheckSubmitRequirement.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-29T11:51:08Z",
+      "side": 1,
+      "message": "I don\u0027t think IOException should be mapped to Bad Request, but should just be added to the throws declaration so that it becomes an internal server error.\n\nAlso in case of ConfigInvalidException the request should probably not be rejected as Bad Request (since there is nothing wrong with the request). Maybe returning Conflict [1] would be more appropriate?\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api.html#_409_conflict",
+      "range": {
+        "startLine": 155,
+        "startChar": 3,
+        "endLine": 160,
+        "endChar": 13
+      },
+      "revId": "e993eafc315524b01cca1af1446a7036afeb3d2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

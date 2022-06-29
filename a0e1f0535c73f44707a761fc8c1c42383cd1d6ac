@@ -22,6 +22,30 @@
       },
       "revId": "a0e1f0535c73f44707a761fc8c1c42383cd1d6ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "839c92db_62425482",
+        "filename": "polygerrit-ui/app/utils/async-util.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-29T12:34:54Z",
+      "side": 1,
+      "message": "I had considered doing this, then tried it but it failed.\n\nSeems that you need to specify the @@species.  For more context see: https://stackoverflow.com/questions/48158730/extend-javascript-promise-and-resolve-or-reject-it-inside-constructor",
+      "parentUuid": "a9dec77a_2d3b8665",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 147,
+        "endChar": 0
+      },
+      "revId": "a0e1f0535c73f44707a761fc8c1c42383cd1d6ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

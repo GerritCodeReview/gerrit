@@ -20,6 +20,7 @@ import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.project.ProjectConfig;
 import java.util.Locale;
@@ -375,6 +376,118 @@ public class SubmitRequirementsValidationIT extends AbstractDaemonTest {
             ProjectConfig.KEY_SR_OVERRIDE_IN_CHILD_PROJECTS,
             submitRequirementName,
             invalidValue));
+  }
+
+  @Test
+  public void validSubmitRequirementCanBePushedForReview_optionalParametersNotSet()
+      throws Exception {
+    fetchRefsMetaConfig();
+
+    String submitRequirementName = "Code-Review";
+    RevCommit head = getHead(testRepo.getRepository(), RefNames.REFS_CONFIG);
+    Config projectConfig = readProjectConfig(head);
+    projectConfig.setString(
+        ProjectConfig.SUBMIT_REQUIREMENT,
+        /* subsection= */ submitRequirementName,
+        /* name= */ ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
+        /* value= */ "label:\"Code-Review=+2\"");
+
+    PushOneCommit.Result r =
+        createChange(
+            testRepo,
+            RefNames.REFS_CONFIG,
+            "Add submit requirement",
+            ProjectConfig.PROJECT_CONFIG,
+            projectConfig.toText(),
+            /** topic = */
+            null);
+    r.assertOkStatus();
+  }
+
+  @Test
+  public void validSubmitRequirementCanBePushedForReview_allParametersSet() throws Exception {
+    fetchRefsMetaConfig();
+
+    String submitRequirementName = "Code-Review";
+    RevCommit head = getHead(testRepo.getRepository(), RefNames.REFS_CONFIG);
+    Config projectConfig = readProjectConfig(head);
+    projectConfig.setString(
+        ProjectConfig.SUBMIT_REQUIREMENT,
+        /* subsection= */ submitRequirementName,
+        /* name= */ ProjectConfig.KEY_SR_DESCRIPTION,
+        /* value= */ "foo bar description");
+    projectConfig.setString(
+        ProjectConfig.SUBMIT_REQUIREMENT,
+        /* subsection= */ submitRequirementName,
+        /* name= */ ProjectConfig.KEY_SR_APPLICABILITY_EXPRESSION,
+        /* value= */ "branch:refs/heads/master");
+    projectConfig.setString(
+        ProjectConfig.SUBMIT_REQUIREMENT,
+        /* subsection= */ submitRequirementName,
+        /* name= */ ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
+        /* value= */ "label:\"Code-Review=+2\"");
+    projectConfig.setString(
+        ProjectConfig.SUBMIT_REQUIREMENT,
+        /* subsection= */ submitRequirementName,
+        /* name= */ ProjectConfig.KEY_SR_OVERRIDE_EXPRESSION,
+        /* value= */ "label:\"override=+1\"");
+    projectConfig.setBoolean(
+        ProjectConfig.SUBMIT_REQUIREMENT,
+        /* subsection= */ submitRequirementName,
+        /* name= */ ProjectConfig.KEY_SR_OVERRIDE_IN_CHILD_PROJECTS,
+        /* value= */ false);
+
+    PushOneCommit.Result r =
+        createChange(
+            testRepo,
+            RefNames.REFS_CONFIG,
+            "Add submit requirement",
+            ProjectConfig.PROJECT_CONFIG,
+            projectConfig.toText(),
+            /** topic = */
+            null);
+    r.assertOkStatus();
+  }
+
+  @Test
+  public void invalidSubmitRequirementIsRejectedWhenPushingForReview() throws Exception {
+    fetchRefsMetaConfig();
+
+    String submitRequirementName = "Code-Review";
+    String invalidExpression = "invalid_field:invalid_value";
+
+    RevCommit head = getHead(testRepo.getRepository(), RefNames.REFS_CONFIG);
+    Config projectConfig = readProjectConfig(head);
+    projectConfig.setString(
+        ProjectConfig.SUBMIT_REQUIREMENT,
+        /* subsection= */ submitRequirementName,
+        /* name= */ ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
+        /* value= */ invalidExpression);
+    PushOneCommit.Result r =
+        createChange(
+            testRepo,
+            RefNames.REFS_CONFIG,
+            "Add submit requirement",
+            ProjectConfig.PROJECT_CONFIG,
+            projectConfig.toText(),
+            /** topic = */
+            null);
+    r.assertErrorStatus(
+        String.format(
+            "invalid submit requirement expressions in project.config (revision = %s)",
+            r.getCommit().name()));
+    assertThat(r.getMessage()).contains("Invalid project configuration");
+    assertThat(r.getMessage())
+        .contains(
+            String.format(
+                "project.config: Expression '%s' of submit requirement '%s' (parameter %s.%s.%s) is"
+                    + " invalid: Unsupported operator %s",
+                invalidExpression,
+                submitRequirementName,
+                ProjectConfig.SUBMIT_REQUIREMENT,
+                submitRequirementName,
+                ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
+                invalidExpression));
   }
 
   private void fetchRefsMetaConfig() throws Exception {

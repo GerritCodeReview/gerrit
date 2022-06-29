@@ -6,6 +6,12 @@
 import '../../../test/common-test-setup-karma';
 import {fixture, html} from '@open-wc/testing-helpers';
 import {GrChangeSummary} from './gr-change-summary';
+import {query, queryAndAssert} from '../../../utils/common-util';
+import {
+  fakeRun0,
+  fakeRun1,
+  fakeRun2,
+} from '../../../models/checks/checks-fakes';
 
 suite('gr-change-summary test', () => {
   let element: GrChangeSummary;
@@ -57,7 +63,6 @@ suite('gr-change-summary test', () => {
                 <span class="loading zeroState" role="status">
                   No results
                 </span>
-                <span class="loadingSpin" hidden=""> </span>
               </div>
             </td>
           </tr>
@@ -68,5 +73,30 @@ suite('gr-change-summary test', () => {
         </tbody>
       </table>
     </div>`);
+  });
+
+  test('renders checks summary', async () => {
+    element.runs = [fakeRun0];
+    await element.updateComplete;
+    const checksSummary = queryAndAssert(element, '.checksSummary');
+    expect(checksSummary).dom.to.equal(/* HTML */ `
+      <div class="checksSummary">
+        <gr-checks-chip> </gr-checks-chip>
+      </div>
+    `);
+  });
+
+  test('renders checks summary message', async () => {
+    element.runs = [fakeRun0];
+    element.messages = ['a message'];
+    element.showChecksSummary = true;
+    await element.updateComplete;
+    const checksSummary = queryAndAssert(element, '.checksSummary');
+    expect(checksSummary).dom.to.equal(/* HTML */ `
+      <div class="checksSummary">
+        <gr-checks-chip> </gr-checks-chip>
+        <div class="summaryMessage">a message</div>
+      </div>
+    `);
   });
 });

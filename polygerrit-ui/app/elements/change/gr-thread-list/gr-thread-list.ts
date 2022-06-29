@@ -18,6 +18,7 @@ import {
   CommentThread,
   getCommentAuthors,
   hasHumanReply,
+  isDraft,
   isDraftThread,
   isRobotThread,
   isUnresolved,
@@ -534,8 +535,10 @@ export class GrThreadList extends LitElement {
     if (el?.editing) return true;
 
     if (this.selectedAuthors.length > 0) {
-      const hasACommentFromASelectedAuthor = thread.comments.some(c =>
-        this.isASelectedAuthor(c.author)
+      const hasACommentFromASelectedAuthor = thread.comments.some(
+        c =>
+          (isDraft(c) && this.isASelectedAuthor(this.account)) ||
+          this.isASelectedAuthor(c.author)
       );
       if (!hasACommentFromASelectedAuthor) return false;
     }

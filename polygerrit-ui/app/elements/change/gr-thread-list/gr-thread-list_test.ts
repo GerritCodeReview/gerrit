@@ -17,6 +17,7 @@ import {accountOrGroupKey} from '../../../utils/account-util';
 import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 import {
   createAccountDetailWithId,
+  createDraft,
   createParsedChange,
   createThread,
 } from '../../../test/test-data-generators';
@@ -26,7 +27,7 @@ import {
   UrlEncodedCommentId,
   RevisionPatchSetNum,
 } from '../../../types/common';
-import {CommentThread} from '../../../utils/comment-util';
+import {CommentThread, isDraft} from '../../../utils/comment-util';
 import {query, queryAndAssert} from '../../../utils/common-util';
 import {GrAccountLabel} from '../../shared/gr-account-label/gr-account-label';
 import {GrDropdownList} from '../../shared/gr-dropdown-list/gr-dropdown-list';
@@ -409,6 +410,32 @@ suite('gr-thread-list tests', () => {
     await element.updateComplete;
     assert.equal(element.threads.length, 9);
     assert.equal(element.getDisplayedThreads().length, 9);
+  });
+
+  test('tapping single author with only drafts', async () => {
+    element.account = createAccountDetailWithId(1);
+    element.threads = [createThread(createDraft())];
+    await element.updateComplete;
+    const chips = Array.from(
+      queryAll<GrAccountLabel>(element, 'gr-account-label')
+    );
+    const authors = chips.map(chip => accountOrGroupKey(chip.account!)).sort();
+    assert.deepEqual(authors, [1 as AccountId]);
+    assert.equal(element.threads.length, 1);
+    assert.equal(element.getDisplayedThreads().length, 1);
+
+    const chip = chips.find(chip => chip.account!._account_id === 1);
+    tap(chip!);
+    await element.updateComplete;
+
+    assert.equal(element.threads.length, 1);
+    assert.equal(element.getDisplayedThreads().length, 1);
+    assert.isTrue(isDraft(element.getDisplayedThreads()[0].comments[0]));
+
+    tap(chip!);
+    await element.updateComplete;
+    assert.equal(element.threads.length, 1);
+    assert.equal(element.getDisplayedThreads().length, 1);
   });
 
   test('tapping multiple author chips', async () => {

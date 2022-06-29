@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "cc0ccb03_85e0110a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-29T10:25:34Z",
+      "side": 1,
+      "message": "If you move quickly to the next file, then it doesn\u0027t get autosaved.",
+      "parentUuid": "5656a2e3_4c8085f5",
+      "range": {
+        "startLine": 10,
+        "startChar": 20,
+        "endLine": 10,
+        "endChar": 50
+      },
+      "revId": "c414204108636aa5c582cd517c90f9f9819f0cbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "bb85fdf6_795b396c",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -37,6 +61,24 @@
       "writtenOn": "2022-06-28T16:38:55Z",
       "side": 1,
       "message": "It seems like more direct solution is changing that tab index. But I have no strong opinion about position of a link icon otherwise",
+      "revId": "c414204108636aa5c582cd517c90f9f9819f0cbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13afa525_0b24a601",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-29T10:25:34Z",
+      "side": 1,
+      "message": "Critique also puts the link left-most.",
+      "parentUuid": "bb85fdf6_795b396c",
       "revId": "c414204108636aa5c582cd517c90f9f9819f0cbd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

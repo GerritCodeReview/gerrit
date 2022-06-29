@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18f98294_cd9f1ed3",
+        "filename": "polygerrit-ui/app/workers/service-worker-installer.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-29T11:51:19Z",
+      "side": 1,
+      "message": "Should we report an error if this happens?",
+      "revId": "528ec79487d5e45a61954f13695c0d733587fec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

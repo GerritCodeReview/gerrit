@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a865d7a_a1aaf4a6",
+        "filename": "java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-06-29T08:47:51Z",
+      "side": 1,
+      "message": "No need to call .get(), there\u0027s a create method for (ProjectNameKey, String)\n\n    branchKey \u003d BranchNameKey.create(projectState.getNameKey(), branch);",
+      "range": {
+        "startLine": 93,
+        "startChar": 41,
+        "endLine": 93,
+        "endChar": 72
+      },
+      "revId": "3b4b29774a9df478e178392a13b606047dd52188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

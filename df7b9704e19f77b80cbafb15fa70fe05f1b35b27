@@ -161,6 +161,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7bc4863_98d9d859",
+        "filename": "java/com/google/gerrit/index/IndexedField.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-29T23:56:32Z",
+      "side": 1,
+      "message": "\u003e Sorry, the primary storage / index division is intended in our index implementation.\n\u003e But we needed to update the interface to accommodate for that. Nothing changes for other index implementations, only API.\n\nI would think other index backends could use that too, can\u0027t they? Or maybe I\u0027m misunderstanding the feature completely. I thought this would provide a way to query a single indexed value using different backend index query operators. For example, we could store/index the Change-Id once, and then do both exact matching and prefix matching by creating different SearchSpecs. Is that correct?",
+      "parentUuid": "100661a5_08eda3b8",
+      "revId": "df7b9704e19f77b80cbafb15fa70fe05f1b35b27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "91454f67_8bba5c2d",

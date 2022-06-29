@@ -1,0 +1,11 @@
+applicableIf = file:\"^(((~(xsd|xml)).*/)?)api/((~(xsd|xml)).*?)\\.txt$\" AND
+-project:device/generic/vulkan-cereal AND -project:platform/external/qemu AND
+-project:platform/hardware/interfaces AND -project:toolchain/go AND
+-project:platform/prebuilts/go/darwin-x86 AND
+-project:platform/prebuilts/go/linux-x86 AND
+-project:platform/system/tools/xsdc AND
+-project:platform/external/gfxstream-protocols -(project:platform/frameworks/av
+AND file:\".*/xmlparser/.*\") AND -(project:platform/external/icu AND
+file:\".*android_icu4j/api/legacy_platform/.*\") AND
+-(project:platform/tools/base AND file:\".*build-system/.*\")
+	

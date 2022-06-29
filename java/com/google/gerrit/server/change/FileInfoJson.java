@@ -20,7 +20,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.patch.DiffNotAvailableException;
 import java.util.Map;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -35,7 +35,7 @@ public interface FileInfoJson {
    * @return a mapping of the file paths to their related diff information.
    */
   default Map<String, FileInfo> getFileInfoMap(Change change, PatchSet patchSet)
-      throws ResourceConflictException, PatchListNotAvailableException {
+      throws DiffNotAvailableException, ResourceConflictException {
     return getFileInfoMap(change, patchSet.commitId(), null);
   }
 
@@ -51,7 +51,7 @@ public interface FileInfoJson {
    * @return a mapping of the file paths to their related diff information.
    */
   default Map<String, FileInfo> getFileInfoMap(Change change, ObjectId objectId, int parentNum)
-      throws ResourceConflictException, PatchListNotAvailableException {
+      throws DiffNotAvailableException, ResourceConflictException {
     return getFileInfoMap(change.getProject(), objectId, parentNum);
   }
 
@@ -65,7 +65,7 @@ public interface FileInfoJson {
    * @return a mapping of the file paths to their related diff information.
    */
   Map<String, FileInfo> getFileInfoMap(Change change, ObjectId objectId, @Nullable PatchSet base)
-      throws ResourceConflictException, PatchListNotAvailableException;
+      throws DiffNotAvailableException, ResourceConflictException;
 
   /**
    * Computes the list of modified files for a given project and commit against its parent. For
@@ -80,5 +80,5 @@ public interface FileInfoJson {
    * @return a mapping of the file paths to their related diff information.
    */
   Map<String, FileInfo> getFileInfoMap(Project.NameKey project, ObjectId objectId, int parentNum)
-      throws ResourceConflictException, PatchListNotAvailableException;
+      throws DiffNotAvailableException, ResourceConflictException;
 }

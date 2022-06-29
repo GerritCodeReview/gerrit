@@ -48,7 +48,6 @@ import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffOperations;
 import com.google.gerrit.server.patch.DiffOptions;
 import com.google.gerrit.server.patch.PatchListKey;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.plugincontext.PluginItemContext;
@@ -152,7 +151,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
     @Override
     public Response<?> apply(RevisionResource resource)
         throws RestApiException, RepositoryNotFoundException, IOException,
-            PatchListNotAvailableException, PermissionBackendException {
+            PermissionBackendException {
       checkOptions();
       if (reviewed) {
         return Response.ok(reviewed(resource));

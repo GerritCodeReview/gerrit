@@ -27,7 +27,6 @@ import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.CommentsRejectedException;
@@ -89,7 +88,7 @@ public class PublishCommentsOp implements BatchUpdateOp {
   @Override
   public boolean updateChange(ChangeContext ctx)
       throws ResourceConflictException, UnprocessableEntityException, IOException,
-          PatchListNotAvailableException, CommentsRejectedException {
+          CommentsRejectedException {
     preUpdateMetaId = ctx.getNotes().getMetaId();
     comments = commentsUtil.draftByChangeAuthor(ctx.getNotes(), ctx.getUser().getAccountId());
 

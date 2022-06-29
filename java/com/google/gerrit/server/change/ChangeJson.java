@@ -103,7 +103,7 @@ import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -442,7 +442,7 @@ public class ChangeJson {
         return res;
       }
       return toChangeInfo(cd, limitToPsId, pluginInfosForChange);
-    } catch (PatchListNotAvailableException
+    } catch (DiffNotAvailableException
         | GpgException
         | IOException
         | PermissionBackendException
@@ -571,7 +571,7 @@ public class ChangeJson {
       ChangeData cd,
       Optional<PatchSet.Id> limitToPsId,
       List<PluginDefinedInfo> pluginInfosForChange)
-      throws PatchListNotAvailableException, GpgException, PermissionBackendException, IOException {
+      throws DiffNotAvailableException, GpgException, PermissionBackendException, IOException {
     try (Timer0.Context ignored = metrics.toChangeInfoLatency.start()) {
       return toChangeInfoImpl(cd, limitToPsId, pluginInfosForChange);
     }
@@ -579,7 +579,7 @@ public class ChangeJson {
 
   private ChangeInfo toChangeInfoImpl(
       ChangeData cd, Optional<PatchSet.Id> limitToPsId, List<PluginDefinedInfo> pluginInfos)
-      throws PatchListNotAvailableException, GpgException, PermissionBackendException, IOException {
+      throws DiffNotAvailableException, GpgException, PermissionBackendException, IOException {
     ChangeInfo out = new ChangeInfo();
     CurrentUser user = userProvider.get();
 

@@ -611,7 +611,6 @@ public abstract class ChangeEmail extends NotificationEmail {
     modifiedFiles = listModifiedFiles();
     if (modifiedFiles.isEmpty()) {
       // Octopus merges are not well supported for diff output by Gerrit.
-      // Currently these always have a null oldId in the PatchList.
       return "[Empty change (potentially Octopus merge); cannot be formatted as a diff.]\n";
     }
 

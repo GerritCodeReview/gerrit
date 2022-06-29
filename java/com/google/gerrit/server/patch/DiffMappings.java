@@ -15,10 +15,8 @@
 package com.google.gerrit.server.patch;
 
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
-import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.entities.Patch;
 import com.google.gerrit.server.patch.GitPositionTransformer.FileMapping;
 import com.google.gerrit.server.patch.GitPositionTransformer.Mapping;
 import com.google.gerrit.server.patch.GitPositionTransformer.Range;
@@ -32,44 +30,10 @@ public class DiffMappings {
 
   private DiffMappings() {}
 
-  public static Mapping toMapping(PatchListEntry patchListEntry) {
-    FileMapping fileMapping = toFileMapping(patchListEntry);
-    ImmutableSet<RangeMapping> rangeMappings = toRangeMappings(patchListEntry);
-    return Mapping.create(fileMapping, rangeMappings);
-  }
-
   public static Mapping toMapping(FileEdits fileEdits) {
     FileMapping fileMapping = FileMapping.forFile(fileEdits.oldPath(), fileEdits.newPath());
     ImmutableSet<RangeMapping> rangeMappings = toRangeMappings(fileEdits.edits());
     return Mapping.create(fileMapping, rangeMappings);
-  }
-
-  private static FileMapping toFileMapping(PatchListEntry ple) {
-    return toFileMapping(ple.getChangeType(), ple.getOldName(), ple.getNewName());
-  }
-
-  private static FileMapping toFileMapping(
-      Patch.ChangeType changeType, String oldName, String newName) {
-    switch (changeType) {
-      case ADDED:
-        return FileMapping.forAddedFile(newName);
-      case MODIFIED:
-      case REWRITE:
-        return FileMapping.forModifiedFile(newName);
-      case DELETED:
-        // Name of deleted file is mentioned as newName.
-        return FileMapping.forDeletedFile(newName);
-      case RENAMED:
-      case COPIED:
-        return FileMapping.forRenamedFile(oldName, newName);
-      default:
-        throw new IllegalStateException("Unmapped diff type: " + changeType);
-    }
-  }
-
-  private static ImmutableSet<RangeMapping> toRangeMappings(PatchListEntry patchListEntry) {
-    return toRangeMappings(
-        patchListEntry.getEdits().stream().map(Edit::fromJGitEdit).collect(toList()));
   }
 
   private static ImmutableSet<RangeMapping> toRangeMappings(List<Edit> edits) {

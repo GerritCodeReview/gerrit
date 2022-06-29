@@ -79,11 +79,11 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtilFactory;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.RobotCommentNotes;
+import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffSummary;
 import com.google.gerrit.server.patch.DiffSummaryKey;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListKey;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -471,7 +471,7 @@ public class ChangeData {
       DiffSummaryKey key = DiffSummaryKey.fromPatchListKey(pk);
       try {
         diffSummary = Optional.of(patchListCache.getDiffSummary(key, c.getProject()));
-      } catch (PatchListNotAvailableException e) {
+      } catch (DiffNotAvailableException e) {
         diffSummary = Optional.empty();
       }
     }

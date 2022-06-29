@@ -26,7 +26,6 @@ import com.google.gerrit.extensions.events.CommentAddedListener;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
-import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -72,8 +71,6 @@ public class CommentAdded {
               util.approvals(author, oldApprovals, when),
               when);
       listeners.runEach(l -> l.onCommentAdded(event));
-    } catch (PatchListObjectTooLargeException e) {
-      logger.atWarning().log("Couldn't fire event: %s", e.getMessage());
     } catch (PatchListNotAvailableException
         | GpgException
         | IOException

@@ -19,11 +19,13 @@ import com.google.gerrit.entities.Project;
 /**
  * Provides a cached list of intra-line and summary diffs. Use {@link DiffOperations} to compute
  * detailed file diffs.
+ *
+ * <p>TODO(ghareeb): can split into two interfaces for intraline and summary diffs.
  */
 public interface PatchListCache {
 
   IntraLineDiff getIntraLineDiff(IntraLineDiffKey key, IntraLineDiffArgs args);
 
   DiffSummary getDiffSummary(DiffSummaryKey key, Project.NameKey project)
-      throws PatchListNotAvailableException;
+      throws DiffNotAvailableException;
 }

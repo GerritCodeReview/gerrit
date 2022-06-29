@@ -57,7 +57,7 @@ import com.google.gerrit.server.edit.ChangeEditJson;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -213,7 +213,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
           editInfo.files =
               fileInfoJson.getFileInfoMap(
                   rsrc.getChange(), edit.get().getEditCommit(), basePatchSet);
-        } catch (PatchListNotAvailableException e) {
+        } catch (DiffNotAvailableException e) {
           throw new ResourceNotFoundException(e.getMessage());
         }
       }

@@ -25,12 +25,10 @@ import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffOperations;
 import com.google.gerrit.server.patch.DiffOptions;
 import com.google.gerrit.server.patch.FilePathAdapter;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
-import org.eclipse.jgit.errors.NoMergeBaseException;
 import org.eclipse.jgit.lib.ObjectId;
 
 /** Implementation of {@link FileInfoJson} using {@link DiffOperations}. */
@@ -45,49 +43,26 @@ public class FileInfoJsonImpl implements FileInfoJson {
   @Override
   public Map<String, FileInfo> getFileInfoMap(
       Change change, ObjectId objectId, @Nullable PatchSet base)
-      throws ResourceConflictException, PatchListNotAvailableException {
-    try {
-      if (base == null) {
-        // Setting parentNum=0 requests the default parent, which is the only parent for
-        // single-parent commits, or the auto-merge otherwise
-        return asFileInfo(
-            diffs.listModifiedFilesAgainstParent(
-                change.getProject(), objectId, /* parentNum= */ 0, DiffOptions.DEFAULTS));
-      }
+      throws DiffNotAvailableException, ResourceConflictException {
+    if (base == null) {
+      // Setting parentNum=0 requests the default parent, which is the only parent for
+      // single-parent commits, or the auto-merge otherwise
       return asFileInfo(
-          diffs.listModifiedFiles(
-              change.getProject(), base.commitId(), objectId, DiffOptions.DEFAULTS));
-    } catch (DiffNotAvailableException e) {
-      convertException(e);
-      return null; // unreachable. handleAndThrow will throw an exception anyway
+          diffs.listModifiedFilesAgainstParent(
+              change.getProject(), objectId, /* parentNum= */ 0, DiffOptions.DEFAULTS));
     }
+    return asFileInfo(
+        diffs.listModifiedFiles(
+            change.getProject(), base.commitId(), objectId, DiffOptions.DEFAULTS));
   }
 
   @Override
   public Map<String, FileInfo> getFileInfoMap(
       Project.NameKey project, ObjectId objectId, int parent)
-      throws ResourceConflictException, PatchListNotAvailableException {
-    try {
-      Map<String, FileDiffOutput> modifiedFiles =
-          diffs.listModifiedFilesAgainstParent(project, objectId, parent, DiffOptions.DEFAULTS);
-      return asFileInfo(modifiedFiles);
-    } catch (DiffNotAvailableException e) {
-      convertException(e);
-      return null; // unreachable. handleAndThrow will throw an exception anyway
-    }
-  }
-
-  private void convertException(DiffNotAvailableException e)
-      throws ResourceConflictException, PatchListNotAvailableException {
-    Throwable cause = e.getCause();
-    if (cause != null && !(cause instanceof NoMergeBaseException)) {
-      cause = cause.getCause();
-    }
-    if (cause instanceof NoMergeBaseException) {
-      throw new ResourceConflictException(
-          String.format("Cannot create auto merge commit: %s", e.getMessage()), e);
-    }
-    throw new PatchListNotAvailableException(e);
+      throws DiffNotAvailableException, ResourceConflictException {
+    Map<String, FileDiffOutput> modifiedFiles =
+        diffs.listModifiedFilesAgainstParent(project, objectId, parent, DiffOptions.DEFAULTS);
+    return asFileInfo(modifiedFiles);
   }
 
   private Map<String, FileInfo> asFileInfo(Map<String, FileDiffOutput> fileDiffs) {

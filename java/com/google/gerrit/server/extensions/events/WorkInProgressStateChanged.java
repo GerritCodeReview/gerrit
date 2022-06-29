@@ -24,7 +24,7 @@ import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.events.WorkInProgressStateChangedListener;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -73,7 +73,7 @@ public class WorkInProgressStateChanged {
               when);
       listeners.runEach(l -> l.onWorkInProgressStateChanged(event));
     } catch (StorageException
-        | PatchListNotAvailableException
+        | DiffNotAvailableException
         | GpgException
         | IOException
         | PermissionBackendException e) {

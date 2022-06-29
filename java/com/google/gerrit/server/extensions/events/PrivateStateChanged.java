@@ -24,7 +24,7 @@ import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.events.PrivateStateChangedListener;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -60,7 +60,7 @@ public class PrivateStateChanged {
               when);
       listeners.runEach(l -> l.onPrivateStateChanged(event));
     } catch (StorageException
-        | PatchListNotAvailableException
+        | DiffNotAvailableException
         | GpgException
         | IOException
         | PermissionBackendException e) {

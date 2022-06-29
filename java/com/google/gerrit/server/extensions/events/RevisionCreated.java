@@ -25,8 +25,7 @@ import com.google.gerrit.extensions.events.RevisionCreatedListener;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.NotifyResolver;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
-import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
+import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -83,9 +82,7 @@ public class RevisionCreated {
               when,
               notify.handling());
       listeners.runEach(l -> l.onRevisionCreated(event));
-    } catch (PatchListObjectTooLargeException e) {
-      logger.atWarning().log("Couldn't fire event: %s", e.getMessage());
-    } catch (PatchListNotAvailableException
+    } catch (DiffNotAvailableException
         | GpgException
         | IOException
         | StorageException

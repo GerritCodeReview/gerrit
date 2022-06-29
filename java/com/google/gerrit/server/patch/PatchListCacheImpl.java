@@ -29,7 +29,6 @@ import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.lib.Config;
 
-/** Provides a cached list of {@link PatchListEntry}. */
 @Singleton
 public class PatchListCacheImpl implements PatchListCache {
   public static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -96,16 +95,16 @@ public class PatchListCacheImpl implements PatchListCache {
 
   @Override
   public DiffSummary getDiffSummary(DiffSummaryKey key, Project.NameKey project)
-      throws PatchListNotAvailableException {
+      throws DiffNotAvailableException {
     try {
       return diffSummaryCache.get(key, diffSummaryLoaderFactory.create(key, project));
     } catch (ExecutionException e) {
       logger.atWarning().withCause(e).log("Error computing %s", key);
-      throw new PatchListNotAvailableException(e);
+      throw new DiffNotAvailableException(e);
     } catch (UncheckedExecutionException e) {
       if (e.getCause() instanceof LargeObjectException) {
         logger.atWarning().withCause(e).log("Error computing %s", key);
-        throw new PatchListNotAvailableException(e);
+        throw new DiffNotAvailableException(e);
       }
       throw e;
     }

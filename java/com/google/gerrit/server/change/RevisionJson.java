@@ -58,7 +58,7 @@ import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.GpgApiAdapter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtilFactory;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -148,7 +148,7 @@ public class RevisionJson {
    * depending on the options provided when constructing this instance.
    */
   public RevisionInfo getRevisionInfo(ChangeData cd, PatchSet in)
-      throws PatchListNotAvailableException, GpgException, IOException, PermissionBackendException {
+      throws DiffNotAvailableException, GpgException, IOException, PermissionBackendException {
     AccountLoader accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
     try (Repository repo = openRepoIfNecessary(cd.project());
         RevWalk rw = newRevWalk(repo)) {
@@ -219,7 +219,7 @@ public class RevisionJson {
       Map<PatchSet.Id, PatchSet> map,
       Optional<PatchSet.Id> limitToPsId,
       ChangeInfo changeInfo)
-      throws PatchListNotAvailableException, GpgException, IOException, PermissionBackendException {
+      throws DiffNotAvailableException, GpgException, IOException, PermissionBackendException {
     Map<String, RevisionInfo> res = new LinkedHashMap<>();
     try (Repository repo = openRepoIfNecessary(cd.project());
         RevWalk rw = newRevWalk(repo)) {
@@ -280,7 +280,7 @@ public class RevisionJson {
       @Nullable RevWalk rw,
       boolean fillCommit,
       @Nullable ChangeInfo changeInfo)
-      throws PatchListNotAvailableException, GpgException, IOException, PermissionBackendException {
+      throws GpgException, IOException, PermissionBackendException, DiffNotAvailableException {
     Change c = cd.change();
     RevisionInfo out = new RevisionInfo();
     out.isCurrent = in.id().equals(c.currentPatchSetId());

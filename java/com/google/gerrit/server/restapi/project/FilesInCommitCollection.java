@@ -26,7 +26,6 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.change.FileInfoJson;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.CommitResource;
 import com.google.gerrit.server.project.FileResource;
 import com.google.inject.Inject;
@@ -98,7 +97,7 @@ public class FilesInCommitCollection implements ChildCollection<CommitResource, 
 
     @Override
     public Response<Map<String, FileInfo>> apply(CommitResource resource)
-        throws ResourceConflictException, PatchListNotAvailableException {
+        throws ResourceConflictException {
       RevCommit commit = resource.getCommit();
       return Response.ok(
           fileInfoJson.getFileInfoMap(resource.getProjectState().getNameKey(), commit, parentNum));

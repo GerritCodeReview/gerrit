@@ -3260,17 +3260,23 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Test
   public void trackingid() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
-    RevCommit commit1 =
-        repo.parseBody(repo.commit().message("Change one\n\nBug:QUERY123").create());
-    Change change1 = insert(repo, newChangeForCommit(repo, commit1));
+    //RevCommit commit1 =
+     //   repo.parseBody(repo.commit().message("Change one\n\nBug:QUERY123").create());
+    //Change change1 = insert(repo, newChangeForCommit(repo, commit1));
     RevCommit commit2 =
-        repo.parseBody(repo.commit().message("Change two\n\nFeature:QUERY456").create());
+        repo.parseBody(repo.commit().message("Change two\n\nIssue: Issue 16038\n").create());
     Change change2 = insert(repo, newChangeForCommit(repo, commit2));
 
-    assertQuery("tr:QUERY123", change1);
-    assertQuery("bug:QUERY123", change1);
-    assertQuery("tr:QUERY456", change2);
-    assertQuery("bug:QUERY456", change2);
+    RevCommit commit3 =
+        repo.parseBody(repo.commit().message("Change two\n\nGoogle-Bug-Id: b/16039\n").create());
+    Change change3 = insert(repo, newChangeForCommit(repo, commit3));
+
+    //assertQuery("tr:QUERY123", change1);
+    //assertQuery("bug:QUERY123", change1);
+    assertQuery("tr:16038", change2);
+    assertQuery("bug:16038", change2);
+    assertQuery("tr:16039", change3);
+    assertQuery("bug:16039", change3);
     assertQuery("tr:QUERY-123");
     assertQuery("bug:QUERY-123");
     assertQuery("tr:QUERY12");

@@ -34,6 +34,13 @@ public class IndexConfig {
     cfg.setString("trackingid", "query-feature", "footer", "Feature");
     cfg.setString("trackingid", "query-feature", "match", "QUERY\\d{2,8}");
     cfg.setString("trackingid", "query-feature", "system", "querytests");
+    cfg.setString("trackingid", "query-feature", "footer", "Issue");
+    cfg.setString(
+        "trackingid",
+        "query-feature",
+        "match",
+        "(?:[Bb]ug|[Ii]ssue)[ \\t]*\\r?\\n?[ \\t]*#?(\\d+)");
+    cfg.setString("trackingid", "query-feature", "system", "querytests");
     return cfg;
   }
 

@@ -6,12 +6,8 @@
 import '../../../test/common-test-setup-karma';
 import {fixture, html} from '@open-wc/testing-helpers';
 import {GrChangeSummary} from './gr-change-summary';
-import {query, queryAndAssert} from '../../../utils/common-util';
-import {
-  fakeRun0,
-  fakeRun1,
-  fakeRun2,
-} from '../../../models/checks/checks-fakes';
+import {queryAndAssert} from '../../../utils/common-util';
+import {fakeRun0} from '../../../models/checks/checks-fakes';
 
 suite('gr-change-summary test', () => {
   let element: GrChangeSummary;
@@ -95,7 +91,14 @@ suite('gr-change-summary test', () => {
     expect(checksSummary).dom.to.equal(/* HTML */ `
       <div class="checksSummary">
         <gr-checks-chip> </gr-checks-chip>
-        <div class="summaryMessage">a message</div>
+        <div class="info">
+          <div class="left">
+            <iron-icon icon="gr-icons:info"> </iron-icon>
+          </div>
+          <div class="right">
+            <div class="message" title="a message">a message</div>
+          </div>
+        </div>
       </div>
     `);
   });

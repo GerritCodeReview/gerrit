@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "20a11579_6ec2d440",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5083,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-29T10:22:20Z",
+      "side": 1,
+      "message": "@Luca, My PR was merged upstream, PTAL.",
+      "parentUuid": "42a229ef_524e93b9",
+      "range": {
+        "startLine": 5083,
+        "startChar": 0,
+        "endLine": 5083,
+        "endChar": 12
+      },
+      "revId": "e77996f0117eb9ba0d79416921753dc8c0f11a11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f3b97fb4_4476862c",

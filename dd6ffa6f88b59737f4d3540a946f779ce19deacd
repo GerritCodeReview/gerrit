@@ -16,6 +16,24 @@
       "message": "I don\u0027t quite know how rollup bundle works. Doesn\u0027t it rollup directly into polygerrit-ui/app?",
       "revId": "dd6ffa6f88b59737f4d3540a946f779ce19deacd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2406fa27_9a462157",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-29T11:42:16Z",
+      "side": 1,
+      "message": "I tried several ways how to put it into /service-worker.js but it didn\u0027t work.\n\nI tried:\n```\n    native.filegroup(\n        name \u003d name + \"_top_sources\",\n        srcs \u003d [\n            \"favicon.ico\",\n            \"service-worker.js\",\n        ],\n    )\n```",
+      "parentUuid": "bb13b13d_b12390cd",
+      "revId": "dd6ffa6f88b59737f4d3540a946f779ce19deacd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

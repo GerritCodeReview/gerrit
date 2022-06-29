@@ -247,6 +247,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "55ae8671_e7728b44",
+        "filename": "java/com/google/gerrit/index/testing/FakeStoredValue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-29T09:05:29Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "7ebf2072_cd78a9c0",
+      "revId": "3b6c742cc2e6e0a610dfd70de2c50328750fb64c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae9a8745_c9510a45",
@@ -284,6 +302,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "ae9a8745_c9510a45",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 57
+      },
+      "revId": "3b6c742cc2e6e0a610dfd70de2c50328750fb64c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb387f2b_a2e94b40",
+        "filename": "javatests/com/google/gerrit/server/index/IndexedFieldTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-29T09:05:29Z",
+      "side": 1,
+      "message": "I meant remove \"Entities.Change\" since type can be inferred. That\u0027s a super nit so you can ignore though.",
+      "parentUuid": "ec1e2e19_bd534b8f",
       "range": {
         "startLine": 97,
         "startChar": 0,

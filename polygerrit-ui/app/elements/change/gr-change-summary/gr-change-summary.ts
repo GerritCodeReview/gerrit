@@ -54,6 +54,7 @@ import {Interaction} from '../../../constants/reporting';
 import {roleDetails} from '../../../utils/change-util';
 
 import {SummaryChipStyles} from './gr-summary-chip';
+import {when} from 'lit/directives/when';
 
 function handleSpaceOrEnter(e: KeyboardEvent, handler: () => void) {
   if (modifierPressed(e)) return;
@@ -559,10 +560,10 @@ export class GrChangeSummary extends LitElement {
                 )}${hasNonRunningChip && hasRunningChip
                   ? html`<br />`
                   : ''}${this.renderChecksChipRunning()}
-                <span
-                  class="loadingSpin"
-                  ?hidden=${!this.someProvidersAreLoading}
-                ></span>
+                ${when(
+                  this.someProvidersAreLoading,
+                  () => html`<span class="loadingSpin"></span>`
+                )}
                 ${this.renderErrorMessages()} ${this.renderChecksLogin()}
                 ${this.renderSummaryMessage()} ${this.renderActions()}
               </div>

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb13b13d_b12390cd",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-29T11:28:31Z",
+      "side": 1,
+      "message": "I don\u0027t quite know how rollup bundle works. Doesn\u0027t it rollup directly into polygerrit-ui/app?",
+      "revId": "dd6ffa6f88b59737f4d3540a946f779ce19deacd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

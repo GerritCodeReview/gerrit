@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9dec77a_2d3b8665",
+        "filename": "polygerrit-ui/app/utils/async-util.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-06-29T12:00:34Z",
+      "side": 1,
+      "message": "I think this should become a proper class now that there are many methods being added",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 147,
+        "endChar": 0
+      },
+      "revId": "a0e1f0535c73f44707a761fc8c1c42383cd1d6ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

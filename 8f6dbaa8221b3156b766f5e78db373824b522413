@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a12b6c2_c5d42a45",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-29T14:57:12Z",
+      "side": 1,
+      "message": "Thanks much for adding this documentation. Much appreciated.",
+      "revId": "8f6dbaa8221b3156b766f5e78db373824b522413",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4fbb321_d5a313d3",
+        "filename": "Documentation/pgm-copy-approvals.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-29T14:57:12Z",
+      "side": 1,
+      "message": "Since this describes the old inference algorithm that has been removed, should this use the past tense?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 42
+      },
+      "revId": "8f6dbaa8221b3156b766f5e78db373824b522413",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a3441d2_b5524aa5",
+        "filename": "Documentation/pgm-copy-approvals.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-29T14:57:12Z",
+      "side": 1,
+      "message": "Should this be \"all projects\"?\nI think it\u0027s not possible to run copy-approvals command for a specified project, is it?",
+      "range": {
+        "startLine": 22,
+        "startChar": 56,
+        "endLine": 22,
+        "endChar": 65
+      },
+      "revId": "8f6dbaa8221b3156b766f5e78db373824b522413",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb48ddd9_d847dc80",
+        "filename": "Documentation/pgm-copy-approvals.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-29T14:57:12Z",
+      "side": 1,
+      "message": "I\u0027m not sure if this is clear enough for non Gerrit experts, e.g. I\u0027m not sure everyone knows the difference between a copied label that is inferred and a \"copied label\" (the latter is a term we use in the code base to refer to a copied label which has been persisted in NoteDb).\n\nMaybe make it clearer that:\n- old logic: copied approvals are inferred from all previous patch sets at the moment when approvals are requested\n- new logic: copied approvals are persisted for the new patch set at the moment when it gets created, when approvals are requested the persisted copied approvals are read and returned (no more inference)\n- this program: persists copied approvals which have previously been inferred, so that the new logic can read and return them",
+      "range": {
+        "startLine": 23,
+        "startChar": 45,
+        "endLine": 24,
+        "endChar": 55
+      },
+      "revId": "8f6dbaa8221b3156b766f5e78db373824b522413",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

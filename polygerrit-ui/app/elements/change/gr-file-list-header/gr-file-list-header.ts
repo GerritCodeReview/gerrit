@@ -40,6 +40,7 @@ import {
 import {resolve} from '../../../models/dependency';
 import {getAppContext} from '../../../services/app-context';
 import {subscribe} from '../../lit/subscription-controller';
+import {configModelToken} from '../../../models/config/config-model';
 
 @customElement('gr-file-list-header')
 export class GrFileListHeader extends LitElement {
@@ -83,9 +84,6 @@ export class GrFileListHeader extends LitElement {
   @property({type: Boolean})
   loggedIn: boolean | undefined;
 
-  @property({type: Object})
-  serverConfig?: ServerInfo;
-
   @property({type: Number})
   shownFileCount = 0;
 
@@ -104,6 +102,9 @@ export class GrFileListHeader extends LitElement {
   @state()
   diffPrefs?: DiffPreferencesInfo;
 
+  @state()
+  serverConfig?: ServerInfo;
+
   @query('#modeSelect')
   modeSelect?: GrDiffModeSelector;
 
@@ -114,6 +115,8 @@ export class GrFileListHeader extends LitElement {
   collapseBtn?: GrButton;
 
   private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
+
+  private readonly getConfigModel = resolve(this, configModelToken);
 
   // Caps the number of files that can be shown and have the 'show diffs' /
   // 'hide diffs' buttons still be functional.
@@ -129,6 +132,13 @@ export class GrFileListHeader extends LitElement {
       diffPreferences => {
         if (!diffPreferences) return;
         this.diffPrefs = diffPreferences;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getConfigModel().serverConfig$,
+      config => {
+        this.serverConfig = config;
       }
     );
   }

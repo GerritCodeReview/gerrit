@@ -105,6 +105,7 @@ import {classMap} from 'lit/directives/class-map';
 import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 import {customElement, property, state, query} from 'lit/decorators';
 import {subscribe} from '../../lit/subscription-controller';
+import {configModelToken} from '../../../models/config/config-model';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -213,9 +214,6 @@ export class GrReplyDialog extends LitElement {
   @property({type: Object})
   projectConfig?: ConfigInfo;
 
-  @property({type: Object})
-  serverConfig?: ServerInfo;
-
   @query('#reviewers') reviewersList?: GrAccountList;
 
   @query('#ccs') ccsList?: GrAccountList;
@@ -230,6 +228,8 @@ export class GrReplyDialog extends LitElement {
 
   @query('#reviewerConfirmationOverlay')
   reviewerConfirmationOverlay?: GrOverlay;
+
+  @state() serverConfig?: ServerInfo;
 
   @state()
   draft = '';
@@ -331,6 +331,8 @@ export class GrReplyDialog extends LitElement {
   private readonly storage = getAppContext().storageService;
 
   private readonly jsAPI = getAppContext().jsApiService;
+
+  private readonly getConfigModel = resolve(this, configModelToken);
 
   storeTask?: DelayedTask;
 
@@ -592,6 +594,13 @@ export class GrReplyDialog extends LitElement {
       this,
       () => getAppContext().userModel.loggedIn$,
       isLoggedIn => (this.isLoggedIn = isLoggedIn)
+    );
+    subscribe(
+      this,
+      () => this.getConfigModel().serverConfig$,
+      config => {
+        this.serverConfig = config;
+      }
     );
   }
 

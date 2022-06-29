@@ -423,7 +423,8 @@ suite('gr-reply-dialog tests', () => {
         Verified: 0,
       },
       add_to_attention_set: [
-        {reason: 'Anonymous replied on the change', user: 314},
+        // Name coming from createUserConfig in test-data-generator
+        {reason: 'Name of user not set replied on the change', user: 314},
       ],
       reviewers: [],
       remove_from_attention_set: [],

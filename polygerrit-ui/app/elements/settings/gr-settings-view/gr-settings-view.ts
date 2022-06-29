@@ -463,7 +463,6 @@ export class GrSettingsView extends LitElement {
                 this.showNumber = e.detail.value;
                 this.changeTableChanged = true;
               }}
-              .serverConfig=${this.serverConfig}
               .displayedColumns=${this.localChangeTableColumns}
               @displayed-columns-changed=${(e: ValueChangedEvent<string[]>) => {
                 this.localChangeTableColumns = e.detail.value;

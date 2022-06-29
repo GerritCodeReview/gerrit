@@ -7,13 +7,16 @@ import '../../shared/gr-button/gr-button';
 import {ServerInfo} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property, state} from 'lit/decorators';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {PropertyValues} from 'lit';
 import {fire} from '../../../utils/event-util';
 import {ValueChangedEvent} from '../../../types/events';
 import {ColumnNames} from '../../../constants/constants';
+import {subscribe} from '../../lit/subscription-controller';
+import {resolve} from '../../../models/dependency';
+import {configModelToken} from '../../../models/config/config-model';
 
 @customElement('gr-change-table-editor')
 export class GrChangeTableEditor extends LitElement {
@@ -23,13 +26,15 @@ export class GrChangeTableEditor extends LitElement {
   @property({type: Boolean})
   showNumber?: boolean;
 
-  @property({type: Object})
-  serverConfig?: ServerInfo;
-
   @property({type: Array})
   defaultColumns: string[] = [];
 
+  @state()
+  serverConfig?: ServerInfo;
+
   private readonly flagsService = getAppContext().flagsService;
+
+  private readonly getConfigModel = resolve(this, configModelToken);
 
   static override styles = [
     sharedStyles,
@@ -53,6 +58,17 @@ export class GrChangeTableEditor extends LitElement {
       }
     `,
   ];
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getConfigModel().serverConfig$,
+      config => {
+        this.serverConfig = config;
+      }
+    );
+  }
 
   override render() {
     return html`<div class="gr-form-styles">

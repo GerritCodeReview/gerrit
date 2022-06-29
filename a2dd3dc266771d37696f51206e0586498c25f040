@@ -142,6 +142,30 @@
       },
       "revId": "a2dd3dc266771d37696f51206e0586498c25f040",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e89cf2d4_e51a12c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-29T18:26:16Z",
+      "side": 1,
+      "message": "\u003e Maybe the schema migration could emit warnings for these and say that these need to be checked manually?\n\nI think that could work, but it\u0027s probably not something admins expect to look for during schema migrations.",
+      "parentUuid": "d00317df_d1592225",
+      "range": {
+        "startLine": 25,
+        "startChar": 10,
+        "endLine": 25,
+        "endChar": 69
+      },
+      "revId": "a2dd3dc266771d37696f51206e0586498c25f040",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

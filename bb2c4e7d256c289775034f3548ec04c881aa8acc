@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "be7f345a_1af013f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-29T18:26:16Z",
+      "side": 1,
+      "message": "\u003e A pgm is only needed if for some reason it\u0027s not possible to implement this as a schema migration.\n\nBut would it be safe to run this migration on 3.6.X (online or offline) so that you don\u0027t need downtime upgrading to 3.7? If yes, I think have a pgm (and moving this change to stable-3.6) would be beneficial.\n\nIf there must be a schema version change, does this need to be idempotent? We only expect those to run once.",
+      "parentUuid": "fe26b1f7_a56132a5",
+      "range": {
+        "startLine": 7,
+        "startChar": 6,
+        "endLine": 7,
+        "endChar": 9
+      },
+      "revId": "bb2c4e7d256c289775034f3548ec04c881aa8acc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bb5da239_fc91deff",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "We have a custom framework to run migrations against all our live servers. For such a migration we write custom code, and in this case this code will get the MigrateLabelFunctionsToSubmitRequirement class injected to do the migration of the project configs, the same way as the upstream schema migration will get the MigrateLabelFunctionsToSubmitRequirement class injected to do the migration of the project configs.\n\nFWIW the upstream schema migration could be part of this change, instead of being a follow-up change. I believe this change followed the example of the MigrateLabelConfigToCopyCondition migration were this was split in 2 changes. In that case I\u0027ve split this in 2 changes because we were waiting for another migration (persist copied votes) to be done in the latest stable branch, and we had to avoid a clash between the schema versions, hence the migration in master could only be submitted after the other migration landed in the stable branch and was merged into master (note that in the end persisting copied votes had been implemented as a pgm program and not as a schema migration, so in retrospect this was not necessary).",
       "parentUuid": "bb5da239_fc91deff",
+      "range": {
+        "startLine": 28,
+        "startChar": 37,
+        "endLine": 29,
+        "endChar": 15
+      },
+      "revId": "bb2c4e7d256c289775034f3548ec04c881aa8acc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01c9aab9_13e50178",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-29T18:26:16Z",
+      "side": 1,
+      "message": "I\u0027m fine with adding the schema migration to this change if it doesn\u0027t move to stable-3.6 and become a pgm. Otherwise I think you\u0027d add the schema bump on master after merging from stable-3.6.",
+      "parentUuid": "4ae4514d_b74883fa",
       "range": {
         "startLine": 28,
         "startChar": 37,

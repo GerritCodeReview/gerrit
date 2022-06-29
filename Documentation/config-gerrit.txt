@@ -5475,7 +5475,7 @@ expression containing # must be wrapped in double quotes.
 
 [[trackingid.name.system]]trackingid.<name>.system::
 +
-The name of the external tracking system (maximum 10 characters).
+The name of the external tracking system (maximum 20 characters).
 It is possible to have several trackingid entries for the same
 tracking system.
 

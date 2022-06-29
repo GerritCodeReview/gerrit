@@ -14,6 +14,7 @@
 
 package com.google.gerrit.testing;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import org.eclipse.jgit.lib.Config;
 
@@ -31,9 +32,14 @@ public class IndexConfig {
     cfg.setString("trackingid", "query-bug", "footer", "Bug:");
     cfg.setString("trackingid", "query-bug", "match", "QUERY\\d{2,8}");
     cfg.setString("trackingid", "query-bug", "system", "querytests");
-    cfg.setString("trackingid", "query-feature", "footer", "Feature");
-    cfg.setString("trackingid", "query-feature", "match", "QUERY\\d{2,8}");
-    cfg.setString("trackingid", "query-feature", "system", "querytests");
+    cfg.setStringList(
+        "trackingid", "query-google", "footer", ImmutableList.of("Issue", "Google-Bug-Id"));
+    cfg.setString(
+        "trackingid",
+        "query-google",
+        "match",
+        "(?:[Bb]ug|[Ii]ssue|b/)[ \\t]*\\r?\\n?[ \\t]*#?(\\d+)");
+    cfg.setString("trackingid", "query-google", "system", "querygo");
     return cfg;
   }
 

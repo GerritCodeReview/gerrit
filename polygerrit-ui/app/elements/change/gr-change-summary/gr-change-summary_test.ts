@@ -91,7 +91,14 @@ suite('gr-change-summary test', () => {
     expect(checksSummary).dom.to.equal(/* HTML */ `
       <div class="checksSummary">
         <gr-checks-chip> </gr-checks-chip>
-        <div class="summaryMessage">a message</div>
+        <div class="info">
+          <div class="left">
+            <iron-icon icon="gr-icons:info"> </iron-icon>
+          </div>
+          <div class="right">
+            <div class="message" title="a message">a message</div>
+          </div>
+        </div>
       </div>
     `);
   });

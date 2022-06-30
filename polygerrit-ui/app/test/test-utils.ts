@@ -272,6 +272,7 @@ export function pressKey(
   const eventOptions = {
     key,
     bubbles: true,
+    cancelable: true,
     composed: true,
     altKey: modifiers.includes(Modifier.ALT_KEY),
     ctrlKey: modifiers.includes(Modifier.CTRL_KEY),

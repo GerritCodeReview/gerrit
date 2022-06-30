@@ -10,9 +10,12 @@ import {
   ShortcutsService,
 } from '../../services/shortcuts/shortcuts-service';
 import {Shortcut, ShortcutSection} from './shortcuts-config';
-import {SinonFakeTimers} from 'sinon';
-import {Key, Modifier} from '../../utils/dom-util';
+import {SinonFakeTimers, SinonSpy} from 'sinon';
+import {Binding, Key, Modifier} from '../../utils/dom-util';
 import {getAppContext} from '../app-context';
+import {pressKey} from '../../test/test-utils';
+
+const KEY_A: Binding = {key: 'a'};
 
 suite('shortcuts-service tests', () => {
   let service: ShortcutsService;
@@ -32,6 +35,64 @@ suite('shortcuts-service tests', () => {
       service.getShortcut(Shortcut.SEND_REPLY),
       'Ctrl+Enter,Meta/Cmd+Enter'
     );
+  });
+
+  suite('addShortcut()', () => {
+    let el: HTMLElement;
+    let listener: SinonSpy<[KeyboardEvent], void>;
+
+    setup(() => {
+      el = document.createElement('div');
+      listener = sinon.spy() as SinonSpy<[KeyboardEvent], void>;
+    });
+
+    test('standard call', () => {
+      service.addShortcut(el, KEY_A, listener);
+      pressKey(el, KEY_A.key);
+      assert.isTrue(listener.calledOnce);
+    });
+
+    test('doNotPrevent option default false', () => {
+      service.addShortcut(el, KEY_A, listener);
+      pressKey(el, KEY_A.key);
+      assert.isTrue(listener.calledOnce);
+      assert.isTrue(listener.lastCall.firstArg?.defaultPrevented);
+    });
+
+    test('doNotPrevent option force false', () => {
+      service.addShortcut(el, KEY_A, listener, {doNotPrevent: false});
+      pressKey(el, KEY_A.key);
+      assert.isTrue(listener.calledOnce);
+      assert.isTrue(listener.lastCall.firstArg?.defaultPrevented);
+    });
+
+    test('doNotPrevent option force true', () => {
+      service.addShortcut(el, KEY_A, listener, {doNotPrevent: true});
+      pressKey(el, KEY_A.key);
+      assert.isTrue(listener.calledOnce);
+      assert.isFalse(listener.lastCall.firstArg?.defaultPrevented);
+    });
+
+    test('shouldSuppress option default true', () => {
+      service.shortcutsDisabled = true;
+      service.addShortcut(el, KEY_A, listener);
+      pressKey(el, KEY_A.key);
+      assert.isTrue(listener.notCalled);
+    });
+
+    test('shouldSuppress option force true', () => {
+      service.shortcutsDisabled = true;
+      service.addShortcut(el, KEY_A, listener, {shouldSuppress: true});
+      pressKey(el, KEY_A.key);
+      assert.isTrue(listener.notCalled);
+    });
+
+    test('shouldSuppress option force false', () => {
+      service.shortcutsDisabled = true;
+      service.addShortcut(el, KEY_A, listener, {shouldSuppress: false});
+      pressKey(el, KEY_A.key);
+      assert.isTrue(listener.calledOnce);
+    });
   });
 
   suite('binding descriptions', () => {

@@ -139,7 +139,11 @@ export class GrDialog extends LitElement {
           ${when(
             this.loading,
             () => html`
-              <span class="loadingSpin"></span>
+              <span
+                class="loadingSpin"
+                role="Progress Bar"
+                aria-label=${this.loadingLabel}
+              ></span>
               <span class="loadingLabel"> ${this.loadingLabel} </span>
             `
           )}

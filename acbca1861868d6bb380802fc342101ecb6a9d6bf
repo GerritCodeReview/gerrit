@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ea35398a_96515c41",
+        "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-06-30T11:21:06Z",
+      "side": 1,
+      "message": "Observed on line 155, we are returning if the user can UPDATE without checking for READ.",
+      "parentUuid": "0229c107_fb4ec225",
+      "range": {
+        "startLine": 90,
+        "startChar": 56,
+        "endLine": 90,
+        "endChar": 96
+      },
+      "revId": "acbca1861868d6bb380802fc342101ecb6a9d6bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dcfdd850_805a3681",
         "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
         "patchSetId": 3
@@ -37,6 +61,30 @@
       "writtenOn": "2022-06-30T00:24:27Z",
       "side": 1,
       "message": "It doesn\u0027t make sense that I need \"READ\" to create a new ref. Did you mean something like \"Must have READ on existing ref to create new ref from it\"?",
+      "range": {
+        "startLine": 97,
+        "startChar": 24,
+        "endLine": 97,
+        "endChar": 44
+      },
+      "revId": "acbca1861868d6bb380802fc342101ecb6a9d6bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b88892e_af27f3ac",
+        "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-06-30T11:21:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcfdd850_805a3681",
       "range": {
         "startLine": 97,
         "startChar": 24,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9206cd02_df12666a",
+        "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-06-30T11:21:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00762c7d_28010ee8",
+      "range": {
+        "startLine": 101,
+        "startChar": 21,
+        "endLine": 101,
+        "endChar": 26
+      },
+      "revId": "acbca1861868d6bb380802fc342101ecb6a9d6bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5934d928_141f3dee",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-06-30T00:24:27Z",
       "side": 1,
       "message": "Do we care to search for it or can we use exactRef()? I feel like if we\u0027re going for optimization, using exactRef() makes more sense.",
+      "range": {
+        "startLine": 133,
+        "startChar": 27,
+        "endLine": 133,
+        "endChar": 34
+      },
+      "revId": "acbca1861868d6bb380802fc342101ecb6a9d6bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6697b12_5ba3cacf",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateBranch.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-06-30T11:21:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5934d928_141f3dee",
       "range": {
         "startLine": 133,
         "startChar": 27,

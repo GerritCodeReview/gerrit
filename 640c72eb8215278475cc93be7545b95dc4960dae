@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e3c911f_67dabc9a",
+        "filename": "java/com/google/gerrit/index/Schema.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-30T05:55:13Z",
+      "side": 1,
+      "message": "I just noticed FieldDef and SearchSpec don\u0027t implement hashCode() or equals(), so contains() might not work as expected?",
+      "range": {
+        "startLine": 119,
+        "startChar": 71,
+        "endLine": 119,
+        "endChar": 79
+      },
+      "revId": "640c72eb8215278475cc93be7545b95dc4960dae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

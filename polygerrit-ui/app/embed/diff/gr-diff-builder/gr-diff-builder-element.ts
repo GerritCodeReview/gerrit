@@ -135,11 +135,11 @@ export class GrDiffBuilderElement implements GroupConsumer {
    */
   private cancelableRenderPromise: CancelablePromise<unknown> | null = null;
 
-  private coverageLayerLeft = new GrCoverageLayer(Side.LEFT);
+  private coverageLayerLeft?: GrCoverageLayer;
 
-  private coverageLayerRight = new GrCoverageLayer(Side.RIGHT);
+  private coverageLayerRight?: GrCoverageLayer;
 
-  private rangeLayer = new GrRangedCommentLayer();
+  private rangeLayer?: GrRangedCommentLayer;
 
   // visible for testing
   processor = new GrDiffProcessor();
@@ -159,12 +159,12 @@ export class GrDiffBuilderElement implements GroupConsumer {
   }
 
   updateCommentRanges(ranges: CommentRangeLayer[]) {
-    this.rangeLayer.updateRanges(ranges);
+    this.rangeLayer?.updateRanges(ranges);
   }
 
   updateCoverageRanges(rs: CoverageRange[]) {
-    this.coverageLayerLeft.setRanges(rs.filter(r => r?.side === Side.LEFT));
-    this.coverageLayerRight.setRanges(rs.filter(r => r?.side === Side.RIGHT));
+    this.coverageLayerLeft?.setRanges(rs.filter(r => r?.side === Side.LEFT));
+    this.coverageLayerRight?.setRanges(rs.filter(r => r?.side === Side.RIGHT));
   }
 
   render(keyLocations: KeyLocations): Promise<void> {
@@ -252,6 +252,10 @@ export class GrDiffBuilderElement implements GroupConsumer {
 
   // visible for testing
   setupAnnotationLayers() {
+    this.coverageLayerLeft = new GrCoverageLayer(Side.LEFT);
+    this.coverageLayerRight = new GrCoverageLayer(Side.RIGHT);
+    this.rangeLayer = new GrRangedCommentLayer();
+
     const layers: DiffLayer[] = [
       this.createTrailingWhitespaceLayer(),
       this.createIntralineLayer(),

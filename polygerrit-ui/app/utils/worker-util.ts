@@ -21,6 +21,10 @@ export function createWorker(workerUrl: string): Worker {
   return new Worker(wrapUrl(workerUrl));
 }
 
+export function registerServiceWorker(workerUrl: string) {
+  return window.navigator.serviceWorker.register(workerUrl);
+}
+
 export function importScript(scope: WorkerGlobalScope, url: string): void {
   scope.importScripts(url);
 }

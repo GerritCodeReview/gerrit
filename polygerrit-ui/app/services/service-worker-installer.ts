@@ -5,6 +5,7 @@
  */
 
 import {FlagsService, KnownExperimentId} from './flags/flags';
+import {registerServiceWorker} from '../utils/worker-util';
 
 export class ServiceWorkerInstaller {
   initialized = false;
@@ -20,7 +21,7 @@ export class ServiceWorkerInstaller {
       console.error('Service worker API not available');
       return;
     }
-    await navigator.serviceWorker.register('/service-worker.js');
+    await registerServiceWorker('/service-worker.js');
     await this.requestNotificationPermission();
     this.initialized = true;
   }

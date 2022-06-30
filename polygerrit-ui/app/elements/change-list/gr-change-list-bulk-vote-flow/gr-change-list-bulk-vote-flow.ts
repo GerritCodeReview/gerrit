@@ -198,14 +198,25 @@ export class GrChangeListBulkVoteFlow extends LitElement {
       <div class="code-review-message-container">
         <div class="code-review-message-layout-container">
           <div>
-            <iron-icon icon="gr-icons:info-outline" role="img"></iron-icon>
+            <iron-icon
+              icon="gr-icons:info-outline"
+              aria-label="Information"
+              role="img"
+            ></iron-icon>
             <span>
               Code Review vote is only available on the individual change page
             </span>
           </div>
           <div class="flex-space"></div>
           <div>
-            <gr-button flatten link @click=${this.handleOpenChanges}
+            <gr-button
+              aria-label=${`Open ${pluralize(
+                this.selectedChanges.length,
+                'change'
+              )} in different tabs`}
+              flatten
+              link
+              @click=${this.handleOpenChanges}
               >Open ${pluralize(this.selectedChanges.length, 'change')}
             </gr-button>
           </div>

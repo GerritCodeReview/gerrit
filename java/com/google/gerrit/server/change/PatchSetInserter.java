@@ -21,10 +21,9 @@ import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
-import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.PatchSetInfo;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ChangeKind;
@@ -35,6 +34,7 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ReviewerSet;
+import com.google.gerrit.server.approval.ApprovalCopier;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
@@ -113,7 +113,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   private String mailMessage;
   private ReviewerSet oldReviewers;
   private boolean oldWorkInProgressState;
-  private ImmutableSet<PatchSetApproval> outdatedApprovals;
+  private ApprovalCopier.Result approvalCopierResult;
   private ObjectId preUpdateMetaId;
 
   @Inject
@@ -289,12 +289,6 @@ public class PatchSetInserter implements BatchUpdateOp {
       oldReviewers = approvalsUtil.getReviewers(ctx.getNotes());
     }
 
-    if (message != null) {
-      mailMessage =
-          cmUtil.setChangeMessage(
-              update, message, ChangeMessagesUtil.uploadedPatchSetTag(change.isWorkInProgress()));
-    }
-
     oldWorkInProgressState = change.isWorkInProgress();
     if (workInProgress != null) {
       change.setWorkInProgress(workInProgress);
@@ -318,14 +312,49 @@ public class PatchSetInserter implements BatchUpdateOp {
     }
 
     if (storeCopiedVotes) {
-      outdatedApprovals =
-          approvalsUtil
-              .copyApprovalsToNewPatchSet(
-                  ctx.getNotes(), patchSet, ctx.getRevWalk(), ctx.getRepoView().getConfig(), update)
-              .outdatedApprovals();
+      approvalCopierResult =
+          approvalsUtil.copyApprovalsToNewPatchSet(
+              ctx.getNotes(), patchSet, ctx.getRevWalk(), ctx.getRepoView().getConfig(), update);
     }
 
+    mailMessage = insertChangeMessage(update, ctx);
+
     return true;
+  }
+
+  @Nullable
+  private String insertChangeMessage(ChangeUpdate update, ChangeContext ctx) {
+    StringBuilder messageBuilder = new StringBuilder();
+    if (message != null) {
+      messageBuilder.append(message);
+    }
+
+    if (approvalCopierResult != null) {
+      approvalsUtil
+          .formatApprovalCopierResult(
+              approvalCopierResult,
+              projectCache
+                  .get(ctx.getProject())
+                  .orElseThrow(illegalState(ctx.getProject()))
+                  .getLabelTypes())
+          .ifPresent(
+              msg -> {
+                if (message != null && !message.endsWith("\n")) {
+                  messageBuilder.append("\n");
+                }
+                messageBuilder.append("\n").append(msg);
+              });
+    }
+
+    String changeMessage = messageBuilder.toString();
+    if (changeMessage.isEmpty()) {
+      return null;
+    }
+
+    return cmUtil.setChangeMessage(
+        update,
+        messageBuilder.toString(),
+        ChangeMessagesUtil.uploadedPatchSetTag(change.isWorkInProgress()));
   }
 
   @Override
@@ -339,7 +368,7 @@ public class PatchSetInserter implements BatchUpdateOp {
               ctx,
               patchSet,
               mailMessage,
-              outdatedApprovals,
+              approvalCopierResult.outdatedApprovals(),
               oldReviewers.byState(REVIEWER),
               oldReviewers.byState(CC),
               changeKind,

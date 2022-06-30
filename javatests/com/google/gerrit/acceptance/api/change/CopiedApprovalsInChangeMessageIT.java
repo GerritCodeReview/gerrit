@@ -745,7 +745,6 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
       LabelType.Builder verified =
           labelBuilder(
               LabelId.VERIFIED, value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
-      verified.setCopyAllScoresIfNoChange(false);
       u.getConfig().upsertLabelType(verified.build());
       u.save();
     }
@@ -792,7 +791,6 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
       LabelType.Builder verified =
           labelBuilder(
               LabelId.VERIFIED, value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
-      verified.setCopyAllScoresIfNoChange(false);
       u.getConfig().upsertLabelType(verified.build());
       u.save();
     }
@@ -843,7 +841,6 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
       LabelType.Builder verified =
           labelBuilder(
               LabelId.VERIFIED, value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
-      verified.setCopyAllScoresIfNoChange(false);
       u.getConfig().upsertLabelType(verified.build());
       u.save();
     }

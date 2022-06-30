@@ -402,12 +402,12 @@ As result a list of link:#project-info[ProjectInfo] entities is returned.
   Content-Type: application/json; charset=UTF-8
 
   )]}'
-  {
-    "test": {
+  [
+    {
       "id": "test",
       "description": "\u003chtml\u003e is escaped"
     }
-  }
+  ]
 ----
 
 [[project-query-limit]]

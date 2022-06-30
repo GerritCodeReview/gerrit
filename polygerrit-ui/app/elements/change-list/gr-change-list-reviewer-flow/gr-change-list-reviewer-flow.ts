@@ -306,7 +306,11 @@ export class GrChangeListReviewerFlow extends LitElement {
     }
     return html`
       <div class="error">
-        <iron-icon icon="gr-icons:error"></iron-icon>
+        <iron-icon
+          icon="gr-icons:error"
+          role="img"
+          aria-label="error"
+        ></iron-icon>
         Failed to add ${listForSentence(failedAccounts)} to changes.
       </div>
     `;
@@ -330,7 +334,11 @@ export class GrChangeListReviewerFlow extends LitElement {
       updatedReviewerState === ReviewerState.CC ? 'CC' : 'reviewer';
     return html`
       <div class="warning">
-        <iron-icon icon="gr-icons:warning"></iron-icon>
+        <iron-icon
+          icon="gr-icons:warning"
+          role="img"
+          aria-label="Warning"
+        ></iron-icon>
         ${listForSentence(overwrittenNames)} ${pluralizedVerb} ${currentLabel}
         on some selected changes and will be moved to ${updatedLabel} on all
         changes.

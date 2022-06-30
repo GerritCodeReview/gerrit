@@ -280,7 +280,11 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
               </gr-label-score-row>
             </div>
             <div class="error-container">
-              <iron-icon icon="gr-icons:error"> </iron-icon>
+              <iron-icon
+                icon="gr-icons:error"
+                role="img"
+                aria-label="Error"
+              ></iron-icon>
               <span> Failed to vote on 1 change </span>
             </div>
           </div>

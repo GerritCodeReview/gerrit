@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e9aebfc_860882e3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dialog/gr-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-30T13:07:11Z",
+      "side": 1,
+      "message": "I think it\u0027s just `progressbar`\n\nhttps://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/progressbar_role",
+      "range": {
+        "startLine": 144,
+        "startChar": 22,
+        "endLine": 144,
+        "endChar": 34
+      },
+      "revId": "0f77d671d602d2fb69f59de2abc708d97cdff8e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e311e1ca_5209ae06",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 6494,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2022-06-30T17:16:55Z",
+      "side": 1,
+      "message": "Should this be the original change topic?",
+      "range": {
+        "startLine": 6494,
+        "startChar": 53,
+        "endLine": 6494,
+        "endChar": 64
+      },
+      "revId": "0b009cb823cea52c0da78fe1e040a16f408b8a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb34e9ac_df0da90c",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ApplyPatchInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2022-06-30T17:16:55Z",
+      "side": 1,
+      "message": "Is the idea that we would first create a topic for the destination host / branch and then use this api? (Sorry if this is a naive question -- I\u0027m not super familiar)",
+      "range": {
+        "startLine": 23,
+        "startChar": 16,
+        "endLine": 23,
+        "endChar": 22
+      },
+      "revId": "0b009cb823cea52c0da78fe1e040a16f408b8a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

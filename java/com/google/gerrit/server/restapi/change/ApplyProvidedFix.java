@@ -45,7 +45,6 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.lib.Repository;
 
 /** Applies a fix that is provided as part of the request body. */
@@ -73,9 +72,15 @@ public class ApplyProvidedFix implements RestModifyView<RevisionResource, ApplyP
 
   @Override
   public Response<EditInfo> apply(
-      RevisionResource revisionResource, @NonNull ApplyProvidedFixInput applyProvidedFixInput)
+      RevisionResource revisionResource, ApplyProvidedFixInput applyProvidedFixInput)
       throws AuthException, BadRequestException, ResourceConflictException, IOException,
           ResourceNotFoundException, PermissionBackendException {
+    if (applyProvidedFixInput == null) {
+      throw new BadRequestException("applyProvidedFixInput is required");
+    }
+    if (applyProvidedFixInput.fixReplacementInfos == null) {
+      throw new BadRequestException("applyProvidedFixInput.fixReplacementInfos is required");
+    }
     Project.NameKey project = revisionResource.getProject();
     ProjectState projectState = projectCache.get(project).orElseThrow(illegalState(project));
     PatchSet patchSet = revisionResource.getPatchSet();

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0229c107_fb4ec225",
+        "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-30T00:24:27Z",
+      "side": 1,
+      "message": "Why would having UDPATE be acceptable too? Is that a pattern used elsewhere?",
+      "range": {
+        "startLine": 90,
+        "startChar": 56,
+        "endLine": 90,
+        "endChar": 96
+      },
+      "revId": "acbca1861868d6bb380802fc342101ecb6a9d6bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcfdd850_805a3681",
+        "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-30T00:24:27Z",
+      "side": 1,
+      "message": "It doesn\u0027t make sense that I need \"READ\" to create a new ref. Did you mean something like \"Must have READ on existing ref to create new ref from it\"?",
+      "range": {
+        "startLine": 97,
+        "startChar": 24,
+        "endLine": 97,
+        "endChar": 44
+      },
+      "revId": "acbca1861868d6bb380802fc342101ecb6a9d6bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00762c7d_28010ee8",
+        "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-30T00:24:27Z",
+      "side": 1,
+      "message": "If you say \"an existing ref\" then it\u0027s ambiguous if the ref they tried to use is not visible or doesn\u0027t exist, which is the behavior we want for visibility.",
+      "range": {
+        "startLine": 101,
+        "startChar": 21,
+        "endLine": 101,
+        "endChar": 26
+      },
+      "revId": "acbca1861868d6bb380802fc342101ecb6a9d6bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5934d928_141f3dee",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateBranch.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-30T00:24:27Z",
+      "side": 1,
+      "message": "Do we care to search for it or can we use exactRef()? I feel like if we\u0027re going for optimization, using exactRef() makes more sense.",
+      "range": {
+        "startLine": 133,
+        "startChar": 27,
+        "endLine": 133,
+        "endChar": 34
+      },
+      "revId": "acbca1861868d6bb380802fc342101ecb6a9d6bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

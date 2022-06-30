@@ -37,6 +37,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.FixReplacementInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -515,6 +516,29 @@ public class ApplyProvidedFixIT extends AbstractDaemonTest {
     changeInfo = gApi.changes().id(changeId).get();
     RevisionInfo rev2 = changeInfo.revisions.get(changeInfo.currentRevision);
     assertThat(rev2.uploader.username).isEqualTo(user.username());
+  }
+
+  @Test
+  public void applyProvidedFixInputNullReturnsBadRequestException() throws Exception {
+    ApplyProvidedFixInput applyProvidedFixInput = null;
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.changes().id(changeId).current().applyFix(applyProvidedFixInput));
+    assertThat(thrown).hasMessageThat().contains("applyProvidedFixInput is required");
+  }
+
+  @Test
+  public void applyProvidedFixInputFixReplacementInfosNullReturnsBadRequestException()
+      throws Exception {
+    ApplyProvidedFixInput applyProvidedFixInput = new ApplyProvidedFixInput();
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.changes().id(changeId).current().applyFix(applyProvidedFixInput));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("applyProvidedFixInput.fixReplacementInfos is required");
   }
 
   private ApplyProvidedFixInput createApplyProvidedFixInput(

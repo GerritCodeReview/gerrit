@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e4002388_b093800e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-30T14:16:59Z",
+      "side": 1,
+      "message": "\u003e This must be a schema migration, since we will drop all code for the deprecated label functions in the next step. At that moment your projects will be broken if you haven\u0027t migrated yet.\n\nAck.\n\n\u003e \n\u003e It would be possible to delay the removal of the deprecated label functions to the next release so that you could do an online migration in this release, but AFAIK we are not committed to support online migration and haven\u0027t done such an approach for any other migrations yet (an exception may have been the copy-approvals pgm, but that\u0027s an optional migration that is not mandatory to be executed, and I think it only became a pgm by accident since we missed the release where this should have been included as a schema migration).\n\nI was just thinking that since Google ends up doing online migrations always, maybe it would make sense to start aligning the rest of the community to being able to do that. There\u0027s continued growing interest in HA setups and online migrations help reduce downtime. It\u0027s not a must-have thing for me, I just got onto this thinking because of the \u0027pgm\u0027 wording in the commit message 😊\n\n\u003e \n\u003e \u003e I think have a pgm (and moving this change to stable-3.6) would be beneficial.\n\u003e \n\u003e This would require backporting other changes, at least [1], as otherwise people may manually reset the deprecated label functions after they have been migrated. I think backporting that change would be against our stable branch policy.\n\nI think if we had both pgm and schema migration it would be fine to do the pgm without that change, because you\u0027d still run the schema migration later as a final check. But so long as the migration is fast (timing it on a test site would be ideal), I\u0027m ok with it being only a schema migration.",
+      "parentUuid": "a2ffb6e8_05ea0015",
+      "range": {
+        "startLine": 7,
+        "startChar": 6,
+        "endLine": 7,
+        "endChar": 9
+      },
+      "revId": "bb2c4e7d256c289775034f3548ec04c881aa8acc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bb5da239_fc91deff",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -190,6 +214,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b8c9af8_16cb6445",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-30T14:16:59Z",
+      "side": 1,
+      "message": "Also, assuming this becomes a schema migration, that should be mention in the release notes.",
+      "parentUuid": "68c48759_807c16df",
+      "range": {
+        "startLine": 31,
+        "startChar": 15,
+        "endLine": 31,
+        "endChar": 19
+      },
+      "revId": "bb2c4e7d256c289775034f3548ec04c881aa8acc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "9d2d0a0a_7e285511",
@@ -220,6 +268,24 @@
       "writtenOn": "2022-06-30T07:58:02Z",
       "side": 1,
       "message": "FYI, I will take over implementing this migration from Youssef, since Youssef is overbooked with other, more important, topics.\n\nI still didn\u0027t look at the implementation, but I plan to pickup reworking this change somewhen next week.",
+      "revId": "bb2c4e7d256c289775034f3548ec04c881aa8acc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c55dedd_ab834a09",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-30T14:16:59Z",
+      "side": 1,
+      "message": "Thanks for the heads up! I\u0027ll try to keep up with reviews.",
+      "parentUuid": "372cab04_1c7ca560",
       "revId": "bb2c4e7d256c289775034f3548ec04c881aa8acc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

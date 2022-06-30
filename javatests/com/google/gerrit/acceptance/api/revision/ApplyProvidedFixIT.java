@@ -22,7 +22,6 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
@@ -34,6 +33,7 @@ import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.common.ApplyProvidedFixInput;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.FixReplacementInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
@@ -497,7 +497,8 @@ public class ApplyProvidedFixIT extends AbstractDaemonTest {
     ApplyProvidedFixInput applyProvidedFixInput =
         createApplyProvidedFixInput(FILE_NAME, "Modified content", 3, 1, 3, 3);
 
-    RevisionInfo rev = Iterables.getLast(gApi.changes().id(changeId).get().revisions.values());
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
+    RevisionInfo rev = changeInfo.revisions.get(changeInfo.currentRevision);
     assertThat(rev.uploader.username).isEqualTo(admin.username());
 
     RestResponse resp =
@@ -511,7 +512,8 @@ public class ApplyProvidedFixIT extends AbstractDaemonTest {
         userRestSession.post("/changes/" + changeId + "/edit:publish", publishInput);
     resp2.assertStatus(204);
 
-    RevisionInfo rev2 = Iterables.getLast(gApi.changes().id(changeId).get().revisions.values());
+    changeInfo = gApi.changes().id(changeId).get();
+    RevisionInfo rev2 = changeInfo.revisions.get(changeInfo.currentRevision);
     assertThat(rev2.uploader.username).isEqualTo(user.username());
   }
 

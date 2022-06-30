@@ -114,6 +114,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "593cf683_24f46f8b",
+        "filename": "java/com/google/gerrit/server/restapi/change/PreviewProvidedFix.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-30T07:28:41Z",
+      "side": 1,
+      "message": "I don\u0027t know how the @NonNull annotation works and if it can prevent applyProvidedFixInput from being null. I think there are some rare cases where the input object can be null (we observed such cases, but didn\u0027t find out the cause). Since this is rare I do not worry about this.\n\nMy comment is not about applyProvidedFixInput being null, but about fixReplacementInfos inside applyProvidedFixInput being null.\n\nAs we can see from the test failure in ChangesRestApiBindingsIT applyProvidedFixInput.fixReplacementInfos is null when the user provides an empty input, which triggers a NullPointerException here, which makes the request fail with 500 internal server error.\n\nNo matter what users provide as input, the request should never fail with 500 internal server error. 500s are relevant for our SLAs and may trigger pages if they occur too often.\n\nAs I outline in my comment above, we have two options to handle this case (user provides no input and applyProvidedFixInput.fixReplacementInfos is null):\n\n1. either reject the request with 400 Bad Request (throw BadRequestException)\n\n  if (applyProvidedFixInput.fixReplacementInfos \u003d\u003d null) {\n    throw new BadRequestException(\"fixReplacementInfos is required\");\n  }\n\n2. just return an empty response\n\n  if (applyProvidedFixInput.fixReplacementInfos \u003d\u003d null) {\n    return Response.ok(ImmutableMap.of());\n  }\n\nI have no preference for either of these options.\n\nIf the same NullPointerException can happen in ApplyProvidedFix (which I think it can) then this is a bug there, that should be fixed and handled the same way as here. Ideally this should be fixed in a separate change that is a predecessor to this change.",
+      "parentUuid": "2c63629c_7ce91ad2",
+      "range": {
+        "startLine": 71,
+        "startChar": 8,
+        "endLine": 71,
+        "endChar": 49
+      },
+      "revId": "b1a689649c0e5a0546a1870abc6cf26ffd0b4819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "53bf1ea1_85829ef3",
         "filename": "java/com/google/gerrit/server/restapi/change/PreviewStoredFix.java",
         "patchSetId": 13

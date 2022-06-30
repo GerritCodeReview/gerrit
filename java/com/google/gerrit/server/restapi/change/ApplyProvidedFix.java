@@ -76,6 +76,12 @@ public class ApplyProvidedFix implements RestModifyView<RevisionResource, ApplyP
       RevisionResource revisionResource, @NonNull ApplyProvidedFixInput applyProvidedFixInput)
       throws AuthException, BadRequestException, ResourceConflictException, IOException,
           ResourceNotFoundException, PermissionBackendException {
+    if (applyProvidedFixInput == null) {
+      throw new BadRequestException("ApplyProvidedFixInput is required");
+    }
+    if (applyProvidedFixInput.fixReplacementInfos == null) {
+      throw new BadRequestException("fixReplacementInfos in ApplyProvidedFixInput in required");
+    }
     Project.NameKey project = revisionResource.getProject();
     ProjectState projectState = projectCache.get(project).orElseThrow(illegalState(project));
     PatchSet patchSet = revisionResource.getPatchSet();

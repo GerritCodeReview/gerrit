@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "70e5760f_2942f963",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2133,
+      "author": {
+        "id": 1041482
+      },
+      "writtenOn": "2022-06-30T17:28:15Z",
+      "side": 1,
+      "message": "if the change does not exist on the destination, does it auto create one?",
+      "range": {
+        "startLine": 2133,
+        "startChar": 0,
+        "endLine": 2133,
+        "endChar": 43
+      },
+      "revId": "0b009cb823cea52c0da78fe1e040a16f408b8a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e311e1ca_5209ae06",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 4
@@ -14,6 +37,30 @@
       "writtenOn": "2022-06-30T17:16:55Z",
       "side": 1,
       "message": "Should this be the original change topic?",
+      "range": {
+        "startLine": 6494,
+        "startChar": 53,
+        "endLine": 6494,
+        "endChar": 64
+      },
+      "revId": "0b009cb823cea52c0da78fe1e040a16f408b8a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2980ccea_e7cfec66",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 6494,
+      "author": {
+        "id": 1041482
+      },
+      "writtenOn": "2022-06-30T17:28:15Z",
+      "side": 1,
+      "message": "My uncerstanding is it should be destination change, basically this allows to override the topic for the destination change. But will let Nitzan confirm.",
+      "parentUuid": "e311e1ca_5209ae06",
       "range": {
         "startLine": 6494,
         "startChar": 53,

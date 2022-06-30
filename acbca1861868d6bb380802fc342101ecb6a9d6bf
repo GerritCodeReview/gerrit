@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "513367c3_df2fc701",
+        "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-30T14:27:48Z",
+      "side": 1,
+      "message": "\u003e Observed on line 155, we are returning if the user can UPDATE without checking for READ.\n\nThat\u0027s for the destBranch ref, not the source, and has to do with the user including new commits. It\u0027s a shortcut around seeing if we need to validate the new commit. See the comment on lines 166-169.",
+      "parentUuid": "ea35398a_96515c41",
+      "range": {
+        "startLine": 90,
+        "startChar": 56,
+        "endLine": 90,
+        "endChar": 96
+      },
+      "revId": "acbca1861868d6bb380802fc342101ecb6a9d6bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dcfdd850_805a3681",
         "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
         "patchSetId": 3

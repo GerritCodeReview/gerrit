@@ -155,11 +155,10 @@ export class ShortcutsService implements Finalizable {
     element: HTMLElement,
     shortcut: Binding,
     listener: (e: KeyboardEvent) => void,
-    options: ShortcutOptions = {
-      shouldSuppress: true,
-      doNotPrevent: false,
-    }
+    options?: ShortcutOptions
   ) {
+    const optShouldSuppress = options?.shouldSuppress ?? true;
+    const optDoNotPrevent = options?.doNotPrevent ?? true;
     const wrappedListener = (e: KeyboardEvent) => {
       if (e.repeat && !shortcut.allowRepeat) return;
       if (!eventMatchesShortcut(e, shortcut)) return;
@@ -168,13 +167,13 @@ export class ShortcutsService implements Finalizable {
       } else {
         if (this.isInComboKeyMode()) return;
       }
-      if (options.shouldSuppress && shouldSuppress(e)) return;
+      if (optShouldSuppress && shouldSuppress(e)) return;
       // `shortcutsDisabled` refers to disabling global shortcuts like 'n'. If
       // `shouldSuppress` is false (e.g.for Ctrl - ENTER), then don't disable
       // the shortcut.
-      if (options.shouldSuppress && this.shortcutsDisabled) return;
-      if (!options.doNotPrevent) e.preventDefault();
-      if (!options.doNotPrevent) e.stopPropagation();
+      if (optShouldSuppress && this.shortcutsDisabled) return;
+      if (!optDoNotPrevent) e.preventDefault();
+      if (!optDoNotPrevent) e.stopPropagation();
       this.reportTriggered(e);
       listener(e);
     };

@@ -26,6 +26,8 @@ import {
   queryAll,
   queryAndAssert,
   stubRestApi,
+  waitQueryAndAssert,
+  waitUntil,
 } from '../../../test/test-utils';
 import {AbortStop} from '../../../api/core';
 import {waitForEventOnce} from '../../../utils/event-util';
@@ -619,54 +621,15 @@ suite('gr-diff tests', () => {
           ab: Array(13).fill('text'),
         },
       ];
-      setupSampleDiff({content});
-      await waitForEventOnce(element, 'render');
+      await setupSampleDiff({content});
 
       element.appendChild(threadEl);
-      await waitForEventOnce(element, 'render');
 
-      const hint = queryAndAssert<GrRangedCommentHint>(
+      const hint = await waitQueryAndAssert<GrRangedCommentHint>(
         element,
         'gr-ranged-comment-hint'
       );
       assert.deepEqual(hint.range, range);
-    });
-
-    test('no duplicate range hint for same thread', async () => {
-      const range = {
-        start_line: 1,
-        end_line: 12,
-        start_character: 0,
-        end_character: 0,
-      };
-      const threadEl = document.createElement('div');
-      threadEl.className = 'comment-thread';
-      threadEl.setAttribute('diff-side', 'right');
-      threadEl.setAttribute('line-num', '1');
-      threadEl.setAttribute('range', JSON.stringify(range));
-      threadEl.setAttribute('slot', 'right-1');
-      const firstHint = document.createElement('gr-ranged-comment-hint');
-      firstHint.range = range;
-      firstHint.setAttribute('slot', 'right-1');
-      const content = [
-        {
-          a: ['asdf'],
-        },
-        {
-          ab: Array(13).fill('text'),
-        },
-      ];
-      setupSampleDiff({content});
-      await waitForEventOnce(element, 'render');
-
-      element.appendChild(firstHint);
-      element.appendChild(threadEl);
-      await waitForEventOnce(element, 'render');
-
-      assert.equal(
-        element.querySelectorAll('gr-ranged-comment-hint').length,
-        1
-      );
     });
 
     test('removes long range comment hint when comment is discarded', async () => {
@@ -684,19 +647,16 @@ suite('gr-diff tests', () => {
       threadEl.setAttribute('slot', 'right-1');
       const content = [
         {
-          a: [],
-          b: [],
-        },
-        {
           ab: Array(8).fill('text'),
         },
       ];
-      setupSampleDiff({content});
+      await setupSampleDiff({content});
+
       element.appendChild(threadEl);
-      await flush();
+      await waitUntil(() => element._commentRanges.length === 1);
 
       threadEl.remove();
-      await flush();
+      await waitUntil(() => element._commentRanges.length === 0);
 
       assert.isEmpty(element.querySelectorAll('gr-ranged-comment-hint'));
     });
@@ -1035,7 +995,7 @@ suite('gr-diff tests', () => {
       });
     });
   });
-  const setupSampleDiff = function (params: {
+  const setupSampleDiff = async function (params: {
     content: DiffContent[];
     ignore_whitespace?: IgnoreWhitespaceType;
     binary?: boolean;
@@ -1071,11 +1031,10 @@ suite('gr-diff tests', () => {
       content,
       binary,
     };
-    element._renderDiffTable();
-    flush();
+    await waitForEventOnce(element, 'render');
   };
 
-  test('clear diff table content as soon as diff changes', () => {
+  test('clear diff table content as soon as diff changes', async () => {
     const content = [
       {
         a: ['all work and no play make andybons a dull boy'],
@@ -1088,7 +1047,7 @@ suite('gr-diff tests', () => {
       const diffTable = element.$.diffTable;
       assert.isTrue(diffTable.innerText.includes(content[0].a?.[0] ?? ''));
     }
-    setupSampleDiff({content});
+    await setupSampleDiff({content});
     assertDiffTableWithContent();
     element.diff = {...element.diff!};
     // immediately cleaned up
@@ -1101,7 +1060,7 @@ suite('gr-diff tests', () => {
   });
 
   suite('selection test', () => {
-    test('user-select set correctly on side-by-side view', () => {
+    test('user-select set correctly on side-by-side view', async () => {
       const content = [
         {
           a: ['all work and no play make andybons a dull boy'],
@@ -1114,7 +1073,7 @@ suite('gr-diff tests', () => {
           ],
         },
       ];
-      setupSampleDiff({content});
+      await setupSampleDiff({content});
       flush();
 
       const diffLine = queryAll<HTMLElement>(element, '.contentText')[2];
@@ -1123,7 +1082,7 @@ suite('gr-diff tests', () => {
       assert.equal(getComputedStyle(diffLine).userSelect, 'text');
     });
 
-    test('user-select set correctly on unified view', () => {
+    test('user-select set correctly on unified view', async () => {
       const content = [
         {
           a: ['all work and no play make andybons a dull boy'],
@@ -1136,7 +1095,7 @@ suite('gr-diff tests', () => {
           ],
         },
       ];
-      setupSampleDiff({content});
+      await setupSampleDiff({content});
       element.viewMode = DiffViewMode.UNIFIED;
       flush();
       const diffLine = queryAll<HTMLElement>(element, '.contentText')[2];
@@ -1147,8 +1106,8 @@ suite('gr-diff tests', () => {
   });
 
   suite('whitespace changes only message', () => {
-    test('show the message if ignore_whitespace is criteria matches', () => {
-      setupSampleDiff({content: [{skip: 100}]});
+    test('show the message if ignore_whitespace is criteria matches', async () => {
+      await setupSampleDiff({content: [{skip: 100}]});
       assert.isTrue(
         element.showNoChangeMessage(
           /* loading= */ false,
@@ -1159,8 +1118,8 @@ suite('gr-diff tests', () => {
       );
     });
 
-    test('do not show the message for binary files', () => {
-      setupSampleDiff({content: [{skip: 100}], binary: true});
+    test('do not show the message for binary files', async () => {
+      await setupSampleDiff({content: [{skip: 100}], binary: true});
       assert.isFalse(
         element.showNoChangeMessage(
           /* loading= */ false,
@@ -1171,8 +1130,8 @@ suite('gr-diff tests', () => {
       );
     });
 
-    test('do not show the message if still loading', () => {
-      setupSampleDiff({content: [{skip: 100}]});
+    test('do not show the message if still loading', async () => {
+      await setupSampleDiff({content: [{skip: 100}]});
       assert.isFalse(
         element.showNoChangeMessage(
           /* loading= */ true,
@@ -1183,7 +1142,7 @@ suite('gr-diff tests', () => {
       );
     });
 
-    test('do not show the message if contains valid changes', () => {
+    test('do not show the message if contains valid changes', async () => {
       const content = [
         {
           a: ['all work and no play make andybons a dull boy'],
@@ -1196,7 +1155,7 @@ suite('gr-diff tests', () => {
           ],
         },
       ];
-      setupSampleDiff({content});
+      await setupSampleDiff({content});
       assert.equal(element._diffLength, 3);
       assert.isFalse(
         element.showNoChangeMessage(
@@ -1208,7 +1167,7 @@ suite('gr-diff tests', () => {
       );
     });
 
-    test('do not show message if ignore whitespace is disabled', () => {
+    test('do not show message if ignore whitespace is disabled', async () => {
       const content = [
         {
           a: ['all work and no play make andybons a dull boy'],
@@ -1221,7 +1180,7 @@ suite('gr-diff tests', () => {
           ],
         },
       ];
-      setupSampleDiff({ignore_whitespace: 'IGNORE_NONE', content});
+      await setupSampleDiff({ignore_whitespace: 'IGNORE_NONE', content});
       assert.isFalse(
         element.showNoChangeMessage(
           /* loading= */ false,

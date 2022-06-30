@@ -460,7 +460,9 @@ export class GrDiffHost extends LitElement {
   protected override updated(changedProperties: PropertyValues) {
     super.updated(changedProperties);
     // This needs to happen in updated() because it has to happen post-render as
-    // this method calls getThreadEls which inspects the DOM.
+    // this method calls getThreadEls which inspects the DOM. Also <gr-diff>
+    // only starts observing nodes (for thread element changes) after rendering
+    // is done.
     if (changedProperties.has('threads')) {
       this.threadsChanged(this.threads);
     }

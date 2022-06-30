@@ -52,6 +52,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7157cd7_5d66caf9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-30T06:28:16Z",
+      "side": 1,
+      "message": "The migration at Google has been done now, hence this is unblocked now and can be submitted.",
+      "parentUuid": "05060878_03493889",
+      "revId": "23c45b36d8951bb96e71d31c2f20183762a778f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2ac49276_60081ff2",

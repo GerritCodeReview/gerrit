@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4c759d9_407419e8",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyProvidedFix.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-30T19:37:05Z",
+      "side": 0,
+      "message": "It looks like @NonNull was only for documentation purposes and didn\u0027t check for Null values. I have removed it as it is not used elsewhere in gerrit.",
+      "range": {
+        "startLine": 76,
+        "startChar": 41,
+        "endLine": 76,
+        "endChar": 49
+      },
+      "revId": "adf7df198d1ddaecff0abaaa50a1ab9699ad9360",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

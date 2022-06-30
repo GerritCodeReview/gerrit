@@ -22,6 +22,30 @@
       },
       "revId": "640c72eb8215278475cc93be7545b95dc4960dae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c64641ab_0791cadb",
+        "filename": "java/com/google/gerrit/index/Schema.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-30T10:03:58Z",
+      "side": 1,
+      "message": "This is expected. We are using static constants to add fields in schema.\nObject equality is sufficient in this case.\nImplementing equals is tricky: e.g how do you compare getter and setter?",
+      "parentUuid": "0e3c911f_67dabc9a",
+      "range": {
+        "startLine": 119,
+        "startChar": 71,
+        "endLine": 119,
+        "endChar": 79
+      },
+      "revId": "640c72eb8215278475cc93be7545b95dc4960dae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

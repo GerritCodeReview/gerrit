@@ -33,7 +33,6 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.Comparator.comparing;
 
 import com.google.common.cache.Cache;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.MoreCollectors;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -145,19 +144,9 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void stickyOnAnyScore_withoutCopyCondition() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyAnyScore(true));
-    testStickyOnAnyScore();
-  }
-
-  @Test
-  public void stickyOnAnyScore_withCopyCondition() throws Exception {
+  public void stickyOnAnyScore() throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("is:any"));
-    testStickyOnAnyScore();
-  }
 
-  @Test
-  public void stickyOnRework() throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("changekind:REWORK"));
 
     // changekind:REWORK should match all kind of changes so that approvals are always copied.
@@ -183,18 +172,9 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void stickyOnMinScore_withoutCopyCondition() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyMinScore(true));
-    testStickyOnMinScore();
-  }
-
-  @Test
-  public void stickyOnMinScore_withCopyCondition() throws Exception {
+  public void stickyOnMinScore() throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("is:min"));
-    testStickyOnMinScore();
-  }
 
-  private void testStickyOnMinScore() throws Exception {
     for (ChangeKind changeKind :
         EnumSet.of(REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
       testRepo.reset(projectOperations.project(project).getHead("master"));
@@ -211,18 +191,9 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void stickyOnMaxScore_withoutCopyCondition() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyMaxScore(true));
-    testStickyOnMaxScore();
-  }
-
-  @Test
-  public void stickyOnMaxScore_withCopyCondition() throws Exception {
+  public void stickyOnMaxScore() throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("is:max"));
-    testStickyOnMaxScore();
-  }
 
-  private void testStickyOnMaxScore() throws Exception {
     for (ChangeKind changeKind :
         EnumSet.of(REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
       testRepo.reset(projectOperations.project(project).getHead("master"));
@@ -239,18 +210,9 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void stickyOnCopyValues_withoutCopyCondition() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyValues(ImmutableList.of((short) -1, (short) 1)));
-    testStickyOnCopyValues();
-  }
-
-  @Test
-  public void stickyOnCopyValues_withCopyCondition() throws Exception {
+  public void stickyOnCopyValues() throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("is:\"-1\" OR is:1"));
-    testStickyOnCopyValues();
-  }
 
-  private void testStickyOnCopyValues() throws Exception {
     TestAccount user2 = accountCreator.user2();
 
     for (ChangeKind changeKind :
@@ -271,18 +233,9 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void stickyOnTrivialRebase_withoutCopyCondition() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyAllScoresOnTrivialRebase(true));
-    testStickyOnTrivialRebase();
-  }
-
-  @Test
-  public void stickyOnTrivialRebase_withCopyCondition() throws Exception {
+  public void stickyOnTrivialRebase() throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("changekind:" + TRIVIAL_REBASE.name()));
-    testStickyOnTrivialRebase();
-  }
 
-  private void testStickyOnTrivialRebase() throws Exception {
     String changeId = changeKindCreator.createChange(TRIVIAL_REBASE, testRepo, admin);
     vote(admin, changeId, 2, 1);
     vote(user, changeId, -2, -1);
@@ -324,18 +277,9 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void stickyOnNoCodeChange_withoutCopyCondition() throws Exception {
-    updateVerifiedLabel(b -> b.setCopyAllScoresIfNoCodeChange(true));
-    testStickyOnNoCodeChange();
-  }
-
-  @Test
-  public void stickyOnNoCodeChange_withCopyCondition() throws Exception {
+  public void stickyOnNoCodeChange() throws Exception {
     updateVerifiedLabel(b -> b.setCopyCondition("changekind:" + NO_CODE_CHANGE.name()));
-    testStickyOnNoCodeChange();
-  }
 
-  private void testStickyOnNoCodeChange() throws Exception {
     String changeId = changeKindCreator.createChange(NO_CODE_CHANGE, testRepo, admin);
     vote(admin, changeId, 2, 1);
     vote(user, changeId, -2, -1);
@@ -354,19 +298,10 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void stickyOnMergeFirstParentUpdate_withoutCopyCondition() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyAllScoresOnMergeFirstParentUpdate(true));
-    testStickyOnMergeFirstParentUpdate();
-  }
-
-  @Test
-  public void stickyOnMergeFirstParentUpdate_withCopyCondition() throws Exception {
+  public void stickyOnMergeFirstParentUpdate() throws Exception {
     updateCodeReviewLabel(
         b -> b.setCopyCondition("changekind:" + MERGE_FIRST_PARENT_UPDATE.name()));
-    testStickyOnMergeFirstParentUpdate();
-  }
 
-  private void testStickyOnMergeFirstParentUpdate() throws Exception {
     String changeId = changeKindCreator.createChange(MERGE_FIRST_PARENT_UPDATE, testRepo, admin);
     vote(admin, changeId, 2, 1);
     vote(user, changeId, -2, -1);
@@ -385,24 +320,11 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void
-      notStickyOnNoChangeForNonMergeIfCopyingIsConfiguredForMergeFirstParentUpdate_withoutCopyCondition()
-          throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyAllScoresOnMergeFirstParentUpdate(true));
-    testNotStickyOnNoChangeForNonMergeIfCopyingIsConfiguredForMergeFirstParentUpdate();
-  }
-
-  @Test
-  public void
-      notStickyOnNoChangeForNonMergeIfCopyingIsConfiguredForMergeFirstParentUpdate_withCopyCondition()
-          throws Exception {
+  public void notStickyOnNoChangeForNonMergeIfCopyingIsConfiguredForMergeFirstParentUpdate()
+      throws Exception {
     updateCodeReviewLabel(
         b -> b.setCopyCondition("changekind:" + MERGE_FIRST_PARENT_UPDATE.name()));
-    testNotStickyOnNoChangeForNonMergeIfCopyingIsConfiguredForMergeFirstParentUpdate();
-  }
 
-  private void testNotStickyOnNoChangeForNonMergeIfCopyingIsConfiguredForMergeFirstParentUpdate()
-      throws Exception {
     // Create a change with a non-merge commit
     String changeId = changeKindCreator.createChange(REWORK, testRepo, admin);
     vote(admin, changeId, 2, 1);
@@ -416,20 +338,9 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void notStickyWithCopyOnNoChangeWhenSecondParentIsUpdated_withoutCopyCondition()
-      throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyAllScoresIfNoChange(true));
-    testNotStickyWithCopyOnNoChangeWhenSecondParentIsUpdated();
-  }
-
-  @Test
-  public void notStickyWithCopyOnNoChangeWhenSecondParentIsUpdated_withCopyCondition()
-      throws Exception {
+  public void notStickyWithCopyOnNoChangeWhenSecondParentIsUpdated() throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("changekind:" + NO_CHANGE.name()));
-    testNotStickyWithCopyOnNoChangeWhenSecondParentIsUpdated();
-  }
 
-  private void testNotStickyWithCopyOnNoChangeWhenSecondParentIsUpdated() throws Exception {
     String changeId = changeKindCreator.createChangeForMergeCommit(testRepo, admin);
     vote(admin, changeId, 2, 1);
     vote(user, changeId, -2, -1);
@@ -441,22 +352,10 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void
-      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsAdded_withoutCopyCondition()
-          throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
-    testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsAdded();
-  }
-
-  @Test
-  public void notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsAdded_withCopyCondition()
+  public void notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsAdded()
       throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
-    testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsAdded();
-  }
 
-  private void testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsAdded()
-      throws Exception {
     Change.Id changeId =
         changeOperations.newChange().project(project).file("file").content("content").create();
     vote(admin, changeId.toString(), 2, 1);
@@ -476,23 +375,10 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void
-      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileAlreadyExists_withoutCopyCondition()
-          throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
-    testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileAlreadyExists();
-  }
-
-  @Test
-  public void
-      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileAlreadyExists_withCopyCondition()
-          throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
-    testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileAlreadyExists();
-  }
-
-  private void testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileAlreadyExists()
+  public void notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileAlreadyExists()
       throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
+
     // create "existing file" and submit it.
     String existingFile = "existing file";
     Change.Id prep =
@@ -524,23 +410,10 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void
-      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsDeleted_withoutCopyCondition()
-          throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
-    testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsDeleted();
-  }
-
-  @Test
-  public void
-      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsDeleted_withCopyCondition()
-          throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
-    testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsDeleted();
-  }
-
-  private void testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsDeleted()
+  public void notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsDeleted()
       throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
+
     Change.Id changeId =
         changeOperations.newChange().project(project).file("file").content("content").create();
     vote(admin, changeId.toString(), 2, 1);
@@ -555,22 +428,10 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void
-      stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModified_withoutCopyCondition()
-          throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
-    testStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModified();
-  }
-
-  @Test
-  public void stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModified_withCopyCondition()
+  public void stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModified()
       throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
-    testStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModified();
-  }
 
-  private void testStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModified()
-      throws Exception {
     Change.Id changeId =
         changeOperations.newChange().project(project).file("file").content("content").create();
     vote(admin, changeId.toString(), 2, 1);
@@ -586,23 +447,10 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void
-      stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedDueToRebase_withoutCopyCondition()
-          throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
-    testStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedDueToRebase();
-  }
-
-  @Test
-  public void
-      stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedDueToRebase_withCopyCondition()
-          throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
-    testStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedDueToRebase();
-  }
-
-  private void testStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedDueToRebase()
+  public void stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedDueToRebase()
       throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
+
     // Create two changes both with the same parent
     PushOneCommit.Result r = createChange();
     testRepo.reset("HEAD~1");
@@ -635,25 +483,10 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
   @Test
   @TestProjectInput(createEmptyCommit = false)
-  public void
-      stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedAsInitialCommit_withoutCopyCondition()
-          throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
-    testStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedAsInitialCommit();
-  }
-
-  @Test
-  @TestProjectInput(createEmptyCommit = false)
-  public void
-      stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedAsInitialCommit_withCopyCondition()
-          throws Exception {
+  public void stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedAsInitialCommit()
+      throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
-    testStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedAsInitialCommit();
-  }
 
-  private void
-      testStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedAsInitialCommit()
-          throws Exception {
     Change.Id changeId =
         changeOperations.newChange().project(project).file("file").content("content").create();
     vote(admin, changeId.toString(), 2, 1);
@@ -670,23 +503,10 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
   @Test
   public void
-      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedOnEarlierPatchset_withoutCopyCondition()
-          throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
-    testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedOnEarlierPatchset();
-  }
-
-  @Test
-  public void
-      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedOnEarlierPatchset_withCopyCondition()
+      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedOnEarlierPatchset()
           throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
-    testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedOnEarlierPatchset();
-  }
 
-  private void
-      testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedOnEarlierPatchset()
-          throws Exception {
     Change.Id changeId =
         changeOperations.newChange().project(project).file("file").content("content").create();
     vote(admin, changeId.toString(), 2, 1);
@@ -707,23 +527,10 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void
-      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed_withoutCopyCondition()
-          throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
-    testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed();
-  }
-
-  @Test
-  public void
-      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed_withCopyCondition()
-          throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
-    testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed();
-  }
-
-  private void testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed()
+  public void notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed()
       throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
+
     Change.Id changeId =
         changeOperations.newChange().project(project).file("file").content("content").create();
     vote(admin, changeId.toString(), 2, 1);
@@ -738,18 +545,9 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void copyWithListOfFilesUnchanged_withoutCopyCondition() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
-    testCopyWithListOfFilesUnchanged();
-  }
-
-  @Test
-  public void copyWithListOfFilesUnchanged_withCopyCondition() throws Exception {
+  public void copyWithListOfFilesUnchanged() throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
-    testCopyWithListOfFilesUnchanged();
-  }
 
-  private void testCopyWithListOfFilesUnchanged() throws Exception {
     Change.Id changeId =
         changeOperations.newChange().project(project).file("file").content("content").create();
     vote(admin, changeId.toString(), 2, 1);
@@ -967,20 +765,10 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void removedVotesNotSticky_withoutCopyCondition() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyAllScoresOnTrivialRebase(true));
-    updateVerifiedLabel(b -> b.setCopyAllScoresIfNoCodeChange(true));
-    testRemovedVotesNotSticky();
-  }
-
-  @Test
-  public void removedVotesNotSticky_withCopyCondition() throws Exception {
+  public void removedVotesNotSticky() throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("changekind:" + TRIVIAL_REBASE.name()));
     updateVerifiedLabel(b -> b.setCopyCondition("changekind:" + NO_CODE_CHANGE.name()));
-    testRemovedVotesNotSticky();
-  }
 
-  private void testRemovedVotesNotSticky() throws Exception {
     for (ChangeKind changeKind :
         EnumSet.of(REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
       testRepo.reset(projectOperations.project(project).getHead("master"));
@@ -1004,20 +792,10 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void stickyAcrossMultiplePatchSets_withoutCopyCondition() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyMaxScore(true));
-    updateVerifiedLabel(b -> b.setCopyAllScoresIfNoCodeChange(true));
-    testStickyAcrossMultiplePatchSets();
-  }
-
-  @Test
-  public void stickyAcrossMultiplePatchSets_withCopyCondition() throws Exception {
+  public void stickyAcrossMultiplePatchSets() throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("is:MAX"));
     updateVerifiedLabel(b -> b.setCopyCondition("changekind:" + NO_CODE_CHANGE.name()));
-    testStickyAcrossMultiplePatchSets();
-  }
 
-  private void testStickyAcrossMultiplePatchSets() throws Exception {
     String changeId = changeKindCreator.createChange(REWORK, testRepo, admin);
     vote(admin, changeId, 2, 1);
 
@@ -1033,26 +811,14 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void stickyAcrossMultiplePatchSetsDoNotRegressPerformance_withoutCopyCondition()
-      throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyMaxScore(true));
-    updateVerifiedLabel(b -> b.setCopyAllScoresIfNoCodeChange(true));
-    testStickyAcrossMultiplePatchSetsDoNotRegressPerformance();
-  }
-
-  @Test
-  public void stickyAcrossMultiplePatchSetsDoNotRegressPerformance_withCopyCondition()
-      throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("is:MAX"));
-    updateVerifiedLabel(b -> b.setCopyCondition("changekind:" + NO_CODE_CHANGE.name()));
-    testStickyAcrossMultiplePatchSetsDoNotRegressPerformance();
-  }
-
-  private void testStickyAcrossMultiplePatchSetsDoNotRegressPerformance() throws Exception {
+  public void stickyAcrossMultiplePatchSetsDoNotRegressPerformance() throws Exception {
     // The purpose of this test is to make sure that we compute change kind only against the parent
     // patch set. Change kind is a heavy operation. In prior version of Gerrit, we computed the
     // change kind against all prior patch sets. This is a regression that made Gerrit do expensive
     // work in O(num-patch-sets). This test ensures that we aren't regressing.
+
+    updateCodeReviewLabel(b -> b.setCopyCondition("is:MAX"));
+    updateVerifiedLabel(b -> b.setCopyCondition("changekind:" + NO_CODE_CHANGE.name()));
 
     String changeId = changeKindCreator.createChange(REWORK, testRepo, admin);
     vote(admin, changeId, 2, 1);
@@ -1079,18 +845,9 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void copyMinMaxAcrossMultiplePatchSets_withoutCopyCondition() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyMaxScore(true).setCopyMinScore(true));
-    testCopyMinMaxAcrossMultiplePatchSets();
-  }
-
-  @Test
-  public void copyMinMaxAcrossMultiplePatchSets_withCopyCondition() throws Exception {
+  public void copyMinMaxAcrossMultiplePatchSets() throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("is:MAX OR is:MIN"));
-    testCopyMinMaxAcrossMultiplePatchSets();
-  }
 
-  private void testCopyMinMaxAcrossMultiplePatchSets() throws Exception {
     // Vote max score on PS1
     String changeId = changeKindCreator.createChange(REWORK, testRepo, admin);
     vote(admin, changeId, 2, 1);
@@ -1124,18 +881,9 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deleteStickyVote_withoutCopyCondition() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyMaxScore(true));
-    testDeleteStickyVote();
-  }
-
-  @Test
-  public void deleteStickyVote_withCopyCondition() throws Exception {
+  public void deleteStickyVote() throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("is:MAX"));
-    testDeleteStickyVote();
-  }
 
-  private void testDeleteStickyVote() throws Exception {
     String label = LabelId.CODE_REVIEW;
 
     // Vote max score on PS1
@@ -1151,18 +899,9 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void canVoteMultipleTimesOnNewPatchsets_withoutCopyCondition() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyAnyScore(true));
-    testCanVoteMultipleTimesOnNewPatchsets();
-  }
-
-  @Test
-  public void canVoteMultipleTimesOnNewPatchsets_withCopyCondition() throws Exception {
+  public void canVoteMultipleTimesOnNewPatchsets() throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
-    testCanVoteMultipleTimesOnNewPatchsets();
-  }
 
-  private void testCanVoteMultipleTimesOnNewPatchsets() throws Exception {
     PushOneCommit.Result r = createChange();
 
     // Add a new vote.
@@ -1271,18 +1010,9 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void stickyVoteStoredOnUpload_withoutCopyCondition() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyAnyScore(true));
-    testStickyVoteStoredOnUpload();
-  }
-
-  @Test
-  public void stickyVoteStoredOnUpload_withCopyCondition() throws Exception {
+  public void stickyVoteStoredOnUpload() throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
-    testStickyVoteStoredOnUpload();
-  }
 
-  private void testStickyVoteStoredOnUpload() throws Exception {
     PushOneCommit.Result r = createChange();
     // Add a new vote.
     ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
@@ -1316,18 +1046,9 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void stickyVoteStoredOnRebase_withoutCopyCondition() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyAnyScore(true));
-    testStickyVoteStoredOnRebase();
-  }
-
-  @Test
-  public void stickyVoteStoredOnRebase_withCopyCondition() throws Exception {
+  public void stickyVoteStoredOnRebase() throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
-    testStickyVoteStoredOnRebase();
-  }
 
-  private void testStickyVoteStoredOnRebase() throws Exception {
     // Create two changes both with the same parent
     PushOneCommit.Result r = createChange();
     testRepo.reset("HEAD~1");
@@ -1355,18 +1076,9 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void stickyVoteStoredOnUploadWithRealAccount_withoutCopyCondition() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyAnyScore(true));
-    testStickyVoteStoredOnUploadWithRealAccount();
-  }
-
-  @Test
-  public void stickyVoteStoredOnUploadWithRealAccount_withCopyCondition() throws Exception {
+  public void stickyVoteStoredOnUploadWithRealAccount() throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
-    testStickyVoteStoredOnUploadWithRealAccount();
-  }
 
-  private void testStickyVoteStoredOnUploadWithRealAccount() throws Exception {
     // Give "user" permission to vote on behalf of other users.
     projectOperations
         .project(project)
@@ -1413,19 +1125,9 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void stickyVoteStoredOnUploadWithRealAccountAndTag_withoutCopyCondition()
-      throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyAnyScore(true));
-    testStickyVoteStoredOnUploadWithRealAccountAndTag();
-  }
-
-  @Test
-  public void stickyVoteStoredOnUploadWithRealAccountAndTag_withCopyCondition() throws Exception {
+  public void stickyVoteStoredOnUploadWithRealAccountAndTag() throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
-    testStickyVoteStoredOnUploadWithRealAccountAndTag();
-  }
 
-  private void testStickyVoteStoredOnUploadWithRealAccountAndTag() throws Exception {
     // Give "user" permission to vote on behalf of other users.
     projectOperations
         .project(project)
@@ -1475,18 +1177,9 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void stickyVoteStoredCanBeRemoved_withoutCopyCondition() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyAnyScore(true));
-    testStickyVoteStoredCanBeRemoved();
-  }
-
-  @Test
-  public void stickyVoteStoredCanBeRemoved_withCopyCondition() throws Exception {
+  public void stickyVoteStoredCanBeRemoved() throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
-    testStickyVoteStoredCanBeRemoved();
-  }
 
-  private void testStickyVoteStoredCanBeRemoved() throws Exception {
     PushOneCommit.Result r = createChange();
 
     // Add a new vote
@@ -1516,18 +1209,9 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void reviewerStickyVotingCanBeRemoved_withoutCopyConfition() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyAnyScore(true));
-    testReviewerStickyVotingCanBeRemoved();
-  }
-
-  @Test
-  public void reviewerStickyVotingCanBeRemoved_withCopyCondition() throws Exception {
+  public void reviewerStickyVotingCanBeRemoved() throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
-    testReviewerStickyVotingCanBeRemoved();
-  }
 
-  private void testReviewerStickyVotingCanBeRemoved() throws Exception {
     PushOneCommit.Result r = createChange();
 
     // Add a new vote by user
@@ -1546,25 +1230,6 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     // Changes message has info about vote removed.
     assertThat(Iterables.getLast(gApi.changes().id(r.getChangeId()).messages()).message)
         .contains("Code-Review+1 by User");
-  }
-
-  @Test
-  public void stickyWhenEitherBooleanConfigsOrCopyConditionAreTrue() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("is:MAX").setCopyMinScore(true));
-
-    for (ChangeKind changeKind :
-        EnumSet.of(REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
-      testRepo.reset(projectOperations.project(project).getHead("master"));
-
-      String changeId = changeKindCreator.createChange(changeKind, testRepo, admin);
-      vote(admin, changeId, 2, 1);
-      vote(user, changeId, -2, -1);
-
-      changeKindCreator.updateChange(changeId, changeKind, testRepo, admin, project);
-      ChangeInfo c = detailedChange(changeId);
-      assertVotes(c, admin, 2, 0, changeKind);
-      assertVotes(c, user, -2, 0, changeKind);
-    }
   }
 
   @Test

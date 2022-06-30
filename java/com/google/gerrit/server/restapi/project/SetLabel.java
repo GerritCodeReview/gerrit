@@ -206,53 +206,6 @@ public class SetLabel implements RestModifyView<LabelResource, LabelDefinitionIn
       dirty = true;
     }
 
-    if (input.copyAnyScore != null) {
-      labelTypeBuilder.setCopyAnyScore(input.copyAnyScore);
-      dirty = true;
-    }
-
-    if (input.copyMinScore != null) {
-      labelTypeBuilder.setCopyMinScore(input.copyMinScore);
-      dirty = true;
-    }
-
-    if (input.copyMaxScore != null) {
-      labelTypeBuilder.setCopyMaxScore(input.copyMaxScore);
-      dirty = true;
-    }
-
-    if (input.copyAllScoresIfListOfFilesDidNotChange != null) {
-      labelTypeBuilder.setCopyAllScoresIfListOfFilesDidNotChange(
-          input.copyAllScoresIfListOfFilesDidNotChange);
-      dirty = true;
-    }
-
-    if (input.copyAllScoresIfNoChange != null) {
-      labelTypeBuilder.setCopyAllScoresIfNoChange(input.copyAllScoresIfNoChange);
-      dirty = true;
-    }
-
-    if (input.copyAllScoresIfNoCodeChange != null) {
-      labelTypeBuilder.setCopyAllScoresIfNoCodeChange(input.copyAllScoresIfNoCodeChange);
-      dirty = true;
-    }
-
-    if (input.copyAllScoresOnTrivialRebase != null) {
-      labelTypeBuilder.setCopyAllScoresOnTrivialRebase(input.copyAllScoresOnTrivialRebase);
-      dirty = true;
-    }
-
-    if (input.copyAllScoresOnMergeFirstParentUpdate != null) {
-      labelTypeBuilder.setCopyAllScoresOnMergeFirstParentUpdate(
-          input.copyAllScoresOnMergeFirstParentUpdate);
-      dirty = true;
-    }
-
-    if (input.copyValues != null) {
-      labelTypeBuilder.setCopyValues(input.copyValues);
-      dirty = true;
-    }
-
     if (input.allowPostSubmit != null) {
       labelTypeBuilder.setAllowPostSubmit(input.allowPostSubmit);
       dirty = true;

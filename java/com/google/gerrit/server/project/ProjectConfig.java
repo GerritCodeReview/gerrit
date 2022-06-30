@@ -109,20 +109,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   public static final String KEY_LABEL_DESCRIPTION = "description";
   public static final String KEY_FUNCTION = "function";
   public static final String KEY_DEFAULT_VALUE = "defaultValue";
-  public static final String KEY_COPY_MIN_SCORE = "copyMinScore";
   public static final String KEY_ALLOW_POST_SUBMIT = "allowPostSubmit";
   public static final String KEY_IGNORE_SELF_APPROVAL = "ignoreSelfApproval";
-  public static final String KEY_COPY_ANY_SCORE = "copyAnyScore";
   public static final String KEY_COPY_CONDITION = "copyCondition";
-  public static final String KEY_COPY_MAX_SCORE = "copyMaxScore";
-  public static final String KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE =
-      "copyAllScoresIfListOfFilesDidNotChange";
-  public static final String KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE =
-      "copyAllScoresOnMergeFirstParentUpdate";
-  public static final String KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE = "copyAllScoresOnTrivialRebase";
-  public static final String KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE = "copyAllScoresIfNoCodeChange";
-  public static final String KEY_COPY_ALL_SCORES_IF_NO_CHANGE = "copyAllScoresIfNoChange";
-  public static final String KEY_COPY_VALUE = "copyValue";
   public static final String KEY_VALUE = "value";
   public static final String KEY_CAN_OVERRIDE = "canOverride";
   public static final String KEY_BRANCH = "branch";
@@ -1136,62 +1125,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           rc.getBoolean(LABEL, name, KEY_ALLOW_POST_SUBMIT, LabelType.DEF_ALLOW_POST_SUBMIT));
       label.setIgnoreSelfApproval(
           rc.getBoolean(LABEL, name, KEY_IGNORE_SELF_APPROVAL, LabelType.DEF_IGNORE_SELF_APPROVAL));
-      label.setCopyAnyScore(
-          rc.getBoolean(LABEL, name, KEY_COPY_ANY_SCORE, LabelType.DEF_COPY_ANY_SCORE));
-      label.setCopyMinScore(
-          rc.getBoolean(LABEL, name, KEY_COPY_MIN_SCORE, LabelType.DEF_COPY_MIN_SCORE));
-      label.setCopyMaxScore(
-          rc.getBoolean(LABEL, name, KEY_COPY_MAX_SCORE, LabelType.DEF_COPY_MAX_SCORE));
-      label.setCopyAllScoresIfListOfFilesDidNotChange(
-          rc.getBoolean(
-              LABEL,
-              name,
-              KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE,
-              LabelType.DEF_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE));
-      label.setCopyAllScoresOnMergeFirstParentUpdate(
-          rc.getBoolean(
-              LABEL,
-              name,
-              KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE,
-              LabelType.DEF_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE));
-      label.setCopyAllScoresOnTrivialRebase(
-          rc.getBoolean(
-              LABEL,
-              name,
-              KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE,
-              LabelType.DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE));
-      label.setCopyAllScoresIfNoCodeChange(
-          rc.getBoolean(
-              LABEL,
-              name,
-              KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE,
-              LabelType.DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE));
-      label.setCopyAllScoresIfNoChange(
-          rc.getBoolean(
-              LABEL,
-              name,
-              KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
-              LabelType.DEF_COPY_ALL_SCORES_IF_NO_CHANGE));
-      Set<Short> copyValues = new HashSet<>();
-      for (String value : rc.getStringList(LABEL, name, KEY_COPY_VALUE)) {
-        if (value == null) {
-          // value is null if copyValue in project.config is set to an empty string
-          continue;
-        }
-        try {
-          short copyValue = Shorts.checkedCast(PermissionRule.parseInt(value));
-          if (!copyValues.add(copyValue)) {
-            error(
-                String.format("Duplicate %s \"%s\" for label \"%s\"", KEY_COPY_VALUE, value, name));
-          }
-        } catch (IllegalArgumentException notValue) {
-          error(
-              String.format(
-                  "Invalid %s \"%s\" for label \"%s\": %s",
-                  KEY_COPY_VALUE, value, name, notValue.getMessage()));
-        }
-      }
-      label.setCopyValues(copyValues);
       label.setCanOverride(
           rc.getBoolean(LABEL, name, KEY_CAN_OVERRIDE, LabelType.DEF_CAN_OVERRIDE));
       List<String> refPatterns = getStringListOrNull(rc, LABEL, name, KEY_BRANCH);
@@ -1654,67 +1587,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           KEY_IGNORE_SELF_APPROVAL,
           label.isIgnoreSelfApproval(),
           LabelType.DEF_IGNORE_SELF_APPROVAL);
-      setBooleanConfigKey(
-          rc,
-          LABEL,
-          name,
-          KEY_COPY_ANY_SCORE,
-          label.isCopyAnyScore(),
-          LabelType.DEF_COPY_ANY_SCORE);
-      setBooleanConfigKey(
-          rc,
-          LABEL,
-          name,
-          KEY_COPY_MIN_SCORE,
-          label.isCopyMinScore(),
-          LabelType.DEF_COPY_MIN_SCORE);
-      setBooleanConfigKey(
-          rc,
-          LABEL,
-          name,
-          KEY_COPY_MAX_SCORE,
-          label.isCopyMaxScore(),
-          LabelType.DEF_COPY_MAX_SCORE);
-      setBooleanConfigKey(
-          rc,
-          LABEL,
-          name,
-          KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE,
-          label.isCopyAllScoresOnTrivialRebase(),
-          LabelType.DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE);
-      setBooleanConfigKey(
-          rc,
-          LABEL,
-          name,
-          KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE,
-          label.isCopyAllScoresIfNoCodeChange(),
-          LabelType.DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE);
-      setBooleanConfigKey(
-          rc,
-          LABEL,
-          name,
-          KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
-          label.isCopyAllScoresIfNoChange(),
-          LabelType.DEF_COPY_ALL_SCORES_IF_NO_CHANGE);
-      setBooleanConfigKey(
-          rc,
-          LABEL,
-          name,
-          KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE,
-          label.isCopyAllScoresIfListOfFilesDidNotChange(),
-          LabelType.DEF_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE);
-      setBooleanConfigKey(
-          rc,
-          LABEL,
-          name,
-          KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE,
-          label.isCopyAllScoresOnMergeFirstParentUpdate(),
-          LabelType.DEF_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE);
-      rc.setStringList(
-          LABEL,
-          name,
-          KEY_COPY_VALUE,
-          label.getCopyValues().stream().map(LabelValue::formatValue).collect(toList()));
       setBooleanConfigKey(
           rc, LABEL, name, KEY_CAN_OVERRIDE, label.isCanOverride(), LabelType.DEF_CAN_OVERRIDE);
       List<String> values = new ArrayList<>(label.getValues().size());

@@ -52,15 +52,16 @@ import org.junit.Test;
 public class MigrateLabelConfigToCopyConditionIT extends AbstractDaemonTest {
   private static final ImmutableSet<String> DEPRECATED_FIELDS =
       ImmutableSet.<String>builder()
-          .add(ProjectConfig.KEY_COPY_ANY_SCORE)
-          .add(ProjectConfig.KEY_COPY_MIN_SCORE)
-          .add(ProjectConfig.KEY_COPY_MAX_SCORE)
-          .add(ProjectConfig.KEY_COPY_VALUE)
-          .add(ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CHANGE)
-          .add(ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE)
-          .add(ProjectConfig.KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE)
-          .add(ProjectConfig.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE)
-          .add(ProjectConfig.KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE)
+          .add(MigrateLabelConfigToCopyCondition.KEY_COPY_ANY_SCORE)
+          .add(MigrateLabelConfigToCopyCondition.KEY_COPY_MIN_SCORE)
+          .add(MigrateLabelConfigToCopyCondition.KEY_COPY_MAX_SCORE)
+          .add(MigrateLabelConfigToCopyCondition.KEY_COPY_VALUE)
+          .add(MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_IF_NO_CHANGE)
+          .add(MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE)
+          .add(MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE)
+          .add(MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE)
+          .add(
+              MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE)
           .build();
 
   @Inject private ProjectOperations projectOperations;
@@ -109,12 +110,12 @@ public class MigrateLabelConfigToCopyConditionIT extends AbstractDaemonTest {
           cfg.setBoolean(
               ProjectConfig.LABEL,
               LabelId.CODE_REVIEW,
-              ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
+              MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
               /* value= */ false);
           cfg.setBoolean(
               ProjectConfig.LABEL,
               LabelId.VERIFIED,
-              ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
+              MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
               /* value= */ false);
         });
   }
@@ -140,8 +141,9 @@ public class MigrateLabelConfigToCopyConditionIT extends AbstractDaemonTest {
 
     // copyAllScoresIfNoChange=false is set in the test setup to override the default value
     assertDeprecatedFieldsUnset(
-        LabelId.CODE_REVIEW, ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CHANGE);
-    assertDeprecatedFieldsUnset(LabelId.VERIFIED, ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CHANGE);
+        LabelId.CODE_REVIEW, MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_IF_NO_CHANGE);
+    assertDeprecatedFieldsUnset(
+        LabelId.VERIFIED, MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_IF_NO_CHANGE);
 
     runMigration();
 
@@ -202,21 +204,21 @@ public class MigrateLabelConfigToCopyConditionIT extends AbstractDaemonTest {
   @Test
   public void migrateCopyAnyScore() throws Exception {
     testFlagMigration(
-        ProjectConfig.KEY_COPY_ANY_SCORE,
+        MigrateLabelConfigToCopyCondition.KEY_COPY_ANY_SCORE,
         copyCondition -> assertThat(copyCondition).isEqualTo("is:ANY"));
   }
 
   @Test
   public void migrateCopyMinScore() throws Exception {
     testFlagMigration(
-        ProjectConfig.KEY_COPY_MIN_SCORE,
+        MigrateLabelConfigToCopyCondition.KEY_COPY_MIN_SCORE,
         copyCondition -> assertThat(copyCondition).isEqualTo("is:MIN"));
   }
 
   @Test
   public void migrateCopyMaxScore() throws Exception {
     testFlagMigration(
-        ProjectConfig.KEY_COPY_MAX_SCORE,
+        MigrateLabelConfigToCopyCondition.KEY_COPY_MAX_SCORE,
         copyCondition -> assertThat(copyCondition).isEqualTo("is:MAX"));
   }
 
@@ -250,7 +252,7 @@ public class MigrateLabelConfigToCopyConditionIT extends AbstractDaemonTest {
   @Test
   public void migrateCopyAllScoresIfNoCange() throws Exception {
     testFlagMigration(
-        ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
+        MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
         copyCondition ->
             assertThat(copyCondition).isEqualTo("changekind:" + ChangeKind.NO_CHANGE.toString()));
   }
@@ -258,7 +260,7 @@ public class MigrateLabelConfigToCopyConditionIT extends AbstractDaemonTest {
   @Test
   public void migrateCopyAllScoresIfNoCodeCange() throws Exception {
     testFlagMigration(
-        ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE,
+        MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE,
         copyCondition ->
             assertThat(copyCondition)
                 .isEqualTo("changekind:" + ChangeKind.NO_CODE_CHANGE.toString()));
@@ -267,7 +269,7 @@ public class MigrateLabelConfigToCopyConditionIT extends AbstractDaemonTest {
   @Test
   public void migrateCopyAllScoresOnMergeFirstParentUpdate() throws Exception {
     testFlagMigration(
-        ProjectConfig.KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE,
+        MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE,
         copyCondition ->
             assertThat(copyCondition)
                 .isEqualTo("changekind:" + ChangeKind.MERGE_FIRST_PARENT_UPDATE.toString()));
@@ -276,7 +278,7 @@ public class MigrateLabelConfigToCopyConditionIT extends AbstractDaemonTest {
   @Test
   public void migrateCopyAllScoresOnTrivialRebase() throws Exception {
     testFlagMigration(
-        ProjectConfig.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE,
+        MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE,
         copyCondition ->
             assertThat(copyCondition)
                 .isEqualTo("changekind:" + ChangeKind.TRIVIAL_REBASE.toString()));
@@ -285,7 +287,7 @@ public class MigrateLabelConfigToCopyConditionIT extends AbstractDaemonTest {
   @Test
   public void migrateCopyAllScoresIfListOfFilesDidNotChange() throws Exception {
     testFlagMigration(
-        ProjectConfig.KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE,
+        MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE,
         copyCondition -> assertThat(copyCondition).isEqualTo("has:unchanged-files"));
   }
 
@@ -293,7 +295,7 @@ public class MigrateLabelConfigToCopyConditionIT extends AbstractDaemonTest {
   public void migrateDefaultValues() throws Exception {
     // remove copyAllScoresIfNoChange=false that was set in the test setup to override to default
     // value
-    unset(LabelId.CODE_REVIEW, ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CHANGE);
+    unset(LabelId.CODE_REVIEW, MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_IF_NO_CHANGE);
 
     assertDeprecatedFieldsUnset(LabelId.CODE_REVIEW);
 
@@ -312,7 +314,7 @@ public class MigrateLabelConfigToCopyConditionIT extends AbstractDaemonTest {
 
     // remove copyAllScoresIfNoChange=false that was set in the test setup to override to default
     // value
-    unset(LabelId.CODE_REVIEW, ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CHANGE);
+    unset(LabelId.CODE_REVIEW, MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_IF_NO_CHANGE);
 
     assertDeprecatedFieldsUnset(LabelId.CODE_REVIEW);
 
@@ -327,15 +329,19 @@ public class MigrateLabelConfigToCopyConditionIT extends AbstractDaemonTest {
 
   @Test
   public void migrateAll() throws Exception {
-    setFlagOnCodeReviewLabel(ProjectConfig.KEY_COPY_ANY_SCORE);
-    setFlagOnCodeReviewLabel(ProjectConfig.KEY_COPY_MIN_SCORE);
-    setFlagOnCodeReviewLabel(ProjectConfig.KEY_COPY_MAX_SCORE);
+    setFlagOnCodeReviewLabel(MigrateLabelConfigToCopyCondition.KEY_COPY_ANY_SCORE);
+    setFlagOnCodeReviewLabel(MigrateLabelConfigToCopyCondition.KEY_COPY_MIN_SCORE);
+    setFlagOnCodeReviewLabel(MigrateLabelConfigToCopyCondition.KEY_COPY_MAX_SCORE);
     setCopyValuesOnCodeReviewLabel(-2, -1, 1, 2);
-    setFlagOnCodeReviewLabel(ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CHANGE);
-    setFlagOnCodeReviewLabel(ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE);
-    setFlagOnCodeReviewLabel(ProjectConfig.KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE);
-    setFlagOnCodeReviewLabel(ProjectConfig.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE);
-    setFlagOnCodeReviewLabel(ProjectConfig.KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE);
+    setFlagOnCodeReviewLabel(MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_IF_NO_CHANGE);
+    setFlagOnCodeReviewLabel(
+        MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE);
+    setFlagOnCodeReviewLabel(
+        MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE);
+    setFlagOnCodeReviewLabel(
+        MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE);
+    setFlagOnCodeReviewLabel(
+        MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE);
 
     runMigration();
 
@@ -359,7 +365,7 @@ public class MigrateLabelConfigToCopyConditionIT extends AbstractDaemonTest {
   @Test
   public void migrationMergesFlagsIntoExistingCopyCondition_mutualllyExclusive() throws Exception {
     setCopyConditionOnCodeReviewLabel("is:ANY");
-    setFlagOnCodeReviewLabel(ProjectConfig.KEY_COPY_MIN_SCORE);
+    setFlagOnCodeReviewLabel(MigrateLabelConfigToCopyCondition.KEY_COPY_MIN_SCORE);
 
     runMigration();
 
@@ -371,8 +377,8 @@ public class MigrateLabelConfigToCopyConditionIT extends AbstractDaemonTest {
   public void migrationMergesFlagsIntoExistingCopyCondition_noDuplicatePredicate()
       throws Exception {
     setCopyConditionOnCodeReviewLabel("is:ANY");
-    setFlagOnCodeReviewLabel(ProjectConfig.KEY_COPY_ANY_SCORE);
-    setFlagOnCodeReviewLabel(ProjectConfig.KEY_COPY_MIN_SCORE);
+    setFlagOnCodeReviewLabel(MigrateLabelConfigToCopyCondition.KEY_COPY_ANY_SCORE);
+    setFlagOnCodeReviewLabel(MigrateLabelConfigToCopyCondition.KEY_COPY_MIN_SCORE);
 
     runMigration();
 
@@ -384,9 +390,9 @@ public class MigrateLabelConfigToCopyConditionIT extends AbstractDaemonTest {
   public void migrationMergesFlagsIntoExistingCopyCondition_noDuplicatePredicates()
       throws Exception {
     setCopyConditionOnCodeReviewLabel("is:ANY OR is:MIN");
-    setFlagOnCodeReviewLabel(ProjectConfig.KEY_COPY_ANY_SCORE);
-    setFlagOnCodeReviewLabel(ProjectConfig.KEY_COPY_MIN_SCORE);
-    setFlagOnCodeReviewLabel(ProjectConfig.KEY_COPY_MAX_SCORE);
+    setFlagOnCodeReviewLabel(MigrateLabelConfigToCopyCondition.KEY_COPY_ANY_SCORE);
+    setFlagOnCodeReviewLabel(MigrateLabelConfigToCopyCondition.KEY_COPY_MIN_SCORE);
+    setFlagOnCodeReviewLabel(MigrateLabelConfigToCopyCondition.KEY_COPY_MAX_SCORE);
 
     runMigration();
 
@@ -398,8 +404,9 @@ public class MigrateLabelConfigToCopyConditionIT extends AbstractDaemonTest {
   public void migrationMergesFlagsIntoExistingCopyCondition_complexCopyCondition_v1()
       throws Exception {
     setCopyConditionOnCodeReviewLabel("is:ANY changekind:TRIVIAL_REBASE");
-    setFlagOnCodeReviewLabel(ProjectConfig.KEY_COPY_ANY_SCORE);
-    setFlagOnCodeReviewLabel(ProjectConfig.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE);
+    setFlagOnCodeReviewLabel(MigrateLabelConfigToCopyCondition.KEY_COPY_ANY_SCORE);
+    setFlagOnCodeReviewLabel(
+        MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE);
 
     runMigration();
 
@@ -413,8 +420,9 @@ public class MigrateLabelConfigToCopyConditionIT extends AbstractDaemonTest {
       throws Exception {
     setCopyConditionOnCodeReviewLabel(
         "is:ANY AND (changekind:TRIVIAL_REBASE OR changekind:NO_CODE_CHANGE)");
-    setFlagOnCodeReviewLabel(ProjectConfig.KEY_COPY_ANY_SCORE);
-    setFlagOnCodeReviewLabel(ProjectConfig.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE);
+    setFlagOnCodeReviewLabel(MigrateLabelConfigToCopyCondition.KEY_COPY_ANY_SCORE);
+    setFlagOnCodeReviewLabel(
+        MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE);
 
     runMigration();
 
@@ -428,8 +436,9 @@ public class MigrateLabelConfigToCopyConditionIT extends AbstractDaemonTest {
   public void migrationMergesFlagsIntoExistingCopyCondition_noUnnecessaryParenthesesAdded()
       throws Exception {
     setCopyConditionOnCodeReviewLabel("(is:ANY changekind:TRIVIAL_REBASE)");
-    setFlagOnCodeReviewLabel(ProjectConfig.KEY_COPY_ANY_SCORE);
-    setFlagOnCodeReviewLabel(ProjectConfig.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE);
+    setFlagOnCodeReviewLabel(MigrateLabelConfigToCopyCondition.KEY_COPY_ANY_SCORE);
+    setFlagOnCodeReviewLabel(
+        MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE);
 
     runMigration();
 
@@ -442,8 +451,9 @@ public class MigrateLabelConfigToCopyConditionIT extends AbstractDaemonTest {
   public void migrationMergesFlagsIntoExistingCopyCondition_existingCopyConditionIsNotParseable()
       throws Exception {
     setCopyConditionOnCodeReviewLabel("NOT-PARSEABLE");
-    setFlagOnCodeReviewLabel(ProjectConfig.KEY_COPY_ANY_SCORE);
-    setFlagOnCodeReviewLabel(ProjectConfig.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE);
+    setFlagOnCodeReviewLabel(MigrateLabelConfigToCopyCondition.KEY_COPY_ANY_SCORE);
+    setFlagOnCodeReviewLabel(
+        MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE);
 
     runMigration();
 
@@ -457,8 +467,9 @@ public class MigrateLabelConfigToCopyConditionIT extends AbstractDaemonTest {
       migrationMergesFlagsIntoExistingCopyCondition_existingComplexCopyConditionIsNotParseable()
           throws Exception {
     setCopyConditionOnCodeReviewLabel("NOT PARSEABLE");
-    setFlagOnCodeReviewLabel(ProjectConfig.KEY_COPY_ANY_SCORE);
-    setFlagOnCodeReviewLabel(ProjectConfig.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE);
+    setFlagOnCodeReviewLabel(MigrateLabelConfigToCopyCondition.KEY_COPY_ANY_SCORE);
+    setFlagOnCodeReviewLabel(
+        MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE);
 
     runMigration();
 
@@ -469,11 +480,11 @@ public class MigrateLabelConfigToCopyConditionIT extends AbstractDaemonTest {
 
   @Test
   public void migrateMultipleLabels() throws Exception {
-    setFlagOnCodeReviewLabel(ProjectConfig.KEY_COPY_MIN_SCORE);
-    setFlagOnCodeReviewLabel(ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CHANGE);
+    setFlagOnCodeReviewLabel(MigrateLabelConfigToCopyCondition.KEY_COPY_MIN_SCORE);
+    setFlagOnCodeReviewLabel(MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_IF_NO_CHANGE);
 
-    setFlagOnVerifiedLabel(ProjectConfig.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE);
-    setFlagOnVerifiedLabel(ProjectConfig.KEY_COPY_MAX_SCORE);
+    setFlagOnVerifiedLabel(MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE);
+    setFlagOnVerifiedLabel(MigrateLabelConfigToCopyCondition.KEY_COPY_MAX_SCORE);
 
     runMigration();
 
@@ -492,42 +503,42 @@ public class MigrateLabelConfigToCopyConditionIT extends AbstractDaemonTest {
           cfg.setBoolean(
               ProjectConfig.LABEL,
               LabelId.CODE_REVIEW,
-              ProjectConfig.KEY_COPY_ANY_SCORE,
+              MigrateLabelConfigToCopyCondition.KEY_COPY_ANY_SCORE,
               /* value= */ false);
           cfg.setBoolean(
               ProjectConfig.LABEL,
               LabelId.CODE_REVIEW,
-              ProjectConfig.KEY_COPY_MIN_SCORE,
+              MigrateLabelConfigToCopyCondition.KEY_COPY_MIN_SCORE,
               /* value= */ false);
           cfg.setBoolean(
               ProjectConfig.LABEL,
               LabelId.CODE_REVIEW,
-              ProjectConfig.KEY_COPY_MAX_SCORE,
+              MigrateLabelConfigToCopyCondition.KEY_COPY_MAX_SCORE,
               /* value= */ false);
           cfg.setBoolean(
               ProjectConfig.LABEL,
               LabelId.CODE_REVIEW,
-              ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
+              MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
               /* value= */ false);
           cfg.setBoolean(
               ProjectConfig.LABEL,
               LabelId.CODE_REVIEW,
-              ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE,
+              MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE,
               /* value= */ false);
           cfg.setBoolean(
               ProjectConfig.LABEL,
               LabelId.CODE_REVIEW,
-              ProjectConfig.KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE,
+              MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE,
               /* value= */ false);
           cfg.setBoolean(
               ProjectConfig.LABEL,
               LabelId.CODE_REVIEW,
-              ProjectConfig.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE,
+              MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE,
               /* value= */ false);
           cfg.setBoolean(
               ProjectConfig.LABEL,
               LabelId.CODE_REVIEW,
-              ProjectConfig.KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE,
+              MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE,
               /* value= */ false);
         });
   }
@@ -539,7 +550,7 @@ public class MigrateLabelConfigToCopyConditionIT extends AbstractDaemonTest {
             cfg.setString(
                 ProjectConfig.LABEL,
                 LabelId.CODE_REVIEW,
-                ProjectConfig.KEY_COPY_VALUE,
+                MigrateLabelConfigToCopyCondition.KEY_COPY_VALUE,
                 /* value= */ ""));
 
     runMigration();
@@ -551,8 +562,8 @@ public class MigrateLabelConfigToCopyConditionIT extends AbstractDaemonTest {
   public void migrationCreatesASingleCommit() throws Exception {
     // Set flags on 2 labels (the migrations for both labels are expected to be done in a single
     // commit)
-    setFlagOnCodeReviewLabel(ProjectConfig.KEY_COPY_MIN_SCORE);
-    setFlagOnVerifiedLabel(ProjectConfig.KEY_COPY_MAX_SCORE);
+    setFlagOnCodeReviewLabel(MigrateLabelConfigToCopyCondition.KEY_COPY_MIN_SCORE);
+    setFlagOnVerifiedLabel(MigrateLabelConfigToCopyCondition.KEY_COPY_MAX_SCORE);
 
     RevCommit refsMetaConfigHead = projectOperations.project(project).getHead(RefNames.REFS_CONFIG);
 
@@ -566,7 +577,7 @@ public class MigrateLabelConfigToCopyConditionIT extends AbstractDaemonTest {
   @Test
   public void commitMessageIsDistinct() throws Exception {
     // Set a flag so that the migration has to do something.
-    setFlagOnCodeReviewLabel(ProjectConfig.KEY_COPY_MIN_SCORE);
+    setFlagOnCodeReviewLabel(MigrateLabelConfigToCopyCondition.KEY_COPY_MIN_SCORE);
 
     runMigration();
 
@@ -581,7 +592,7 @@ public class MigrateLabelConfigToCopyConditionIT extends AbstractDaemonTest {
   @Test
   public void gerritIsAuthorAndCommitterOfTheMigrationCommit() throws Exception {
     // Set a flag so that the migration has to do something.
-    setFlagOnCodeReviewLabel(ProjectConfig.KEY_COPY_MIN_SCORE);
+    setFlagOnCodeReviewLabel(MigrateLabelConfigToCopyCondition.KEY_COPY_MIN_SCORE);
 
     runMigration();
 
@@ -661,22 +672,22 @@ public class MigrateLabelConfigToCopyConditionIT extends AbstractDaemonTest {
             cfg.setBoolean(
                 ProjectConfig.LABEL,
                 LabelId.CODE_REVIEW,
-                ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
+                MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
                 copyAllScoresIfNoChangeValue);
             cfg.setBoolean(
                 ProjectConfig.LABEL,
                 LabelId.VERIFIED,
-                ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
+                MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
                 copyAllScoresIfNoChangeValue);
           } else {
             cfg.unset(
                 ProjectConfig.LABEL,
                 LabelId.CODE_REVIEW,
-                ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CHANGE);
+                MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_IF_NO_CHANGE);
             cfg.unset(
                 ProjectConfig.LABEL,
                 LabelId.VERIFIED,
-                ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CHANGE);
+                MigrateLabelConfigToCopyCondition.KEY_COPY_ALL_SCORES_IF_NO_CHANGE);
           }
         });
 
@@ -750,7 +761,7 @@ public class MigrateLabelConfigToCopyConditionIT extends AbstractDaemonTest {
             cfg.setStringList(
                 ProjectConfig.LABEL,
                 labelName,
-                ProjectConfig.KEY_COPY_VALUE,
+                MigrateLabelConfigToCopyCondition.KEY_COPY_VALUE,
                 Arrays.stream(values).map(Object::toString).collect(toImmutableList())));
   }
 

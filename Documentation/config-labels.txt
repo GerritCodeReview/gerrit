@@ -312,14 +312,6 @@ the past and affect submission somehow.
 
 Defaults to true.
 
-[[label_copyAnyScore]]
-=== `label.Label-Name.copyAnyScore`
-
-*DEPRECATED:* Use the link:#is_any[is:ANY] predicate in
-link:config-labels.html#label_copyCondition[copyCondition] instead.
-
-Defaults to false.
-
 [[label_copyCondition]]
 === `label.Label-Name.copyCondition`
 
@@ -493,76 +485,6 @@ less human-readable.
 ----
 copyCondition = is:MIN OR -change-kind:REWORK OR uploaderin:dead...beef
 ----
-
-[[label_copyMinScore]]
-=== `label.Label-Name.copyMinScore`
-
-*DEPRECATED:* Use the link:#is_min[is:MIN] predicate in
-link:config-labels.html#label_copyCondition[copyCondition] instead.
-
-Defaults to false.
-
-[[label_copyMaxScore]]
-=== `label.Label-Name.copyMaxScore`
-
-*DEPRECATED:* Use the link:#is_max[is:MAX] predicate in
-link:config-labels.html#label_copyCondition[copyCondition] instead.
-
-Defaults to false.
-
-[[label_copyAllScoresIfListOfFilesDidNotChange]]
-=== `label.Label-Name.copyAllScoresIfListOfFilesDidNotChange`
-
-*DEPRECATED:* Use the link:#has_unchanged_files[has:unchanged-files]
-predicate in link:config-labels.html#label_copyCondition[copyCondition]
-instead.
-
-Defaults to false.
-
-[[label_copyAllScoresOnMergeFirstParentUpdate]]
-=== `label.Label-Name.copyAllScoresOnMergeFirstParentUpdate`
-
-*DEPRECATED:* Use the
-link:#merge_first_parent_update[changekind:MERGE_FIRST_PARENT_UPDATE]
-predicate in link:config-labels.html#label_copyCondition[copyCondition]
-instead.
-
-Defaults to false.
-
-[[label_copyAllScoresOnTrivialRebase]]
-=== `label.Label-Name.copyAllScoresOnTrivialRebase`
-
-*DEPRECATED:* Use the link:#trivial_rebase[changekind:TRIVIAL_REBASE]
-predicate in link:config-labels.html#label_copyCondition[copyCondition]
-instead.
-
-Defaults to false.
-
-[[label_copyAllScoresIfNoCodeChange]]
-=== `label.Label-Name.copyAllScoresIfNoCodeChange`
-
-*DEPRECATED:* Use the link:#no_code_change[changekind:NO_CODE_CHANGE]
-predicate in link:config-labels.html#label_copyCondition[copyCondition]
-instead.
-
-Defaults to false.
-
-[[label_copyAllScoresIfNoChange]]
-=== `label.Label-Name.copyAllScoresIfNoChange`
-
-*DEPRECATED:* Use the link:#no_change[changekind:NO_CHANGE]
-predicate in link:config-labels.html#label_copyCondition[copyCondition]
-instead.
-
-Defaults to false.
-
-[[label_copyValue]]
-=== `label.Label-Name.copyValue`
-
-*DEPRECATED:* Use the link:#is_value[is:<value>] predicate in
-link:config-labels.html#label_copyCondition[copyCondition] instead.
-
-By default not set.
 
 [[label_canOverride]]
 === `label.Label-Name.canOverride`

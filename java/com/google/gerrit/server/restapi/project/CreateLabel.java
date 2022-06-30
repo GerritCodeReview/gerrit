@@ -173,10 +173,6 @@ public class CreateLabel
       labelType.setCanOverride(input.canOverride);
     }
 
-    if (input.copyAnyScore != null) {
-      labelType.setCopyAnyScore(input.copyAnyScore);
-    }
-
     if (input.copyCondition != null) {
       try {
         approvalQueryBuilder.parse(input.copyCondition);
@@ -192,40 +188,6 @@ public class CreateLabel
     }
     if (Boolean.TRUE.equals(input.unsetCopyCondition)) {
       labelType.setCopyCondition(null);
-    }
-
-    if (input.copyMinScore != null) {
-      labelType.setCopyMinScore(input.copyMinScore);
-    }
-
-    if (input.copyMaxScore != null) {
-      labelType.setCopyMaxScore(input.copyMaxScore);
-    }
-
-    if (input.copyAllScoresIfListOfFilesDidNotChange != null) {
-      labelType.setCopyAllScoresIfListOfFilesDidNotChange(
-          input.copyAllScoresIfListOfFilesDidNotChange);
-    }
-
-    if (input.copyAllScoresIfNoChange != null) {
-      labelType.setCopyAllScoresIfNoChange(input.copyAllScoresIfNoChange);
-    }
-
-    if (input.copyAllScoresIfNoCodeChange != null) {
-      labelType.setCopyAllScoresIfNoCodeChange(input.copyAllScoresIfNoCodeChange);
-    }
-
-    if (input.copyAllScoresOnTrivialRebase != null) {
-      labelType.setCopyAllScoresOnTrivialRebase(input.copyAllScoresOnTrivialRebase);
-    }
-
-    if (input.copyAllScoresOnMergeFirstParentUpdate != null) {
-      labelType.setCopyAllScoresOnMergeFirstParentUpdate(
-          input.copyAllScoresOnMergeFirstParentUpdate);
-    }
-
-    if (input.copyValues != null) {
-      labelType.setCopyValues(input.copyValues);
     }
 
     if (input.allowPostSubmit != null) {

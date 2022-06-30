@@ -245,7 +245,11 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     }
     return html`
       <div class="error-container">
-        <iron-icon icon="gr-icons:error"></iron-icon>
+        <iron-icon
+          icon="gr-icons:error"
+          role="img"
+          aria-label="Error"
+        ></iron-icon>
         <span>
           <!-- prettier-ignore -->
           Failed to vote on ${pluralize(

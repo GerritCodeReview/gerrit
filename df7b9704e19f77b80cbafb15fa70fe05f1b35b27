@@ -197,6 +197,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1aeb3602_bbe35768",
+        "filename": "java/com/google/gerrit/index/IndexedField.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-30T14:21:46Z",
+      "side": 1,
+      "message": "\u003e You are correct, other index backends can do the same.\n\u003e However, it depends on the implementation. I.e. we are not going to adopt Lucine/Elastic to this.\n\nIf you don\u0027t do the work for Elastic, I/my-team probably will 😊 I already ran into exactly the use case I outlined and was frustrated that there wasn\u0027t an easy way to search differently on the same indexed data (Change-Id only supports prefix match, but I wanted exact match too).\n\n\u003e \n\u003e So the tests should be written for specific implementation, operating over new classes, not the schema defs itself.\n\nThat makes sense. Should the FakeIndex we use in tests be extended to support it though?",
+      "parentUuid": "69aa4e87_154a9a69",
+      "revId": "df7b9704e19f77b80cbafb15fa70fe05f1b35b27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "91454f67_8bba5c2d",

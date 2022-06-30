@@ -16,6 +16,24 @@
       "message": "We still need a way to specify this is a trusted string, otherwise someone could be calling registerServiceWorker with a random user-provided string and registerServiceWorker could not protect against that.",
       "revId": "47d07d2e079ae941ef0c73142d33f9e5dae7a846",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9fd53de_fe6e2114",
+        "filename": "polygerrit-ui/app/services/service-worker-installer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-30T12:40:48Z",
+      "side": 1,
+      "message": "Ah, I see how you handle this case.",
+      "parentUuid": "ea4df48f_2962e6f9",
+      "revId": "47d07d2e079ae941ef0c73142d33f9e5dae7a846",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

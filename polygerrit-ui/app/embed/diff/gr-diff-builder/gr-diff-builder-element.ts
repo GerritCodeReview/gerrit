@@ -252,6 +252,10 @@ export class GrDiffBuilderElement implements GroupConsumer {
 
   // visible for testing
   setupAnnotationLayers() {
+    this.coverageLayerLeft = new GrCoverageLayer(Side.LEFT);
+    this.coverageLayerRight = new GrCoverageLayer(Side.RIGHT);
+    this.rangeLayer = new GrRangedCommentLayer();
+
     const layers: DiffLayer[] = [
       this.createTrailingWhitespaceLayer(),
       this.createIntralineLayer(),

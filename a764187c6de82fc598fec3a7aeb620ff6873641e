@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5066868e_16ffdf1d",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-30T16:14:15Z",
+      "side": 1,
+      "message": "note on API: why there must be always a destination change?\n\nI would expect that the new change can be created from the Patch, taking the tip of destination branch as a base.\n\nAnother thought: when uploading to the existing change, do we always want t o take tip of destination as a base, or should we give an option to provide explicit base, same as cherry-pick?\n\nIn any case, I think we should sync with android what is the priority. I feel like having a way to create a new change from patch first is more desirable.",
+      "range": {
+        "startLine": 149,
+        "startChar": 13,
+        "endLine": 149,
+        "endChar": 69
+      },
+      "revId": "a764187c6de82fc598fec3a7aeb620ff6873641e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "caf0a639_b40e3c30",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-30T16:14:15Z",
+      "side": 1,
+      "message": "should this be baseCommit?\nAssuming we want ammend the current patch, not create another change on top of it.",
+      "range": {
+        "startLine": 180,
+        "startChar": 32,
+        "endLine": 180,
+        "endChar": 71
+      },
+      "revId": "a764187c6de82fc598fec3a7aeb620ff6873641e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "811e65ea_817f7041",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ApplyPatchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-30T16:14:15Z",
+      "side": 1,
+      "message": "Should you merge this change?\nOtherwise, the command will be operating on empty fileset (since it will HEAD \u003d master\u003d DESTINATION_BRANCH) won\u0027t have MODIFIED_FILE and DELETED_FILE)",
+      "range": {
+        "startLine": 70,
+        "startChar": 4,
+        "endLine": 70,
+        "endChar": 14
+      },
+      "revId": "a764187c6de82fc598fec3a7aeb620ff6873641e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

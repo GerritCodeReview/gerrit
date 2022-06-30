@@ -166,6 +166,30 @@
       },
       "revId": "a2dd3dc266771d37696f51206e0586498c25f040",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b736ecc8_a42f7467",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-30T07:58:02Z",
+      "side": 1,
+      "message": "I still think this would be fine. If the warnings are ignored it doesn\u0027t break anything fundamentally. It\u0027s actually not unlikely that you want to ignore them, if you configured such a conflicting submit requirement it\u0027s likely that this conflicting submit requirement is already doing what you want, and no action is required.\n\nHowever I will still have a look to see if we can come up with something better.",
+      "parentUuid": "e89cf2d4_e51a12c6",
+      "range": {
+        "startLine": 25,
+        "startChar": 10,
+        "endLine": 25,
+        "endChar": 69
+      },
+      "revId": "a2dd3dc266771d37696f51206e0586498c25f040",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

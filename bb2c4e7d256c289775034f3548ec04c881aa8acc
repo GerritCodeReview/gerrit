@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a2ffb6e8_05ea0015",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-30T07:58:02Z",
+      "side": 1,
+      "message": "This must be a schema migration, since we will drop all code for the deprecated label functions in the next step. At that moment your projects will be broken if you haven\u0027t migrated yet.\n\nIt would be possible to delay the removal of the deprecated label functions to the next release so that you could do an online migration in this release, but AFAIK we are not committed to support online migration and haven\u0027t done such an approach for any other migrations yet (an exception may have been the copy-approvals pgm, but that\u0027s an optional migration that is not mandatory to be executed, and I think it only became a pgm by accident since we missed the release where this should have been included as a schema migration).\n\n\u003e I think have a pgm (and moving this change to stable-3.6) would be beneficial.\n\nThis would require backporting other changes, at least [1], as otherwise people may manually reset the deprecated label functions after they have been migrated. I think backporting that change would be against our stable branch policy.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/337456",
+      "parentUuid": "be7f345a_1af013f2",
+      "range": {
+        "startLine": 7,
+        "startChar": 6,
+        "endLine": 7,
+        "endChar": 9
+      },
+      "revId": "bb2c4e7d256c289775034f3548ec04c881aa8acc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bb5da239_fc91deff",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -179,6 +203,23 @@
       "writtenOn": "2022-06-27T13:30:16Z",
       "side": 1,
       "message": "Didn\u0027t review the code yet.",
+      "revId": "bb2c4e7d256c289775034f3548ec04c881aa8acc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "372cab04_1c7ca560",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-30T07:58:02Z",
+      "side": 1,
+      "message": "FYI, I will take over implementing this migration from Youssef, since Youssef is overbooked with other, more important, topics.\n\nI still didn\u0027t look at the implementation, but I plan to pickup reworking this change somewhen next week.",
       "revId": "bb2c4e7d256c289775034f3548ec04c881aa8acc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

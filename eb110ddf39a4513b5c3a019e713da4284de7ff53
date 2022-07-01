@@ -22,6 +22,30 @@
       },
       "revId": "eb110ddf39a4513b5c3a019e713da4284de7ff53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cdee9aab_f11dc5e4",
+        "filename": "java/com/google/gerrit/server/index/account/AccountField.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-01T09:56:54Z",
+      "side": 1,
+      "message": "We discussed offline: answer is yes.",
+      "parentUuid": "2ad6246d_4706bfeb",
+      "range": {
+        "startLine": 81,
+        "startChar": 56,
+        "endLine": 81,
+        "endChar": 64
+      },
+      "revId": "eb110ddf39a4513b5c3a019e713da4284de7ff53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -34,6 +34,24 @@
       "parentUuid": "3e467d1d_5b74f5dd",
       "revId": "21c52f3dd3ac1f3e9410e1f94a2fb7ec8e8174c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04a93e2f_db0efb9a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-07-01T19:17:21Z",
+      "side": 1,
+      "message": "Actually as it\u0027s a core plugin it has to be done in cores npm package otherwise it fails. You are correct here (we\u0027ve done it with codemirror-minified as you\u0027ve seen).\n\nAlthough i think we should still do it in app/package.json rather then plugins package.json (since i think that one is intended to be replaced with what ever plugin requires the use of that plugin that is non core).\n\nI\u0027d like to help you progress this along as i got it working for me locally.",
+      "parentUuid": "0eef4677_aedc656e",
+      "revId": "21c52f3dd3ac1f3e9410e1f94a2fb7ec8e8174c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

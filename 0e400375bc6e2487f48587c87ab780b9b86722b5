@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "553363a4_1cc02c48",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-unified.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-01T10:34:08Z",
+      "side": 1,
+      "message": "Should we have a `TODO: Remove parts XYZ when Chrome 102 is out of date for N years` ?",
+      "range": {
+        "startLine": 123,
+        "startChar": 52,
+        "endLine": 124,
+        "endChar": 76
+      },
+      "revId": "0e400375bc6e2487f48587c87ab780b9b86722b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

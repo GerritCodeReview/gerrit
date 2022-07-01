@@ -129,7 +129,7 @@ public class CreateBranch
         object = rw.parseCommit(object);
       }
 
-      createRefControl.checkCreateRef(identifiedUser, repo, name, object);
+      createRefControl.checkCreateRef(identifiedUser, repo, name, object, /* forPush= */ false);
 
       RefUpdate u = repo.updateRef(ref);
       u.setExpectedOldObjectId(ObjectId.zeroId());

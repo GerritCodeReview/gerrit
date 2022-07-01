@@ -16,6 +16,24 @@
       "message": "Very minor nit: Would be nice to be consistent to either compute them all directly in the template, or compute them all up front into variables.",
       "revId": "34feb598deddea55abf924c5683693411f4d4e2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ce29650_657f97a3",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-01T10:20:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e1bdb8e_086aee1c",
+      "revId": "34feb598deddea55abf924c5683693411f4d4e2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

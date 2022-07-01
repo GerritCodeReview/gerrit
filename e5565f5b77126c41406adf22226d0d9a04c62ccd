@@ -164,6 +164,167 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ba8f0e23_fc497e08",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1002,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-01T15:00:05Z",
+      "side": 1,
+      "message": "why is this needed?\nAlso why is path changing triggering prefsChanged?\n\nprefsChanged is also triggering a re-render so there is a lot going on here.",
+      "range": {
+        "startLine": 1002,
+        "startChar": 7,
+        "endLine": 1002,
+        "endChar": 63
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d67d589_dc21ca65",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-01T15:00:05Z",
+      "side": 1,
+      "message": "rename to lineOfInterestChanged for consistency?",
+      "range": {
+        "startLine": 1026,
+        "startChar": 11,
+        "endLine": 1026,
+        "endChar": 33
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8285d02b_87102e1f",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1032,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-01T15:00:05Z",
+      "side": 1,
+      "message": "why is this in updated and not willUpdated like the others?",
+      "range": {
+        "startLine": 1032,
+        "startChar": 11,
+        "endLine": 1032,
+        "endChar": 22
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "826a3db0_dda7411a",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1047,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-01T15:00:05Z",
+      "side": 1,
+      "message": "prefer not rendering instead of hiding",
+      "range": {
+        "startLine": 1047,
+        "startChar": 27,
+        "endLine": 1047,
+        "endChar": 36
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bbe750e_113cef20",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1095,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-01T15:00:05Z",
+      "side": 1,
+      "message": "where is this setting?\ncouldnt find in diff pref dialog",
+      "range": {
+        "startLine": 1095,
+        "startChar": 36,
+        "endLine": 1095,
+        "endChar": 47
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7bdb203_24a6a0a7",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1291,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-01T15:00:05Z",
+      "side": 1,
+      "message": "I think this whole method can be replaced with a classMap?",
+      "range": {
+        "startLine": 1291,
+        "startChar": 10,
+        "endLine": 1291,
+        "endChar": 31
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99075f5e_fc87b50c",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1344,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-01T15:00:05Z",
+      "side": 1,
+      "message": "inline?",
+      "range": {
+        "startLine": 1344,
+        "startChar": 10,
+        "endLine": 1344,
+        "endChar": 26
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fcb17ace_a32b51a1",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
         "patchSetId": 10
@@ -180,6 +341,121 @@
         "startChar": 21,
         "endLine": 1505,
         "endChar": 26
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "676e630b_25588aed",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1580,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-01T15:00:05Z",
+      "side": 1,
+      "message": "why is this debounceP and not debounce?",
+      "range": {
+        "startLine": 1580,
+        "startChar": 31,
+        "endLine": 1580,
+        "endChar": 40
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eaefb92f_4d673844",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1586,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-01T15:00:05Z",
+      "side": 1,
+      "message": "is it safe to just log the error in the console here?\nwhat kind of a user experience will this be?",
+      "range": {
+        "startLine": 1586,
+        "startChar": 6,
+        "endLine": 1586,
+        "endChar": 23
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97aad17b_df929e0c",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1642,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-01T15:00:05Z",
+      "side": 1,
+      "message": "if you can add some comments as to what\u0027s happening in the method, would be nice. It\u0027s not clear from reading the code.",
+      "range": {
+        "startLine": 1642,
+        "startChar": 10,
+        "endLine": 1642,
+        "endChar": 22
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b118ae1_9a576d42",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1760,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-01T15:00:05Z",
+      "side": 1,
+      "message": "mark private or add comment?",
+      "range": {
+        "startLine": 1760,
+        "startChar": 2,
+        "endLine": 1760,
+        "endChar": 18
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67917be1_36d9e063",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1799,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-01T15:00:05Z",
+      "side": 1,
+      "message": "mark private or add comment?",
+      "range": {
+        "startLine": 1799,
+        "startChar": 2,
+        "endLine": 1799,
+        "endChar": 18
       },
       "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

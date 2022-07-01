@@ -69,7 +69,8 @@ public class IndexHtmlUtil {
                 canonicalURL, cdnPath, faviconPath, urlParameterMap, urlInScriptTagOrdainer))
         .putAll(dynamicTemplateData(gerritApi, requestedURL));
     Set<String> enabledExperiments = experimentFeatures.getEnabledExperimentFeatures();
-
+    // Add all experiments enabled through url
+    enabledExperiments.addAll(IndexHtmlUtil.experimentData(urlParameterMap));
     if (!enabledExperiments.isEmpty()) {
       data.put("enabledExperiments", serializeObject(GSON, enabledExperiments).toString());
     }

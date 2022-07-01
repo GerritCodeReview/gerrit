@@ -60,6 +60,7 @@ public class IndexServlet extends HttpServlet {
     this.faviconPath = faviconPath;
     this.gerritApi = gerritApi;
     this.experimentFeatures = experimentFeatures;
+    
     this.soySauce =
         SoyFileSet.builder()
             .add(Resources.getResource(POLY_GERRIT_INDEX_HTML_SOY), POLY_GERRIT_INDEX_HTML_SOY)
@@ -76,6 +77,8 @@ public class IndexServlet extends HttpServlet {
     SoySauce.Renderer renderer;
     try {
       Map<String, String[]> parameterMap = req.getParameterMap();
+      // Add all experiments enabled through url
+      experiments.addAll(IndexHtmlUtil.experimentData(parameterMap));
       // TODO(hiesel): Remove URL ordainer as parameter once Soy is consistent
       ImmutableMap<String, Object> templateData =
           IndexHtmlUtil.templateData(
@@ -87,6 +90,7 @@ public class IndexServlet extends HttpServlet {
               parameterMap,
               urlOrdainer,
               getRequestUrl(req));
+      
       renderer = soySauce.renderTemplate("com.google.gerrit.httpd.raw.Index").setData(templateData);
     } catch (URISyntaxException | RestApiException e) {
       throw new IOException(e);

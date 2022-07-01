@@ -138,6 +138,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "16fbec87_4f1dcd96",
+        "filename": "java/com/google/gerrit/server/restapi/change/PreviewProvidedFix.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-07-01T22:21:02Z",
+      "side": 1,
+      "message": "Will wait for what is finalized and checked in with https://gerrit-review.googlesource.com/c/gerrit/+/340194 before proceeding on this one.",
+      "parentUuid": "593cf683_24f46f8b",
+      "range": {
+        "startLine": 71,
+        "startChar": 8,
+        "endLine": 71,
+        "endChar": 49
+      },
+      "revId": "b1a689649c0e5a0546a1870abc6cf26ffd0b4819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "53bf1ea1_85829ef3",
         "filename": "java/com/google/gerrit/server/restapi/change/PreviewStoredFix.java",
         "patchSetId": 13

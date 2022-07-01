@@ -39,6 +39,30 @@
       },
       "revId": "48076b7caffdd0591a8f7c1d47cae9bea666b5dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21dd12a4_cf70810f",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-service.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-01T08:47:24Z",
+      "side": 1,
+      "message": "based on the change description this should be false",
+      "parentUuid": "1dc5792d_b69d0791",
+      "range": {
+        "startLine": 161,
+        "startChar": 28,
+        "endLine": 161,
+        "endChar": 58
+      },
+      "revId": "48076b7caffdd0591a8f7c1d47cae9bea666b5dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

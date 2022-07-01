@@ -39,6 +39,7 @@ import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
@@ -68,8 +69,10 @@ public class IndexHtmlUtil {
             staticTemplateData(
                 canonicalURL, cdnPath, faviconPath, urlParameterMap, urlInScriptTagOrdainer))
         .putAll(dynamicTemplateData(gerritApi, requestedURL));
-    Set<String> enabledExperiments = experimentFeatures.getEnabledExperimentFeatures();
-
+    Set<String> enabledExperiments = new HashSet<>();
+    enabledExperiments.addAll(experimentFeatures.getEnabledExperimentFeatures());
+    // Add all experiments enabled through url
+    enabledExperiments.addAll(IndexHtmlUtil.experimentData(urlParameterMap));
     if (!enabledExperiments.isEmpty()) {
       data.put("enabledExperiments", serializeObject(GSON, enabledExperiments).toString());
     }

@@ -87,6 +87,7 @@ public class IndexServlet extends HttpServlet {
               parameterMap,
               urlOrdainer,
               getRequestUrl(req));
+      
       renderer = soySauce.renderTemplate("com.google.gerrit.httpd.raw.Index").setData(templateData);
     } catch (URISyntaxException | RestApiException e) {
       throw new IOException(e);

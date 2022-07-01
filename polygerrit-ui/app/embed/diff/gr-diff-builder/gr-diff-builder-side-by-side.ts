@@ -104,6 +104,7 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilderLegacy {
     // tr is not expected to have aria label. Adding aria role button is
     // pushing browser to compute aria even for tr. This can be removed, once
     // browsers will again compute a11y label even for tr when it is focused.
+    // TODO: Remove when Chrome 102 is out of date for 1 year.
     if (
       leftLine.beforeNumber !== 'FILE' &&
       leftLine.beforeNumber !== 'LOST' &&

@@ -26,6 +26,53 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "43f4126a_e4752596",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2133,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-07-01T11:05:00Z",
+      "side": 1,
+      "message": "+1. I think we first need to implement the API to create the change on top of destination branch/supplied base commit.\n\nThen we can extend it to upload new patchSets to existing changes.\n\n@Jinda, would this order makes sense for your use case?",
+      "parentUuid": "70e5760f_2942f963",
+      "range": {
+        "startLine": 2133,
+        "startChar": 0,
+        "endLine": 2133,
+        "endChar": 43
+      },
+      "revId": "0b009cb823cea52c0da78fe1e040a16f408b8a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b89f838e_264a104a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2149,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-07-01T11:05:00Z",
+      "side": 1,
+      "message": "We need to make sure this is not relevant for the apply implementation, since the patches will be generated from the changes on other hosts.",
+      "range": {
+        "startLine": 2149,
+        "startChar": 29,
+        "endLine": 2149,
+        "endChar": 36
+      },
+      "revId": "0b009cb823cea52c0da78fe1e040a16f408b8a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e311e1ca_5209ae06",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 4

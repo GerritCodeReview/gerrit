@@ -116,6 +116,31 @@ export class GrDiffBuilderUnified extends GrDiffBuilderLegacy {
     if (line.type === GrDiffLineType.REMOVE) {
       side = Side.LEFT;
     }
+
+    // Before Chrome 102, Chrome was able to compute a11y label from children
+    // content. Now Chrome 102 and Firefox are not computing a11y label because
+    // tr is not expected to have aria label. Adding aria role button is
+    // pushing browser to compute aria even for tr. This can be removed, once
+    // browsers will again compute a11y label even for tr when it is focused.
+    if (line.beforeNumber !== 'FILE' && line.beforeNumber !== 'LOST') {
+      row.setAttribute('role', 'button');
+      row.setAttribute('aria-roledescription', 'Code line');
+      row.setAttribute(
+        'aria-labelledby',
+        [
+          line.beforeNumber ? `left-button-${line.beforeNumber}` : '',
+          line.afterNumber ? `right-button-${line.afterNumber}` : '',
+          side === Side.LEFT && line.beforeNumber
+            ? `left-content-${line.beforeNumber}`
+            : '',
+          side === Side.RIGHT && line.afterNumber
+            ? `right-content-${line.afterNumber}`
+            : '',
+        ]
+          .join(' ')
+          .trim()
+      );
+    }
     row.appendChild(this.createTextEl(lineNumberEl, line, side));
     return row;
   }

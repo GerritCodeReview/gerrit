@@ -16,6 +16,29 @@
       "message": "jkjkjkj   werwerwer",
       "revId": "48076b7caffdd0591a8f7c1d47cae9bea666b5dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1dc5792d_b69d0791",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-service.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-01T07:44:37Z",
+      "side": 1,
+      "message": "before the default doNotPrevent was false but now we are doing `?? true` so the default is becoming true?",
+      "range": {
+        "startLine": 161,
+        "startChar": 28,
+        "endLine": 161,
+        "endChar": 58
+      },
+      "revId": "48076b7caffdd0591a8f7c1d47cae9bea666b5dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

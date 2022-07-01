@@ -296,7 +296,6 @@ export class GrChangeListSection extends LitElement {
   ) {
     const ariaLabel = this.computeAriaLabel(change);
     const selected = this.computeItemSelected(index);
-    const tabindex = this.computeTabIndex(index);
     return html`
       <gr-change-list-item
         .account=${this.account}
@@ -307,9 +306,10 @@ export class GrChangeListSection extends LitElement {
         .visibleChangeTableColumns=${columns}
         .showNumber=${this.showNumber}
         ?showStar=${this.showStar}
-        tabindex=${ifDefined(tabindex)}
+        tabindex=${this.computeTabIndex(index)}
         .labelNames=${this.labelNames}
         aria-label=${ariaLabel}
+        role="button"
       ></gr-change-list-item>
     `;
   }
@@ -346,7 +346,7 @@ export class GrChangeListSection extends LitElement {
 
   private computeTabIndex(index: number) {
     if (this.isCursorMoving) return 0;
-    return this.computeItemSelected(index) ? 0 : undefined;
+    return this.computeItemSelected(index) ? 0 : -1;
   }
 
   // private but used in test

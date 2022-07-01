@@ -1,0 +1,234 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2ccd67e_5dc2ebe6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-01T14:14:02Z",
+      "side": 1,
+      "message": "IMO we should say delete. With deprecate, I expected existing usages to stay but method would receive @deprecated warning.",
+      "range": {
+        "startLine": 9,
+        "startChar": 5,
+        "endLine": 9,
+        "endChar": 14
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "259117e3_f102a511",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-01T14:14:02Z",
+      "side": 1,
+      "message": "IMO utils should be at the bottom of the file since they are less important",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 92,
+        "endChar": 8
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e2be3c9_6ecbed24",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-01T14:14:02Z",
+      "side": 1,
+      "message": "flatMap is nice here:\n`return mutations.flatMap(mutation \u003d\u003e mutation.addedNodes)`",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 0
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "839816cc_9ae8a338",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-01T14:14:02Z",
+      "side": 1,
+      "message": "flatMap is nice here:\n`return mutations.flatMap(mutation \u003d\u003e mutation.removedNodes)`",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 106,
+        "endChar": 0
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "951245cb_da5ac811",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-01T14:14:02Z",
+      "side": 1,
+      "message": "reflow to fit line limit. same for many other comments",
+      "range": {
+        "startLine": 302,
+        "startChar": 12,
+        "endLine": 303,
+        "endChar": 86
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "873f7259_c45a77ab",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 891,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-01T14:14:02Z",
+      "side": 1,
+      "message": "maybe it is a good time to see if this is still needed, if it is specifically called out as carried from Pre-polymer3 for polymer2 compatibility.",
+      "range": {
+        "startLine": 891,
+        "startChar": 0,
+        "endLine": 891,
+        "endChar": 51
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11454691_993b4e7f",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 995,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-01T14:14:02Z",
+      "side": 1,
+      "message": "TIL you can do `PropertyValues\u003cthis\u003e` to get stronger type checking, same in `override updated()` below. Worth a try.\n\nhttps://lit.dev/docs/api/ReactiveElement/#PropertyValues",
+      "range": {
+        "startLine": 995,
+        "startChar": 51,
+        "endLine": 995,
+        "endChar": 65
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcb17ace_a32b51a1",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1505,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-01T14:14:02Z",
+      "side": 1,
+      "message": "doesn\u0027t",
+      "range": {
+        "startLine": 1505,
+        "startChar": 21,
+        "endLine": 1505,
+        "endChar": 26
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "394b2272_aa4e7f6e",
+        "filename": "polygerrit-ui/app/utils/async-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-01T14:14:02Z",
+      "side": 1,
+      "message": "I think double L spelling is -more- correct:\n\n\u003e However, while cancelation is rarely used (and technically correct), cancellation is by far the more widely-used spelling, no matter where you are.\n\nhttps://www.grammarly.com/blog/canceled-vs-cancelled/",
+      "range": {
+        "startLine": 106,
+        "startChar": 20,
+        "endLine": 106,
+        "endChar": 31
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cbedb23_494892c2",
+        "filename": "polygerrit-ui/app/utils/async-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-01T14:14:02Z",
+      "side": 1,
+      "message": "convert to a string or symbol constant",
+      "range": {
+        "startLine": 106,
+        "startChar": 7,
+        "endLine": 106,
+        "endChar": 12
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -60,6 +60,7 @@ public class IndexServlet extends HttpServlet {
     this.faviconPath = faviconPath;
     this.gerritApi = gerritApi;
     this.experimentFeatures = experimentFeatures;
+
     this.soySauce =
         SoyFileSet.builder()
             .add(Resources.getResource(POLY_GERRIT_INDEX_HTML_SOY), POLY_GERRIT_INDEX_HTML_SOY)
@@ -87,6 +88,7 @@ public class IndexServlet extends HttpServlet {
               parameterMap,
               urlOrdainer,
               getRequestUrl(req));
+      
       renderer = soySauce.renderTemplate("com.google.gerrit.httpd.raw.Index").setData(templateData);
     } catch (URISyntaxException | RestApiException e) {
       throw new IOException(e);

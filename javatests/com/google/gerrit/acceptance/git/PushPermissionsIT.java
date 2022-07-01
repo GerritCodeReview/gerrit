@@ -47,6 +47,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 import org.eclipse.jgit.transport.TrackingRefUpdate;
 import org.junit.Before;
@@ -91,6 +92,32 @@ public class PushPermissionsIT extends AbstractDaemonTest {
     assertThat(r.getRemoteUpdate("refs/heads/master").getStatus()).isNotEqualTo(Status.OK);
     assertThat(r.getRemoteUpdate("refs/for/master").getStatus()).isNotEqualTo(Status.OK);
     assertThat(r.getRemoteUpdate("refs/for/master").getMessage()).isEqualTo(msg);
+  }
+
+  @Test
+  public void pushNewCommitsRequiresPushPermission() throws Exception {
+    testRepo.branch("HEAD").commit().create();
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+
+    PushResult r = push("HEAD:refs/heads/newbranch");
+
+    String msg = "update for creating new commit object not permitted";
+    RemoteRefUpdate rru = r.getRemoteUpdate("refs/heads/newbranch");
+    assertThat(rru.getStatus()).isNotEqualTo(Status.OK);
+    assertThat(rru.getMessage()).contains(msg);
+
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+    RemoteRefUpdate success =
+        push("HEAD:refs/heads/newbranch").getRemoteUpdate("refs/heads/newbranch");
+    assertThat(success.getStatus()).isEqualTo(Status.OK);
   }
 
   @Test

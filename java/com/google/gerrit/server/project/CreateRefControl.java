@@ -25,10 +25,13 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.update.RetryHelper;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -41,18 +44,24 @@ import org.eclipse.jgit.revwalk.RevWalk;
 /** Manages access control for creating Git references (aka branches, tags). */
 @Singleton
 public class CreateRefControl {
+
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
   private final Reachable reachable;
+  private final RetryHelper retryHelper;
 
   @Inject
   CreateRefControl(
-      PermissionBackend permissionBackend, ProjectCache projectCache, Reachable reachable) {
+      PermissionBackend permissionBackend,
+      ProjectCache projectCache,
+      Reachable reachable,
+      RetryHelper retryHelper) {
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
     this.reachable = reachable;
+    this.retryHelper = retryHelper;
   }
 
   /**
@@ -67,7 +76,11 @@ public class CreateRefControl {
    * @throws ResourceConflictException if the project state does not permit the operation
    */
   public void checkCreateRef(
-      Provider<? extends CurrentUser> user, Repository repo, BranchNameKey branch, RevObject object)
+      Provider<? extends CurrentUser> user,
+      Repository repo,
+      BranchNameKey branch,
+      RevObject object,
+      boolean forPush)
       throws AuthException, PermissionBackendException, NoSuchProjectException, IOException,
           ResourceConflictException {
     ProjectState ps =
@@ -77,7 +90,7 @@ public class CreateRefControl {
     PermissionBackend.ForRef perm = permissionBackend.user(user.get()).ref(branch);
     if (object instanceof RevCommit) {
       perm.check(RefPermission.CREATE);
-      checkCreateCommit(user, repo, (RevCommit) object, ps.getNameKey(), perm);
+      checkCreateCommit(user, repo, (RevCommit) object, ps.getNameKey(), perm, forPush);
     } else if (object instanceof RevTag) {
       RevTag tag = (RevTag) object;
       try (RevWalk rw = new RevWalk(repo)) {
@@ -97,9 +110,9 @@ public class CreateRefControl {
 
       RevObject target = tag.getObject();
       if (target instanceof RevCommit) {
-        checkCreateCommit(user, repo, (RevCommit) target, ps.getNameKey(), perm);
+        checkCreateCommit(user, repo, (RevCommit) target, ps.getNameKey(), perm, forPush);
       } else {
-        checkCreateRef(user, repo, branch, target);
+        checkCreateRef(user, repo, branch, target, forPush);
       }
 
       // If the tag has a PGP signature, allow a lower level of permission
@@ -122,13 +135,31 @@ public class CreateRefControl {
       Repository repo,
       RevCommit commit,
       Project.NameKey project,
-      PermissionBackend.ForRef forRef)
+      PermissionBackend.ForRef forRef,
+      boolean forPush)
       throws AuthException, PermissionBackendException, IOException {
     try {
-      // If the user has update (push) permission, they can create the ref regardless
-      // of whether they are pushing any new objects along with the create.
-      forRef.check(RefPermission.UPDATE);
-      return;
+      // If the user has UPDATE (push) permission, they can set the ref to an arbitrary commit:
+      //
+      //  * if they don't have access, we don't advertise the data, and a conforming git client
+      //  would send the object along with the push as outcome of the negotation.
+      //  * a malicious client could try to send the update without sending the object. This
+      //  is prevented by JGit's ConnectivityChecker (see receive.checkReferencedObjectsAreReachable
+      //  to switch off this costly check).
+      //
+      // Thus, when using the git command-line client, we don't need to do extra checks for users
+      // with push access.
+      //
+      // When using the REST API, there is no negotiation, and the target commit must already be on
+      // the server, so we must check that the user can see that commit.
+      if (forPush) {
+        // We can only shortcut for UPDATE permission. Pushing a tag (CREATE_TAG, CREATE_SIGNED_TAG)
+        // can also introduce new objects. While there may not be a confidentiality problem
+        // (the caller supplies the data as documented above), the permission is for creating
+        // tags to existing commits.
+        forRef.check(RefPermission.UPDATE);
+        return;
+      }
     } catch (AuthException denied) {
       // Fall through to check reachability.
     }
@@ -142,6 +173,18 @@ public class CreateRefControl {
       // merged into a branch or tag readable by this user. If so, they are
       // not effectively "pushing" more objects, so they can create the ref
       // even if they don't have push permission.
+      return;
+    }
+
+    // Previous check only catches normal branches. Try PatchSet refs too. If we can create refs,
+    // we're not a replica, so we can always use the change index.
+    List<ChangeData> changes =
+        retryHelper
+            .changeIndexQuery(
+                "queryChangesByProjectCommitWithLimit1",
+                q -> q.enforceVisibility(true).setLimit(1).byProjectCommit(project, commit))
+            .call();
+    if (!changes.isEmpty()) {
       return;
     }
 

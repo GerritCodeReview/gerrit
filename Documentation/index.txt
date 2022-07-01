@@ -15,6 +15,7 @@
 == Contributor Guides
 . link:dev-community.html[Gerrit Community]
 . link:dev-community.html#how-to-contribute[How to Contribute]
+.. link:dev-readme.html[Developer Setup]
 
 == User Guides
 . link:intro-user.html[User Guide]

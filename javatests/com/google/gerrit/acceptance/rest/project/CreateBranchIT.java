@@ -34,9 +34,13 @@ import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -408,6 +412,37 @@ public class CreateBranchIT extends AbstractDaemonTest {
             BadRequestException.class,
             () -> gApi.projects().name(project.get()).branch("bar").create(branchInput));
     assertThat(ex).hasMessageThat().isEqualTo("ref must match URL");
+  }
+
+  @Test
+  public void revisionIsNotVisible() throws Exception {
+    gApi.projects().name(project.get()).branch("invisible").create(new BranchInput());
+    ChangeInput in = new ChangeInput();
+    in.branch = "invisible";
+    in.subject = "new change";
+    in.project = project.get();
+    ChangeInfo info = gApi.changes().create(in).get();
+    gApi.changes().id(info._number).current().review(ReviewInput.approve());
+    gApi.changes().id(info._number).current().submit(new SubmitInput());
+    projectOperations.allProjectsForUpdate().removeAllAccessSections().update();
+    projectOperations.project(project).forUpdate().removeAllAccessSections().update();
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/heads/*").group(ANONYMOUS_USERS))
+        .add(allow(Permission.CREATE).ref("refs/heads/*").group(ANONYMOUS_USERS))
+        .add(allow(Permission.PUSH).ref("refs/heads/*").group(ANONYMOUS_USERS))
+        .add(block(Permission.READ).ref("refs/heads/invisible").group(ANONYMOUS_USERS))
+        .add(block(Permission.CREATE).ref("refs/heads/invisible").group(ANONYMOUS_USERS))
+        .add(block(Permission.PUSH).ref("refs/heads/invisible").group(ANONYMOUS_USERS))
+        .update();
+    BranchInput branchInput = new BranchInput();
+    branchInput.revision = "refs/heads/invisible";
+    AuthException ex =
+        assertThrows(
+            AuthException.class,
+            () -> gApi.projects().name(project.get()).branch("visible").create(branchInput));
+    assertThat(ex).hasMessageThat().isEqualTo("not permitted: read on refs/heads/invisible");
   }
 
   private void blockCreateReference() throws Exception {

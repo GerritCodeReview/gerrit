@@ -96,6 +96,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "596e2f1d_b7f6512d",
+        "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-07-04T11:41:49Z",
+      "side": 1,
+      "message": "Removed the additional check on PUSH as discussed.",
+      "parentUuid": "144ade29_f18b9aa4",
+      "range": {
+        "startLine": 90,
+        "startChar": 56,
+        "endLine": 90,
+        "endChar": 96
+      },
+      "revId": "acbca1861868d6bb380802fc342101ecb6a9d6bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dcfdd850_805a3681",

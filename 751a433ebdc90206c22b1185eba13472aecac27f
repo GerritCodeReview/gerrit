@@ -16,6 +16,23 @@
       "message": "Thank you for fixing! ",
       "revId": "751a433ebdc90206c22b1185eba13472aecac27f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6c611c0_b0d489e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-04T10:13:45Z",
+      "side": 1,
+      "message": "Since Dmitrii is OOO, adding Ben for final +2",
+      "revId": "751a433ebdc90206c22b1185eba13472aecac27f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

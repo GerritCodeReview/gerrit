@@ -1114,7 +1114,7 @@ export class GrReplyDialog extends LitElement {
                 class="pointer"
                 icon="gr-icons:lightbulb-outline"
               ></iron-icon>
-              Be mindful of requiring attention from too many users.
+              Please be mindful of requiring attention from too many users.
             </div>
           `
         )}

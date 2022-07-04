@@ -22,6 +22,30 @@
       },
       "revId": "1aeb1d34702bc9d9b393bc14ab8705ebc85dffc3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "332f8815_b570dc4e",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-service.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-07-04T10:04:02Z",
+      "side": 1,
+      "message": "Done in change 340248.",
+      "parentUuid": "0e9cd645_71e42e15",
+      "range": {
+        "startLine": 162,
+        "startChar": 37,
+        "endLine": 162,
+        "endChar": 49
+      },
+      "revId": "1aeb1d34702bc9d9b393bc14ab8705ebc85dffc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

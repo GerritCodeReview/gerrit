@@ -257,7 +257,7 @@ public class SchemaUtilTest {
     assertThat(thrown)
         .hasMessageThat()
         .isEqualTo(
-            "Field TestId can be only removed from schema after all of it's searches are removed.");
+            "Field TestId can be only removed from schema after all of its searches are removed.");
 
     Schema<String> schema1 =
         new Schema.Builder<String>()

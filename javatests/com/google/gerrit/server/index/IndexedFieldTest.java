@@ -36,7 +36,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
-import java.util.List;
 import java.util.Map.Entry;
 import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
@@ -85,65 +84,66 @@ public class IndexedFieldTest {
     return new TestIndexedDataGetter<>();
   }
 
-  static IndexedField<TestIndexedData, Integer> INTEGER_FIELD =
+  static final IndexedField<TestIndexedData, Integer> INTEGER_FIELD =
       IndexedField.<TestIndexedData>integerBuilder("TestField").build(getter(), setter());
 
-  static SearchSpec INTEGER_FIELD_SPEC = INTEGER_FIELD.integer("test");
+  static final SearchSpec INTEGER_FIELD_SPEC = INTEGER_FIELD.integer("test");
 
-  static IndexedField<TestIndexedData, Iterable<Integer>> ITERABLE_INTEGER_FIELD =
+  static final IndexedField<TestIndexedData, Iterable<Integer>> ITERABLE_INTEGER_FIELD =
       IndexedField.<TestIndexedData>iterableIntegerBuilder("TestField").build(getter(), setter());
 
-  static SearchSpec ITERABLE_INTEGER_FIELD_SPEC = ITERABLE_INTEGER_FIELD.integer("test");
+  static final SearchSpec ITERABLE_INTEGER_FIELD_SPEC = ITERABLE_INTEGER_FIELD.integer("test");
 
-  static IndexedField<TestIndexedData, Iterable<String>> ITERABLE_STRING_FIELD =
+  static final IndexedField<TestIndexedData, Iterable<String>> ITERABLE_STRING_FIELD =
       IndexedField.<TestIndexedData>iterableStringBuilder("TestField").build(getter(), setter());
 
-  static IndexedField<TestIndexedData, Long> LONG_FIELD =
+  static final IndexedField<TestIndexedData, Long> LONG_FIELD =
       IndexedField.<TestIndexedData>longBuilder("TestField").build(getter(), setter());
 
-  static SearchSpec LONG_FIELD_SPEC = LONG_FIELD.longSearch("test");
+  static final SearchSpec LONG_FIELD_SPEC = LONG_FIELD.longSearch("test");
 
-  static IndexedField<TestIndexedData, Timestamp> TIMESTAMP_FIELD =
+  static final IndexedField<TestIndexedData, Timestamp> TIMESTAMP_FIELD =
       IndexedField.<TestIndexedData>timestampBuilder("TestField").build(getter(), setter());
 
-  static SearchSpec TIMESTAMP_FIELD_SPEC = TIMESTAMP_FIELD.timestamp("test");
+  static final SearchSpec TIMESTAMP_FIELD_SPEC = TIMESTAMP_FIELD.timestamp("test");
 
-  static SearchSpec ITERABLE_STRING_FIELD_SPEC = ITERABLE_STRING_FIELD.fullText("test");
+  static final SearchSpec ITERABLE_STRING_FIELD_SPEC = ITERABLE_STRING_FIELD.fullText("test");
 
-  static IndexedField<TestIndexedData, String> STRING_FIELD =
+  static final IndexedField<TestIndexedData, String> STRING_FIELD =
       IndexedField.<TestIndexedData>stringBuilder("TestField").build(getter(), setter());
 
-  static SearchSpec STRING_FIELD_SPEC = STRING_FIELD.fullText("test");
+  static final SearchSpec STRING_FIELD_SPEC = STRING_FIELD.fullText("test");
 
-  static IndexedField<TestIndexedData, Iterable<byte[]>> ITERABLE_STORED_BYTE_FIELD =
+  static final IndexedField<TestIndexedData, Iterable<byte[]>> ITERABLE_STORED_BYTE_FIELD =
       IndexedField.<TestIndexedData>iterableByteArrayBuilder("TestField")
           .stored()
           .build(getter(), setter());
 
-  static SearchSpec ITERABLE_STORED_BYTE_SPEC = ITERABLE_STORED_BYTE_FIELD.storedOnly("test");
+  static final SearchSpec ITERABLE_STORED_BYTE_SPEC = ITERABLE_STORED_BYTE_FIELD.storedOnly("test");
 
-  static IndexedField<TestIndexedData, byte[]> STORED_BYTE_FIELD =
+  static final IndexedField<TestIndexedData, byte[]> STORED_BYTE_FIELD =
       IndexedField.<TestIndexedData>byteArrayBuilder("TestField")
           .stored()
           .build(getter(), setter());
 
-  static SearchSpec STORED_BYTE_SPEC = STORED_BYTE_FIELD.storedOnly("test");
+  static final SearchSpec STORED_BYTE_SPEC = STORED_BYTE_FIELD.storedOnly("test");
 
-  static IndexedField<TestIndexedData, Entities.Change> STORED_PROTO_FIELD =
+  static final IndexedField<TestIndexedData, Entities.Change> STORED_PROTO_FIELD =
       IndexedField.<TestIndexedData, Entities.Change>builder(
               "TestChange", new TypeToken<Entities.Change>() {})
           .stored()
           .build(getter(), setter(), ChangeProtoConverter.INSTANCE);
 
-  static SearchSpec STORED_PROTO_FIELD_SPEC = STORED_PROTO_FIELD.storedOnly("test_change");
+  static final SearchSpec STORED_PROTO_FIELD_SPEC = STORED_PROTO_FIELD.storedOnly("test_change");
 
-  static IndexedField<TestIndexedData, Iterable<Entities.Change>> ITERABLE_STORED_PROTO_FIELD =
-      IndexedField.<TestIndexedData, Iterable<Entities.Change>>builder(
-              "TestChange", new TypeToken<Iterable<Entities.Change>>() {})
-          .stored()
-          .build(getter(), setter(), ChangeProtoConverter.INSTANCE);
+  static final IndexedField<TestIndexedData, Iterable<Entities.Change>>
+      ITERABLE_STORED_PROTO_FIELD =
+          IndexedField.<TestIndexedData, Iterable<Entities.Change>>builder(
+                  "TestChange", new TypeToken<Iterable<Entities.Change>>() {})
+              .stored()
+              .build(getter(), setter(), ChangeProtoConverter.INSTANCE);
 
-  static SearchSpec ITERABLE_PROTO_FIELD_SPEC =
+  static final SearchSpec ITERABLE_PROTO_FIELD_SPEC =
       ITERABLE_STORED_PROTO_FIELD.storedOnly("test_change");
 
   @DataPoints("nonProtoTypes")
@@ -197,7 +197,7 @@ public class IndexedFieldTest {
 
   @Test
   public void testSetIfPossible_iterableProtoFromIterableBytes() {
-    List<Entities.Change> changeProtos =
+    ImmutableList<Entities.Change> changeProtos =
         ImmutableList.of(createChangeProto(12345), createChangeProto(54321));
     StoredValue storedValue =
         new FakeStoredValue(

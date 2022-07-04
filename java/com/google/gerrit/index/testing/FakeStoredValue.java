@@ -14,6 +14,7 @@
 
 package com.google.gerrit.index.testing;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.index.StoredValue;
 import com.google.protobuf.MessageLite;
 import java.sql.Timestamp;
@@ -82,6 +83,7 @@ public class FakeStoredValue implements StoredValue {
   }
 
   @Override
+  @Nullable
   public MessageLite asProto() {
     if (isProto) {
       return (MessageLite) field;
@@ -90,6 +92,7 @@ public class FakeStoredValue implements StoredValue {
   }
 
   @Override
+  @Nullable
   public Iterable<MessageLite> asProtos() {
     if (isProto) {
       return (Iterable<MessageLite>) field;

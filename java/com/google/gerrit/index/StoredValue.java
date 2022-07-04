@@ -14,6 +14,7 @@
 
 package com.google.gerrit.index;
 
+import com.google.gerrit.common.Nullable;
 import com.google.protobuf.MessageLite;
 import java.sql.Timestamp;
 
@@ -49,9 +50,21 @@ public interface StoredValue {
   /** Returns the {@code byte[]} values of the field. */
   Iterable<byte[]> asByteArrays();
 
-  /** Returns the {@code MessageLite} value of the field. */
+  /**
+   * Returns the {@code MessageLite} value of the field.
+   *
+   * <p>Returns {@code null} if value is not stored as protos (e.g. stored as bytes). {@link
+   * #asByteArray} can be called instead to obtain the value.
+   */
+  @Nullable
   MessageLite asProto();
 
-  /** Returns the {@code MessageLite} values of the field. */
+  /**
+   * Returns the {@code MessageLite} values of the field.
+   *
+   * <p>Returns {@code null} if value is not stored as protos (e.g. stored as bytes). {@link
+   * #asByteArrays} can be called instead to obtain the value.
+   */
+  @Nullable
   Iterable<MessageLite> asProtos();
 }

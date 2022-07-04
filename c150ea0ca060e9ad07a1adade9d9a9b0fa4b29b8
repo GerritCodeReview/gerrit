@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbdccd8c_219a873e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 850,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-04T10:40:44Z",
+      "side": 1,
+      "message": "we could use reporting to verify this?\notherwise I don\u0027t understand why this comment is here",
+      "range": {
+        "startLine": 850,
+        "startChar": 8,
+        "endLine": 850,
+        "endChar": 52
+      },
+      "revId": "c150ea0ca060e9ad07a1adade9d9a9b0fa4b29b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

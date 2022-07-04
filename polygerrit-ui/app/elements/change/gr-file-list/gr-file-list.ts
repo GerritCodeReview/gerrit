@@ -640,24 +640,24 @@ export class GrFileList extends LitElement {
     this.shortcutsController.addAbstract(
       Shortcut.CURSOR_NEXT_FILE,
       e => this.handleCursorNext(e),
-      {doNotPrevent: true}
+      {preventDefault: false}
     );
     this.shortcutsController.addAbstract(
       Shortcut.CURSOR_PREV_FILE,
       e => this.handleCursorPrev(e),
-      {doNotPrevent: true}
+      {preventDefault: false}
     );
     // This is already been taken care of by CURSOR_NEXT_FILE above. The two
     // shortcuts share the same bindings. It depends on whether all files
     // are expanded whether the cursor moves to the next file or line.
     this.shortcutsController.addAbstract(Shortcut.NEXT_LINE, _ => {}, {
-      doNotPrevent: true,
+      preventDefault: false,
     }); // docOnly
     // This is already been taken care of by CURSOR_PREV_FILE above. The two
     // shortcuts share the same bindings. It depends on whether all files
     // are expanded whether the cursor moves to the previous file or line.
     this.shortcutsController.addAbstract(Shortcut.PREV_LINE, _ => {}, {
-      doNotPrevent: true,
+      preventDefault: false,
     }); // docOnly
     this.shortcutsController.addAbstract(Shortcut.NEW_COMMENT, _ =>
       this.handleNewComment()
@@ -1850,7 +1850,7 @@ export class GrFileList extends LitElement {
   // Private but used in tests.
   handleCursorNext(e: KeyboardEvent) {
     // We want to allow users to use arrow keys for standard browser scrolling
-    // when files are not expanded. That is also why we use the `doNotPrevent`
+    // when files are not expanded. That is also why we use the `preventDefault`
     // option when registering the shortcut.
     if (this.filesExpanded !== FilesExpandedState.ALL && e.key === Key.DOWN) {
       return;
@@ -1870,7 +1870,7 @@ export class GrFileList extends LitElement {
   // Private but used in tests.
   handleCursorPrev(e: KeyboardEvent) {
     // We want to allow users to use arrow keys for standard browser scrolling
-    // when files are not expanded. That is also why we use the `doNotPrevent`
+    // when files are not expanded. That is also why we use the `preventDefault`
     // option when registering the shortcut.
     if (this.filesExpanded !== FilesExpandedState.ALL && e.key === Key.UP) {
       return;

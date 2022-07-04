@@ -128,27 +128,27 @@ export class GrTextarea extends LitElement {
     }
     this.cleanups.push(
       addShortcut(this, {key: Key.UP}, e => this.handleUpKey(e), {
-        doNotPrevent: true,
+        preventDefault: false,
       })
     );
     this.cleanups.push(
       addShortcut(this, {key: Key.DOWN}, e => this.handleDownKey(e), {
-        doNotPrevent: true,
+        preventDefault: false,
       })
     );
     this.cleanups.push(
       addShortcut(this, {key: Key.TAB}, e => this.handleTabKey(e), {
-        doNotPrevent: true,
+        preventDefault: false,
       })
     );
     this.cleanups.push(
       addShortcut(this, {key: Key.ENTER}, e => this.handleEnterByKey(e), {
-        doNotPrevent: true,
+        preventDefault: false,
       })
     );
     this.cleanups.push(
       addShortcut(this, {key: Key.ESC}, e => this.handleEscKey(e), {
-        doNotPrevent: true,
+        preventDefault: false,
       })
     );
   }

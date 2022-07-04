@@ -48,29 +48,30 @@ suite('shortcuts-service tests', () => {
 
     test('standard call', () => {
       service.addShortcut(el, KEY_A, listener);
+      assert.isTrue(listener.notCalled);
       pressKey(el, KEY_A.key);
       assert.isTrue(listener.calledOnce);
     });
 
-    test('doNotPrevent option default false', () => {
+    test('preventDefault option default false', () => {
       service.addShortcut(el, KEY_A, listener);
       pressKey(el, KEY_A.key);
       assert.isTrue(listener.calledOnce);
       assert.isTrue(listener.lastCall.firstArg?.defaultPrevented);
     });
 
-    test('doNotPrevent option force false', () => {
-      service.addShortcut(el, KEY_A, listener, {doNotPrevent: false});
-      pressKey(el, KEY_A.key);
-      assert.isTrue(listener.calledOnce);
-      assert.isTrue(listener.lastCall.firstArg?.defaultPrevented);
-    });
-
-    test('doNotPrevent option force true', () => {
-      service.addShortcut(el, KEY_A, listener, {doNotPrevent: true});
+    test('preventDefault option force false', () => {
+      service.addShortcut(el, KEY_A, listener, {preventDefault: false});
       pressKey(el, KEY_A.key);
       assert.isTrue(listener.calledOnce);
       assert.isFalse(listener.lastCall.firstArg?.defaultPrevented);
+    });
+
+    test('preventDefault option force true', () => {
+      service.addShortcut(el, KEY_A, listener, {preventDefault: true});
+      pressKey(el, KEY_A.key);
+      assert.isTrue(listener.calledOnce);
+      assert.isTrue(listener.lastCall.firstArg?.defaultPrevented);
     });
 
     test('shouldSuppress option default true', () => {

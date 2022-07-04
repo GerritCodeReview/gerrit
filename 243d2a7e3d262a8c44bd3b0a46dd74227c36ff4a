@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2ddad7d_eedd18ab",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-07-04T08:53:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "736f96da_91a13ddd",
+      "revId": "243d2a7e3d262a8c44bd3b0a46dd74227c36ff4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff38a9f3_5e9c804b",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-06-30T16:27:17Z",
       "side": 1,
       "message": "If it\u0027s not needed, should it be removed?",
+      "revId": "243d2a7e3d262a8c44bd3b0a46dd74227c36ff4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25b4afa6_fe7a2c1f",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 876,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-07-04T08:53:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff38a9f3_5e9c804b",
       "revId": "243d2a7e3d262a8c44bd3b0a46dd74227c36ff4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

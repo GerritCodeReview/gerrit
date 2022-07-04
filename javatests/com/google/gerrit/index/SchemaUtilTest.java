@@ -24,7 +24,10 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import java.util.Map;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
+@RunWith(JUnit4.class)
 public class SchemaUtilTest {
 
   private static final FieldDef<String, String> TEST_DEF =
@@ -257,7 +260,7 @@ public class SchemaUtilTest {
     assertThat(thrown)
         .hasMessageThat()
         .isEqualTo(
-            "Field TestId can be only removed from schema after all of it's searches are removed.");
+            "Field TestId can be only removed from schema after all of its searches are removed.");
 
     Schema<String> schema1 =
         new Schema.Builder<String>()

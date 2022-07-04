@@ -18,6 +18,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.Iterables;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.index.StoredValue;
 import com.google.protobuf.MessageLite;
 import java.sql.Timestamp;
@@ -83,12 +84,14 @@ public class LuceneStoredValue implements StoredValue {
   }
 
   @Override
+  @Nullable
   public MessageLite asProto() {
     // Lucene does not store protos
     return null;
   }
 
   @Override
+  @Nullable
   public Iterable<MessageLite> asProtos() {
     // Lucene does not store protos
     return null;

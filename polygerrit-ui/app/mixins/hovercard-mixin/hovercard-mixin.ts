@@ -186,7 +186,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
             this.pressTab(e);
           },
           {
-            doNotPrevent: true,
+            preventDefault: false,
           }
         )
       );
@@ -198,7 +198,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
             this.pressShiftTab(e);
           },
           {
-            doNotPrevent: true,
+            preventDefault: false,
           }
         )
       );

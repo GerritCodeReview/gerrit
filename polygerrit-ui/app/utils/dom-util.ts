@@ -379,9 +379,9 @@ export interface ShortcutOptions {
   shouldSuppress?: boolean;
   /**
    * Do you want to take care of calling preventDefault() and
-   * stopPropagation() yourself?
+   * stopPropagation() yourself? Then set this option to `false`.
    */
-  doNotPrevent?: boolean;
+  preventDefault?: boolean;
 }
 
 /**
@@ -393,17 +393,16 @@ export function addShortcut(
   element: HTMLElement,
   shortcut: Binding,
   listener: (e: KeyboardEvent) => void,
-  options: ShortcutOptions = {
-    shouldSuppress: false,
-    doNotPrevent: false,
-  }
+  options?: ShortcutOptions
 ) {
+  const optShouldSuppress = options?.shouldSuppress ?? false;
+  const optPreventDefault = options?.preventDefault ?? true;
   const wrappedListener = (e: KeyboardEvent) => {
     if (e.repeat && !shortcut.allowRepeat) return;
-    if (options.shouldSuppress && shouldSuppress(e)) return;
+    if (optShouldSuppress && shouldSuppress(e)) return;
     if (!eventMatchesShortcut(e, shortcut)) return;
-    if (!options.doNotPrevent) e.preventDefault();
-    if (!options.doNotPrevent) e.stopPropagation();
+    if (optPreventDefault) e.preventDefault();
+    if (optPreventDefault) e.stopPropagation();
     listener(e);
   };
   element.addEventListener('keydown', wrappedListener);

@@ -159,7 +159,7 @@ export class ShortcutsService implements Finalizable {
     options?: ShortcutOptions
   ) {
     const optShouldSuppress = options?.shouldSuppress ?? true;
-    const optDoNotPrevent = options?.doNotPrevent ?? false;
+    const optPreventDefault = options?.preventDefault ?? true;
     const wrappedListener = (e: KeyboardEvent) => {
       if (e.repeat && !shortcut.allowRepeat) return;
       if (!eventMatchesShortcut(e, shortcut)) return;
@@ -173,8 +173,8 @@ export class ShortcutsService implements Finalizable {
       // `shouldSuppress` is false (e.g.for Ctrl - ENTER), then don't disable
       // the shortcut.
       if (optShouldSuppress && this.shortcutsDisabled) return;
-      if (!optDoNotPrevent) e.preventDefault();
-      if (!optDoNotPrevent) e.stopPropagation();
+      if (optPreventDefault) e.preventDefault();
+      if (optPreventDefault) e.stopPropagation();
       this.reportTriggered(e);
       listener(e);
     };

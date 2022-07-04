@@ -215,6 +215,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "71039888_0f797405",
+        "filename": "java/com/google/gerrit/index/IndexedField.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-07-04T15:54:03Z",
+      "side": 1,
+      "message": "\u003e If you don\u0027t do the work for Elastic, I/my-team probably will 😊\nWe will be really happy if it turns out useful for you too.\n\n\u003e Should the FakeIndex we use in tests be extended to support it though?\n\nThat is a good idea. I think we could add some tests to make sure both scenarios are supported, but that will likely happen much later, since we are focused on our internal implementation right now.",
+      "parentUuid": "1aeb3602_bbe35768",
+      "revId": "df7b9704e19f77b80cbafb15fa70fe05f1b35b27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "91454f67_8bba5c2d",

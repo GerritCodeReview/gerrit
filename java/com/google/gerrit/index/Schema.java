@@ -26,6 +26,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import java.util.ArrayList;
@@ -117,7 +118,7 @@ public class Schema<T> {
             field.getSearchSpecs();
         checkArgument(
             !searchSpecs.values().stream().anyMatch(this.searchFields::contains),
-            "Field %s can be only removed from schema after all of it's searches are removed.",
+            "Field %s can be only removed from schema after all of its searches are removed.",
             field.name());
       }
       this.indexedFields.removeAll(Arrays.asList(indexedFields));
@@ -164,7 +165,7 @@ public class Schema<T> {
   private Schema(
       int version,
       ImmutableList<IndexedField<T, ?>> indexedFields,
-      ImmutableList<SchemaField> schemaFields) {
+      ImmutableList<SchemaField<T, ?>> schemaFields) {
     this.version = version;
 
     this.indexedFields =
@@ -264,7 +265,8 @@ public class Schema<T> {
     return schemaFields.get(fieldName);
   }
 
-  private Values<T> fieldValues(T obj, SchemaField<T, ?> f, ImmutableSet<String> skipFields) {
+  private @Nullable Values<T> fieldValues(
+      T obj, SchemaField<T, ?> f, ImmutableSet<String> skipFields) {
     if (skipFields.contains(f.getName())) {
       return null;
     }

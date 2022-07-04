@@ -19,6 +19,7 @@ import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Change.Status;
 import com.google.gerrit.index.IndexConfig;
@@ -84,7 +85,7 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
     return s != null ? s : EnumSet.allOf(Change.Status.class);
   }
 
-  private static EnumSet<Change.Status> extractStatus(Predicate<ChangeData> in) {
+  private static @Nullable EnumSet<Change.Status> extractStatus(Predicate<ChangeData> in) {
     if (in instanceof ChangeStatusPredicate) {
       Status status = ((ChangeStatusPredicate) in).getStatus();
       return status != null ? EnumSet.of(status) : null;

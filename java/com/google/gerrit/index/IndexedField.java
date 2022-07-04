@@ -20,6 +20,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.CharMatcher;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.reflect.TypeToken;
 import com.google.gerrit.common.Nullable;
@@ -35,7 +36,6 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
@@ -61,18 +61,18 @@ import java.util.stream.StreamSupport;
 @AutoValue
 public abstract class IndexedField<I, T> {
 
-  public static TypeToken<Integer> INTEGER_TYPE = new TypeToken<>() {};
-  public static TypeToken<Iterable<Integer>> ITERABLE_INTEGER_TYPE = new TypeToken<>() {};
-  public static TypeToken<Long> LONG_TYPE = new TypeToken<>() {};
-  public static TypeToken<Iterable<Long>> ITERABLE_LONG_TYPE = new TypeToken<>() {};
-  public static TypeToken<String> STRING_TYPE = new TypeToken<>() {};
-  public static TypeToken<Iterable<String>> ITERABLE_STRING_TYPE = new TypeToken<>() {};
-  public static TypeToken<byte[]> BYTE_ARRAY_TYPE = new TypeToken<>() {};
-  public static TypeToken<Iterable<byte[]>> ITERABLE_BYTE_ARRAY_TYPE = new TypeToken<>() {};
-  public static TypeToken<Timestamp> TIMESTAMP_TYPE = new TypeToken<>() {};
+  public static final TypeToken<Integer> INTEGER_TYPE = new TypeToken<>() {};
+  public static final TypeToken<Iterable<Integer>> ITERABLE_INTEGER_TYPE = new TypeToken<>() {};
+  public static final TypeToken<Long> LONG_TYPE = new TypeToken<>() {};
+  public static final TypeToken<Iterable<Long>> ITERABLE_LONG_TYPE = new TypeToken<>() {};
+  public static final TypeToken<String> STRING_TYPE = new TypeToken<>() {};
+  public static final TypeToken<Iterable<String>> ITERABLE_STRING_TYPE = new TypeToken<>() {};
+  public static final TypeToken<byte[]> BYTE_ARRAY_TYPE = new TypeToken<>() {};
+  public static final TypeToken<Iterable<byte[]>> ITERABLE_BYTE_ARRAY_TYPE = new TypeToken<>() {};
+  public static final TypeToken<Timestamp> TIMESTAMP_TYPE = new TypeToken<>() {};
 
   // Should not be used directly, only used to check if the proto is stored
-  private static TypeToken<MessageLite> MESSAGE_TYPE = new TypeToken<>() {};
+  private static final TypeToken<MessageLite> MESSAGE_TYPE = new TypeToken<>() {};
 
   public static <I, T> Builder<I, T> builder(String name, TypeToken<T> fieldType) {
     return new AutoValue_IndexedField.Builder<I, T>()
@@ -487,7 +487,7 @@ public abstract class IndexedField<I, T> {
     return MESSAGE_TYPE.isSupertypeOf(type);
   }
 
-  private List<MessageLite> decodeProtos(Iterable<byte[]> raw) {
+  private ImmutableList<MessageLite> decodeProtos(Iterable<byte[]> raw) {
     return StreamSupport.stream(raw.spliterator(), false)
         .map(bytes -> parseProtoFrom(bytes))
         .collect(toImmutableList());

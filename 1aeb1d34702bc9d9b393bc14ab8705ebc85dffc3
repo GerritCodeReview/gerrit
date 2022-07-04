@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e9cd645_71e42e15",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-service.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-04T08:44:35Z",
+      "side": 1,
+      "message": "maybe as a follow up change but does it make sense to simplify this and have both options be of the same kind of either \u0027shouldDoAction\u0027 or \u0027doNotDoAction\u0027, right now there\u0027s a mix of both and I don\u0027t see a clear reason why.\n\nFor shouldSupress the default is true so I would expect a caller to send {doNotSupress: true} similar to the caller sending {doNotPrevent: true}",
+      "range": {
+        "startLine": 162,
+        "startChar": 37,
+        "endLine": 162,
+        "endChar": 49
+      },
+      "revId": "1aeb1d34702bc9d9b393bc14ab8705ebc85dffc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

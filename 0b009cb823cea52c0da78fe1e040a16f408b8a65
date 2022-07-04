@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "19879603_03b67caa",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2133,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-07-04T05:56:44Z",
+      "side": 1,
+      "message": "I can add an API to create a new change here. However, it will rather be limited, or a duplication of the `create-change` function. Unlike `chery-pick`/`revert`, `apply-patch` have no inherited context from a source change, so every change-field will have to be provided explicitly in this case.\n\nIf that works for you, I think it makes more sense to call `create-change`, and then `apply-patch` on top of it.\nThis attitude will allow-\n1. Use the existing reach mechanism for creating change, with any custom params you might need.\n2. Applying multiple patches into the same change with exactly the same syntax (i.e. - not having a different syntax for the first patch).\n3. [internal Gerrit benefit] far less duplicated code.\nYou can see a usage example of this approach in the `ApplyPatchIT.java` file.",
+      "parentUuid": "43f4126a_e4752596",
+      "range": {
+        "startLine": 2133,
+        "startChar": 0,
+        "endLine": 2133,
+        "endChar": 43
+      },
+      "revId": "0b009cb823cea52c0da78fe1e040a16f408b8a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b89f838e_264a104a",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 4
@@ -61,6 +85,30 @@
       "writtenOn": "2022-07-01T11:05:00Z",
       "side": 1,
       "message": "We need to make sure this is not relevant for the apply implementation, since the patches will be generated from the changes on other hosts.",
+      "range": {
+        "startLine": 2149,
+        "startChar": 29,
+        "endLine": 2149,
+        "endChar": 36
+      },
+      "revId": "0b009cb823cea52c0da78fe1e040a16f408b8a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3dfb9168_61b9d788",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2149,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-07-04T05:56:44Z",
+      "side": 1,
+      "message": "Not sure I\u0027m following. What is \"this\"?",
+      "parentUuid": "b89f838e_264a104a",
       "range": {
         "startLine": 2149,
         "startChar": 29,
@@ -120,6 +168,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6033dc46_dc5ccf6f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 6494,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-07-04T05:56:44Z",
+      "side": 1,
+      "message": "Yes, my intention was as Jinda suggested.\nDepending on what we agree on regarding creating changes (see the linked comment below) - I\u0027m not sure that\u0027s necessary. Same goes for the `message` field.\nLet\u0027s get back to this after the main discussion is resolved.\nhttps://gerrit-review.googlesource.com/c/gerrit/+/340065/comments/70e5760f_2942f963",
+      "parentUuid": "2980ccea_e7cfec66",
+      "range": {
+        "startLine": 6494,
+        "startChar": 53,
+        "endLine": 6494,
+        "endChar": 64
+      },
+      "revId": "0b009cb823cea52c0da78fe1e040a16f408b8a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bb34e9ac_df0da90c",
         "filename": "java/com/google/gerrit/extensions/api/changes/ApplyPatchInput.java",
         "patchSetId": 4
@@ -131,6 +203,30 @@
       "writtenOn": "2022-06-30T17:16:55Z",
       "side": 1,
       "message": "Is the idea that we would first create a topic for the destination host / branch and then use this api? (Sorry if this is a naive question -- I\u0027m not super familiar)",
+      "range": {
+        "startLine": 23,
+        "startChar": 16,
+        "endLine": 23,
+        "endChar": 22
+      },
+      "revId": "0b009cb823cea52c0da78fe1e040a16f408b8a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b321feb_c9cdf305",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ApplyPatchInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-07-04T05:56:44Z",
+      "side": 1,
+      "message": "I was not aware that topics should be created. I though you can just use any string here.\nMarija, can you please provide your input?",
+      "parentUuid": "bb34e9ac_df0da90c",
       "range": {
         "startLine": 23,
         "startChar": 16,

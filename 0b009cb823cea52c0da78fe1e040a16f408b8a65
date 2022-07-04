@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "18bbfce2_42726e1d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2133,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-07-04T08:47:12Z",
+      "side": 1,
+      "message": "\u003e or a duplication of the  create-change function\n\nWe could just extend the create-change with the patch param, that would allow to form a commit from the patch. Right now it either creates a merge commit or empty commit.",
+      "parentUuid": "19879603_03b67caa",
+      "range": {
+        "startLine": 2133,
+        "startChar": 0,
+        "endLine": 2133,
+        "endChar": 43
+      },
+      "revId": "0b009cb823cea52c0da78fe1e040a16f408b8a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b89f838e_264a104a",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 4
@@ -109,6 +133,30 @@
       "side": 1,
       "message": "Not sure I\u0027m following. What is \"this\"?",
       "parentUuid": "b89f838e_264a104a",
+      "range": {
+        "startLine": 2149,
+        "startChar": 29,
+        "endLine": 2149,
+        "endChar": 36
+      },
+      "revId": "0b009cb823cea52c0da78fe1e040a16f408b8a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03720100_c61cdbbd",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2149,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-07-04T08:47:12Z",
+      "side": 1,
+      "message": "This is highlighted. The generated SHA1",
+      "parentUuid": "3dfb9168_61b9d788",
       "range": {
         "startLine": 2149,
         "startChar": 29,
@@ -227,6 +275,30 @@
       "side": 1,
       "message": "I was not aware that topics should be created. I though you can just use any string here.\nMarija, can you please provide your input?",
       "parentUuid": "bb34e9ac_df0da90c",
+      "range": {
+        "startLine": 23,
+        "startChar": 16,
+        "endLine": 23,
+        "endChar": 22
+      },
+      "revId": "0b009cb823cea52c0da78fe1e040a16f408b8a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4639375_72e5e20c",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ApplyPatchInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-07-04T08:47:12Z",
+      "side": 1,
+      "message": "Topics cannot be created on their own (without changes).\n\nThis will be up to your client to generate the topic and provide it in input, or leave it blank and keep the topic of the destination change, as Nitzan explained in other comment.\n\n\nIf I understand correctly, you wish to move changes around hosts using this new API. If you wish to keep the topic from the original change on other host, you will have to implement it in your automation (Automerger/cherrypicker)",
+      "parentUuid": "6b321feb_c9cdf305",
       "range": {
         "startLine": 23,
         "startChar": 16,

@@ -22,6 +22,30 @@
       },
       "revId": "c150ea0ca060e9ad07a1adade9d9a9b0fa4b29b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7ba779c_06c5b342",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 850,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-07-04T10:44:56Z",
+      "side": 1,
+      "message": "We don\u0027t have reporting service available in gr-diff. :-/\n\nI just like adding comments when I think I have understood something that was not clear to me before. And I think this comment might help someone in the future to do a refactoring or maybe just pass `[]` into `updateCommentRanges()`. OTOH I am to cautious to actually make this change myself at this moment.",
+      "parentUuid": "bbdccd8c_219a873e",
+      "range": {
+        "startLine": 850,
+        "startChar": 8,
+        "endLine": 850,
+        "endChar": 52
+      },
+      "revId": "c150ea0ca060e9ad07a1adade9d9a9b0fa4b29b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

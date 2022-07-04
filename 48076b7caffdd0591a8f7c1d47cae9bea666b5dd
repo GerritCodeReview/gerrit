@@ -63,6 +63,30 @@
       },
       "revId": "48076b7caffdd0591a8f7c1d47cae9bea666b5dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33c37663_c91a763f",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-service.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-07-04T08:35:25Z",
+      "side": 1,
+      "message": "Good catch! Done.",
+      "parentUuid": "21dd12a4_cf70810f",
+      "range": {
+        "startLine": 161,
+        "startChar": 28,
+        "endLine": 161,
+        "endChar": 58
+      },
+      "revId": "48076b7caffdd0591a8f7c1d47cae9bea666b5dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

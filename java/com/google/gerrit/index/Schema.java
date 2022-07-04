@@ -117,7 +117,7 @@ public class Schema<T> {
             field.getSearchSpecs();
         checkArgument(
             !searchSpecs.values().stream().anyMatch(this.searchFields::contains),
-            "Field %s can be only removed from schema after all of it's searches are removed.",
+            "Field %s can be only removed from schema after all of its searches are removed.",
             field.name());
       }
       this.indexedFields.removeAll(Arrays.asList(indexedFields));
@@ -164,7 +164,7 @@ public class Schema<T> {
   private Schema(
       int version,
       ImmutableList<IndexedField<T, ?>> indexedFields,
-      ImmutableList<SchemaField> schemaFields) {
+      ImmutableList<SchemaField<T, ?>> schemaFields) {
     this.version = version;
 
     this.indexedFields =

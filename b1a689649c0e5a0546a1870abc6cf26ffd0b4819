@@ -160,6 +160,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8da3a392_c942049c",
+        "filename": "java/com/google/gerrit/server/restapi/change/PreviewProvidedFix.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-04T08:56:30Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/340194 has been submitted now. I\u0027ve adapted the code here to be consistent with what was done in this change.",
+      "parentUuid": "16fbec87_4f1dcd96",
+      "range": {
+        "startLine": 71,
+        "startChar": 8,
+        "endLine": 71,
+        "endChar": 49
+      },
+      "revId": "b1a689649c0e5a0546a1870abc6cf26ffd0b4819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53bf1ea1_85829ef3",
@@ -261,6 +285,24 @@
       "side": 1,
       "message": "I have added them. It\u0027s failing now. What to do next will depend on if we want to allow @NonNull as discussed in comments on file java/com/google/gerrit/server/restapi/change/PreviewProvidedFix.java",
       "parentUuid": "061c157f_691fe7d3",
+      "revId": "b1a689649c0e5a0546a1870abc6cf26ffd0b4819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67a2c7c7_6ed76ea8",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/PreviewProvidedFixIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-04T08:56:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a5ed579_4cc17404",
       "revId": "b1a689649c0e5a0546a1870abc6cf26ffd0b4819",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -847,15 +847,14 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     this.diffBuilder.revisionImage = this.revisionImage ?? null;
     this.diffBuilder.useNewImageDiffUi = this.useNewImageDiffUi;
     this.diffBuilder.diffElement = this.$.diffTable;
+    // `this._commentRanges` are probably empty here, because they will only be
+    // populated by the node observer, which starts observing *after* rendering.
     this.diffBuilder.updateCommentRanges(this._commentRanges);
     this.diffBuilder.updateCoverageRanges(this.coverageRanges);
     await this.diffBuilder.render(keyLocations);
   }
 
   _handleRenderContent() {
-    this.querySelectorAll('gr-ranged-comment-hint').forEach(element =>
-      element.remove()
-    );
     this._setLoading(false);
     this._observeNodes();
     // We are just converting 'render-content' into 'render' here. Maybe we
@@ -868,6 +867,12 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
       (dom(this) as PolymerDomWrapper).unobserveNodes(this._nodeObserver);
       this._nodeObserver = undefined;
     }
+    // You only stop observing for comment thread elements when the diff is
+    // completely rendered from scratch. And then comment thread elements
+    // will be (re-)added *after* rendering is done. That is also when we
+    // re-start observing. So it is appropriate to thoroughly clean up
+    // everything that the observer is managing.
+    this._commentRanges = [];
   }
 
   private _observeNodes() {

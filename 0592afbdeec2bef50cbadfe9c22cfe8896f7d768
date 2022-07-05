@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c0021a8_9ffc7cfe",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/ApprovalCopierIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-07-05T14:44:19Z",
+      "side": 1,
+      "message": "nit/opt: Extract shared code?",
+      "range": {
+        "startLine": 364,
+        "startChar": 0,
+        "endLine": 373,
+        "endChar": 5
+      },
+      "revId": "0592afbdeec2bef50cbadfe9c22cfe8896f7d768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

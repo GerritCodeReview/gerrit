@@ -157,7 +157,7 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
             /* copiedApprovals= */ ImmutableSet.of(patchSetApproval),
             /* outdatedApprovals= */ ImmutableSet.of());
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
-        .hasValue("Copied Votes:\n* Code-Review+1 (copy condition: is:MIN OR is:MAX)\n");
+        .hasValue("Copied Votes:\n* Code-Review+1 (copy condition: \"is:MIN OR is:MAX\")\n");
   }
 
   @Test
@@ -173,7 +173,7 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
             /* copiedApprovals= */ ImmutableSet.of(),
             /* outdatedApprovals= */ ImmutableSet.of(patchSetApproval));
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
-        .hasValue("Outdated Votes:\n* Code-Review+1 (copy condition: is:MIN OR is:MAX)\n");
+        .hasValue("Outdated Votes:\n* Code-Review+1 (copy condition: \"is:MIN OR is:MAX\")\n");
   }
 
   @Test
@@ -190,7 +190,8 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
             /* copiedApprovals= */ ImmutableSet.of(patchSetApproval),
             /* outdatedApprovals= */ ImmutableSet.of());
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
-        .hasValue("Copied Votes:\n* Code-Review+1 (non-parseable copy condition: foo bar baz)\n");
+        .hasValue(
+            "Copied Votes:\n* Code-Review+1 (non-parseable copy condition: \"foo bar baz\")\n");
   }
 
   @Test
@@ -207,7 +208,8 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
             /* copiedApprovals= */ ImmutableSet.of(),
             /* outdatedApprovals= */ ImmutableSet.of(patchSetApproval));
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
-        .hasValue("Outdated Votes:\n* Code-Review+1 (non-parseable copy condition: foo bar baz)\n");
+        .hasValue(
+            "Outdated Votes:\n* Code-Review+1 (non-parseable copy condition: \"foo bar baz\")\n");
   }
 
   @Test
@@ -230,7 +232,8 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
         .hasValue(
             String.format(
                 "Copied Votes:\n"
-                    + "* Code-Review+1 by %s (copy condition: is:MIN OR (is:MAX approverin:%s))\n",
+                    + "* Code-Review+1 by %s"
+                    + " (copy condition: \"is:MIN OR (is:MAX approverin:%s)\")\n",
                 AccountTemplateUtil.getAccountTemplate(admin.id()), groupUuid));
   }
 
@@ -254,7 +257,7 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
         .hasValue(
             String.format(
                 "Outdated Votes:\n"
-                    + "* Code-Review+1 by %s (copy condition: is:MIN OR (is:MAX approverin:%s))\n",
+                    + "* Code-Review+1 by %s (copy condition: \"is:MIN OR (is:MAX approverin:%s)\")\n",
                 AccountTemplateUtil.getAccountTemplate(admin.id()), groupUuid));
   }
 
@@ -279,8 +282,8 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
         .hasValue(
             String.format(
                 "Copied Votes:\n"
-                    + "* Code-Review+1 (non-parseable copy condition: is:MIN"
-                    + " OR (is:MAX approverin:%s) OR foo bar baz)\n",
+                    + "* Code-Review+1 (non-parseable copy condition: \"is:MIN"
+                    + " OR (is:MAX approverin:%s) OR foo bar baz\")\n",
                 groupUuid));
   }
 
@@ -305,8 +308,8 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
         .hasValue(
             String.format(
                 "Outdated Votes:\n"
-                    + "* Code-Review+1 (non-parseable copy condition: is:MIN"
-                    + " OR (is:MAX approverin:%s) OR foo bar baz)\n",
+                    + "* Code-Review+1 (non-parseable copy condition: \"is:MIN"
+                    + " OR (is:MAX approverin:%s) OR foo bar baz\")\n",
                 groupUuid));
   }
 
@@ -416,7 +419,7 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
             /* copiedApprovals= */ ImmutableSet.of(patchSetApproval1, patchSetApproval2),
             /* outdatedApprovals= */ ImmutableSet.of());
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
-        .hasValue("Copied Votes:\n* Code-Review+1 (copy condition: is:MIN OR is:MAX)\n");
+        .hasValue("Copied Votes:\n* Code-Review+1 (copy condition: \"is:MIN OR is:MAX\")\n");
   }
 
   @Test
@@ -438,8 +441,8 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue(
             "Copied Votes:\n"
-                + "* Code-Review+1 (copy condition: is:MIN OR is:MAX)\n"
-                + "* Verified+1 (copy condition: is:MIN OR is:MAX)\n");
+                + "* Code-Review+1 (copy condition: \"is:MIN OR is:MAX\")\n"
+                + "* Verified+1 (copy condition: \"is:MIN OR is:MAX\")\n");
   }
 
   @Test
@@ -459,7 +462,7 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue(
             "Copied Votes:\n"
-                + "* Code-Review+1, Code-Review+2 (copy condition: is:MIN OR is:MAX)\n");
+                + "* Code-Review+1, Code-Review+2 (copy condition: \"is:MIN OR is:MAX\")\n");
   }
 
   @Test
@@ -477,7 +480,8 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
             /* copiedApprovals= */ ImmutableSet.of(patchSetApproval1, patchSetApproval2),
             /* outdatedApprovals= */ ImmutableSet.of());
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
-        .hasValue("Copied Votes:\n* Code-Review+1 (non-parseable copy condition: foo bar baz)\n");
+        .hasValue(
+            "Copied Votes:\n* Code-Review+1 (non-parseable copy condition: \"foo bar baz\")\n");
   }
 
   @Test
@@ -498,8 +502,8 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue(
             "Copied Votes:\n"
-                + "* Code-Review+1 (non-parseable copy condition: foo bar baz)\n"
-                + "* Verified+1 (non-parseable copy condition: foo bar baz)\n");
+                + "* Code-Review+1 (non-parseable copy condition: \"foo bar baz\")\n"
+                + "* Verified+1 (non-parseable copy condition: \"foo bar baz\")\n");
   }
 
   @Test
@@ -520,7 +524,8 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue(
             "Copied Votes:\n"
-                + "* Code-Review+1, Code-Review+2 (non-parseable copy condition: foo bar baz)\n");
+                + "* Code-Review+1, Code-Review+2"
+                + " (non-parseable copy condition: \"foo bar baz\")\n");
   }
 
   @Test
@@ -546,7 +551,7 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
             String.format(
                 "Copied Votes:\n"
                     + "* Code-Review+1 by %s, %s"
-                    + " (copy condition: is:MIN OR (is:MAX approverin:%s))\n",
+                    + " (copy condition: \"is:MIN OR (is:MAX approverin:%s)\")\n",
                 AccountTemplateUtil.getAccountTemplate(admin.id()),
                 AccountTemplateUtil.getAccountTemplate(user.id()),
                 groupUuid));
@@ -578,8 +583,8 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
         .hasValue(
             String.format(
                 "Copied Votes:\n"
-                    + "* Code-Review+1 by %s (copy condition: is:MIN OR (is:MAX approverin:%s))\n"
-                    + "* Verified+1 by %s (copy condition: is:MIN OR (is:MAX approverin:%s))\n",
+                    + "* Code-Review+1 by %s (copy condition: \"is:MIN OR (is:MAX approverin:%s)\")\n"
+                    + "* Verified+1 by %s (copy condition: \"is:MIN OR (is:MAX approverin:%s)\")\n",
                 AccountTemplateUtil.getAccountTemplate(user.id()),
                 groupUuid,
                 AccountTemplateUtil.getAccountTemplate(admin.id()),
@@ -609,7 +614,7 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
             String.format(
                 "Copied Votes:\n"
                     + "* Code-Review+1 by %s, Code-Review+2 by %s"
-                    + " (copy condition: is:MIN OR (is:MAX approverin:%s))\n",
+                    + " (copy condition: \"is:MIN OR (is:MAX approverin:%s)\")\n",
                 AccountTemplateUtil.getAccountTemplate(user.id()),
                 AccountTemplateUtil.getAccountTemplate(admin.id()),
                 groupUuid));
@@ -641,7 +646,7 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
             String.format(
                 "Copied Votes:\n"
                     + "* Code-Review+1 by %s, %s, Code-Review+2 by %s"
-                    + " (copy condition: is:MIN OR (is:MAX approverin:%s))\n",
+                    + " (copy condition: \"is:MIN OR (is:MAX approverin:%s)\")\n",
                 AccountTemplateUtil.getAccountTemplate(user.id()),
                 AccountTemplateUtil.getAccountTemplate(user2.id()),
                 AccountTemplateUtil.getAccountTemplate(admin.id()),
@@ -670,8 +675,8 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
         .hasValue(
             String.format(
                 "Copied Votes:\n"
-                    + "* Code-Review+1 (non-parseable copy condition: is:MIN"
-                    + " OR (is:MAX approverin:%s) OR foo bar baz)\n",
+                    + "* Code-Review+1 (non-parseable copy condition: \"is:MIN"
+                    + " OR (is:MAX approverin:%s) OR foo bar baz\")\n",
                 groupUuid));
   }
 
@@ -702,10 +707,10 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
         .hasValue(
             String.format(
                 "Copied Votes:\n"
-                    + "* Code-Review+1 (non-parseable copy condition: is:MIN"
-                    + " OR (is:MAX approverin:%s) OR foo bar baz)\n"
-                    + "* Verified+1 (non-parseable copy condition: is:MIN"
-                    + " OR (is:MAX approverin:%s) OR foo bar baz)\n",
+                    + "* Code-Review+1 (non-parseable copy condition: \"is:MIN"
+                    + " OR (is:MAX approverin:%s) OR foo bar baz\")\n"
+                    + "* Verified+1 (non-parseable copy condition: \"is:MIN"
+                    + " OR (is:MAX approverin:%s) OR foo bar baz\")\n",
                 groupUuid, groupUuid));
   }
 
@@ -732,8 +737,8 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
         .hasValue(
             String.format(
                 "Copied Votes:\n"
-                    + "* Code-Review+1, Code-Review+2 (non-parseable copy condition: is:MIN"
-                    + " OR (is:MAX approverin:%s) OR foo bar baz)\n",
+                    + "* Code-Review+1, Code-Review+2 (non-parseable copy condition: \"is:MIN"
+                    + " OR (is:MAX approverin:%s) OR foo bar baz\")\n",
                 groupUuid));
   }
 
@@ -775,8 +780,8 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
             "Uploaded patch set 2.\n"
                 + "\n"
                 + "Copied Votes:\n"
-                + "* Code-Review-2 (copy condition: changekind:NO_CHANGE"
-                + " OR changekind:TRIVIAL_REBASE OR is:MIN)\n"
+                + "* Code-Review-2 (copy condition: \"changekind:NO_CHANGE"
+                + " OR changekind:TRIVIAL_REBASE OR is:MIN\")\n"
                 + "\n"
                 + "Outdated Votes:\n"
                 + "* Verified+1\n");
@@ -826,8 +831,8 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
                 + "Foo-Bar-Baz\n"
                 + "\n"
                 + "Copied Votes:\n"
-                + "* Code-Review-2 (copy condition: changekind:NO_CHANGE"
-                + " OR changekind:TRIVIAL_REBASE OR is:MIN)\n"
+                + "* Code-Review-2 (copy condition: \"changekind:NO_CHANGE"
+                + " OR changekind:TRIVIAL_REBASE OR is:MIN\")\n"
                 + "\n"
                 + "Outdated Votes:\n"
                 + "* Verified+1\n");
@@ -872,8 +877,8 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
             "Patch Set 2: Published edit on patch set 1.\n"
                 + "\n"
                 + "Copied Votes:\n"
-                + "* Code-Review-2 (copy condition: changekind:NO_CHANGE"
-                + " OR changekind:TRIVIAL_REBASE OR is:MIN)\n"
+                + "* Code-Review-2 (copy condition: \"changekind:NO_CHANGE"
+                + " OR changekind:TRIVIAL_REBASE OR is:MIN\")\n"
                 + "\n"
                 + "Outdated Votes:\n"
                 + "* Verified+1\n");

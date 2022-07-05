@@ -1083,8 +1083,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             "Uploaded patch set 2: Code-Review+2.\n"
                 + "\n"
                 + "Outdated Votes:\n"
-                + "* Code-Review+1 (copy condition: changekind:NO_CHANGE"
-                + " OR changekind:TRIVIAL_REBASE OR is:MIN)\n");
+                + "* Code-Review+1 (copy condition: \"changekind:NO_CHANGE"
+                + " OR changekind:TRIVIAL_REBASE OR is:MIN\")\n");
     // Check that the user who pushed the change was added as a reviewer since they added a vote.
     assertThatUserIsOnlyReviewer(ci, admin);
 
@@ -1108,8 +1108,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             "Uploaded patch set 3.\n"
                 + "\n"
                 + "Outdated Votes:\n"
-                + "* Code-Review+2 (copy condition: changekind:NO_CHANGE"
-                + " OR changekind:TRIVIAL_REBASE OR is:MIN)\n");
+                + "* Code-Review+2 (copy condition: \"changekind:NO_CHANGE"
+                + " OR changekind:TRIVIAL_REBASE OR is:MIN\")\n");
   }
 
   @Test

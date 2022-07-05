@@ -345,6 +345,12 @@ public class ApprovalCopier {
         changeKind);
 
     for (PatchSetApproval priorPsa : priorApprovals) {
+      if (priorPsa.value() == 0) {
+        // approvals with a zero vote record the deletion of a vote,
+        // they should neither be copied nor be reported as outdated, hence just skip them
+        continue;
+      }
+
       Optional<LabelType> labelType = labelTypes.byLabel(priorPsa.labelId());
       if (!labelType.isPresent()) {
         logger.atFine().log(

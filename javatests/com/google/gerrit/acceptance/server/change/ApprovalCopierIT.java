@@ -315,6 +315,65 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void forPatchSet_copyableZeroApproval() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    // Override the inherited Code-Review label to make all votes copyable, including zero votes.
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      LabelType.Builder codeReview =
+          labelBuilder(
+                  LabelId.CODE_REVIEW,
+                  value(2, "Looks good to me, approved"),
+                  value(1, "Looks good to me, but someone else must approve"),
+                  value(0, "No score"),
+                  value(-1, "I would prefer this is not submitted as is"),
+                  value(-2, "This shall not be submitted"))
+              .setCopyCondition("is:ANY");
+      u.getConfig().upsertLabelType(codeReview.build());
+      u.save();
+    }
+
+    // Create a zero approval that is copyable, by adding an approval and removing it again.
+    vote(r.getChangeId(), admin, LabelId.CODE_REVIEW, -2);
+    vote(r.getChangeId(), admin, LabelId.CODE_REVIEW, 0);
+
+    amendChange(r.getChangeId(), "refs/for/master", admin, testRepo).assertOkStatus();
+
+    ChangeData changeData = changeDataFactory.create(project, r.getChange().getId());
+    assertThat(changeData.currentPatchSet().id().get()).isEqualTo(2);
+    try (Repository repo = repoManager.openRepository(project);
+        RevWalk revWalk = new RevWalk(repo)) {
+      ApprovalCopier.Result approvalCopierResult =
+          approvalCopier.forPatchSet(
+              changeData.notes(), changeData.currentPatchSet(), revWalk, repo.getConfig());
+      assertThatList(approvalCopierResult.copiedApprovals()).isEmpty();
+      assertThatList(approvalCopierResult.outdatedApprovals()).isEmpty();
+    }
+  }
+
+  @Test
+  public void forPatchSet_nonCopyableZeroApproval() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    // Create a zero approval that is non-copyable, by adding an approval and removing it again.
+    vote(r.getChangeId(), admin, LabelId.CODE_REVIEW, 2);
+    vote(r.getChangeId(), admin, LabelId.CODE_REVIEW, 0);
+
+    amendChange(r.getChangeId(), "refs/for/master", admin, testRepo).assertOkStatus();
+
+    ChangeData changeData = changeDataFactory.create(project, r.getChange().getId());
+    assertThat(changeData.currentPatchSet().id().get()).isEqualTo(2);
+    try (Repository repo = repoManager.openRepository(project);
+        RevWalk revWalk = new RevWalk(repo)) {
+      ApprovalCopier.Result approvalCopierResult =
+          approvalCopier.forPatchSet(
+              changeData.notes(), changeData.currentPatchSet(), revWalk, repo.getConfig());
+      assertThatList(approvalCopierResult.copiedApprovals()).isEmpty();
+      assertThatList(approvalCopierResult.outdatedApprovals()).isEmpty();
+    }
+  }
+
+  @Test
   public void copiedFlagSetOnCopiedApprovals() throws Exception {
     PushOneCommit.Result r = createChange();
 

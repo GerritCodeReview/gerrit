@@ -57,9 +57,6 @@ export class GrChangeListActionBar extends LitElement {
   @state()
   private numSelected = 0;
 
-  @state()
-  private totalChangeCount = 0;
-
   private readonly getBulkActionsModel = resolve(this, bulkActionsModelToken);
 
   constructor() {
@@ -69,11 +66,6 @@ export class GrChangeListActionBar extends LitElement {
       () => this.getBulkActionsModel().selectedChangeNums$,
       selectedChangeNums => (this.numSelected = selectedChangeNums.length)
     );
-    subscribe(
-      this,
-      () => this.getBulkActionsModel().totalChangeCount$,
-      totalChangeCount => (this.totalChangeCount = totalChangeCount)
-    );
   }
 
   override render() {
@@ -81,27 +73,7 @@ export class GrChangeListActionBar extends LitElement {
       this.numSelected,
       'change'
     )} selected`;
-    const checked =
-      this.numSelected > 0 && this.numSelected === this.totalChangeCount;
-    const indeterminate =
-      this.numSelected > 0 && this.numSelected !== this.totalChangeCount;
     return html`
-      <!-- Empty cell added for spacing just like gr-change-list-item rows -->
-      <td></td>
-      <td>
-        <!--
-          The .checked property must be used rather than the attribute because
-          the attribute only controls the default checked state and does not
-          update the current checked state.
-          See: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#attr-checked
-        -->
-        <input
-          type="checkbox"
-          .checked=${checked}
-          .indeterminate=${indeterminate}
-          @click=${() => this.getBulkActionsModel().clearSelectedChangeNums()}
-        />
-      </td>
       <!--
         500 chosen to be more than the actual number of columns but less than
         1000 where the browser apparently decides it is an error and reverts

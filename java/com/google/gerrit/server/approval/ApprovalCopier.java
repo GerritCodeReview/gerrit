@@ -234,10 +234,10 @@ public class ApprovalCopier {
             approverId,
             labelType.get(),
             approvalValue,
-            revWalk,
-            repo.getConfig(),
             changeKind,
-            isMerge)) {
+            isMerge,
+            revWalk,
+            repo.getConfig())) {
           targetPatchSetsBuilder.add(followUpPatchSetId);
         } else {
           // The approval is not copyable to this follow-up patch set.
@@ -372,10 +372,10 @@ public class ApprovalCopier {
           priorPsa.accountId(),
           labelType.get(),
           priorPsa.value(),
-          rw,
-          repoConfig,
           changeKind,
-          isMerge)) {
+          isMerge,
+          rw,
+          repoConfig)) {
         if (!currentApprovalsByUser.contains(priorPsa.label(), priorPsa.accountId())) {
           copiedApprovalsByUser.put(
               priorPsa.label(),
@@ -403,32 +403,5 @@ public class ApprovalCopier {
               patchSet.id().get(), patchSet.id().changeId(), project),
           e);
     }
-  }
-
-  private boolean canCopy(
-      ChangeNotes notes,
-      PatchSet.Id sourcePatchSetId,
-      PatchSet targetPatchSet,
-      Account.Id approverId,
-      LabelType labelType,
-      short approvalValue,
-      RevWalk revWalk,
-      Config repoConfig,
-      ChangeKind changeKind,
-      boolean isMerge) {
-    if (!canCopy(
-        notes,
-        sourcePatchSetId,
-        targetPatchSet,
-        approverId,
-        labelType,
-        approvalValue,
-        changeKind,
-        isMerge,
-        revWalk,
-        repoConfig)) {
-      return false;
-    }
-    return true;
   }
 }

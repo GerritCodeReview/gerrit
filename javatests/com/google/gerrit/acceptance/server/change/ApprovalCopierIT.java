@@ -334,7 +334,7 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
     }
 
     // Create a zero approval that is copyable, by adding an approval and removing it again.
-    vote(r.getChangeId(), admin, LabelId.CODE_REVIEW, -2);
+    vote(r.getChangeId(), admin, LabelId.CODE_REVIEW, 2);
     vote(r.getChangeId(), admin, LabelId.CODE_REVIEW, 0);
 
     amendChange(r.getChangeId(), "refs/for/master", admin, testRepo).assertOkStatus();

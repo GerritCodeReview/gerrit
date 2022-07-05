@@ -222,7 +222,7 @@ export class GrChangeList extends LitElement {
     if (!this.sections) return;
     const labelNames = this.computeLabelNames(this.sections);
     return html`
-      <table id="changeList">
+      <table id="changeList" role="grid">
         ${this.sections.map((changeSection, sectionIndex) =>
           this.renderSection(changeSection, sectionIndex, labelNames)
         )}

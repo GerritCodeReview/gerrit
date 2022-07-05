@@ -16,6 +16,24 @@
       "message": "I believe this is already pointed from dev-community.txt:45, however, I\u0027m not against yet another pointer to it.",
       "revId": "2c82decaa3d4ac5e67aea159af7b304543d453f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0e69e0b_643c5695",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-07-05T19:37:18Z",
+      "side": 1,
+      "message": "It is, but 1) I always have trouble finding it anyway, and 2) I know I\u0027m not the only one because even knowing it existed, our summer intern couldn\u0027t find the page from here.\n\nI might upload a few other doc layout changes after to see if I can streamline other parts too.",
+      "parentUuid": "66ddb1fd_7e2473a3",
+      "revId": "2c82decaa3d4ac5e67aea159af7b304543d453f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -480,29 +480,29 @@ public class ApprovalsUtil {
    * <p>E.g.:
    *
    * <pre>
-   * * Code-Review+1, Code-Review+2 (copy condition: is:MIN)
-   * * Verified+1 (copy condition: is:MIN)
+   * * Code-Review+1, Code-Review+2 (copy condition: "is:MIN")
+   * * Verified+1 (copy condition: "is:MIN")
    * </pre>
    *
    * <p>Entries in the list can have the following formats:
    *
    * <ul>
    *   <li>{@code <comma-separated-list-of-approvals-for-the-same-label> (copy condition:
-   *       <copy-condition-without-UserInPredicate>)} (if a copy condition without UserInPredicate
-   *       is present), e.g.: {@code Code-Review+1, Code-Review+2 (copy condition: is:MIN)}
+   *       "<copy-condition-without-UserInPredicate>")} (if a copy condition without UserInPredicate
+   *       is present), e.g.: {@code Code-Review+1, Code-Review+2 (copy condition: "is:MIN")}
    *   <li>{@code <approval> by <comma-separated-list-of-approvers> (copy condition:
-   *       <copy-condition-with-UserInPredicate>)} (if a copy condition with UserInPredicate is
+   *       "<copy-condition-with-UserInPredicate>")} (if a copy condition with UserInPredicate is
    *       present), e.g. {@code Code-Review+1 by <GERRIT_ACCOUNT_1000000>, <GERRIT_ACCOUNT_1000001>
-   *       (copy condition: approverin:7d9e2d5b561e75230e4463ae757ac5d6ff715d85)}
+   *       (copy condition: "approverin:7d9e2d5b561e75230e4463ae757ac5d6ff715d85")}
    *   <li>{@code <comma-separated-list-of-approval-for-the-same-label>} (if no copy condition is
    *       present), e.g.: {@code Code-Review+1, Code-Review+2}
    *   <li>{@code <comma-separated-list-of-approval-for-the-same-label> (label type is missing)} (if
    *       the label type is missing), e.g.: {@code Code-Review+1, Code-Review+2 (label type is
    *       missing)}
    *   <li>{@code <comma-separated-list-of-approval-for-the-same-label> (non-parseable copy
-   *       condition: <non-parseable copy-condition>)} (if a non-parseable copy condition is
+   *       condition: "<non-parseable copy-condition>")} (if a non-parseable copy condition is
    *       present), e.g.: {@code Code-Review+1, Code-Review+2 (non-parseable copy condition:
-   *       is:FOO)}
+   *       "is:FOO")}
    * </ul>
    *
    * @param approvals the approvals that should be formatted
@@ -554,22 +554,22 @@ public class ApprovalsUtil {
   /**
    * Formats the given approvals of the same label with the given copy condition.
    *
-   * <p>E.g.: {Code-Review+1, Code-Review+2 (copy condition: is:MIN)}
+   * <p>E.g.: {Code-Review+1, Code-Review+2 (copy condition: "is:MIN")}
    *
    * <p>The following format may be returned:
    *
    * <ul>
    *   <li>{@code <comma-separated-list-of-approvals-for-the-same-label> (copy condition:
-   *       <copy-condition-without-UserInPredicate>)} (if a copy condition without UserInPredicate
-   *       is present), e.g.: {@code Code-Review+1, Code-Review+2 (copy condition: is:MIN)}
+   *       "<copy-condition-without-UserInPredicate>")} (if a copy condition without UserInPredicate
+   *       is present), e.g.: {@code Code-Review+1, Code-Review+2 (copy condition: "is:MIN")}
    *   <li>{@code <approval> by <comma-separated-list-of-approvers> (copy condition:
-   *       <copy-condition-with-UserInPredicate>)} (if a copy condition with UserInPredicate is
+   *       "<copy-condition-with-UserInPredicate>")} (if a copy condition with UserInPredicate is
    *       present), e.g. {@code Code-Review+1 by <GERRIT_ACCOUNT_1000000>, <GERRIT_ACCOUNT_1000001>
-   *       (copy condition: approverin:7d9e2d5b561e75230e4463ae757ac5d6ff715d85)}
+   *       (copy condition: "approverin:7d9e2d5b561e75230e4463ae757ac5d6ff715d85")}
    *   <li>{@code <comma-separated-list-of-approval-for-the-same-label> (non-parseable copy
-   *       condition: <non-parseable copy-condition>)} (if a non-parseable copy condition is
+   *       condition: "<non-parseable copy-condition>")} (if a non-parseable copy condition is
    *       present), e.g.: {@code Code-Review+1, Code-Review+2 (non-parseable copy condition:
-   *       is:FOO)}
+   *       "is:FOO")}
    * </ul>
    *
    * @param approvalsForSameLabel the approvals that should be formatted, must be for the same label
@@ -585,7 +585,7 @@ public class ApprovalsUtil {
       containsUserInPredicate = containsUserInPredicate(copyCondition);
     } catch (QueryParseException e) {
       message.append(formatApprovalsAsLabelVotesList(approvalsForSameLabel));
-      message.append(String.format(" (non-parseable copy condition: %s)", copyCondition));
+      message.append(String.format(" (non-parseable copy condition: \"%s\")", copyCondition));
       return message.toString();
     }
 
@@ -642,7 +642,7 @@ public class ApprovalsUtil {
       // copy condition doesn't contain a UserInPredicate
       message.append(formatApprovalsAsLabelVotesList(approvalsForSameLabel));
     }
-    message.append(String.format(" (copy condition: %s)", copyCondition));
+    message.append(String.format(" (copy condition: \"%s\")", copyCondition));
     return message.toString();
   }
 

@@ -38,7 +38,7 @@ import {
 import '@polymer/iron-icon/iron-icon';
 import {getReplyByReason} from '../../../utils/attention-set-util';
 import {intersection, queryAndAssert} from '../../../utils/common-util';
-import {accountOrGroupKey} from '../../../utils/account-util';
+import {accountKey, accountOrGroupKey} from '../../../utils/account-util';
 import {ValueChangedEvent} from '../../../types/events';
 import {fireAlert, fireReload} from '../../../utils/event-util';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
@@ -574,7 +574,10 @@ export class GrChangeListReviewerFlow extends LitElement {
     const reviewersPerChange = this.selectedChanges.map(
       change => change.reviewers[reviewerState] ?? []
     );
-    return intersection(reviewersPerChange);
+    return intersection(
+      reviewersPerChange,
+      (account1, account2) => accountKey(account1) === accountKey(account2)
+    );
   }
 
   private createSuggestionsProvider(

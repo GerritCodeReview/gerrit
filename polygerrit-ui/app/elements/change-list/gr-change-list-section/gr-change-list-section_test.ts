@@ -9,6 +9,7 @@ import {
 } from './gr-change-list-section';
 import '../../../test/common-test-setup-karma';
 import './gr-change-list-section';
+import '../gr-change-list-item/gr-change-list-item';
 import {
   createChange,
   createAccountDetailWithId,
@@ -197,6 +198,61 @@ suite('gr-change-list section', () => {
       assert.lengthOf(rows, 2);
       assert.isTrue(queryAndAssert<HTMLInputElement>(rows[0], 'input').checked);
       assert.isTrue(queryAndAssert<HTMLInputElement>(rows[1], 'input').checked);
+    });
+
+    test('checkbox matches partial and fully selected state', async () => {
+      element.changeSection = {
+        name: 'test',
+        query: 'test',
+        results: [
+          {
+            ...createChange(),
+            _number: 1 as NumericChangeId,
+            id: '1' as ChangeInfoId,
+          },
+          {
+            ...createChange(),
+            _number: 2 as NumericChangeId,
+            id: '2' as ChangeInfoId,
+          },
+        ],
+        emptyStateSlotName: 'test',
+      };
+      await element.updateComplete;
+      const rows = queryAll(element, 'gr-change-list-item');
+
+      // zero case
+      let checkbox = queryAndAssert<HTMLInputElement>(element, 'input');
+      assert.isFalse(checkbox.checked);
+      assert.isFalse(checkbox.indeterminate);
+
+      // partial case
+      queryAndAssert<HTMLInputElement>(rows[0], 'input').click();
+      await element.updateComplete;
+
+      checkbox = queryAndAssert<HTMLInputElement>(element, 'input');
+      assert.isTrue(checkbox.indeterminate);
+
+      // plural case
+      queryAndAssert<HTMLInputElement>(rows[1], 'input').click();
+      await element.updateComplete;
+
+      checkbox = queryAndAssert<HTMLInputElement>(element, 'input');
+      assert.isFalse(checkbox.indeterminate);
+      assert.isTrue(checkbox.checked);
+
+      // Clicking Check All checkbox when all checkboxes selected unselects
+      // all checkboxes
+      queryAndAssert<HTMLInputElement>(element, 'input');
+      checkbox.click();
+      await element.updateComplete;
+
+      assert.isFalse(
+        queryAndAssert<HTMLInputElement>(rows[0], 'input').checked
+      );
+      assert.isFalse(
+        queryAndAssert<HTMLInputElement>(rows[1], 'input').checked
+      );
     });
   });
 

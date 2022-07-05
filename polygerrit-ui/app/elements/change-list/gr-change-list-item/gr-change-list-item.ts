@@ -30,10 +30,14 @@ import {
   AccountInfo,
   Timestamp,
 } from '../../../types/common';
-import {hasOwnProperty, assertIsDefined} from '../../../utils/common-util';
+import {
+  hasOwnProperty,
+  assertIsDefined,
+  queryAll,
+} from '../../../utils/common-util';
 import {changeListStyles} from '../../../styles/gr-change-list-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, css, html} from 'lit';
+import {LitElement, css, html, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
 import {ifDefined} from 'lit/directives/if-defined';
@@ -69,9 +73,7 @@ declare global {
     'gr-change-list-item': GrChangeListItem;
   }
 }
-/**
- * @attr {Boolean} selected - change list item is selected by cursor
- */
+
 @customElement('gr-change-list-item')
 export class GrChangeListItem extends LitElement {
   /** The logged-in user's account, or null if no user is logged in. */
@@ -103,8 +105,13 @@ export class GrChangeListItem extends LitElement {
   @property({type: String})
   usp?: string;
 
+  @property({type: Number})
+  columnToFocus?: number;
+
   // private but used in tests
   @property({type: Boolean, reflect: true}) checked = false;
+
+  @property({type: Boolean, reflect: true}) selected = false;
 
   @state() private dynamicCellEndpoints?: string[];
 
@@ -135,6 +142,26 @@ export class GrChangeListItem extends LitElement {
           'change-list-item-cell'
         );
       });
+  }
+
+  override willUpdate(changedProperties: PropertyValues<this>) {
+    if (
+      changedProperties.has('columnToFocus') &&
+      this.columnToFocus !== undefined
+    ) {
+      const cells = queryAll<HTMLTableCellElement>(
+        this,
+        'td:not([aria-hidden])'
+      );
+      (
+        cells[this.columnToFocus].firstElementChild as HTMLElement | undefined
+      )?.focus();
+    }
+    // When the cursor selects this item, give it focus so that the item is read
+    // out by screen readers and lets users start tabbing through the item
+    if (this.selected && !changedProperties.get('selected')) {
+      this.focus();
+    }
   }
 
   static override get styles() {
@@ -287,7 +314,7 @@ export class GrChangeListItem extends LitElement {
   private renderCellSelectionBox() {
     if (!this.flagsService.isEnabled(KnownExperimentId.BULK_ACTIONS)) return;
     return html`
-      <td class="cell selection">
+      <td class="cell selection" role="gridcell">
         <!--
           The .checked property must be used rather than the attribute because
           the attribute only controls the default checked state and does not
@@ -307,7 +334,7 @@ export class GrChangeListItem extends LitElement {
     if (!this.showStar) return;
 
     return html`
-      <td class="cell star">
+      <td class="cell star" role="gridcell">
         <gr-change-star .change=${this.change}></gr-change-star>
       </td>
     `;
@@ -317,7 +344,7 @@ export class GrChangeListItem extends LitElement {
     if (!this.showNumber) return;
 
     return html`
-      <td class="cell number">
+      <td class="cell number" role="gridcell">
         <a href=${changeUrl}>${this.change?._number}</a>
       </td>
     `;
@@ -333,7 +360,7 @@ export class GrChangeListItem extends LitElement {
       return;
 
     return html`
-      <td class="cell subject">
+      <td class="cell subject" role="gridcell">
         <a
           title=${ifDefined(this.change?.subject)}
           href=${changeUrl}
@@ -358,7 +385,9 @@ export class GrChangeListItem extends LitElement {
     )
       return;
 
-    return html` <td class="cell status">${this.renderChangeStatus()}</td> `;
+    return html`
+      <td class="cell status" role="gridcell">${this.renderChangeStatus()}</td>
+    `;
   }
 
   private renderChangeStatus() {
@@ -384,7 +413,7 @@ export class GrChangeListItem extends LitElement {
       return;
 
     return html`
-      <td class="cell owner">
+      <td class="cell owner" role="gridcell">
         <gr-account-label
           highlightAttention
           clickable
@@ -405,7 +434,7 @@ export class GrChangeListItem extends LitElement {
       return;
 
     return html`
-      <td class="cell reviewers">
+      <td class="cell reviewers" role="gridcell">
         <div>
           ${this.computePrimaryReviewers().map((reviewer, index) =>
             this.renderChangeReviewers(reviewer, index)
@@ -441,7 +470,7 @@ export class GrChangeListItem extends LitElement {
       return;
 
     return html`
-      <td class="cell comments">
+      <td class="cell comments" role="gridcell">
         ${this.change?.unresolved_comment_count
           ? html`<iron-icon icon="gr-icons:comment"></iron-icon>`
           : ''}
@@ -462,7 +491,7 @@ export class GrChangeListItem extends LitElement {
       return;
 
     return html`
-      <td class="cell repo">
+      <td class="cell repo" role="gridcell">
         <a class="fullRepo" href=${this.computeRepoUrl()}>
           ${this.computeRepoDisplay()}
         </a>
@@ -487,7 +516,7 @@ export class GrChangeListItem extends LitElement {
       return;
 
     return html`
-      <td class="cell branch">
+      <td class="cell branch" role="gridcell">
         <a href=${this.computeRepoBranchURL()}> ${this.change?.branch} </a>
         ${this.renderChangeBranch()}
       </td>
@@ -513,7 +542,7 @@ export class GrChangeListItem extends LitElement {
       return;
 
     return html`
-      <td class="cell updated">
+      <td class="cell updated" role="gridcell">
         <gr-date-formatter
           withTooltip
           .dateStr=${this.formatDate(this.change?.updated)}
@@ -527,7 +556,7 @@ export class GrChangeListItem extends LitElement {
       return;
 
     return html`
-      <td class="cell submitted">
+      <td class="cell submitted" role="gridcell">
         <gr-date-formatter
           withTooltip
           .dateStr=${this.formatDate(this.change?.submitted)}
@@ -541,7 +570,7 @@ export class GrChangeListItem extends LitElement {
       return;
 
     return html`
-      <td class="cell waiting">
+      <td class="cell waiting" role="gridcell">
         <gr-date-formatter
           withTooltip
           forceRelative
@@ -557,7 +586,7 @@ export class GrChangeListItem extends LitElement {
       return;
 
     return html`
-      <td class="cell size">
+      <td class="cell size" role="gridcell">
         <gr-tooltip-content has-tooltip title=${this.computeSizeTooltip()}>
           ${this.renderChangeSize()}
         </gr-tooltip-content>
@@ -584,7 +613,7 @@ export class GrChangeListItem extends LitElement {
       return;
 
     return html`
-      <td class="cell requirements">
+      <td class="cell requirements" role="gridcell">
         <gr-change-list-column-requirements-summary .change=${this.change}>
         </gr-change-list-column-requirements-summary>
       </td>
@@ -592,7 +621,7 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderChangeLabels(labelName: string) {
-    return html` <td class="cell label requirement">
+    return html` <td class="cell label requirement" role="gridcell">
       <gr-change-list-column-requirement
         .change=${this.change}
         .labelName=${labelName}
@@ -603,7 +632,7 @@ export class GrChangeListItem extends LitElement {
 
   private renderChangePluginEndpoint(pluginEndpointName: string) {
     return html`
-      <td class="cell endpoint">
+      <td class="cell endpoint" role="gridcell">
         <gr-endpoint-decorator name=${pluginEndpointName}>
           <gr-endpoint-param name="change" .value=${this.change}>
           </gr-endpoint-param>

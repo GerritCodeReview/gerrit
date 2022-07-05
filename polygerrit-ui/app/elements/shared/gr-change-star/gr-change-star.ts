@@ -40,6 +40,11 @@ export class GrChangeStar extends LitElement {
 
   private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
 
+  static override shadowRootOptions: ShadowRootInit = {
+    ...LitElement.shadowRootOptions,
+    delegatesFocus: true,
+  };
+
   static override get styles() {
     return [
       sharedStyles,

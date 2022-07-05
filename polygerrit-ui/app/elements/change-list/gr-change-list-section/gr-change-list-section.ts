@@ -29,6 +29,7 @@ import {subscribe} from '../../lit/subscription-controller';
 import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
 import {queryAll} from '../../../utils/common-util';
 import {classMap} from 'lit/directives/class-map';
+import {AriaGridCurrentFocus, AriaGridModel} from '../AriaGridModel';
 
 const NUMBER_FIXED_COLUMNS = 3;
 const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';
@@ -98,11 +99,15 @@ export class GrChangeListSection extends LitElement {
   @state()
   private totalChangeCount = 0;
 
+  @state() private gridFocus?: AriaGridCurrentFocus;
+
   private readonly flagsService = getAppContext().flagsService;
 
   bulkActionsModel: BulkActionsModel = new BulkActionsModel(
     getAppContext().restApiService
   );
+
+  private ariaGridModel = new AriaGridModel();
 
   static override get styles() {
     return [
@@ -156,6 +161,21 @@ export class GrChangeListSection extends LitElement {
       () => this.bulkActionsModel.totalChangeCount$,
       totalChangeCount => (this.totalChangeCount = totalChangeCount)
     );
+    subscribe(
+      this,
+      () => this.ariaGridModel.state$,
+      ariaGridState => (this.gridFocus = ariaGridState.currentFocus)
+    );
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    this.addEventListener('keydown', this.onKeydown);
+  }
+
+  override disconnectedCallback() {
+    this.removeEventListener('keydown', this.onKeydown);
+    super.disconnectedCallback();
   }
 
   override willUpdate(changedProperties: PropertyValues) {
@@ -166,6 +186,10 @@ export class GrChangeListSection extends LitElement {
       if (this.flagsService.isEnabled(KnownExperimentId.BULK_ACTIONS)) {
         this.bulkActionsModel.sync(this.changeSection.results);
       }
+      this.ariaGridModel.setGridSize(
+        this.changeSection.results.length,
+        this.visibleChangeTableColumns?.length ?? 0
+      );
     }
   }
 
@@ -317,9 +341,11 @@ export class GrChangeListSection extends LitElement {
   ) {
     const ariaLabel = this.computeAriaLabel(change);
     const selected = this.computeItemSelected(index);
-    const tabIndex = this.computeTabIndex(index);
+    const rowFocused = this.gridFocus?.row === index;
+    const columnToFocus = rowFocused ? this.gridFocus?.column : undefined;
     return html`
       <gr-change-list-item
+        tabindex="0"
         .account=${this.account}
         ?selected=${selected}
         .change=${change}
@@ -327,8 +353,8 @@ export class GrChangeListSection extends LitElement {
         .sectionName=${this.changeSection.name}
         .visibleChangeTableColumns=${columns}
         .showNumber=${this.showNumber}
+        .columnToFocus=${columnToFocus}
         ?showStar=${this.showStar}
-        tabindex=${tabIndex}
         .usp=${this.usp}
         .labelNames=${this.labelNames}
         aria-label=${ariaLabel}
@@ -375,11 +401,6 @@ export class GrChangeListSection extends LitElement {
     return index === this.selectedIndex;
   }
 
-  private computeTabIndex(index: number) {
-    if (this.isCursorMoving) return 0;
-    return this.computeItemSelected(index) ? 0 : -1;
-  }
-
   // private but used in test
   computeColspan(cols: string[]) {
     if (!cols || !this.labelNames) return 1;
@@ -411,6 +432,23 @@ export class GrChangeListSection extends LitElement {
     if (!change) return '';
     return change.subject + (sectionName ? `, section: ${sectionName}` : '');
   }
+
+  private readonly onKeydown = (e: KeyboardEvent) => {
+    switch (e.key) {
+      case 'ArrowLeft':
+        this.ariaGridModel.moveLeft();
+        break;
+      case 'ArrowRight':
+        this.ariaGridModel.moveRight();
+        break;
+      case 'ArrowUp':
+        this.ariaGridModel.moveUp();
+        break;
+      case 'ArrowDown':
+        this.ariaGridModel.moveDown();
+        break;
+    }
+  };
 }
 
 declare global {

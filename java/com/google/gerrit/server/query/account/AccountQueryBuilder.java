@@ -136,7 +136,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState, AccountQuery
       return AccountPredicates.emailIncludingSecondaryEmails(email);
     }
 
-    if (args.schema().hasField(AccountField.PREFERRED_EMAIL)) {
+    if (args.schema().hasField(AccountField.PREFERRED_EMAIL_LOWER_CASE_SPEC)) {
       return AccountPredicates.preferredEmail(email);
     }
 
@@ -170,7 +170,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState, AccountQuery
       return AccountPredicates.equalsNameIncludingSecondaryEmails(name);
     }
 
-    if (args.schema().hasField(AccountField.NAME_PART_NO_SECONDARY_EMAIL)) {
+    if (args.schema().hasField(AccountField.NAME_PART_NO_SECONDARY_EMAIL_SPEC)) {
       return AccountPredicates.equalsName(name);
     }
 

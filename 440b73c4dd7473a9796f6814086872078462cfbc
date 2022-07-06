@@ -16,6 +16,24 @@
       "message": "@Nasser any objections to enable it for offline-reindex?",
       "revId": "440b73c4dd7473a9796f6814086872078462cfbc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69989fb3_1facdbd9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-07-06T21:59:09Z",
+      "side": 1,
+      "message": "No concerns! We were focused on Lucene at the time we made the AutoFlush change and didn\u0027t test if it would make a difference for ES [1]. If you have a change for ES that you think will improve offline reindex with this we\u0027d be happy to try it out too.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/323396/9/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+      "parentUuid": "71fdd047_f9722965",
+      "revId": "440b73c4dd7473a9796f6814086872078462cfbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

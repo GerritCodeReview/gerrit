@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "988d35be_c9e32e6b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-06T09:19:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bbc162da_124e49e1",
+      "revId": "88a11588c5065af9884d00d25aceb7a6b610fee8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8322242b_60b59104",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-07-06T09:04:38Z",
       "side": 1,
       "message": "this variable should not be needed anymore, we can check this.numSelected directly in rendercolumnheaders",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 64
+      },
+      "revId": "88a11588c5065af9884d00d25aceb7a6b610fee8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a186b9cd_a914a196",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-06T09:19:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8322242b_60b59104",
       "range": {
         "startLine": 149,
         "startChar": 0,

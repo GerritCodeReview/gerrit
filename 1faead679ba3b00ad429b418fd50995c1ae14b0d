@@ -22,6 +22,30 @@
       },
       "revId": "1faead679ba3b00ad429b418fd50995c1ae14b0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e0e434c_19602720",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-action-bar/gr-change-list-action-bar.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-06T09:19:12Z",
+      "side": 0,
+      "message": "Not sure, I removed from the DOM test and the test still passes.\nIdeally this should not be here and I would have expected the test to fail and tell me this.",
+      "parentUuid": "2e69fbaf_ff5752fc",
+      "range": {
+        "startLine": 90,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 15
+      },
+      "revId": "1faead679ba3b00ad429b418fd50995c1ae14b0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

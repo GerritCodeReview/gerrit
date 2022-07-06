@@ -34,20 +34,6 @@ export class GrChangeListActionBar extends LitElement {
         justify-content: space-between;
         align-items: center;
       }
-      /*
-       * checkbox styles match checkboxes in <gr-change-list-item> rows to
-       * vertically align with them.
-       */
-      input {
-        background-color: var(--background-color-primary);
-        border: 1px solid var(--border-color);
-        border-radius: var(--border-radius);
-        box-sizing: border-box;
-        color: var(--primary-text-color);
-        margin: 0px;
-        padding: var(--spacing-s);
-        vertical-align: middle;
-      }
       .actionButtons {
         margin-right: var(--spacing-l);
       }

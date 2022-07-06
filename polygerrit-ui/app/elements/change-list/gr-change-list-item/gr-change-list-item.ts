@@ -616,7 +616,7 @@ export class GrChangeListItem extends LitElement {
 
   private computeChangeURL() {
     if (!this.change) return '';
-    return GerritNav.getUrlForChange(this.change);
+    return GerritNav.getUrlForChange(this.change, {usp: 'dashboard'});
   }
 
   private computeRepoUrl() {

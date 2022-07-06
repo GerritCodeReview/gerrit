@@ -526,6 +526,9 @@ export class GrRouter {
     if (params.openReplyDialog) {
       queries.push('openReplyDialog=true');
     }
+    if (params.usp) {
+      queries.push(`usp=${params.usp}`);
+    }
     if (params.edit) {
       suffix += ',edit';
     }

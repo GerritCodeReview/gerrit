@@ -233,6 +233,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fda5d57_48b5ad27",
+        "filename": "java/com/google/gerrit/index/IndexedField.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-07-06T00:05:40Z",
+      "side": 1,
+      "message": "Thanks and sounds good. Feel free to add me as a reviewer on those tests when you get around to them.",
+      "parentUuid": "71039888_0f797405",
+      "revId": "df7b9704e19f77b80cbafb15fa70fe05f1b35b27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "91454f67_8bba5c2d",

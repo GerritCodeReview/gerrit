@@ -379,6 +379,30 @@
       },
       "revId": "0b009cb823cea52c0da78fe1e040a16f408b8a65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd78c713_4c10d7d0",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ApplyPatchInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1041482
+      },
+      "writtenOn": "2022-07-06T16:37:28Z",
+      "side": 1,
+      "message": "Once we provide a value for the topic field when we call the patch api, it should be applied to the destination change. There is no need on our side to create the topic first.",
+      "parentUuid": "a4639375_72e5e20c",
+      "range": {
+        "startLine": 23,
+        "startChar": 16,
+        "endLine": 23,
+        "endChar": 22
+      },
+      "revId": "0b009cb823cea52c0da78fe1e040a16f408b8a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

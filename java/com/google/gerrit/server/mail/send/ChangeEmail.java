@@ -54,6 +54,8 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.MessageFormat;
 import java.time.Instant;
 import java.util.Collection;
@@ -253,10 +255,30 @@ public abstract class ChangeEmail extends NotificationEmail {
   /** Get a link to the change; null if the server doesn't know its own address. */
   @Nullable
   public String getChangeUrl() {
-    return args.urlFormatter
+    String changeUrl = args.urlFormatter
         .get()
         .getChangeViewUrl(change.getProject(), change.getId())
         .orElse(null);
+    if (changeUrl == null) return changeUrl;
+    try {
+      URI oldUri = new URI(changeUrl);
+      String query = oldUri.getQuery();
+
+      if (query == null) {
+        query = "usp=email";
+      } else {
+        query = query + "&usp=email";
+      }
+
+      return new URI(
+        oldUri.getScheme(),
+        oldUri.getAuthority(),
+        oldUri.getPath(),
+        query,
+        oldUri.getFragment()).toString();
+    } catch (URISyntaxException e) {
+      return null;
+    }
   }
 
   public String getChangeMessageThreadId() {

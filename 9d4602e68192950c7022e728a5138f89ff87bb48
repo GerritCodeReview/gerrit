@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5a295fa_93aaa735",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-06T09:51:33Z",
+      "side": 1,
+      "message": "nit: the",
+      "range": {
+        "startLine": 17,
+        "startChar": 21,
+        "endLine": 17,
+        "endChar": 23
+      },
+      "revId": "9d4602e68192950c7022e728a5138f89ff87bb48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f382a86_2d05bcd1",
+        "filename": "java/com/google/gerrit/server/restapi/change/CheckSubmitRequirement.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-06T09:51:33Z",
+      "side": 1,
+      "message": "Does this need to be changeData.project() now?",
+      "range": {
+        "startLine": 163,
+        "startChar": 54,
+        "endLine": 163,
+        "endChar": 61
+      },
+      "revId": "9d4602e68192950c7022e728a5138f89ff87bb48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

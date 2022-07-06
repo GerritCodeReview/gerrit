@@ -120,6 +120,9 @@ export class GrChangeList extends LitElement {
   @property({type: Array})
   changeTableColumns?: string[];
 
+  @property({type: String})
+  usp?: string;
+
   @property({type: Array})
   visibleChangeTableColumns?: string[];
 
@@ -248,6 +251,7 @@ export class GrChangeList extends LitElement {
         ?showStar=${this.showStar}
         .showNumber=${this.showNumber}
         .visibleChangeTableColumns=${this.visibleChangeTableColumns}
+        .usp=${this.usp}
       >
         ${changeSection.emptyStateSlotName
           ? html`<slot

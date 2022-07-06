@@ -325,9 +325,13 @@ suite('gr-change-list-item tests', () => {
   test('change params passed to gr-navigation', async () => {
     const navStub = sinon.stub(GerritNav);
     element.change = change;
+    element.usp = 'dashboard';
     await element.updateComplete;
 
-    assert.deepEqual(navStub.getUrlForChange.lastCall.args, [change]);
+    assert.deepEqual(navStub.getUrlForChange.lastCall.args, [
+      change,
+      {usp: 'dashboard'},
+    ]);
     assert.deepEqual(navStub.getUrlForProjectChanges.lastCall.args, [
       change.project,
       true,

@@ -22,6 +22,30 @@
       },
       "revId": "741fa49da51b1c5daac63b485b5326bcb812a4cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7172c445_01b45824",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-07-06T13:41:50Z",
+      "side": 1,
+      "message": "No, it was working fine, but just via css. While debugging I realized that it is an easy perfomance gain to not render this at all.",
+      "parentUuid": "16f96647_16396591",
+      "range": {
+        "startLine": 9,
+        "startChar": 1,
+        "endLine": 9,
+        "endChar": 19
+      },
+      "revId": "741fa49da51b1c5daac63b485b5326bcb812a4cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

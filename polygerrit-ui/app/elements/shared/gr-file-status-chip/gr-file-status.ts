@@ -68,9 +68,6 @@ export class GrFileStatus extends LitElement {
         :host {
           display: inline-block;
         }
-        iron-icon.new {
-          margin-right: var(--spacing-xs);
-        }
         div.status {
           display: inline-block;
           line-height: var(--line-height-normal);
@@ -109,23 +106,26 @@ export class GrFileStatus extends LitElement {
 
   private renderStatus() {
     const classes = ['status', this.status];
-    return html`<div
-      class=${classes.join(' ')}
-      tabindex="0"
-      title=${this.computeLabel()}
-      aria-label=${this.computeLabel()}
-    >
-      ${this.status ?? ''}
-    </div>`;
+    return html`<gr-tooltip-content title=${this.computeLabel()} has-tooltip>
+      <div
+        class=${classes.join(' ')}
+        tabindex="0"
+        aria-label=${this.computeLabel()}
+      >
+        ${this.status ?? ''}
+      </div>
+    </gr-tooltip-content>`;
   }
 
   private renderNewlyChanged() {
     if (!this.newlyChanged) return;
-    return html`<iron-icon
-      class="size-16 new"
-      icon="gr-icons:new"
-      title=${this.computeLabel()}
-    ></iron-icon>`;
+    return html`<gr-tooltip-content title=${this.computeLabel()} has-tooltip>
+      <iron-icon
+        class="size-16 new"
+        icon="gr-icons:new"
+        aria-label=${this.computeLabel()}
+      ></iron-icon>
+    </gr-tooltip-content>`;
   }
 
   private computeLabel() {

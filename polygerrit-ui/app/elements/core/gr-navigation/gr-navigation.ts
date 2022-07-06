@@ -181,6 +181,7 @@ export interface GenerateUrlChangeViewParameters {
   select?: string;
   /** selected attempt for selected check runs */
   attempt?: number;
+  usp?: string;
 }
 
 export interface GenerateUrlRepoViewParameters {
@@ -366,6 +367,7 @@ interface NavigateToChangeParams {
 
 interface ChangeUrlParams extends NavigateToChangeParams {
   messageHash?: string;
+  usp?: string;
 }
 
 // TODO(dmfilippov) Convert to class, extract consts, give better name and
@@ -551,6 +553,7 @@ export const GerritNav = {
       messageHash,
       forceReload,
       openReplyDialog,
+      usp,
     } = options;
     if (basePatchNum === PARENT) {
       basePatchNum = undefined;
@@ -568,6 +571,7 @@ export const GerritNav = {
       messageHash,
       forceReload,
       openReplyDialog,
+      usp,
     });
   },
 

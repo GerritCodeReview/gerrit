@@ -211,7 +211,8 @@ export class GrRelatedChangesList extends LitElement {
                   ? GerritNav.getUrlForChangeById(
                       change._change_number,
                       change.project,
-                      change._revision_number as RevisionPatchSetNum
+                      change._revision_number as RevisionPatchSetNum,
+                      'related-change'
                     )
                   : ''}
                 show-change-status

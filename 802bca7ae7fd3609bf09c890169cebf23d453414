@@ -22,6 +22,30 @@
       },
       "revId": "802bca7ae7fd3609bf09c890169cebf23d453414",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "166fd1f1_66c02071",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-06T13:48:00Z",
+      "side": 1,
+      "message": "I was thinking about that but I\u0027m not sure how to get that information here.",
+      "parentUuid": "0f8562d1_2eb71c2f",
+      "range": {
+        "startLine": 619,
+        "startChar": 57,
+        "endLine": 619,
+        "endChar": 66
+      },
+      "revId": "802bca7ae7fd3609bf09c890169cebf23d453414",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

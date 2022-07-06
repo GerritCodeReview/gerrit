@@ -88,7 +88,12 @@ export class GrChangeListSection extends LitElement {
   @property({type: Object})
   account: AccountInfo | undefined = undefined;
 
-  @state() showBulkActionsHeader = false;
+  // private but used in tests
+  @state()
+  numSelected = 0;
+
+  @state()
+  private totalChangeCount = 0;
 
   private readonly flagsService = getAppContext().flagsService;
 
@@ -139,8 +144,14 @@ export class GrChangeListSection extends LitElement {
     subscribe(
       this,
       () => this.bulkActionsModel.selectedChangeNums$,
-      selectedChanges =>
-        (this.showBulkActionsHeader = selectedChanges.length > 0)
+      selectedChanges => {
+        this.numSelected = selectedChanges.length;
+      }
+    );
+    subscribe(
+      this,
+      () => this.bulkActionsModel.totalChangeCount$,
+      totalChangeCount => (this.totalChangeCount = totalChangeCount)
     );
   }
 
@@ -222,7 +233,7 @@ export class GrChangeListSection extends LitElement {
 
   private renderColumnHeaders(columns: string[]) {
     const showBulkActionsHeader =
-      this.showBulkActionsHeader &&
+      this.numSelected > 0 &&
       this.flagsService.isEnabled(KnownExperimentId.BULK_ACTIONS);
     return html`
       <tr
@@ -231,11 +242,11 @@ export class GrChangeListSection extends LitElement {
           showSelectionBorder: showBulkActionsHeader,
         })}
       >
+        <td class="leftPadding"></td>
+        ${this.renderSelectionHeader()}
         ${showBulkActionsHeader
           ? html`<gr-change-list-action-bar></gr-change-list-action-bar>`
-          : html` <td class="leftPadding"></td>
-              ${this.renderSelectionHeader()}
-              <td
+          : html` <td
                 class="star"
                 aria-label="Star status column"
                 ?hidden=${!this.showStar}
@@ -254,15 +265,23 @@ export class GrChangeListSection extends LitElement {
 
   private renderSelectionHeader() {
     if (!this.flagsService.isEnabled(KnownExperimentId.BULK_ACTIONS)) return;
-    // TODO: Currently the action bar replaces this checkbox and has it's own
-    // deselect checkbox. Instead, this checkbox should do both select/deselect
-    // and always be visible.
+    const checked = this.numSelected > 0;
+    const indeterminate =
+      this.numSelected > 0 && this.numSelected !== this.totalChangeCount;
     return html`
       <td class="selection">
+        <!--
+          The .checked property must be used rather than the attribute because
+          the attribute only controls the default checked state and does not
+          update the current checked state.
+          See: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#attr-checked
+        -->
         <input
           class="selection-checkbox"
           type="checkbox"
-          @click=${() => this.bulkActionsModel.selectAll()}
+          .checked=${checked}
+          .indeterminate=${indeterminate}
+          @click=${this.handleSelectAllCheckboxClicked}
         />
       </td>
     `;
@@ -312,6 +331,14 @@ export class GrChangeListSection extends LitElement {
         role="button"
       ></gr-change-list-item>
     `;
+  }
+
+  private handleSelectAllCheckboxClicked() {
+    if (this.numSelected === 0) {
+      this.bulkActionsModel.selectAll();
+    } else {
+      this.bulkActionsModel.clearSelectedChangeNums();
+    }
   }
 
   /**

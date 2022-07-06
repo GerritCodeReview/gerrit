@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a298638d_c3e17ec6",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-07-06T14:21:15Z",
+      "side": 1,
+      "message": "You might want to use the java formatter to pass the code-style check:\nhttps://gerrit-review.googlesource.com/Documentation/dev-intellij.html#_recommended_settings\n\nI use google-java-format-1.7-all-deps.jar directly, since I remember the build-in plugin did not work for some reason.",
+      "range": {
+        "startLine": 261,
+        "startChar": 4,
+        "endLine": 261,
+        "endChar": 44
+      },
+      "revId": "8b0c31d451c025666093cce4e4326a2082c78d31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

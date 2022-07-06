@@ -272,7 +272,7 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
     const messages = Object.values(state).map(
       providerState => providerState.summaryMessage
     );
-    return messages.filter(m => m !== undefined) as string[];
+    return messages.filter(m => !!m) as string[];
   });
 
   public topLevelActionsSelected$ = select(this.checksSelected$, state =>

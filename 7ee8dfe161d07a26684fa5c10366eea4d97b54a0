@@ -16,6 +16,29 @@
       "message": "PTAL",
       "revId": "7ee8dfe161d07a26684fa5c10366eea4d97b54a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31bd37fd_c74c3f02",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-06T09:17:35Z",
+      "side": 1,
+      "message": "sentence here looks incomplete. If you remember the rest can you fill it in?",
+      "range": {
+        "startLine": 479,
+        "startChar": 63,
+        "endLine": 479,
+        "endChar": 65
+      },
+      "revId": "7ee8dfe161d07a26684fa5c10366eea4d97b54a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

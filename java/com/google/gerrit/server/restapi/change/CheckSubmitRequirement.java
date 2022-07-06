@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.collect.Iterables;
-import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
@@ -33,6 +32,7 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.SubmitRequirementsJson;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.SubmitRequirementsEvaluator;
@@ -71,6 +71,7 @@ public class CheckSubmitRequirement
   private final ProjectConfig.Factory projectConfigFactory;
   private final ChangeData.Factory changeDataFactory;
   private final ChangesCollection changesCollection;
+  private final ChangeNotes.Factory changeNotesFactory;
 
   public void setSrName(String srName) {
     this.srName = srName;
@@ -86,11 +87,13 @@ public class CheckSubmitRequirement
       GitRepositoryManager repoManager,
       ProjectConfig.Factory projectConfigFactory,
       ChangeData.Factory changeDataFactory,
+      ChangeNotes.Factory changeNotesFactory,
       ChangesCollection changesCollection) {
     this.evaluator = evaluator;
     this.repoManager = repoManager;
     this.projectConfigFactory = projectConfigFactory;
     this.changeDataFactory = changeDataFactory;
+    this.changeNotesFactory = changeNotesFactory;
     this.changesCollection = changesCollection;
   }
 
@@ -105,7 +108,7 @@ public class CheckSubmitRequirement
     }
     SubmitRequirement requirement =
         srName != null && refsConfigChangeId != null
-            ? createSubmitRequirementFromRequestParams(resource.getProject())
+            ? createSubmitRequirementFromRequestParams()
             : createSubmitRequirement(input);
     SubmitRequirementResult res =
         evaluator.evaluateRequirement(requirement, resource.getChangeData());
@@ -137,25 +140,26 @@ public class CheckSubmitRequirement
    *     #srName} does not exist or if the server failed to load the project due to other
    *     exceptions.
    */
-  private SubmitRequirement createSubmitRequirementFromRequestParams(Project.NameKey project)
+  private SubmitRequirement createSubmitRequirementFromRequestParams()
       throws IOException, PermissionBackendException, RestApiException {
-    try (Repository git = repoManager.openRepository(project)) {
-      ChangeResource refsConfigChange;
-      try {
-        refsConfigChange =
-            changesCollection.parse(
-                TopLevelResource.INSTANCE, IdString.fromDecoded(refsConfigChangeId));
-      } catch (ResourceNotFoundException e) {
-        throw new BadRequestException(
-            String.format("Change '%s' does not exist", refsConfigChangeId), e);
-      }
-      ChangeData changeData = changeDataFactory.create(project, refsConfigChange.getId());
+    ChangeResource refsConfigChange;
+    try {
+      refsConfigChange =
+          changesCollection.parse(
+              TopLevelResource.INSTANCE, IdString.fromDecoded(refsConfigChangeId));
+    } catch (ResourceNotFoundException e) {
+      throw new BadRequestException(
+          String.format("Change '%s' does not exist", refsConfigChangeId), e);
+    }
+    ChangeNotes notes = changeNotesFactory.createCheckedUsingIndexLookup(refsConfigChange.getId());
+    ChangeData changeData = changeDataFactory.create(notes);
+    try (Repository git = repoManager.openRepository(changeData.project())) {
       if (!changeData.change().getDest().branch().equals(RefNames.REFS_CONFIG)) {
         throw new BadRequestException(
             String.format("Change '%s' is not in refs/meta/config branch.", refsConfigChangeId));
       }
       ObjectId revisionId = changeData.currentPatchSet().commitId();
-      ProjectConfig cfg = projectConfigFactory.create(project);
+      ProjectConfig cfg = projectConfigFactory.create(changeData.project());
       try {
         cfg.load(git, revisionId);
       } catch (ConfigInvalidException e) {

@@ -90,9 +90,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   static final Ordering<PatchSetApproval> PSA_BY_TIME =
       Ordering.from(comparing(PatchSetApproval::granted));
 
-  public static final Ordering<ChangeMessage> MESSAGE_BY_TIME =
-      Ordering.from(comparing(ChangeMessage::getWrittenOn));
-
   @FormatMethod
   public static ConfigInvalidException parseException(
       Change.Id changeId, String fmt, Object... args) {

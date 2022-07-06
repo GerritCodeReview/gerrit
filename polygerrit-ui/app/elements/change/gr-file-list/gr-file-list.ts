@@ -400,10 +400,13 @@ export class GrFileList extends LitElement {
           background-color: var(--expanded-background-color);
         }
         .status {
-          margin-right: var(--spacing-s);
+          margin-right: var(--spacing-m);
           display: flex;
           width: 20px;
           justify-content: flex-end;
+        }
+        .header-row .status {
+          justify-content: space-between;
         }
         .status.extended {
           width: 56px;
@@ -1053,11 +1056,25 @@ export class GrFileList extends LitElement {
     </div>`;
   }
 
+  private renderDivWithTooltip(content: string, tooltip: string) {
+    return html`
+      <gr-tooltip-content title=${tooltip} has-tooltip>
+        <div>${content}</div>
+      </gr-tooltip-content>
+    `;
+  }
+
   private renderFileStatusRight(file?: NormalizedFileInfo) {
-    if (!file) return nothing;
+    const hasExtendedStatus = this.filesLeftBase.length > 0;
+    // no file means "header row"
+    if (!file) {
+      const psNum = this.patchRange?.patchNum;
+      return hasExtendedStatus
+        ? this.renderDivWithTooltip(`PS${psNum}`, `Patchset ${psNum}`)
+        : nothing;
+    }
     if (isMagicPath(file.__path)) return nothing;
 
-    const hasExtendedStatus = this.filesLeftBase.length > 0;
     const fileWasAlreadyChanged = this.filesLeftBase.some(
       info => info.__path === file?.__path
     );
@@ -1075,6 +1092,11 @@ export class GrFileList extends LitElement {
 
   private renderFileStatusLeft(path?: string) {
     if (this.filesLeftBase.length === 0) return nothing;
+    // no path means "header row"
+    const psNum = this.patchRange?.basePatchNum;
+    if (!path) {
+      return this.renderDivWithTooltip(`PS${psNum}`, `Patchset ${psNum}`);
+    }
     if (isMagicPath(path)) return nothing;
     const file = this.filesLeftBase.find(info => info.__path === path);
     if (!file) return nothing;

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f8562d1_2eb71c2f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-06T13:44:44Z",
+      "side": 1,
+      "message": "Maybe we would like to discern between dashboard and search",
+      "range": {
+        "startLine": 619,
+        "startChar": 57,
+        "endLine": 619,
+        "endChar": 66
+      },
+      "revId": "802bca7ae7fd3609bf09c890169cebf23d453414",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

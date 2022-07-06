@@ -122,6 +122,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3a9f912b_b22ec2e2",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2133,
+      "author": {
+        "id": 1041482
+      },
+      "writtenOn": "2022-07-06T16:32:38Z",
+      "side": 1,
+      "message": "When I asked this question, I was thinking about the case that if the change does not exist on the target host/branch, then our service will first get a 400s error when calling the apply patch api, and then our service will need to call the createChange api to create a base change and then re-call the applyPatch API again to actually add the patch. Since this is a rather common case for us to not having the change in the target host, would it make sense to create the base change by the api itself so it will be much simpler for our service (and potentially other customers)? Or if there is a flag to turn on/off this behavior.",
+      "parentUuid": "d864ab46_a26aaec1",
+      "range": {
+        "startLine": 2133,
+        "startChar": 0,
+        "endLine": 2133,
+        "endChar": 43
+      },
+      "revId": "0b009cb823cea52c0da78fe1e040a16f408b8a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b89f838e_264a104a",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 4

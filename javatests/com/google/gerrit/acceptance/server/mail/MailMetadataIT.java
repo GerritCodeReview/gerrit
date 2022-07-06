@@ -54,7 +54,7 @@ public class MailMetadataIT extends AbstractDaemonTest {
     assertThat(emails).hasSize(1);
     FakeEmailSender.Message message = emails.get(0);
 
-    String changeURL = "<" + getChangeUrl(newChange.getChange()) + ">";
+    String changeURL = "<" + getChangeUrl(newChange.getChange()) + "?usp=email>";
 
     Map<String, Object> expectedHeaders = new HashMap<>();
     expectedHeaders.put("Gerrit-PatchSet", "1");
@@ -91,7 +91,7 @@ public class MailMetadataIT extends AbstractDaemonTest {
     assertThat(emails).hasSize(1);
     FakeEmailSender.Message message = emails.get(0);
 
-    String changeURL = "<" + getChangeUrl(newChange.getChange()) + ">";
+    String changeURL = "<" + getChangeUrl(newChange.getChange()) + "?usp=email>";
     Map<String, Object> expectedHeaders = new HashMap<>();
     expectedHeaders.put("Gerrit-PatchSet", "1");
     expectedHeaders.put(

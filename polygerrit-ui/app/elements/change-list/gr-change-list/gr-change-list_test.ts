@@ -231,18 +231,18 @@ suite('gr-change-list basic tests', () => {
     );
     assert.equal(elementItems.length, 3);
 
-    assert.isTrue(elementItems[0].hasAttribute('selected'));
+    assert.isTrue(elementItems[0].selected);
     await element.updateComplete;
     pressKey(element, 'j');
     await element.updateComplete;
     await section.updateComplete;
 
     assert.equal(element.selectedIndex, 1);
-    assert.isTrue(elementItems[1].hasAttribute('selected'));
+    assert.isTrue(elementItems[1].selected);
     pressKey(element, 'j');
     await element.updateComplete;
     assert.equal(element.selectedIndex, 2);
-    assert.isTrue(elementItems[2].hasAttribute('selected'));
+    assert.isTrue(elementItems[2].selected);
 
     const navStub = sinon.stub(GerritNav, 'navigateToChange');
     assert.equal(element.selectedIndex, 2);
@@ -319,7 +319,7 @@ suite('gr-change-list basic tests', () => {
     );
     assert.equal(elementItems.length, 3);
 
-    assert.isTrue(elementItems[0].hasAttribute('selected'));
+    assert.isTrue(elementItems[0].selected);
     await element.updateComplete;
 
     pressKey(element, 'x');
@@ -335,7 +335,7 @@ suite('gr-change-list basic tests', () => {
     await element.updateComplete;
 
     assert.equal(element.selectedIndex, 1);
-    assert.isTrue(elementItems[1].hasAttribute('selected'));
+    assert.isTrue(elementItems[1].selected);
 
     pressKey(element, 'x');
     await element.updateComplete;
@@ -349,7 +349,7 @@ suite('gr-change-list basic tests', () => {
     pressKey(element, 'j');
     await element.updateComplete;
     assert.equal(element.selectedIndex, 2);
-    assert.isTrue(elementItems[2].hasAttribute('selected'));
+    assert.isTrue(elementItems[2].selected);
 
     pressKey(element, 'x');
     await element.updateComplete;

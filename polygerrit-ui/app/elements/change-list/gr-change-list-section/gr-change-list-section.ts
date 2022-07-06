@@ -317,18 +317,17 @@ export class GrChangeListSection extends LitElement {
   ) {
     const ariaLabel = this.computeAriaLabel(change);
     const selected = this.computeItemSelected(index);
-    const tabIndex = this.computeTabIndex(index);
     return html`
       <gr-change-list-item
+        tabindex="0"
         .account=${this.account}
-        ?selected=${selected}
+        .selected=${selected}
         .change=${change}
         .config=${this.config}
         .sectionName=${this.changeSection.name}
         .visibleChangeTableColumns=${columns}
         .showNumber=${this.showNumber}
         ?showStar=${this.showStar}
-        tabindex=${tabIndex}
         .usp=${this.usp}
         .labelNames=${this.labelNames}
         aria-label=${ariaLabel}
@@ -373,11 +372,6 @@ export class GrChangeListSection extends LitElement {
   // private but used in test
   computeItemSelected(index: number) {
     return index === this.selectedIndex;
-  }
-
-  private computeTabIndex(index: number) {
-    if (this.isCursorMoving) return 0;
-    return this.computeItemSelected(index) ? 0 : -1;
   }
 
   // private but used in test

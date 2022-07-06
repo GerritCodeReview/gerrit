@@ -33,7 +33,7 @@ import {
 import {hasOwnProperty, assertIsDefined} from '../../../utils/common-util';
 import {changeListStyles} from '../../../styles/gr-change-list-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, css, html} from 'lit';
+import {LitElement, css, html, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
 import {ifDefined} from 'lit/directives/if-defined';
@@ -69,9 +69,7 @@ declare global {
     'gr-change-list-item': GrChangeListItem;
   }
 }
-/**
- * @attr {Boolean} selected - change list item is selected by cursor
- */
+
 @customElement('gr-change-list-item')
 export class GrChangeListItem extends LitElement {
   /** The logged-in user's account, or null if no user is logged in. */
@@ -102,6 +100,8 @@ export class GrChangeListItem extends LitElement {
 
   @property({type: String})
   usp?: string;
+
+  @property({type: Boolean, reflect: true}) selected = false;
 
   // private but used in tests
   @property({type: Boolean, reflect: true}) checked = false;
@@ -135,6 +135,14 @@ export class GrChangeListItem extends LitElement {
           'change-list-item-cell'
         );
       });
+  }
+
+  override willUpdate(changedProperties: PropertyValues<this>) {
+    // When the cursor selects this item, give it focus so that the item is read
+    // out by screen readers and lets users start tabbing through the item
+    if (this.selected && !changedProperties.get('selected')) {
+      this.focus();
+    }
   }
 
   static override get styles() {

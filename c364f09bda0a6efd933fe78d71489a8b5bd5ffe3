@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91b3ac82_11355363",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-06T12:21:24Z",
+      "side": 1,
+      "message": "Introduce a helper function as you\u0027re doing this logic twice.\n\n`change \u003d\u003e change.reviewers.filter(isNotOwner)`",
+      "revId": "c364f09bda0a6efd933fe78d71489a8b5bd5ffe3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

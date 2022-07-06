@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ea20446_7f4380ec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-07-06T14:05:14Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "504feece32d5dac177096184ec12a4e628a153ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38cdb338_84e8a743",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 1109,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-07-06T14:05:14Z",
+      "side": 1,
+      "message": "I think you can do without `addedSelectionListeners`.\n\n`addEventListener` does not add the same listener function twice.\n\n`removeEventListener` is a noop, if the listener function is not registered.",
+      "range": {
+        "startLine": 1109,
+        "startChar": 9,
+        "endLine": 1109,
+        "endChar": 32
+      },
+      "revId": "504feece32d5dac177096184ec12a4e628a153ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

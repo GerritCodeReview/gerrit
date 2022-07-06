@@ -281,7 +281,16 @@ public abstract class IndexedField<I, T> {
 
     public abstract IndexedField.Builder<I, T> name(String name);
 
+    public abstract IndexedField.Builder<I, T> description(Optional<String> description);
+
+    public abstract IndexedField.Builder<I, T> description(String description);
+
     public abstract Builder<I, T> required(boolean required);
+
+    public Builder<I, T> required() {
+      required(true);
+      return this;
+    }
 
     /** Allow reading the actual data from the index. */
     public abstract Builder<I, T> stored(boolean stored);
@@ -346,6 +355,9 @@ public abstract class IndexedField<I, T> {
 
   /** The name to store this field under. */
   public abstract String name();
+
+  /** Optional description of the field data. */
+  public abstract Optional<String> description();
 
   /** True if this field is mandatory. Default is false. */
   public abstract boolean required();

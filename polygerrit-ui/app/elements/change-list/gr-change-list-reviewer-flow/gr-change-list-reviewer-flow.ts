@@ -565,6 +565,7 @@ export class GrChangeListReviewerFlow extends LitElement {
   }
 
   private isFlowDisabled() {
+    console.log('foo');
     // No additional checks are necessary. If the user has visibility enough to
     // see the change, they have permission enough to add reviewers/cc.
     return this.selectedChanges.length === 0;

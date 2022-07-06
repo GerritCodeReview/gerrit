@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+cd ..// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -54,6 +54,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import java.io.IOException;
+import java.net.URI;
 import java.text.MessageFormat;
 import java.time.Instant;
 import java.util.Collection;
@@ -253,10 +254,26 @@ public abstract class ChangeEmail extends NotificationEmail {
   /** Get a link to the change; null if the server doesn't know its own address. */
   @Nullable
   public String getChangeUrl() {
-    return args.urlFormatter
+    String changeUrl = args.urlFormatter
         .get()
         .getChangeViewUrl(change.getProject(), change.getId())
         .orElse(null);
+    if (changeUrl == null) return changeUrl;
+    URI oldUri = new URI(uri);
+    String query = oldUri.getQuery();
+
+    if (query == null) {
+      query = "usp=email";
+    } else {
+      query = query + "&usp=email";
+    }
+
+    return new URI(
+      oldUri.getScheme(),
+      ldUri.getAuthority(),
+      oldUri.getPath(),
+      query,
+      oldUri.getFragment()).toString();
   }
 
   public String getChangeMessageThreadId() {

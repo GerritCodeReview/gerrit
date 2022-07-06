@@ -504,10 +504,11 @@ export class GrChangeListReviewerFlow extends LitElement {
 
   private fireSuccessToasts() {
     const numReviewersAdded =
-      this.updatedAccountsByReviewerState.get(ReviewerState.REVIEWER)?.length ??
-      0;
+      (this.updatedAccountsByReviewerState.get(ReviewerState.REVIEWER)
+        ?.length ?? 0) - this.getCurrentAccounts(ReviewerState.REVIEWER).length;
     const numCcsAdded =
-      this.updatedAccountsByReviewerState.get(ReviewerState.CC)?.length ?? 0;
+      (this.updatedAccountsByReviewerState.get(ReviewerState.CC)?.length ?? 0) -
+      this.getCurrentAccounts(ReviewerState.CC).length;
     let alert = '';
     if (numReviewersAdded && numCcsAdded) {
       alert = `${pluralize(numReviewersAdded, 'reviewer')} and ${pluralize(
@@ -575,7 +576,8 @@ export class GrChangeListReviewerFlow extends LitElement {
     return this.selectedChanges.length === 0;
   }
 
-  private getCurrentAccounts(reviewerState: ReviewerState) {
+  // private but used in tests
+  getCurrentAccounts(reviewerState: ReviewerState) {
     const reviewersPerChange = this.selectedChanges.map(
       change =>
         change.reviewers[reviewerState]?.filter(isNotOwner(change)) ?? []

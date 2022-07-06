@@ -46,6 +46,30 @@
       },
       "revId": "0592afbdeec2bef50cbadfe9c22cfe8896f7d768",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b925da8_b3399893",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/ApprovalCopierIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-06T08:36:48Z",
+      "side": 1,
+      "message": "I think extracting this shared code was a good idea. Done in:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/340334",
+      "parentUuid": "6d0bd27b_0d6f3d15",
+      "range": {
+        "startLine": 364,
+        "startChar": 0,
+        "endLine": 373,
+        "endChar": 5
+      },
+      "revId": "0592afbdeec2bef50cbadfe9c22cfe8896f7d768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

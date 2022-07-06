@@ -403,6 +403,9 @@ export class GrFileList extends LitElement {
           width: 20px;
           justify-content: flex-end;
         }
+        .header-row .status {
+          justify-content: space-between;
+        }
         .status.extended {
           width: 60px;
         }
@@ -1052,10 +1055,15 @@ export class GrFileList extends LitElement {
   }
 
   private renderFileStatusRight(file?: NormalizedFileInfo) {
-    if (!file) return nothing;
+    const hasExtendedStatus = this.filesLeftBase.length > 0;
+    // no file means "header row"
+    if (!file) {
+      return hasExtendedStatus
+        ? html`<div>PS${this.patchRange?.patchNum}</div>`
+        : nothing;
+    }
     if (isMagicPath(file.__path)) return nothing;
 
-    const hasExtendedStatus = this.filesLeftBase.length > 0;
     const fileWasAlreadyChanged = this.filesLeftBase.some(
       info => info.__path === file?.__path
     );
@@ -1073,6 +1081,8 @@ export class GrFileList extends LitElement {
 
   private renderFileStatusLeft(path?: string) {
     if (this.filesLeftBase.length === 0) return nothing;
+    // no path means "header row"
+    if (!path) return html`<div>PS${this.patchRange?.basePatchNum}</div>`;
     if (isMagicPath(path)) return nothing;
     const file = this.filesLeftBase.find(info => info.__path === path);
     if (!file) return nothing;

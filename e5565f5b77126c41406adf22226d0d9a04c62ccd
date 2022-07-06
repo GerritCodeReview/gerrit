@@ -964,6 +964,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f086fad6_1726a238",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_test.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-06T09:22:33Z",
+      "side": 1,
+      "message": "Merged the wrong direction.",
+      "parentUuid": "bc9734cc_d361407b",
+      "range": {
+        "startLine": 633,
+        "startChar": 13,
+        "endLine": 633,
+        "endChar": 49
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "394b2272_aa4e7f6e",

@@ -316,6 +316,7 @@ const appThemeCss = safeStyleSheet`
     --status-custom: var(--purple-900);
 
     /* file status colors */
+    --file-status-font-color: black;
     --file-status-added: var(--green-300);
     --file-status-deleted: var(--red-200);
     --file-status-modified: var(--gray-300);

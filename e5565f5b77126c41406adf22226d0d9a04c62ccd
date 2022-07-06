@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0558c888_4fc632f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-06T08:51:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2ccd67e_5dc2ebe6",
+      "range": {
+        "startLine": 9,
+        "startChar": 5,
+        "endLine": 9,
+        "endChar": 14
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "259117e3_f102a511",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-07-01T14:14:02Z",
       "side": 1,
       "message": "IMO utils should be at the bottom of the file since they are less important",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 92,
+        "endChar": 8
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d19b0c3_3d248177",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-06T08:51:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "259117e3_f102a511",
       "range": {
         "startLine": 92,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c045b1a_93db3669",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-06T08:51:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e2be3c9_6ecbed24",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 0
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "839816cc_9ae8a338",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-07-01T14:14:02Z",
       "side": 1,
       "message": "flatMap is nice here:\n`return mutations.flatMap(mutation \u003d\u003e mutation.removedNodes)`",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 106,
+        "endChar": 0
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00e14725_c3b5b5ca",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-06T08:51:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "839816cc_9ae8a338",
       "range": {
         "startLine": 101,
         "startChar": 0,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "749f84ce_4d9f56c0",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-06T08:51:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "951245cb_da5ac811",
+      "range": {
+        "startLine": 302,
+        "startChar": 12,
+        "endLine": 303,
+        "endChar": 86
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "873f7259_c45a77ab",
@@ -129,6 +249,30 @@
       "writtenOn": "2022-07-01T14:14:02Z",
       "side": 1,
       "message": "maybe it is a good time to see if this is still needed, if it is specifically called out as carried from Pre-polymer3 for polymer2 compatibility.",
+      "range": {
+        "startLine": 891,
+        "startChar": 0,
+        "endLine": 891,
+        "endChar": 51
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcc74eb0_d988c57c",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 891,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-06T08:51:29Z",
+      "side": 1,
+      "message": "I\u0027ve added a TODO but don\u0027t feel comfortable doing this as part of this change.",
+      "parentUuid": "873f7259_c45a77ab",
       "range": {
         "startLine": 891,
         "startChar": 0,
@@ -162,6 +306,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a62d444_ba61df08",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 995,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-06T08:51:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11454691_993b4e7f",
+      "range": {
+        "startLine": 995,
+        "startChar": 51,
+        "endLine": 995,
+        "endChar": 65
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ba8f0e23_fc497e08",
@@ -175,6 +343,30 @@
       "writtenOn": "2022-07-01T15:00:05Z",
       "side": 1,
       "message": "why is this needed?\nAlso why is path changing triggering prefsChanged?\n\nprefsChanged is also triggering a re-render so there is a lot going on here.",
+      "range": {
+        "startLine": 1002,
+        "startChar": 7,
+        "endLine": 1002,
+        "endChar": 63
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60194f29_6a33f057",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1002,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-06T08:51:29Z",
+      "side": 1,
+      "message": "Regarding path, if you look at the original _pathObserver, it trigged a prefsChanged on modification.\n\nRemoved the deep-equal",
+      "parentUuid": "ba8f0e23_fc497e08",
       "range": {
         "startLine": 1002,
         "startChar": 7,
@@ -208,6 +400,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "023b63ac_46be33bc",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-06T08:51:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d67d589_dc21ca65",
+      "range": {
+        "startLine": 1026,
+        "startChar": 11,
+        "endLine": 1026,
+        "endChar": 33
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8285d02b_87102e1f",
@@ -221,6 +437,30 @@
       "writtenOn": "2022-07-01T15:00:05Z",
       "side": 1,
       "message": "why is this in updated and not willUpdated like the others?",
+      "range": {
+        "startLine": 1032,
+        "startChar": 11,
+        "endLine": 1032,
+        "endChar": 22
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0a0f85c_ac5c5def",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1032,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-06T08:51:29Z",
+      "side": 1,
+      "message": "Added a comment.",
+      "parentUuid": "8285d02b_87102e1f",
       "range": {
         "startLine": 1032,
         "startChar": 11,
@@ -254,6 +494,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "80981119_83906d38",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1047,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-06T08:51:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "826a3db0_dda7411a",
+      "range": {
+        "startLine": 1047,
+        "startChar": 27,
+        "endLine": 1047,
+        "endChar": 36
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7bbe750e_113cef20",
@@ -267,6 +531,30 @@
       "writtenOn": "2022-07-01T15:00:05Z",
       "side": 1,
       "message": "where is this setting?\ncouldnt find in diff pref dialog",
+      "range": {
+        "startLine": 1095,
+        "startChar": 36,
+        "endLine": 1095,
+        "endChar": 47
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb310912_50f682ab",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1095,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-06T08:51:29Z",
+      "side": 1,
+      "message": "Not sure but I\u0027d rather not change semantics as part of a refactor.",
+      "parentUuid": "7bbe750e_113cef20",
       "range": {
         "startLine": 1095,
         "startChar": 36,
@@ -300,6 +588,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "476715de_32102ad4",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1291,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-06T08:51:29Z",
+      "side": 1,
+      "message": "Good Idea. Done!",
+      "parentUuid": "b7bdb203_24a6a0a7",
+      "range": {
+        "startLine": 1291,
+        "startChar": 10,
+        "endLine": 1291,
+        "endChar": 31
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "99075f5e_fc87b50c",
@@ -313,6 +625,30 @@
       "writtenOn": "2022-07-01T15:00:05Z",
       "side": 1,
       "message": "inline?",
+      "range": {
+        "startLine": 1344,
+        "startChar": 10,
+        "endLine": 1344,
+        "endChar": 26
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ea4651b_abd53843",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1344,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-06T08:51:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99075f5e_fc87b50c",
       "range": {
         "startLine": 1344,
         "startChar": 10,
@@ -346,6 +682,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cf32d5d_44928359",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1505,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-06T08:51:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcb17ace_a32b51a1",
+      "range": {
+        "startLine": 1505,
+        "startChar": 21,
+        "endLine": 1505,
+        "endChar": 26
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "676e630b_25588aed",
@@ -369,6 +729,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c34a1058_4e30bb17",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1580,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-06T08:51:29Z",
+      "side": 1,
+      "message": "Because it\u0027s promised based. I want to store the promise so it can be waited upon.",
+      "parentUuid": "676e630b_25588aed",
+      "range": {
+        "startLine": 1580,
+        "startChar": 31,
+        "endLine": 1580,
+        "endChar": 40
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eaefb92f_4d673844",
@@ -382,6 +766,30 @@
       "writtenOn": "2022-07-01T15:00:05Z",
       "side": 1,
       "message": "is it safe to just log the error in the console here?\nwhat kind of a user experience will this be?",
+      "range": {
+        "startLine": 1586,
+        "startChar": 6,
+        "endLine": 1586,
+        "endChar": 23
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc0c5987_62cd2bdc",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1586,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-06T08:51:29Z",
+      "side": 1,
+      "message": "We don\u0027t have reporting support inside of gr-diff.",
+      "parentUuid": "eaefb92f_4d673844",
       "range": {
         "startLine": 1586,
         "startChar": 6,
@@ -438,6 +846,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98a63348_15a94ff6",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1760,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-06T08:51:29Z",
+      "side": 1,
+      "message": "This is called from other places.",
+      "parentUuid": "3b118ae1_9a576d42",
+      "range": {
+        "startLine": 1760,
+        "startChar": 2,
+        "endLine": 1760,
+        "endChar": 18
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "67917be1_36d9e063",
@@ -451,6 +883,30 @@
       "writtenOn": "2022-07-01T15:00:05Z",
       "side": 1,
       "message": "mark private or add comment?",
+      "range": {
+        "startLine": 1799,
+        "startChar": 2,
+        "endLine": 1799,
+        "endChar": 18
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2884c8b0_372c2942",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1799,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-06T08:51:29Z",
+      "side": 1,
+      "message": "This is part of the public API.",
+      "parentUuid": "67917be1_36d9e063",
       "range": {
         "startLine": 1799,
         "startChar": 2,
@@ -497,6 +953,54 @@
       "writtenOn": "2022-07-01T14:14:02Z",
       "side": 1,
       "message": "convert to a string or symbol constant",
+      "range": {
+        "startLine": 106,
+        "startChar": 7,
+        "endLine": 106,
+        "endChar": 12
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56c6ce0d_e7c0a3ec",
+        "filename": "polygerrit-ui/app/utils/async-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-06T08:51:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "394b2272_aa4e7f6e",
+      "range": {
+        "startLine": 106,
+        "startChar": 20,
+        "endLine": 106,
+        "endChar": 31
+      },
+      "revId": "e5565f5b77126c41406adf22226d0d9a04c62ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5228b4bd_f80748cf",
+        "filename": "polygerrit-ui/app/utils/async-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-06T08:51:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cbedb23_494892c2",
       "range": {
         "startLine": 106,
         "startChar": 7,

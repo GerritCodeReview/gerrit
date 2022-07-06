@@ -348,7 +348,12 @@ export class GrChangeListReviewerFlow extends LitElement {
 
   private getAccountsInCurrentState(currentReviewerState: ReviewerState) {
     return this.selectedChanges
-      .flatMap(change => change.reviewers[currentReviewerState] ?? [])
+      .flatMap(
+        change =>
+          change.reviewers[currentReviewerState]?.filter(
+            account => accountKey(change.owner) !== accountKey(account)
+          ) ?? []
+      )
       .filter(account => account?._account_id !== undefined);
   }
 
@@ -572,7 +577,10 @@ export class GrChangeListReviewerFlow extends LitElement {
 
   private getCurrentAccounts(reviewerState: ReviewerState) {
     const reviewersPerChange = this.selectedChanges.map(
-      change => change.reviewers[reviewerState] ?? []
+      change =>
+        change.reviewers[reviewerState]?.filter(
+          account => accountKey(account) !== accountKey(change.owner)
+        ) ?? []
     );
     return intersection(
       reviewersPerChange,

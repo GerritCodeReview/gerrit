@@ -51,6 +51,7 @@ const accounts: AccountInfo[] = [
   createAccountWithIdNameAndEmail(3),
   createAccountWithIdNameAndEmail(4),
   createAccountWithIdNameAndEmail(5),
+  createAccountWithIdNameAndEmail(6),
 ];
 const groups: GroupInfo[] = [
   {...createGroupInfo('groupId'), name: 'Group 0' as GroupName},
@@ -60,8 +61,9 @@ const changes: ChangeInfo[] = [
     ...createChange(),
     _number: 1 as NumericChangeId,
     subject: 'Subject 1',
+    owner: accounts[6],
     reviewers: {
-      REVIEWER: [accounts[0], accounts[1]],
+      REVIEWER: [accounts[0], accounts[1], accounts[6]],
       CC: [accounts[3], accounts[4]],
     },
   },
@@ -69,7 +71,8 @@ const changes: ChangeInfo[] = [
     ...createChange(),
     _number: 2 as NumericChangeId,
     subject: 'Subject 2',
-    reviewers: {REVIEWER: [accounts[0]], CC: [accounts[3]]},
+    owner: accounts[6],
+    reviewers: {REVIEWER: [accounts[0], accounts[6]], CC: [accounts[3]]},
   },
 ];
 
@@ -270,7 +273,8 @@ suite('gr-change-list-reviewer-flow tests', () => {
         dialog,
         'gr-account-list#cc-list'
       );
-      // does not include account 1
+      // does not include account 1 because it is not shared, does not include
+      // account 6 because it is the owner
       assert.sameMembers(reviewerList.accounts, [accounts[0]]);
       // does not include account 4
       assert.sameMembers(ccList.accounts, [accounts[3]]);

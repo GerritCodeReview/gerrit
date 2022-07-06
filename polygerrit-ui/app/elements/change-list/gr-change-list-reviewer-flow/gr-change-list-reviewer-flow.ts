@@ -11,6 +11,7 @@ import {configModelToken} from '../../../models/config/config-model';
 import {resolve} from '../../../models/dependency';
 import {
   AccountDetailInfo,
+  AccountInfo,
   ChangeInfo,
   NumericChangeId,
   ServerInfo,
@@ -348,7 +349,11 @@ export class GrChangeListReviewerFlow extends LitElement {
 
   private getAccountsInCurrentState(currentReviewerState: ReviewerState) {
     return this.selectedChanges
-      .flatMap(change => change.reviewers[currentReviewerState] ?? [])
+      .flatMap(
+        change =>
+          change.reviewers[currentReviewerState]?.filter(isNotOwner(change)) ??
+          []
+      )
       .filter(account => account?._account_id !== undefined);
   }
 
@@ -572,7 +577,8 @@ export class GrChangeListReviewerFlow extends LitElement {
 
   private getCurrentAccounts(reviewerState: ReviewerState) {
     const reviewersPerChange = this.selectedChanges.map(
-      change => change.reviewers[reviewerState] ?? []
+      change =>
+        change.reviewers[reviewerState]?.filter(isNotOwner(change)) ?? []
     );
     return intersection(
       reviewersPerChange,
@@ -592,6 +598,11 @@ export class GrChangeListReviewerFlow extends LitElement {
     );
     return suggestionsProvider;
   }
+}
+
+function isNotOwner(change: ChangeInfo) {
+  return (account: AccountInfo) =>
+    accountKey(change.owner) !== accountKey(account);
 }
 
 declare global {

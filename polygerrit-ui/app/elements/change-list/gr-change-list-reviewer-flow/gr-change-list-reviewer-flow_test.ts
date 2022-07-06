@@ -409,6 +409,17 @@ suite('gr-change-list-reviewer-flow tests', () => {
     suite('success toasts', () => {
       test('reviewer only', async () => {
         const dispatchEventStub = sinon.stub(element, 'dispatchEvent');
+        const existingReviewers = element.getCurrentAccounts(
+          ReviewerState.REVIEWER
+        );
+        const getCurrentAccountsStub = sinon.stub(
+          element,
+          'getCurrentAccounts'
+        );
+        getCurrentAccountsStub.withArgs(ReviewerState.CC).returns([]);
+        getCurrentAccountsStub
+          .withArgs(ReviewerState.REVIEWER)
+          .returns(existingReviewers);
         const reviewerList = queryAndAssert<GrAccountList>(
           dialog,
           'gr-account-list#reviewer-list'
@@ -428,12 +439,19 @@ suite('gr-change-list-reviewer-flow tests', () => {
 
         assert.equal(
           (dispatchEventStub.firstCall.args[0] as CustomEvent).detail.message,
-          '3 reviewers added'
+          '2 reviewers added'
         );
       });
 
       test('ccs only', async () => {
         const dispatchEventStub = sinon.stub(element, 'dispatchEvent');
+        const existingCCs = element.getCurrentAccounts(ReviewerState.CC);
+        const getCurrentAccountsStub = sinon.stub(
+          element,
+          'getCurrentAccounts'
+        );
+        getCurrentAccountsStub.withArgs(ReviewerState.CC).returns(existingCCs);
+        getCurrentAccountsStub.withArgs(ReviewerState.REVIEWER).returns([]);
         const ccsList = queryAndAssert<GrAccountList>(
           dialog,
           'gr-account-list#cc-list'
@@ -454,17 +472,36 @@ suite('gr-change-list-reviewer-flow tests', () => {
 
         assert.equal(
           (dispatchEventStub.firstCall.args[0] as CustomEvent).detail.message,
-          '3 CCs added'
+          '2 CCs added'
         );
       });
 
       test('reviewers and CC', async () => {
         const dispatchEventStub = sinon.stub(element, 'dispatchEvent');
+        const existingReviewers = element.getCurrentAccounts(
+          ReviewerState.REVIEWER
+        );
+        const existingCCs = element.getCurrentAccounts(ReviewerState.CC);
+        const getCurrentAccountsStub = sinon.stub(
+          element,
+          'getCurrentAccounts'
+        );
+        getCurrentAccountsStub.withArgs(ReviewerState.CC).returns(existingCCs);
+        getCurrentAccountsStub
+          .withArgs(ReviewerState.REVIEWER)
+          .returns(existingReviewers);
+
         const reviewerList = queryAndAssert<GrAccountList>(
           dialog,
           'gr-account-list#reviewer-list'
         );
+        const ccsList = queryAndAssert<GrAccountList>(
+          dialog,
+          'gr-account-list#cc-list'
+        );
+
         reviewerList.accounts.push(accounts[2], groups[0]);
+        ccsList.accounts.push(accounts[2], groups[0]);
         await element.updateComplete;
         dialog.confirmButton!.click();
 
@@ -478,7 +515,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
 
         assert.equal(
           (dispatchEventStub.firstCall.args[0] as CustomEvent).detail.message,
-          '3 reviewers and 1 CC added'
+          '2 reviewers and 2 CCs added'
         );
       });
     });

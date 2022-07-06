@@ -69,6 +69,24 @@
       "parentUuid": "4f828aa8_acd19b17",
       "revId": "4641218e0090ff6433787933f18717f83a87ffe9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90072e6e_e86ddff0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-07-06T21:48:52Z",
+      "side": 1,
+      "message": "Sorry it caused breakage for you. Do you think it\u0027s worth an email to repo-discuss to make sure everyone is aware? It\u0027s not in any released versions yet, so I assume you must be running a custom release from a stable branch. We are planning to advertise this as a breaking change in the release notes https://gerrit-review.googlesource.com/c/homepage/+/340254/2/pages/site/releases/3.3.md#527",
+      "parentUuid": "18b86ed3_63f79bf7",
+      "revId": "4641218e0090ff6433787933f18717f83a87ffe9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

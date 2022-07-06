@@ -186,6 +186,45 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void checkSubmitRequirement_fromRefsConfigChangeOfAnotherProject_satisfied()
+      throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.OWNER).ref("refs/*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref("refs/for/refs/meta/config").group(REGISTERED_USERS))
+        .add(allow(Permission.READ).ref("refs/meta/config").group(REGISTERED_USERS))
+        .add(allow(Permission.SUBMIT).ref(RefNames.REFS_CONFIG).group(REGISTERED_USERS))
+        .update();
+    fetchRefsMetaConfig();
+    PushOneCommit.Result configResult =
+        createConfigChangeWithSubmitRequirement("Foo", "label:Code-Review=+2");
+
+    // Upload a normal change in another project. Check the SR against it.
+    Project.NameKey otherProject = projectOperations.newProject().create();
+    TestRepository<InMemoryRepository> otherRepo = cloneProject(otherProject, admin);
+    PushOneCommit.Result r2 = createChange(otherRepo);
+    String changeId = r2.getChangeId();
+    SubmitRequirementResultInfo info =
+        gApi.changes()
+            .id(changeId)
+            .checkSubmitRequirementRequest()
+            .srName("Foo")
+            .refsConfigChangeId(configResult.getChange().getId().toString())
+            .get();
+    assertThat(info.status).isEqualTo(SubmitRequirementResultInfo.Status.UNSATISFIED);
+    voteLabel(changeId, "Code-Review", 2);
+    info =
+        gApi.changes()
+            .id(changeId)
+            .checkSubmitRequirementRequest()
+            .srName("Foo")
+            .refsConfigChangeId(configResult.getChange().getId().toString())
+            .get();
+    assertThat(info.status).isEqualTo(SubmitRequirementResultInfo.Status.SATISFIED);
+  }
+
+  @Test
   public void checkSubmitRequirement_fromRefsConfigChange_failsForNonExistingSR() throws Exception {
     String oldHead = projectOperations.project(project).getHead("master").name();
     projectOperations

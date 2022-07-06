@@ -33,7 +33,7 @@ export const htmlTemplate = html`
       background-color: var(--hover-background-color);
     }
     li.selected {
-      background-color: var(--selection-background-color);
+      background-color: var(--hover-background-color);
     }
     .dropdown-content {
       background: var(--dropdown-background-color);

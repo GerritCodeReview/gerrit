@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f3f650e_a13aeaf5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-07-06T14:11:45Z",
+      "side": 1,
+      "message": "Looks like Marcin was the original author back in 2012.  I found that one while spawning the inspector and I have confirmed this change fixes it.  https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d16068 has some details related to me using a faulty Jython jar.",
+      "revId": "a793805549415dbbdaf125296a8e4b884cb2def2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

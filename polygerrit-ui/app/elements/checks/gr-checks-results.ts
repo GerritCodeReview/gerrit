@@ -62,6 +62,7 @@ import {Interaction} from '../../constants/reporting';
 import {Deduping} from '../../api/reporting';
 import {changeModelToken} from '../../models/change/change-model';
 import {getAppContext} from '../../services/app-context';
+import {when} from 'lit/directives/when';
 
 /**
  * Firing this event sets the regular expression of the results filter.
@@ -1319,12 +1320,14 @@ export class GrChecksResults extends LitElement {
             >
           </div>
         </h3>
-        ${this.renderResults(
-          all,
-          selected,
-          filtered,
-          resultLimit,
-          showAllButton
+        ${when(expanded, () =>
+          this.renderResults(
+            all,
+            selected,
+            filtered,
+            resultLimit,
+            showAllButton
+          )
         )}
       </div>
     `;

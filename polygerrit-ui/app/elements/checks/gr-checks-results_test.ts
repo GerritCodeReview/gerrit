@@ -224,7 +224,6 @@ suite('gr-checks-results test', () => {
                 <paper-tooltip offset="5"> </paper-tooltip>
               </div>
             </h3>
-            <div class="noResultsMessage">No results</div>
           </div>
           <div class="collapsed">
             <h3 class="categoryHeader empty heading-3 warning">
@@ -238,7 +237,6 @@ suite('gr-checks-results test', () => {
                 <paper-tooltip offset="5"> </paper-tooltip>
               </div>
             </h3>
-            <div class="noResultsMessage">No results</div>
           </div>
           <div class="collapsed">
             <h3 class="categoryHeader empty heading-3 info">
@@ -252,7 +250,6 @@ suite('gr-checks-results test', () => {
                 <paper-tooltip offset="5"> </paper-tooltip>
               </div>
             </h3>
-            <div class="noResultsMessage">No results</div>
           </div>
           <div class="collapsed">
             <h3 class="categoryHeader empty heading-3 success">
@@ -269,7 +266,6 @@ suite('gr-checks-results test', () => {
                 <paper-tooltip offset="5"> </paper-tooltip>
               </div>
             </h3>
-            <div class="noResultsMessage">No results</div>
           </div>
         </div>
       `,

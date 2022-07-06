@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5382395_b2b635ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-07-06T13:37:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31dbcb4b_c08998a7",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 45
+      },
+      "revId": "52cb2b63a0c7346ca03877c78f6503ef73ff31c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "103902ae_0defaf27",
@@ -197,6 +221,30 @@
       "side": 1,
       "message": "i thought it is, but line 506 actually already covers the case, so i\u0027ll drop that.",
       "parentUuid": "0df645f9_5721bea8",
+      "range": {
+        "startLine": 215,
+        "startChar": 8,
+        "endLine": 222,
+        "endChar": 7
+      },
+      "revId": "52cb2b63a0c7346ca03877c78f6503ef73ff31c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e2ae786_f03667cf",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-07-06T13:37:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da5674da_ad770f58",
       "range": {
         "startLine": 215,
         "startChar": 8,

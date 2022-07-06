@@ -9,6 +9,8 @@ export const iconStyles = css`
   iron-icon {
     display: inline-block;
     vertical-align: top;
+    width: 20px;
+    height: 20px;
   }
   /* expected to be used in a 20px line-height inline context */
   iron-icon.size-16 {

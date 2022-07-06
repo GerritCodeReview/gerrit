@@ -327,7 +327,10 @@ suite('gr-change-list-item tests', () => {
     element.change = change;
     await element.updateComplete;
 
-    assert.deepEqual(navStub.getUrlForChange.lastCall.args, [change]);
+    assert.deepEqual(navStub.getUrlForChange.lastCall.args, [
+      change,
+      {usp: 'dashboard'},
+    ]);
     assert.deepEqual(navStub.getUrlForProjectChanges.lastCall.args, [
       change.project,
       true,

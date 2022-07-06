@@ -247,6 +247,7 @@ export class GrDashboardView extends LitElement {
           .account=${this.account}
           .preferences=${this.preferences}
           .sections=${this.results}
+          .usp=${'search'}
           @toggle-star=${(e: CustomEvent<ChangeStarToggleStarDetail>) => {
             this.handleToggleStar(e);
           }}

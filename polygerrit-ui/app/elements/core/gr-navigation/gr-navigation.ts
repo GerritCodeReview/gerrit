@@ -578,13 +578,15 @@ export const GerritNav = {
   getUrlForChangeById(
     changeNum: NumericChangeId,
     project: RepoName,
-    patchNum?: RevisionPatchSetNum
+    patchNum?: RevisionPatchSetNum,
+    usp?: string
   ) {
     return this._getUrlFor({
       view: GerritView.CHANGE,
       changeNum,
       project,
       patchNum,
+      usp,
     });
   },
 

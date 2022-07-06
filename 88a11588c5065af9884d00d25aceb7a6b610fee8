@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbc162da_124e49e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-06T09:04:38Z",
+      "side": 1,
+      "message": "add screenshots for 0-selected and non-0-selected cases",
+      "revId": "88a11588c5065af9884d00d25aceb7a6b610fee8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8322242b_60b59104",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-06T09:04:38Z",
+      "side": 1,
+      "message": "this variable should not be needed anymore, we can check this.numSelected directly in rendercolumnheaders",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 64
+      },
+      "revId": "88a11588c5065af9884d00d25aceb7a6b610fee8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

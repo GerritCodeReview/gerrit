@@ -73,13 +73,18 @@ export class GrFileStatus extends LitElement {
         }
         div.status {
           display: inline-block;
+          line-height: var(--line-height-normal);
           width: var(--line-height-normal);
           text-align: center;
           border-radius: var(--border-radius);
           background-color: transparent;
+          color: var(--file-status-font-color);
         }
         div.status.M {
-          background-color: var(--file-status-modified);
+          border: 1px solid var(--border-color);
+          line-height: calc(var(--line-height-normal) - 2px);
+          width: calc(var(--line-height-normal) - 2px);
+          color: var(--deemphasized-text-color);
         }
         div.status.A {
           background-color: var(--file-status-added);

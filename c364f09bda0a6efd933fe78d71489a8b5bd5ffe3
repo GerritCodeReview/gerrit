@@ -16,6 +16,24 @@
       "message": "Introduce a helper function as you\u0027re doing this logic twice.\n\n`change \u003d\u003e change.reviewers.filter(isNotOwner)`",
       "revId": "c364f09bda0a6efd933fe78d71489a8b5bd5ffe3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1363cb7f_b2012f90",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-06T12:51:03Z",
+      "side": 1,
+      "message": "Done, but I must pass the change so it can compare to the owner so it is a function that creates a function. PTAL and see what you think. I don\u0027t have a preference.",
+      "parentUuid": "91b3ac82_11355363",
+      "revId": "c364f09bda0a6efd933fe78d71489a8b5bd5ffe3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

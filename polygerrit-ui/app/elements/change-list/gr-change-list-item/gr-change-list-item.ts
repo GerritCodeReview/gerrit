@@ -100,6 +100,9 @@ export class GrChangeListItem extends LitElement {
   @property({type: Boolean})
   showNumber = false;
 
+  @property({type: String})
+  usp?: string;
+
   // private but used in tests
   @property({type: Boolean, reflect: true}) checked = false;
 
@@ -616,7 +619,7 @@ export class GrChangeListItem extends LitElement {
 
   private computeChangeURL() {
     if (!this.change) return '';
-    return GerritNav.getUrlForChange(this.change);
+    return GerritNav.getUrlForChange(this.change, {usp: this.usp});
   }
 
   private computeRepoUrl() {

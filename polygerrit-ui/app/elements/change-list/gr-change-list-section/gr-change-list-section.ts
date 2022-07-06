@@ -88,6 +88,9 @@ export class GrChangeListSection extends LitElement {
   @property({type: Object})
   account: AccountInfo | undefined = undefined;
 
+  @property({type: String})
+  usp?: string;
+
   // private but used in tests
   @state()
   numSelected = 0;
@@ -326,6 +329,7 @@ export class GrChangeListSection extends LitElement {
         .showNumber=${this.showNumber}
         ?showStar=${this.showStar}
         tabindex=${tabIndex}
+        .usp=${this.usp}
         .labelNames=${this.labelNames}
         aria-label=${ariaLabel}
         role="button"

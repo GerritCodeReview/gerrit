@@ -80,6 +80,7 @@ import {classMap} from 'lit/directives/class-map';
 import {incrementalRepeat} from '../../lit/incremental-repeat';
 import {ifDefined} from 'lit/directives/if-defined';
 import {KnownExperimentId} from '../../../services/flags/flags';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -314,6 +315,7 @@ export class GrFileList extends LitElement {
     return [
       a11yStyles,
       sharedStyles,
+      iconStyles,
       css`
         :host {
           display: block;
@@ -404,7 +406,7 @@ export class GrFileList extends LitElement {
           justify-content: flex-end;
         }
         .status.extended {
-          width: 60px;
+          width: 56px;
         }
         .status > * {
           display: block;
@@ -1085,7 +1087,7 @@ export class GrFileList extends LitElement {
         .status=${status}
         .labelPostfix=${postfix}
       ></gr-file-status>
-      <iron-icon icon="gr-icons:arrow-right"></iron-icon>
+      <iron-icon class="size-16" icon="gr-icons:arrow-right"></iron-icon>
     `;
   }
 

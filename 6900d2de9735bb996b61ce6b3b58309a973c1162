@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79a07f26_a471fb0c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-07-07T11:59:41Z",
+      "side": 1,
+      "message": "Sorry, I do not have +2:/",
+      "revId": "6900d2de9735bb996b61ce6b3b58309a973c1162",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96c7b0ab_2e769a90",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-07-07T11:59:41Z",
+      "side": 1,
+      "message": "nit:\n\n    Optional\u003cString\u003e changeUrl \u003d ...\n    if(!changeUrl.isPresent())\n    ....",
+      "range": {
+        "startLine": 258,
+        "startChar": 4,
+        "endLine": 258,
+        "endChar": 20
+      },
+      "revId": "6900d2de9735bb996b61ce6b3b58309a973c1162",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64d51d70_a5c3940d",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-07-07T11:59:41Z",
+      "side": 1,
+      "message": "nit: maybe use org.apache.http.client.utils.URIBuilder ?\nTan you can\n    new URIBuilder(changeUrl).addParameter(...)\n    \n(This comes from \"//lib/httpcomponents:httpclient\")",
+      "range": {
+        "startLine": 262,
+        "startChar": 6,
+        "endLine": 262,
+        "endChar": 38
+      },
+      "revId": "6900d2de9735bb996b61ce6b3b58309a973c1162",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

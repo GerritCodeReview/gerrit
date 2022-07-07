@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "28fd97db_36bb5413",
+        "filename": "polygerrit-ui/app/elements/shared/gr-file-status-chip/gr-file-status.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-07T07:11:10Z",
+      "side": 1,
+      "message": "Do we need import for this?",
+      "range": {
+        "startLine": 109,
+        "startChar": 17,
+        "endLine": 109,
+        "endChar": 35
+      },
+      "revId": "68eef9790ba2918846f162bbef88cd0df10d46b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "83a6e603_34c2c167",
         "filename": "polygerrit-ui/app/elements/shared/gr-file-status-chip/gr-file-status.ts",
         "patchSetId": 2

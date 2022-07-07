@@ -26,3 +26,13 @@ filegroup(
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
 )
+
+# We use true-type file as that is what fonts.googleplex.api's CSS specifies.
+filegroup(
+  name="material-icons",
+  srcs = [
+    "material-icons.ttf",
+  ],
+  data = ["//lib:LICENSE-Apache2.0"],
+  visibility = ["//visibility:public"],
+)

@@ -46,6 +46,30 @@
       },
       "revId": "adb519f7ab467fd350deef1eda4b64c0da8b4fb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c074e6e_7186d665",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-07-07T13:57:59Z",
+      "side": 1,
+      "message": "Makes sense.\nSorry for the noise.",
+      "parentUuid": "46b8c2eb_a227ff1a",
+      "range": {
+        "startLine": 266,
+        "startChar": 13,
+        "endLine": 266,
+        "endChar": 18
+      },
+      "revId": "adb519f7ab467fd350deef1eda4b64c0da8b4fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -123,6 +123,24 @@
       "parentUuid": "95ce6dc6_d175ff44",
       "revId": "768502208f0f9f21b64aec5259d093ed1c055ab0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3249948e_684ae63e",
+        "filename": "java/com/google/gerrit/server/index/account/AccountField.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-07-07T10:48:47Z",
+      "side": 1,
+      "message": "Yes, this is possible for our case, but what about other Index backends? We will have to teach them do the same.\n\nI prefer to transfer everything literally now, to minimize the effort.\nIn case we have time for clean-up, we can re-work it later.",
+      "parentUuid": "9ee49780_b9aaae73",
+      "revId": "768502208f0f9f21b64aec5259d093ed1c055ab0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

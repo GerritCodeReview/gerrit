@@ -439,7 +439,7 @@ export class GrPatchRangeSelect extends LitElement {
     const patchSetValue = convertToPatchSetNum(e.detail.value)!;
     const latestPatchNum = computeLatestPatchNum(this.availablePatches);
     if (target === this.patchNumDropdown) {
-      if (detail.patchNum === e.detail.value) return;
+      if (detail.patchNum === patchSetValue) return;
       this.reporting.reportInteraction('right-patchset-changed', {
         previous: detail.patchNum,
         current: e.detail.value,

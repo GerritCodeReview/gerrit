@@ -295,6 +295,9 @@ public class QueryIT extends AbstractDaemonTest {
     // computation while formatting the output, such as labels, reviewers etc.
     merge(r);
     for (ListChangesOption option : ListChangesOption.values()) {
+      if (option == ListChangesOption.DETAILED_LABELS) {
+        continue;
+      }
       assertWithMessage("Option: " + option)
           .that(gApi.changes().query(r.getChangeId()).withOption(option).get())
           .hasSize(1);

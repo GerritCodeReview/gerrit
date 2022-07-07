@@ -40,6 +40,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_ACTI
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_COMMIT;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
+import static com.google.gerrit.extensions.client.ListChangesOption.LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.extensions.client.ListChangesOption.PUSH_CERTIFICATES;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
@@ -3077,8 +3078,7 @@ public class ChangeIT extends AbstractDaemonTest {
         Iterables.getOnlyElement(
             gApi.changes()
                 .query(r.getChangeId())
-                .withOptions(
-                    ALL_REVISIONS, CHANGE_ACTIONS, CURRENT_ACTIONS, DETAILED_LABELS, MESSAGES)
+                .withOptions(ALL_REVISIONS, CHANGE_ACTIONS, CURRENT_ACTIONS, LABELS, MESSAGES)
                 .get());
     assertThat(Iterables.getOnlyElement(result.labels.keySet())).isEqualTo(LabelId.CODE_REVIEW);
     assertThat(result.messages).hasSize(1);

@@ -52,6 +52,24 @@
       "parentUuid": "d9ec814b_b5073561",
       "revId": "193d7c533258869a28f08ed77bc182c1dcdf31ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cac6d71a_c5c85774",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-07T12:40:56Z",
+      "side": 1,
+      "message": "The equality comparison types doesn\u0027t seem like a \"whole object\" like the commit message suggests. Is that incorrect? It looks like it may end up comparing a number to a string and failing when it shouldn\u0027t. So it seems like a test for this bit of code would easily show that the old code didn\u0027t work and the new code works.",
+      "parentUuid": "610bd28f_d0b483a6",
+      "revId": "193d7c533258869a28f08ed77bc182c1dcdf31ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

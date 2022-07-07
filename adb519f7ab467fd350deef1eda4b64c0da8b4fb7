@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a8f7aa52_bfce88a5",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-07T14:33:33Z",
+      "side": 1,
+      "message": "It\u0027s when the server doesn\u0027t know its own address as mentioned in the comment above?",
+      "parentUuid": "89810719_7485f896",
+      "revId": "adb519f7ab467fd350deef1eda4b64c0da8b4fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d4a18e04_fc6f882b",
         "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
         "patchSetId": 8

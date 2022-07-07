@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50de9875_f14799b6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-07-07T09:34:53Z",
+      "side": 1,
+      "message": "Is the tooltip over the patchset column title also included in this change?",
+      "revId": "7184ee6676a3b2ac487cea7797d34cce26f260f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "881ae65a_cf9a8d61",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-07-07T09:34:53Z",
+      "side": 1,
+      "message": "Use `--spacing-m` instead of `--spacing-s` so that the patchset column title don\u0027t look too close to the file column title https://imgur.com/a/KtcS3tX",
+      "revId": "7184ee6676a3b2ac487cea7797d34cce26f260f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

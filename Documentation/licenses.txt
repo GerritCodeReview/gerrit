@@ -57,6 +57,7 @@ Apache2.0
 * dropwizard:dropwizard-core
 * errorprone:annotations
 * flogger:api
+* fonts:material-icons
 * fonts:robotofonts
 * guice:guice
 * guice:guice-assistedinject

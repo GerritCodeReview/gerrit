@@ -7,6 +7,7 @@ package(default_visibility = ["//visibility:public"])
 genrule2(
     name = "fonts",
     srcs = [
+        "//lib/fonts:material-icons",
         "//lib/fonts:robotofonts",
     ],
     outs = ["fonts.zip"],

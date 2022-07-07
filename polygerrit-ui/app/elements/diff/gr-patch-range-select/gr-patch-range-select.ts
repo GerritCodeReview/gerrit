@@ -439,13 +439,13 @@ export class GrPatchRangeSelect extends LitElement {
     const patchSetValue = convertToPatchSetNum(e.detail.value)!;
     const latestPatchNum = computeLatestPatchNum(this.availablePatches);
     if (target === this.patchNumDropdown) {
-      if (detail.patchNum === e.detail.value) return;
+      if (detail.patchNum === patchSetValue) return;
       this.reporting.reportInteraction('right-patchset-changed', {
         previous: detail.patchNum,
-        current: e.detail.value,
+        current: patchSetValue,
         latest: latestPatchNum,
         commentCount: this.changeComments?.computeCommentThreadCount({
-          patchNum: e.detail.value as PatchSetNum,
+          patchNum: patchSetValue,
         }),
       });
       detail.patchNum = patchSetValue;
@@ -453,7 +453,7 @@ export class GrPatchRangeSelect extends LitElement {
       if (detail.basePatchNum === patchSetValue) return;
       this.reporting.reportInteraction('left-patchset-changed', {
         previous: detail.basePatchNum,
-        current: e.detail.value,
+        current: patchSetValue,
         commentCount: this.changeComments?.computeCommentThreadCount({
           patchNum: patchSetValue,
         }),

@@ -35,13 +35,16 @@ export class GrCoverageLayer implements DiffLayer {
    */
   private index = 0;
 
-  constructor(private readonly side: Side) {}
+  constructor(private readonly side: Side) {
+    console.log("constructor", this);
+  }
 
   /**
    * Must be sorted by code_range.start_line.
    * Must only contain ranges that match the side.
    */
   setRanges(ranges: CoverageRange[]) {
+    console.log("set coverage range to ranges for", this, ranges);
     this.coverageRanges = ranges;
   }
 
@@ -77,6 +80,7 @@ export class GrCoverageLayer implements DiffLayer {
 
     // We simply loop through all the coverage ranges until we find one that
     // matches the line number.
+    console.log("checking coverage length", this.index, this.coverageRanges.length);
     while (this.index < this.coverageRanges.length) {
       const coverageRange = this.coverageRanges[this.index];
 

@@ -135,11 +135,11 @@ export class GrDiffBuilderElement implements GroupConsumer {
    */
   private cancelableRenderPromise: CancelablePromise<unknown> | null = null;
 
-  private coverageLayerLeft?: GrCoverageLayer;
+  private coverageLayerLeft = new GrCoverageLayer(Side.LEFT);
 
-  private coverageLayerRight?: GrCoverageLayer;
+  private coverageLayerRight = new GrCoverageLayer(Side.RIGHT);
 
-  private rangeLayer?: GrRangedCommentLayer;
+  private rangeLayer = new GrRangedCommentLayer();
 
   // visible for testing
   processor = new GrDiffProcessor();
@@ -252,8 +252,6 @@ export class GrDiffBuilderElement implements GroupConsumer {
 
   // visible for testing
   setupAnnotationLayers() {
-    this.coverageLayerLeft = new GrCoverageLayer(Side.LEFT);
-    this.coverageLayerRight = new GrCoverageLayer(Side.RIGHT);
     this.rangeLayer = new GrRangedCommentLayer();
 
     const layers: DiffLayer[] = [

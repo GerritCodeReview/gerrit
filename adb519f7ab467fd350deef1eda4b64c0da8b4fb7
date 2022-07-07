@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4a18e04_fc6f882b",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-07-07T13:01:01Z",
+      "side": 1,
+      "message": "nit: The parsing error should not happen, since the change view URL is valid, but maybe return the original changeUrl to be on the safe side?",
+      "range": {
+        "startLine": 266,
+        "startChar": 13,
+        "endLine": 266,
+        "endChar": 18
+      },
+      "revId": "adb519f7ab467fd350deef1eda4b64c0da8b4fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       },
       "revId": "adb519f7ab467fd350deef1eda4b64c0da8b4fb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46b8c2eb_a227ff1a",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-07T13:03:51Z",
+      "side": 1,
+      "message": "I\u0027d rather not return a url if it fails to parse because then we\u0027d be sending invalid urls in emails. Additionally, I don\u0027t want to run the risk of not having the links be usp-parametrized.",
+      "parentUuid": "d4a18e04_fc6f882b",
+      "range": {
+        "startLine": 266,
+        "startChar": 13,
+        "endLine": 266,
+        "endChar": 18
+      },
+      "revId": "adb519f7ab467fd350deef1eda4b64c0da8b4fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

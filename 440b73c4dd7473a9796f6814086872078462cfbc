@@ -51,6 +51,24 @@
       "message": "As a thought, looking back at the AutoFlush change, I think we could rename it to EnsureReadsConsistentWithWrites so that it\u0027s not named something Lucene-specific, because it is pretty closely representing the same idea.\n\nWe wouldn\u0027t want to use the TRUE case in AbstractLuceneIndex code like we do AutoFlush.ENABLED since Lucene (currently) doesn\u0027t honor that, but using only FALSE would be sufficient to replace AutoFlush and get the same behavior. If someone later wants to tackle making Lucene consistent, they can use TRUE in the code to show that it now supports it.",
       "revId": "440b73c4dd7473a9796f6814086872078462cfbc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd2b2067_bd5e2e6e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-07-07T08:07:13Z",
+      "side": 1,
+      "message": "Sure, that could be a refactoring on master. Thanks @Nasser for your thorough review and feedback.",
+      "parentUuid": "df5a56ca_d39944b4",
+      "revId": "440b73c4dd7473a9796f6814086872078462cfbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

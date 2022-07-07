@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "96f8f3b3_56baf4a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-07T15:01:14Z",
+      "side": 1,
+      "message": "PTAL",
+      "revId": "adb519f7ab467fd350deef1eda4b64c0da8b4fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "89810719_7485f896",
@@ -67,6 +84,24 @@
       "side": 1,
       "message": "That should be documented at the method(s) in question, not at the call site. This method is also returning null on another condition below. Also, it\u0027s sort of just a rewording of Optional.empty(). I\u0027d be interested in knowing *why*/under what conditions the server doesn\u0027t know its own address.",
       "parentUuid": "a8f7aa52_bfce88a5",
+      "revId": "adb519f7ab467fd350deef1eda4b64c0da8b4fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9be18cc_2dc3c8ef",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-07T15:01:14Z",
+      "side": 1,
+      "message": "As far as I can tell it\u0027s never absent but maybe someone overrides the URLFormatter class and injects their own.\n\nI\u0027ve updated the comment here but I do feel that updating the documentation of the method being called falls outside of the scope of this change.",
+      "parentUuid": "a30c7c0c_cbc43961",
       "revId": "adb519f7ab467fd350deef1eda4b64c0da8b4fb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

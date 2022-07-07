@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07e25f86_a5640fc8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-07-07T08:13:14Z",
+      "side": 1,
+      "message": "should i pay attention to the code style bot? afaict, i\u0027m just replicating the style used all over the place.",
+      "revId": "5fc4be7a7d5b8521a50c3d0f09d51c4e562770ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

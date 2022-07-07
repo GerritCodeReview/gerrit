@@ -20,7 +20,7 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
-import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
+import static com.google.gerrit.extensions.client.ListChangesOption.LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.testing.TestLabels.label;
@@ -555,8 +555,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
             .reviewer(email2, ReviewerState.CC, false);
     gApi.changes().id(change1.getId().get()).current().review(in);
 
-    List<ChangeInfo> changeInfos =
-        assertQuery(newQuery("is:wip").withOption(DETAILED_LABELS), change1);
+    List<ChangeInfo> changeInfos = assertQuery(newQuery("is:wip").withOption(LABELS), change1);
     assertThat(changeInfos).isNotEmpty();
 
     Map<ReviewerState, Collection<AccountInfo>> pendingReviewers =
@@ -577,7 +576,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     gApi.changes().id(change1.getId().get()).reviewer(email1).remove();
     gApi.changes().id(change1.getId().get()).reviewer(email2).remove();
 
-    changeInfos = assertQuery(newQuery("is:wip").withOption(DETAILED_LABELS), change1);
+    changeInfos = assertQuery(newQuery("is:wip").withOption(LABELS), change1);
     assertThat(changeInfos).isNotEmpty();
 
     pendingReviewers = changeInfos.get(0).pendingReviewers;

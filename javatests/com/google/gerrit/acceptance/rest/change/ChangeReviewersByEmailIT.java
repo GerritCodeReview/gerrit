@@ -15,7 +15,7 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
+import static com.google.gerrit.extensions.client.ListChangesOption.LABELS;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -64,7 +64,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
       input.state = state;
       gApi.changes().id(r.getChangeId()).addReviewer(input);
 
-      ChangeInfo info = gApi.changes().id(r.getChangeId()).get(DETAILED_LABELS);
+      ChangeInfo info = gApi.changes().id(r.getChangeId()).get(LABELS);
       assertThat(info.reviewers).containsExactly(state, ImmutableList.of(acc));
       // All reviewers added by email should be removable
       assertThat(info.removableReviewers).containsExactly(acc);
@@ -89,7 +89,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
       inputById.state = state;
       gApi.changes().id(r.getChangeId()).addReviewer(inputById);
 
-      ChangeInfo info = gApi.changes().id(r.getChangeId()).get(DETAILED_LABELS);
+      ChangeInfo info = gApi.changes().id(r.getChangeId()).get(LABELS);
       assertThat(info.reviewers).isEqualTo(ImmutableMap.of(state, ImmutableList.of(byId, byEmail)));
       // All reviewers (both by id and by email) should be removable
       assertThat(info.removableReviewers).containsExactly(byId, byEmail);
@@ -137,7 +137,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
       gApi.changes().id(r.getChangeId()).reviewer(acc.email).remove();
 
-      ChangeInfo info = gApi.changes().id(r.getChangeId()).get(DETAILED_LABELS);
+      ChangeInfo info = gApi.changes().id(r.getChangeId()).get(LABELS);
       assertThat(info.reviewers).isEmpty();
     }
   }
@@ -158,7 +158,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
     modifyInput.state = ReviewerState.REVIEWER;
     gApi.changes().id(r.getChangeId()).addReviewer(modifyInput);
 
-    ChangeInfo info = gApi.changes().id(r.getChangeId()).get(DETAILED_LABELS);
+    ChangeInfo info = gApi.changes().id(r.getChangeId()).get(LABELS);
     assertThat(info.reviewers)
         .isEqualTo(ImmutableMap.of(ReviewerState.REVIEWER, ImmutableList.of(acc)));
   }
@@ -327,7 +327,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
       try (AutoCloseable ignored = disableNoteDb()) {
         ChangeInfo info =
             Iterables.getOnlyElement(
-                gApi.changes().query(r.getChangeId()).withOption(DETAILED_LABELS).get());
+                gApi.changes().query(r.getChangeId()).withOption(LABELS).get());
         assertThat(info.reviewers).isEqualTo(ImmutableMap.of(state, ImmutableList.of(acc)));
       }
     }

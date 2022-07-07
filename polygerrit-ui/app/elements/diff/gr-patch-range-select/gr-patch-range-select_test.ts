@@ -10,7 +10,7 @@ import './gr-patch-range-select';
 import {GrPatchRangeSelect} from './gr-patch-range-select';
 import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api';
-import {stubRestApi} from '../../../test/test-utils';
+import {stubReporting, stubRestApi} from '../../../test/test-utils';
 import {
   BasePatchSetNum,
   EDIT,
@@ -35,6 +35,7 @@ import {
   GrDropdownList,
 } from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {queryAndAssert} from '../../../test/test-utils';
+import {fire} from '../../../utils/event-util';
 
 const basicFixture = fixtureFromElement('gr-patch-range-select');
 
@@ -418,5 +419,31 @@ suite('gr-patch-range-select tests', () => {
       basePatchNum: 1,
       patchNum: EDIT,
     });
+  });
+
+  test('handlePatchChange', async () => {
+    element.availablePatches = [
+      {num: EDIT, sha: '1'} as PatchSet,
+      {num: 3, sha: '2'} as PatchSet,
+      {num: 2, sha: '3'} as PatchSet,
+      {num: 1, sha: '4'} as PatchSet,
+    ];
+    element.revisions = [
+      createRevision(2),
+      createRevision(3),
+      createRevision(1),
+      createRevision(4),
+    ];
+    element.revisionInfo = getInfo(element.revisions);
+    element.patchNum = 1 as PatchSetNumber;
+    element.basePatchNum = PARENT;
+    await element.updateComplete;
+
+    const stub = stubReporting('reportInteraction');
+    fire(element.patchNumDropdown!, 'value-change', {value: '1'});
+    assert.isFalse(stub.called);
+
+    fire(element.patchNumDropdown!, 'value-change', {value: '2'});
+    assert.isTrue(stub.called);
   });
 });

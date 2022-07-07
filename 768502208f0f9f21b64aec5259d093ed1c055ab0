@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67f96afd_47f63426",
+        "filename": "java/com/google/gerrit/server/index/account/AccountField.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-07T09:49:20Z",
+      "side": 1,
+      "message": "nit: FullNameAndAllEmailParts (without \u0027s\u0027 in emails) so that\u0027s it\u0027s consistent with the next field FullNameAndPreferredEmailParts",
+      "range": {
+        "startLine": 81,
+        "startChar": 56,
+        "endLine": 81,
+        "endChar": 81
+      },
+      "revId": "768502208f0f9f21b64aec5259d093ed1c055ab0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1abcda2a_21421fb9",
+        "filename": "java/com/google/gerrit/server/index/account/AccountField.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-07T09:49:20Z",
+      "side": 1,
+      "message": "why did we add another field for preferred email exact?\n\nAt PS#34, we had one field for \"preferred email\" with two search specs for {prefix, exact}.\n\nShould we eliminate one of PREFERRED_EMAIL_LOWER_CASE_FIELD AND PREFERRED_EMAIL_EXACT_FIELD.",
+      "revId": "768502208f0f9f21b64aec5259d093ed1c055ab0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

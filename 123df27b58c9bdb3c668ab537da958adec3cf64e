@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0dc6cfe2_bae33ea4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-07-07T09:19:56Z",
+      "side": 1,
+      "message": "Thanks DavidO for this change, I agree with the direction but I think what you wrote at the end of the commit message would be the best approach for master:\n\n\"So ideally, we should\nextract this option from ListChangesOption and handle it seperately.\nDoing this is outside of the scope of this change.\"\n\nWhy don\u0027t we do that instead?\nIf DETAILED_LABELS isn\u0027t really a valid entry of ListChangesOption, it should be removed from there and introduced a new option for the change details.",
+      "revId": "123df27b58c9bdb3c668ab537da958adec3cf64e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "020ba378_d046168f",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/QueryIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-07-07T09:19:56Z",
+      "side": 1,
+      "message": "This test name is stale: it should say \"withTheExceptionOfDetailedLabels\"",
+      "range": {
+        "startLine": 292,
+        "startChar": 14,
+        "endLine": 292,
+        "endChar": 56
+      },
+      "revId": "123df27b58c9bdb3c668ab537da958adec3cf64e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

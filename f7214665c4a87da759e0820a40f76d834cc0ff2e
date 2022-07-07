@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9455aff4_ec994a77",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3081,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-07-07T09:19:56Z",
+      "side": 0,
+      "message": "Rather than just removing the option, we should also test that when using that option results in a failure.",
+      "range": {
+        "startLine": 3081,
+        "startChar": 68,
+        "endLine": 3081,
+        "endChar": 83
+      },
+      "revId": "f7214665c4a87da759e0820a40f76d834cc0ff2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

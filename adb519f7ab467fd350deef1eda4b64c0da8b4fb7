@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3482b932_1e959772",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-07-07T14:55:13Z",
+      "side": 1,
+      "message": "f",
+      "revId": "adb519f7ab467fd350deef1eda4b64c0da8b4fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "89810719_7485f896",
@@ -32,6 +49,24 @@
       "side": 1,
       "message": "It\u0027s when the server doesn\u0027t know its own address as mentioned in the comment above?",
       "parentUuid": "89810719_7485f896",
+      "revId": "adb519f7ab467fd350deef1eda4b64c0da8b4fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a30c7c0c_cbc43961",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-07-07T14:55:13Z",
+      "side": 1,
+      "message": "That should be documented at the method(s) in question, not at the call site. This method is also returning null on another condition below. Also, it\u0027s sort of just a rewording of Optional.empty(). I\u0027d be interested in knowing *why*/under what conditions the server doesn\u0027t know its own address.",
+      "parentUuid": "a8f7aa52_bfce88a5",
       "revId": "adb519f7ab467fd350deef1eda4b64c0da8b4fb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

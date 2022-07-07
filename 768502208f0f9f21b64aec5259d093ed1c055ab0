@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b01d11ea_dcaa4110",
+        "filename": "java/com/google/gerrit/server/index/account/AccountField.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-07-07T09:59:54Z",
+      "side": 1,
+      "message": "This is because PreferredEmail is always one, but there may be many emails, so AllEmails.",
+      "parentUuid": "67f96afd_47f63426",
+      "range": {
+        "startLine": 81,
+        "startChar": 56,
+        "endLine": 81,
+        "endChar": 81
+      },
+      "revId": "768502208f0f9f21b64aec5259d093ed1c055ab0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1abcda2a_21421fb9",
         "filename": "java/com/google/gerrit/server/index/account/AccountField.java",
         "patchSetId": 39
@@ -37,6 +61,24 @@
       "writtenOn": "2022-07-07T09:49:20Z",
       "side": 1,
       "message": "why did we add another field for preferred email exact?\n\nAt PS#34, we had one field for \"preferred email\" with two search specs for {prefix, exact}.\n\nShould we eliminate one of PREFERRED_EMAIL_LOWER_CASE_FIELD AND PREFERRED_EMAIL_EXACT_FIELD.",
+      "revId": "768502208f0f9f21b64aec5259d093ed1c055ab0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95ce6dc6_d175ff44",
+        "filename": "java/com/google/gerrit/server/index/account/AccountField.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-07-07T09:59:54Z",
+      "side": 1,
+      "message": "I also thought so, but than I realized that PREFERRED_EMAIL_EXACT is a case-sensitive field with a case-sensitive search. If we wanted to make it case-insensitive and only store lower-case emails, we would have to reindex the already present data (stored in mixed case).\n\nWe would also need to double-check it is impossible to have 2 emails that are only different in case.",
+      "parentUuid": "1abcda2a_21421fb9",
       "revId": "768502208f0f9f21b64aec5259d093ed1c055ab0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

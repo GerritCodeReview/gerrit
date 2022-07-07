@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "52862edd_d898491a",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-07T12:28:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96c7b0ab_2e769a90",
+      "range": {
+        "startLine": 258,
+        "startChar": 4,
+        "endLine": 258,
+        "endChar": 20
+      },
+      "revId": "6900d2de9735bb996b61ce6b3b58309a973c1162",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "64d51d70_a5c3940d",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-07-07T11:59:41Z",
       "side": 1,
       "message": "nit: maybe use org.apache.http.client.utils.URIBuilder ?\nTan you can\n    new URIBuilder(changeUrl).addParameter(...)\n    \n(This comes from \"//lib/httpcomponents:httpclient\")",
+      "range": {
+        "startLine": 262,
+        "startChar": 6,
+        "endLine": 262,
+        "endChar": 38
+      },
+      "revId": "6900d2de9735bb996b61ce6b3b58309a973c1162",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c469827a_7c571f98",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-07T12:28:07Z",
+      "side": 1,
+      "message": "Thanks for the tip, done!",
+      "parentUuid": "64d51d70_a5c3940d",
       "range": {
         "startLine": 262,
         "startChar": 6,

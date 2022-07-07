@@ -22,6 +22,30 @@
       },
       "revId": "5c1116dfca4b58ab19d81be7ab3958e973744ef4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddbf9514_a675a640",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-07T13:38:38Z",
+      "side": 1,
+      "message": "Thanks, I wish it was smarter about keeping COMMIT_MSG updates when you edit them through the web-ui",
+      "parentUuid": "b1209946_d107459b",
+      "range": {
+        "startLine": 9,
+        "startChar": 7,
+        "endLine": 9,
+        "endChar": 31
+      },
+      "revId": "5c1116dfca4b58ab19d81be7ab3958e973744ef4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

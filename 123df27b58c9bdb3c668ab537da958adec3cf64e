@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "f678d04f_6619ef7d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-07-07T09:25:11Z",
+      "side": 1,
+      "message": "i don\u0027t think that this reasoning makes a lot of sense - just about any query can be used to DoS. if you see an actual problem, implement more elaborate resource usage accounting, and options to limit it.\n\nsee also the discussion in https://gerrit-review.googlesource.com/c/gerrit/+/250256",
+      "revId": "123df27b58c9bdb3c668ab537da958adec3cf64e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "0dc6cfe2_bae33ea4",

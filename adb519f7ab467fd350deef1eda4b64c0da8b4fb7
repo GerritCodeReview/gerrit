@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "89810719_7485f896",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-07-07T14:32:13Z",
+      "side": 1,
+      "message": "When would this happen? The interface documentation doesn\u0027t say, and I can\u0027t imagine why we\u0027d have a change to review but no URL to visit for that :-) I realize it\u0027s not your change, but could you add that to the interface docs?",
+      "revId": "adb519f7ab467fd350deef1eda4b64c0da8b4fb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d4a18e04_fc6f882b",
         "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
         "patchSetId": 8

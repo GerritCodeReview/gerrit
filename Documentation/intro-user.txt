@@ -368,6 +368,10 @@ link:user-dashboards.html#project-dashboards[dashboards on
 project-level]. The project dashboards can be seen in the web UI under
 `Projects` > `List` > <project-name> > `Dashboards`.
 
+All dashboards and search pages allow an action to be applied to multiple
+changes at once. Select the changes with the checkboxes on the left side and
+choose the action from the action bar at the top of the change section.
+
 [[submit]]
 == Submit a Change
 

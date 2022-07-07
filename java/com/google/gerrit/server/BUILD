@@ -121,6 +121,7 @@ java_library(
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/guice:guice-servlet",
+        "//lib/httpcomponents:httpclient",
         "//lib/jsoup",
         "//lib/log:log4j",
         "//lib/lucene:lucene-analyzers-common",

@@ -16,6 +16,24 @@
       "message": "should we add a regression test for this issue?",
       "revId": "193d7c533258869a28f08ed77bc182c1dcdf31ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9ec814b_b5073561",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-07T12:12:40Z",
+      "side": 1,
+      "message": "or the types can be improved to catch this bad comparison?",
+      "parentUuid": "d5cec80c_78d2d3c4",
+      "revId": "193d7c533258869a28f08ed77bc182c1dcdf31ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

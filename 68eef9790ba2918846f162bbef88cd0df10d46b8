@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "12f6eaca_90dafc9f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-file-status-chip/gr-file-status.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-07-07T15:26:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28fd97db_36bb5413",
+      "range": {
+        "startLine": 109,
+        "startChar": 17,
+        "endLine": 109,
+        "endChar": 35
+      },
+      "revId": "68eef9790ba2918846f162bbef88cd0df10d46b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "83a6e603_34c2c167",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-07-07T07:10:41Z",
       "side": 1,
       "message": "I am not sure what is our approach for this, but shouldn\u0027t be this in gr-tooltip-content?",
+      "range": {
+        "startLine": 112,
+        "startChar": 8,
+        "endLine": 113,
+        "endChar": 41
+      },
+      "revId": "68eef9790ba2918846f162bbef88cd0df10d46b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ad51c08_3bfc0c82",
+        "filename": "polygerrit-ui/app/elements/shared/gr-file-status-chip/gr-file-status.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-07-07T15:26:30Z",
+      "side": 1,
+      "message": "You tell me. :-D I don\u0027t know ...\n\nBut in our code base we don\u0027t have any \u003cgr-tooltip-content\u003e with an aria-label, so I think having the aria-label on the \u003cdiv\u003e is at least more consistent.",
+      "parentUuid": "83a6e603_34c2c167",
       "range": {
         "startLine": 112,
         "startChar": 8,

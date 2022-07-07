@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcf50de4_10effd4b",
+        "filename": "java/com/google/gerrit/server/index/account/AccountField.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-07T10:21:13Z",
+      "side": 1,
+      "message": "I see. OK LGTM.",
+      "parentUuid": "b01d11ea_dcaa4110",
+      "range": {
+        "startLine": 81,
+        "startChar": 56,
+        "endLine": 81,
+        "endChar": 81
+      },
+      "revId": "768502208f0f9f21b64aec5259d093ed1c055ab0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1abcda2a_21421fb9",
@@ -79,6 +103,24 @@
       "side": 1,
       "message": "I also thought so, but than I realized that PREFERRED_EMAIL_EXACT is a case-sensitive field with a case-sensitive search. If we wanted to make it case-insensitive and only store lower-case emails, we would have to reindex the already present data (stored in mixed case).\n\nWe would also need to double-check it is impossible to have 2 emails that are only different in case.",
       "parentUuid": "1abcda2a_21421fb9",
+      "revId": "768502208f0f9f21b64aec5259d093ed1c055ab0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ee49780_b9aaae73",
+        "filename": "java/com/google/gerrit/server/index/account/AccountField.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-07T10:21:13Z",
+      "side": 1,
+      "message": "mmm, why don\u0027t we store it as is (without converting to lower case), and then using two search specs for matching case in/sensitive?\n\nbriefly I found that spanner supports Q_EXACT (insensitive) \u0026 IS (sensitive) which could be used for this.",
+      "parentUuid": "95ce6dc6_d175ff44",
       "revId": "768502208f0f9f21b64aec5259d093ed1c055ab0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -165,6 +165,9 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
     if (queryProcessor.isDisabled()) {
       throw new QueryParseException("query disabled");
     }
+    if (options.contains(ListChangesOption.DETAILED_LABELS)) {
+      throw new BadRequestException("DETAILED_LABELS option is disallowed in change queries");
+    }
 
     if (limit != null) {
       queryProcessor.setUserProvidedLimit(limit);

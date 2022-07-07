@@ -162,6 +162,7 @@ public class ChangeJson {
           COMMIT_FOOTERS,
           CURRENT_ACTIONS,
           CURRENT_COMMIT,
+          DETAILED_LABELS,
           MESSAGES);
 
   @Singleton

@@ -8,6 +8,7 @@ genrule2(
     name = "fonts",
     srcs = [
         "//lib/fonts:robotofonts",
+        "//lib/fonts:material-icons",
     ],
     outs = ["fonts.zip"],
     cmd = " && ".join([

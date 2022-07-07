@@ -2,6 +2,7 @@
 [[Apache2_0]]
 Apache2.0
 
+* fonts:material-icons
 * fonts:robotofonts
 
 [[Apache2_0_license]]

@@ -55,7 +55,7 @@ import {
 } from '../../../api/diff';
 import {isSafari, toggleClass} from '../../../utils/dom-util';
 import {assertIsDefined} from '../../../utils/common-util';
-import {debounceP, DelayedPromise} from '../../../utils/async-util';
+import {debounceP, DelayedPromise, DELAYED_CANCELLATION} from '../../../utils/async-util';
 import {GrDiffSelection} from '../gr-diff-selection/gr-diff-selection';
 import {customElement, property, query, state} from 'lit/decorators';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -1560,6 +1560,11 @@ export class GrDiff extends LitElement implements GrDiffApi {
       this.renderDiffTableTask,
       async () => await this.renderDiffTable()
     );
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    this.renderDiffTableTask.catch((e: any) => {
+      if (e === DELAYED_CANCELLATION) return;
+      throw e;
+    });
   }
 
   // Private but used in tests.

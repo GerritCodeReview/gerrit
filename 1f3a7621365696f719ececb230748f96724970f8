@@ -22,6 +22,30 @@
       },
       "revId": "1f3a7621365696f719ececb230748f96724970f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a02d9f2_15709759",
+        "filename": "lib/fonts/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-08T12:21:31Z",
+      "side": 1,
+      "message": "Good catch, removed.",
+      "parentUuid": "fd1bb673_ce017416",
+      "range": {
+        "startLine": 30,
+        "startChar": 9,
+        "endLine": 30,
+        "endChar": 23
+      },
+      "revId": "1f3a7621365696f719ececb230748f96724970f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

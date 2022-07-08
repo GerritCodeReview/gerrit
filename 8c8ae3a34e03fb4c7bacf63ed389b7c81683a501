@@ -22,6 +22,30 @@
       },
       "revId": "8c8ae3a34e03fb4c7bacf63ed389b7c81683a501",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00f59015_860c070c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-08T08:55:57Z",
+      "side": 1,
+      "message": "changedProperties is the old value and I want to trigger focus when selected goes from false to true. Triggering on true --\u003e true would re-focus on every render when selected.",
+      "parentUuid": "fbab02a2_4aefabda",
+      "range": {
+        "startLine": 143,
+        "startChar": 25,
+        "endLine": 143,
+        "endChar": 60
+      },
+      "revId": "8c8ae3a34e03fb4c7bacf63ed389b7c81683a501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

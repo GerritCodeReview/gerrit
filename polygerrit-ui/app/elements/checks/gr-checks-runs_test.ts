@@ -59,10 +59,7 @@ suite('gr-checks-runs test', () => {
         />
         <div class="expanded running">
           <div class="sectionHeader">
-            <iron-icon
-              class="expandIcon"
-              icon="gr-icons:expand-less"
-            ></iron-icon>
+            <span class="expandIcon material-icon">expand_less</span>
             <h3 class="heading-3">Running / Scheduled (2)</h3>
           </div>
           <div class="sectionRuns">
@@ -72,10 +69,7 @@ suite('gr-checks-runs test', () => {
         </div>
         <div class="completed expanded">
           <div class="sectionHeader">
-            <iron-icon
-              class="expandIcon"
-              icon="gr-icons:expand-less"
-            ></iron-icon>
+            <span class="expandIcon material-icon">expand_less</span>
             <h3 class="heading-3">Completed (3)</h3>
           </div>
           <div class="sectionRuns">
@@ -86,10 +80,7 @@ suite('gr-checks-runs test', () => {
         </div>
         <div class="expanded runnable">
           <div class="sectionHeader">
-            <iron-icon
-              class="expandIcon"
-              icon="gr-icons:expand-less"
-            ></iron-icon>
+            <span class="expandIcon material-icon">expand_less</span>
             <h3 class="heading-3">Not run (1)</h3>
           </div>
           <div class="sectionRuns">

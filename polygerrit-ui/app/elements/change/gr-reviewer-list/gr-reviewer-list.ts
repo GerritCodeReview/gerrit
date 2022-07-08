@@ -22,6 +22,7 @@ import {sortReviewers} from '../../../utils/attention-set-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css} from 'lit';
 import {nothing} from 'lit';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 @customElement('gr-reviewer-list')
 export class GrReviewerList extends LitElement {
@@ -53,6 +54,7 @@ export class GrReviewerList extends LitElement {
 
   static override get styles() {
     return [
+      iconStyles,
       sharedStyles,
       css`
         :host {
@@ -70,10 +72,9 @@ export class GrReviewerList extends LitElement {
           line-height: calc(var(--line-height-normal) + 2px + var(--spacing-s));
           margin-bottom: calc(0px - var(--spacing-s));
         }
-        .addReviewer iron-icon {
+        .addReviewer .material-icon {
           color: inherit;
-          --iron-icon-height: 18px;
-          --iron-icon-width: 18px;
+          font-size: 18px;
         }
         .controlsContainer {
           display: inline-block;
@@ -117,8 +118,8 @@ export class GrReviewerList extends LitElement {
               class="addReviewer"
               @click=${this.handleAddTap}
               title=${this.ccsOnly ? 'Add CC' : 'Add reviewer'}
-              ><iron-icon icon="gr-icons:edit"></iron-icon
-            ></gr-button>
+              ><span class="material-icon filled">edit</span>
+            </gr-button>
           </div>
         </div>
         <gr-button

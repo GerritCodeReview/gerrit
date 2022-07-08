@@ -38,6 +38,7 @@ import {css, html, LitElement} from 'lit';
 import {ifDefined} from 'lit/directives/if-defined';
 import {HovercardMixin} from '../../../mixins/hovercard-mixin/hovercard-mixin';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
 const base = HovercardMixin(LitElement);
@@ -86,6 +87,7 @@ export class GrHovercardAccount extends base {
   static override get styles() {
     return [
       fontStyles,
+      iconStyles,
       base.styles || [],
       css`
         .top,
@@ -283,10 +285,7 @@ export class GrHovercardAccount extends base {
             href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"
             target="_blank"
           >
-            <iron-icon
-              icon="gr-icons:help-outline"
-              title="read documentation"
-            ></iron-icon>
+            <span class="material-icon" title="read documentation">help</span>
           </a>
         </div>
         <div class="reason">

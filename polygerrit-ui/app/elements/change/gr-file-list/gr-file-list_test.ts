@@ -265,7 +265,7 @@ suite('gr-file-list tests', () => {
       expect(statusCol).dom.equal(/* HTML */ `
         <div class="extended status" role="gridcell">
           <gr-file-status></gr-file-status>
-          <iron-icon class="size-16" icon="gr-icons:arrow-right"></iron-icon>
+          <span class="material-icon size-16">arrow_right_alt</span>
           <gr-file-status></gr-file-status>
         </div>
       `);

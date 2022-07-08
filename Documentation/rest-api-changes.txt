@@ -4057,6 +4057,15 @@ for the current patch set.
 Retrieves related changes of a revision.  Related changes are changes that either
 depend on, or are dependencies of the revision.
 
+Additional fields can be obtained by adding `o` parameters. Since these may slow
+down processing they are disabled by default. Currently a single parameter is
+supported:
+
+--
+* `SUBMITTABLE`: Compute the `submittable` field in the returned
+  link:#related-change-and-commit-info[RelatedChangeAndCommitInfo] entities.
+--
+
 .Request
 ----
   GET /changes/gerrit~master~I5e4fc08ce34d33c090c9e0bf320de1b17309f774/revisions/b1cb4caa6be46d12b94c25aa68aebabcbb3f53fe/related HTTP/1.0
@@ -7814,6 +7823,8 @@ link:#commit-info[CommitInfo] entity.
 |`_current_revision_number`|optional|The current revision number.
 |`status`                  |optional|The status of the change. The status of
 the change is one of (`NEW`, `MERGED`, `ABANDONED`).
+|`submittable`             |optional|Boolean indicating whether the change is
+submittable.
 |===========================
 
 [[related-changes-info]]

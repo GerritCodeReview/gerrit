@@ -25,6 +25,7 @@ public class RelatedChangeAndCommitInfo {
   public Integer _revisionNumber;
   public Integer _currentRevisionNumber;
   public String status;
+  public Boolean submittable;
 
   public RelatedChangeAndCommitInfo() {}
 
@@ -38,6 +39,7 @@ public class RelatedChangeAndCommitInfo {
         .add("_revisionNumber", _revisionNumber)
         .add("_currentRevisionNumber", _currentRevisionNumber)
         .add("status", status)
+        .add("submittable", submittable)
         .toString();
   }
 }

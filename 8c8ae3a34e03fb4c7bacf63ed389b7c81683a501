@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbab02a2_4aefabda",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-08T08:31:26Z",
+      "side": 1,
+      "message": "Why negation?\n\nI would expect\n`if (this.selected \u0026\u0026 changedProperties.get(\u0027selected\u0027))`",
+      "range": {
+        "startLine": 143,
+        "startChar": 25,
+        "endLine": 143,
+        "endChar": 60
+      },
+      "revId": "8c8ae3a34e03fb4c7bacf63ed389b7c81683a501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

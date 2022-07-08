@@ -34,6 +34,7 @@ import com.google.gerrit.extensions.common.TestSubmitRuleInput;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -155,6 +156,8 @@ public interface RevisionApi {
   MergeListRequest getMergeList() throws RestApiException;
 
   RelatedChangesInfo related() throws RestApiException;
+
+  RelatedChangesInfo related(EnumSet<GetRelatedOption> listOptions) throws RestApiException;
 
   /** Returns votes on the revision. */
   ListMultimap<String, ApprovalInfo> votes() throws RestApiException;
@@ -394,6 +397,11 @@ public interface RevisionApi {
 
     @Override
     public RelatedChangesInfo related() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public RelatedChangesInfo related(EnumSet<GetRelatedOption> options) throws RestApiException {
       throw new NotImplementedException();
     }
 

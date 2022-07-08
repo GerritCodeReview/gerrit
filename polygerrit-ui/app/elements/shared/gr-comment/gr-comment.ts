@@ -58,6 +58,7 @@ import {debounceTime} from 'rxjs/operators';
 import {configModelToken} from '../../../models/config/config-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {Interaction} from '../../../constants/reporting';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 const UNSAVED_MESSAGE = 'Unable to save draft';
 
@@ -287,6 +288,7 @@ export class GrComment extends LitElement {
 
   static override get styles() {
     return [
+      iconStyles,
       sharedStyles,
       css`
         :host {
@@ -385,7 +387,7 @@ export class GrComment extends LitElement {
           cursor: pointer;
           display: block;
         }
-        label.show-hide iron-icon {
+        label.show-hide .material-icon {
           vertical-align: top;
         }
         :host([collapsed]) #container .body {
@@ -575,7 +577,7 @@ export class GrComment extends LitElement {
         class="action delete"
         @click=${this.openDeleteCommentOverlay}
       >
-        <iron-icon id="icon" icon="gr-icons:delete"></iron-icon>
+        <span id="icon" class="material-icon filled">delete</span>
       </gr-button>
     `;
   }
@@ -602,9 +604,7 @@ export class GrComment extends LitElement {
   }
 
   private renderToggle() {
-    const icon = this.collapsed
-      ? 'gr-icons:expand-more'
-      : 'gr-icons:expand-less';
+    const icon = this.collapsed ? 'expand_more' : 'expand_less';
     const ariaLabel = this.collapsed ? 'Expand' : 'Collapse';
     return html`
       <div class="show-hide" tabindex="0">
@@ -615,7 +615,7 @@ export class GrComment extends LitElement {
             ?checked=${this.collapsed}
             @change=${() => (this.collapsed = !this.collapsed)}
           />
-          <iron-icon id="icon" icon=${icon}></iron-icon>
+          <span id="icon" class="material-icon">${icon}</span>
         </label>
       </div>
     `;

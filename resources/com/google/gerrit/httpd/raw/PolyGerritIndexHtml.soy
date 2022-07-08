@@ -107,7 +107,7 @@
 
   {if $useGoogleFonts}
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700|Roboto:400,500,700|Open+Sans:400,600,700&display=swap">
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0" />{\n}
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />{\n}
   {else}
     // $useGoogleFonts only exists so that hosts can opt-out of loading fonts from fonts.googleapis.com.
     // fonts.css and the woff2 files in the fonts/ directory are only relevant, if $useGoogleFonts is false.
@@ -131,7 +131,7 @@
     <link rel="preload" href="{$staticResourcePath}/fonts/roboto-mono-latin-ext-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">{\n}
     <link rel="preload" href="{$staticResourcePath}/fonts/roboto-mono-latin-ext-500.woff2" as="font" type="font/woff2" crossorigin="anonymous">{\n}
     <link rel="preload" href="{$staticResourcePath}/fonts/roboto-mono-latin-ext-700.woff2" as="font" type="font/woff2" crossorigin="anonymous">{\n}
-    <link rel="preload" href="{$staticResourcePath}/fonts/material-icons.ttf"              as="font" type="font/ttf"   crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/material-icons.woff2"            as="font" type="font/woff2" crossorigin="anonymous">{\n}
     <link rel="preload" as="style" href="{$staticResourcePath}/styles/fonts.css">{\n}
     <link rel="preload" as="style" href="{$staticResourcePath}/styles/material-icons.css">{\n}
   {/if}

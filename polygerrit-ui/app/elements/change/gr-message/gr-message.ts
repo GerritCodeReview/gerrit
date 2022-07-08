@@ -339,6 +339,7 @@ export class GrMessage extends LitElement {
       )}
       <gr-account-label
         .account=${this.author}
+        .change=${this.change}
         class="authorLabel"
       ></gr-account-label>
       <gr-message-scores

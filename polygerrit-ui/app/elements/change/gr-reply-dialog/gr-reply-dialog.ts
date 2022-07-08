@@ -756,6 +756,7 @@ export class GrReplyDialog extends LitElement {
         <gr-account-list
           id="reviewers"
           .accounts=${this.getAccountListCopy(this.reviewers)}
+          .change=${this.change}
           @account-added=${this.accountAdded}
           @accounts-changed=${this.handleReviewersChanged}
           .removableValues=${this.change?.removable_reviewers}

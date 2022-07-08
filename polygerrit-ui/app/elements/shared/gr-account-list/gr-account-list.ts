@@ -207,6 +207,7 @@ export class GrAccountList extends LitElement {
           account => html`
             <gr-account-chip
               .account=${account}
+              .change=${this.change}
               class=${classMap({
                 group: !!account._group,
                 pendingAdd: !!account._pendingAdd,

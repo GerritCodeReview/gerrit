@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.api.changes.CommentApi;
 import com.google.gerrit.extensions.api.changes.DraftApi;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.FileApi;
+import com.google.gerrit.extensions.api.changes.GetRelatedOption;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.RelatedChangesInfo;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -629,7 +630,13 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
 
   @Override
   public RelatedChangesInfo related() throws RestApiException {
+    return related(EnumSet.noneOf(GetRelatedOption.class));
+  }
+
+  @Override
+  public RelatedChangesInfo related(EnumSet<GetRelatedOption> options) throws RestApiException {
     try {
+      options.forEach(getRelated::addOption);
       return getRelated.apply(revision).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get related changes", e);

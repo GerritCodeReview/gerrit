@@ -106,6 +106,7 @@ import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 import {customElement, property, state, query} from 'lit/decorators';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -340,6 +341,7 @@ export class GrReplyDialog extends LitElement {
 
   static override styles = [
     sharedStyles,
+    iconStyles,
     css`
       :host {
         background-color: var(--dialog-background-color);
@@ -986,10 +988,7 @@ export class GrReplyDialog extends LitElement {
               href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"
               target="_blank"
             >
-              <iron-icon
-                icon="gr-icons:help-outline"
-                title="read documentation"
-              ></iron-icon>
+              <span class="material-icon" title="read documentation">help</span>
             </a>
           </div>
         </div>
@@ -1011,10 +1010,7 @@ export class GrReplyDialog extends LitElement {
               href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"
               target="_blank"
             >
-              <iron-icon
-                icon="gr-icons:help-outline"
-                title="read documentation"
-              ></iron-icon>
+              <span class="material-icon" title="read documentation">help</span>
             </a>
           </div>
         </div>

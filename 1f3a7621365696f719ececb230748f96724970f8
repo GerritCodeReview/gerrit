@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd1bb673_ce017416",
+        "filename": "lib/fonts/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-08T12:08:22Z",
+      "side": 1,
+      "message": "what about this comment that says why we should use .ttf?",
+      "range": {
+        "startLine": 30,
+        "startChar": 9,
+        "endLine": 30,
+        "endChar": 23
+      },
+      "revId": "1f3a7621365696f719ececb230748f96724970f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1338,13 +1338,9 @@ export class GrFileList extends LitElement {
       >
         <!-- Trick with tabindex to avoid outline on mouse focus, but
           preserve focus outline for keyboard navigation -->
-        <iron-icon
-          class="show-hide-icon"
-          tabindex="-1"
-          id="icon"
-          icon=${this.computeShowHideIcon(file.__path)}
-        >
-        </iron-icon>
+        <span class="show-hide-icon material-icon" tabindex="-1" id="icon"
+          >${this.computeShowHideIcon(file.__path)}
+        </span>
       </span>
     </div>`;
   }
@@ -2085,9 +2081,7 @@ export class GrFileList extends LitElement {
   }
 
   private computeShowHideIcon(path: string | undefined) {
-    return this.isFileExpanded(path)
-      ? 'gr-icons:expand-less'
-      : 'gr-icons:expand-more';
+    return this.isFileExpanded(path) ? 'expand_less' : 'expand_more';
   }
 
   private computeShowNumCleanlyMerged(): boolean {

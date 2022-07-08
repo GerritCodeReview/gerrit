@@ -503,7 +503,7 @@ export class GrReplyDialog extends LitElement {
         vertical-align: top;
         --gr-button-padding: 0px 4px;
       }
-      .attention .edit-attention-button iron-icon {
+      .attention .edit-attention-button .material-icon {
         color: inherit;
       }
       .attention a,
@@ -980,7 +980,7 @@ export class GrReplyDialog extends LitElement {
                 role="button"
                 tabindex="0"
               >
-                <iron-icon icon="gr-icons:edit"></iron-icon>
+                <span class="material-icon filled">edit</span>
                 Modify
               </gr-button>
             </gr-tooltip-content>

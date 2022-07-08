@@ -13,6 +13,7 @@ import {modifierPressed} from '../../utils/dom-util';
 import './gr-checks-results';
 import './gr-hovercard-run';
 import {fontStyles} from '../../styles/gr-font-styles';
+import {iconStyles} from '../../styles/gr-icon-styles';
 
 @customElement('gr-diff-check-result')
 export class GrDiffCheckResult extends LitElement {
@@ -35,6 +36,7 @@ export class GrDiffCheckResult extends LitElement {
   static override get styles() {
     return [
       fontStyles,
+      iconStyles,
       css`
         .container {
           font-family: var(--font-family);
@@ -161,11 +163,9 @@ export class GrDiffCheckResult extends LitElement {
           : 'Expand result row'}
         @keydown=${this.toggleExpandedPress}
       >
-        <iron-icon
-          icon=${this.isExpanded
-            ? 'gr-icons:expand-less'
-            : 'gr-icons:expand-more'}
-        ></iron-icon>
+        <span class="material-icon"
+          >${this.isExpanded ? 'expand_less' : 'expand_more'}</span
+        >
       </div>
     `;
   }

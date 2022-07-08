@@ -737,7 +737,7 @@ export class GrDiffHost extends LitElement {
     let updatedCount = 0;
     let removedCount = 0;
     const checksCount = checks.length;
-    const checkElsCount = checks.length;
+    const checkElsCount = checkEls.length;
     if (checksCount === 0 && checkElsCount === 0) return;
     for (const el of checkEls) {
       const id = el.result?.internalResultId;

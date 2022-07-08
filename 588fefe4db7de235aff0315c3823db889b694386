@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27cb3550_3b69b881",
+        "filename": "lib/fonts/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-07-08T07:51:11Z",
+      "side": 1,
+      "message": "It would be nice to be consistent with using `ttf` or `woff2`. Or add a comment about why this is not desired.",
+      "revId": "588fefe4db7de235aff0315c3823db889b694386",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddad1947_b04ad9b6",
+        "filename": "polygerrit-ui/app/styles/material-icons.css",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-07-08T07:51:11Z",
+      "side": 1,
+      "message": "I don\u0027t understand this comment.\n\nIf unused, then why add it?\n\nI could not find `material-icon` in `shared-styles.ts`.",
+      "revId": "588fefe4db7de235aff0315c3823db889b694386",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

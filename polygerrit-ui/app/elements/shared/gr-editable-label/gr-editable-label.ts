@@ -20,6 +20,7 @@ import {customElement, property, query, state} from 'lit/decorators';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {IronInputElement} from '@polymer/iron-input';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
@@ -90,6 +91,7 @@ export class GrEditableLabel extends LitElement {
 
   static override get styles() {
     return [
+      iconStyles,
       sharedStyles,
       css`
         :host {
@@ -142,10 +144,9 @@ export class GrEditableLabel extends LitElement {
           };
           --paper-input-container-focus-color: var(--link-color);
         }
-        gr-button iron-icon {
+        gr-button .material-icon {
           color: inherit;
-          --iron-icon-height: 18px;
-          --iron-icon-width: 18px;
+          font-size: 18px;
         }
         gr-button.pencil {
           --gr-button-padding: 0px 0px;
@@ -189,8 +190,8 @@ export class GrEditableLabel extends LitElement {
         class="pencil ${this.computeLabelClass()}"
         @click=${this.showDropdown}
         title=${this.computeLabel()}
-        ><iron-icon icon="gr-icons:edit"></iron-icon
-      ></gr-button>`;
+        ><span class="material-icon filled">edit</span> ></gr-button
+      >`;
     } else {
       return html`<label
         class=${this.computeLabelClass()}

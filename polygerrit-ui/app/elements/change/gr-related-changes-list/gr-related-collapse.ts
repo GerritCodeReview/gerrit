@@ -9,6 +9,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {getAppContext} from '../../../services/app-context';
 import {Interaction} from '../../../constants/reporting';
 import {fontStyles} from '../../../styles/gr-font-styles';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 /** What is the maximum number of shown changes in collapsed list? */
 export const DEFALT_NUM_CHANGES_WHEN_COLLAPSED = 3;
@@ -36,6 +37,7 @@ export class GrRelatedCollapse extends LitElement {
     return [
       sharedStyles,
       fontStyles,
+      iconStyles,
       css`
         .title {
           color: var(--deemphasized-text-color);
@@ -71,15 +73,15 @@ export class GrRelatedCollapse extends LitElement {
 
     let button: TemplateResult | typeof nothing = nothing;
     if (collapsible) {
-      let buttonText = 'Show less';
-      let buttonIcon = 'expand-less';
-      if (!this.showAll) {
-        buttonText = `Show all (${this.length})`;
-        buttonIcon = 'expand-more';
-      }
+      const buttonText = this.showAll
+        ? 'Show less'
+        : `Show all (${this.length})`;
+      const buttonIcon = this.showAll ? 'expand_more' : 'expand_less';
       button = html`<gr-button link="" @click=${this.toggle}
-        >${buttonText}<iron-icon icon="gr-icons:${buttonIcon}"></iron-icon
-      ></gr-button>`;
+        >${buttonText}<span class="material-icon"
+          >${buttonIcon}</span
+        ></gr-button
+      >`;
     }
 
     return html`<div class="container">${title}${button}</div>

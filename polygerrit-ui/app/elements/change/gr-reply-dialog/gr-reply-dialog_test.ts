@@ -281,7 +281,7 @@ suite('gr-reply-dialog tests', () => {
                       role="button"
                       tabindex="0"
                     >
-                      <iron-icon icon="gr-icons:edit"> </iron-icon>
+                      <span class="material-icon filled">edit</span>
                       Modify
                     </gr-button>
                   </gr-tooltip-content>

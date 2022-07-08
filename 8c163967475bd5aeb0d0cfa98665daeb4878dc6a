@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7bf6f0a_1a7263c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-08T07:54:27Z",
+      "side": 1,
+      "message": "Thanks!\n\nThe style will be defined in gr-icon-styles.ts.  See the dependent change.",
+      "revId": "8c163967475bd5aeb0d0cfa98665daeb4878dc6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

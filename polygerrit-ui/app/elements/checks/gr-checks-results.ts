@@ -6,7 +6,14 @@
 import {classMap} from 'lit/directives/class-map';
 import {repeat} from 'lit/directives/repeat';
 import {ifDefined} from 'lit/directives/if-defined';
-import {LitElement, css, html, PropertyValues, TemplateResult} from 'lit';
+import {
+  LitElement,
+  css,
+  html,
+  PropertyValues,
+  TemplateResult,
+  nothing,
+} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import './gr-checks-action';
 import './gr-hovercard-run';
@@ -15,6 +22,7 @@ import '@polymer/iron-icon/iron-icon';
 import {
   Action,
   Category,
+  FixReplacementInfo,
   Link,
   LinkIcon,
   RunStatus,
@@ -38,9 +46,14 @@ import {modifierPressed, toggleClass, whenVisible} from '../../utils/dom-util';
 import {durationString} from '../../utils/date-util';
 import {charsOnly} from '../../utils/string-util';
 import {isAttemptSelected, matches} from './gr-checks-util';
-import {ChecksTabState, ValueChangedEvent} from '../../types/events';
+import {
+  ChecksTabState,
+  OpenFixPreviewEventDetail,
+  ValueChangedEvent,
+} from '../../types/events';
 import {
   ConfigInfo,
+  FixId,
   LabelNameToInfoMap,
   PatchSetNumber,
 } from '../../types/common';
@@ -504,6 +517,45 @@ export class GrResultRow extends LitElement {
     >`;
   }
 
+  private renderFixButton() {
+    // const fix = this.result?.fix;
+    const fix: FixReplacementInfo = {
+      path: 'BUILD',
+      range: {
+        start_line: 1,
+        start_character: 0,
+        end_line: 1,
+        end_character: 0,
+      },
+      replacement: '# This is now fixed.\n',
+    };
+    if (!fix) return nothing;
+    const eventDetail: OpenFixPreviewEventDetail = {
+      suggestedBy: this.result?.checkName,
+      fixSuggestions: [
+        {
+          description: 'fix provided by a check result',
+          fix_id: 'checks' as FixId,
+          replacements: [fix],
+        },
+      ],
+    };
+    return this.renderAction({
+      name: 'Show Fix',
+      callback: (
+        _change: number,
+        _patchset: number,
+        _attempt: number | undefined,
+        _externalId: string | undefined,
+        _checkName: string | undefined,
+        _actionName: string
+      ) => {
+        fire(this, 'open-fix-preview', eventDetail);
+        return undefined;
+      },
+    });
+  }
+
   private renderActions() {
     const actions = this.result?.actions ?? [];
     if (actions.length === 0) return;
@@ -514,7 +566,8 @@ export class GrResultRow extends LitElement {
       .filter(action => action.disabled)
       .map(action => action.id);
     return html`<div class="actions">
-      ${this.renderAction(actions[0])} ${this.renderAction(actions[1])}
+      ${this.renderFixButton()}${this.renderAction(actions[0])}
+      ${this.renderAction(actions[1])}
       <gr-dropdown
         id="moreActions"
         link=""

@@ -3,7 +3,7 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {PatchSetNum} from './common';
+import {FixSuggestionInfo, PatchSetNum} from './common';
 import {ChangeMessage, Comment} from '../utils/comment-util';
 import {FetchRequest} from './types';
 import {LineNumberEventDetail, MovedLinkClickedEventDetail} from '../api/diff';
@@ -157,6 +157,8 @@ export type NetworkErrorEvent = CustomEvent<NetworkErrorEventDetail>;
 export interface OpenFixPreviewEventDetail {
   patchNum?: PatchSetNum;
   comment?: Comment;
+  fixSuggestions?: FixSuggestionInfo[];
+  suggestedBy?: string;
 }
 export type OpenFixPreviewEvent = CustomEvent<OpenFixPreviewEventDetail>;
 

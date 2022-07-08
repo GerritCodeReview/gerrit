@@ -212,16 +212,19 @@ export class GrApplyFixDialog extends LitElement {
    */
   open(e: OpenFixPreviewEvent) {
     const detail = e.detail;
-    const comment = detail.comment;
-    if (!detail.patchNum || !comment || !isRobot(comment)) {
-      return Promise.resolve();
-    }
+    if (!detail.patchNum) return Promise.resolve();
     this.patchNum = detail.patchNum;
-    this.fixSuggestions = comment.fix_suggestions;
-    this.robotId = comment.robot_id;
-    if (!this.fixSuggestions || !this.fixSuggestions.length) {
-      return Promise.resolve();
-    }
+
+    const comment = detail.comment;
+    const isRobotFix = !!comment && isRobot(comment);
+    const suggestions = isRobotFix
+      ? comment.fix_suggestions
+      : detail.fixSuggestions;
+    const suggestedBy = isRobotFix ? comment.robot_id : detail.suggestedBy;
+    if (!suggestedBy || !suggestions?.length) return Promise.resolve();
+
+    this.fixSuggestions = suggestions;
+    this.robotId = suggestedBy as RobotId;
     this.selectedFixIdx = 0;
     const promises = [];
     promises.push(

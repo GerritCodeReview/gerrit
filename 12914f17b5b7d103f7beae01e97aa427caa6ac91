@@ -22,6 +22,30 @@
       },
       "revId": "12914f17b5b7d103f7beae01e97aa427caa6ac91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe688597_fa298a0d",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1567,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-08T08:44:44Z",
+      "side": 1,
+      "message": "Technically promises take an `(reason?: any) \u003d\u003e void` function but you\u0027re right that this can be simplified to unknown.\n\nUpdated!",
+      "parentUuid": "66f79357_a158df9d",
+      "range": {
+        "startLine": 1567,
+        "startChar": 4,
+        "endLine": 1567,
+        "endChar": 66
+      },
+      "revId": "12914f17b5b7d103f7beae01e97aa427caa6ac91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

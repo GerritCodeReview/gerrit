@@ -89,7 +89,7 @@ suite('gr-comment tests', () => {
             <div class="show-hide" tabindex="0">
               <label aria-label="Expand" class="show-hide">
                 <input checked="" class="show-hide" type="checkbox" />
-                <iron-icon id="icon" icon="gr-icons:expand-more"></iron-icon>
+                <span id="icon" class="material-icon">expand_more</span>
               </label>
             </div>
           </div>
@@ -116,7 +116,7 @@ suite('gr-comment tests', () => {
             <div class="show-hide" tabindex="0">
               <label aria-label="Collapse" class="show-hide">
                 <input class="show-hide" type="checkbox" />
-                <iron-icon id="icon" icon="gr-icons:expand-less"></iron-icon>
+                <span id="icon" class="material-icon">expand_less</span>
               </label>
             </div>
           </div>
@@ -149,7 +149,7 @@ suite('gr-comment tests', () => {
             <div class="show-hide" tabindex="0">
               <label aria-label="Collapse" class="show-hide">
                 <input class="show-hide" type="checkbox" />
-                <iron-icon id="icon" icon="gr-icons:expand-less"></iron-icon>
+                <span id="icon" class="material-icon">expand_less</span>
               </label>
             </div>
           </div>
@@ -211,7 +211,7 @@ suite('gr-comment tests', () => {
           tabindex="0"
           title="Delete Comment"
         >
-          <iron-icon icon="gr-icons:delete" id="icon"></iron-icon>
+          <span id="icon" class="material-icon filled">delete</span>
         </gr-button>
       `);
     });
@@ -244,7 +244,7 @@ suite('gr-comment tests', () => {
             <div class="show-hide" tabindex="0">
               <label aria-label="Collapse" class="show-hide">
                 <input class="show-hide" type="checkbox" />
-                <iron-icon id="icon" icon="gr-icons:expand-less"></iron-icon>
+                <span id="icon" class="material-icon">expand_less</span>
               </label>
             </div>
           </div>
@@ -312,7 +312,7 @@ suite('gr-comment tests', () => {
             <div class="show-hide" tabindex="0">
               <label aria-label="Collapse" class="show-hide">
                 <input class="show-hide" type="checkbox" />
-                <iron-icon id="icon" icon="gr-icons:expand-less"></iron-icon>
+                <span id="icon" class="material-icon">expand_less</span>
               </label>
             </div>
           </div>

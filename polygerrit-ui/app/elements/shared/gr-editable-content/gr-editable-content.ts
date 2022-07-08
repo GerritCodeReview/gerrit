@@ -163,10 +163,9 @@ export class GrEditableContent extends LitElement {
         .flex-space {
           flex-grow: 1;
         }
-        .show-all-container iron-icon {
+        .show-all-container .material-icon {
           color: inherit;
-          --iron-icon-height: 18px;
-          --iron-icon-width: 18px;
+          font-size: 18px;
         }
         .cancel-button {
           margin-right: var(--spacing-l);
@@ -244,15 +243,11 @@ export class GrEditableContent extends LitElement {
             >
               ${when(
                 !this.commitCollapsed,
-                () => html`
-                  <iron-icon icon="gr-icons:expand-less"></iron-icon>
-                `
+                () => html`<span class="material-icon">expand_less</span>`
               )}
               ${when(
                 this.commitCollapsed,
-                () => html`
-                  <iron-icon icon="gr-icons:expand-more"></iron-icon>
-                `
+                () => html`<span class="material-icon">expand_more</span>`
               )}
               ${this.commitCollapsed ? 'Show all' : 'Show less'}
             </gr-button>
@@ -267,7 +262,7 @@ export class GrEditableContent extends LitElement {
               class="edit-commit-message"
               title="Edit commit message"
               @click=${this.handleEditCommitMessage}
-              ><iron-icon icon="gr-icons:edit"></iron-icon> Edit</gr-button
+              ><span class="material-icon filled">edit</span> Edit</gr-button
             >
           `
         )}

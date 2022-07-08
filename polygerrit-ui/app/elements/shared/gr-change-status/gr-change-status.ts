@@ -15,6 +15,7 @@ import {ParsedChangeInfo} from '../../../types/types';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property} from 'lit/decorators';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 export enum ChangeStates {
   ABANDONED = 'Abandoned',
@@ -64,6 +65,7 @@ export class GrChangeStatus extends LitElement {
 
   static override get styles() {
     return [
+      iconStyles,
       sharedStyles,
       css`
         .chip {
@@ -123,9 +125,8 @@ export class GrChangeStatus extends LitElement {
         .icon {
           color: var(--status-text-color);
         }
-        .icon {
-          --iron-icon-height: 18px;
-          --iron-icon-width: 18px;
+        .material-icon {
+          font-size: 18px;
         }
       `,
     ];
@@ -158,7 +159,7 @@ export class GrChangeStatus extends LitElement {
         <div class="chip" aria-label="Label: ${this.status}">
           ${this.computeStatusString()}
           ${this.showResolveIcon()
-            ? html`<iron-icon class="icon" icon="gr-icons:edit"></iron-icon>`
+            ? html`<span class="material-icon filled">edit</span>`
             : ''}
         </div>
       </a>

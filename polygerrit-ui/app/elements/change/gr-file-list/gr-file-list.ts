@@ -1109,7 +1109,7 @@ export class GrFileList extends LitElement {
         .status=${status}
         .labelPostfix=${postfix}
       ></gr-file-status>
-      <iron-icon class="size-16" icon="gr-icons:arrow-right"></iron-icon>
+      <span class="material-icon size-16">arrow_right_alt</span>
     `;
   }
 

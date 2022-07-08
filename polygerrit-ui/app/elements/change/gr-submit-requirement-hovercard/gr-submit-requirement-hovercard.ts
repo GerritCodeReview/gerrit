@@ -32,6 +32,7 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {CURRENT} from '../../../utils/patch-set-util';
 import {fireReload} from '../../../utils/event-util';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
 const base = HovercardMixin(LitElement);
@@ -58,6 +59,7 @@ export class GrSubmitRequirementHovercard extends base {
   static override get styles() {
     return [
       fontStyles,
+      iconStyles,
       submitRequirementsStyles,
       base.styles || [],
       css`
@@ -229,7 +231,7 @@ export class GrSubmitRequirementHovercard extends base {
 
   private renderShowHideConditionButton() {
     const buttonText = this.expanded ? 'Hide conditions' : 'View conditions';
-    const icon = this.expanded ? 'expand-less' : 'expand-more';
+    const icon = this.expanded ? 'expand_less' : 'expand_more';
 
     return html` <div class="button">
       <gr-button
@@ -238,8 +240,8 @@ export class GrSubmitRequirementHovercard extends base {
         @click=${(_: MouseEvent) => this.toggleConditionsVisibility()}
       >
         ${buttonText}
-        <iron-icon icon="gr-icons:${icon}"></iron-icon
-      ></gr-button>
+        <span class="material-icons">${icon}</span>
+      </gr-button>
     </div>`;
   }
 

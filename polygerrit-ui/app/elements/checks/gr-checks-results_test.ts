@@ -116,7 +116,7 @@ suite('gr-result-row test', () => {
           role="switch"
           tabindex="0"
         >
-          <iron-icon icon="gr-icons:expand-more"> </iron-icon>
+          <span class="material-icon">expand_more</span>
         </div>
       </div>
     `);
@@ -214,8 +214,7 @@ suite('gr-checks-results test', () => {
         <div class="body">
           <div class="collapsed">
             <h3 class="categoryHeader empty error heading-3">
-              <iron-icon class="expandIcon" icon="gr-icons:expand-more">
-              </iron-icon>
+              <span class="expandIcon material-icon">expand_more</span>
               <div class="statusIconWrapper">
                 <iron-icon class="error statusIcon" icon="gr-icons:error">
                 </iron-icon>
@@ -227,8 +226,7 @@ suite('gr-checks-results test', () => {
           </div>
           <div class="collapsed">
             <h3 class="categoryHeader empty heading-3 warning">
-              <iron-icon class="expandIcon" icon="gr-icons:expand-more">
-              </iron-icon>
+              <span class="expandIcon material-icon">expand_more</span>
               <div class="statusIconWrapper">
                 <iron-icon class="statusIcon warning" icon="gr-icons:warning">
                 </iron-icon>
@@ -240,8 +238,7 @@ suite('gr-checks-results test', () => {
           </div>
           <div class="collapsed">
             <h3 class="categoryHeader empty heading-3 info">
-              <iron-icon class="expandIcon" icon="gr-icons:expand-more">
-              </iron-icon>
+              <span class="expandIcon material-icon">expand_more</span>
               <div class="statusIconWrapper">
                 <iron-icon class="info statusIcon" icon="gr-icons:info-outline">
                 </iron-icon>
@@ -253,8 +250,7 @@ suite('gr-checks-results test', () => {
           </div>
           <div class="collapsed">
             <h3 class="categoryHeader empty heading-3 success">
-              <iron-icon class="expandIcon" icon="gr-icons:expand-more">
-              </iron-icon>
+              <span class="expandIcon material-icon">expand_more</span>
               <div class="statusIconWrapper">
                 <iron-icon
                   class="statusIcon success"

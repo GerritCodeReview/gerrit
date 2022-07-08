@@ -19,4 +19,19 @@ export const iconStyles = css`
     position: relative;
     top: 2px;
   }
+
+  .material-icon {
+    color: var(--deemphasized-text-color);
+    font-family: 'Material Symbols Outlined';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 20px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+  }
 `;

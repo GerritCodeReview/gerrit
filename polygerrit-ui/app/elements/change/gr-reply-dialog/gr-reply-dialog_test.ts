@@ -291,11 +291,9 @@ suite('gr-reply-dialog tests', () => {
                     href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"
                     target="_blank"
                   >
-                    <iron-icon
-                      icon="gr-icons:help-outline"
-                      title="read documentation"
+                    <span class="material-icon" title="read documentation"
+                      >help</span
                     >
-                    </iron-icon>
                   </a>
                 </div>
               </div>

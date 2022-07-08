@@ -261,10 +261,9 @@ export class GrChangeMetadata extends LitElement {
          commit message box. Their top border should be on the same line. */
         margin-bottom: var(--spacing-s);
       }
-      .show-all-button iron-icon {
+      .show-all-button .material-icon {
         color: inherit;
-        --iron-icon-height: 18px;
-        --iron-icon-width: 18px;
+        font-size: 18px;
       }
       gr-vote-chip {
         --gr-vote-chip-width: 14px;
@@ -312,14 +311,11 @@ export class GrChangeMetadata extends LitElement {
       class="show-all-button"
       @click=${this.onShowAllClick}
       >${this.showAllSections ? 'Show less' : 'Show all'}
-      <iron-icon
-        icon="gr-icons:expand-more"
-        ?hidden=${this.showAllSections}
-      ></iron-icon
-      ><iron-icon
-        icon="gr-icons:expand-less"
-        ?hidden=${!this.showAllSections}
-      ></iron-icon>
+      <span class="material-icon" ?hidden=${this.showAllSections}
+        >expand_more</span
+      ><span class="material-icon" ?hidden=${!this.showAllSections}
+        >expand_less</span
+      >
     </gr-button>`;
   }
 

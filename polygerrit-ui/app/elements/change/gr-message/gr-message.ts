@@ -3,7 +3,6 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-icon/iron-icon';
 import '../../shared/gr-account-label/gr-account-label';
 import '../../shared/gr-account-chip/gr-account-chip';
 import '../../shared/gr-button/gr-button';
@@ -47,6 +46,7 @@ import {isServiceUser, replaceTemplates} from '../../../utils/account-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {when} from 'lit/directives/when';
 import {FormattedReviewerUpdateInfo} from '../../../types/types';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 const UPLOADED_NEW_PATCHSET_PATTERN = /Uploaded patch set (\d+)./;
 const MERGED_PATCHSET_PATTERN = /(\d+) is the latest approved patch-set/;
@@ -145,165 +145,164 @@ export class GrMessage extends LitElement {
   }
 
   static override get styles() {
-    return css`
-      :host {
-        display: block;
-        position: relative;
-        cursor: pointer;
-        overflow-y: hidden;
-      }
-      :host(.expanded) {
-        cursor: auto;
-      }
-      .collapsed .contentContainer {
-        align-items: center;
-        color: var(--deemphasized-text-color);
-        display: flex;
-        white-space: nowrap;
-      }
-      .contentContainer {
-        padding: var(--spacing-m) var(--spacing-l);
-      }
-      .expanded .contentContainer {
-        background-color: var(--background-color-secondary);
-      }
-      .collapsed .contentContainer {
-        background-color: var(--background-color-primary);
-      }
-      div.serviceUser.expanded div.contentContainer {
-        background-color: var(
-          --background-color-service-user,
-          var(--background-color-secondary)
-        );
-      }
-      div.serviceUser.collapsed div.contentContainer {
-        background-color: var(
-          --background-color-service-user,
-          var(--background-color-primary)
-        );
-      }
-      .name {
-        font-weight: var(--font-weight-bold);
-      }
-      .message {
-        --gr-formatted-text-prose-max-width: 120ch;
-      }
-      .collapsed .message {
-        max-width: none;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .collapsed .author,
-      .collapsed .content,
-      .collapsed .message,
-      .collapsed .updateCategory,
-      gr-account-chip {
-        display: inline;
-      }
-      gr-button {
-        margin: 0 -4px;
-      }
-      .collapsed gr-thread-list,
-      .collapsed .replyBtn,
-      .collapsed .deleteBtn,
-      .collapsed .hideOnCollapsed,
-      .hideOnOpen {
-        display: none;
-      }
-      .replyBtn {
-        margin-right: var(--spacing-m);
-      }
-      .collapsed .hideOnOpen {
-        display: block;
-      }
-      .collapsed .content {
-        flex: 1;
-        margin-right: var(--spacing-m);
-        min-width: 0;
-        overflow: hidden;
-      }
-      .collapsed .content.messageContent {
-        text-overflow: ellipsis;
-      }
-      .collapsed .dateContainer {
-        position: static;
-      }
-      .collapsed .author {
-        overflow: hidden;
-        color: var(--primary-text-color);
-        margin-right: var(--spacing-s);
-      }
-      .authorLabel {
-        min-width: 130px;
-        --account-max-length: 120px;
-        margin-right: var(--spacing-s);
-      }
-      .expanded .author {
-        cursor: pointer;
-        margin-bottom: var(--spacing-m);
-      }
-      .expanded .content {
-        padding-left: 40px;
-      }
-      .dateContainer {
-        position: absolute;
-        /* right and top values should match .contentContainer padding */
-        right: var(--spacing-l);
-        top: var(--spacing-m);
-      }
-      .dateContainer gr-button {
-        margin-right: var(--spacing-m);
-        color: var(--deemphasized-text-color);
-      }
-      .dateContainer .patchset:before {
-        content: 'Patchset ';
-      }
-      .dateContainer .patchsetDiffButton {
-        margin-right: var(--spacing-m);
-        --gr-button-padding: 0 var(--spacing-m);
-      }
-      span.date {
-        color: var(--deemphasized-text-color);
-      }
-      span.date:hover {
-        text-decoration: underline;
-      }
-      .dateContainer iron-icon {
-        cursor: pointer;
-        vertical-align: top;
-      }
-      .commentsSummary {
-        margin-right: var(--spacing-s);
-        min-width: 115px;
-      }
-      .expanded .commentsSummary {
-        display: none;
-      }
-      .commentsIcon {
-        vertical-align: top;
-      }
-      gr-account-label::part(gr-account-label-text) {
-        font-weight: var(--font-weight-bold);
-      }
-      iron-icon {
-        --iron-icon-height: 20px;
-        --iron-icon-width: 20px;
-      }
-      @media screen and (max-width: 50em) {
-        .expanded .content {
-          padding-left: 0;
+    return [
+      iconStyles,
+      css`
+        :host {
+          display: block;
+          position: relative;
+          cursor: pointer;
+          overflow-y: hidden;
         }
-        .commentsSummary {
-          min-width: 0px;
+        :host(.expanded) {
+          cursor: auto;
+        }
+        .collapsed .contentContainer {
+          align-items: center;
+          color: var(--deemphasized-text-color);
+          display: flex;
+          white-space: nowrap;
+        }
+        .contentContainer {
+          padding: var(--spacing-m) var(--spacing-l);
+        }
+        .expanded .contentContainer {
+          background-color: var(--background-color-secondary);
+        }
+        .collapsed .contentContainer {
+          background-color: var(--background-color-primary);
+        }
+        div.serviceUser.expanded div.contentContainer {
+          background-color: var(
+            --background-color-service-user,
+            var(--background-color-secondary)
+          );
+        }
+        div.serviceUser.collapsed div.contentContainer {
+          background-color: var(
+            --background-color-service-user,
+            var(--background-color-primary)
+          );
+        }
+        .name {
+          font-weight: var(--font-weight-bold);
+        }
+        .message {
+          --gr-formatted-text-prose-max-width: 120ch;
+        }
+        .collapsed .message {
+          max-width: none;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .collapsed .author,
+        .collapsed .content,
+        .collapsed .message,
+        .collapsed .updateCategory,
+        gr-account-chip {
+          display: inline;
+        }
+        gr-button {
+          margin: 0 -4px;
+        }
+        .collapsed gr-thread-list,
+        .collapsed .replyBtn,
+        .collapsed .deleteBtn,
+        .collapsed .hideOnCollapsed,
+        .hideOnOpen {
+          display: none;
+        }
+        .replyBtn {
+          margin-right: var(--spacing-m);
+        }
+        .collapsed .hideOnOpen {
+          display: block;
+        }
+        .collapsed .content {
+          flex: 1;
+          margin-right: var(--spacing-m);
+          min-width: 0;
+          overflow: hidden;
+        }
+        .collapsed .content.messageContent {
+          text-overflow: ellipsis;
+        }
+        .collapsed .dateContainer {
+          position: static;
+        }
+        .collapsed .author {
+          overflow: hidden;
+          color: var(--primary-text-color);
+          margin-right: var(--spacing-s);
         }
         .authorLabel {
-          width: 100px;
+          min-width: 130px;
+          --account-max-length: 120px;
+          margin-right: var(--spacing-s);
+        }
+        .expanded .author {
+          cursor: pointer;
+          margin-bottom: var(--spacing-m);
+        }
+        .expanded .content {
+          padding-left: 40px;
+        }
+        .dateContainer {
+          position: absolute;
+          /* right and top values should match .contentContainer padding */
+          right: var(--spacing-l);
+          top: var(--spacing-m);
+        }
+        .dateContainer .material-icon {
+          margin-right: var(--spacing-m);
+          color: var(--deemphasized-text-color);
         }
         .dateContainer .patchset:before {
-          content: 'PS ';
+          content: 'Patchset ';
         }
-      }
-    `;
+        .dateContainer .patchsetDiffButton {
+          margin-right: var(--spacing-m);
+          --gr-button-padding: 0 var(--spacing-m);
+        }
+        span.date {
+          color: var(--deemphasized-text-color);
+        }
+        span.date:hover {
+          text-decoration: underline;
+        }
+        .dateContainer .material-icon {
+          cursor: pointer;
+          vertical-align: top;
+        }
+        .commentsSummary {
+          margin-right: var(--spacing-s);
+          min-width: 115px;
+        }
+        .expanded .commentsSummary {
+          display: none;
+        }
+        .commentsIcon {
+          vertical-align: top;
+        }
+        gr-account-label::part(gr-account-label-text) {
+          font-weight: var(--font-weight-bold);
+        }
+        @media screen and (max-width: 50em) {
+          .expanded .content {
+            padding-left: 0;
+          }
+          .commentsSummary {
+            min-width: 0px;
+          }
+          .authorLabel {
+            width: 100px;
+          }
+          .dateContainer .patchset:before {
+            content: 'PS ';
+          }
+        }
+      `,
+    ];
   }
 
   override willUpdate(changedProperties: PropertyValues) {
@@ -356,7 +355,7 @@ export class GrMessage extends LitElement {
     const commentCountText = pluralize(this.commentThreads.length, 'comment');
     return html`
       <div class="commentsSummary">
-        <iron-icon icon="gr-icons:comment" class="commentsIcon"></iron-icon>
+        <span class="commentsIcon material-icon filled"></span>mode_comment</span>
         <span class="numberOfComments">${commentCountText}</span>
       </div>
     `;
@@ -481,12 +480,13 @@ export class GrMessage extends LitElement {
           </span>
         `
       )}
-      <iron-icon
+      <span
         id="expandToggle"
         @click=${this.toggleExpanded}
         title="Toggle expanded state"
-        icon=${this.computeExpandToggleIcon()}
-      ></iron-icon>
+        class="material-icon"
+        >${this.computeExpandToggleIcon()}</span
+      >
     </span>`;
   }
 
@@ -764,9 +764,7 @@ export class GrMessage extends LitElement {
   }
 
   private computeExpandToggleIcon() {
-    return this.message?.expanded
-      ? 'gr-icons:expand-less'
-      : 'gr-icons:expand-more';
+    return this.message?.expanded ? 'expand_less' : 'expand_more';
   }
 
   private toggleExpanded(e: Event) {

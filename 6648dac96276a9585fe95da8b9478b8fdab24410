@@ -89,6 +89,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05ace0e3_ce5f6b71",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-07-08T20:58:07Z",
+      "side": 1,
+      "message": "\u003e \u003e In this case we don\u0027t care about the value.\n\u003e \n\u003e We actually adjusted it to require footer `Forward-Compatible: checked` https://gerrit-review.googlesource.com/c/gerrit/+/339936 hence it no longer accepts any value for the footer.\n\nAck.\n\n\u003e \n\u003e \u003e a \u0027Compatible:\u0027 footer with appropriate values\n\u003e \n\u003e (just thinking) about your suggestion for a possible future extension to include `Compatible: forward` and `Compatible: backward`. I don\u0027t know if the server supports having multiple footers with same name. I quickly looked at the code and it seems like this is possible.\n\nIt would be a bug if it didn\u0027t. Signed-off-by and other common footers are frequently specified more than once.\n\n\u003e \n\u003e For now, we did not encounter a case where we needed an alert on backward compatibility, but we could easily change this config (if needed) in the future.\n\n+1",
+      "parentUuid": "99116f6b_c00891da",
+      "revId": "6648dac96276a9585fe95da8b9478b8fdab24410",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0cdfc037_17c1f91f",

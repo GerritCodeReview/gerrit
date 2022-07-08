@@ -41,6 +41,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.extensions.api.changes.GetRelatedOption;
 import com.google.gerrit.extensions.api.changes.RelatedChangeAndCommitInfo;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.CommitInfo;
@@ -58,8 +59,10 @@ import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
+import javax.annotation.Nullable;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -482,6 +485,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
     gApi.changes().id(changeId2).edit().modifyFile("a.txt", RawInputUtil.create(new byte[] {'a'}));
     Optional<EditInfo> edit = getEdit(changeId2);
     assertThat(edit).isPresent();
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     ObjectId editRev = ObjectId.fromString(edit.get().commit.commit);
 
     PatchSet.Id ps1_1 = getPatchSetId(c1_1);
@@ -632,6 +636,36 @@ public class GetRelatedIT extends AbstractDaemonTest {
         .containsExactly("NEW", "ABANDONED", "MERGED");
   }
 
+  @Test
+  public void submittable() throws Exception {
+    RevCommit c1 = commitBuilder().add("a.txt", "1").message("subject: 1").create();
+    RevCommit c2 = commitBuilder().add("b.txt", "2").message("subject: 2").create();
+    RevCommit c3 = commitBuilder().add("c.txt", "3").message("subject: 3").create();
+    pushHead(testRepo, "refs/for/master", false);
+    PatchSet.Id ps1 = getPatchSetId(c1);
+    PatchSet.Id ps2 = getPatchSetId(c2);
+    PatchSet.Id ps3 = getPatchSetId(c3);
+
+    for (RevCommit c : ImmutableList.of(c1, c3)) {
+      gApi.changes()
+          .id(getChange(c).change().getChangeId())
+          .current()
+          .review(ReviewInput.approve());
+    }
+
+    changeAndCommit(ps1, c1, 1).submittable = true;
+    changeAndCommit(ps3, c3, 1).submittable = true;
+    for (PatchSet.Id ps : ImmutableList.of(ps3, ps2, ps1)) {
+      assertRelated(
+          ps,
+          Arrays.asList(
+              changeAndCommit(ps3, c3, 1, true),
+              changeAndCommit(ps2, c2, 1, false),
+              changeAndCommit(ps1, c1, 1, true)),
+          GetRelatedOption.SUBMITTABLE);
+    }
+  }
+
   private static Correspondence<RelatedChangeAndCommitInfo, String>
       getRelatedChangeToStatusCorrespondence() {
     return Correspondence.transforming(
@@ -643,16 +677,21 @@ public class GetRelatedIT extends AbstractDaemonTest {
     return c;
   }
 
-  private PatchSet.Id getPatchSetId(ObjectId c) throws Exception {
+  private PatchSet.Id getPatchSetId(ObjectId c) {
     return getChange(c).change().currentPatchSetId();
   }
 
-  private ChangeData getChange(ObjectId c) throws Exception {
+  private ChangeData getChange(ObjectId c) {
     return Iterables.getOnlyElement(queryProvider.get().byCommit(c));
   }
 
   private RelatedChangeAndCommitInfo changeAndCommit(
       PatchSet.Id psId, ObjectId commitId, int currentRevisionNum) {
+    return changeAndCommit(psId, commitId, currentRevisionNum, null);
+  }
+
+  private RelatedChangeAndCommitInfo changeAndCommit(
+      PatchSet.Id psId, ObjectId commitId, int currentRevisionNum, @Nullable Boolean submittable) {
     RelatedChangeAndCommitInfo result = new RelatedChangeAndCommitInfo();
     result.project = project.get();
     result._changeNumber = psId.changeId().get();
@@ -661,6 +700,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
     result._revisionNumber = psId.get();
     result._currentRevisionNumber = currentRevisionNum;
     result.status = "NEW";
+    result.submittable = submittable;
     return result;
   }
 
@@ -684,10 +724,18 @@ public class GetRelatedIT extends AbstractDaemonTest {
     assertRelated(psId, Arrays.asList(expected));
   }
 
-  private void assertRelated(PatchSet.Id psId, List<RelatedChangeAndCommitInfo> expected)
+  private void assertRelated(
+      PatchSet.Id psId, List<RelatedChangeAndCommitInfo> expected, GetRelatedOption... options)
       throws Exception {
     List<RelatedChangeAndCommitInfo> actual =
-        gApi.changes().id(psId.changeId().get()).revision(psId.get()).related().changes;
+        gApi.changes()
+            .id(psId.changeId().get())
+            .revision(psId.get())
+            .related(
+                options.length > 0
+                    ? EnumSet.copyOf(Arrays.asList(options))
+                    : EnumSet.noneOf(GetRelatedOption.class))
+            .changes;
     assertWithMessage("related to " + psId).that(actual).hasSize(expected.size());
     for (int i = 0; i < actual.size(); i++) {
       String name = "index " + i + " related to " + psId;
@@ -702,6 +750,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
           .that(a._currentRevisionNumber)
           .isEqualTo(e._currentRevisionNumber);
       assertThat(a.status).isEqualTo(e.status);
+      assertThat(a.submittable).isEqualTo(e.submittable);
     }
   }
 }

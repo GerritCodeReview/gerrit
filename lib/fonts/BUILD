@@ -31,7 +31,7 @@ filegroup(
 filegroup(
     name = "material-icons",
     srcs = [
-        "material-icons.ttf",
+        "material-icons.woff2",
     ],
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],

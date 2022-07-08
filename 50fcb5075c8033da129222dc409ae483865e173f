@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86eba0e4_f9bdf69b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-07-08T12:36:18Z",
+      "side": 1,
+      "message": "Happy to see the material icons can be shipped statically from the Gerrit instance, well done.\n\nOut of curiosity I don\u0027t understand how useGoogleFonts? It seems to be set to true in IndexHtmlUtil which has @UsedAt(Project.GOOGLE).  I am guessing it is specific to Google?",
+      "revId": "50fcb5075c8033da129222dc409ae483865e173f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

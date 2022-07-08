@@ -573,6 +573,12 @@ export class GrFileList extends LitElement {
           visibility: visible;
         }
 
+        .file-status-arrow {
+          font-size: 16px;
+          position: relative;
+          top: 2px;
+        }
+
         @media screen and (max-width: 1200px) {
           gr-endpoint-decorator.extra-col {
             display: none;
@@ -1109,7 +1115,7 @@ export class GrFileList extends LitElement {
         .status=${status}
         .labelPostfix=${postfix}
       ></gr-file-status>
-      <iron-icon class="size-16" icon="gr-icons:arrow-right"></iron-icon>
+      <span class="material-icon file-status-arrow">arrow_right_alt</span>
     `;
   }
 

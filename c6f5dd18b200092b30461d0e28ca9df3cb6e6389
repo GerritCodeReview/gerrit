@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a5730ab_8cc21644",
+        "filename": "polygerrit-ui/app/styles/gr-icon-styles.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-07-08T11:03:13Z",
+      "side": 1,
+      "message": "I think this might need a `vertical-align: top;`, as well.",
+      "range": {
+        "startLine": 28,
+        "startChar": 4,
+        "endLine": 29,
+        "endChar": 19
+      },
+      "revId": "c6f5dd18b200092b30461d0e28ca9df3cb6e6389",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

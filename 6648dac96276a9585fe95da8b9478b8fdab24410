@@ -54,6 +54,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f6045a9_3fe56ba0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-08T10:09:29Z",
+      "side": 1,
+      "message": "David, sorry for the delay. I replied to your comments.",
+      "revId": "6648dac96276a9585fe95da8b9478b8fdab24410",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0cdfc037_17c1f91f",
@@ -67,6 +84,30 @@
       "writtenOn": "2022-06-28T05:58:17Z",
       "side": 1,
       "message": "Upper-Case and \u0027-\u0027 with \u0027_\u0027 mismatch is inconsistent with previous SR: \"Release-Notes\":\n\n  Release-Notes: skip\n  FW_COMPATIBLE: checked\n  \nCan we use consistent spelling of both SR? May be:\n\n  Release-Notes: skip\n  Forward-Compatible: checked",
+      "range": {
+        "startLine": 119,
+        "startChar": 9,
+        "endLine": 119,
+        "endChar": 22
+      },
+      "revId": "6648dac96276a9585fe95da8b9478b8fdab24410",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5f24efd_062adf72",
+        "filename": "project.config",
+        "patchSetId": 5
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-08T10:09:29Z",
+      "side": 1,
+      "message": "Agree. That was actually done in https://gerrit-review.googlesource.com/c/gerrit/+/339936.\n\nThanks for taking care of it.",
+      "parentUuid": "0cdfc037_17c1f91f",
       "range": {
         "startLine": 119,
         "startChar": 9,
@@ -147,6 +188,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "388a9b69_cf6bc824",
+        "filename": "project.config",
+        "patchSetId": 5
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-08T10:09:29Z",
+      "side": 1,
+      "message": "\u003e There is a restriction to changes in Java files in specified directories, that would never be added to the refs/meta/config branch.\n\nYes, that\u0027s true. I actually copied it from previous rule but it does not hurt. Maybe it\u0027s nice to have it explicit that the rule does not apply on refs-config.\n\nBut yes, it can be removed given the RHS for the java file patterns.",
+      "parentUuid": "9618bfed_eb3df53e",
+      "range": {
+        "startLine": 120,
+        "startChar": 16,
+        "endLine": 120,
+        "endChar": 44
+      },
+      "revId": "6648dac96276a9585fe95da8b9478b8fdab24410",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d36fe61_ca99a77d",
@@ -160,6 +225,30 @@
       "writtenOn": "2022-06-25T11:41:29Z",
       "side": 1,
       "message": "Is this needed? Gerrit project doesn\u0027t have any child project.",
+      "range": {
+        "startLine": 122,
+        "startChar": 1,
+        "endLine": 122,
+        "endChar": 35
+      },
+      "revId": "6648dac96276a9585fe95da8b9478b8fdab24410",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c77700d2_23711f7b",
+        "filename": "project.config",
+        "patchSetId": 5
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-08T10:09:29Z",
+      "side": 1,
+      "message": "No, that\u0027s not really needed and can be removed (i.e. yes we don\u0027t care about this config being true or false because no project inherits from the Gerrit project). The default is false anyway [1].\n\n[1] https://gerrit.googlesource.com/gerrit/+/e01801a0b8f0714abfaf04b49fc3a503f7b49060/java/com/google/gerrit/server/project/ProjectConfig.java#987",
+      "parentUuid": "5d36fe61_ca99a77d",
       "range": {
         "startLine": 122,
         "startChar": 1,

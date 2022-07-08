@@ -21,6 +21,8 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.SubmitRequirementResult;
+import com.google.gerrit.extensions.api.changes.GetRelatedOption;
 import com.google.gerrit.extensions.api.changes.RelatedChangeAndCommitInfo;
 import com.google.gerrit.extensions.api.changes.RelatedChangesInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
@@ -35,24 +37,33 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.kohsuke.args4j.Option;
 
-@Singleton
 public class GetRelated implements RestReadView<RevisionResource> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final ChangeData.Factory changeDataFactory;
   private final GetRelatedChangesUtil getRelatedChangesUtil;
+  private boolean computeSubmittable = false;
 
   @Inject
   GetRelated(ChangeData.Factory changeDataFactory, GetRelatedChangesUtil getRelatedChangesUtil) {
     this.changeDataFactory = changeDataFactory;
     this.getRelatedChangesUtil = getRelatedChangesUtil;
+  }
+
+  @Option(name = "-o", usage = "Options")
+  public void addOption(GetRelatedOption option) {
+    if (option == GetRelatedOption.SUBMITTABLE) {
+      computeSubmittable = true;
+    } else {
+      throw new IllegalArgumentException("option not recognized: " + option);
+    }
   }
 
   @Override
@@ -86,7 +97,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
       } else {
         commit = d.commit();
       }
-      result.add(newChangeAndCommit(rsrc.getProject(), d.data().change(), ps, commit));
+      result.add(newChangeAndCommit(rsrc.getProject(), d.data(), ps, commit));
     }
 
     if (result.size() == 1) {
@@ -98,11 +109,12 @@ public class GetRelated implements RestReadView<RevisionResource> {
     return ImmutableList.copyOf(result);
   }
 
-  static RelatedChangeAndCommitInfo newChangeAndCommit(
-      Project.NameKey project, @Nullable Change change, @Nullable PatchSet ps, RevCommit c) {
+  private RelatedChangeAndCommitInfo newChangeAndCommit(
+      Project.NameKey project, ChangeData cd, @Nullable PatchSet ps, RevCommit c) {
     RelatedChangeAndCommitInfo info = new RelatedChangeAndCommitInfo();
     info.project = project.get();
 
+    Change change = cd.change();
     if (change != null) {
       info.changeId = change.getKey().get();
       info._changeNumber = change.getChangeId();
@@ -110,6 +122,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
       PatchSet.Id curr = change.currentPatchSetId();
       info._currentRevisionNumber = curr != null ? curr.get() : null;
       info.status = ChangeUtil.status(change).toUpperCase(Locale.US);
+      info.submittable = computeSubmittable ? submittable(cd) : null;
     }
 
     info.commit = new CommitInfo();
@@ -123,5 +136,10 @@ public class GetRelated implements RestReadView<RevisionResource> {
     info.commit.author = CommonConverters.toGitPerson(c.getAuthorIdent());
     info.commit.subject = c.getShortMessage();
     return info;
+  }
+
+  private static boolean submittable(ChangeData cd) {
+    return cd.submitRequirementsIncludingLegacy().values().stream()
+        .allMatch(SubmitRequirementResult::fulfilled);
   }
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66f79357_a158df9d",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1567,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-07-08T08:41:43Z",
+      "side": 1,
+      "message": "Should this be \"unknown\" instead of \"any\" and then we don\u0027t need to disable the lint error, I think.",
+      "range": {
+        "startLine": 1567,
+        "startChar": 4,
+        "endLine": 1567,
+        "endChar": 66
+      },
+      "revId": "12914f17b5b7d103f7beae01e97aa427caa6ac91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

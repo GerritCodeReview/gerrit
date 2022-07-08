@@ -158,12 +158,12 @@ suite('gr-message tests', () => {
               <gr-date-formatter showdateandtime="" withtooltip="">
               </gr-date-formatter>
             </span>
-            <iron-icon
-              icon="gr-icons:expand-more"
+            <span
+              class="material-icon"
               id="expandToggle"
               title="Toggle expanded state"
+              >expand_more</span
             >
-            </iron-icon>
           </span>
         </div>
       </div>`);
@@ -200,12 +200,12 @@ suite('gr-message tests', () => {
               <gr-date-formatter showdateandtime="" withtooltip="">
               </gr-date-formatter>
             </span>
-            <iron-icon
-              icon="gr-icons:expand-more"
+            <span
+              class="material-icon"
               id="expandToggle"
               title="Toggle expanded state"
+              >expand_more</span
             >
-            </iron-icon>
           </span>
         </div>
       </div>`);
@@ -244,12 +244,12 @@ suite('gr-message tests', () => {
               <gr-date-formatter showdateandtime="" withtooltip="">
               </gr-date-formatter>
             </span>
-            <iron-icon
-              icon="gr-icons:expand-more"
+            <span
+              class="material-icon"
               id="expandToggle"
               title="Toggle expanded state"
+              >expand_more</span
             >
-            </iron-icon>
           </span>
         </div>
       </div>`);
@@ -285,12 +285,12 @@ suite('gr-message tests', () => {
               <gr-date-formatter showdateandtime="" withtooltip="">
               </gr-date-formatter>
             </span>
-            <iron-icon
-              icon="gr-icons:expand-more"
+            <span
+              class="material-icon"
               id="expandToggle"
               title="Toggle expanded state"
+              >expand_more</span
             >
-            </iron-icon>
           </span>
         </div>
       </div>`;

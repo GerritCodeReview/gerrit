@@ -36,6 +36,7 @@ import {votingStyles} from '../../../styles/gr-voting-styles';
 import {ifDefined} from 'lit/directives/if-defined';
 import {fireReload} from '../../../utils/event-util';
 import {sortReviewers} from '../../../utils/attention-set-util';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -81,6 +82,7 @@ export class GrLabelInfo extends LitElement {
 
   static override get styles() {
     return [
+      iconStyles,
       sharedStyles,
       fontStyles,
       votingStyles,
@@ -107,12 +109,11 @@ export class GrLabelInfo extends LitElement {
           width: var(--line-height-normal);
           padding: 0;
         }
-        gr-button[disabled] iron-icon {
+        gr-button[disabled] .material-icon {
           color: var(--border-color);
         }
-        iron-icon {
-          height: calc(var(--line-height-normal) - 2px);
-          width: calc(var(--line-height-normal) - 2px);
+        .material-icon {
+          font-size: calc(var(--line-height-normal) - 2px);
         }
         .reviewer-row {
           padding-top: var(--spacing-s);
@@ -216,7 +217,7 @@ export class GrLabelInfo extends LitElement {
           this.change
         )}"
       >
-        <iron-icon icon="gr-icons:delete"></iron-icon>
+        <span class="material-icon filled">delete</span>
       </gr-button>
     </gr-tooltip-content>`;
   }

@@ -88,10 +88,10 @@ suite('gr-change-list-column-requirements-summary tests', () => {
         <iron-icon class="block" icon="gr-icons:block" role="img"></iron-icon>
         <span class="unsatisfied">1 missing</span>
       </span>
-      <iron-icon
-        class="commentIcon"
-        icon="gr-icons:comment"
+      <span
+        class="commentIcon material-icon filled"
         title="5 unresolved comments"
-      ></iron-icon>`);
+        >mode_comment</span
+      >`);
   });
 });

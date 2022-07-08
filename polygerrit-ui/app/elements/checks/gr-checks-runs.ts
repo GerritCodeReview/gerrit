@@ -56,11 +56,13 @@ import {resolve} from '../../models/dependency';
 import {checksModelToken} from '../../models/checks/checks-model';
 import {Interaction} from '../../constants/reporting';
 import {Deduping} from '../../api/reporting';
+import {iconStyles} from '../../styles/gr-icon-styles';
 
 @customElement('gr-checks-run')
 export class GrChecksRun extends LitElement {
   static override get styles() {
     return [
+      iconStyles,
       sharedStyles,
       css`
         :host {
@@ -765,7 +767,7 @@ export class GrChecksRuns extends LitElement {
     if (runs.length === 0) return;
     const expanded = this.isSectionExpanded.get(status) ?? true;
     const expandedClass = expanded ? 'expanded' : 'collapsed';
-    const icon = expanded ? 'gr-icons:expand-less' : 'gr-icons:expand-more';
+    const icon = expanded ? 'expand_less' : 'expand_more';
     let header = headerForStatus(status);
     if (runs.some(r => r.status === RunStatus.SCHEDULED)) {
       header = `${header} / ${headerForStatus(RunStatus.SCHEDULED)}`;
@@ -773,7 +775,7 @@ export class GrChecksRuns extends LitElement {
     return html`
       <div class="${status.toLowerCase()} ${expandedClass}">
         <div class="sectionHeader" @click=${() => this.toggleExpanded(status)}>
-          <iron-icon class="expandIcon" icon=${icon}></iron-icon>
+          <span class="expandIcon material-icon">${icon}</span>
           <h3 class="heading-3">${header} (${runs.length})</h3>
         </div>
         <div class="sectionRuns">${runs.map(run => this.renderRun(run))}</div>

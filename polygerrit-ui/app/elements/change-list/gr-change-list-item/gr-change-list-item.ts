@@ -451,7 +451,7 @@ export class GrChangeListItem extends LitElement {
     return html`
       <td class="cell comments">
         ${this.change?.unresolved_comment_count
-          ? html`<iron-icon icon="gr-icons:comment"></iron-icon>`
+          ? html`<span class="material-icon filled">mode_comment</span>`
           : ''}
         <span
           >${this.computeComments(this.change?.unresolved_comment_count)}</span

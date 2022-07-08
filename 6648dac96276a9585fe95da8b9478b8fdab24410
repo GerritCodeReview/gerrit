@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "99116f6b_c00891da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-08T10:18:00Z",
+      "side": 1,
+      "message": "\u003e In this case we don\u0027t care about the value.\n\nWe actually adjusted it to require footer `Forward-Compatible: checked` https://gerrit-review.googlesource.com/c/gerrit/+/339936 hence it no longer accepts any value for the footer.\n\n\u003e a \u0027Compatible:\u0027 footer with appropriate values\n\n(just thinking) about your suggestion for a possible future extension to include `Compatible: forward` and `Compatible: backward`. I don\u0027t know if the server supports having multiple footers with same name. I quickly looked at the code and it seems like this is possible.\n\nFor now, we did not encounter a case where we needed an alert on backward compatibility, but we could easily change this config (if needed) in the future.",
+      "parentUuid": "fe92dbb1_143150bd",
+      "revId": "6648dac96276a9585fe95da8b9478b8fdab24410",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0cdfc037_17c1f91f",
         "filename": "project.config",
         "patchSetId": 5

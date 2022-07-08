@@ -11,7 +11,6 @@ import {customElement, property, query, state} from 'lit/decorators';
 import './gr-checks-action';
 import './gr-hovercard-run';
 import '@polymer/paper-tooltip/paper-tooltip';
-import '@polymer/iron-icon/iron-icon';
 import {
   Action,
   Category,
@@ -63,6 +62,7 @@ import {Deduping} from '../../api/reporting';
 import {changeModelToken} from '../../models/change/change-model';
 import {getAppContext} from '../../services/app-context';
 import {when} from 'lit/directives/when';
+import {iconStyles} from '../../styles/gr-icon-styles';
 
 /**
  * Firing this event sets the regular expression of the results filter.
@@ -123,6 +123,7 @@ export class GrResultRow extends LitElement {
 
   static override get styles() {
     return [
+      iconStyles,
       sharedStyles,
       css`
         :host {
@@ -140,7 +141,7 @@ export class GrResultRow extends LitElement {
         a.link {
           margin-right: var(--spacing-s);
         }
-        iron-icon.link {
+        .material-icon.link {
           color: var(--link-color);
         }
         td.nameCol div.flex {
@@ -259,7 +260,7 @@ export class GrResultRow extends LitElement {
           margin: -4px 0;
           vertical-align: top;
         }
-        #moreActions iron-icon {
+        #moreActions .material-icon {
           color: var(--link-color);
         }
         #moreMessage {
@@ -377,11 +378,9 @@ export class GrResultRow extends LitElement {
               : 'Expand result row'}
             @keydown=${this.toggleExpandedPress}
           >
-            <iron-icon
-              icon=${this.isExpanded
-                ? 'gr-icons:expand-less'
-                : 'gr-icons:expand-more'}
-            ></iron-icon>
+            <span class="material-icon">
+              ${this.isExpanded ? 'expand_less' : 'expand_more'}
+            </span>
           </div>
         </td>
       </tr>
@@ -495,11 +494,8 @@ export class GrResultRow extends LitElement {
     if (!link) return;
     const tooltipText = link.tooltip ?? tooltipForLink(link.icon);
     return html`<a href=${link.url} class="link" target="_blank"
-      ><iron-icon
-        aria-label="external link to details"
-        class="link"
-        icon="gr-icons:${iconForLink(link.icon)}"
-      ></iron-icon
+      ><span aria-label="external link to details" class="link material-icon"
+        >${iconForLink(link.icon)}</span
       ><paper-tooltip offset="5">${tooltipText}</paper-tooltip></a
     >`;
   }
@@ -527,8 +523,9 @@ export class GrResultRow extends LitElement {
         .items=${overflowItems}
         .disabledIds=${disabledItems}
       >
-        <iron-icon icon="gr-icons:more-vert" aria-labelledby="moreMessage">
-        </iron-icon>
+        <span class="material-icon" aria-labelledby="moreMessage"
+          >more_vert</span
+        >
         <span id="moreMessage">More</span>
       </gr-dropdown>
     </div>`;
@@ -608,7 +605,7 @@ class GrResultExpanded extends LitElement {
           display: inline-block;
           margin-right: var(--spacing-xl);
         }
-        .links a iron-icon {
+        .links a .material-icon {
           margin-right: var(--spacing-xs);
         }
         .message {
@@ -705,10 +702,7 @@ class GrResultExpanded extends LitElement {
     const text = link.tooltip ?? tooltipForLink(link.icon);
     const target = targetBlank ? '_blank' : undefined;
     return html`<a href=${link.url} target=${ifDefined(target)}>
-      <iron-icon
-        class="link"
-        icon="gr-icons:${iconForLink(link.icon)}"
-      ></iron-icon
+      <span class="link material-icon">${iconForLink(link.icon)}</span
       ><span>${text}</span>
     </a>`;
   }
@@ -892,7 +886,7 @@ export class GrChecksResults extends LitElement {
           margin-right: var(--spacing-m);
           --gr-button-padding: var(--spacing-s) var(--spacing-m);
         }
-        .headerBottomRow iron-icon {
+        .headerBottomRow .material-icon {
           color: var(--link-color);
         }
         .headerBottomRow .space {
@@ -903,7 +897,7 @@ export class GrChecksResults extends LitElement {
         .headerBottomRow a {
           margin-right: var(--spacing-l);
         }
-        #moreActions iron-icon {
+        #moreActions .material-icon {
           color: var(--link-color);
         }
         #moreMessage {
@@ -958,7 +952,7 @@ export class GrChecksResults extends LitElement {
         .categoryHeader .statusIcon.success {
           color: var(--success-foreground);
         }
-        .categoryHeader.empty iron-icon.statusIcon {
+        .categoryHeader.empty .material-icon.statusIcon {
           color: var(--deemphasized-text-color);
         }
         .categoryHeader .filtered {
@@ -1149,11 +1143,8 @@ export class GrChecksResults extends LitElement {
     if (!link) return;
     const tooltipText = link.tooltip ?? tooltipForLink(link.icon);
     return html`<a href=${link.url} target="_blank"
-      ><iron-icon
-        aria-label=${tooltipText}
-        class="link"
-        icon="gr-icons:${iconForLink(link.icon)}"
-      ></iron-icon
+      ><span aria-label=${tooltipText} class="link material-icon"
+        >${iconForLink(link.icon)}</span
       ><paper-tooltip offset="5">${tooltipText}</paper-tooltip></a
     >`;
   }
@@ -1170,8 +1161,9 @@ export class GrChecksResults extends LitElement {
         .items=${items}
         .disabledIds=${disabledIds}
       >
-        <iron-icon icon="gr-icons:more-vert" aria-labelledby="moreMessage">
-        </iron-icon>
+        <span class="material-icon" aria-labelledby="moreMessage"
+          >more_vert</span
+        >
         <span id="moreMessage">More</span>
       </gr-dropdown>
     `;
@@ -1290,7 +1282,6 @@ export class GrChecksResults extends LitElement {
       this.isSectionExpanded.set(category, expanded);
     }
     const expandedClass = expanded ? 'expanded' : 'collapsed';
-    const icon = expanded ? 'gr-icons:expand-less' : 'gr-icons:expand-more';
     const isShowAll = this.isShowAll.get(category) ?? false;
     const resultCount = filtered.length;
     const empty = resultCount === 0 ? 'empty' : '';
@@ -1307,11 +1298,13 @@ export class GrChecksResults extends LitElement {
           class="categoryHeader ${catString} ${empty} heading-3"
           @click=${() => this.toggleExpanded(category)}
         >
-          <iron-icon class="expandIcon" icon=${icon}></iron-icon>
+          <span class="expandIcon material-icon">
+            ${expanded ? 'expand_less' : 'expand_more'}
+          </span>
           <div class="statusIconWrapper">
             <iron-icon
               icon="gr-icons:${iconFor(category)}"
-              class="statusIcon ${catString}"
+              class="statusIcon ${catString} material-icon"
             ></iron-icon>
             <span class="title">${catString}</span>
             <span class="count">${this.renderCount(all, filtered)}</span>

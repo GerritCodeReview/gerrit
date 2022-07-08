@@ -16,31 +16,31 @@ import {assertNever} from '../../utils/common-util';
 import {CheckResult, CheckRun} from './checks-model';
 
 export function iconForLink(linkIcon?: LinkIcon) {
-  if (linkIcon === undefined) return 'launch';
+  if (linkIcon === undefined) return 'open_in_new';
   switch (linkIcon) {
     case LinkIcon.EXTERNAL:
-      return 'launch';
+      return 'open_in_new';
     case LinkIcon.IMAGE:
-      return 'insert-photo';
+      return 'photo';
     case LinkIcon.HISTORY:
-      return 'restore';
+      return 'history';
     case LinkIcon.DOWNLOAD:
       return 'download';
     case LinkIcon.DOWNLOAD_MOBILE:
-      return 'system-update';
+      return 'install_mobile';
     case LinkIcon.HELP_PAGE:
-      return 'help-outline';
+      return 'help'';
     case LinkIcon.REPORT_BUG:
-      return 'bug';
+      return 'bug_report';
     case LinkIcon.CODE:
       return 'code';
     case LinkIcon.FILE_PRESENT:
-      return 'file-present';
+      return 'file_present';
     default:
       // We don't throw an assertion error here, because plugins don't have to
       // be written in TypeScript, so we may encounter arbitrary strings for
       // linkIcon.
-      return 'launch';
+      return 'open_in_new';
   }
 }
 

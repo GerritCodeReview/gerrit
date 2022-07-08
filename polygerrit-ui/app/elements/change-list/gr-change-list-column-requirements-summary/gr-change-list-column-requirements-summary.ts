@@ -12,6 +12,7 @@ import {changeStatuses} from '../../../utils/change-util';
 import {getRequirements, iconForStatus} from '../../../utils/label-util';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
 import {pluralize} from '../../../utils/string-util';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 @customElement('gr-change-list-column-requirements-summary')
 export class GrChangeListColumnRequirementsSummary extends LitElement {
@@ -20,6 +21,7 @@ export class GrChangeListColumnRequirementsSummary extends LitElement {
 
   static override get styles() {
     return [
+      iconStyles,
       submitRequirementsStyles,
       css`
         iron-icon {
@@ -124,14 +126,14 @@ export class GrChangeListColumnRequirementsSummary extends LitElement {
 
   renderCommentIcon() {
     if (!this.change?.unresolved_comment_count) return;
-    return html`<iron-icon
-      icon="gr-icons:comment"
-      class="commentIcon"
+    return html`<span
+      class="commentIcon material-icon filled"
       .title=${pluralize(
         this.change?.unresolved_comment_count,
         'unresolved comment'
       )}
-    ></iron-icon>`;
+      >mode_comment</span
+    >`;
   }
 }
 

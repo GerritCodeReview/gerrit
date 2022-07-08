@@ -42,6 +42,7 @@ import {ColumnNames, WAITING} from '../../../constants/constants';
 import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 enum ChangeSize {
   XS = 10,
@@ -153,6 +154,7 @@ export class GrChangeListItem extends LitElement {
   static override get styles() {
     return [
       changeListStyles,
+      iconStyles,
       sharedStyles,
       submitRequirementsStyles,
       css`
@@ -265,7 +267,7 @@ export class GrChangeListItem extends LitElement {
         .cell.label {
           font-weight: var(--font-weight-normal);
         }
-        .cell.label iron-icon {
+        .cell.label .material-icon {
           vertical-align: top;
         }
         /* Requirement child needs whole area */
@@ -462,7 +464,7 @@ export class GrChangeListItem extends LitElement {
     return html`
       <td class="cell comments">
         ${this.change?.unresolved_comment_count
-          ? html`<iron-icon icon="gr-icons:comment"></iron-icon>`
+          ? html`<span class="material-icon filled">mode_comment</span>`
           : ''}
         <span
           >${this.computeComments(this.change?.unresolved_comment_count)}</span

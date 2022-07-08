@@ -63,6 +63,7 @@ import {Deduping} from '../../api/reporting';
 import {changeModelToken} from '../../models/change/change-model';
 import {getAppContext} from '../../services/app-context';
 import {when} from 'lit/directives/when';
+import {iconStyles} from '../../styles/gr-icon-styles';
 
 /**
  * Firing this event sets the regular expression of the results filter.
@@ -123,6 +124,7 @@ export class GrResultRow extends LitElement {
 
   static override get styles() {
     return [
+      iconStyles,
       sharedStyles,
       css`
         :host {
@@ -377,11 +379,9 @@ export class GrResultRow extends LitElement {
               : 'Expand result row'}
             @keydown=${this.toggleExpandedPress}
           >
-            <iron-icon
-              icon=${this.isExpanded
-                ? 'gr-icons:expand-less'
-                : 'gr-icons:expand-more'}
-            ></iron-icon>
+            <span class="material-icon"
+              >${this.isExpanded ? 'expand_less' : 'expand_more'}</span
+            >
           </div>
         </td>
       </tr>
@@ -1290,7 +1290,7 @@ export class GrChecksResults extends LitElement {
       this.isSectionExpanded.set(category, expanded);
     }
     const expandedClass = expanded ? 'expanded' : 'collapsed';
-    const icon = expanded ? 'gr-icons:expand-less' : 'gr-icons:expand-more';
+    const icon = expanded ? 'expand_less' : 'expand_more';
     const isShowAll = this.isShowAll.get(category) ?? false;
     const resultCount = filtered.length;
     const empty = resultCount === 0 ? 'empty' : '';
@@ -1307,7 +1307,7 @@ export class GrChecksResults extends LitElement {
           class="categoryHeader ${catString} ${empty} heading-3"
           @click=${() => this.toggleExpanded(category)}
         >
-          <iron-icon class="expandIcon" icon=${icon}></iron-icon>
+          <span class="expandIcon material-icon">${icon}</span>
           <div class="statusIconWrapper">
             <iron-icon
               icon="gr-icons:${iconFor(category)}"

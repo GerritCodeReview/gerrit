@@ -52,7 +52,6 @@ import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions'
 import {ParsedChangeInfo} from '../../../types/types';
 import {normalize} from '../../../models/change/files-model';
 import {GrDiffHost} from '../../diff/gr-diff-host/gr-diff-host';
-import {IronIconElement} from '@polymer/iron-icon';
 import {GrEditFileControls} from '../../edit/gr-edit-file-controls/gr-edit-file-controls';
 
 const basicFixture = fixtureFromElement('gr-file-list');
@@ -243,13 +242,9 @@ suite('gr-file-list tests', () => {
             role="switch"
             tabindex="0"
           >
-            <iron-icon
-              class="show-hide-icon"
-              id="icon"
-              tabindex="-1"
-              icon="gr-icons:expand-more"
-            >
-            </iron-icon>
+            <span class="show-hide-icon material-icon" id="icon" tabindex="-1"
+              >expand_more
+            </span>
           </span>
         </div>
       </div>`);
@@ -1316,8 +1311,8 @@ suite('gr-file-list tests', () => {
       const collapseStub = sinon.stub(element, 'clearCollapsedDiffs');
 
       assert.equal(
-        queryAndAssert<IronIconElement>(element, 'iron-icon').icon,
-        'gr-icons:expand-more'
+        queryAndAssert<HTMLSpanElement>(element, '.material-icon').innerText,
+        'expand_more'
       );
       assert.equal(element.expandedFiles.length, 0);
       element.toggleFileExpanded({path});
@@ -1327,8 +1322,8 @@ suite('gr-file-list tests', () => {
 
       assert.equal(collapseStub.lastCall.args[0].length, 0);
       assert.equal(
-        queryAndAssert<IronIconElement>(element, 'iron-icon').icon,
-        'gr-icons:expand-less'
+        queryAndAssert<HTMLSpanElement>(element, '.material-icon').innerText,
+        'expand_less'
       );
 
       assert.equal(renderSpy.callCount, 1);
@@ -1339,8 +1334,8 @@ suite('gr-file-list tests', () => {
       await flush();
 
       assert.equal(
-        queryAndAssert<IronIconElement>(element, 'iron-icon').icon,
-        'gr-icons:expand-more'
+        queryAndAssert<HTMLSpanElement>(element, '.material-icon').innerText,
+        'expand_more'
       );
       assert.equal(renderSpy.callCount, 1);
       assert.isFalse(element.expandedFiles.some(f => f.path === path));

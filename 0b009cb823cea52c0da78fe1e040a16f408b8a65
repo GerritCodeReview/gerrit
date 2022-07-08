@@ -146,6 +146,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4bc1d4f4_d0d42b30",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2133,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-07-08T13:21:08Z",
+      "side": 1,
+      "message": "Maria, does it make sense to nest `ChangeInput` (AKA `create-change` input) within `ApplyPatch` input, then call the 2 methods sequentially (when creation is controlled by an input flag)?\nIf so - I think it will answer both Jinda\u0027s request and minimum code patching on our side.\nWDYT?",
+      "parentUuid": "3a9f912b_b22ec2e2",
+      "range": {
+        "startLine": 2133,
+        "startChar": 0,
+        "endLine": 2133,
+        "endChar": 43
+      },
+      "revId": "0b009cb823cea52c0da78fe1e040a16f408b8a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b89f838e_264a104a",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 4

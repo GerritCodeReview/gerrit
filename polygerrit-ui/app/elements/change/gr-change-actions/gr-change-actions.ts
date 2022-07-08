@@ -103,6 +103,7 @@ import {LitElement, PropertyValues, css, html, nothing} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import {ifDefined} from 'lit/directives/if-defined';
 import {assertIsDefined, queryAll} from '../../../utils/common-util';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -240,7 +241,10 @@ const ACTIONS_WITH_ICONS = new Set([
   ChangeActions.ABANDON,
   ChangeActions.DELETE_EDIT,
   ChangeActions.EDIT,
+<<<<<<< Updated upstream
   ChangeActions.PUBLISH_EDIT,
+=======
+>>>>>>> Stashed changes
   ChangeActions.READY,
   ChangeActions.REBASE_EDIT,
   ChangeActions.RESTORE,
@@ -554,6 +558,7 @@ export class GrChangeActions
 
   static override get styles() {
     return [
+      iconStyles,
       sharedStyles,
       css`
         :host {

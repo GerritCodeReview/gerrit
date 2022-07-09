@@ -16,6 +16,52 @@
       "message": "Ping.",
       "revId": "87df11a5250cab92b2dbc4277e17b12af8d539db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eaed0c49_8601166d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5089,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-07-09T10:30:03Z",
+      "side": 1,
+      "message": "lowercase \u0027c\u0027?",
+      "range": {
+        "startLine": 5089,
+        "startChar": 70,
+        "endLine": 5089,
+        "endChar": 71
+      },
+      "revId": "87df11a5250cab92b2dbc4277e17b12af8d539db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eca79b51_aed23911",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5160,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-07-09T10:30:03Z",
+      "side": 1,
+      "message": "Lowercase \u0027k\u0027?",
+      "range": {
+        "startLine": 5160,
+        "startChar": 75,
+        "endLine": 5160,
+        "endChar": 76
+      },
+      "revId": "87df11a5250cab92b2dbc4277e17b12af8d539db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

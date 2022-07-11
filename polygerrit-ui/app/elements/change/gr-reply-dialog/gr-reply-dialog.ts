@@ -1103,12 +1103,7 @@ export class GrReplyDialog extends LitElement {
           `
         )}
         ${when(
-          this.computeShowAttentionTip(
-            this.account,
-            this.owner,
-            this.currentAttentionSet,
-            this.newAttentionSet
-          ),
+          this.computeShowAttentionTip(this.account, this.owner),
           () => html`
             <div class="attentionTip">
               <iron-icon
@@ -1681,23 +1676,21 @@ export class GrReplyDialog extends LitElement {
     );
     this.attentionExpanded = this.computeShowAttentionTip(
       this.account,
-      this.change.owner,
-      this.currentAttentionSet,
-      this.newAttentionSet
+      this.change.owner
     );
   }
 
-  computeShowAttentionTip(
-    currentUser?: AccountInfo,
-    owner?: AccountInfo,
-    currentAttentionSet?: Set<AccountId>,
-    newAttentionSet?: Set<AccountId>
-  ) {
-    if (!currentUser || !owner || !currentAttentionSet || !newAttentionSet)
+  computeShowAttentionTip(currentUser?: AccountInfo, owner?: AccountInfo) {
+    if (
+      !currentUser ||
+      !owner ||
+      !this.currentAttentionSet ||
+      !this.newAttentionSet
+    )
       return false;
     const isOwner = currentUser._account_id === owner._account_id;
-    const addedIds = [...newAttentionSet].filter(
-      id => !currentAttentionSet.has(id)
+    const addedIds = [...this.newAttentionSet].filter(
+      id => !this.currentAttentionSet.has(id)
     );
     return isOwner && addedIds.length > 2;
   }

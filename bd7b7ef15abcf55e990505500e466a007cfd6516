@@ -22,6 +22,30 @@
       },
       "revId": "bd7b7ef15abcf55e990505500e466a007cfd6516",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa687978_4bfc1610",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1106,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-11T11:10:11Z",
+      "side": 1,
+      "message": "I thought they might have separate arguments but looks like not so removed them as well.",
+      "parentUuid": "71bf9420_b18a89b1",
+      "range": {
+        "startLine": 1106,
+        "startChar": 39,
+        "endLine": 1106,
+        "endChar": 63
+      },
+      "revId": "bd7b7ef15abcf55e990505500e466a007cfd6516",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

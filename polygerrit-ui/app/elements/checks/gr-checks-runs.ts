@@ -441,6 +441,7 @@ export class GrChecksRuns extends LitElement {
 
   static override get styles() {
     return [
+      iconStyles,
       sharedStyles,
       fontStyles,
       css`
@@ -524,14 +525,14 @@ export class GrChecksRuns extends LitElement {
           display: flex;
           background-color: var(--error-background);
         }
-        .error iron-icon {
+        .error .material-icon {
           color: var(--error-foreground);
           margin-right: var(--spacing-m);
         }
         .login {
           background: var(--info-background);
         }
-        .login iron-icon {
+        .login .material-icon {
           color: var(--info-foreground);
         }
         .login .buttonRow {
@@ -610,7 +611,7 @@ export class GrChecksRuns extends LitElement {
         html`
           <div class="error">
             <div class="left">
-              <iron-icon icon="gr-icons:error"></iron-icon>
+              <span class="material-icon filled">error</span>s
             </div>
             <div class="right">
               <div class="message">
@@ -627,10 +628,7 @@ export class GrChecksRuns extends LitElement {
     return html`
       <div class="login">
         <div>
-          <iron-icon
-            class="info-outline"
-            icon="gr-icons:info-outline"
-          ></iron-icon>
+          <span class="material-icon">info</span>
           Sign in to Checks Plugin to see runs and results
         </div>
         <div class="buttonRow">

@@ -262,9 +262,6 @@ export class GrReplyDialog extends LitElement {
   messagePlaceholder?: string;
 
   @state()
-  owner?: AccountInfo;
-
-  @state()
   uploader?: AccountInfo;
 
   @state()
@@ -1031,9 +1028,9 @@ export class GrReplyDialog extends LitElement {
           <div class="peopleListLabel">Owner</div>
           <div class="peopleListValues">
             <gr-account-label
-              .account=${this.owner}
-              ?forceAttention=${this.computeHasNewAttention(this.owner)}
-              .selected=${this.computeHasNewAttention(this.owner)}
+              .account=${this.change?.owner}
+              ?forceAttention=${this.computeHasNewAttention(this.change?.owner)}
+              .selected=${this.computeHasNewAttention(this.change?.owner)}
               .hideHovercard=${true}
               .selectionChipStyle=${true}
               @click=${this.handleAttentionClick}
@@ -1521,7 +1518,6 @@ export class GrReplyDialog extends LitElement {
 
   rebuildReviewerArrays() {
     if (!this.change?.owner || !this.change?.reviewers) return;
-    this.owner = this.change.owner;
 
     const reviewers: AccountInput[] = [];
     const ccs: AccountInput[] = [];
@@ -1534,7 +1530,7 @@ export class GrReplyDialog extends LitElement {
         }
         if (!this.change.reviewers[key]) continue;
         for (const entry of this.change.reviewers[key]!) {
-          if (entry._account_id === this.owner._account_id) {
+          if (entry._account_id === this.change?.owner._account_id) {
             continue;
           }
           switch (key) {
@@ -1680,12 +1676,12 @@ export class GrReplyDialog extends LitElement {
   computeShowAttentionTip() {
     if (
       !this.account ||
-      !this.owner ||
+      !this.change?.owner ||
       !this.currentAttentionSet ||
       !this.newAttentionSet
     )
       return false;
-    const isOwner = this.account._account_id === this.owner._account_id;
+    const isOwner = this.account._account_id === this.change.owner._account_id;
     const addedIds = [...this.newAttentionSet].filter(
       id => !this.currentAttentionSet.has(id)
     );
@@ -1796,7 +1792,7 @@ export class GrReplyDialog extends LitElement {
       let entry: AccountInfo | GroupInfo;
       if (isReviewerAccountSuggestion(suggestion)) {
         entry = suggestion.account;
-        if (entry._account_id === this.owner?._account_id) {
+        if (entry._account_id === this.change?.owner?._account_id) {
           return false;
         }
       } else if (isReviewerGroupSuggestion(suggestion)) {
@@ -1825,7 +1821,7 @@ export class GrReplyDialog extends LitElement {
 
   cancel() {
     assertIsDefined(this.change, 'change');
-    if (!this.owner) throw new Error('missing required owner property');
+    if (!this.change?.owner) throw new Error('missing required owner property');
     this.dispatchEvent(
       new CustomEvent('cancel', {
         composed: true,

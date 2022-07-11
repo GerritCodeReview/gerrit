@@ -36,7 +36,6 @@ import {
   AccountInput,
   GrAccountList,
 } from '../../shared/gr-account-list/gr-account-list';
-import '@polymer/iron-icon/iron-icon';
 import {getReplyByReason} from '../../../utils/attention-set-util';
 import {intersection, queryAndAssert} from '../../../utils/common-util';
 import {accountKey, accountOrGroupKey} from '../../../utils/account-util';
@@ -44,6 +43,7 @@ import {ValueChangedEvent} from '../../../types/events';
 import {fireAlert, fireReload} from '../../../utils/event-util';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {Interaction} from '../../../constants/reporting';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 @customElement('gr-change-list-reviewer-flow')
 export class GrChangeListReviewerFlow extends LitElement {
@@ -106,52 +106,54 @@ export class GrChangeListReviewerFlow extends LitElement {
   private account?: AccountDetailInfo;
 
   static override get styles() {
-    return css`
-      gr-dialog {
-        width: 60em;
-      }
-      .grid {
-        display: grid;
-        grid-template-columns: min-content 1fr;
-        column-gap: var(--spacing-l);
-      }
-      gr-account-list {
-        display: flex;
-        flex-wrap: wrap;
-      }
-      .warning,
-      .error {
-        display: flex;
-        align-items: center;
-        gap: var(--spacing-xl);
-        padding: var(--spacing-l);
-        padding-left: var(--spacing-xl);
-        background-color: var(--yellow-50);
-      }
-      .error {
-        background-color: var(--error-background);
-      }
-      .grid + .warning,
-      .error {
-        margin-top: var(--spacing-l);
-      }
-      .warning + .warning {
-        margin-top: var(--spacing-s);
-      }
-      iron-icon {
-        color: var(--orange-800);
-        --iron-icon-height: 18px;
-        --iron-icon-width: 18px;
-      }
-      gr-overlay#confirm-cc,
-      gr-overlay#confirm-reviewer {
-        padding: var(--spacing-l);
-        text-align: center;
-      }
-      .confirmation-buttons {
-        margin-top: var(--spacing-l);
-      }
-    `;
+    return [
+      iconStyles,
+      css`
+        gr-dialog {
+          width: 60em;
+        }
+        .grid {
+          display: grid;
+          grid-template-columns: min-content 1fr;
+          column-gap: var(--spacing-l);
+        }
+        gr-account-list {
+          display: flex;
+          flex-wrap: wrap;
+        }
+        .warning,
+        .error {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-xl);
+          padding: var(--spacing-l);
+          padding-left: var(--spacing-xl);
+          background-color: var(--yellow-50);
+        }
+        .error {
+          background-color: var(--error-background);
+        }
+        .grid + .warning,
+        .error {
+          margin-top: var(--spacing-l);
+        }
+        .warning + .warning {
+          margin-top: var(--spacing-s);
+        }
+        .material-icon {
+          color: var(--orange-800);
+          font-size: 18px;
+        }
+        gr-overlay#confirm-cc,
+        gr-overlay#confirm-reviewer {
+          padding: var(--spacing-l);
+          text-align: center;
+        }
+        .confirmation-buttons {
+          margin-top: var(--spacing-l);
+        }
+      `,
+    ];
   }
 
   constructor() {
@@ -307,11 +309,9 @@ export class GrChangeListReviewerFlow extends LitElement {
     }
     return html`
       <div class="error">
-        <iron-icon
-          icon="gr-icons:error"
-          role="img"
-          aria-label="Error"
-        ></iron-icon>
+        <span class="material-icon filled" role="img" aria-label="Error"
+          >error</span
+        >
         Failed to add ${listForSentence(failedAccounts)} to changes.
       </div>
     `;
@@ -335,11 +335,9 @@ export class GrChangeListReviewerFlow extends LitElement {
       updatedReviewerState === ReviewerState.CC ? 'CC' : 'reviewer';
     return html`
       <div class="warning">
-        <iron-icon
-          icon="gr-icons:warning"
-          role="img"
-          aria-label="Warning"
-        ></iron-icon>
+        <span class="material-icon filled" role="img" aria-label="Warning"
+          >warning</span
+        >
         ${listForSentence(overwrittenNames)} ${pluralizedVerb} ${currentLabel}
         on some selected changes and will be moved to ${updatedLabel} on all
         changes.

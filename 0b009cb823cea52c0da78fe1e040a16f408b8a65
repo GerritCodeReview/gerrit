@@ -170,6 +170,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4d80e5ad_bdcca1d2",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2133,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-07-11T13:54:47Z",
+      "side": 1,
+      "message": "Re Jinda\u0027s comment: I think you are just trying to avoid calling the API multiple times,which makes since.\n\nWould this work for you:\n* New change needs to be created - call POST /changes/ endpoint with ApplyPatch input (new input field)\n* Existing change needs to be updated - call POST /changes/{change-id}/apply.patch to upload a new patch?\n\nTrying to better understand your requirements :)\n\nRe Nitzan: Could you, please, comment on your idea (which 2 methods will be called)?",
+      "parentUuid": "4bc1d4f4_d0d42b30",
+      "range": {
+        "startLine": 2133,
+        "startChar": 0,
+        "endLine": 2133,
+        "endChar": 43
+      },
+      "revId": "0b009cb823cea52c0da78fe1e040a16f408b8a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b89f838e_264a104a",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 4

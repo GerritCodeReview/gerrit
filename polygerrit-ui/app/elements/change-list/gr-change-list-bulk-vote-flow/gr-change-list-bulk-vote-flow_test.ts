@@ -160,7 +160,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
               <div class="code-review-message-container">
                 <div class="code-review-message-layout-container">
                 <div>
-                  <iron-icon aria-label="Information" icon="gr-icons:info-outline" role="img"> </iron-icon>
+                  <span class="material-icon" aria-label="Information" role="img">info</span>
                   <span>
                     Code Review vote is only available on the individual change page
                   </span>
@@ -248,7 +248,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
               <div class="code-review-message-container">
                 <div class="code-review-message-layout-container">
                 <div>
-                  <iron-icon aria-label="Information" icon="gr-icons:info-outline" role="img"> </iron-icon>
+                  <span class="material-icon" aria-label="Information" role="img">info</span>
                   <span>
                     Code Review vote is only available on the individual change page
                   </span>
@@ -280,11 +280,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
               </gr-label-score-row>
             </div>
             <div class="error-container">
-              <iron-icon
-                icon="gr-icons:error"
-                role="img"
-                aria-label="Error"
-              ></iron-icon>
+              <span class="material-icon filled" role="img" aria-label="Error">error</span>
               <span> Failed to vote on 1 change </span>
             </div>
           </div>

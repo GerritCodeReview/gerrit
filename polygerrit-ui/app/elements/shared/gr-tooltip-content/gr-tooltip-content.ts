@@ -9,6 +9,7 @@ import {getRootElement} from '../../../scripts/rootElement';
 import {GrTooltip} from '../gr-tooltip/gr-tooltip';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 const BOTTOM_OFFSET = 7.2; // Height of the arrow in tooltip.
 
@@ -72,6 +73,7 @@ export class GrTooltipContent extends LitElement {
 
   static override get styles() {
     return [
+      iconStyles,
       css`
         iron-icon {
           width: var(--line-height-normal);
@@ -91,7 +93,7 @@ export class GrTooltipContent extends LitElement {
 
   renderIcon() {
     if (!this.showIcon) return;
-    return html`<iron-icon icon="gr-icons:info"></iron-icon>`;
+    return html`<span class="material-icon filled">info</span>`;
   }
 
   override updated(changedProperties: PropertyValues) {

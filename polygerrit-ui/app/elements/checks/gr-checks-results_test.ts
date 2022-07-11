@@ -228,7 +228,7 @@ suite('gr-checks-results test', () => {
             <h3 class="categoryHeader empty heading-3 warning">
               <span class="expandIcon material-icon">expand_more</span>
               <div class="statusIconWrapper">
-                <iron-icon class="statusIcon warning" icon="gr-icons:warning">
+                <iron-icon class="warning statusIcon" icon="gr-icons:warning">
                 </iron-icon>
                 <span class="title"> warning </span>
                 <span class="count"> (0) </span>

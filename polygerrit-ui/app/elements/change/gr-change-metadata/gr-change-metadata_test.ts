@@ -510,7 +510,7 @@ suite('gr-change-metadata tests', () => {
         'Push certificate is invalid:\n' +
           'No public keys found for key ID E5E20E52'
       );
-      assert.equal(result?.icon, 'gr-icons:close');
+      assert.equal(result?.icon, 'close');
       assert.equal(result?.class, 'invalid');
     });
 
@@ -528,7 +528,7 @@ suite('gr-change-metadata tests', () => {
         result?.message,
         'Push certificate is valid and key is trusted'
       );
-      assert.equal(result?.icon, 'gr-icons:check');
+      assert.equal(result?.icon, 'check');
       assert.equal(result?.class, 'trusted');
     });
 
@@ -541,7 +541,7 @@ suite('gr-change-metadata tests', () => {
         result?.message,
         'This patch set was created without a push certificate'
       );
-      assert.equal(result?.icon, 'gr-icons:help');
+      assert.equal(result?.icon, 'help');
       assert.equal(result?.class, 'help');
     });
 

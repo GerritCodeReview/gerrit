@@ -1597,8 +1597,7 @@ export class GrReplyDialog extends LitElement {
       });
     }
 
-    // Ensure that Polymer picks up the change.
-    this.newAttentionSet = new Set(this.newAttentionSet);
+    this.requestUpdate();
   }
 
   computeHasNewAttention(account?: AccountInfo) {

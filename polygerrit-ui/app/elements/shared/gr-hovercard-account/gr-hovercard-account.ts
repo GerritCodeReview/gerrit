@@ -3,7 +3,6 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-icon/iron-icon';
 import '../gr-avatar/gr-avatar';
 import '../gr-button/gr-button';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
@@ -124,25 +123,18 @@ export class GrHovercardAccount extends base {
         .attention a {
           text-decoration: none;
         }
-        iron-icon {
-          vertical-align: top;
-        }
-        .status iron-icon {
-          width: 14px;
-          height: 14px;
+        .status .material-icon {
+          font-size: 14px;
           position: relative;
           top: 2px;
         }
-        iron-icon.attentionIcon {
-          width: 14px;
-          height: 14px;
+        .material-icon.attentionIcon {
+          font-size: 14px;
           position: relative;
           top: 3px;
         }
-        iron-icon.linkIcon {
-          width: var(--line-height-normal, 20px);
-          height: var(--line-height-normal, 20px);
-          vertical-align: top;
+        .material-icon.linkIcon {
+          font-size: var(--line-height-normal, 20px);
           color: var(--deemphasized-text-color);
           padding-right: 12px;
         }
@@ -233,7 +225,7 @@ export class GrHovercardAccount extends base {
 
   private renderLinks() {
     return html` <div class="links">
-      <iron-icon class="linkIcon" icon="gr-icons:link"></iron-icon
+      <span class="material-icon linkIcon">link</span
       ><a
         href=${ifDefined(this.computeOwnerChangesLink())}
         @click=${() => {
@@ -276,10 +268,9 @@ export class GrHovercardAccount extends base {
     return html`
       <div class="attention">
         <div>
-          <iron-icon
-            class="attentionIcon"
-            icon="gr-icons:attention"
-          ></iron-icon>
+          <span class="attentionIcon material-icon filled"
+            >label_important</span
+          >
           <span> ${this.computePronoun()} turn to take action. </span>
           <a
             href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"

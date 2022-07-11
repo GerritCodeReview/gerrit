@@ -160,14 +160,13 @@ suite('gr-comment tests', () => {
               notrailingmargin=""
             ></gr-formatted-text>
             <div class="robotActions">
-              <iron-icon
-                class="copy link-icon"
-                icon="gr-icons:link"
+              <span
+                class="copy link-icon material-icon"
                 role="button"
                 tabindex="0"
                 title="Copy link to this comment"
+                >link</span
               >
-              </iron-icon>
               <gr-endpoint-decorator name="robot-comment-controls">
                 <gr-endpoint-param name="comment"></gr-endpoint-param>
               </gr-endpoint-decorator>

@@ -46,6 +46,30 @@
       },
       "revId": "c6f5dd18b200092b30461d0e28ca9df3cb6e6389",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c650c8f_bd407fdc",
+        "filename": "polygerrit-ui/app/styles/gr-icon-styles.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-07-11T08:53:09Z",
+      "side": 1,
+      "message": "The problem I am concerned with is that in Gerrit we are trying to make sure that a \u003cdiv\u003e (display:block, line-height:20px) with multiple inline elements as children has always 20px box height. That happens naturally, if you just add \u003cspan\u003e elements with text (normal line-height and normal font-size). But as soon as you have spans with different font-size the browser will try to vertically align all the spans in the div according to `vertical-align:baseline` (the default).\n\nI have just tried it out with:\n* Span 1: font-size: 14px, line-height: 20px\n* Span 2: font-size: 20px, line-height: 20px\n\nThe height of the div will not be 20px. It will be 23.5px, because the browser aligns the baselines of the two spans.\n\nThat kind of behavior has messed up our layout again and again by 1 or 2 pixels, e.g. leading to the file list growing unexpectedly.\n\nSo a good rule of thumb is: When you specify `display:inline` or `display:inline-block` somewhere (and are not using the usual line-height and font-size), then you should probably be using `vertical-align:top`.",
+      "parentUuid": "099f0cb1_3135a07f",
+      "range": {
+        "startLine": 28,
+        "startChar": 4,
+        "endLine": 29,
+        "endChar": 19
+      },
+      "revId": "c6f5dd18b200092b30461d0e28ca9df3cb6e6389",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

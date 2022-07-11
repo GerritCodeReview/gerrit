@@ -667,15 +667,14 @@ export class GrComment extends LitElement {
     // Only show the icon when the thread contains a published comment.
     if (!this.comment?.in_reply_to && isDraftOrUnsaved(this.comment)) return;
     return html`
-      <iron-icon
-        class="copy link-icon"
+      <span
+        class="copy link-icon material-icon"
         @click=${this.handleCopyLink}
         title="Copy link to this comment"
-        icon="gr-icons:link"
         role="button"
         tabindex="0"
+        >link</span
       >
-      </iron-icon>
     `;
   }
 

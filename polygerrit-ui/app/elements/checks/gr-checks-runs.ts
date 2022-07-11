@@ -524,7 +524,7 @@ export class GrChecksRuns extends LitElement {
           display: flex;
           background-color: var(--error-background);
         }
-        .error iron-icon {
+        .error .material-icon {
           color: var(--error-foreground);
           margin-right: var(--spacing-m);
         }
@@ -610,7 +610,7 @@ export class GrChecksRuns extends LitElement {
         html`
           <div class="error">
             <div class="left">
-              <iron-icon icon="gr-icons:error"></iron-icon>
+              <span class="material-icon filled">error</span>s
             </div>
             <div class="right">
               <div class="message">

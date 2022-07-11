@@ -65,7 +65,7 @@ suite('gr-change-list-view tests', () => {
           query(query(element, 'gr-change-list'), 'gr-change-list-section'),
           'gr-change-list-item'
         ),
-        '.selection > input'
+        '.selection > label> input'
       );
       tap(checkbox);
       await waitUntil(() => checkbox.checked);
@@ -80,7 +80,7 @@ suite('gr-change-list-view tests', () => {
           query(query(element, 'gr-change-list'), 'gr-change-list-section'),
           'gr-change-list-item'
         ),
-        '.selection > input'
+        '.selection > label> input'
       );
       assert.isTrue(checkbox.checked);
     });

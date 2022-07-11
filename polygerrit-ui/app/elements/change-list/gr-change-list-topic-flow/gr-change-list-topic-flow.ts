@@ -12,7 +12,6 @@ import {subscribe} from '../../lit/subscription-controller';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '@polymer/iron-dropdown/iron-dropdown';
-import '@polymer/iron-icon/iron-icon';
 import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
 import {getAppContext} from '../../../services/app-context';
 import {notUndefined} from '../../../types/types';
@@ -28,6 +27,7 @@ import {fireReload} from '../../../utils/event-util';
 import {fireAlert} from '../../../utils/event-util';
 import {pluralize} from '../../../utils/string-util';
 import {Interaction} from '../../../constants/reporting';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 @customElement('gr-change-list-topic-flow')
 export class GrChangeListTopicFlow extends LitElement {
@@ -58,6 +58,7 @@ export class GrChangeListTopicFlow extends LitElement {
 
   static override get styles() {
     return [
+      iconStyles,
       spinnerStyles,
       css`
         iron-dropdown {
@@ -120,7 +121,7 @@ export class GrChangeListTopicFlow extends LitElement {
         .error {
           color: var(--deemphasized-text-color);
         }
-        iron-icon {
+        .material-icon {
           color: var(--error-color);
           /* Center with text by aligning it to the top and then pushing it down
              to match the text */
@@ -263,7 +264,7 @@ export class GrChangeListTopicFlow extends LitElement {
         `;
       case ProgressStatus.FAILED:
         return html`
-          <iron-icon icon="gr-icons:error"></iron-icon>
+          <span class="material-icon filled">error</span>
           <div class="error">${this.errorText}</div>
         `;
       default:

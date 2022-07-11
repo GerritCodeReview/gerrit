@@ -16,6 +16,24 @@
       "message": "https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/change/gr-change-summary/gr-checks-chip.ts;l\u003d201?q\u003d%3Ciron-icon%20class%3D%22launch%22%20\n\nI see GrChecksChip is the only one using the \"launch\" iron icon. Are we sure this won\u0027t affect the alignment there?\n\nWhy is this rule present here then?",
       "revId": "7a096c05771e53d5053b93cfa8a3584146b3d731",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bf72589_ab34e6f2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-11T09:54:10Z",
+      "side": 0,
+      "message": "gr-checks-chip has it\u0027s own styles so this shouldn\u0027t affect it.",
+      "parentUuid": "de442fe9_cc6c2749",
+      "revId": "7a096c05771e53d5053b93cfa8a3584146b3d731",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

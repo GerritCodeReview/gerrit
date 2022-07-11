@@ -34,6 +34,24 @@
       "parentUuid": "e28cae3d_6bbb574a",
       "revId": "2fc16a4f7083a859fd4d36403c89402e53b8a497",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "691de4e2_d1c86a1d",
+        "filename": "javatests/com/google/gerrit/integration/git/NoAccessSameAsNotFoundIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-07-11T04:54:20Z",
+      "side": 1,
+      "message": "Done in change 339917.",
+      "parentUuid": "fcaa8534_5f089aa4",
+      "revId": "2fc16a4f7083a859fd4d36403c89402e53b8a497",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fab832f_47de4916",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-11T14:49:50Z",
+      "side": 1,
+      "message": "M",
+      "revId": "2d57590a76f7e3fd72a49d0e2ea5ce3fe198d09e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eccebb9b_e9de4453",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-11T14:49:50Z",
+      "side": 1,
+      "message": "Missing space before `\u003e`",
+      "revId": "2d57590a76f7e3fd72a49d0e2ea5ce3fe198d09e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b28b8f48_bb1a4305",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-11T14:49:50Z",
+      "side": 1,
+      "message": "Missing space before `\u003e`",
+      "revId": "2d57590a76f7e3fd72a49d0e2ea5ce3fe198d09e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "deec5f2c_8a61edc3",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-11T14:49:50Z",
+      "side": 1,
+      "message": "Missing space before `\u003e`",
+      "revId": "2d57590a76f7e3fd72a49d0e2ea5ce3fe198d09e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a01e250c_e193021e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-11T14:49:50Z",
+      "side": 1,
+      "message": "Missing space before `\u003e`",
+      "revId": "2d57590a76f7e3fd72a49d0e2ea5ce3fe198d09e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab1aff42_cea80b4b",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-11T14:49:50Z",
+      "side": 1,
+      "message": "Missing space before `\u003e`",
+      "revId": "2d57590a76f7e3fd72a49d0e2ea5ce3fe198d09e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

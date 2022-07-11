@@ -55,6 +55,7 @@ import {roleDetails} from '../../../utils/change-util';
 
 import {SummaryChipStyles} from './gr-summary-chip';
 import {when} from 'lit/directives/when';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 function handleSpaceOrEnter(e: KeyboardEvent, handler: () => void) {
   if (modifierPressed(e)) return;
@@ -171,6 +172,7 @@ export class GrChangeSummary extends LitElement {
 
   static override get styles() {
     return [
+      iconStyles,
       sharedStyles,
       spinnerStyles,
       css`
@@ -201,18 +203,17 @@ export class GrChangeSummary extends LitElement {
         div.error {
           background-color: var(--error-background);
         }
-        div.info iron-icon,
-        div.error iron-icon {
-          width: 16px;
-          height: 16px;
+        div.info .material-icon,
+        div.error .material-icon {
+          font-size: 16px;
           position: relative;
           top: 4px;
           margin-right: var(--spacing-s);
         }
-        div.info iron-icon {
+        div.info .material-icon {
           color: var(--info-foreground);
         }
-        div.error iron-icon {
+        div.error .material-icon {
           color: var(--error-foreground);
         }
         div.info .right,
@@ -229,7 +230,7 @@ export class GrChangeSummary extends LitElement {
           justify-content: space-between;
           background: var(--info-background);
         }
-        .login iron-icon {
+        .login .material-icon {
           color: var(--info-foreground);
         }
         .login gr-button {
@@ -329,8 +330,9 @@ export class GrChangeSummary extends LitElement {
         .items=${items}
         .disabledIds=${disabledIds}
       >
-        <iron-icon icon="gr-icons:more-vert" aria-labelledby="moreMessage">
-        </iron-icon>
+        <span class="material-icon" aria-labelledby="moreMessage"
+          >more_vert</span
+        >
         <span id="moreMessage">More</span>
       </gr-dropdown>
     `;
@@ -341,7 +343,7 @@ export class GrChangeSummary extends LitElement {
       m => html`
         <div class="info">
           <div class="left">
-            <iron-icon icon="gr-icons:info"></iron-icon>
+            <span class="material-icon filled">info</span>
           </div>
           <div class="right">
             <div class="message" title=${m}>${m}</div>
@@ -357,7 +359,7 @@ export class GrChangeSummary extends LitElement {
         html`
           <div class="error zeroState">
             <div class="left">
-              <iron-icon icon="gr-icons:error"></iron-icon>
+              <span class="material-icon filled">error</span>
             </div>
             <div class="right">
               <div class="message" title=${message}>
@@ -374,10 +376,7 @@ export class GrChangeSummary extends LitElement {
     return html`
       <div class="login">
         <div class="left">
-          <iron-icon
-            class="info-outline"
-            icon="gr-icons:info-outline"
-          ></iron-icon>
+          <span class="material-icon">info</span>
           Not logged in
         </div>
         <div class="right">

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f18771a_4f61f297",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-11T09:48:00Z",
+      "side": 1,
+      "message": "Thanks for making this fix.",
+      "revId": "a326dc96f5ebb8aa4349c3cdbbb83030d6015197",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed81af1d_afd138f7",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-11T09:48:00Z",
+      "side": 1,
+      "message": "Should this be\n\nlink:config-gerrit.html#change.mergeabilityComputationBehavior[change.mergeabilityComputationBehavior]\n\n?",
+      "range": {
+        "startLine": 500,
+        "startChar": 0,
+        "endLine": 500,
+        "endChar": 82
+      },
+      "revId": "a326dc96f5ebb8aa4349c3cdbbb83030d6015197",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

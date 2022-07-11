@@ -37,13 +37,13 @@ suite('gr-tooltip-content tests', () => {
   });
 
   test('icon is not visible by default', () => {
-    assert.isNotOk(query(element, 'iron-icon'));
+    assert.isNotOk(query(element, '.material-icon'));
   });
 
   test('icon is visible with showIcon property', async () => {
     element.showIcon = true;
     await element.updateComplete;
-    assert.isOk(query(element, 'iron-icon'));
+    assert.isOk(query(element, '.material-icon'));
   });
 
   test('position-below attribute is reflected', async () => {

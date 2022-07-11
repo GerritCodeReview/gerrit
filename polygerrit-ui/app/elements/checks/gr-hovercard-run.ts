@@ -19,6 +19,7 @@ import {ordinal} from '../../utils/string-util';
 import {HovercardMixin} from '../../mixins/hovercard-mixin/hovercard-mixin';
 import {css, html, LitElement} from 'lit';
 import {checksStyles} from './gr-checks-styles';
+import {iconStyles} from '../../styles/gr-icon-styles';
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
 const base = HovercardMixin(LitElement);
@@ -31,6 +32,7 @@ export class GrHovercardRun extends base {
   static override get styles() {
     return [
       fontStyles,
+      iconStyles,
       checksStyles,
       base.styles || [],
       css`
@@ -81,11 +83,10 @@ export class GrHovercardRun extends base {
           width: 20px;
           height: 20px;
         }
-        div.sectionIcon iron-icon.small {
+        div.sectionIcon .small.material-icon {
           position: relative;
           top: 6px;
-          width: 16px;
-          height: 16px;
+          font-size: 16px;
         }
         div.sectionContent iron-icon.link {
           color: var(--link-color);
@@ -159,7 +160,7 @@ export class GrHovercardRun extends base {
     return html`
       <div class="section">
         <div class="sectionIcon">
-          <iron-icon class="small" icon="gr-icons:info-outline"></iron-icon>
+          <span class="small material-icon">info</span>
         </div>
         <div class="sectionContent">
           ${this.run.statusLink
@@ -194,7 +195,7 @@ export class GrHovercardRun extends base {
     return html`
       <div class="section">
         <div class="sectionIcon">
-          <iron-icon class="small" icon="gr-icons:arrow-forward"></iron-icon>
+          <span class="small material-icon">arrow_forward</span>
         </div>
         <div class="sectionContent">
           <div class="attempts row">
@@ -281,7 +282,7 @@ export class GrHovercardRun extends base {
     return html`
       <div class="section">
         <div class="sectionIcon">
-          <iron-icon class="small" icon="gr-icons:schedule"></iron-icon>
+          <span class="small material-icon">schedule</span>
         </div>
         <div class="sectionContent">
           ${scheduled} ${started} ${finished} ${completed} ${eta}
@@ -296,7 +297,7 @@ export class GrHovercardRun extends base {
     return html`
       <div class="section">
         <div class="sectionIcon">
-          <iron-icon class="small" icon="gr-icons:link"></iron-icon>
+          <span class="small material-icon">link</span>
         </div>
         <div class="sectionContent">
           ${this.run.checkDescription

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71bf9420_b18a89b1",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1106,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-07-11T10:55:52Z",
+      "side": 1,
+      "message": "Why keep these 2 params?",
+      "range": {
+        "startLine": 1106,
+        "startChar": 39,
+        "endLine": 1106,
+        "endChar": 63
+      },
+      "revId": "bd7b7ef15abcf55e990505500e466a007cfd6516",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

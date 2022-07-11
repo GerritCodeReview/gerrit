@@ -30,6 +30,7 @@ import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {subpageStyles} from '../../../styles/gr-subpage-styles';
 import {tableStyles} from '../../../styles/gr-table-styles';
 import {assertIsDefined} from '../../../utils/common-util';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 /**
  * These are the methods and properties that are exposed explicitly in the
@@ -124,6 +125,7 @@ class GerritImpl implements GerritInternal {
   public readonly styles = {
     font: fontStyles,
     form: formStyles,
+    icon: iconStyles,
     menuPage: menuPageStyles,
     spinner: spinnerStyles,
     subPage: subpageStyles,

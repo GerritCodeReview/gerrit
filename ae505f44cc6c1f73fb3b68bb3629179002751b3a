@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "41959f50_407d884c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 5874,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-07-11T23:59:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e3e3d33_8f3e1e07",
+      "range": {
+        "startLine": 5874,
+        "startChar": 16,
+        "endLine": 5874,
+        "endChar": 22
+      },
+      "revId": "ae505f44cc6c1f73fb3b68bb3629179002751b3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4cf13db6_9e3a0f69",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-07-06T00:03:57Z",
       "side": 1,
       "message": "I was going to say you needed to do s/Stored/Provided/ (and repeated below too), but I see you\u0027re intentionally using PreviewStoredFix here. Looking at these two classes, I think you\u0027re going to want to combine them, something like:\n\n public class PreviewFix {\n   @Singleton\n   public static class Stored implements RestReadView\u003cFixResource\u003e {\n   }\n   \n   @Singleton\n   public static class Provided implements RestModifyView\u003cRevisionResource, ApplyProvidedFixInput\u003e {\n   }\n   \n   private static previewFixForAllFiles() {}\n   ...\n }\n \nUnless you think there\u0027s a better pattern to try and follow here? Maybe you can somehow make them both extend the same base class, but I think that will end up uglier and less flexible. Looking at those shared methods, I think they\u0027ll be fine as statics.",
+      "range": {
+        "startLine": 49,
+        "startChar": 33,
+        "endLine": 49,
+        "endChar": 49
+      },
+      "revId": "ae505f44cc6c1f73fb3b68bb3629179002751b3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e35a67ef_e83806fc",
+        "filename": "java/com/google/gerrit/server/restapi/change/PreviewProvidedFix.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-07-11T23:59:18Z",
+      "side": 1,
+      "message": "Done. Great suggestion!!",
+      "parentUuid": "4cf13db6_9e3a0f69",
       "range": {
         "startLine": 49,
         "startChar": 33,
@@ -72,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "10ed4ed4_793957fa",
+        "filename": "java/com/google/gerrit/server/restapi/change/PreviewProvidedFix.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-07-11T23:59:18Z",
+      "side": 1,
+      "message": "the `notes` variable is also used below in the call to function `previewFixForAllFiles`. Should I keep it? or replace at both places by `revisionResource.getNotes()`?",
+      "parentUuid": "953e46f2_cef343ec",
+      "range": {
+        "startLine": 66,
+        "startChar": 16,
+        "endLine": 66,
+        "endChar": 21
+      },
+      "revId": "ae505f44cc6c1f73fb3b68bb3629179002751b3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d72c8e65_862403e2",
         "filename": "java/com/google/gerrit/server/restapi/change/PreviewStoredFix.java",
         "patchSetId": 14
@@ -95,6 +167,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7a82d89b_ec9d532d",
+        "filename": "java/com/google/gerrit/server/restapi/change/PreviewStoredFix.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-07-11T23:59:18Z",
+      "side": 1,
+      "message": "I think now we need to pass, with the newer refactoring? as the call is going to function outside this class. Should I keep it now?",
+      "parentUuid": "d72c8e65_862403e2",
+      "range": {
+        "startLine": 88,
+        "startChar": 30,
+        "endLine": 88,
+        "endChar": 41
+      },
+      "revId": "ae505f44cc6c1f73fb3b68bb3629179002751b3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "96d03627_069583b3",
         "filename": "javatests/com/google/gerrit/acceptance/rest/binding/ChangesRestApiBindingsIT.java",
         "patchSetId": 14
@@ -106,6 +202,30 @@
       "writtenOn": "2022-07-06T00:03:57Z",
       "side": 1,
       "message": "Was this missed in the earlier change?",
+      "range": {
+        "startLine": 153,
+        "startChar": 10,
+        "endLine": 153,
+        "endChar": 62
+      },
+      "revId": "ae505f44cc6c1f73fb3b68bb3629179002751b3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2287435f_e9a11781",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/binding/ChangesRestApiBindingsIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-07-11T23:59:18Z",
+      "side": 1,
+      "message": "Yes, in \u0027Apply Provided Fix\u0027 change (https://gerrit-review.googlesource.com/c/gerrit/+/334040), we hadn\u0027t added this test. It was added later in https://gerrit-review.googlesource.com/c/gerrit/+/340194. Thanks to Edwin Kempin for pointing this.",
+      "parentUuid": "96d03627_069583b3",
       "range": {
         "startLine": 153,
         "startChar": 10,

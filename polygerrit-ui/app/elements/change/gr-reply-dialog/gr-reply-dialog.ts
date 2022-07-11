@@ -49,6 +49,7 @@ import {
   ChangeInfo,
   CommentInput,
   GroupInfo,
+  EmailAddress,
   isAccount,
   isDetailedLabelInfo,
   isReviewerAccountSuggestion,
@@ -311,10 +312,10 @@ export class GrReplyDialog extends LitElement {
   attentionExpanded = false;
 
   @state()
-  currentAttentionSet: Set<AccountId> = new Set();
+  currentAttentionSet: Set<AccountId | EmailAddress> = new Set();
 
   @state()
-  newAttentionSet: Set<AccountId> = new Set();
+  newAttentionSet: Set<AccountId | EmailAddress> = new Set();
 
   @state()
   sendDisabled?: boolean;
@@ -1586,7 +1587,7 @@ export class GrReplyDialog extends LitElement {
         action: `REMOVE${self}${role}`,
       });
     } else {
-      this.newAttentionSet.add(id);
+      this.newAttentionSet.add((e.target as GrAccountChip)?.account?.email!);
       this.reporting.reportInteraction(Interaction.ATTENTION_SET_CHIP, {
         action: `ADD${self}${role}`,
       });
@@ -1598,8 +1599,9 @@ export class GrReplyDialog extends LitElement {
   computeHasNewAttention(account?: AccountInfo) {
     return !!(
       account &&
-      account._account_id &&
-      this.newAttentionSet?.has(account._account_id)
+      ((account._account_id &&
+        this.newAttentionSet?.has(account._account_id)) ||
+        (account.email && this.newAttentionSet?.has(account.email)))
     );
   }
 
@@ -1669,7 +1671,7 @@ export class GrReplyDialog extends LitElement {
     // Finally make sure that everyone in the attention set is still active as
     // owner, reviewer or cc.
     const allAccountIds = this.allAccounts()
-      .map(a => a._account_id)
+      .map(a => a._account_id || a.email)
       .filter(id => !!id);
     this.newAttentionSet = new Set(
       [...newAttention].filter(id => allAccountIds.includes(id))
@@ -1750,8 +1752,10 @@ export class GrReplyDialog extends LitElement {
       .filter(account => !!account) as AccountInfo[];
   }
 
-  findAccountById(accountId: AccountId) {
-    return this.allAccounts().find(r => r._account_id === accountId);
+  findAccountById(accountId: AccountId | EmailAddress) {
+    return this.allAccounts().find(
+      r => r._account_id === accountId || r.email === accountId
+    );
   }
 
   allAccounts() {

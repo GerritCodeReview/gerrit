@@ -275,22 +275,13 @@ suite('gr-change-list-hashtag-flow tests', () => {
                 <div class="loadingOrError" role="progressbar"></div>
                 <div class="buttons">
                   <gr-button
-                    id="create-new-hashtag-button"
+                    id="add-hashtag-button"
                     flatten=""
                     aria-disabled="true"
                     disabled=""
                     role="button"
                     tabindex="-1"
-                    >Create new hashtag</gr-button
-                  >
-                  <gr-button
-                    id="apply-hashtag-button"
-                    flatten=""
-                    aria-disabled="true"
-                    disabled=""
-                    role="button"
-                    tabindex="-1"
-                    >Apply</gr-button
+                    >Add Hashtag</gr-button
                   >
                 </div>
               </div>
@@ -304,19 +295,19 @@ suite('gr-change-list-hashtag-flow tests', () => {
       );
     });
 
-    test('apply hashtag from selected change', async () => {
+    test('add hashtag from selected change', async () => {
       const alertStub = sinon.stub();
       element.addEventListener('show-alert', alertStub);
       // selects "hashtag1"
       queryAll<HTMLButtonElement>(element, 'button.chip')[0].click();
       await element.updateComplete;
 
-      queryAndAssert<GrButton>(element, '#apply-hashtag-button').click();
+      queryAndAssert<GrButton>(element, '#add-hashtag-button').click();
       await element.updateComplete;
 
       assert.equal(
         queryAndAssert(element, '.loadingText').textContent,
-        'Applying hashtag...'
+        'Adding hashtag...'
       );
 
       await resolvePromises(['hashtag1' as Hashtag]);
@@ -341,7 +332,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
         showDismiss: true,
       });
       assert.deepEqual(reportingStub.lastCall.args[1], {
-        type: 'apply-hashtag',
+        type: 'add-hashtag',
         selectedChangeCount: 3,
         hashtagsApplied: 1,
       });
@@ -350,17 +341,17 @@ suite('gr-change-list-hashtag-flow tests', () => {
       );
     });
 
-    test('shows error when apply hashtag fails', async () => {
+    test('shows error when add hashtag fails', async () => {
       // selects "hashtag1"
       queryAll<HTMLButtonElement>(element, 'button.chip')[0].click();
       await element.updateComplete;
 
-      queryAndAssert<GrButton>(element, '#apply-hashtag-button').click();
+      queryAndAssert<GrButton>(element, '#add-hashtag-button').click();
       await element.updateComplete;
 
       assert.equal(
         queryAndAssert(element, '.loadingText').textContent,
-        'Applying hashtag...'
+        'Adding hashtag...'
       );
 
       await rejectPromises();
@@ -369,7 +360,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
 
       assert.equal(
         queryAndAssert(element, '.error').textContent,
-        'Failed to apply'
+        'Failed to add'
       );
       assert.equal(
         queryAndAssert(element, 'gr-button#cancel-button').textContent,
@@ -378,7 +369,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
       assert.isUndefined(query(element, '.loadingText'));
     });
 
-    test('apply multiple hashtag from selected change', async () => {
+    test('add multiple hashtag from selected change', async () => {
       const alertStub = sinon.stub();
       element.addEventListener('show-alert', alertStub);
       // selects "hashtag1"
@@ -389,12 +380,12 @@ suite('gr-change-list-hashtag-flow tests', () => {
       queryAll<HTMLButtonElement>(element, 'button.chip')[2].click();
       await element.updateComplete;
 
-      queryAndAssert<GrButton>(element, '#apply-hashtag-button').click();
+      queryAndAssert<GrButton>(element, '#add-hashtag-button').click();
       await element.updateComplete;
 
       assert.equal(
         queryAndAssert(element, '.loadingText').textContent,
-        'Applying hashtag...'
+        'Adding hashtag...'
       );
 
       await resolvePromises(['hashtag1' as Hashtag, 'hashtag2' as Hashtag]);
@@ -420,13 +411,13 @@ suite('gr-change-list-hashtag-flow tests', () => {
         showDismiss: true,
       });
       assert.deepEqual(reportingStub.lastCall.args[1], {
-        type: 'apply-hashtag',
+        type: 'add-hashtag',
         selectedChangeCount: 3,
         hashtagsApplied: 2,
       });
     });
 
-    test('apply existing hashtag not on selected changes', async () => {
+    test('add existing hashtag not on selected changes', async () => {
       const alertStub = sinon.stub();
       element.addEventListener('show-alert', alertStub);
 
@@ -442,16 +433,13 @@ suite('gr-change-list-hashtag-flow tests', () => {
       autocomplete.text = 'foo';
       await element.updateComplete;
       await waitUntilCalled(getHashtagsStub, 'getHashtagsStub');
-      assert.isTrue(
-        queryAndAssert<GrButton>(element, '#create-new-hashtag-button').disabled
-      );
 
-      queryAndAssert<GrButton>(element, '#apply-hashtag-button').click();
+      queryAndAssert<GrButton>(element, '#add-hashtag-button').click();
       await element.updateComplete;
 
       assert.equal(
         queryAndAssert(element, '.loadingText').textContent,
-        'Applying hashtag...'
+        'Adding hashtag...'
       );
 
       await resolvePromises(['foo' as Hashtag]);
@@ -476,7 +464,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
         showDismiss: true,
       });
       assert.deepEqual(reportingStub.lastCall.args[1], {
-        type: 'apply-hashtag',
+        type: 'add-hashtag',
         selectedChangeCount: 3,
         hashtagsApplied: 1,
       });
@@ -485,7 +473,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
       );
     });
 
-    test('create new hashtag', async () => {
+    test('add new hashtag', async () => {
       const alertStub = sinon.stub();
       element.addEventListener('show-alert', alertStub);
 
@@ -500,16 +488,16 @@ suite('gr-change-list-hashtag-flow tests', () => {
       autocomplete.text = 'foo';
       await element.updateComplete;
       await waitUntilCalled(getHashtagsStub, 'getHashtagsStub');
-      assert.isTrue(
-        queryAndAssert<GrButton>(element, '#apply-hashtag-button').disabled
+      assert.isFalse(
+        queryAndAssert<GrButton>(element, '#add-hashtag-button').disabled
       );
 
-      queryAndAssert<GrButton>(element, '#create-new-hashtag-button').click();
+      queryAndAssert<GrButton>(element, '#add-hashtag-button').click();
       await element.updateComplete;
 
       assert.equal(
         queryAndAssert(element, '.loadingText').textContent,
-        'Creating hashtag...'
+        'Adding hashtag...'
       );
 
       await resolvePromises(['foo' as Hashtag]);
@@ -534,11 +522,11 @@ suite('gr-change-list-hashtag-flow tests', () => {
 
       await waitUntilCalled(alertStub, 'alertStub');
       assert.deepEqual(alertStub.lastCall.args[0].detail, {
-        message: 'foo created',
+        message: '3 Changes added to foo',
         showDismiss: true,
       });
       assert.deepEqual(reportingStub.lastCall.args[1], {
-        type: 'create-hashtag',
+        type: 'add-hashtag',
         selectedChangeCount: 3,
         hashtagsApplied: 1,
       });
@@ -551,7 +539,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
       );
     });
 
-    test('shows error when create hashtag fails', async () => {
+    test('shows error when add hashtag fails', async () => {
       const getHashtagsStub = stubRestApi(
         'getChangesWithSimilarHashtag'
       ).resolves([]);
@@ -563,16 +551,16 @@ suite('gr-change-list-hashtag-flow tests', () => {
       autocomplete.text = 'foo';
       await element.updateComplete;
       await waitUntilCalled(getHashtagsStub, 'getHashtagsStub');
-      assert.isTrue(
-        queryAndAssert<GrButton>(element, '#apply-hashtag-button').disabled
+      assert.isFalse(
+        queryAndAssert<GrButton>(element, '#add-hashtag-button').disabled
       );
 
-      queryAndAssert<GrButton>(element, '#create-new-hashtag-button').click();
+      queryAndAssert<GrButton>(element, '#add-hashtag-button').click();
       await element.updateComplete;
 
       assert.equal(
         queryAndAssert(element, '.loadingText').textContent,
-        'Creating hashtag...'
+        'Adding hashtag...'
       );
 
       await rejectPromises();
@@ -581,7 +569,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
 
       assert.equal(
         queryAndAssert(element, '.error').textContent,
-        'Failed to create'
+        'Failed to add'
       );
       assert.equal(
         queryAndAssert(element, 'gr-button#cancel-button').textContent,
@@ -590,7 +578,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
       assert.isUndefined(query(element, '.loadingText'));
     });
 
-    test('cannot apply existing hashtag already on selected changes', async () => {
+    test('cannot add existing hashtag already on selected changes', async () => {
       const alertStub = sinon.stub();
       element.addEventListener('show-alert', alertStub);
       // selects "sharedHashtag"
@@ -598,7 +586,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
       await element.updateComplete;
 
       assert.isTrue(
-        queryAndAssert<GrButton>(element, '#apply-hashtag-button').disabled
+        queryAndAssert<GrButton>(element, '#add-hashtag-button').disabled
       );
     });
   });

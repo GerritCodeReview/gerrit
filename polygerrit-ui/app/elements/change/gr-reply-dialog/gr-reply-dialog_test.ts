@@ -907,14 +907,20 @@ suite('gr-reply-dialog tests', () => {
     element.includeComments = true;
     element.canBeStarted = true;
     await element.updateComplete;
-    assert.sameMembers([...element.newAttentionSet], [1, 2]);
+    assert.sameMembers(
+      [...element.newAttentionSet],
+      [1 as AccountId, 2 as AccountId]
+    );
 
     // If the user votes on the change, then they should not be added to the
     // attention set, even if they have just added themselves as reviewer.
     // But voting should also add the owner (5).
     element.labelsChanged = true;
     await element.updateComplete;
-    assert.sameMembers([...element.newAttentionSet], [2, 5]);
+    assert.sameMembers(
+      [...element.newAttentionSet],
+      [2 as AccountId, 5 as AccountId]
+    );
   });
 
   test('computeNewAttention when sending wip change for review', async () => {
@@ -948,7 +954,10 @@ suite('gr-reply-dialog tests', () => {
     element.canBeStarted = true;
     element.computeNewAttention();
     await element.updateComplete;
-    assert.sameMembers([...element.newAttentionSet], [2, 3]);
+    assert.sameMembers(
+      [...element.newAttentionSet],
+      [2 as AccountId, 3 as AccountId]
+    );
 
     // ... but not when someone else replies.
     element.account = {_account_id: 4 as AccountId};

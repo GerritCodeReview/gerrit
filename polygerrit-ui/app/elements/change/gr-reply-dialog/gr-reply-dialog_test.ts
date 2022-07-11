@@ -1553,7 +1553,8 @@ suite('gr-reply-dialog tests', () => {
     const cc2 = makeGroup();
     let filter = element.filterReviewerSuggestionGenerator(false);
 
-    element.owner = owner;
+    element.change = createChange();
+    element.change.owner = owner;
     element.reviewers = [reviewer1, reviewer2];
     element.ccs = [cc1, cc2];
 

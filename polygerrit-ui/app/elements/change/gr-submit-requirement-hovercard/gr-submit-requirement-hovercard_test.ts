@@ -56,7 +56,7 @@ suite('gr-submit-requirement-hovercard tests', () => {
         </div>
         <div class="section">
           <div class="sectionIcon">
-            <iron-icon class="small" icon="gr-icons:info-outline"> </iron-icon>
+            <span class="small material-icon">info</span>
           </div>
           <div class="sectionContent">
             <div class="row">
@@ -105,7 +105,7 @@ suite('gr-submit-requirement-hovercard tests', () => {
         </div>
         <div class="section">
           <div class="sectionIcon">
-            <iron-icon class="small" icon="gr-icons:info-outline"> </iron-icon>
+            <span class="small material-icon">info</span>
           </div>
           <div class="sectionContent">
             <div class="row">
@@ -186,7 +186,7 @@ suite('gr-submit-requirement-hovercard tests', () => {
         </div>
         <div class="section">
           <div class="sectionIcon">
-            <iron-icon class="small" icon="gr-icons:info-outline"> </iron-icon>
+            <span class="small material-icon">info</span>
           </div>
           <div class="sectionContent">
             <div class="row">

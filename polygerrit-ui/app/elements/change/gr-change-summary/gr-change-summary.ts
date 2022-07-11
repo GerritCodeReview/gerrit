@@ -245,12 +245,6 @@ export class GrChangeSummary extends LitElement {
           padding-bottom: var(--spacing-s);
           line-height: calc(var(--line-height-normal) + var(--spacing-s));
         }
-        iron-icon.launch {
-          color: var(--gray-foreground);
-          width: var(--line-height-small);
-          height: var(--line-height-small);
-          vertical-align: top;
-        }
         gr-avatar {
           height: var(--line-height-small, 16px);
           width: var(--line-height-small, 16px);

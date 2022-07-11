@@ -62,6 +62,9 @@ export class GrEditableLabel extends LitElement {
   @property({type: Number})
   maxLength?: number;
 
+  @property({type: String})
+  confirmLabel = 'Save';
+
   /* private but used in test */
   @state() inputText = '';
 
@@ -171,7 +174,7 @@ export class GrEditableLabel extends LitElement {
                 >cancel</gr-button
               >
               <gr-button link="" id="saveBtn" @click=${this.save}
-                >save</gr-button
+                >${this.confirmLabel}</gr-button
               >
             </div>
           </div>

@@ -194,6 +194,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9573deb0_43d35ee9",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2133,
+      "author": {
+        "id": 1041482
+      },
+      "writtenOn": "2022-07-11T16:11:13Z",
+      "side": 1,
+      "message": "Thanks Marija. Just to confirm that we the client side should check if the change exists or not before calling either of the two endpoints? I guess the ideal situation would be something similar to the cherrypickCommit api endpoint (https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#cherry-pick-commit), which handles both updatin existing change and create new change by the server.",
+      "parentUuid": "4d80e5ad_bdcca1d2",
+      "range": {
+        "startLine": 2133,
+        "startChar": 0,
+        "endLine": 2133,
+        "endChar": 43
+      },
+      "revId": "0b009cb823cea52c0da78fe1e040a16f408b8a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b89f838e_264a104a",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 4

@@ -597,7 +597,8 @@ export class GrChangeMetadata extends LitElement {
           () =>
             html` <gr-editable-label
               class="topicEditableLabel"
-              labelText="Add a topic"
+              labelText="Set topic"
+              .confirmLabel=${'Set Topic'}
               .value=${this.change?.topic}
               maxLength="1024"
               .placeholder=${this.computeTopicPlaceholder()}
@@ -849,7 +850,7 @@ export class GrChangeMetadata extends LitElement {
   private computeTopicPlaceholder() {
     // Action items in Material Design are uppercase -- placeholder label text
     // is sentence case.
-    return this.topicReadOnly ? 'No topic' : 'ADD TOPIC';
+    return this.topicReadOnly ? 'No topic' : 'Set Topic';
   }
 
   private computeHashtagPlaceholder() {

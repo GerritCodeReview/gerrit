@@ -560,22 +560,13 @@ suite('gr-change-list-topic-flow tests', () => {
                 <div class="loadingOrError" role="progressbar"></div>
                 <div class="buttons">
                   <gr-button
-                    id="create-new-topic-button"
+                    id="set-topic-button"
                     flatten=""
                     aria-disabled="true"
                     disabled=""
                     role="button"
                     tabindex="-1"
-                    >Create new topic</gr-button
-                  >
-                  <gr-button
-                    id="apply-topic-button"
-                    flatten=""
-                    aria-disabled="true"
-                    disabled=""
-                    role="button"
-                    tabindex="-1"
-                    >Apply</gr-button
+                    >Set Topic</gr-button
                   >
                 </div>
               </div>
@@ -603,16 +594,16 @@ suite('gr-change-list-topic-flow tests', () => {
       autocomplete.text = 'foo';
       await element.updateComplete;
       await waitUntilCalled(getTopicsStub, 'getTopicsStub');
-      assert.isTrue(
-        queryAndAssert<GrButton>(element, '#apply-topic-button').disabled
+      assert.isFalse(
+        queryAndAssert<GrButton>(element, '#set-topic-button').disabled
       );
 
-      queryAndAssert<GrButton>(element, '#create-new-topic-button').click();
+      queryAndAssert<GrButton>(element, '#set-topic-button').click();
       await element.updateComplete;
 
       assert.equal(
         queryAndAssert(element, '.loadingText').textContent,
-        'Creating topic...'
+        'Setting topic...'
       );
 
       await resolvePromises();
@@ -630,7 +621,7 @@ suite('gr-change-list-topic-flow tests', () => {
 
       await waitUntilCalled(alertStub, 'alertStub');
       assert.deepEqual(alertStub.lastCall.args[0].detail, {
-        message: 'foo created',
+        message: '2 Changes added to foo',
         showDismiss: true,
       });
       assert.deepEqual(reportingStub.lastCall.args[1], {
@@ -653,12 +644,15 @@ suite('gr-change-list-topic-flow tests', () => {
       autocomplete.text = 'foo';
       await element.updateComplete;
       await waitUntilCalled(getTopicsStub, 'getTopicsStub');
-      queryAndAssert<GrButton>(element, '#create-new-topic-button').click();
+      assert.isFalse(
+        queryAndAssert<GrButton>(element, '#set-topic-button').disabled
+      );
+      queryAndAssert<GrButton>(element, '#set-topic-button').click();
       await element.updateComplete;
 
       assert.equal(
         queryAndAssert(element, '.loadingText').textContent,
-        'Creating topic...'
+        'Setting topic...'
       );
 
       await rejectPromises();
@@ -667,7 +661,7 @@ suite('gr-change-list-topic-flow tests', () => {
 
       assert.equal(
         queryAndAssert(element, '.error').textContent,
-        'Failed to create topic'
+        'Failed to set topic'
       );
       assert.equal(
         queryAndAssert(element, 'gr-button#cancel-button').textContent,
@@ -691,16 +685,16 @@ suite('gr-change-list-topic-flow tests', () => {
       autocomplete.text = 'foo';
       await element.updateComplete;
       await waitUntilCalled(getTopicsStub, 'getTopicsStub');
-      assert.isTrue(
-        queryAndAssert<GrButton>(element, '#create-new-topic-button').disabled
-      );
 
-      queryAndAssert<GrButton>(element, '#apply-topic-button').click();
+      assert.isFalse(
+        queryAndAssert<GrButton>(element, '#set-topic-button').disabled
+      );
+      queryAndAssert<GrButton>(element, '#set-topic-button').click();
       await element.updateComplete;
 
       assert.equal(
         queryAndAssert(element, '.loadingText').textContent,
-        'Applying topic...'
+        'Setting topic...'
       );
 
       await resolvePromises();
@@ -726,7 +720,7 @@ suite('gr-change-list-topic-flow tests', () => {
       });
     });
 
-    test('shows error when apply topic fails', async () => {
+    test('shows error when setting topic fails', async () => {
       const getTopicsStub = stubRestApi('getChangesWithSimilarTopic').resolves([
         {...createChange(), topic: 'foo' as TopicName},
       ]);
@@ -741,12 +735,15 @@ suite('gr-change-list-topic-flow tests', () => {
       autocomplete.text = 'foo';
       await element.updateComplete;
       await waitUntilCalled(getTopicsStub, 'getTopicsStub');
-      queryAndAssert<GrButton>(element, '#apply-topic-button').click();
+      assert.isFalse(
+        queryAndAssert<GrButton>(element, '#set-topic-button').disabled
+      );
+      queryAndAssert<GrButton>(element, '#set-topic-button').click();
       await element.updateComplete;
 
       assert.equal(
         queryAndAssert(element, '.loadingText').textContent,
-        'Applying topic...'
+        'Setting topic...'
       );
 
       await rejectPromises();
@@ -755,7 +752,7 @@ suite('gr-change-list-topic-flow tests', () => {
       await waitUntil(() => query(element, '.error') !== undefined);
       assert.equal(
         queryAndAssert(element, '.error').textContent,
-        'Failed to apply topic'
+        'Failed to set topic'
       );
       assert.equal(
         queryAndAssert(element, 'gr-button#cancel-button').textContent,

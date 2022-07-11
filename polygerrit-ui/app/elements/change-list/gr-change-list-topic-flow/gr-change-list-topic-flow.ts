@@ -272,14 +272,8 @@ export class GrChangeListTopicFlow extends LitElement {
   }
 
   private renderNoExistingTopicsMode() {
-    const isCreateNewTopicDisabled =
-      this.topicToAdd === '' ||
-      this.existingTopicSuggestions.includes(this.topicToAdd) ||
-      this.overallProgress === ProgressStatus.RUNNING;
     const isApplyTopicDisabled =
-      this.topicToAdd === '' ||
-      !this.existingTopicSuggestions.includes(this.topicToAdd) ||
-      this.overallProgress === ProgressStatus.RUNNING;
+      this.topicToAdd === '' || this.overallProgress === ProgressStatus.RUNNING;
     return html`
       <!--
         The .query function needs to be bound to this because lit's autobind
@@ -305,18 +299,11 @@ export class GrChangeListTopicFlow extends LitElement {
             this.overallProgress !== ProgressStatus.FAILED,
             () => html`
               <gr-button
-                id="create-new-topic-button"
+                id="set-topic-button"
                 flatten
-                @click=${() => this.addTopic('Creating topic...', true)}
-                .disabled=${isCreateNewTopicDisabled}
-                >Create new topic</gr-button
-              >
-              <gr-button
-                id="apply-topic-button"
-                flatten
-                @click=${() => this.addTopic('Applying topic...')}
+                @click=${() => this.setTopic('Setting topic...')}
                 .disabled=${isApplyTopicDisabled}
-                >Apply</gr-button
+                >Set Topic</gr-button
               >
             `,
             () => html`
@@ -403,26 +390,22 @@ export class GrChangeListTopicFlow extends LitElement {
     );
   }
 
-  private addTopic(loadingText: string, creatingTopic?: boolean) {
+  private setTopic(loadingText: string) {
     this.reportingService.reportInteraction(Interaction.BULK_ACTION, {
       type: 'add-topic',
       selectedChangeCount: this.selectedChanges.length,
     });
-    let alert = '';
-    if (creatingTopic) {
-      alert = `${this.topicToAdd} created`;
-    } else {
-      alert = `${pluralize(this.selectedChanges.length, 'Change')} added to ${
-        this.topicToAdd
-      }`;
-    }
+    const alert = `${pluralize(
+      this.selectedChanges.length,
+      'Change'
+    )} added to ${this.topicToAdd}`;
     this.loadingText = loadingText;
     this.trackPromises(
       this.selectedChanges.map(change =>
         this.restApiService.setChangeTopic(change._number, this.topicToAdd)
       ),
       alert,
-      `Failed to ${creatingTopic ? 'create' : 'apply'} topic`
+      'Failed to set topic'
     );
   }
 

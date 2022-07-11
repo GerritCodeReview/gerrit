@@ -22,6 +22,30 @@
       },
       "revId": "c6f5dd18b200092b30461d0e28ca9df3cb6e6389",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "099f0cb1_3135a07f",
+        "filename": "polygerrit-ui/app/styles/gr-icon-styles.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-11T06:38:04Z",
+      "side": 1,
+      "message": "Not as far as material seems to be concerned.",
+      "parentUuid": "4a5730ab_8cc21644",
+      "range": {
+        "startLine": 28,
+        "startChar": 4,
+        "endLine": 29,
+        "endChar": 19
+      },
+      "revId": "c6f5dd18b200092b30461d0e28ca9df3cb6e6389",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

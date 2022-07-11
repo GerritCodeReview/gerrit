@@ -10,6 +10,7 @@ import {fireEvent} from '../../../utils/event-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -37,6 +38,7 @@ export class GrLinkedChip extends LitElement {
 
   static override get styles() {
     return [
+      iconStyles,
       sharedStyles,
       css`
         :host {
@@ -57,9 +59,8 @@ export class GrLinkedChip extends LitElement {
         a {
           color: var(--linked-chip-text-color);
         }
-        iron-icon {
-          height: 1.2rem;
-          width: 1.2rem;
+        .material-icon {
+          font-size: 1.2rem;
         }
         gr-button::part(paper-button),
         gr-button.remove:hover::part(paper-button),
@@ -95,7 +96,7 @@ export class GrLinkedChip extends LitElement {
         class="remove"
         @click=${this.handleRemoveTap}
       >
-        <iron-icon icon="gr-icons:close"></iron-icon>
+        <span class="material-icon">close</span>
       </gr-button>
     </div>`;
   }

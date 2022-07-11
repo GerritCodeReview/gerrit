@@ -81,6 +81,7 @@ import {fontStyles} from '../../../styles/gr-font-styles';
 import {changeMetadataStyles} from '../../../styles/gr-change-metadata-shared-styles';
 import {when} from 'lit/directives/when';
 import {ifDefined} from 'lit/directives/if-defined';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
 
@@ -110,6 +111,7 @@ const NOT_CURRENT_MESSAGE = 'Not current - rebase possible';
 interface PushCertificateValidationInfo {
   class: string;
   icon: string;
+  filled: boolean;
   message: string;
 }
 
@@ -176,6 +178,7 @@ export class GrChangeMetadata extends LitElement {
   static override styles = [
     sharedStyles,
     fontStyles,
+    iconStyles,
     changeMetadataStyles,
     css`
       :host {
@@ -385,11 +388,11 @@ export class GrChangeMetadata extends LitElement {
             has-tooltip
             title=${this.pushCertificateValidation!.message}
           >
-            <iron-icon
-              class="icon ${this.pushCertificateValidation!.class}"
-              icon=${this.pushCertificateValidation!.icon}
+            <span
+              class="icon material-icon ${this.pushCertificateValidation!
+                .class}"
+              >${this.pushCertificateValidation!.icon}</span
             >
-            </iron-icon>
           </gr-tooltip-content>`
         )}
       </span>
@@ -871,7 +874,8 @@ export class GrChangeMetadata extends LitElement {
     if (!rev.push_certificate?.key) {
       return {
         class: 'help',
-        icon: 'gr-icons:help',
+        icon: 'help',
+        filled: true,
         message: 'This patch set was created without a push certificate',
       };
     }
@@ -881,13 +885,15 @@ export class GrChangeMetadata extends LitElement {
       case GpgKeyInfoStatus.BAD:
         return {
           class: 'invalid',
-          icon: 'gr-icons:close',
+          filled: false,
+          icon: 'close',
           message: this.problems('Push certificate is invalid', key),
         };
       case GpgKeyInfoStatus.OK:
         return {
           class: 'notTrusted',
-          icon: 'gr-icons:info',
+          filled: true,
+          icon: 'info',
           message: this.problems(
             'Push certificate is valid, but key is not trusted',
             key
@@ -896,7 +902,8 @@ export class GrChangeMetadata extends LitElement {
       case GpgKeyInfoStatus.TRUSTED:
         return {
           class: 'trusted',
-          icon: 'gr-icons:check',
+          filled: false,
+          icon: 'check',
           message: this.problems(
             'Push certificate is valid and key is trusted',
             key

@@ -3,7 +3,6 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-icon/iron-icon';
 import '../gr-avatar/gr-avatar';
 import '../gr-hovercard-account/gr-hovercard-account';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
@@ -22,6 +21,7 @@ import {classMap} from 'lit/directives/class-map';
 import {getRemovedByIconClickReason} from '../../../utils/attention-set-util';
 import {ifDefined} from 'lit/directives/if-defined';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 @customElement('gr-account-label')
 export class GrAccountLabel extends LitElement {
@@ -99,6 +99,7 @@ export class GrAccountLabel extends LitElement {
 
   static override get styles() {
     return [
+      iconStyles,
       css`
         :host {
           display: inline-block;
@@ -140,7 +141,7 @@ export class GrAccountLabel extends LitElement {
           border-radius: 8px;
           color: var(--chip-selected-text-color);
         }
-        :host([selected]) iron-icon.attention {
+        :host([selected]) .material-icon.attention {
           color: var(--chip-selected-text-color);
         }
         gr-avatar {
@@ -157,10 +158,9 @@ export class GrAccountLabel extends LitElement {
           margin: 0 -4px 0 -4px;
           vertical-align: top;
         }
-        iron-icon.attention {
+        .material-icon.attention {
           color: var(--deemphasized-text-color);
-          width: 12px;
-          height: 12px;
+          font-size: 12px;
         }
         .name {
           display: inline-block;
@@ -236,10 +236,9 @@ export class GrAccountLabel extends LitElement {
                   this.selected,
                   this._selfAccount
                 )}
-                ><iron-icon
-                  class="attention"
-                  icon="gr-icons:attention"
-                ></iron-icon>
+                ><span class="attention material-icon filled"
+                  >label_important</span
+                >
               </gr-button>
             </gr-tooltip-content>`
           : ''}

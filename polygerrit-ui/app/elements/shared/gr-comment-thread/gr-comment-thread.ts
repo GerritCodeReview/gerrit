@@ -64,6 +64,7 @@ import {commentsModelToken} from '../../../models/comments/comments-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {whenRendered} from '../../../utils/dom-util';
 import {Interaction} from '../../../constants/reporting';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 const NEWLINE_PATTERN = /\n/g;
 
@@ -313,6 +314,7 @@ export class GrCommentThread extends LitElement {
   static override get styles() {
     return [
       a11yStyles,
+      iconStyles,
       sharedStyles,
       css`
         :host {
@@ -567,15 +569,14 @@ export class GrCommentThread extends LitElement {
                 `
               : ''
           }
-          <iron-icon
-            class="link-icon copy"
+          <span
+            class="link-icon copy material-icon"
             @click=${this.handleCopyLink}
             title="Copy link to this comment"
-            icon="gr-icons:link"
             role="button"
             tabindex="0"
+          >link</span
           >
-          </iron-icon>
         </div>
       </div>
     </div>

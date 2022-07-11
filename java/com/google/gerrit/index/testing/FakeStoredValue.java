@@ -93,6 +93,7 @@ public class FakeStoredValue implements StoredValue {
 
   @Override
   @Nullable
+  @SuppressWarnings("unchecked")
   public Iterable<MessageLite> asProtos() {
     if (isProto) {
       return (Iterable<MessageLite>) field;

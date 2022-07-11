@@ -58,6 +58,7 @@ import java.util.stream.StreamSupport;
  *     document.
  */
 // TODO(mariasavtchouk): revisit the class name after migration is done.
+@SuppressWarnings("serial")
 @AutoValue
 public abstract class IndexedField<I, T> {
 
@@ -145,7 +146,7 @@ public abstract class IndexedField<I, T> {
     @Override
     @Nullable
     public T get(I obj) {
-      return (T) getField().get(obj);
+      return getField().get(obj);
     }
 
     @Override
@@ -305,7 +306,8 @@ public abstract class IndexedField<I, T> {
 
     public abstract Builder<I, T> fieldType(TypeToken<T> type);
 
-    public abstract Builder<I, T> protoConverter(Optional<ProtoConverter> value);
+    public abstract Builder<I, T> protoConverter(
+        Optional<ProtoConverter<? extends MessageLite, ?>> value);
 
     abstract IndexedField<I, T> autoBuild(); // not public
 
@@ -318,19 +320,21 @@ public abstract class IndexedField<I, T> {
       return field;
     }
 
-    public final IndexedField build(Getter<I, T> getter, Setter<I, T> setter) {
+    public final IndexedField<I, T> build(Getter<I, T> getter, Setter<I, T> setter) {
       return this.getter(getter).fieldSetter(Optional.of(setter)).build();
     }
 
-    public final IndexedField build(
-        Getter<I, T> getter, Setter<I, T> setter, ProtoConverter protoConverter) {
+    public final IndexedField<I, T> build(
+        Getter<I, T> getter,
+        Setter<I, T> setter,
+        ProtoConverter<? extends MessageLite, ?> protoConverter) {
       return this.getter(getter)
           .fieldSetter(Optional.of(setter))
           .protoConverter(Optional.of(protoConverter))
           .build();
     }
 
-    public final IndexedField build(Getter<I, T> getter) {
+    public final IndexedField<I, T> build(Getter<I, T> getter) {
       return this.getter(getter).fieldSetter(Optional.empty()).build();
     }
 
@@ -377,7 +381,7 @@ public abstract class IndexedField<I, T> {
   public abstract TypeToken<T> fieldType();
 
   /** If the {@link #fieldType()} is proto, the converter to use on byte/proto conversions. */
-  public abstract Optional<ProtoConverter> protoConverter();
+  public abstract Optional<ProtoConverter<? extends MessageLite, ?>> protoConverter();
 
   /**
    * Returns all {@link SearchSpec}, enabled on this field.

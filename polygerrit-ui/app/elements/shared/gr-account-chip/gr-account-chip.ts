@@ -17,6 +17,7 @@ import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {ClassInfo, classMap} from 'lit/directives/class-map';
 import {getLabelStatus, hasVoted, LabelStatus} from '../../../utils/label-util';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 @customElement('gr-account-chip')
 export class GrAccountChip extends LitElement {
@@ -78,6 +79,7 @@ export class GrAccountChip extends LitElement {
 
   static override get styles() {
     return [
+      iconStyles,
       css`
         :host {
           display: block;
@@ -114,9 +116,8 @@ export class GrAccountChip extends LitElement {
           opacity: 0.6;
           pointer-events: none;
         }
-        iron-icon {
-          height: 1.2rem;
-          width: 1.2rem;
+        .material-icon {
+          font-size: 1.2rem;
         }
         .container gr-account-label::part(gr-account-label-text) {
           color: var(--deemphasized-text-color);
@@ -183,7 +184,7 @@ export class GrAccountChip extends LitElement {
         class="remove"
         @click=${this.handleRemoveTap}
       >
-        <iron-icon icon="gr-icons:close"></iron-icon>
+        <span class="material-icon">close</span>
       </gr-button>
     </div>`;
   }

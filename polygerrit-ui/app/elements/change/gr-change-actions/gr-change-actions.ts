@@ -582,11 +582,12 @@ export class GrChangeActions
           margin: var(--spacing-l);
           text-align: center;
         }
+        .material-icon,
         iron-icon {
           color: inherit;
           margin-right: var(--spacing-xs);
         }
-        #moreActions iron-icon {
+        #moreActions .material-icon {
           margin: 0;
         }
         #moreMessage,
@@ -657,8 +658,9 @@ export class GrChangeActions
           .disabledIds=${this.disabledMenuActions}
           .items=${this.menuActions}
         >
-          <iron-icon icon="gr-icons:more-vert" aria-labelledby="moreMessage">
-          </iron-icon>
+          <span class="material-icon" aria-labelledby="moreMessage"
+            >more_vert</span
+          >
           <span id="moreMessage">More</span>
         </gr-dropdown>
       </div>

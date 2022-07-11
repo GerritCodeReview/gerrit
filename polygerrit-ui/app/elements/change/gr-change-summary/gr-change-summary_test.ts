@@ -93,7 +93,7 @@ suite('gr-change-summary test', () => {
         <gr-checks-chip> </gr-checks-chip>
         <div class="info">
           <div class="left">
-            <iron-icon icon="gr-icons:info"> </iron-icon>
+            <span class="material-icon filled">info</span>
           </div>
           <div class="right">
             <div class="message" title="a message">a message</div>

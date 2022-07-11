@@ -98,10 +98,8 @@ export class GrSubmitRequirementHovercard extends base {
         div.sectionIcon {
           flex: 0 0 30px;
         }
-        div.sectionIcon iron-icon {
+        div.sectionIcon .material-icon {
           position: relative;
-          width: 20px;
-          height: 20px;
         }
         .section.condition > .sectionContent {
           background-color: var(--gray-background);
@@ -139,7 +137,7 @@ export class GrSubmitRequirementHovercard extends base {
       </div>
       <div class="section">
         <div class="sectionIcon">
-          <iron-icon class="small" icon="gr-icons:info-outline"></iron-icon>
+          <span class="small material-icon">info</span>
         </div>
         <div class="sectionContent">
           <div class="row">

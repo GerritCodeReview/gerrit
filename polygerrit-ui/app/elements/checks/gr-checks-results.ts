@@ -527,8 +527,9 @@ export class GrResultRow extends LitElement {
         .items=${overflowItems}
         .disabledIds=${disabledItems}
       >
-        <iron-icon icon="gr-icons:more-vert" aria-labelledby="moreMessage">
-        </iron-icon>
+        <span class="material-icon" aria-labelledby="moreMessage"
+          >more_vert</span
+        >
         <span id="moreMessage">More</span>
       </gr-dropdown>
     </div>`;
@@ -903,7 +904,7 @@ export class GrChecksResults extends LitElement {
         .headerBottomRow a {
           margin-right: var(--spacing-l);
         }
-        #moreActions iron-icon {
+        #moreActions .material-icon {
           color: var(--link-color);
         }
         #moreMessage {

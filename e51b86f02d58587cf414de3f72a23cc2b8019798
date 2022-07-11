@@ -16,6 +16,52 @@
       "message": "Rebased because of the merge conflict",
       "revId": "e51b86f02d58587cf414de3f72a23cc2b8019798",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "851f0ee0_df5250fb",
+        "filename": "Documentation/cmd-index.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2022-07-11T14:57:11Z",
+      "side": 1,
+      "message": "Remove the merge conflicts.",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 12
+      },
+      "revId": "e51b86f02d58587cf414de3f72a23cc2b8019798",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae31f8be_bcb61cf2",
+        "filename": "Documentation/cmd-index.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2022-07-11T14:57:11Z",
+      "side": 1,
+      "message": "Remove",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 0
+      },
+      "revId": "e51b86f02d58587cf414de3f72a23cc2b8019798",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

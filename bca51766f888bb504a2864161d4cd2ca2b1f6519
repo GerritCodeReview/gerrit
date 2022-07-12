@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e2dc557_ef6c422f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-07-12T06:34:22Z",
+      "side": 1,
+      "message": "Ping. Upstream changed mas merged, so that this change can be approved and merged now.",
+      "revId": "bca51766f888bb504a2864161d4cd2ca2b1f6519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

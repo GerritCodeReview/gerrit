@@ -242,6 +242,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4672d4cd_723c3c33",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2133,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-07-12T12:29:25Z",
+      "side": 1,
+      "message": "\u003e (total of 2 calls, one for each step).\n\nNot necessarily. Similar to Merge, you can create a change with first PatchSet formed from the ApplyPatch input. Then only one call is needed for the new change (POST /changes/ )\n\nRe Jinda:How would you even check the change existence? Are you planning to use same Change-Ids across hosts for same changes? If the answer is yes, then you will have to check the change existence. As Nitzan already mentioned, this is exactly the behavior of merge api \n* [New change](https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#create-change)\n* [New patch](https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#create-merge-patch-set-for-change)",
+      "parentUuid": "d8ff7af2_c3d5cc79",
+      "range": {
+        "startLine": 2133,
+        "startChar": 0,
+        "endLine": 2133,
+        "endChar": 43
+      },
+      "revId": "0b009cb823cea52c0da78fe1e040a16f408b8a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b89f838e_264a104a",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 4

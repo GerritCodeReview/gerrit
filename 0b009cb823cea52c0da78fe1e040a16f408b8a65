@@ -218,6 +218,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d8ff7af2_c3d5cc79",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2133,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-07-12T10:15:21Z",
+      "side": 1,
+      "message": "\u003e  Just to confirm that we the client side should check if the change exists or not before calling either of the two endpoints?\nNo, I don\u0027t think so.\nIf you don\u0027t want the patch to be applied in a specific, foreknown, change - you can just create a new change with no prior checks, then apply the patch in it (total of 2 calls, one for each step).\nNote this approach will be consistent with the [Merge API](https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#create-merge-patch-set-for-change).\n\n\n\u003e I guess the ideal situation would be something similar to the cherrypickCommit api endpoint\nThe issue with this approach is that a new change needs more than an ID (at least branch and subject, but you\u0027re likely to need some optional fields as well).\nWhile `cherry-pick` has context from its source change, `apply-patch` input would have to clone [ChangeInput](https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#change-input) (and its handling, including errors/retries handling) to allow proper change creation, and we would like to avoid that.",
+      "parentUuid": "9573deb0_43d35ee9",
+      "range": {
+        "startLine": 2133,
+        "startChar": 0,
+        "endLine": 2133,
+        "endChar": 43
+      },
+      "revId": "0b009cb823cea52c0da78fe1e040a16f408b8a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b89f838e_264a104a",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 4

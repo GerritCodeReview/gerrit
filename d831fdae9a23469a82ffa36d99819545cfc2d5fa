@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13d26420_ba8bfaf1",
+        "filename": "java/com/google/gerrit/extensions/api/changes/RelatedChangeAndCommitInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-12T08:21:24Z",
+      "side": 1,
+      "message": "Please document the new field in rest-api-changes.txt",
+      "revId": "d831fdae9a23469a82ffa36d99819545cfc2d5fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ec695d4_344c6c93",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetRelated.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-12T08:21:24Z",
+      "side": 1,
+      "message": "Please document the new option for the Get Related REST endpoint in rest-api-changes.txt.",
+      "range": {
+        "startLine": 60,
+        "startChar": 2,
+        "endLine": 67,
+        "endChar": 3
+      },
+      "revId": "d831fdae9a23469a82ffa36d99819545cfc2d5fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "750823db_9e2d7eb4",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/GetRelatedIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-12T08:21:24Z",
+      "side": 1,
+      "message": "drop this?",
+      "range": {
+        "startLine": 656,
+        "startChar": 4,
+        "endLine": 657,
+        "endChar": 51
+      },
+      "revId": "d831fdae9a23469a82ffa36d99819545cfc2d5fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

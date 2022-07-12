@@ -394,10 +394,29 @@ suite('gr-change-actions tests', () => {
 
       queryAndAssert<GrButton>(
         element,
-        'gr-button[data-action-key="submit"] iron-icon'
+        'gr-button[data-action-key="submit"] .material-icon'
       ).click();
       await submitted;
     });
+
+    test('correct icons', async () => {
+      element.loggedIn = true;
+      await element.updateComplete;
+
+      queryAndAssert<GrButton>(
+        element,
+        'gr-button[data-action-key="submit"] .material-icon'
+      );
+      queryAndAssert<GrButton>(
+        element,
+        'gr-button[data-action-key="rebase"] iron-icon'
+      );
+      queryAndAssert<GrButton>(
+        element,
+        'gr-button[data-action-key="edit"] .material-icon.filled'
+      );
+    });
+
 
     test('handleSubmitConfirm', () => {
       const fireStub = sinon.stub(element, 'fireAction');

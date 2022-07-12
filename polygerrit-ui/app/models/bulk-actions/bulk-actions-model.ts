@@ -82,6 +82,12 @@ export class BulkActionsModel
     return result;
   });
 
+  toggleSelectedChangeNum(changeNum: NumericChangeId) {
+    this.getState().selectedChangeNums.includes(changeNum)
+      ? this.removeSelectedChangeNum(changeNum)
+      : this.addSelectedChangeNum(changeNum);
+  }
+
   addSelectedChangeNum(changeNum: NumericChangeId) {
     const current = this.getState();
     if (!current.allChanges.has(changeNum)) {

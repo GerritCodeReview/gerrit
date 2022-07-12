@@ -221,7 +221,7 @@ suite('gr-apply-fix-dialog tests', () => {
                 role="button"
                 tabindex="0"
               >
-                <iron-icon icon="gr-icons:chevron-right"> </iron-icon>
+                <span class="material-icon">chevron_right</span>
               </gr-button>
             </div>
           </gr-dialog>

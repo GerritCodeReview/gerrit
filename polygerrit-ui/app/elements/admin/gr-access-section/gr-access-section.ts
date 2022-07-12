@@ -3,7 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-icon/iron-icon';
 import '@polymer/iron-input/iron-input';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icons/gr-icons';
@@ -34,6 +33,7 @@ import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 /**
  * Fired when the section has been modified or removed.
@@ -104,6 +104,7 @@ export class GrAccessSection extends LitElement {
     return [
       formStyles,
       fontStyles,
+      iconStyles,
       sharedStyles,
       css`
         :host {
@@ -180,7 +181,7 @@ export class GrAccessSection extends LitElement {
                 class=${this.section?.id === GLOBAL_NAME ? 'global' : ''}
                 @click=${this.editReference}
               >
-                <iron-icon id="icon" icon="gr-icons:create"></iron-icon>
+                <span class="material-icon" id="icon">edit</span>
               </gr-button>
             </div>
             <iron-input

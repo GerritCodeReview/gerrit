@@ -135,6 +135,11 @@ export class GrChangeListItem extends LitElement {
           'change-list-item-cell'
         );
       });
+    this.addEventListener('click', this.onItemClick);
+  }
+
+  override disconnectedCallback() {
+    this.removeEventListener('click', this.onItemClick);
   }
 
   override willUpdate(changedProperties: PropertyValues<this>) {
@@ -310,7 +315,7 @@ export class GrChangeListItem extends LitElement {
           <input
             type="checkbox"
             .checked=${this.checked}
-            @click=${() => this.toggleCheckbox()}
+            @click=${this.toggleCheckbox}
           />
         </label>
       </td>
@@ -626,6 +631,12 @@ export class GrChangeListItem extends LitElement {
     `;
   }
 
+  private readonly onItemClick = () => {
+    if (this.change) {
+      GerritNav.navigateToChange(this.change);
+    }
+  };
+
   private changeStatuses() {
     if (!this.change) return [];
     return changeStatuses(this.change);
@@ -682,13 +693,14 @@ export class GrChangeListItem extends LitElement {
     return str;
   }
 
-  toggleCheckbox() {
+  private toggleCheckbox(e: Event) {
+    // Stop propagation so that the checkbox click does not become an item
+    // click and open the change.
+    // Do not prevent default or else checkbox will not be visually updated.
+    e.stopPropagation();
     assertIsDefined(this.change, 'change');
     this.checked = !this.checked;
-    if (this.checked)
-      this.getBulkActionsModel().addSelectedChangeNum(this.change._number);
-    else
-      this.getBulkActionsModel().removeSelectedChangeNum(this.change._number);
+    this.getBulkActionsModel().toggleSelectedChangeNum(this.change._number);
   }
 
   // private but used in test

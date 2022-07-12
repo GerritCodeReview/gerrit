@@ -349,6 +349,18 @@ suite('gr-change-list-item tests', () => {
     ]);
   });
 
+  test('clicking item navigates to change', async () => {
+    const navStub = sinon.stub(GerritNav);
+
+    element.change = change;
+    await element.updateComplete;
+
+    element.click();
+    await element.updateComplete;
+
+    assert.isTrue(navStub.navigateToChange.calledWithExactly(change));
+  });
+
   test('computeRepoDisplay', () => {
     element.change = {...change};
     assert.equal(element.computeRepoDisplay(), 'host/a/test/repo');

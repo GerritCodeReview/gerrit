@@ -26,6 +26,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, state, query} from 'lit/decorators';
 import {ValueChangedEvent} from '../../../types/events';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 const LOOKUP_QUERY_PATTERNS: RegExp[] = [
   /^\s*i?[0-9a-f]{7,40}\s*$/i, // CHANGE_ID
@@ -106,6 +107,7 @@ export class GrChangeListView extends LitElement {
 
   static override get styles() {
     return [
+      iconStyles,
       sharedStyles,
       css`
         :host {
@@ -128,15 +130,11 @@ export class GrChangeListView extends LitElement {
           height: 3rem;
           justify-content: flex-end;
           margin-right: 20px;
-        }
-        nav,
-        iron-icon {
           color: var(--deemphasized-text-color);
         }
-        iron-icon {
-          height: 1.85rem;
+        .material-icon {
+          font-size: 1.85rem;
           margin-left: 16px;
-          width: 1.85rem;
         }
         .hide {
           display: none;
@@ -213,7 +211,7 @@ export class GrChangeListView extends LitElement {
 
     return html`
       <a id="prevArrow" href=${this.computeNavLink(-1)}>
-        <iron-icon icon="gr-icons:chevron-left" aria-label="Older"> </iron-icon>
+        <span class="material-icon" aria-label="Older">chevron_left</span>
       </a>
     `;
   }
@@ -229,8 +227,7 @@ export class GrChangeListView extends LitElement {
 
     return html`
       <a id="nextArrow" href=${this.computeNavLink(1)}>
-        <iron-icon icon="gr-icons:chevron-right" aria-label="Newer">
-        </iron-icon>
+        <span class="material-icon" aria-label="Newer">chevron_right</span>
       </a>
     `;
   }

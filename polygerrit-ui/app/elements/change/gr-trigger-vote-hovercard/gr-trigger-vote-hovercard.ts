@@ -86,7 +86,7 @@ export class GrTriggerVoteHovercard extends base {
     if (!description) return;
     return html`<div class="section description">
       <div class="sectionIcon">
-        <iron-icon icon="gr-icons:description"></iron-icon>
+        <span class="material-icon">description</span>
       </div>
       <div class="sectionContent">
         <gr-formatted-text

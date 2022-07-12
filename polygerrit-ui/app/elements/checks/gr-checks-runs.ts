@@ -702,12 +702,9 @@ export class GrChecksRuns extends LitElement {
             ? 'Expand runs panel'
             : 'Collapse runs panel'}
           @click=${this.toggleCollapsed}
-          ><iron-icon
-            class="expandIcon"
-            icon=${this.collapsed
-              ? 'gr-icons:chevron-right'
-              : 'gr-icons:chevron-left'}
-          ></iron-icon>
+          ><span class="material-icon expandIcon">
+            ${this.collapsed ? 'chevron_right' : 'chevron_left'}</span
+          >
         </gr-button>
       </gr-tooltip-content>
     `;

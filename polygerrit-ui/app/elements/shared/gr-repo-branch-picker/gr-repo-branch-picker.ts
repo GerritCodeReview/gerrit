@@ -3,7 +3,6 @@
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-icon/iron-icon';
 import '../gr-icons/gr-icons';
 import '../gr-labeled-autocomplete/gr-labeled-autocomplete';
 import {singleDecodeURL} from '../../../utils/url-util';
@@ -69,10 +68,10 @@ export class GrRepoBranchPicker extends LitElement {
           display: block;
         }
         gr-labeled-autocomplete,
-        iron-icon {
+        .material-icon {
           display: inline-block;
         }
-        iron-icon {
+        .material-icon {
           margin-bottom: var(--spacing-l);
         }
       `,
@@ -92,7 +91,7 @@ export class GrRepoBranchPicker extends LitElement {
           }}
         >
         </gr-labeled-autocomplete>
-        <iron-icon icon="gr-icons:chevron-right"></iron-icon>
+        <span class="material-icon">cheveron_right</span>
         <gr-labeled-autocomplete
           id="branchInput"
           label="Branch"

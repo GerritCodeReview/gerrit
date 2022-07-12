@@ -45,10 +45,7 @@ suite('gr-checks-runs test', () => {
               link=""
               role="switch"
             >
-              <iron-icon
-                class="expandIcon"
-                icon="gr-icons:chevron-left"
-              ></iron-icon>
+              <span class="material-icon expandIcon">chevron_left</span>
             </gr-button>
           </gr-tooltip-content>
         </h2>

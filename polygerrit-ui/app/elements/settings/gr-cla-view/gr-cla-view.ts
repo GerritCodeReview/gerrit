@@ -90,12 +90,6 @@ export class GrClaView extends LitElement {
         #claNewAgreementsLabel {
           font-weight: var(--font-weight-bold);
         }
-        #claNewAgreement {
-          display: none;
-        }
-        #claNewAgreement.show {
-          display: block;
-        }
         .contributorAgreementButton {
           font-weight: var(--font-weight-bold);
         }
@@ -166,7 +160,7 @@ export class GrClaView extends LitElement {
             Please review the agreement.</a
           >
         </div>
-        ${this.renderAgreementsTextBox()} ${this.computeHideAgreementTextbox()}
+        ${this.renderAgreementsTextBox()}
       </div>
     `;
   }
@@ -223,14 +217,12 @@ export class GrClaView extends LitElement {
   // private but used in test
   getAgreementsUrl(configUrl: string) {
     if (!configUrl) return '';
-    let url;
+
     if (configUrl.startsWith('http:') || configUrl.startsWith('https:')) {
-      url = configUrl;
-    } else {
-      url = getBaseUrl() + '/' + configUrl;
+      return configUrl;
     }
 
-    return url;
+    return `${getBaseUrl()}/${configUrl}`;
   }
 
   private readonly handleShowAgreement = (e: Event) => {

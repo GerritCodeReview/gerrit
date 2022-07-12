@@ -211,14 +211,12 @@ export class GrClaView extends LitElement {
   // private but used in test
   getAgreementsUrl(configUrl: string) {
     if (!configUrl) return '';
-    let url;
+
     if (configUrl.startsWith('http:') || configUrl.startsWith('https:')) {
-      url = configUrl;
-    } else {
-      url = getBaseUrl() + '/' + configUrl;
+      return configUrl;
     }
 
-    return url;
+    return `${getBaseUrl()}/${configUrl}`;
   }
 
   private readonly handleShowAgreement = (e: Event) => {

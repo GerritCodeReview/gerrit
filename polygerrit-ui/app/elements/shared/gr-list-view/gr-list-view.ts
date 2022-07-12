@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '@polymer/iron-input/iron-input';
-import '@polymer/iron-icon/iron-icon';
 import '../gr-button/gr-button';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {page} from '../../../utils/page-wrapper-utils';
@@ -88,13 +87,12 @@ export class GrListView extends LitElement {
           margin-right: 20px;
         }
         nav,
-        iron-icon {
+        .material-icon {
           color: var(--deemphasized-text-color);
         }
-        iron-icon {
-          height: 1.85rem;
+        .material-icon {
+          font-size: 1.85rem;
           margin-left: 16px;
-          width: 1.85rem;
         }
       `,
     ];
@@ -137,7 +135,7 @@ export class GrListView extends LitElement {
           )}
           ?hidden=${this.loading || this.offset === 0}
         >
-          <iron-icon icon="gr-icons:chevron-left"></iron-icon>
+          <span class="material-icon">chevron_left</span>c
         </a>
         <a
           id="nextArrow"
@@ -150,7 +148,7 @@ export class GrListView extends LitElement {
           )}
           ?hidden=${this.hideNextArrow(this.loading, this.items)}
         >
-          <iron-icon icon="gr-icons:chevron-right"></iron-icon>
+          <span class="material-icon">chevron_right</span>c
         </a>
       </nav>
     `;

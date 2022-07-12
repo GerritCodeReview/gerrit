@@ -154,7 +154,7 @@ export class GrClaView extends LitElement {
             Please review the agreement.</a
           >
         </div>
-        ${this.renderAgreementsTextBox()} ${this.computeHideAgreementTextbox()}
+        ${this.renderAgreementsTextBox()}
       </div>
     `;
   }

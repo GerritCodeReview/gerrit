@@ -56,6 +56,7 @@ import {resolve} from '../../models/dependency';
 import {checksModelToken} from '../../models/checks/checks-model';
 import {Interaction} from '../../constants/reporting';
 import {Deduping} from '../../api/reporting';
+import {when} from 'lit/directives/when';
 
 @customElement('gr-checks-run')
 export class GrChecksRun extends LitElement {
@@ -66,6 +67,11 @@ export class GrChecksRun extends LitElement {
         :host {
           display: block;
           --thick-border: 6px;
+        }
+        :host([condensed]) .eta,
+        :host([condensed]) .middle,
+        :host([condensed]) .right {
+          display: none;
         }
         .chip {
           display: flex;
@@ -194,6 +200,9 @@ export class GrChecksRun extends LitElement {
 
   @property({attribute: false})
   deselected = false;
+
+  @property()
+  condensed = false;
 
   @state()
   shouldRender = false;
@@ -410,6 +419,9 @@ export class GrChecksRuns extends LitElement {
   @state()
   loginCallback?: () => void;
 
+  @state()
+  hover = false;
+
   private isSectionExpanded = new Map<RunStatus, boolean>();
 
   private flagService = getAppContext().flagsService;
@@ -435,6 +447,8 @@ export class GrChecksRuns extends LitElement {
       () => this.getChecksModel().loginCallbackLatest$,
       x => (this.loginCallback = x)
     );
+    this.addEventListener('mouseover', _ => (this.hover = true));
+    this.addEventListener('mouseout', _ => (this.hover = false));
   }
 
   static override get styles() {
@@ -445,8 +459,11 @@ export class GrChecksRuns extends LitElement {
         :host {
           display: block;
         }
+        :host:hover {
+          width: 35%;
+        }
         :host(:not([collapsed])) {
-          min-width: 320px;
+          width: 15%;
           padding: var(--spacing-l) var(--spacing-xl) var(--spacing-xl)
             var(--spacing-xl);
         }
@@ -577,6 +594,9 @@ export class GrChecksRuns extends LitElement {
     if (this.collapsed) {
       return html`${this.renderCollapseButton()}`;
     }
+    const placeholder = this.hover
+      ? 'Filter runs by regular expression'
+      : 'Filter runs';
     return html`
       <h2 class="title">
         <div class="heading-2">Runs</div>
@@ -587,7 +607,7 @@ export class GrChecksRuns extends LitElement {
       <input
         id="filterInput"
         type="text"
-        placeholder="Filter runs by regular expression"
+        placeholder=${placeholder}
         ?hidden=${!this.showFilter()}
         @input=${this.onInput}
       />
@@ -774,7 +794,9 @@ export class GrChecksRuns extends LitElement {
       <div class="${status.toLowerCase()} ${expandedClass}">
         <div class="sectionHeader" @click=${() => this.toggleExpanded(status)}>
           <iron-icon class="expandIcon" icon=${icon}></iron-icon>
-          <h3 class="heading-3">${header} (${runs.length})</h3>
+          <h3 class="heading-3">
+            ${header} ${when(this.hover, () => html`(${runs.length})`)}
+          </h3>
         </div>
         <div class="sectionRuns">${runs.map(run => this.renderRun(run))}</div>
       </div>
@@ -796,6 +818,7 @@ export class GrChecksRuns extends LitElement {
     const selectedAttempt = this.selectedAttempts.get(run.checkName);
     const deselected = !selectedRun && this.selectedRuns.length > 0;
     return html`<gr-checks-run
+      ?condensed=${!this.hover}
       .run=${run}
       .selected=${selectedRun}
       .selectedAttempt=${selectedAttempt}

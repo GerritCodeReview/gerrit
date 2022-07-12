@@ -99,12 +99,16 @@ export class GrChecksTab extends LitElement {
       .container {
         display: flex;
       }
+      .runs:hover {
+        flex: 0 0 35%;
+      }
       .runs {
+        flex: 0 0 15%;
         min-height: 400px;
         border-right: 1px solid var(--border-color);
       }
       .results {
-        flex-grow: 1;
+        flex: 1 1 auto;
       }
     `;
   }

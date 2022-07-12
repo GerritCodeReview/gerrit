@@ -22,7 +22,6 @@ import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-
 import {fireTitleChange} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {GerritView} from '../../../services/router/router-model';
-import {RELOAD_DASHBOARD_INTERVAL_MS} from '../../../constants/constants';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, state, query} from 'lit/decorators';
@@ -89,8 +88,6 @@ export class GrChangeListView extends LitElement {
 
   private reporting = getAppContext().reportingService;
 
-  private lastVisibleTimestampMs = 0;
-
   constructor() {
     super();
     this.addEventListener('next-page', () => this.handleNextPage());
@@ -98,32 +95,12 @@ export class GrChangeListView extends LitElement {
     this.addEventListener('reload', () => this.reload());
   }
 
-  private readonly visibilityChangeListener = () => {
-    if (document.visibilityState === 'visible') {
-      if (
-        Date.now() - this.lastVisibleTimestampMs >
-        RELOAD_DASHBOARD_INTERVAL_MS
-      )
-        this.reload();
-    } else {
-      this.lastVisibleTimestampMs = Date.now();
-    }
-  };
-
   override connectedCallback() {
     super.connectedCallback();
     this.loadPreferences();
-    document.addEventListener(
-      'visibilitychange',
-      this.visibilityChangeListener
-    );
   }
 
   override disconnectedCallback() {
-    document.removeEventListener(
-      'visibilitychange',
-      this.visibilityChangeListener
-    );
     super.disconnectedCallback();
   }
 

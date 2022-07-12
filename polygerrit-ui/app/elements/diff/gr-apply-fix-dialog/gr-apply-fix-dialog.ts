@@ -3,7 +3,6 @@
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-icon/iron-icon';
 import '../../../styles/shared-styles';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-overlay/gr-overlay';
@@ -31,6 +30,7 @@ import {css, html, LitElement} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {subscribe} from '../../lit/subscription-controller';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 interface FilePreview {
   filepath: string;
@@ -107,6 +107,7 @@ export class GrApplyFixDialog extends LitElement {
   }
 
   static override styles = [
+    iconStyles,
     sharedStyles,
     css`
       gr-diff {
@@ -189,14 +190,14 @@ export class GrApplyFixDialog extends LitElement {
           @click=${this.onPrevFixClick}
           ?disabled=${id === 0}
         >
-          <iron-icon icon="gr-icons:chevron-left"></iron-icon>
+          <span class="material-icon">chevron_left</span>
         </gr-button>
         <gr-button
           id="nextFix"
           @click=${this.onNextFixClick}
           ?disabled=${id === fixCount - 1}
         >
-          <iron-icon icon="gr-icons:chevron-right"></iron-icon>
+          <span class="material-icon">chevron_right</span>
         </gr-button>
       </div>
     `;

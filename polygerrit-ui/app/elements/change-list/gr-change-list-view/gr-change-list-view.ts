@@ -39,7 +39,14 @@ import {ChangeListViewState} from '../../../types/types';
 import {fireTitleChange} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
 import {GerritView} from '../../../services/router/router-model';
+<<<<<<< HEAD   (aa3a35 Merge branch 'stable-3.4' into stable-3.5)
 import {RELOAD_DASHBOARD_INTERVAL_MS} from '../../../constants/constants';
+=======
+import {sharedStyles} from '../../../styles/shared-styles';
+import {LitElement, PropertyValues, html, css} from 'lit';
+import {customElement, property, state, query} from 'lit/decorators';
+import {ValueChangedEvent} from '../../../types/events';
+>>>>>>> CHANGE (a1f02b Remove the feature of auto-reloading from the search results)
 
 const LOOKUP_QUERY_PATTERNS: RegExp[] = [
   /^\s*i?[0-9a-f]{7,40}\s*$/i, // CHANGE_ID
@@ -113,13 +120,12 @@ export class GrChangeListView extends PolymerElement {
 
   private reporting = appContext.reportingService;
 
-  private lastVisibleTimestampMs = 0;
-
   constructor() {
     super();
     this.addEventListener('next-page', () => this._handleNextPage());
     this.addEventListener('previous-page', () => this._handlePreviousPage());
     this.addEventListener('reload', () => this.reload());
+<<<<<<< HEAD   (aa3a35 Merge branch 'stable-3.4' into stable-3.5)
     // We are not currently verifying if the view is actually visible. We rely
     // on gr-app-element to restamp the component if view changes
     document.addEventListener('visibilitychange', () => {
@@ -132,6 +138,166 @@ export class GrChangeListView extends PolymerElement {
       } else {
         this.lastVisibleTimestampMs = Date.now();
       }
+=======
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    this.loadPreferences();
+  }
+
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+  }
+
+  static override get styles() {
+    return [
+      sharedStyles,
+      css`
+        :host {
+          display: block;
+        }
+        .loading {
+          color: var(--deemphasized-text-color);
+          padding: var(--spacing-l);
+        }
+        gr-change-list {
+          width: 100%;
+        }
+        gr-user-header,
+        gr-repo-header {
+          border-bottom: 1px solid var(--border-color);
+        }
+        nav {
+          align-items: center;
+          display: flex;
+          height: 3rem;
+          justify-content: flex-end;
+          margin-right: 20px;
+        }
+        nav,
+        iron-icon {
+          color: var(--deemphasized-text-color);
+        }
+        iron-icon {
+          height: 1.85rem;
+          margin-left: 16px;
+          width: 1.85rem;
+        }
+        .hide {
+          display: none;
+        }
+        @media only screen and (max-width: 50em) {
+          .loading,
+          .error {
+            padding: 0 var(--spacing-l);
+          }
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    const loggedIn = !!(this.account && Object.keys(this.account).length > 0);
+    // In case of an internal reload we want the ChangeList section components
+    // to remain in the DOM so that the Bulk Actions Model associated with them
+    // is not recreated after the reload resulting in user selections being lost
+    return html`
+      <div class="loading" ?hidden=${!this.loading}>Loading...</div>
+      <div ?hidden=${this.loading}>
+        ${this.renderRepoHeader()} ${this.renderUserHeader(loggedIn)}
+        <gr-change-list
+          .account=${this.account}
+          .changes=${this.changes}
+          .preferences=${this.preferences}
+          .showStar=${loggedIn}
+          .selectedIndex=${this.selectedIndex}
+          @selected-index-changed=${(e: ValueChangedEvent<number>) => {
+            this.selectedIndex = e.detail.value;
+          }}
+          @toggle-star=${(e: CustomEvent<ChangeStarToggleStarDetail>) => {
+            this.handleToggleStar(e);
+          }}
+          .usp=${'search'}
+        ></gr-change-list>
+        ${this.renderChangeListViewNav()}
+      </div>
+    `;
+  }
+
+  private renderRepoHeader() {
+    if (!this.repo) return;
+
+    return html` <gr-repo-header .repo=${this.repo}></gr-repo-header> `;
+  }
+
+  private renderUserHeader(loggedIn: boolean) {
+    if (!this.userId) return;
+
+    return html`
+      <gr-user-header
+        .userId=${this.userId}
+        showDashboardLink
+        .loggedIn=${loggedIn}
+      ></gr-user-header>
+    `;
+  }
+
+  private renderChangeListViewNav() {
+    if (this.loading || !this.changes || !this.changes.length) return;
+
+    return html`
+      <nav>
+        Page ${this.computePage()} ${this.renderPrevArrow()}
+        ${this.renderNextArrow()}
+      </nav>
+    `;
+  }
+
+  private renderPrevArrow() {
+    if (this.offset === 0) return;
+
+    return html`
+      <a id="prevArrow" href=${this.computeNavLink(-1)}>
+        <iron-icon icon="gr-icons:chevron-left" aria-label="Older"> </iron-icon>
+      </a>
+    `;
+  }
+
+  private renderNextArrow() {
+    if (
+      !(
+        this.changes?.length &&
+        this.changes[this.changes.length - 1]._more_changes
+      )
+    )
+      return;
+
+    return html`
+      <a id="nextArrow" href=${this.computeNavLink(1)}>
+        <iron-icon icon="gr-icons:chevron-right" aria-label="Newer">
+        </iron-icon>
+      </a>
+    `;
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('params')) {
+      this.paramsChanged();
+    }
+
+    if (changedProperties.has('changes')) {
+      this.changesChanged();
+    }
+  }
+
+  reload() {
+    if (this.loading) return;
+    this.loading = true;
+    this.getChanges().then(changes => {
+      this.changes = changes || [];
+      this.loading = false;
+>>>>>>> CHANGE (a1f02b Remove the feature of auto-reloading from the search results)
     });
   }
 

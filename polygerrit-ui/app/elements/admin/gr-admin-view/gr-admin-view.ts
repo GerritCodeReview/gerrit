@@ -50,6 +50,7 @@ import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
 import {ifDefined} from 'lit/directives/if-defined';
 import {ValueChangedEvent} from '../../../types/events';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
 
@@ -124,6 +125,7 @@ export class GrAdminView extends LitElement {
 
   static override get styles() {
     return [
+      iconStyles,
       sharedStyles,
       menuPageStyles,
       pageNavStyles,
@@ -132,7 +134,7 @@ export class GrAdminView extends LitElement {
           /* Same as dropdown trigger so chevron spacing is consistent. */
           padding: 5px 4px;
         }
-        iron-icon {
+        .material-icon {
           margin: 0 var(--spacing-xs);
         }
         .breadcrumb {
@@ -238,7 +240,7 @@ export class GrAdminView extends LitElement {
       <section class="mainHeader">
         <span class="breadcrumb">
           <span class="breadcrumbText">${this.breadcrumbParentName}</span>
-          <iron-icon icon="gr-icons:chevron-right"></iron-icon>
+          <span class="material-icon">chevron_right</span>
         </span>
         <gr-dropdown-list
           id="pageSelect"

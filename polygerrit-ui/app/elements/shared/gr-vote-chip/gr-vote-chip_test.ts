@@ -41,7 +41,7 @@ suite('gr-vote-chip tests', () => {
         has-tooltip=""
         title=""
       >
-        <div class="max vote-chip">👍</div>
+        <div class="max vote-chip">&#x2713;</div>
       </gr-tooltip-content>`);
     });
   });

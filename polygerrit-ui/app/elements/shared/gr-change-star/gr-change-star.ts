@@ -3,7 +3,6 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../gr-icons/gr-icons';
 import {ChangeInfo} from '../../../types/common';
 import {fireAlert} from '../../../utils/event-util';
 import {
@@ -15,6 +14,8 @@ import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {resolve} from '../../../models/dependency';
 import {shortcutsServiceToken} from '../../../services/shortcuts/shortcuts-service';
+import {classMap} from 'lit/directives/class-map';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -42,25 +43,12 @@ export class GrChangeStar extends LitElement {
 
   static override get styles() {
     return [
+      iconStyles,
       sharedStyles,
       css`
         button {
           background-color: transparent;
           cursor: pointer;
-        }
-        iron-icon.active {
-          fill: var(--link-color);
-        }
-        iron-icon {
-          vertical-align: top;
-          --iron-icon-height: var(
-            --gr-change-star-size,
-            var(--line-height-normal, 20px)
-          );
-          --iron-icon-width: var(
-            --gr-change-star-size,
-            var(--line-height-normal, 20px)
-          );
         }
         :host([hidden]) {
           visibility: hidden;
@@ -71,6 +59,11 @@ export class GrChangeStar extends LitElement {
   }
 
   override render() {
+    const classes = {
+      'material-icon': true,
+      filled: !!this.change?.starred,
+      active: !!this.change?.starred,
+    };
     return html`
       <button
         role="checkbox"
@@ -83,10 +76,7 @@ export class GrChangeStar extends LitElement {
           : 'Star this change'}
         @click=${this.toggleStar}
       >
-        <iron-icon
-          class=${this.change?.starred ? 'active' : ''}
-          .icon=${`gr-icons:star${this.change?.starred ? '' : '-border'}`}
-        ></iron-icon>
+        <span class=${classMap(classes)}>grade</span>
       </button>
     `;
   }

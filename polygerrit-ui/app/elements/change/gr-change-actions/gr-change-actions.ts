@@ -237,22 +237,31 @@ const STOP_EDIT: UIActionInfo = {
 
 // Set of keys that have icons. As more icons are added to gr-icons.html, this
 // set should be expanded.
-const ACTIONS_WITH_ICONS = new Set([
-  ChangeActions.ABANDON,
+const ACTIONS_WITH_ICONS = new Map<string, string>([
+  [ChangeActions.ABANDON, 'block'],
+  [ChangeActions.DELETE_EDIT, 'delete'],
+  [ChangeActions.EDIT, 'edit'],
+  [ChangeActions.PUBLISH_EDIT, 'publish'],
+  [ChangeActions.READY, 'visibility'],
+  [ChangeActions.RESTORE, 'history'],
+  [ChangeActions.REVERT, 'undo'],
+  [ChangeActions.STOP_EDIT, 'stop'],
+  [QUICK_APPROVE_ACTION.key, 'check'],
+  [RevisionActions.SUBMIT, 'done_all'],
+]);
+
+const ACTIONS_WITH_CUSTOM_ICON = new Map<string, string>([
+  [ChangeActions.REBASE_EDIT, 'gr-icons:rebaseEdit'],
+  [RevisionActions.REBASE, 'gr-icons:rebase'],
+]);
+
+// Set of keys that need filled-in icons.
+const FILLED_ICONS = new Set([
   ChangeActions.DELETE_EDIT,
   ChangeActions.EDIT,
-<<<<<<< Updated upstream
   ChangeActions.PUBLISH_EDIT,
-=======
->>>>>>> Stashed changes
   ChangeActions.READY,
-  ChangeActions.REBASE_EDIT,
-  ChangeActions.RESTORE,
-  ChangeActions.REVERT,
   ChangeActions.STOP_EDIT,
-  QUICK_APPROVE_ACTION.key,
-  RevisionActions.REBASE,
-  RevisionActions.SUBMIT,
 ]);
 
 const EDIT_ACTIONS: Set<string> = new Set([
@@ -587,8 +596,8 @@ export class GrChangeActions
           margin: var(--spacing-l);
           text-align: center;
         }
-        .material-icon,
-        iron-icon {
+        iron-icon,
+        .material-icon {
           color: inherit;
           margin-right: var(--spacing-xs);
         }
@@ -637,7 +646,7 @@ export class GrChangeActions
           !this.topLevelActions.length}
         >
           ${this.topLevelPrimaryActions?.map(action =>
-            this.renderTopPrimaryActions(action)
+            this.renderUIAction(action)
           )}
         </section>
         <section
@@ -647,7 +656,7 @@ export class GrChangeActions
           !this.topLevelActions.length}
         >
           ${this.topLevelSecondaryActions?.map(action =>
-            this.renderTopSecondaryActions(action)
+            this.renderUIAction(action)
           )}
         </section>
         <gr-button ?hidden=${!this.loading}>Loading actions...</gr-button>
@@ -772,7 +781,7 @@ export class GrChangeActions
     `;
   }
 
-  private renderTopPrimaryActions(action: UIActionInfo) {
+  private renderUIAction(action: UIActionInfo) {
     return html`
       <gr-tooltip-content
         title=${ifDefined(action.title)}
@@ -788,40 +797,24 @@ export class GrChangeActions
           @click=${(e: MouseEvent) =>
             this.handleActionTap(e, action.__key, action.__type)}
         >
-          <iron-icon
-            class=${action.icon ? '' : 'hidden'}
-            .icon="gr-icons:${action.icon}"
-          ></iron-icon>
-          ${action.label}
+          ${this.renderUIActionIcon(action)} ${action.label}
         </gr-button>
       </gr-tooltip-content>
     `;
   }
 
-  private renderTopSecondaryActions(action: UIActionInfo) {
-    return html`
-      <gr-tooltip-content
-        title=${ifDefined(action.title)}
-        .hasTooltip=${!!action.title}
-        ?position-below=${true}
-      >
-        <gr-button
-          link
-          class=${action.__key}
-          data-action-key=${action.__key}
-          data-label=${action.label}
-          ?disabled=${this.calculateDisabled(action)}
-          @click=${(e: MouseEvent) =>
-            this.handleActionTap(e, action.__key, action.__type)}
+  private renderUIActionIcon(action: UIActionInfo) {
+    if (action.icon) {
+      return html`
+        <span class="material-icon ${action.filled ? 'filled' : ''} "
+          >${action.icon}</span
         >
-          <iron-icon
-            class=${action.icon ? '' : 'hidden'}
-            icon="gr-icons:${action.icon}"
-          ></iron-icon>
-          ${action.label}
-        </gr-button>
-      </gr-tooltip-content>
-    `;
+      `;
+    } else if (action.customIcon) {
+      return html`<iron-icon .icon=${action.customIcon}></iron-icon>`;
+    } else {
+      return nothing;
+    }
   }
 
   override willUpdate(changedProperties: PropertyValues) {
@@ -2142,7 +2135,11 @@ export class GrChangeActions
       .sort((a, b) => this.actionComparator(a, b))
       .map(action => {
         if (ACTIONS_WITH_ICONS.has(action.__key)) {
-          action.icon = action.__key;
+          action.icon = ACTIONS_WITH_ICONS.get(action.__key);
+          action.filled = FILLED_ICONS.has(action.__key as ChangeActions);
+        }
+        if (ACTIONS_WITH_CUSTOM_ICON.has(action.__key)) {
+          action.customIcon = ACTIONS_WITH_CUSTOM_ICON.get(action.__key);
         }
         return action;
       })

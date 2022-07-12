@@ -235,21 +235,23 @@ const STOP_EDIT: UIActionInfo = {
   __type: ActionType.CHANGE,
 };
 
-// Set of keys that have icons. As more icons are added to gr-icons.html, this
-// set should be expanded.
-const ACTIONS_WITH_ICONS = new Set([
-  ChangeActions.ABANDON,
-  ChangeActions.DELETE_EDIT,
-  ChangeActions.EDIT,
-  ChangeActions.PUBLISH_EDIT,
-  ChangeActions.READY,
-  ChangeActions.REBASE_EDIT,
-  ChangeActions.RESTORE,
-  ChangeActions.REVERT,
-  ChangeActions.STOP_EDIT,
-  QUICK_APPROVE_ACTION.key,
-  RevisionActions.REBASE,
-  RevisionActions.SUBMIT,
+// Set of keys that have icons.
+const ACTIONS_WITH_ICONS = new Map<
+  string,
+  Pick<UIActionInfo, 'filled' | 'icon' | 'custom'>
+>([
+  [ChangeActions.ABANDON, {icon: 'block'}],
+  [ChangeActions.DELETE_EDIT, {icon: 'delete', filled: true}],
+  [ChangeActions.EDIT, {icon: 'edit', filled: true}],
+  [ChangeActions.PUBLISH_EDIT, {icon: 'publish', filled: true}],
+  [ChangeActions.READY, {icon: 'visibility', filled: true}],
+  [ChangeActions.REBASE_EDIT, {icon: 'gr-icons:rebaseEdit', custom: true}],
+  [RevisionActions.REBASE, {icon: 'gr-icons:rebase', custom: true}],
+  [ChangeActions.RESTORE, {icon: 'history'}],
+  [ChangeActions.REVERT, {icon: 'undo'}],
+  [ChangeActions.STOP_EDIT, {icon: 'stop', filled: true}],
+  [QUICK_APPROVE_ACTION.key, {icon: 'check'}],
+  [RevisionActions.SUBMIT, {icon: 'done_all'}],
 ]);
 
 const EDIT_ACTIONS: Set<string> = new Set([
@@ -584,8 +586,8 @@ export class GrChangeActions
           margin: var(--spacing-l);
           text-align: center;
         }
-        .material-icon,
-        iron-icon {
+        iron-icon,
+        .material-icon {
           color: inherit;
           margin-right: var(--spacing-xs);
         }
@@ -634,7 +636,7 @@ export class GrChangeActions
           !this.topLevelActions.length}
         >
           ${this.topLevelPrimaryActions?.map(action =>
-            this.renderTopPrimaryActions(action)
+            this.renderUIAction(action)
           )}
         </section>
         <section
@@ -644,7 +646,7 @@ export class GrChangeActions
           !this.topLevelActions.length}
         >
           ${this.topLevelSecondaryActions?.map(action =>
-            this.renderTopSecondaryActions(action)
+            this.renderUIAction(action)
           )}
         </section>
         <gr-button ?hidden=${!this.loading}>Loading actions...</gr-button>
@@ -769,7 +771,7 @@ export class GrChangeActions
     `;
   }
 
-  private renderTopPrimaryActions(action: UIActionInfo) {
+  private renderUIAction(action: UIActionInfo) {
     return html`
       <gr-tooltip-content
         title=${ifDefined(action.title)}
@@ -785,40 +787,23 @@ export class GrChangeActions
           @click=${(e: MouseEvent) =>
             this.handleActionTap(e, action.__key, action.__type)}
         >
-          <iron-icon
-            class=${action.icon ? '' : 'hidden'}
-            .icon="gr-icons:${action.icon}"
-          ></iron-icon>
-          ${action.label}
+          ${this.renderUIActionIcon(action)} ${action.label}
         </gr-button>
       </gr-tooltip-content>
     `;
   }
 
-  private renderTopSecondaryActions(action: UIActionInfo) {
-    return html`
-      <gr-tooltip-content
-        title=${ifDefined(action.title)}
-        .hasTooltip=${!!action.title}
-        ?position-below=${true}
-      >
-        <gr-button
-          link
-          class=${action.__key}
-          data-action-key=${action.__key}
-          data-label=${action.label}
-          ?disabled=${this.calculateDisabled(action)}
-          @click=${(e: MouseEvent) =>
-            this.handleActionTap(e, action.__key, action.__type)}
+  private renderUIActionIcon(action: UIActionInfo) {
+    if (!action.icon) return nothing;
+    if (action.custom) {
+      return html`<iron-icon .icon=${action.icon}></iron-icon>`;
+    } else {
+      return html`
+        <span class="material-icon ${action.filled ? 'filled' : ''} "
+          >${action.icon}</span
         >
-          <iron-icon
-            class=${action.icon ? '' : 'hidden'}
-            icon="gr-icons:${action.icon}"
-          ></iron-icon>
-          ${action.label}
-        </gr-button>
-      </gr-tooltip-content>
-    `;
+      `;
+    }
   }
 
   override willUpdate(changedProperties: PropertyValues) {
@@ -2138,10 +2123,10 @@ export class GrChangeActions
       .concat(changeActionValues)
       .sort((a, b) => this.actionComparator(a, b))
       .map(action => {
-        if (ACTIONS_WITH_ICONS.has(action.__key)) {
-          action.icon = action.__key;
-        }
-        return action;
+        return {
+          ...action,
+          ...(ACTIONS_WITH_ICONS.get(action.__key) ?? {}),
+        };
       })
       .filter(action => !this.shouldSkipAction(action));
   }

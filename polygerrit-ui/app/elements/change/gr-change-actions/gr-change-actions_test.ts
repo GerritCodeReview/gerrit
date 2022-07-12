@@ -165,7 +165,7 @@ suite('gr-change-actions tests', () => {
                 role="button"
                 tabindex="0"
               >
-                <iron-icon> </iron-icon>
+                <span class="material-icon">done_all</span>
                 Submit
               </gr-button>
             </gr-tooltip-content>
@@ -186,7 +186,7 @@ suite('gr-change-actions tests', () => {
                 role="button"
                 tabindex="-1"
               >
-                <iron-icon icon="gr-icons:rebase"> </iron-icon>
+                <iron-icon> </iron-icon>
                 Rebase
               </gr-button>
             </gr-tooltip-content>
@@ -525,9 +525,27 @@ suite('gr-change-actions tests', () => {
 
       queryAndAssert<GrButton>(
         element,
-        'gr-button[data-action-key="submit"] iron-icon'
+        'gr-button[data-action-key="submit"] .material-icon'
       ).click();
       await submitted;
+    });
+
+    test('correct icons', async () => {
+      element.loggedIn = true;
+      await element.updateComplete;
+
+      queryAndAssert<GrButton>(
+        element,
+        'gr-button[data-action-key="submit"] .material-icon'
+      );
+      queryAndAssert<GrButton>(
+        element,
+        'gr-button[data-action-key="rebase"] iron-icon'
+      );
+      queryAndAssert<GrButton>(
+        element,
+        'gr-button[data-action-key="edit"] .material-icon.filled'
+      );
     });
 
     test('handleSubmitConfirm', () => {

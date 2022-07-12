@@ -42,7 +42,7 @@ public class SchemaUtilTest {
   private static final IndexedField<String, String> TEST_FIELD_DUPLICATE_NAME =
       IndexedField.<String>stringBuilder(TEST_DEF.getName()).build(a -> a);
 
-  private static final IndexedField.SearchSpec TEST_FIELD_SPEC =
+  private static final IndexedField<String, String>.SearchSpec TEST_FIELD_SPEC =
       TEST_FIELD.exact(TEST_DEF.getName());
 
   static class TestSchemas {

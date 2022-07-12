@@ -22,9 +22,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.reflect.TypeToken;
 import com.google.gerrit.entities.converter.ChangeProtoConverter;
 import com.google.gerrit.index.IndexedField;
-import com.google.gerrit.index.IndexedField.SearchSpec;
 import com.google.gerrit.index.SchemaFieldDefs.Getter;
-import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import com.google.gerrit.index.SchemaFieldDefs.Setter;
 import com.google.gerrit.index.StoredValue;
 import com.google.gerrit.index.testing.FakeStoredValue;
@@ -45,6 +43,7 @@ import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
 /** Tests for {@link com.google.gerrit.index.IndexedField} */
+@SuppressWarnings("serial")
 @RunWith(Theories.class)
 public class IndexedFieldTest {
 
@@ -69,6 +68,7 @@ public class IndexedFieldTest {
     }
   }
 
+  @SuppressWarnings("unchecked")
   private static class TestIndexedDataGetter<T> implements Getter<TestIndexedData, T> {
     @Override
     public T get(TestIndexedData input) throws IOException {
@@ -87,12 +87,14 @@ public class IndexedFieldTest {
   static final IndexedField<TestIndexedData, Integer> INTEGER_FIELD =
       IndexedField.<TestIndexedData>integerBuilder("TestField").build(getter(), setter());
 
-  static final SearchSpec INTEGER_FIELD_SPEC = INTEGER_FIELD.integer("test");
+  static final IndexedField<TestIndexedData, Integer>.SearchSpec INTEGER_FIELD_SPEC =
+      INTEGER_FIELD.integer("test");
 
   static final IndexedField<TestIndexedData, Iterable<Integer>> ITERABLE_INTEGER_FIELD =
       IndexedField.<TestIndexedData>iterableIntegerBuilder("TestField").build(getter(), setter());
 
-  static final SearchSpec ITERABLE_INTEGER_FIELD_SPEC = ITERABLE_INTEGER_FIELD.integer("test");
+  static final IndexedField<TestIndexedData, Iterable<Integer>>.SearchSpec
+      ITERABLE_INTEGER_FIELD_SPEC = ITERABLE_INTEGER_FIELD.integer("test");
 
   static final IndexedField<TestIndexedData, Iterable<String>> ITERABLE_STRING_FIELD =
       IndexedField.<TestIndexedData>iterableStringBuilder("TestField").build(getter(), setter());
@@ -100,33 +102,39 @@ public class IndexedFieldTest {
   static final IndexedField<TestIndexedData, Long> LONG_FIELD =
       IndexedField.<TestIndexedData>longBuilder("TestField").build(getter(), setter());
 
-  static final SearchSpec LONG_FIELD_SPEC = LONG_FIELD.longSearch("test");
+  static final IndexedField<TestIndexedData, Long>.SearchSpec LONG_FIELD_SPEC =
+      LONG_FIELD.longSearch("test");
 
   static final IndexedField<TestIndexedData, Timestamp> TIMESTAMP_FIELD =
       IndexedField.<TestIndexedData>timestampBuilder("TestField").build(getter(), setter());
 
-  static final SearchSpec TIMESTAMP_FIELD_SPEC = TIMESTAMP_FIELD.timestamp("test");
+  static final IndexedField<TestIndexedData, Timestamp>.SearchSpec TIMESTAMP_FIELD_SPEC =
+      TIMESTAMP_FIELD.timestamp("test");
 
-  static final SearchSpec ITERABLE_STRING_FIELD_SPEC = ITERABLE_STRING_FIELD.fullText("test");
+  static final IndexedField<TestIndexedData, Iterable<String>>.SearchSpec
+      ITERABLE_STRING_FIELD_SPEC = ITERABLE_STRING_FIELD.fullText("test");
 
   static final IndexedField<TestIndexedData, String> STRING_FIELD =
       IndexedField.<TestIndexedData>stringBuilder("TestField").build(getter(), setter());
 
-  static final SearchSpec STRING_FIELD_SPEC = STRING_FIELD.fullText("test");
+  static final IndexedField<TestIndexedData, String>.SearchSpec STRING_FIELD_SPEC =
+      STRING_FIELD.fullText("test");
 
   static final IndexedField<TestIndexedData, Iterable<byte[]>> ITERABLE_STORED_BYTE_FIELD =
       IndexedField.<TestIndexedData>iterableByteArrayBuilder("TestField")
           .stored()
           .build(getter(), setter());
 
-  static final SearchSpec ITERABLE_STORED_BYTE_SPEC = ITERABLE_STORED_BYTE_FIELD.storedOnly("test");
+  static final IndexedField<TestIndexedData, Iterable<byte[]>>.SearchSpec
+      ITERABLE_STORED_BYTE_SPEC = ITERABLE_STORED_BYTE_FIELD.storedOnly("test");
 
   static final IndexedField<TestIndexedData, byte[]> STORED_BYTE_FIELD =
       IndexedField.<TestIndexedData>byteArrayBuilder("TestField")
           .stored()
           .build(getter(), setter());
 
-  static final SearchSpec STORED_BYTE_SPEC = STORED_BYTE_FIELD.storedOnly("test");
+  static final IndexedField<TestIndexedData, byte[]>.SearchSpec STORED_BYTE_SPEC =
+      STORED_BYTE_FIELD.storedOnly("test");
 
   static final IndexedField<TestIndexedData, Entities.Change> STORED_PROTO_FIELD =
       IndexedField.<TestIndexedData, Entities.Change>builder(
@@ -134,7 +142,8 @@ public class IndexedFieldTest {
           .stored()
           .build(getter(), setter(), ChangeProtoConverter.INSTANCE);
 
-  static final SearchSpec STORED_PROTO_FIELD_SPEC = STORED_PROTO_FIELD.storedOnly("test_change");
+  static final IndexedField<TestIndexedData, Entities.Change>.SearchSpec STORED_PROTO_FIELD_SPEC =
+      STORED_PROTO_FIELD.storedOnly("test_change");
 
   static final IndexedField<TestIndexedData, Iterable<Entities.Change>>
       ITERABLE_STORED_PROTO_FIELD =
@@ -143,13 +152,14 @@ public class IndexedFieldTest {
               .stored()
               .build(getter(), setter(), ChangeProtoConverter.INSTANCE);
 
-  static final SearchSpec ITERABLE_PROTO_FIELD_SPEC =
-      ITERABLE_STORED_PROTO_FIELD.storedOnly("test_change");
+  static final IndexedField<TestIndexedData, Iterable<Entities.Change>>.SearchSpec
+      ITERABLE_PROTO_FIELD_SPEC = ITERABLE_STORED_PROTO_FIELD.storedOnly("test_change");
 
   @DataPoints("nonProtoTypes")
-  public static final ImmutableList<Entry<IndexedField.SearchSpec, Serializable>>
+  public static final ImmutableList<
+          Entry<IndexedField<TestIndexedData, ?>.SearchSpec, Serializable>>
       fieldToStoredValue =
-          new ImmutableMap.Builder()
+          new ImmutableMap.Builder<IndexedField<TestIndexedData, ?>.SearchSpec, Serializable>()
               .put(INTEGER_FIELD_SPEC, 123456)
               .put(ITERABLE_INTEGER_FIELD_SPEC, ImmutableList.of(123456, 654321))
               .put(LONG_FIELD_SPEC, 123456L)
@@ -165,9 +175,10 @@ public class IndexedFieldTest {
               .asList();
 
   @DataPoints("protoTypes")
-  public static final ImmutableList<Entry<IndexedField.SearchSpec, Serializable>>
+  public static final ImmutableList<
+          Entry<IndexedField<TestIndexedData, ?>.SearchSpec, Serializable>>
       protoFieldToStoredValue =
-          ImmutableMap.of(
+          ImmutableMap.<IndexedField<TestIndexedData, ?>.SearchSpec, Serializable>of(
                   STORED_PROTO_FIELD_SPEC,
                   createChangeProto(12345),
                   ITERABLE_PROTO_FIELD_SPEC,
@@ -177,9 +188,11 @@ public class IndexedFieldTest {
 
   @Theory
   public void testSetIfPossible(
-      @FromDataPoints("nonProtoTypes") Entry<SearchSpec, Object> fieldToStoredValue) {
+      @FromDataPoints("nonProtoTypes")
+          Entry<IndexedField<TestIndexedData, StoredValue>.SearchSpec, StoredValue>
+              fieldToStoredValue) {
     Object docValue = fieldToStoredValue.getValue();
-    SchemaField searchSpec = fieldToStoredValue.getKey();
+    IndexedField<TestIndexedData, StoredValue>.SearchSpec searchSpec = fieldToStoredValue.getKey();
     StoredValue storedValue = new FakeStoredValue(fieldToStoredValue.getValue());
     TestIndexedData testIndexedData = new TestIndexedData();
     searchSpec.setIfPossible(testIndexedData, storedValue);
@@ -211,9 +224,11 @@ public class IndexedFieldTest {
 
   @Theory
   public void testSetIfPossible_fromProto(
-      @FromDataPoints("protoTypes") Entry<SearchSpec, Object> fieldToStoredValue) {
+      @FromDataPoints("protoTypes")
+          Entry<IndexedField<TestIndexedData, StoredValue>.SearchSpec, StoredValue>
+              fieldToStoredValue) {
     Object docValue = fieldToStoredValue.getValue();
-    SchemaField searchSpec = fieldToStoredValue.getKey();
+    IndexedField<TestIndexedData, StoredValue>.SearchSpec searchSpec = fieldToStoredValue.getKey();
     StoredValue storedValue = new FakeStoredValue(fieldToStoredValue.getValue(), /*isProto=*/ true);
     TestIndexedData testIndexedData = new TestIndexedData();
     searchSpec.setIfPossible(testIndexedData, storedValue);

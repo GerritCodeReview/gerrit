@@ -127,7 +127,7 @@ public class Schema<T> {
 
     public Schema<T> build() {
       checkState(version.isPresent());
-      return new Schema<T>(
+      return new Schema<>(
           version.get(), ImmutableList.copyOf(indexedFields), ImmutableList.copyOf(searchFields));
     }
   }

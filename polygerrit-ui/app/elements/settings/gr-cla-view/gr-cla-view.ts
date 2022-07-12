@@ -90,12 +90,6 @@ export class GrClaView extends LitElement {
         #claNewAgreementsLabel {
           font-weight: var(--font-weight-bold);
         }
-        #claNewAgreement {
-          display: none;
-        }
-        #claNewAgreement.show {
-          display: block;
-        }
         .contributorAgreementButton {
           font-weight: var(--font-weight-bold);
         }

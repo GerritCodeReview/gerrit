@@ -10,7 +10,6 @@ import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../gr-button/gr-button';
 import '../gr-dialog/gr-dialog';
 import '../gr-formatted-text/gr-formatted-text';
-import '../gr-icons/gr-icons';
 import '../gr-overlay/gr-overlay';
 import '../gr-textarea/gr-textarea';
 import '../gr-tooltip-content/gr-tooltip-content';

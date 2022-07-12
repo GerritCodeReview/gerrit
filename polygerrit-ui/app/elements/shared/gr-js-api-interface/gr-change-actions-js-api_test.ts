@@ -144,8 +144,8 @@ suite('gr-change-actions-js-api-interface tests', () => {
       assert.equal(button.parentElement!.getAttribute('title'), 'Yo hint');
       assert.isTrue(button.disabled);
       assert.equal(
-        queryAndAssert<IronIconElement>(button, 'iron-icon').icon,
-        'gr-icons:pupper'
+        queryAndAssert<IronIconElement>(button, '.material-icon').textContent,
+        'pupper'
       );
     });
 

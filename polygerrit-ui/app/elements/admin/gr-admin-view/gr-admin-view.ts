@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../shared/gr-dropdown-list/gr-dropdown-list';
-import '../../shared/gr-icons/gr-icons';
 import '../../shared/gr-page-nav/gr-page-nav';
 import '../gr-admin-group-list/gr-admin-group-list';
 import '../gr-group/gr-group';

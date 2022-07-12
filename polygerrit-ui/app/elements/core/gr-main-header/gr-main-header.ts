@@ -311,6 +311,7 @@ export class GrMainHeader extends LitElement {
         .loginButton,
         .registerButton,
         iron-icon,
+        .material-icon,
         gr-account-dropdown {
           color: var(--header-text-color);
         }
@@ -413,7 +414,7 @@ export class GrMainHeader extends LitElement {
         target="_blank"
         role="button"
       >
-        <iron-icon icon="gr-icons:bug"></iron-icon>
+        <span class="material-icon filled">bug_report</span>
       </a>
     `;
   }
@@ -441,7 +442,7 @@ export class GrMainHeader extends LitElement {
           aria-label="Settings"
           role="button"
         >
-          <iron-icon icon="gr-icons:settings"></iron-icon>
+          <span class="material-icon filled">settings</span>
         </a>
         ${this.renderAccountDropdown()}
       </div>

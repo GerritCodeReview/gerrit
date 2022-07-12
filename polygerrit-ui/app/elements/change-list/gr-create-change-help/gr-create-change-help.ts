@@ -70,7 +70,8 @@ export class GrCreateChangeHelp extends LitElement {
   }
 
   override render() {
-    return html` <div id="graphic">
+    return html`
+      <div id="graphic">
         <div id="circle">
           <iron-icon id="icon" icon="gr-icons:zeroState"></iron-icon>
         </div>
@@ -84,7 +85,8 @@ export class GrCreateChangeHelp extends LitElement {
           the step by step instructions.
         </p>
         <gr-button @click=${this._handleCreateTap}>Create Change</gr-button>
-      </div>`;
+      </div>
+    `;
   }
 
   /**

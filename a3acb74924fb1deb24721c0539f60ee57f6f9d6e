@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73e02434_68e99f69",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-12T07:24:42Z",
+      "side": 1,
+      "message": "Nit: Consider using a css-class so when people add other labels it doesn\u0027t surprise them.",
+      "revId": "a3acb74924fb1deb24721c0539f60ee57f6f9d6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

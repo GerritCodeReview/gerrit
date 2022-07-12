@@ -26,8 +26,6 @@ import {
   BulkActionsModel,
 } from '../../../models/bulk-actions/bulk-actions-model';
 import {subscribe} from '../../lit/subscription-controller';
-import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
-import {queryAll} from '../../../utils/common-util';
 import {classMap} from 'lit/directives/class-map';
 
 const NUMBER_FIXED_COLUMNS = 3;
@@ -364,9 +362,9 @@ export class GrChangeListSection extends LitElement {
   }
 
   toggleChange(index: number) {
-    const items = queryAll<GrChangeListItem>(this, 'gr-change-list-item');
-    if (index >= items.length) throw new Error('invalid item index');
-    items[index].toggleCheckbox();
+    this.bulkActionsModel.toggleSelectedChangeNum(
+      this.changeSection.results[index]._number
+    );
   }
 
   // private but used in test

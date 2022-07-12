@@ -10,7 +10,6 @@ import '../../../styles/shared-styles';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-dropdown/gr-dropdown';
 import '../../shared/gr-dropdown-list/gr-dropdown-list';
-import '../../shared/gr-icons/gr-icons';
 import '../../shared/gr-select/gr-select';
 import '../../shared/revision-info/revision-info';
 import '../gr-comment-api/gr-comment-api';
@@ -119,6 +118,7 @@ import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {ifDefined} from 'lit/directives/if-defined';
 import {when} from 'lit/directives/when';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 const LOADING_BLAME = 'Loading blame...';
 const LOADED_BLAME = 'Blame loaded';
@@ -499,6 +499,7 @@ export class GrDiffView extends LitElement {
   static override get styles() {
     return [
       a11yStyles,
+      iconStyles,
       sharedStyles,
       css`
         :host {
@@ -976,8 +977,8 @@ export class GrDiffView extends LitElement {
                   link=""
                   class="prefsButton"
                   @click=${(e: Event) => this.handlePrefsTap(e)}
-                  ><iron-icon icon="gr-icons:settings"></iron-icon
-                ></gr-button>
+                  ><span class="material-icon filled">settings</span></gr-button
+                >
               </gr-tooltip-content>
             </span>
           </span>

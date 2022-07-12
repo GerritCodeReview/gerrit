@@ -27,16 +27,18 @@ suite('gr-change-star tests', () => {
   test('star visibility states', async () => {
     element.change!.starred = true;
     await element.updateComplete;
-    let icon = queryAndAssert<IronIconElement>(element, 'iron-icon');
+    let icon = queryAndAssert<IronIconElement>(element, '.material-icon');
+    assert.isTrue(icon.classList.contains('filled'));
     assert.isTrue(icon.classList.contains('active'));
-    assert.equal(icon.icon, 'gr-icons:star');
+    assert.equal(icon.innerText, 'grade');
 
     element.change!.starred = false;
     element.requestUpdate('change');
     await element.updateComplete;
-    icon = queryAndAssert<IronIconElement>(element, 'iron-icon');
+    icon = queryAndAssert<IronIconElement>(element, '.material-icon');
+    assert.isFalse(icon.classList.contains('filled'));
     assert.isFalse(icon.classList.contains('active'));
-    assert.equal(icon.icon, 'gr-icons:star-border');
+    assert.equal(icon.innerText, 'grade');
   });
 
   test('starring', async () => {

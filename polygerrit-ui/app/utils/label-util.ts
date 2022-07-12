@@ -248,7 +248,7 @@ export function iconForRequirement(requirement: SubmitRequirementResultInfo) {
 export function iconForStatus(status: SubmitRequirementStatus) {
   switch (status) {
     case SubmitRequirementStatus.SATISFIED:
-      return 'check-circle-filled';
+      return  'check-circle-filled';
     case SubmitRequirementStatus.UNSATISFIED:
       return 'block';
     case SubmitRequirementStatus.OVERRIDDEN:

@@ -3,7 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-icon/iron-icon';
 import '@polymer/iron-input/iron-input';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icons/gr-icons';
@@ -180,7 +179,7 @@ export class GrAccessSection extends LitElement {
                 class=${this.section?.id === GLOBAL_NAME ? 'global' : ''}
                 @click=${this.editReference}
               >
-                <iron-icon id="icon" icon="gr-icons:create"></iron-icon>
+                <span class="material-icon" id="icon">edit</span>
               </gr-button>
             </div>
             <iron-input

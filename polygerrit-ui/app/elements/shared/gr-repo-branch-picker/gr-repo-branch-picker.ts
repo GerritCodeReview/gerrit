@@ -3,7 +3,6 @@
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-icon/iron-icon';
 import '../gr-icons/gr-icons';
 import '../gr-labeled-autocomplete/gr-labeled-autocomplete';
 import {singleDecodeURL} from '../../../utils/url-util';
@@ -22,6 +21,7 @@ import {customElement, property, state, query} from 'lit/decorators';
 import {assertIsDefined} from '../../../utils/common-util';
 import {fire} from '../../../utils/event-util';
 import {BindValueChangeEvent} from '../../../types/events';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 const SUGGESTIONS_LIMIT = 15;
 const REF_PREFIX = 'refs/heads/';
@@ -63,16 +63,17 @@ export class GrRepoBranchPicker extends LitElement {
 
   static override get styles() {
     return [
+      iconStyles,
       sharedStyles,
       css`
         :host {
           display: block;
         }
         gr-labeled-autocomplete,
-        iron-icon {
+        .material-icon {
           display: inline-block;
         }
-        iron-icon {
+        .material-icon {
           margin-bottom: var(--spacing-l);
         }
       `,
@@ -92,7 +93,7 @@ export class GrRepoBranchPicker extends LitElement {
           }}
         >
         </gr-labeled-autocomplete>
-        <iron-icon icon="gr-icons:chevron-right"></iron-icon>
+        <span class="material-icon">cheveron_right</span>
         <gr-labeled-autocomplete
           id="branchInput"
           label="Branch"

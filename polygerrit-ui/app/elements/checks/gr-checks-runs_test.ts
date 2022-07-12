@@ -45,10 +45,7 @@ suite('gr-checks-runs test', () => {
               link=""
               role="switch"
             >
-              <iron-icon
-                class="expandIcon"
-                icon="gr-icons:chevron-left"
-              ></iron-icon>
+              <span class="material-icon expandIcon">chevron_left</span>
             </gr-button>
           </gr-tooltip-content>
         </h2>
@@ -87,6 +84,29 @@ suite('gr-checks-runs test', () => {
             <gr-checks-run></gr-checks-run>
           </div>
         </div>
+      `,
+      {ignoreAttributes: ['tabindex', 'aria-disabled']}
+    );
+  });
+
+
+  test('renders', async () => {
+    element.collapsed = true;
+    await element.updateComplete;
+    assert.equal(element.runs.length, 44);
+    expect(element).shadowDom.to.equal(
+      /* HTML */ `
+        <gr-tooltip-content has-tooltip="" title="Expand runs panel">
+          <gr-button
+            aria-checked="true"
+            aria-label="Expand runs panel"
+            class="expandButton"
+            link=""
+            role="switch"
+          >
+            <span class="material-icon expandIcon">chevron_right</span>
+          </gr-button>
+        </gr-tooltip-content>
       `,
       {ignoreAttributes: ['tabindex', 'aria-disabled']}
     );

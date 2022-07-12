@@ -8,6 +8,7 @@ import {css, html, LitElement} from 'lit';
 import {HovercardMixin} from '../../../mixins/hovercard-mixin/hovercard-mixin';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {LabelInfo} from '../../../api/rest-api';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
 const base = HovercardMixin(LitElement);
@@ -23,6 +24,7 @@ export class GrTriggerVoteHovercard extends base {
   static override get styles() {
     return [
       fontStyles,
+      iconStyles,
       base.styles || [],
       css`
         #container {
@@ -85,7 +87,7 @@ export class GrTriggerVoteHovercard extends base {
     if (!description) return;
     return html`<div class="section description">
       <div class="sectionIcon">
-        <iron-icon icon="gr-icons:description"></iron-icon>
+        <span class="material-icon">description</span>
       </div>
       <div class="sectionContent">
         <gr-formatted-text

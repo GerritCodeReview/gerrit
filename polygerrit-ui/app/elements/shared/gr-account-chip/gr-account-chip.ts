@@ -5,7 +5,6 @@
  */
 import '../gr-account-label/gr-account-label';
 import '../gr-button/gr-button';
-import '../gr-icons/gr-icons';
 import {
   AccountInfo,
   ApprovalInfo,

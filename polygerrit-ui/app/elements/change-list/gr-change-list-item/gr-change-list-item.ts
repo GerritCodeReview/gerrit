@@ -253,6 +253,10 @@ export class GrChangeListItem extends LitElement {
         .cell.selection input {
           vertical-align: middle;
         }
+        .selectionLabel {
+          padding: 10px;
+          margin: -10px;
+        }
         .cell.label {
           font-weight: var(--font-weight-normal);
         }
@@ -302,11 +306,13 @@ export class GrChangeListItem extends LitElement {
           update the current checked state.
           See: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#attr-checked
         -->
-        <input
-          type="checkbox"
-          .checked=${this.checked}
-          @click=${() => this.toggleCheckbox()}
-        />
+        <label class="selectionLabel">
+          <input
+            type="checkbox"
+            .checked=${this.checked}
+            @click=${() => this.toggleCheckbox()}
+          />
+        </label>
       </td>
     `;
   }

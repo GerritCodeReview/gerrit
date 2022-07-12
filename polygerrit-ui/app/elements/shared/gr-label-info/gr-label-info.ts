@@ -9,7 +9,6 @@ import '../../../styles/shared-styles';
 import '../gr-vote-chip/gr-vote-chip';
 import '../gr-account-chip/gr-account-chip';
 import '../gr-button/gr-button';
-import '../gr-icons/gr-icons';
 import '../gr-tooltip-content/gr-tooltip-content';
 import {
   AccountInfo,

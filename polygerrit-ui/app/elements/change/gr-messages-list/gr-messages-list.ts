@@ -5,7 +5,6 @@
  */
 import '@polymer/paper-toggle-button/paper-toggle-button';
 import '../../shared/gr-button/gr-button';
-import '../../shared/gr-icons/gr-icons';
 import '../gr-message/gr-message';
 import '../../../styles/gr-paper-styles';
 import {parseDate} from '../../../utils/date-util';

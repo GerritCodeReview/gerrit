@@ -256,7 +256,7 @@ export class GrChangeListItem extends LitElement {
         .cell.label {
           font-weight: var(--font-weight-normal);
         }
-        .cell.label iron-icon {
+        .cell.label .material-icon {
           vertical-align: top;
         }
         /* Requirement child needs whole area */

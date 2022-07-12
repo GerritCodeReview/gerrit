@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../gr-button/gr-button';
-import '../gr-icons/gr-icons';
 import '../gr-limited-text/gr-limited-text';
 import {fireEvent} from '../../../utils/event-util';
 import {sharedStyles} from '../../../styles/shared-styles';

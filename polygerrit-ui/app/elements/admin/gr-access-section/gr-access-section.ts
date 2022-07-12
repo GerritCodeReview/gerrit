@@ -5,7 +5,6 @@
  */
 import '@polymer/iron-input/iron-input';
 import '../../shared/gr-button/gr-button';
-import '../../shared/gr-icons/gr-icons';
 import '../gr-permission/gr-permission';
 import {
   AccessPermissions,

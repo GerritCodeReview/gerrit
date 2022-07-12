@@ -3,7 +3,6 @@
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../gr-icons/gr-icons';
 import '../gr-labeled-autocomplete/gr-labeled-autocomplete';
 import {singleDecodeURL} from '../../../utils/url-util';
 import {AutocompleteQuery} from '../gr-autocomplete/gr-autocomplete';

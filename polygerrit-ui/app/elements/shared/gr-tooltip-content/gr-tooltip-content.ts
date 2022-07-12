@@ -3,7 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../gr-icons/gr-icons';
 import '../gr-tooltip/gr-tooltip';
 import {getRootElement} from '../../../scripts/rootElement';
 import {GrTooltip} from '../gr-tooltip/gr-tooltip';

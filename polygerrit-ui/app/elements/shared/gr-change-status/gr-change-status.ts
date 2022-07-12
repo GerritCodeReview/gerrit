@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../gr-tooltip-content/gr-tooltip-content';
-import '../gr-icons/gr-icons';
 import '../../../styles/shared-styles';
 import {
   GeneratedWebLink,

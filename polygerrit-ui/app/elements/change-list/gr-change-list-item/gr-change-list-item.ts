@@ -135,6 +135,11 @@ export class GrChangeListItem extends LitElement {
           'change-list-item-cell'
         );
       });
+    this.addEventListener('click', this.onItemClick);
+  }
+
+  override disconnectedCallback() {
+    this.removeEventListener('click', this.onItemClick);
   }
 
   override willUpdate(changedProperties: PropertyValues<this>) {
@@ -310,7 +315,7 @@ export class GrChangeListItem extends LitElement {
           <input
             type="checkbox"
             .checked=${this.checked}
-            @click=${() => this.toggleCheckbox()}
+            @click=${this.toggleCheckbox}
           />
         </label>
       </td>
@@ -351,7 +356,7 @@ export class GrChangeListItem extends LitElement {
         <a
           title=${ifDefined(this.change?.subject)}
           href=${changeUrl}
-          @click=${() => this.handleChangeClick()}
+          @click=${this.handleChangeClick}
         >
           <div class="container">
             <div class="content">${this.change?.subject}</div>
@@ -626,6 +631,18 @@ export class GrChangeListItem extends LitElement {
     `;
   }
 
+  private readonly onItemClick = (e: Event) => {
+    // Check the path to verify that the item row itself was directly clicked.
+    // This will allow users using screen readers like VoiceOver to select an
+    // item with j/k and go to the selected change with Ctrl+Option+Space, but
+    // not interfere with clicks on interactive elements within the
+    // gr-change-list-item such as account links, which will bubble through
+    // without triggering this extra navigation.
+    if (this.change && e.composedPath()[0] === this) {
+      GerritNav.navigateToChange(this.change);
+    }
+  };
+
   private changeStatuses() {
     if (!this.change) return [];
     return changeStatuses(this.change);
@@ -682,13 +699,14 @@ export class GrChangeListItem extends LitElement {
     return str;
   }
 
-  toggleCheckbox() {
+  private toggleCheckbox(e: Event) {
+    // Stop propagation so that the checkbox click does not become an item
+    // click and open the change.
+    // Do not prevent default or else checkbox will not be visually updated.
+    e.stopPropagation();
     assertIsDefined(this.change, 'change');
     this.checked = !this.checked;
-    if (this.checked)
-      this.getBulkActionsModel().addSelectedChangeNum(this.change._number);
-    else
-      this.getBulkActionsModel().removeSelectedChangeNum(this.change._number);
+    this.getBulkActionsModel().toggleSelectedChangeNum(this.change._number);
   }
 
   // private but used in test

@@ -44,7 +44,7 @@ suite('bulk actions model test', () => {
     assert.isTrue(detailedActionsStub.notCalled);
   });
 
-  test('add changes before sync', () => {
+  test('add changes before sync does not add them', () => {
     const c1 = createChange();
     c1._number = 1 as NumericChangeId;
     const c2 = createChange();
@@ -93,6 +93,41 @@ suite('bulk actions model test', () => {
 
     bulkActionsModel.removeSelectedChangeNum(c2._number);
     assert.isEmpty(bulkActionsModel.getState().selectedChangeNums);
+  });
+
+  test('toggle selected changes', async () => {
+    const change1 = createChange();
+    change1._number = 1 as NumericChangeId;
+    const change2 = createChange();
+    change2._number = 2 as NumericChangeId;
+    bulkActionsModel.sync([change1, change2]);
+
+    // toggle first change on
+    bulkActionsModel.toggleSelectedChangeNum(change1._number);
+
+    let selectedChangeNums = await waitUntilObserved(
+      bulkActionsModel.selectedChangeNums$,
+      selectedChangeNums => selectedChangeNums.includes(change1._number)
+    );
+    assert.sameMembers(selectedChangeNums, [change1._number]);
+
+    // toggle second change on
+    bulkActionsModel.toggleSelectedChangeNum(change2._number);
+
+    selectedChangeNums = await waitUntilObserved(
+      bulkActionsModel.selectedChangeNums$,
+      selectedChangeNums => selectedChangeNums.includes(change2._number)
+    );
+    assert.sameMembers(selectedChangeNums, [change1._number, change2._number]);
+
+    // toggle first change off
+    bulkActionsModel.toggleSelectedChangeNum(change1._number);
+
+    selectedChangeNums = await waitUntilObserved(
+      bulkActionsModel.selectedChangeNums$,
+      selectedChangeNums => !selectedChangeNums.includes(change1._number)
+    );
+    assert.sameMembers(selectedChangeNums, [change2._number]);
   });
 
   test('clears selected change numbers', async () => {

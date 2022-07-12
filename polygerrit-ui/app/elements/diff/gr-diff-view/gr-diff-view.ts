@@ -10,7 +10,6 @@ import '../../../styles/shared-styles';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-dropdown/gr-dropdown';
 import '../../shared/gr-dropdown-list/gr-dropdown-list';
-import '../../shared/gr-icons/gr-icons';
 import '../../shared/gr-select/gr-select';
 import '../../shared/revision-info/revision-info';
 import '../gr-comment-api/gr-comment-api';

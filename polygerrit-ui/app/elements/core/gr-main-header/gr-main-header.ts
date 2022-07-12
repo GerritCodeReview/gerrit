@@ -29,6 +29,7 @@ import {customElement, property, state} from 'lit/decorators';
 import {fireEvent} from '../../../utils/event-util';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 type MainHeaderLink = RequireProperties<DropdownLink, 'url' | 'name'>;
 
@@ -185,6 +186,7 @@ export class GrMainHeader extends LitElement {
 
   static override get styles() {
     return [
+      iconStyles,
       sharedStyles,
       css`
         :host {
@@ -311,6 +313,7 @@ export class GrMainHeader extends LitElement {
         .loginButton,
         .registerButton,
         iron-icon,
+        .material-icon,
         gr-account-dropdown {
           color: var(--header-text-color);
         }
@@ -413,7 +416,7 @@ export class GrMainHeader extends LitElement {
         target="_blank"
         role="button"
       >
-        <iron-icon icon="gr-icons:bug"></iron-icon>
+        <span class="material-icon filled">bug_report</span>
       </a>
     `;
   }
@@ -441,7 +444,7 @@ export class GrMainHeader extends LitElement {
           aria-label="Settings"
           role="button"
         >
-          <iron-icon icon="gr-icons:settings"></iron-icon>
+          <span class="material-icon filled">settings</span>
         </a>
         ${this.renderAccountDropdown()}
       </div>

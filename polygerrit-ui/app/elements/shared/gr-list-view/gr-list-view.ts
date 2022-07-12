@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '@polymer/iron-input/iron-input';
-import '@polymer/iron-icon/iron-icon';
 import '../gr-button/gr-button';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {page} from '../../../utils/page-wrapper-utils';
@@ -14,6 +13,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {BindValueChangeEvent} from '../../../types/events';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 const REQUEST_DEBOUNCE_INTERVAL_MS = 200;
 
@@ -55,6 +55,7 @@ export class GrListView extends LitElement {
 
   static override get styles() {
     return [
+      iconStyles,
       sharedStyles,
       css`
         #filter {
@@ -88,13 +89,12 @@ export class GrListView extends LitElement {
           margin-right: 20px;
         }
         nav,
-        iron-icon {
+        .material-icon {
           color: var(--deemphasized-text-color);
         }
-        iron-icon {
-          height: 1.85rem;
+        .material-icon {
+          font-size: 1.85rem;
           margin-left: 16px;
-          width: 1.85rem;
         }
       `,
     ];
@@ -137,7 +137,7 @@ export class GrListView extends LitElement {
           )}
           ?hidden=${this.loading || this.offset === 0}
         >
-          <iron-icon icon="gr-icons:chevron-left"></iron-icon>
+          <span class="material-icon">chevron_left</span>
         </a>
         <a
           id="nextArrow"
@@ -150,7 +150,7 @@ export class GrListView extends LitElement {
           )}
           ?hidden=${this.hideNextArrow(this.loading, this.items)}
         >
-          <iron-icon icon="gr-icons:chevron-right"></iron-icon>
+          <span class="material-icon">chevron_right</span>
         </a>
       </nav>
     `;

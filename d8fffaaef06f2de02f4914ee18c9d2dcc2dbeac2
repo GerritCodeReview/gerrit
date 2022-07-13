@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a31850cd_48408c8a",
+        "filename": "java/com/google/gerrit/server/restapi/change/PreviewFix.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-07-13T05:41:04Z",
+      "side": 1,
+      "message": "Thanks for this suggestion.\nHave tried to move all the common codes outside in PreviewFix class. Please check if this looks good to you.",
+      "parentUuid": "6a27dc19_339c55aa",
+      "range": {
+        "startLine": 153,
+        "startChar": 10,
+        "endLine": 153,
+        "endChar": 16
+      },
+      "revId": "d8fffaaef06f2de02f4914ee18c9d2dcc2dbeac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "17b54fec_02d57df0",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-07-13T03:56:50Z",
       "side": 1,
       "message": "Not only for Stored fixes now?\n\nAlso, considering this is in a PreviewFix class, you could probably shorten the name to something like `previewSingleFile` (and the above method to `previewAllFiles`)",
+      "range": {
+        "startLine": 188,
+        "startChar": 33,
+        "endLine": 188,
+        "endChar": 39
+      },
+      "revId": "d8fffaaef06f2de02f4914ee18c9d2dcc2dbeac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6cf529f_308085cd",
+        "filename": "java/com/google/gerrit/server/restapi/change/PreviewFix.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-07-13T05:41:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17b54fec_02d57df0",
       "range": {
         "startLine": 188,
         "startChar": 33,

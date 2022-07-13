@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "707e56e5_3dbea50a",
+        "filename": "java/com/google/gerrit/sshd/commands/PatchSetParser.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-07-13T20:06:24Z",
+      "side": 1,
+      "message": "I am concerned that this API is now setup for \"failure\", i.e. it is possible to pass in a ProjectState argument which is unrelated to (not the same as) the Project.NameKey inside the BranchNameKey argument. Previously this miss match was not possible.",
+      "revId": "ce841d5b56919ff1d632e285307fa7564fa254ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

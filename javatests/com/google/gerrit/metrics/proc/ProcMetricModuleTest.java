@@ -17,6 +17,7 @@ package com.google.gerrit.metrics.proc;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static org.mockito.Mockito.mock;
 
 import com.codahale.metrics.Counter;
 import com.codahale.metrics.Gauge;
@@ -32,6 +33,8 @@ import com.google.gerrit.metrics.Description.FieldOrdering;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker;
+import com.google.gerrit.server.config.MetricsConfig;
+import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -179,7 +182,16 @@ public class ProcMetricModuleTest {
 
   @Before
   public void setup() {
-    Injector injector = Guice.createInjector(new DropWizardMetricMaker.ApiModule());
+    Injector injector =
+        Guice.createInjector(
+            new AbstractModule() {
+              @Override
+              protected void configure() {
+                MetricsConfig configMock = mock(MetricsConfig.class);
+                bind(MetricsConfig.class).toInstance(configMock);
+                install(new DropWizardMetricMaker.ApiModule());
+              }
+            });
 
     LifecycleManager mgr = new LifecycleManager();
     mgr.add(injector);

@@ -18,8 +18,11 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.metrics.dropwizard.MetricResource.METRIC_KIND;
 import static com.google.gerrit.server.config.ConfigResource.CONFIG_KIND;
 
+import com.codahale.metrics.Histogram;
 import com.codahale.metrics.Metric;
 import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.Reservoir;
+import com.codahale.metrics.Timer;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -49,6 +52,7 @@ import com.google.gerrit.metrics.proc.JGitMetricModule;
 import com.google.gerrit.metrics.proc.ProcMetricModule;
 import com.google.gerrit.server.cache.CacheMetrics;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Scopes;
 import com.google.inject.Singleton;
 import java.util.Map;
@@ -70,6 +74,7 @@ public class DropWizardMetricMaker extends MetricMaker {
       bind(MetricRegistry.class).in(Scopes.SINGLETON);
       bind(DropWizardMetricMaker.class).in(Scopes.SINGLETON);
       bind(MetricMaker.class).to(DropWizardMetricMaker.class);
+      bind(Reservoir.class).toProvider(DropWizardReservoirProvider.class);
 
       install(new ProcMetricModule());
       install(new JGitMetricModule());
@@ -79,6 +84,7 @@ public class DropWizardMetricMaker extends MetricMaker {
   public static class RestModule extends RestApiModule {
     @Override
     protected void configure() {
+      bind(Reservoir.class).toProvider(DropWizardReservoirProvider.class);
       DynamicMap.mapOf(binder(), METRIC_KIND);
       child(CONFIG_KIND, "metrics").to(MetricsCollection.class);
       get(METRIC_KIND).to(GetMetric.class);
@@ -89,12 +95,14 @@ public class DropWizardMetricMaker extends MetricMaker {
   private final MetricRegistry registry;
   private final Map<String, BucketedMetric> bucketed;
   private final Map<String, ImmutableMap<String, String>> descriptions;
+  private final Provider<Reservoir> dataStreamReservoir;
 
   @Inject
-  DropWizardMetricMaker(MetricRegistry registry) {
+  DropWizardMetricMaker(MetricRegistry registry, Provider<Reservoir> dataStreamReservoir) {
     this.registry = registry;
     this.bucketed = new ConcurrentHashMap<>();
     this.descriptions = new ConcurrentHashMap<>();
+    this.dataStreamReservoir = dataStreamReservoir;
   }
 
   Iterable<String> getMetricNames() {
@@ -222,7 +230,7 @@ public class DropWizardMetricMaker extends MetricMaker {
   }
 
   TimerImpl newTimerImpl(String name) {
-    return new TimerImpl(name, registry.timer(name));
+    return new TimerImpl(name, registry.timer(name, () -> new Timer(dataStreamReservoir.get())));
   }
 
   @Override
@@ -271,7 +279,8 @@ public class DropWizardMetricMaker extends MetricMaker {
   }
 
   HistogramImpl newHistogramImpl(String name) {
-    return new HistogramImpl(name, registry.histogram(name));
+    return new HistogramImpl(
+        name, registry.histogram(name, () -> new Histogram(dataStreamReservoir.get())));
   }
 
   @Override

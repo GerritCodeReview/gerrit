@@ -142,6 +142,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1239a3e_d94c30ea",
+        "filename": "java/com/google/gerrit/server/restapi/change/PreviewProvidedFix.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-07-13T03:56:50Z",
+      "side": 1,
+      "message": "Oh yeah, I didn\u0027t see the other use when I looked. Fine to keep the way you have it. Thanks!",
+      "parentUuid": "10ed4ed4_793957fa",
+      "range": {
+        "startLine": 66,
+        "startChar": 16,
+        "endLine": 66,
+        "endChar": 21
+      },
+      "revId": "ae505f44cc6c1f73fb3b68bb3629179002751b3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d72c8e65_862403e2",
@@ -189,6 +213,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "308425e6_343f4026",
+        "filename": "java/com/google/gerrit/server/restapi/change/PreviewStoredFix.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-07-13T03:56:50Z",
+      "side": 1,
+      "message": "Yes, with the refactoring you need to keep it.",
+      "parentUuid": "7a82d89b_ec9d532d",
+      "range": {
+        "startLine": 88,
+        "startChar": 30,
+        "endLine": 88,
+        "endChar": 41
+      },
+      "revId": "ae505f44cc6c1f73fb3b68bb3629179002751b3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "96d03627_069583b3",
@@ -226,6 +274,30 @@
       "side": 1,
       "message": "Yes, in \u0027Apply Provided Fix\u0027 change (https://gerrit-review.googlesource.com/c/gerrit/+/334040), we hadn\u0027t added this test. It was added later in https://gerrit-review.googlesource.com/c/gerrit/+/340194. Thanks to Edwin Kempin for pointing this.",
       "parentUuid": "96d03627_069583b3",
+      "range": {
+        "startLine": 153,
+        "startChar": 10,
+        "endLine": 153,
+        "endChar": 62
+      },
+      "revId": "ae505f44cc6c1f73fb3b68bb3629179002751b3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "632ab5f4_5b1664b2",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/binding/ChangesRestApiBindingsIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-07-13T03:56:50Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "2287435f_e9a11781",
       "range": {
         "startLine": 153,
         "startChar": 10,

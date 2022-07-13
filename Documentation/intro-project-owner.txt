@@ -374,7 +374,7 @@ link:config-labels.html#label_Verified[Verified] label on the change.
 There are several solutions for integrating continuous integration
 systems. The most commonly used are:
 
-- link:https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger[
+- link:https://plugins.jenkins.io/gerrit-trigger/[
   Gerrit Trigger,role=external,window=_blank] plugin for link:http://jenkins-ci.org/[Jenkins,role=external,window=_blank]
 
 - link:http://www.mediawiki.org/wiki/Continuous_integration/Zuul[

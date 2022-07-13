@@ -130,7 +130,7 @@ accepted. The default Gerrit workflow requires two checks:
 In general, the *Code-Review* check requires an individual to look at the code,
 while the *Verified* check is done by an automated build server, through a
 mechanism such as the
-link:https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger[Gerrit Trigger
+link:https://plugins.jenkins.io/gerrit-trigger/[Gerrit Trigger
 Jenkins Plugin,role=external,window=_blank].
 
 IMPORTANT: The Code-Review and Verified checks require different permissions
@@ -253,7 +253,7 @@ NOTE: Remember that this walkthrough uses Gerrit's default workflow. Projects
 can add custom checks or even remove the Verified check entirely.
 
 Verification is typically an automated process using the
-link:https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger[Gerrit Trigger Jenkins Plugin,role=external,window=_blank]
+link:https://plugins.jenkins.io/gerrit-trigger/[Gerrit Trigger Jenkins Plugin,role=external,window=_blank]
 or a similar mechanism. However, there are still times when a change requires
 manual verification, or a reviewer needs to check how or if a change works.
 To accommodate these and other similar circumstances, Gerrit exposes each change

@@ -248,9 +248,18 @@ box will be either the lowest or highest score in the permissible range.
 === `label.Label-Name.function (deprecated)`
 
 Label functions dictate the rules for requiring certain label votes before a
-change is allowed for submission. Label functions are **deprecated**, favour
-using link:config-submit-requirements.html[submit requirements] instead,
-except if it's needed to set the value to `PatchSetLock`.
+change is allowed for submission. Label functions are **deprecated** and updates
+that set `function` to a blocking value {`MaxWithBlock`, `MaxNoBlock`,
+`AnyWithBlock`} will be rejected. Existing label function definitions can only
+be updated to {`NoBlock`, `NoOp`, `PatchSetLock`}. New label defintions should
+also explicitly set the `function` attribute to a non-blocking value since the
+default is `MaxWithBlock`.
+
+If your project has a
+blocking label function, we highly encourage you to change it to `NoBlock` and
+add a submit-requirement for the same label. See the
+link:config-submit-requirements.html#code-review-example[submit-requirements
+documentation] for more details.
 
 The name of a function for evaluating multiple votes for a label.  This
 function is only applied if the default submit rule is used for a label.

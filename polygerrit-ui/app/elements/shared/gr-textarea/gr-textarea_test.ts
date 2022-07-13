@@ -26,6 +26,8 @@ suite('gr-textarea tests', () => {
         <span id="caratSpan"> </span>
         <gr-autocomplete-dropdown
           id="emojiSuggestions"
+          horizontal-align="left"
+          vertical-align="top"
           is-hidden=""
           style="position: fixed; top: 150px; left: 392.5px; box-sizing: border-box; max-height: 300px; max-width: 785px;"
         >

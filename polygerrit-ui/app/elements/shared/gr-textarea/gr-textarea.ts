@@ -215,7 +215,10 @@ export class GrTextarea extends LitElement {
         id="emojiSuggestions"
         .suggestions=${this.suggestions}
         .index=${this.index}
+        .horizontalOffset=${20}
         .verticalOffset=${20}
+        vertical-align="top"
+        horizontal-align="left"
         @dropdown-closed=${this.resetEmojiDropdown}
         @item-selected=${this.handleEmojiSelect}
       >

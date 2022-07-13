@@ -68,6 +68,24 @@
       "parentUuid": "794d0957_8d479783",
       "revId": "a793805549415dbbdaf125296a8e4b884cb2def2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2aac100_bf9a68ad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010822
+      },
+      "writtenOn": "2022-07-13T23:32:37Z",
+      "side": 1,
+      "message": "oh, now I understand. I was simply trying to reproduce your EOF issue and couldn\u0027t.\n\nold Jython starts but prints an error.\n\nJython 2.5.2 has one small advantage - it does not need \"Lib\" directory to be linked in (even the doc says it is optional) and therefore easier to set up. For Jython 2.7 we should probably provide a better instructions (setting python.home, maybe?)\n\nBut since global variables get printed anyway, what about we get rid of printing this stuff in that file at all?",
+      "parentUuid": "3cf99bd3_21a27433",
+      "revId": "a793805549415dbbdaf125296a8e4b884cb2def2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

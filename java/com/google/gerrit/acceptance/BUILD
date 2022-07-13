@@ -134,7 +134,10 @@ java_library(
     ),
     visibility = ["//visibility:public"],
     exports = exported_deps,
-    deps = DEPLOY_ENV + exported_deps,
+    deps = DEPLOY_ENV + exported_deps + [
+        "@dropwizard-core//jar",
+        "//java/com/google/gerrit/metrics/dropwizard",
+    ],
 )
 
 java_library(

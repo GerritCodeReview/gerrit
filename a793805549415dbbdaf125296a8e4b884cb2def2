@@ -50,6 +50,24 @@
       "message": "Changed my mind: I have just started \n\n /usr/local/openjdk11/bin/java -jar ../gerrit-3.6.1.war daemon --console-log -s\n\nwith Jython 2.7.0 on my FreeBSD and it works without problems.\n\nIn fact, both version of print work:\n\n[2022-07-13T15:04:43.610+02:00] [main] INFO  com.google.gerrit.pgm.Daemon : Gerrit Code Review 3.6.1 ready\n[2022-07-13T15:04:50.136+02:00] [main] INFO  com.google.gerrit.pgm.JythonShell : Jython shell instance created.\n\"Shell\" is \"com.google.gerrit.pgm.JythonShell@2542d320\"\n\"m\" is \"com.google.gerrit.lifecycle.LifecycleManager@7f5179be\"\n\"d\" is \"com.google.gerrit.pgm.Daemon@2f84848e\"\n\"Shell\" is \"com.google.gerrit.pgm.JythonShell@2542d320\"\n\"print_help\" is \"\u003cfunction print_help at 0x2\u003e\"\n\"d\" is \"com.google.gerrit.pgm.Daemon@2f84848e\"\n\"print_function\" is \"_Feature((2, 6, 0, \u0027alpha\u0027, 2), (3, 0, 0, \u0027alpha\u0027, 0), 65536)\"\n\"m\" is \"com.google.gerrit.lifecycle.LifecycleManager@7f5179be\"\n\nWelcome to the Gerrit Inspector\nEnter help() to see the above again, EOF to quit and stop Gerrit\n[2022-07-13T15:04:51.338+02:00] [main] INFO  com.google.gerrit.pgm.JythonShell : User initialization file /usr/home/saper/.gerritcodereview/Startup.py is not found or not executable\nJython 2.7.0 (default:9987c746f838, Apr 29 2015, 02:25:11) \n[OpenJDK 64-Bit Server VM (OpenJDK BSD Porting Team)] on java11.0.14 running for Gerrit 3.6.1\n\u003e\u003e\u003e \n\u003e\u003e\u003e \n\u003e\u003e\u003e print()\n()\n\u003e\u003e\u003e print \"a\"\na\n\u003e\u003e\u003e print(\"a\")\na\n\u003e\u003e\u003e from __future__ import print_function\n\u003e\u003e\u003e \n\n\n",
       "revId": "a793805549415dbbdaf125296a8e4b884cb2def2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cf99bd3_21a27433",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-07-13T19:52:09Z",
+      "side": 1,
+      "message": "I had the error when investigating another Jython issue.  I have encountered the \u0027future feature print_function is not defined\u0027 while using Jython 2.5.3: https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d16068#c1\n\nI guess I can repurpose this change to document the inspector requires Jython 2.7+ ?",
+      "parentUuid": "794d0957_8d479783",
+      "revId": "a793805549415dbbdaf125296a8e4b884cb2def2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

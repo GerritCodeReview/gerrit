@@ -3939,6 +3939,26 @@ If set to true, log files are rotated daily at midnight (GMT).
 +
 Defaults to true.
 
+[[metrics]]
+=== Section metrics
+
+[[metrics.reservoir]]metrics.reservoir::
++
+The type of data reservoir used by the metrics system to calculate the percentile
+values for timers and histograms.
+It can be set to one of the following values:
++
+* ExponentiallyDecaying: An exponentially-decaying random reservoir based on Cormode
+  et al's forward-decaying priority reservoir sampling method to produce a statistically
+  representative sampling reservoir, exponentially biased towards newer entries.
+* SlidingTimeWindowArray: A sliding window that stores only the measurements made in the last
+  window.
+* SlidingTimeWindow: A sliding window that stores only the measurements made in the last
+  window.
+* SlidingWindow: A sliding window that stores only the last measurements.
+* Uniform: A random sampling reservoir that uses Vitter's Algorithm R to produce a statistically
+  representative sample.
+
 [[mimetype]]
 === Section mimetype
 

@@ -20,7 +20,7 @@ import org.junit.Test;
 
 public class DropWizardMetricMakerTest {
   DropWizardMetricMaker metrics =
-      new DropWizardMetricMaker(null /* MetricRegistry unused in tests */);
+      new DropWizardMetricMaker(null, null /* MetricRegistry unused in tests */);
 
   @Test
   public void shouldSanitizeUnwantedChars() throws Exception {

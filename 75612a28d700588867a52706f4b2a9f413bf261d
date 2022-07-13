@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bd64ab1_4f5c78c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-07-13T19:56:31Z",
+      "side": 1,
+      "message": "Thank you!!",
+      "revId": "75612a28d700588867a52706f4b2a9f413bf261d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7ab774d_955342ae",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-07-13T19:56:31Z",
+      "side": 1,
+      "message": "Nit: I think `undefined` would be a better return value than `\u0027\u0027` and then we would check `\u003d\u003d\u003d undefined` here. But feel free to just submit as is.",
+      "revId": "75612a28d700588867a52706f4b2a9f413bf261d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

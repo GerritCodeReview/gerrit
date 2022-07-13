@@ -16,11 +16,13 @@ package com.google.gerrit.acceptance;
 
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.codahale.metrics.Reservoir;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.metrics.dropwizard.DropWizardReservoirProvider;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
@@ -64,6 +66,7 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
     }
 
     bind(MetricMaker.class).to(TestMetricMaker.class);
+    bind(Reservoir.class).toProvider(DropWizardReservoirProvider.class);
 
     listener().to(CreateSchema.class);
 

@@ -240,6 +240,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c8be3767_88507a0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-13T16:12:38Z",
+      "side": 1,
+      "message": "I misused the word \"pgm\" here. I probably only meant \"some logic to do the migration\". That would ideally run with the next schema migration to do the upgrades for next gerrit releases.\n\nI don\u0027t think that should become a pgm. This migration should be executed only once on server upgrades only.",
+      "parentUuid": "68c48759_807c16df",
+      "range": {
+        "startLine": 31,
+        "startChar": 15,
+        "endLine": 31,
+        "endChar": 19
+      },
+      "revId": "bb2c4e7d256c289775034f3548ec04c881aa8acc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "9d2d0a0a_7e285511",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -313,6 +337,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "02b8e2cb_1ed562f0",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-13T16:12:38Z",
+      "side": 1,
+      "message": "Right. I misused the word \"pgm\" here. That should not become a pgm, but rather should only run with a schema upgrade.\n\nI removed \"pgm\".",
+      "parentUuid": "c5b810ff_81cd0320",
+      "range": {
+        "startLine": 38,
+        "startChar": 3,
+        "endLine": 38,
+        "endChar": 8
+      },
+      "revId": "bb2c4e7d256c289775034f3548ec04c881aa8acc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c16e89f0_47b996f4",
@@ -326,6 +374,30 @@
       "writtenOn": "2022-06-23T16:00:38Z",
       "side": 1,
       "message": "nit: inline the single-use variable\n\n if (anyProjectHasProlog(allProjects)) {",
+      "range": {
+        "startLine": 76,
+        "startChar": 8,
+        "endLine": 76,
+        "endChar": 17
+      },
+      "revId": "bb2c4e7d256c289775034f3548ec04c881aa8acc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94db974d_c006f86d",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-13T16:12:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c16e89f0_47b996f4",
       "range": {
         "startLine": 76,
         "startChar": 8,
@@ -359,6 +431,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "423b21ec_a255c0d2",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-13T16:12:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "865726ff_ed272855",
+      "range": {
+        "startLine": 78,
+        "startChar": 42,
+        "endLine": 78,
+        "endChar": 66
+      },
+      "revId": "bb2c4e7d256c289775034f3548ec04c881aa8acc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d4c48eac_b3135b1a",
@@ -382,6 +478,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2590d787_6eaac8d1",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-13T16:12:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4c48eac_b3135b1a",
+      "range": {
+        "startLine": 82,
+        "startChar": 35,
+        "endLine": 82,
+        "endChar": 49
+      },
+      "revId": "bb2c4e7d256c289775034f3548ec04c881aa8acc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "61fdc282_a9a29f0c",
@@ -395,6 +515,30 @@
       "writtenOn": "2022-06-23T16:00:38Z",
       "side": 1,
       "message": "Since you\u0027re not catching the exceptions here, this will stop and block on the first project with any problems always. Is that the behavior you want?",
+      "range": {
+        "startLine": 83,
+        "startChar": 6,
+        "endLine": 83,
+        "endChar": 32
+      },
+      "revId": "bb2c4e7d256c289775034f3548ec04c881aa8acc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f2f9330_a3af88b3",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-13T16:12:38Z",
+      "side": 1,
+      "message": "Oh, that was not intended. Thanks for catching.\n\nDone.",
+      "parentUuid": "61fdc282_a9a29f0c",
       "range": {
         "startLine": 83,
         "startChar": 6,

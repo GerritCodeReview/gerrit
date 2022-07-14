@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23ad72be_cb8237e5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-14T14:13:35Z",
+      "side": 1,
+      "message": "inaccurate now?",
+      "range": {
+        "startLine": 238,
+        "startChar": 32,
+        "endLine": 239,
+        "endChar": 26
+      },
+      "revId": "bd75088aa23672d2074820747980bc93a3b95b98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69073011_164311a7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-14T14:13:35Z",
+      "side": 1,
+      "message": "I think this is conceptually a single map of icon data rather than 3 maps. Consider combining them together and match the action type:\n```\nPick\u003cUIActionInfo, \u0027icon\u0027 | \u0027filled\u0027 | \u0027custom\u0027\u003e\n```\n\nSyncing with UIActionInfo would also simplify your logic down at line 2140:\n```\n.map(action \u003d\u003e ({\n  ...action,\n  ...ACTION_ICON_DATA.get(action.__key) ?? {}\n}))\n```",
+      "revId": "bd75088aa23672d2074820747980bc93a3b95b98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a92a9d75_bc7d86cc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 818,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-14T14:13:35Z",
+      "side": 1,
+      "message": "all 3 cases should be tested, but it looks like only the first one is:\n- material icon\n- material icon filled\n- custom",
+      "range": {
+        "startLine": 807,
+        "startChar": 0,
+        "endLine": 818,
+        "endChar": 0
+      },
+      "revId": "bd75088aa23672d2074820747980bc93a3b95b98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "729e4941_95ce46aa",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 2144,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-14T14:13:35Z",
+      "side": 1,
+      "message": "this is a weird pattern (modifying an object in-place and then returning it as part of `.map`. It would be safer if this was returning a copy with icon data populated. Also, `Map.get()` will return undefined if it is not present, so you don\u0027t need `.has()` checks. Rough idea:\n```\n.map(action \u003d\u003e ({\n  ...action,\n  icon: ACTIONS_WITH_ICONS.get(action.__key),\n  filled: FILLED_ICONS.has(action.__key as ChangeActions),\n  customIcon: ACTIONS_WITH_CUSTOM_ICON.get(action.__key),\n}))\n```\n\nAlso see other comment about merging your 3 maps and just spreading it in 1 line, that would be even better.",
+      "range": {
+        "startLine": 2137,
+        "startChar": 8,
+        "endLine": 2144,
+        "endChar": 22
+      },
+      "revId": "bd75088aa23672d2074820747980bc93a3b95b98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c1370b8_c654ec8f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-actions-js-api.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-14T14:13:35Z",
+      "side": 1,
+      "message": "makes more sense as a boolean to me, since the type as written isn\u0027t clear that icon and customIcon can\u0027t both be set",
+      "range": {
+        "startLine": 26,
+        "startChar": 15,
+        "endLine": 26,
+        "endChar": 21
+      },
+      "revId": "bd75088aa23672d2074820747980bc93a3b95b98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -97,6 +97,11 @@ export class GrFileStatus extends LitElement {
         div.status.U {
           background-color: var(--file-status-unchanged);
         }
+        .size-16 {
+          font-size: 16px;
+          position: relative;
+          top: 2px;
+        }
       `,
     ];
   }
@@ -121,11 +126,9 @@ export class GrFileStatus extends LitElement {
   private renderNewlyChanged() {
     if (!this.newlyChanged) return;
     return html`<gr-tooltip-content title=${this.computeLabel()} has-tooltip>
-      <iron-icon
-        class="size-16 new"
-        icon="gr-icons:new"
-        aria-label=${this.computeLabel()}
-      ></iron-icon>
+      <span class="material-icon size-16" aria-label=${this.computeLabel()}
+        >new_releases</span
+      >
     </gr-tooltip-content>`;
   }
 

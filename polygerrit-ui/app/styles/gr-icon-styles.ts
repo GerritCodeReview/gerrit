@@ -12,14 +12,6 @@ export const iconStyles = css`
     width: 20px;
     height: 20px;
   }
-  /* expected to be used in a 20px line-height inline context */
-  iron-icon.size-16 {
-    width: 16px;
-    height: 16px;
-    position: relative;
-    top: 2px;
-  }
-
   .material-icon {
     color: var(--deemphasized-text-color);
     font-family: var(--icon-font-family, 'Material Symbols Outlined');

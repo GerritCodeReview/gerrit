@@ -98,8 +98,6 @@ export class GrTextarea extends LitElement {
 
   @state() currentSearchString?: string;
 
-  @state() hideEmojiAutocomplete = true;
-
   @state() private index: number | null = null;
 
   @state() suggestions: EmojiSuggestion[] = [];
@@ -268,8 +266,13 @@ export class GrTextarea extends LitElement {
     });
   }
 
+  // private but used in tests
+  isDropdownVisible() {
+    return this.emojiSuggestions && !this.emojiSuggestions.isHidden;
+  }
+
   private handleEscKey(e: KeyboardEvent) {
-    if (this.hideEmojiAutocomplete) {
+    if (!this.isDropdownVisible()) {
       return;
     }
     e.preventDefault();
@@ -278,7 +281,7 @@ export class GrTextarea extends LitElement {
   }
 
   private handleUpKey(e: KeyboardEvent) {
-    if (this.hideEmojiAutocomplete) {
+    if (!this.isDropdownVisible()) {
       return;
     }
     e.preventDefault();
@@ -289,7 +292,7 @@ export class GrTextarea extends LitElement {
   }
 
   private handleDownKey(e: KeyboardEvent) {
-    if (this.hideEmojiAutocomplete) {
+    if (!this.isDropdownVisible()) {
       return;
     }
     e.preventDefault();
@@ -302,7 +305,7 @@ export class GrTextarea extends LitElement {
   private handleTabKey(e: KeyboardEvent) {
     // Tab should have normal behavior if the picker is closed or if the user
     // has only typed ':'.
-    if (this.hideEmojiAutocomplete || this.disableEnterKeyForSelectingEmoji) {
+    if (!this.isDropdownVisible() || this.disableEnterKeyForSelectingEmoji) {
       return;
     }
     e.preventDefault();
@@ -314,7 +317,7 @@ export class GrTextarea extends LitElement {
   handleEnterByKey(e: KeyboardEvent) {
     // Enter should have newline behavior if the picker is closed or if the user
     // has only typed ':'. Also make sure that shortcuts aren't clobbered.
-    if (this.hideEmojiAutocomplete || this.disableEnterKeyForSelectingEmoji) {
+    if (!this.isDropdownVisible() || this.disableEnterKeyForSelectingEmoji) {
       this.indent(e);
       return;
     }
@@ -360,7 +363,6 @@ export class GrTextarea extends LitElement {
    * private but used in test
    */
   updateCaratPosition() {
-    this.hideEmojiAutocomplete = false;
     if (typeof this.textarea!.value === 'string') {
       this.hiddenText!.textContent = this.textarea!.value.substr(
         0,
@@ -476,7 +478,6 @@ export class GrTextarea extends LitElement {
     // hide and reset the autocomplete dropdown.
     this.requestUpdate();
     this.currentSearchString = '';
-    this.hideEmojiAutocomplete = true;
     this.closeDropdown();
     this.colonIndex = null;
     this.textarea!.textarea.focus();

@@ -84,7 +84,7 @@ suite('gr-textarea tests', () => {
     assert.isTrue(element.textarea!.focused);
     assert.isFalse(element.emojiSuggestions!.isHidden);
     assert.equal(element.colonIndex, 0);
-    assert.isFalse(element.hideEmojiAutocomplete);
+    assert.isTrue(element.isDropdownVisible());
     assert.equal(element.currentSearchString, '');
   });
 
@@ -99,7 +99,7 @@ suite('gr-textarea tests', () => {
     await element.updateComplete;
     assert.isFalse(element.emojiSuggestions!.isHidden);
     assert.equal(element.colonIndex, 1);
-    assert.isFalse(element.hideEmojiAutocomplete);
+    assert.isTrue(element.isDropdownVisible());
     assert.equal(element.currentSearchString, '');
   });
 
@@ -113,7 +113,7 @@ suite('gr-textarea tests', () => {
     element.text = 'test:';
     await element.updateComplete;
     assert.isTrue(element.emojiSuggestions!.isHidden);
-    assert.isTrue(element.hideEmojiAutocomplete);
+    assert.isFalse(element.isDropdownVisible());
   });
 
   test('emoji selector opens when a colon is typed and some substring', async () => {
@@ -131,7 +131,7 @@ suite('gr-textarea tests', () => {
     await element.updateComplete;
     assert.isFalse(element.emojiSuggestions!.isHidden);
     assert.equal(element.colonIndex, 0);
-    assert.isFalse(element.hideEmojiAutocomplete);
+    assert.isTrue(element.isDropdownVisible());
     assert.equal(element.currentSearchString, 't');
   });
 
@@ -155,7 +155,7 @@ suite('gr-textarea tests', () => {
     await element.updateComplete;
     assert.isFalse(element.emojiSuggestions!.isHidden);
     assert.equal(element.colonIndex, 0);
-    assert.isFalse(element.hideEmojiAutocomplete);
+    assert.isTrue(element.isDropdownVisible());
     assert.equal(element.currentSearchString, '');
   });
 
@@ -188,7 +188,7 @@ suite('gr-textarea tests', () => {
     const closeSpy = sinon.spy(element, 'closeDropdown');
     element.resetEmojiDropdown();
     assert.equal(element.currentSearchString, '');
-    assert.isTrue(element.hideEmojiAutocomplete);
+    assert.isFalse(element.isDropdownVisible());
     assert.equal(element.colonIndex, null);
 
     element.emojiSuggestions!.open();

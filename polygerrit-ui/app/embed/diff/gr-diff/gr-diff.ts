@@ -1723,6 +1723,12 @@ export class GrDiff extends LitElement implements GrDiffApi {
       this.nodeObserver.disconnect();
       this.nodeObserver = undefined;
     }
+    // You only stop observing for comment thread elements when the diff is
+    // completely rendered from scratch. And then comment thread elements
+    // will be (re-)added *after* rendering is done. That is also when we
+    // re-start observing. So it is appropriate to thoroughly clean up
+    // everything that the observer is managing.
+    this.commentRanges = [];
   }
 
   private portedCommentsWithoutRangeMessage() {

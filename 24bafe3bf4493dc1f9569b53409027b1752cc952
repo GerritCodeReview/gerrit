@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1330b8cd_6c10d8d8",
+        "filename": "polygerrit-ui/app/styles/gr-icon-styles.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-14T14:20:29Z",
+      "side": 1,
+      "message": "will all sizes become classes here?",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 26
+      },
+      "revId": "24bafe3bf4493dc1f9569b53409027b1752cc952",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

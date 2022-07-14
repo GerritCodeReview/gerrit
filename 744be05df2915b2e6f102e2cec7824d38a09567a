@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f149d038_74cb2082",
+        "filename": "polygerrit-ui/app/utils/async-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-14T09:33:43Z",
+      "side": 0,
+      "message": "@Ben if this will be a modified revert, can you mention the differences in the description to prevent confusion? I would assume it is a literal revert.",
+      "parentUuid": "e98e12d3_cfae390d",
+      "revId": "744be05df2915b2e6f102e2cec7824d38a09567a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b4d5d92b_680257cc",
         "filename": "polygerrit-ui/app/utils/async-util.ts",
         "patchSetId": 2

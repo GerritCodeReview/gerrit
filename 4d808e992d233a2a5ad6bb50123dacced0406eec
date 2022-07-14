@@ -45,6 +45,30 @@
       },
       "revId": "4d808e992d233a2a5ad6bb50123dacced0406eec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "396d2203_a27ab0b9",
+        "filename": "polygerrit-ui/app/elements/checks/gr-hovercard-run.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-14T14:15:43Z",
+      "side": 1,
+      "message": "Yep, removed.",
+      "parentUuid": "6dbc6e97_18efefb2",
+      "range": {
+        "startLine": 84,
+        "startChar": 8,
+        "endLine": 89,
+        "endChar": 9
+      },
+      "revId": "4d808e992d233a2a5ad6bb50123dacced0406eec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

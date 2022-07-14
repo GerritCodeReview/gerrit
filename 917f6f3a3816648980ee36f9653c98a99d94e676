@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e461f320_b097ec56",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-14T15:16:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc946db1_f399c818",
+      "revId": "917f6f3a3816648980ee36f9653c98a99d94e676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f23bdaf5_7b907397",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-07-14T14:19:45Z",
       "side": 1,
       "message": "Maybe add a `size-18` class to `iconStyles`?",
+      "revId": "917f6f3a3816648980ee36f9653c98a99d94e676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "acc58180_18b58aa7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-14T15:16:33Z",
+      "side": 1,
+      "message": "In a different change we actually discussed not having a bunch of sizings in the iconStyles file.",
+      "parentUuid": "f23bdaf5_7b907397",
       "revId": "917f6f3a3816648980ee36f9653c98a99d94e676",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

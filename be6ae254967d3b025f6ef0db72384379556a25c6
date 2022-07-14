@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a0641f7_5215b3b7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-14T16:02:07Z",
+      "side": 1,
+      "message": "isn\u0027t this is the default in iconStyles anyway?",
+      "range": {
+        "startLine": 134,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 48
+      },
+      "revId": "be6ae254967d3b025f6ef0db72384379556a25c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b7e2dfa_00011d5b",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-14T16:02:07Z",
+      "side": 1,
+      "message": "no test for this one",
+      "range": {
+        "startLine": 706,
+        "startChar": 32,
+        "endLine": 706,
+        "endChar": 45
+      },
+      "revId": "be6ae254967d3b025f6ef0db72384379556a25c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54690c2b_9180ca4c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog_test.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-14T16:02:07Z",
+      "side": 1,
+      "message": "indent",
+      "range": {
+        "startLine": 224,
+        "startChar": 14,
+        "endLine": 224,
+        "endChar": 16
+      },
+      "revId": "be6ae254967d3b025f6ef0db72384379556a25c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

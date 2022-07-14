@@ -22,6 +22,30 @@
       },
       "revId": "ee6aa92dbd94730d64d45d563b972a7f4e874336",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "033e497f_cee00e33",
+        "filename": "polygerrit-ui/app/elements/shared/gr-repo-branch-picker/gr-repo-branch-picker.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-14T16:02:07Z",
+      "side": 1,
+      "message": "Assuming this is an error, I am worried if all these changes don\u0027t have screenshots or manual verification where we need to rely on reviewers to spot things like this",
+      "parentUuid": "57594a70_68e2b96b",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 66,
+        "endChar": 10
+      },
+      "revId": "ee6aa92dbd94730d64d45d563b972a7f4e874336",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

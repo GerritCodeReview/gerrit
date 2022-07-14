@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb4a64c6_6eb7ad6b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-14T13:16:20Z",
+      "side": 1,
+      "message": "consider asserting the DOM instead of calling internal methods in tests. You can even check the DOM of sub-elements instead of having to check the entire component\u0027s DOM every time",
+      "range": {
+        "startLine": 269,
+        "startChar": 0,
+        "endLine": 269,
+        "endChar": 30
+      },
+      "revId": "a36e45b2901b11d108ebff3314da6602e4cf38d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

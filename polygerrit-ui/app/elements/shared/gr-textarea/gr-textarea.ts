@@ -105,7 +105,7 @@ export class GrTextarea extends LitElement {
   // Accessed in tests.
   readonly reporting = getAppContext().reportingService;
 
-  disableEnterKeyForSelectingEmoji = false;
+  disableEnterKeyForSelectingSuggestion = false;
 
   /** Called in disconnectedCallback. */
   private cleanups: (() => void)[] = [];
@@ -266,6 +266,11 @@ export class GrTextarea extends LitElement {
     });
   }
 
+  private getVisibleDropdown() {
+    if (!this.isDropdownVisible()) throw new Error('no dropdown visible');
+    return this.emojiSuggestions!;
+  }
+
   private isDropdownVisible() {
     return this.emojiSuggestions && !this.emojiSuggestions.isHidden;
   }
@@ -285,9 +290,9 @@ export class GrTextarea extends LitElement {
     }
     e.preventDefault();
     e.stopPropagation();
-    this.emojiSuggestions!.cursorUp();
+    this.getVisibleDropdown()!.cursorUp();
     this.textarea!.textarea.focus();
-    this.disableEnterKeyForSelectingEmoji = false;
+    this.disableEnterKeyForSelectingSuggestion = false;
   }
 
   private handleDownKey(e: KeyboardEvent) {
@@ -296,27 +301,33 @@ export class GrTextarea extends LitElement {
     }
     e.preventDefault();
     e.stopPropagation();
-    this.emojiSuggestions!.cursorDown();
+    this.getVisibleDropdown()!.cursorDown();
     this.textarea!.textarea.focus();
-    this.disableEnterKeyForSelectingEmoji = false;
+    this.disableEnterKeyForSelectingSuggestion = false;
   }
 
   private handleTabKey(e: KeyboardEvent) {
     // Tab should have normal behavior if the picker is closed or if the user
     // has only typed ':'.
-    if (!this.isDropdownVisible() || this.disableEnterKeyForSelectingEmoji) {
+    if (
+      !this.isDropdownVisible() ||
+      this.disableEnterKeyForSelectingSuggestion
+    ) {
       return;
     }
     e.preventDefault();
     e.stopPropagation();
-    this.setEmoji(this.emojiSuggestions!.getCurrentText());
+    this.setEmoji(this.getVisibleDropdown().getCurrentText());
   }
 
   // private but used in test
   handleEnterByKey(e: KeyboardEvent) {
     // Enter should have newline behavior if the picker is closed or if the user
     // has only typed ':'. Also make sure that shortcuts aren't clobbered.
-    if (!this.isDropdownVisible() || this.disableEnterKeyForSelectingEmoji) {
+    if (
+      !this.isDropdownVisible() ||
+      this.disableEnterKeyForSelectingSuggestion
+    ) {
       this.indent(e);
       return;
     }
@@ -338,14 +349,14 @@ export class GrTextarea extends LitElement {
       return;
     }
     const colonIndex = this.colonIndex;
-    this.text = this.getText(text);
+    this.text = this.addValueToText(text);
     this.textarea!.selectionStart = colonIndex + 1;
     this.textarea!.selectionEnd = colonIndex + 1;
     this.reporting.reportInteraction('select-emoji', {type: text});
     this.resetEmojiDropdown();
   }
 
-  private getText(value: string) {
+  private addValueToText(value: string) {
     if (!this.text) return '';
     return (
       this.text.substr(0, this.colonIndex || 0) +
@@ -371,7 +382,7 @@ export class GrTextarea extends LitElement {
 
     const caratSpan = this.caratSpan!;
     this.hiddenText!.appendChild(caratSpan);
-    this.emojiSuggestions!.positionTarget = caratSpan;
+    this.getVisibleDropdown().positionTarget = caratSpan;
     this.openEmojiDropdown();
   }
 
@@ -459,16 +470,16 @@ export class GrTextarea extends LitElement {
   }
 
   // private but used in test
-  determineSuggestions(emojiText: string) {
-    if (!emojiText.length) {
+  determineSuggestions(suggestionsText: string) {
+    if (!suggestionsText.length) {
       this.formatSuggestions(ALL_SUGGESTIONS);
-      this.disableEnterKeyForSelectingEmoji = true;
+      this.disableEnterKeyForSelectingSuggestion = true;
     } else {
       const matches = ALL_SUGGESTIONS.filter(suggestion =>
-        suggestion.match.includes(emojiText)
+        suggestion.match.includes(suggestionsText)
       ).slice(0, MAX_ITEMS_DROPDOWN);
       this.formatSuggestions(matches);
-      this.disableEnterKeyForSelectingEmoji = false;
+      this.disableEnterKeyForSelectingSuggestion = false;
     }
   }
 

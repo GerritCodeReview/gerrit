@@ -22,6 +22,30 @@
       },
       "revId": "a36e45b2901b11d108ebff3314da6602e4cf38d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1f62e59_dbdc07f4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-14T14:43:45Z",
+      "side": 1,
+      "message": "Ok in other places in the test it\u0027s checking for dropdown.isHidden so I\u0027ll end up doing the same.",
+      "parentUuid": "bb4a64c6_6eb7ad6b",
+      "range": {
+        "startLine": 269,
+        "startChar": 0,
+        "endLine": 269,
+        "endChar": 30
+      },
+      "revId": "a36e45b2901b11d108ebff3314da6602e4cf38d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

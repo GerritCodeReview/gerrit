@@ -45,11 +45,9 @@ suite('gr-file-status tests', () => {
       await setStatus(FileInfoStatus.ADDED, true);
       expect(element).shadowDom.to.equal(/* HTML */ `
         <gr-tooltip-content has-tooltip="" title="Newly Added">
-          <iron-icon
-            class="new size-16"
-            icon="gr-icons:new"
-            aria-label="Newly Added"
-          ></iron-icon>
+          <span class="material-icon size-16" aria-label="Newly Added"
+            >new_releases</span
+          >
         </gr-tooltip-content>
         <gr-tooltip-content has-tooltip="" title="Newly Added">
           <div class="A status" aria-label="Newly Added" tabindex="0">A</div>

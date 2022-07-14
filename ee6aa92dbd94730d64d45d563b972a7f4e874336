@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57594a70_68e2b96b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-repo-branch-picker/gr-repo-branch-picker.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-07-14T14:15:18Z",
+      "side": 1,
+      "message": "Why do we not add iconStyles here, like we do in other files.",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 66,
+        "endChar": 10
+      },
+      "revId": "ee6aa92dbd94730d64d45d563b972a7f4e874336",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

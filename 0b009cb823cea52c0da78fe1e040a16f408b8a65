@@ -431,6 +431,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e43567e_6bd53461",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2149,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-07-14T08:56:41Z",
+      "side": 1,
+      "message": "Verified that the index is ignored (even when forwarded) for all actions.",
+      "parentUuid": "4945ee11_5cfe7d08",
+      "range": {
+        "startLine": 2149,
+        "startChar": 29,
+        "endLine": 2149,
+        "endChar": 36
+      },
+      "revId": "0b009cb823cea52c0da78fe1e040a16f408b8a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e311e1ca_5209ae06",
@@ -492,6 +516,30 @@
       "side": 1,
       "message": "Yes, my intention was as Jinda suggested.\nDepending on what we agree on regarding creating changes (see the linked comment below) - I\u0027m not sure that\u0027s necessary. Same goes for the `message` field.\nLet\u0027s get back to this after the main discussion is resolved.\nhttps://gerrit-review.googlesource.com/c/gerrit/+/340065/comments/70e5760f_2942f963",
       "parentUuid": "2980ccea_e7cfec66",
+      "range": {
+        "startLine": 6494,
+        "startChar": 53,
+        "endLine": 6494,
+        "endChar": 64
+      },
+      "revId": "0b009cb823cea52c0da78fe1e040a16f408b8a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be7eb9b0_c635e53c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 6494,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-07-14T08:56:41Z",
+      "side": 1,
+      "message": "Following the main thread, I\u0027ve aligned the optional fields to match `MergePatchSetInput` - keeping only subject and author fields.",
+      "parentUuid": "6033dc46_dc5ccf6f",
       "range": {
         "startLine": 6494,
         "startChar": 53,

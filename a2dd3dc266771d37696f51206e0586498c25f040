@@ -214,6 +214,30 @@
       },
       "revId": "a2dd3dc266771d37696f51206e0586498c25f040",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59007d7b_1dfba49a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-14T16:05:55Z",
+      "side": 1,
+      "message": "Thanks Edwin for replying. Yes, this is a tradeoff / approximation here. We are skipping creating SRs if there\u0027s existing one, assuming it was created by a previous run of this migration, or manually by admins which - hopefully - is doing the same thing.",
+      "parentUuid": "53b6a98c_a2e469d4",
+      "range": {
+        "startLine": 25,
+        "startChar": 10,
+        "endLine": 25,
+        "endChar": 69
+      },
+      "revId": "a2dd3dc266771d37696f51206e0586498c25f040",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -122,6 +122,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "df8b61ea_58e957d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-14T16:05:55Z",
+      "side": 1,
+      "message": "Thanks Edwin for replying, and Nasser for the discussion; I really appreciate your inputs and perspectives.\n\nOne comment:\n\n\u003e since we will drop all code for the deprecated label functions in the next step.\n\nI think it\u0027s a bit more complicated; this change is skipping hosts that have prolog rules, as those have to be updated manually by admins (removing prolog, updating label fns).\n\nThis change is about adding SRs replacing label fns, but for projects having Prolog, it might be the case that Prolog is manipulating the labels (e.g. in Android they have twisted conditions on labels like +1 is not blocking if other label is ..., blocking otherwise), that we cannot simply replace.\n\nI imagine best we could do is to pre-announce that, starting at release $x prolog and label functions will be fully deprecated, and SRs will be the sole decider for submittability.",
+      "parentUuid": "e4002388_b093800e",
+      "range": {
+        "startLine": 7,
+        "startChar": 6,
+        "endLine": 7,
+        "endChar": 9
+      },
+      "revId": "bb2c4e7d256c289775034f3548ec04c881aa8acc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bb5da239_fc91deff",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

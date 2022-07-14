@@ -22,7 +22,7 @@ export const iconStyles = css`
 
   .material-icon {
     color: var(--deemphasized-text-color);
-    font-family: 'Material Symbols Outlined';
+    font-family: var(--icon-font-family, 'Material Symbols Outlined');
     font-weight: normal;
     font-style: normal;
     font-size: 20px;

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "02a0da00_83b0f625",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-14T14:08:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac8f379b_a892dc86",
+      "range": {
+        "startLine": 244,
+        "startChar": 1,
+        "endLine": 247,
+        "endChar": 23
+      },
+      "revId": "8673fdb9a4a32d8d75a9c6f7390c70dfabc65f29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a913b3cd_ddefe105",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9907efb_b3a2c049",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-14T14:08:36Z",
+      "side": 1,
+      "message": "They are there, it\u0027s just a bad diff-detection due to the indentation.\n\nSee line 248 on the left.",
+      "parentUuid": "a913b3cd_ddefe105",
+      "range": {
+        "startLine": 250,
+        "startChar": 8,
+        "endLine": 255,
+        "endChar": 9
+      },
+      "revId": "8673fdb9a4a32d8d75a9c6f7390c70dfabc65f29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "59b7d18c_1a2d328a",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-07-14T13:47:00Z",
       "side": 1,
       "message": "this seems opposite of what was behavior before.\n\nif showAll is true, it used to be expand-less",
+      "range": {
+        "startLine": 79,
+        "startChar": 6,
+        "endLine": 79,
+        "endChar": 70
+      },
+      "revId": "8673fdb9a4a32d8d75a9c6f7390c70dfabc65f29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30413689_dfb00de3",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-collapse.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-14T14:08:36Z",
+      "side": 1,
+      "message": "Whoops, nice catch.",
+      "parentUuid": "59b7d18c_1a2d328a",
       "range": {
         "startLine": 79,
         "startChar": 6,

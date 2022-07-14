@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "153789e6_69b9a592",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-07-14T14:20:43Z",
+      "side": 1,
+      "message": "nit: Would it be better to bring full \u003c/gr-button\u003e tag on a new line.",
+      "range": {
+        "startLine": 331,
+        "startChar": 16,
+        "endLine": 331,
+        "endChar": 17
+      },
+      "revId": "80bc14f475b2b50eb65aa4b9b4610fb6271b0a83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

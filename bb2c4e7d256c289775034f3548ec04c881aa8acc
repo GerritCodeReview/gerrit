@@ -314,6 +314,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "39d1b7a1_671bdf29",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-14T08:21:46Z",
+      "side": 1,
+      "message": "FYI, this plan has changed and Youssef is now continuing with these changes.",
+      "parentUuid": "0c55dedd_ab834a09",
+      "revId": "bb2c4e7d256c289775034f3548ec04c881aa8acc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c5b810ff_81cd0320",

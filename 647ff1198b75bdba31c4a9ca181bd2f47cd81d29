@@ -1,0 +1,285 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d443e91c_ab652938",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-14T08:21:46Z",
+      "side": 1,
+      "message": "nit: the",
+      "range": {
+        "startLine": 23,
+        "startChar": 65,
+        "endLine": 23,
+        "endChar": 67
+      },
+      "revId": "647ff1198b75bdba31c4a9ca181bd2f47cd81d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "283909c0_d0c9e5f2",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-14T08:21:46Z",
+      "side": 1,
+      "message": "Please update, this class is not a pgm [1] that an administrator can execute from the command-line (instead, after the schema migration has been added, it will be invoked when the init pgm is run to upgrade Gerrit).\n\n[1] https://gerrit-review.googlesource.com/Documentation/pgm-index.html",
+      "range": {
+        "startLine": 38,
+        "startChar": 5,
+        "endLine": 38,
+        "endChar": 8
+      },
+      "revId": "647ff1198b75bdba31c4a9ca181bd2f47cd81d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e36c9b6_92396c62",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-14T08:21:46Z",
+      "side": 1,
+      "message": "better: s/a/no",
+      "range": {
+        "startLine": 40,
+        "startChar": 57,
+        "endLine": 40,
+        "endChar": 58
+      },
+      "revId": "647ff1198b75bdba31c4a9ca181bd2f47cd81d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e142977_588f23bc",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-14T08:21:46Z",
+      "side": 1,
+      "message": "I think these classes are not available in the Guice stack that is used to run schema migrations. IIUC you can only use classes that are available in NoteDbSchemaVersion.Arguments.",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 66,
+        "endChar": 50
+      },
+      "revId": "647ff1198b75bdba31c4a9ca181bd2f47cd81d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de3e4106_4083a85d",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-14T08:21:46Z",
+      "side": 1,
+      "message": "There should be some way to print out migration progress while the projects are being migrated (for the upstream schema migration see Schema_185#showProgress for an example, internally at Google we would like to update flume counters).\n\nOne possibility would be to change the execute method to migrate only a single project. Then the schema migration can iterate over all projects and handle the print out of the migration progress. In this case it would be the responsibility of the schema migration to check if the migration should be skipped due to the presence of Prolog files, the JavaDoc of this class would need to document this properly.\n\nAlternatively, you may pass in some callback to let the caller receive progress updates.\n\nHaving the execute method do the migration for all projects also makes it impossible to migrate multiple projects in parallel (see Schema_185 for an example), and hence reduce the required downtime for upstream installations.",
+      "revId": "647ff1198b75bdba31c4a9ca181bd2f47cd81d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8a5e3a4_c36fef06",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-14T08:21:46Z",
+      "side": 1,
+      "message": "I believe projectCache is not available to schema migrations, you may use GitRepositoryManager#list() instead.",
+      "range": {
+        "startLine": 74,
+        "startChar": 40,
+        "endLine": 74,
+        "endChar": 97
+      },
+      "revId": "647ff1198b75bdba31c4a9ca181bd2f47cd81d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c78b80a4_5921086f",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-14T08:21:46Z",
+      "side": 1,
+      "message": "For the upstream schema migration, this information needs to be printed to the console, I don\u0027t think a message in the logs will be discoverable (I\u0027m not even sure if there are logs during schema migrations).\n\nAlso this message should probably tell the host admin that they need to migrate Prolog rules + labels to submit requirements manually and instruct them how to do this?",
+      "revId": "647ff1198b75bdba31c4a9ca181bd2f47cd81d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5ba213e_fc271af7",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-14T08:21:46Z",
+      "side": 1,
+      "message": "It\u0027s okay to ignore ConfigInvalidException\u0027s, but also in this case the warning should be printed out to the console.",
+      "range": {
+        "startLine": 82,
+        "startChar": 29,
+        "endLine": 82,
+        "endChar": 51
+      },
+      "revId": "647ff1198b75bdba31c4a9ca181bd2f47cd81d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e379f949_e8f1d31f",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-14T08:21:46Z",
+      "side": 1,
+      "message": "An IOException should probably not be ignored, but rather cause the migration to fail.",
+      "range": {
+        "startLine": 82,
+        "startChar": 15,
+        "endLine": 82,
+        "endChar": 26
+      },
+      "revId": "647ff1198b75bdba31c4a9ca181bd2f47cd81d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e1f8f13_d005313a",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-14T08:21:46Z",
+      "side": 1,
+      "message": "MetaDataUpdate is an AutoCloseable and hence must be opened/closed with a try-with-resources block.",
+      "range": {
+        "startLine": 99,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 18
+      },
+      "revId": "647ff1198b75bdba31c4a9ca181bd2f47cd81d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5bf3c5c_d5e65087",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-14T08:21:46Z",
+      "side": 1,
+      "message": "I think in the case where a submit requirement with the same name is already present, we should check whether it matches with the submit requirement that the migration would have created and if it\u0027s not matching emit a warning to the admin that there is a mismatch that needs to be inspected manually.",
+      "revId": "647ff1198b75bdba31c4a9ca181bd2f47cd81d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d1cfa40_c99cd66a",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-14T08:21:46Z",
+      "side": 1,
+      "message": "Using the LabelFunction enum here, will make it more difficult to drop the deprecated LabelFunction values later, as we need to keep the schema migration, even after the deprecated LabelFunction values have been removed. So it might be better to avoid using the LabelFunction enum here and rather read the label functions as strings from the project config. This way we do not need to touch the migration again later when the deprecated LabelFunction values are removed from the LabelFunction enum.",
+      "range": {
+        "startLine": 155,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 24
+      },
+      "revId": "647ff1198b75bdba31c4a9ca181bd2f47cd81d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9add56f5_f5078ca5",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-14T08:21:46Z",
+      "side": 1,
+      "message": "Is this important? I thought the order only matters for the manual migration when Prolog files are present.",
+      "range": {
+        "startLine": 179,
+        "startChar": 5,
+        "endLine": 179,
+        "endChar": 43
+      },
+      "revId": "647ff1198b75bdba31c4a9ca181bd2f47cd81d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

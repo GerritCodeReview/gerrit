@@ -382,8 +382,7 @@ suite('gr-diff-host tests', () => {
 
       // Left image rendered with the parent commit's version of the file.
       assertIsDefined(element.diffElement);
-      assertIsDefined(element.diffElement.diffTable);
-      const diffTable = element.diffElement.diffTable;
+      const diffTable = element.diffElement.$.diffTable;
       const leftImage = queryAndAssert(diffTable, 'td.left img');
       const leftLabel = queryAndAssert(diffTable, 'td.left label');
       const leftLabelContent = leftLabel.querySelector('.label');
@@ -456,8 +455,7 @@ suite('gr-diff-host tests', () => {
       );
 
       // Left image rendered with the parent commit's version of the file.
-      assertIsDefined(element.diffElement.diffTable);
-      const diffTable = element.diffElement.diffTable;
+      const diffTable = element.diffElement.$.diffTable;
       const leftImage = queryAndAssert(diffTable, 'td.left img');
       const leftLabel = queryAndAssert(diffTable, 'td.left label');
       const leftLabelContent = leftLabel.querySelector('.label');
@@ -525,8 +523,8 @@ suite('gr-diff-host tests', () => {
           element.diffElement.diffBuilder.builder,
           GrDiffBuilderImage
         );
-        assertIsDefined(element.diffElement.diffTable);
-        const diffTable = element.diffElement.diffTable;
+
+        const diffTable = element.diffElement.$.diffTable;
 
         const leftImage = query(diffTable, 'td.left img');
         const rightImage = queryAndAssert(diffTable, 'td.right img');
@@ -574,8 +572,7 @@ suite('gr-diff-host tests', () => {
           GrDiffBuilderImage
         );
 
-        assertIsDefined(element.diffElement.diffTable);
-        const diffTable = element.diffElement.diffTable;
+        const diffTable = element.diffElement.$.diffTable;
 
         const leftImage = queryAndAssert(diffTable, 'td.left img');
         const rightImage = query(diffTable, 'td.right img');
@@ -627,8 +624,7 @@ suite('gr-diff-host tests', () => {
           element.diffElement.diffBuilder.builder,
           GrDiffBuilderImage
         );
-        assertIsDefined(element.diffElement.diffTable);
-        const diffTable = element.diffElement.diffTable;
+        const diffTable = element.diffElement.$.diffTable;
 
         const leftImage = query(diffTable, 'td.left img');
         assert.isNotOk(leftImage);

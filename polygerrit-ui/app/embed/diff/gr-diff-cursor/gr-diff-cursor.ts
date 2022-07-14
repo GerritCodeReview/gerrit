@@ -3,6 +3,7 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import {dom} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {Subscription} from 'rxjs';
 import {AbortStop, CursorMoveResult, Stop} from '../../../api/core';
 import {
@@ -11,6 +12,7 @@ import {
   LineNumberEventDetail,
 } from '../../../api/diff';
 import {ScrollMode, Side} from '../../../constants/constants';
+import {PolymerDomWrapper} from '../../../types/types';
 import {toggleClass} from '../../../utils/dom-util';
 import {
   GrCursorManager,
@@ -247,7 +249,7 @@ export class GrDiffCursor implements GrDiffCursorApi {
   getTargetDiffElement(): GrDiff | null {
     if (!this.diffRow) return null;
 
-    const hostOwner = this.diffRow.getRootNode() as ShadowRoot;
+    const hostOwner = (dom(this.diffRow) as PolymerDomWrapper).getOwnerRoot();
     if (hostOwner?.host?.tagName === 'GR-DIFF') {
       return hostOwner.host as GrDiff;
     }

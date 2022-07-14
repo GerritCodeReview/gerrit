@@ -459,8 +459,8 @@ suite('gr-diff-cursor tests', () => {
       .callsFake(() => {
         scrollBehaviorDuringMove = cursor.cursorManager.scrollMode;
       });
-    diffElement.diff = createDiff();
-    await diffElement.updateComplete;
+
+    diffElement._diffChanged(createDiff());
     await waitForEventOnce(diffElement, 'render');
     cursor.reInitCursor();
     assert.isFalse(moveToNumStub.called);
@@ -480,8 +480,7 @@ suite('gr-diff-cursor tests', () => {
     cursor.initialLineNumber = 10;
     cursor.side = Side.RIGHT;
 
-    diffElement.diff = createDiff();
-    await diffElement.updateComplete;
+    diffElement._diffChanged(createDiff());
     await waitForEventOnce(diffElement, 'render');
     cursor.reInitCursor();
     assert.isFalse(moveToChunkStub.called);

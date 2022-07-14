@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e994dac_c8dfd9ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-14T14:23:52Z",
+      "side": 1,
+      "message": "FYI it is possible some files rely on `gr-icons` being imported -somewhere- and forget to import it themselves, so we need to be careful removing it even if the given files don\u0027t seem to use it",
+      "revId": "aadbde79f99e76d4b6bf85ed8da78f2cdd570db6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

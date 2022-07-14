@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e98e12d3_cfae390d",
+        "filename": "polygerrit-ui/app/utils/async-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-14T09:27:53Z",
+      "side": 0,
+      "message": "Don\u0027t revert this.aaa",
+      "revId": "744be05df2915b2e6f102e2cec7824d38a09567a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4d5d92b_680257cc",
+        "filename": "polygerrit-ui/app/utils/async-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-14T09:27:53Z",
+      "side": 0,
+      "message": "Don\u0027t revert this.",
+      "revId": "744be05df2915b2e6f102e2cec7824d38a09567a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a333c8ba_7b6df54b",
+        "filename": "polygerrit-ui/app/utils/async-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-14T09:27:53Z",
+      "side": 0,
+      "message": "Don\u0027t revert this.",
+      "revId": "744be05df2915b2e6f102e2cec7824d38a09567a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

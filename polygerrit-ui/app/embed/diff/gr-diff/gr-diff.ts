@@ -12,6 +12,9 @@ import '../gr-diff-selection/gr-diff-selection';
 import '../gr-syntax-themes/gr-syntax-theme';
 import '../gr-ranged-comment-themes/gr-ranged-comment-theme';
 import '../gr-ranged-comment-hint/gr-ranged-comment-hint';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {htmlTemplate} from './gr-diff_html';
 import {LineNumber} from './gr-diff-line';
 import {
   getLine,
@@ -28,6 +31,7 @@ import {
   getDiffLength,
 } from './gr-diff-utils';
 import {getHiddenScroll} from '../../../scripts/hiddenscroll';
+import {customElement, observe, property} from '@polymer/decorators';
 import {BlameInfo, CommentRange, ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {GrDiffHighlight} from '../gr-diff-highlight/gr-diff-highlight';
@@ -35,7 +39,11 @@ import {
   GrDiffBuilderElement,
   getLineNumberCellWidth,
 } from '../gr-diff-builder/gr-diff-builder-element';
-import {CoverageRange, DiffLayer} from '../../../types/types';
+import {
+  CoverageRange,
+  DiffLayer,
+  PolymerDomWrapper,
+} from '../../../types/types';
 import {CommentRangeLayer} from '../gr-ranged-comment-layer/gr-ranged-comment-layer';
 import {
   createDefaultDiffPrefs,
@@ -43,8 +51,10 @@ import {
   Side,
 } from '../../../constants/constants';
 import {KeyLocations} from '../gr-diff-processor/gr-diff-processor';
-import {fire, fireAlert, fireEvent} from '../../../utils/event-util';
-import {MovedLinkClickedEvent, ValueChangedEvent} from '../../../types/events';
+import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes-observer';
+import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
+import {fireAlert, fireEvent} from '../../../utils/event-util';
+import {MovedLinkClickedEvent} from '../../../types/events';
 import {getContentEditableRange} from '../../../utils/safari-selection-util';
 import {AbortStop} from '../../../api/core';
 import {
@@ -57,13 +67,7 @@ import {isSafari, toggleClass} from '../../../utils/dom-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {debounceP, DelayedPromise} from '../../../utils/async-util';
 import {GrDiffSelection} from '../gr-diff-selection/gr-diff-selection';
-import {customElement, property, query, state} from 'lit/decorators';
-import {sharedStyles} from '../../../styles/shared-styles';
-import {css, html, LitElement, nothing, PropertyValues} from 'lit';
-import {when} from 'lit/directives/when';
-import {grSyntaxTheme} from '../gr-syntax-themes/gr-syntax-theme';
-import {grRangedCommentTheme} from '../gr-ranged-comment-themes/gr-ranged-comment-theme';
-import {classMap} from 'lit/directives/class-map';
+import {deepEqual} from '../../../utils/deep-util';
 
 const NO_NEWLINE_LEFT = 'No newline at end of left file.';
 const NO_NEWLINE_RIGHT = 'No newline at end of right file.';
@@ -81,12 +85,22 @@ const COMMIT_MSG_PATH = '/COMMIT_MSG';
  */
 const COMMIT_MSG_LINE_LENGTH = 72;
 
+export interface GrDiff {
+  $: {
+    diffTable: HTMLTableElement;
+  };
+}
+
 export interface CreateCommentEventDetail extends CreateCommentEventDetailApi {
   path: string;
 }
 
 @customElement('gr-diff')
-export class GrDiff extends LitElement implements GrDiffApi {
+export class GrDiff extends PolymerElement implements GrDiffApi {
+  static get template() {
+    return htmlTemplate;
+  }
+
   /**
    * Fired when the user selects a line.
    *
@@ -120,19 +134,16 @@ export class GrDiff extends LitElement implements GrDiffApi {
    * @event diff-context-expanded
    */
 
-  @query('#diffTable')
-  diffTable?: HTMLTableElement;
-
   @property({type: Boolean})
   noAutoRender = false;
 
-  @property({type: String})
+  @property({type: String, observer: '_pathObserver'})
   path?: string;
 
-  @property({type: Object})
+  @property({type: Object, observer: '_prefsObserver'})
   prefs?: DiffPreferencesInfo;
 
-  @property({type: Object})
+  @property({type: Object, observer: '_renderPrefsChanged'})
   renderPrefs?: RenderPreferences;
 
   @property({type: Boolean})
@@ -141,58 +152,55 @@ export class GrDiff extends LitElement implements GrDiffApi {
   @property({type: Boolean})
   isImageDiff?: boolean;
 
-  @property({type: Boolean, reflect: true})
+  @property({type: Boolean, reflectToAttribute: true})
   override hidden = false;
 
   @property({type: Boolean})
   noRenderOnPrefsChange?: boolean;
 
-  // Private but used in tests.
-  @state()
-  commentRanges: CommentRangeLayer[] = [];
+  @property({type: Array})
+  _commentRanges: CommentRangeLayer[] = [];
 
   // explicitly highlight a range if it is not associated with any comment
   @property({type: Object})
   highlightRange?: CommentRange;
 
-  @property({type: Array})
+  @property({type: Array, observer: '_coverageRangesObserver'})
   coverageRanges: CoverageRange[] = [];
 
-  @property({type: Boolean})
+  @property({type: Boolean, observer: '_lineWrappingObserver'})
   lineWrapping = false;
 
-  @property({type: String})
+  @property({type: String, observer: '_viewModeObserver'})
   viewMode = DiffViewMode.SIDE_BY_SIDE;
 
-  @property({type: Object})
+  @property({type: Object, observer: '_lineOfInterestObserver'})
   lineOfInterest?: DisplayLine;
 
   /**
    * True when diff is changed, until the content is done rendering.
-   * Use getter/setter loading instead of this.
+   *
+   * This is readOnly, meaning one can listen for the loading-changed event, but
+   * not write to it from the outside. Code in this class should use the
+   * "private" _setLoading method.
    */
-  private _loading = true;
+  @property({type: Boolean, notify: true, readOnly: true})
+  loading!: boolean;
 
-  get loading() {
-    return this._loading;
-  }
-
-  set loading(loading: boolean) {
-    if (this._loading === loading) return;
-    const oldLoading = this._loading;
-    this._loading = loading;
-    fire(this, 'loading-changed', {value: this._loading});
-    this.requestUpdate('loading', oldLoading);
-  }
+  // Polymer generated when setting readOnly above.
+  _setLoading!: (loading: boolean) => void;
 
   @property({type: Boolean})
   loggedIn = false;
 
-  @property({type: Object})
+  @property({type: Object, observer: '_diffChanged'})
   diff?: DiffInfo;
 
-  @state()
-  private diffTableClass = '';
+  @property({type: Array, computed: '_computeDiffHeaderItems(diff.*)'})
+  _diffHeaderItems: string[] = [];
+
+  @property({type: String})
+  _diffTableClass = '';
 
   @property({type: Object})
   baseImage?: ImageInfo;
@@ -213,20 +221,17 @@ export class GrDiff extends LitElement implements GrDiffApi {
    * been bypassed. If the value is null, then the safety has not been
    * bypassed. If the value is a number, then that number represents the
    * context preference to use when rendering the bypassed diff.
-   *
-   * Private but used in tests.
    */
-  @state()
-  safetyBypass: number | null = null;
+  @property({type: Number})
+  _safetyBypass: number | null = null;
 
-  // Private but used in tests.
-  @state()
-  showWarning?: boolean;
+  @property({type: Boolean})
+  _showWarning?: boolean;
 
   @property({type: String})
   errorMessage: string | null = null;
 
-  @property({type: Array})
+  @property({type: Object, observer: '_blameChanged'})
   blame: BlameInfo[] | null = null;
 
   @property({type: Boolean})
@@ -235,743 +240,61 @@ export class GrDiff extends LitElement implements GrDiffApi {
   @property({type: Boolean})
   showNewlineWarningRight = false;
 
-  @property({type: Boolean})
+  @property({type: String, observer: '_useNewImageDiffUiObserver'})
   useNewImageDiffUi = false;
 
-  // Private but used in tests.
-  @state()
-  diffLength?: number;
+  @property({
+    type: String,
+    computed:
+      '_computeNewlineWarning(' +
+      'showNewlineWarningLeft, showNewlineWarningRight)',
+  })
+  _newlineWarning: string | null = null;
+
+  @property({type: Number})
+  _diffLength?: number;
 
   /**
    * Observes comment nodes added or removed at any point.
    * Can be used to unregister upon detachment.
    */
-  private nodeObserver?: MutationObserver;
+  @property({type: Object})
+  _nodeObserver?: FlattenedNodesObserver;
 
   @property({type: Array})
   layers?: DiffLayer[];
 
-  // Private but used in tests.
+  @property({type: Boolean})
+  isAttached = false;
+
+  // visible for testing
   renderDiffTableTask?: DelayedPromise<void>;
 
   private diffSelection = new GrDiffSelection();
 
-  // Private but used in tests.
+  // visible for testing
   highlights = new GrDiffHighlight();
 
-  // Private but used in tests.
+  // visible for testing
   diffBuilder = new GrDiffBuilderElement();
-
-  static override get styles() {
-    return [
-      sharedStyles,
-      grSyntaxTheme,
-      grRangedCommentTheme,
-      css`
-        /**
-          This is used to hide all left side of the diff (e.g. diffs besides
-          comments in the change log). Since we want to remove the first 4
-          cells consistently in all rows except context buttons (.dividerRow).
-        */
-        :host(.no-left) .sideBySide colgroup col:nth-child(-n + 4),
-        :host(.no-left) .sideBySide tr:not(.dividerRow) td:nth-child(-n + 4) {
-          display: none;
-        }
-        :host(.disable-context-control-buttons) {
-          --context-control-display: none;
-        }
-        :host(.disable-context-control-buttons) .section {
-          border-right: none;
-        }
-        :host(.hide-line-length-indicator) .full-width td.content .contentText {
-          background-image: none;
-        }
-
-        :host {
-          font-family: var(--monospace-font-family, ''), 'Roboto Mono';
-          font-size: var(--font-size, var(--font-size-code, 12px));
-          /* usually 16px = 12px + 4px */
-          line-height: calc(
-            var(--font-size, var(--font-size-code, 12px)) +
-              var(--spacing-s, 4px)
-          );
-        }
-
-        .thread-group {
-          display: block;
-          max-width: var(--content-width, 80ch);
-          white-space: normal;
-          background-color: var(--diff-blank-background-color);
-        }
-        .diffContainer {
-          max-width: var(--diff-max-width, none);
-          display: flex;
-          font-family: var(--monospace-font-family);
-        }
-        .diffContainer.hiddenscroll {
-          margin-bottom: var(--spacing-m);
-        }
-        table {
-          border-collapse: collapse;
-          table-layout: fixed;
-        }
-        td.lineNum {
-          /* Enforces background whenever lines wrap */
-          background-color: var(--diff-blank-background-color);
-        }
-
-        /**
-          Provides the option to add side borders (left and right) to the line
-          number column.
-        */
-        td.lineNum,
-        td.blankLineNum,
-        td.moveControlsLineNumCol,
-        td.contextLineNum {
-          box-shadow: var(--line-number-box-shadow, unset);
-        }
-
-        /**
-          Context controls break up the table visually, so we set the right
-          border on individual sections to leave a gap for the divider.
-
-          Also taken into account for max-width calculations in SHRINK_ONLY mode
-          (check GrDiff.updatePreferenceStyles).
-        */
-        .section {
-          border-right: 1px solid var(--border-color);
-        }
-        .section.contextControl {
-          /**
-            Divider inside this section must not have border; we set borders on
-            the padding rows below.
-          */
-          border-right-width: 0;
-        }
-        /**
-          Padding rows behind context controls. The diff is styled to be cut
-          into two halves by the negative space of the divider on which the
-          context control buttons are anchored.
-        */
-        .contextBackground {
-          border-right: 1px solid var(--border-color);
-        }
-        .contextBackground.above {
-          border-bottom: 1px solid var(--border-color);
-        }
-        .contextBackground.below {
-          border-top: 1px solid var(--border-color);
-        }
-
-        .lineNumButton {
-          display: block;
-          width: 100%;
-          height: 100%;
-          background-color: var(--diff-blank-background-color);
-          box-shadow: var(--line-number-box-shadow, unset);
-        }
-        td.lineNum {
-          vertical-align: top;
-        }
-
-        /**
-          The only way to focus this (clicking) will apply our own focus
-          styling, so this default styling is not needed and distracting.
-        */
-        .lineNumButton:focus {
-          outline: none;
-        }
-        gr-image-viewer {
-          width: 100%;
-          height: 100%;
-          max-width: var(--image-viewer-max-width, 95vw);
-          max-height: var(--image-viewer-max-height, 90vh);
-          /**
-            Defined by paper-styles default-theme and used in various
-            components. background-color-secondary is a compromise between
-            fairly light in light theme (where we ideally would want
-            background-color-primary) yet slightly offset against the app
-            background in dark mode, where drop shadows e.g. around paper-card
-            are almost invisible.
-          */
-          --primary-background-color: var(--background-color-secondary);
-        }
-        .image-diff .gr-diff {
-          text-align: center;
-        }
-        .image-diff img {
-          box-shadow: var(--elevation-level-1);
-          max-width: 50em;
-        }
-        .image-diff .right.lineNumButton {
-          border-left: 1px solid var(--border-color);
-        }
-        .image-diff label,
-        .binary-diff label {
-          font-family: var(--font-family);
-          font-style: italic;
-        }
-        .diff-row {
-          outline: none;
-          user-select: none;
-        }
-        .diff-row.target-row.target-side-left .lineNumButton.left,
-        .diff-row.target-row.target-side-right .lineNumButton.right,
-        .diff-row.target-row.unified .lineNumButton {
-          color: var(--primary-text-color);
-        }
-
-        /**
-          Preparing selected line cells with position relative so it allows a
-          positioned overlay with 'position: absolute'.
-        */
-        .target-row td {
-          position: relative;
-        }
-
-        /**
-          Defines an overlay to the selected line for drawing an outline without
-          blocking user interaction (e.g. text selection).
-        */
-        .target-row td::before {
-          border-width: 0;
-          border-style: solid;
-          border-color: var(--focused-line-outline-color);
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          pointer-events: none;
-          user-select: none;
-          content: ' ';
-        }
-
-        /**
-          the outline for the selected content cell should be the same in all
-          cases.
-        */
-        .target-row.target-side-left td.left.content::before,
-        .target-row.target-side-right td.right.content::before,
-        .unified.target-row td.content::before {
-          border-width: 1px 1px 1px 0;
-        }
-
-        /**
-          the outline for the sign cell should be always be contiguous
-          top/bottom.
-        */
-        .target-row.target-side-left td.left.sign::before,
-        .target-row.target-side-right td.right.sign::before {
-          border-width: 1px 0;
-        }
-
-        /**
-          For side-by-side we need to select the correct line number to
-          "visually close" the outline.
-        */
-        .side-by-side.target-row.target-side-left td.left.lineNum::before,
-        .side-by-side.target-row.target-side-right td.right.lineNum::before {
-          border-width: 1px 0 1px 1px;
-        }
-
-        /**
-          For unified diff we always start the overlay from the left cell
-        */
-        .unified.target-row td.left:not(.content)::before {
-          border-width: 1px 0 1px 1px;
-        }
-
-        /**
-          For unified diff we should continue the top/bottom border in right
-          line number column.
-        */
-        .unified.target-row td.right:not(.content)::before {
-          border-width: 1px 0;
-        }
-
-        .content {
-          background-color: var(--diff-blank-background-color);
-        }
-
-        /**
-          Describes two states of semantic tokens: whenever a token has a
-          definition that can be navigated to (navigable) and whenever
-          the token is actually clickable to perform this navigation.
-        */
-        .semantic-token.navigable {
-          text-decoration-style: dotted;
-          text-decoration-line: underline;
-        }
-        .semantic-token.navigable.clickable {
-          text-decoration-style: solid;
-          cursor: pointer;
-        }
-
-        /*
-          The file line, which has no contentText, add some margin before the
-          first comment. We cannot add padding the container because we only
-          want it if there is at least one comment thread, and the slotting
-          makes :empty not work as expected.
-        */
-        .content.file slot:first-child::slotted(.comment-thread) {
-          display: block;
-          margin-top: var(--spacing-xs);
-        }
-        .contentText {
-          background-color: var(--view-background-color);
-        }
-        .blank {
-          background-color: var(--diff-blank-background-color);
-        }
-        .image-diff .content {
-          background-color: var(--diff-blank-background-color);
-        }
-        .responsive {
-          width: 100%;
-        }
-        .responsive .contentText {
-          white-space: break-spaces;
-          word-break: break-all;
-        }
-        .lineNumButton,
-        .content {
-          vertical-align: top;
-          white-space: pre;
-        }
-        .contextLineNum,
-        .lineNumButton {
-          -webkit-user-select: none;
-          -moz-user-select: none;
-          -ms-user-select: none;
-          user-select: none;
-
-          color: var(--deemphasized-text-color);
-          padding: 0 var(--spacing-m);
-          text-align: right;
-        }
-        .canComment .lineNumButton {
-          cursor: pointer;
-        }
-        .sign {
-          min-width: 1ch;
-          width: 1ch;
-          background-color: var(--view-background-color);
-        }
-        .sign.blank {
-          background-color: var(--diff-blank-background-color);
-        }
-        .content {
-          /*
-            Set min width since setting width on table cells still allows them
-            to shrink. Do not set max width because CJK
-            (Chinese-Japanese-Korean) glyphs have variable width
-          */
-          min-width: var(--content-width, 80ch);
-          width: var(--content-width, 80ch);
-        }
-        .content.add .contentText .intraline,
-          /* If there are no intraline info, consider everything changed */
-          .content.add.no-intraline-info .contentText,
-          .sign.add.no-intraline-info,
-          .delta.total .content.add .contentText {
-          background-color: var(--dark-add-highlight-color);
-        }
-        .content.add .contentText,
-        .sign.add {
-          background-color: var(--light-add-highlight-color);
-        }
-        .content.remove .contentText .intraline,
-          /* If there are no intraline info, consider everything changed */
-          .content.remove.no-intraline-info .contentText,
-          .delta.total .content.remove .contentText,
-          .sign.remove.no-intraline-info {
-          background-color: var(--dark-remove-highlight-color);
-        }
-        .content.remove .contentText,
-        .sign.remove {
-          background-color: var(--light-remove-highlight-color);
-        }
-
-        .ignoredWhitespaceOnly .sign.no-intraline-info {
-          background-color: var(--view-background-color);
-        }
-
-        /* dueToRebase */
-        .dueToRebase .content.add .contentText .intraline,
-        .delta.total.dueToRebase .content.add .contentText {
-          background-color: var(--dark-rebased-add-highlight-color);
-        }
-        .dueToRebase .content.add .contentText {
-          background-color: var(--light-rebased-add-highlight-color);
-        }
-        .dueToRebase .content.remove .contentText .intraline,
-        .delta.total.dueToRebase .content.remove .contentText {
-          background-color: var(--dark-rebased-remove-highlight-color);
-        }
-        .dueToRebase .content.remove .contentText {
-          background-color: var(--light-rebased-remove-highlight-color);
-        }
-
-        /* dueToMove */
-        .dueToMove .sign.add,
-        .dueToMove .content.add .contentText,
-        .dueToMove .moveControls.movedIn .sign.right,
-        .dueToMove .moveControls.movedIn .moveHeader,
-        .delta.total.dueToMove .content.add .contentText {
-          background-color: var(--diff-moved-in-background);
-        }
-
-        .dueToMove .sign.remove,
-        .dueToMove .content.remove .contentText,
-        .dueToMove .moveControls.movedOut .moveHeader,
-        .dueToMove .moveControls.movedOut .sign.left,
-        .delta.total.dueToMove .content.remove .contentText {
-          background-color: var(--diff-moved-out-background);
-        }
-
-        .delta.dueToMove .movedIn .moveHeader {
-          --gr-range-header-color: var(--diff-moved-in-label-color);
-        }
-        .delta.dueToMove .movedOut .moveHeader {
-          --gr-range-header-color: var(--diff-moved-out-label-color);
-        }
-
-        .moveHeader a {
-          color: inherit;
-        }
-
-        /* ignoredWhitespaceOnly */
-        .ignoredWhitespaceOnly .content.add .contentText .intraline,
-        .delta.total.ignoredWhitespaceOnly .content.add .contentText,
-        .ignoredWhitespaceOnly .content.add .contentText,
-        .ignoredWhitespaceOnly .content.remove .contentText .intraline,
-        .delta.total.ignoredWhitespaceOnly .content.remove .contentText,
-        .ignoredWhitespaceOnly .content.remove .contentText {
-          background-color: var(--view-background-color);
-        }
-
-        .content .contentText:empty:after {
-          /* Newline, to ensure empty lines are one line-height tall. */
-          content: '\\A';
-        }
-
-        /* Context controls */
-        .contextControl {
-          display: var(--context-control-display, table-row-group);
-          background-color: transparent;
-          border: none;
-          --divider-height: var(--spacing-s);
-          --divider-border: 1px;
-        }
-        .contextControl gr-button iron-icon {
-          /* should match line-height of gr-button */
-          width: var(--line-height-mono, 18px);
-          height: var(--line-height-mono, 18px);
-        }
-        .contextControl td:not(.lineNumButton) {
-          text-align: center;
-        }
-
-        /**
-          Padding rows behind context controls. Styled as a continuation of the
-          line gutters and code area.
-        */
-        .contextBackground > .contextLineNum {
-          background-color: var(--diff-blank-background-color);
-        }
-        .contextBackground > td:not(.contextLineNum) {
-          background-color: var(--view-background-color);
-        }
-        .contextBackground {
-          /**
-            One line of background behind the context expanders which they can
-            render on top of, plus some padding.
-          */
-          height: calc(var(--line-height-normal) + var(--spacing-s));
-        }
-
-        .dividerCell {
-          vertical-align: top;
-        }
-        .dividerRow.show-both .dividerCell {
-          height: var(--divider-height);
-        }
-        .dividerRow.show-above .dividerCell,
-        .dividerRow.show-above .dividerCell {
-          height: 0;
-        }
-
-        .br:after {
-          /* Line feed */
-          content: '\\A';
-        }
-        .tab {
-          display: inline-block;
-        }
-        .tab-indicator:before {
-          color: var(--diff-tab-indicator-color);
-          /* >> character */
-          content: '\\00BB';
-          position: absolute;
-        }
-        .special-char-indicator {
-          /* spacing so elements don't collide */
-          padding-right: var(--spacing-m);
-        }
-        .special-char-indicator:before {
-          color: var(--diff-tab-indicator-color);
-          content: '•';
-          position: absolute;
-        }
-        .special-char-warning {
-          /* spacing so elements don't collide */
-          padding-right: var(--spacing-m);
-        }
-        .special-char-warning:before {
-          color: var(--warning-foreground);
-          content: '!';
-          position: absolute;
-        }
-        /**
-          Is defined after other background-colors, such that this
-          rule wins in case of same specificity.
-        */
-        .trailing-whitespace,
-        .content .trailing-whitespace,
-        .trailing-whitespace .intraline,
-        .content .trailing-whitespace .intraline {
-          border-radius: var(--border-radius, 4px);
-          background-color: var(--diff-trailing-whitespace-indicator);
-        }
-        #diffHeader {
-          background-color: var(--table-header-background-color);
-          border-bottom: 1px solid var(--border-color);
-          color: var(--link-color);
-          padding: var(--spacing-m) 0 var(--spacing-m) 48px;
-        }
-        #diffTable {
-          /* for gr-selection-action-box positioning */
-          position: relative;
-        }
-        #diffTable:focus {
-          outline: none;
-        }
-        #loadingError,
-        #sizeWarning {
-          display: none;
-          margin: var(--spacing-l) auto;
-          max-width: 60em;
-          text-align: center;
-        }
-        #loadingError {
-          color: var(--error-text-color);
-        }
-        #sizeWarning gr-button {
-          margin: var(--spacing-l);
-        }
-        #loadingError.showError,
-        #sizeWarning.warn {
-          display: block;
-        }
-        .target-row td.blame {
-          background: var(--diff-selection-background-color);
-        }
-        td.lost div {
-          background-color: var(--info-background);
-          padding: var(--spacing-s) 0 0 0;
-        }
-        td.lost div:first-of-type {
-          font-family: var(--font-family, 'Roboto');
-          font-size: var(--font-size-normal, 14px);
-          line-height: var(--line-height-normal);
-        }
-        td.lost iron-icon {
-          padding: 0 var(--spacing-s) 0 var(--spacing-m);
-          color: var(--blue-700);
-        }
-
-        col.sign,
-        td.sign {
-          display: none;
-        }
-
-        /* Sign column should only be shown in high-contrast mode. */
-        :host(.with-sign-col) col.sign {
-          display: table-column;
-        }
-        :host(.with-sign-col) td.sign {
-          display: table-cell;
-        }
-        col.blame {
-          display: none;
-        }
-        td.blame {
-          display: none;
-          padding: 0 var(--spacing-m);
-          white-space: pre;
-        }
-        :host(.showBlame) col.blame {
-          display: table-column;
-        }
-        :host(.showBlame) td.blame {
-          display: table-cell;
-        }
-        td.blame > span {
-          opacity: 0.6;
-        }
-        td.blame > span.startOfRange {
-          opacity: 1;
-        }
-        td.blame .blameDate {
-          font-family: var(--monospace-font-family);
-          color: var(--link-color);
-          text-decoration: none;
-        }
-        .responsive td.blame {
-          overflow: hidden;
-          width: 200px;
-        }
-        /** Support the line length indicator **/
-        .responsive td.content .contentText {
-          /**
-            Same strategy as in
-            https://stackoverflow.com/questions/1179928/how-can-i-put-a-vertical-line-down-the-center-of-a-div
-          */
-          background-image: linear-gradient(
-            var(--line-length-indicator-color),
-            var(--line-length-indicator-color)
-          );
-          background-size: 1px 100%;
-          background-position: var(--line-limit-marker) 0;
-          background-repeat: no-repeat;
-        }
-        .newlineWarning {
-          color: var(--deemphasized-text-color);
-          text-align: center;
-        }
-        .newlineWarning.hidden {
-          display: none;
-        }
-        .lineNum.COVERED .lineNumButton {
-          background-color: var(--coverage-covered, #e0f2f1);
-        }
-        .lineNum.NOT_COVERED .lineNumButton {
-          background-color: var(--coverage-not-covered, #ffd1a4);
-        }
-        .lineNum.PARTIALLY_COVERED .lineNumButton {
-          background: linear-gradient(
-            to right bottom,
-            var(--coverage-not-covered, #ffd1a4) 0%,
-            var(--coverage-not-covered, #ffd1a4) 50%,
-            var(--coverage-covered, #e0f2f1) 50%,
-            var(--coverage-covered, #e0f2f1) 100%
-          );
-        }
-
-        // TODO: Investigate whether this CSS is still necessary.
-        /** BEGIN: Select and copy for Polymer 2 */
-        /**
-          Below was copied and modified from the original css in
-          gr-diff-selection.html
-        */
-        .content,
-        .contextControl,
-        .blame {
-          -webkit-user-select: none;
-          -moz-user-select: none;
-          -ms-user-select: none;
-          user-select: none;
-        }
-
-        .selected-left:not(.selected-comment)
-          .side-by-side
-          .left
-          + .content
-          .contentText,
-        .selected-right:not(.selected-comment)
-          .side-by-side
-          .right
-          + .content
-          .contentText,
-        .selected-left:not(.selected-comment)
-          .unified
-          .left.lineNum
-          ~ .content:not(.both)
-          .contentText,
-        .selected-right:not(.selected-comment)
-          .unified
-          .right.lineNum
-          ~ .content
-          .contentText,
-        .selected-left.selected-comment .side-by-side .left + .content .message,
-        .selected-right.selected-comment
-          .side-by-side
-          .right
-          + .content
-          .message
-          :not(.collapsedContent),
-        .selected-comment .unified .message :not(.collapsedContent),
-        .selected-blame .blame {
-          -webkit-user-select: text;
-          -moz-user-select: text;
-          -ms-user-select: text;
-          user-select: text;
-        }
-
-        /** Make comments and check results selectable when selected */
-        .selected-left.selected-comment
-          ::slotted(.comment-thread[diff-side='left']),
-        .selected-right.selected-comment
-          ::slotted(.comment-thread[diff-side='right']) {
-          -webkit-user-select: text;
-          -moz-user-select: text;
-          -ms-user-select: text;
-          user-select: text;
-        }
-        /** END: Select and copy for Polymer 2 */
-
-        .whitespace-change-only-message {
-          background-color: var(--diff-context-control-background-color);
-          border: 1px solid var(--diff-context-control-border-color);
-          text-align: center;
-        }
-
-        .token-highlight {
-          background-color: var(--token-highlighting-color, #fffd54);
-        }
-
-        gr-selection-action-box {
-          /**
-          * Needs z-index to appear above wrapped content, since it's inserted
-          * into DOM before it.
-          */
-          z-index: 10;
-        }
-      `,
-    ];
-  }
 
   constructor() {
     super();
+    this._setLoading(true);
     this.addEventListener('create-range-comment', (e: Event) =>
-      this.handleCreateRangeComment(e as CustomEvent)
+      this._handleCreateRangeComment(e as CustomEvent)
     );
-    this.addEventListener('render-content', () => this.handleRenderContent());
-    this.addEventListener('moved-link-clicked', (e: MovedLinkClickedEvent) => {
-      this.dispatchSelectedLine(e.detail.lineNum, e.detail.side);
-    });
+    this.addEventListener('render-content', () => this._handleRenderContent());
+    this.addEventListener('moved-link-clicked', e => this._movedLinkClicked(e));
   }
 
   override connectedCallback() {
     super.connectedCallback();
-    if (this.loggedIn) {
-      this.addSelectionListeners();
-    }
+    this.isAttached = true;
   }
 
   override disconnectedCallback() {
-    this.removeSelectionListeners();
+    this.isAttached = false;
     this.renderDiffTableTask?.cancel();
     this.diffSelection.cleanup();
     this.highlights.cleanup();
@@ -979,160 +302,45 @@ export class GrDiff extends LitElement implements GrDiffApi {
     super.disconnectedCallback();
   }
 
-  protected override willUpdate(changedProperties: PropertyValues<this>): void {
-    if (
-      changedProperties.has('path') ||
-      changedProperties.has('lineWrapping') ||
-      changedProperties.has('viewMode') ||
-      changedProperties.has('useNewImageDiffUi') ||
-      changedProperties.has('prefs')
-    ) {
-      this.prefsChanged();
-    }
-    if (changedProperties.has('blame')) {
-      this.blameChanged();
-    }
-    if (changedProperties.has('renderPrefs')) {
-      this.renderPrefsChanged();
-    }
-    if (changedProperties.has('loggedIn')) {
-      if (this.loggedIn && this.isConnected) {
-        this.addSelectionListeners();
-      } else {
-        this.removeSelectionListeners();
-      }
-    }
-    if (changedProperties.has('coverageRanges')) {
-      this.diffBuilder.updateCoverageRanges(this.coverageRanges);
-      if (this.diff) {
-        this.debounceRenderDiffTable();
-      }
-    }
-    if (changedProperties.has('lineOfInterest')) {
-      this.lineOfInterestChanged();
-    }
-  }
-
-  protected override updated(changedProperties: PropertyValues<this>): void {
-    if (changedProperties.has('diff')) {
-      // diffChanged relies on diffTable ahving been rendered.
-      this.diffChanged();
-    }
-  }
-
-  override render() {
-    return html`
-      ${this.renderHeader()} ${this.renderContainer()}
-      ${this.renderNewlineWarning()} ${this.renderLoadingError()}
-      ${this.renderSizeWarning()}
-    `;
-  }
-
-  private renderHeader() {
-    const diffheaderItems = this.computeDiffHeaderItems();
-    if (diffheaderItems.length === 0) return nothing;
-    return html`
-      <div id="diffHeader">
-        ${diffheaderItems.map(item => html`<div>${item}</div>`)}
-      </div>
-    `;
-  }
-
-  private renderContainer() {
-    const cssClasses = {
-      diffContainer: true,
-      unified: this.viewMode === DiffViewMode.UNIFIED,
-      sideBySide: this.viewMode === DiffViewMode.SIDE_BY_SIDE,
-      hiddenscroll: !!getHiddenScroll(),
-      canComment: this.loggedIn,
-      displayLine: this.displayLine,
-    };
-    return html`
-      <div class=${classMap(cssClasses)} @click=${this.handleTap}>
-        <table
-          id="diffTable"
-          class=${this.diffTableClass}
-          role="presentation"
-          ?contenteditable=${this.isContentEditable}
-        ></table>
-        ${when(
-          this.showNoChangeMessage(),
-          () => html`
-            <div class="whitespace-change-only-message">
-              This file only contains whitespace changes. Modify the whitespace
-              setting to see the changes.
-            </div>
-          `
-        )}
-      </div>
-    `;
-  }
-
-  private renderNewlineWarning() {
-    const newlineWarning = this.computeNewlineWarning();
-    const newlineWarningClass = this.computeNewlineWarningClass(
-      !!newlineWarning
-    );
-    return html` <div class=${newlineWarningClass}>${newlineWarning}</div> `;
-  }
-
-  private renderLoadingError() {
-    return html`
-      <div id="loadingError" class=${this.errorMessage ? 'showError' : ''}>
-        ${this.errorMessage}
-      </div>
-    `;
-  }
-
-  private renderSizeWarning() {
-    // TODO: Update comment about 'Whole file' as it's not in settings.
-    return html`
-      <div id="sizeWarning" class=${this.showWarning ? 'warn' : ''}>
-        <p>
-          Prevented render because "Whole file" is enabled and this diff is very
-          large (about ${this.diffLength} lines).
-        </p>
-        <gr-button @click=${this.collapseContext}>
-          Render with limited context
-        </gr-button>
-        <gr-button @click=${this.handleFullBypass}>
-          Render anyway (may be slow)
-        </gr-button>
-      </div>
-    `;
-  }
-
-  private addSelectionListeners() {
-    document.addEventListener('selectionchange', this.handleSelectionChange);
-    document.addEventListener('mouseup', this.handleMouseUp);
-  }
-
-  private removeSelectionListeners() {
-    document.removeEventListener('selectionchange', this.handleSelectionChange);
-    document.removeEventListener('mouseup', this.handleMouseUp);
-  }
-
   getLineNumEls(side: Side): HTMLElement[] {
     return this.diffBuilder.getLineNumEls(side);
   }
 
-  // Private but used in tests.
-  showNoChangeMessage() {
+  showNoChangeMessage(
+    loading?: boolean,
+    prefs?: DiffPreferencesInfo,
+    diffLength?: number,
+    diff?: DiffInfo
+  ) {
     return (
-      !this.loading &&
-      this.diff &&
-      !this.diff.binary &&
-      this.prefs &&
-      this.prefs.ignore_whitespace !== 'IGNORE_NONE' &&
-      this.diffLength === 0
+      !loading &&
+      diff &&
+      !diff.binary &&
+      prefs &&
+      prefs.ignore_whitespace !== 'IGNORE_NONE' &&
+      diffLength === 0
     );
+  }
+
+  @observe('loggedIn', 'isAttached')
+  _enableSelectionObserver(loggedIn: boolean, isAttached: boolean) {
+    if (loggedIn && isAttached) {
+      document.addEventListener('selectionchange', this.handleSelectionChange);
+      document.addEventListener('mouseup', this.handleMouseUp);
+    } else {
+      document.removeEventListener(
+        'selectionchange',
+        this.handleSelectionChange
+      );
+      document.removeEventListener('mouseup', this.handleMouseUp);
+    }
   }
 
   private readonly handleSelectionChange = () => {
     // Because of shadow DOM selections, we handle the selectionchange here,
     // and pass the shadow DOM selection into gr-diff-highlight, where the
     // corresponding range is determined and normalized.
-    const selection = this.getShadowOrDocumentSelection();
+    const selection = this._getShadowOrDocumentSelection();
     this.highlights.handleSelectionChange(selection, false);
   };
 
@@ -1140,24 +348,24 @@ export class GrDiff extends LitElement implements GrDiffApi {
     // To handle double-click outside of text creating comments, we check on
     // mouse-up if there's a selection that just covers a line change. We
     // can't do that on selection change since the user may still be dragging.
-    const selection = this.getShadowOrDocumentSelection();
+    const selection = this._getShadowOrDocumentSelection();
     this.highlights.handleSelectionChange(selection, true);
   };
 
   /** Gets the current selection, preferring the shadow DOM selection. */
-  private getShadowOrDocumentSelection() {
+  _getShadowOrDocumentSelection() {
     // When using native shadow DOM, the selection returned by
     // document.getSelection() cannot reference the actual DOM elements making
     // up the diff in Safari because they are in the shadow DOM of the gr-diff
     // element. This takes the shadow DOM selection if one exists.
-    return this.shadowRoot?.getSelection
-      ? this.shadowRoot.getSelection()
+    return this.root instanceof ShadowRoot && this.root.getSelection
+      ? this.root.getSelection()
       : isSafari()
       ? getContentEditableRange()
       : document.getSelection();
   }
 
-  private updateRanges(
+  _updateRanges(
     addedThreadEls: GrDiffThreadElement[],
     removedThreadEls: GrDiffThreadElement[]
   ) {
@@ -1180,26 +388,33 @@ export class GrDiff extends LitElement implements GrDiffApi {
       .map(commentRangeFromThreadEl)
       .filter(range => !!range) as CommentRangeLayer[];
     for (const removedCommentRange of removedCommentRanges) {
-      const i = this.commentRanges.findIndex(
+      const i = this._commentRanges.findIndex(
         cr =>
           cr.side === removedCommentRange.side &&
           rangesEqual(cr.range, removedCommentRange.range)
       );
-      this.commentRanges.splice(i, 1);
+      this._commentRanges.splice(i, 1);
     }
 
     if (addedCommentRanges?.length) {
-      this.commentRanges.push(...addedCommentRanges);
+      this._commentRanges.push(...addedCommentRanges);
     }
     if (this.highlightRange) {
-      this.commentRanges.push({
+      this._commentRanges.push({
         side: Side.RIGHT,
         range: this.highlightRange,
         rootId: '',
       });
     }
 
-    this.diffBuilder.updateCommentRanges(this.commentRanges);
+    this.diffBuilder.updateCommentRanges(this._commentRanges);
+  }
+
+  _coverageRangesObserver() {
+    this.diffBuilder.updateCoverageRanges(this.coverageRanges);
+    if (this.diff) {
+      this._debounceRenderDiffTable();
+    }
   }
 
   /**
@@ -1207,13 +422,15 @@ export class GrDiff extends LitElement implements GrDiffApi {
    * where lines should not be collapsed.
    *
    */
-  private computeKeyLocations() {
+  _computeKeyLocations() {
     const keyLocations: KeyLocations = {left: {}, right: {}};
     if (this.lineOfInterest) {
       const side = this.lineOfInterest.side;
       keyLocations[side][this.lineOfInterest.lineNum] = true;
     }
-    const threadEls = [...this.childNodes].filter(isThreadEl);
+    const threadEls = (dom(this) as PolymerDomWrapper)
+      .getEffectiveChildNodes()
+      .filter(isThreadEl);
 
     for (const threadEl of threadEls) {
       const side = getSide(threadEl);
@@ -1231,10 +448,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
   }
 
   // Dispatch events that are handled by the gr-diff-highlight.
-  private redispatchHoverEvents(
-    hoverEl: HTMLElement,
-    threadEl: GrDiffThreadElement
-  ) {
+  _redispatchHoverEvents(hoverEl: HTMLElement, threadEl: GrDiffThreadElement) {
     hoverEl.addEventListener('mouseenter', () => {
       fireEvent(threadEl, 'comment-thread-mouseenter');
     });
@@ -1272,18 +486,32 @@ export class GrDiff extends LitElement implements GrDiffApi {
     toggleClass(this, 'no-left');
   }
 
-  private blameChanged() {
-    this.diffBuilder.setBlame(this.blame);
-    if (this.blame) {
+  _blameChanged(newValue?: BlameInfo[] | null) {
+    if (newValue === undefined) return;
+    this.diffBuilder.setBlame(newValue);
+    if (newValue) {
       this.classList.add('showBlame');
     } else {
       this.classList.remove('showBlame');
     }
   }
 
-  // Private but used in tests.
-  handleTap(e: Event) {
-    const el = e.target as Element;
+  _computeContainerClass(
+    loggedIn: boolean,
+    viewMode: DiffViewMode,
+    displayLine: boolean
+  ) {
+    const classes = ['diffContainer'];
+    if (viewMode === DiffViewMode.UNIFIED) classes.push('unified');
+    if (viewMode === DiffViewMode.SIDE_BY_SIDE) classes.push('sideBySide');
+    if (getHiddenScroll()) classes.push('hiddenscroll');
+    if (loggedIn) classes.push('canComment');
+    if (displayLine) classes.push('displayLine');
+    return classes.join(' ');
+  }
+
+  _handleTap(e: Event) {
+    const el = (dom(e) as EventApi).localTarget as Element;
 
     if (
       el.getAttribute('data-value') !== 'LOST' &&
@@ -1298,19 +526,18 @@ export class GrDiff extends LitElement implements GrDiffApi {
     ) {
       const target = getLineElByChild(el);
       if (target) {
-        this.selectLine(target);
+        this._selectLine(target);
       }
     }
   }
 
-  // Private but used in tests.
-  selectLine(el: Element) {
+  _selectLine(el: Element) {
     const lineNumber = Number(el.getAttribute('data-value'));
     const side = el.classList.contains('left') ? Side.LEFT : Side.RIGHT;
-    this.dispatchSelectedLine(lineNumber, side);
+    this._dispatchSelectedLine(lineNumber, side);
   }
 
-  private dispatchSelectedLine(number: LineNumber, side: Side) {
+  _dispatchSelectedLine(number: LineNumber, side: Side) {
     this.dispatchEvent(
       new CustomEvent('line-selected', {
         detail: {
@@ -1324,8 +551,12 @@ export class GrDiff extends LitElement implements GrDiffApi {
     );
   }
 
+  _movedLinkClicked(e: MovedLinkClickedEvent) {
+    this._dispatchSelectedLine(e.detail.lineNum, e.detail.side);
+  }
+
   addDraftAtLine(el: Element) {
-    this.selectLine(el);
+    this._selectLine(el);
 
     const lineNum = getLineNumber(el);
     if (lineNum === null) {
@@ -1333,7 +564,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
       return;
     }
 
-    this.createComment(el, lineNum);
+    this._createComment(el, lineNum);
   }
 
   createRangeComment() {
@@ -1343,25 +574,24 @@ export class GrDiff extends LitElement implements GrDiffApi {
     const selectedRange = this.highlights.selectedRange;
     if (!selectedRange) throw Error('selected range not set');
     const {side, range} = selectedRange;
-    this.createCommentForSelection(side, range);
+    this._createCommentForSelection(side, range);
   }
 
-  createCommentForSelection(side: Side, range: CommentRange) {
+  _createCommentForSelection(side: Side, range: CommentRange) {
     const lineNum = range.end_line;
     const lineEl = this.diffBuilder.getLineElByNumber(lineNum, side);
     if (lineEl) {
-      this.createComment(lineEl, lineNum, side, range);
+      this._createComment(lineEl, lineNum, side, range);
     }
   }
 
-  private handleCreateRangeComment(e: CustomEvent) {
+  _handleCreateRangeComment(e: CustomEvent) {
     const range = e.detail.range;
     const side = e.detail.side;
-    this.createCommentForSelection(side, range);
+    this._createCommentForSelection(side, range);
   }
 
-  // Private but used in tests.
-  createComment(
+  _createComment(
     lineEl: Element,
     lineNum: LineNumber,
     side?: Side,
@@ -1369,7 +599,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
   ) {
     const contentEl = this.diffBuilder.getContentTdByLineEl(lineEl);
     if (!contentEl) throw new Error('content el not found for line el');
-    side = side ?? this.getCommentSideByLineAndContent(lineEl, contentEl);
+    side = side ?? this._getCommentSideByLineAndContent(lineEl, contentEl);
     assertIsDefined(this.path, 'path');
     this.dispatchEvent(
       new CustomEvent<CreateCommentEventDetail>('create-comment', {
@@ -1388,9 +618,8 @@ export class GrDiff extends LitElement implements GrDiffApi {
   /**
    * Gets or creates a comment thread group for a specific line and side on a
    * diff.
-   * Private but used in tests.
    */
-  getOrCreateThreadGroup(contentEl: Element, commentSide: Side) {
+  _getOrCreateThreadGroup(contentEl: Element, commentSide: Side) {
     // Check if thread group exists.
     let threadGroupEl = contentEl.querySelector('.thread-group');
     if (!threadGroupEl) {
@@ -1402,17 +631,29 @@ export class GrDiff extends LitElement implements GrDiffApi {
     return threadGroupEl;
   }
 
-  private getCommentSideByLineAndContent(
-    lineEl: Element,
-    contentEl: Element
-  ): Side {
+  _getCommentSideByLineAndContent(lineEl: Element, contentEl: Element): Side {
     return lineEl.classList.contains(Side.LEFT) ||
       contentEl.classList.contains('remove')
       ? Side.LEFT
       : Side.RIGHT;
   }
 
-  private lineOfInterestChanged() {
+  _prefsObserver(newPrefs: DiffPreferencesInfo, oldPrefs: DiffPreferencesInfo) {
+    if (!deepEqual(newPrefs, oldPrefs)) {
+      this._prefsChanged(newPrefs);
+    }
+  }
+
+  _pathObserver() {
+    // Call _prefsChanged(), because line-limit style value depends on path.
+    this._prefsChanged(this.prefs);
+  }
+
+  _viewModeObserver() {
+    this._prefsChanged(this.prefs);
+  }
+
+  _lineOfInterestObserver() {
     if (this.loading) return;
     if (!this.lineOfInterest) return;
     const lineNum = this.lineOfInterest.lineNum;
@@ -1420,42 +661,51 @@ export class GrDiff extends LitElement implements GrDiffApi {
     this.diffBuilder.unhideLine(lineNum, this.lineOfInterest.side);
   }
 
-  private cleanup() {
+  _cleanup() {
     this.cancel();
     this.blame = null;
-    this.safetyBypass = null;
-    this.showWarning = false;
+    this._safetyBypass = null;
+    this._showWarning = false;
     this.clearDiffContent();
   }
 
-  private prefsChanged() {
-    if (!this.prefs) return;
+  _lineWrappingObserver() {
+    this._prefsChanged(this.prefs);
+  }
+
+  _useNewImageDiffUiObserver() {
+    this._prefsChanged(this.prefs);
+  }
+
+  _prefsChanged(prefs?: DiffPreferencesInfo) {
+    if (!prefs) return;
 
     this.blame = null;
-    this.updatePreferenceStyles();
+    this._updatePreferenceStyles(prefs, this.renderPrefs);
 
     if (this.diff && !this.noRenderOnPrefsChange) {
-      this.debounceRenderDiffTable();
+      this._debounceRenderDiffTable();
     }
   }
 
-  private updatePreferenceStyles() {
-    assertIsDefined(this.prefs, 'prefs');
+  _updatePreferenceStyles(
+    prefs: DiffPreferencesInfo,
+    renderPrefs?: RenderPreferences
+  ) {
     const lineLength =
       this.path === COMMIT_MSG_PATH
         ? COMMIT_MSG_LINE_LENGTH
-        : this.prefs.line_length;
+        : prefs.line_length;
     const sideBySide = this.viewMode === 'SIDE_BY_SIDE';
+    const stylesToUpdate: {[key: string]: string} = {};
 
-    const responsiveMode = getResponsiveMode(this.prefs, this.renderPrefs);
+    const responsiveMode = getResponsiveMode(prefs, renderPrefs);
     const responsive = isResponsive(responsiveMode);
-    this.diffTableClass = responsive ? 'responsive' : '';
+    this._diffTableClass = responsive ? 'responsive' : '';
     const lineLimit = `${lineLength}ch`;
-    this.style.setProperty(
-      '--line-limit-marker',
-      responsiveMode === 'FULL_RESPONSIVE' ? lineLimit : '-1px'
-    );
-    this.style.setProperty('--content-width', responsive ? 'none' : lineLimit);
+    stylesToUpdate['--line-limit-marker'] =
+      responsiveMode === 'FULL_RESPONSIVE' ? lineLimit : '-1px';
+    stylesToUpdate['--content-width'] = responsive ? 'none' : lineLimit;
     if (responsiveMode === 'SHRINK_ONLY') {
       // Calculating ideal (initial) width for the whole table including
       // width of each table column (content and line number columns) and
@@ -1467,69 +717,69 @@ export class GrDiff extends LitElement implements GrDiffApi {
       const contentWidth = `${sideBySide ? 2 : 1} * ${lineLimit}`;
 
       // We always have 2 columns for line number
-      const lineNumberWidth = `2 * ${getLineNumberCellWidth(this.prefs)}px`;
+      const lineNumberWidth = `2 * ${getLineNumberCellWidth(prefs)}px`;
 
       // border-right in ".section" css definition (in gr-diff_html.ts)
       const sectionRightBorder = '1px';
 
       // each sign col has 1ch width.
       const signColsWidth =
-        sideBySide && this.renderPrefs?.show_sign_col ? '2ch' : '0ch';
+        sideBySide && renderPrefs?.show_sign_col ? '2ch' : '0ch';
 
-      // As some of these calculations are done using 'ch' we end up having <1px
-      // difference between ideal and calculated size for each side leading to
-      // lines using the max columns (e.g. 80) to wrap (decided exclusively by
-      // the browser).This happens even in monospace fonts. Empirically adding
-      // 2px as correction to be sure wrapping won't happen in these cases so it
-      // doesn't block further experimentation with the SHRINK_MODE. This was
-      // previously set to 1px but due to to a more aggressive text wrapping
-      // (via word-break: break-all; - check .contextText) we need to be even
-      // more lenient in some cases. If we find another way to avoid this
-      // correction we will change it.
+      // As some of these calculations are done using 'ch' we end up
+      // having <1px difference between ideal and calculated size for each side
+      // leading to lines using the max columns (e.g. 80) to wrap (decided
+      // exclusively by the browser).This happens even in monospace fonts.
+      // Empirically adding 2px as correction to be sure wrapping won't happen in these
+      // cases so it doesn' block further experimentation with the SHRINK_MODE.
+      // This was previously set to 1px but due to to a more aggressive
+      // text wrapping (via word-break: break-all; - check .contextText)
+      // we need to be even more lenient in some cases.
+      // If we find another way to avoid this correction we will change it.
       const dontWrapCorrection = '2px';
-      this.style.setProperty(
-        '--diff-max-width',
-        `calc(${contentWidth} + ${lineNumberWidth} + ${signColsWidth} + ${sectionRightBorder} + ${dontWrapCorrection})`
-      );
+      stylesToUpdate[
+        '--diff-max-width'
+      ] = `calc(${contentWidth} + ${lineNumberWidth} + ${signColsWidth} + ${sectionRightBorder} + ${dontWrapCorrection})`;
     } else {
-      this.style.setProperty('--diff-max-width', 'none');
+      stylesToUpdate['--diff-max-width'] = 'none';
     }
-    if (this.prefs.font_size) {
-      this.style.setProperty('--font-size', `${this.prefs.font_size}px`);
+    if (prefs.font_size) {
+      stylesToUpdate['--font-size'] = `${prefs.font_size}px`;
     }
+
+    this.updateStyles(stylesToUpdate);
   }
 
-  private renderPrefsChanged() {
-    if (!this.renderPrefs) return;
-    if (this.renderPrefs.hide_left_side) {
+  _renderPrefsChanged(renderPrefs?: RenderPreferences) {
+    if (!renderPrefs) return;
+    if (renderPrefs.hide_left_side) {
       this.classList.add('no-left');
     }
-    if (this.renderPrefs.disable_context_control_buttons) {
+    if (renderPrefs.disable_context_control_buttons) {
       this.classList.add('disable-context-control-buttons');
     }
-    if (this.renderPrefs.hide_line_length_indicator) {
+    if (renderPrefs.hide_line_length_indicator) {
       this.classList.add('hide-line-length-indicator');
     }
-    if (this.renderPrefs.show_sign_col) {
+    if (renderPrefs.show_sign_col) {
       this.classList.add('with-sign-col');
     }
     if (this.prefs) {
-      this.updatePreferenceStyles();
+      this._updatePreferenceStyles(this.prefs, renderPrefs);
     }
-    this.diffBuilder.updateRenderPrefs(this.renderPrefs);
+    this.diffBuilder.updateRenderPrefs(renderPrefs);
   }
 
-  private diffChanged() {
-    this.loading = true;
-    this.cleanup();
-    if (this.diff) {
-      this.diffLength = this.getDiffLength(this.diff);
-      this.debounceRenderDiffTable();
+  _diffChanged(newValue?: DiffInfo) {
+    this._setLoading(true);
+    this._cleanup();
+    if (newValue) {
+      this._diffLength = this.getDiffLength(newValue);
+      this._debounceRenderDiffTable();
     }
     if (this.diff) {
-      assertIsDefined(this.diffTable, 'diffTable');
-      this.diffSelection.init(this.diff, this.diffTable);
-      this.highlights.init(this.diffTable, this.diffBuilder);
+      this.diffSelection.init(this.diff, this.$.diffTable);
+      this.highlights.init(this.$.diffTable, this.diffBuilder);
     }
   }
 
@@ -1547,7 +797,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
    * multiple inputs changing in the same microtask, but we only want to
    * render once.
    */
-  private debounceRenderDiffTable() {
+  _debounceRenderDiffTable() {
     // at this point gr-diff might be considered as rendered from the outside
     // (client), although it was not actually rendered. Clients need to know
     // when it is safe to perform operations like cursor moves, for example,
@@ -1558,36 +808,35 @@ export class GrDiff extends LitElement implements GrDiffApi {
     fireEvent(this, 'render-required');
     this.renderDiffTableTask = debounceP(
       this.renderDiffTableTask,
-      async () => await this.renderDiffTable()
+      async () => await this._renderDiffTable()
     );
   }
 
-  // Private but used in tests.
-  async renderDiffTable() {
-    this.unobserveNodes();
+  async _renderDiffTable() {
+    this._unobserveNodes();
     if (!this.prefs) {
       fireEvent(this, 'render');
       return;
     }
     if (
       this.prefs.context === -1 &&
-      this.diffLength &&
-      this.diffLength >= LARGE_DIFF_THRESHOLD_LINES &&
-      this.safetyBypass === null
+      this._diffLength &&
+      this._diffLength >= LARGE_DIFF_THRESHOLD_LINES &&
+      this._safetyBypass === null
     ) {
-      this.showWarning = true;
+      this._showWarning = true;
       fireEvent(this, 'render');
       return;
     }
 
-    this.showWarning = false;
+    this._showWarning = false;
 
-    const keyLocations = this.computeKeyLocations();
+    const keyLocations = this._computeKeyLocations();
 
     // TODO: Setting tons of public properties like this is obviously a code
     // smell. We are planning to introduce a diff model for managing all this
     // data. Then diff builder will only need access to that model.
-    this.diffBuilder.prefs = this.getBypassPrefs();
+    this.diffBuilder.prefs = this._getBypassPrefs(this.prefs);
     this.diffBuilder.renderPrefs = this.renderPrefs;
     this.diffBuilder.diff = this.diff;
     this.diffBuilder.path = this.path;
@@ -1597,127 +846,119 @@ export class GrDiff extends LitElement implements GrDiffApi {
     this.diffBuilder.baseImage = this.baseImage ?? null;
     this.diffBuilder.revisionImage = this.revisionImage ?? null;
     this.diffBuilder.useNewImageDiffUi = this.useNewImageDiffUi;
-    this.diffBuilder.diffElement = this.diffTable;
-    // `this.commentRanges` are probably empty here, because they will only be
+    this.diffBuilder.diffElement = this.$.diffTable;
+    // `this._commentRanges` are probably empty here, because they will only be
     // populated by the node observer, which starts observing *after* rendering.
-    this.diffBuilder.updateCommentRanges(this.commentRanges);
+    this.diffBuilder.updateCommentRanges(this._commentRanges);
     this.diffBuilder.updateCoverageRanges(this.coverageRanges);
     await this.diffBuilder.render(keyLocations);
   }
 
-  private handleRenderContent() {
-    this.querySelectorAll('gr-ranged-comment-hint').forEach(element =>
-      element.remove()
-    );
-    this.loading = false;
-    this.observeNodes();
+  _handleRenderContent() {
+    this._setLoading(false);
+    this._observeNodes();
     // We are just converting 'render-content' into 'render' here. Maybe we
     // should retire the 'render' event in favor of 'render-content'?
     fireEvent(this, 'render');
   }
 
-  private observeNodes() {
-    // First stop observing old nodes.
-    this.unobserveNodes();
-    // Then introduce a Mutation observer that watches for children being added
-    // to gr-diff. If those children are `isThreadEl`, namely then they are
-    // processed.
-    this.nodeObserver = new MutationObserver(mutations => {
-      const addedThreadEls = extractAddedNodes(mutations).filter(isThreadEl);
-      const removedThreadEls =
-        extractRemovedNodes(mutations).filter(isThreadEl);
-      this.processNodes(addedThreadEls, removedThreadEls);
+  _unobserveNodes() {
+    if (this._nodeObserver) {
+      (dom(this) as PolymerDomWrapper).unobserveNodes(this._nodeObserver);
+      this._nodeObserver = undefined;
+    }
+    // You only stop observing for comment thread elements when the diff is
+    // completely rendered from scratch. And then comment thread elements
+    // will be (re-)added *after* rendering is done. That is also when we
+    // re-start observing. So it is appropriate to thoroughly clean up
+    // everything that the observer is managing.
+    this._commentRanges = [];
+  }
+
+  private _observeNodes() {
+    this._unobserveNodes();
+    this._nodeObserver = (dom(this) as PolymerDomWrapper).observeNodes(info => {
+      const addedThreadEls = info.addedNodes.filter(isThreadEl);
+      const removedThreadEls = info.removedNodes.filter(isThreadEl);
+
+      this._updateRanges(addedThreadEls, removedThreadEls);
+      addedThreadEls.forEach(threadEl =>
+        this._redispatchHoverEvents(threadEl, threadEl)
+      );
+      // Removed nodes do not need to be handled because all this code does is
+      // adding a slot for the added thread elements, and the extra slots do
+      // not hurt. It's probably a bigger performance cost to remove them than
+      // to keep them around. Medium term we can even consider to add one slot
+      // for each line from the start.
+      let lastEl;
+      for (const threadEl of addedThreadEls) {
+        const lineNum = getLine(threadEl);
+        const commentSide = getSide(threadEl);
+        const range = getRange(threadEl);
+        if (!commentSide) continue;
+        const lineEl = this.diffBuilder.getLineElByNumber(lineNum, commentSide);
+        // When the line the comment refers to does not exist, log an error
+        // but don't crash. This can happen e.g. if the API does not fully
+        // validate e.g. (robot) comments
+        if (!lineEl) {
+          console.error(
+            'thread attached to line ',
+            commentSide,
+            lineNum,
+            ' which does not exist.'
+          );
+          continue;
+        }
+        const contentEl = this.diffBuilder.getContentTdByLineEl(lineEl);
+        if (!contentEl) continue;
+        if (lineNum === 'LOST' && !contentEl.hasChildNodes()) {
+          contentEl.appendChild(this._portedCommentsWithoutRangeMessage());
+        }
+        const threadGroupEl = this._getOrCreateThreadGroup(
+          contentEl,
+          commentSide
+        );
+
+        const slotAtt = threadEl.getAttribute('slot');
+        if (range && isLongCommentRange(range) && slotAtt) {
+          const longRangeCommentHint = document.createElement(
+            'gr-ranged-comment-hint'
+          );
+          longRangeCommentHint.range = range;
+          longRangeCommentHint.setAttribute('threadElRootId', threadEl.rootId);
+          longRangeCommentHint.setAttribute('slot', slotAtt);
+          this.insertBefore(longRangeCommentHint, threadEl);
+          this._redispatchHoverEvents(longRangeCommentHint, threadEl);
+        }
+
+        // Create a slot for the thread and attach it to the thread group.
+        // The Polyfill has some bugs and this only works if the slot is
+        // attached to the group after the group is attached to the DOM.
+        // The thread group may already have a slot with the right name, but
+        // that is okay because the first matching slot is used and the rest
+        // are ignored.
+        const slot = document.createElement('slot');
+        if (slotAtt) slot.name = slotAtt;
+        threadGroupEl.appendChild(slot);
+        lastEl = threadEl;
+      }
+
+      // Safari is not binding newly created comment-thread
+      // with the slot somehow, replace itself will rebind it
+      // @see Issue 11182
+      if (isSafari() && lastEl && lastEl.replaceWith) {
+        lastEl.replaceWith(lastEl);
+      }
+
+      for (const threadEl of removedThreadEls) {
+        this.querySelector(
+          `gr-ranged-comment-hint[threadElRootId="${threadEl.rootId}"]`
+        )?.remove();
+      }
     });
-    this.nodeObserver.observe(this, {childList: true});
-    // Make sure to process existing gr-comment-threads that already exist.
-    this.processNodes([...this.childNodes].filter(isThreadEl), []);
   }
 
-  private processNodes(
-    addedThreadEls: GrDiffThreadElement[],
-    removedThreadEls: GrDiffThreadElement[]
-  ) {
-    this.updateRanges(addedThreadEls, removedThreadEls);
-    addedThreadEls.forEach(threadEl =>
-      this.redispatchHoverEvents(threadEl, threadEl)
-    );
-    // Removed nodes do not need to be handled because all this code does is
-    // adding a slot for the added thread elements, and the extra slots do
-    // not hurt. It's probably a bigger performance cost to remove them than
-    // to keep them around. Medium term we can even consider to add one slot
-    // for each line from the start.
-    let lastEl;
-    for (const threadEl of addedThreadEls) {
-      const lineNum = getLine(threadEl);
-      const commentSide = getSide(threadEl);
-      const range = getRange(threadEl);
-      if (!commentSide) continue;
-      const lineEl = this.diffBuilder.getLineElByNumber(lineNum, commentSide);
-      // When the line the comment refers to does not exist, log an error
-      // but don't crash. This can happen e.g. if the API does not fully
-      // validate e.g. (robot) comments
-      if (!lineEl) {
-        console.error(
-          'thread attached to line ',
-          commentSide,
-          lineNum,
-          ' which does not exist.'
-        );
-        continue;
-      }
-      const contentEl = this.diffBuilder.getContentTdByLineEl(lineEl);
-      if (!contentEl) continue;
-      if (lineNum === 'LOST' && !contentEl.hasChildNodes()) {
-        contentEl.appendChild(this.portedCommentsWithoutRangeMessage());
-      }
-      const threadGroupEl = this.getOrCreateThreadGroup(contentEl, commentSide);
-
-      const slotAtt = threadEl.getAttribute('slot');
-      if (range && isLongCommentRange(range) && slotAtt) {
-        const longRangeCommentHint = document.createElement(
-          'gr-ranged-comment-hint'
-        );
-        longRangeCommentHint.range = range;
-        longRangeCommentHint.setAttribute('threadElRootId', threadEl.rootId);
-        longRangeCommentHint.setAttribute('slot', slotAtt);
-        this.insertBefore(longRangeCommentHint, threadEl);
-        this.redispatchHoverEvents(longRangeCommentHint, threadEl);
-      }
-
-      // Create a slot for the thread and attach it to the thread group.
-      // The Polyfill has some bugs and this only works if the slot is
-      // attached to the group after the group is attached to the DOM.
-      // The thread group may already have a slot with the right name, but
-      // that is okay because the first matching slot is used and the rest
-      // are ignored.
-      const slot = document.createElement('slot');
-      if (slotAtt) slot.name = slotAtt;
-      threadGroupEl.appendChild(slot);
-      lastEl = threadEl;
-    }
-
-    // Safari is not binding newly created comment-thread
-    // with the slot somehow, replace itself will rebind it
-    // @see Issue 11182
-    if (isSafari() && lastEl && lastEl.replaceWith) {
-      lastEl.replaceWith(lastEl);
-    }
-
-    for (const threadEl of removedThreadEls) {
-      this.querySelector(
-        `gr-ranged-comment-hint[threadElRootId="${threadEl.rootId}"]`
-      )?.remove();
-    }
-  }
-
-  private unobserveNodes() {
-    if (this.nodeObserver) {
-      this.nodeObserver.disconnect();
-      this.nodeObserver = undefined;
-    }
-  }
-
-  private portedCommentsWithoutRangeMessage() {
+  _portedCommentsWithoutRangeMessage() {
     const div = document.createElement('div');
     const icon = document.createElement('iron-icon');
     icon.setAttribute('icon', 'gr-icons:info-outline');
@@ -1731,28 +972,28 @@ export class GrDiff extends LitElement implements GrDiffApi {
   /**
    * Get the preferences object including the safety bypass context (if any).
    */
-  private getBypassPrefs() {
-    assertIsDefined(this.prefs, 'prefs');
-    if (this.safetyBypass !== null) {
-      return {...this.prefs, context: this.safetyBypass};
+  _getBypassPrefs(prefs: DiffPreferencesInfo) {
+    if (this._safetyBypass !== null) {
+      return {...prefs, context: this._safetyBypass};
     }
-    return this.prefs;
+    return prefs;
   }
 
   clearDiffContent() {
-    this.unobserveNodes();
-    if (!this.diffTable) return;
-    while (this.diffTable.hasChildNodes()) {
-      this.diffTable.removeChild(this.diffTable.lastChild!);
+    this._unobserveNodes();
+    while (this.$.diffTable.hasChildNodes()) {
+      this.$.diffTable.removeChild(this.$.diffTable.lastChild!);
     }
   }
 
-  // Private but used in tests.
-  computeDiffHeaderItems() {
-    if (!this.diff || !this.diff.diff_header) {
+  _computeDiffHeaderItems(
+    diffInfoRecord: PolymerDeepPropertyChange<DiffInfo, DiffInfo>
+  ) {
+    const diffInfo = diffInfoRecord.base;
+    if (!diffInfo || !diffInfo.diff_header) {
       return [];
     }
-    return this.diff.diff_header.filter(
+    return diffInfo.diff_header.filter(
       item =>
         !(
           item.startsWith('diff --git ') ||
@@ -1764,37 +1005,49 @@ export class GrDiff extends LitElement implements GrDiffApi {
     );
   }
 
-  private handleFullBypass() {
-    this.safetyBypass = FULL_CONTEXT;
-    this.debounceRenderDiffTable();
+  _computeDiffHeaderHidden(items: string[]) {
+    return items.length === 0;
   }
 
-  private collapseContext() {
+  _handleFullBypass() {
+    this._safetyBypass = FULL_CONTEXT;
+    this._debounceRenderDiffTable();
+  }
+
+  _collapseContext() {
     // Uses the default context amount if the preference is for the entire file.
-    this.safetyBypass =
+    this._safetyBypass =
       this.prefs?.context && this.prefs.context >= 0
         ? null
         : createDefaultDiffPrefs().context;
-    this.debounceRenderDiffTable();
+    this._debounceRenderDiffTable();
+  }
+
+  _computeWarningClass(showWarning?: boolean) {
+    return showWarning ? 'warn' : '';
+  }
+
+  _computeErrorClass(errorMessage?: string | null) {
+    return errorMessage ? 'showError' : '';
   }
 
   toggleAllContext() {
     if (!this.prefs) {
       return;
     }
-    if (this.getBypassPrefs().context < 0) {
-      this.collapseContext();
+    if (this._getBypassPrefs(this.prefs).context < 0) {
+      this._collapseContext();
     } else {
-      this.handleFullBypass();
+      this._handleFullBypass();
     }
   }
 
-  private computeNewlineWarning() {
+  _computeNewlineWarning(warnLeft: boolean, warnRight: boolean) {
     const messages = [];
-    if (this.showNewlineWarningLeft) {
+    if (warnLeft) {
       messages.push(NO_NEWLINE_LEFT);
     }
-    if (this.showNewlineWarningRight) {
+    if (warnRight) {
       messages.push(NO_NEWLINE_RIGHT);
     }
     if (!messages.length) {
@@ -1803,28 +1056,16 @@ export class GrDiff extends LitElement implements GrDiffApi {
     return messages.join(' \u2014 '); // \u2014 - '—'
   }
 
-  // Private but used in tests.
-  computeNewlineWarningClass(warning: boolean) {
-    if (this.loading || !warning) {
+  _computeNewlineWarningClass(warning: boolean, loading: boolean) {
+    if (loading || !warning) {
       return 'newlineWarning hidden';
     }
     return 'newlineWarning';
   }
 }
 
-function extractAddedNodes(mutations: MutationRecord[]) {
-  return mutations.flatMap(mutation => [...mutation.addedNodes]);
-}
-
-function extractRemovedNodes(mutations: MutationRecord[]) {
-  return mutations.flatMap(mutation => [...mutation.removedNodes]);
-}
-
 declare global {
   interface HTMLElementTagNameMap {
     'gr-diff': GrDiff;
-  }
-  interface HTMLElementEventMap {
-    'loading-changed': ValueChangedEvent<boolean>;
   }
 }

@@ -571,21 +571,30 @@ suite('gr-diff-view tests', () => {
 
       assertIsDefined(element.diffHost);
       assertIsDefined(element.diffHost.diffElement);
-      MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
-      await element.updateComplete;
-      assert.equal(
-        element.diffHost.diffElement.viewMode,
-        DiffViewMode.SIDE_BY_SIDE
+      const computeContainerClassStub = sinon.stub(
+        element.diffHost.diffElement,
+        '_computeContainerClass'
       );
-      assert.isTrue(element.diffHost.diffElement.displayLine);
+      MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
+
+      await element.updateComplete;
+      assert(
+        computeContainerClassStub.lastCall.calledWithExactly(
+          true,
+          DiffViewMode.SIDE_BY_SIDE,
+          true
+        )
+      );
 
       MockInteractions.pressAndReleaseKeyOn(element, 27, null, 'Escape');
       await element.updateComplete;
-      assert.equal(
-        element.diffHost.diffElement.viewMode,
-        DiffViewMode.SIDE_BY_SIDE
+      assert(
+        computeContainerClassStub.lastCall.calledWithExactly(
+          true,
+          DiffViewMode.SIDE_BY_SIDE,
+          false
+        )
       );
-      assert.isFalse(element.diffHost.diffElement.displayLine);
 
       // Note that stubbing setReviewed means that the value of the
       // `element.reviewed` checkbox is not flipped.

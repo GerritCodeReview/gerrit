@@ -16,6 +16,23 @@
       "message": "@davido do you believe there is a way to avoid changing the Bazel dependencies in tests?",
       "revId": "7d19f5dacba8a127c8e6795972b0579a93be769e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8dcd072_0cd111a4",
+        "filename": "java/com/google/gerrit/server/config/MetricsConfig.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-07-14T08:08:54Z",
+      "side": 1,
+      "message": "This should be split into interface + implementation, so that we can avoid pulling all Gerrit configs in tests.",
+      "revId": "7d19f5dacba8a127c8e6795972b0579a93be769e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

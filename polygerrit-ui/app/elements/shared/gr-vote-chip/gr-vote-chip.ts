@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../gr-tooltip-content/gr-tooltip-content';
-import {LitElement, css, html, nothing} from 'lit';
+import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {
   ApprovalInfo,
@@ -138,7 +138,7 @@ export class GrVoteChip extends LitElement {
       return this.displayValue;
     }
     if (!this.label) {
-      return nothing;
+      return '';
     } else if (isDetailedLabelInfo(this.label)) {
       if (this.vote?.value) {
         return valueString(this.vote.value);
@@ -152,7 +152,7 @@ export class GrVoteChip extends LitElement {
         return valueString(this.label.value);
       }
     }
-    return nothing;
+    return '';
   }
 
   private computeClass() {

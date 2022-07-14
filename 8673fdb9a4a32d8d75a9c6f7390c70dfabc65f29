@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac8f379b_a892dc86",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-07-14T13:47:00Z",
+      "side": 1,
+      "message": "Merge markers are left",
+      "range": {
+        "startLine": 244,
+        "startChar": 1,
+        "endLine": 247,
+        "endChar": 23
+      },
+      "revId": "8673fdb9a4a32d8d75a9c6f7390c70dfabc65f29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a913b3cd_ddefe105",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-07-14T13:47:00Z",
+      "side": 1,
+      "message": "This wasn\u0027t part of the style on the base. Why does the icon change requires these changes?",
+      "range": {
+        "startLine": 250,
+        "startChar": 8,
+        "endLine": 255,
+        "endChar": 9
+      },
+      "revId": "8673fdb9a4a32d8d75a9c6f7390c70dfabc65f29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59b7d18c_1a2d328a",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-collapse.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-07-14T13:47:00Z",
+      "side": 1,
+      "message": "this seems opposite of what was behavior before.\n\nif showAll is true, it used to be expand-less",
+      "range": {
+        "startLine": 79,
+        "startChar": 6,
+        "endLine": 79,
+        "endChar": 70
+      },
+      "revId": "8673fdb9a4a32d8d75a9c6f7390c70dfabc65f29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

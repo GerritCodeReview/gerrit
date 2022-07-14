@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc946db1_f399c818",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-07-14T14:19:45Z",
+      "side": 1,
+      "message": "Do you need `iconStyles` here?",
+      "revId": "917f6f3a3816648980ee36f9653c98a99d94e676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f23bdaf5_7b907397",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-07-14T14:19:45Z",
+      "side": 1,
+      "message": "Maybe add a `size-18` class to `iconStyles`?",
+      "revId": "917f6f3a3816648980ee36f9653c98a99d94e676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -20,6 +20,8 @@ import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.RepositoryCaseMismatchException;
 import com.google.inject.Inject;
+import java.io.File;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,6 +30,8 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepository;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 
 /** Repository manager that uses in-memory repositories. */
 public class InMemoryRepositoryManager implements GitRepositoryManager {
@@ -84,28 +88,29 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
     try {
       get(name);
       return Status.ACTIVE;
-    } catch (RepositoryNotFoundException e) {
+    } catch (IOException e) {
       return Status.NON_EXISTENT;
     }
   }
 
   @Override
-  public synchronized Repo openRepository(Project.NameKey name) throws RepositoryNotFoundException {
+  public synchronized Repository openRepository(Project.NameKey name) throws IOException {
     return get(name);
   }
 
   @Override
-  public synchronized Repo createRepository(Project.NameKey name)
+  public synchronized Repository createRepository(Project.NameKey name)
       throws RepositoryCaseMismatchException, RepositoryNotFoundException {
-    Repo repo;
+    Repository repo;
     try {
       repo = get(name);
-      if (!repo.getDescription().getRepositoryName().equals(name.get())) {
+      if (repo instanceof Repo
+          && !((Repo) repo).getDescription().getRepositoryName().equals(name.get())) {
         throw new RepositoryCaseMismatchException(name);
       }
-    } catch (RepositoryNotFoundException e) {
+    } catch (IOException e) {
       repo = new Repo(name);
-      repos.put(normalize(name), repo);
+      repos.put(normalize(name), (Repo) repo);
     }
     return repo;
   }
@@ -123,7 +128,15 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
     repos.remove(normalize(name));
   }
 
-  private synchronized Repo get(Project.NameKey name) throws RepositoryNotFoundException {
+  private synchronized Repository get(Project.NameKey name) throws IOException {
+    if (name.get().equals("exynos-slsi")) {
+      FileRepositoryBuilder repositoryBuilder = new FileRepositoryBuilder();
+      repositoryBuilder.setMustExist(true);
+      repositoryBuilder.setGitDir(
+          new File("/usr/local/google/home/mariasavtchouk/tmp/exynos-slsi/.git"));
+      Repository repository = repositoryBuilder.build();
+      return repository;
+    }
     Repo repo = repos.get(normalize(name));
     if (repo != null) {
       repo.incrementOpen();

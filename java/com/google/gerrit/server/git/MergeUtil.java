@@ -856,8 +856,10 @@ public class MergeUtil {
     mergeCommit.setAuthor(author);
     mergeCommit.setCommitter(committer);
     mergeCommit.setMessage(msgbuf.toString());
-
-    CodeReviewCommit mergeResult = rw.parseCommit(inserter.insert(mergeCommit));
+    // In-memory Object inserter
+    ObjectId objectId = inserter.insert(mergeCommit);
+    CodeReviewCommit mergeResult =
+        CodeReviewCommit.newRevWalk(inserter.newReader()).parseCommit(objectId);
     mergeResult.setNotes(n.getNotes());
     return mergeResult;
   }

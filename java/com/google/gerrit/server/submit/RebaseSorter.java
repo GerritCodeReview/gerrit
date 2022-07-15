@@ -63,6 +63,7 @@ public class RebaseSorter {
   }
 
   public List<CodeReviewCommit> sort(Collection<CodeReviewCommit> toSort) throws IOException {
+    // Both changes target refs/heads/main-5300, since http://gpar/389696 is parent of  http://gpar/389697
     final List<CodeReviewCommit> sorted = new ArrayList<>();
     final Set<CodeReviewCommit> sort = new HashSet<>(toSort);
     while (!sort.isEmpty()) {

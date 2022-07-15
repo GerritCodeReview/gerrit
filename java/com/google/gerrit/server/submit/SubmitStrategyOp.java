@@ -110,6 +110,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
         args.rw);
     // Run the submit strategy implementation and record the merge tip state so
     // we can create the ref update.
+    // This tip is wrong for the second update
     CodeReviewCommit tipBefore = args.mergeTip.getCurrentTip();
     alreadyMergedCommit = getAlreadyMergedCommit(ctx);
     if (alreadyMergedCommit == null) {

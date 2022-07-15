@@ -81,6 +81,7 @@ public class ChainedReceiveCommands implements RefCache {
         cmd,
         old,
         old.getResult());
+    // Exception point
     checkArgument(
         cmd.getOldId().equals(old.getNewId()),
         "cannot chain ref update %s after update %s with different new ID",

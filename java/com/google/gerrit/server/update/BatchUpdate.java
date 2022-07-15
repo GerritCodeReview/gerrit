@@ -722,19 +722,25 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   private void executePostOps(Map<Change.Id, ChangeData> changeDatas) throws Exception {
-    PostUpdateContextImpl ctx = new PostUpdateContextImpl(changeDatas);
-    for (BatchUpdateOp op : ops.values()) {
-      try (TraceContext.TraceTimer ignored =
-          TraceContext.newTimer(op.getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {
-        op.postUpdate(ctx);
+    try {
+      PostUpdateContextImpl ctx = new PostUpdateContextImpl(changeDatas);
+      for (BatchUpdateOp op : ops.values()) {
+        try (TraceContext.TraceTimer ignored =
+            TraceContext.newTimer(
+                op.getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {
+          op.postUpdate(ctx);
+        }
       }
-    }
 
-    for (RepoOnlyOp op : repoOnlyOps) {
-      try (TraceContext.TraceTimer ignored =
-          TraceContext.newTimer(op.getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {
-        op.postUpdate(ctx);
+      for (RepoOnlyOp op : repoOnlyOps) {
+        try (TraceContext.TraceTimer ignored =
+            TraceContext.newTimer(
+                op.getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {
+          op.postUpdate(ctx);
+        }
       }
+    } catch (Exception e) {
+      logger.atWarning().withCause(e).log("Ignore post update exceptions");
     }
   }
 

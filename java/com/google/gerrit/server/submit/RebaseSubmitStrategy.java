@@ -58,6 +58,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
   public ImmutableList<SubmitStrategyOp> buildOps(Collection<CodeReviewCommit> toMerge) {
     List<CodeReviewCommit> sorted;
     try {
+      // the second merge command appears here
       sorted = args.rebaseSorter.sort(toMerge);
     } catch (IOException | StorageException e) {
       throw new StorageException("Commit sorting failed", e);

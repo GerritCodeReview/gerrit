@@ -54,8 +54,8 @@ public class SubmitStrategyListener implements BatchUpdateListener {
   @Override
   public void afterUpdateRepos() throws ResourceConflictException {
     markCleanMerges();
-    List<Change.Id> alreadyMerged = checkCommitStatus();
-    findUnmergedChanges(alreadyMerged);
+    // List<Change.Id> alreadyMerged = checkCommitStatus();
+    // findUnmergedChanges(alreadyMerged);
   }
 
   @Override

@@ -19,14 +19,27 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.index.project.ProjectIndexer;
+import com.google.gerrit.server.index.change.ChangeIndexer;
+import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
 public class SubmitByRebaseIfNecessaryIT extends AbstractSubmitByRebase {
+  @ConfigSuite.Config
+  public static Config submitWholeTopicEnabled() {
+    return submitWholeTopicEnabledConfig();
+  }
+
   @Inject private ProjectOperations projectOperations;
+  @Inject private ChangeIndexer changeIndex;
+  @Inject private ProjectIndexer projectIndexer;
 
   @Override
   protected SubmitType getSubmitType() {
@@ -50,6 +63,23 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmitByRebase {
     assertRefUpdatedEvents(oldHead, head);
     assertChangeMergedEvents(change.getChangeId(), head.name());
   }
+
+  @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
+  public void submitMerge() throws Throwable {
+    Project.NameKey nameKey = Project.nameKey("exynos-slsi");
+    projectIndexer.index(nameKey);
+    changeIndex.index(nameKey, Change.id(389696));
+    changeIndex.index(nameKey, Change.id(389697));
+    changeIndex.index(nameKey, Change.id(389620));
+    changeIndex.index(nameKey, Change.id(389619));
+    assertThat(gApi.changes().query("topic:modem_import_main-5300_238379804").get()).hasSize(2);
+
+    // assertThat(gApi.changes().id(389696).get().topic).isEmpty();
+    assertThat(gApi.changes().id(389696).submittedTogether()).hasSize(2);
+    gApi.changes().id(389696).current().submit();
+  }
+  // exynos-slsi
 
   @Test
   @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)

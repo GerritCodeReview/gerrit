@@ -733,7 +733,7 @@ public class MergeOp implements AutoCloseable {
         ob.mergeTip = new MergeTip(ob.oldTip, commitsToSubmit);
         SubmitStrategy strategy =
             submitStrategyFactory.create(
-                submitting.submitType(),
+                SubmitType.REBASE_IF_NECESSARY,
                 or.rw,
                 or.canMergeFlag,
                 getAlreadyAccepted(or, ob.oldTip),

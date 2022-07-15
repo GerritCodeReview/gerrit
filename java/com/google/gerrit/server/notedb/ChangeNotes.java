@@ -656,7 +656,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
      * rather try to avoid.
      */
     if (!Strings.isNullOrEmpty(stateServerId) && !args.serverId.equals(stateServerId)) {
-      throw new InvalidServerIdException(args.serverId, stateServerId);
+      // throw new InvalidServerIdException(args.serverId, stateServerId);
     }
 
     state.copyColumnsTo(change);

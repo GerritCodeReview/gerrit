@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.toMap;
 
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.InMemoryInserter;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
@@ -52,7 +53,7 @@ public class RepoView {
 
   RepoView(GitRepositoryManager repoManager, Project.NameKey project) throws IOException {
     repo = repoManager.openRepository(project);
-    inserter = repo.newObjectInserter();
+    inserter = new InMemoryInserter(repo);
     inserterWrapper = new NonFlushingInserter(inserter);
     rw = new RevWalk(inserter.newReader());
     commands = new ChainedReceiveCommands(repo);
@@ -67,8 +68,8 @@ public class RepoView {
         inserter);
     this.repo = requireNonNull(repo);
     this.rw = requireNonNull(rw);
-    this.inserter = requireNonNull(inserter);
-    inserterWrapper = new NonFlushingInserter(inserter);
+    this.inserter = new InMemoryInserter(repo);
+    inserterWrapper = new NonFlushingInserter(this.inserter);
     commands = new ChainedReceiveCommands(repo);
     closeRepo = false;
   }

@@ -82,7 +82,7 @@ public class MergeSuperSet {
   }
 
   public static boolean wholeTopicEnabled(Config config) {
-    return config.getBoolean("change", null, "submitWholeTopic", false);
+    return true;
   }
 
   public MergeSuperSet setMergeOpRepoManager(MergeOpRepoManager orm) {

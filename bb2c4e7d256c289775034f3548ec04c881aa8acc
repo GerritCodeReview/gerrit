@@ -146,6 +146,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "246c495b_247b0d76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-15T06:22:28Z",
+      "side": 1,
+      "message": "\u003e I think it\u0027s a bit more complicated\n\nYeah, I know. I thought the plan is something like this?\n\n1. have a schema migration that migrates label functions to submit requirements on installations/hosts that do not use Prolog (this change and follow-up change that adds the schema migration)\n\n2. for hosts that use Prolog publish a guide how admins can migrate to submit requirements manually\n\n3. say in the release notes that if Prolog is used doing the manual migration is mandatory before upgrading Gerrit and probably make the Gerrit upgrade abort if it still finds Prolog rules or any deprecated label functions\n\n4. Drop the code for the deprecated and now unused label functions\n\nDid I get this right?",
+      "parentUuid": "df8b61ea_58e957d5",
+      "range": {
+        "startLine": 7,
+        "startChar": 6,
+        "endLine": 7,
+        "endChar": 9
+      },
+      "revId": "bb2c4e7d256c289775034f3548ec04c881aa8acc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bb5da239_fc91deff",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

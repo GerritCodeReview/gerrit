@@ -33,7 +33,7 @@ export class GrChangeListColumnRequirementsSummary extends LitElement {
         iron-icon.check-circle-filled {
           margin-right: var(--spacing-xs);
         }
-        iron-icon.commentIcon {
+        .material-icon.commentIcon {
           color: var(--deemphasized-text-color);
           margin-left: var(--spacing-s);
         }

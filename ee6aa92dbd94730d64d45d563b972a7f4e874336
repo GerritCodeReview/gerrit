@@ -46,6 +46,30 @@
       },
       "revId": "ee6aa92dbd94730d64d45d563b972a7f4e874336",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd19324d_f5176e45",
+        "filename": "polygerrit-ui/app/elements/shared/gr-repo-branch-picker/gr-repo-branch-picker.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-15T13:05:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "033e497f_cee00e33",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 66,
+        "endChar": 10
+      },
+      "revId": "ee6aa92dbd94730d64d45d563b972a7f4e874336",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

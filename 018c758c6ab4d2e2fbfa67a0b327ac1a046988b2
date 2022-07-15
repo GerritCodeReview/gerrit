@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49a4a6f5_f35f774e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-07-15T17:59:15Z",
+      "side": 1,
+      "message": "I tend to like it more when we set the component properties directly in unit tests instead of going through models. Then the test and the component is more encapsulated. What I mean is that you could just do\n```\n    element.selectedChanges \u003d changes;\n```\ninstead of\n```\n    getChangesStub.returns(changes);\n    model.sync(changes);\n    await waitUntilObserved(\n      model.loadingState$,\n      state \u003d\u003e state \u003d\u003d\u003d LoadingState.LOADED\n    );\n    await selectChange(change1);\n```\nWDYT?",
+      "range": {
+        "startLine": 72,
+        "startChar": 4,
+        "endLine": 79,
+        "endChar": 32
+      },
+      "revId": "018c758c6ab4d2e2fbfa67a0b327ac1a046988b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27a813b9_26317412",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-07-15T17:59:15Z",
+      "side": 1,
+      "message": "same as in other comment",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 83,
+        "endChar": 28
+      },
+      "revId": "018c758c6ab4d2e2fbfa67a0b327ac1a046988b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -136,4 +136,8 @@ export enum Interaction {
   DIFF_AUTOCLOSE_RELOAD_ON_WHITESPACE = 'diff-autoclose-reload-on-whitespace',
   DIFF_AUTOCLOSE_RELOAD_ON_SYNTAX = 'diff-autoclose-reload-on-syntax',
   DIFF_AUTOCLOSE_RELOAD_FILELIST_PREFS = 'diff-autoclose-reload-filelist-prefs',
+  DIFF_AUTOCLOSE_DIFF_HOST_CREATED = 'diff-autoclose-diff-host-created',
+  DIFF_AUTOCLOSE_DIFF_HOST_NOT_RENDERING = 'diff-autoclose-diff-not-rendering',
+  DIFF_AUTOCLOSE_FILE_LIST_UPDATED = 'diff-autoclose-file-list-updated',
+  DIFF_AUTOCLOSE_SHOWN_FILES_CHANGED = 'diff-autoclose-shown-files-changed',
 }

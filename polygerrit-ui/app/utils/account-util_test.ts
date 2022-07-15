@@ -6,6 +6,7 @@
 import '../test/common-test-setup-karma';
 import {
   computeVoteableText,
+  extractTaggedEmails,
   getAccountTemplate,
   isServiceUser,
   removeServiceUsers,
@@ -58,6 +59,15 @@ suite('account-util tests 3', () => {
     assert.isFalse(isServiceUser(ERNIE));
     assert.isTrue(isServiceUser(SERVY));
     assert.isTrue(isServiceUser(BOTTY));
+  });
+
+  test('extractTagged', () => {
+    const text =
+      'Hi @kamilm@google.com and @brohlfs@google.com can you take a look at this?';
+    assert.deepEqual(extractTaggedEmails(text), [
+      'kamilm@google.com',
+      'brohlfs@google.com',
+    ]);
   });
 
   test('removeServiceUsers', () => {

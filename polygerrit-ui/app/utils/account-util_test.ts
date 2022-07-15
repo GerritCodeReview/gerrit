@@ -6,6 +6,7 @@
 import '../test/common-test-setup-karma';
 import {
   computeVoteableText,
+  extractTaggedEmails,
   getAccountTemplate,
   isServiceUser,
   removeServiceUsers,
@@ -58,6 +59,31 @@ suite('account-util tests', () => {
     assert.isFalse(isServiceUser(ERNIE));
     assert.isTrue(isServiceUser(SERVY));
     assert.isTrue(isServiceUser(BOTTY));
+  });
+
+  test('extractTagged', () => {
+    let text =
+      'Hi @kamilm@google.com and @brohlfs@google.com can you take a look at this?';
+    assert.deepEqual(extractTaggedEmails(text), [
+      'kamilm@google.com',
+      'brohlfs@google.com',
+    ]);
+
+    // with extra @
+    text = '@@abc@google.com';
+    assert.deepEqual(extractTaggedEmails(text), []);
+
+    // with spaces in email
+    text = '@a bc@google.com';
+    assert.deepEqual(extractTaggedEmails(text), []);
+
+    // with invalid email
+    text = '@abcgoogle.com';
+    assert.deepEqual(extractTaggedEmails(text), []);
+
+    // with newline before email
+    text = '\n\n\n random text  \n\n@abc@google.com';
+    assert.deepEqual(extractTaggedEmails(text), ['abc@google.com']);
   });
 
   test('removeServiceUsers', () => {

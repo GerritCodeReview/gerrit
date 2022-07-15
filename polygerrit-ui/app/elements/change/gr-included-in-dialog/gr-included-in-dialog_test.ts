@@ -20,6 +20,29 @@ suite('gr-included-in-dialog', () => {
     await element.updateComplete;
   });
 
+  test('render', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <header>
+        <h1 class="heading-1" id="title">Included In:</h1>
+        <span class="closeButtonContainer">
+          <gr-button
+            aria-disabled="false"
+            id="closeButton"
+            link=""
+            role="button"
+            tabindex="0"
+          >
+            Close
+          </gr-button>
+        </span>
+        <iron-input id="filterInput">
+          <input placeholder="Filter" />
+        </iron-input>
+      </header>
+      <div>Loading...</div>
+    `);
+  });
+
   test('computeGroups', () => {
     element.includedIn = {branches: [], tags: []} as IncludedInInfo;
     element.filterText = '';

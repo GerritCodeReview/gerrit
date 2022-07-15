@@ -102,6 +102,55 @@ suite('gr-download-dialog', () => {
     await element.updateComplete;
   });
 
+  test('render', () => {
+    // prettier and shadowDom string don't agree on the long text in the h3
+    expect(element).shadowDom.to
+      .equal(/* prettier-ignore */ /* HTML */ `
+      <section>
+        <h3 class="heading-3">
+          Patch set 1 of
+          0
+        </h3>
+      </section>
+      <section class="hidden">
+        <gr-download-commands
+          id="downloadCommands"
+          show-keyboard-shortcut-tooltips=""
+        >
+        </gr-download-commands>
+      </section>
+      <section class="flexContainer">
+        <div class="patchFiles">
+          <label> Patch file </label>
+          <div>
+            <a download="" href="" id="download"> </a>
+            <a download="" href=""> </a>
+          </div>
+        </div>
+        <div class="archivesContainer">
+          <label> Archive </label>
+          <div class="archives" id="archives">
+            <a download="" href=""> tgz </a>
+            <a download="" href=""> tar </a>
+          </div>
+        </div>
+      </section>
+      <section class="footer">
+        <span class="closeButtonContainer">
+          <gr-button
+            aria-disabled="false"
+            id="closeButton"
+            link=""
+            role="button"
+            tabindex="0"
+          >
+            Close
+          </gr-button>
+        </span>
+      </section>
+    `);
+  });
+
   test('anchors use download attribute', () => {
     const anchors = Array.from(queryAll(element, 'a'));
     assert.isTrue(!anchors.some(a => !a.hasAttribute('download')));

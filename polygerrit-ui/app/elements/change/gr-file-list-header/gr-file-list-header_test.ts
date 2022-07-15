@@ -56,6 +56,88 @@ suite('gr-file-list-header tests', () => {
     element.diffPrefs = createDefaultDiffPrefs();
   });
 
+  test('render', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div class="patchInfo-header">
+        <div class="patchInfo-left">
+          <div class="patchInfoContent">
+            <gr-patch-range-select id="rangeSelect"> </gr-patch-range-select>
+            <span class="separator"> </span>
+            <gr-commit-info> </gr-commit-info>
+            <span class="container latestPatchContainer">
+              <span class="separator"> </span>
+              <a> Go to latest patch set </a>
+            </span>
+          </div>
+        </div>
+        <div class="rightControls">
+          <div class="fileViewActions">
+            <span class="fileViewActionsLabel"> Diff view: </span>
+            <gr-diff-mode-selector id="modeSelect"> </gr-diff-mode-selector>
+            <span class="hideOnEdit" hidden="" id="diffPrefsContainer">
+              <gr-tooltip-content has-tooltip="" title="Diff preferences">
+                <gr-button
+                  aria-disabled="false"
+                  class="desktop prefsButton"
+                  link=""
+                  role="button"
+                  tabindex="0"
+                >
+                  <span class="filled material-icon"> settings </span>
+                </gr-button>
+              </gr-tooltip-content>
+            </span>
+            <span class="separator"> </span>
+          </div>
+          <span class="desktop downloadContainer">
+            <gr-tooltip-content
+              has-tooltip=""
+              title="Open download overlay (shortcut: d)"
+            >
+              <gr-button
+                aria-disabled="false"
+                class="download"
+                link=""
+                role="button"
+                tabindex="0"
+              >
+                Download
+              </gr-button>
+            </gr-tooltip-content>
+          </span>
+          <gr-tooltip-content
+            has-tooltip=""
+            title="Show/hide all inline diffs (shortcut: I)"
+          >
+            <gr-button
+              aria-disabled="false"
+              id="expandBtn"
+              link=""
+              role="button"
+              tabindex="0"
+            >
+              Expand All
+            </gr-button>
+          </gr-tooltip-content>
+          <gr-tooltip-content
+            has-tooltip=""
+            title="Show/hide all inline diffs (shortcut: I)"
+          >
+            <gr-button
+              aria-disabled="false"
+              id="collapseBtn"
+              link=""
+              role="button"
+              tabindex="0"
+            >
+              Collapse All
+            </gr-button>
+          </gr-tooltip-content>
+        </div>
+      </div>
+    `);
+  });
+
   test('Diff preferences hidden when no prefs', async () => {
     assert.isTrue(
       queryAndAssert<HTMLElement>(element, '#diffPrefsContainer').hidden

@@ -146,6 +146,137 @@ suite('gr-change-actions tests', () => {
       await element.reload();
     });
 
+    test('render', () => {
+      expect(element).shadowDom.to.equal(/* HTML */ `
+        <div id="mainContent">
+          <span hidden="" id="actionLoadingMessage"> </span>
+          <section id="primaryActions">
+            <gr-tooltip-content
+              has-tooltip=""
+              position-below=""
+              title="Submit patch set 2 into master"
+            >
+              <gr-button
+                aria-disabled="false"
+                class="submit"
+                data-action-key="submit"
+                data-label="Submit"
+                link=""
+                role="button"
+                tabindex="0"
+              >
+                <iron-icon> </iron-icon>
+                Submit
+              </gr-button>
+            </gr-tooltip-content>
+          </section>
+          <section id="secondaryActions">
+            <gr-tooltip-content
+              has-tooltip=""
+              position-below=""
+              title="Rebase onto tip of branch or parent change"
+            >
+              <gr-button
+                aria-disabled="true"
+                class="rebase"
+                data-action-key="rebase"
+                data-label="Rebase"
+                disabled=""
+                link=""
+                role="button"
+                tabindex="-1"
+              >
+                <iron-icon icon="gr-icons:rebase"> </iron-icon>
+                Rebase
+              </gr-button>
+            </gr-tooltip-content>
+          </section>
+          <gr-button aria-disabled="false" hidden="" role="button" tabindex="0">
+            Loading actions...
+          </gr-button>
+          <gr-dropdown id="moreActions" link="">
+            <span aria-labelledby="moreMessage" class="material-icon">
+              more_vert
+            </span>
+            <span id="moreMessage"> More </span>
+          </gr-dropdown>
+        </div>
+        <gr-overlay
+          aria-hidden="true"
+          id="overlay"
+          style="outline: none; display: none;"
+          tabindex="-1"
+          with-backdrop=""
+        >
+          <gr-confirm-rebase-dialog class="confirmDialog" id="confirmRebase">
+          </gr-confirm-rebase-dialog>
+          <gr-confirm-cherrypick-dialog
+            class="confirmDialog"
+            id="confirmCherrypick"
+          >
+          </gr-confirm-cherrypick-dialog>
+          <gr-confirm-cherrypick-conflict-dialog
+            class="confirmDialog"
+            id="confirmCherrypickConflict"
+          >
+          </gr-confirm-cherrypick-conflict-dialog>
+          <gr-confirm-move-dialog class="confirmDialog" id="confirmMove">
+          </gr-confirm-move-dialog>
+          <gr-confirm-revert-dialog
+            class="confirmDialog"
+            id="confirmRevertDialog"
+          >
+          </gr-confirm-revert-dialog>
+          <gr-confirm-abandon-dialog
+            class="confirmDialog"
+            id="confirmAbandonDialog"
+          >
+          </gr-confirm-abandon-dialog>
+          <gr-confirm-submit-dialog
+            class="confirmDialog"
+            id="confirmSubmitDialog"
+          >
+          </gr-confirm-submit-dialog>
+          <gr-dialog
+            class="confirmDialog"
+            confirm-label="Create"
+            id="createFollowUpDialog"
+            role="dialog"
+          >
+            <div class="header" slot="header">Create Follow-Up Change</div>
+            <div class="main" slot="main">
+              <gr-create-change-dialog id="createFollowUpChange">
+              </gr-create-change-dialog>
+            </div>
+          </gr-dialog>
+          <gr-dialog
+            class="confirmDialog"
+            confirm-label="Delete"
+            confirm-on-enter=""
+            id="confirmDeleteDialog"
+            role="dialog"
+          >
+            <div class="header" slot="header">Delete Change</div>
+            <div class="main" slot="main">
+              Do you really want to delete the change?
+            </div>
+          </gr-dialog>
+          <gr-dialog
+            class="confirmDialog"
+            confirm-label="Delete"
+            confirm-on-enter=""
+            id="confirmDeleteEditDialog"
+            role="dialog"
+          >
+            <div class="header" slot="header">Delete Change Edit</div>
+            <div class="main" slot="main">
+              Do you really want to delete the edit?
+            </div>
+          </gr-dialog>
+        </gr-overlay>
+      `);
+    });
+
     test('show-revision-actions event should fire', async () => {
       const spy = sinon.spy(element, 'sendShowRevisionActions');
       element.reload();

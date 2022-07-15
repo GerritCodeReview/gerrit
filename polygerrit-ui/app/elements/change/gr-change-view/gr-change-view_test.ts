@@ -369,7 +369,7 @@ suite('gr-change-view tests', () => {
       changeNum: TEST_NUMERIC_CHANGE_ID,
       project: 'gerrit' as RepoName,
     };
-    // Do this asynchronously as som tests don't expect the elemet to have
+    // Do this asynchronously as some tests don't expect the element to have
     // rendered yet.
     element.updateComplete.then(() => {
       assertIsDefined(element.actions);
@@ -379,6 +379,180 @@ suite('gr-change-view tests', () => {
 
   teardown(async () => {
     await element.updateComplete;
+  });
+
+  test('render', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div class="container loading">Loading...</div>
+      <div aria-hidden="false" class="container" hidden="" id="mainContent">
+        <section class="changeInfoSection">
+          <div class="header">
+            <h1 class="assistive-tech-only">Change :</h1>
+            <div class="headerTitle">
+              <div class="changeStatuses"></div>
+              <gr-change-star id="changeStar"> </gr-change-star>
+              <a aria-label="Change undefined" class="changeNumber"> </a>
+              <span class="changeNumberColon"> : </span>
+              <span class="headerSubject"> </span>
+              <gr-copy-clipboard
+                class="changeCopyClipboard"
+                hideinput=""
+                text="undefined: undefined | http://localhost:9876undefined"
+              >
+              </gr-copy-clipboard>
+            </div>
+            <div class="commitActions">
+              <gr-change-actions hidden="" id="actions"> </gr-change-actions>
+            </div>
+          </div>
+          <h2 class="assistive-tech-only">Change metadata</h2>
+          <div class="changeInfo">
+            <div class="changeInfo-column changeMetadata hideOnMobileOverlay">
+              <gr-change-metadata id="metadata"> </gr-change-metadata>
+            </div>
+            <div class="changeInfo-column mainChangeInfo" id="mainChangeInfo">
+              <div class="hideOnMobileOverlay" id="commitAndRelated">
+                <div class="commitContainer">
+                  <h3 class="assistive-tech-only">Commit Message</h3>
+                  <div>
+                    <gr-button
+                      aria-disabled="false"
+                      class="reply"
+                      id="replyBtn"
+                      primary=""
+                      role="button"
+                      tabindex="0"
+                      title="Open reply dialog to publish comments and add reviewers (shortcut: a)"
+                    >
+                      Reply
+                    </gr-button>
+                  </div>
+                  <div class="commitMessage" id="commitMessage">
+                    <gr-editable-content
+                      id="commitMessageEditor"
+                      remove-zero-width-space=""
+                    >
+                      <gr-linked-text pre="" remove-zero-width-space="">
+                        <span id="output" slot="insert"> </span>
+                      </gr-linked-text>
+                    </gr-editable-content>
+                  </div>
+                  <h3 class="assistive-tech-only">
+                    Comments and Checks Summary
+                  </h3>
+                  <gr-change-summary> </gr-change-summary>
+                  <gr-endpoint-decorator name="commit-container">
+                    <gr-endpoint-param name="change"> </gr-endpoint-param>
+                    <gr-endpoint-param name="revision"> </gr-endpoint-param>
+                  </gr-endpoint-decorator>
+                </div>
+                <div class="relatedChanges">
+                  <gr-related-changes-list id="relatedChanges">
+                  </gr-related-changes-list>
+                </div>
+                <div class="emptySpace"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <h2 class="assistive-tech-only">Files and Comments tabs</h2>
+        <paper-tabs dir="null" id="primaryTabs" role="tablist" tabindex="0">
+          <paper-tab
+            aria-disabled="false"
+            aria-selected="true"
+            class="iron-selected"
+            data-name="files"
+            role="tab"
+            tabindex="0"
+          >
+            <span> Files </span>
+          </paper-tab>
+          <paper-tab
+            aria-disabled="false"
+            aria-selected="false"
+            class="commentThreads"
+            data-name="comments"
+            role="tab"
+            tabindex="-1"
+          >
+            <gr-tooltip-content has-tooltip="" title="">
+              <span> Comments </span>
+            </gr-tooltip-content>
+          </paper-tab>
+          <paper-tab
+            aria-disabled="false"
+            aria-selected="false"
+            data-name="change-view-tab-header-url"
+            role="tab"
+            tabindex="-1"
+          >
+            <gr-endpoint-decorator name="change-view-tab-header-url">
+              <gr-endpoint-param name="change"> </gr-endpoint-param>
+              <gr-endpoint-param name="revision"> </gr-endpoint-param>
+            </gr-endpoint-decorator>
+          </paper-tab>
+        </paper-tabs>
+        <section class="patchInfo">
+          <div>
+            <gr-file-list-header id="fileListHeader"> </gr-file-list-header>
+            <gr-file-list class="hideOnMobileOverlay" id="fileList">
+            </gr-file-list>
+          </div>
+        </section>
+        <gr-endpoint-decorator name="change-view-integration">
+          <gr-endpoint-param name="change"> </gr-endpoint-param>
+          <gr-endpoint-param name="revision"> </gr-endpoint-param>
+        </gr-endpoint-decorator>
+        <paper-tabs dir="null" id="secondaryTabs" role="tablist" tabindex="0">
+          <paper-tab
+            aria-disabled="false"
+            aria-selected="false"
+            class="changeLog"
+            data-name="_changeLog"
+            role="tab"
+            tabindex="-1"
+          >
+            Change Log
+          </paper-tab>
+        </paper-tabs>
+        <section class="changeLog">
+          <h2 class="assistive-tech-only">Change Log</h2>
+          <gr-messages-list class="hideOnMobileOverlay"> </gr-messages-list>
+        </section>
+      </div>
+      <gr-apply-fix-dialog id="applyFixDialog"> </gr-apply-fix-dialog>
+      <gr-overlay
+        aria-hidden="true"
+        id="downloadOverlay"
+        style="outline: none; display: none;"
+        tabindex="-1"
+        with-backdrop=""
+      >
+        <gr-download-dialog id="downloadDialog" role="dialog">
+        </gr-download-dialog>
+      </gr-overlay>
+      <gr-overlay
+        aria-hidden="true"
+        id="includedInOverlay"
+        style="outline: none; display: none;"
+        tabindex="-1"
+        with-backdrop=""
+      >
+        <gr-included-in-dialog id="includedInDialog"> </gr-included-in-dialog>
+      </gr-overlay>
+      <gr-overlay
+        aria-hidden="true"
+        class="scrollable"
+        id="replyOverlay"
+        no-cancel-on-esc-key=""
+        no-cancel-on-outside-click=""
+        scroll-action="lock"
+        style="outline: none; display: none;"
+        tabindex="-1"
+        with-backdrop=""
+      >
+      </gr-overlay>
+    `);
   });
 
   test('handleMessageAnchorTap', async () => {

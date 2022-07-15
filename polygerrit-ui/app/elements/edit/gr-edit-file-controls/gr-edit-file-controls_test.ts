@@ -25,6 +25,14 @@ suite('gr-edit-file-controls tests', () => {
     await element.updateComplete;
   });
 
+  test('render', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <gr-dropdown down-arrow="" id="actions" link="" vertical-offset="20">
+        Actions
+      </gr-dropdown>
+    `);
+  });
+
   test('open tap emits event', async () => {
     const actions = queryAndAssert<GrDropdown>(element, '#actions');
     element.filePath = 'foo';

@@ -44,6 +44,143 @@ suite('gr-edit-controls tests', () => {
     await element.updateComplete;
   });
 
+  test('render', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <gr-button
+        aria-disabled="false"
+        id="open"
+        link=""
+        role="button"
+        tabindex="0"
+      >
+        Add/Open/Upload
+      </gr-button>
+      <gr-button
+        aria-disabled="false"
+        id="delete"
+        link=""
+        role="button"
+        tabindex="0"
+      >
+        Delete
+      </gr-button>
+      <gr-button
+        aria-disabled="false"
+        id="rename"
+        link=""
+        role="button"
+        tabindex="0"
+      >
+        Rename
+      </gr-button>
+      <gr-button
+        aria-disabled="false"
+        class="invisible"
+        id="restore"
+        link=""
+        role="button"
+        tabindex="0"
+      >
+        Restore
+      </gr-button>
+      <gr-overlay
+        aria-hidden="true"
+        id="overlay"
+        style="outline: none; display: none;"
+        tabindex="-1"
+        with-backdrop=""
+      >
+        <gr-dialog
+          class="dialog invisible"
+          confirm-label="Confirm"
+          confirm-on-enter=""
+          disabled=""
+          id="openDialog"
+          role="dialog"
+        >
+          <div class="header" slot="header">
+            Add a new file or open an existing file
+          </div>
+          <div class="main" slot="main">
+            <gr-autocomplete
+              placeholder="Enter an existing or new full file path."
+            >
+            </gr-autocomplete>
+            <div contenteditable="true" id="dragDropArea">
+              <p>Drag and drop a file here</p>
+              <p>or</p>
+              <p>
+                <iron-input>
+                  <input
+                    hidden=""
+                    id="fileUploadInput"
+                    multiple=""
+                    type="file"
+                  />
+                </iron-input>
+                <label for="fileUploadInput">
+                  <gr-button
+                    aria-disabled="false"
+                    id="fileUploadBrowse"
+                    role="button"
+                    tabindex="0"
+                  >
+                    Browse
+                  </gr-button>
+                </label>
+              </p>
+            </div>
+          </div>
+        </gr-dialog>
+        <gr-dialog
+          class="dialog invisible"
+          confirm-label="Delete"
+          confirm-on-enter=""
+          disabled=""
+          id="deleteDialog"
+          role="dialog"
+        >
+          <div class="header" slot="header">Delete a file from the repo</div>
+          <div class="main" slot="main">
+            <gr-autocomplete placeholder="Enter an existing full file path.">
+            </gr-autocomplete>
+          </div>
+        </gr-dialog>
+        <gr-dialog
+          class="dialog invisible"
+          confirm-label="Rename"
+          confirm-on-enter=""
+          disabled=""
+          id="renameDialog"
+          role="dialog"
+        >
+          <div class="header" slot="header">Rename a file in the repo</div>
+          <div class="main" slot="main">
+            <gr-autocomplete placeholder="Enter an existing full file path.">
+            </gr-autocomplete>
+            <iron-input id="newPathIronInput">
+              <input id="newPathInput" placeholder="Enter the new path." />
+            </iron-input>
+          </div>
+        </gr-dialog>
+        <gr-dialog
+          class="dialog invisible"
+          confirm-label="Restore"
+          confirm-on-enter=""
+          id="restoreDialog"
+          role="dialog"
+        >
+          <div class="header" slot="header">Restore this file?</div>
+          <div class="main" slot="main">
+            <iron-input>
+              <input />
+            </iron-input>
+          </div>
+        </gr-dialog>
+      </gr-overlay>
+    `);
+  });
+
   test('all actions exist', () => {
     // We take 1 away from the total found, due to an extra button being
     // added for the file uploads (browse).

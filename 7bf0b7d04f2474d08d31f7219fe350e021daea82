@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9575f8d_ac1cfa4e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 26
+      },
+      "lineNbr": 802,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-15T12:48:51Z",
+      "side": 1,
+      "message": "this won\u0027t interpolate inside normal double quotes, must use backticks inside ${}, I\u0027m surprised it\u0027s not messing up the test, maybe just a lucky fluke that it is still finding `.filled` and ignoring the single quotes",
+      "range": {
+        "startLine": 802,
+        "startChar": 20,
+        "endLine": 802,
+        "endChar": 69
+      },
+      "revId": "7bf0b7d04f2474d08d31f7219fe350e021daea82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

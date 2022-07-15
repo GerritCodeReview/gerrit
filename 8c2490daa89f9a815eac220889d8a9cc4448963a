@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb47368b_2b938aa1",
+        "filename": "java/com/google/gerrit/server/restapi/change/PreviewFix.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-07-15T23:41:05Z",
+      "side": 1,
+      "message": "Did you intentionally move to an earlier year?",
+      "range": {
+        "startLine": 1,
+        "startChar": 19,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "8c2490daa89f9a815eac220889d8a9cc4448963a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

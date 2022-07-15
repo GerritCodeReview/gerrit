@@ -1681,7 +1681,7 @@ export class GrReplyDialog extends LitElement {
     const addedIds = [...this.newAttentionSet].filter(
       id => !this.currentAttentionSet.has(id)
     );
-    return isOwner && addedIds.length > 2;
+    return isOwner && addedIds.length > 2; 
   }
 
   computeCommentAccounts(threads: CommentThread[]) {

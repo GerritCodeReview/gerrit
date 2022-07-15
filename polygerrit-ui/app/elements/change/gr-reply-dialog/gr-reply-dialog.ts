@@ -26,6 +26,7 @@ import {
 } from '../../../constants/constants';
 import {
   accountOrGroupKey,
+  extractTaggedEmails,
   isReviewerOrCC,
   mapReviewer,
   removeServiceUsers,
@@ -1333,6 +1334,16 @@ export class GrReplyDialog extends LitElement {
     return reviewers;
   }
 
+  private addTaggedUsersToAttentionSet(reviewInput: ReviewInput) {
+    const taggedUsers = extractTaggedEmails(this.draft);
+    const reason = 'Because you were tagged in a comment';
+    for (const user of taggedUsers) {
+      if (!this.currentAttentionSet.has(user)) {
+        reviewInput.add_to_attention_set!.push({user, reason});
+      }
+    }
+  }
+
   send(includeComments: boolean, startReview: boolean) {
     this.reporting.time(Timing.SEND_REPLY);
     const labels = this.getLabelScores().getLabelValues();
@@ -1357,6 +1368,9 @@ export class GrReplyDialog extends LitElement {
         reviewInput.add_to_attention_set.push({user, reason});
       }
     }
+
+    this.addTaggedUsersToAttentionSet(reviewInput);
+
     reviewInput.remove_from_attention_set = [];
     for (const user of this.currentAttentionSet) {
       if (!this.newAttentionSet.has(user)) {
@@ -1665,8 +1679,14 @@ export class GrReplyDialog extends LitElement {
     const allAccountIds = this.allAccounts()
       .map(a => a._account_id || a.email)
       .filter(id => !!id);
+    const taggedUsers = extractTaggedEmails(this.draft);
+    for (const user of taggedUsers) {
+      if (!newAttention.has(user)) {
+        newAttention!.add(user);
+      }
+    }
     this.newAttentionSet = new Set(
-      [...newAttention].filter(id => allAccountIds.includes(id))
+      [...newAttention].filter(id => (typeof id === 'string') || allAccountIds.includes(id))
     );
     this.attentionExpanded = this.computeShowAttentionTip();
   }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fa6eaee_2da1ca20",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-star/gr-change-star.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-07-15T10:32:01Z",
+      "side": 1,
+      "message": "Btw, I think this var is unused and obsolete. TBH I don\u0027t really know why I introduced it change 255638: Tweak some css sizes, weights and paddings | https://gerrit-review.googlesource.com/c/gerrit/+/255638\n\nMaybe just let this icon have default size of 20px here.",
+      "revId": "af0b22839cc3265793b46961879152687b849f92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

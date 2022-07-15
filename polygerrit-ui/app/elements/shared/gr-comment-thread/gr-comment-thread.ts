@@ -253,6 +253,9 @@ export class GrCommentThread extends LitElement {
 
   private readonly syntaxLayer = new GrSyntaxLayerWorker();
 
+  // for COMMENTS_AUTOCLOSE logging purposes only
+  readonly uid = performance.now().toString(36) + Math.random().toString(36);
+
   constructor() {
     super();
     this.shortcuts.addGlobal({key: 'e'}, () => this.handleExpandShortcut());

@@ -129,6 +129,10 @@ export enum Interaction {
   COMMENTS_AUTOCLOSE_CHECKS_UPDATED = 'comments-autoclose-checks-updated',
   COMMENTS_AUTOCLOSE_THREADS_UPDATED = 'comments-autoclose-threads-updated',
   COMMENTS_AUTOCLOSE_COMMENT_REMOVED = 'comments-autoclose-comment-removed',
+  COMMENTS_AUTOCLOSE_MESSAGES_LIST_CREATED = 'comments-autoclose-messages-list-created',
+  COMMENTS_AUTOCLOSE_MESSAGES_LIST_UPDATED = 'comments-autoclose-messages-list-updated',
+  COMMENTS_AUTOCLOSE_THREAD_LIST_CREATED = 'comments-autoclose-thread-list-created',
+  COMMENTS_AUTOCLOSE_THREAD_LIST_UPDATED = 'comments-autoclose-thread-list-updated',
   // The following interactions are logged for investigating a spurious bug of
   // auto-closing diffs.
   DIFF_AUTOCLOSE_DIFF_UNDEFINED = 'diff-autoclose-diff-undefined',

@@ -194,6 +194,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1dec87c5_330524bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-15T07:50:50Z",
+      "side": 1,
+      "message": "\u003e \u003e make the Gerrit upgrade abort if it still ...\n\u003e Is the way implementing this is to add a schema migration\n\u003e that fails (i.e. throws an exception) if ...?\n\u003e Does this prevent server upgrades?\n\nI think this is one option to consider, but maybe not the best.\nOn upgrade of Gerrit multiple schema migrations can be executed and if your schema migration is not the first one, other schema migrations have already been executed before you can abort the upgrade. This means on a re-run of the upgrade those other schema migrations would be executed again, and I think there is no guarantee that they are idempotent.\n\nI think what would be better is to add an InitStep for this (implement com.google.gerrit.pgm.init.api.InitStep), since InitSteps are executed before schema migrations. I believe if the InitStep throws an exception the upgrade will be aborted.",
+      "parentUuid": "5d8a3053_8e17d276",
+      "range": {
+        "startLine": 7,
+        "startChar": 6,
+        "endLine": 7,
+        "endChar": 9
+      },
+      "revId": "bb2c4e7d256c289775034f3548ec04c881aa8acc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bb5da239_fc91deff",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

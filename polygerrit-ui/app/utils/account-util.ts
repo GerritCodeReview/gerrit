@@ -23,6 +23,8 @@ import {getDisplayName} from './display-name-util';
 import {getApprovalInfo} from './label-util';
 
 export const ACCOUNT_TEMPLATE_REGEX = '<GERRIT_ACCOUNT_(\\d+)>';
+export const EMAIL_REGEX =
+  /^[a-zA-Z0-9.!#$%&'*+=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*/;
 
 export function accountKey(account: AccountInfo): AccountId | EmailAddress {
   if (account._account_id !== undefined) return account._account_id;
@@ -169,4 +171,17 @@ export function computeVoteableText(change: ChangeInfo, reviewer: AccountInfo) {
     maxScores.push(`${label}: ${scoreLabel}`);
   }
   return maxScores.join(', ');
+}
+
+export function extractTaggedEmails(text?: string) {
+  if (!text) return [];
+  const emails = [];
+  for (let i = 0; i < text.length; i++) {
+    // could be the beginning of a
+    if (text[i] === '@') {
+      const match = text.substring(i + 1).match(EMAIL_REGEX);
+      if (match) emails.push(match[0]);
+    }
+  }
+  return emails;
 }

@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "643002ab_9609a858",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-07-15T14:24:09Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "7ea4f80d1cc9a4975804ffdcd06a23ecb50bb146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd5ba7dc_a224ce4c",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-07-15T14:24:09Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "7ea4f80d1cc9a4975804ffdcd06a23ecb50bb146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "158185a1_b01b88a8",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-dashboard-hovercard/gr-submit-requirement-dashboard-hovercard_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-07-15T14:24:09Z",
+      "side": 1,
+      "message": "2022",
+      "range": {
+        "startLine": 3,
+        "startChar": 13,
+        "endLine": 3,
+        "endChar": 17
+      },
+      "revId": "7ea4f80d1cc9a4975804ffdcd06a23ecb50bb146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34e8ea2c_e7ebe37b",
+        "filename": "polygerrit-ui/app/elements/change/gr-trigger-vote-hovercard/gr-trigger-vote-hovercard_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-07-15T14:24:09Z",
+      "side": 1,
+      "message": "2022",
+      "range": {
+        "startLine": 3,
+        "startChar": 13,
+        "endLine": 3,
+        "endChar": 17
+      },
+      "revId": "7ea4f80d1cc9a4975804ffdcd06a23ecb50bb146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

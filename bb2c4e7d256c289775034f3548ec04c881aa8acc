@@ -170,6 +170,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5d8a3053_8e17d276",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-15T07:25:57Z",
+      "side": 1,
+      "message": "Yes, this plan looks good to me. We need host owners + user guide (from us) to get rid of prolog because we cannot automate it with a migration.\n\nOne question:\n\n\u003e make the Gerrit upgrade abort if it still ...\n\nIs the way implementing this is to add a schema migration that fails (i.e. throws an exception) if ...? Does this prevent server upgrades?",
+      "parentUuid": "246c495b_247b0d76",
+      "range": {
+        "startLine": 7,
+        "startChar": 6,
+        "endLine": 7,
+        "endChar": 9
+      },
+      "revId": "bb2c4e7d256c289775034f3548ec04c881aa8acc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bb5da239_fc91deff",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

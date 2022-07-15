@@ -84,6 +84,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "30ad6773_ccf55908",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 962,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-15T11:46:16Z",
+      "side": 1,
+      "message": "That is correct.",
+      "parentUuid": "fa8e0d62_bf8d4e75",
+      "range": {
+        "startLine": 962,
+        "startChar": 6,
+        "endLine": 962,
+        "endChar": 44
+      },
+      "revId": "5bc55d925d3cf968791891e0bc4fff5a8931b0d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "45f7ee5e_bab5ccf9",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
         "patchSetId": 1

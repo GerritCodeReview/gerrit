@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c1bebb4_4f28d82e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-15T11:40:11Z",
+      "side": 1,
+      "message": "I would expect some rationale added, either in the code or in the commit message(I guess it exists in the bug but would be nice for someone reading this later to realise why it was added).",
+      "revId": "5bc55d925d3cf968791891e0bc4fff5a8931b0d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9aa096f1_55cf13bd",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 962,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-15T11:40:11Z",
+      "side": 1,
+      "message": "we\u0027re just doing array comparison?",
+      "range": {
+        "startLine": 962,
+        "startChar": 6,
+        "endLine": 962,
+        "endChar": 44
+      },
+      "revId": "5bc55d925d3cf968791891e0bc4fff5a8931b0d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

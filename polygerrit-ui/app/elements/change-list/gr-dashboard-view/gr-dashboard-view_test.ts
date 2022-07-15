@@ -71,6 +71,55 @@ suite('gr-dashboard-view tests', () => {
       .callsFake(() => paramsChanged().then(() => resolver()));
   });
 
+  test('render', async () => {
+    const sections = [
+      {name: 'test1', query: 'test1', hideIfEmpty: true},
+      {name: 'test2', query: 'test2', hideIfEmpty: true},
+    ];
+    getChangesStub.returns(Promise.resolve([[createChange()]]));
+    await element.fetchDashboardChanges({sections}, false);
+    element.loading = false;
+    stubFlags('isEnabled').returns(true);
+    element.requestUpdate();
+    await element.updateComplete;
+
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div class="loading" hidden="">Loading...</div>
+      <div>
+        <h1 class="assistive-tech-only">Dashboard</h1>
+        <gr-change-list showstar="">
+          <div id="emptyOutgoing" slot="outgoing-slot">No changes</div>
+          <div id="emptyYourTurn" slot="your-turn-slot">
+            <span> No changes need your attention &nbsp🎉 </span>
+          </div>
+        </gr-change-list>
+      </div>
+      <gr-overlay
+        aria-hidden="true"
+        id="confirmDeleteOverlay"
+        style="outline: none; display: none;"
+        tabindex="-1"
+        with-backdrop=""
+      >
+        <gr-dialog
+          confirm-label="Delete"
+          id="confirmDeleteDialog"
+          role="dialog"
+        >
+          <div class="header" slot="header">Delete comments</div>
+          <div class="main" slot="main">
+            Are you sure you want to delete all your draft comments in closed
+            changes? This action cannot be undone.
+          </div>
+        </gr-dialog>
+      </gr-overlay>
+      <gr-create-destination-dialog id="destinationDialog">
+      </gr-create-destination-dialog>
+      <gr-create-commands-dialog id="commandsDialog">
+      </gr-create-commands-dialog>
+    `);
+  });
+
   suite('bulk actions', () => {
     setup(async () => {
       const sections = [

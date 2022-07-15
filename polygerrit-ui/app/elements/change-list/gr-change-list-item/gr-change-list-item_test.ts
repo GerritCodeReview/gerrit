@@ -380,13 +380,16 @@ suite('gr-change-list-item tests', () => {
     element.checked = true;
     await element.updateComplete;
     assert.isTrue(element.hasAttribute('checked'));
-    expect(element).shadowDom.to.equal(`
+
+    // TODO: Check table elements. The shadowDom helper does not understand
+    // tables, even wrapping the element in a table.
+    expect(element).shadowDom.to.equal(/* HTML */ `
       <gr-change-star></gr-change-star>
       <a href="">42</a>
       <a href="" title="Test subject">
         <div class="container">
-          <div class="content"> Test subject </div>
-          <div class="spacer"> Test subject </div>
+          <div class="content">Test subject</div>
+          <div class="spacer">Test subject</div>
           <span></span>
         </div>
       </a>

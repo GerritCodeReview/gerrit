@@ -26,4 +26,26 @@ suite('gr-create-change-help tests', () => {
     MockInteractions.tap(queryAndAssert<GrButton>(element, 'gr-button'));
     await promise;
   });
+
+  test('render', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div id="graphic">
+        <div id="circle">
+          <iron-icon icon="gr-icons:zeroState" id="icon"> </iron-icon>
+        </div>
+        <p>No outgoing changes yet</p>
+      </div>
+      <div id="help">
+        <h2 class="heading-3">Push your first change for code review</h2>
+        <p>
+          Pushing a change for review is easy, but a little different from other
+          git code review tools. Click on the \`Create Change' button and follow
+          the step by step instructions.
+        </p>
+        <gr-button aria-disabled="false" role="button" tabindex="0">
+          Create Change
+        </gr-button>
+      </div>
+    `);
+  });
 });

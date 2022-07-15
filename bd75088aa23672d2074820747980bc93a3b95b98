@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5593efc_314485db",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-15T12:22:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23ad72be_cb8237e5",
+      "range": {
+        "startLine": 238,
+        "startChar": 32,
+        "endLine": 239,
+        "endChar": 26
+      },
+      "revId": "bd75088aa23672d2074820747980bc93a3b95b98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "69073011_164311a7",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c77bb523_b386bf92",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-15T12:22:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69073011_164311a7",
+      "revId": "bd75088aa23672d2074820747980bc93a3b95b98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a92a9d75_bc7d86cc",
@@ -54,6 +96,30 @@
       "writtenOn": "2022-07-14T14:13:35Z",
       "side": 1,
       "message": "all 3 cases should be tested, but it looks like only the first one is:\n- material icon\n- material icon filled\n- custom",
+      "range": {
+        "startLine": 807,
+        "startChar": 0,
+        "endLine": 818,
+        "endChar": 0
+      },
+      "revId": "bd75088aa23672d2074820747980bc93a3b95b98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a45cfd8_00923082",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 818,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-15T12:22:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a92a9d75_bc7d86cc",
       "range": {
         "startLine": 807,
         "startChar": 0,
@@ -87,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab2b16eb_64398089",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 2144,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-15T12:22:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "729e4941_95ce46aa",
+      "range": {
+        "startLine": 2137,
+        "startChar": 8,
+        "endLine": 2144,
+        "endChar": 22
+      },
+      "revId": "bd75088aa23672d2074820747980bc93a3b95b98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c1370b8_c654ec8f",
@@ -100,6 +190,30 @@
       "writtenOn": "2022-07-14T14:13:35Z",
       "side": 1,
       "message": "makes more sense as a boolean to me, since the type as written isn\u0027t clear that icon and customIcon can\u0027t both be set",
+      "range": {
+        "startLine": 26,
+        "startChar": 15,
+        "endLine": 26,
+        "endChar": 21
+      },
+      "revId": "bd75088aa23672d2074820747980bc93a3b95b98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d05f310_87afc3dd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-actions-js-api.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-15T12:22:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c1370b8_c654ec8f",
       "range": {
         "startLine": 26,
         "startChar": 15,

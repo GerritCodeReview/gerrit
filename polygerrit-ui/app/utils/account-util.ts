@@ -26,6 +26,8 @@ import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
 
 export const ACCOUNT_TEMPLATE_REGEX = '<GERRIT_ACCOUNT_(\\d+)>';
 const SUGGESTIONS_LIMIT = 15;
+export const EMAIL_REGEX =
+  /^[a-zA-Z0-9.!#$%&'*+=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*/;
 
 export function accountKey(account: AccountInfo): AccountId | EmailAddress {
   if (account._account_id !== undefined) return account._account_id;
@@ -199,4 +201,19 @@ export function getAccountSuggestions(
       }
       return accountSuggestions;
     });
+}
+
+export function extractTaggedEmails(text?: string) {
+  if (!text) return [];
+  const emails = [];
+  for (let i = 0; i < text.length; i++) {
+    // @ should be either at the beginning of the text or the previous character
+    // is a space or newline
+    if (text[i] === '@') {
+      if (i > 0 && !text[i - 1].match(/\s/)) continue;
+      const match = text.substring(i + 1).match(EMAIL_REGEX);
+      if (match) emails.push(match[0]);
+    }
+  }
+  return emails;
 }

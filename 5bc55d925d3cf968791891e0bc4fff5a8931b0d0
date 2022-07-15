@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c8b3f650_2401a8b9",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 952,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-15T11:45:35Z",
+      "side": 1,
+      "message": "Missing comment that this is only `for DIFF_AUTOCLOSE logging purposes only`",
+      "revId": "5bc55d925d3cf968791891e0bc4fff5a8931b0d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9aa096f1_55cf13bd",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
         "patchSetId": 1
@@ -61,6 +78,74 @@
         "endLine": 962,
         "endChar": 44
       },
+      "revId": "5bc55d925d3cf968791891e0bc4fff5a8931b0d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45f7ee5e_bab5ccf9",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 968,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-15T11:45:35Z",
+      "side": 1,
+      "message": "Move this block into a function and mark it `for DIFF_AUTOCLOSE logging purposes only`",
+      "revId": "5bc55d925d3cf968791891e0bc4fff5a8931b0d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c609de9_83054c32",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1527,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-15T11:45:35Z",
+      "side": 1,
+      "message": "Do you want to do this for any updated? Or only for specific fields being updated?",
+      "revId": "5bc55d925d3cf968791891e0bc4fff5a8931b0d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ce5679d_a8f1d261",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-15T11:45:35Z",
+      "side": 1,
+      "message": "readonly?",
+      "revId": "5bc55d925d3cf968791891e0bc4fff5a8931b0d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19cc20cd_c242e27d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-15T11:45:35Z",
+      "side": 1,
+      "message": "Move into a function and mark it `for DIFF_AUTOCLOSE logging purposes only`\n\nThat way it\u0027s a single-line and there\u0027s no confusion as to what needs to be removed.",
       "revId": "5bc55d925d3cf968791891e0bc4fff5a8931b0d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

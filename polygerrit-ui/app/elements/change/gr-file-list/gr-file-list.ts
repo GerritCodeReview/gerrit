@@ -949,12 +949,23 @@ export class GrFileList extends LitElement {
     );
   }
 
+  private shownFilesOld: NormalizedFileInfo[] = this.shownFiles;
+
   private renderShownFiles() {
     const showDynamicColumns = this.computeShowDynamicColumns();
     const showPrependedDynamicColumns =
       this.computeShowPrependedDynamicColumns();
     const sizeBarLayout = this.computeSizeBarLayout();
 
+    if (
+      this.shownFilesOld.length > 0 &&
+      this.shownFiles !== this.shownFilesOld
+    ) {
+      this.reporting.reportInteraction(
+        Interaction.DIFF_AUTOCLOSE_SHOWN_FILES_CHANGED
+      );
+    }
+    this.shownFilesOld = this.shownFiles;
     return incrementalRepeat({
       values: this.shownFiles,
       mapFn: (f, i) =>
@@ -1511,6 +1522,17 @@ export class GrFileList extends LitElement {
   protected override firstUpdated(): void {
     this.detectChromiteButler();
     this.reporting.fileListDisplayed();
+  }
+
+  protected override updated(): void {
+    // for DIFF_AUTOCLOSE logging purposes only
+    const ids = this.diffs.map(d => d.uid);
+    if (ids.length > 0) {
+      this.reporting.reportInteraction(
+        Interaction.DIFF_AUTOCLOSE_FILE_LIST_UPDATED,
+        {l: ids.length, ids: ids.slice(0, 10)}
+      );
+    }
   }
 
   // TODO: Move into files-model.

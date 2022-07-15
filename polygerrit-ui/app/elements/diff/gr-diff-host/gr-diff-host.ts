@@ -343,6 +343,9 @@ export class GrDiffHost extends LitElement {
 
   private checksSubscription?: Subscription;
 
+  // for DIFF_AUTOCLOSE logging purposes only
+  uid = performance.now().toString(36) + Math.random().toString(36);
+
   constructor() {
     super();
     this.syntaxLayer = new GrSyntaxLayerWorker();
@@ -389,6 +392,19 @@ export class GrDiffHost extends LitElement {
         this.prefs = diffPreferences;
       }
     );
+    // for DIFF_AUTOCLOSE logging purposes only
+    this.reporting.reportInteraction(
+      Interaction.DIFF_AUTOCLOSE_DIFF_HOST_CREATED,
+      {uid: this.uid}
+    );
+    setTimeout(() => {
+      if (!this.hasReloadBeenCalledOnce) {
+        this.reporting.reportInteraction(
+          Interaction.DIFF_AUTOCLOSE_DIFF_HOST_NOT_RENDERING,
+          {uid: this.uid}
+        );
+      }
+    }, /* 10 seconds */ 10000);
   }
 
   override connectedCallback() {
@@ -573,7 +589,11 @@ export class GrDiffHost extends LitElement {
   // for DIFF_AUTOCLOSE logging purposes only
   private reloadOngoing = false;
 
+  // for DIFF_AUTOCLOSE logging purposes only
+  private hasReloadBeenCalledOnce = false;
+
   async reloadInternal(shouldReportMetric?: boolean) {
+    this.hasReloadBeenCalledOnce = true;
     this.reporting.time(Timing.DIFF_TOTAL);
     this.reporting.time(Timing.DIFF_LOAD);
     this.clear();

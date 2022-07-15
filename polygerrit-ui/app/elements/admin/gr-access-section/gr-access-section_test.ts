@@ -70,6 +70,105 @@ suite('gr-access-section tests', () => {
       await element.updateComplete;
     });
 
+    test('render', () => {
+      expect(element).shadowDom.to.equal(/* HTML */ `
+        <fieldset class="gr-form-styles" id="section">
+          <div id="mainContainer">
+            <div class="header">
+              <div class="name">
+                <h3 class="heading-3">Reference: refs/*</h3>
+                <gr-button
+                  aria-disabled="false"
+                  id="editBtn"
+                  link=""
+                  role="button"
+                  tabindex="0"
+                >
+                  <span class="material-icon" id="icon"> edit </span>
+                </gr-button>
+              </div>
+              <iron-input class="editRefInput">
+                <input class="editRefInput" type="text" />
+              </iron-input>
+              <gr-button
+                aria-disabled="false"
+                id="deleteBtn"
+                link=""
+                role="button"
+                tabindex="0"
+              >
+                Remove
+              </gr-button>
+            </div>
+            <div class="sectionContent">
+              <gr-permission> </gr-permission>
+              <div id="addPermission">
+                Add permission:
+                <select id="permissionSelect">
+                  <option value="label-Code-Review">Label Code-Review</option>
+                  <option value="labelAs-Code-Review">
+                    Label Code-Review (On Behalf Of)
+                  </option>
+                  <option value="abandon">Abandon</option>
+                  <option value="addPatchSet">Add Patch Set</option>
+                  <option value="create">Create Reference</option>
+                  <option value="createSignedTag">Create Signed Tag</option>
+                  <option value="createTag">Create Annotated Tag</option>
+                  <option value="delete">Delete Reference</option>
+                  <option value="deleteChanges">Delete Changes</option>
+                  <option value="deleteOwnChanges">Delete Own Changes</option>
+                  <option value="editHashtags">Edit Hashtags</option>
+                  <option value="editTopicName">Edit Topic Name</option>
+                  <option value="forgeAuthor">Forge Author Identity</option>
+                  <option value="forgeCommitter">
+                    Forge Committer Identity
+                  </option>
+                  <option value="forgeServerAsCommitter">
+                    Forge Server Identity
+                  </option>
+                  <option value="owner">Owner</option>
+                  <option value="push">Push</option>
+                  <option value="pushMerge">Push Merge Commit</option>
+                  <option value="rebase">Rebase</option>
+                  <option value="removeReviewer">Remove Reviewer</option>
+                  <option value="revert">Revert</option>
+                  <option value="submit">Submit</option>
+                  <option value="submitAs">Submit (On Behalf Of)</option>
+                  <option value="toggleWipState">
+                    Toggle Work In Progress State
+                  </option>
+                  <option value="viewPrivateChanges">
+                    View Private Changes
+                  </option>
+                </select>
+                <gr-button
+                  aria-disabled="false"
+                  id="addBtn"
+                  link=""
+                  role="button"
+                  tabindex="0"
+                >
+                  Add
+                </gr-button>
+              </div>
+            </div>
+          </div>
+          <div id="deletedContainer">
+            <span> Reference: refs/* was deleted </span>
+            <gr-button
+              aria-disabled="false"
+              id="undoRemoveBtn"
+              link=""
+              role="button"
+              tabindex="0"
+            >
+              Undo
+            </gr-button>
+          </div>
+        </fieldset>
+      `);
+    });
+
     test('updateSection', () => {
       // updateSection was called in setup, so just make assertions.
       const expectedPermissions = [

@@ -159,6 +159,249 @@ suite('gr-repo tests', () => {
     await element.updateComplete;
   });
 
+  test('render', () => {
+    // prettier and shadowDom assert do not agree about span.title wrapping
+    expect(element).shadowDom.to
+      .equal(/* prettier-ignore */ /* HTML */ `
+      <div class="gr-form-styles main read-only">
+        <div class="info">
+          <h1 class="heading-1" id="Title"></h1>
+          <hr />
+          <div>
+            <a href="">
+              <gr-button
+                aria-disabled="true"
+                disabled=""
+                link=""
+                role="button"
+                tabindex="-1"
+              >
+                Browse
+              </gr-button>
+            </a>
+            <a href="">
+              <gr-button
+                aria-disabled="false"
+                link=""
+                role="button"
+                tabindex="0"
+              >
+                View Changes
+              </gr-button>
+            </a>
+          </div>
+        </div>
+        <div class="loading" id="loading">Loading...</div>
+        <div class="loading" id="loadedContent">
+          <div class="hide" id="downloadContent">
+            <h2 class="heading-2" id="download">Download</h2>
+            <fieldset>
+              <gr-download-commands id="downloadCommands">
+              </gr-download-commands>
+            </fieldset>
+          </div>
+          <h2 class="heading-2" id="configurations">Configurations</h2>
+          <div id="form">
+            <fieldset>
+              <h3 class="heading-3" id="Description">Description</h3>
+              <fieldset>
+                <gr-textarea
+                  autocomplete="on"
+                  class="description monospace"
+                  disabled=""
+                  id="descriptionInput"
+                  monospace=""
+                  placeholder="<Insert repo description here>"
+                  rows="4"
+                >
+                </gr-textarea>
+              </fieldset>
+              <h3 class="heading-3" id="Options">Repository Options</h3>
+              <fieldset id="options">
+                <section>
+                  <span class="title"> State </span>
+                  <span class="value">
+                    <gr-select id="stateSelect">
+                      <select disabled="">
+                        <option value="ACTIVE">Active</option>
+                        <option value="READ_ONLY">Read Only</option>
+                        <option value="HIDDEN">Hidden</option>
+                      </select>
+                    </gr-select>
+                  </span>
+                </section>
+                <section>
+                  <span class="title"> Submit type </span>
+                  <span class="value">
+                    <gr-select id="submitTypeSelect">
+                      <select disabled=""></select>
+                    </gr-select>
+                  </span>
+                </section>
+                <section>
+                  <span class="title"> Allow content merges </span>
+                  <span class="value">
+                    <gr-select id="contentMergeSelect">
+                      <select disabled=""></select>
+                    </gr-select>
+                  </span>
+                </section>
+                <section>
+                  <span class="title">
+                    Create a new change for every commit not in the target branch
+                  </span>
+                  <span class="value">
+                    <gr-select id="newChangeSelect">
+                      <select disabled=""></select>
+                    </gr-select>
+                  </span>
+                </section>
+                <section>
+                  <span class="title">
+                    Require Change-Id in commit message
+                  </span>
+                  <span class="value">
+                    <gr-select id="requireChangeIdSelect">
+                      <select disabled=""></select>
+                    </gr-select>
+                  </span>
+                </section>
+                <section
+                  class="repositorySettings"
+                  id="enableSignedPushSettings"
+                >
+                  <span class="title"> Enable signed push </span>
+                  <span class="value">
+                    <gr-select id="enableSignedPush">
+                      <select disabled=""></select>
+                    </gr-select>
+                  </span>
+                </section>
+                <section
+                  class="repositorySettings"
+                  id="requireSignedPushSettings"
+                >
+                  <span class="title"> Require signed push </span>
+                  <span class="value">
+                    <gr-select id="requireSignedPush">
+                      <select disabled=""></select>
+                    </gr-select>
+                  </span>
+                </section>
+                <section>
+                  <span class="title">
+                    Reject implicit merges when changes are pushed for review
+                  </span>
+                  <span class="value">
+                    <gr-select id="rejectImplicitMergesSelect">
+                      <select disabled=""></select>
+                    </gr-select>
+                  </span>
+                </section>
+                <section>
+                  <span class="title">
+                    Enable adding unregistered users as reviewers and CCs on changes
+                  </span>
+                  <span class="value">
+                    <gr-select id="unRegisteredCcSelect">
+                      <select disabled=""></select>
+                    </gr-select>
+                  </span>
+                </section>
+                <section>
+                  <span class="title">
+                    Set all new changes private by default
+                  </span>
+                  <span class="value">
+                    <gr-select id="setAllnewChangesPrivateByDefaultSelect">
+                      <select disabled=""></select>
+                    </gr-select>
+                  </span>
+                </section>
+                <section>
+                  <span class="title">
+                    Set new changes to "work in progress" by default
+                  </span>
+                  <span class="value">
+                    <gr-select
+                      id="setAllNewChangesWorkInProgressByDefaultSelect"
+                    >
+                      <select disabled=""></select>
+                    </gr-select>
+                  </span>
+                </section>
+                <section>
+                  <span class="title"> Maximum Git object size limit </span>
+                  <span class="value">
+                    <iron-input id="maxGitObjSizeIronInput">
+                      <input disabled="" id="maxGitObjSizeInput" type="text" />
+                    </iron-input>
+                  </span>
+                </section>
+                <section>
+                  <span class="title">
+                    Match authored date with committer date upon submit
+                  </span>
+                  <span class="value">
+                    <gr-select id="matchAuthoredDateWithCommitterDateSelect">
+                      <select disabled=""></select>
+                    </gr-select>
+                  </span>
+                </section>
+                <section>
+                  <span class="title"> Reject empty commit upon submit </span>
+                  <span class="value">
+                    <gr-select id="rejectEmptyCommitSelect">
+                      <select disabled=""></select>
+                    </gr-select>
+                  </span>
+                </section>
+              </fieldset>
+              <h3 class="heading-3" id="Options">Contributor Agreements</h3>
+              <fieldset id="agreements">
+                <section>
+                  <span class="title">
+                    Require a valid contributor agreement to upload
+                  </span>
+                  <span class="value">
+                    <gr-select id="contributorAgreementSelect">
+                      <select disabled=""></select>
+                    </gr-select>
+                  </span>
+                </section>
+                <section>
+                  <span class="title">
+                    Require Signed-off-by in commit message
+                  </span>
+                  <span class="value">
+                    <gr-select id="useSignedOffBySelect">
+                      <select disabled=""></select>
+                    </gr-select>
+                  </span>
+                </section>
+              </fieldset>
+              <div class="hide pluginConfig">
+                <h3 class="heading-3">Plugins</h3>
+              </div>
+              <gr-button
+                aria-disabled="true"
+                disabled=""
+                role="button"
+                tabindex="-1"
+              >
+                Save changes
+              </gr-button>
+            </fieldset>
+            <gr-endpoint-decorator name="repo-config">
+              <gr-endpoint-param name="repoName"> </gr-endpoint-param>
+              <gr-endpoint-param name="readOnly"> </gr-endpoint-param>
+            </gr-endpoint-decorator>
+          </div>
+        </div>
+      </div>
+    `);
+  });
+
   test('_computePluginData', async () => {
     element.repoConfig = {
       ...createConfig(),

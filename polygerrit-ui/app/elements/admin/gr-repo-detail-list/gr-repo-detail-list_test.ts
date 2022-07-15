@@ -120,6 +120,1945 @@ suite('gr-repo-detail-list', () => {
         await element.updateComplete;
       });
 
+      test('render', () => {
+        expect(element).shadowDom.to.equal(/* HTML */ `
+          <gr-list-view>
+            <table class="genericList gr-form-styles" id="list">
+              <tbody>
+                <tr class="headerRow">
+                  <th class="name topHeader">Name</th>
+                  <th class="revision topHeader">Revision</th>
+                  <th class="hideItem message topHeader">Message</th>
+                  <th class="hideItem tagger topHeader">Tagger</th>
+                  <th class="repositoryBrowser topHeader">
+                    Repository Browser
+                  </th>
+                  <th class="delete topHeader"></th>
+                </tr>
+                <tr class="loadingMsg" id="loading">
+                  <td>Loading...</td>
+                </tr>
+              </tbody>
+              <tbody>
+                <tr class="table">
+                  <td class="branches name">
+                    <a> HEAD </a>
+                  </td>
+                  <td class="branches revision">
+                    <span class="revisionNoEditing"> master </span>
+                    <span class="revisionEdit">
+                      <span class="revisionWithEditing"> master </span>
+                      <gr-button
+                        aria-disabled="false"
+                        class="editBtn"
+                        data-index="0"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        edit
+                      </gr-button>
+                      <iron-input class="editItem">
+                        <input />
+                      </iron-input>
+                      <gr-button
+                        aria-disabled="false"
+                        class="cancelBtn editItem"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        Cancel
+                      </gr-button>
+                      <gr-button
+                        aria-disabled="true"
+                        class="editItem saveBtn"
+                        data-index="0"
+                        disabled=""
+                        link=""
+                        role="button"
+                        tabindex="-1"
+                      >
+                        Save
+                      </gr-button>
+                    </span>
+                  </td>
+                  <td class="hideItem message"></td>
+                  <td class="hideItem tagger"></td>
+                  <td class="repositoryBrowser"></td>
+                  <td class="delete">
+                    <gr-button
+                      aria-disabled="false"
+                      class="deleteButton"
+                      data-index="0"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Delete
+                    </gr-button>
+                  </td>
+                </tr>
+                <tr class="table">
+                  <td class="branches name">
+                    <a
+                      href="https://git.example.org/branch/test;refs/heads/test0"
+                    >
+                      test0
+                    </a>
+                  </td>
+                  <td class="branches revision">
+                    <span class="revisionNoEditing">
+                      9c9d08a438e55e52f33b608415e6dddd9b18550d
+                    </span>
+                    <span class="revisionEdit">
+                      <span class="revisionWithEditing">
+                        9c9d08a438e55e52f33b608415e6dddd9b18550d
+                      </span>
+                      <gr-button
+                        aria-disabled="false"
+                        class="editBtn"
+                        data-index="1"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        edit
+                      </gr-button>
+                      <iron-input class="editItem">
+                        <input />
+                      </iron-input>
+                      <gr-button
+                        aria-disabled="false"
+                        class="cancelBtn editItem"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        Cancel
+                      </gr-button>
+                      <gr-button
+                        aria-disabled="true"
+                        class="editItem saveBtn"
+                        data-index="1"
+                        disabled=""
+                        link=""
+                        role="button"
+                        tabindex="-1"
+                      >
+                        Save
+                      </gr-button>
+                    </span>
+                  </td>
+                  <td class="hideItem message"></td>
+                  <td class="hideItem tagger"></td>
+                  <td class="repositoryBrowser">
+                    <a
+                      class="webLink"
+                      href="https://git.example.org/branch/test;refs/heads/test0"
+                      rel="noopener"
+                      target="_blank"
+                    >
+                      (diffusion)
+                    </a>
+                  </td>
+                  <td class="delete">
+                    <gr-button
+                      aria-disabled="false"
+                      class="deleteButton"
+                      data-index="1"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Delete
+                    </gr-button>
+                  </td>
+                </tr>
+                <tr class="table">
+                  <td class="branches name">
+                    <a
+                      href="https://git.example.org/branch/test;refs/heads/test1"
+                    >
+                      test1
+                    </a>
+                  </td>
+                  <td class="branches revision">
+                    <span class="revisionNoEditing">
+                      9c9d08a438e55e52f33b608415e6dddd9b18550d
+                    </span>
+                    <span class="revisionEdit">
+                      <span class="revisionWithEditing">
+                        9c9d08a438e55e52f33b608415e6dddd9b18550d
+                      </span>
+                      <gr-button
+                        aria-disabled="false"
+                        class="editBtn"
+                        data-index="2"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        edit
+                      </gr-button>
+                      <iron-input class="editItem">
+                        <input />
+                      </iron-input>
+                      <gr-button
+                        aria-disabled="false"
+                        class="cancelBtn editItem"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        Cancel
+                      </gr-button>
+                      <gr-button
+                        aria-disabled="true"
+                        class="editItem saveBtn"
+                        data-index="2"
+                        disabled=""
+                        link=""
+                        role="button"
+                        tabindex="-1"
+                      >
+                        Save
+                      </gr-button>
+                    </span>
+                  </td>
+                  <td class="hideItem message"></td>
+                  <td class="hideItem tagger"></td>
+                  <td class="repositoryBrowser">
+                    <a
+                      class="webLink"
+                      href="https://git.example.org/branch/test;refs/heads/test1"
+                      rel="noopener"
+                      target="_blank"
+                    >
+                      (diffusion)
+                    </a>
+                  </td>
+                  <td class="delete">
+                    <gr-button
+                      aria-disabled="false"
+                      class="deleteButton"
+                      data-index="2"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Delete
+                    </gr-button>
+                  </td>
+                </tr>
+                <tr class="table">
+                  <td class="branches name">
+                    <a
+                      href="https://git.example.org/branch/test;refs/heads/test2"
+                    >
+                      test2
+                    </a>
+                  </td>
+                  <td class="branches revision">
+                    <span class="revisionNoEditing">
+                      9c9d08a438e55e52f33b608415e6dddd9b18550d
+                    </span>
+                    <span class="revisionEdit">
+                      <span class="revisionWithEditing">
+                        9c9d08a438e55e52f33b608415e6dddd9b18550d
+                      </span>
+                      <gr-button
+                        aria-disabled="false"
+                        class="editBtn"
+                        data-index="3"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        edit
+                      </gr-button>
+                      <iron-input class="editItem">
+                        <input />
+                      </iron-input>
+                      <gr-button
+                        aria-disabled="false"
+                        class="cancelBtn editItem"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        Cancel
+                      </gr-button>
+                      <gr-button
+                        aria-disabled="true"
+                        class="editItem saveBtn"
+                        data-index="3"
+                        disabled=""
+                        link=""
+                        role="button"
+                        tabindex="-1"
+                      >
+                        Save
+                      </gr-button>
+                    </span>
+                  </td>
+                  <td class="hideItem message"></td>
+                  <td class="hideItem tagger"></td>
+                  <td class="repositoryBrowser">
+                    <a
+                      class="webLink"
+                      href="https://git.example.org/branch/test;refs/heads/test2"
+                      rel="noopener"
+                      target="_blank"
+                    >
+                      (diffusion)
+                    </a>
+                  </td>
+                  <td class="delete">
+                    <gr-button
+                      aria-disabled="false"
+                      class="deleteButton"
+                      data-index="3"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Delete
+                    </gr-button>
+                  </td>
+                </tr>
+                <tr class="table">
+                  <td class="branches name">
+                    <a
+                      href="https://git.example.org/branch/test;refs/heads/test3"
+                    >
+                      test3
+                    </a>
+                  </td>
+                  <td class="branches revision">
+                    <span class="revisionNoEditing">
+                      9c9d08a438e55e52f33b608415e6dddd9b18550d
+                    </span>
+                    <span class="revisionEdit">
+                      <span class="revisionWithEditing">
+                        9c9d08a438e55e52f33b608415e6dddd9b18550d
+                      </span>
+                      <gr-button
+                        aria-disabled="false"
+                        class="editBtn"
+                        data-index="4"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        edit
+                      </gr-button>
+                      <iron-input class="editItem">
+                        <input />
+                      </iron-input>
+                      <gr-button
+                        aria-disabled="false"
+                        class="cancelBtn editItem"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        Cancel
+                      </gr-button>
+                      <gr-button
+                        aria-disabled="true"
+                        class="editItem saveBtn"
+                        data-index="4"
+                        disabled=""
+                        link=""
+                        role="button"
+                        tabindex="-1"
+                      >
+                        Save
+                      </gr-button>
+                    </span>
+                  </td>
+                  <td class="hideItem message"></td>
+                  <td class="hideItem tagger"></td>
+                  <td class="repositoryBrowser">
+                    <a
+                      class="webLink"
+                      href="https://git.example.org/branch/test;refs/heads/test3"
+                      rel="noopener"
+                      target="_blank"
+                    >
+                      (diffusion)
+                    </a>
+                  </td>
+                  <td class="delete">
+                    <gr-button
+                      aria-disabled="false"
+                      class="deleteButton"
+                      data-index="4"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Delete
+                    </gr-button>
+                  </td>
+                </tr>
+                <tr class="table">
+                  <td class="branches name">
+                    <a
+                      href="https://git.example.org/branch/test;refs/heads/test4"
+                    >
+                      test4
+                    </a>
+                  </td>
+                  <td class="branches revision">
+                    <span class="revisionNoEditing">
+                      9c9d08a438e55e52f33b608415e6dddd9b18550d
+                    </span>
+                    <span class="revisionEdit">
+                      <span class="revisionWithEditing">
+                        9c9d08a438e55e52f33b608415e6dddd9b18550d
+                      </span>
+                      <gr-button
+                        aria-disabled="false"
+                        class="editBtn"
+                        data-index="5"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        edit
+                      </gr-button>
+                      <iron-input class="editItem">
+                        <input />
+                      </iron-input>
+                      <gr-button
+                        aria-disabled="false"
+                        class="cancelBtn editItem"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        Cancel
+                      </gr-button>
+                      <gr-button
+                        aria-disabled="true"
+                        class="editItem saveBtn"
+                        data-index="5"
+                        disabled=""
+                        link=""
+                        role="button"
+                        tabindex="-1"
+                      >
+                        Save
+                      </gr-button>
+                    </span>
+                  </td>
+                  <td class="hideItem message"></td>
+                  <td class="hideItem tagger"></td>
+                  <td class="repositoryBrowser">
+                    <a
+                      class="webLink"
+                      href="https://git.example.org/branch/test;refs/heads/test4"
+                      rel="noopener"
+                      target="_blank"
+                    >
+                      (diffusion)
+                    </a>
+                  </td>
+                  <td class="delete">
+                    <gr-button
+                      aria-disabled="false"
+                      class="deleteButton"
+                      data-index="5"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Delete
+                    </gr-button>
+                  </td>
+                </tr>
+                <tr class="table">
+                  <td class="branches name">
+                    <a
+                      href="https://git.example.org/branch/test;refs/heads/test5"
+                    >
+                      test5
+                    </a>
+                  </td>
+                  <td class="branches revision">
+                    <span class="revisionNoEditing">
+                      9c9d08a438e55e52f33b608415e6dddd9b18550d
+                    </span>
+                    <span class="revisionEdit">
+                      <span class="revisionWithEditing">
+                        9c9d08a438e55e52f33b608415e6dddd9b18550d
+                      </span>
+                      <gr-button
+                        aria-disabled="false"
+                        class="editBtn"
+                        data-index="6"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        edit
+                      </gr-button>
+                      <iron-input class="editItem">
+                        <input />
+                      </iron-input>
+                      <gr-button
+                        aria-disabled="false"
+                        class="cancelBtn editItem"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        Cancel
+                      </gr-button>
+                      <gr-button
+                        aria-disabled="true"
+                        class="editItem saveBtn"
+                        data-index="6"
+                        disabled=""
+                        link=""
+                        role="button"
+                        tabindex="-1"
+                      >
+                        Save
+                      </gr-button>
+                    </span>
+                  </td>
+                  <td class="hideItem message"></td>
+                  <td class="hideItem tagger"></td>
+                  <td class="repositoryBrowser">
+                    <a
+                      class="webLink"
+                      href="https://git.example.org/branch/test;refs/heads/test5"
+                      rel="noopener"
+                      target="_blank"
+                    >
+                      (diffusion)
+                    </a>
+                  </td>
+                  <td class="delete">
+                    <gr-button
+                      aria-disabled="false"
+                      class="deleteButton"
+                      data-index="6"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Delete
+                    </gr-button>
+                  </td>
+                </tr>
+                <tr class="table">
+                  <td class="branches name">
+                    <a
+                      href="https://git.example.org/branch/test;refs/heads/test6"
+                    >
+                      test6
+                    </a>
+                  </td>
+                  <td class="branches revision">
+                    <span class="revisionNoEditing">
+                      9c9d08a438e55e52f33b608415e6dddd9b18550d
+                    </span>
+                    <span class="revisionEdit">
+                      <span class="revisionWithEditing">
+                        9c9d08a438e55e52f33b608415e6dddd9b18550d
+                      </span>
+                      <gr-button
+                        aria-disabled="false"
+                        class="editBtn"
+                        data-index="7"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        edit
+                      </gr-button>
+                      <iron-input class="editItem">
+                        <input />
+                      </iron-input>
+                      <gr-button
+                        aria-disabled="false"
+                        class="cancelBtn editItem"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        Cancel
+                      </gr-button>
+                      <gr-button
+                        aria-disabled="true"
+                        class="editItem saveBtn"
+                        data-index="7"
+                        disabled=""
+                        link=""
+                        role="button"
+                        tabindex="-1"
+                      >
+                        Save
+                      </gr-button>
+                    </span>
+                  </td>
+                  <td class="hideItem message"></td>
+                  <td class="hideItem tagger"></td>
+                  <td class="repositoryBrowser">
+                    <a
+                      class="webLink"
+                      href="https://git.example.org/branch/test;refs/heads/test6"
+                      rel="noopener"
+                      target="_blank"
+                    >
+                      (diffusion)
+                    </a>
+                  </td>
+                  <td class="delete">
+                    <gr-button
+                      aria-disabled="false"
+                      class="deleteButton"
+                      data-index="7"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Delete
+                    </gr-button>
+                  </td>
+                </tr>
+                <tr class="table">
+                  <td class="branches name">
+                    <a
+                      href="https://git.example.org/branch/test;refs/heads/test7"
+                    >
+                      test7
+                    </a>
+                  </td>
+                  <td class="branches revision">
+                    <span class="revisionNoEditing">
+                      9c9d08a438e55e52f33b608415e6dddd9b18550d
+                    </span>
+                    <span class="revisionEdit">
+                      <span class="revisionWithEditing">
+                        9c9d08a438e55e52f33b608415e6dddd9b18550d
+                      </span>
+                      <gr-button
+                        aria-disabled="false"
+                        class="editBtn"
+                        data-index="8"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        edit
+                      </gr-button>
+                      <iron-input class="editItem">
+                        <input />
+                      </iron-input>
+                      <gr-button
+                        aria-disabled="false"
+                        class="cancelBtn editItem"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        Cancel
+                      </gr-button>
+                      <gr-button
+                        aria-disabled="true"
+                        class="editItem saveBtn"
+                        data-index="8"
+                        disabled=""
+                        link=""
+                        role="button"
+                        tabindex="-1"
+                      >
+                        Save
+                      </gr-button>
+                    </span>
+                  </td>
+                  <td class="hideItem message"></td>
+                  <td class="hideItem tagger"></td>
+                  <td class="repositoryBrowser">
+                    <a
+                      class="webLink"
+                      href="https://git.example.org/branch/test;refs/heads/test7"
+                      rel="noopener"
+                      target="_blank"
+                    >
+                      (diffusion)
+                    </a>
+                  </td>
+                  <td class="delete">
+                    <gr-button
+                      aria-disabled="false"
+                      class="deleteButton"
+                      data-index="8"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Delete
+                    </gr-button>
+                  </td>
+                </tr>
+                <tr class="table">
+                  <td class="branches name">
+                    <a
+                      href="https://git.example.org/branch/test;refs/heads/test8"
+                    >
+                      test8
+                    </a>
+                  </td>
+                  <td class="branches revision">
+                    <span class="revisionNoEditing">
+                      9c9d08a438e55e52f33b608415e6dddd9b18550d
+                    </span>
+                    <span class="revisionEdit">
+                      <span class="revisionWithEditing">
+                        9c9d08a438e55e52f33b608415e6dddd9b18550d
+                      </span>
+                      <gr-button
+                        aria-disabled="false"
+                        class="editBtn"
+                        data-index="9"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        edit
+                      </gr-button>
+                      <iron-input class="editItem">
+                        <input />
+                      </iron-input>
+                      <gr-button
+                        aria-disabled="false"
+                        class="cancelBtn editItem"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        Cancel
+                      </gr-button>
+                      <gr-button
+                        aria-disabled="true"
+                        class="editItem saveBtn"
+                        data-index="9"
+                        disabled=""
+                        link=""
+                        role="button"
+                        tabindex="-1"
+                      >
+                        Save
+                      </gr-button>
+                    </span>
+                  </td>
+                  <td class="hideItem message"></td>
+                  <td class="hideItem tagger"></td>
+                  <td class="repositoryBrowser">
+                    <a
+                      class="webLink"
+                      href="https://git.example.org/branch/test;refs/heads/test8"
+                      rel="noopener"
+                      target="_blank"
+                    >
+                      (diffusion)
+                    </a>
+                  </td>
+                  <td class="delete">
+                    <gr-button
+                      aria-disabled="false"
+                      class="deleteButton"
+                      data-index="9"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Delete
+                    </gr-button>
+                  </td>
+                </tr>
+                <tr class="table">
+                  <td class="branches name">
+                    <a
+                      href="https://git.example.org/branch/test;refs/heads/test9"
+                    >
+                      test9
+                    </a>
+                  </td>
+                  <td class="branches revision">
+                    <span class="revisionNoEditing">
+                      9c9d08a438e55e52f33b608415e6dddd9b18550d
+                    </span>
+                    <span class="revisionEdit">
+                      <span class="revisionWithEditing">
+                        9c9d08a438e55e52f33b608415e6dddd9b18550d
+                      </span>
+                      <gr-button
+                        aria-disabled="false"
+                        class="editBtn"
+                        data-index="10"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        edit
+                      </gr-button>
+                      <iron-input class="editItem">
+                        <input />
+                      </iron-input>
+                      <gr-button
+                        aria-disabled="false"
+                        class="cancelBtn editItem"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        Cancel
+                      </gr-button>
+                      <gr-button
+                        aria-disabled="true"
+                        class="editItem saveBtn"
+                        data-index="10"
+                        disabled=""
+                        link=""
+                        role="button"
+                        tabindex="-1"
+                      >
+                        Save
+                      </gr-button>
+                    </span>
+                  </td>
+                  <td class="hideItem message"></td>
+                  <td class="hideItem tagger"></td>
+                  <td class="repositoryBrowser">
+                    <a
+                      class="webLink"
+                      href="https://git.example.org/branch/test;refs/heads/test9"
+                      rel="noopener"
+                      target="_blank"
+                    >
+                      (diffusion)
+                    </a>
+                  </td>
+                  <td class="delete">
+                    <gr-button
+                      aria-disabled="false"
+                      class="deleteButton"
+                      data-index="10"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Delete
+                    </gr-button>
+                  </td>
+                </tr>
+                <tr class="table">
+                  <td class="branches name">
+                    <a
+                      href="https://git.example.org/branch/test;refs/heads/test10"
+                    >
+                      test10
+                    </a>
+                  </td>
+                  <td class="branches revision">
+                    <span class="revisionNoEditing">
+                      9c9d08a438e55e52f33b608415e6dddd9b18550d
+                    </span>
+                    <span class="revisionEdit">
+                      <span class="revisionWithEditing">
+                        9c9d08a438e55e52f33b608415e6dddd9b18550d
+                      </span>
+                      <gr-button
+                        aria-disabled="false"
+                        class="editBtn"
+                        data-index="11"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        edit
+                      </gr-button>
+                      <iron-input class="editItem">
+                        <input />
+                      </iron-input>
+                      <gr-button
+                        aria-disabled="false"
+                        class="cancelBtn editItem"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        Cancel
+                      </gr-button>
+                      <gr-button
+                        aria-disabled="true"
+                        class="editItem saveBtn"
+                        data-index="11"
+                        disabled=""
+                        link=""
+                        role="button"
+                        tabindex="-1"
+                      >
+                        Save
+                      </gr-button>
+                    </span>
+                  </td>
+                  <td class="hideItem message"></td>
+                  <td class="hideItem tagger"></td>
+                  <td class="repositoryBrowser">
+                    <a
+                      class="webLink"
+                      href="https://git.example.org/branch/test;refs/heads/test10"
+                      rel="noopener"
+                      target="_blank"
+                    >
+                      (diffusion)
+                    </a>
+                  </td>
+                  <td class="delete">
+                    <gr-button
+                      aria-disabled="false"
+                      class="deleteButton"
+                      data-index="11"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Delete
+                    </gr-button>
+                  </td>
+                </tr>
+                <tr class="table">
+                  <td class="branches name">
+                    <a
+                      href="https://git.example.org/branch/test;refs/heads/test11"
+                    >
+                      test11
+                    </a>
+                  </td>
+                  <td class="branches revision">
+                    <span class="revisionNoEditing">
+                      9c9d08a438e55e52f33b608415e6dddd9b18550d
+                    </span>
+                    <span class="revisionEdit">
+                      <span class="revisionWithEditing">
+                        9c9d08a438e55e52f33b608415e6dddd9b18550d
+                      </span>
+                      <gr-button
+                        aria-disabled="false"
+                        class="editBtn"
+                        data-index="12"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        edit
+                      </gr-button>
+                      <iron-input class="editItem">
+                        <input />
+                      </iron-input>
+                      <gr-button
+                        aria-disabled="false"
+                        class="cancelBtn editItem"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        Cancel
+                      </gr-button>
+                      <gr-button
+                        aria-disabled="true"
+                        class="editItem saveBtn"
+                        data-index="12"
+                        disabled=""
+                        link=""
+                        role="button"
+                        tabindex="-1"
+                      >
+                        Save
+                      </gr-button>
+                    </span>
+                  </td>
+                  <td class="hideItem message"></td>
+                  <td class="hideItem tagger"></td>
+                  <td class="repositoryBrowser">
+                    <a
+                      class="webLink"
+                      href="https://git.example.org/branch/test;refs/heads/test11"
+                      rel="noopener"
+                      target="_blank"
+                    >
+                      (diffusion)
+                    </a>
+                  </td>
+                  <td class="delete">
+                    <gr-button
+                      aria-disabled="false"
+                      class="deleteButton"
+                      data-index="12"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Delete
+                    </gr-button>
+                  </td>
+                </tr>
+                <tr class="table">
+                  <td class="branches name">
+                    <a
+                      href="https://git.example.org/branch/test;refs/heads/test12"
+                    >
+                      test12
+                    </a>
+                  </td>
+                  <td class="branches revision">
+                    <span class="revisionNoEditing">
+                      9c9d08a438e55e52f33b608415e6dddd9b18550d
+                    </span>
+                    <span class="revisionEdit">
+                      <span class="revisionWithEditing">
+                        9c9d08a438e55e52f33b608415e6dddd9b18550d
+                      </span>
+                      <gr-button
+                        aria-disabled="false"
+                        class="editBtn"
+                        data-index="13"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        edit
+                      </gr-button>
+                      <iron-input class="editItem">
+                        <input />
+                      </iron-input>
+                      <gr-button
+                        aria-disabled="false"
+                        class="cancelBtn editItem"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        Cancel
+                      </gr-button>
+                      <gr-button
+                        aria-disabled="true"
+                        class="editItem saveBtn"
+                        data-index="13"
+                        disabled=""
+                        link=""
+                        role="button"
+                        tabindex="-1"
+                      >
+                        Save
+                      </gr-button>
+                    </span>
+                  </td>
+                  <td class="hideItem message"></td>
+                  <td class="hideItem tagger"></td>
+                  <td class="repositoryBrowser">
+                    <a
+                      class="webLink"
+                      href="https://git.example.org/branch/test;refs/heads/test12"
+                      rel="noopener"
+                      target="_blank"
+                    >
+                      (diffusion)
+                    </a>
+                  </td>
+                  <td class="delete">
+                    <gr-button
+                      aria-disabled="false"
+                      class="deleteButton"
+                      data-index="13"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Delete
+                    </gr-button>
+                  </td>
+                </tr>
+                <tr class="table">
+                  <td class="branches name">
+                    <a
+                      href="https://git.example.org/branch/test;refs/heads/test13"
+                    >
+                      test13
+                    </a>
+                  </td>
+                  <td class="branches revision">
+                    <span class="revisionNoEditing">
+                      9c9d08a438e55e52f33b608415e6dddd9b18550d
+                    </span>
+                    <span class="revisionEdit">
+                      <span class="revisionWithEditing">
+                        9c9d08a438e55e52f33b608415e6dddd9b18550d
+                      </span>
+                      <gr-button
+                        aria-disabled="false"
+                        class="editBtn"
+                        data-index="14"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        edit
+                      </gr-button>
+                      <iron-input class="editItem">
+                        <input />
+                      </iron-input>
+                      <gr-button
+                        aria-disabled="false"
+                        class="cancelBtn editItem"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        Cancel
+                      </gr-button>
+                      <gr-button
+                        aria-disabled="true"
+                        class="editItem saveBtn"
+                        data-index="14"
+                        disabled=""
+                        link=""
+                        role="button"
+                        tabindex="-1"
+                      >
+                        Save
+                      </gr-button>
+                    </span>
+                  </td>
+                  <td class="hideItem message"></td>
+                  <td class="hideItem tagger"></td>
+                  <td class="repositoryBrowser">
+                    <a
+                      class="webLink"
+                      href="https://git.example.org/branch/test;refs/heads/test13"
+                      rel="noopener"
+                      target="_blank"
+                    >
+                      (diffusion)
+                    </a>
+                  </td>
+                  <td class="delete">
+                    <gr-button
+                      aria-disabled="false"
+                      class="deleteButton"
+                      data-index="14"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Delete
+                    </gr-button>
+                  </td>
+                </tr>
+                <tr class="table">
+                  <td class="branches name">
+                    <a
+                      href="https://git.example.org/branch/test;refs/heads/test14"
+                    >
+                      test14
+                    </a>
+                  </td>
+                  <td class="branches revision">
+                    <span class="revisionNoEditing">
+                      9c9d08a438e55e52f33b608415e6dddd9b18550d
+                    </span>
+                    <span class="revisionEdit">
+                      <span class="revisionWithEditing">
+                        9c9d08a438e55e52f33b608415e6dddd9b18550d
+                      </span>
+                      <gr-button
+                        aria-disabled="false"
+                        class="editBtn"
+                        data-index="15"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        edit
+                      </gr-button>
+                      <iron-input class="editItem">
+                        <input />
+                      </iron-input>
+                      <gr-button
+                        aria-disabled="false"
+                        class="cancelBtn editItem"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        Cancel
+                      </gr-button>
+                      <gr-button
+                        aria-disabled="true"
+                        class="editItem saveBtn"
+                        data-index="15"
+                        disabled=""
+                        link=""
+                        role="button"
+                        tabindex="-1"
+                      >
+                        Save
+                      </gr-button>
+                    </span>
+                  </td>
+                  <td class="hideItem message"></td>
+                  <td class="hideItem tagger"></td>
+                  <td class="repositoryBrowser">
+                    <a
+                      class="webLink"
+                      href="https://git.example.org/branch/test;refs/heads/test14"
+                      rel="noopener"
+                      target="_blank"
+                    >
+                      (diffusion)
+                    </a>
+                  </td>
+                  <td class="delete">
+                    <gr-button
+                      aria-disabled="false"
+                      class="deleteButton"
+                      data-index="15"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Delete
+                    </gr-button>
+                  </td>
+                </tr>
+                <tr class="table">
+                  <td class="branches name">
+                    <a
+                      href="https://git.example.org/branch/test;refs/heads/test15"
+                    >
+                      test15
+                    </a>
+                  </td>
+                  <td class="branches revision">
+                    <span class="revisionNoEditing">
+                      9c9d08a438e55e52f33b608415e6dddd9b18550d
+                    </span>
+                    <span class="revisionEdit">
+                      <span class="revisionWithEditing">
+                        9c9d08a438e55e52f33b608415e6dddd9b18550d
+                      </span>
+                      <gr-button
+                        aria-disabled="false"
+                        class="editBtn"
+                        data-index="16"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        edit
+                      </gr-button>
+                      <iron-input class="editItem">
+                        <input />
+                      </iron-input>
+                      <gr-button
+                        aria-disabled="false"
+                        class="cancelBtn editItem"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        Cancel
+                      </gr-button>
+                      <gr-button
+                        aria-disabled="true"
+                        class="editItem saveBtn"
+                        data-index="16"
+                        disabled=""
+                        link=""
+                        role="button"
+                        tabindex="-1"
+                      >
+                        Save
+                      </gr-button>
+                    </span>
+                  </td>
+                  <td class="hideItem message"></td>
+                  <td class="hideItem tagger"></td>
+                  <td class="repositoryBrowser">
+                    <a
+                      class="webLink"
+                      href="https://git.example.org/branch/test;refs/heads/test15"
+                      rel="noopener"
+                      target="_blank"
+                    >
+                      (diffusion)
+                    </a>
+                  </td>
+                  <td class="delete">
+                    <gr-button
+                      aria-disabled="false"
+                      class="deleteButton"
+                      data-index="16"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Delete
+                    </gr-button>
+                  </td>
+                </tr>
+                <tr class="table">
+                  <td class="branches name">
+                    <a
+                      href="https://git.example.org/branch/test;refs/heads/test16"
+                    >
+                      test16
+                    </a>
+                  </td>
+                  <td class="branches revision">
+                    <span class="revisionNoEditing">
+                      9c9d08a438e55e52f33b608415e6dddd9b18550d
+                    </span>
+                    <span class="revisionEdit">
+                      <span class="revisionWithEditing">
+                        9c9d08a438e55e52f33b608415e6dddd9b18550d
+                      </span>
+                      <gr-button
+                        aria-disabled="false"
+                        class="editBtn"
+                        data-index="17"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        edit
+                      </gr-button>
+                      <iron-input class="editItem">
+                        <input />
+                      </iron-input>
+                      <gr-button
+                        aria-disabled="false"
+                        class="cancelBtn editItem"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        Cancel
+                      </gr-button>
+                      <gr-button
+                        aria-disabled="true"
+                        class="editItem saveBtn"
+                        data-index="17"
+                        disabled=""
+                        link=""
+                        role="button"
+                        tabindex="-1"
+                      >
+                        Save
+                      </gr-button>
+                    </span>
+                  </td>
+                  <td class="hideItem message"></td>
+                  <td class="hideItem tagger"></td>
+                  <td class="repositoryBrowser">
+                    <a
+                      class="webLink"
+                      href="https://git.example.org/branch/test;refs/heads/test16"
+                      rel="noopener"
+                      target="_blank"
+                    >
+                      (diffusion)
+                    </a>
+                  </td>
+                  <td class="delete">
+                    <gr-button
+                      aria-disabled="false"
+                      class="deleteButton"
+                      data-index="17"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Delete
+                    </gr-button>
+                  </td>
+                </tr>
+                <tr class="table">
+                  <td class="branches name">
+                    <a
+                      href="https://git.example.org/branch/test;refs/heads/test17"
+                    >
+                      test17
+                    </a>
+                  </td>
+                  <td class="branches revision">
+                    <span class="revisionNoEditing">
+                      9c9d08a438e55e52f33b608415e6dddd9b18550d
+                    </span>
+                    <span class="revisionEdit">
+                      <span class="revisionWithEditing">
+                        9c9d08a438e55e52f33b608415e6dddd9b18550d
+                      </span>
+                      <gr-button
+                        aria-disabled="false"
+                        class="editBtn"
+                        data-index="18"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        edit
+                      </gr-button>
+                      <iron-input class="editItem">
+                        <input />
+                      </iron-input>
+                      <gr-button
+                        aria-disabled="false"
+                        class="cancelBtn editItem"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        Cancel
+                      </gr-button>
+                      <gr-button
+                        aria-disabled="true"
+                        class="editItem saveBtn"
+                        data-index="18"
+                        disabled=""
+                        link=""
+                        role="button"
+                        tabindex="-1"
+                      >
+                        Save
+                      </gr-button>
+                    </span>
+                  </td>
+                  <td class="hideItem message"></td>
+                  <td class="hideItem tagger"></td>
+                  <td class="repositoryBrowser">
+                    <a
+                      class="webLink"
+                      href="https://git.example.org/branch/test;refs/heads/test17"
+                      rel="noopener"
+                      target="_blank"
+                    >
+                      (diffusion)
+                    </a>
+                  </td>
+                  <td class="delete">
+                    <gr-button
+                      aria-disabled="false"
+                      class="deleteButton"
+                      data-index="18"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Delete
+                    </gr-button>
+                  </td>
+                </tr>
+                <tr class="table">
+                  <td class="branches name">
+                    <a
+                      href="https://git.example.org/branch/test;refs/heads/test18"
+                    >
+                      test18
+                    </a>
+                  </td>
+                  <td class="branches revision">
+                    <span class="revisionNoEditing">
+                      9c9d08a438e55e52f33b608415e6dddd9b18550d
+                    </span>
+                    <span class="revisionEdit">
+                      <span class="revisionWithEditing">
+                        9c9d08a438e55e52f33b608415e6dddd9b18550d
+                      </span>
+                      <gr-button
+                        aria-disabled="false"
+                        class="editBtn"
+                        data-index="19"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        edit
+                      </gr-button>
+                      <iron-input class="editItem">
+                        <input />
+                      </iron-input>
+                      <gr-button
+                        aria-disabled="false"
+                        class="cancelBtn editItem"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        Cancel
+                      </gr-button>
+                      <gr-button
+                        aria-disabled="true"
+                        class="editItem saveBtn"
+                        data-index="19"
+                        disabled=""
+                        link=""
+                        role="button"
+                        tabindex="-1"
+                      >
+                        Save
+                      </gr-button>
+                    </span>
+                  </td>
+                  <td class="hideItem message"></td>
+                  <td class="hideItem tagger"></td>
+                  <td class="repositoryBrowser">
+                    <a
+                      class="webLink"
+                      href="https://git.example.org/branch/test;refs/heads/test18"
+                      rel="noopener"
+                      target="_blank"
+                    >
+                      (diffusion)
+                    </a>
+                  </td>
+                  <td class="delete">
+                    <gr-button
+                      aria-disabled="false"
+                      class="deleteButton"
+                      data-index="19"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Delete
+                    </gr-button>
+                  </td>
+                </tr>
+                <tr class="table">
+                  <td class="branches name">
+                    <a
+                      href="https://git.example.org/branch/test;refs/heads/test19"
+                    >
+                      test19
+                    </a>
+                  </td>
+                  <td class="branches revision">
+                    <span class="revisionNoEditing">
+                      9c9d08a438e55e52f33b608415e6dddd9b18550d
+                    </span>
+                    <span class="revisionEdit">
+                      <span class="revisionWithEditing">
+                        9c9d08a438e55e52f33b608415e6dddd9b18550d
+                      </span>
+                      <gr-button
+                        aria-disabled="false"
+                        class="editBtn"
+                        data-index="20"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        edit
+                      </gr-button>
+                      <iron-input class="editItem">
+                        <input />
+                      </iron-input>
+                      <gr-button
+                        aria-disabled="false"
+                        class="cancelBtn editItem"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        Cancel
+                      </gr-button>
+                      <gr-button
+                        aria-disabled="true"
+                        class="editItem saveBtn"
+                        data-index="20"
+                        disabled=""
+                        link=""
+                        role="button"
+                        tabindex="-1"
+                      >
+                        Save
+                      </gr-button>
+                    </span>
+                  </td>
+                  <td class="hideItem message"></td>
+                  <td class="hideItem tagger"></td>
+                  <td class="repositoryBrowser">
+                    <a
+                      class="webLink"
+                      href="https://git.example.org/branch/test;refs/heads/test19"
+                      rel="noopener"
+                      target="_blank"
+                    >
+                      (diffusion)
+                    </a>
+                  </td>
+                  <td class="delete">
+                    <gr-button
+                      aria-disabled="false"
+                      class="deleteButton"
+                      data-index="20"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Delete
+                    </gr-button>
+                  </td>
+                </tr>
+                <tr class="table">
+                  <td class="branches name">
+                    <a
+                      href="https://git.example.org/branch/test;refs/heads/test20"
+                    >
+                      test20
+                    </a>
+                  </td>
+                  <td class="branches revision">
+                    <span class="revisionNoEditing">
+                      9c9d08a438e55e52f33b608415e6dddd9b18550d
+                    </span>
+                    <span class="revisionEdit">
+                      <span class="revisionWithEditing">
+                        9c9d08a438e55e52f33b608415e6dddd9b18550d
+                      </span>
+                      <gr-button
+                        aria-disabled="false"
+                        class="editBtn"
+                        data-index="21"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        edit
+                      </gr-button>
+                      <iron-input class="editItem">
+                        <input />
+                      </iron-input>
+                      <gr-button
+                        aria-disabled="false"
+                        class="cancelBtn editItem"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        Cancel
+                      </gr-button>
+                      <gr-button
+                        aria-disabled="true"
+                        class="editItem saveBtn"
+                        data-index="21"
+                        disabled=""
+                        link=""
+                        role="button"
+                        tabindex="-1"
+                      >
+                        Save
+                      </gr-button>
+                    </span>
+                  </td>
+                  <td class="hideItem message"></td>
+                  <td class="hideItem tagger"></td>
+                  <td class="repositoryBrowser">
+                    <a
+                      class="webLink"
+                      href="https://git.example.org/branch/test;refs/heads/test20"
+                      rel="noopener"
+                      target="_blank"
+                    >
+                      (diffusion)
+                    </a>
+                  </td>
+                  <td class="delete">
+                    <gr-button
+                      aria-disabled="false"
+                      class="deleteButton"
+                      data-index="21"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Delete
+                    </gr-button>
+                  </td>
+                </tr>
+                <tr class="table">
+                  <td class="branches name">
+                    <a
+                      href="https://git.example.org/branch/test;refs/heads/test21"
+                    >
+                      test21
+                    </a>
+                  </td>
+                  <td class="branches revision">
+                    <span class="revisionNoEditing">
+                      9c9d08a438e55e52f33b608415e6dddd9b18550d
+                    </span>
+                    <span class="revisionEdit">
+                      <span class="revisionWithEditing">
+                        9c9d08a438e55e52f33b608415e6dddd9b18550d
+                      </span>
+                      <gr-button
+                        aria-disabled="false"
+                        class="editBtn"
+                        data-index="22"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        edit
+                      </gr-button>
+                      <iron-input class="editItem">
+                        <input />
+                      </iron-input>
+                      <gr-button
+                        aria-disabled="false"
+                        class="cancelBtn editItem"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        Cancel
+                      </gr-button>
+                      <gr-button
+                        aria-disabled="true"
+                        class="editItem saveBtn"
+                        data-index="22"
+                        disabled=""
+                        link=""
+                        role="button"
+                        tabindex="-1"
+                      >
+                        Save
+                      </gr-button>
+                    </span>
+                  </td>
+                  <td class="hideItem message"></td>
+                  <td class="hideItem tagger"></td>
+                  <td class="repositoryBrowser">
+                    <a
+                      class="webLink"
+                      href="https://git.example.org/branch/test;refs/heads/test21"
+                      rel="noopener"
+                      target="_blank"
+                    >
+                      (diffusion)
+                    </a>
+                  </td>
+                  <td class="delete">
+                    <gr-button
+                      aria-disabled="false"
+                      class="deleteButton"
+                      data-index="22"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Delete
+                    </gr-button>
+                  </td>
+                </tr>
+                <tr class="table">
+                  <td class="branches name">
+                    <a
+                      href="https://git.example.org/branch/test;refs/heads/test22"
+                    >
+                      test22
+                    </a>
+                  </td>
+                  <td class="branches revision">
+                    <span class="revisionNoEditing">
+                      9c9d08a438e55e52f33b608415e6dddd9b18550d
+                    </span>
+                    <span class="revisionEdit">
+                      <span class="revisionWithEditing">
+                        9c9d08a438e55e52f33b608415e6dddd9b18550d
+                      </span>
+                      <gr-button
+                        aria-disabled="false"
+                        class="editBtn"
+                        data-index="23"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        edit
+                      </gr-button>
+                      <iron-input class="editItem">
+                        <input />
+                      </iron-input>
+                      <gr-button
+                        aria-disabled="false"
+                        class="cancelBtn editItem"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        Cancel
+                      </gr-button>
+                      <gr-button
+                        aria-disabled="true"
+                        class="editItem saveBtn"
+                        data-index="23"
+                        disabled=""
+                        link=""
+                        role="button"
+                        tabindex="-1"
+                      >
+                        Save
+                      </gr-button>
+                    </span>
+                  </td>
+                  <td class="hideItem message"></td>
+                  <td class="hideItem tagger"></td>
+                  <td class="repositoryBrowser">
+                    <a
+                      class="webLink"
+                      href="https://git.example.org/branch/test;refs/heads/test22"
+                      rel="noopener"
+                      target="_blank"
+                    >
+                      (diffusion)
+                    </a>
+                  </td>
+                  <td class="delete">
+                    <gr-button
+                      aria-disabled="false"
+                      class="deleteButton"
+                      data-index="23"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Delete
+                    </gr-button>
+                  </td>
+                </tr>
+                <tr class="table">
+                  <td class="branches name">
+                    <a
+                      href="https://git.example.org/branch/test;refs/heads/test23"
+                    >
+                      test23
+                    </a>
+                  </td>
+                  <td class="branches revision">
+                    <span class="revisionNoEditing">
+                      9c9d08a438e55e52f33b608415e6dddd9b18550d
+                    </span>
+                    <span class="revisionEdit">
+                      <span class="revisionWithEditing">
+                        9c9d08a438e55e52f33b608415e6dddd9b18550d
+                      </span>
+                      <gr-button
+                        aria-disabled="false"
+                        class="editBtn"
+                        data-index="24"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        edit
+                      </gr-button>
+                      <iron-input class="editItem">
+                        <input />
+                      </iron-input>
+                      <gr-button
+                        aria-disabled="false"
+                        class="cancelBtn editItem"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        Cancel
+                      </gr-button>
+                      <gr-button
+                        aria-disabled="true"
+                        class="editItem saveBtn"
+                        data-index="24"
+                        disabled=""
+                        link=""
+                        role="button"
+                        tabindex="-1"
+                      >
+                        Save
+                      </gr-button>
+                    </span>
+                  </td>
+                  <td class="hideItem message"></td>
+                  <td class="hideItem tagger"></td>
+                  <td class="repositoryBrowser">
+                    <a
+                      class="webLink"
+                      href="https://git.example.org/branch/test;refs/heads/test23"
+                      rel="noopener"
+                      target="_blank"
+                    >
+                      (diffusion)
+                    </a>
+                  </td>
+                  <td class="delete">
+                    <gr-button
+                      aria-disabled="false"
+                      class="deleteButton"
+                      data-index="24"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Delete
+                    </gr-button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <gr-overlay
+              aria-hidden="true"
+              id="overlay"
+              style="outline: none; display: none;"
+              tabindex="-1"
+              with-backdrop=""
+            >
+              <gr-confirm-delete-item-dialog class="confirmDialog">
+              </gr-confirm-delete-item-dialog>
+            </gr-overlay>
+          </gr-list-view>
+          <gr-overlay
+            aria-hidden="true"
+            id="createOverlay"
+            style="outline: none; display: none;"
+            tabindex="-1"
+            with-backdrop=""
+          >
+            <gr-dialog
+              confirm-label="Create"
+              disabled=""
+              id="createDialog"
+              role="dialog"
+            >
+              <div class="header" slot="header">Create Branch</div>
+              <div class="main" slot="main">
+                <gr-create-pointer-dialog id="createNewModal">
+                </gr-create-pointer-dialog>
+              </div>
+            </gr-dialog>
+          </gr-overlay>
+        `);
+      });
+
       test('test for branch in the list', () => {
         assert.equal(element.items![3].ref, 'refs/heads/test2');
       });
@@ -284,7 +2223,7 @@ suite('gr-repo-detail-list', () => {
         MockInteractions.tap(saveBtn);
         assert.isTrue(handleSaveRevisionStub.called);
 
-        // When cancel is tapped, the edit secion closes.
+        // When cancel is tapped, the edit section closes.
         MockInteractions.tap(cancelBtn);
         await element.updateComplete;
 

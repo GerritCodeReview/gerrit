@@ -144,6 +144,216 @@ suite('gr-group-members tests', () => {
     return element.loadGroupDetails();
   });
 
+  test('render', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div class="gr-form-styles main">
+        <div id="loading">Loading...</div>
+        <div id="loadedContent">
+          <h1 class="heading-1" id="Title">Administrators</h1>
+          <div id="form">
+            <h3 class="heading-3" id="members">Members</h3>
+            <fieldset>
+              <span class="value">
+                <gr-autocomplete
+                  id="groupMemberSearchInput"
+                  placeholder="Name Or Email"
+                >
+                </gr-autocomplete>
+              </span>
+              <gr-button
+                aria-disabled="true"
+                disabled=""
+                id="saveGroupMember"
+                role="button"
+                tabindex="-1"
+              >
+                Add
+              </gr-button>
+              <table id="groupMembers">
+                <tbody>
+                  <tr class="headerRow">
+                    <th class="nameHeader">Name</th>
+                    <th class="emailAddressHeader">Email Address</th>
+                    <th class="deleteHeader">Delete Member</th>
+                  </tr>
+                </tbody>
+                <tbody>
+                  <tr>
+                    <td class="nameColumn">
+                      <gr-account-label clickable="" deselected="">
+                      </gr-account-label>
+                    </td>
+                    <td>jane.roe@example.com</td>
+                    <td class="deleteColumn">
+                      <gr-button
+                        aria-disabled="false"
+                        class="deleteMembersButton"
+                        data-index="0"
+                        role="button"
+                        tabindex="0"
+                      >
+                        Delete
+                      </gr-button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="nameColumn">
+                      <gr-account-label clickable="" deselected="">
+                      </gr-account-label>
+                    </td>
+                    <td>john.doe@example.com</td>
+                    <td class="deleteColumn">
+                      <gr-button
+                        aria-disabled="false"
+                        class="deleteMembersButton"
+                        data-index="1"
+                        role="button"
+                        tabindex="0"
+                      >
+                        Delete
+                      </gr-button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="nameColumn">
+                      <gr-account-label clickable="" deselected="">
+                      </gr-account-label>
+                    </td>
+                    <td></td>
+                    <td class="deleteColumn">
+                      <gr-button
+                        aria-disabled="false"
+                        class="deleteMembersButton"
+                        data-index="2"
+                        role="button"
+                        tabindex="0"
+                      >
+                        Delete
+                      </gr-button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="nameColumn">
+                      <gr-account-label clickable="" deselected="">
+                      </gr-account-label>
+                    </td>
+                    <td></td>
+                    <td class="deleteColumn">
+                      <gr-button
+                        aria-disabled="false"
+                        class="deleteMembersButton"
+                        data-index="3"
+                        role="button"
+                        tabindex="0"
+                      >
+                        Delete
+                      </gr-button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </fieldset>
+            <h3 class="heading-3" id="includedGroups">Included Groups</h3>
+            <fieldset>
+              <span class="value">
+                <gr-autocomplete
+                  id="includedGroupSearchInput"
+                  placeholder="Group Name"
+                >
+                </gr-autocomplete>
+              </span>
+              <gr-button
+                aria-disabled="true"
+                disabled=""
+                id="saveIncludedGroups"
+                role="button"
+                tabindex="-1"
+              >
+                Add
+              </gr-button>
+              <table id="includedGroups">
+                <tbody>
+                  <tr class="headerRow">
+                    <th class="groupNameHeader">Group Name</th>
+                    <th class="descriptionHeader">Description</th>
+                    <th class="deleteIncludedHeader">Delete Group</th>
+                  </tr>
+                </tbody>
+                <tbody>
+                  <tr>
+                    <td class="nameColumn">
+                      <a href="https://group/url" rel="noopener"> testName </a>
+                    </td>
+                    <td></td>
+                    <td class="deleteColumn">
+                      <gr-button
+                        aria-disabled="false"
+                        class="deleteIncludedGroupButton"
+                        data-index="0"
+                        role="button"
+                        tabindex="0"
+                      >
+                        Delete
+                      </gr-button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="nameColumn">
+                      <a href="https://test/site/group/url" rel="noopener">
+                        testName2
+                      </a>
+                    </td>
+                    <td></td>
+                    <td class="deleteColumn">
+                      <gr-button
+                        aria-disabled="false"
+                        class="deleteIncludedGroupButton"
+                        data-index="1"
+                        role="button"
+                        tabindex="0"
+                      >
+                        Delete
+                      </gr-button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="nameColumn">
+                      <a href="https://test/site/group/url" rel="noopener">
+                        testName3
+                      </a>
+                    </td>
+                    <td></td>
+                    <td class="deleteColumn">
+                      <gr-button
+                        aria-disabled="false"
+                        class="deleteIncludedGroupButton"
+                        data-index="2"
+                        role="button"
+                        tabindex="0"
+                      >
+                        Delete
+                      </gr-button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+      <gr-overlay
+        aria-hidden="true"
+        id="overlay"
+        style="outline: none; display: none;"
+        tabindex="-1"
+        with-backdrop=""
+      >
+        <gr-confirm-delete-item-dialog class="confirmDialog">
+        </gr-confirm-delete-item-dialog>
+      </gr-overlay>
+    `);
+  });
+
   test('includedGroups', () => {
     assert.equal(element.includedGroups!.length, 3);
     assert.equal(

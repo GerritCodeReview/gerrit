@@ -36,6 +36,67 @@ suite('gr-create-change-dialog tests', () => {
     element.repoName = 'test-repo' as RepoName;
   });
 
+  test('render', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div class="gr-form-styles">
+        <section>
+          <span class="title"> Select branch for new change </span>
+          <span class="value">
+            <gr-autocomplete id="branchInput" placeholder="Destination branch">
+            </gr-autocomplete>
+          </span>
+        </section>
+        <section>
+          <span class="title"> Provide base commit sha1 for change </span>
+          <span class="value">
+            <iron-input>
+              <input
+                id="baseCommitInput"
+                maxlength="40"
+                placeholder="(optional)"
+              />
+            </iron-input>
+          </span>
+        </section>
+        <section>
+          <span class="title"> Enter topic for new change </span>
+          <span class="value">
+            <iron-input>
+              <input
+                id="tagNameInput"
+                maxlength="1024"
+                placeholder="(optional)"
+              />
+            </iron-input>
+          </span>
+        </section>
+        <section id="description">
+          <span class="title"> Description </span>
+          <span class="value">
+            <iron-autogrow-textarea
+              aria-disabled="false"
+              autocomplete="on"
+              class="message"
+              id="messageInput"
+              maxrows="15"
+              placeholder="Insert the description of the change."
+              rows="4"
+            >
+            </iron-autogrow-textarea>
+          </span>
+        </section>
+        <section>
+          <label class="title" for="privateChangeCheckBox">
+            Private change
+          </label>
+          <span class="value">
+            <input id="privateChangeCheckBox" type="checkbox" />
+          </span>
+        </section>
+      </div>
+    `);
+  });
+
   test('new change created with default', async () => {
     const configInputObj = {
       branch: 'test-branch',

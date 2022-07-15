@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '@polymer/iron-input/iron-input';
+import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import '../../../styles/gr-form-styles';
 import '../../../styles/shared-styles';
 import '../../shared/gr-autocomplete/gr-autocomplete';

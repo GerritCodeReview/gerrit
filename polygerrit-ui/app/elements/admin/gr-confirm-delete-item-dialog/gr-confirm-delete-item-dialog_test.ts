@@ -19,6 +19,24 @@ suite('gr-confirm-delete-item-dialog tests', () => {
     await flush();
   });
 
+  test('render', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <gr-dialog
+        confirm-label="Delete UNKNOWN ITEM TYPE"
+        confirm-on-enter=""
+        role="dialog"
+      >
+        <div class="header" slot="header">UNKNOWN ITEM TYPE Deletion</div>
+        <div class="main" slot="main">
+          <label for="branchInput">
+            Do you really want to delete the following UNKNOWN ITEM TYPE?
+          </label>
+          <div>UNKNOWN ITEM</div>
+        </div>
+      </gr-dialog>
+    `);
+  });
+
   test('_handleConfirmTap', () => {
     const confirmHandler = sinon.stub();
     element.addEventListener('confirm', confirmHandler);

@@ -140,6 +140,27 @@ suite('gr-messages-list tests', () => {
       await element.updateComplete;
     });
 
+    test('render', () => {
+      expect(element).shadowDom.to.equal(/* HTML */ `
+        <div class="header">
+          <div class="container" id="showAllActivityToggleContainer"></div>
+          <gr-button
+            aria-disabled="false"
+            id="collapse-messages"
+            link=""
+            role="button"
+            tabindex="0"
+            title="Expand all messages (shortcut: x)"
+          >
+            Expand All
+          </gr-button>
+        </div>
+        <gr-message data-message-id="${messages[0].id}"> </gr-message>
+        <gr-message data-message-id="${messages[1].id}"> </gr-message>
+        <gr-message data-message-id="${messages[2].id}"> </gr-message>
+      `);
+    });
+
     test('expand/collapse all', async () => {
       let allMessageEls = getMessages();
       for (const message of allMessageEls) {

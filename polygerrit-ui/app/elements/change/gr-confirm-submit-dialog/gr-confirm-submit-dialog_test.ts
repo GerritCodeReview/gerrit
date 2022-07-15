@@ -9,7 +9,6 @@ import {
   createRevision,
   createThread,
 } from '../../../test/test-data-generators';
-import {queryAndAssert} from '../../../test/test-utils';
 import {EDIT} from '../../../types/common';
 import {GrConfirmSubmitDialog} from './gr-confirm-submit-dialog';
 import './gr-confirm-submit-dialog';
@@ -24,7 +23,7 @@ suite('gr-confirm-submit-dialog tests', () => {
     element.initialised = true;
   });
 
-  test('display', async () => {
+  test('render', async () => {
     element.action = {label: 'my-label'};
     element.change = {
       ...createParsedChange(),
@@ -32,12 +31,28 @@ suite('gr-confirm-submit-dialog tests', () => {
       revisions: {},
     };
     await element.updateComplete;
-    const header = queryAndAssert(element, '.header');
-    assert.equal(header.textContent!.trim(), 'my-label');
 
-    const message = queryAndAssert(element, '.main p');
-    assert.isNotEmpty(message.textContent);
-    assert.notEqual(message.textContent!.indexOf('my-subject'), -1);
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <gr-dialog
+        confirm-label="Continue"
+        confirm-on-enter=""
+        id="dialog"
+        role="dialog"
+      >
+        <div class="header" slot="header">my-label</div>
+        <div class="main" slot="main">
+          <gr-endpoint-decorator name="confirm-submit-change">
+            <p>
+              Ready to submit “
+              <strong> my-subject </strong>
+              ”?
+            </p>
+            <gr-endpoint-param name="change"> </gr-endpoint-param>
+            <gr-endpoint-param name="action"> </gr-endpoint-param>
+          </gr-endpoint-decorator>
+        </div>
+      </gr-dialog>
+    `);
   });
 
   test('computeUnresolvedCommentsWarning', () => {

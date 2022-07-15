@@ -24,6 +24,20 @@ suite('gr-commit-info tests', () => {
     element = basicFixture.instantiate();
   });
 
+  test('render', async () => {
+    element.change = createChange();
+    element.commitInfo = createCommit();
+    element.serverConfig = createServerInfo();
+    await element.updateComplete;
+
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div class="container">
+        <a href="" rel="noopener" target="_blank"> </a>
+        <gr-copy-clipboard hastooltip="" hideinput=""> </gr-copy-clipboard>
+      </div>
+    `);
+  });
+
   test('weblinks use GerritNav interface', async () => {
     const weblinksStub = sinon
       .stub(GerritNav, '_generateWeblinks')

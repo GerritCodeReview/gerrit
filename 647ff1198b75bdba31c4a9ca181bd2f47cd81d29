@@ -135,6 +135,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1c2ac062_223da489",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-15T09:58:07Z",
+      "side": 1,
+      "message": "Thanks for highlighting. That\u0027s a blocker and needs to be addressed.\n\nWe needed ProjectCache to get ProjectState, then:\n  1. check for parents.\n  2. check for the existence of an SR with some name (in this + parent projects).\n  3. check for the existence of rules.pl (in this + parent projects).\n  \nIt would be tedious to re-implement the parent traversals here.\n\n--\n\nAnother direction, I was wondering why we pass in Args* to schema upgrade, i.e. why we don\u0027t just inject whatever fields we need. There are two points:\n  1. While we get schema versions to run, we use the class\u0027s getInstance method instead of Guice to create an instance [1].\n  2. Schema upgrades run from BaseInit, where we don\u0027t add GerritGlobalModule to the Injector. GerritGlobalModule binds the project cache impl. I don\u0027t have BG if that was done intentionally. I\u0027ll leave this open until I look further into this.\n  \n[1] https://gerrit.googlesource.com/gerrit/+/8d67d43197e05cc7b9fd7bc8e689b67e816b408d/java/com/google/gerrit/server/schema/NoteDbSchemaVersions.java#58",
+      "parentUuid": "c8a5e3a4_c36fef06",
+      "range": {
+        "startLine": 74,
+        "startChar": 40,
+        "endLine": 74,
+        "endChar": 97
+      },
+      "revId": "647ff1198b75bdba31c4a9ca181bd2f47cd81d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c78b80a4_5921086f",
         "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
         "patchSetId": 5

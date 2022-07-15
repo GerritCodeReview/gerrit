@@ -81,6 +81,26 @@ suite('gr-repo-dashboards tests', () => {
       );
     });
 
+    test('render', () => {
+      expect(element).shadowDom.to.equal(/* HTML */ `
+        <table class="genericList loading" id="list">
+          <tbody>
+            <tr class="headerRow">
+              <th class="topHeader">Dashboard name</th>
+              <th class="topHeader">Dashboard title</th>
+              <th class="topHeader">Dashboard description</th>
+              <th class="topHeader">Inherited from</th>
+              <th class="topHeader">Default</th>
+            </tr>
+            <tr id="loadingContainer">
+              <td>Loading...</td>
+            </tr>
+          </tbody>
+          <tbody id="dashboards"></tbody>
+        </table>
+      `);
+    });
+
     test('loading, sections, and ordering', async () => {
       assert.isTrue(element._loading);
       assert.notEqual(

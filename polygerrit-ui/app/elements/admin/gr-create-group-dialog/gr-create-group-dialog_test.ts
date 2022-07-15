@@ -27,6 +27,21 @@ suite('gr-create-group-dialog tests', () => {
     await element.updateComplete;
   });
 
+  test('render', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div class="gr-form-styles">
+        <div id="form">
+          <section>
+            <span class="title"> Group name </span>
+            <iron-input>
+              <input />
+            </iron-input>
+          </section>
+        </div>
+      </div>
+    `);
+  });
+
   test('name is updated correctly', async () => {
     const promise = mockPromise();
     element.addEventListener('has-new-group-name', () => {

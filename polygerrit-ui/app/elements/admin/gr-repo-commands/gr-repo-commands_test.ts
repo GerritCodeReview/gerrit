@@ -37,6 +37,57 @@ suite('gr-repo-commands tests', () => {
     );
   });
 
+  test('render', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div class="gr-form-styles main read-only">
+        <h1 class="heading-1" id="Title">Repository Commands</h1>
+        <div class="loading" id="loading">Loading...</div>
+        <div class="loading" id="loadedContent">
+          <h2 class="heading-2" id="options">Command</h2>
+          <div id="form">
+            <h3 class="heading-3">Create change</h3>
+            <gr-button aria-disabled="false" role="button" tabindex="0">
+              Create change
+            </gr-button>
+            <h3 class="heading-3">Edit repo config</h3>
+            <gr-button
+              aria-disabled="false"
+              id="editRepoConfig"
+              role="button"
+              tabindex="0"
+            >
+              Edit repo config
+            </gr-button>
+            <gr-endpoint-decorator name="repo-command">
+              <gr-endpoint-param name="config"> </gr-endpoint-param>
+              <gr-endpoint-param name="repoName"> </gr-endpoint-param>
+            </gr-endpoint-decorator>
+          </div>
+        </div>
+      </div>
+      <gr-overlay
+        aria-hidden="true"
+        id="createChangeOverlay"
+        style="outline: none; display: none;"
+        tabindex="-1"
+        with-backdrop=""
+      >
+        <gr-dialog
+          confirm-label="Create"
+          disabled=""
+          id="createChangeDialog"
+          role="dialog"
+        >
+          <div class="header" slot="header">Create Change</div>
+          <div class="main" slot="main">
+            <gr-create-change-dialog id="createNewChangeModal">
+            </gr-create-change-dialog>
+          </div>
+        </gr-dialog>
+      </gr-overlay>
+    `);
+  });
+
   suite('create new change dialog', () => {
     test('createNewChange opens modal', () => {
       const openStub = sinon.stub(

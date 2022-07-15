@@ -45,6 +45,111 @@ suite('gr-group tests', () => {
     groupStub = stubRestApi('getGroupConfig').returns(Promise.resolve(group));
   });
 
+  test('render', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div class="gr-form-styles main read-only">
+        <div class="loading" id="loading">Loading...</div>
+        <div class="loading" id="loadedContent">
+          <h1 class="heading-1" id="Title"></h1>
+          <h2 class="heading-2" id="configurations">General</h2>
+          <div id="form">
+            <fieldset>
+              <h3 class="heading-3" id="groupUUID">Group UUID</h3>
+              <fieldset>
+                <gr-copy-clipboard id="uuid"> </gr-copy-clipboard>
+              </fieldset>
+              <h3 class="heading-3" id="groupName">Group Name</h3>
+              <fieldset>
+                <span class="value">
+                  <gr-autocomplete disabled="" id="groupNameInput">
+                  </gr-autocomplete>
+                </span>
+                <span class="value">
+                  <gr-button
+                    aria-disabled="true"
+                    disabled=""
+                    id="inputUpdateNameBtn"
+                    role="button"
+                    tabindex="-1"
+                  >
+                    Rename Group
+                  </gr-button>
+                </span>
+              </fieldset>
+              <h3 class="heading-3" id="groupOwner">Owners</h3>
+              <fieldset>
+                <span class="value">
+                  <gr-autocomplete disabled="" id="groupOwnerInput">
+                  </gr-autocomplete>
+                </span>
+                <span class="value">
+                  <gr-button
+                    aria-disabled="true"
+                    disabled=""
+                    id="inputUpdateOwnerBtn"
+                    role="button"
+                    tabindex="-1"
+                  >
+                    Change Owners
+                  </gr-button>
+                </span>
+              </fieldset>
+              <h3 class="heading-3">Description</h3>
+              <fieldset>
+                <div>
+                  <gr-textarea
+                    autocomplete="on"
+                    class="description monospace"
+                    disabled=""
+                    monospace=""
+                    rows="4"
+                  >
+                  </gr-textarea>
+                </div>
+                <span class="value">
+                  <gr-button
+                    aria-disabled="true"
+                    disabled=""
+                    role="button"
+                    tabindex="-1"
+                  >
+                    Save Description
+                  </gr-button>
+                </span>
+              </fieldset>
+              <h3 class="heading-3" id="options">Group Options</h3>
+              <fieldset>
+                <section>
+                  <span class="title">
+                    Make group visible to all registered users
+                  </span>
+                  <span class="value">
+                    <gr-select id="visibleToAll">
+                      <select disabled="">
+                        <option value="false">False</option>
+                        <option value="true">True</option>
+                      </select>
+                    </gr-select>
+                  </span>
+                </section>
+                <span class="value">
+                  <gr-button
+                    aria-disabled="true"
+                    disabled=""
+                    role="button"
+                    tabindex="-1"
+                  >
+                    Save Group Options
+                  </gr-button>
+                </span>
+              </fieldset>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    `);
+  });
+
   test('loading displays before group config is loaded', () => {
     assert.isTrue(
       queryAndAssert<HTMLDivElement>(element, '#loading').classList.contains(

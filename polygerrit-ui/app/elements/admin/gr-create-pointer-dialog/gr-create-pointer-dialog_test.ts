@@ -28,6 +28,33 @@ suite('gr-create-pointer-dialog tests', () => {
     await element.updateComplete;
   });
 
+  test('render', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div class="gr-form-styles">
+        <div id="form">
+          <section id="itemNameSection">
+            <span class="title"> name </span>
+            <iron-input>
+              <input placeholder=" Name" />
+            </iron-input>
+          </section>
+          <section id="itemRevisionSection">
+            <span class="title"> Initial Revision </span>
+            <iron-input>
+              <input placeholder="Revision (Branch or SHA-1)" />
+            </iron-input>
+          </section>
+          <section id="itemAnnotationSection">
+            <span class="title"> Annotation </span>
+            <iron-input>
+              <input placeholder="Annotation (Optional)" />
+            </iron-input>
+          </section>
+        </div>
+      </div>
+    `);
+  });
+
   test('branch created', async () => {
     stubRestApi('createRepoBranch').returns(Promise.resolve(new Response()));
 

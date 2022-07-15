@@ -22,6 +22,34 @@ suite('gr-repo-plugin-config tests', () => {
     await element.updateComplete;
   });
 
+  test('render', async () => {
+    element.pluginData = {
+      name: 'testName',
+      config: {
+        plugin: {type: 'STRING' as ConfigParameterInfoType, value: 'test'},
+      },
+    };
+    await element.updateComplete;
+
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div class="gr-form-styles">
+        <fieldset>
+          <h4>testName</h4>
+          <section class="STRING section">
+            <span class="title">
+              <span> </span>
+            </span>
+            <span class="value">
+              <iron-input data-option-key="plugin">
+                <input data-option-key="plugin" disabled="" is="iron-input" />
+              </iron-input>
+            </span>
+          </section>
+        </fieldset>
+      </div>
+    `);
+  });
+
   test('_computePluginConfigOptions', () => {
     assert.deepEqual(
       element._computePluginConfigOptions({

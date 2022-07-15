@@ -317,6 +317,61 @@ suite('gr-permission tests', () => {
       flush();
     });
 
+    test('render', () => {
+      expect(element).shadowDom.to.equal(/* HTML */ `
+        <section class="gr-form-styles" id="permission">
+          <div id="mainContainer">
+            <div class="header">
+              <span class="title"> Priority </span>
+              <div class="right">
+                <paper-toggle-button
+                  aria-disabled="true"
+                  aria-pressed="false"
+                  disabled=""
+                  id="exclusiveToggle"
+                  role="button"
+                  style="pointer-events: none; touch-action: none;"
+                  tabindex="-1"
+                  toggles=""
+                >
+                </paper-toggle-button>
+                Not Exclusive
+                <gr-button
+                  aria-disabled="false"
+                  id="removeBtn"
+                  link=""
+                  role="button"
+                  tabindex="0"
+                >
+                  Remove
+                </gr-button>
+              </div>
+            </div>
+            <div class="rules">
+              <gr-rule-editor> </gr-rule-editor>
+              <gr-rule-editor> </gr-rule-editor>
+              <div id="addRule">
+                <gr-autocomplete id="groupAutocomplete" placeholder="Add group">
+                </gr-autocomplete>
+              </div>
+            </div>
+          </div>
+          <div id="deletedContainer">
+            <span> Priority was deleted </span>
+            <gr-button
+              aria-disabled="false"
+              id="undoRemoveBtn"
+              link=""
+              role="button"
+              tabindex="0"
+            >
+              Undo
+            </gr-button>
+          </div>
+        </section>
+      `);
+    });
+
     test('adding a rule', async () => {
       element.name = 'Priority';
       element.section = 'refs/*' as GitRef;

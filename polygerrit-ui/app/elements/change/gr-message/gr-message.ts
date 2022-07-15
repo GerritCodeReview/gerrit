@@ -355,7 +355,7 @@ export class GrMessage extends LitElement {
     const commentCountText = pluralize(this.commentThreads.length, 'comment');
     return html`
       <div class="commentsSummary">
-        <span class="commentsIcon material-icon filled"></span>mode_comment</span>
+        <span class="commentsIcon material-icon filled">mode_comment</span>
         <span class="numberOfComments">${commentCountText}</span>
       </div>
     `;

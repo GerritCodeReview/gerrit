@@ -24,6 +24,7 @@ import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 import {nothing} from 'lit';
 import {classMap} from 'lit/directives/class-map';
 import {when} from 'lit/directives/when';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
@@ -108,6 +109,7 @@ export class GrEditableContent extends LitElement {
 
   static override get styles() {
     return [
+      iconStyles,
       sharedStyles,
       css`
         :host {

@@ -98,8 +98,6 @@ export class GrTextarea extends LitElement {
 
   @state() currentSearchString?: string;
 
-  @state() private index: number | null = null;
-
   @state() suggestions: EmojiSuggestion[] = [];
 
   // Accessed in tests.
@@ -212,7 +210,6 @@ export class GrTextarea extends LitElement {
       <gr-autocomplete-dropdown
         id="emojiSuggestions"
         .suggestions=${this.suggestions}
-        .index=${this.index}
         .horizontalOffset=${20}
         .verticalOffset=${20}
         vertical-align="top"

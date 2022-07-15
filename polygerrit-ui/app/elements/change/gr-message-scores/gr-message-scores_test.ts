@@ -23,6 +23,27 @@ suite('gr-message-score tests', () => {
     await element.updateComplete;
   });
 
+  test('render', async () => {
+    element.message = {
+      ...createChangeMessage(),
+      author: {},
+      expanded: false,
+      message: 'Patch Set 1: Verified+1 Code-Review-2 Trybot-Label3+1 Blub+1',
+    };
+    element.labelExtremes = {
+      Verified: {max: 1, min: -1},
+      'Code-Review': {max: 2, min: -2},
+      'Trybot-Label3': {max: 3, min: 0},
+    };
+    await element.updateComplete;
+
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <span class="max positive score"> Verified +1 </span>
+      <span class="min negative score"> Code-Review -2 </span>
+      <span class="positive score"> Trybot-Label3 +1 </span>
+    `);
+  });
+
   test('votes', async () => {
     element.message = {
       ...createChangeMessage(),

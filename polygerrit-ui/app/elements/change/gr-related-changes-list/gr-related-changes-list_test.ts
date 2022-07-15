@@ -192,6 +192,31 @@ suite('gr-related-changes-list', () => {
       element.patchNum = 1 as PatchSetNum;
     });
 
+    test('render', async () => {
+      stubRestApi('getRelatedChanges').returns(
+        Promise.resolve(relatedChangeInfo)
+      );
+      await element.reload();
+
+      expect(element).shadowDom.to.equal(/* HTML */ `
+        <gr-endpoint-decorator name="related-changes-section">
+          <gr-endpoint-param name="change"> </gr-endpoint-param>
+          <gr-endpoint-slot name="top"> </gr-endpoint-slot>
+          <section id="relatedChanges">
+            <gr-related-collapse class="first" title="Relation chain">
+              <div class="relatedChangeLine show-when-collapsed">
+                <span class="marker space"> </span>
+                <gr-related-change show-change-status="">
+                  Test commit subject
+                </gr-related-change>
+              </div>
+            </gr-related-collapse>
+          </section>
+          <gr-endpoint-slot name="bottom"> </gr-endpoint-slot>
+        </gr-endpoint-decorator>
+      `);
+    });
+
     test('first list', async () => {
       stubRestApi('getRelatedChanges').returns(
         Promise.resolve(relatedChangeInfo)

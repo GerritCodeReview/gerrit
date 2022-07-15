@@ -25,6 +25,38 @@ suite('gr-reviewer-list tests', () => {
     await element.updateComplete;
   });
 
+  test('render', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div class="container">
+        <div>
+          <div class="controlsContainer" hidden="">
+            <gr-button
+              aria-disabled="false"
+              class="addReviewer"
+              id="addReviewer"
+              link=""
+              role="button"
+              tabindex="0"
+              title="Add reviewer"
+            >
+              <span class="filled material-icon"> edit </span>
+            </gr-button>
+          </div>
+        </div>
+        <gr-button
+          aria-disabled="false"
+          class="hiddenReviewers"
+          hidden=""
+          link=""
+          role="button"
+          tabindex="0"
+        >
+          and 0 more
+        </gr-button>
+      </div>
+    `);
+  });
+
   test('controls hidden on immutable element', async () => {
     element.mutable = false;
     await element.updateComplete;

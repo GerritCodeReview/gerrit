@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "196258d3_1edc6e29",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-15T14:47:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd5ba7dc_a224ce4c",
+      "revId": "7ea4f80d1cc9a4975804ffdcd06a23ecb50bb146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "158185a1_b01b88a8",
@@ -58,6 +76,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1212a456_507bd050",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-dashboard-hovercard/gr-submit-requirement-dashboard-hovercard_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-15T14:47:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "158185a1_b01b88a8",
+      "range": {
+        "startLine": 3,
+        "startChar": 13,
+        "endLine": 3,
+        "endChar": 17
+      },
+      "revId": "7ea4f80d1cc9a4975804ffdcd06a23ecb50bb146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34e8ea2c_e7ebe37b",
@@ -71,6 +113,30 @@
       "writtenOn": "2022-07-15T14:24:09Z",
       "side": 1,
       "message": "2022",
+      "range": {
+        "startLine": 3,
+        "startChar": 13,
+        "endLine": 3,
+        "endChar": 17
+      },
+      "revId": "7ea4f80d1cc9a4975804ffdcd06a23ecb50bb146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1509260_84b01e70",
+        "filename": "polygerrit-ui/app/elements/change/gr-trigger-vote-hovercard/gr-trigger-vote-hovercard_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-15T14:47:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34e8ea2c_e7ebe37b",
       "range": {
         "startLine": 3,
         "startChar": 13,

@@ -159,6 +159,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7e3c6d7e_0c303898",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-15T10:15:31Z",
+      "side": 1,
+      "message": "\u003e We needed ProjectCache to get ProjectState, then:\n\u003e  1. check for parents.\n\u003e  2. check for the existence of an SR with some name (in this + parent projects).\n\u003e  3. check for the existence of rules.pl (in this + parent projects).\n\nI\u0027m not sure that this is necessary.\n\nWhy do we need to know anything from the parents in order to convert the function of a label that is defined in a project to a submit requirement that is defined in the same project?\n\n2. If a label/SR with the same name exists in a parent it means that the label/SR is overridden in the child project. In this case we still want to add a corresponding submit requirement that overrides the submit requirement from the parent. It may be that the override is ignored if the parent label/SR disallows overrides, but adding an ignored override shouldn\u0027t do any harm. This means regardless of whether a SR with the same name exists in the parent project, we always add a SR in the child project, hence we can do this without checking the parent projects.\n\n3. cannot happen since we do not execute this migration if any Prolog rule exist, do we?\n\nAm I missing anything?",
+      "parentUuid": "1c2ac062_223da489",
+      "range": {
+        "startLine": 74,
+        "startChar": 40,
+        "endLine": 74,
+        "endChar": 97
+      },
+      "revId": "647ff1198b75bdba31c4a9ca181bd2f47cd81d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c78b80a4_5921086f",
         "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
         "patchSetId": 5

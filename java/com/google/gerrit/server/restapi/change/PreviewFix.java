@@ -1,4 +1,4 @@
-// Copyright (C) 2022 The Android Open Source Project
+// Copyright (C) 2019 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -52,6 +52,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -59,27 +60,39 @@ import java.util.Map;
 import org.eclipse.jgit.lib.Repository;
 
 public class PreviewFix {
-  private final ProjectCache projectCache;
+  public interface Factory {
+    PreviewFix create(RevisionResource revisionResource);
+  }
+
   private final GitRepositoryManager repoManager;
   private final PatchScriptFactoryForAutoFix.Factory patchScriptFactoryFactory;
+  private final RevisionResource revisionResource;
+  private final PatchSet patchSet;
+  private final ChangeNotes notes;
+  private final ProjectState state;
 
   @Inject
   PreviewFix(
-      ProjectCache projectCache,
       GitRepositoryManager repoManager,
-      PatchScriptFactoryForAutoFix.Factory patchScriptFactoryFactory) {
-    this.projectCache = projectCache;
+      PatchScriptFactoryForAutoFix.Factory patchScriptFactoryFactory,
+      ProjectCache projectCache,
+      @Assisted RevisionResource revisionResource) {
     this.repoManager = repoManager;
     this.patchScriptFactoryFactory = patchScriptFactoryFactory;
+    this.revisionResource = revisionResource;
+    patchSet = revisionResource.getPatchSet();
+    notes = revisionResource.getNotes();
+    Change change = notes.getChange();
+    state = projectCache.get(change.getProject()).orElseThrow(illegalState(change.getProject()));
   }
 
   @Singleton
   public static class Stored implements RestReadView<FixResource> {
-    private final PreviewFix previewFix;
+    private final PreviewFix.Factory previewFixFactory;
 
     @Inject
-    Stored(PreviewFix previewFix) {
-      this.previewFix = previewFix;
+    Stored(PreviewFix.Factory previewFixFactory) {
+      this.previewFixFactory = previewFixFactory;
     }
 
     @Override
@@ -87,33 +100,23 @@ public class PreviewFix {
         throws PermissionBackendException, ResourceNotFoundException, ResourceConflictException,
             AuthException, IOException, InvalidChangeOperationException {
 
-      ChangeNotes notes = fixResource.getRevisionResource().getNotes();
-      Change change = notes.getChange();
-      ProjectState state =
-          previewFix
-              .projectCache
-              .get(change.getProject())
-              .orElseThrow(illegalState(change.getProject()));
+      PreviewFix previewFix = previewFixFactory.create(fixResource.getRevisionResource());
+
       Map<String, List<FixReplacement>> fixReplacementsPerFilePath =
           fixResource.getFixReplacements().stream()
               .collect(groupingBy(fixReplacement -> fixReplacement.path));
 
-      return Response.ok(
-          previewFix.previewAllFiles(
-              fixResource.getRevisionResource().getPatchSet(),
-              notes,
-              state,
-              fixReplacementsPerFilePath));
+      return Response.ok(previewFix.previewAllFiles(fixReplacementsPerFilePath));
     }
   }
 
   @Singleton
   public static class Provided implements RestModifyView<RevisionResource, ApplyProvidedFixInput> {
-    private final PreviewFix previewFix;
+    private final PreviewFix.Factory previewFixFactory;
 
     @Inject
-    Provided(PreviewFix previewFix) {
-      this.previewFix = previewFix;
+    Provided(PreviewFix.Factory previewFixFactory) {
+      this.previewFixFactory = previewFixFactory;
     }
 
     @Override
@@ -127,43 +130,29 @@ public class PreviewFix {
       if (applyProvidedFixInput.fixReplacementInfos == null) {
         throw new BadRequestException("applyProvidedFixInput.fixReplacementInfos is required");
       }
-      ChangeNotes notes = revisionResource.getNotes();
-      Change change = notes.getChange();
-      ProjectState state =
-          previewFix
-              .projectCache
-              .get(change.getProject())
-              .orElseThrow(illegalState(change.getProject()));
+
+      PreviewFix previewFix = previewFixFactory.create(revisionResource);
 
       Map<String, List<FixReplacement>> fixReplacementsPerFilePath =
           applyProvidedFixInput.fixReplacementInfos.stream()
               .map(fix -> new FixReplacement(fix.path, new Range(fix.range), fix.replacement))
               .collect(groupingBy(fixReplacement -> fixReplacement.path));
 
-      return Response.ok(
-          previewFix.previewAllFiles(
-              revisionResource.getPatchSet(), notes, state, fixReplacementsPerFilePath));
+      return Response.ok(previewFix.previewAllFiles(fixReplacementsPerFilePath));
     }
   }
 
   private Map<String, DiffInfo> previewAllFiles(
-      PatchSet patchSet,
-      ChangeNotes notes,
-      ProjectState state,
       Map<String, List<FixReplacement>> fixReplacementsPerFilePath)
       throws PermissionBackendException, ResourceNotFoundException, ResourceConflictException,
           AuthException, IOException, InvalidChangeOperationException {
     Map<String, DiffInfo> result = new HashMap<>();
-    try {
-      try (Repository git = repoManager.openRepository(notes.getProjectName())) {
-        for (Map.Entry<String, List<FixReplacement>> entry :
-            fixReplacementsPerFilePath.entrySet()) {
-          String fileName = entry.getKey();
-          DiffInfo diffInfo =
-              previewSingleFile(
-                  git, patchSet, state, notes, fileName, ImmutableList.copyOf(entry.getValue()));
-          result.put(fileName, diffInfo);
-        }
+    try (Repository git = repoManager.openRepository(notes.getProjectName())) {
+      for (Map.Entry<String, List<FixReplacement>> entry : fixReplacementsPerFilePath.entrySet()) {
+        String fileName = entry.getKey();
+        DiffInfo diffInfo =
+            previewSingleFile(git, fileName, ImmutableList.copyOf(entry.getValue()));
+        result.put(fileName, diffInfo);
       }
     } catch (NoSuchChangeException e) {
       throw new ResourceNotFoundException(e.getMessage(), e);
@@ -174,12 +163,7 @@ public class PreviewFix {
   }
 
   private DiffInfo previewSingleFile(
-      Repository git,
-      PatchSet patchSet,
-      ProjectState state,
-      ChangeNotes notes,
-      String fileName,
-      ImmutableList<FixReplacement> fixReplacements)
+      Repository git, String fileName, ImmutableList<FixReplacement> fixReplacements)
       throws PermissionBackendException, AuthException, LargeObjectException,
           InvalidChangeOperationException, IOException, ResourceNotFoundException {
     PatchScriptFactoryForAutoFix psf =

@@ -22,6 +22,30 @@
       },
       "revId": "8c2490daa89f9a815eac220889d8a9cc4448963a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1545c752_9572c5c2",
+        "filename": "java/com/google/gerrit/server/restapi/change/PreviewFix.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-07-16T00:02:45Z",
+      "side": 1,
+      "message": "Yes, we don\u0027t typically update the copyright year, but in your change you updated it and I missed that when I reviewed. So here I\u0027m reverting it back to what it was before your change (and I mentioned that in the commit message).",
+      "parentUuid": "cb47368b_2b938aa1",
+      "range": {
+        "startLine": 1,
+        "startChar": 19,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "8c2490daa89f9a815eac220889d8a9cc4448963a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

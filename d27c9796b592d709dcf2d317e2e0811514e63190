@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e0f5d72_a3b0d94f",
+        "filename": "tools/polygerrit-updater/readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-07-17T08:01:26Z",
+      "side": 0,
+      "message": "It was actually supposed to stay around for a couple of week, but apparently was missed to be removed.",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 61
+      },
+      "revId": "d27c9796b592d709dcf2d317e2e0811514e63190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

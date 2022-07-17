@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d24c0b86_07b6b277",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2130,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-07-17T08:19:57Z",
+      "side": 1,
+      "message": "Do you mean the internal [changes_rest_ext.py](google3/devtools/gerritcodereview/grest_client/changes_rest_ext.py)?",
+      "parentUuid": "f30ab1c7_8800b5aa",
+      "range": {
+        "startLine": 2130,
+        "startChar": 6,
+        "endLine": 2130,
+        "endChar": 58
+      },
+      "revId": "0c689fd64e9d0e60fa9bbdab680be18f436b07af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d4350ac2_03cc8641",
         "filename": "java/com/google/gerrit/extensions/api/changes/ApplyPatchInput.java",
         "patchSetId": 5
@@ -37,6 +61,30 @@
       "writtenOn": "2022-07-15T12:30:24Z",
       "side": 1,
       "message": "Shouldn\u0027t this be detected from the calling user?\n\nOr will the author be populated in commit? (The owner set to the calling user?)",
+      "range": {
+        "startLine": 23,
+        "startChar": 9,
+        "endLine": 23,
+        "endChar": 28
+      },
+      "revId": "0c689fd64e9d0e60fa9bbdab680be18f436b07af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddee846f_28b5ecce",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ApplyPatchInput.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-07-17T08:19:57Z",
+      "side": 1,
+      "message": "This was copied from [MergePatchSetInput](https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#merge-patch-set-input).\nI assumed it\u0027s being used by scripts which are not associated with a specific user.",
+      "parentUuid": "d4350ac2_03cc8641",
       "range": {
         "startLine": 23,
         "startChar": 9,

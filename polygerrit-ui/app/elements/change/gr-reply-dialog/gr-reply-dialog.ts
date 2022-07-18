@@ -27,6 +27,7 @@ import {
 import {
   accountOrGroupKey,
   extractTaggedUsers,
+  extractTaggedEmails,
   isReviewerOrCC,
   mapReviewer,
   removeServiceUsers,
@@ -1334,6 +1335,16 @@ export class GrReplyDialog extends LitElement {
     return reviewers;
   }
 
+  private addTaggedUsersToAttentionSet(reviewInput: ReviewInput) {
+    const taggedUsers = extractTaggedEmails(this.draft);
+    const reason = 'Because you were tagged in a comment';
+    for (const user of taggedUsers) {
+      if (!this.currentAttentionSet.has(user)) {
+        reviewInput.add_to_attention_set!.push({user, reason});
+      }
+    }
+  }
+
   send(includeComments: boolean, startReview: boolean) {
     this.reporting.time(Timing.SEND_REPLY);
     const labels = this.getLabelScores().getLabelValues();
@@ -1364,6 +1375,9 @@ export class GrReplyDialog extends LitElement {
         reviewInput.remove_from_attention_set.push({user, reason});
       }
     }
+
+    this.addTaggedUsersToAttentionSet(reviewInput);
+
     this.reportAttentionSetChanges(
       this.attentionExpanded,
       reviewInput.add_to_attention_set,
@@ -1666,8 +1680,17 @@ export class GrReplyDialog extends LitElement {
     const allAccountIds = this.allAccounts()
       .map(a => a._account_id || a.email)
       .filter(id => !!id);
+    const taggedUsers = extractTaggedEmails(this.draft);
+    for (const user of taggedUsers) {
+      if (!newAttention.has(user)) {
+        newAttention.add(user);
+      }
+    }
+    // Add proper check for email here
     this.newAttentionSet = new Set(
-      [...newAttention].filter(id => allAccountIds.includes(id))
+      [...newAttention].filter(
+        id => typeof id === 'string' || allAccountIds.includes(id)
+      )
     );
     this.attentionExpanded = this.computeShowAttentionTip();
   }
@@ -1738,7 +1761,13 @@ export class GrReplyDialog extends LitElement {
     }
     return [...this.newAttentionSet]
       .filter(id => !this.currentAttentionSet.has(id))
-      .map(id => this.findAccountById(id))
+      .map(id => {
+        if (typeof id === 'string')
+          return {
+            email: id,
+          };
+        return this.findAccountById(id);
+      })
       .filter(account => !!account) as AccountInfo[];
   }
 

@@ -50,6 +50,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cc44d42d_6ba00f79",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-18T09:11:16Z",
+      "side": 1,
+      "message": "Is this needed?\nI thought we were avoiding using `await flush()`.\n\nIf needed perhaps it\u0027s better to `waitUntil` the required condition.",
+      "range": {
+        "startLine": 81,
+        "startChar": 4,
+        "endLine": 81,
+        "endChar": 18
+      },
+      "revId": "018c758c6ab4d2e2fbfa67a0b327ac1a046988b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "27a813b9_26317412",
         "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.ts",
         "patchSetId": 2

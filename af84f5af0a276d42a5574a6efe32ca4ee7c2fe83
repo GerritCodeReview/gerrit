@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04a7c81c_c97e9ee3",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-column-requirement/gr-change-list-column-requirement.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-18T13:13:30Z",
+      "side": 1,
+      "message": "Nit: I think it would be nicer to create \u003cgr-material-icon\u003e",
+      "range": {
+        "startLine": 144,
+        "startChar": 6,
+        "endLine": 146,
+        "endChar": 7
+      },
+      "revId": "af84f5af0a276d42a5574a6efe32ca4ee7c2fe83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

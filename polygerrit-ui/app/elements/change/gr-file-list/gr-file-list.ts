@@ -404,14 +404,15 @@ export class GrFileList extends LitElement {
           width: 20px;
           justify-content: flex-end;
         }
-        .header-row .status {
-          justify-content: space-between;
-        }
         .status.extended {
           width: 56px;
         }
         .status > * {
           display: block;
+        }
+        .header-row .status .content {
+          width: 20px;
+          text-align: center;
         }
         .path {
           cursor: pointer;
@@ -1077,7 +1078,7 @@ export class GrFileList extends LitElement {
   private renderDivWithTooltip(content: string, tooltip: string) {
     return html`
       <gr-tooltip-content title=${tooltip} has-tooltip>
-        <div>${content}</div>
+        <div class="content">${content}</div>
       </gr-tooltip-content>
     `;
   }
@@ -1088,7 +1089,7 @@ export class GrFileList extends LitElement {
     if (!file) {
       const psNum = this.patchRange?.patchNum;
       return hasExtendedStatus
-        ? this.renderDivWithTooltip(`PS${psNum}`, `Patchset ${psNum}`)
+        ? this.renderDivWithTooltip(`${psNum}`, `Patchset ${psNum}`)
         : nothing;
     }
     if (isMagicPath(file.__path)) return nothing;
@@ -1113,7 +1114,10 @@ export class GrFileList extends LitElement {
     // no path means "header row"
     const psNum = this.patchRange?.basePatchNum;
     if (!path) {
-      return this.renderDivWithTooltip(`PS${psNum}`, `Patchset ${psNum}`);
+      return html`
+        ${this.renderDivWithTooltip(`${psNum}`, `Patchset ${psNum}`)}
+        <div class="material-icon file-status-arrow">arrow_right_alt</div>
+      `;
     }
     if (isMagicPath(path)) return nothing;
     const file = this.filesLeftBase.find(info => info.__path === path);
@@ -1127,7 +1131,7 @@ export class GrFileList extends LitElement {
         .status=${status}
         .labelPostfix=${postfix}
       ></gr-file-status>
-      <span class="material-icon file-status-arrow">arrow_right_alt</span>
+      <div class="material-icon file-status-arrow">arrow_right_alt</div>
     `;
   }
 

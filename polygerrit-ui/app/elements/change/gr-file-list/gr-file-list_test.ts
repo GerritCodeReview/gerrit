@@ -46,7 +46,7 @@ import {
   queryAndAssert,
 } from '../../../utils/common-util';
 import {GrFileList, NormalizedFileInfo} from './gr-file-list';
-import {FileInfo} from '../../../api/rest-api';
+import {FileInfo, PatchSetNumber} from '../../../api/rest-api';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {ParsedChangeInfo} from '../../../types/types';
@@ -260,8 +260,29 @@ suite('gr-file-list tests', () => {
       expect(statusCol).dom.equal(/* HTML */ `
         <div class="extended status" role="gridcell">
           <gr-file-status></gr-file-status>
-          <span class="material-icon file-status-arrow">arrow_right_alt</span>
+          <div class="material-icon file-status-arrow">arrow_right_alt</div>
           <gr-file-status></gr-file-status>
+        </div>
+      `);
+    });
+
+    test('renders file status column header', async () => {
+      stubFlags('isEnabled').returns(true);
+      element.files = createFiles(1, {lines_inserted: 9});
+      element.filesLeftBase = createFiles(1, {lines_inserted: 9});
+      element.patchRange!.basePatchNum = 1 as PatchSetNumber;
+      await element.updateComplete;
+      const fileRows = queryAll<HTMLDivElement>(element, '.header-row');
+      const statusCol = queryAndAssert(fileRows?.[0], '.status');
+      expect(statusCol).dom.equal(/* HTML */ `
+        <div class="extended status" role="gridcell">
+          <gr-tooltip-content has-tooltip="" title="Patchset 1">
+            <div class="content">1</div>
+          </gr-tooltip-content>
+          <div class="material-icon file-status-arrow">arrow_right_alt</div>
+          <gr-tooltip-content has-tooltip="" title="Patchset 2">
+            <div class="content">2</div>
+          </gr-tooltip-content>
         </div>
       `);
     });

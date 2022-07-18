@@ -829,6 +829,7 @@ export class GrChecksResults extends LitElement {
 
   static override get styles() {
     return [
+      iconStyles,
       sharedStyles,
       spinnerStyles,
       fontStyles,

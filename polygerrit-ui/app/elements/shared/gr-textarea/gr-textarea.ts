@@ -502,7 +502,7 @@ export class GrTextarea extends LitElement {
     text: string,
     charIndex: number,
     suggestions?: Item[],
-    char: string
+    char?: string
   ) {
     // Under any of the following conditions, close and reset the dropdown:
     // - The cursor is no longer at the end of the current search string

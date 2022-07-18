@@ -29,6 +29,7 @@ import {
 import {sharedStyles} from '../../../styles/shared-styles';
 import {ifDefined} from 'lit/directives/if-defined';
 import {capitalizeFirstLetter} from '../../../utils/string-util';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 @customElement('gr-change-list-column-requirement')
 export class GrChangeListColumnRequirement extends LitElement {
@@ -40,12 +41,10 @@ export class GrChangeListColumnRequirement extends LitElement {
 
   static override get styles() {
     return [
+      iconStyles,
       submitRequirementsStyles,
       sharedStyles,
       css`
-        iron-icon {
-          vertical-align: top;
-        }
         .container {
           display: flex;
           align-items: center;
@@ -141,7 +140,11 @@ export class GrChangeListColumnRequirement extends LitElement {
 
   private renderStatusIcon(status: SubmitRequirementStatus) {
     const icon = iconForStatus(status ?? SubmitRequirementStatus.ERROR);
-    return html`<iron-icon class=${icon} icon="gr-icons:${icon}"></iron-icon>`;
+    return html`
+      <span class="material-icon ${icon.icon} ${icon.filled ? 'filled' : ''}"
+        >${icon.icon}</span
+      >
+    `;
   }
 
   private computeClass(): string {

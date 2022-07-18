@@ -39,6 +39,7 @@ import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread'
 import {getAppContext} from '../../../services/app-context';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
+import {Interaction} from '../../../constants/reporting';
 
 enum SortDropdownState {
   TIMESTAMP = 'Latest timestamp',
@@ -193,6 +194,8 @@ export class GrThreadList extends LitElement {
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
+  private readonly reporting = getAppContext().reportingService;
+
   private readonly userModel = getAppContext().userModel;
 
   constructor() {
@@ -211,6 +214,10 @@ export class GrThreadList extends LitElement {
       this,
       () => this.userModel.account$,
       x => (this.account = x)
+    );
+    // for COMMENTS_AUTOCLOSE logging purposes only
+    this.reporting.reportInteraction(
+      Interaction.COMMENTS_AUTOCLOSE_THREAD_LIST_CREATED
     );
   }
 
@@ -310,6 +317,17 @@ export class GrThreadList extends LitElement {
         }
       `,
     ];
+  }
+
+  override updated(): void {
+    // for COMMENTS_AUTOCLOSE logging purposes only
+    const threads = this.shadowRoot!.querySelectorAll('gr-comment-thread');
+    if (threads.length > 0) {
+      this.reporting.reportInteraction(
+        Interaction.COMMENTS_AUTOCLOSE_THREAD_LIST_UPDATED,
+        {uid: threads[0].uid}
+      );
+    }
   }
 
   override render() {

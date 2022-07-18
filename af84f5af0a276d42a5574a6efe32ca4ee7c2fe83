@@ -22,6 +22,30 @@
       },
       "revId": "af84f5af0a276d42a5574a6efe32ca4ee7c2fe83",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc80ed55_469c3014",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-column-requirement/gr-change-list-column-requirement.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-18T13:14:20Z",
+      "side": 1,
+      "message": "That\u0027s not a bad idea. Will consider it as a cleanup once I\u0027ve migrated all of them.",
+      "parentUuid": "04a7c81c_c97e9ee3",
+      "range": {
+        "startLine": 144,
+        "startChar": 6,
+        "endLine": 146,
+        "endChar": 7
+      },
+      "revId": "af84f5af0a276d42a5574a6efe32ca4ee7c2fe83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

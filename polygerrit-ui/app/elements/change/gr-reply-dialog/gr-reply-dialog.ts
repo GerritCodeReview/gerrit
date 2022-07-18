@@ -27,6 +27,7 @@ import {
 } from '../../../constants/constants';
 import {
   accountOrGroupKey,
+  extractTaggedUsers,
   isReviewerOrCC,
   mapReviewer,
   removeServiceUsers,
@@ -1926,6 +1927,16 @@ export class GrReplyDialog extends LitElement {
   }
 
   draftChanged(oldDraft: string) {
+    const taggedUsers = extractTaggedUsers(this.draft);
+    for (const user of taggedUsers) {
+      if (
+        !this.ccs
+          .filter(cc => isAccount(cc))
+          .some(cc => (cc as AccountInfo).email === user.email)
+      )
+        this.ccs.push(user);
+      this.reviewersMutated = true;
+    }
     this.storeTask = debounce(
       this.storeTask,
       () => {

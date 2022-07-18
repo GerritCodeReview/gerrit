@@ -27,6 +27,7 @@ import {
 } from '../../../constants/constants';
 import {
   accountOrGroupKey,
+  extractMentionedUsers,
   isReviewerOrCC,
   mapReviewer,
   removeServiceUsers,
@@ -108,6 +109,7 @@ import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 import {customElement, property, state, query} from 'lit/decorators';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -252,7 +254,42 @@ export class GrReplyDialog extends LitElement {
   account?: AccountInfo;
 
   @state()
-  ccs: AccountInput[] = [];
+  get ccs() {
+    return [...this._ccs, ...this.mentionedCcs];
+  }
+
+  /**
+   * We pass the ccs object to AccountInput for modifying where it needs to
+   * add a value to CC. The returned value contains both mentionedCCs and
+   * normal ccs hence separate the two when setting ccs.
+   */
+  set ccs(ccs: AccountInput[]) {
+    this._ccs = ccs.filter(
+      cc =>
+        !this.mentionedCcs.some(
+          mentionedCC =>
+            accountOrGroupKey(mentionedCC) === accountOrGroupKey(cc)
+        )
+    );
+  }
+
+  @state()
+  _ccs: AccountInput[] = [];
+
+  /**
+   * Maintain a separate list of users added to cc due to being mentioned in
+   * unresolved drafts.
+   * If the draft is discarded or edited to remove the mention then we want to
+   * remove the user from being added to CC.
+   * Instead of figuring out when we should remove the mentioned user ie when
+   * they get removed from the last comment, we recompute this property when
+   * any of the draft comments change.
+   * If we add the user to the existing ccs object then we cannot differentiate
+   * if the user was added manually to CC or added due to being mentioned hence
+   * we cannot reset the mentioned ccs when drafts change.
+   */
+  @state()
+  mentionedCcs: AccountInput[] = [];
 
   @state()
   attentionCcsCount = 0;
@@ -312,6 +349,10 @@ export class GrReplyDialog extends LitElement {
   @state()
   currentAttentionSet: Set<AccountId | EmailAddress> = new Set();
 
+  // user added to the attention set due to being mentioned
+  @state()
+  mentionedAttentionSet: Set<AccountId | EmailAddress> = new Set();
+
   @state()
   newAttentionSet: Set<AccountId | EmailAddress> = new Set();
 
@@ -330,6 +371,8 @@ export class GrReplyDialog extends LitElement {
   private readonly storage = getAppContext().storageService;
 
   private readonly jsAPI = getAppContext().jsApiService;
+
+  private readonly flagsService = getAppContext().flagsService;
 
   private readonly getConfigModel = resolve(this, configModelToken);
 
@@ -1261,13 +1304,25 @@ export class GrReplyDialog extends LitElement {
         ? ReviewerType.CC
         : ReviewerType.REVIEWER;
     const isReviewer = ReviewerType.REVIEWER === reviewerType;
-    const array = isReviewer ? this.ccs : this.reviewers;
+    let array = isReviewer ? this.ccs : this.reviewers;
     const index = array.findIndex(
       reviewer => accountOrGroupKey(reviewer) === key
     );
     if (index >= 0) {
       // Remove any accounts that already exist as a CC for reviewer
       // or vice versa.
+      // Here we need to splice the specific array _cc or _mentionedCCs
+      if (isReviewer) {
+        if (
+          this._ccs.some(
+            a => accountOrGroupKey(a) === accountOrGroupKey(account)
+          )
+        ) {
+          array = this._ccs;
+        } else {
+          array = this.mentionedCcs;
+        }
+      }
       array.splice(index, 1);
       const moveFrom = isReviewer ? 'CC' : 'reviewer';
       const moveTo = isReviewer ? 'reviewer' : 'CC';
@@ -1529,7 +1584,7 @@ export class GrReplyDialog extends LitElement {
       }
     }
 
-    this.ccs = ccs;
+    this._ccs = ccs;
     this.reviewers = reviewers;
   }
 
@@ -1601,6 +1656,22 @@ export class GrReplyDialog extends LitElement {
     const hasVote = !!this.labelsChanged;
     const isOwner = this.isOwner(this.account, this.change);
     const isUploader = this.uploader?._account_id === this.account._account_id;
+
+    // reset mentionedCCs in case some draft comment got deleted and we
+    // need to update the list of mentioned users
+    this.mentionedCcs = [];
+    this.mentionedAttentionSet.clear();
+    this.updateMentionedUsers(this.draft, !this.isResolvedPatchsetLevelComment);
+    for (const thread of draftCommentThreads) {
+      // Add users mentioned in newly created unresolved
+      // drafts to attention set.
+      this.updateMentionedUsers(
+        thread.comments[thread.comments.length - 1].message ?? '',
+        isUnresolved(thread)
+      );
+    }
+    if (this.mentionedCcs.length > 0) this.requestUpdate();
+
     this.attentionCcsCount = removeServiceUsers(this.ccs).length;
     this.currentAttentionSet = new Set(
       Object.keys(this.change.attention_set || {}).map(
@@ -1608,6 +1679,7 @@ export class GrReplyDialog extends LitElement {
       )
     );
     const newAttention = new Set(this.currentAttentionSet);
+
     if (this.change.status === ChangeStatus.NEW) {
       // Add everyone that the user is replying to in a comment thread.
       this.computeCommentAccounts(draftCommentThreads).forEach(id =>
@@ -1647,14 +1719,17 @@ export class GrReplyDialog extends LitElement {
       // Remove the current user.
       newAttention.delete(this.account._account_id);
     }
+    // Add mentioned users to the attention set
     // Finally make sure that everyone in the attention set is still active as
     // owner, reviewer or cc.
     const allAccountIds = this.allAccounts()
       .map(a => a._account_id || a.email)
       .filter(id => !!id);
-    this.newAttentionSet = new Set(
-      [...newAttention].filter(id => allAccountIds.includes(id))
-    );
+    this.newAttentionSet = new Set([
+      ...[...this.mentionedAttentionSet],
+      ...[...newAttention].filter(id => allAccountIds.includes(id)),
+    ]);
+
     this.attentionExpanded = this.computeShowAttentionTip();
   }
 
@@ -1923,6 +1998,33 @@ export class GrReplyDialog extends LitElement {
     //
     // Note: if the text is removed, the save button will not get disabled.
     this.reviewersMutated = true;
+  }
+
+  private updateMentionedUsers(text: string, isUnresolved: boolean) {
+    if (!this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) return;
+    const taggedUsers = extractMentionedUsers(text);
+    const alreadyExists = (ccs: AccountInput[], user: AccountInfoInput) =>
+      ccs
+        .filter(cc => isAccount(cc))
+        .some(cc => (cc as AccountInfoInput).email === user.email);
+    // Ensure the mentioned user wasn't already added to the reviewer/CC field
+    // before adding them to the mentionedCCs state
+    for (const user of taggedUsers) {
+      if (
+        !alreadyExists(this.reviewers, user) &&
+        !alreadyExists(this.ccs, user) &&
+        !alreadyExists(this.mentionedCcs, user)
+      ) {
+        this.mentionedCcs.push({...user, confirmed: true, _pendingAdd: true});
+      }
+      // If user is @mentioned then they are always added as CC.
+      // Users are only added to the Attention Set if it an unresolved draft.
+      if (isUnresolved && !this.mentionedAttentionSet.has(user.email!)) {
+        this.mentionedAttentionSet.add(user.email!);
+      }
+      this.reviewersMutated =
+        this.reviewersMutated || this.mentionedCcs.length > 0;
+    }
   }
 
   draftChanged(oldDraft: string) {

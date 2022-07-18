@@ -28,14 +28,14 @@ suite('gr-hovercard-run tests', () => {
         <div class="section">
           <div class="chipRow">
             <div class="chip">
-              <iron-icon icon="gr-icons:check"> </iron-icon>
+              <span class="material-icon">check</span>
               <span> COMPLETED </span>
             </div>
           </div>
         </div>
         <div class="section">
           <div class="sectionIcon">
-            <iron-icon class="error" icon="gr-icons:error"> </iron-icon>
+            <span class="material-icon filled error">error</span>
           </div>
           <div class="sectionContent">
             <h3 class="heading-3 name">
@@ -50,6 +50,6 @@ suite('gr-hovercard-run tests', () => {
   });
 
   test('hovercard is shown with error icon', () => {
-    assert.equal(element.computeIcon(), 'error');
+    assert.equal(element.computeIcon().icon, 'error');
   });
 });

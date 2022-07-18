@@ -16,31 +16,31 @@ import {assertNever} from '../../utils/common-util';
 import {CheckResult, CheckRun} from './checks-model';
 
 export function iconForLink(linkIcon?: LinkIcon) {
-  if (linkIcon === undefined) return 'launch';
+  if (linkIcon === undefined) return {icon: 'open_in_new'};
   switch (linkIcon) {
     case LinkIcon.EXTERNAL:
-      return 'launch';
+      return {icon: 'open_in_new'};
     case LinkIcon.IMAGE:
-      return 'insert-photo';
+      return {icon: 'image', filled: true};
     case LinkIcon.HISTORY:
-      return 'restore';
+      return {icon: 'history'};
     case LinkIcon.DOWNLOAD:
-      return 'download';
+      return {icon: 'download'};
     case LinkIcon.DOWNLOAD_MOBILE:
-      return 'system-update';
+      return {icon: 'system_update'};
     case LinkIcon.HELP_PAGE:
-      return 'help-outline';
+      return {icon: 'help'};
     case LinkIcon.REPORT_BUG:
-      return 'bug';
+      return {icon: 'bug', filled: true};
     case LinkIcon.CODE:
-      return 'code';
+      return {icon: 'code'};
     case LinkIcon.FILE_PRESENT:
-      return 'file-present';
+      return {icon: 'file_present'};
     default:
       // We don't throw an assertion error here, because plugins don't have to
       // be written in TypeScript, so we may encounter arbitrary strings for
       // linkIcon.
-      return 'launch';
+      return {icon: 'open_in_new'};
   }
 }
 
@@ -127,22 +127,22 @@ export function labelFor(catStat: Category | RunStatus) {
 export function iconFor(catStat: Category | RunStatus) {
   switch (catStat) {
     case Category.ERROR:
-      return 'error';
+      return {icon: 'error', filled: true};
     case Category.INFO:
-      return 'info-outline';
+      return {icon: 'info'};
     case Category.WARNING:
-      return 'warning';
+      return {icon: 'warning', filled: true};
     case Category.SUCCESS:
-      return 'check-circle-outline';
+      return {icon: 'check_circle'};
     // Note that this is only for COMPLETED without results!
     case RunStatus.COMPLETED:
-      return 'check-circle-outline';
+      return {icon: 'check_circle'};
     case RunStatus.RUNNABLE:
-      return 'placeholder';
+      return {icon: ''};
     case RunStatus.RUNNING:
-      return 'timelapse';
+      return {icon: 'timelapse'};
     case RunStatus.SCHEDULED:
-      return 'scheduled';
+      return {icon: 'pending_actions'};
     default:
       assertNever(catStat, `Unsupported category/status: ${catStat}`);
   }
@@ -295,7 +295,7 @@ function runLevel(status: RunStatus) {
 
 export interface AttemptDetail {
   attempt: number | undefined;
-  icon: string;
+  icon: {icon: string; filled?: boolean};
 }
 
 export interface AttemptInfo {

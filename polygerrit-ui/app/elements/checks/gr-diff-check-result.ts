@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '@polymer/paper-tooltip/paper-tooltip';
-import '@polymer/iron-icon/iron-icon';
 import {LitElement, css, html, PropertyValues, nothing} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
 import {RunResult} from '../../models/checks/checks-model';
@@ -100,14 +99,11 @@ export class GrDiffCheckResult extends LitElement {
           display: block;
           margin-top: var(--spacing-m);
         }
-        iron-icon {
-          width: var(--line-height-normal);
-          height: var(--line-height-normal);
-          vertical-align: top;
+        .material-icon {
+          font-size: var(--line-height-normal);
         }
-        .icon iron-icon {
-          width: calc(var(--line-height-normal) - 4px);
-          height: calc(var(--line-height-normal) - 4px);
+        .icon .material-icon {
+          font-size: calc(var(--line-height-normal) - 4px);
           position: relative;
           top: 2px;
         }
@@ -118,13 +114,14 @@ export class GrDiffCheckResult extends LitElement {
   override render() {
     if (!this.result) return;
     const cat = this.result.category.toLowerCase();
+    const icon = iconFor(this.result.category);
     return html`
       <div class="${cat} container font-normal">
         <div class="header" @click=${this.toggleExpandedClick}>
           <div class="icon">
-            <iron-icon
-              icon="gr-icons:${iconFor(this.result.category)}"
-            ></iron-icon>
+            <span class="material-icon ${icon.filled ? 'filled' : ''}"
+              >${icon.icon}</span
+            >
           </div>
           <div class="name">
             <gr-hovercard-run .run=${this.result}></gr-hovercard-run>

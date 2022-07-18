@@ -70,37 +70,34 @@ export class GrHovercardRun extends base {
         div.sectionIcon {
           flex: 0 0 30px;
         }
-        div.chip iron-icon {
-          width: 16px;
-          height: 16px;
+        div.chip .material-icon {
+          font-size: 16px;
           /* Positioning of a 16px icon in the middle of a 20px line. */
           position: relative;
           top: 2px;
         }
-        div.sectionIcon iron-icon {
+        div.sectionIcon .material-icon {
           position: relative;
           top: 2px;
-          width: 20px;
-          height: 20px;
+          font-size: 20px;
         }
         div.sectionIcon .small.material-icon {
           position: relative;
           top: 6px;
           font-size: 16px;
         }
-        div.sectionContent iron-icon.link {
+        div.sectionContent .material-icon.link {
           color: var(--link-color);
         }
-        div.sectionContent .attemptIcon iron-icon,
-        div.sectionContent iron-icon.small {
-          width: 16px;
-          height: 16px;
+        div.sectionContent .attemptIcon .material-icon,
+        div.sectionContent .material-icon.small {
+          font-size: 16px;
           margin-right: var(--spacing-s);
           /* Positioning of a 16px icon in the middle of a 20px line. */
           position: relative;
           top: 2px;
         }
-        div.sectionContent .attemptIcon iron-icon {
+        div.sectionContent .attemptIcon .material-icon {
           margin-right: 0;
         }
         .attemptIcon,
@@ -123,6 +120,7 @@ export class GrHovercardRun extends base {
   override render() {
     if (!this.run) return '';
     const icon = this.computeIcon();
+    const chipIcon = this.computeChipIcon();
     return html`
       <div id="container" role="tooltip" tabindex="-1">
         <div class="section">
@@ -131,14 +129,19 @@ export class GrHovercardRun extends base {
             class="chipRow"
           >
             <div class="chip">
-              <iron-icon icon="gr-icons:${this.computeChipIcon()}"></iron-icon>
+              <span class="material-icon ${chipIcon.filled ? 'filled' : ''}"
+                >${chipIcon.icon}</span
+              >
               <span>${this.run.status}</span>
             </div>
           </div>
         </div>
         <div class="section">
-          <div class="sectionIcon" ?hidden=${icon.length === 0}>
-            <iron-icon class=${icon} icon="gr-icons:${icon}"></iron-icon>
+          <div class="sectionIcon" ?hidden=${icon.icon.length === 0}>
+            <span
+              class="material-icon ${icon.icon} ${icon.filled ? 'filled' : ''}"
+              >${icon.icon}</span
+            >
           </div>
           <div class="sectionContent">
             <h3 class="name heading-3">
@@ -211,10 +214,9 @@ export class GrHovercardRun extends base {
     return html`
       <div>
         <div class="attemptIcon">
-          <iron-icon
-            class=${attempt.icon}
-            icon="gr-icons:${attempt.icon}"
-          ></iron-icon>
+          <span class="material-icon ${attempt.icon.filled ? 'filled' : ''}"
+            >${attempt.icon.icon}</span
+          >
         </div>
         <div class="attemptNumber">${ordinal(attempt.attempt)}</div>
       </div>
@@ -311,11 +313,10 @@ export class GrHovercardRun extends base {
                 <div class="title">Documentation</div>
                 <div>
                   <a href=${this.run.checkLink} target="_blank"
-                    ><iron-icon
+                    ><span
                       aria-label="external link to check documentation"
-                      class="small link"
-                      icon="gr-icons:launch"
-                    ></iron-icon
+                      class="material-iconsmall link"
+                      >open_in_new</span
                     >${this.computeHostName(this.run.checkLink)}
                   </a>
                 </div>
@@ -342,25 +343,27 @@ export class GrHovercardRun extends base {
     );
   }
 
-  computeIcon() {
-    if (!this.run) return '';
+  computeIcon(): {icon: string; filled?: boolean} {
+    if (!this.run) return {icon: ''};
     const category = worstCategory(this.run);
     if (category) return iconFor(category);
     return this.run.status === RunStatus.COMPLETED
       ? iconFor(RunStatus.COMPLETED)
-      : '';
+      : {icon: ''};
   }
 
   computeAttempts(): AttemptDetail[] {
     const details = this.run?.attemptDetails ?? [];
     const more =
-      details.length > 7 ? [{icon: 'more-horiz', attempt: undefined}] : [];
+      details.length > 7
+        ? [{icon: {icon: 'more-horiz'}, attempt: undefined}]
+        : [];
     return [...more, ...details.slice(-7)];
   }
 
   private computeChipIcon() {
     if (this.run?.status === RunStatus.COMPLETED) {
-      return 'check';
+      return {icon: 'check'};
     }
     if (this.run?.status === RunStatus.RUNNING) {
       return iconFor(RunStatus.RUNNING);
@@ -368,7 +371,7 @@ export class GrHovercardRun extends base {
     if (this.run?.status === RunStatus.SCHEDULED) {
       return iconFor(RunStatus.SCHEDULED);
     }
-    return '';
+    return {icon: ''};
   }
 
   private computeHostName(link?: string) {

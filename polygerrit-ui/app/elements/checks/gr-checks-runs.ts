@@ -3,7 +3,6 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-icon/iron-icon';
 import {classMap} from 'lit/directives/class-map';
 import './gr-hovercard-run';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
@@ -105,32 +104,32 @@ export class GrChecksRun extends LitElement {
         .chip.warning {
           border-left: var(--thick-border) solid var(--warning-foreground);
         }
-        .chip.info-outline {
+        .chip.info {
           border-left: var(--thick-border) solid var(--info-foreground);
         }
-        .chip.check-circle-outline {
+        .chip.check_circle {
           border-left: var(--thick-border) solid var(--success-foreground);
         }
         .chip.timelapse,
-        .chip.scheduled {
+        .chip.pending_actions {
           border-left: var(--thick-border) solid var(--border-color);
         }
         .chip.placeholder {
           border-left: var(--thick-border) solid var(--border-color);
         }
-        .chip.placeholder iron-icon {
+        .chip.placeholder .material-icon {
           display: none;
         }
-        iron-icon.error {
+        .material-icon.error {
           color: var(--error-foreground);
         }
-        iron-icon.warning {
+        .material-icon.warning {
           color: var(--warning-foreground);
         }
-        iron-icon.info-outline {
+        .material-icon.info {
           color: var(--info-foreground);
         }
-        iron-icon.check-circle-outline {
+        .material-icon.check_circle {
           color: var(--success-foreground);
         }
         div.chip:hover {
@@ -146,7 +145,7 @@ export class GrChecksRun extends LitElement {
           padding-left: calc(var(--spacing-m) + var(--thick-border) - 1px);
         }
         div.chip.selected .name,
-        div.chip.selected iron-icon.filter {
+        div.chip.selected .material-icon.filter {
           color: var(--selected-foreground);
         }
         gr-checks-action {
@@ -228,7 +227,7 @@ export class GrChecksRun extends LitElement {
     const icon = iconForRun(this.run);
     const classes = {
       chip: true,
-      [icon]: true,
+      [icon.icon]: true,
       selected: this.selected,
       deselected: this.deselected,
     };
@@ -244,7 +243,9 @@ export class GrChecksRun extends LitElement {
         <div class="left">
           <gr-hovercard-run .run=${this.run}></gr-hovercard-run>
           ${this.renderFilterIcon()}
-          <iron-icon class=${icon} icon="gr-icons:${icon}"></iron-icon>
+          <span class="material-icon ${icon.filled ? 'filled' : ''}"
+            >${icon.icon}</span
+          >
           ${this.renderAdditionalIcon()}
           <span class="name">${this.run.checkName}</span>
           ${this.renderETA()}
@@ -282,7 +283,7 @@ export class GrChecksRun extends LitElement {
     const checkNameId = charsOnly(this.run.checkName).toLowerCase();
     const id = `attempt-${detail.attempt}`;
     const icon = detail.icon;
-    const wasNotRun = icon === iconFor(RunStatus.RUNNABLE);
+    const wasNotRun = icon?.icon === iconFor(RunStatus.RUNNABLE)?.icon;
     return html`<div class="attemptDetail">
       <input
         type="radio"
@@ -292,7 +293,9 @@ export class GrChecksRun extends LitElement {
         ?disabled=${!this.isSelected(detail) && wasNotRun}
         @change=${() => this.handleAttemptChange(detail)}
       />
-      <iron-icon class=${icon} icon="gr-icons:${icon}"></iron-icon>
+      <span class="material-icon ${icon.icon} ${icon.filled ? 'filled' : ''}"
+        >${icon.icon}</span
+      >
       <label for=${id}>
         Attempt ${detail.attempt}${wasNotRun ? ' (not run)' : ''}
       </label>
@@ -319,11 +322,11 @@ export class GrChecksRun extends LitElement {
     if (!link) return;
     return html`
       <a href=${link} target="_blank" @click=${this.onLinkClick}
-        ><iron-icon
-          class="statusLinkIcon"
-          icon="gr-icons:launch"
+        ><span
+          class="material-icon statusLinkIcon"
           aria-label="external link to run status details"
-        ></iron-icon>
+          >open_in_new</span
+        >
         <paper-tooltip offset="5">Link to run status details</paper-tooltip>
       </a>
     `;
@@ -340,9 +343,7 @@ export class GrChecksRun extends LitElement {
 
   renderFilterIcon() {
     if (!this.selected) return;
-    return html`
-      <iron-icon class="filter" icon="gr-icons:filter"></iron-icon>
-    `;
+    return html`<span class="filter material-icon filled">filter_alt</span>`;
   }
 
   /**

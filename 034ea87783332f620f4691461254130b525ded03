@@ -16,6 +16,24 @@
       "message": "Doesn\u0027t this change make it less likely to copy because the OR NO_CHANGE is a larger set?",
       "revId": "034ea87783332f620f4691461254130b525ded03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a84d2346_f7b44224",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-18T15:22:03Z",
+      "side": 1,
+      "message": "No, the set of matched changes stays the same.\n\nNO_CODE_CHANGE: Matches all changes were the code did not change. This includes changes where:\na) only the metadata changed and\nb) changes that neither changed the metadata nor the code (aka NO_CHANGE).\n\nNO_CHANGE: Matches all changes were neither the meta data nor the code was changed.\n\nThis means NO_CHANGE matches a subset of the changes that are matched by NO_CODE_CHANGE, and hence it can be dropped from the copy condition.",
+      "parentUuid": "19cc3e16_b0aa7f68",
+      "revId": "034ea87783332f620f4691461254130b525ded03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

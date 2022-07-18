@@ -45,7 +45,7 @@ suite('gr-change-summary test', () => {
               <gr-summary-chip
                 category="show all"
                 hidden=""
-                icon="markChatRead"
+                icon="mark_chat_read"
                 styletype="check"
               >
                 0 resolved

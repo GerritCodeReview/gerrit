@@ -555,7 +555,7 @@ export class GrChangeSummary extends LitElement {
               ><gr-summary-chip
                 styleType=${SummaryChipStyles.CHECK}
                 category=${CommentTabState.SHOW_ALL}
-                icon="markChatRead"
+                icon="mark_chat_read"
                 ?hidden=${!countResolvedComments}
                 >${countResolvedComments} resolved</gr-summary-chip
               >

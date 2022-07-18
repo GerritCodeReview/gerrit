@@ -4,18 +4,47 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup-karma';
+import {fixture, html} from '@open-wc/testing-helpers';
 import './gr-user-header';
 import {GrUserHeader} from './gr-user-header';
 import {stubRestApi} from '../../../test/test-utils';
 import {AccountId, EmailAddress, Timestamp} from '../../../types/common';
 
-const basicFixture = fixtureFromElement('gr-user-header');
-
 suite('gr-user-header tests', () => {
   let element: GrUserHeader;
 
-  setup(() => {
-    element = basicFixture.instantiate();
+  setup(async () => {
+    element = await fixture(html`<gr-user-header></gr-user-header>`);
+  });
+
+  test('render', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <gr-avatar aria-label="Account avatar" hidden=""> </gr-avatar>
+      <div class="info">
+        <h1 class="heading-1"></h1>
+        <hr />
+        <div class="hide status">
+          <span> Status: </span>
+        </div>
+        <div>
+          <span> Email: </span>
+          <a href="mailto:"> </a>
+        </div>
+        <div>
+          <span> Joined: </span>
+          <gr-date-formatter datestr=""> </gr-date-formatter>
+        </div>
+        <gr-endpoint-decorator name="user-header">
+          <gr-endpoint-param name="accountDetails"> </gr-endpoint-param>
+          <gr-endpoint-param name="loggedIn"> </gr-endpoint-param>
+        </gr-endpoint-decorator>
+      </div>
+      <div class="info">
+        <div class="dashboardLink hide">
+          <a href=""> View dashboard </a>
+        </div>
+      </div>
+    `);
   });
 
   test('loads and clears account info', async () => {

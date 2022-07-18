@@ -46,6 +46,29 @@ suite('gr-change-list-view tests', () => {
     await element.updateComplete;
   });
 
+  test('render', async () => {
+    element.changes = Array(25)
+      .fill(0)
+      .map(_ => createChange());
+    element.changesPerPage = 10;
+    element.loading = false;
+    await element.updateComplete;
+
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div class="loading" hidden="">Loading...</div>
+      <div>
+        <gr-change-list> </gr-change-list>
+        <nav>
+          Page
+          <a href="" id="prevArrow">
+            <iron-icon aria-label="Older" icon="gr-icons:chevron-left">
+            </iron-icon>
+          </a>
+        </nav>
+      </div>
+    `);
+  });
+
   suite('bulk actions', () => {
     let getChangesStub: sinon.SinonStub;
     setup(async () => {

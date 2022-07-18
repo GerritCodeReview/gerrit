@@ -6,7 +6,7 @@
 import '../test/common-test-setup-karma';
 import {
   computeVoteableText,
-  extractMentionedEmails,
+  extractMentionedUsers,
   getAccountTemplate,
   isServiceUser,
   removeServiceUsers,
@@ -17,7 +17,12 @@ import {
   AccountTag,
   DefaultDisplayNameConfig,
 } from '../constants/constants';
-import {AccountId, AccountInfo, ServerInfo} from '../api/rest-api';
+import {
+  AccountId,
+  AccountInfo,
+  EmailAddress,
+  ServerInfo,
+} from '../api/rest-api';
 import {
   createAccountDetailWithId,
   createChange,
@@ -61,35 +66,39 @@ suite('account-util tests', () => {
     assert.isTrue(isServiceUser(BOTTY));
   });
 
-  test('extractMentionedEmails', () => {
+  test('extractMentionedUsers', () => {
     let text =
       'Hi @kamilm@google.com and @brohlfs@google.com can you take a look at this?';
-    assert.deepEqual(extractMentionedEmails(text), [
-      'kamilm@google.com',
-      'brohlfs@google.com',
+    assert.deepEqual(extractMentionedUsers(text), [
+      {email: 'kamilm@google.com' as EmailAddress},
+      {email: 'brohlfs@google.com' as EmailAddress},
     ]);
 
     // with extra @
     text = '@@abc@google.com';
-    assert.deepEqual(extractMentionedEmails(text), []);
+    assert.deepEqual(extractMentionedUsers(text), []);
 
     // with spaces in email
     text = '@a bc@google.com';
-    assert.deepEqual(extractMentionedEmails(text), []);
+    assert.deepEqual(extractMentionedUsers(text), []);
 
     // with invalid email
     text = '@abcgoogle.com';
-    assert.deepEqual(extractMentionedEmails(text), []);
+    assert.deepEqual(extractMentionedUsers(text), []);
 
     text = '@abc@googlecom';
     assert.deepEqual(extractMentionedEmails(text), ['abc@googlecom']);
 
     // with newline before email
     text = '\n\n\n random text  \n\n@abc@google.com';
-    assert.deepEqual(extractMentionedEmails(text), ['abc@google.com']);
+    assert.deepEqual(extractMentionedUsers(text), [
+      {email: 'abc@google.com' as EmailAddress},
+    ]);
 
     text = '@abc@google.com please take a look at this';
-    assert.deepEqual(extractMentionedEmails(text), ['abc@google.com']);
+    assert.deepEqual(extractMentionedUsers(text), [
+      {email: 'abc@google.com' as EmailAddress},
+    ]);
   });
 
   test('removeServiceUsers', () => {

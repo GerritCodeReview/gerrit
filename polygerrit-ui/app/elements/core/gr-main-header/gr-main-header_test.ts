@@ -28,6 +28,65 @@ suite('gr-main-header tests', () => {
     await element.updateComplete;
   });
 
+  test('renders', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <nav>
+        <a class="bigTitle" href="//localhost:9876/">
+          <gr-endpoint-decorator name="header-title">
+            <span class="titleText"> </span>
+          </gr-endpoint-decorator>
+        </a>
+        <ul class="links">
+          <li>
+            <gr-dropdown down-arrow="" horizontal-align="left" link="">
+              <span class="linksTitle" id="Changes"> Changes </span>
+            </gr-dropdown>
+          </li>
+          <li>
+            <gr-dropdown down-arrow="" horizontal-align="left" link="">
+              <span class="linksTitle" id="Browse"> Browse </span>
+            </gr-dropdown>
+          </li>
+        </ul>
+        <div class="rightItems">
+          <gr-endpoint-decorator
+            class="hideOnMobile"
+            name="header-small-banner"
+          >
+          </gr-endpoint-decorator>
+          <gr-smart-search id="search" label="Search for changes">
+          </gr-smart-search>
+          <gr-endpoint-decorator
+            class="hideOnMobile"
+            name="header-browse-source"
+          >
+          </gr-endpoint-decorator>
+          <gr-endpoint-decorator class="feedbackButton" name="header-feedback">
+          </gr-endpoint-decorator>
+        </div>
+        <div class="accountContainer" id="accountContainer">
+          <iron-icon
+            aria-label="Hide Searchbar"
+            icon="gr-icons:search"
+            id="mobileSearch"
+            role="button"
+          >
+          </iron-icon>
+          <a class="loginButton" href="/login"> Sign in </a>
+          <a
+            aria-label="Settings"
+            class="settingsButton"
+            href="/settings/"
+            role="button"
+            title="Settings"
+          >
+            <span class="filled material-icon"> settings </span>
+          </a>
+        </div>
+      </nav>
+    `);
+  });
+
   test('link visibility', async () => {
     element.loading = true;
     await element.updateComplete;

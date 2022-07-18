@@ -9,7 +9,11 @@ import {LitElement, css, html, TemplateResult} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {ChangeInfo, SubmitRequirementStatus} from '../../../api/rest-api';
 import {changeStatuses} from '../../../utils/change-util';
-import {getRequirements, iconForStatus} from '../../../utils/label-util';
+import {
+  getRequirements,
+  iconForStatus,
+  SubmitRequirementsIcon,
+} from '../../../utils/label-util';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
 import {pluralize} from '../../../utils/string-util';
 import {iconStyles} from '../../../styles/gr-icon-styles';
@@ -24,13 +28,11 @@ export class GrChangeListColumnRequirementsSummary extends LitElement {
       iconStyles,
       submitRequirementsStyles,
       css`
-        iron-icon {
-          width: var(--line-height-normal, 20px);
-          height: var(--line-height-normal, 20px);
-          vertical-align: top;
+        .material-icon {
+          font-size: var(--line-height-normal, 20px);
         }
-        iron-icon.block,
-        iron-icon.check-circle-filled {
+        .material-icon.block,
+        .material-icon.check_circle {
           margin-right: var(--spacing-xs);
         }
         .material-icon.commentIcon {
@@ -111,11 +113,17 @@ export class GrChangeListColumnRequirementsSummary extends LitElement {
     );
   }
 
-  renderState(icon: string, aggregation: string | TemplateResult) {
-    return html`<span class=${icon} role="button" tabindex="0">
+  renderState(
+    icon: SubmitRequirementsIcon,
+    aggregation: string | TemplateResult
+  ) {
+    return html`<span class=${icon.icon} role="button" tabindex="0">
       <gr-submit-requirement-dashboard-hovercard .change=${this.change}>
       </gr-submit-requirement-dashboard-hovercard>
-      <iron-icon class=${icon} icon="gr-icons:${icon}" role="img"></iron-icon
+      <span
+        class="material-icon ${icon.icon} ${icon.filled ? 'filled' : ''}"
+        role="img"
+        >${icon.icon}</span
       >${aggregation}</span
     >`;
   }

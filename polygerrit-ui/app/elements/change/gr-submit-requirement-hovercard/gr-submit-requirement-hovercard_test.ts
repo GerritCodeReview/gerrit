@@ -40,13 +40,12 @@ suite('gr-submit-requirement-hovercard tests', () => {
       <div id="container" role="tooltip" tabindex="-1">
         <div class="section">
           <div class="sectionIcon">
-            <iron-icon
+            <span
               aria-label="satisfied"
               role="img"
-              class="check-circle-filled"
-              icon="gr-icons:check-circle-filled"
-            >
-            </iron-icon>
+              class="material-icon filled check_circle"
+              >check_circle
+            </span>
           </div>
           <div class="sectionContent">
             <h3 class="heading-3 name">
@@ -89,13 +88,12 @@ suite('gr-submit-requirement-hovercard tests', () => {
       <div id="container" role="tooltip" tabindex="-1">
         <div class="section">
           <div class="sectionIcon">
-            <iron-icon
+            <span
               aria-label="satisfied"
               role="img"
-              class="check-circle-filled"
-              icon="gr-icons:check-circle-filled"
-            >
-            </iron-icon>
+              class="material-icon filled check_circle"
+              >check_circle
+            </span>
           </div>
           <div class="sectionContent">
             <h3 class="heading-3 name">
@@ -170,13 +168,12 @@ suite('gr-submit-requirement-hovercard tests', () => {
       <div id="container" role="tooltip" tabindex="-1">
         <div class="section">
           <div class="sectionIcon">
-            <iron-icon
+            <span
               aria-label="satisfied"
               role="img"
-              class="check-circle-filled"
-              icon="gr-icons:check-circle-filled"
-            >
-            </iron-icon>
+              class="material-icon filled check_circle"
+              >check_circle
+            </span>
           </div>
           <div class="sectionContent">
             <h3 class="heading-3 name">

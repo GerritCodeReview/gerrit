@@ -57,11 +57,7 @@ suite('gr-change-list-column-requirement tests', () => {
     expect(element).shadowDom.to.equal(
       /* HTML */
       ` <div class="container" title="Satisfied">
-        <iron-icon
-          class="check-circle-filled"
-          icon="gr-icons:check-circle-filled"
-        >
-        </iron-icon>
+        <span class="material-icon filled check_circle">check_circle</span>
       </div>`
     );
   });

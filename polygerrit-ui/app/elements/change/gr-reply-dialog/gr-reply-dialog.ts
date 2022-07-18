@@ -487,15 +487,6 @@ export class GrReplyDialog extends LitElement {
       .preview-formatting {
         margin-left: var(--spacing-m);
       }
-      .attention-icon {
-        width: 14px;
-        height: 14px;
-        vertical-align: top;
-        position: relative;
-        top: 3px;
-        --iron-icon-height: 24px;
-        --iron-icon-width: 24px;
-      }
       .attention .edit-attention-button {
         vertical-align: top;
         --gr-button-padding: 0px 4px;
@@ -1099,10 +1090,11 @@ export class GrReplyDialog extends LitElement {
           this.computeShowAttentionTip(),
           () => html`
             <div class="attentionTip">
-              <iron-icon
-                class="pointer"
+              <span
+                class="material-icon pointer"
                 icon="gr-icons:lightbulb-outline"
-              ></iron-icon>
+                >lightbulb</span
+              >
               Please be mindful of requiring attention from too many users.
             </div>
           `

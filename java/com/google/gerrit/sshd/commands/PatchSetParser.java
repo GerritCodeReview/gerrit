@@ -18,6 +18,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeFinder;
@@ -59,6 +60,7 @@ public class PatchSetParser {
     if (token.matches("^([0-9a-fA-F]{4," + ObjectIds.STR_LEN + "})$")) {
       InternalChangeQuery query = queryProvider.get();
       List<ChangeData> cds;
+      branch = branch != null ? RefNames.fullName(branch) : null;
       if (projectState != null) {
         Project.NameKey p = projectState.getNameKey();
         if (branch != null) {

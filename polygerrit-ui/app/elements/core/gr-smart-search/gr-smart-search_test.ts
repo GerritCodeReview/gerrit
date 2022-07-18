@@ -19,6 +19,12 @@ suite('gr-smart-search tests', () => {
     await element.updateComplete;
   });
 
+  test('renders', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <gr-search-bar id="search"> </gr-search-bar>
+    `);
+  });
+
   test('Autocompletes accounts', () => {
     stubRestApi('getSuggestedAccounts').callsFake(() =>
       Promise.resolve([

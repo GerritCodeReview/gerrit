@@ -28,6 +28,30 @@ suite('gr-search-bar tests', () => {
     await element.updateComplete;
   });
 
+  test('renders', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <form>
+        <gr-autocomplete
+          allow-non-suggested-values=""
+          id="searchInput"
+          multi=""
+          show-search-icon=""
+          tab-complete=""
+        >
+          <a
+            class="help"
+            href="https://gerrit-review.googlesource.com/documentation/user-search.html"
+            slot="suffix"
+            tabindex="-1"
+            target="_blank"
+          >
+            <span class="material-icon" title="read documentation"> help </span>
+          </a>
+        </gr-autocomplete>
+      </form>
+    `);
+  });
+
   test('value is propagated to inputVal', async () => {
     element.value = 'foo';
     await element.updateComplete;

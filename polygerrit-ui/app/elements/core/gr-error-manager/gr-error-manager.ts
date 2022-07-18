@@ -319,7 +319,7 @@ export class GrErrorManager extends LitElement {
     this.reporting.error(new Error(`network error: ${e.detail.error.message}`));
   };
 
-  // TODO(dhruvsr): allow less priority alerts to override high priority alerts
+  // TODO(dhruvsri): allow less priority alerts to override high priority alerts
   // In some use cases we may want generic alerts to show along/over errors
   // private but used in tests
   canOverride(incoming = ErrorType.GENERIC, existing = ErrorType.GENERIC) {

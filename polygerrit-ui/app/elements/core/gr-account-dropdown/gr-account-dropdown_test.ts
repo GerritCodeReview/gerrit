@@ -5,17 +5,25 @@
  */
 import '../../../test/common-test-setup-karma';
 import './gr-account-dropdown';
+import {fixture, html} from '@open-wc/testing-helpers';
 import {GrAccountDropdown} from './gr-account-dropdown';
 import {AccountInfo} from '../../../types/common';
 import {createServerInfo} from '../../../test/test-data-generators';
 
-const basicFixture = fixtureFromElement('gr-account-dropdown');
-
 suite('gr-account-dropdown tests', () => {
   let element: GrAccountDropdown;
 
-  setup(() => {
-    element = basicFixture.instantiate();
+  setup(async () => {
+    element = await fixture(html`<gr-account-dropdown></gr-account-dropdown>`);
+  });
+
+  test('renders', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <gr-dropdown link="">
+        <span> Name of user not set </span>
+        <gr-avatar aria-label="Account avatar" hidden=""> </gr-avatar>
+      </gr-dropdown>
+    `);
   });
 
   test('account information', () => {
@@ -29,7 +37,7 @@ suite('gr-account-dropdown tests', () => {
   test('test for account without a name', () => {
     element.account = {id: '0001'} as AccountInfo;
     assert.deepEqual(element.topContent, [
-      {text: 'Anonymous', bold: true},
+      {text: 'Name of user not set', bold: true},
       {text: ''},
     ]);
   });

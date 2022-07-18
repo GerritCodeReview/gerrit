@@ -13,6 +13,10 @@ import {
 
 const basicFixture = fixtureFromElement('gr-keyboard-shortcuts-dialog');
 
+const x = ['x'];
+const ctrlX = ['Ctrl', 'x'];
+const shiftMetaX = ['Shift', 'Meta', 'x'];
+
 suite('gr-keyboard-shortcuts-dialog tests', () => {
   let element: GrKeyboardShortcutsDialog;
 
@@ -25,6 +29,83 @@ suite('gr-keyboard-shortcuts-dialog tests', () => {
     element.onDirectoryUpdated(directory);
     flush();
   }
+
+  test('renders left and right contents', async () => {
+    const directory = new Map([
+      [
+        ShortcutSection.NAVIGATION,
+        [{binding: [x, ctrlX], text: 'navigation shortcuts'}],
+      ],
+      [
+        ShortcutSection.ACTIONS,
+        [{binding: [shiftMetaX], text: 'navigation shortcuts'}],
+      ],
+    ]);
+    update(directory);
+    await element.updateComplete;
+
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <header>
+        <h3 class="heading-2">Keyboard shortcuts</h3>
+        <gr-button aria-disabled="false" link="" role="button" tabindex="0">
+          Close
+        </gr-button>
+      </header>
+      <main>
+        <div class="column">
+          <table>
+            <caption class="heading-3">
+              Navigation
+            </caption>
+            <thead>
+              <tr>
+                <th>
+                  <strong> Action </strong>
+                </th>
+                <th>
+                  <strong> Key </strong>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>navigation shortcuts</td>
+                <td>
+                  <gr-key-binding-display> </gr-key-binding-display>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="column">
+          <table>
+            <caption class="heading-3">
+              Actions
+            </caption>
+            <thead>
+              <tr>
+                <th>
+                  <strong> Action </strong>
+                </th>
+                <th>
+                  <strong> Key </strong>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>navigation shortcuts</td>
+                <td>
+                  <gr-key-binding-display> </gr-key-binding-display>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </main>
+      <footer></footer>
+    `);
+  });
 
   suite('left and right contents', () => {
     test('empty dialog', () => {

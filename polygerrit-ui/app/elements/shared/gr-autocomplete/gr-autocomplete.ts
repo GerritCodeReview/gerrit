@@ -19,6 +19,7 @@ import {customElement, property, query, state} from 'lit/decorators';
 import {ValueChangedEvent} from '../../../types/events';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {IronInputElement} from '@polymer/iron-input';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;
 const DEBOUNCE_WAIT_MS = 200;
@@ -188,6 +189,7 @@ export class GrAutocomplete extends LitElement {
   }
 
   static override styles = [
+    iconStyles,
     sharedStyles,
     css`
       .searchIcon {
@@ -196,9 +198,8 @@ export class GrAutocomplete extends LitElement {
       .searchIcon.showSearchIcon {
         display: inline-block;
       }
-      iron-icon {
+      .material-icon {
         margin: 0 var(--spacing-xs);
-        vertical-align: top;
       }
       paper-input.borderless {
         border: none;
@@ -300,13 +301,12 @@ export class GrAutocomplete extends LitElement {
         .label=${this.label}
       >
         <div slot="prefix">
-          <iron-icon
-            icon="gr-icons:search"
-            class="searchIcon ${this.computeShowSearchIconClass(
+          <span
+            class="material-icon searchIcon ${this.computeShowSearchIconClass(
               this.showSearchIcon
             )}"
-          >
-          </iron-icon>
+            >search
+          </span>
         </div>
 
         <div slot="suffix">

@@ -7,7 +7,6 @@ import {FileInfoStatus} from '../../../constants/constants';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {assertNever} from '../../../utils/common-util';
-import '@polymer/iron-icon/iron-icon';
 import {iconStyles} from '../../../styles/gr-icon-styles';
 import '../gr-tooltip-content/gr-tooltip-content';
 

@@ -21,7 +21,6 @@ import {
   PrimaryActionKey,
 } from '../../../api/change-actions';
 import {GrButton} from '../gr-button/gr-button';
-import {IronIconElement} from '@polymer/iron-icon';
 import {ChangeViewChangeInfo} from '../../../types/common';
 import {GrDropdown} from '../gr-dropdown/gr-dropdown';
 
@@ -144,7 +143,7 @@ suite('gr-change-actions-js-api-interface tests', () => {
       assert.equal(button.parentElement!.getAttribute('title'), 'Yo hint');
       assert.isTrue(button.disabled);
       assert.equal(
-        queryAndAssert<IronIconElement>(button, '.material-icon').textContent,
+        queryAndAssert<HTMLSpanElement>(button, '.material-icon').textContent,
         'pupper'
       );
     });

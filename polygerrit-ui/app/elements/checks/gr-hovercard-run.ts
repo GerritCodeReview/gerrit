@@ -172,11 +172,10 @@ export class GrHovercardRun extends base {
                 <div class="title">Status</div>
                 <div>
                   <a href=${this.run.statusLink} target="_blank"
-                    ><iron-icon
+                    ><span
                       aria-label="external link to check status"
-                      class="small link"
-                      icon="gr-icons:launch"
-                    ></iron-icon
+                      class="material-icon small link"
+                      >open_in_new</span
                     >${this.computeHostName(this.run.statusLink)}
                   </a>
                 </div>

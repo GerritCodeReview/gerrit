@@ -48,10 +48,9 @@ export class GrRelatedCollapse extends LitElement {
         gr-button {
           display: flex;
         }
-        gr-button iron-icon {
+        gr-button .material-icon {
           color: inherit;
-          --iron-icon-height: 18px;
-          --iron-icon-width: 18px;
+          font-size: 18px;
         }
         .container {
           justify-content: space-between;

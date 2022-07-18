@@ -78,7 +78,6 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
     );
     await selectChange(change1);
     await element.updateComplete;
-    await flush();
 
     expect(element).shadowDom.to.equal(/* HTML */ `
       <gr-button
@@ -130,8 +129,7 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
     );
     await selectChange(change1);
     await element.updateComplete;
-    await flush();
-    // await waitUntil(() => element.selectedChanges.length > 0);
+
     assert.isFalse(queryAndAssert<GrButton>(element, '#abandon').disabled);
 
     changes.push({...change2, actions: {}});
@@ -160,7 +158,7 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
     );
     await selectChange(change1);
     await element.updateComplete;
-    await flush();
+
     assert.isFalse(queryAndAssert<GrButton>(element, '#abandon').disabled);
 
     tap(queryAndAssert(query(element, 'gr-dialog'), '#confirm'));

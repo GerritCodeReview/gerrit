@@ -22,6 +22,30 @@
       },
       "revId": "d27c9796b592d709dcf2d317e2e0811514e63190",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e7bc71d_a315e10c",
+        "filename": "tools/polygerrit-updater/readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-07-18T08:21:57Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "5e0f5d72_a3b0d94f",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 61
+      },
+      "revId": "d27c9796b592d709dcf2d317e2e0811514e63190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

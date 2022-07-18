@@ -312,7 +312,6 @@ export class GrMainHeader extends LitElement {
         .bigTitle,
         .loginButton,
         .registerButton,
-        iron-icon,
         .material-icon,
         gr-account-dropdown {
           color: var(--header-text-color);
@@ -424,9 +423,9 @@ export class GrMainHeader extends LitElement {
   private renderAccount() {
     return html`
       <div class="accountContainer" id="accountContainer">
-        <iron-icon
+        <span
           id="mobileSearch"
-          icon="gr-icons:search"
+          class="material-icon"
           @click=${(e: Event) => {
             this.onMobileSearchTap(e);
           }}
@@ -434,7 +433,8 @@ export class GrMainHeader extends LitElement {
           aria-label=${this.mobileSearchHidden
             ? 'Show Searchbar'
             : 'Hide Searchbar'}
-        ></iron-icon>
+          >search</span
+        >
         ${this.renderRegister()}
         <a class="loginButton" href=${this.loginUrl}>Sign in</a>
         <a

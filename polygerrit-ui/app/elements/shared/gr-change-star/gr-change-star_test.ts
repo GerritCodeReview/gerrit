@@ -3,7 +3,6 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {IronIconElement} from '@polymer/iron-icon';
 import '../../../test/common-test-setup-karma';
 import {queryAndAssert} from '../../../test/test-utils';
 import {GrChangeStar} from './gr-change-star';
@@ -27,7 +26,7 @@ suite('gr-change-star tests', () => {
   test('star visibility states', async () => {
     element.change!.starred = true;
     await element.updateComplete;
-    let icon = queryAndAssert<IronIconElement>(element, '.material-icon');
+    let icon = queryAndAssert<HTMLSpanElement>(element, '.material-icon');
     assert.isTrue(icon.classList.contains('filled'));
     assert.isTrue(icon.classList.contains('active'));
     assert.equal(icon.innerText, 'grade');
@@ -35,7 +34,7 @@ suite('gr-change-star tests', () => {
     element.change!.starred = false;
     element.requestUpdate('change');
     await element.updateComplete;
-    icon = queryAndAssert<IronIconElement>(element, '.material-icon');
+    icon = queryAndAssert<HTMLSpanElement>(element, '.material-icon');
     assert.isFalse(icon.classList.contains('filled'));
     assert.isFalse(icon.classList.contains('active'));
     assert.equal(icon.innerText, 'grade');

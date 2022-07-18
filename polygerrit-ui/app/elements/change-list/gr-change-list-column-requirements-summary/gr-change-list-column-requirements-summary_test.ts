@@ -64,7 +64,7 @@ suite('gr-change-list-column-requirements-summary tests', () => {
     >
       <gr-submit-requirement-dashboard-hovercard>
       </gr-submit-requirement-dashboard-hovercard>
-      <iron-icon class="block" icon="gr-icons:block" role="img"></iron-icon>
+      <span class="material-icon block" role="img">block</span>
       <span class="unsatisfied">1 missing</span>
     </span>`);
   });
@@ -85,7 +85,7 @@ suite('gr-change-list-column-requirements-summary tests', () => {
       >
         <gr-submit-requirement-dashboard-hovercard>
         </gr-submit-requirement-dashboard-hovercard>
-        <iron-icon class="block" icon="gr-icons:block" role="img"></iron-icon>
+        <span class="material-icon block" role="img">block</span>
         <span class="unsatisfied">1 missing</span>
       </span>
       <span

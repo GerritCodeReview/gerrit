@@ -238,27 +238,39 @@ export function extractAssociatedLabels(
   }
   return labels.filter(unique);
 }
-export function iconForRequirement(requirement: SubmitRequirementResultInfo) {
+export interface SubmitRequirementsIcon {
+  // The icon name. Either a material-icon name or a custom-icon in case
+  // custom is set to true.
+  icon: string;
+  // Whether the material-icon need to be filled.
+  filled?: boolean;
+}
+
+export function iconForRequirement(
+  requirement: SubmitRequirementResultInfo
+): SubmitRequirementsIcon {
   if (isBlockingCondition(requirement)) {
-    return 'cancel';
+    return {icon: 'cancel', filled: true};
   }
   return iconForStatus(requirement.status);
 }
 
-export function iconForStatus(status: SubmitRequirementStatus) {
+export function iconForStatus(
+  status: SubmitRequirementStatus
+): SubmitRequirementsIcon {
   switch (status) {
     case SubmitRequirementStatus.SATISFIED:
-      return 'check-circle-filled';
+      return {icon: 'check_circle', filled: true};
     case SubmitRequirementStatus.UNSATISFIED:
-      return 'block';
+      return {icon: 'block'};
     case SubmitRequirementStatus.OVERRIDDEN:
-      return 'overridden';
+      return {icon: 'settings_backup_restore'};
     case SubmitRequirementStatus.NOT_APPLICABLE:
-      return 'info';
+      return {icon: 'info', filled: true};
     case SubmitRequirementStatus.ERROR:
-      return 'error';
+      return {icon: 'error', filled: true};
     case SubmitRequirementStatus.FORCED:
-      return 'check-circle-filled';
+      return {icon: 'check_circle', filled: true};
     default:
       assertNever(status, `Unsupported status: ${status}`);
   }

@@ -57,6 +57,261 @@ suite('gr-documentation-search tests', () => {
         'Documentation/dev-rest-api.html'
       );
     });
+
+    test('render', () => {
+      expect(element).shadowDom.to.equal(/* HTML */ `
+        <gr-list-view>
+          <table class="genericList" id="list">
+            <tbody>
+              <tr class="headerRow">
+                <th class="name topHeader">Name</th>
+                <th class="name topHeader"></th>
+                <th class="name topHeader"></th>
+              </tr>
+              <tr class="loadingMsg" id="loading">
+                <td>Loading...</td>
+              </tr>
+            </tbody>
+            <tbody>
+              <tr class="table">
+                <td class="name">
+                  <a href="/Documentation/dev-rest-api.html">
+                    Gerrit Code Review - REST API Developers Notes0
+                  </a>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr class="table">
+                <td class="name">
+                  <a href="/Documentation/dev-rest-api.html">
+                    Gerrit Code Review - REST API Developers Notes1
+                  </a>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr class="table">
+                <td class="name">
+                  <a href="/Documentation/dev-rest-api.html">
+                    Gerrit Code Review - REST API Developers Notes2
+                  </a>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr class="table">
+                <td class="name">
+                  <a href="/Documentation/dev-rest-api.html">
+                    Gerrit Code Review - REST API Developers Notes3
+                  </a>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr class="table">
+                <td class="name">
+                  <a href="/Documentation/dev-rest-api.html">
+                    Gerrit Code Review - REST API Developers Notes4
+                  </a>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr class="table">
+                <td class="name">
+                  <a href="/Documentation/dev-rest-api.html">
+                    Gerrit Code Review - REST API Developers Notes5
+                  </a>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr class="table">
+                <td class="name">
+                  <a href="/Documentation/dev-rest-api.html">
+                    Gerrit Code Review - REST API Developers Notes6
+                  </a>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr class="table">
+                <td class="name">
+                  <a href="/Documentation/dev-rest-api.html">
+                    Gerrit Code Review - REST API Developers Notes7
+                  </a>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr class="table">
+                <td class="name">
+                  <a href="/Documentation/dev-rest-api.html">
+                    Gerrit Code Review - REST API Developers Notes8
+                  </a>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr class="table">
+                <td class="name">
+                  <a href="/Documentation/dev-rest-api.html">
+                    Gerrit Code Review - REST API Developers Notes9
+                  </a>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr class="table">
+                <td class="name">
+                  <a href="/Documentation/dev-rest-api.html">
+                    Gerrit Code Review - REST API Developers Notes10
+                  </a>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr class="table">
+                <td class="name">
+                  <a href="/Documentation/dev-rest-api.html">
+                    Gerrit Code Review - REST API Developers Notes11
+                  </a>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr class="table">
+                <td class="name">
+                  <a href="/Documentation/dev-rest-api.html">
+                    Gerrit Code Review - REST API Developers Notes12
+                  </a>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr class="table">
+                <td class="name">
+                  <a href="/Documentation/dev-rest-api.html">
+                    Gerrit Code Review - REST API Developers Notes13
+                  </a>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr class="table">
+                <td class="name">
+                  <a href="/Documentation/dev-rest-api.html">
+                    Gerrit Code Review - REST API Developers Notes14
+                  </a>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr class="table">
+                <td class="name">
+                  <a href="/Documentation/dev-rest-api.html">
+                    Gerrit Code Review - REST API Developers Notes15
+                  </a>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr class="table">
+                <td class="name">
+                  <a href="/Documentation/dev-rest-api.html">
+                    Gerrit Code Review - REST API Developers Notes16
+                  </a>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr class="table">
+                <td class="name">
+                  <a href="/Documentation/dev-rest-api.html">
+                    Gerrit Code Review - REST API Developers Notes17
+                  </a>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr class="table">
+                <td class="name">
+                  <a href="/Documentation/dev-rest-api.html">
+                    Gerrit Code Review - REST API Developers Notes18
+                  </a>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr class="table">
+                <td class="name">
+                  <a href="/Documentation/dev-rest-api.html">
+                    Gerrit Code Review - REST API Developers Notes19
+                  </a>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr class="table">
+                <td class="name">
+                  <a href="/Documentation/dev-rest-api.html">
+                    Gerrit Code Review - REST API Developers Notes20
+                  </a>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr class="table">
+                <td class="name">
+                  <a href="/Documentation/dev-rest-api.html">
+                    Gerrit Code Review - REST API Developers Notes21
+                  </a>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr class="table">
+                <td class="name">
+                  <a href="/Documentation/dev-rest-api.html">
+                    Gerrit Code Review - REST API Developers Notes22
+                  </a>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr class="table">
+                <td class="name">
+                  <a href="/Documentation/dev-rest-api.html">
+                    Gerrit Code Review - REST API Developers Notes23
+                  </a>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr class="table">
+                <td class="name">
+                  <a href="/Documentation/dev-rest-api.html">
+                    Gerrit Code Review - REST API Developers Notes24
+                  </a>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr class="table">
+                <td class="name">
+                  <a href="/Documentation/dev-rest-api.html">
+                    Gerrit Code Review - REST API Developers Notes25
+                  </a>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </gr-list-view>
+      `);
+    });
   });
 
   suite('filter', () => {

@@ -19,7 +19,7 @@ import {
   isDetailedLabelInfo,
 } from '../../../types/common';
 import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators.js';
+import {customElement, property} from 'lit/decorators';
 import {GrButton} from '../gr-button/gr-button';
 import {
   canReviewerVote,

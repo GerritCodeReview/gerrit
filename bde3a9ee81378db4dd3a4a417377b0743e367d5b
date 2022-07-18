@@ -33,6 +33,24 @@
       "message": "Typo, this should have been: `size \u003d size`.",
       "revId": "bde3a9ee81378db4dd3a4a417377b0743e367d5b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "893892fb_865441f5",
+        "filename": "tools/js/eslint.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-07-18T13:43:40Z",
+      "side": 1,
+      "message": "Fixed in change 340967.",
+      "parentUuid": "66b2564e_d3bd8a9f",
+      "revId": "bde3a9ee81378db4dd3a4a417377b0743e367d5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

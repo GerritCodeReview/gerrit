@@ -411,14 +411,14 @@ suite('gr-autocomplete tests', () => {
 
   test('search icon shows with showSearchIcon property', async () => {
     assert.equal(
-      getComputedStyle(queryAndAssert(element, 'iron-icon')).display,
+      getComputedStyle(queryAndAssert(element, '.material-icon')).display,
       'none'
     );
     element.showSearchIcon = true;
     await element.updateComplete;
 
     assert.notEqual(
-      getComputedStyle(queryAndAssert(element, 'iron-icon')).display,
+      getComputedStyle(queryAndAssert(element, '.material-icon')).display,
       'none'
     );
   });

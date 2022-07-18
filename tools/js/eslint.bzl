@@ -127,7 +127,7 @@ def eslint(name, plugins, srcs, config, ignore, size = "large", extensions = [".
             "local",
             "manual",
         ],
-        size = "large",
+        size = size,
     )
 
     nodejs_binary(

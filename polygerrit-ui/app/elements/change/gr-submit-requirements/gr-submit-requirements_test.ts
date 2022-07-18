@@ -78,13 +78,12 @@ suite('gr-submit-requirements tests', () => {
         <tbody>
           <tr id="requirement-0-Verified" role="button" tabindex="0">
             <td>
-              <iron-icon
+              <span
                 aria-label="satisfied"
-                class="check-circle-filled"
-                icon="gr-icons:check-circle-filled"
                 role="img"
-              >
-              </iron-icon>
+                class="material-icon filled check_circle"
+                >check_circle
+              </span>
             </td>
             <td class="name">
               <gr-limited-text class="name"></gr-limited-text>

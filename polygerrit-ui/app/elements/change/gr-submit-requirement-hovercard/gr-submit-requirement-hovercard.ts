@@ -112,7 +112,7 @@ export class GrSubmitRequirementHovercard extends base {
         .expression {
           color: var(--gray-foreground);
         }
-        .button iron-icon {
+        .button .material-icon {
           color: inherit;
         }
         div.button {
@@ -154,12 +154,12 @@ export class GrSubmitRequirementHovercard extends base {
 
   private renderStatus(requirement: SubmitRequirementResultInfo) {
     const icon = iconForRequirement(requirement);
-    return html`<iron-icon
-      class=${icon}
-      icon="gr-icons:${icon}"
+    return html`<span
+      class="material-icon ${icon.icon} ${icon.filled ? 'filled' : ''}"
       role="img"
       aria-label=${requirement.status.toLowerCase()}
-    ></iron-icon>`;
+      >${icon.icon}</span
+    >`;
   }
 
   private renderDescription() {

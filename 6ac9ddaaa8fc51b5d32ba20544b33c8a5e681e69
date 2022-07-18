@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8099ba76_833f8982",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-07-18T13:46:49Z",
+      "side": 1,
+      "message": "Thank you, I see where the issue.\nEdwin, don\u0027t you mind if Sean continue with the current implementation and we redo this change later? This allows us to start testing the plugin faster.",
+      "parentUuid": "e134cba7_4b8397e6",
+      "revId": "6ac9ddaaa8fc51b5d32ba20544b33c8a5e681e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "274cd564_8869fc3f",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 16

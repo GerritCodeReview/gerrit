@@ -1,5 +1,46 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad210d96_26bedd85",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-18T10:12:20Z",
+      "side": 1,
+      "message": "I just got aware of this change. I\u0027m afraid this change is not working as expected.\nAutomatic attention set updates happen in ChangeUpdate, depending on the change state and which reviewers have been added/removed (see ChangeNotes#updateAttentionSet, ChangeNotes#clearAttentionSet), but these attention set updates do not trigger the AttentionSetListener. Also see my inline comment on the test in ChangeIT.",
+      "revId": "6ac9ddaaa8fc51b5d32ba20544b33c8a5e681e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "274cd564_8869fc3f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 1553,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-18T10:12:20Z",
+      "side": 1,
+      "message": "Here you can see that the logic to trigger the AttentionSetListener is not working correctly.\n\n\u003e gApi.changes().id(r1.getChangeId()).addReviewer(user.email());\nThis adds the user to the attention set, but doesn\u0027t trigger the AttentionSetListerner.\n\n\u003e gApi.changes().id(r1.getChangeId()).addToAttentionSet(addUser);\nThis is a no-op (since the user is already in the attention set), but it triggers the AttentionSetListerner although the attention set is not changed now.\n\n\nYou can double-check this by modifying this test like this:\n\n      // Assert that the attention set is initially empty.\n      assertThat(changeDataFactory.create(project, r1.getChange().getId()).attentionSet())\n          .isEmpty();\n\n      // Adding a user as reviewer adds this user to the attention set.\n      gApi.changes().id(r1.getChangeId()).addReviewer(user.email());\n      assertThat(\n              Iterables.getOnlyElement(\n                      changeDataFactory.create(project, r1.getChange().getId()).attentionSet())\n                  .account())\n          .isEqualTo(user.id());\n\n      // This should have triggered the AttentionSetListerner, but it didn\u0027t.\n      assertThat(attentionSetListener.fired).isFalse(); // expected this to be true.\n\n      // Adding the user to the attention set once more is a no-op since the user is already in the\n      // attention set.\n      gApi.changes().id(r1.getChangeId()).addToAttentionSet(addUser);\n\n      // User is still in the attention set.\n      assertThat(\n              Iterables.getOnlyElement(\n                      changeDataFactory.create(project, r1.getChange().getId()).attentionSet())\n                  .account())\n          .isEqualTo(user.id());\n\n      // Since the user was not added to the attention set by this call,\n      // it should not trigger the AttentionSetListener now.\n      assertThat(attentionSetListener.fired).isTrue();",
+      "range": {
+        "startLine": 1550,
+        "startChar": 6,
+        "endLine": 1553,
+        "endChar": 54
+      },
+      "revId": "6ac9ddaaa8fc51b5d32ba20544b33c8a5e681e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

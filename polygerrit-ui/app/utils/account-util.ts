@@ -204,19 +204,21 @@ export function getAccountSuggestions(
 }
 
 /**
- * Extracts the emails of mentioned users from a given text.
+ * Extracts mentioned users from a given text.
  * A user can be mentioned by triggering the mentions dropdown in a comment
  * by typing @ at the start of the comment or after a space.
  * The Mentions Regex first looks start of sentence or whitespace (?:^|\s) then
  * @ token which would have triggered the mentions dropdown and then looks
  * for the email token ending with a whitespace or end of string.
  */
-export function extractMentionedEmails(text?: string): EmailAddress[] {
+export function extractMentionedUsers(text?: string): AccountInfo[] {
   if (!text) return [];
   let match;
-  const emails = [];
+  const users = [];
   while ((match = MENTIONS_REGEX.exec(text))) {
-    emails.push(match[1] as EmailAddress);
+    users.push({
+      email: match[1] as EmailAddress,
+    });
   }
-  return emails;
+  return users;
 }

@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e134cba7_4b8397e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-18T13:30:26Z",
+      "side": 1,
+      "message": "Yes, the automatic attention set updates that are done in ChangeUpdate do not trigger the Attention Set emails either (e.g. when you are added as a reviewer it sends an Add Reviewer email that mentions the users in the attention set, but no Attention Set email is triggered).",
+      "parentUuid": "65f3dc83_6b389325",
+      "revId": "6ac9ddaaa8fc51b5d32ba20544b33c8a5e681e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "274cd564_8869fc3f",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 16

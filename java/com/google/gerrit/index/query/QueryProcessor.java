@@ -357,6 +357,10 @@ public abstract class QueryProcessor<T> {
     return enforceVisibility && getPermittedLimit() <= 0;
   }
 
+  public boolean isNoLimit() {
+    return isNoLimit;
+  }
+
   private int getPermittedLimit() {
     return enforceVisibility ? permittedLimit.getAsInt() : Integer.MAX_VALUE;
   }

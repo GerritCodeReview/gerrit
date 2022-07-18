@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b3911b00_fb8f2339",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-18T13:49:20Z",
+      "side": 1,
+      "message": "Sure, no objections to this from my side.",
+      "parentUuid": "8099ba76_833f8982",
+      "revId": "6ac9ddaaa8fc51b5d32ba20544b33c8a5e681e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "274cd564_8869fc3f",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 16

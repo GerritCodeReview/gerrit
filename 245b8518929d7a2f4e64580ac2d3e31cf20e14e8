@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06cff54c_6b02d2dc",
+        "filename": "java/com/google/gerrit/extensions/common/SubmitRecordInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-18T12:55:15Z",
+      "side": 1,
+      "message": "Ultra minor nit: `Label other \u003d (Label) o;`\n\nOr `that` like below",
+      "revId": "245b8518929d7a2f4e64580ac2d3e31cf20e14e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

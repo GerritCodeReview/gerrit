@@ -8,7 +8,7 @@ import {getPluginLoader} from '../gr-js-api-interface/gr-plugin-loader';
 import {AccountInfo} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property, state} from 'lit/decorators';
 
 @customElement('gr-avatar')
 export class GrAvatar extends LitElement {
@@ -18,8 +18,7 @@ export class GrAvatar extends LitElement {
   @property({type: Number})
   imageSize = 16;
 
-  @property({type: Boolean})
-  _hasAvatars = false;
+  @state() private hasAvatars = false;
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -43,46 +42,41 @@ export class GrAvatar extends LitElement {
   }
 
   override render() {
-    this._updateAvatarURL();
+    this.updateAvatarURL();
     return html``;
   }
 
   override connectedCallback() {
     super.connectedCallback();
     Promise.all([
-      this._getConfig(),
+      this.restApiService.getConfig(),
       getPluginLoader().awaitPluginsLoaded(),
-    ]).then(([cfg]) => {
-      this._hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
-
-      this._updateAvatarURL();
+    ]).then(([cfg, _]) => {
+      this.hasAvatars = Boolean(cfg?.plugin?.has_avatars);
+      this.updateAvatarURL();
     });
   }
 
-  _getConfig() {
-    return this.restApiService.getConfig();
-  }
-
-  _updateAvatarURL() {
-    if (!this._hasAvatars || !this.account) {
+  private updateAvatarURL() {
+    if (!this.hasAvatars || !this.account) {
       this.hidden = true;
       return;
     }
     this.hidden = false;
 
-    const url = this._buildAvatarURL(this.account);
+    const url = this.buildAvatarURL(this.account);
     if (url) {
-      this.style.backgroundImage = 'url("' + url + '")';
+      this.style.backgroundImage = `url("${url}")`;
     }
   }
 
-  _getAccounts(account: AccountInfo) {
+  private getAccounts(account: AccountInfo) {
     return (
       account._account_id || account.email || account.username || account.name
     );
   }
 
-  _buildAvatarURL(account?: AccountInfo) {
+  private buildAvatarURL(account?: AccountInfo) {
     if (!account) {
       return '';
     }
@@ -97,15 +91,13 @@ export class GrAvatar extends LitElement {
         return avatars[i].url;
       }
     }
-    const accountID = this._getAccounts(account);
-    if (!accountID) {
+    const accountIdentifier = this.getAccounts(account);
+    if (!accountIdentifier) {
       return '';
     }
-    return (
-      `${getBaseUrl()}/accounts/` +
-      encodeURIComponent(`${this._getAccounts(account)}`) +
-      `/avatar?s=${this.imageSize}`
-    );
+    return `${getBaseUrl()}/accounts/${encodeURIComponent(
+      accountIdentifier
+    )}/avatar?s=${this.imageSize}`;
   }
 }
 

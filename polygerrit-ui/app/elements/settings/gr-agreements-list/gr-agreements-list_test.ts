@@ -5,7 +5,7 @@
  */
 import '../../../test/common-test-setup-karma';
 import './gr-agreements-list';
-import {queryAll, stubRestApi} from '../../../test/test-utils';
+import {stubRestApi} from '../../../test/test-utils';
 import {GrAgreementsList} from './gr-agreements-list';
 import {ContributorAgreementInfo} from '../../../types/common';
 
@@ -32,13 +32,26 @@ suite('gr-agreements-list tests', () => {
   });
 
   test('renders', () => {
-    const rows = queryAll<HTMLTableRowElement>(element, 'tbody tr') ?? [];
-    assert.equal(rows.length, 1);
-
-    const nameCells = Array.from(rows).map(row =>
-      queryAll<HTMLTableElement>(row, 'td')[0].textContent?.trim()
-    );
-
-    assert.equal(nameCells[0], 'Agreements 1');
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div class="gr-form-styles">
+        <table id="agreements">
+          <thead>
+            <tr>
+              <th class="nameColumn">Name</th>
+              <th class="descriptionColumn">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="nameColumn">
+                <a href="/some url" rel="external"> Agreements 1 </a>
+              </td>
+              <td class="descriptionColumn">Agreements 1 description</td>
+            </tr>
+          </tbody>
+        </table>
+        <a href="/settings/new-agreement"> New Contributor Agreement </a>
+      </div>
+    `);
   });
 });

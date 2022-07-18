@@ -35,6 +35,65 @@ suite('gr-http-password tests', () => {
     await flush();
   });
 
+  test('renders', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div class="gr-form-styles">
+        <div>
+          <section>
+            <span class="title"> Username </span>
+            <span class="value"> user name </span>
+          </section>
+          <gr-button
+            aria-disabled="false"
+            id="generateButton"
+            role="button"
+            tabindex="0"
+          >
+            Generate new password
+          </gr-button>
+        </div>
+        <span hidden="">
+          <a href="" rel="noopener" target="_blank"> Obtain password </a>
+          (opens in a new tab)
+        </span>
+      </div>
+      <gr-overlay
+        aria-hidden="true"
+        id="generatedPasswordOverlay"
+        style="outline: none; display: none;"
+        tabindex="-1"
+        with-backdrop=""
+      >
+        <div class="gr-form-styles">
+          <section id="generatedPasswordDisplay">
+            <span class="title"> New Password: </span>
+            <span class="value"> </span>
+            <gr-copy-clipboard
+              buttontitle="Copy password to clipboard"
+              hastooltip=""
+              hideinput=""
+            >
+            </gr-copy-clipboard>
+          </section>
+          <section id="passwordWarning">
+            This password will not be displayed again.
+            <br />
+            If you lose it, you will need to generate a new one.
+          </section>
+          <gr-button
+            aria-disabled="false"
+            class="closeButton"
+            link=""
+            role="button"
+            tabindex="0"
+          >
+            Close
+          </gr-button>
+        </div>
+      </gr-overlay>
+    `);
+  });
+
   test('generate password', () => {
     const button = queryAndAssert<GrButton>(element, '#generateButton');
     const nextPassword = 'the new password';

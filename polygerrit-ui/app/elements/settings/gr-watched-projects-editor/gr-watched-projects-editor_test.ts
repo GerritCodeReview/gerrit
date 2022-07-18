@@ -8,7 +8,7 @@ import './gr-watched-projects-editor';
 import {GrWatchedProjectsEditor} from './gr-watched-projects-editor';
 import {stubRestApi} from '../../../test/test-utils';
 import {ProjectWatchInfo} from '../../../types/common';
-import {queryAll, queryAndAssert} from '../../../test/test-utils';
+import {queryAndAssert} from '../../../test/test-utils';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {IronInputElement} from '@polymer/iron-input';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -64,31 +64,201 @@ suite('gr-watched-projects-editor tests', () => {
   });
 
   test('renders', () => {
-    const rows = queryAndAssert(element, 'table').querySelectorAll('tbody tr');
-    assert.equal(rows.length, 4);
-
-    function getKeysOfRow(row: number) {
-      const boxes = queryAll(rows[row], 'input[checked]');
-      return Array.prototype.map.call(boxes, e => e.getAttribute('data-key'));
-    }
-
-    let checkedKeys = getKeysOfRow(0);
-    assert.equal(checkedKeys.length, 2);
-    assert.equal(checkedKeys[0], 'notify_submitted_changes');
-    assert.equal(checkedKeys[1], 'notify_abandoned_changes');
-
-    checkedKeys = getKeysOfRow(1);
-    assert.equal(checkedKeys.length, 1);
-    assert.equal(checkedKeys[0], 'notify_new_changes');
-
-    checkedKeys = getKeysOfRow(2);
-    assert.equal(checkedKeys.length, 0);
-
-    checkedKeys = getKeysOfRow(3);
-    assert.equal(checkedKeys.length, 3);
-    assert.equal(checkedKeys[0], 'notify_new_changes');
-    assert.equal(checkedKeys[1], 'notify_new_patch_sets');
-    assert.equal(checkedKeys[2], 'notify_all_comments');
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div class="gr-form-styles">
+        <table id="watchedProjects">
+          <thead>
+            <tr>
+              <th>Repo</th>
+              <th class="notifType">Changes</th>
+              <th class="notifType">Patches</th>
+              <th class="notifType">Comments</th>
+              <th class="notifType">Submits</th>
+              <th class="notifType">Abandons</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>project a</td>
+              <td class="notifControl">
+                <input data-key="notify_new_changes" type="checkbox" />
+              </td>
+              <td class="notifControl">
+                <input data-key="notify_new_patch_sets" type="checkbox" />
+              </td>
+              <td class="notifControl">
+                <input data-key="notify_all_comments" type="checkbox" />
+              </td>
+              <td class="notifControl">
+                <input
+                  checked=""
+                  data-key="notify_submitted_changes"
+                  type="checkbox"
+                />
+              </td>
+              <td class="notifControl">
+                <input
+                  checked=""
+                  data-key="notify_abandoned_changes"
+                  type="checkbox"
+                />
+              </td>
+              <td>
+                <gr-button
+                  aria-disabled="false"
+                  link=""
+                  role="button"
+                  tabindex="0"
+                >
+                  Delete
+                </gr-button>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                project b
+                <div class="projectFilter">filter 1</div>
+              </td>
+              <td class="notifControl">
+                <input
+                  checked=""
+                  data-key="notify_new_changes"
+                  type="checkbox"
+                />
+              </td>
+              <td class="notifControl">
+                <input data-key="notify_new_patch_sets" type="checkbox" />
+              </td>
+              <td class="notifControl">
+                <input data-key="notify_all_comments" type="checkbox" />
+              </td>
+              <td class="notifControl">
+                <input data-key="notify_submitted_changes" type="checkbox" />
+              </td>
+              <td class="notifControl">
+                <input data-key="notify_abandoned_changes" type="checkbox" />
+              </td>
+              <td>
+                <gr-button
+                  aria-disabled="false"
+                  link=""
+                  role="button"
+                  tabindex="0"
+                >
+                  Delete
+                </gr-button>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                project b
+                <div class="projectFilter">filter 2</div>
+              </td>
+              <td class="notifControl">
+                <input data-key="notify_new_changes" type="checkbox" />
+              </td>
+              <td class="notifControl">
+                <input data-key="notify_new_patch_sets" type="checkbox" />
+              </td>
+              <td class="notifControl">
+                <input data-key="notify_all_comments" type="checkbox" />
+              </td>
+              <td class="notifControl">
+                <input data-key="notify_submitted_changes" type="checkbox" />
+              </td>
+              <td class="notifControl">
+                <input data-key="notify_abandoned_changes" type="checkbox" />
+              </td>
+              <td>
+                <gr-button
+                  aria-disabled="false"
+                  link=""
+                  role="button"
+                  tabindex="0"
+                >
+                  Delete
+                </gr-button>
+              </td>
+            </tr>
+            <tr>
+              <td>project c</td>
+              <td class="notifControl">
+                <input
+                  checked=""
+                  data-key="notify_new_changes"
+                  type="checkbox"
+                />
+              </td>
+              <td class="notifControl">
+                <input
+                  checked=""
+                  data-key="notify_new_patch_sets"
+                  type="checkbox"
+                />
+              </td>
+              <td class="notifControl">
+                <input
+                  checked=""
+                  data-key="notify_all_comments"
+                  type="checkbox"
+                />
+              </td>
+              <td class="notifControl">
+                <input data-key="notify_submitted_changes" type="checkbox" />
+              </td>
+              <td class="notifControl">
+                <input data-key="notify_abandoned_changes" type="checkbox" />
+              </td>
+              <td>
+                <gr-button
+                  aria-disabled="false"
+                  link=""
+                  role="button"
+                  tabindex="0"
+                >
+                  Delete
+                </gr-button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <th>
+                <gr-autocomplete
+                  allow-non-suggested-values=""
+                  id="newProject"
+                  placeholder="Repo"
+                  query="input => this.getProjectSuggestions(input)"
+                  tab-complete=""
+                  threshold="1"
+                >
+                </gr-autocomplete>
+              </th>
+              <th colspan="5">
+                <iron-input class="newFilterInput" id="newFilterInput">
+                  <input
+                    class="newFilterInput"
+                    id="newFilter"
+                    placeholder="branch:name, or other search expression"
+                  />
+                </iron-input>
+              </th>
+              <th>
+                <gr-button
+                  aria-disabled="false"
+                  link=""
+                  role="button"
+                  tabindex="0"
+                >
+                  Add
+                </gr-button>
+              </th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    `);
   });
 
   test('getProjectSuggestions empty', async () => {

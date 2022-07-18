@@ -16,6 +16,24 @@
       "message": "Ultra minor nit: `Label other \u003d (Label) o;`\n\nOr `that` like below",
       "revId": "245b8518929d7a2f4e64580ac2d3e31cf20e14e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff9f48bf_15f0a9e9",
+        "filename": "java/com/google/gerrit/extensions/common/SubmitRecordInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-07-18T13:28:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06cff54c_6b02d2dc",
+      "revId": "245b8518929d7a2f4e64580ac2d3e31cf20e14e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

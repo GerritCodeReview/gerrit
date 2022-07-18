@@ -724,7 +724,7 @@ public class MergeOp implements AutoCloseable {
       OpenRepo or = orm.getRepo(branch.project());
       if (toSubmit.containsKey(branch)) {
         BranchBatch submitting = toSubmit.get(branch);
-        logger.atFine().log("adding ops for branch batch %s", submitting);
+        logger.atFine().log("adding ops for branch %s, batch = %s", branch, submitting);
         OpenBranch ob = or.getBranch(branch);
         requireNonNull(
             submitting.submitType(),

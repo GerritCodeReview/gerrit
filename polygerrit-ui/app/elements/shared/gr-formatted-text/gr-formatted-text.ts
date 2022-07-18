@@ -26,7 +26,7 @@ import {
 import {sameOrigin} from '../../../utils/url-util';
 
 /**
- * This element optionally renders markdown and also applies some regex
+ * This small change element optionally renders markdown and also applies some regex
  * replacements to linkify key parts of the text defined by the host's config.
  */
 @customElement('gr-formatted-text')
@@ -91,6 +91,24 @@ export class GrFormattedText extends LitElement {
         }
         /* Non-multiline code elements need display:inline to shrink and not take
          a whole row */
+<<<<<<< PATCH SET (fffc2c This is a test message.)
+      :not(pre) > code {
+        display: inline;
+      }
+      li {
+        margin-left: var(--spacing-xl);
+      }
+      gr-account-chip {
+        display: inline;
+      }
+      .plaintext {
+        font: inherit;
+        white-space: var(--linked-text-white-space, pre-wrap);
+        word-wrap: var(--linked-text-word-wrap, break-word);
+      }
+    `,
+  ];
+=======
         :not(pre) > code {
           display: inline;
         }
@@ -116,6 +134,7 @@ export class GrFormattedText extends LitElement {
       `,
     ];
   }
+>>>>>>> BASE      (07c6b5 Merge "Revert "Attach o=STAR on change list queries in front)
 
   constructor() {
     super();

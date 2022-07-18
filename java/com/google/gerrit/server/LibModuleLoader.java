@@ -18,6 +18,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
@@ -55,9 +56,14 @@ public class LibModuleLoader {
     try {
 
       Method m =
-          clazz.getMethod("singleVersionWithExplicitVersions", Map.class, int.class, boolean.class);
+          clazz.getMethod(
+              "singleVersionWithExplicitVersions",
+              Map.class,
+              int.class,
+              boolean.class,
+              AutoFlush.class);
 
-      Module module = (Module) m.invoke(null, versions, threads, replica);
+      Module module = (Module) m.invoke(null, versions, threads, replica, AutoFlush.DISABLED);
       logger.atInfo().log("Installed module %s", className);
       return module;
     } catch (Exception e) {

@@ -297,7 +297,7 @@ export class GrTextarea extends LitElement {
 
   // private but used in test
   closeDropdown() {
-    if (this.isMentionsDropdownActive()) {
+    if (this.isMentionsDropdownActive(this.text)) {
       this.mentionsSuggestions?.close();
     } else {
       this.emojiSuggestions?.close();
@@ -512,9 +512,9 @@ export class GrTextarea extends LitElement {
     }
   }
 
-  private isMentionsDropdownActive() {
+  private isMentionsDropdownActive(text: string) {
     return (
-      this.specialCharIndex !== null && this.text[this.specialCharIndex] === '@'
+      this.specialCharIndex !== null && text[this.specialCharIndex] === '@'
     );
   }
 
@@ -548,10 +548,15 @@ export class GrTextarea extends LitElement {
 
     const text = e.detail.value ?? '';
 
-    if (!this.isMentionsDropdownActive()) {
-      if (charAtCursor === ':' && this.specialCharIndex === null) {
-        this.specialCharIndex = this.getSpecialCharIndex(text);
-      }
+    if (charAtCursor === ':' && this.specialCharIndex === null) {
+      this.specialCharIndex = this.getSpecialCharIndex(text);
+    }
+    if (charAtCursor === '@' && this.specialCharIndex === null) {
+      this.specialCharIndex = this.getSpecialCharIndex(text);
+    }
+
+    // need to pass text since this.text doesn't include the typed letter(why?)
+    if (!this.isMentionsDropdownActive(text)) {
       if (this.specialCharIndex !== null) {
         this.openOrResetDropdown(
           this.emojiSuggestions!,
@@ -566,9 +571,6 @@ export class GrTextarea extends LitElement {
 
     if (!this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) return;
 
-    if (charAtCursor === '@' && this.specialCharIndex === null) {
-      this.specialCharIndex = this.getSpecialCharIndex(text);
-    }
     if (this.specialCharIndex !== null) {
       this.openOrResetDropdown(
         this.mentionsSuggestions!,

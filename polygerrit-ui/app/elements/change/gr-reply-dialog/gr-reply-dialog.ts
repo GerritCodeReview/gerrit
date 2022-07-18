@@ -27,6 +27,7 @@ import {
 } from '../../../constants/constants';
 import {
   accountOrGroupKey,
+  extractTaggedUsers,
   isReviewerOrCC,
   mapReviewer,
   removeServiceUsers,
@@ -253,6 +254,21 @@ export class GrReplyDialog extends LitElement {
 
   @state()
   ccs: AccountInput[] = [];
+
+  /**
+   * Maintain a separate list of users added to cc due to being mentioned in
+   * unresolved drafts.
+   * If the draft is discarded or edited to remove the mention then we want to
+   * remove the user from being added to CC.
+   * Instead of figuring out when we should remove the mentioned user ie when
+   * they get removed from the last comment, we recompute this property when
+   * any of the draft comments change.
+   * If we add the user to the existing ccs object then we cannot differentiate
+   * if the user was added manually to CC or added due to being mentioned hence
+   * we cannot reset the mentioned ccs when drafts change.
+   */
+  @state()
+  mentionedCcs: AccountInput[] = [];
 
   @state()
   attentionCcsCount = 0;
@@ -772,7 +788,7 @@ export class GrReplyDialog extends LitElement {
         <div class="peopleListLabel">CC</div>
         <gr-account-list
           id="ccs"
-          .accounts=${this.getAccountListCopy(this.ccs)}
+          .accounts=${[...this.getAccountListCopy(this.ccs), ...this.getAccountListCopy(this.mentionedCcs)]}
           @account-added=${this.accountAdded}
           @accounts-changed=${this.handleCcsChanged}
           .removableValues=${this.change?.removable_reviewers}
@@ -1613,6 +1629,20 @@ export class GrReplyDialog extends LitElement {
       this.computeCommentAccounts(draftCommentThreads).forEach(id =>
         newAttention.add(id)
       );
+      // reset mentionedCCs in case some draft comment got deleted and we
+      // need to update the list of mentioned users
+      this.mentionedCcs = [];
+      this.updateMentionedUsers(this.draft);
+      for (const thread of draftCommentThreads.filter(
+        thread => isUnresolved(thread) && thread.comments.length === 1
+      )) {
+        // add users mentioned in newly created drafts to attention set
+        // if it's a reply to existing comment then we let normal attention set
+        // rules decide who should be in the attention set
+        this.updateMentionedUsers(thread.comments[0].message ?? '');
+      }
+      if (this.mentionedCcs.length > 0) this.requestUpdate();
+
       // Remove the current user.
       newAttention.delete(this.account._account_id);
       // Add all new reviewers, but not the current reviewer, if they are also
@@ -1923,6 +1953,24 @@ export class GrReplyDialog extends LitElement {
     //
     // Note: if the text is removed, the save button will not get disabled.
     this.reviewersMutated = true;
+  }
+
+  private updateMentionedUsers(text: string) {
+    const taggedUsers = extractTaggedUsers(text);
+    const alreadyExists = (ccs: AccountInput[], user: AccountInfoInput) =>
+      ccs
+        .filter(cc => isAccount(cc))
+        .some(cc => (cc as AccountInfoInput).email === user.email);
+    for (const user of taggedUsers) {
+      if (
+        !alreadyExists(this.ccs, user) &&
+        !alreadyExists(this.mentionedCcs, user)
+      ) {
+        this.mentionedCcs.push({...user, confirmed: true});
+      }
+      this.reviewersMutated =
+        this.reviewersMutated || this.mentionedCcs.length > 0;
+    }
   }
 
   draftChanged(oldDraft: string) {

@@ -20,6 +20,7 @@ import {
   addPath,
   DraftInfo,
   isDraft,
+  isUnresolved,
   isUnsaved,
   reportingDetails,
   UnsavedInfo,
@@ -256,6 +257,15 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
   public readonly mentionedUsersInDrafts$ = select(this.drafts$, drafts => {
     const users: AccountInfo[] = [];
     const comments = Object.values(drafts ?? {}).flat();
+    for (const comment of comments) {
+      users.push(...extractMentionedUsers(comment.message));
+    }
+    return users.filter(unique);
+  });
+
+  public readonly mentionedUsersInUnresolvedDrafts$ = select(this.drafts$, drafts => {
+    const users: AccountInfo[] = [];
+    const comments = Object.values(drafts ?? {}).flat().filter(c => c.unresolved);
     for (const comment of comments) {
       users.push(...extractMentionedUsers(comment.message));
     }

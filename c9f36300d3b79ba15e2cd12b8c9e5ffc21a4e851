@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1afef74f_cc35721d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-18T09:25:30Z",
+      "side": 1,
+      "message": "Thanks for the quick review, PTAL",
+      "revId": "c9f36300d3b79ba15e2cd12b8c9e5ffc21a4e851",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49463477_46c29c32",
@@ -24,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e94cd31_e252d87f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-column-requirements-summary/gr-change-list-column-requirements-summary.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-18T09:25:30Z",
+      "side": 1,
+      "message": "Thanks! Removed the rule because it doesn\u0027t seem to actually affect the color given the submitRequirementsStyles rules are higher prio.",
+      "parentUuid": "49463477_46c29c32",
+      "range": {
+        "startLine": 45,
+        "startChar": 13,
+        "endLine": 45,
+        "endChar": 32
+      },
+      "revId": "c9f36300d3b79ba15e2cd12b8c9e5ffc21a4e851",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a8da8da9_7c00793b",
@@ -37,6 +78,30 @@
       "writtenOn": "2022-07-18T09:20:22Z",
       "side": 1,
       "message": "There is no custom field? Maybe the comment is just `// The material-icon name`?",
+      "range": {
+        "startLine": 242,
+        "startChar": 20,
+        "endLine": 243,
+        "endChar": 27
+      },
+      "revId": "c9f36300d3b79ba15e2cd12b8c9e5ffc21a4e851",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a19578ef_fa21d36d",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-18T09:25:30Z",
+      "side": 1,
+      "message": "Left over from when I thought I needed custom icons. Removed.",
+      "parentUuid": "a8da8da9_7c00793b",
       "range": {
         "startLine": 242,
         "startChar": 20,

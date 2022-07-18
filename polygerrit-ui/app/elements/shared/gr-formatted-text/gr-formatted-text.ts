@@ -22,7 +22,7 @@ import {KnownExperimentId} from '../../../services/flags/flags';
 import {getAppContext} from '../../../services/app-context';
 
 /**
- * This element optionally renders markdown and also applies some regex
+ * This small change element optionally renders markdown and also applies some regex
  * replacements to linkify key parts of the text defined by the host's config.
  */
 @customElement('gr-formatted-text')
@@ -94,11 +94,6 @@ export class GrFormattedText extends LitElement {
         font: inherit;
         white-space: var(--linked-text-white-space, pre-wrap);
         word-wrap: var(--linked-text-word-wrap, break-word);
-      }
-      .markdown-html {
-        /* prose will automatically wrap but inline <code> blocks won't and we
-           should overflow in that case rather than wrapping or leaking out */
-        overflow-x: auto;
       }
     `,
   ];

@@ -11,6 +11,7 @@ import {
   mockPromise,
   queryAll,
   queryAndAssert,
+  stubFlags,
   stubRestApi,
   stubStorage,
 } from '../../../test/test-utils';
@@ -39,6 +40,7 @@ import {
   AccountInfo,
   CommitId,
   DetailedLabelInfo,
+  EmailAddress,
   GroupId,
   GroupName,
   NumericChangeId,
@@ -56,7 +58,7 @@ import {GrLabelScoreRow} from '../gr-label-score-row/gr-label-score-row';
 import {GrLabelScores} from '../gr-label-scores/gr-label-scores';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html, waitUntil} from '@open-wc/testing-helpers';
 import {accountKey} from '../../../utils/account-util';
 import {GrButton} from '../../shared/gr-button/gr-button';
 
@@ -484,7 +486,7 @@ suite('gr-reply-dialog tests', () => {
       };
     }
     element.change = change;
-    element.ccs = [];
+    element._ccs = [];
     element.draftCommentThreads = draftThreads;
     element.includeComments = includeComments;
 
@@ -900,7 +902,7 @@ suite('gr-reply-dialog tests', () => {
       {_account_id: 1 as AccountId, _pendingAdd: true},
       {_account_id: 2 as AccountId, _pendingAdd: true},
     ];
-    element.ccs = [];
+    element._ccs = [];
     element.draftCommentThreads = [];
     element.includeComments = true;
     element.canBeStarted = true;
@@ -936,7 +938,7 @@ suite('gr-reply-dialog tests', () => {
       {...createAccountWithId(3)},
     ];
 
-    element.ccs = [];
+    element._ccs = [];
     element.draftCommentThreads = [];
     element.includeComments = false;
     element.account = {_account_id: 1 as AccountId};
@@ -968,7 +970,7 @@ suite('gr-reply-dialog tests', () => {
       {_account_id: 123 as AccountId, display_name: 'Ernie'},
       {_account_id: 321 as AccountId, display_name: 'Bert'},
     ];
-    element.ccs = [{_account_id: 7 as AccountId, display_name: 'Elmo'}];
+    element._ccs = [{_account_id: 7 as AccountId, display_name: 'Elmo'}];
     const compute = (currentAtt: AccountId[], newAtt: AccountId[]) => {
       element.currentAttentionSet = new Set(currentAtt);
       element.newAttentionSet = new Set(newAtt);
@@ -1052,6 +1054,81 @@ suite('gr-reply-dialog tests', () => {
     // Account 3 is not included, because the comment is resolved *and* they
     // have given the highest possible vote on the Code-Review label.
     assert.sameMembers(actualAccounts, [1, 2, 4]);
+  });
+
+  suite('mention users', () => {
+    setup(async () => {
+      stubFlags('isEnabled').returns(true);
+      element.account = createAccountWithId(1);
+      element.requestUpdate();
+      await element.updateComplete;
+    });
+
+    test('mentioned user in resolved draft is added to CC', async () => {
+      element.draftCommentThreads = [
+        createCommentThread([
+          {
+            ...createComment(),
+            message: 'hey @abcd@def take a look at this',
+          },
+        ]),
+      ];
+      await waitUntil(() => element.mentionedCcs.length > 0);
+
+      await element.updateComplete;
+
+      assert.deepEqual(element.mentionedCcs, [
+        {email: 'abcd@def' as EmailAddress, confirmed: true, _pendingAdd: true},
+      ]);
+      assert.deepEqual(element.ccs, [
+        {email: 'abcd@def' as EmailAddress, confirmed: true, _pendingAdd: true},
+      ]);
+
+      // owner(999) is added since (accountId = 1) replied to the change
+      assert.sameMembers([...element.newAttentionSet], [999 as AccountId]);
+    });
+
+    test('mentioned user in unresolved draft is added to CC and AttentionSet', async () => {
+      element.draftCommentThreads = [
+        createCommentThread([
+          {
+            ...createComment(),
+            message: 'hey @abcd@def.com take a look at this',
+            unresolved: true,
+          },
+        ]),
+      ];
+      await waitUntil(() => element.mentionedCcs.length > 0);
+
+      await element.updateComplete;
+
+      assert.deepEqual(element.mentionedCcs, [
+        {
+          email: 'abcd@def.com' as EmailAddress,
+          confirmed: true,
+          _pendingAdd: true,
+        },
+      ]);
+      assert.deepEqual(element.ccs, [
+        {
+          email: 'abcd@def.com' as EmailAddress,
+          confirmed: true,
+          _pendingAdd: true,
+        },
+      ]);
+
+      // owner(999) is added since (accountId = 1) replied to the change
+      assert.sameMembers(
+        [...element.newAttentionSet],
+        [999 as AccountId, 'abcd@def.com' as EmailAddress]
+      );
+    });
+
+    // test('mention user who is already in CC', () => {
+
+    // });
+
+    // test('mention user who is already a reviewer');
   });
 
   test('toggle resolved checkbox', async () => {
@@ -1561,7 +1638,7 @@ suite('gr-reply-dialog tests', () => {
     element.change = createChange();
     element.change.owner = owner;
     element.reviewers = [reviewer1, reviewer2];
-    element.ccs = [cc1, cc2];
+    element._ccs = [cc1, cc2];
 
     assert.isTrue(filter({account: makeAccount()} as Suggestion));
     assert.isTrue(filter({group: makeGroup()} as Suggestion));
@@ -1687,7 +1764,7 @@ suite('gr-reply-dialog tests', () => {
     const cc3 = makeAccount();
     const cc4 = makeAccount();
     element.reviewers = [reviewer1, reviewer2, reviewer3];
-    element.ccs = [cc1, cc2, cc3, cc4];
+    element._ccs = [cc1, cc2, cc3, cc4];
     element.reviewers.push(cc1);
     element.reviewersList!.dispatchEvent(
       new CustomEvent('account-added', {
@@ -1729,7 +1806,7 @@ suite('gr-reply-dialog tests', () => {
   test('update attention section when reviewers and ccs change', async () => {
     element.account = makeAccount();
     element.reviewers = [makeAccount(), makeAccount()];
-    element.ccs = [makeAccount(), makeAccount()];
+    element._ccs = [makeAccount(), makeAccount()];
     element.draftCommentThreads = [];
 
     const modifyButton = queryAndAssert(element, '.edit-attention-button');
@@ -1754,7 +1831,7 @@ suite('gr-reply-dialog tests', () => {
     assert.equal(accountLabels.length, 5);
 
     element.reviewers = [...element.reviewers, makeAccount()];
-    element.ccs = [...element.ccs, makeAccount()];
+    element._ccs = [...element.ccs, makeAccount()];
     await element.updateComplete;
 
     // The 'attention modified' section collapses and resets when reviewers or
@@ -1775,7 +1852,7 @@ suite('gr-reply-dialog tests', () => {
     element.ccs.pop();
     element.ccs.pop();
     element.reviewers = [...element.reviewers];
-    element.ccs = [...element.ccs]; // trigger willUpdate observer
+    element._ccs = [...element.ccs]; // trigger willUpdate observer
 
     await element.updateComplete;
 
@@ -1798,7 +1875,7 @@ suite('gr-reply-dialog tests', () => {
     const cc3 = makeAccount();
     const cc4 = makeAccount();
     element.reviewers = [reviewer1, reviewer2, reviewer3];
-    element.ccs = [cc1, cc2, cc3, cc4];
+    element._ccs = [cc1, cc2, cc3, cc4];
     element.ccs.push(reviewer1);
     element.ccsList!.dispatchEvent(
       new CustomEvent('account-added', {
@@ -1848,7 +1925,7 @@ suite('gr-reply-dialog tests', () => {
     const cc2 = makeAccount();
     const cc3 = makeAccount();
     element.reviewers = [reviewer1, reviewer2];
-    element.ccs = [cc1, cc2, cc3];
+    element._ccs = [cc1, cc2, cc3];
 
     element.change!.reviewers = {
       [ReviewerState.CC]: [],
@@ -1996,7 +2073,7 @@ suite('gr-reply-dialog tests', () => {
     const ccs = queryAndAssert<GrAccountList>(element, '#ccs');
     const reviewer1 = makeAccount();
     element.reviewers = [reviewer1];
-    element.ccs = [];
+    element._ccs = [];
 
     element.change!.reviewers = {
       [ReviewerState.CC]: [],

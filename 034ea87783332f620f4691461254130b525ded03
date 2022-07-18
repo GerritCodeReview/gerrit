@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19cc3e16_b0aa7f68",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-18T14:52:27Z",
+      "side": 1,
+      "message": "Doesn\u0027t this change make it less likely to copy because the OR NO_CHANGE is a larger set?",
+      "revId": "034ea87783332f620f4691461254130b525ded03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

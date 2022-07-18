@@ -19,6 +19,12 @@ suite('gr-default-editor tests', () => {
     await flush();
   });
 
+  test('render', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <textarea id="textarea"></textarea>
+    `);
+  });
+
   test('fires content-change event', async () => {
     const textarea = queryAndAssert<HTMLTextAreaElement>(element, '#textarea');
     const promise = mockPromise();

@@ -43,6 +43,71 @@ suite('gr-editor-view tests', () => {
     await element.updateComplete;
   });
 
+  test('render', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div class="stickyHeader">
+        <header>
+          <span class="controlGroup">
+            <span> Edit mode </span>
+            <span class="separator"> </span>
+            <gr-editable-label
+              id="global"
+              labeltext="File path"
+              placeholder="File path..."
+              tabindex="0"
+              title="File path..."
+            >
+            </gr-editable-label>
+          </span>
+          <span class="controlGroup rightControls">
+            <gr-button
+              aria-disabled="false"
+              id="close"
+              link=""
+              role="button"
+              tabindex="0"
+            >
+              Cancel
+            </gr-button>
+            <gr-button
+              aria-disabled="true"
+              disabled=""
+              id="save"
+              link=""
+              primary=""
+              role="button"
+              tabindex="-1"
+              title="Save and Close the file"
+            >
+              Save
+            </gr-button>
+            <gr-button
+              aria-disabled="true"
+              disabled=""
+              id="publish"
+              link=""
+              primary=""
+              role="button"
+              tabindex="-1"
+              title="Publish your edit. A new patchset will be created."
+            >
+              Save & Publish
+            </gr-button>
+          </span>
+        </header>
+      </div>
+      <div class="textareaWrapper">
+        <gr-endpoint-decorator id="editorEndpoint" name="editor">
+          <gr-endpoint-param name="fileContent"> </gr-endpoint-param>
+          <gr-endpoint-param name="prefs"> </gr-endpoint-param>
+          <gr-endpoint-param name="fileType"> </gr-endpoint-param>
+          <gr-endpoint-param name="lineNum"> </gr-endpoint-param>
+          <gr-default-editor id="file"> </gr-default-editor>
+        </gr-endpoint-decorator>
+      </div>
+    `);
+  });
+
   suite('paramsChanged', () => {
     test('good params proceed', async () => {
       changeDetailStub.returns(Promise.resolve({}));

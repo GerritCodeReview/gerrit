@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "65f3dc83_6b389325",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-07-18T13:25:26Z",
+      "side": 1,
+      "message": "Sean added notification at the same place, where Gerrit sends e-mails. Why do you think this doesn\u0027t work as expected? IIUC, if this doesn\u0027t work, then e-mails shouldn\u0027t work too.",
+      "parentUuid": "ad210d96_26bedd85",
+      "revId": "6ac9ddaaa8fc51b5d32ba20544b33c8a5e681e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "274cd564_8869fc3f",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 16

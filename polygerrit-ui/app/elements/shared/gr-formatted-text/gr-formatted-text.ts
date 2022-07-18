@@ -25,8 +25,10 @@ import {
 } from '../../../utils/comment-util';
 import {sameOrigin} from '../../../utils/url-util';
 
+// test again
+
 /**
- * This element optionally renders markdown and also applies some regex
+ * This small change element optionally renders markdown and also applies some regex
  * replacements to linkify key parts of the text defined by the host's config.
  */
 @customElement('gr-formatted-text')

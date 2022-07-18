@@ -6,16 +6,14 @@
 import '../../../test/common-test-setup-karma';
 import './gr-avatar';
 import {GrAvatar} from './gr-avatar';
-import {getPluginLoader} from '../gr-js-api-interface/gr-plugin-loader';
-import {getAppContext, AppContext} from '../../../services/app-context';
 import {AvatarInfo} from '../../../types/common';
 import {
   createAccountWithEmail,
   createAccountWithId,
   createServerInfo,
 } from '../../../test/test-data-generators';
-
-const basicFixture = fixtureFromElement('gr-avatar');
+import {fixture, html} from '@open-wc/testing-helpers';
+import {isVisible, stubRestApi} from '../../../test/test-utils';
 
 suite('gr-avatar tests', () => {
   let element: GrAvatar;
@@ -27,45 +25,125 @@ suite('gr-avatar tests', () => {
     },
   ];
 
-  setup(() => {
-    element = basicFixture.instantiate();
+  test('renders hidden when no config is set', async () => {
+    stubRestApi('getConfig').resolves(undefined);
+    const accountWithId = {
+      ...createAccountWithId(123),
+      avatars: defaultAvatars,
+    };
+    element = await fixture(
+      html`<gr-avatar .account=${accountWithId}></gr-avatar>`
+    );
+
+    assert.isFalse(isVisible(element));
   });
 
-  test('account without avatar', () => {
-    assert.equal(element._buildAvatarURL(createAccountWithId(123)), '');
+  test('renders hidden when config does not use avatars', async () => {
+    stubRestApi('getConfig').resolves({
+      ...createServerInfo(),
+      plugin: {has_avatars: false, js_resource_paths: []},
+    });
+    const accountWithId = {
+      ...createAccountWithId(123),
+      avatars: defaultAvatars,
+    };
+    element = await fixture(
+      html`<gr-avatar .account=${accountWithId}></gr-avatar>`
+    );
+
+    assert.isFalse(isVisible(element));
   });
 
-  test('methods', () => {
-    assert.equal(
-      element._buildAvatarURL({
+  suite('config has avatars', () => {
+    setup(async () => {
+      stubRestApi('getConfig').resolves({
+        ...createServerInfo(),
+        plugin: {has_avatars: true, js_resource_paths: []},
+      });
+    });
+
+    test('loads correct size', async () => {
+      const accountWithId = {
         ...createAccountWithId(123),
         avatars: defaultAvatars,
-      }),
-      '/accounts/123/avatar?s=16'
-    );
-    assert.equal(
-      element._buildAvatarURL({
-        ...createAccountWithEmail('test@example.com'),
+      };
+      element = await fixture(
+        html`<gr-avatar .account=${accountWithId} .imageSize=${64}></gr-avatar>`
+      );
+
+      assert.isTrue(isVisible(element));
+      assert.equal(
+        element.style.backgroundImage,
+        'url("/accounts/123/avatar?s=64")'
+      );
+    });
+
+    test('loads using id', async () => {
+      const accountWithId = {
+        ...createAccountWithId(123),
         avatars: defaultAvatars,
-      }),
-      '/accounts/test%40example.com/avatar?s=16'
-    );
-    assert.equal(
-      element._buildAvatarURL({
+      };
+      element = await fixture(
+        html`<gr-avatar .account=${accountWithId}></gr-avatar>`
+      );
+
+      assert.isTrue(isVisible(element));
+      assert.equal(
+        element.style.backgroundImage,
+        'url("/accounts/123/avatar?s=16")'
+      );
+    });
+
+    test('loads using email', async () => {
+      const accountWithEmail = {
+        ...createAccountWithEmail('foo@gmail.com'),
+        avatars: defaultAvatars,
+      };
+      element = await fixture(
+        html`<gr-avatar .account=${accountWithEmail}></gr-avatar>`
+      );
+
+      assert.isTrue(isVisible(element));
+      assert.equal(
+        element.style.backgroundImage,
+        'url("/accounts/foo%40gmail.com/avatar?s=16")'
+      );
+    });
+
+    test('loads using name', async () => {
+      const accountWithName = {
         name: 'John Doe',
         avatars: defaultAvatars,
-      }),
-      '/accounts/John%20Doe/avatar?s=16'
-    );
-    assert.equal(
-      element._buildAvatarURL({
+      };
+      element = await fixture(
+        html`<gr-avatar .account=${accountWithName}></gr-avatar>`
+      );
+
+      assert.isTrue(isVisible(element));
+      assert.equal(
+        element.style.backgroundImage,
+        'url("/accounts/John%20Doe/avatar?s=16")'
+      );
+    });
+
+    test('loads using username', async () => {
+      const accountWithUsername = {
         username: 'John_Doe',
         avatars: defaultAvatars,
-      }),
-      '/accounts/John_Doe/avatar?s=16'
-    );
-    assert.equal(
-      element._buildAvatarURL({
+      };
+      element = await fixture(
+        html`<gr-avatar .account=${accountWithUsername}></gr-avatar>`
+      );
+
+      assert.isTrue(isVisible(element));
+      assert.equal(
+        element.style.backgroundImage,
+        'url("/accounts/John_Doe/avatar?s=16")'
+      );
+    });
+
+    test('loads using custom URL from matching height', async () => {
+      const accountWithCustomAvatars = {
         ...createAccountWithId(123),
         avatars: [
           {
@@ -83,12 +161,21 @@ suite('gr-avatar tests', () => {
             height: 100,
             width: 0,
           },
-        ] as AvatarInfo[],
-      }),
-      'https://cdn.example.com/s16-p/photo.jpg'
-    );
-    assert.equal(
-      element._buildAvatarURL({
+        ],
+      };
+      element = await fixture(
+        html`<gr-avatar .account=${accountWithCustomAvatars}></gr-avatar>`
+      );
+
+      assert.isTrue(isVisible(element));
+      assert.equal(
+        element.style.backgroundImage,
+        'url("https://cdn.example.com/s16-p/photo.jpg")'
+      );
+    });
+
+    test('loads using normal URL when no custom URL sizes match', async () => {
+      const accountWithCustomAvatars = {
         ...createAccountWithId(123),
         avatars: [
           {
@@ -96,111 +183,17 @@ suite('gr-avatar tests', () => {
             height: 95,
             width: 0,
           },
-        ] as AvatarInfo[],
-      }),
-      '/accounts/123/avatar?s=16'
-    );
-    assert.equal(element._buildAvatarURL(undefined), '');
-  });
-
-  suite('config set', () => {
-    let appContext: AppContext;
-    setup(() => {
-      appContext = getAppContext();
-      const config = {
-        ...createServerInfo(),
-        plugin: {has_avatars: true, js_resource_paths: []},
+        ],
       };
-      stub('gr-avatar', '_getConfig').returns(Promise.resolve(config));
-      element = basicFixture.instantiate();
-    });
+      element = await fixture(
+        html`<gr-avatar .account=${accountWithCustomAvatars}></gr-avatar>`
+      );
 
-    test('dom for existing account', () => {
-      assert.isFalse(element.hasAttribute('hidden'));
-
-      element.imageSize = 64;
-      element.account = {
-        ...createAccountWithId(123),
-        avatars: defaultAvatars,
-      };
-      flush();
-
-      assert.strictEqual(element.style.backgroundImage, '');
-
-      // Emulate plugins loaded.
-      getPluginLoader().loadPlugins([]);
-
-      return Promise.all([
-        appContext.restApiService.getConfig(),
-        getPluginLoader().awaitPluginsLoaded(),
-      ]).then(() => {
-        assert.isFalse(element.hasAttribute('hidden'));
-
-        assert.isTrue(
-          element.style.backgroundImage.includes('/accounts/123/avatar?s=64')
-        );
-      });
-    });
-  });
-
-  suite('plugin has avatars', () => {
-    let appContext: AppContext;
-    setup(() => {
-      appContext = getAppContext();
-      const config = {
-        ...createServerInfo(),
-        plugin: {has_avatars: true, js_resource_paths: []},
-      };
-      stub('gr-avatar', '_getConfig').returns(Promise.resolve(config));
-
-      element = basicFixture.instantiate();
-    });
-
-    test('dom for non available account', () => {
-      assert.isFalse(element.hasAttribute('hidden'));
-
-      // Emulate plugins loaded.
-      getPluginLoader().loadPlugins([]);
-
-      return Promise.all([
-        appContext.restApiService.getConfig(),
-        getPluginLoader().awaitPluginsLoaded(),
-      ]).then(() => {
-        assert.isTrue(element.hasAttribute('hidden'));
-
-        assert.strictEqual(element.style.backgroundImage, '');
-      });
-    });
-  });
-
-  suite('config not set', () => {
-    let element: GrAvatar;
-    let appContext: AppContext;
-
-    setup(() => {
-      stub('gr-avatar', '_getConfig').returns(Promise.resolve(undefined));
-      appContext = getAppContext();
-      element = basicFixture.instantiate();
-    });
-
-    test('avatar hidden when account set', async () => {
-      await flush();
-      assert.isTrue(element.hasAttribute('hidden'));
-
-      element.imageSize = 64;
-      element.account = {
-        ...createAccountWithId(123),
-        avatars: defaultAvatars,
-      };
-      // Emulate plugins loaded.
-      getPluginLoader().loadPlugins([]);
-
-      return Promise.all([
-        appContext.restApiService.getConfig(),
-        getPluginLoader().awaitPluginsLoaded(),
-      ]).then(() => {
-        assert.isTrue(element.hasAttribute('hidden'));
-      });
+      assert.isTrue(isVisible(element));
+      assert.equal(
+        element.style.backgroundImage,
+        'url("/accounts/123/avatar?s=16")'
+      );
     });
   });
 });

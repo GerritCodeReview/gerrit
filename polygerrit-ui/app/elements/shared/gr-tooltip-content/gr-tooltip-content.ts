@@ -74,10 +74,8 @@ export class GrTooltipContent extends LitElement {
     return [
       iconStyles,
       css`
-        iron-icon {
-          width: var(--line-height-normal);
-          height: var(--line-height-normal);
-          vertical-align: top;
+        .material-icon {
+          font-size: var(--line-height-normal);
         }
       `,
     ];

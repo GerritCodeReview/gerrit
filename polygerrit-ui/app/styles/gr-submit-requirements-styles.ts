@@ -6,8 +6,8 @@
 import {css} from 'lit';
 
 export const submitRequirementsStyles = css`
-  iron-icon.check-circle-filled,
-  iron-icon.overridden {
+  iron-icon.check_circle,
+  iron-icon.settings_backup_restore {
     color: var(--success-foreground);
   }
   iron-icon.block,

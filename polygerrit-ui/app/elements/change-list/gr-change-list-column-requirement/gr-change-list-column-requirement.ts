@@ -43,9 +43,6 @@ export class GrChangeListColumnRequirement extends LitElement {
       submitRequirementsStyles,
       sharedStyles,
       css`
-        iron-icon {
-          vertical-align: top;
-        }
         .container {
           display: flex;
           align-items: center;
@@ -141,7 +138,11 @@ export class GrChangeListColumnRequirement extends LitElement {
 
   private renderStatusIcon(status: SubmitRequirementStatus) {
     const icon = iconForStatus(status ?? SubmitRequirementStatus.ERROR);
-    return html`<iron-icon class=${icon} icon="gr-icons:${icon}"></iron-icon>`;
+    return html`
+      <span class="material-icon ${icon.icon} ${icon.filled ? 'filled' : ''}"
+        >${icon.icon}</span
+      >
+    `;
   }
 
   private computeClass(): string {

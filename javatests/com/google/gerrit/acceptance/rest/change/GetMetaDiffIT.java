@@ -60,6 +60,21 @@ public class GetMetaDiffIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void metaDiffSubmitReq() throws Exception {
+    PushOneCommit.Result ch = createChange();
+    ChangeApi chApi = gApi.changes().id(ch.getChangeId());
+    ChangeInfo oldInfo = chApi.get();
+    chApi.setHashtags(new HashtagsInput(ImmutableSet.of(HASHTAG)));
+    ChangeInfo newInfo = chApi.get();
+
+    ChangeInfoDifference difference =
+        chApi.metaDiff(oldInfo.metaRevId, newInfo.metaRevId, ListChangesOption.SUBMIT_REQUIREMENTS);
+
+    assertThat(difference.added().submitRequirements).isNull();
+    assertThat(difference.removed().submitRequirements).isNull();
+  }
+
+  @Test
   public void metaDiffReturnsSuccessful() throws Exception {
     PushOneCommit.Result ch = createChange();
     ChangeInfo info = gApi.changes().id(ch.getChangeId()).get();

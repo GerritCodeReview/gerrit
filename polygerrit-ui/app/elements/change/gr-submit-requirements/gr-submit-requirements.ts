@@ -43,6 +43,7 @@ import {resolve} from '../../../models/dependency';
 import {checksModelToken} from '../../../models/checks/checks-model';
 import {join} from 'lit/directives/join';
 import {map} from 'lit/directives/map';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 /**
  * @attr {Boolean} suppress-title - hide titles, currently for hovercard view
@@ -70,6 +71,7 @@ export class GrSubmitRequirements extends LitElement {
   static override get styles() {
     return [
       fontStyles,
+      iconStyles,
       submitRequirementsStyles,
       css`
         :host([suppress-title]) .metadata-title {
@@ -81,10 +83,8 @@ export class GrSubmitRequirements extends LitElement {
           margin: 0 0 var(--spacing-s);
           padding-top: var(--spacing-s);
         }
-        iron-icon {
-          width: var(--line-height-normal, 20px);
-          height: var(--line-height-normal, 20px);
-          vertical-align: top;
+        .material-icon {
+          font-size: var(--line-height-normal, 20px);
         }
         .requirements,
         section.trigger-votes {
@@ -244,12 +244,12 @@ export class GrSubmitRequirements extends LitElement {
 
   private renderStatus(requirement: SubmitRequirementResultInfo) {
     const icon = iconForRequirement(requirement);
-    return html`<iron-icon
-      class=${icon}
-      icon="gr-icons:${icon}"
+    return html`<span
+      class="material-icon ${icon.icon} ${icon.filled ? 'filled' : ''}"
       role="img"
       aria-label=${requirement.status.toLowerCase()}
-    ></iron-icon>`;
+      >${icon.icon}</span
+    >`;
   }
 
   renderVoteCell(requirement: SubmitRequirementResultInfo) {

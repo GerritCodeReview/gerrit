@@ -203,6 +203,22 @@ export function getAccountSuggestions(
     });
 }
 
+export function extractTaggedUsers(text?: string): AccountInfo[] {
+  if (!text) return [];
+  const users = [];
+  for (let i = 0; i < text.length; i++) {
+    // could be the beginning of a
+    if (text[i] === '@') {
+      const match = text.substring(i + 1).match(EMAIL_REGEX);
+      if (match)
+        users.push({
+          email: match[0] as EmailAddress,
+        });
+    }
+  }
+  return users;
+}
+
 export function extractTaggedEmails(text?: string) {
   if (!text) return [];
   const emails = [];

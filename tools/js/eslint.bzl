@@ -47,7 +47,7 @@ def plugin_eslint():
         ],
     )
 
-def eslint(name, plugins, srcs, config, ignore, extensions = [".js"], data = []):
+def eslint(name, plugins, srcs, config, ignore, size = "large", extensions = [".js"], data = []):
     """ Macro to define eslint rules for files.
 
     Args:
@@ -56,6 +56,8 @@ def eslint(name, plugins, srcs, config, ignore, extensions = [".js"], data = [])
         srcs: list of files to be checked (ignored in {name}_bin rule)
         config: eslint config file
         ignore: eslint ignore file
+        size: eslint test size, supported values are: small, medium, large and enormous,
+            with implied timeout labels: short , moderate, long, and eternal
         extensions: list of file extensions to be checked. This is an additional filter for
             srcs list. Each extension must start with '.' character.
             Default: [".js"].
@@ -125,6 +127,7 @@ def eslint(name, plugins, srcs, config, ignore, extensions = [".js"], data = [])
             "local",
             "manual",
         ],
+        size = "large",
     )
 
     nodejs_binary(

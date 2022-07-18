@@ -33,9 +33,10 @@ public class AndSource<T> extends AndPredicate<T>
   private final IsVisibleToPredicate<T> isVisibleToPredicate;
   private final int start;
   private final int cardinality;
+  private final boolean noLimit;
 
   public AndSource(Collection<? extends Predicate<T>> that) {
-    this(that, null, 0);
+    this(that, null, 0, false);
   }
 
   public AndSource(Predicate<T> that, IsVisibleToPredicate<T> isVisibleToPredicate) {
@@ -43,17 +44,24 @@ public class AndSource<T> extends AndPredicate<T>
   }
 
   public AndSource(Predicate<T> that, IsVisibleToPredicate<T> isVisibleToPredicate, int start) {
-    this(ImmutableList.of(that), isVisibleToPredicate, start);
+    this(ImmutableList.of(that), isVisibleToPredicate, start, false);
+  }
+
+  public AndSource(
+      Predicate<T> that, IsVisibleToPredicate<T> isVisibleToPredicate, int start, boolean noLimit) {
+    this(ImmutableList.of(that), isVisibleToPredicate, start, noLimit);
   }
 
   public AndSource(
       Collection<? extends Predicate<T>> that,
       IsVisibleToPredicate<T> isVisibleToPredicate,
-      int start) {
+      int start,
+      boolean noLimit) {
     super(that);
     checkArgument(start >= 0, "negative start: %s", start);
     this.isVisibleToPredicate = isVisibleToPredicate;
     this.start = start;
+    this.noLimit = noLimit;
 
     int c = Integer.MAX_VALUE;
     DataSource<T> s = null;
@@ -98,10 +106,11 @@ public class AndSource<T> extends AndPredicate<T>
             nextStart++;
           }
 
-          if (skipped && last != null && source instanceof Paginated) {
-            // If our source is a paginated source and we skipped at
-            // least one of its results, we may not have filled the full
-            // limit the caller wants.  Restart the source and continue.
+          if (!noLimit && skipped && last != null && source instanceof Paginated) {
+            // If the query is not called with no-limit option and if our source
+            // is a paginated source and we skipped at least one of its results,
+            // we may not have filled the full limit the caller wants. Restart
+            // the source and continue.
             //
             @SuppressWarnings("unchecked")
             Paginated<T> p = (Paginated<T>) source;

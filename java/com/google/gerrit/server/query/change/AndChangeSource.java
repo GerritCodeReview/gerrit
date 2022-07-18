@@ -29,8 +29,9 @@ public class AndChangeSource extends AndSource<ChangeData> implements ChangeData
   public AndChangeSource(
       Predicate<ChangeData> that,
       IsVisibleToPredicate<ChangeData> isVisibleToPredicate,
-      int start) {
-    super(that, isVisibleToPredicate, start);
+      int start,
+      boolean noLimit) {
+    super(that, isVisibleToPredicate, start, noLimit);
   }
 
   @Override

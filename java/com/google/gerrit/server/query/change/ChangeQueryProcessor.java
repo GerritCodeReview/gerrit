@@ -135,7 +135,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
   @Override
   protected Predicate<ChangeData> enforceVisibility(Predicate<ChangeData> pred) {
     return new AndChangeSource(
-        pred, changeIsVisibleToPredicateFactory.forUser(userProvider.get()), start);
+        pred, changeIsVisibleToPredicateFactory.forUser(userProvider.get()), start, getNoLimit());
   }
 
   @Override

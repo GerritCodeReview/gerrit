@@ -25,11 +25,11 @@ suite('gr-checks-chip test', () => {
   test('renders', () => {
     expect(element).shadowDom.to.equal(/* HTML */ `<div
       aria-label="0 success result"
-      class="check-circle-outline checksChip font-small"
+      class="check_circle checksChip font-small"
       role="link"
       tabindex="0"
     >
-      <iron-icon icon="gr-icons:check-circle-outline"> </iron-icon>
+      <span class="material-icon">check_circle</span>
       <div class="text">0</div>
     </div>`);
   });

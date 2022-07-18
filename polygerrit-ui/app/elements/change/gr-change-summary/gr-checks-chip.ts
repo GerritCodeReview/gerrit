@@ -8,9 +8,15 @@ import {customElement, property} from 'lit/decorators';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {getAppContext} from '../../../services/app-context';
 import {Category, RunStatus} from '../../../api/checks';
-import {iconFor, isStatus, labelFor} from '../../../models/checks/checks-util';
+import {
+  ChecksIcon,
+  iconFor,
+  isStatus,
+  labelFor,
+} from '../../../models/checks/checks-util';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {Interaction} from '../../../constants/reporting';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 @customElement('gr-checks-chip')
 export class GrChecksChip extends LitElement {
@@ -28,6 +34,7 @@ export class GrChecksChip extends LitElement {
   static override get styles() {
     return [
       fontStyles,
+      iconStyles,
       sharedStyles,
       css`
         :host {
@@ -68,12 +75,10 @@ export class GrChecksChip extends LitElement {
           text-overflow: ellipsis;
           vertical-align: top;
         }
-        iron-icon {
-          width: var(--line-height-small);
-          height: var(--line-height-small);
-          vertical-align: top;
+        .material-icon {
+          font-size: var(--line-height-small);
         }
-        .checksChip a iron-icon.launch {
+        .checksChip a .material-icon.launch {
           color: var(--link-color);
         }
         .checksChip.error {
@@ -88,7 +93,7 @@ export class GrChecksChip extends LitElement {
         .checksChip.error:focus-within {
           background: var(--error-background-focus);
         }
-        .checksChip.error iron-icon {
+        .checksChip.error .material-icon {
           color: var(--error-foreground);
         }
         .checksChip.warning {
@@ -102,35 +107,35 @@ export class GrChecksChip extends LitElement {
         .checksChip.warning:focus-within {
           background: var(--warning-background-focus);
         }
-        .checksChip.warning iron-icon {
+        .checksChip.warning .material-icon {
           color: var(--warning-foreground);
         }
-        .checksChip.info-outline {
+        .checksChip.info {
           border-color: var(--info-foreground);
           background: var(--info-background);
         }
-        .checksChip.info-outline:hover {
+        .checksChip.info:hover {
           background: var(--info-background-hover);
           box-shadow: var(--elevation-level-1);
         }
-        .checksChip.info-outline:focus-within {
+        .checksChip.info:focus-within {
           background: var(--info-background-focus);
         }
-        .checksChip.info-outline iron-icon {
+        .checksChip.info .material--icon {
           color: var(--info-foreground);
         }
-        .checksChip.check-circle-outline {
+        .checksChip.check_circle {
           border-color: var(--success-foreground);
           background: var(--success-background);
         }
-        .checksChip.check-circle-outline:hover {
+        .checksChip.check_circle:hover {
           background: var(--success-background-hover);
           box-shadow: var(--elevation-level-1);
         }
-        .checksChip.check-circle-outline:focus-within {
+        .checksChip.check_circle:focus-within {
           background: var(--success-background-focus);
         }
-        .checksChip.check-circle-outline iron-icon {
+        .checksChip.check_circle .material-icon {
           color: var(--success-foreground);
         }
         .checksChip.timelapse,
@@ -139,16 +144,16 @@ export class GrChecksChip extends LitElement {
           background: var(--gray-background);
         }
         .checksChip.timelapse:hover,
-        .checksChip.scheduled:hover {
+        .checksChip.pending_actions:hover {
           background: var(--gray-background-hover);
           box-shadow: var(--elevation-level-1);
         }
         .checksChip.timelapse:focus-within,
-        .checksChip.scheduled:focus-within {
+        .checksChip.pending_actions:focus-within {
           background: var(--gray-background-focus);
         }
-        .checksChip.timelapse iron-icon,
-        .checksChip.scheduled iron-icon {
+        .checksChip.timelapse .material-icon,
+        .checksChip.pending_actions .material-icon {
           color: var(--gray-foreground);
         }
       `,
@@ -167,22 +172,23 @@ export class GrChecksChip extends LitElement {
       const plural = count > 1 ? 's' : '';
       ariaLabel = `${this.text} ${label} ${type}${plural}`;
     }
-    const chipClass = `checksChip font-small ${icon}`;
+    const chipClass = `checksChip font-small ${icon.name}`;
     const chipClassFullLength = `${chipClass} hoverFullLength`;
-    const grIcon = `gr-icons:${icon}`;
     // 15 is roughly the number of chars for the chip exceeding its 120px width.
     return html`
       ${this.text.length > 15
-        ? html` ${this.renderChip(chipClassFullLength, ariaLabel, grIcon)}`
+        ? html` ${this.renderChip(chipClassFullLength, ariaLabel, icon)}`
         : ''}
-      ${this.renderChip(chipClass, ariaLabel, grIcon)}
+      ${this.renderChip(chipClass, ariaLabel, icon)}
     `;
   }
 
-  private renderChip(clazz: string, ariaLabel: string, icon: string) {
+  private renderChip(clazz: string, ariaLabel: string, icon: ChecksIcon) {
     return html`
       <div class=${clazz} role="link" tabindex="0" aria-label=${ariaLabel}>
-        <iron-icon icon=${icon}></iron-icon>
+        <span class="material-icon ${icon.filled ? 'filled' : ''}"
+          >${icon.name}</span
+        >
         ${this.renderLinks()}
         <div class="text">${this.text}</div>
       </div>
@@ -198,8 +204,8 @@ export class GrChecksChip extends LitElement {
           @click=${this.onLinkClick}
           @keydown=${this.onLinkKeyDown}
           aria-label="Link to check details"
-          ><iron-icon class="launch" icon="gr-icons:launch"></iron-icon
-        ></a>
+          ><span class="material-icon launch">open_in_new</span></a
+        >
       `
     );
   }

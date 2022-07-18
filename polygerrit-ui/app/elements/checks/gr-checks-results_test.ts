@@ -66,12 +66,11 @@ suite('gr-result-row test', () => {
       </div>
         <div class="summary-cell">
           <a class="link" href="https://www.google.com" target="_blank">
-            <iron-icon
+            <span
               aria-label="external link to details"
-              class="link"
-              icon="gr-icons:launch"
-            >
-            </iron-icon>
+              class="material-icon link"
+            >open_in_new
+            </span>
             <paper-tooltip offset="5" role="tooltip" tabindex="-1">
               Link to details
             </paper-tooltip>
@@ -158,39 +157,31 @@ suite('gr-checks-results test', () => {
             <div class="left"></div>
             <div class="right">
               <a href="https://www.google.com" target="_blank">
-                <iron-icon
+                <span
                   aria-label="Fake Bug Report 1"
-                  class="link"
-                  icon="gr-icons:bug"
-                >
-                </iron-icon>
+                  class="material-icon filled link"
+                  >bug
+                </span>
                 <paper-tooltip offset="5"> </paper-tooltip>
               </a>
               <a href="https://www.google.com" target="_blank">
-                <iron-icon
-                  aria-label="Fake Link 1"
-                  class="link"
-                  icon="gr-icons:launch"
-                >
-                </iron-icon>
+                <span aria-label="Fake Link 1" class="material-icon link"
+                  >open_in_new
+                </span>
                 <paper-tooltip offset="5"> </paper-tooltip>
               </a>
               <a href="https://www.google.com" target="_blank">
-                <iron-icon
-                  aria-label="Fake Code Link"
-                  class="link"
-                  icon="gr-icons:code"
-                >
-                </iron-icon>
+                <span aria-label="Fake Code Link" class="material-icon link"
+                  >code
+                </span>
                 <paper-tooltip offset="5"> </paper-tooltip>
               </a>
               <a href="https://www.google.com" target="_blank">
-                <iron-icon
+                <span
                   aria-label="Fake Image Link"
-                  class="link"
-                  icon="gr-icons:insert-photo"
-                >
-                </iron-icon>
+                  class="material-icon filled link"
+                  >image
+                </span>
                 <paper-tooltip offset="5"> </paper-tooltip>
               </a>
               <div class="space"></div>
@@ -201,11 +192,9 @@ suite('gr-checks-results test', () => {
                 link=""
                 vertical-offset="32"
               >
-                <iron-icon
-                  aria-labelledby="moreMessage"
-                  icon="gr-icons:more-vert"
-                >
-                </iron-icon>
+                <span aria-labelledby="moreMessage" class="material-icon"
+                  >more_vert
+                </span>
                 <span id="moreMessage"> More </span>
               </gr-dropdown>
             </div>
@@ -216,8 +205,7 @@ suite('gr-checks-results test', () => {
             <h3 class="categoryHeader empty error heading-3">
               <span class="expandIcon material-icon">expand_more</span>
               <div class="statusIconWrapper">
-                <iron-icon class="error statusIcon" icon="gr-icons:error">
-                </iron-icon>
+                <span class="material-icon filled error statusIcon">error</span>
                 <span class="title"> error </span>
                 <span class="count"> (0) </span>
                 <paper-tooltip offset="5"> </paper-tooltip>
@@ -228,8 +216,9 @@ suite('gr-checks-results test', () => {
             <h3 class="categoryHeader empty heading-3 warning">
               <span class="expandIcon material-icon">expand_more</span>
               <div class="statusIconWrapper">
-                <iron-icon class="warning statusIcon" icon="gr-icons:warning">
-                </iron-icon>
+                <span class="material-icon filled warning statusIcon"
+                  >warning
+                </span>
                 <span class="title"> warning </span>
                 <span class="count"> (0) </span>
                 <paper-tooltip offset="5"> </paper-tooltip>
@@ -240,8 +229,7 @@ suite('gr-checks-results test', () => {
             <h3 class="categoryHeader empty heading-3 info">
               <span class="expandIcon material-icon">expand_more</span>
               <div class="statusIconWrapper">
-                <iron-icon class="info statusIcon" icon="gr-icons:info-outline">
-                </iron-icon>
+                <span class="material-icon info statusIcon">info</span>
                 <span class="title"> info </span>
                 <span class="count"> (0) </span>
                 <paper-tooltip offset="5"> </paper-tooltip>
@@ -252,11 +240,9 @@ suite('gr-checks-results test', () => {
             <h3 class="categoryHeader empty heading-3 success">
               <span class="expandIcon material-icon">expand_more</span>
               <div class="statusIconWrapper">
-                <iron-icon
-                  class="statusIcon success"
-                  icon="gr-icons:check-circle-outline"
-                >
-                </iron-icon>
+                <span class="material-icon statusIcon success"
+                  >check_circle
+                </span>
                 <span class="title"> success </span>
                 <span class="count"> (0) </span>
                 <paper-tooltip offset="5"> </paper-tooltip>

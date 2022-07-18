@@ -11,6 +11,7 @@ import {fireShowPrimaryTab} from '../../../utils/event-util';
 import {PrimaryTab} from '../../../constants/constants';
 import {CommentTabState} from '../../../types/events';
 import {fontStyles} from '../../../styles/gr-font-styles';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 export enum SummaryChipStyles {
   INFO = 'info',
@@ -35,6 +36,7 @@ export class GrSummaryChip extends LitElement {
   static override get styles() {
     return [
       sharedStyles,
+      iconStyles,
       fontStyles,
       css`
         .summaryChip {
@@ -52,10 +54,8 @@ export class GrSummaryChip extends LitElement {
           position: relative;
           top: 2px;
         }
-        iron-icon {
-          width: var(--line-height-small);
-          height: var(--line-height-small);
-          vertical-align: top;
+        .material-icon {
+          font-size: var(--line-height-small);
         }
         .summaryChip.warning {
           border-color: var(--warning-foreground);
@@ -68,7 +68,7 @@ export class GrSummaryChip extends LitElement {
         .summaryChip.warning:focus-within {
           background: var(--warning-background-focus);
         }
-        .summaryChip.warning iron-icon {
+        .summaryChip.warning .material-icon {
           color: var(--warning-foreground);
         }
         .summaryChip.check {
@@ -82,7 +82,7 @@ export class GrSummaryChip extends LitElement {
         .summaryChip.check:focus-within {
           background: var(--gray-background-focus);
         }
-        .summaryChip.check iron-icon {
+        .summaryChip.check .material-icon {
           color: var(--gray-foreground);
         }
       `,
@@ -91,9 +91,8 @@ export class GrSummaryChip extends LitElement {
 
   override render() {
     const chipClass = `summaryChip font-small ${this.styleType}`;
-    const grIcon = this.icon ? `gr-icons:${this.icon}` : '';
     return html`<button class=${chipClass} @click=${this.handleClick}>
-      ${this.icon && html`<iron-icon icon=${grIcon}></iron-icon>`}
+      ${this.icon && html`<span class="material-icon">${this.icon}</span>`}
       <slot></slot>
     </button>`;
   }

@@ -180,7 +180,7 @@ export function extractTaggedEmails(text?: string) {
     // could be the beginning of a
     if (text[i] === '@') {
       const match = text.substring(i + 1).match(EMAIL_REGEX);
-      if (match) emails.push(match[0]);
+      if (match) emails.push(match[0] as EmailAddress);
     }
   }
   return emails;

@@ -71,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b1f7844_ec713e9e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-18T11:35:46Z",
+      "side": 1,
+      "message": "wait until is built into selectChange, flushes don\u0027t seem needed. https://gerrit-review.googlesource.com/c/gerrit/+/340961",
+      "parentUuid": "cc44d42d_6ba00f79",
+      "range": {
+        "startLine": 81,
+        "startChar": 4,
+        "endLine": 81,
+        "endChar": 18
+      },
+      "revId": "018c758c6ab4d2e2fbfa67a0b327ac1a046988b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "27a813b9_26317412",

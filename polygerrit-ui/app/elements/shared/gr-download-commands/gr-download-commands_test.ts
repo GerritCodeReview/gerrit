@@ -48,8 +48,6 @@ suite('gr-download-commands', () => {
   ];
   const SELECTED_SCHEME = 'http';
 
-  setup(() => {});
-
   suite('unauthenticated', () => {
     setup(async () => {
       stubRestApi('getLoggedIn').returns(Promise.resolve(false));
@@ -58,6 +56,48 @@ suite('gr-download-commands', () => {
       element.commands = COMMANDS;
       element.selectedScheme = SELECTED_SCHEME;
       await element.updateComplete;
+    });
+
+    test('render', () => {
+      expect(element).shadowDom.to.equal(/* HTML */ `
+        <div class="schemes">
+          <paper-tabs dir="null" id="downloadTabs" role="tablist" tabindex="0">
+            <paper-tab
+              aria-disabled="false"
+              aria-selected="true"
+              class="iron-selected"
+              data-scheme="http"
+              role="tab"
+              tabindex="0"
+            >
+              http
+            </paper-tab>
+            <paper-tab
+              aria-disabled="false"
+              aria-selected="false"
+              data-scheme="repo"
+              role="tab"
+              tabindex="-1"
+            >
+              repo
+            </paper-tab>
+            <paper-tab
+              aria-disabled="false"
+              aria-selected="false"
+              data-scheme="ssh"
+              role="tab"
+              tabindex="-1"
+            >
+              ssh
+            </paper-tab>
+          </paper-tabs>
+        </div>
+        <div class="commands"></div>
+        <gr-shell-command class="_label_checkout"> </gr-shell-command>
+        <gr-shell-command class="_label_cherrypick"> </gr-shell-command>
+        <gr-shell-command class="_label_formatpatch"> </gr-shell-command>
+        <gr-shell-command class="_label_pull"> </gr-shell-command>
+      `);
     });
 
     test('focusOnCopy', async () => {

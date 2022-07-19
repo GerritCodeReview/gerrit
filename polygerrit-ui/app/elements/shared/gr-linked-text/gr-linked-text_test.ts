@@ -44,7 +44,7 @@ suite('gr-linked-text tests', () => {
       },
       googlesearch: {
         match: 'google:(.+)',
-        link: 'https://bing.com/search?q=$1', // html should supercede link.
+        link: 'https://bing.com/search?q=$1', // html should supersede link.
         html: '<a href="https://google.com/search?q=$1">$1</a>',
       },
       hashedhtml: {
@@ -69,6 +69,25 @@ suite('gr-linked-text tests', () => {
 
   teardown(() => {
     window.CANONICAL_PATH = originalCanonicalPath;
+  });
+
+  test('render', async () => {
+    element.content =
+      'https://bugs.chromium.org/p/gerrit/issues/detail?id=3650';
+    await element.updateComplete;
+    expect(element).lightDom.to.equal(/* HTML */ `
+      <div id="output"></div>
+      <span id="output" slot="insert">
+        <a
+          href="https://bugs.chromium.org/p/gerrit/issues/detail?id=3650"
+          rel="noopener"
+          style="color: var(--link-color)"
+          target="_blank"
+        >
+          https://bugs.chromium.org/p/gerrit/issues/detail?id=3650
+        </a>
+      </span>
+    `);
   });
 
   test('URL pattern was parsed and linked.', async () => {

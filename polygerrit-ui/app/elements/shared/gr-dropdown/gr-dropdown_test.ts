@@ -145,7 +145,7 @@ suite('gr-dropdown tests', () => {
     assert.isFalse(tooltipContents[1].hasTooltip);
   });
 
-  test('shadowDom', async () => {
+  test('render', async () => {
     element.items = [
       {name: 'item one', id: 'foo', tooltip: 'hello'},
       {name: 'item two', id: 'bar', url: 'http://bar'},

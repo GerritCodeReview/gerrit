@@ -20,7 +20,14 @@ suite('gr-page-nav tests', () => {
         </ul>
       </gr-page-nav>
     `);
-    await element.updateComplete;
+  });
+
+  test('render', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <nav aria-label="Sidebar">
+        <slot> </slot>
+      </nav>
+    `);
   });
 
   test('header is not pinned just below top', () => {

@@ -238,7 +238,7 @@ export class GrSubmitRequirementHovercard extends base {
         @click=${(_: MouseEvent) => this.toggleConditionsVisibility()}
       >
         ${buttonText}
-        <span class="material-icons">${icon}</span>
+        <span class="material-icon">${icon}</span>
       </gr-button>
     </div>`;
   }

@@ -84,11 +84,11 @@ public class AttentionSetObserver {
   }
 
   /** Event to be fired when an attention set changes */
-  private static class Event extends AbstractChangeEvent implements AttentionSetListener.Event {
+  public static class Event extends AbstractChangeEvent implements AttentionSetListener.Event {
     private final Set<Integer> added;
     private final Set<Integer> removed;
 
-    Event(
+    public Event(
         ChangeInfo change,
         AccountInfo editor,
         Set<Integer> added,

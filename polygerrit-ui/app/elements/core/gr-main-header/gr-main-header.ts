@@ -7,7 +7,6 @@ import {Subscription} from 'rxjs';
 import {map, distinctUntilChanged} from 'rxjs/operators';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../shared/gr-dropdown/gr-dropdown';
-import '../../shared/gr-icons/gr-icons';
 import '../gr-account-dropdown/gr-account-dropdown';
 import '../gr-smart-search/gr-smart-search';
 import {getBaseUrl, getDocsBaseUrl} from '../../../utils/url-util';

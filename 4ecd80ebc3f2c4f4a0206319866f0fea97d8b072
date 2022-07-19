@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebadbfa2_92452c2a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-19T13:04:17Z",
+      "side": 1,
+      "message": "Thanks",
+      "revId": "4ecd80ebc3f2c4f4a0206319866f0fea97d8b072",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d27d865_47f16cc7",
@@ -31,6 +48,30 @@
       "writtenOn": "2022-07-19T12:44:57Z",
       "side": 1,
       "message": "NIT: Maybe similar format as in getChangesSubmittedTogether\n\nlet options \u003d \u0027\u0027;\nif (\n      this.flagsService.isEnabled(\n        KnownExperimentId.RELATED_CHANGES_SUBMITTABILITY\n      )\n    ) {\n      options \u003d \u0027?o\u003dSUBMITTABLE\u0027;\n    }\n\nendpoint: `/related${options}`,\n\nOr something better.",
+      "range": {
+        "startLine": 1716,
+        "startChar": 2,
+        "endLine": 1726,
+        "endChar": 15
+      },
+      "revId": "4ecd80ebc3f2c4f4a0206319866f0fea97d8b072",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79b9dea8_a28f41bf",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1726,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-19T13:04:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d27d865_47f16cc7",
       "range": {
         "startLine": 1716,
         "startChar": 2,

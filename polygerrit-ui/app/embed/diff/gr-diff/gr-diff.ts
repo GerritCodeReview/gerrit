@@ -668,10 +668,10 @@ export class GrDiff extends LitElement implements GrDiffApi {
           --divider-height: var(--spacing-s);
           --divider-border: 1px;
         }
+        // TODO: Is this still used?
         .contextControl gr-button iron-icon {
           /* should match line-height of gr-button */
-          width: var(--line-height-mono, 18px);
-          height: var(--line-height-mono, 18px);
+          font-size: var(--line-height-mono, 18px);
         }
         .contextControl td:not(.lineNumButton) {
           text-align: center;
@@ -790,6 +790,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
           font-size: var(--font-size-normal, 14px);
           line-height: var(--line-height-normal);
         }
+        // TODO: Is this still used?
         td.lost iron-icon {
           padding: 0 var(--spacing-s) 0 var(--spacing-m);
           color: var(--blue-700);
@@ -1733,8 +1734,9 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
   private portedCommentsWithoutRangeMessage() {
     const div = document.createElement('div');
-    const icon = document.createElement('iron-icon');
-    icon.setAttribute('icon', 'gr-icons:info-outline');
+    const icon = document.createElement('span');
+    icon.className = 'material-icon';
+    icon.innerText = 'info';
     div.appendChild(icon);
     const span = document.createElement('span');
     span.innerText = 'Original comment position not found in this patchset';

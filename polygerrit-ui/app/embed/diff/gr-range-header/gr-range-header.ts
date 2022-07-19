@@ -5,7 +5,7 @@
  */
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
-import '@polymer/iron-icon/iron-icon';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 /**
  * Represents a header (label) for a code chunk whenever showing
@@ -18,8 +18,12 @@ export class GrRangeHeader extends LitElement {
   @property({type: String})
   icon?: string;
 
+  @property({type: Boolean})
+  filled?: boolean;
+
   static override get styles() {
     return [
+      iconStyles,
       css`
         .row {
           color: var(--gr-range-header-color);
@@ -33,8 +37,7 @@ export class GrRangeHeader extends LitElement {
         }
         .icon {
           color: var(--gr-range-header-color);
-          height: var(--line-height-small, 16px);
-          width: var(--line-height-small, 16px);
+          font-size: var(--line-height-small, 16px);
           margin-right: var(--spacing-s);
         }
       `,
@@ -44,7 +47,11 @@ export class GrRangeHeader extends LitElement {
   override render() {
     const icon = this.icon ?? '';
     return html` <div class="row">
-      <iron-icon class="icon" .icon=${icon} aria-hidden="true"></iron-icon>
+      <span
+        class="icon material-icon ${this.filled ? 'filled' : ''}"
+        aria-hidden="true"
+        >${icon}</span
+      >
       <slot></slot>
     </div>`;
   }

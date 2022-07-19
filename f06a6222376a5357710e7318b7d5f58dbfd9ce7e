@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec0b5d82_c7fa1ea7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-19T14:12:28Z",
+      "side": 1,
+      "message": "It is possible and we should tackle it in the follow up change I will add for actually opening the reviewer suggestion. 😊",
+      "parentUuid": "0ca817ab_f2e9c08a",
+      "revId": "f06a6222376a5357710e7318b7d5f58dbfd9ce7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "464dca10_2e08a2b6",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-07-19T14:10:13Z",
       "side": 1,
       "message": "Please name constant the same as the exp-flag toa void confusion.",
+      "revId": "f06a6222376a5357710e7318b7d5f58dbfd9ce7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e763260_c67136e6",
+        "filename": "polygerrit-ui/app/services/flags/flags.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-19T14:12:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "464dca10_2e08a2b6",
       "revId": "f06a6222376a5357710e7318b7d5f58dbfd9ce7e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

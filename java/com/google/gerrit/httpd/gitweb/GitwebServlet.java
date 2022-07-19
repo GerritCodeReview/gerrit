@@ -48,7 +48,6 @@ import com.google.gerrit.server.config.GitwebCgiConfig;
 import com.google.gerrit.server.config.GitwebConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
@@ -58,7 +57,6 @@ import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.util.http.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -101,7 +99,8 @@ class GitwebServlet extends HttpServlet {
   private final Set<String> deniedActions;
   private final Path gitwebCgi;
   private final URI gitwebUrl;
-  private final LocalDiskRepositoryManager repoManager;
+  private final GitRepositoryManager repoManager;
+  private final Path basePath;
   private final ProjectCache projectCache;
   private final PermissionBackend permissionBackend;
   private final Provider<AnonymousUser> anonymousUserProvider;
@@ -121,16 +120,17 @@ class GitwebServlet extends HttpServlet {
       GitwebConfig gitwebConfig,
       GitwebCgiConfig gitwebCgiConfig)
       throws IOException {
-    if (!(repoManager instanceof LocalDiskRepositoryManager)) {
-      throw new ProvisionException("Gitweb can only be used with LocalDiskRepositoryManager");
-    }
-    this.repoManager = (LocalDiskRepositoryManager) repoManager;
+    this.repoManager = repoManager;
     this.projectCache = projectCache;
     this.permissionBackend = permissionBackend;
     this.anonymousUserProvider = anonymousUserProvider;
     this.userProvider = userProvider;
     this.gitwebCgi = gitwebCgiConfig.getGitwebCgi();
     this.deniedActions = new HashSet<>();
+    this.basePath = site.resolve(cfg.getString("gerrit", null, "basePath"));
+    if (this.basePath == null) {
+      throw new IllegalStateException("gerrit.basePath must be configured");
+    }
 
     final String url = gitwebConfig.getUrl();
     if ((url != null) && (!url.equals("gitweb"))) {
@@ -578,8 +578,7 @@ class GitwebServlet extends HttpServlet {
     Project.NameKey nameKey = projectState.getNameKey();
     env.set("GERRIT_CONTEXT_PATH", req.getContextPath() + "/");
     env.set("GERRIT_PROJECT_NAME", nameKey.get());
-
-    env.set("GITWEB_PROJECTROOT", repoManager.getBasePath(nameKey).toAbsolutePath().toString());
+    env.set("GITWEB_PROJECTROOT", basePath.toAbsolutePath().toString());
 
     if (projectState.statePermitsRead()
         && permissionBackend

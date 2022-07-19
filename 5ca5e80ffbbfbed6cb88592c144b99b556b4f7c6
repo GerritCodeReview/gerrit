@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2fc0535_5d516a3e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1150137
+      },
+      "writtenOn": "2022-07-19T07:15:41Z",
+      "side": 1,
+      "message": "Comment removed by: Chris Poucet; Reason: Spam",
+      "revId": "5ca5e80ffbbfbed6cb88592c144b99b556b4f7c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

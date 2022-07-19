@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3f9e8f0_b674b6e5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-19T18:19:45Z",
+      "side": 1,
+      "message": "Btw. you can have timestamps - https://stackoverflow.com/questions/12008120/console-log-timestamps-in-chrome",
+      "revId": "306a21b007016580a208fcfca82b50c4c6329aa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fafd76a0_df70366b",

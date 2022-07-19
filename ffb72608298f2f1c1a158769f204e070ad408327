@@ -22,6 +22,30 @@
       },
       "revId": "ffb72608298f2f1c1a158769f204e070ad408327",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ddcdb31_791289e6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-19T06:33:25Z",
+      "side": 1,
+      "message": "This is an arguable case as it\u0027s updating hidden and style, but that\u0027s not immediately obvious from just the function call.\n\n@frank: Maybe inline some of the code here to make that clearer?",
+      "parentUuid": "93673eea_18bbe55f",
+      "range": {
+        "startLine": 45,
+        "startChar": 4,
+        "endLine": 45,
+        "endChar": 24
+      },
+      "revId": "ffb72608298f2f1c1a158769f204e070ad408327",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

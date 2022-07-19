@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.common;
 
 import java.util.List;
+import java.util.Objects;
 
 /** API response containing a {@link com.google.gerrit.entities.SubmitRecord} entity. */
 public class SubmitRecordInfo {
@@ -38,6 +39,25 @@ public class SubmitRecordInfo {
     public String label;
     public Label.Status status;
     public AccountInfo appliedBy;
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) {
+        return true;
+      }
+      if (!(o instanceof Label)) {
+        return false;
+      }
+      Label that = (Label) o;
+      return Objects.equals(label, that.label)
+          && status == that.status
+          && Objects.equals(appliedBy, that.appliedBy);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(label, status, appliedBy);
+    }
   }
 
   public String ruleName;
@@ -45,4 +65,25 @@ public class SubmitRecordInfo {
   public List<Label> labels;
   public List<LegacySubmitRequirementInfo> requirements;
   public String errorMessage;
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof SubmitRecordInfo)) {
+      return false;
+    }
+    SubmitRecordInfo that = (SubmitRecordInfo) o;
+    return Objects.equals(ruleName, that.ruleName)
+        && status == that.status
+        && Objects.equals(labels, that.labels)
+        && Objects.equals(requirements, that.requirements)
+        && Objects.equals(errorMessage, that.errorMessage);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(ruleName, status, labels, requirements, errorMessage);
+  }
 }

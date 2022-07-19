@@ -5068,22 +5068,27 @@ from the default cipher set.
 +
 Supported ciphers:
 +
-* `aes128-ctr`
-* `aes192-ctr`
-* `aes256-ctr`
 * `aes128-cbc`
+* `aes128-ctr`
+* `aes128-gcm@openssh.com`
 * `aes192-cbc`
+* `aes192-ctr`
 * `aes256-cbc`
-* `blowfish-cbc`
-* `3des-cbc`
+* `aes256-ctr`
+* `aes256-gcm@openssh.com`
 * `arcfour128`
 * `arcfour256`
+* `blowfish-cbc`
+* `chacha20-poly1305@openssh.com`
+* `3des-cbc`
 * `none`
-+
-By default, all supported ciphers except `none` are available.
 +
 If your setup allows for it, it's recommended to disable all ciphers except
 the AES-CTR modes.
++
+See also link:https://github.com/apache/mina-sshd/tree/master#ciphers[ciphers,role=external,window=_blank].
++
+By default, all supported ciphers except `none` are available.
 
 [[sshd.mac]]sshd.mac::
 +
@@ -5101,6 +5106,11 @@ Supported MACs:
 * `hmac-sha1-96`
 * `hmac-sha2-256`
 * `hmac-sha2-512`
+* `hmac-sha1-etm@openssh.com`
+* `hmac-sha2-256-etm@openssh.com`
+* `hmac-sha2-512-etm@openssh.com`
++
+See also link:https://github.com/apache/mina-sshd/tree/master#macs[macs,role=external,window=_blank].
 +
 By default, all supported MACs are available.
 
@@ -5129,6 +5139,9 @@ Supported key exchange algorithms:
 * `ecdh-sha2-nistp521`
 * `ecdh-sha2-nistp384`
 * `ecdh-sha2-nistp256`
+* `curve25519-sha256`
+* `curve25519-sha256@libssh.org`
+* `curve448-sha512`
 * `diffie-hellman-group-exchange-sha256`
 * `diffie-hellman-group18-sha512`
 * `diffie-hellman-group17-sha512`
@@ -5139,12 +5152,14 @@ Supported key exchange algorithms:
 See link:#sshd.enableDeprecatedKexAlgorithms[sshd.enableDeprecatedKexAlgorithms]
 for deprecated key algorithms and how to enable them.
 
-By default, all supported key exchange algorithms are available.
-
 It is strongly recommended to disable at least `diffie-hellman-group1-sha1`
 as it's known to be vulnerable (logjam attack). Additionally, if your setup
 allows for it, it is recommended to disable the remaining two `sha1` key
 exchange algorithms.
+
+See also link:https://github.com/apache/mina-sshd/tree/master#key-exchange[key exchange,role=external,window=_blank].
+
+By default, all supported key exchange algorithms are available.
 --
 
 [[sshd.kerberosKeytab]]sshd.kerberosKeytab::

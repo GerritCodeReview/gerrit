@@ -377,11 +377,11 @@ export class GrReporting implements ReportingService, Finalizable {
     }
     if (type !== ERROR.TYPE) {
       if (value !== undefined) {
-        console.debug(`Reporting: ${name}: ${value}`);
+        console.debug(`Reporting(${Date.now()}): ${name}: ${value}`);
       } else if (eventDetails !== undefined) {
-        console.debug(`Reporting: ${name}: ${eventDetails}`);
+        console.debug(`Reporting(${Date.now()}): ${name}: ${eventDetails}`);
       } else {
-        console.debug(`Reporting: ${name}`);
+        console.debug(`Reporting(${Date.now()}): ${name}`);
       }
     }
   }

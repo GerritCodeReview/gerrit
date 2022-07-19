@@ -33,6 +33,24 @@
       "message": "Maybe `new Date().toISOString()` instead?",
       "revId": "306a21b007016580a208fcfca82b50c4c6329aa6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13330408_366df10e",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-19T18:24:12Z",
+      "side": 1,
+      "message": "+1 We log like this for request, so for consistencty\n\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts;l\u003d303?q\u003danonymizedUrl\u0026ss\u003dgerrit",
+      "parentUuid": "fafd76a0_df70366b",
+      "revId": "306a21b007016580a208fcfca82b50c4c6329aa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

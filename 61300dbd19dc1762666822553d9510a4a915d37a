@@ -22,6 +22,30 @@
       },
       "revId": "61300dbd19dc1762666822553d9510a4a915d37a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0be2823_d4312085",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-19T08:31:12Z",
+      "side": 0,
+      "message": "Yes, I could not find any mention of this css class in this file.",
+      "parentUuid": "0e6bcf8f_acd8be88",
+      "range": {
+        "startLine": 490,
+        "startChar": 6,
+        "endLine": 498,
+        "endChar": 7
+      },
+      "revId": "61300dbd19dc1762666822553d9510a4a915d37a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

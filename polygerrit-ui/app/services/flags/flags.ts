@@ -21,4 +21,5 @@ export enum KnownExperimentId {
   MORE_FILES_INFO = 'UiFeature__more_files_info',
   PUSH_NOTIFICATIONS = 'UiFeature__push_notifications',
   RELATED_CHANGES_SUBMITTABILITY = 'UiFeature__related_changes_submittability',
+  MENTION_USERS = 'UIFeature_tagging_users',
 }

@@ -51,7 +51,8 @@ export function createAppContext(): AppContext & Finalizable {
     },
     restApiService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.authService, 'authService');
-      return new GrRestApiServiceImpl(ctx.authService);
+      assertIsDefined(ctx.flagsService, 'flagsService');
+      return new GrRestApiServiceImpl(ctx.authService, ctx.flagsService);
     },
     jsApiService: (ctx: Partial<AppContext>) => {
       const reportingService = ctx.reportingService;

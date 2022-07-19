@@ -38,7 +38,6 @@ import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.RefUtil;
-import com.google.gerrit.server.project.RefUtil.InvalidRevisionException;
 import com.google.gerrit.server.project.TagResource;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -100,7 +99,7 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
         permissionBackend.currentUser().project(resource.getNameKey()).ref(ref);
 
     try (Repository repo = repoManager.openRepository(resource.getNameKey())) {
-      ObjectId revid = RefUtil.parseBaseRevision(repo, resource.getNameKey(), input.revision);
+      ObjectId revid = RefUtil.parseBaseRevision(repo, input.revision);
       RevWalk rw = RefUtil.verifyConnected(repo, revid);
       // Reachability through tags does not influence a commit's visibility, so no need to check for
       // visibility.
@@ -153,8 +152,6 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
               ListTags.createTagInfo(perm, result, w, resource.getProjectState(), links));
         }
       }
-    } catch (InvalidRevisionException e) {
-      throw new BadRequestException("Invalid base revision", e);
     } catch (GitAPIException e) {
       logger.atSevere().withCause(e).log("Cannot create tag \"%s\"", ref);
       throw new IOException(e);

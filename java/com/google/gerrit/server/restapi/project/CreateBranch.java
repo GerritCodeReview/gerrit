@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -84,8 +85,9 @@ public class CreateBranch
 
   @Override
   public Response<BranchInfo> apply(ProjectResource rsrc, IdString id, BranchInput input)
-      throws BadRequestException, AuthException, ResourceConflictException, IOException,
-          PermissionBackendException, NoSuchProjectException {
+      throws BadRequestException, AuthException, ResourceConflictException,
+          UnprocessableEntityException, IOException, PermissionBackendException,
+          NoSuchProjectException {
     String ref = id.get();
     if (input == null) {
       input = new BranchInput();
@@ -121,7 +123,7 @@ public class CreateBranch
 
     BranchNameKey name = BranchNameKey.create(rsrc.getNameKey(), ref);
     try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
-      ObjectId revid = RefUtil.parseBaseRevision(repo, rsrc.getNameKey(), input.revision);
+      ObjectId revid = RefUtil.parseBaseRevision(repo, input.revision);
       RevWalk rw = RefUtil.verifyConnected(repo, revid);
       RevObject object = rw.parseAny(revid);
 
@@ -196,8 +198,6 @@ public class CreateBranch
                 : null;
       }
       return Response.created(info);
-    } catch (RefUtil.InvalidRevisionException e) {
-      throw new BadRequestException("invalid revision \"" + input.revision + "\"", e);
     }
   }
 

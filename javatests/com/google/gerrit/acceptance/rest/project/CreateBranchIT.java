@@ -47,6 +47,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.events.RefReceivedEvent;
 import com.google.gerrit.server.git.validators.RefOperationValidationListener;
 import com.google.gerrit.server.git.validators.ValidationMessage;
@@ -330,8 +331,8 @@ public class CreateBranchIT extends AbstractDaemonTest {
     assertCreateFails(
         testBranch,
         "refs/heads/non-existing",
-        BadRequestException.class,
-        "invalid revision \"refs/heads/non-existing\"");
+        UnprocessableEntityException.class,
+        "base revision \"refs/heads/non-existing\" not found");
   }
 
   @Test
@@ -339,8 +340,8 @@ public class CreateBranchIT extends AbstractDaemonTest {
     assertCreateFails(
         testBranch,
         "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef",
-        BadRequestException.class,
-        "invalid revision \"deadbeefdeadbeefdeadbeefdeadbeefdeadbeef\"");
+        UnprocessableEntityException.class,
+        "base revision \"deadbeefdeadbeefdeadbeefdeadbeefdeadbeef\" not found");
   }
 
   @Test
@@ -348,8 +349,23 @@ public class CreateBranchIT extends AbstractDaemonTest {
     assertCreateFails(
         testBranch,
         "invalid\trevision",
+        UnprocessableEntityException.class,
+        "base revision \"invalid\trevision\" is invalid");
+  }
+
+  @Test
+  public void cannotCreateWithNonCommitAsRevision() throws Exception {
+    String treeId =
+        projectOperations
+            .project(testBranch.project())
+            .getHead("refs/heads/master")
+            .getTree()
+            .name();
+    assertCreateFails(
+        testBranch,
+        treeId,
         BadRequestException.class,
-        "invalid revision \"invalid\trevision\"");
+        "base revision \"" + treeId + "\" is not a commit");
   }
 
   @Test

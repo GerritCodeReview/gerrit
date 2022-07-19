@@ -145,6 +145,7 @@ import {ErrorCallback} from '../../api/rest';
 import {addDraftProp, DraftInfo} from '../../utils/comment-util';
 import {BaseScheduler} from '../scheduler/scheduler';
 import {MaxInFlightScheduler} from '../scheduler/max-in-flight-scheduler';
+import {FlagsService, KnownExperimentId} from '../flags/flags';
 
 const MAX_PROJECT_RESULTS = 25;
 
@@ -281,15 +282,12 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   readonly _projectLookup = projectLookup; // Shared across instances.
 
   // The value is set in created, before any other actions
-  private authService: AuthService;
-
-  // The value is set in created, before any other actions
   private readonly _restApiHelper: GrRestApiHelper;
 
-  constructor(authService?: AuthService) {
-    // TODO: Make the authService constructor parameter required when we have
-    // changed all usages of this class to not instantiate via createElement().
-    this.authService = authService ?? getAppContext().authService;
+  constructor(
+    private readonly authService: AuthService,
+    private readonly flagsService: FlagsService
+  ) {
     this._restApiHelper = new GrRestApiHelper(
       this._cache,
       this.authService,
@@ -1715,9 +1713,17 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     changeNum: NumericChangeId,
     patchNum: PatchSetNum
   ): Promise<RelatedChangesInfo | undefined> {
+    let options = '';
+    if (
+      this.flagsService.isEnabled(
+        KnownExperimentId.RELATED_CHANGES_SUBMITTABILITY
+      )
+    ) {
+      options = '?o=SUBMITTABLE';
+    }
     return this._getChangeURLAndFetch({
       changeNum,
-      endpoint: '/related',
+      endpoint: `/related${options}`,
       revision: patchNum,
       reportEndpointAsIs: true,
     }) as Promise<RelatedChangesInfo | undefined>;

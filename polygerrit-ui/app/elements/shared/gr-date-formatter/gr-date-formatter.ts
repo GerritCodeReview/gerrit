@@ -80,15 +80,14 @@ export class GrDateFormatter extends LitElement {
   @property({type: Boolean})
   showYesterday = false;
 
-  /** @type {?{short: string, full: string}} */
   @property({type: Object})
-  private dateFormat?: DateFormatPair;
+  dateFormat?: DateFormatPair;
 
   @property({type: String})
-  private timeFormat?: string;
+  timeFormat?: string;
 
   @property({type: Boolean})
-  private relative = false;
+  relative = false;
 
   @property({type: Boolean})
   forceRelative = false;
@@ -97,10 +96,6 @@ export class GrDateFormatter extends LitElement {
   relativeOptionNoAgo = false;
 
   private readonly restApiService = getAppContext().restApiService;
-
-  constructor() {
-    super();
-  }
 
   static override get styles() {
     return [
@@ -130,12 +125,12 @@ export class GrDateFormatter extends LitElement {
   }
 
   private renderDateString() {
-    return html` <span>${this._computeDateStr()}</span>`;
+    return html` <span>${this.computeDateStr()}</span>`;
   }
 
   override connectedCallback() {
     super.connectedCallback();
-    this._loadPreferences();
+    this.loadPreferences();
   }
 
   // private but used by tests
@@ -144,27 +139,25 @@ export class GrDateFormatter extends LitElement {
   }
 
   // private but used by tests
-  _loadPreferences() {
-    return this._getLoggedIn().then(loggedIn => {
-      if (!loggedIn) {
-        this.timeFormat = TimeFormats.TIME_24;
-        this.dateFormat = DateFormats.STD;
-        this.relative = this.forceRelative;
-        return;
-      }
-      return Promise.all([this._loadTimeFormat(), this.loadRelative()]);
-    });
+  async loadPreferences() {
+    const loggedIn = await this.restApiService.getLoggedIn();
+    if (!loggedIn) {
+      this.timeFormat = TimeFormats.TIME_24;
+      this.dateFormat = DateFormats.STD;
+      this.relative = this.forceRelative;
+      return;
+    }
+    await Promise.all([this.loadTimeFormat(), this.loadRelative()]);
   }
 
-  // private but used in gr/file-list_test.js
-  _loadTimeFormat() {
-    return this.getPreferences().then(preferences => {
-      if (!preferences) {
-        throw Error('Preferences is not set');
-      }
-      this.decideTimeFormat(preferences.time_format);
-      this.decideDateFormat(preferences.date_format);
-    });
+  // private but used in gr/file-list_test.ts
+  async loadTimeFormat() {
+    const preferences = await this.restApiService.getPreferences();
+    if (!preferences) {
+      throw Error('Preferences is not set');
+    }
+    this.decideTimeFormat(preferences.time_format);
+    this.decideDateFormat(preferences.date_format);
   }
 
   private decideTimeFormat(timeFormat: TimeFormat) {
@@ -202,24 +195,13 @@ export class GrDateFormatter extends LitElement {
     }
   }
 
-  private loadRelative() {
-    return this.getPreferences().then(prefs => {
-      // prefs.relative_date_in_change_table is not set when false.
-      this.relative =
-        this.forceRelative || !!(prefs && prefs.relative_date_in_change_table);
-    });
+  private async loadRelative() {
+    const prefs = await this.restApiService.getPreferences();
+    this.relative =
+      this.forceRelative || Boolean(prefs?.relative_date_in_change_table);
   }
 
-  _getLoggedIn() {
-    return this.restApiService.getLoggedIn();
-  }
-
-  private getPreferences() {
-    return this.restApiService.getPreferences();
-  }
-
-  // private but used by tests
-  _computeDateStr() {
+  private computeDateStr() {
     if (!this.dateStr || !this.timeFormat || !this.dateFormat) {
       return '';
     }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fafd76a0_df70366b",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-07-19T14:55:59Z",
+      "side": 1,
+      "message": "Maybe `new Date().toISOString()` instead?",
+      "revId": "306a21b007016580a208fcfca82b50c4c6329aa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

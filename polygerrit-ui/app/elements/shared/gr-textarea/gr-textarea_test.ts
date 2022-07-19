@@ -8,7 +8,7 @@ import './gr-textarea';
 import {GrTextarea} from './gr-textarea';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {ItemSelectedEvent} from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
-import {waitUntil} from '../../../test/test-utils';
+import {stubFlags, waitUntil} from '../../../test/test-utils';
 import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-textarea tests', () => {
@@ -41,6 +41,48 @@ suite('gr-textarea tests', () => {
         ],
       }
     );
+  });
+
+  suite('mention users', () => {
+    setup(async () => {
+      stubFlags('isEnabled').returns(true);
+      element.requestUpdate();
+      await element.updateComplete;
+    });
+
+    test('renders', () => {
+      expect(element).shadowDom.to.equal(
+        /* HTML */ `
+          <div id="hiddenText"></div>
+          <span id="caratSpan"> </span>
+          <gr-autocomplete-dropdown
+            horizontal-align="left"
+            id="emojiSuggestions"
+            is-hidden=""
+            style="position: fixed; top: 478px; left: 321px; box-sizing: border-box; max-height: 956px; max-width: 642px;"
+            vertical-align="top"
+          >
+          </gr-autocomplete-dropdown>
+          <gr-autocomplete-dropdown
+            horizontal-align="left"
+            id="reviewerSuggestions"
+            is-hidden=""
+            role="listbox"
+            style="position: fixed; top: 478px; left: 321px; box-sizing: border-box; max-height: 956px; max-width: 642px;"
+            vertical-align="top"
+          >
+          </gr-autocomplete-dropdown>
+          <iron-autogrow-textarea aria-disabled="false" id="textarea">
+          </iron-autogrow-textarea>
+        `,
+        {
+          // gr-autocomplete-dropdown sizing seems to vary between local & CI
+          ignoreAttributes: [
+            {tags: ['gr-autocomplete-dropdown'], attributes: ['style']},
+          ],
+        }
+      );
+    });
   });
 
   test('monospace is set properly', () => {

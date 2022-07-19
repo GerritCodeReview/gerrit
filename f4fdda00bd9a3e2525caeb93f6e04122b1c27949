@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b093a564_03b26a21",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-19T18:28:24Z",
+      "side": 1,
+      "message": "Nice! Thanks",
+      "revId": "f4fdda00bd9a3e2525caeb93f6e04122b1c27949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1096a9c3_3834baa5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-19T18:28:24Z",
+      "side": 1,
+      "message": "2022",
+      "range": {
+        "startLine": 3,
+        "startChar": 13,
+        "endLine": 3,
+        "endChar": 17
+      },
+      "revId": "f4fdda00bd9a3e2525caeb93f6e04122b1c27949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

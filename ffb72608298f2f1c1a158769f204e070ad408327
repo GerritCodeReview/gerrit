@@ -46,6 +46,30 @@
       },
       "revId": "ffb72608298f2f1c1a158769f204e070ad408327",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cdfb5b0_c6325340",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-19T10:52:58Z",
+      "side": 1,
+      "message": "I renamed the method and added a class jsdoc to explain how the component works differently from normal. I would not like to make a big strategy changes in this cleanup. I will not inline since it is called also in connectedCallback.",
+      "parentUuid": "1ddcdb31_791289e6",
+      "range": {
+        "startLine": 45,
+        "startChar": 4,
+        "endLine": 45,
+        "endChar": 24
+      },
+      "revId": "ffb72608298f2f1c1a158769f204e070ad408327",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

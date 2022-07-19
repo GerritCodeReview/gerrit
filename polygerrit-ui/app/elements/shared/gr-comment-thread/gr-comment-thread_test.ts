@@ -85,11 +85,6 @@ suite('gr-comment-thread tests', () => {
   test('renders with draft', async () => {
     element.thread = createThread(c1, c2, c3);
     await element.updateComplete;
-  });
-
-  test('renders with draft', async () => {
-    element.thread = createThread(c1, c2, c3);
-    await element.updateComplete;
     expect(element).shadowDom.to.equal(/* HTML */ `
       <div class="fileName">
         <span>test-path-comment-thread</span>

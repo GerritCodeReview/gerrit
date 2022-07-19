@@ -7,8 +7,7 @@ import '../../../test/common-test-setup-karma';
 import './gr-autocomplete';
 import {AutocompleteSuggestion, GrAutocomplete} from './gr-autocomplete';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
-import {assertIsDefined} from '../../../utils/common-util';
-import {queryAll, queryAndAssert, waitUntil} from '../../../test/test-utils';
+import {queryAndAssert, waitUntil} from '../../../test/test-utils';
 import {GrAutocompleteDropdown} from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {fixture, html} from '@open-wc/testing-helpers';
@@ -30,45 +29,104 @@ suite('gr-autocomplete tests', () => {
     element = await fixture(
       html`<gr-autocomplete no-debounce></gr-autocomplete>`
     );
-    await element.updateComplete;
   });
 
-  test('renders', async () => {
-    let promise: Promise<AutocompleteSuggestion[]> = Promise.resolve([]);
-    const queryStub = sinon.spy(
-      (input: string) =>
-        (promise = Promise.resolve([
-          {name: input + ' 0', value: '0'},
-          {name: input + ' 1', value: '1'},
-          {name: input + ' 2', value: '2'},
-          {name: input + ' 3', value: '3'},
-          {name: input + ' 4', value: '4'},
-        ] as AutocompleteSuggestion[]))
+  test('renders', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <paper-input
+        aria-disabled="false"
+        autocomplete="off"
+        id="input"
+        tabindex="0"
+      >
+        <div slot="prefix">
+          <span class="material-icon searchIcon"> search </span>
+        </div>
+        <div slot="suffix">
+          <slot name="suffix"> </slot>
+        </div>
+      </paper-input>
+      <gr-autocomplete-dropdown
+        horizontal-align="left"
+        id="suggestions"
+        is-hidden=""
+        role="listbox"
+        style="position: fixed; top: 300px; left: 392.5px; box-sizing: border-box; max-height: 600px; max-width: 785px;"
+        vertical-align="top"
+      >
+      </gr-autocomplete-dropdown>
+    `);
+  });
+
+  test('renders with suggestions', async () => {
+    const queryStub = sinon.spy((input: string) =>
+      Promise.resolve([
+        {name: input + ' 0', value: '0'},
+        {name: input + ' 1', value: '1'},
+        {name: input + ' 2', value: '2'},
+        {name: input + ' 3', value: '3'},
+        {name: input + ' 4', value: '4'},
+      ] as AutocompleteSuggestion[])
     );
     element.query = queryStub;
-    assert.isTrue(suggestionsEl().isHidden);
+
+    focusOnInput();
+    element.text = 'blah';
+    await waitUntil(() => queryStub.called);
+    await element.updateComplete;
+
+    expect(element).shadowDom.to.equal(
+      /* HTML */ `
+        <paper-input
+          aria-disabled="false"
+          autocomplete="off"
+          id="input"
+          tabindex="0"
+        >
+          <div slot="prefix">
+            <span class="material-icon searchIcon"> search </span>
+          </div>
+          <div slot="suffix">
+            <slot name="suffix"> </slot>
+          </div>
+        </paper-input>
+        <gr-autocomplete-dropdown
+          horizontal-align="left"
+          id="suggestions"
+          role="listbox"
+          vertical-align="top"
+        >
+        </gr-autocomplete-dropdown>
+      `,
+      {
+        // gr-autocomplete-dropdown sizing seems to vary between local & CI
+        ignoreAttributes: [
+          {tags: ['gr-autocomplete-dropdown'], attributes: ['style']},
+        ],
+      }
+    );
+  });
+
+  test('cursor starts on suggestions', async () => {
+    const queryStub = sinon.spy((input: string) =>
+      Promise.resolve([
+        {name: input + ' 0', value: '0'},
+        {name: input + ' 1', value: '1'},
+        {name: input + ' 2', value: '2'},
+        {name: input + ' 3', value: '3'},
+        {name: input + ' 4', value: '4'},
+      ] as AutocompleteSuggestion[])
+    );
+    element.query = queryStub;
+
     assert.equal(suggestionsEl().cursor.index, -1);
 
     focusOnInput();
     element.text = 'blah';
     await waitUntil(() => queryStub.called);
+    await element.updateComplete;
 
-    assert.isTrue(queryStub.called);
-    element.setFocus(true);
-
-    assertIsDefined(promise);
-    return promise.then(async () => {
-      await element.updateComplete;
-      assert.isFalse(suggestionsEl().isHidden);
-      const suggestions = queryAll<HTMLElement>(suggestionsEl(), 'li');
-      assert.equal(suggestions.length, 5);
-
-      for (let i = 0; i < 5; i++) {
-        assert.equal(suggestions[i].innerText.trim(), `blah ${i}`);
-      }
-
-      assert.notEqual(suggestionsEl().cursor.index, -1);
-    });
+    assert.notEqual(suggestionsEl().cursor.index, -1);
   });
 
   test('selectAll', async () => {

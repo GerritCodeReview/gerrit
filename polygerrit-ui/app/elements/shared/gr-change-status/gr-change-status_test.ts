@@ -25,6 +25,22 @@ suite('gr-change-status tests', () => {
     `);
   });
 
+  test('render', async () => {
+    element.status = ChangeStates.WIP;
+    await element.updateComplete;
+
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <gr-tooltip-content
+        has-tooltip=""
+        max-width="40em"
+        position-below=""
+        title="This change isn't ready to be reviewed or submitted. It will not appear on dashboards unless you are CC'ed, and email notifications will be silenced until the review is started."
+      >
+        <div aria-label="Label: WIP" class="chip">Work in Progress</div>
+      </gr-tooltip-content>
+    `);
+  });
+
   test('WIP', async () => {
     element.status = ChangeStates.WIP;
     await element.updateComplete;

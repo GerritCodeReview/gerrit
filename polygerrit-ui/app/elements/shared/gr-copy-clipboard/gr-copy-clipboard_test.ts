@@ -21,6 +21,35 @@ suite('gr-copy-clipboard tests', () => {
     await flush();
   });
 
+  test('render', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div class="text">
+        <iron-input class="copyText">
+          <input
+            id="input"
+            is="iron-input"
+            part="text-container-style"
+            readonly=""
+            type="text"
+          />
+        </iron-input>
+        <gr-tooltip-content>
+          <gr-button
+            aria-disabled="false"
+            aria-label="Click to copy to clipboard"
+            class="copyToClipboard"
+            id="copy-clipboard-button"
+            link=""
+            role="button"
+            tabindex="0"
+          >
+            <span class="material-icon" id="icon"> content_copy </span>
+          </gr-button>
+        </gr-tooltip-content>
+      </div>
+    `);
+  });
+
   test('copy to clipboard', () => {
     const clipboardSpy = sinon.spy(navigator.clipboard, 'writeText');
     const copyBtn = queryAndAssert(element, '.copyToClipboard');

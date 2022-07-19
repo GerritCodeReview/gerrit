@@ -6,6 +6,7 @@
 import '../../../test/common-test-setup-karma';
 import {queryAndAssert} from '../../../test/test-utils';
 import {GrChangeStar} from './gr-change-star';
+import './gr-change-star';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {createChange} from '../../../test/test-data-generators';
 
@@ -23,21 +24,32 @@ suite('gr-change-star tests', () => {
     await element.updateComplete;
   });
 
-  test('star visibility states', async () => {
-    element.change!.starred = true;
-    await element.updateComplete;
-    let icon = queryAndAssert<HTMLSpanElement>(element, '.material-icon');
-    assert.isTrue(icon.classList.contains('filled'));
-    assert.isTrue(icon.classList.contains('active'));
-    assert.equal(icon.innerText, 'grade');
+  test('renders starred', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <button
+        aria-label="Unstar this change"
+        role="checkbox"
+        title="Star/unstar change (shortcut: s)"
+      >
+        <span class="active filled material-icon"> grade </span>
+      </button>
+    `);
+  });
 
+  test('renders unstarred', async () => {
     element.change!.starred = false;
     element.requestUpdate('change');
     await element.updateComplete;
-    icon = queryAndAssert<HTMLSpanElement>(element, '.material-icon');
-    assert.isFalse(icon.classList.contains('filled'));
-    assert.isFalse(icon.classList.contains('active'));
-    assert.equal(icon.innerText, 'grade');
+
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <button
+        aria-label="Star this change"
+        role="checkbox"
+        title="Star/unstar change (shortcut: s)"
+      >
+        <span class="material-icon"> grade </span>
+      </button>
+    `);
   });
 
   test('starring', async () => {

@@ -14,6 +14,7 @@ import {
 import {ChangeStatus} from '../../../constants/constants';
 import {isChangeInfo} from '../../../utils/change-util';
 import {ifDefined} from 'lit/directives/if-defined';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 @customElement('gr-related-change')
 export class GrRelatedChange extends LitElement {
@@ -41,6 +42,7 @@ export class GrRelatedChange extends LitElement {
 
   static override get styles() {
     return [
+      iconStyles,
       sharedStyles,
       css`
         a {
@@ -112,10 +114,10 @@ export class GrRelatedChange extends LitElement {
           ? html`<span
               tabindex="-1"
               title="Submittable"
-              class="submittableCheck ${linkClass}"
+              class="material-icon submittableCheck ${linkClass}"
               role="img"
               aria-label="Submittable"
-              >✓</span
+              >check</span
             >`
           : ''}
         ${this.showChangeStatus && !isChangeInfo(change)

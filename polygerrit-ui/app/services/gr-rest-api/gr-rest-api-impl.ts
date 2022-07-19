@@ -1713,17 +1713,17 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     changeNum: NumericChangeId,
     patchNum: PatchSetNum
   ): Promise<RelatedChangesInfo | undefined> {
-    let endpoint = '/related';
+    let options = '';
     if (
       this.flagsService.isEnabled(
         KnownExperimentId.RELATED_CHANGES_SUBMITTABILITY
       )
     ) {
-      endpoint += '?o=SUBMITTABLE';
+      options = '?o=SUBMITTABLE';
     }
     return this._getChangeURLAndFetch({
       changeNum,
-      endpoint,
+      endpoint: `/related${options}`,
       revision: patchNum,
       reportEndpointAsIs: true,
     }) as Promise<RelatedChangesInfo | undefined>;

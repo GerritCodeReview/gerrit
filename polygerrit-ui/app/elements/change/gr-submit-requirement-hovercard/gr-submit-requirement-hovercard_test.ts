@@ -73,7 +73,7 @@ suite('gr-submit-requirement-hovercard tests', () => {
             tabindex="0"
           >
             View conditions
-            <span class="material-icons">expand_more</span>
+            <span class="material-icon">expand_more</span>
           </gr-button>
         </div>
       </div>
@@ -121,7 +121,7 @@ suite('gr-submit-requirement-hovercard tests', () => {
             tabindex="0"
           >
             Hide conditions
-            <span class="material-icons">expand_less</span>
+            <span class="material-icon">expand_less</span>
           </gr-button>
         </div>
         <div class="section condition">
@@ -217,7 +217,7 @@ suite('gr-submit-requirement-hovercard tests', () => {
             tabindex="0"
           >
             View conditions
-            <span class="material-icons">expand_more</span>
+            <span class="material-icon">expand_more</span>
           </gr-button>
         </div>
       </div>

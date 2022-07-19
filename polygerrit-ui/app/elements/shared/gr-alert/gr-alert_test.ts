@@ -12,6 +12,8 @@ suite('gr-alert tests', () => {
   let element: GrAlert;
 
   setup(() => {
+    // The gr-alert element attaches itself to the root element on .show(),
+    // rather than existing under a fixture parent.
     element = document.createElement('gr-alert');
   });
 
@@ -19,6 +21,26 @@ suite('gr-alert tests', () => {
     if (element.parentNode) {
       element.parentNode.removeChild(element);
     }
+  });
+
+  test('render', async () => {
+    element.show('Alert text');
+    await element.updateComplete;
+
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div class="content-wrapper">
+        <span class="text"> Alert text </span>
+        <gr-button
+          aria-disabled="false"
+          class="action"
+          hidden=""
+          link=""
+          role="button"
+          tabindex="0"
+        >
+        </gr-button>
+      </div>
+    `);
   });
 
   test('show/hide', async () => {

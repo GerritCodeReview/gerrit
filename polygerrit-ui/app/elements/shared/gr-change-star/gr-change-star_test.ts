@@ -23,6 +23,10 @@ suite('gr-change-star tests', () => {
     await element.updateComplete;
   });
 
+  // test('renders', () => {
+  //   expect(element).shadowDom.to.equal(/* HTML */ ``);
+  // });
+
   test('star visibility states', async () => {
     element.change!.starred = true;
     await element.updateComplete;

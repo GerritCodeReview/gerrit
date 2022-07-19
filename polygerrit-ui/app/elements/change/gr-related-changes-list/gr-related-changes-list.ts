@@ -216,6 +216,7 @@ export class GrRelatedChangesList extends LitElement {
                     )
                   : ''}
                 show-change-status
+                show-submittable-check
                 >${change.commit.subject}</gr-related-change
               >
             </div>`

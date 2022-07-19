@@ -206,7 +206,10 @@ suite('gr-related-changes-list', () => {
             <gr-related-collapse class="first" title="Relation chain">
               <div class="relatedChangeLine show-when-collapsed">
                 <span class="marker space"> </span>
-                <gr-related-change show-change-status="">
+                <gr-related-change
+                  show-change-status=""
+                  show-submittable-check=""
+                >
                   Test commit subject
                 </gr-related-change>
               </div>

@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "57664804_36067b27",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-19T06:41:39Z",
+      "side": 1,
+      "message": "Thanks, I\u0027m surprised I didn\u0027t catch these issues in screenshots.",
+      "revId": "8a51d4f14efbeb52cbcb78bfa0dcffd809711b23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "abcfb2f3_d1222707",
@@ -14,6 +31,30 @@
       "writtenOn": "2022-07-18T15:36:28Z",
       "side": 1,
       "message": "Is outline still a thing?",
+      "range": {
+        "startLine": 17,
+        "startChar": 21,
+        "endLine": 17,
+        "endChar": 29
+      },
+      "revId": "8a51d4f14efbeb52cbcb78bfa0dcffd809711b23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6653f86_bcdc5084",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-styles.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-19T06:41:39Z",
+      "side": 1,
+      "message": "Nice catch.\n\nThough when I created the screenshot these all still said `iron-icon` so I\u0027m wondering if these rules are actually being used.",
+      "parentUuid": "abcfb2f3_d1222707",
       "range": {
         "startLine": 17,
         "startChar": 21,
@@ -47,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8faccd29_05759c25",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-19T06:41:39Z",
+      "side": 1,
+      "message": "I got rid of that class.",
+      "parentUuid": "dd8e8771_321aba06",
+      "range": {
+        "startLine": 106,
+        "startChar": 10,
+        "endLine": 108,
+        "endChar": 19
+      },
+      "revId": "8a51d4f14efbeb52cbcb78bfa0dcffd809711b23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "84f1008c_6887bfd4",
@@ -60,6 +125,30 @@
       "writtenOn": "2022-07-18T15:36:28Z",
       "side": 1,
       "message": "space missing",
+      "range": {
+        "startLine": 318,
+        "startChar": 38,
+        "endLine": 318,
+        "endChar": 47
+      },
+      "revId": "8a51d4f14efbeb52cbcb78bfa0dcffd809711b23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b87d87c1_12afba77",
+        "filename": "polygerrit-ui/app/elements/checks/gr-hovercard-run.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-19T06:41:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84f1008c_6887bfd4",
       "range": {
         "startLine": 318,
         "startChar": 38,
@@ -111,6 +200,54 @@
         "startChar": 13,
         "endLine": 24,
         "endChar": 42
+      },
+      "revId": "8a51d4f14efbeb52cbcb78bfa0dcffd809711b23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccd29c61_94b05ae2",
+        "filename": "polygerrit-ui/app/models/checks/checks-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-19T06:41:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38b96b44_447bdf35",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 42
+      },
+      "revId": "8a51d4f14efbeb52cbcb78bfa0dcffd809711b23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba582758_88a02dae",
+        "filename": "polygerrit-ui/app/models/checks/checks-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-19T06:41:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddbe7e38_eb8cb997",
+      "range": {
+        "startLine": 24,
+        "startChar": 14,
+        "endLine": 24,
+        "endChar": 18
       },
       "revId": "8a51d4f14efbeb52cbcb78bfa0dcffd809711b23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

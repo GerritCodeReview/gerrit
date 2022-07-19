@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1526459291 +0200\nnonce ACQuaLCXAz58tdaGUeyGixFbJH00F5kzxchoTbxZmkzafQy5icee5WndLEuMklFaq6zjLviq72WO\n\n0000000000000000000000000000000000000000 54bf8ddf9bcb4ffc748dd6fead98ececa95c98e5 refs/for/infra/config\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlr765sACgkQUbX9l6DQ\n71EPVwf/ftZXISJsENDis8uFKdZOan7WMBdCF1XHa21yrreGpzcuOJF1ixDQnigZ\nnmrFHgEfo7PyfWO4taGurWh4+YbTlVuUXD5tRFy8dvnlTn1oh9WT6ytnKLwTRLx8\nkKCopsdFgBfAy0HcMX0nT6sb558EXDYJX3siB4m1IpDBq/Eio2SqhU7UIDreIbrU\nPFZ/vHWGsZexUGbbbPyr+j65fcw3K9xTsiuMYjDMLxz1LM5p/U6Jjw6+Edb2J/kQ\nvB9QHy3Cu6M/LvTlb1gf+mvD+pnmt4bAzpI6Mu6AnvZ0EiKKQqfBssvKXFvQr9bD\nzlArMPKKEH5IqX6j0uGe5ZWhNIWCNA\u003d\u003d\n\u003dzeMk\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d291afcd_c220b6ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1023707
+      },
+      "writtenOn": "2022-07-19T17:32:05Z",
+      "side": 1,
+      "message": "FYI:\n\n1. This Tricium config currently doesn\u0027t do anything, because now (since last year) all analyzers use LUCI builders and recipes.\n\n2. We are planning to merge the Tricium service into the LUCI CV service, which is the new CQ service used by chromium etc. (https://crbug.com/1202952). Config will be together with other LUCI config. Analyzers will be run via builders and recipes (which is in fact the current state).\n\nIs the Gerrit team interested in using other parts of LUCI for anything? How is CI and pre-submit testing done for Gerrit project now?\n\n3. Tricium has been unchanged for the past year, so the -prod and -dev instances are (and have been) running the same code.",
+      "revId": "54bf8ddf9bcb4ffc748dd6fead98ececa95c98e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
 }

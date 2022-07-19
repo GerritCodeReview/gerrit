@@ -17,6 +17,7 @@ package com.google.gerrit.server.index.account;
 import static com.google.gerrit.index.SchemaUtil.schema;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.index.IndexedField;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.SchemaDefinitions;
 import com.google.gerrit.server.account.AccountState;
@@ -49,7 +50,7 @@ public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
               AccountField.REGISTERED_FIELD,
               AccountField.USERNAME_FIELD,
               AccountField.WATCHED_PROJECT_FIELD),
-          ImmutableList.of(
+          ImmutableList.<IndexedField<AccountState, ?>.SearchSpec>of(
               AccountField.ID_FIELD_SPEC,
               AccountField.ACTIVE_FIELD_SPEC,
               AccountField.EMAIL_SPEC,

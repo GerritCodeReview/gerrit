@@ -22,7 +22,6 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.index.IndexedField;
-import com.google.gerrit.index.IndexedField.SearchSpec;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.SchemaUtil;
 import com.google.gerrit.server.account.AccountState;
@@ -51,7 +50,8 @@ public class AccountField {
           .required()
           .build(a -> a.account().id().get());
 
-  public static final SearchSpec ID_FIELD_SPEC = ID_FIELD.integer("id");
+  public static final IndexedField<AccountState, Integer>.SearchSpec ID_FIELD_SPEC =
+      ID_FIELD.integer("id");
 
   public static final IndexedField<AccountState, String> ID_STR_FIELD =
       IndexedField.<AccountState>stringBuilder("IdStr")
@@ -59,7 +59,8 @@ public class AccountField {
           .required()
           .build(a -> String.valueOf(a.account().id().get()));
 
-  public static final SearchSpec ID_STR_FIELD_SPEC = ID_STR_FIELD.exact("id_str");
+  public static final IndexedField<AccountState, String>.SearchSpec ID_STR_FIELD_SPEC =
+      ID_STR_FIELD.exact("id_str");
 
   /**
    * External IDs.
@@ -72,7 +73,8 @@ public class AccountField {
           .required()
           .build(a -> Iterables.transform(a.externalIds(), id -> id.key().get()));
 
-  public static final SearchSpec EXTERNAL_ID_FIELD_SPEC = EXTERNAL_ID_FIELD.exact("external_id");
+  public static final IndexedField<AccountState, Iterable<String>>.SearchSpec
+      EXTERNAL_ID_FIELD_SPEC = EXTERNAL_ID_FIELD.exact("external_id");
 
   /**
    * Fuzzy prefix match on name and email parts.
@@ -90,7 +92,8 @@ public class AccountField {
           .required()
           .build(a -> getNameParts(a, Iterables.transform(a.externalIds(), ExternalId::email)));
 
-  public static final SearchSpec NAME_PART_SPEC = NAME_PART_FIELD.prefix("name");
+  public static final IndexedField<AccountState, Iterable<String>>.SearchSpec NAME_PART_SPEC =
+      NAME_PART_FIELD.prefix("name");
 
   /**
    * Fuzzy prefix match on name and preferred email parts. Parts of secondary emails are not
@@ -104,22 +107,24 @@ public class AccountField {
               .required()
               .build(a -> getNameParts(a, Arrays.asList(a.account().preferredEmail())));
 
-  public static final SearchSpec NAME_PART_NO_SECONDARY_EMAIL_SPEC =
-      NAME_PART_NO_SECONDARY_EMAIL_FIELD.prefix("name2");
+  public static final IndexedField<AccountState, Iterable<String>>.SearchSpec
+      NAME_PART_NO_SECONDARY_EMAIL_SPEC = NAME_PART_NO_SECONDARY_EMAIL_FIELD.prefix("name2");
 
   public static final IndexedField<AccountState, String> FULL_NAME_FIELD =
       IndexedField.<AccountState>stringBuilder("FullName")
           .required()
           .build(a -> a.account().fullName());
 
-  public static final SearchSpec FULL_NAME_SPEC = FULL_NAME_FIELD.exact("full_name");
+  public static final IndexedField<AccountState, String>.SearchSpec FULL_NAME_SPEC =
+      FULL_NAME_FIELD.exact("full_name");
 
   public static final IndexedField<AccountState, String> ACTIVE_FIELD =
       IndexedField.<AccountState>stringBuilder("Active")
           .required()
           .build(a -> a.account().isActive() ? "1" : "0");
 
-  public static final SearchSpec ACTIVE_FIELD_SPEC = ACTIVE_FIELD.exact("inactive");
+  public static final IndexedField<AccountState, String>.SearchSpec ACTIVE_FIELD_SPEC =
+      ACTIVE_FIELD.exact("inactive");
   /**
    * All emails (preferred email + secondary emails). Use this field only if the current user is
    * allowed to see secondary emails (requires the 'Modify Account' capability).
@@ -139,7 +144,8 @@ public class AccountField {
                       .transform(String::toLowerCase)
                       .toSet());
 
-  public static final IndexedField.SearchSpec EMAIL_SPEC = EMAIL_FIELD.prefix("email");
+  public static final IndexedField<AccountState, Iterable<String>>.SearchSpec EMAIL_SPEC =
+      EMAIL_FIELD.prefix("email");
 
   public static final IndexedField<AccountState, String> PREFERRED_EMAIL_LOWER_CASE_FIELD =
       IndexedField.<AccountState>stringBuilder("PreferredEmailLowerCase")
@@ -149,14 +155,14 @@ public class AccountField {
                 return preferredEmail != null ? preferredEmail.toLowerCase() : null;
               });
 
-  public static final SearchSpec PREFERRED_EMAIL_LOWER_CASE_SPEC =
-      PREFERRED_EMAIL_LOWER_CASE_FIELD.prefix("preferredemail");
+  public static final IndexedField<AccountState, String>.SearchSpec
+      PREFERRED_EMAIL_LOWER_CASE_SPEC = PREFERRED_EMAIL_LOWER_CASE_FIELD.prefix("preferredemail");
 
   public static final IndexedField<AccountState, String> PREFERRED_EMAIL_EXACT_FIELD =
       IndexedField.<AccountState>stringBuilder("PreferredEmail")
           .build(a -> a.account().preferredEmail());
 
-  public static final SearchSpec PREFERRED_EMAIL_EXACT_SPEC =
+  public static final IndexedField<AccountState, String>.SearchSpec PREFERRED_EMAIL_EXACT_SPEC =
       PREFERRED_EMAIL_EXACT_FIELD.exact("preferredemail_exact");
 
   // TODO(issue-15518): Migrate type for timestamp index fields from Timestamp to Instant
@@ -165,13 +171,15 @@ public class AccountField {
           .required()
           .build(a -> Timestamp.from(a.account().registeredOn()));
 
-  public static final SearchSpec REGISTERED_SPEC = REGISTERED_FIELD.timestamp("registered");
+  public static final IndexedField<AccountState, Timestamp>.SearchSpec REGISTERED_SPEC =
+      REGISTERED_FIELD.timestamp("registered");
 
   public static final IndexedField<AccountState, String> USERNAME_FIELD =
       IndexedField.<AccountState>stringBuilder("Username")
           .build(a -> a.userName().map(String::toLowerCase).orElse(""));
 
-  public static final SearchSpec USERNAME_SPEC = USERNAME_FIELD.exact("username");
+  public static final IndexedField<AccountState, String>.SearchSpec USERNAME_SPEC =
+      USERNAME_FIELD.exact("username");
 
   public static final IndexedField<AccountState, Iterable<String>> WATCHED_PROJECT_FIELD =
       IndexedField.<AccountState>iterableStringBuilder("WatchedProject")
@@ -181,7 +189,7 @@ public class AccountField {
                       .transform(k -> k.project().get())
                       .toSet());
 
-  public static final SearchSpec WATCHED_PROJECT_SPEC =
+  public static final IndexedField<AccountState, Iterable<String>>.SearchSpec WATCHED_PROJECT_SPEC =
       WATCHED_PROJECT_FIELD.exact("watchedproject");
 
   /**
@@ -212,7 +220,8 @@ public class AccountField {
                         .toByteArray(new AllUsersName(AllUsersNameProvider.DEFAULT)));
               });
 
-  public static final SearchSpec REF_STATE_SPEC = REF_STATE_FIELD.storedOnly("ref_state");
+  public static final IndexedField<AccountState, Iterable<byte[]>>.SearchSpec REF_STATE_SPEC =
+      REF_STATE_FIELD.storedOnly("ref_state");
 
   /**
    * All note values of all external IDs that were used in the course of indexing this document.
@@ -231,8 +240,8 @@ public class AccountField {
                       .map(ExternalId::toByteArray)
                       .collect(toSet()));
 
-  public static final SearchSpec EXTERNAL_ID_STATE_SPEC =
-      EXTERNAL_ID_STATE_FIELD.storedOnly("external_id_state");
+  public static final IndexedField<AccountState, Iterable<byte[]>>.SearchSpec
+      EXTERNAL_ID_STATE_SPEC = EXTERNAL_ID_STATE_FIELD.storedOnly("external_id_state");
 
   private static final Set<String> getNameParts(AccountState a, Iterable<String> emails) {
     String fullName = a.account().fullName();

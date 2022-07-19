@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ca817ab_f2e9c08a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-19T14:10:13Z",
+      "side": 1,
+      "message": "Is it possible to accidentally open both of the dropdowns?",
+      "revId": "f06a6222376a5357710e7318b7d5f58dbfd9ce7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "464dca10_2e08a2b6",
+        "filename": "polygerrit-ui/app/services/flags/flags.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-19T14:10:13Z",
+      "side": 1,
+      "message": "Please name constant the same as the exp-flag toa void confusion.",
+      "revId": "f06a6222376a5357710e7318b7d5f58dbfd9ce7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -32,6 +32,7 @@ import {
   isChangeInfo,
 } from '../../../utils/change-util';
 import {DEFALT_NUM_CHANGES_WHEN_COLLAPSED} from './gr-related-collapse';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 export interface ChangeMarkersInList {
   showCurrentChangeArrow: boolean;
@@ -81,6 +82,7 @@ export class GrRelatedChangesList extends LitElement {
 
   static override get styles() {
     return [
+      iconStyles,
       sharedStyles,
       css`
         .note {
@@ -548,16 +550,16 @@ export class GrRelatedChangesList extends LitElement {
         role="img"
         class="marker arrow"
         aria-label="Arrow marking change has collapsed ancestors"
-        ><iron-icon icon="gr-icons:arrowDropUp"></iron-icon
-      ></span> `;
+        ><span class="material-icon">arrow_drop_up</span></span
+      > `;
     }
     if (changeMarkers.showBottomArrow) {
       return html`<span
         role="img"
         class="marker arrow"
         aria-label="Arrow marking change has collapsed descendants"
-        ><iron-icon icon="gr-icons:arrowDropDown"></iron-icon
-      ></span> `;
+        ><span class="material-icon">arrow_drop_down</span></span
+      > `;
     }
     return html`<span class="marker space"></span>`;
   }

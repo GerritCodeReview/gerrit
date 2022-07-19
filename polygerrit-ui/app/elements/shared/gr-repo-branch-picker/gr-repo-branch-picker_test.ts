@@ -19,6 +19,27 @@ suite('gr-repo-branch-picker tests', () => {
     await element.updateComplete;
   });
 
+  test('render', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div>
+        <gr-labeled-autocomplete
+          id="repoInput"
+          label="Repository"
+          placeholder="Select repo"
+        >
+        </gr-labeled-autocomplete>
+        <span class="material-icon"> chevron_right </span>
+        <gr-labeled-autocomplete
+          disabled=""
+          id="branchInput"
+          label="Branch"
+          placeholder="Select branch"
+        >
+        </gr-labeled-autocomplete>
+      </div>
+    `);
+  });
+
   suite('getRepoSuggestions', () => {
     let getReposStub: sinon.SinonStub;
     setup(() => {
@@ -109,9 +130,8 @@ suite('gr-repo-branch-picker tests', () => {
       const repo = 'gerrit' as RepoName;
       const branchInput = 'refs/heads/stable-2.1';
       element.repo = repo;
-      return element.getRepoBranchesSuggestions(branchInput).then(() => {
-        assert.isTrue(getRepoBranchesStub.calledWith('stable-2.1', repo, 15));
-      });
+      await element.getRepoBranchesSuggestions(branchInput);
+      assert.isTrue(getRepoBranchesStub.calledWith('stable-2.1', repo, 15));
     });
 
     test('does not query when repo is unset', async () => {

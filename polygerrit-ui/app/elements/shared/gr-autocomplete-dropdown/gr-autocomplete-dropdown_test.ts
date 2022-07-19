@@ -31,6 +31,45 @@ suite('gr-autocomplete-dropdown', () => {
     element.close();
   });
 
+  test('renders', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div
+        class="dropdown-content"
+        id="suggestions"
+        role="listbox"
+        slot="dropdown-content"
+      >
+        <ul>
+          <li
+            aria-label="test name 1"
+            class="autocompleteOption selected"
+            data-index="0"
+            data-value="test value 1"
+            role="option"
+            tabindex="-1"
+          >
+            <span> 1 </span>
+            <span class="label"> hi </span>
+          </li>
+          <li
+            aria-label="test name 2"
+            class="autocompleteOption"
+            data-index="1"
+            data-value="test value 2"
+            role="option"
+            tabindex="-1"
+          >
+            <span> 2 </span>
+            <span class="hide label"> </span>
+          </li>
+          <dom-repeat style="display: none;">
+            <template is="dom-repeat"> </template>
+          </dom-repeat>
+        </ul>
+      </div>
+    `);
+  });
+
   test('shows labels', () => {
     const els = queryAll<HTMLElement>(suggestionsEl(), 'li');
     assert.equal(els[0].innerText.trim(), '1\nhi');

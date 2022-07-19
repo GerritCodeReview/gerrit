@@ -78,6 +78,20 @@ suite('gr-formatted-text tests', () => {
     assert.lengthOf(element._computeBlocks(''), 0);
   });
 
+  test('render', async () => {
+    element.content = 'text `code`';
+    await element.updateComplete;
+
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <p>
+        <gr-linked-text content="text " inline="" pre="">
+          <span id="output" slot="insert"> text </span>
+        </gr-linked-text>
+        <span class="inline-code"> code </span>
+      </p>
+    `);
+  });
+
   for (const text of [
     'Para1',
     'Para 1\nStill para 1',

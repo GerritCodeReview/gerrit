@@ -36,6 +36,16 @@ suite('gr-tooltip-content tests', () => {
     await element.updateComplete;
   });
 
+  test('render', async () => {
+    element.showIcon = true;
+    await element.updateComplete;
+
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <slot> </slot>
+      <span class="filled material-icon"> info </span>
+    `);
+  });
+
   test('icon is not visible by default', () => {
     assert.isNotOk(query(element, '.material-icon'));
   });

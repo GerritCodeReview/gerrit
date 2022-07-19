@@ -23,6 +23,10 @@ suite('gr-select tests', () => {
     `);
   });
 
+  test('render', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `<slot></slot>`);
+  });
+
   test('bindValue must be set to the first option value', () => {
     assert.equal(element.bindValue, '1');
     assert.equal(element.nativeSelect.value, '1');

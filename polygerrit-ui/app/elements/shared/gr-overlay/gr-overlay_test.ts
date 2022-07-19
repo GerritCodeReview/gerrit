@@ -21,6 +21,17 @@ suite('gr-overlay tests', () => {
     element = basicFixture.instantiate() as GrOverlay;
   });
 
+  test('render', async () => {
+    await element.open();
+    expect(element).dom.to.equal(/* HTML */ `
+      <gr-overlay
+        style="outline: none; box-sizing: border-box; max-height: 600px; max-width: 785px; z-index: 103;"
+      >
+        <div>content</div>
+      </gr-overlay>
+    `);
+  });
+
   test('popstate listener is attached on open and removed on close', () => {
     const addEventListenerStub = sinon.stub(window, 'addEventListener');
     const removeEventListenerStub = sinon.stub(window, 'removeEventListener');

@@ -21,6 +21,18 @@ suite('gr-account-entry tests', () => {
     await element.updateComplete;
   });
 
+  test('renders', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <gr-autocomplete
+        allow-non-suggested-values="false"
+        clear-on-commit=""
+        id="input"
+        warn-uncommitted=""
+      >
+      </gr-autocomplete>
+    `);
+  });
+
   test('account-text-changed fired when input text changed and allowAnyInput', async () => {
     // Spy on query, as that is called when _updateSuggestions proceeds.
     const changeStub = sinon.stub();

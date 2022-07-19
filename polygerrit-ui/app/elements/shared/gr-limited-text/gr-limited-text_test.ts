@@ -19,6 +19,19 @@ suite('gr-limited-text tests', () => {
     );
   });
 
+  test('render', async () => {
+    element.text = 'abc 123';
+    element.limit = 5;
+    element.tooltip = 'tip';
+    await element.updateComplete;
+
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <gr-tooltip-content has-tooltip="" title="abc 123 (tip)">
+        abc …
+      </gr-tooltip-content>
+    `);
+  });
+
   test('tooltip without title input', async () => {
     element.text = 'abc 123';
     await element.updateComplete;

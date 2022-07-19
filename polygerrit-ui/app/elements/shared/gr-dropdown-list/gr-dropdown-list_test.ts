@@ -22,6 +22,116 @@ suite('gr-dropdown-list tests', () => {
     );
   });
 
+  test('render', async () => {
+    element.value = '2';
+    element.items = [
+      {
+        value: 1,
+        text: 'Top Text 1',
+      },
+      {
+        value: 2,
+        bottomText: 'Bottom Text 2',
+        triggerText: 'Button Text 2',
+        text: 'Top Text 2',
+        mobileText: 'Mobile Text 2',
+      },
+      {
+        value: 3,
+        disabled: true,
+        bottomText: 'Bottom Text 3',
+        triggerText: 'Button Text 3',
+        date: '2017-08-18 23:11:42.569000000' as Timestamp,
+        text: 'Top Text 3',
+        mobileText: 'Mobile Text 3',
+      },
+    ];
+    await element.updateComplete;
+
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <gr-button
+        aria-disabled="false"
+        class="dropdown-trigger"
+        down-arrow=""
+        id="trigger"
+        link=""
+        no-uppercase=""
+        role="button"
+        slot="dropdown-trigger"
+        tabindex="0"
+      >
+        <span id="triggerText"> Button Text 2 </span>
+        <gr-copy-clipboard hidden="" hideinput=""> </gr-copy-clipboard>
+      </gr-button>
+      <iron-dropdown
+        aria-disabled="false"
+        aria-hidden="true"
+        horizontal-align="left"
+        id="dropdown"
+        style="outline: none; display: none;"
+        vertical-align="top"
+      >
+        <paper-listbox
+          class="dropdown-content"
+          role="listbox"
+          slot="dropdown-content"
+          tabindex="0"
+        >
+          <paper-item
+            aria-disabled="false"
+            aria-selected="false"
+            data-value="1"
+            role="option"
+            tabindex="-1"
+          >
+            <div class="topContent">
+              <div>Top Text 1</div>
+            </div>
+          </paper-item>
+          <paper-item
+            aria-disabled="false"
+            aria-selected="true"
+            class="iron-selected"
+            data-value="2"
+            role="option"
+            tabindex="0"
+          >
+            <div class="topContent">
+              <div>Top Text 2</div>
+            </div>
+            <div class="bottomContent">
+              <div>Bottom Text 2</div>
+            </div>
+          </paper-item>
+          <paper-item
+            aria-disabled="true"
+            aria-selected="false"
+            data-value="3"
+            disabled=""
+            role="option"
+            style="pointer-events: none;"
+            tabindex="-1"
+          >
+            <div class="topContent">
+              <div>Top Text 3</div>
+              <gr-date-formatter> </gr-date-formatter>
+            </div>
+            <div class="bottomContent">
+              <div>Bottom Text 3</div>
+            </div>
+          </paper-item>
+        </paper-listbox>
+      </iron-dropdown>
+      <gr-select>
+        <select>
+          <option value="1">Top Text 1</option>
+          <option value="2">Mobile Text 2</option>
+          <option disabled="" value="3">Mobile Text 3</option>
+        </select>
+      </gr-select>
+    `);
+  });
+
   test('hide copy by default', () => {
     const copyEl = query<HTMLElement>(
       element,

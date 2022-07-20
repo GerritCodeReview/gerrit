@@ -33,7 +33,7 @@ export class GrRangedCommentHint extends LitElement {
 
   override render() {
     return html`<div class="rangeHighlight row">
-      <gr-range-header icon="gr-icons:comment"
+      <gr-range-header icon="mode_comment" filled
         >${this._computeRangeLabel(this.range)}</gr-range-header
       >
     </div>`;

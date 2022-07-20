@@ -472,7 +472,7 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
       cells[signCols.right].classList.add('sign', 'right');
     }
     const moveRangeHeader = createElementDiff('gr-range-header');
-    moveRangeHeader.setAttribute('icon', 'gr-icons:move-item');
+    moveRangeHeader.setAttribute('icon', 'move_item');
     moveRangeHeader.appendChild(descriptionTextDiv);
     cells[descriptionIndex].classList.add('moveHeader');
     cells[descriptionIndex].appendChild(moveRangeHeader);

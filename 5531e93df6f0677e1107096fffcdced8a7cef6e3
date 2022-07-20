@@ -16,6 +16,24 @@
       "message": "Edwin, while at it, could you please paste where Exception types are mapped to http status codes?",
       "revId": "5531e93df6f0677e1107096fffcdced8a7cef6e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f56cf40_ab6954e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-20T12:58:37Z",
+      "side": 1,
+      "message": "Sure, that\u0027s in RestApiServlet [1].\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/httpd/restapi/RestApiServlet.java#663",
+      "parentUuid": "0ddd0cf9_fd79707b",
+      "revId": "5531e93df6f0677e1107096fffcdced8a7cef6e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

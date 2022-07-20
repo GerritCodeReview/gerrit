@@ -254,7 +254,7 @@ export class GrDiffGroup {
           throw new Error('Cannot set skip and lines');
         }
         this.skip = options.skip;
-        if (options.skip) {
+        if (options.skip !== undefined) {
           this.lineRange = {
             left: {
               start_line: options.offsetLeft,

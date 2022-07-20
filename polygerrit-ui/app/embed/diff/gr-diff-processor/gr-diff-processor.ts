@@ -359,7 +359,7 @@ export class GrDiffProcessor {
       ignoredWhitespaceOnly: !!chunk.common,
       keyLocation: !!chunk.keyLocation,
     };
-    if (chunk.skip) {
+    if (chunk.skip !== undefined) {
       return new GrDiffGroup({
         type,
         skip: chunk.skip,

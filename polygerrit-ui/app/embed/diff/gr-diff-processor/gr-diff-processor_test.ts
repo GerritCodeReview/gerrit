@@ -488,6 +488,26 @@ suite('gr-diff-processor tests', () => {
       // group[4] is the displayed part of the second ab
     });
 
+    test('works with skip === 0', async () => {
+      element.context = 3;
+      const content = [
+        {
+          skip: 0,
+        },
+        {
+          b: [
+            '/**',
+            ' * @license',
+            ' * Copyright 2015 Google LLC',
+            ' * SPDX-License-Identifier: Apache-2.0',
+            ' */',
+            "import '../../../test/common-test-setup-karma';",
+          ],
+        },
+      ];
+      await element.process(content, false);
+    });
+
     test('break up common diff chunks', () => {
       element.keyLocations = {
         left: {1: true},

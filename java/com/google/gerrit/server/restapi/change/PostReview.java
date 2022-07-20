@@ -513,7 +513,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
   private RevisionResource onBehalfOf(RevisionResource rev, LabelTypes labelTypes, ReviewInput in)
       throws BadRequestException, AuthException, UnprocessableEntityException,
-          PermissionBackendException, IOException, ConfigInvalidException {
+          ResourceConflictException, PermissionBackendException, IOException,
+          ConfigInvalidException {
     logger.atFine().log("request is executed on behalf of %s", in.onBehalfOf);
 
     if (in.labels == null || in.labels.isEmpty()) {
@@ -571,7 +572,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     try {
       permissionBackend.user(reviewer).change(rev.getNotes()).check(ChangePermission.READ);
     } catch (AuthException e) {
-      throw new UnprocessableEntityException(
+      throw new ResourceConflictException(
           String.format("on_behalf_of account %s cannot see change", reviewer.getAccountId()), e);
     }
 

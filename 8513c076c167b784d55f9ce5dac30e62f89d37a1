@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f583e5a_6136e9c4",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-20T07:41:06Z",
+      "side": 1,
+      "message": "I looked in polygerrit/app/embed.\n\nThe only mention of a gr-button I can find is in gr-diff-mode-selector which has its own shadowroot.\n\nI tried making `.contextControl gr-button` `red` and nothing showed up.\nThis might be dead-code.\n\nI\u0027m hesitant to touch it but I think the underlying point you\u0027re trying to make is that I don\u0027t touch a material-icon inside of a contextControl so will revert this part.\n\nWhen writing this change, I looked at it from the other perspective. I looked at all iron-icons after this change, and it only left `gr-diff-mode-selector` which has its own shadow dom.\n\nAdded a TODO to figure out if this is still used.",
+      "parentUuid": "6f911d4b_e1f4b9ad",
+      "range": {
+        "startLine": 671,
+        "startChar": 35,
+        "endLine": 671,
+        "endChar": 48
+      },
+      "revId": "8513c076c167b784d55f9ce5dac30e62f89d37a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "577e9c1e_e4c5dc08",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6d261a1_1c8042ad",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 792,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-20T07:41:06Z",
+      "side": 1,
+      "message": "Same comment as above.\n\nLooking through the code I can\u0027t find anything that adds an icon to a td.lost but it\u0027s hard to trace because a lot of the logic is imperative.\n\nReverted as well.",
+      "parentUuid": "577e9c1e_e4c5dc08",
+      "range": {
+        "startLine": 792,
+        "startChar": 17,
+        "endLine": 792,
+        "endChar": 30
+      },
+      "revId": "8513c076c167b784d55f9ce5dac30e62f89d37a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7f91ba19_96b1c581",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-07-19T12:02:26Z",
       "side": 1,
       "message": "where is this value provided?",
+      "range": {
+        "startLine": 22,
+        "startChar": 1,
+        "endLine": 22,
+        "endChar": 19
+      },
+      "revId": "8513c076c167b784d55f9ce5dac30e62f89d37a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c30d553_642eb866",
+        "filename": "polygerrit-ui/app/embed/diff/gr-range-header/gr-range-header.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-20T07:41:06Z",
+      "side": 1,
+      "message": "Thanks, forgot to add it for mode_comment.",
+      "parentUuid": "7f91ba19_96b1c581",
       "range": {
         "startLine": 22,
         "startChar": 1,

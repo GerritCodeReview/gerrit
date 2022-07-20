@@ -62,6 +62,7 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
@@ -313,8 +314,8 @@ public class ImpersonationIT extends AbstractDaemonTest {
     in.onBehalfOf = user.id().toString();
     in.label("Code-Review", 1);
 
-    UnprocessableEntityException thrown =
-        assertThrows(UnprocessableEntityException.class, () -> revision.review(in));
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> revision.review(in));
     assertThat(thrown)
         .hasMessageThat()
         .contains("on_behalf_of account " + user.id() + " cannot see change");

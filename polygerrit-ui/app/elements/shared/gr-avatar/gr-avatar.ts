@@ -68,10 +68,10 @@ export class GrAvatar extends LitElement {
       this.hidden = true;
       return;
     }
+    this.hidden = false;
 
     const url = this._buildAvatarURL(this.account);
     if (url) {
-      this.hidden = false;
       this.style.backgroundImage = 'url("' + url + '")';
     }
   }

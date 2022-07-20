@@ -16,6 +16,24 @@
       "message": "If these were private before, should they be `@state` instead?",
       "revId": "c75cf4fcc0e36df1508b67eb8865281f79d7c70e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4dac8fb7_e784fe68",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-20T08:53:38Z",
+      "side": 1,
+      "message": "Done. It was private but ready by the test anyway without error because it was not in typescript",
+      "parentUuid": "a9fca8f5_af64b83e",
+      "revId": "c75cf4fcc0e36df1508b67eb8865281f79d7c70e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

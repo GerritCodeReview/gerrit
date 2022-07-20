@@ -6,7 +6,6 @@
 import '../gr-dialog/gr-dialog';
 import {css, html, LitElement} from 'lit';
 import {property, query, customElement} from 'lit/decorators';
-import '@polymer/iron-autogrow-textarea';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {assertIsDefined} from '../../../utils/common-util';

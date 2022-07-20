@@ -401,7 +401,6 @@ suite('ChangeComments tests', () => {
         assert.isTrue(isUnresolved(portedThreads[1]));
 
         assert.equal(
-          // {patchNum:  4 as RevisionPatchSetNum, basePatchNum: PARENT}
           createCommentThreads(
             changeComments.getAllCommentsForPath('karma.conf.js')
           ).length,
@@ -421,7 +420,7 @@ suite('ChangeComments tests', () => {
         patchNum: 2 as RevisionPatchSetNum,
       };
       assert.isTrue(isInBaseOfPatchRange(comment, patchRange));
-
+      [}
       patchRange.basePatchNum = PARENT;
       assert.isFalse(isInBaseOfPatchRange(comment, patchRange));
 

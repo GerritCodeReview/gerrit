@@ -323,6 +323,13 @@ module.exports = {
           'error',
           {ignoreArrowShorthand: true},
         ],
+        // https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/docs/rules/strict-boolean-expressions.md
+        '@typescript-eslint/strict-boolean-expressions': ['error',
+          {
+            allowNullableString: true,
+            allowNullableBoolean: true,
+          },
+        ],
         '@typescript-eslint/no-unused-vars': [
           'error',
           {argsIgnorePattern: '^_'},
@@ -354,6 +361,7 @@ module.exports = {
       rules: {
         '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/require-await': 'off',
+        '@typescript-eslint/strict-boolean-expressions': 'off',
       },
     },
     {

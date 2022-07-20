@@ -34,6 +34,7 @@ export type CommentIdToCommentThreadMap = {
   [urlEncodedCommentId: string]: CommentThread;
 };
 
+// TODO: Move file out of elements/ directory
 export class ChangeComments {
   private readonly _comments: PathToCommentsInfoMap;
 
@@ -45,10 +46,6 @@ export class ChangeComments {
 
   private readonly _portedDrafts: PathToCommentsInfoMap;
 
-  /**
-   * Construct a change comments object, which can be data-bound to child
-   * elements of that which uses the gr-comment-api.
-   */
   constructor(
     comments?: PathToCommentsInfoMap,
     robotComments?: {[path: string]: RobotCommentInfo[]},
@@ -315,7 +312,7 @@ export class ChangeComments {
 
     return createCommentThreads(allComments).filter(thread => {
       // Robot comments and drafts are not ported over. A human reply to
-      // the robot comment will be ported over, thefore it's possible to
+      // the robot comment will be ported over, therefore it's possible to
       // have the root comment of the thread not be ported, hence loop over
       // entire thread
       const portedComment = portedComments.find(portedComment =>

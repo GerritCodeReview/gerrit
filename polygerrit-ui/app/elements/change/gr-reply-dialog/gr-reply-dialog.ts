@@ -553,7 +553,7 @@ export class GrReplyDialog extends LitElement {
         margin-top: var(--spacing-m);
         background-color: var(--assignee-highlight-color);
       }
-      .attentionTip div iron-icon {
+      .attentionTip div .material-icon {
         margin-right: var(--spacing-s);
       }
       .patchsetLevelContainer {

@@ -401,7 +401,6 @@ suite('ChangeComments tests', () => {
         assert.isTrue(isUnresolved(portedThreads[1]));
 
         assert.equal(
-          // {patchNum:  4 as RevisionPatchSetNum, basePatchNum: PARENT}
           createCommentThreads(
             changeComments.getAllCommentsForPath('karma.conf.js')
           ).length,

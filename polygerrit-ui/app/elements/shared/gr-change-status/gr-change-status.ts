@@ -13,7 +13,7 @@ import {ChangeInfo} from '../../../types/common';
 import {ParsedChangeInfo} from '../../../types/types';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property, state} from 'lit/decorators';
 import {iconStyles} from '../../../styles/gr-icon-styles';
 
 export enum ChangeStates {
@@ -53,7 +53,8 @@ export class GrChangeStatus extends LitElement {
   @property({type: String})
   status?: ChangeStates;
 
-  @property({type: String})
+  // Private but used in tests.
+  @state()
   tooltipText = '';
 
   @property({type: Object})

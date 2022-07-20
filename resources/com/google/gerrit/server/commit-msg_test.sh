@@ -85,11 +85,11 @@ EOF
 
   ${hook} input || fail "failed hook execution"
 
-  found=$(grep -c '^Change-Id' input)
+  found=$(grep -c '^Change-Id' input) || :
   if [[ "${found}" != "1" ]]; then
     fail "got ${found} Change-Ids, want 1"
   fi
-  found=$(grep -c '^Change-Id: I123' input)
+  found=$(grep -c '^Change-Id: I123' input) || :
   if [[ "${found}" != "1" ]]; then
     fail "got ${found} Change-Id: I123, want 1"
   fi
@@ -104,7 +104,7 @@ EOF
   git config gerrit.createChangeId false
   ${hook} input || fail "failed hook execution"
   git config --unset gerrit.createChangeId
-  found=$(grep -c '^Change-Id' input || true)
+  found=$(grep -c '^Change-Id' input) || :
   if [[ "${found}" != "0" ]]; then
     fail "got ${found} Change-Ids, want 0"
   fi
@@ -131,11 +131,11 @@ EOF
   git config gerrit.reviewUrl https://myhost/
   ${hook} input || fail "failed hook execution"
   git config --unset gerrit.reviewUrl
-  found=$(grep -c '^Change-Id' input || true)
+  found=$(grep -c '^Change-Id' input) || :
   if [[ "${found}" != "0" ]]; then
     fail "got ${found} Change-Ids, want 0"
   fi
-  found=$(grep -c '^Link: https://myhost/id/I' input || true)
+  found=$(grep -c '^Link: https://myhost/id/I' input) || :
   if [[ "${found}" != "1" ]]; then
     fail "got ${found} Link footers, want 1"
   fi
@@ -150,12 +150,31 @@ Bug: #123
 EOF
 
   ${hook} input || fail "failed hook execution"
-  result=$(tail -1 input | grep ^Change-Id)
+  result=$(tail -1 input | grep ^Change-Id) || :
   if [[ -z "${result}" ]] ; then
     echo "after: "
     cat input
 
     fail "did not find Change-Id at end"
+  fi
+}
+
+# Change-Id goes before Signed-off-by trailers.
+function test_before_signed_off_by {
+  cat << EOF > input
+bla bla
+
+Bug: #123
+Signed-off-by: Joe User
+EOF
+
+  ${hook} input || fail "failed hook execution"
+  result=$(tail -2 input | head -1 | grep ^Change-Id) || :
+  if [[ -z "${result}" ]] ; then
+    echo "after: "
+    cat input
+
+    fail "did not find Change-Id before Signed-off-by"
   fi
 }
 
@@ -173,7 +192,7 @@ EOF
 
   /bin/dash ${hook} input || fail "failed hook execution"
 
-  result=$(tail -1 input | grep ^Change-Id)
+  result=$(tail -1 input | grep ^Change-Id) || :
   if [[ -z "${result}" ]] ; then
     echo "after: "
     cat input
@@ -196,11 +215,11 @@ EOF
 
   /bin/dash ${hook} input || fail "failed hook execution"
 
-  found=$(grep -c '^Change-Id' input)
+  found=$(grep -c '^Change-Id' input) || :
   if [[ "${found}" != "1" ]]; then
     fail "got ${found} Change-Ids, want 1"
   fi
-  found=$(grep -c '^Change-Id: I123' input)
+  found=$(grep -c '^Change-Id: I123' input) || :
   if [[ "${found}" != "1" ]]; then
     fail "got ${found} Change-Id: I123, want 1"
   fi

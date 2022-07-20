@@ -16,6 +16,29 @@
       "message": "Thanks, PTAL",
       "revId": "7f64a49f97cb5996dc827409949a78cc4e9af278",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2d35492_26acc5fd",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-20T08:45:15Z",
+      "side": 1,
+      "message": "`//` comments aren\u0027t part of the CSS spec. It usually gets ignored as invalid syntax but could still lead to issues. We should favor `/* */` since it\u0027s the spec. Same below",
+      "range": {
+        "startLine": 671,
+        "startChar": 0,
+        "endLine": 671,
+        "endChar": 36
+      },
+      "revId": "7f64a49f97cb5996dc827409949a78cc4e9af278",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

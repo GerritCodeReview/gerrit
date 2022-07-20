@@ -95,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9957d68a_91a948ee",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 792,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-07-20T08:45:15Z",
+      "side": 1,
+      "message": "Up to you about keeping them, I was just not sure if it meant something was only half-migrated and getting broken.",
+      "parentUuid": "d6d261a1_1c8042ad",
+      "range": {
+        "startLine": 792,
+        "startChar": 17,
+        "endLine": 792,
+        "endChar": 30
+      },
+      "revId": "8513c076c167b784d55f9ce5dac30e62f89d37a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7f91ba19_96b1c581",

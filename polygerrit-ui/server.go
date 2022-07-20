@@ -182,7 +182,6 @@ func handleSrcRequest(compiledSrcPath string, dirListingMux *http.ServeMux, writ
 		//   Examples:
 		//   '@polymer/polymer.js' -> '/node_modules/@polymer/polymer.js'
 		//   'page/page.mjs' -> '/node_modules/page.mjs'
-		//   '@polymer/iron-icon' -> '/node_modules/@polymer/iron-icon.js'
 		//   './element/file' -> './element/file.js'
 		moduleImportRegexp = regexp.MustCompile(`(import[^'";]*|export[^'";]*from ?)['"]([^;\s]*?)(\.(m?)js)?['"];`)
 		data = moduleImportRegexp.ReplaceAll(data, []byte("$1'$2.${4}js';"))

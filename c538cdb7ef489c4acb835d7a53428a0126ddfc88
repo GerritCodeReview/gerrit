@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95dfc69a_05af42c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-07-20T05:25:52Z",
+      "side": 1,
+      "message": "just one thing to consider: will it work with `repository.\u003cname\u003e.basePath` [1]?\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#repository",
+      "revId": "c538cdb7ef489c4acb835d7a53428a0126ddfc88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

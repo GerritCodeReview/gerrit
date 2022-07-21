@@ -97,7 +97,6 @@ export class GrTextarea extends LitElement {
     standard monospace font. */
   @property({type: Boolean}) code = false;
 
-  // TODO(dhruvsri): remove null from specialCharIndex
   @state() specialCharIndex: number | null = null;
 
   @state() mentions: Item[] = [];
@@ -110,6 +109,8 @@ export class GrTextarea extends LitElement {
   readonly reporting = getAppContext().reportingService;
 
   private readonly flagsService = getAppContext().flagsService;
+
+  private activeDropdown?: GrAutocompleteDropdown;
 
   private disableEnterKeyForSelectingSuggestion = false;
 
@@ -275,7 +276,7 @@ export class GrTextarea extends LitElement {
 
   // private but used in test
   closeDropdown() {
-    this.emojiSuggestions?.close();
+    this.activeDropdown?.close();
   }
 
   getNativeTextarea() {
@@ -418,7 +419,6 @@ export class GrTextarea extends LitElement {
 
   private shouldResetDropdown(
     text: string,
-    charIndex: number,
     suggestions?: Item[],
     char?: string
   ) {
@@ -429,10 +429,10 @@ export class GrTextarea extends LitElement {
     // - There are no suggestions that match the search string
     return (
       this.textarea!.selectionStart !==
-        (this.currentSearchString ?? '').length + charIndex + 1 ||
+        (this.currentSearchString ?? '').length + this.specialCharIndex! + 1 ||
       this.currentSearchString === ' ' ||
       this.currentSearchString === '\n' ||
-      !(text[charIndex] === char) ||
+      !(text[this.specialCharIndex!] === char) ||
       !suggestions ||
       !suggestions.length
     );
@@ -451,37 +451,39 @@ export class GrTextarea extends LitElement {
   }
 
   private openOrResetDropdown(
-    activeDropdown: GrAutocompleteDropdown,
+    dropdown: GrAutocompleteDropdown | undefined,
     text: string,
-    charIndex: number,
-    specialChar: string
+    shouldReset: () => boolean
   ) {
-    this.currentSearchString = text.substr(
-      charIndex + 1,
-      this.textarea!.selectionStart - charIndex - 1
-    );
-    let suggestions: Item[] = [];
-    if (specialChar === ':') {
-      this.determineSuggestions(this.currentSearchString);
-      suggestions = this.suggestions;
-    } else {
-      suggestions = this.mentions;
+    if (!dropdown) {
+      this.textarea!.textarea.focus();
+      return false;
     }
-
-    if (this.shouldResetDropdown(text, charIndex, suggestions, specialChar)) {
+    if (this.activeDropdown !== undefined && dropdown !== this.activeDropdown) {
+      this.textarea!.textarea.focus();
+      return false;
+    }
+    this.specialCharIndex = this.getSpecialCharIndex(text);
+    if (this.specialCharIndex === null) {
+      this.textarea!.textarea.focus();
+      return false;
+    }
+    this.currentSearchString = text.substr(
+      this.specialCharIndex + 1,
+      this.textarea!.selectionStart - this.specialCharIndex - 1
+    );
+    if (shouldReset()) {
       this.resetDropdown();
-    } else if (activeDropdown.isHidden) {
+      return false;
+    } else if (dropdown.isHidden) {
+      this.activeDropdown = dropdown;
       // Otherwise open the dropdown and set the position to be just below the
       // cursor.
-      activeDropdown.positionTarget = this.updateCaratPosition();
-      // we need separate open methods here for reporting
-      if (
-        specialChar === '@' &&
-        this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)
-      )
-        this.openMentionsDropdown();
-      else this.openEmojiDropdown();
+      dropdown.positionTarget = this.updateCaratPosition();
+      dropdown.open();
+      return true;
     }
+    return false;
   }
 
   /**
@@ -508,47 +510,27 @@ export class GrTextarea extends LitElement {
 
     const text = e.detail.value ?? '';
 
-    if (!this.mentionsSuggestions || this.mentionsSuggestions.isHidden) {
-      if (charAtCursor === ':' && this.specialCharIndex === null) {
-        this.specialCharIndex = this.getSpecialCharIndex(text);
-      }
-      if (this.specialCharIndex !== null) {
-        this.openOrResetDropdown(
-          this.emojiSuggestions!,
-          text,
-          this.specialCharIndex,
-          ':'
-        );
-        return;
-      }
-      this.textarea!.textarea.focus();
-    }
-
-    if (!this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) return;
-
-    if (charAtCursor === '@' && this.specialCharIndex === null) {
-      this.specialCharIndex = this.getSpecialCharIndex(text);
-    }
-    if (this.specialCharIndex !== null) {
-      this.openOrResetDropdown(
-        this.mentionsSuggestions!,
-        text,
-        this.specialCharIndex,
-        '@'
-      );
+    if (charAtCursor === ':') {
+      if (
+        this.openOrResetDropdown(this.emojiSuggestions, text, () => {
+          this.determineSuggestions(this.currentSearchString!);
+          return this.shouldResetDropdown(text, this.suggestions, charAtCursor);
+        })
+      )
+        this.reporting.reportInteraction('open-emoji-dropdown');
+    } else if (
+      charAtCursor === '@' &&
+      this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)
+    ) {
+      if (
+        this.openOrResetDropdown(this.mentionsSuggestions, text, () =>
+          this.shouldResetDropdown(text, this.mentions, charAtCursor)
+        )
+      )
+        this.reporting.reportInteraction('open-mentions-dropdown');
     }
 
     this.textarea!.textarea.focus();
-  }
-
-  private openEmojiDropdown() {
-    this.emojiSuggestions!.open();
-    this.reporting.reportInteraction('open-emoji-dropdown');
-  }
-
-  private openMentionsDropdown() {
-    this.mentionsSuggestions!.open();
-    this.reporting.reportInteraction('open-mentions-dropdown');
   }
 
   // private but used in test
@@ -582,6 +564,7 @@ export class GrTextarea extends LitElement {
     this.requestUpdate();
     this.currentSearchString = '';
     this.closeDropdown();
+    this.activeDropdown = undefined;
     this.specialCharIndex = null;
     this.textarea!.textarea.focus();
   }

@@ -16,6 +16,24 @@
       "message": "Please keep this TODO.",
       "revId": "cf8d04bf9698235f84fcc9b353cf17f0267458c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbad6da0_4e4465de",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-21T16:30:39Z",
+      "side": 0,
+      "message": "Meant to update the class to point to material icon.\n3rd screenshot added.\nThis iron-icon was pointing to [1]\n\n[1] https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts;l\u003d1735?q\u003d%22portedCommentsWithoutRangeMessage%22\u0026sq\u003d",
+      "parentUuid": "471460b1_1ce7734c",
+      "revId": "cf8d04bf9698235f84fcc9b353cf17f0267458c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

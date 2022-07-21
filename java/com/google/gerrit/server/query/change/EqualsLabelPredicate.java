@@ -30,7 +30,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import java.util.Optional;
 
-public class EqualsLabelPredicate extends ChangeIndexPredicate {
+public class EqualsLabelPredicate extends ChangeIndexPostFilterPredicate {
   protected final ProjectCache projectCache;
   protected final PermissionBackend permissionBackend;
   protected final IdentifiedUser.GenericFactory userFactory;
@@ -154,5 +154,25 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
   @Override
   public int getCost() {
     return 1 + (group == null ? 0 : 1);
+  }
+
+  @Override
+  public boolean postIndexMatch(ChangeData cd) {
+    if (group == null) {
+      return true;
+    }
+    Optional<ProjectState> project = projectCache.get(cd.change().getDest().project());
+    if (project.isPresent()) {
+      LabelType labelType = type(project.get().getLabelTypes(), label);
+      for (PatchSetApproval p : cd.currentApprovals()) {
+        if (labelType.matches(p)) {
+          IdentifiedUser reviewer = userFactory.create(p.accountId());
+          if (reviewer.getEffectiveGroups().contains(group)) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
   }
 }

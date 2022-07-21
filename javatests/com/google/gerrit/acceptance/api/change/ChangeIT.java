@@ -4778,6 +4778,43 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(gApi.changes().query(changeId).get().get(0).mergeable).isNull();
   }
 
+  @Test
+  public void ccUserThatCannotSeeTheChange() throws Exception {
+    // Create a project that is only visible to admin users.
+    Project.NameKey project = projectOperations.newProject().create();
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref("refs/*").group(adminGroupUuid()))
+        .add(block(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+
+    // Create a change
+    TestRepository<?> adminTestRepo = cloneProject(project, admin);
+    PushOneCommit push = pushFactory.create(admin.newIdent(), adminTestRepo);
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertOkStatus();
+
+    // Check that the change is not visible to user.
+    requestScopeOperations.setApiUser(user.id());
+    assertThrows(ResourceNotFoundException.class, () -> gApi.changes().id(r.getChangeId()).get());
+
+    // Add user as a CC.
+    requestScopeOperations.setApiUser(admin.id());
+    ReviewerInput reviewerInput = new ReviewerInput();
+    reviewerInput.state = CC;
+    reviewerInput.reviewer = user.id().toString();
+    gApi.changes().id(r.getChangeId()).addReviewer(reviewerInput);
+
+    // Check that user was not added as a CC since they cannot see the change. Note,
+    // ChangeInfo#reviewers is a map that also contains CCs (if any are present).
+    assertThat(gApi.changes().id(r.getChangeId()).get().reviewers).isEmpty();
+
+    // Check that the change is still not visible to user.
+    requestScopeOperations.setApiUser(user.id());
+    assertThrows(ResourceNotFoundException.class, () -> gApi.changes().id(r.getChangeId()).get());
+  }
+
   private PushOneCommit.Result createWorkInProgressChange() throws Exception {
     return pushTo("refs/for/master%wip");
   }

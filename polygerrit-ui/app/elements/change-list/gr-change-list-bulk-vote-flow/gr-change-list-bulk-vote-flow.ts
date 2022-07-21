@@ -107,10 +107,10 @@ export class GrChangeListBulkVoteFlow extends LitElement {
         .code-review-message-container .material-icon {
           color: var(--selected-foreground);
         }
-        .error-container span,
-        .code-review-message-container span {
+        .error-container .error-text,
+        .code-review-message-container .warning-text {
           position: relative;
-          top: 1px;
+          top: 10px;
         }
         .code-review-message-container {
           display: table-caption;
@@ -199,7 +199,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
             <span class="material-icon" aria-label="Information" role="img"
               >info</span
             >
-            <span>
+            <span class="warning-text">
               Code Review vote is only available on the individual change page
             </span>
           </div>
@@ -244,7 +244,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
         <span class="material-icon filled" role="img" aria-label="Error"
           >error</span
         >
-        <span>
+        <span class="error-text">
           <!-- prettier-ignore -->
           Failed to vote on ${pluralize(
             Array.from(this.progressByChange.values()).filter(

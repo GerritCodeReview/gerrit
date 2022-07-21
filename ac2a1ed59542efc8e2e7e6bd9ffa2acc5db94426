@@ -16,6 +16,24 @@
       "message": "Is it better to make this fail instead of silently ignoring adding the CC?",
       "revId": "ac2a1ed59542efc8e2e7e6bd9ffa2acc5db94426",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d926c11_f4855c14",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 4807,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-21T12:27:14Z",
+      "side": 1,
+      "message": "I didn\u0027t make up my mind about this yet. Basically I was wondering what the behaviour was, which is why I wrote this test to find out.\n\nThis means I would be open to changing this if we have reason. But changing this is not in scope for this change.",
+      "parentUuid": "ee460ca4_888108c6",
+      "revId": "ac2a1ed59542efc8e2e7e6bd9ffa2acc5db94426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

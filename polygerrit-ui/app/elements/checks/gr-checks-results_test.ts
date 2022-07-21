@@ -160,7 +160,7 @@ suite('gr-checks-results test', () => {
                 <span
                   aria-label="Fake Bug Report 1"
                   class="material-icon filled link"
-                  >bug
+                  >bug_report
                 </span>
                 <paper-tooltip offset="5"> </paper-tooltip>
               </a>

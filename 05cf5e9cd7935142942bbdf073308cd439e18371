@@ -16,6 +16,46 @@
       "message": "LGTM, @David, @Nasser WDYT?",
       "revId": "05cf5e9cd7935142942bbdf073308cd439e18371",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2168ef06_00f848bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-07-21T04:39:53Z",
+      "side": 1,
+      "message": "Nice.",
+      "revId": "05cf5e9cd7935142942bbdf073308cd439e18371",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97a1ca35_307b9923",
+        "filename": "java/com/google/gerrit/server/git/DelegateRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-07-21T04:39:53Z",
+      "side": 1,
+      "message": "This was already done in another change and cherry-picked to stable-3.4 branch. Instead also doing it here, we should rather cherry-pick this change: [1] to stable-3.2 branch.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/340056",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 39,
+        "endChar": 8
+      },
+      "revId": "05cf5e9cd7935142942bbdf073308cd439e18371",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

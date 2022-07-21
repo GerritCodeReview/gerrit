@@ -116,8 +116,20 @@ public class TestGroupBackend implements GroupBackend {
     return uuid == null ? null : groups.get(uuid);
   }
 
+  private boolean isTestUUID(AccountGroup.UUID uuid) {
+    return uuid.get().startsWith(PREFIX);
+  }
+
   @Override
   public Collection<GroupReference> suggest(String name, ProjectState project) {
+    AccountGroup.UUID uuid = AccountGroup.uuid(name);
+    if (isTestUUID(uuid)) {
+      GroupDescription.Basic g = get(uuid);
+      if (g == null) {
+        return ImmutableList.of();
+      }
+      return ImmutableList.of(GroupReference.forGroup(g));
+    }
     return ImmutableList.of();
   }
 

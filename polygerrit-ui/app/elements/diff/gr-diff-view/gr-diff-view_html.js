@@ -71,7 +71,7 @@ export const htmlTemplate = html`
       padding: 0 var(--spacing-xs);
     }
     .reviewed {
-      display: inline-block;
+      display: var(--reviewed-display);
       margin: 0 var(--spacing-xs);
       vertical-align: 0.15em;
     }

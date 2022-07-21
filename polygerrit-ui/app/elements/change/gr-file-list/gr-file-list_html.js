@@ -186,10 +186,12 @@ export const htmlTemplate = html`
       opacity: 0;
       justify-content: flex-end;
       width: 100%;
+      display: var(--reviewed-display);
     }
     .reviewed label:hover {
       cursor: pointer;
       opacity: 100;
+      display: var(--reviewed-display);
     }
     .row:focus {
       outline: none;
@@ -206,15 +208,22 @@ export const htmlTemplate = html`
       color: var(--deemphasized-text-color);
       margin-right: var(--spacing-l);
       opacity: 0;
+      display: var(--reviewed-display);
     }
     .reviewedLabel.isReviewed {
       display: initial;
       opacity: 100;
+      display: var(--reviewed-display);
     }
     .editFileControls {
       width: 7em;
     }
-    .markReviewed,
+    .markReviewed {
+      display: var(--reviewed-display);
+      margin: -2px 0;
+      padding: var(--spacing-s) 0;
+      text-decoration: none;
+    }
     .pathLink {
       display: inline-block;
       margin: -2px 0;

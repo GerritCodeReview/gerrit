@@ -36,7 +36,7 @@ public class DelegateRepository extends Repository {
     this.delegate = delegate;
   }
 
-  Repository delegate() {
+  public Repository delegate() {
     return delegate;
   }
 

@@ -38,6 +38,7 @@ html {
   --primary-button-text-color: white;
     /* Used on text color for change list that doesn't need user's attention. */
   --reviewed-text-color: black;
+  --reviewed-display: inline-block;
   --tooltip-text-color: white;
   --vote-text-color-recommended: #388e3c;
   --vote-text-color-disliked: #d32f2f;

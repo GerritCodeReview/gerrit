@@ -5,7 +5,6 @@
  */
 import {Observable} from 'rxjs';
 import {filter, take} from 'rxjs/operators';
-import {assertIsDefined} from './common-util';
 
 /**
  * @param fn An iteratee function to be passed each element of
@@ -106,25 +105,18 @@ export function debounce(
 export const DELAYED_CANCELLATION = Symbol('Delayed Cancellation');
 
 export class DelayedPromise<T> extends Promise<T> {
-  private readonly resolve: (value: PromiseLike<T> | T) => void;
+  private resolve!: (value: PromiseLike<T> | T) => void;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private readonly reject: (reason?: any) => void;
+  private reject!: (reason?: any) => void;
 
   private timer: number | undefined;
 
   constructor(private readonly callback: () => Promise<T>, waitMs = 0) {
-    let resolve: ((value: PromiseLike<T> | T) => void) | undefined;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let reject: ((reason?: any) => void) | undefined;
     super((res, rej) => {
-      resolve = res;
-      reject = rej;
+      this.resolve = res;
+      this.reject = rej;
     });
-    assertIsDefined(resolve);
-    assertIsDefined(reject);
-    this.resolve = resolve;
-    this.reject = reject;
     this.timer = window.setTimeout(async () => {
       await this.flush();
     }, waitMs);
@@ -167,11 +159,11 @@ export class DelayedPromise<T> extends Promise<T> {
   //    that default behaviour by redefining its @@species property.
   // NOTE: This is required otherwise .then and .catch on a DelayedPromise
   // will try to instantiate a DelayedPromise with 'resolve, reject' arguments.
-  static get [Symbol.species]() {
+  static override get [Symbol.species]() {
     return Promise;
   }
 
-  get [Symbol.toStringTag]() {
+  override get [Symbol.toStringTag]() {
     return 'DelayedPromise';
   }
 }

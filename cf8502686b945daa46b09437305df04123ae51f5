@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "676b3cfd_5bd6c984",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-21T13:52:28Z",
+      "side": 1,
+      "message": "I checked it on my computer on change with 5000 files. Everything was stuck for 10-20seconds but then everything was ok. ",
+      "revId": "cf8502686b945daa46b09437305df04123ae51f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": false,
       "key": {
         "uuid": "AAACQH////0\u003d",
         "filename": "/COMMIT_MSG",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "I suppose you do that by capturing a group (the number one group) in the GitOverHttpServlet.URL_REGEX?\n\nCouldn\u0027t find any official Guice docs mentioning this feature.",
       "revId": "ac59f1eeda6b43a17f5256b7cbaf589b93a603dc",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "AAACRn////Y\u003d",
         "filename": "/COMMIT_MSG",
@@ -32,8 +33,24 @@
       "message": "Yes. Its apparently not documented, but on a serveRegex() capture group one is returned from getPathInfo().\n\nThis is why I was having trouble with the code before and had to wrap the request to make JGit happy. JGit\u0027s support was partially built around this assumption, that it is either bound as a standard servlet like \"/git/*\" where getPathInfo() provides the remainder, or that it was bound inside of Guice where serveRegex() can provide the group.",
       "parentUuid": "AAACQH////0\u003d",
       "revId": "ac59f1eeda6b43a17f5256b7cbaf589b93a603dc",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce75b5ed_0b51fe3f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1150246
+      },
+      "writtenOn": "2022-07-21T01:14:51Z",
+      "side": 1,
+      "message": " \nbug_report\nsearch\nSign in\nMerged\n31352\n: \nCleanup the binding of Git into the URL space\n\nBase\n→\n\n2 (1 comment)\nac59f1e\nIncluded In:\nFilter\nBranches:\nmasterstable-2.10stable-2.11stable-2.12stable-2.13stable-2.14stable-2.14-2020-11.notedb-refs-tagsstable-2.15stable-2.15-2020-11.notedb-refs-tagsstable-2.15-issue-13858stable-2.16stable-2.16-2020-11.notedb-refs-tagsstable-2.16-issue-13858stable-2.4stable-2.5stable-2.6stable-2.7stable-2.8stable-2.9stable-3.0stable-3.0-2020-11.notedb-refs-tagsstable-3.0-issue-13858stable-3.1stable-3.1-2020-11.notedb-refs-tagsstable-3.1-2021-07stable-3.1-issue-13858stable-3.2stable-3.2-2020-11.notedb-refs-tagsstable-3.2-2021-07stable-3.2-issue-13858stable-3.3stable-3.3-2021-07stable-3.3-issue-13858stable-3.3-issue-15563stable-3.4stable-3.4-2021-07stable-3.5stable-3.6\nTags:\nv2.10v2.10-rc0v2.10-rc1v2.10-rc2v2.10.1v2.10.2v2.10.3v2.10.3.1v2.10.4v2.10.5v2.10.6v2.10.7v2.10.8v2.11v2.11-rc0v2.11-rc1v2.11-rc2v2.11.1v2.11.10v2.11.11v2.11.12v2.11.2v2.11.3v2.11.4v2.11.5v2.11.6v2.11.7v2.11.8v2.11.9v2.12v2.12-rc0v2.12-rc1v2.12-rc2v2.12.1v2.12.2v2.12.3v2.12.4v2.12.5v2.12.6v2.12.7v2.12.8v2.12.9v2.13v2.13",
+      "revId": "ac59f1eeda6b43a17f5256b7cbaf589b93a603dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

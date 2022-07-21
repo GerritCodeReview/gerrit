@@ -18,11 +18,12 @@ import {
 import {addShortcut, Key} from '../../../utils/dom-util';
 import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 import {fire} from '../../../utils/event-util';
-import {LitElement, css, html} from 'lit';
+import {LitElement, css, html, nothing} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {PropertyValues} from 'lit';
 import {classMap} from 'lit/directives/class-map';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 const MAX_ITEMS_DROPDOWN = 10;
 
@@ -102,6 +103,8 @@ export class GrTextarea extends LitElement {
 
   // Accessed in tests.
   readonly reporting = getAppContext().reportingService;
+
+  private readonly flagsService = getAppContext().flagsService;
 
   private disableEnterKeyForSelectingSuggestion = false;
 
@@ -207,16 +210,8 @@ export class GrTextarea extends LitElement {
       hiddenText in order to correctly position the dropdown. After being moved,
       it is set as the positionTarget for the emojiSuggestions dropdown. -->
       <span id="caratSpan"></span>
-      <gr-autocomplete-dropdown
-        id="emojiSuggestions"
-        .suggestions=${this.suggestions}
-        .horizontalOffset=${20}
-        .verticalOffset=${20}
-        vertical-align="top"
-        horizontal-align="left"
-        @dropdown-closed=${this.resetEmojiDropdown}
-        @item-selected=${this.handleEmojiSelect}
-      >
+      ${this.renderEmojiDropdown()}
+      ${this.renderReviewerDropdown()}
       </gr-autocomplete-dropdown>
       <iron-autogrow-textarea
         id="textarea"
@@ -233,6 +228,35 @@ export class GrTextarea extends LitElement {
         @bind-value-changed=${this.onValueChanged}
       ></iron-autogrow-textarea>
     `;
+  }
+
+  private renderEmojiDropdown() {
+    return html`
+      <gr-autocomplete-dropdown
+        id="emojiSuggestions"
+        .suggestions=${this.suggestions}
+        .horizontalOffset=${20}
+        .verticalOffset=${20}
+        vertical-align="top"
+        horizontal-align="left"
+        @dropdown-closed=${this.resetEmojiDropdown}
+        @item-selected=${this.handleEmojiSelect}
+      >
+      </gr-autocomplete-dropdown>
+    `;
+  }
+
+  private renderReviewerDropdown() {
+    if (!this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS))
+      return nothing;
+    return html` <gr-autocomplete-dropdown
+      id="reviewerSuggestions"
+      vertical-align="top"
+      horizontal-align="left"
+      .horizontalOffset=${20}
+      .verticalOffset=${20}
+      role="listbox"
+    ></gr-autocomplete-dropdown>`;
   }
 
   override willUpdate(changedProperties: PropertyValues) {

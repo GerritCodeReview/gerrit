@@ -36,7 +36,7 @@ export function iconForLink(linkIcon?: LinkIcon): ChecksIcon {
     case LinkIcon.HELP_PAGE:
       return {name: 'help'};
     case LinkIcon.REPORT_BUG:
-      return {name: 'bug', filled: true};
+      return {name: 'bug_report', filled: true};
     case LinkIcon.CODE:
       return {name: 'code'};
     case LinkIcon.FILE_PRESENT:

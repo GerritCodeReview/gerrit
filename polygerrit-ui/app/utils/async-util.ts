@@ -106,10 +106,10 @@ export function debounce(
 export const DELAYED_CANCELLATION = Symbol('Delayed Cancellation');
 
 export class DelayedPromise<T> extends Promise<T> {
-  private readonly resolve: (value: PromiseLike<T> | T) => void;
+  private resolve: (value: PromiseLike<T> | T) => void;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private readonly reject: (reason?: any) => void;
+  private reject: (reason?: any) => void;
 
   private timer: number | undefined;
 
@@ -167,11 +167,11 @@ export class DelayedPromise<T> extends Promise<T> {
   //    that default behaviour by redefining its @@species property.
   // NOTE: This is required otherwise .then and .catch on a DelayedPromise
   // will try to instantiate a DelayedPromise with 'resolve, reject' arguments.
-  static get [Symbol.species]() {
+  static override get [Symbol.species]() {
     return Promise;
   }
 
-  get [Symbol.toStringTag]() {
+  override get [Symbol.toStringTag]() {
     return 'DelayedPromise';
   }
 }

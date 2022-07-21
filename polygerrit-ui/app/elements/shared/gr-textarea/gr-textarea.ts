@@ -70,6 +70,8 @@ export class GrTextarea extends LitElement {
 
   @query('#emojiSuggestions') emojiSuggestions?: GrAutocompleteDropdown;
 
+  @query('#mentionsSuggestions') mentionsSuggestions?: GrAutocompleteDropdown;
+
   @query('#caratSpan', true) caratSpan?: HTMLSpanElement;
 
   @query('#hiddenText') hiddenText?: HTMLDivElement;
@@ -94,6 +96,10 @@ export class GrTextarea extends LitElement {
   /** Text input should be rendered in code font, which is smaller than the
     standard monospace font. */
   @property({type: Boolean}) code = false;
+
+  @state() atIndex: number | null = null;
+
+  @state() mentions: Item[] = [];
 
   @state() colonIndex: number | null = null;
 
@@ -211,7 +217,7 @@ export class GrTextarea extends LitElement {
       it is set as the positionTarget for the emojiSuggestions dropdown. -->
       <span id="caratSpan"></span>
       ${this.renderEmojiDropdown()}
-      ${this.renderReviewerDropdown()}
+      ${this.renderMentionsDropdown()}
       </gr-autocomplete-dropdown>
       <iron-autogrow-textarea
         id="textarea"
@@ -239,18 +245,18 @@ export class GrTextarea extends LitElement {
         .verticalOffset=${20}
         vertical-align="top"
         horizontal-align="left"
-        @dropdown-closed=${this.resetEmojiDropdown}
+        @dropdown-closed=${this.resetDropdown}
         @item-selected=${this.handleEmojiSelect}
       >
       </gr-autocomplete-dropdown>
     `;
   }
 
-  private renderReviewerDropdown() {
+  private renderMentionsDropdown() {
     if (!this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS))
       return nothing;
     return html` <gr-autocomplete-dropdown
-      id="reviewerSuggestions"
+      id="mentionsSuggestions"
       vertical-align="top"
       horizontal-align="left"
       .horizontalOffset=${20}
@@ -289,11 +295,16 @@ export class GrTextarea extends LitElement {
 
   private getVisibleDropdown() {
     if (!this.isDropdownVisible()) throw new Error('no dropdown visible');
-    return this.emojiSuggestions!;
+    if (this.emojiSuggestions && !this.emojiSuggestions.isHidden)
+      return this.emojiSuggestions;
+    return this.mentionsSuggestions!;
   }
 
   private isDropdownVisible() {
-    return this.emojiSuggestions && !this.emojiSuggestions.isHidden;
+    return (
+      (this.emojiSuggestions && !this.emojiSuggestions.isHidden) ||
+      (this.mentionsSuggestions && !this.mentionsSuggestions.isHidden)
+    );
   }
 
   private handleEscKey(e: KeyboardEvent) {
@@ -302,7 +313,7 @@ export class GrTextarea extends LitElement {
     }
     e.preventDefault();
     e.stopPropagation();
-    this.resetEmojiDropdown();
+    this.resetDropdown();
   }
 
   private handleUpKey(e: KeyboardEvent) {
@@ -374,7 +385,7 @@ export class GrTextarea extends LitElement {
     this.textarea!.selectionStart = colonIndex + 1;
     this.textarea!.selectionEnd = colonIndex + 1;
     this.reporting.reportInteraction('select-emoji', {type: text});
-    this.resetEmojiDropdown();
+    this.resetDropdown();
   }
 
   private addValueToText(value: string) {
@@ -403,11 +414,15 @@ export class GrTextarea extends LitElement {
 
     const caratSpan = this.caratSpan!;
     this.hiddenText!.appendChild(caratSpan);
-    this.emojiSuggestions!.positionTarget = caratSpan;
-    this.openEmojiDropdown();
+    return caratSpan;
   }
 
-  private shouldResetDropdown(text: string, charIndex: number) {
+  private shouldResetDropdown(
+    text: string,
+    charIndex: number,
+    suggestions?: Item[],
+    char?: string
+  ) {
     // Under any of the following conditions, close and reset the dropdown:
     // - The cursor is no longer at the end of the current search string
     // - The search string is an space or new line
@@ -418,10 +433,52 @@ export class GrTextarea extends LitElement {
         (this.currentSearchString ?? '').length + charIndex + 1 ||
       this.currentSearchString === ' ' ||
       this.currentSearchString === '\n' ||
-      !(text[charIndex] === ':') ||
-      !this.suggestions ||
-      !this.suggestions.length
+      !(text[charIndex] === char) ||
+      !suggestions ||
+      !suggestions.length
     );
+  }
+
+  // When special char is detected, set index. We are interested only on
+  // special char after space or in beginning of textarea
+  private getIndex(text: string) {
+    if (
+      this.textarea!.selectionStart < 2 ||
+      text[this.textarea!.selectionStart - 2] === ' '
+    ) {
+      return this.textarea!.selectionStart - 1;
+    }
+    return null;
+  }
+
+  private openOrResetDropdown(
+    activeDropdown: GrAutocompleteDropdown,
+    text: string,
+    charIndex: number,
+    specialChar: string
+  ) {
+    this.currentSearchString = text.substr(
+      charIndex + 1,
+      this.textarea!.selectionStart - charIndex - 1
+    );
+    let suggestions: Item[] = [];
+    if (specialChar === ':') {
+      this.determineSuggestions(this.currentSearchString);
+      suggestions = this.suggestions;
+    } else {
+      suggestions = this.mentions;
+    }
+
+    if (this.shouldResetDropdown(text, charIndex, suggestions, specialChar)) {
+      this.resetDropdown();
+    } else if (activeDropdown.isHidden) {
+      // Otherwise open the dropdown and set the position to be just below the
+      // cursor.
+      activeDropdown.positionTarget = this.updateCaratPosition();
+      // we need separate open methods here for reporting
+      if (specialChar === '@') this.openMentionsDropdown();
+      else this.openEmojiDropdown();
+    }
   }
 
   /**
@@ -445,44 +502,49 @@ export class GrTextarea extends LitElement {
       e.detail && e.detail.value
         ? e.detail.value[this.textarea!.selectionStart - 1]
         : '';
-    if (charAtCursor !== ':' && this.colonIndex === null) {
-      return;
-    }
 
     const text = e.detail.value ?? '';
 
-    // When a colon is detected, set a colon index. We are interested only on
-    // colons after space or in beginning of textarea
-    if (charAtCursor === ':') {
-      if (
-        this.textarea!.selectionStart < 2 ||
-        text[this.textarea!.selectionStart - 2] === ' '
-      ) {
-        this.colonIndex = this.textarea!.selectionStart - 1;
-      }
+    if (charAtCursor === ':' && this.atIndex === null) {
+      this.colonIndex = this.getIndex(text);
     }
-    if (this.colonIndex === null) {
+    if (this.colonIndex !== null) {
+      this.openOrResetDropdown(
+        this.emojiSuggestions!,
+        text,
+        this.colonIndex,
+        ':'
+      );
       return;
     }
 
-    this.currentSearchString = text.substr(
-      this.colonIndex + 1,
-      this.textarea!.selectionStart - this.colonIndex - 1
-    );
-    this.determineSuggestions(this.currentSearchString);
-    if (this.shouldResetDropdown(text, this.colonIndex)) {
-      this.resetEmojiDropdown();
-    } else if (this.emojiSuggestions!.isHidden) {
-      // Otherwise open the dropdown and set the position to be just below the
-      // cursor.
-      this.updateCaratPosition();
+    this.textarea!.textarea.focus();
+
+    if (!this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) return;
+
+    if (charAtCursor === '@') {
+      this.atIndex = this.getIndex(text);
     }
+    if (this.atIndex !== null) {
+      this.openOrResetDropdown(
+        this.mentionsSuggestions!,
+        text,
+        this.atIndex,
+        '@'
+      );
+    }
+
     this.textarea!.textarea.focus();
   }
 
   private openEmojiDropdown() {
     this.emojiSuggestions!.open();
     this.reporting.reportInteraction('open-emoji-dropdown');
+  }
+
+  private openMentionsDropdown() {
+    this.mentionsSuggestions!.open();
+    this.reporting.reportInteraction('open-mentions-dropdown');
   }
 
   // private but used in test
@@ -511,11 +573,12 @@ export class GrTextarea extends LitElement {
   }
 
   // private but used in test
-  resetEmojiDropdown() {
+  resetDropdown() {
     // hide and reset the autocomplete dropdown.
     this.requestUpdate();
     this.currentSearchString = '';
     this.closeDropdown();
+    this.atIndex = null;
     this.colonIndex = null;
     this.textarea!.textarea.focus();
   }

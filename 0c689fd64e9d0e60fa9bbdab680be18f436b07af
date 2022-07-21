@@ -50,6 +50,69 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "af62a17d_a4410134",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2147,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-07-21T09:29:43Z",
+      "side": 1,
+      "message": "content is missing quotes?",
+      "range": {
+        "startLine": 2146,
+        "startChar": 3,
+        "endLine": 2147,
+        "endChar": 13
+      },
+      "revId": "0c689fd64e9d0e60fa9bbdab680be18f436b07af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b436ce5d_a5937a9c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2171,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-07-21T09:29:43Z",
+      "side": 1,
+      "message": "normally, the subject/commit message comes from the patch preable (what comes before the \u0027diff\u0027  lines)\n\nI\u0027m not sure if this is implemented, but this seems inconsistent with the input in l.2147, because the input doesn\u0027t say \"Feature X\"",
+      "revId": "0c689fd64e9d0e60fa9bbdab680be18f436b07af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2594bcd3_1faa1c28",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 6488,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-07-21T09:29:43Z",
+      "side": 1,
+      "message": "normally, git-format-patch is the standard format, but maybe better refer to the output of the \"download patch\" command?",
+      "range": {
+        "startLine": 6488,
+        "startChar": 48,
+        "endLine": 6488,
+        "endChar": 59
+      },
+      "revId": "0c689fd64e9d0e60fa9bbdab680be18f436b07af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d4350ac2_03cc8641",
         "filename": "java/com/google/gerrit/extensions/api/changes/ApplyPatchInput.java",
         "patchSetId": 5
@@ -90,6 +153,46 @@
         "startChar": 9,
         "endLine": 23,
         "endChar": 28
+      },
+      "revId": "0c689fd64e9d0e60fa9bbdab680be18f436b07af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "588503d8_bdd0f989",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-07-21T09:29:43Z",
+      "side": 1,
+      "message": "you can probably already add the permission checking.",
+      "revId": "0c689fd64e9d0e60fa9bbdab680be18f436b07af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e9ac46f_443f003b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ApplyPatchIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-07-21T09:29:43Z",
+      "side": 1,
+      "message": "here, it\u0027s probably best to use the download command to obtain a patch (because that\u0027s how the Android team wants to use this end point)",
+      "range": {
+        "startLine": 34,
+        "startChar": 4,
+        "endLine": 34,
+        "endChar": 58
       },
       "revId": "0c689fd64e9d0e60fa9bbdab680be18f436b07af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

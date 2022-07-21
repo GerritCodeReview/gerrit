@@ -985,7 +985,7 @@ export class GrFileList extends LitElement {
           showPrependedDynamicColumns
         ),
       initialCount: this.fileListIncrement,
-      targetFrameRate: 30,
+      targetFrameRate: 1,
     });
   }
 

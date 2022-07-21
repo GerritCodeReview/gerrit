@@ -68,6 +68,7 @@ import {when} from 'lit/directives/when';
 import {grSyntaxTheme} from '../gr-syntax-themes/gr-syntax-theme';
 import {grRangedCommentTheme} from '../gr-ranged-comment-themes/gr-ranged-comment-theme';
 import {classMap} from 'lit/directives/class-map';
+import { iconStyles } from '../../../styles/gr-icon-styles';
 
 const NO_NEWLINE_LEFT = 'No newline at end of left file.';
 const NO_NEWLINE_RIGHT = 'No newline at end of right file.';
@@ -268,6 +269,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
   static override get styles() {
     return [
+      iconStyles,
       sharedStyles,
       grSyntaxTheme,
       grRangedCommentTheme,
@@ -790,8 +792,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
           font-size: var(--font-size-normal, 14px);
           line-height: var(--line-height-normal);
         }
-        /* TODO: Is this still used? */
-        td.lost iron-icon {
+        td.lost .material-icon {
           padding: 0 var(--spacing-s) 0 var(--spacing-m);
           color: var(--blue-700);
         }

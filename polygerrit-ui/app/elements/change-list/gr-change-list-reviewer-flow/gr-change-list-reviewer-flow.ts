@@ -140,9 +140,9 @@ export class GrChangeListReviewerFlow extends LitElement {
         .warning + .warning {
           margin-top: var(--spacing-s);
         }
-        .material-icon {
-          color: var(--orange-800);
-          font-size: 18px;
+        gr-icon {
+          --icon-color: var(--orange-800);
+          --icon--size: 18px;
         }
         gr-overlay#confirm-cc,
         gr-overlay#confirm-reviewer {
@@ -309,9 +309,7 @@ export class GrChangeListReviewerFlow extends LitElement {
     }
     return html`
       <div class="error">
-        <span class="material-icon filled" role="img" aria-label="Error"
-          >error</span
-        >
+        <gr-icon icon="error" filled role="img" aria-label="Error"></gr-icon>
         Failed to add ${listForSentence(failedAccounts)} to changes.
       </div>
     `;
@@ -335,9 +333,12 @@ export class GrChangeListReviewerFlow extends LitElement {
       updatedReviewerState === ReviewerState.CC ? 'CC' : 'reviewer';
     return html`
       <div class="warning">
-        <span class="material-icon filled" role="img" aria-label="Warning"
-          >warning</span
-        >
+        <gr-icon
+          icon="warning"
+          filled
+          role="img"
+          aria-label="Warning"
+        ></gr-icon>
         ${listForSentence(overwrittenNames)} ${pluralizedVerb} ${currentLabel}
         on some selected changes and will be moved to ${updatedLabel} on all
         changes.

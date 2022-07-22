@@ -5,6 +5,7 @@
  */
 import '../../../styles/shared-styles';
 import '../../shared/gr-dialog/gr-dialog';
+import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-overlay/gr-overlay';
 import '../../../embed/diff/gr-diff/gr-diff';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
@@ -30,7 +31,6 @@ import {css, html, LitElement} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {subscribe} from '../../lit/subscription-controller';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 interface FilePreview {
   filepath: string;
@@ -190,14 +190,14 @@ export class GrApplyFixDialog extends LitElement {
           @click=${this.onPrevFixClick}
           ?disabled=${id === 0}
         >
-          <span class="material-icon">chevron_left</span>
+          <gr-icon icon="chevron_left"></gr-icon>
         </gr-button>
         <gr-button
           id="nextFix"
           @click=${this.onNextFixClick}
           ?disabled=${id === fixCount - 1}
         >
-          <span class="material-icon">chevron_right</span>
+          <gr-icon icon="chevron_right"></gr-icon>
         </gr-button>
       </div>
     `;

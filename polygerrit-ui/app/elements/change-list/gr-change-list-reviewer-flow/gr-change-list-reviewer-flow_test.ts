@@ -683,15 +683,15 @@ suite('gr-change-list-reviewer-flow tests', () => {
                   </gr-overlay>
                 </div>
                 <div class="warning">
-                  <span class="material-icon filled" role="img"
-                  aria-label="Warning">warning</span>
+                  <gr-icon icon="warning" filled role="img" aria-label="Warning"
+                  ></gr-icon>
                   User-1 is a reviewer
         on some selected changes and will be moved to CC on all
         changes.
                 </div>
                 <div class="warning">
-                  <span class="material-icon filled"role="img"
-                  aria-label="Warning">warning</span>
+                  <gr-icon icon="warning" filled role="img" aria-label="Warning"
+                  ></gr-icon>
                   User-4 is a CC
         on some selected changes and will be moved to reviewer on all
         changes.
@@ -804,7 +804,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
                   </gr-overlay>
                 </div>
                 <div class="error">
-                  <span class="material-icon filled" role="img" aria-label="Error">error</span>
+                  <gr-icon icon="error" filled role="img" aria-label="Error">error</gr-icon>
                   Failed to add User-0, User-2, Group 0, and User-3 to changes.
                 </div>
               </div>

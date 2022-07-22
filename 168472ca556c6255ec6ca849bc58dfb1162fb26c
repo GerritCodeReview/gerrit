@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "339f593a_6b5f1c23",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-22T09:55:13Z",
+      "side": 1,
+      "message": "We need to be careful here. If this link is linking to change id, we prefer same tab, because that triggers internal navigation which is 3x faster.",
+      "range": {
+        "startLine": 357,
+        "startChar": 26,
+        "endLine": 357,
+        "endChar": 27
+      },
+      "revId": "168472ca556c6255ec6ca849bc58dfb1162fb26c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

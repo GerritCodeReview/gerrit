@@ -354,7 +354,7 @@ export class GrFormattedText extends LitElement {
   }
 
   private renderLink(text: string, url: string): TemplateResult {
-    return html`<a href=${url}>${text}</a>`;
+    return html`<a target="_blank" href=${url}>${text}</a>`;
   }
 
   private renderInlineCode(text: string): TemplateResult {

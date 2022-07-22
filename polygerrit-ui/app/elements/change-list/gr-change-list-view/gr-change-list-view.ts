@@ -131,8 +131,8 @@ export class GrChangeListView extends LitElement {
           margin-right: 20px;
           color: var(--deemphasized-text-color);
         }
-        .material-icon {
-          font-size: 1.85rem;
+        gr-icon {
+          --icon-size: 1.85rem;
           margin-left: 16px;
         }
         .hide {
@@ -210,7 +210,7 @@ export class GrChangeListView extends LitElement {
 
     return html`
       <a id="prevArrow" href=${this.computeNavLink(-1)}>
-        <span class="material-icon" aria-label="Older">chevron_left</span>
+        <gr-icon icon="chevron_left" aria-label="Older"></gr-icon>
       </a>
     `;
   }
@@ -226,7 +226,7 @@ export class GrChangeListView extends LitElement {
 
     return html`
       <a id="nextArrow" href=${this.computeNavLink(1)}>
-        <span class="material-icon" aria-label="Newer">chevron_right</span>
+        <gr-icon icon="chevron_right" aria-label="Newer"></gr-icon>
       </a>
     `;
   }

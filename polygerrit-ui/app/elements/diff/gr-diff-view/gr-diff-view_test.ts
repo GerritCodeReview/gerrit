@@ -572,7 +572,7 @@ suite('gr-diff-view tests', () => {
                       role="button"
                       tabindex="0"
                     >
-                      <span class="filled material-icon">settings</span>
+                      <gr-icon icon="settings" filled></gr-icon>
                     </gr-button>
                   </gr-tooltip-content>
                 </span>

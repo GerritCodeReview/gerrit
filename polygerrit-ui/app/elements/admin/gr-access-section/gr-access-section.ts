@@ -5,6 +5,7 @@
  */
 import '@polymer/iron-input/iron-input';
 import '../../shared/gr-button/gr-button';
+import '../../shared/gr-icon/gr-icon';
 import '../gr-permission/gr-permission';
 import {
   AccessPermissions,
@@ -32,7 +33,6 @@ import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 /**
  * Fired when the section has been modified or removed.
@@ -103,7 +103,6 @@ export class GrAccessSection extends LitElement {
     return [
       formStyles,
       fontStyles,
-      iconStyles,
       sharedStyles,
       css`
         :host {
@@ -180,7 +179,7 @@ export class GrAccessSection extends LitElement {
                 class=${this.section?.id === GLOBAL_NAME ? 'global' : ''}
                 @click=${this.editReference}
               >
-                <span class="material-icon" id="icon">edit</span>
+                <gr-icon id="icon" icon="edit"></gr-icon>
               </gr-button>
             </div>
             <iron-input

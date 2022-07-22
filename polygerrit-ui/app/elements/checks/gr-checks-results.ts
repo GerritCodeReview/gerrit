@@ -599,6 +599,7 @@ class GrResultExpanded extends LitElement {
 
   static override get styles() {
     return [
+      iconStyles,
       sharedStyles,
       css`
         .links {

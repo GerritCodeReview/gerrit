@@ -7,6 +7,7 @@ import '../../shared/gr-account-label/gr-account-label';
 import '../../shared/gr-change-star/gr-change-star';
 import '../../shared/gr-change-status/gr-change-status';
 import '../../shared/gr-date-formatter/gr-date-formatter';
+import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-limited-text/gr-limited-text';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
@@ -41,7 +42,6 @@ import {ColumnNames, WAITING} from '../../../constants/constants';
 import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 enum ChangeSize {
   XS = 10,
@@ -153,7 +153,6 @@ export class GrChangeListItem extends LitElement {
   static override get styles() {
     return [
       changeListStyles,
-      iconStyles,
       sharedStyles,
       submitRequirementsStyles,
       css`
@@ -266,7 +265,7 @@ export class GrChangeListItem extends LitElement {
         .cell.label {
           font-weight: var(--font-weight-normal);
         }
-        .cell.label .material-icon {
+        .cell.label gr-icon {
           vertical-align: top;
         }
         /* Requirement child needs whole area */
@@ -463,7 +462,7 @@ export class GrChangeListItem extends LitElement {
     return html`
       <td class="cell comments">
         ${this.change?.unresolved_comment_count
-          ? html`<span class="material-icon filled">mode_comment</span>`
+          ? html`<gr-icon icon="mode_comment" filled></gr-icon>`
           : ''}
         <span
           >${this.computeComments(this.change?.unresolved_comment_count)}</span

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3855c09e_a5f1d8bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-07-22T09:22:48Z",
+      "side": 1,
+      "message": "Looks like the buganizer link is wrong: \"Issue does not exist\" (though I don\u0027t know if lack of permissions looks the same)",
+      "revId": "88b8c9faaf57ffa5eb288c462035b15cb5c124ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

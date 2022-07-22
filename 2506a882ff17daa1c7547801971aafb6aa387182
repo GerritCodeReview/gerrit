@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "16a820b1_b865efa0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-22T13:03:52Z",
+      "side": 1,
+      "message": "PTAL",
+      "revId": "2506a882ff17daa1c7547801971aafb6aa387182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "87e0263a_902f1a7a",
@@ -31,6 +48,30 @@
       "writtenOn": "2022-07-22T12:40:16Z",
       "side": 1,
       "message": "Is this a TODO?",
+      "range": {
+        "startLine": 115,
+        "startChar": 10,
+        "endLine": 115,
+        "endChar": 33
+      },
+      "revId": "2506a882ff17daa1c7547801971aafb6aa387182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77a9ec5e_3f1b490d",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-22T13:03:52Z",
+      "side": 1,
+      "message": "This is a question to you. I don\u0027t know what color to set --icon-color to.",
+      "parentUuid": "87e0263a_902f1a7a",
       "range": {
         "startLine": 115,
         "startChar": 10,
@@ -64,6 +105,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb4c90f1_a6bd8374",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-22T13:03:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ecb4b057_45a5ad62",
+      "range": {
+        "startLine": 75,
+        "startChar": 6,
+        "endLine": 75,
+        "endChar": 16
+      },
+      "revId": "2506a882ff17daa1c7547801971aafb6aa387182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "17c7ee0b_60274536",
@@ -77,6 +142,30 @@
       "writtenOn": "2022-07-22T12:40:16Z",
       "side": 1,
       "message": "NIT: Would it possible to make it restrictive type - so it doesn\u0027t happen that we use string for which there is no material icon.",
+      "range": {
+        "startLine": 23,
+        "startChar": 9,
+        "endLine": 23,
+        "endChar": 15
+      },
+      "revId": "2506a882ff17daa1c7547801971aafb6aa387182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08582851_f435b85e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-icon/gr-icon.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-22T13:03:52Z",
+      "side": 1,
+      "message": "Will do as a follow-up.",
+      "parentUuid": "17c7ee0b_60274536",
       "range": {
         "startLine": 23,
         "startChar": 9,
@@ -110,6 +199,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "07449df4_6b8ba54c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-icon/gr-icon.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-22T13:03:52Z",
+      "side": 1,
+      "message": "Good point, this should be removed",
+      "parentUuid": "875ad70a_e1d20b06",
+      "range": {
+        "startLine": 30,
+        "startChar": 6,
+        "endLine": 30,
+        "endChar": 16
+      },
+      "revId": "2506a882ff17daa1c7547801971aafb6aa387182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "67e8359e_6689901f",
@@ -123,6 +236,30 @@
       "writtenOn": "2022-07-22T12:40:16Z",
       "side": 1,
       "message": "This is needed for not being in search? Maybe can you add comment about it.",
+      "range": {
+        "startLine": 52,
+        "startChar": 10,
+        "endLine": 52,
+        "endChar": 29
+      },
+      "revId": "2506a882ff17daa1c7547801971aafb6aa387182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b923658_8923a8df",
+        "filename": "polygerrit-ui/app/elements/shared/gr-icon/gr-icon.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-22T13:03:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67e8359e_6689901f",
       "range": {
         "startLine": 52,
         "startChar": 10,

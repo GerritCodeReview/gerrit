@@ -281,7 +281,7 @@ suite('gr-reply-dialog tests', () => {
                       role="button"
                       tabindex="0"
                     >
-                      <span class="material-icon filled">edit</span>
+                      <gr-icon icon="edit" filled><gr-icon>
                       Modify
                     </gr-button>
                   </gr-tooltip-content>
@@ -291,9 +291,7 @@ suite('gr-reply-dialog tests', () => {
                     href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"
                     target="_blank"
                   >
-                    <span class="material-icon" title="read documentation"
-                      >help</span
-                    >
+                    <gr-icon icon="help" title="read documentation"></gr-icon>
                   </a>
                 </div>
               </div>

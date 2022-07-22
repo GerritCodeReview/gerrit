@@ -213,7 +213,7 @@ suite('gr-apply-fix-dialog tests', () => {
                 role="button"
                 tabindex="-1"
               >
-                <span class="material-icon">chevron_left</span>
+                <gr-icon icon="chevron_left"></gr-icon>
               </gr-button>
               <gr-button
                 aria-disabled="false"
@@ -221,7 +221,7 @@ suite('gr-apply-fix-dialog tests', () => {
                 role="button"
                 tabindex="0"
               >
-                <span class="material-icon">chevron_right</span>
+                <gr-icon icon="chevron_right"></gr-icon>
               </gr-button>
             </div>
           </gr-dialog>

@@ -64,7 +64,7 @@ suite('gr-change-list-column-requirements-summary tests', () => {
     >
       <gr-submit-requirement-dashboard-hovercard>
       </gr-submit-requirement-dashboard-hovercard>
-      <span class="material-icon block" role="img">block</span>
+      <gr-icon class="block" role="img" icon="block"></gr-icon>
       <span class="unsatisfied">1 missing</span>
     </span>`);
   });
@@ -85,13 +85,14 @@ suite('gr-change-list-column-requirements-summary tests', () => {
       >
         <gr-submit-requirement-dashboard-hovercard>
         </gr-submit-requirement-dashboard-hovercard>
-        <span class="material-icon block" role="img">block</span>
+        <gr-icon class="block" role="img" icon="block"></gr-icon>
         <span class="unsatisfied">1 missing</span>
       </span>
-      <span
-        class="commentIcon material-icon filled"
+      <gr-icon
+        class="commentIcon"
+        filled
+        icon="mode_comment"
         title="5 unresolved comments"
-        >mode_comment</span
-      >`);
+      ></gr-icon>`);
   });
 });

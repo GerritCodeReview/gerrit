@@ -5,6 +5,7 @@
  */
 import '../../change/gr-submit-requirement-dashboard-hovercard/gr-submit-requirement-dashboard-hovercard';
 import '../../shared/gr-change-status/gr-change-status';
+import '../../shared/gr-icon/gr-icon';
 import {LitElement, css, html, TemplateResult} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {ChangeInfo, SubmitRequirementStatus} from '../../../api/rest-api';
@@ -16,7 +17,6 @@ import {
 } from '../../../utils/label-util';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
 import {pluralize} from '../../../utils/string-util';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 @customElement('gr-change-list-column-requirements-summary')
 export class GrChangeListColumnRequirementsSummary extends LitElement {
@@ -25,17 +25,16 @@ export class GrChangeListColumnRequirementsSummary extends LitElement {
 
   static override get styles() {
     return [
-      iconStyles,
       submitRequirementsStyles,
       css`
-        .material-icon {
-          font-size: var(--line-height-normal, 20px);
+        gr-icon {
+          --icon-size: var(--line-height-normal, 20px);
         }
-        .material-icon.block,
-        .material-icon.check_circle {
+        gr-icon.block,
+        gr-icon.check_circle {
           margin-right: var(--spacing-xs);
         }
-        .material-icon.commentIcon {
+        gr-icon.commentIcon {
           color: var(--deemphasized-text-color);
           margin-left: var(--spacing-s);
         }
@@ -117,10 +116,12 @@ export class GrChangeListColumnRequirementsSummary extends LitElement {
     return html`<span class=${icon.icon} role="button" tabindex="0">
       <gr-submit-requirement-dashboard-hovercard .change=${this.change}>
       </gr-submit-requirement-dashboard-hovercard>
-      <span
-        class="material-icon ${icon.icon} ${icon.filled ? 'filled' : ''}"
+      <gr-icon
+        class=${icon.icon}
+        icon=${icon.icon}
+        ?filled=${icon.filled}
         role="img"
-        >${icon.icon}</span
+      ></gr-icon
       >${aggregation}</span
     >`;
   }
@@ -131,14 +132,15 @@ export class GrChangeListColumnRequirementsSummary extends LitElement {
 
   renderCommentIcon() {
     if (!this.change?.unresolved_comment_count) return;
-    return html`<span
-      class="commentIcon material-icon filled"
+    return html`<gr-icon
+      class="commentIcon"
+      icon="mode_comment"
+      filled
       .title=${pluralize(
         this.change?.unresolved_comment_count,
         'unresolved comment'
       )}
-      >mode_comment</span
-    >`;
+    ></gr-icon>`;
   }
 }
 

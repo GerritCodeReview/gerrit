@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../shared/gr-button/gr-button';
+import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-label-info/gr-label-info';
 import {customElement, property} from 'lit/decorators';
 import {
@@ -32,7 +33,6 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {CURRENT} from '../../../utils/patch-set-util';
 import {fireReload} from '../../../utils/event-util';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
 const base = HovercardMixin(LitElement);
@@ -59,7 +59,6 @@ export class GrSubmitRequirementHovercard extends base {
   static override get styles() {
     return [
       fontStyles,
-      iconStyles,
       submitRequirementsStyles,
       base.styles || [],
       css`
@@ -98,7 +97,7 @@ export class GrSubmitRequirementHovercard extends base {
         div.sectionIcon {
           flex: 0 0 30px;
         }
-        div.sectionIcon .material-icon {
+        div.sectionIcon gr-icon {
           position: relative;
         }
         .section.condition > .sectionContent {
@@ -112,7 +111,7 @@ export class GrSubmitRequirementHovercard extends base {
         .expression {
           color: var(--gray-foreground);
         }
-        .button .material-icon {
+        .button gr-icon {
           color: inherit;
         }
         div.button {
@@ -137,7 +136,7 @@ export class GrSubmitRequirementHovercard extends base {
       </div>
       <div class="section">
         <div class="sectionIcon">
-          <span class="small material-icon">info</span>
+          <gr-icon class="small" icon="info"></gr-icon>
         </div>
         <div class="sectionContent">
           <div class="row">
@@ -154,12 +153,13 @@ export class GrSubmitRequirementHovercard extends base {
 
   private renderStatus(requirement: SubmitRequirementResultInfo) {
     const icon = iconForRequirement(requirement);
-    return html`<span
-      class="material-icon ${icon.icon} ${icon.filled ? 'filled' : ''}"
+    return html`<gr-icon
+      class=${icon.icon}
+      icon=${icon.icon}
+      ?filled=${icon.filled}
       role="img"
       aria-label=${requirement.status.toLowerCase()}
-      >${icon.icon}</span
-    >`;
+    ></gr-icon>`;
   }
 
   private renderDescription() {
@@ -175,7 +175,7 @@ export class GrSubmitRequirementHovercard extends base {
     if (!description) return;
     return html`<div class="section description">
       <div class="sectionIcon">
-        <span class="material-icon">description</span>
+        <gr-icon icon="description"></gr-icon>
       </div>
       <div class="sectionContent">
         <gr-formatted-text
@@ -238,7 +238,7 @@ export class GrSubmitRequirementHovercard extends base {
         @click=${(_: MouseEvent) => this.toggleConditionsVisibility()}
       >
         ${buttonText}
-        <span class="material-icon">${icon}</span>
+        <gr-icon .icon=${icon}></gr-icon>
       </gr-button>
     </div>`;
   }

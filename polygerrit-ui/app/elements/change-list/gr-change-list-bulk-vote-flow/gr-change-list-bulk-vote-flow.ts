@@ -32,6 +32,7 @@ import {GrLabelScoreRow} from '../../change/gr-label-score-row/gr-label-score-ro
 import {ProgressStatus} from '../../../constants/constants';
 import {fireAlert, fireReload} from '../../../utils/event-util';
 import '../../shared/gr-dialog/gr-dialog';
+import '../../shared/gr-icon/gr-icon';
 import '../../change/gr-label-score-row/gr-label-score-row';
 import {getOverallStatus} from '../../../utils/bulk-flow-util';
 import {allSettled} from '../../../utils/async-util';
@@ -39,7 +40,6 @@ import {pluralize} from '../../../utils/string-util';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {Interaction} from '../../../constants/reporting';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 @customElement('gr-change-list-bulk-vote-flow')
 export class GrChangeListBulkVoteFlow extends LitElement {
@@ -62,7 +62,6 @@ export class GrChangeListBulkVoteFlow extends LitElement {
   static override get styles() {
     return [
       fontStyles,
-      iconStyles,
       css`
         gr-dialog {
           width: 840px;
@@ -97,14 +96,14 @@ export class GrChangeListBulkVoteFlow extends LitElement {
           background-color: var(--error-background);
           margin-top: var(--spacing-l);
         }
-        .code-review-message-container .material-icon,
-        .error-container .material-icon {
+        .code-review-message-container gr-icon,
+        .error-container gr-icon {
           padding: 10px var(--spacing-xl);
         }
-        .error-container .material-icon {
+        .error-container gr-icon {
           color: var(--error-foreground);
         }
-        .code-review-message-container .material-icon {
+        .code-review-message-container gr-icon {
           color: var(--selected-foreground);
         }
         .error-container .error-text,
@@ -196,9 +195,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
       <div class="code-review-message-container">
         <div class="code-review-message-layout-container">
           <div>
-            <span class="material-icon" aria-label="Information" role="img"
-              >info</span
-            >
+            <gr-icon icon="info" aria-label="Information" role="img"></gr-icon>
             <span class="warning-text">
               Code Review vote is only available on the individual change page
             </span>
@@ -241,9 +238,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     }
     return html`
       <div class="error-container">
-        <span class="material-icon filled" role="img" aria-label="Error"
-          >error</span
-        >
+        <gr-icon icon="error" filled role="img" aria-label="Error"></gr-icon>
         <span class="error-text">
           <!-- prettier-ignore -->
           Failed to vote on ${pluralize(

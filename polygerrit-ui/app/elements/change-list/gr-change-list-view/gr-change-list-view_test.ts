@@ -61,7 +61,7 @@ suite('gr-change-list-view tests', () => {
         <nav>
           Page
           <a href="" id="prevArrow">
-            <span class="material-icon" aria-label="Older">chevron_left</span>
+            <gr-icon icon="chevron_left" aria-label="Older"></gr-icon>
           </a>
         </nav>
       </div>

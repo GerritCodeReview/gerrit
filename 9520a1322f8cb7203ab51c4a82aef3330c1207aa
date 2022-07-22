@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f1f6481_ba1b1935",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2022-07-22T01:54:31Z",
+      "side": 1,
+      "message": "s/getNoLimit/isNoLimit ?",
+      "revId": "9520a1322f8cb7203ab51c4a82aef3330c1207aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

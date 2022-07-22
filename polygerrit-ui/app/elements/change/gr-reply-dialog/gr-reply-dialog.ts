@@ -10,6 +10,7 @@ import '../../plugins/gr-endpoint-slot/gr-endpoint-slot';
 import '../../shared/gr-account-chip/gr-account-chip';
 import '../../shared/gr-textarea/gr-textarea';
 import '../../shared/gr-button/gr-button';
+import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-formatted-text/gr-formatted-text';
 import '../../shared/gr-overlay/gr-overlay';
 import '../../shared/gr-account-list/gr-account-list';
@@ -106,7 +107,6 @@ import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 import {customElement, property, state, query} from 'lit/decorators';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -341,7 +341,6 @@ export class GrReplyDialog extends LitElement {
 
   static override styles = [
     sharedStyles,
-    iconStyles,
     css`
       :host {
         background-color: var(--dialog-background-color);
@@ -491,7 +490,7 @@ export class GrReplyDialog extends LitElement {
         vertical-align: top;
         --gr-button-padding: 0px 4px;
       }
-      .attention .edit-attention-button .material-icon {
+      .attention .edit-attention-button gr-icon {
         color: inherit;
       }
       .attention a,
@@ -553,7 +552,7 @@ export class GrReplyDialog extends LitElement {
         margin-top: var(--spacing-m);
         background-color: var(--assignee-highlight-color);
       }
-      .attentionTip div .material-icon {
+      .attentionTip div gr-icon {
         margin-right: var(--spacing-s);
       }
       .patchsetLevelContainer {
@@ -969,7 +968,7 @@ export class GrReplyDialog extends LitElement {
                 role="button"
                 tabindex="0"
               >
-                <span class="material-icon filled">edit</span>
+                <gr-icon icon="edit" filled></gr-icon>
                 Modify
               </gr-button>
             </gr-tooltip-content>
@@ -979,7 +978,7 @@ export class GrReplyDialog extends LitElement {
               href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"
               target="_blank"
             >
-              <span class="material-icon" title="read documentation">help</span>
+              <gr-icon icon="help" title="read documentation"></gr-icon>
             </a>
           </div>
         </div>
@@ -1001,7 +1000,7 @@ export class GrReplyDialog extends LitElement {
               href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"
               target="_blank"
             >
-              <span class="material-icon" title="read documentation">help</span>
+              <gr-icon icon="help" title="read documentation"></gr-icon>
             </a>
           </div>
         </div>
@@ -1090,7 +1089,7 @@ export class GrReplyDialog extends LitElement {
           this.computeShowAttentionTip(),
           () => html`
             <div class="attentionTip">
-              <span class="material-icon pointer">lightbulb</span>
+              <gr-icon icon="lightbulb"></gr-icon>
               Please be mindful of requiring attention from too many users.
             </div>
           `

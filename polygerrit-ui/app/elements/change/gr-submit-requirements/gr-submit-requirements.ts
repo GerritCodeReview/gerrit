@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../shared/gr-label-info/gr-label-info';
+import '../../shared/gr-icon/gr-icon';
 import '../gr-submit-requirement-hovercard/gr-submit-requirement-hovercard';
 import '../gr-trigger-vote/gr-trigger-vote';
 import '../gr-change-summary/gr-change-summary';
@@ -43,7 +44,6 @@ import {resolve} from '../../../models/dependency';
 import {checksModelToken} from '../../../models/checks/checks-model';
 import {join} from 'lit/directives/join';
 import {map} from 'lit/directives/map';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 /**
  * @attr {Boolean} suppress-title - hide titles, currently for hovercard view
@@ -71,7 +71,6 @@ export class GrSubmitRequirements extends LitElement {
   static override get styles() {
     return [
       fontStyles,
-      iconStyles,
       submitRequirementsStyles,
       css`
         :host([suppress-title]) .metadata-title {
@@ -244,12 +243,13 @@ export class GrSubmitRequirements extends LitElement {
 
   private renderStatus(requirement: SubmitRequirementResultInfo) {
     const icon = iconForRequirement(requirement);
-    return html`<span
-      class="material-icon ${icon.icon} ${icon.filled ? 'filled' : ''}"
+    return html`<gr-icon
+      class=${icon.icon}
+      ?filled=${icon.filled}
+      .icon=${icon.icon}
       role="img"
       aria-label=${requirement.status.toLowerCase()}
-      >${icon.icon}</span
-    >`;
+    ></gr-icon>`;
   }
 
   renderVoteCell(requirement: SubmitRequirementResultInfo) {

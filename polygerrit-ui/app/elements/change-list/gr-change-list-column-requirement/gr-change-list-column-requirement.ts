@@ -5,6 +5,7 @@
  */
 import '../../change/gr-submit-requirement-dashboard-hovercard/gr-submit-requirement-dashboard-hovercard';
 import '../../shared/gr-change-status/gr-change-status';
+import '../../shared/gr-icon/gr-icon';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {
@@ -29,7 +30,6 @@ import {
 import {sharedStyles} from '../../../styles/shared-styles';
 import {ifDefined} from 'lit/directives/if-defined';
 import {capitalizeFirstLetter} from '../../../utils/string-util';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 @customElement('gr-change-list-column-requirement')
 export class GrChangeListColumnRequirement extends LitElement {
@@ -41,7 +41,6 @@ export class GrChangeListColumnRequirement extends LitElement {
 
   static override get styles() {
     return [
-      iconStyles,
       submitRequirementsStyles,
       sharedStyles,
       css`
@@ -139,11 +138,13 @@ export class GrChangeListColumnRequirement extends LitElement {
   }
 
   private renderStatusIcon(status: SubmitRequirementStatus) {
-    const icon = iconForStatus(status ?? SubmitRequirementStatus.ERROR);
+    const icon = iconForStatus(status);
     return html`
-      <span class="material-icon ${icon.icon} ${icon.filled ? 'filled' : ''}"
-        >${icon.icon}</span
-      >
+      <gr-icon
+        class=${icon.icon}
+        icon=${icon.icon}
+        ?filled=${icon.filled}
+      ></gr-icon>
     `;
   }
 

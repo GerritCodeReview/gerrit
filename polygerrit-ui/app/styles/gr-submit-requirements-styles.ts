@@ -6,15 +6,15 @@
 import {css} from 'lit';
 
 export const submitRequirementsStyles = css`
-  .material-icon.check_circle,
-  .material-icon.published_with_changes {
+  gr-icon.check_circle,
+  gr-icon.published_with_changes {
     color: var(--success-foreground);
   }
-  .material-icon.block,
-  .material-icon.error {
+  gr-icon.block,
+  gr-icon.error {
     color: var(--deemphasized-text-color);
   }
-  .material-icon.cancel {
+  gr-icon.cancel {
     color: var(--error-foreground);
   }
 `;

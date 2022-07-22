@@ -40,12 +40,14 @@ suite('gr-submit-requirement-hovercard tests', () => {
       <div id="container" role="tooltip" tabindex="-1">
         <div class="section">
           <div class="sectionIcon">
-            <span
+            <gr-icon
               aria-label="satisfied"
               role="img"
-              class="material-icon filled check_circle"
-              >check_circle
-            </span>
+              class="check_circle"
+              filled
+              icon="check_circle"
+            >
+            </gr-icon>
           </div>
           <div class="sectionContent">
             <h3 class="heading-3 name">
@@ -55,7 +57,7 @@ suite('gr-submit-requirement-hovercard tests', () => {
         </div>
         <div class="section">
           <div class="sectionIcon">
-            <span class="small material-icon">info</span>
+            <gr-icon class="small" icon="info"></gr-icon>
           </div>
           <div class="sectionContent">
             <div class="row">
@@ -73,7 +75,7 @@ suite('gr-submit-requirement-hovercard tests', () => {
             tabindex="0"
           >
             View conditions
-            <span class="material-icon">expand_more</span>
+            <gr-icon icon="expand_more"></gr-icon>
           </gr-button>
         </div>
       </div>
@@ -88,12 +90,14 @@ suite('gr-submit-requirement-hovercard tests', () => {
       <div id="container" role="tooltip" tabindex="-1">
         <div class="section">
           <div class="sectionIcon">
-            <span
+            <gr-icon
               aria-label="satisfied"
               role="img"
-              class="material-icon filled check_circle"
-              >check_circle
-            </span>
+              class="check_circle"
+              filled
+              icon="check_circle"
+            >
+            </gr-icon>
           </div>
           <div class="sectionContent">
             <h3 class="heading-3 name">
@@ -103,7 +107,7 @@ suite('gr-submit-requirement-hovercard tests', () => {
         </div>
         <div class="section">
           <div class="sectionIcon">
-            <span class="small material-icon">info</span>
+            <gr-icon class="small" icon="info"></gr-icon>
           </div>
           <div class="sectionContent">
             <div class="row">
@@ -121,7 +125,7 @@ suite('gr-submit-requirement-hovercard tests', () => {
             tabindex="0"
           >
             Hide conditions
-            <span class="material-icon">expand_less</span>
+            <gr-icon icon="expand_less"></gr-icon>
           </gr-button>
         </div>
         <div class="section condition">
@@ -168,12 +172,13 @@ suite('gr-submit-requirement-hovercard tests', () => {
       <div id="container" role="tooltip" tabindex="-1">
         <div class="section">
           <div class="sectionIcon">
-            <span
+            <gr-icon
               aria-label="satisfied"
               role="img"
-              class="material-icon filled check_circle"
-              >check_circle
-            </span>
+              class="check_circle"
+              filled
+              icon="check_circle"
+            ></gr-icon>
           </div>
           <div class="sectionContent">
             <h3 class="heading-3 name">
@@ -183,7 +188,7 @@ suite('gr-submit-requirement-hovercard tests', () => {
         </div>
         <div class="section">
           <div class="sectionIcon">
-            <span class="small material-icon">info</span>
+            <gr-icon class="small" icon="info"></gr-icon>
           </div>
           <div class="sectionContent">
             <div class="row">
@@ -202,7 +207,7 @@ suite('gr-submit-requirement-hovercard tests', () => {
         </div>
         <div class="section description">
           <div class="sectionIcon">
-            <span class="material-icon">description</span>
+            <gr-icon icon="description"></gr-icon>
           </div>
           <div class="sectionContent">
             <gr-formatted-text notrailingmargin=""></gr-formatted-text>
@@ -217,7 +222,7 @@ suite('gr-submit-requirement-hovercard tests', () => {
             tabindex="0"
           >
             View conditions
-            <span class="material-icon">expand_more</span>
+            <gr-icon icon="expand_more"></gr-icon>
           </gr-button>
         </div>
       </div>

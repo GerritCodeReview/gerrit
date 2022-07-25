@@ -7,6 +7,7 @@ import '../../admin/gr-create-change-dialog/gr-create-change-dialog';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-dropdown/gr-dropdown';
+import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-icons/gr-icons';
 import '../../shared/gr-overlay/gr-overlay';
 import '../gr-confirm-abandon-dialog/gr-confirm-abandon-dialog';
@@ -103,7 +104,6 @@ import {LitElement, PropertyValues, css, html, nothing} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import {ifDefined} from 'lit/directives/if-defined';
 import {assertIsDefined, queryAll} from '../../../utils/common-util';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -557,7 +557,6 @@ export class GrChangeActions
 
   static override get styles() {
     return [
-      iconStyles,
       sharedStyles,
       css`
         :host {
@@ -587,11 +586,11 @@ export class GrChangeActions
           text-align: center;
         }
         iron-icon,
-        .material-icon {
+        gr-icon {
           color: inherit;
           margin-right: var(--spacing-xs);
         }
-        #moreActions .material-icon {
+        #moreActions gr-icon {
           margin: 0;
         }
         #moreMessage,
@@ -662,9 +661,7 @@ export class GrChangeActions
           .disabledIds=${this.disabledMenuActions}
           .items=${this.menuActions}
         >
-          <span class="material-icon" aria-labelledby="moreMessage"
-            >more_vert</span
-          >
+          <gr-icon icon="more_vert" aria-labelledby="moreMessage"></gr-icon>
           <span id="moreMessage">More</span>
         </gr-dropdown>
       </div>
@@ -799,9 +796,7 @@ export class GrChangeActions
       return html`<iron-icon .icon=${action.icon}></iron-icon>`;
     } else {
       return html`
-        <span class="material-icon ${action.filled ? 'filled' : ''} "
-          >${action.icon}</span
-        >
+        <gr-icon icon=${action.icon} ?]filled=${action.filled}></gr-icon>
       `;
     }
   }

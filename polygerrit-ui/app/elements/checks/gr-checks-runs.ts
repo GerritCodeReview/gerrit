@@ -3,6 +3,7 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import '../shared/gr-icon/gr-icon';
 import {classMap} from 'lit/directives/class-map';
 import './gr-hovercard-run';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
@@ -55,13 +56,11 @@ import {resolve} from '../../models/dependency';
 import {checksModelToken} from '../../models/checks/checks-model';
 import {Interaction} from '../../constants/reporting';
 import {Deduping} from '../../api/reporting';
-import {iconStyles} from '../../styles/gr-icon-styles';
 
 @customElement('gr-checks-run')
 export class GrChecksRun extends LitElement {
   static override get styles() {
     return [
-      iconStyles,
       sharedStyles,
       css`
         :host {
@@ -117,19 +116,19 @@ export class GrChecksRun extends LitElement {
         .chip.placeholder {
           border-left: var(--thick-border) solid var(--border-color);
         }
-        .chip.placeholder .material-icon {
+        .chip.placeholder gr-icon {
           display: none;
         }
-        .material-icon.error {
+        gr-icon.error {
           color: var(--error-foreground);
         }
-        .material-icon.warning {
+        gr-icon.warning {
           color: var(--warning-foreground);
         }
-        .material-icon.info {
+        gr-icon.info {
           color: var(--info-foreground);
         }
-        .material-icon.check_circle {
+        gr-icon.check_circle {
           color: var(--success-foreground);
         }
         div.chip:hover {
@@ -145,7 +144,7 @@ export class GrChecksRun extends LitElement {
           padding-left: calc(var(--spacing-m) + var(--thick-border) - 1px);
         }
         div.chip.selected .name,
-        div.chip.selected .material-icon.filter {
+        div.chip.selected gr-icon.filter {
           color: var(--selected-foreground);
         }
         gr-checks-action {
@@ -243,9 +242,7 @@ export class GrChecksRun extends LitElement {
         <div class="left">
           <gr-hovercard-run .run=${this.run}></gr-hovercard-run>
           ${this.renderFilterIcon()}
-          <span class="material-icon ${icon.filled ? 'filled' : ''}"
-            >${icon.name}</span
-          >
+          <gr-icon icon=${icon.name} ?filled=${icon.filled}></gr-icon>
           ${this.renderAdditionalIcon()}
           <span class="name">${this.run.checkName}</span>
           ${this.renderETA()}
@@ -293,9 +290,11 @@ export class GrChecksRun extends LitElement {
         ?disabled=${!this.isSelected(detail) && wasNotRun}
         @change=${() => this.handleAttemptChange(detail)}
       />
-      <span class="material-icon ${icon.name} ${icon.filled ? 'filled' : ''}"
-        >${icon.name}</span
-      >
+      <gr-icon
+        icon=${icon.name}
+        class=${icon.name}
+        ?filled=${icon.filled}
+      ></gr-icon>
       <label for=${id}>
         Attempt ${detail.attempt}${wasNotRun ? ' (not run)' : ''}
       </label>
@@ -322,11 +321,11 @@ export class GrChecksRun extends LitElement {
     if (!link) return;
     return html`
       <a href=${link} target="_blank" @click=${this.onLinkClick}
-        ><span
-          class="material-icon statusLinkIcon"
+        ><gr-icon
+          icon="open_in_new"
+          class="statusLinkIcon"
           aria-label="external link to run status details"
-          >open_in_new</span
-        >
+        ></gr-icon>
         <paper-tooltip offset="5">Link to run status details</paper-tooltip>
       </a>
     `;
@@ -343,7 +342,12 @@ export class GrChecksRun extends LitElement {
 
   renderFilterIcon() {
     if (!this.selected) return;
-    return html`<span class="filter material-icon filled">filter_alt</span>`;
+    return html`<gr-icon
+      icon="filter_alt"
+      filled
+      class="filter"
+      class="filter"
+    ></gr-icon>`;
   }
 
   /**
@@ -356,9 +360,11 @@ export class GrChecksRun extends LitElement {
     if (!category) return nothing;
     const icon = iconFor(category);
     return html`
-      <span class="material-icon ${icon.name} ${icon.filled ? 'filled' : ''}"
-        >${icon.name}</span
-      >
+      <gr-icon
+        icon=${icon.name}
+        class=${icon.name}
+        ?filled=${icon.filled}
+      ></gr-icon>
     `;
   }
 
@@ -444,7 +450,6 @@ export class GrChecksRuns extends LitElement {
 
   static override get styles() {
     return [
-      iconStyles,
       sharedStyles,
       fontStyles,
       css`
@@ -528,14 +533,14 @@ export class GrChecksRuns extends LitElement {
           display: flex;
           background-color: var(--error-background);
         }
-        .error .material-icon {
+        .error gr-icon {
           color: var(--error-foreground);
           margin-right: var(--spacing-m);
         }
         .login {
           background: var(--info-background);
         }
-        .login .material-icon {
+        .login gr-icon {
           color: var(--info-foreground);
         }
         .login .buttonRow {
@@ -614,7 +619,7 @@ export class GrChecksRuns extends LitElement {
         html`
           <div class="error">
             <div class="left">
-              <span class="material-icon filled">error</span>s
+              <gr-icon icon="error" filled></gr-icon>
             </div>
             <div class="right">
               <div class="message">
@@ -631,7 +636,7 @@ export class GrChecksRuns extends LitElement {
     return html`
       <div class="login">
         <div>
-          <span class="material-icon">info</span>
+          <gr-icon icon="info"></gr-icon>
           Sign in to Checks Plugin to see runs and results
         </div>
         <div class="buttonRow">
@@ -705,9 +710,11 @@ export class GrChecksRuns extends LitElement {
             ? 'Expand runs panel'
             : 'Collapse runs panel'}
           @click=${this.toggleCollapsed}
-          ><span class="material-icon expandIcon">
-            ${this.collapsed ? 'chevron_right' : 'chevron_left'}</span
+          ><gr-icon
+            icon=${this.collapsed ? 'chevron_right' : 'chevron_left'}
+            class="expandIcon"
           >
+          </gr-icon>
         </gr-button>
       </gr-tooltip-content>
     `;
@@ -773,7 +780,7 @@ export class GrChecksRuns extends LitElement {
     return html`
       <div class="${status.toLowerCase()} ${expandedClass}">
         <div class="sectionHeader" @click=${() => this.toggleExpanded(status)}>
-          <span class="expandIcon material-icon">${icon}</span>
+          <gr-icon icon=${icon} class="expandIcon"></gr-icon>
           <h3 class="heading-3">${header} (${runs.length})</h3>
         </div>
         <div class="sectionRuns">${runs.map(run => this.renderRun(run))}</div>

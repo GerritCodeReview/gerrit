@@ -137,14 +137,14 @@ suite('gr-change-actions-js-api-interface tests', () => {
       changeActions.setLabel(key, 'Yo');
       changeActions.setTitle(key, 'Yo hint');
       changeActions.setEnabled(key, false);
-      changeActions.setIcon(key, 'pupper');
+      changeActions.setIcon(key, 'hive');
       await element.updateComplete;
       assert.equal(button.getAttribute('data-label'), 'Yo');
       assert.equal(button.parentElement!.getAttribute('title'), 'Yo hint');
       assert.isTrue(button.disabled);
       assert.equal(
-        queryAndAssert<HTMLSpanElement>(button, '.material-icon').textContent,
-        'pupper'
+        queryAndAssert<HTMLSpanElement>(button, 'gr-icon').icon,
+        'hive'
       );
     });
 

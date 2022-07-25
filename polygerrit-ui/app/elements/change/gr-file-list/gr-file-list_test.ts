@@ -53,6 +53,7 @@ import {ParsedChangeInfo} from '../../../types/types';
 import {normalize} from '../../../models/change/files-model';
 import {GrDiffHost} from '../../diff/gr-diff-host/gr-diff-host';
 import {GrEditFileControls} from '../../edit/gr-edit-file-controls/gr-edit-file-controls';
+import {GrIcon} from '../../shared/gr-icon/gr-icon';
 
 const basicFixture = fixtureFromElement('gr-file-list');
 
@@ -242,9 +243,12 @@ suite('gr-file-list tests', () => {
             role="switch"
             tabindex="0"
           >
-            <span class="show-hide-icon material-icon" id="icon" tabindex="-1"
-              >expand_more
-            </span>
+            <gr-icon
+              icon="expand_more"
+              class="show-hide-icon"
+              id="icon"
+              tabindex="-1"
+            ></gr-icon>
           </span>
         </div>
       </div>`);
@@ -260,7 +264,7 @@ suite('gr-file-list tests', () => {
       expect(statusCol).dom.equal(/* HTML */ `
         <div class="extended status" role="gridcell">
           <gr-file-status></gr-file-status>
-          <div class="material-icon file-status-arrow">arrow_right_alt</div>
+          <gr-icon class="file-status-arrow" icon="arrow_right_alt"></gr-icon>
           <gr-file-status></gr-file-status>
         </div>
       `);
@@ -279,7 +283,7 @@ suite('gr-file-list tests', () => {
           <gr-tooltip-content has-tooltip="" title="Patchset 1">
             <div class="content">1</div>
           </gr-tooltip-content>
-          <div class="material-icon file-status-arrow">arrow_right_alt</div>
+          <gr-icon class="file-status-arrow" icon="arrow_right_alt"></gr-icon>
           <gr-tooltip-content has-tooltip="" title="Patchset 2">
             <div class="content">2</div>
           </gr-tooltip-content>
@@ -1332,7 +1336,7 @@ suite('gr-file-list tests', () => {
       const collapseStub = sinon.stub(element, 'clearCollapsedDiffs');
 
       assert.equal(
-        queryAndAssert<HTMLSpanElement>(element, '.material-icon').innerText,
+        queryAndAssert<GrIcon>(element, 'gr-icon').icon,
         'expand_more'
       );
       assert.equal(element.expandedFiles.length, 0);
@@ -1343,7 +1347,7 @@ suite('gr-file-list tests', () => {
 
       assert.equal(collapseStub.lastCall.args[0].length, 0);
       assert.equal(
-        queryAndAssert<HTMLSpanElement>(element, '.material-icon').innerText,
+        queryAndAssert<GrIcon>(element, 'gr-icon').icon,
         'expand_less'
       );
 
@@ -1355,7 +1359,7 @@ suite('gr-file-list tests', () => {
       await flush();
 
       assert.equal(
-        queryAndAssert<HTMLSpanElement>(element, '.material-icon').innerText,
+        queryAndAssert<GrIcon>(element, 'gr-icon').icon,
         'expand_more'
       );
       assert.equal(renderSpy.callCount, 1);

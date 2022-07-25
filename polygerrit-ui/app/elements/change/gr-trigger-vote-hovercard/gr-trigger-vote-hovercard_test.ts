@@ -33,7 +33,7 @@ suite('gr-trigger-vote-hovercard tests', () => {
         </div>
         <div class="section">
           <div class="sectionIcon">
-            <span class="material-icon small"> info </span>
+            <gr-icon icon="info" class=" small"></gr-icon>
           </div>
           <div class="sectionContent">
             <div class="row">

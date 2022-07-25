@@ -1649,9 +1649,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     inputVal: string,
     n?: number
   ): Promise<AccountInfo[] | undefined> {
-    if (!inputVal) {
-      return Promise.resolve([]);
-    }
     const params: QueryAccountsParams = {suggest: null, q: inputVal};
     if (n) {
       params.n = n;

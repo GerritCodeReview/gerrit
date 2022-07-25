@@ -65,7 +65,7 @@ public class AccountIndexRewriter implements IndexRewriter<AccountState> {
   }
 
   private void countLeafTerms(Predicate<AccountState> predicate, MutableInteger leafTerms) {
-    if (!(predicate instanceof IndexPredicate)) {
+    if (predicate instanceof IndexPredicate) {
       ++leafTerms.value;
     }
 

@@ -142,6 +142,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2d04212_62b334bb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-25T12:54:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c6cb3ce5_87e15686",
+      "revId": "a30fcdd70fb3670b54efcd2e143f804318e65c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2a04f1b1_fed44a3b",
@@ -173,6 +191,24 @@
       "side": 1,
       "message": "I am checking `atIndex\u003d\u003d\u003dnull` I assume you are referring to #478 so that getting a `:` when the user has already opened the mention dropdown does not trigger the `emojiDropdown`.\n\nHence the logic for opening the `emojiDropdown` now needs the addition `mentionsDropdown` is not opened.\n\nI don\u0027t need to check if `colonIndex` is null here since #497 ensures that the function returns early if `colonIndex!\u003d\u003dnull`.",
       "parentUuid": "2a04f1b1_fed44a3b",
+      "revId": "a30fcdd70fb3670b54efcd2e143f804318e65c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "231c2167_4ae9995c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-25T12:54:39Z",
+      "side": 1,
+      "message": "I guess the meta-question is why the 2 sections for emoji and mentions aren\u0027t exact matches.  It introduces extra cognitive burden.",
+      "parentUuid": "cd844b69_75b98050",
       "revId": "a30fcdd70fb3670b54efcd2e143f804318e65c2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

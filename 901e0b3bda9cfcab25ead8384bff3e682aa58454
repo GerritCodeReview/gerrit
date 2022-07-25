@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78bbcd0c_f97397f9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-25T12:54:39Z",
+      "side": 1,
+      "message": "Should this be \u0027getSpecialCharIndex\u0027?",
+      "revId": "901e0b3bda9cfcab25ead8384bff3e682aa58454",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5d07442_a90553ad",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-25T12:54:39Z",
+      "side": 1,
+      "message": "Nit: It\u0027s weird to return \u0027null\u0027 for a basic-type.  Null to me typically makes me think of objects.\n\nWhat about undefined or -1?",
+      "revId": "901e0b3bda9cfcab25ead8384bff3e682aa58454",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "623869fa_fdf358b9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-25T12:54:39Z",
+      "side": 1,
+      "message": "Flag-protect.",
+      "revId": "901e0b3bda9cfcab25ead8384bff3e682aa58454",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

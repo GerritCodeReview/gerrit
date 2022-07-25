@@ -8,16 +8,16 @@ import {css} from 'lit';
 const $_documentContainer = document.createElement('template');
 
 export const checksStyles = css`
-  .material-icon.error {
+  gr-icon.error {
     color: var(--error-foreground);
   }
-  .material-icon.warning {
+  gr-icon.warning {
     color: var(--warning-foreground);
   }
-  .material-icon.info {
+  gr-icon.info {
     color: var(--info-foreground);
   }
-  .material-icon.check_circle {
+  gr-icon.check_circle {
     color: var(--success-foreground);
   }
 `;

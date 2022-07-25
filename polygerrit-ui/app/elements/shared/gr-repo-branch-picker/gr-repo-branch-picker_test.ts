@@ -28,7 +28,7 @@ suite('gr-repo-branch-picker tests', () => {
           placeholder="Select repo"
         >
         </gr-labeled-autocomplete>
-        <span class="material-icon"> chevron_right </span>
+        <gr-icon icon="chevron_right"></gr-icon>
         <gr-labeled-autocomplete
           disabled=""
           id="branchInput"

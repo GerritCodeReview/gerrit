@@ -45,7 +45,7 @@ suite('gr-search-bar tests', () => {
             tabindex="-1"
             target="_blank"
           >
-            <span class="material-icon" title="read documentation"> help </span>
+            <gr-icon icon="help" title="read documentation"></gr-icon>
           </a>
         </gr-autocomplete>
       </form>

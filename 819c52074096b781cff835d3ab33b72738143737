@@ -22,6 +22,30 @@
       },
       "revId": "819c52074096b781cff835d3ab33b72738143737",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a801e6c0_bd1c8702",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-column-requirement/gr-change-list-column-requirement.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-25T08:23:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4d77624_19e0eed0",
+      "range": {
+        "startLine": 141,
+        "startChar": 31,
+        "endLine": 141,
+        "endChar": 64
+      },
+      "revId": "819c52074096b781cff835d3ab33b72738143737",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

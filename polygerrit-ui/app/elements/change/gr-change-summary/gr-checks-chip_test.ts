@@ -29,7 +29,7 @@ suite('gr-checks-chip test', () => {
       role="link"
       tabindex="0"
     >
-      <span class="material-icon">check_circle</span>
+      <gr-icon icon="check_circle"></gr-icon>
       <div class="text">0</div>
     </div>`);
   });

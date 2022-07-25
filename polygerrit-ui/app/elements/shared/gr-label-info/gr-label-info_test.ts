@@ -67,7 +67,7 @@ suite('gr-label-info tests', () => {
             role="button"
             tabindex="0"
           >
-            <span class="material-icon filled">delete</span>
+            <gr-icon icon="delete" filled></gr-icon>
           </gr-button>
         </gr-tooltip-content>
       </div>

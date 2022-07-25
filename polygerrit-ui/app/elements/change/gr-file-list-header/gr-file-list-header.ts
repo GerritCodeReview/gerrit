@@ -8,6 +8,7 @@ import '../../diff/gr-patch-range-select/gr-patch-range-select';
 import '../../edit/gr-edit-controls/gr-edit-controls';
 import '../../shared/gr-select/gr-select';
 import '../../shared/gr-button/gr-button';
+import '../../shared/gr-icon/gr-icon';
 import '../gr-commit-info/gr-commit-info';
 import {FilesExpandedState} from '../gr-file-list-constants';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
@@ -40,7 +41,6 @@ import {resolve} from '../../../models/dependency';
 import {getAppContext} from '../../../services/app-context';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 @customElement('gr-file-list-header')
 export class GrFileListHeader extends LitElement {
@@ -144,7 +144,6 @@ export class GrFileListHeader extends LitElement {
   }
 
   static override styles = [
-    iconStyles,
     sharedStyles,
     css`
       .prefsButton {
@@ -327,8 +326,8 @@ export class GrFileListHeader extends LitElement {
                   link
                   class="prefsButton desktop"
                   @click=${this.handlePrefsTap}
-                  ><span class="material-icon filled">settings</span></gr-button
-                >
+                  ><gr-icon icon="settings" filled></gr-icon
+                ></gr-button>
               </gr-tooltip-content>
             </span>
             <span class="separator"></span>

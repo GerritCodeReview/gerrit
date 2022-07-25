@@ -20,7 +20,6 @@ import {ordinal} from '../../utils/string-util';
 import {HovercardMixin} from '../../mixins/hovercard-mixin/hovercard-mixin';
 import {css, html, LitElement} from 'lit';
 import {checksStyles} from './gr-checks-styles';
-import {iconStyles} from '../../styles/gr-icon-styles';
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
 const base = HovercardMixin(LitElement);
@@ -33,7 +32,6 @@ export class GrHovercardRun extends base {
   static override get styles() {
     return [
       fontStyles,
-      iconStyles,
       checksStyles,
       base.styles || [],
       css`
@@ -71,34 +69,34 @@ export class GrHovercardRun extends base {
         div.sectionIcon {
           flex: 0 0 30px;
         }
-        div.chip .material-icon {
+        div.chip gr-icon {
           font-size: 16px;
           /* Positioning of a 16px icon in the middle of a 20px line. */
           position: relative;
           top: 2px;
         }
-        div.sectionIcon .material-icon {
+        div.sectionIcon gr-icon {
           position: relative;
           top: 2px;
           font-size: 20px;
         }
-        div.sectionIcon .small.material-icon {
+        div.sectionIcon gr-icon.small {
           position: relative;
           top: 6px;
           font-size: 16px;
         }
-        div.sectionContent .material-icon.link {
+        div.sectionContent gr-icon.link {
           color: var(--link-color);
         }
-        div.sectionContent .attemptIcon .material-icon,
-        div.sectionContent .material-icon.small {
+        div.sectionContent .attemptIcon gr-icon,
+        div.sectionContent gr-icon.small {
           font-size: 16px;
           margin-right: var(--spacing-s);
           /* Positioning of a 16px icon in the middle of a 20px line. */
           position: relative;
           top: 2px;
         }
-        div.sectionContent .attemptIcon .material-icon {
+        div.sectionContent .attemptIcon gr-icon {
           margin-right: 0;
         }
         .attemptIcon,
@@ -130,19 +128,17 @@ export class GrHovercardRun extends base {
             class="chipRow"
           >
             <div class="chip">
-              <span class="material-icon ${chipIcon.filled ? 'filled' : ''}"
-                >${chipIcon.name}</span
-              >
+              <gr-icon
+                icon=${chipIcon.name}
+                ?filled=${chipIcon.filled}
+              ></gr-icon>
               <span>${this.run.status}</span>
             </div>
           </div>
         </div>
         <div class="section">
           <div class="sectionIcon" ?hidden=${icon.name.length === 0}>
-            <span
-              class="material-icon ${icon.name} ${icon.filled ? 'filled' : ''}"
-              >${icon.name}</span
-            >
+            <gr-icon icon=${icon.name} ?filled=${icon.filled}></gr-icon>
           </div>
           <div class="sectionContent">
             <h3 class="name heading-3">
@@ -164,7 +160,7 @@ export class GrHovercardRun extends base {
     return html`
       <div class="section">
         <div class="sectionIcon">
-          <span class="small material-icon">info</span>
+          <span icon="info" class="small"></span>
         </div>
         <div class="sectionContent">
           ${this.run.statusLink
@@ -172,10 +168,11 @@ export class GrHovercardRun extends base {
                 <div class="title">Status</div>
                 <div>
                   <a href=${this.run.statusLink} target="_blank"
-                    ><span
+                    ><gr-icon
+                      icon="open_in_new"
                       aria-label="external link to check status"
-                      class="material-icon small link"
-                      >open_in_new</span
+                      class="small link"
+                    ></gr-icon
                     >${this.computeHostName(this.run.statusLink)}
                   </a>
                 </div>
@@ -198,7 +195,7 @@ export class GrHovercardRun extends base {
     return html`
       <div class="section">
         <div class="sectionIcon">
-          <span class="small material-icon">arrow_forward</span>
+          <gr-icon icon="arrow_forward" class="small"></gr-icon>
         </div>
         <div class="sectionContent">
           <div class="attempts row">
@@ -214,9 +211,8 @@ export class GrHovercardRun extends base {
     return html`
       <div>
         <div class="attemptIcon">
-          <span class="material-icon ${attempt.icon.filled ? 'filled' : ''}"
-            >${attempt.icon.name}</span
-          >
+          <gr-icon icon=${attempt.icon.name} ?filled=${attempt.icon.filled}>
+          </gr-icon>
         </div>
         <div class="attemptNumber">${ordinal(attempt.attempt)}</div>
       </div>
@@ -284,7 +280,7 @@ export class GrHovercardRun extends base {
     return html`
       <div class="section">
         <div class="sectionIcon">
-          <span class="small material-icon">schedule</span>
+          <gr-icon icon="schedule" class="small"></gr-icon>
         </div>
         <div class="sectionContent">
           ${scheduled} ${started} ${finished} ${completed} ${eta}
@@ -299,7 +295,7 @@ export class GrHovercardRun extends base {
     return html`
       <div class="section">
         <div class="sectionIcon">
-          <span class="small material-icon">link</span>
+          <gr-icon icon="link" class="small"></gr-icon>
         </div>
         <div class="sectionContent">
           ${this.run.checkDescription
@@ -313,10 +309,11 @@ export class GrHovercardRun extends base {
                 <div class="title">Documentation</div>
                 <div>
                   <a href=${this.run.checkLink} target="_blank"
-                    ><span
+                    ><gr-icon
+                      icon="open_in_new"
                       aria-label="external link to check documentation"
-                      class="material-icon small link"
-                      >open_in_new</span
+                      class="small link"
+                    ></gr-icon
                     >${this.computeHostName(this.run.checkLink)}
                   </a>
                 </div>

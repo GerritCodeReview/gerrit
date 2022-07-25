@@ -31,7 +31,7 @@ suite('gr-change-star tests', () => {
         role="checkbox"
         title="Star/unstar change (shortcut: s)"
       >
-        <span class="active filled material-icon"> grade </span>
+        <gr-icon icon="grade" filled class="active"></gr-icon>
       </button>
     `);
   });
@@ -47,7 +47,7 @@ suite('gr-change-star tests', () => {
         role="checkbox"
         title="Star/unstar change (shortcut: s)"
       >
-        <span class="material-icon"> grade </span>
+        <gr-icon icon="grade"></gr-icon>
       </button>
     `);
   });

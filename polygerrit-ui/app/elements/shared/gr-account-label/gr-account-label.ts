@@ -5,6 +5,7 @@
  */
 import '../gr-avatar/gr-avatar';
 import '../gr-hovercard-account/gr-hovercard-account';
+import '../gr-icon/gr-icon';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import {getAppContext} from '../../../services/app-context';
@@ -21,7 +22,6 @@ import {classMap} from 'lit/directives/class-map';
 import {getRemovedByIconClickReason} from '../../../utils/attention-set-util';
 import {ifDefined} from 'lit/directives/if-defined';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 @customElement('gr-account-label')
 export class GrAccountLabel extends LitElement {
@@ -99,7 +99,6 @@ export class GrAccountLabel extends LitElement {
 
   static override get styles() {
     return [
-      iconStyles,
       css`
         :host {
           display: inline-block;
@@ -141,7 +140,7 @@ export class GrAccountLabel extends LitElement {
           border-radius: 8px;
           color: var(--chip-selected-text-color);
         }
-        :host([selected]) .material-icon.attention {
+        :host([selected]) gr-icon.attention {
           color: var(--chip-selected-text-color);
         }
         gr-avatar {
@@ -158,7 +157,7 @@ export class GrAccountLabel extends LitElement {
           margin: 0 -4px 0 -4px;
           vertical-align: top;
         }
-        .material-icon.attention {
+        gr-icon.attention {
           color: var(--deemphasized-text-color);
           font-size: 12px;
         }
@@ -236,9 +235,11 @@ export class GrAccountLabel extends LitElement {
                   this.selected,
                   this._selfAccount
                 )}
-                ><span class="attention material-icon filled"
-                  >label_important</span
-                >
+                ><gr-icon
+                  icon="label_important"
+                  filled
+                  class="attention"
+                ></gr-icon>
               </gr-button>
             </gr-tooltip-content>`
           : ''}

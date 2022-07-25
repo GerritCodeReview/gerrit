@@ -14,8 +14,6 @@ import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {resolve} from '../../../models/dependency';
 import {shortcutsServiceToken} from '../../../services/shortcuts/shortcuts-service';
-import {classMap} from 'lit/directives/class-map';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -43,7 +41,6 @@ export class GrChangeStar extends LitElement {
 
   static override get styles() {
     return [
-      iconStyles,
       sharedStyles,
       css`
         button {
@@ -59,11 +56,7 @@ export class GrChangeStar extends LitElement {
   }
 
   override render() {
-    const classes = {
-      'material-icon': true,
-      filled: !!this.change?.starred,
-      active: !!this.change?.starred,
-    };
+
     return html`
       <button
         role="checkbox"
@@ -76,7 +69,11 @@ export class GrChangeStar extends LitElement {
           : 'Star this change'}
         @click=${this.toggleStar}
       >
-        <span class=${classMap(classes)}>grade</span>
+        <gr-icon
+          icon="grade"
+          ?filled=${!!this.change?.starred}
+          class=${this.change?.starred ? 'active' : ''}
+        ></gr-icon>
       </button>
     `;
   }

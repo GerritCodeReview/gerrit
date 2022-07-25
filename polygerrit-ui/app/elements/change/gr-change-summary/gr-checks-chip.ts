@@ -16,7 +16,6 @@ import {
 } from '../../../models/checks/checks-util';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {Interaction} from '../../../constants/reporting';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 @customElement('gr-checks-chip')
 export class GrChecksChip extends LitElement {
@@ -34,7 +33,6 @@ export class GrChecksChip extends LitElement {
   static override get styles() {
     return [
       fontStyles,
-      iconStyles,
       sharedStyles,
       css`
         :host {
@@ -75,10 +73,10 @@ export class GrChecksChip extends LitElement {
           text-overflow: ellipsis;
           vertical-align: top;
         }
-        .material-icon {
+        gr-icon {
           font-size: var(--line-height-small);
         }
-        .checksChip a .material-icon.launch {
+        .checksChip a gr-icon.launch {
           color: var(--link-color);
         }
         .checksChip.error {
@@ -93,7 +91,7 @@ export class GrChecksChip extends LitElement {
         .checksChip.error:focus-within {
           background: var(--error-background-focus);
         }
-        .checksChip.error .material-icon {
+        .checksChip.error gr-icon {
           color: var(--error-foreground);
         }
         .checksChip.warning {
@@ -107,7 +105,7 @@ export class GrChecksChip extends LitElement {
         .checksChip.warning:focus-within {
           background: var(--warning-background-focus);
         }
-        .checksChip.warning .material-icon {
+        .checksChip.warning gr-icon {
           color: var(--warning-foreground);
         }
         .checksChip.info {
@@ -121,7 +119,7 @@ export class GrChecksChip extends LitElement {
         .checksChip.info:focus-within {
           background: var(--info-background-focus);
         }
-        .checksChip.info .material--icon {
+        .checksChip.info gr--icon {
           color: var(--info-foreground);
         }
         .checksChip.check_circle {
@@ -135,7 +133,7 @@ export class GrChecksChip extends LitElement {
         .checksChip.check_circle:focus-within {
           background: var(--success-background-focus);
         }
-        .checksChip.check_circle .material-icon {
+        .checksChip.check_circle gr-icon {
           color: var(--success-foreground);
         }
         .checksChip.timelapse,
@@ -152,8 +150,8 @@ export class GrChecksChip extends LitElement {
         .checksChip.pending_actions:focus-within {
           background: var(--gray-background-focus);
         }
-        .checksChip.timelapse .material-icon,
-        .checksChip.pending_actions .material-icon {
+        .checksChip.timelapse gr-icon,
+        .checksChip.pending_actions gr-icon {
           color: var(--gray-foreground);
         }
       `,
@@ -186,9 +184,7 @@ export class GrChecksChip extends LitElement {
   private renderChip(clazz: string, ariaLabel: string, icon: ChecksIcon) {
     return html`
       <div class=${clazz} role="link" tabindex="0" aria-label=${ariaLabel}>
-        <span class="material-icon ${icon.filled ? 'filled' : ''}"
-          >${icon.name}</span
-        >
+        <gr-icon icon=${icon.name} ?filled=${icon.filled}></gr-icon>
         ${this.renderLinks()}
         <div class="text">${this.text}</div>
       </div>
@@ -204,8 +200,8 @@ export class GrChecksChip extends LitElement {
           @click=${this.onLinkClick}
           @keydown=${this.onLinkKeyDown}
           aria-label="Link to check details"
-          ><span class="material-icon launch">open_in_new</span></a
-        >
+          ><gr-icon icon="open_in_new" class="launch"></gr-icon
+        ></a>
       `
     );
   }

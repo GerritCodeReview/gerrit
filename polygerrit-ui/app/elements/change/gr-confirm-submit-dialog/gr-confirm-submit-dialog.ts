@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../shared/gr-dialog/gr-dialog';
+import '../../shared/gr-icon/gr-icon';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../gr-thread-list/gr-thread-list';
@@ -20,7 +21,6 @@ import {ParsedChangeInfo} from '../../../types/types';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {resolve} from '../../../models/dependency';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 @customElement('gr-confirm-submit-dialog')
 export class GrConfirmSubmitDialog extends LitElement {
@@ -59,7 +59,6 @@ export class GrConfirmSubmitDialog extends LitElement {
     return [
       sharedStyles,
       fontStyles,
-      iconStyles,
       css`
         #dialog {
           min-width: 40em;
@@ -100,7 +99,7 @@ export class GrConfirmSubmitDialog extends LitElement {
     if (!this.change?.is_private) return '';
     return html`
       <p>
-        <span class="material-icon filled warningBeforeSubmit">warning</span>
+        <gr-icon icon="warning" filled class="warningBeforeSubmit"></gr-icon>
         <strong>Heads Up!</strong>
         Submitting this private change will also make it public.
       </p>
@@ -111,7 +110,7 @@ export class GrConfirmSubmitDialog extends LitElement {
     if (!this.unresolvedThreads?.length) return '';
     return html`
       <p>
-        <span class="material-icon filled warningBeforeSubmit">warning</span>
+        <gr-icon icon="warning" filled class="warningBeforeSubmit"></gr-icon>
         ${this.computeUnresolvedCommentsWarning()}
       </p>
       <gr-thread-list
@@ -126,7 +125,7 @@ export class GrConfirmSubmitDialog extends LitElement {
   private renderChangeEdit() {
     if (!this.computeHasChangeEdit()) return '';
     return html`
-      <span class="material-icon filled warningBeforeSubmit">warning</span>
+      <gr-icon icon="warning" filled class="warningBeforeSubmit"></gr-icon>
       Your unpublished edit will not be submitted. Did you forget to click
       <b>PUBLISH</b>
     `;

@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9092260b_2a95482c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-25T09:58:07Z",
+      "side": 1,
+      "message": "Updated the message after merging `colonIndex` and `atIndex.`",
+      "parentUuid": "27db4b19_86fb3db5",
+      "revId": "a30fcdd70fb3670b54efcd2e143f804318e65c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c16a151_ed958891",
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "Reset dropdown is reseting both dropdown.\nI decided to merge the 2 methods instead of duplicating most of the logic.",
       "parentUuid": "9c16a151_ed958891",
+      "revId": "a30fcdd70fb3670b54efcd2e143f804318e65c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a9c0cf4_ce4d0e73",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-25T09:58:07Z",
+      "side": 1,
+      "message": "After merging `atIndex` and `colonIndex`, the method `resetDropdown` is just resetting common properties.\nThat should make it clearer I think.",
+      "parentUuid": "024407b1_9f6e5724",
       "revId": "a30fcdd70fb3670b54efcd2e143f804318e65c2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

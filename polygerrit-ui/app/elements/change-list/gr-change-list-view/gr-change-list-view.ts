@@ -25,7 +25,6 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, state, query} from 'lit/decorators';
 import {ValueChangedEvent} from '../../../types/events';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 const LOOKUP_QUERY_PATTERNS: RegExp[] = [
   /^\s*i?[0-9a-f]{7,40}\s*$/i, // CHANGE_ID
@@ -106,7 +105,6 @@ export class GrChangeListView extends LitElement {
 
   static override get styles() {
     return [
-      iconStyles,
       sharedStyles,
       css`
         :host {

@@ -5,6 +5,7 @@
  */
 import '../gr-account-label/gr-account-label';
 import '../gr-button/gr-button';
+import '../gr-icon/gr-icon';
 import {
   AccountInfo,
   ApprovalInfo,
@@ -16,7 +17,6 @@ import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {ClassInfo, classMap} from 'lit/directives/class-map';
 import {getLabelStatus, hasVoted, LabelStatus} from '../../../utils/label-util';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 @customElement('gr-account-chip')
 export class GrAccountChip extends LitElement {
@@ -78,7 +78,6 @@ export class GrAccountChip extends LitElement {
 
   static override get styles() {
     return [
-      iconStyles,
       css`
         :host {
           display: block;
@@ -115,7 +114,7 @@ export class GrAccountChip extends LitElement {
           opacity: 0.6;
           pointer-events: none;
         }
-        .material-icon {
+        gr-icon {
           font-size: 1.2rem;
         }
         .container gr-account-label::part(gr-account-label-text) {
@@ -183,7 +182,7 @@ export class GrAccountChip extends LitElement {
         class="remove"
         @click=${this.handleRemoveTap}
       >
-        <span class="material-icon">close</span>
+        <gr-icon icon="close"></gr-icon>
       </gr-button>
     </div>`;
   }

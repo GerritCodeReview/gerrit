@@ -66,11 +66,11 @@ suite('gr-result-row test', () => {
       </div>
         <div class="summary-cell">
           <a class="link" href="https://www.google.com" target="_blank">
-            <span
+            <gr-icon
+              icon="open_in_new"
               aria-label="external link to details"
-              class="material-icon link"
-            >open_in_new
-            </span>
+              class="link"
+            ></gr-icon>
             <paper-tooltip offset="5" role="tooltip" tabindex="-1">
               Link to details
             </paper-tooltip>
@@ -115,7 +115,7 @@ suite('gr-result-row test', () => {
           role="switch"
           tabindex="0"
         >
-          <span class="material-icon">expand_more</span>
+          <gr-icon icon="expand_more"></gr-icon>
         </div>
       </div>
     `);
@@ -157,31 +157,35 @@ suite('gr-checks-results test', () => {
             <div class="left"></div>
             <div class="right">
               <a href="https://www.google.com" target="_blank">
-                <span
+                <gr-icon
+                  icon="bug_report"
+                  filled
                   aria-label="Fake Bug Report 1"
-                  class="material-icon filled link"
-                  >bug_report
-                </span>
+                  class="link"
+                ></gr-icon>
                 <paper-tooltip offset="5"> </paper-tooltip>
               </a>
               <a href="https://www.google.com" target="_blank">
-                <span aria-label="Fake Link 1" class="material-icon link"
-                  >open_in_new
-                </span>
+                <gr-icon
+                  icon="open_in_new"
+                  aria-label="Fake Link 1"
+                  class="link"
+                ></gr-icon>
                 <paper-tooltip offset="5"> </paper-tooltip>
               </a>
               <a href="https://www.google.com" target="_blank">
-                <span aria-label="Fake Code Link" class="material-icon link"
+                <gr-icon icon="code" aria-label="Fake Code Link" class="link"
                   >code
-                </span>
+                </gr-icon>
                 <paper-tooltip offset="5"> </paper-tooltip>
               </a>
               <a href="https://www.google.com" target="_blank">
-                <span
+                <gr-icon
+                  icon="image"
+                  filled
                   aria-label="Fake Image Link"
-                  class="material-icon filled link"
-                  >image
-                </span>
+                  class="link"
+                ></gr-icon>
                 <paper-tooltip offset="5"> </paper-tooltip>
               </a>
               <div class="space"></div>
@@ -192,9 +196,10 @@ suite('gr-checks-results test', () => {
                 link=""
                 vertical-offset="32"
               >
-                <span aria-labelledby="moreMessage" class="material-icon"
-                  >more_vert
-                </span>
+                <gr-icon
+                  icon="more_vert"
+                  aria-labelledby="moreMessage"
+                ></gr-icon>
                 <span id="moreMessage"> More </span>
               </gr-dropdown>
             </div>
@@ -203,9 +208,9 @@ suite('gr-checks-results test', () => {
         <div class="body">
           <div class="collapsed">
             <h3 class="categoryHeader empty error heading-3">
-              <span class="expandIcon material-icon">expand_more</span>
+              <gr-icon icon="expand_more" class="expandIcon></gr-icon>
               <div class="statusIconWrapper">
-                <span class="material-icon filled error statusIcon">error</span>
+                <gr-icon icon="error" filled class="error statusIcon"></gr-icon>
                 <span class="title"> error </span>
                 <span class="count"> (0) </span>
                 <paper-tooltip offset="5"> </paper-tooltip>
@@ -214,11 +219,10 @@ suite('gr-checks-results test', () => {
           </div>
           <div class="collapsed">
             <h3 class="categoryHeader empty heading-3 warning">
-              <span class="expandIcon material-icon">expand_more</span>
+              <gr-icon icon="expand_more" class="expandIcon"></gr-icon>
               <div class="statusIconWrapper">
-                <span class="material-icon filled warning statusIcon"
-                  >warning
-                </span>
+                <gr-icon icon="warning" filled class="warning statusIcon">
+                </gr-icon>
                 <span class="title"> warning </span>
                 <span class="count"> (0) </span>
                 <paper-tooltip offset="5"> </paper-tooltip>
@@ -227,9 +231,9 @@ suite('gr-checks-results test', () => {
           </div>
           <div class="collapsed">
             <h3 class="categoryHeader empty heading-3 info">
-              <span class="expandIcon material-icon">expand_more</span>
+              <gr-icon icon="expand_more" class="expandIcon"></gr-icon>
               <div class="statusIconWrapper">
-                <span class="material-icon info statusIcon">info</span>
+                <gr-icon icon="info" class="info statusIcon"></gr-icon>
                 <span class="title"> info </span>
                 <span class="count"> (0) </span>
                 <paper-tooltip offset="5"> </paper-tooltip>
@@ -238,11 +242,10 @@ suite('gr-checks-results test', () => {
           </div>
           <div class="collapsed">
             <h3 class="categoryHeader empty heading-3 success">
-              <span class="expandIcon material-icon">expand_more</span>
-              <div class="statusIconWrapper">
-                <span class="material-icon statusIcon success"
-                  >check_circle
-                </span>
+            <gr-icon icon="expand_more" class="expandIcon"></gr-icon>
+            <div class="statusIconWrapper">
+                <gr-icon icon="check_circle" class="statusIcon success">
+                </gr-icon>
                 <span class="title"> success </span>
                 <span class="count"> (0) </span>
                 <paper-tooltip offset="5"> </paper-tooltip>

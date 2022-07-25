@@ -6,6 +6,7 @@
 import '../../../styles/gr-font-styles';
 import '../../../styles/gr-voting-styles';
 import '../../../styles/shared-styles';
+import '../gr-icon/gr-icon';
 import '../gr-vote-chip/gr-vote-chip';
 import '../gr-account-chip/gr-account-chip';
 import '../gr-button/gr-button';
@@ -35,7 +36,6 @@ import {votingStyles} from '../../../styles/gr-voting-styles';
 import {ifDefined} from 'lit/directives/if-defined';
 import {fireReload} from '../../../utils/event-util';
 import {sortReviewers} from '../../../utils/attention-set-util';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -81,7 +81,6 @@ export class GrLabelInfo extends LitElement {
 
   static override get styles() {
     return [
-      iconStyles,
       sharedStyles,
       fontStyles,
       votingStyles,
@@ -108,10 +107,10 @@ export class GrLabelInfo extends LitElement {
           width: var(--line-height-normal);
           padding: 0;
         }
-        gr-button[disabled] .material-icon {
+        gr-button[disabled] gr-icon {
           color: var(--border-color);
         }
-        .material-icon {
+        gr-icon {
           font-size: calc(var(--line-height-normal) - 2px);
         }
         .reviewer-row {
@@ -216,7 +215,7 @@ export class GrLabelInfo extends LitElement {
           this.change
         )}"
       >
-        <span class="material-icon filled">delete</span>
+        <gr-icon icon="delete" filled></gr-icon>
       </gr-button>
     </gr-tooltip-content>`;
   }

@@ -43,6 +43,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "757c9b30_c8d28054",
+        "filename": "java/com/google/gerrit/server/index/account/AccountIndexRewriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-25T12:45:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41b7be7d_0c1d4304",
+      "range": {
+        "startLine": 67,
+        "startChar": 15,
+        "endLine": 67,
+        "endChar": 38
+      },
+      "revId": "c4cdf1cdaab711dba8ef2fe323de3e33a30ee8bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "f6fcfe80_5e760799",
         "filename": "java/com/google/gerrit/server/index/account/AccountIndexRewriter.java",
         "patchSetId": 2
@@ -72,6 +96,24 @@
       "side": 1,
       "message": "Good find. I also think this check is wrong and the negation should be removed. Can you fix this in a separate change?",
       "parentUuid": "f6fcfe80_5e760799",
+      "revId": "c4cdf1cdaab711dba8ef2fe323de3e33a30ee8bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a52f274_77fc19c1",
+        "filename": "java/com/google/gerrit/server/index/account/AccountIndexRewriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-25T12:45:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2919ef5_a90b87b2",
       "revId": "c4cdf1cdaab711dba8ef2fe323de3e33a30ee8bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

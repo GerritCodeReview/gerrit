@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b88afe97_9eb11ee6",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-25T12:45:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "cdb6e76a_86cbc50d",
+      "revId": "f782eae4c9bfc868168bada1a18023f716ab0664",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9057a2fe_3433380d",
@@ -49,6 +67,24 @@
       "side": 1,
       "message": "Ah wow, you\u0027re absolutely right. I can rework this part a bit such that we throw the exception after the whole predicate tree is parsed.",
       "parentUuid": "9057a2fe_3433380d",
+      "revId": "f782eae4c9bfc868168bada1a18023f716ab0664",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5395d714_665fbddd",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-25T12:45:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2962887e_ff71b05c",
       "revId": "f782eae4c9bfc868168bada1a18023f716ab0664",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -9,6 +9,7 @@ affected project.  Direct manipulation of these files is mainly
 relevant in an automation scenario of the access controls.
 
 
+[[refs-meta-config]]
 == The +refs/meta/config+ namespace
 
 The namespace contains three different files that play different

@@ -38,6 +38,15 @@ requirement is applicable for a change. For example, administrators can exclude
 submit requirements for certain branch patterns. See the
 link:#exempt-branch-example[exempt branch] example.
 
+Often submit requirements should only apply to branches that contain source
+code. In this case this parameter can be used to exclude the
+link:config-project-config.html#refs-meta-config[refs/meta/config] branch from
+a submit requirement:
+
+----
+  applicableIf = -branch:refs/meta/config
+----
+
 This field is optional, and if not specified, the submit requirement is
 considered applicable for all changes in the project.
 

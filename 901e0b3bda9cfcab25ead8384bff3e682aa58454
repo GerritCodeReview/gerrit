@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3b0ccc2_3f61fbdd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-25T13:11:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78bbcd0c_f97397f9",
+      "revId": "901e0b3bda9cfcab25ead8384bff3e682aa58454",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c5d07442_a90553ad",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "522713bc_7be9d7ea",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-25T13:11:12Z",
+      "side": 1,
+      "message": "I\u0027ll update in a follow up change.\nKeep this change for adding a mention dropdown.\nAdded a TODO.",
+      "parentUuid": "c5d07442_a90553ad",
+      "revId": "901e0b3bda9cfcab25ead8384bff3e682aa58454",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "623869fa_fdf358b9",
@@ -48,6 +84,24 @@
       "writtenOn": "2022-07-25T12:54:39Z",
       "side": 1,
       "message": "Flag-protect.",
+      "revId": "901e0b3bda9cfcab25ead8384bff3e682aa58454",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a25eb61_85b634a1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-25T13:11:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "623869fa_fdf358b9",
       "revId": "901e0b3bda9cfcab25ead8384bff3e682aa58454",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

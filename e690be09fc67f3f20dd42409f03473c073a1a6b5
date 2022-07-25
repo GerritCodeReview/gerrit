@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "97ed7256_1d9f6149",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-25T10:36:53Z",
+      "side": 0,
+      "message": "There\u0027s still other locations that I haven\u0027t touched yet.",
+      "parentUuid": "42ea6a7c_c865406c",
+      "range": {
+        "startLine": 137,
+        "startChar": 9,
+        "endLine": 137,
+        "endChar": 17
+      },
+      "revId": "e690be09fc67f3f20dd42409f03473c073a1a6b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d211d570_f63338f6",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
         "patchSetId": 6
@@ -37,6 +61,30 @@
       "writtenOn": "2022-07-25T10:31:53Z",
       "side": 0,
       "message": "I assume this class wasn\u0027t used anywhere",
+      "range": {
+        "startLine": 1093,
+        "startChar": 41,
+        "endLine": 1093,
+        "endChar": 48
+      },
+      "revId": "e690be09fc67f3f20dd42409f03473c073a1a6b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b034937_3f1dd390",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1093,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-25T10:36:53Z",
+      "side": 0,
+      "message": "That was an oversight, but actually now looking at it, no it wasn\u0027t used anywhere in this file.\n\nMaybe I should add it back and add a stanza like:\n\n```\n\n        .pointer {\n          cursor: pointer;\n        }\n```\n\nLike in gr-comment.",
+      "parentUuid": "d211d570_f63338f6",
       "range": {
         "startLine": 1093,
         "startChar": 41,

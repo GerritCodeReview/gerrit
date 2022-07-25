@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdb6e76a_86cbc50d",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-25T11:49:45Z",
+      "side": 1,
+      "message": "see here",
+      "revId": "f782eae4c9bfc868168bada1a18023f716ab0664",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9057a2fe_3433380d",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-25T11:49:45Z",
+      "side": 1,
+      "message": "Isn\u0027t this the number of terms that we have collected so far, i.e. when we reach this code here it will always be equals to config.maxTerms() + 1?",
+      "revId": "f782eae4c9bfc868168bada1a18023f716ab0664",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

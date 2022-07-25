@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "27db4b19_86fb3db5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-25T09:53:49Z",
+      "side": 1,
+      "message": "I don\u0027t understand this comment.\n\nresetDropdown is resetting both emoji and mentions dropdown. Separate `reset` method for both would have duplicated most of the code.",
+      "parentUuid": "33457db2_99ceba60",
+      "revId": "a30fcdd70fb3670b54efcd2e143f804318e65c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9c16a151_ed958891",
         "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
         "patchSetId": 8
@@ -31,6 +49,24 @@
       "writtenOn": "2022-07-25T08:38:30Z",
       "side": 1,
       "message": "I don\u0027t understand this name-change, don\u0027t you want to reset the emoji dropdown?",
+      "revId": "a30fcdd70fb3670b54efcd2e143f804318e65c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "024407b1_9f6e5724",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-25T09:53:49Z",
+      "side": 1,
+      "message": "Reset dropdown is reseting both dropdown.\nI decided to merge the 2 methods instead of duplicating most of the logic.",
+      "parentUuid": "9c16a151_ed958891",
       "revId": "a30fcdd70fb3670b54efcd2e143f804318e65c2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -54,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c6cb3ce5_87e15686",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-25T09:53:49Z",
+      "side": 1,
+      "message": "I added the check \n`if (!this.isDropdownVisible())` for that. This should check that atleast one dropdown is rendered.\n\nAre you saying it\u0027s possible that the dropdown is visible but not rendered?",
+      "parentUuid": "6d697eca_8173a22d",
+      "revId": "a30fcdd70fb3670b54efcd2e143f804318e65c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2a04f1b1_fed44a3b",
         "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
         "patchSetId": 8
@@ -71,6 +125,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cd844b69_75b98050",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-25T09:53:49Z",
+      "side": 1,
+      "message": "I am checking `atIndex\u003d\u003d\u003dnull` I assume you are referring to #478 so that getting a `:` when the user has already opened the mention dropdown does not trigger the `emojiDropdown`.\n\nHence the logic for opening the `emojiDropdown` now needs the addition `mentionsDropdown` is not opened.\n\nI don\u0027t need to check if `colonIndex` is null here since #497 ensures that the function returns early if `colonIndex!\u003d\u003dnull`.",
+      "parentUuid": "2a04f1b1_fed44a3b",
+      "revId": "a30fcdd70fb3670b54efcd2e143f804318e65c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d33940a3_fcf6ae96",
         "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
         "patchSetId": 8
@@ -82,6 +154,24 @@
       "writtenOn": "2022-07-25T08:38:30Z",
       "side": 1,
       "message": "Please deduplicate this logic into a helper method/function.\n\nDo you really need both atIndex and colonIndex if only ever one can be set?\n\nWouldn\u0027t it be sufficient ot simply have \"startIndex\" and then you store which dropdown is currently open with\n\n\"this.activeSuggestions \u003d this.mentionsSuggestions\"",
+      "revId": "a30fcdd70fb3670b54efcd2e143f804318e65c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbaa00b6_d7e82dda",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-25T09:53:49Z",
+      "side": 1,
+      "message": "Good suggestion!.\n\nmerged atIndex and colonIndex.\n\nAlso created a helper method for opening and resetting the dropdown.",
+      "parentUuid": "d33940a3_fcf6ae96",
       "revId": "a30fcdd70fb3670b54efcd2e143f804318e65c2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

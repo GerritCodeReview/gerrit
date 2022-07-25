@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34258cf3_d12d0133",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-25T13:38:00Z",
+      "side": 1,
+      "message": "we want to keep null here or should I revert this TODO for a follow up change?",
+      "range": {
+        "startLine": 100,
+        "startChar": 21,
+        "endLine": 100,
+        "endChar": 33
+      },
+      "revId": "56559f19ae8dff4453aaeca32a62c6e7a9715ed6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

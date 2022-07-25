@@ -309,6 +309,28 @@ suite('gr-rest-api-service-impl tests', () => {
     assert.isFalse(element._restApiHelper._cache.has(cacheKey));
   });
 
+  suite.only('getAccountSuggestions', () => {
+    let fetchStub;
+    setup(() => {
+      fetchStub = sinon.stub(element._restApiHelper, 'fetch').returns(
+          Promise.resolve(new Response()));
+    });
+
+    test('url with just email', () => {
+      element.getSuggestedAccounts('abc');
+      assert.isTrue(fetchStub.calledOnce);
+      assert.equal(fetchStub.firstCall.args[0].url,
+          'test1/accounts/?suggest&q=abc');
+    });
+
+    test('url with email and canSee changeId', () => {
+      element.getSuggestedAccounts('abc', undefined, 1234);
+      assert.isTrue(fetchStub.calledOnce);
+      assert.equal(fetchStub.firstCall.args[0].url,
+          'test2/accounts/?suggest&q=abc%2Band%2Bcansee%3A1234');
+    });
+  });
+
   test('getAccount when resp is null does not add to cache', async () => {
     const cacheKey = '/accounts/self/detail';
     const stub = sinon

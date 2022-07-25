@@ -51,7 +51,7 @@ const accounts: AccountInfo[] = [
   },
 ];
 
-suite('account-util tests 3', () => {
+suite('account-util tests', () => {
   test('isServiceUser', () => {
     assert.isFalse(isServiceUser());
     assert.isFalse(isServiceUser(EMPTY));

@@ -309,6 +309,37 @@ suite('gr-rest-api-service-impl tests', () => {
     assert.isFalse(element._restApiHelper._cache.has(cacheKey));
   });
 
+  suite('getAccountSuggestions', () => {
+    let fetchStub;
+    setup(() => {
+      fetchStub = sinon.stub(element._restApiHelper, 'fetch').returns(
+          Promise.resolve(new Response()));
+    });
+
+    test('url with just email', () => {
+      element.getSuggestedAccounts('abc');
+      assert.isTrue(fetchStub.calledOnce);
+      assert.equal(fetchStub.firstCall.args[0].url,
+          'test52/accounts/?o=DETAILS&q=bro');
+    });
+
+    test('url with email and canSee changeId', () => {
+      element.getSuggestedAccounts('abc', undefined, 1234);
+      assert.isTrue(fetchStub.calledOnce);
+      assert.equal(fetchStub.firstCall.args[0].url,
+          'test53/accounts/?o=DETAILS&q=bro%20and%20cansee%3A341682');
+    });
+
+    test('url with email and canSee changeId and isActive', () => {
+      element.getSuggestedAccounts('abc', undefined, 1234, true);
+      assert.isTrue(fetchStub.calledOnce);
+      assert.equal(fetchStub.firstCall.args[0].url,
+          'test54/accounts/?o=DETAILS&q=bro%20and%20' +
+          'cansee%3A341682%20and%20is%3Aactive'
+      );
+    });
+  });
+
   test('getAccount when resp is null does not add to cache', async () => {
     const cacheKey = '/accounts/self/detail';
     const stub = sinon
@@ -941,7 +972,7 @@ suite('gr-rest-api-service-impl tests', () => {
     return element.getSuggestedAccounts('own').then(() => {
       assert.deepEqual(_fetchJSONStub.lastCall.args[0].params, {
         q: 'own',
-        suggest: null,
+        o: 'DETAILS',
       });
     });
   });

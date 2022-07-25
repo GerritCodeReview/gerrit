@@ -173,7 +173,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "index.maxTerms", value = "10")
+  @GerritConfig(name = "index.maxTerms", value = "20")
   public void suggestReviewersTooManyQueryTerms() throws Exception {
     String changeId = createChange().getChangeId();
 
@@ -183,16 +183,19 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     for (int i = 1; i <= 9; i++) {
       query.append(name("u")).append(" ");
     }
+    // The query expands to (2 * predicates + 1) terms = 2 * 9 + 1 = 19:
+    // (2 * predicates) since the default predicate expands to two "name" OR "username" predicates.
+    // + 1 since the query processor appends a predicate to search for active accounts only.
     assertThat(suggestReviewers(changeId, query.toString())).isNotEmpty();
 
-    // Do a query which exceed index.maxTerms succeeds (10 terms plus 'inactive:1' term which is
+    // Do a query which exceed index.maxTerms succeeds (10 * 2 terms plus 'inactive:1' term which is
     // implicitly added).
     query.append(name("u"));
     BadRequestException exception =
         assertThrows(BadRequestException.class, () -> suggestReviewers(changeId, query.toString()));
     assertThat(exception)
         .hasMessageThat()
-        .isEqualTo("too many terms in query: 11 terms (max = 10)");
+        .isEqualTo("too many terms in query: 21 terms (max = 20)");
   }
 
   @Test

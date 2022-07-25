@@ -11,6 +11,7 @@ import '../../diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog';
 import '../../edit/gr-edit-file-controls/gr-edit-file-controls';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-cursor-manager/gr-cursor-manager';
+import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-linked-text/gr-linked-text';
 import '../../shared/gr-select/gr-select';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
@@ -79,7 +80,6 @@ import {classMap} from 'lit/directives/class-map';
 import {incrementalRepeat} from '../../lit/incremental-repeat';
 import {ifDefined} from 'lit/directives/if-defined';
 import {KnownExperimentId} from '../../../services/flags/flags';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -314,7 +314,6 @@ export class GrFileList extends LitElement {
     return [
       a11yStyles,
       sharedStyles,
-      iconStyles,
       css`
         :host {
           display: block;
@@ -577,6 +576,7 @@ export class GrFileList extends LitElement {
           font-size: 16px;
           position: relative;
           top: 2px;
+          display: block;
         }
 
         @media screen and (max-width: 1200px) {
@@ -1116,7 +1116,7 @@ export class GrFileList extends LitElement {
     if (!path) {
       return html`
         ${this.renderDivWithTooltip(`${psNum}`, `Patchset ${psNum}`)}
-        <div class="material-icon file-status-arrow">arrow_right_alt</div>
+        <gr-icon icon="arrow_right_alt" class="file-status-arrow"></gr-icon>
       `;
     }
     if (isMagicPath(path)) return nothing;
@@ -1131,7 +1131,7 @@ export class GrFileList extends LitElement {
         .status=${status}
         .labelPostfix=${postfix}
       ></gr-file-status>
-      <div class="material-icon file-status-arrow">arrow_right_alt</div>
+      <gr-icon icon="arrow_right_alt" class="file-status-arrow"></gr-icon>
     `;
   }
 
@@ -1360,9 +1360,12 @@ export class GrFileList extends LitElement {
       >
         <!-- Trick with tabindex to avoid outline on mouse focus, but
           preserve focus outline for keyboard navigation -->
-        <span class="show-hide-icon material-icon" tabindex="-1" id="icon"
-          >${this.computeShowHideIcon(file.__path)}
-        </span>
+        <gr-icon
+          class="show-hide-icon"
+          tabindex="-1"
+          id="icon"
+          icon=${this.computeShowHideIcon(file.__path)}
+        ></gr-icon>
       </span>
     </div>`;
   }

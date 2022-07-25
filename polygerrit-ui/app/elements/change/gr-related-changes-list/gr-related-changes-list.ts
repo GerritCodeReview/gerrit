@@ -8,6 +8,7 @@ import './gr-related-collapse';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../plugins/gr-endpoint-slot/gr-endpoint-slot';
+import '../../shared/gr-icon/gr-icon';
 import {classMap} from 'lit/directives/class-map';
 import {LitElement, css, html, TemplateResult} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
@@ -32,7 +33,6 @@ import {
   isChangeInfo,
 } from '../../../utils/change-util';
 import {DEFALT_NUM_CHANGES_WHEN_COLLAPSED} from './gr-related-collapse';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 export interface ChangeMarkersInList {
   showCurrentChangeArrow: boolean;
@@ -82,7 +82,6 @@ export class GrRelatedChangesList extends LitElement {
 
   static override get styles() {
     return [
-      iconStyles,
       sharedStyles,
       css`
         .note {
@@ -551,16 +550,16 @@ export class GrRelatedChangesList extends LitElement {
         role="img"
         class="marker arrow"
         aria-label="Arrow marking change has collapsed ancestors"
-        ><span class="material-icon">arrow_drop_up</span></span
-      > `;
+        ><gr-icon icon="arrow_drop_up"></gr-icon
+      ></span> `;
     }
     if (changeMarkers.showBottomArrow) {
       return html`<span
         role="img"
         class="marker arrow"
         aria-label="Arrow marking change has collapsed descendants"
-        ><span class="material-icon">arrow_drop_down</span></span
-      > `;
+        ><gr-icon icon="arrow_drop_down"></gr-icon
+      ></span> `;
     }
     return html`<span class="marker space"></span>`;
   }

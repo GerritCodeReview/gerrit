@@ -7,8 +7,8 @@ import {FileInfoStatus} from '../../../constants/constants';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {assertNever} from '../../../utils/common-util';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 import '../gr-tooltip-content/gr-tooltip-content';
+import '../gr-icon/gr-icon';
 
 function statusString(status: FileInfoStatus) {
   if (!status) return '';
@@ -63,7 +63,6 @@ export class GrFileStatus extends LitElement {
 
   static override get styles() {
     return [
-      iconStyles,
       css`
         :host {
           display: inline-block;
@@ -125,9 +124,11 @@ export class GrFileStatus extends LitElement {
   private renderNewlyChanged() {
     if (!this.newlyChanged) return;
     return html`<gr-tooltip-content title=${this.computeLabel()} has-tooltip>
-      <span class="material-icon size-16" aria-label=${this.computeLabel()}
-        >new_releases</span
-      >
+      <gr-icon
+        icon="new_releases"
+        class="size-16"
+        aria-label=${this.computeLabel()}
+      ></gr-icon>
     </gr-tooltip-content>`;
   }
 

@@ -23,6 +23,7 @@ import {
 import {GrButton} from '../gr-button/gr-button';
 import {ChangeViewChangeInfo} from '../../../types/common';
 import {GrDropdown} from '../gr-dropdown/gr-dropdown';
+import {GrIcon} from '../gr-icon/gr-icon';
 
 suite('gr-change-actions-js-api-interface tests', () => {
   let element: GrChangeActions;
@@ -137,15 +138,12 @@ suite('gr-change-actions-js-api-interface tests', () => {
       changeActions.setLabel(key, 'Yo');
       changeActions.setTitle(key, 'Yo hint');
       changeActions.setEnabled(key, false);
-      changeActions.setIcon(key, 'pupper');
+      changeActions.setIcon(key, 'hive');
       await element.updateComplete;
       assert.equal(button.getAttribute('data-label'), 'Yo');
       assert.equal(button.parentElement!.getAttribute('title'), 'Yo hint');
       assert.isTrue(button.disabled);
-      assert.equal(
-        queryAndAssert<HTMLSpanElement>(button, '.material-icon').textContent,
-        'pupper'
-      );
+      assert.equal(queryAndAssert<GrIcon>(button, 'gr-icon').icon, 'hive');
     });
 
     test('hide action buttons', async () => {

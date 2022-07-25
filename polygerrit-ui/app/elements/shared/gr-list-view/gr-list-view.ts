@@ -5,6 +5,7 @@
  */
 import '@polymer/iron-input/iron-input';
 import '../gr-button/gr-button';
+import '../gr-icon/gr-icon';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {page} from '../../../utils/page-wrapper-utils';
 import {fireEvent} from '../../../utils/event-util';
@@ -13,7 +14,6 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {BindValueChangeEvent} from '../../../types/events';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 const REQUEST_DEBOUNCE_INTERVAL_MS = 200;
 
@@ -55,7 +55,6 @@ export class GrListView extends LitElement {
 
   static override get styles() {
     return [
-      iconStyles,
       sharedStyles,
       css`
         #filter {
@@ -89,7 +88,7 @@ export class GrListView extends LitElement {
           margin-right: 20px;
           color: var(--deemphasized-text-color);
         }
-        .material-icon {
+        gr-icon {
           font-size: 1.85rem;
           margin-left: 16px;
         }
@@ -134,7 +133,7 @@ export class GrListView extends LitElement {
           )}
           ?hidden=${this.loading || this.offset === 0}
         >
-          <span class="material-icon">chevron_left</span>
+          <gr-icon icon="chevron_left"></gr-icon>
         </a>
         <a
           id="nextArrow"
@@ -147,7 +146,7 @@ export class GrListView extends LitElement {
           )}
           ?hidden=${this.hideNextArrow(this.loading, this.items)}
         >
-          <span class="material-icon">chevron_right</span>
+          <gr-icon icon="chevron_right"></gr-icon>
         </a>
       </nav>
     `;

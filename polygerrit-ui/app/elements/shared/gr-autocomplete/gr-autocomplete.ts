@@ -6,6 +6,7 @@
 import '@polymer/paper-input/paper-input';
 import '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 import '../gr-cursor-manager/gr-cursor-manager';
+import '../gr-icon/gr-icon';
 import '../../../styles/shared-styles';
 import {GrAutocompleteDropdown} from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 import {fire, fireEvent} from '../../../utils/event-util';
@@ -18,7 +19,6 @@ import {customElement, property, query, state} from 'lit/decorators';
 import {ValueChangedEvent} from '../../../types/events';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {IronInputElement} from '@polymer/iron-input';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;
 const DEBOUNCE_WAIT_MS = 200;
@@ -188,7 +188,6 @@ export class GrAutocomplete extends LitElement {
   }
 
   static override styles = [
-    iconStyles,
     sharedStyles,
     css`
       .searchIcon {
@@ -197,7 +196,7 @@ export class GrAutocomplete extends LitElement {
       .searchIcon.showSearchIcon {
         display: inline-block;
       }
-      .material-icon {
+      gr-icon {
         margin: 0 var(--spacing-xs);
       }
       paper-input.borderless {
@@ -300,12 +299,12 @@ export class GrAutocomplete extends LitElement {
         .label=${this.label}
       >
         <div slot="prefix">
-          <span
-            class="material-icon searchIcon ${this.computeShowSearchIconClass(
+          <gr-icon
+            icon="search"
+            class="searchIcon ${this.computeShowSearchIconClass(
               this.showSearchIcon
             )}"
-            >search
-          </span>
+          ></gr-icon>
         </div>
 
         <div slot="suffix">

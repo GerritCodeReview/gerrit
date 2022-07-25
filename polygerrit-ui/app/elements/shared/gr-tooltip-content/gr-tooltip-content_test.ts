@@ -42,18 +42,18 @@ suite('gr-tooltip-content tests', () => {
 
     expect(element).shadowDom.to.equal(/* HTML */ `
       <slot> </slot>
-      <span class="filled material-icon"> info </span>
+      <gr-icon icon="info" filled></gr-icon>
     `);
   });
 
   test('icon is not visible by default', () => {
-    assert.isNotOk(query(element, '.material-icon'));
+    assert.isNotOk(query(element, 'gr-icon'));
   });
 
   test('icon is visible with showIcon property', async () => {
     element.showIcon = true;
     await element.updateComplete;
-    assert.isOk(query(element, '.material-icon'));
+    assert.isOk(query(element, 'gr-icon'));
   });
 
   test('position-below attribute is reflected', async () => {

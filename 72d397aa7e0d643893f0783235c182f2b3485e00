@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "567cf3c0_ae4e11d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-25T08:20:39Z",
+      "side": 1,
+      "message": "Commit message needs a lot more detail.\n\nWhat is the justification behind it? The linked bug is discussing that it is reverting a change that was meant to remove clutter.\n\nWhat is the justification for making the tradeoff that we are fine adding clutter for the users who were benefiting from the reverted change?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 46
+      },
+      "revId": "72d397aa7e0d643893f0783235c182f2b3485e00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

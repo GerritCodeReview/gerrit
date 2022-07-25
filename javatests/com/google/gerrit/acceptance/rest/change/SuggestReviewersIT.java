@@ -190,7 +190,9 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     query.append(name("u"));
     BadRequestException exception =
         assertThrows(BadRequestException.class, () -> suggestReviewers(changeId, query.toString()));
-    assertThat(exception).hasMessageThat().isEqualTo("too many terms in query");
+    assertThat(exception)
+        .hasMessageThat()
+        .isEqualTo("too many terms in query: 11 terms (max = 10)");
   }
 
   @Test

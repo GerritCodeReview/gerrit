@@ -158,6 +158,9 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
 
     MutableInteger leafTerms = new MutableInteger();
     Predicate<ChangeData> out = rewriteImpl(in, index, opts, leafTerms);
+    if (leafTerms.value > config.maxTerms()) {
+      throw new TooManyTermsInQueryException(leafTerms.value, config.maxTerms());
+    }
     if (isSameInstance(in, out) || out instanceof IndexPredicate) {
       return new IndexedChangeQuery(index, out, opts);
     } else if (out == null /* cannot rewrite */) {
@@ -186,9 +189,7 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
       throws QueryParseException {
     in = IsSubmittablePredicate.rewrite(in);
     if (isIndexPredicate(in, index)) {
-      if (++leafTerms.value > config.maxTerms()) {
-        throw new TooManyTermsInQueryException();
-      }
+      ++leafTerms.value;
       return in;
     } else if (in instanceof LimitPredicate) {
       // Replace any limits with the limit provided by the caller. The caller

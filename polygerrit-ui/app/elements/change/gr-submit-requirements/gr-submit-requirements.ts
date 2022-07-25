@@ -82,7 +82,7 @@ export class GrSubmitRequirements extends LitElement {
           margin: 0 0 var(--spacing-s);
           padding-top: var(--spacing-s);
         }
-        .material-icon {
+        gr-icon {
           font-size: var(--line-height-normal, 20px);
         }
         .requirements,

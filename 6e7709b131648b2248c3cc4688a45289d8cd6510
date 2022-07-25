@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "923879d4_502b1848",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-25T13:46:58Z",
+      "side": 1,
+      "message": "Obsolete.",
+      "parentUuid": "a16aca99_15737139",
+      "range": {
+        "startLine": 440,
+        "startChar": 10,
+        "endLine": 440,
+        "endChar": 18
+      },
+      "revId": "6e7709b131648b2248c3cc4688a45289d8cd6510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1c306b94_31ae5bc6",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-07-25T13:38:00Z",
       "side": 1,
       "message": "once new char is typed after \u0027:\u0027, how do we update the suggestions?",
+      "range": {
+        "startLine": 505,
+        "startChar": 4,
+        "endLine": 505,
+        "endChar": 31
+      },
+      "revId": "6e7709b131648b2248c3cc4688a45289d8cd6510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c45b45d_abc4353c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-25T13:46:58Z",
+      "side": 1,
+      "message": "Obsolete.",
+      "parentUuid": "1c306b94_31ae5bc6",
       "range": {
         "startLine": 505,
         "startChar": 4,

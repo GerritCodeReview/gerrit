@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42ea6a7c_c865406c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-25T10:31:53Z",
+      "side": 0,
+      "message": "I haven\u0027t checked, but after this change, they aren\u0027t any .material-icon in codebase except of gr-icon.",
+      "range": {
+        "startLine": 137,
+        "startChar": 9,
+        "endLine": 137,
+        "endChar": 17
+      },
+      "revId": "e690be09fc67f3f20dd42409f03473c073a1a6b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d211d570_f63338f6",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1093,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-25T10:31:53Z",
+      "side": 0,
+      "message": "I assume this class wasn\u0027t used anywhere",
+      "range": {
+        "startLine": 1093,
+        "startChar": 41,
+        "endLine": 1093,
+        "endChar": 48
+      },
+      "revId": "e690be09fc67f3f20dd42409f03473c073a1a6b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

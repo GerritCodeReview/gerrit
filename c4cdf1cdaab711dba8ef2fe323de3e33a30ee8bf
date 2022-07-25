@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6fcfe80_5e760799",
+        "filename": "java/com/google/gerrit/server/index/account/AccountIndexRewriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-25T12:05:15Z",
+      "side": 1,
+      "message": "I\u0027m leaving this check untouched but I wonder if it\u0027s correct? shouldn\u0027t the negation be removed ...?",
+      "revId": "c4cdf1cdaab711dba8ef2fe323de3e33a30ee8bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

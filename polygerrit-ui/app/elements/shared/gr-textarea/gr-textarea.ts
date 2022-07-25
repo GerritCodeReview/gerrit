@@ -24,6 +24,8 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {PropertyValues} from 'lit';
 import {classMap} from 'lit/directives/class-map';
 import {KnownExperimentId} from '../../../services/flags/flags';
+import { getAccountSuggestions } from '../../../utils/account-util';
+import { AutocompleteQuery } from '../gr-autocomplete/gr-autocomplete';
 
 const MAX_ITEMS_DROPDOWN = 10;
 
@@ -110,10 +112,20 @@ export class GrTextarea extends LitElement {
 
   private readonly flagsService = getAppContext().flagsService;
 
+  private readonly restApiService = getAppContext().restApiService;
+
   private disableEnterKeyForSelectingSuggestion = false;
+
+  private readonly queryMentions?: AutocompleteQuery;
 
   /** Called in disconnectedCallback. */
   private cleanups: (() => void)[] = [];
+
+  constructor() {
+    super();
+    this.queryMentions = input =>
+      getAccountSuggestions(input, this.restApiService);
+  }
 
   override disconnectedCallback() {
     super.disconnectedCallback();
@@ -251,12 +263,14 @@ export class GrTextarea extends LitElement {
   }
 
   private renderMentionsDropdown() {
-    if (!this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS))
-      return nothing;
+    // revert
+    // if (!this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS))
+      // return nothing;
     return html` <gr-autocomplete-dropdown
       id="mentionsSuggestions"
       vertical-align="top"
       horizontal-align="left"
+      .query=${this.queryMentions}
       .horizontalOffset=${20}
       .verticalOffset=${20}
       role="listbox"
@@ -448,7 +462,7 @@ export class GrTextarea extends LitElement {
     return null;
   }
 
-  private openOrResetDropdown(
+  private async openOrResetDropdown(
     activeDropdown: GrAutocompleteDropdown,
     text: string,
     charIndex: number,
@@ -463,7 +477,7 @@ export class GrTextarea extends LitElement {
       this.determineSuggestions(this.currentSearchString);
       suggestions = this.suggestions;
     } else {
-      suggestions = this.mentions;
+      suggestions = await getAccountSuggestions(this.currentSearchString, this.restApiService);
     }
 
     if (this.shouldResetDropdown(text, charIndex, suggestions, specialChar)) {
@@ -506,7 +520,7 @@ export class GrTextarea extends LitElement {
       if (charAtCursor === ':' && this.specialCharIndex === null) {
         this.specialCharIndex = this.getIndex(text);
       }
-      if (this.specialCharIndex !== null) {
+      if (this.specialCharIndex !== null && text[this.specialCharIndex] === ':') {
         this.openOrResetDropdown(
           this.emojiSuggestions!,
           text,
@@ -518,7 +532,8 @@ export class GrTextarea extends LitElement {
       this.textarea!.textarea.focus();
     }
 
-    if (!this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) return;
+    // revert
+    // if (!this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) return;
 
     if (charAtCursor === '@') {
       this.specialCharIndex = this.getIndex(text);

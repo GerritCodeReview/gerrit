@@ -21,8 +21,10 @@ import {assertNever, hasOwnProperty} from './common-util';
 import {AccountAddition} from '../elements/shared/gr-account-list/gr-account-list';
 import {getDisplayName} from './display-name-util';
 import {getApprovalInfo} from './label-util';
+import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
 
 export const ACCOUNT_TEMPLATE_REGEX = '<GERRIT_ACCOUNT_(\\d+)>';
+const SUGGESTIONS_LIMIT = 15;
 
 export function accountKey(account: AccountInfo): AccountId | EmailAddress {
   if (account._account_id !== undefined) return account._account_id;
@@ -169,4 +171,29 @@ export function computeVoteableText(change: ChangeInfo, reviewer: AccountInfo) {
     maxScores.push(`${label}: ${scoreLabel}`);
   }
   return maxScores.join(', ');
+}
+
+export function getAccountSuggestions(
+  input: string,
+  restApiService: RestApiService
+) {
+  return restApiService
+    .getSuggestedAccounts(input, SUGGESTIONS_LIMIT)
+    .then(accounts => {
+      if (!accounts) return [];
+      const accountSuggestions = [];
+      for (const account of accounts) {
+        let nameAndEmail;
+        if (account.email !== undefined) {
+          nameAndEmail = `${account.name} <${account.email}>`;
+        } else {
+          nameAndEmail = account.name;
+        }
+        accountSuggestions.push({
+          name: nameAndEmail,
+          value: account._account_id?.toString(),
+        });
+      }
+      return accountSuggestions;
+    });
 }

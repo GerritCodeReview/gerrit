@@ -5,6 +5,7 @@
  */
 import '../../shared/gr-account-chip/gr-account-chip';
 import '../../shared/gr-button/gr-button';
+import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-vote-chip/gr-vote-chip';
 import {LitElement, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
@@ -22,7 +23,6 @@ import {sortReviewers} from '../../../utils/attention-set-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css} from 'lit';
 import {nothing} from 'lit';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 @customElement('gr-reviewer-list')
 export class GrReviewerList extends LitElement {
@@ -54,7 +54,6 @@ export class GrReviewerList extends LitElement {
 
   static override get styles() {
     return [
-      iconStyles,
       sharedStyles,
       css`
         :host {
@@ -118,7 +117,7 @@ export class GrReviewerList extends LitElement {
               class="addReviewer"
               @click=${this.handleAddTap}
               title=${this.ccsOnly ? 'Add CC' : 'Add reviewer'}
-              ><span class="material-icon filled">edit</span>
+              ><gr-icon icon="edit" filled></gr-icon>
             </gr-button>
           </div>
         </div>

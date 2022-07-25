@@ -3,12 +3,12 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import '../../shared/gr-icon/gr-icon'
 import {customElement, property} from 'lit/decorators';
 import {css, html, LitElement} from 'lit';
 import {HovercardMixin} from '../../../mixins/hovercard-mixin/hovercard-mixin';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {LabelInfo} from '../../../api/rest-api';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
 const base = HovercardMixin(LitElement);
@@ -24,7 +24,6 @@ export class GrTriggerVoteHovercard extends base {
   static override get styles() {
     return [
       fontStyles,
-      iconStyles,
       base.styles || [],
       css`
         #container {
@@ -47,7 +46,7 @@ export class GrTriggerVoteHovercard extends base {
         div.sectionIcon {
           flex: 0 0 30px;
         }
-        div.sectionIcon .material-icon {
+        div.sectionIcon gr-icon {
           position: relative;
           font-size: 20px;
         }
@@ -66,7 +65,7 @@ export class GrTriggerVoteHovercard extends base {
       </div>
       <div class="section">
         <div class="sectionIcon">
-          <span class="small material-icon">info</span>
+          <gr-icon icon="info" class="small"></gr-icon></span>
         </div>
         <div class="sectionContent">
           <div class="row">
@@ -86,7 +85,7 @@ export class GrTriggerVoteHovercard extends base {
     if (!description) return;
     return html`<div class="section description">
       <div class="sectionIcon">
-        <span class="material-icon">description</span>
+        <gr-icon icon="description"></gr-icon>
       </div>
       <div class="sectionContent">
         <gr-formatted-text

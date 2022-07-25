@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '@polymer/paper-tooltip/paper-tooltip';
+import '../shared/gr-icon/gr-icon';
 import {LitElement, css, html, PropertyValues, nothing} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
 import {RunResult} from '../../models/checks/checks-model';
@@ -12,7 +13,6 @@ import {modifierPressed} from '../../utils/dom-util';
 import './gr-checks-results';
 import './gr-hovercard-run';
 import {fontStyles} from '../../styles/gr-font-styles';
-import {iconStyles} from '../../styles/gr-icon-styles';
 
 @customElement('gr-diff-check-result')
 export class GrDiffCheckResult extends LitElement {
@@ -35,7 +35,6 @@ export class GrDiffCheckResult extends LitElement {
   static override get styles() {
     return [
       fontStyles,
-      iconStyles,
       css`
         .container {
           font-family: var(--font-family);
@@ -99,10 +98,10 @@ export class GrDiffCheckResult extends LitElement {
           display: block;
           margin-top: var(--spacing-m);
         }
-        .material-icon {
+        gr-icon {
           font-size: var(--line-height-normal);
         }
-        .icon .material-icon {
+        .icon gr-icon {
           font-size: calc(var(--line-height-normal) - 4px);
           position: relative;
           top: 2px;
@@ -119,9 +118,7 @@ export class GrDiffCheckResult extends LitElement {
       <div class="${cat} container font-normal">
         <div class="header" @click=${this.toggleExpandedClick}>
           <div class="icon">
-            <span class="material-icon ${icon.filled ? 'filled' : ''}"
-              >${icon.name}</span
-            >
+            <gr-icon icon=${icon.name} ?filled=${icon.filled}></gr-icon>
           </div>
           <div class="name">
             <gr-hovercard-run .run=${this.result}></gr-hovercard-run>
@@ -160,9 +157,9 @@ export class GrDiffCheckResult extends LitElement {
           : 'Expand result row'}
         @keydown=${this.toggleExpandedPress}
       >
-        <span class="material-icon"
-          >${this.isExpanded ? 'expand_less' : 'expand_more'}</span
-        >
+        <gr-icon
+          icon=${this.isExpanded ? 'expand_less' : 'expand_more'}
+        ></gr-icon>
       </div>
     `;
   }

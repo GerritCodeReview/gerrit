@@ -40,7 +40,7 @@ suite('gr-autocomplete tests', () => {
         tabindex="0"
       >
         <div slot="prefix">
-          <span class="material-icon searchIcon"> search </span>
+          <gr-icon icon="search" class="searchIcon"></gr-icon>
         </div>
         <div slot="suffix">
           <slot name="suffix"> </slot>
@@ -84,7 +84,7 @@ suite('gr-autocomplete tests', () => {
           tabindex="0"
         >
           <div slot="prefix">
-            <span class="material-icon searchIcon"> search </span>
+            <gr-icon icon="search" class="searchIcon"></gr-icon>
           </div>
           <div slot="suffix">
             <slot name="suffix"> </slot>
@@ -469,14 +469,14 @@ suite('gr-autocomplete tests', () => {
 
   test('search icon shows with showSearchIcon property', async () => {
     assert.equal(
-      getComputedStyle(queryAndAssert(element, '.material-icon')).display,
+      getComputedStyle(queryAndAssert(element, 'gr-icon')).display,
       'none'
     );
     element.showSearchIcon = true;
     await element.updateComplete;
 
     assert.notEqual(
-      getComputedStyle(queryAndAssert(element, '.material-icon')).display,
+      getComputedStyle(queryAndAssert(element, 'gr-icon')).display,
       'none'
     );
   });

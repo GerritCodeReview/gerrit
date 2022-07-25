@@ -35,7 +35,7 @@ suite('gr-editable-content tests', () => {
           role="button"
           tabindex="0"
         >
-          <span class="material-icon">expand_more</span>
+          <gr-icon icon="expand_more"></gr-icon>
           Show all
         </gr-button>
         <div class="flex-space"></div>
@@ -47,7 +47,7 @@ suite('gr-editable-content tests', () => {
           tabindex="0"
           title="Edit commit message"
         >
-          <span class="material-icon filled">edit</span>
+          <gr-icon icon="edit" filled></gr-icon>
           Edit
         </gr-button>
       </div>

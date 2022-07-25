@@ -241,7 +241,7 @@ export function extractAssociatedLabels(
 export interface SubmitRequirementsIcon {
   // The material icon name.
   icon: string;
-  // Whether the material-icon need to be filled.
+  // Whether the gr-icon need to be filled.
   filled?: boolean;
 }
 

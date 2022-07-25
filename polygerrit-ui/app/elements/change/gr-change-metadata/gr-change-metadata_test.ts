@@ -91,8 +91,8 @@ suite('gr-change-metadata tests', () => {
           tabindex="0"
           aria-disabled="false"
         >
-          Show all <span class="material-icon">expand_more</span>
-          <span hidden="" class="material-icon">expand_less</span>
+          Show all <gr-icon icon="expand_more"></gr-icon>
+          <gr-icon hidden="" icon="expand_less"></gr-icon>
         </gr-button>
       </div>
       <section class="hideDisplay">

@@ -13,6 +13,7 @@ import '../../plugins/gr-external-style/gr-external-style';
 import '../../shared/gr-account-chip/gr-account-chip';
 import '../../shared/gr-date-formatter/gr-date-formatter';
 import '../../shared/gr-editable-label/gr-editable-label';
+import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-limited-text/gr-limited-text';
 import '../../shared/gr-linked-chip/gr-linked-chip';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
@@ -80,7 +81,6 @@ import {fontStyles} from '../../../styles/gr-font-styles';
 import {changeMetadataStyles} from '../../../styles/gr-change-metadata-shared-styles';
 import {when} from 'lit/directives/when';
 import {ifDefined} from 'lit/directives/if-defined';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
 
@@ -176,7 +176,6 @@ export class GrChangeMetadata extends LitElement {
   static override styles = [
     sharedStyles,
     fontStyles,
-    iconStyles,
     changeMetadataStyles,
     css`
       :host {
@@ -262,7 +261,7 @@ export class GrChangeMetadata extends LitElement {
          commit message box. Their top border should be on the same line. */
         margin-bottom: var(--spacing-s);
       }
-      .show-all-button .material-icon {
+      .show-all-button gr-icon {
         color: inherit;
         font-size: 18px;
       }
@@ -312,11 +311,8 @@ export class GrChangeMetadata extends LitElement {
       class="show-all-button"
       @click=${this.onShowAllClick}
       >${this.showAllSections ? 'Show less' : 'Show all'}
-      <span class="material-icon" ?hidden=${this.showAllSections}
-        >expand_more</span
-      ><span class="material-icon" ?hidden=${!this.showAllSections}
-        >expand_less</span
-      >
+      <gr-icon icon="expand_more" ?hidden=${this.showAllSections}></gr-icon>
+      <gr-icon icon="expand_less" ?hidden=${!this.showAllSections}></gr-icon>
     </gr-button>`;
   }
 
@@ -386,11 +382,10 @@ export class GrChangeMetadata extends LitElement {
             has-tooltip
             title=${this.pushCertificateValidation!.message}
           >
-            <span
-              class="icon material-icon ${this.pushCertificateValidation!
-                .class}"
-              >${this.pushCertificateValidation!.icon}</span
-            >
+            <gr-icon
+              icon=${this.pushCertificateValidation!.icon}
+              class="icon ${this.pushCertificateValidation!.class}"
+            ></gr-icon>
           </gr-tooltip-content>`
         )}
       </span>

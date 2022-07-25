@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../gr-button/gr-button';
+import '../gr-icon/gr-icon';
 import '../gr-limited-text/gr-limited-text';
 import {fireEvent} from '../../../utils/event-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -37,7 +37,6 @@ export class GrLinkedChip extends LitElement {
 
   static override get styles() {
     return [
-      iconStyles,
       sharedStyles,
       css`
         :host {
@@ -58,7 +57,7 @@ export class GrLinkedChip extends LitElement {
         a {
           color: var(--linked-chip-text-color);
         }
-        .material-icon {
+        gr-icon {
           font-size: 1.2rem;
         }
         gr-button::part(paper-button),
@@ -95,7 +94,7 @@ export class GrLinkedChip extends LitElement {
         class="remove"
         @click=${this.handleRemoveTap}
       >
-        <span class="material-icon">close</span>
+        <gr-icon icon="close"></gr-icon>
       </gr-button>
     </div>`;
   }

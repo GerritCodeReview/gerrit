@@ -28,14 +28,14 @@ suite('gr-hovercard-run tests', () => {
         <div class="section">
           <div class="chipRow">
             <div class="chip">
-              <span class="material-icon">check</span>
+              <gr-icon icon="check"></gr-icon>
               <span> COMPLETED </span>
             </div>
           </div>
         </div>
         <div class="section">
           <div class="sectionIcon">
-            <span class="material-icon filled error">error</span>
+            <gr-icon icon="error" filled class="error"></gr-icon>
           </div>
           <div class="sectionContent">
             <h3 class="heading-3 name">

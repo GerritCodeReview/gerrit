@@ -5,6 +5,7 @@
  */
 import '../gr-avatar/gr-avatar';
 import '../gr-button/gr-button';
+import '../gr-icon/gr-icon';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import {getAppContext} from '../../../services/app-context';
@@ -37,7 +38,6 @@ import {css, html, LitElement} from 'lit';
 import {ifDefined} from 'lit/directives/if-defined';
 import {HovercardMixin} from '../../../mixins/hovercard-mixin/hovercard-mixin';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
 const base = HovercardMixin(LitElement);
@@ -86,7 +86,6 @@ export class GrHovercardAccount extends base {
   static override get styles() {
     return [
       fontStyles,
-      iconStyles,
       base.styles || [],
       css`
         .top,
@@ -123,17 +122,17 @@ export class GrHovercardAccount extends base {
         .attention a {
           text-decoration: none;
         }
-        .status .material-icon {
+        .status gr-icon {
           font-size: 14px;
           position: relative;
           top: 2px;
         }
-        .material-icon.attentionIcon {
+        gr-icon.attentionIcon {
           font-size: 14px;
           position: relative;
           top: 3px;
         }
-        .material-icon.linkIcon {
+        gr-icon.linkIcon {
           font-size: var(--line-height-normal, 20px);
           color: var(--deemphasized-text-color);
           padding-right: 12px;
@@ -225,7 +224,7 @@ export class GrHovercardAccount extends base {
 
   private renderLinks() {
     return html` <div class="links">
-      <span class="material-icon linkIcon">link</span
+      <gr-icon icon="link" class="linkIcon"></gr-icon
       ><a
         href=${ifDefined(this.computeOwnerChangesLink())}
         @click=${() => {
@@ -268,15 +267,17 @@ export class GrHovercardAccount extends base {
     return html`
       <div class="attention">
         <div>
-          <span class="attentionIcon material-icon filled"
-            >label_important</span
-          >
+          <gr-icon
+            icon="label_important"
+            filled
+            class="attentionIcon`"
+          ></gr-icon>
           <span> ${this.computePronoun()} turn to take action. </span>
           <a
             href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"
             target="_blank"
           >
-            <span class="material-icon" title="read documentation">help</span>
+            <gr-icon icon="help" title="read documentation"></gr-icon>
           </a>
         </div>
         <div class="reason">

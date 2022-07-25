@@ -27,7 +27,7 @@ import {
   InheritedBooleanInfoConfiguredValue,
   SubmitType,
 } from '../../../constants/constants';
-import {changeIsOpen, isOwner} from '../../../utils/change-util';
+import {changeIsOpen} from '../../../utils/change-util';
 import {
   AccountDetailInfo,
   AccountInfo,
@@ -575,7 +575,7 @@ export class GrChangeMetadata extends LitElement {
     if (!showTopic) return nothing;
 
     return html`<section
-      class="topic ${this.computeDisplayState(Metadata.TOPIC, this.account)}"
+      class="topic ${this.computeDisplayState(Metadata.TOPIC)}"
     >
       <span class="title">Topic</span>
       <span class="value">
@@ -1017,19 +1017,7 @@ export class GrChangeMetadata extends LitElement {
       });
   }
 
-  private computeDisplayState(section: Metadata, account?: AccountDetailInfo) {
-    // special case for Topic - show always for owners, others when set
-    if (section === Metadata.TOPIC) {
-      if (
-        this.showAllSections ||
-        isOwner(this.change, account) ||
-        isSectionSet(section, this.change)
-      ) {
-        return '';
-      } else {
-        return 'hideDisplay';
-      }
-    }
+  private computeDisplayState(section: Metadata) {
     if (
       this.showAllSections ||
       DisplayRules.ALWAYS_SHOW.includes(section) ||

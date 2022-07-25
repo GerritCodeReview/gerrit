@@ -3,6 +3,46 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "da5aab6d_fb45f910",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-25T12:23:17Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "c4cdf1cdaab711dba8ef2fe323de3e33a30ee8bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41b7be7d_0c1d4304",
+        "filename": "java/com/google/gerrit/server/index/account/AccountIndexRewriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-25T12:23:17Z",
+      "side": 1,
+      "message": "Maybe rename this to something like \"countLeafTerms\"? \nI think it\u0027s not validating anything anymore.",
+      "range": {
+        "startLine": 67,
+        "startChar": 15,
+        "endLine": 67,
+        "endChar": 38
+      },
+      "revId": "c4cdf1cdaab711dba8ef2fe323de3e33a30ee8bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "f6fcfe80_5e760799",
         "filename": "java/com/google/gerrit/server/index/account/AccountIndexRewriter.java",
         "patchSetId": 2
@@ -14,6 +54,24 @@
       "writtenOn": "2022-07-25T12:05:15Z",
       "side": 1,
       "message": "I\u0027m leaving this check untouched but I wonder if it\u0027s correct? shouldn\u0027t the negation be removed ...?",
+      "revId": "c4cdf1cdaab711dba8ef2fe323de3e33a30ee8bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2919ef5_a90b87b2",
+        "filename": "java/com/google/gerrit/server/index/account/AccountIndexRewriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-25T12:23:17Z",
+      "side": 1,
+      "message": "Good find. I also think this check is wrong and the negation should be removed. Can you fix this in a separate change?",
+      "parentUuid": "f6fcfe80_5e760799",
       "revId": "c4cdf1cdaab711dba8ef2fe323de3e33a30ee8bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

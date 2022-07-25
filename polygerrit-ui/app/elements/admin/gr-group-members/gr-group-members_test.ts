@@ -27,6 +27,8 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {PageErrorEvent} from '../../../types/events.js';
+import {getAccountSuggestions} from '../../../utils/account-util';
+import {getAppContext} from '../../../services/app-context';
 
 const basicFixture = fixtureFromElement('gr-group-members');
 
@@ -492,12 +494,18 @@ suite('gr-group-members tests', () => {
   });
 
   test('getAccountSuggestions empty', async () => {
-    const accounts = await element.getAccountSuggestions('nonexistent');
+    const accounts = await getAccountSuggestions(
+      'nonexistent',
+      getAppContext().restApiService
+    );
     assert.equal(accounts.length, 0);
   });
 
   test('getAccountSuggestions non-empty', async () => {
-    const accounts = await element.getAccountSuggestions('test-');
+    const accounts = await getAccountSuggestions(
+      'test-',
+      getAppContext().restApiService
+    );
     assert.equal(accounts.length, 3);
     assert.equal(accounts[0].name, 'test-account <test.account@example.com>');
     assert.equal(accounts[1].name, 'test-admin <test.admin@example.com>');

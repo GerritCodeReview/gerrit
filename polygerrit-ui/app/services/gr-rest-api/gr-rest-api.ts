@@ -158,7 +158,9 @@ export interface RestApiService extends Finalizable {
   ): Promise<SuggestedReviewerInfo[] | undefined>;
   getSuggestedAccounts(
     input: string,
-    n?: number
+    n?: number,
+    canSee?: NumericChangeId,
+    filterActive?: boolean
   ): Promise<AccountInfo[] | undefined>;
   getSuggestedGroups(
     input: string,

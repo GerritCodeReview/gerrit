@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33457db2_99ceba60",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-25T08:38:30Z",
+      "side": 1,
+      "message": "You mean \"At any point\"",
+      "revId": "a30fcdd70fb3670b54efcd2e143f804318e65c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c16a151_ed958891",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-25T08:38:30Z",
+      "side": 1,
+      "message": "I don\u0027t understand this name-change, don\u0027t you want to reset the emoji dropdown?",
+      "revId": "a30fcdd70fb3670b54efcd2e143f804318e65c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d697eca_8173a22d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-25T08:38:30Z",
+      "side": 1,
+      "message": "This is not correct, if it\u0027s not rendered at all this will return null,",
+      "revId": "a30fcdd70fb3670b54efcd2e143f804318e65c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a04f1b1_fed44a3b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-25T08:38:30Z",
+      "side": 1,
+      "message": "You\u0027re not checking if atIndex \u003d\u003d\u003d null like above",
+      "revId": "a30fcdd70fb3670b54efcd2e143f804318e65c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d33940a3_fcf6ae96",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-25T08:38:30Z",
+      "side": 1,
+      "message": "Please deduplicate this logic into a helper method/function.\n\nDo you really need both atIndex and colonIndex if only ever one can be set?\n\nWouldn\u0027t it be sufficient ot simply have \"startIndex\" and then you store which dropdown is currently open with\n\n\"this.activeSuggestions \u003d this.mentionsSuggestions\"",
+      "revId": "a30fcdd70fb3670b54efcd2e143f804318e65c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -187,7 +187,7 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
     in = IsSubmittablePredicate.rewrite(in);
     if (isIndexPredicate(in, index)) {
       if (++leafTerms.value > config.maxTerms()) {
-        throw new TooManyTermsInQueryException();
+        throw new TooManyTermsInQueryException(leafTerms.value, config.maxTerms());
       }
       return in;
     } else if (in instanceof LimitPredicate) {

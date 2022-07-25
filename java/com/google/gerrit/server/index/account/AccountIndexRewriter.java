@@ -65,7 +65,7 @@ public class AccountIndexRewriter implements IndexRewriter<AccountState> {
       throws TooManyTermsInQueryException {
     if (!(predicate instanceof IndexPredicate)) {
       if (++leafTerms.value > config.maxTerms()) {
-        throw new TooManyTermsInQueryException();
+        throw new TooManyTermsInQueryException(leafTerms.value, config.maxTerms());
       }
     }
 

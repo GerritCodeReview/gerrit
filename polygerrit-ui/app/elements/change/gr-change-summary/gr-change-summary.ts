@@ -6,6 +6,7 @@
 import './gr-checks-chip';
 import './gr-summary-chip';
 import '../../shared/gr-avatar/gr-avatar';
+import '../../shared/gr-icon/gr-icon';
 import '../../checks/gr-checks-action';
 import {LitElement, css, html} from 'lit';
 import {customElement, state} from 'lit/decorators';
@@ -55,7 +56,6 @@ import {roleDetails} from '../../../utils/change-util';
 
 import {SummaryChipStyles} from './gr-summary-chip';
 import {when} from 'lit/directives/when';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 function handleSpaceOrEnter(e: KeyboardEvent, handler: () => void) {
   if (modifierPressed(e)) return;
@@ -172,7 +172,6 @@ export class GrChangeSummary extends LitElement {
 
   static override get styles() {
     return [
-      iconStyles,
       sharedStyles,
       spinnerStyles,
       css`
@@ -203,17 +202,17 @@ export class GrChangeSummary extends LitElement {
         div.error {
           background-color: var(--error-background);
         }
-        div.info .material-icon,
-        div.error .material-icon {
+        div.info gr-icon,
+        div.error gr-icon {
           font-size: 16px;
           position: relative;
           top: 4px;
           margin-right: var(--spacing-s);
         }
-        div.info .material-icon {
+        div.info gr-icon {
           color: var(--info-foreground);
         }
-        div.error .material-icon {
+        div.error gr-icon {
           color: var(--error-foreground);
         }
         div.info .right,
@@ -230,7 +229,7 @@ export class GrChangeSummary extends LitElement {
           justify-content: space-between;
           background: var(--info-background);
         }
-        .login .material-icon {
+        .login gr-icon {
           color: var(--info-foreground);
         }
         .login gr-button {
@@ -330,9 +329,7 @@ export class GrChangeSummary extends LitElement {
         .items=${items}
         .disabledIds=${disabledIds}
       >
-        <span class="material-icon" aria-labelledby="moreMessage"
-          >more_vert</span
-        >
+        <gr-icon icon="more_vert" aria-labelledby="moreMessage"></gr-icon>
         <span id="moreMessage">More</span>
       </gr-dropdown>
     `;
@@ -343,7 +340,7 @@ export class GrChangeSummary extends LitElement {
       m => html`
         <div class="info">
           <div class="left">
-            <span class="material-icon filled">info</span>
+            <gr-icon icon="info" filled></gr-icon>
           </div>
           <div class="right">
             <div class="message" title=${m}>${m}</div>
@@ -359,7 +356,7 @@ export class GrChangeSummary extends LitElement {
         html`
           <div class="error zeroState">
             <div class="left">
-              <span class="material-icon filled">error</span>
+              <gr-icon icon="error" filled></gr-icon>
             </div>
             <div class="right">
               <div class="message" title=${message}>
@@ -376,7 +373,7 @@ export class GrChangeSummary extends LitElement {
     return html`
       <div class="login">
         <div class="left">
-          <span class="material-icon">info</span>
+          <gr-icon icon="info"></gr-icon>
           Not logged in
         </div>
         <div class="right">

@@ -44,7 +44,6 @@ import {ValueChangedEvent} from '../../../types/events';
 import {fireAlert, fireReload} from '../../../utils/event-util';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {Interaction} from '../../../constants/reporting';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 @customElement('gr-change-list-reviewer-flow')
 export class GrChangeListReviewerFlow extends LitElement {
@@ -108,7 +107,6 @@ export class GrChangeListReviewerFlow extends LitElement {
 
   static override get styles() {
     return [
-      iconStyles,
       css`
         gr-dialog {
           width: 60em;

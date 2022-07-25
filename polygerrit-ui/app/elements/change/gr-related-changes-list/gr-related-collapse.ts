@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {LitElement, css, html, nothing, TemplateResult} from 'lit';
+import '../../shared/gr-icon/gr-icon';
 import {customElement, property} from 'lit/decorators';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {getAppContext} from '../../../services/app-context';
 import {Interaction} from '../../../constants/reporting';
 import {fontStyles} from '../../../styles/gr-font-styles';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 /** What is the maximum number of shown changes in collapsed list? */
 export const DEFALT_NUM_CHANGES_WHEN_COLLAPSED = 3;
@@ -37,7 +37,6 @@ export class GrRelatedCollapse extends LitElement {
     return [
       sharedStyles,
       fontStyles,
-      iconStyles,
       css`
         .title {
           color: var(--deemphasized-text-color);
@@ -48,7 +47,7 @@ export class GrRelatedCollapse extends LitElement {
         gr-button {
           display: flex;
         }
-        gr-button .material-icon {
+        gr-button gr-icon {
           color: inherit;
           font-size: 18px;
         }
@@ -77,10 +76,8 @@ export class GrRelatedCollapse extends LitElement {
         : `Show all (${this.length})`;
       const buttonIcon = this.showAll ? 'expand_less' : 'expand_more';
       button = html`<gr-button link="" @click=${this.toggle}
-        >${buttonText}<span class="material-icon"
-          >${buttonIcon}</span
-        ></gr-button
-      >`;
+        >${buttonText}<gr-icon icon=${buttonIcon}></gr-icon
+      ></gr-button>`;
     }
 
     return html`<div class="container">${title}${button}</div>

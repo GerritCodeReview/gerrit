@@ -5,8 +5,8 @@
  */
 import '@polymer/iron-dropdown/iron-dropdown';
 import '@polymer/paper-input/paper-input';
-import '../../../styles/shared-styles';
 import '../gr-button/gr-button';
+import '../gr-icon/gr-icon';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
 import {
@@ -20,7 +20,6 @@ import {customElement, property, query, state} from 'lit/decorators';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {IronInputElement} from '@polymer/iron-input';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
@@ -91,7 +90,6 @@ export class GrEditableLabel extends LitElement {
 
   static override get styles() {
     return [
-      iconStyles,
       sharedStyles,
       css`
         :host {
@@ -144,7 +142,7 @@ export class GrEditableLabel extends LitElement {
           };
           --paper-input-container-focus-color: var(--link-color);
         }
-        gr-button .material-icon {
+        gr-button gr-icon {
           color: inherit;
           font-size: 18px;
         }
@@ -190,8 +188,8 @@ export class GrEditableLabel extends LitElement {
         class="pencil ${this.computeLabelClass()}"
         @click=${this.showDropdown}
         title=${this.computeLabel()}
-        ><span class="material-icon filled">edit</span></gr-button
-      >`;
+        ><gr-icon icon="edit" filled></gr-icon
+      ></gr-button>`;
     } else {
       return html`<label
         class=${this.computeLabelClass()}

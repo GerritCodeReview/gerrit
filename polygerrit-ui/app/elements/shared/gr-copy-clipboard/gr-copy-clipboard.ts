@@ -5,13 +5,13 @@
  */
 import '@polymer/iron-input/iron-input';
 import '../gr-button/gr-button';
+import '../gr-icon/gr-icon';
 import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
 import {classMap} from 'lit/directives/class-map';
 import {ifDefined} from 'lit/directives/if-defined';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {GrButton} from '../gr-button/gr-button';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 const COPY_TIMEOUT_MS = 1000;
 
@@ -36,7 +36,6 @@ export class GrCopyClipboard extends LitElement {
 
   static override get styles() {
     return [
-      iconStyles,
       css`
         .text {
           align-items: center;
@@ -67,7 +66,7 @@ export class GrCopyClipboard extends LitElement {
           height: 16px;
           width: 16px;
         }
-        .material-icon {
+        gr-icon {
           color: var(--deemphasized-text-color);
         }
         gr-button {
@@ -108,7 +107,7 @@ export class GrCopyClipboard extends LitElement {
             @click=${this._copyToClipboard}
             aria-label="Click to copy to clipboard"
           >
-            <span id="icon" class="material-icon">content_copy</span>
+            <gr-icon id="icon" icon="content_copy"></gr-icon>
           </gr-button>
         </gr-tooltip-content>
       </div>

@@ -486,7 +486,7 @@ export class GrTextarea extends LitElement {
   }
 
   // private but used in test
-  formatSuggestions(matchedSuggestions: EmojiSuggestion[]) {
+formatSuggestions(matchedSuggestions: EmojiSuggestion[]) {
     const suggestions = [];
     for (const suggestion of matchedSuggestions) {
       suggestion.dataValue = suggestion.value;

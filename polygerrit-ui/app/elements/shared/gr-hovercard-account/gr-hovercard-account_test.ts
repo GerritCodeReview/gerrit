@@ -84,7 +84,7 @@ suite('gr-hovercard-account tests', () => {
           <span class="value">I am a frog</span>
         </div>
         <div class="links">
-          <span class="linkIcon material-icon">link</span>
+          <gr-icon icon="link" class="linkIcon"></gr-icon>
           <a href="">Changes</a>·<a href="">Dashboard</a>
         </div>
       </div>

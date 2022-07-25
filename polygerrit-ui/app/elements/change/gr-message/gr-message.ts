@@ -6,6 +6,7 @@
 import '../../shared/gr-account-label/gr-account-label';
 import '../../shared/gr-account-chip/gr-account-chip';
 import '../../shared/gr-button/gr-button';
+import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-date-formatter/gr-date-formatter';
 import '../../shared/gr-formatted-text/gr-formatted-text';
 import '../gr-message-scores/gr-message-scores';
@@ -46,7 +47,6 @@ import {isServiceUser, replaceTemplates} from '../../../utils/account-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {when} from 'lit/directives/when';
 import {FormattedReviewerUpdateInfo} from '../../../types/types';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 const UPLOADED_NEW_PATCHSET_PATTERN = /Uploaded patch set (\d+)./;
 const MERGED_PATCHSET_PATTERN = /(\d+) is the latest approved patch-set/;
@@ -149,7 +149,6 @@ export class GrMessage extends LitElement {
 
   static override get styles() {
     return [
-      iconStyles,
       css`
         :host {
           display: block;
@@ -256,7 +255,7 @@ export class GrMessage extends LitElement {
           right: var(--spacing-l);
           top: var(--spacing-m);
         }
-        .dateContainer .material-icon {
+        .dateContainer gr-icon {
           margin-right: var(--spacing-m);
           color: var(--deemphasized-text-color);
         }
@@ -273,7 +272,7 @@ export class GrMessage extends LitElement {
         span.date:hover {
           text-decoration: underline;
         }
-        .dateContainer .material-icon {
+        .dateContainer gr-icon {
           cursor: pointer;
           vertical-align: top;
         }
@@ -358,7 +357,7 @@ export class GrMessage extends LitElement {
     const commentCountText = pluralize(this.commentThreads.length, 'comment');
     return html`
       <div class="commentsSummary">
-        <span class="commentsIcon material-icon filled">mode_comment</span>
+        <gr-icon icon="mode_comment" filled class="commentsIcon"></gr-icon>
         <span class="numberOfComments">${commentCountText}</span>
       </div>
     `;
@@ -483,13 +482,12 @@ export class GrMessage extends LitElement {
           </span>
         `
       )}
-      <span
+      <gr-icon
         id="expandToggle"
         @click=${this.toggleExpanded}
         title="Toggle expanded state"
-        class="material-icon"
-        >${this.computeExpandToggleIcon()}</span
-      >
+        icon=${this.computeExpandToggleIcon()}
+      ></gr-icon>
     </span>`;
   }
 

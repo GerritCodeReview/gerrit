@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../gr-labeled-autocomplete/gr-labeled-autocomplete';
+import '../gr-icon/gr-icon';
 import {singleDecodeURL} from '../../../utils/url-util';
 import {AutocompleteQuery} from '../gr-autocomplete/gr-autocomplete';
 import {
@@ -20,7 +21,6 @@ import {customElement, property, state, query} from 'lit/decorators';
 import {assertIsDefined} from '../../../utils/common-util';
 import {fire} from '../../../utils/event-util';
 import {BindValueChangeEvent} from '../../../types/events';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 const SUGGESTIONS_LIMIT = 15;
 const REF_PREFIX = 'refs/heads/';
@@ -62,7 +62,6 @@ export class GrRepoBranchPicker extends LitElement {
 
   static override get styles() {
     return [
-      iconStyles,
       sharedStyles,
       css`
         :host {
@@ -71,7 +70,7 @@ export class GrRepoBranchPicker extends LitElement {
         gr-labeled-autocomplete {
           display: inline-block;
         }
-        .material-icon {
+        gr-icon {
           margin-bottom: var(--spacing-l);
         }
       `,
@@ -91,7 +90,7 @@ export class GrRepoBranchPicker extends LitElement {
           }}
         >
         </gr-labeled-autocomplete>
-        <span class="material-icon">chevron_right</span>
+        <gr-icon icon="chevron_right"></gr-icon>
         <gr-labeled-autocomplete
           id="branchInput"
           label="Branch"

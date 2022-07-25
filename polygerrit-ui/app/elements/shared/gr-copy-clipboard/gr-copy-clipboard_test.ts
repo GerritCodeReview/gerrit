@@ -43,7 +43,7 @@ suite('gr-copy-clipboard tests', () => {
             role="button"
             tabindex="0"
           >
-            <span class="material-icon" id="icon"> content_copy </span>
+            <gr-icon icon="content_copy" id="icon"></gr-icon>
           </gr-button>
         </gr-tooltip-content>
       </div>

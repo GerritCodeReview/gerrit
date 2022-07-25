@@ -176,13 +176,13 @@ suite('gr-comment-thread tests', () => {
               >
                 Quote
               </gr-button>
-              <span
-                class="copy link-icon material-icon"
+              <gr-icon
+                icon="link"
+                class="copy link-icon"
                 role="button"
                 tabindex="0"
                 title="Copy link to this comment"
-                >link</span
-              >
+              ></gr-icon>
             </div>
           </div>
         </div>
@@ -242,13 +242,13 @@ suite('gr-comment-thread tests', () => {
               >
                 Done
               </gr-button>
-              <span
-                class="copy link-icon material-icon"
+              <gr-icon
+                icon="link"
+                class="copy link-icon"
                 role="button"
                 tabindex="0"
                 title="Copy link to this comment"
-                >link</span
-              >
+              ></gr-icon>
             </div>
           </div>
         </div>

@@ -373,7 +373,7 @@ export class GrTextarea extends LitElement {
     this.text = this.addValueToText(text);
     this.textarea!.selectionStart = colonIndex + 1;
     this.textarea!.selectionEnd = colonIndex + 1;
-    this.reporting.reportInteraction('select-emoji', {type: text});
+    this.reporting.reportInteraction('select-emoji', {type: text});g
     this.resetEmojiDropdown();
   }
 

@@ -31,7 +31,7 @@ suite('gr-linked-chip tests', () => {
         role="button"
         tabindex="0"
       >
-        <span class="material-icon">close</span>
+        <gr-icon icon="close"></gr-icon>
       </gr-button>
     </div>`);
   });

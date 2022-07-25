@@ -89,7 +89,7 @@ suite('gr-comment tests', () => {
             <div class="show-hide" tabindex="0">
               <label aria-label="Expand" class="show-hide">
                 <input checked="" class="show-hide" type="checkbox" />
-                <span id="icon" class="material-icon">expand_more</span>
+                <gr-icon id="icon" icon="expand_more"></gr-icon>
               </label>
             </div>
           </div>
@@ -116,7 +116,7 @@ suite('gr-comment tests', () => {
             <div class="show-hide" tabindex="0">
               <label aria-label="Collapse" class="show-hide">
                 <input class="show-hide" type="checkbox" />
-                <span id="icon" class="material-icon">expand_less</span>
+                <gr-icon id="icon" icon="expand_less"></gr-icon>
               </label>
             </div>
           </div>
@@ -149,7 +149,7 @@ suite('gr-comment tests', () => {
             <div class="show-hide" tabindex="0">
               <label aria-label="Collapse" class="show-hide">
                 <input class="show-hide" type="checkbox" />
-                <span id="icon" class="material-icon">expand_less</span>
+                <gr-icon id="icon" icon="expand_less"></gr-icon>
               </label>
             </div>
           </div>
@@ -160,13 +160,13 @@ suite('gr-comment tests', () => {
               notrailingmargin=""
             ></gr-formatted-text>
             <div class="robotActions">
-              <span
-                class="copy link-icon material-icon"
+              <gr-icon
+                icon="link"
+                class="copy link-icon"
                 role="button"
                 tabindex="0"
                 title="Copy link to this comment"
-                >link</span
-              >
+              ></gr-icon>
               <gr-endpoint-decorator name="robot-comment-controls">
                 <gr-endpoint-param name="comment"></gr-endpoint-param>
               </gr-endpoint-decorator>
@@ -210,7 +210,7 @@ suite('gr-comment tests', () => {
           tabindex="0"
           title="Delete Comment"
         >
-          <span id="icon" class="material-icon filled">delete</span>
+          <gr-icon id="icon" icon="delete" filled></gr-icon>
         </gr-button>
       `);
     });
@@ -243,7 +243,7 @@ suite('gr-comment tests', () => {
             <div class="show-hide" tabindex="0">
               <label aria-label="Collapse" class="show-hide">
                 <input class="show-hide" type="checkbox" />
-                <span id="icon" class="material-icon">expand_less</span>
+                <gr-icon id="icon" icon="expand_less"></gr-icon>
               </label>
             </div>
           </div>
@@ -311,7 +311,7 @@ suite('gr-comment tests', () => {
             <div class="show-hide" tabindex="0">
               <label aria-label="Collapse" class="show-hide">
                 <input class="show-hide" type="checkbox" />
-                <span id="icon" class="material-icon">expand_less</span>
+                <gr-icon id="icon" icon="expand_less"></gr-icon>
               </label>
             </div>
           </div>

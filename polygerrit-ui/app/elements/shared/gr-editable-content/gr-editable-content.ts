@@ -6,6 +6,7 @@
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import '../../../styles/shared-styles';
 import '../gr-button/gr-button';
+import '../gr-icon/gr-icon';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../plugins/gr-endpoint-slot/gr-endpoint-slot';
@@ -24,7 +25,6 @@ import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 import {nothing} from 'lit';
 import {classMap} from 'lit/directives/class-map';
 import {when} from 'lit/directives/when';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
@@ -109,7 +109,6 @@ export class GrEditableContent extends LitElement {
 
   static override get styles() {
     return [
-      iconStyles,
       sharedStyles,
       css`
         :host {
@@ -165,7 +164,7 @@ export class GrEditableContent extends LitElement {
         .flex-space {
           flex-grow: 1;
         }
-        .show-all-container .material-icon {
+        .show-all-container gr-icon {
           color: inherit;
           font-size: 18px;
         }
@@ -245,11 +244,11 @@ export class GrEditableContent extends LitElement {
             >
               ${when(
                 !this.commitCollapsed,
-                () => html`<span class="material-icon">expand_less</span>`
+                () => html`<gr-icon icon="expand_less"></gr-icon>`
               )}
               ${when(
                 this.commitCollapsed,
-                () => html`<span class="material-icon">expand_more</span>`
+                () => html`<gr-icon icon="expand_more"></gr-icon>`
               )}
               ${this.commitCollapsed ? 'Show all' : 'Show less'}
             </gr-button>
@@ -264,7 +263,7 @@ export class GrEditableContent extends LitElement {
               class="edit-commit-message"
               title="Edit commit message"
               @click=${this.handleEditCommitMessage}
-              ><span class="material-icon filled">edit</span> Edit</gr-button
+              ><gr-icon icon="edit" filled></gr-icon> Edit</gr-button
             >
           `
         )}

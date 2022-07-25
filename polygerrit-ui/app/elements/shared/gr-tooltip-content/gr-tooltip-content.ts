@@ -3,12 +3,12 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import '../gr-icon/gr-icon';
 import '../gr-tooltip/gr-tooltip';
 import {getRootElement} from '../../../scripts/rootElement';
 import {GrTooltip} from '../gr-tooltip/gr-tooltip';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 const BOTTOM_OFFSET = 7.2; // Height of the arrow in tooltip.
 
@@ -72,9 +72,8 @@ export class GrTooltipContent extends LitElement {
 
   static override get styles() {
     return [
-      iconStyles,
       css`
-        .material-icon {
+        gr-icon {
           font-size: var(--line-height-normal);
         }
       `,
@@ -90,7 +89,7 @@ export class GrTooltipContent extends LitElement {
 
   renderIcon() {
     if (!this.showIcon) return;
-    return html`<span class="material-icon filled">info</span>`;
+    return html`<gr-icon icon="info" filled></gr-icon>`;
   }
 
   override updated(changedProperties: PropertyValues) {

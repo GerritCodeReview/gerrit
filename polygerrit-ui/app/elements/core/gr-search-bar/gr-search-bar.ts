@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../shared/gr-autocomplete/gr-autocomplete';
+import '../../shared/gr-icon/gr-icon';
 import {ServerInfo} from '../../../types/common';
 import {
   AutocompleteQuery,
@@ -25,7 +26,6 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {configModelToken} from '../../../models/config/config-model';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 // Possible static search options for auto complete, without negations.
 const SEARCH_OPERATORS: ReadonlyArray<string> = [
@@ -198,7 +198,6 @@ export class GrSearchBar extends LitElement {
   static override get styles() {
     return [
       sharedStyles,
-      iconStyles,
       css`
         form {
           display: flex;
@@ -241,7 +240,7 @@ export class GrSearchBar extends LitElement {
             target="_blank"
             tabindex="-1"
           >
-            <span class="material-icon" title="read documentation">help</span>
+            <gr-icon icon="help" title="read documentation"></gr-icon>
           </a>
         </gr-autocomplete>
       </form>

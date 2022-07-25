@@ -47,10 +47,10 @@ suite('gr-list-view tests', () => {
       <nav>
         Page 1
         <a hidden="" href="" id="prevArrow">
-          <span class="material-icon"> chevron_left </span>
+          <gr-icon icon="chevron_left"></gr-icon>
         </a>
         <a hidden="" href=",25" id="nextArrow">
-          <span class="material-icon"> chevron_right </span>
+          <gr-icon icon="chevron_right"></gr-icon>
         </a>
       </nav>
     `);

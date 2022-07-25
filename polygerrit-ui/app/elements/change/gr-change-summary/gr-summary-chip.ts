@@ -3,6 +3,7 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import '../../shared/gr-icon/gr-icon';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -11,7 +12,6 @@ import {fireShowPrimaryTab} from '../../../utils/event-util';
 import {PrimaryTab} from '../../../constants/constants';
 import {CommentTabState} from '../../../types/events';
 import {fontStyles} from '../../../styles/gr-font-styles';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 export enum SummaryChipStyles {
   INFO = 'info',
@@ -36,7 +36,6 @@ export class GrSummaryChip extends LitElement {
   static override get styles() {
     return [
       sharedStyles,
-      iconStyles,
       fontStyles,
       css`
         .summaryChip {
@@ -54,7 +53,7 @@ export class GrSummaryChip extends LitElement {
           position: relative;
           top: 2px;
         }
-        .material-icon {
+        gr-icon {
           font-size: var(--line-height-small);
         }
         .summaryChip.warning {
@@ -68,7 +67,7 @@ export class GrSummaryChip extends LitElement {
         .summaryChip.warning:focus-within {
           background: var(--warning-background-focus);
         }
-        .summaryChip.warning .material-icon {
+        .summaryChip.warning gr-icon {
           color: var(--warning-foreground);
         }
         .summaryChip.check {
@@ -82,7 +81,7 @@ export class GrSummaryChip extends LitElement {
         .summaryChip.check:focus-within {
           background: var(--gray-background-focus);
         }
-        .summaryChip.check .material-icon {
+        .summaryChip.check gr-icon {
           color: var(--gray-foreground);
         }
       `,
@@ -92,7 +91,7 @@ export class GrSummaryChip extends LitElement {
   override render() {
     const chipClass = `summaryChip font-small ${this.styleType}`;
     return html`<button class=${chipClass} @click=${this.handleClick}>
-      ${this.icon && html`<span class="material-icon">${this.icon}</span>`}
+      ${this.icon && html`<gr-icon icon=${this.icon}></gr-icon>`}
       <slot></slot>
     </button>`;
   }

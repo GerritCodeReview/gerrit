@@ -165,7 +165,7 @@ suite('gr-change-actions tests', () => {
                 role="button"
                 tabindex="0"
               >
-                <span class="material-icon">done_all</span>
+                <gr-icon icon="done_all"></gr-icon>
                 Submit
               </gr-button>
             </gr-tooltip-content>
@@ -195,9 +195,7 @@ suite('gr-change-actions tests', () => {
             Loading actions...
           </gr-button>
           <gr-dropdown id="moreActions" link="">
-            <span aria-labelledby="moreMessage" class="material-icon">
-              more_vert
-            </span>
+            <gr-icon icon="more_vert" aria-labelledby="moreMessage"></gr-icon>
             <span id="moreMessage"> More </span>
           </gr-dropdown>
         </div>
@@ -525,7 +523,7 @@ suite('gr-change-actions tests', () => {
 
       queryAndAssert<GrButton>(
         element,
-        'gr-button[data-action-key="submit"] .material-icon'
+        'gr-button[data-action-key="submit"] gr-icon'
       ).click();
       await submitted;
     });
@@ -536,7 +534,7 @@ suite('gr-change-actions tests', () => {
 
       queryAndAssert<GrButton>(
         element,
-        'gr-button[data-action-key="submit"] .material-icon'
+        'gr-button[data-action-key="submit"] gr-icon'
       );
       queryAndAssert<GrButton>(
         element,
@@ -544,7 +542,7 @@ suite('gr-change-actions tests', () => {
       );
       queryAndAssert<GrButton>(
         element,
-        'gr-button[data-action-key="edit"] .material-icon.filled'
+        'gr-button[data-action-key="edit"] gr-icon[filled]'
       );
     });
 

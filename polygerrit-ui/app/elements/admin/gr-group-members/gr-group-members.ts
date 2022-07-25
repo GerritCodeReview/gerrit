@@ -39,8 +39,8 @@ import {tableStyles} from '../../../styles/gr-table-styles';
 import {LitElement, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import {ifDefined} from 'lit/directives/if-defined';
+import {getAccountSuggestions} from '../../../utils/account-util';
 
-const SUGGESTIONS_LIMIT = 15;
 const SAVING_ERROR_TEXT =
   'Group may not exist, or you may not have ' + 'permission to add it';
 
@@ -103,7 +103,8 @@ export class GrGroupMembers extends LitElement {
 
   constructor() {
     super();
-    this.queryMembers = input => this.getAccountSuggestions(input);
+    this.queryMembers = input =>
+      getAccountSuggestions(input, this.restApiService);
     this.queryIncludedGroup = input => this.getGroupSuggestions(input);
   }
 
@@ -510,32 +511,6 @@ export class GrGroupMembers extends LitElement {
     this.itemId = id;
     this.itemType = ItemType.INCLUDED_GROUP;
     this.overlay.open();
-  }
-
-  /* private but used in test */
-  getAccountSuggestions(input: string) {
-    if (input.length === 0) {
-      return Promise.resolve([]);
-    }
-    return this.restApiService
-      .getSuggestedAccounts(input, SUGGESTIONS_LIMIT)
-      .then(accounts => {
-        if (!accounts) return [];
-        const accountSuggestions = [];
-        for (const account of accounts) {
-          let nameAndEmail;
-          if (account.email !== undefined) {
-            nameAndEmail = `${account.name} <${account.email}>`;
-          } else {
-            nameAndEmail = account.name;
-          }
-          accountSuggestions.push({
-            name: nameAndEmail,
-            value: account._account_id?.toString(),
-          });
-        }
-        return accountSuggestions;
-      });
   }
 
   /* private but used in test */

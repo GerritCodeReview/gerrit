@@ -107,13 +107,13 @@ export class GrFormattedText extends LitElement {
         }
         code {
           display: block;
-          white-space: pre-wrap;
+          white-space: nowrap;
           background-color: var(--background-color-secondary);
           border: 1px solid var(--border-color);
           border-left-width: var(--spacing-s);
           margin: var(--spacing-m) 0;
           padding: var(--spacing-s) var(--spacing-m);
-          overflow-x: scroll;
+          overflow-x: auto;
         }
         li {
           list-style-type: disc;

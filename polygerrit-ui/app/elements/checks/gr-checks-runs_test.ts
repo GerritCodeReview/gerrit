@@ -45,7 +45,7 @@ suite('gr-checks-runs test', () => {
               link=""
               role="switch"
             >
-              <span class="material-icon expandIcon">chevron_left</span>
+              <gr-icon icon="chevron_left" class="expandIcon"></gr-icon>
             </gr-button>
           </gr-tooltip-content>
         </h2>
@@ -56,7 +56,7 @@ suite('gr-checks-runs test', () => {
         />
         <div class="expanded running">
           <div class="sectionHeader">
-            <span class="expandIcon material-icon">expand_less</span>
+            <gr-icon icon="expand_less" class="expandIcon"></gr-icon>
             <h3 class="heading-3">Running / Scheduled (2)</h3>
           </div>
           <div class="sectionRuns">
@@ -66,7 +66,7 @@ suite('gr-checks-runs test', () => {
         </div>
         <div class="completed expanded">
           <div class="sectionHeader">
-            <span class="expandIcon material-icon">expand_less</span>
+            <gr-icon icon="expand_less" class="expandIcon"></gr-icon>
             <h3 class="heading-3">Completed (3)</h3>
           </div>
           <div class="sectionRuns">
@@ -77,7 +77,7 @@ suite('gr-checks-runs test', () => {
         </div>
         <div class="expanded runnable">
           <div class="sectionHeader">
-            <span class="expandIcon material-icon">expand_less</span>
+            <gr-icon icon="expand_less" class="expandIcon"></gr-icon>
             <h3 class="heading-3">Not run (1)</h3>
           </div>
           <div class="sectionRuns">
@@ -103,7 +103,7 @@ suite('gr-checks-runs test', () => {
             link=""
             role="switch"
           >
-            <span class="material-icon expandIcon">chevron_right</span>
+            <gr-icon icon="chevron_right" class="expandIcon"></gr-icon>
           </gr-button>
         </gr-tooltip-content>
       `,

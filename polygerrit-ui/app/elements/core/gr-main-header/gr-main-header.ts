@@ -7,6 +7,7 @@ import {Subscription} from 'rxjs';
 import {map, distinctUntilChanged} from 'rxjs/operators';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../shared/gr-dropdown/gr-dropdown';
+import '../../shared/gr-icon/gr-icon';
 import '../gr-account-dropdown/gr-account-dropdown';
 import '../gr-smart-search/gr-smart-search';
 import {getBaseUrl, getDocsBaseUrl} from '../../../utils/url-util';
@@ -28,7 +29,6 @@ import {customElement, property, state} from 'lit/decorators';
 import {fireEvent} from '../../../utils/event-util';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 type MainHeaderLink = RequireProperties<DropdownLink, 'url' | 'name'>;
 
@@ -185,7 +185,6 @@ export class GrMainHeader extends LitElement {
 
   static override get styles() {
     return [
-      iconStyles,
       sharedStyles,
       css`
         :host {
@@ -311,7 +310,7 @@ export class GrMainHeader extends LitElement {
         .bigTitle,
         .loginButton,
         .registerButton,
-        .material-icon,
+        gr-icon,
         gr-account-dropdown {
           color: var(--header-text-color);
         }
@@ -414,7 +413,7 @@ export class GrMainHeader extends LitElement {
         target="_blank"
         role="button"
       >
-        <span class="material-icon filled">bug_report</span>
+        <gr-icon icon="bug_report" filled></gr-icon>
       </a>
     `;
   }
@@ -422,9 +421,9 @@ export class GrMainHeader extends LitElement {
   private renderAccount() {
     return html`
       <div class="accountContainer" id="accountContainer">
-        <span
+        <gr-icon
           id="mobileSearch"
-          class="material-icon"
+          icon="search"
           @click=${(e: Event) => {
             this.onMobileSearchTap(e);
           }}
@@ -432,8 +431,7 @@ export class GrMainHeader extends LitElement {
           aria-label=${this.mobileSearchHidden
             ? 'Show Searchbar'
             : 'Hide Searchbar'}
-          >search</span
-        >
+        ></gr-icon>
         ${this.renderRegister()}
         <a class="loginButton" href=${this.loginUrl}>Sign in</a>
         <a
@@ -443,7 +441,7 @@ export class GrMainHeader extends LitElement {
           aria-label="Settings"
           role="button"
         >
-          <span class="material-icon filled">settings</span>
+          <gr-icon icon="settings" filled></gr-icon>
         </a>
         ${this.renderAccountDropdown()}
       </div>

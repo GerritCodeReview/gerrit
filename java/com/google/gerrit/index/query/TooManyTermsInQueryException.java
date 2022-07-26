@@ -14,10 +14,22 @@
 
 package com.google.gerrit.index.query;
 
+import com.google.gerrit.common.UsedAt;
+
 public class TooManyTermsInQueryException extends QueryParseException {
   private static final long serialVersionUID = 1L;
 
   private static final String MESSAGE = "too many terms in query";
+
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public TooManyTermsInQueryException() {
+    super(MESSAGE);
+  }
+
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public TooManyTermsInQueryException(Throwable why) {
+    super(MESSAGE, why);
+  }
 
   public TooManyTermsInQueryException(int numTerms, int maxConfiguredTerms) {
     super(MESSAGE + String.format(": %d terms (max = %d)", numTerms, maxConfiguredTerms));

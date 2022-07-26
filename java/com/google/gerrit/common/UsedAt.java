@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common;
 
+import static java.lang.annotation.ElementType.CONSTRUCTOR;
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;
@@ -25,10 +26,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * A marker to say a method/type/field is added or is increased to public solely because it is
- * called from inside a project or an organisation using Gerrit.
+ * A marker to say a method/type/field/constructor is added or is increased to public solely because
+ * it is called from inside a project or an organisation using Gerrit.
  */
-@Target({METHOD, TYPE, FIELD})
+@Target({METHOD, TYPE, FIELD, CONSTRUCTOR})
 @Retention(RUNTIME)
 @Repeatable(UsedAt.Uses.class)
 public @interface UsedAt {

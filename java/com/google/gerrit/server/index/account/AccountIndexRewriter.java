@@ -58,19 +58,19 @@ public class AccountIndexRewriter implements IndexRewriter<AccountState> {
   public void validateMaxTermsInQuery(Predicate<AccountState> predicate)
       throws QueryParseException {
     MutableInteger leafTerms = new MutableInteger();
-    validateMaxTermsInQuery(predicate, leafTerms);
+    countLeafTerms(predicate, leafTerms);
+    if (leafTerms.value > config.maxTerms()) {
+      throw new TooManyTermsInQueryException(leafTerms.value, config.maxTerms());
+    }
   }
 
-  private void validateMaxTermsInQuery(Predicate<AccountState> predicate, MutableInteger leafTerms)
-      throws TooManyTermsInQueryException {
+  private void countLeafTerms(Predicate<AccountState> predicate, MutableInteger leafTerms) {
     if (!(predicate instanceof IndexPredicate)) {
-      if (++leafTerms.value > config.maxTerms()) {
-        throw new TooManyTermsInQueryException();
-      }
+      ++leafTerms.value;
     }
 
     for (Predicate<AccountState> childPredicate : predicate.getChildren()) {
-      validateMaxTermsInQuery(childPredicate, leafTerms);
+      countLeafTerms(childPredicate, leafTerms);
     }
   }
 }

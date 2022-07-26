@@ -24,6 +24,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {PropertyValues} from 'lit';
 import {classMap} from 'lit/directives/class-map';
 import {KnownExperimentId} from '../../../services/flags/flags';
+import { NumericChangeId } from '../../../api/rest-api';
 
 const MAX_ITEMS_DROPDOWN = 10;
 
@@ -110,6 +111,8 @@ export class GrTextarea extends LitElement {
   readonly reporting = getAppContext().reportingService;
 
   private readonly flagsService = getAppContext().flagsService;
+
+  private readonly restApiService = getAppContext().restApiService;
 
   private disableEnterKeyForSelectingSuggestion = false;
 
@@ -252,8 +255,8 @@ export class GrTextarea extends LitElement {
   }
 
   private renderMentionsDropdown() {
-    if (!this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS))
-      return nothing;
+    // if (!this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS))
+      // return nothing;
     return html` <gr-autocomplete-dropdown
       id="mentionsSuggestions"
       vertical-align="top"
@@ -269,7 +272,7 @@ export class GrTextarea extends LitElement {
       this.handleTextChanged(this.text);
     }
     if (changedProperties.has('currentSearchString')) {
-      this.determineSuggestions(this.currentSearchString!);
+      this.determineEmojiSuggestions(this.currentSearchString!);
     }
   }
 
@@ -449,7 +452,7 @@ export class GrTextarea extends LitElement {
     return null;
   }
 
-  private openOrResetDropdown(
+  private async openOrResetDropdown(
     activeDropdown: GrAutocompleteDropdown,
     text: string,
     charIndex: number,
@@ -460,23 +463,22 @@ export class GrTextarea extends LitElement {
       this.textarea!.selectionStart - charIndex - 1
     );
     let suggestions: Item[] = [];
-    if (specialChar === ':') {
-      this.determineSuggestions(this.currentSearchString);
+    if (specialChar === ':' && text[charIndex] === specialChar) {
+      this.determineEmojiSuggestions(this.currentSearchString);
       suggestions = this.suggestions;
     } else {
-      suggestions = this.mentions;
+      suggestions = await this.determineReviewerSuggestions() ?? [];
     }
 
     if (this.shouldResetDropdown(text, charIndex, suggestions, specialChar)) {
-      this.resetDropdown();
+      // this.resetDropdown();
     } else if (activeDropdown.isHidden) {
       // Otherwise open the dropdown and set the position to be just below the
       // cursor.
       activeDropdown.positionTarget = this.updateCaratPosition();
       // we need separate open methods here for reporting
       if (
-        specialChar === '@' &&
-        this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)
+        specialChar === '@'
       )
         this.openMentionsDropdown();
       else this.openEmojiDropdown();
@@ -523,7 +525,7 @@ export class GrTextarea extends LitElement {
       this.textarea!.textarea.focus();
     }
 
-    if (!this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) return;
+    // if (!this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) return;
 
     if (charAtCursor === '@') {
       this.specialCharIndex = this.getSpecialCharIndex(text);
@@ -562,7 +564,7 @@ export class GrTextarea extends LitElement {
   }
 
   // private but used in test
-  determineSuggestions(suggestionsText: string) {
+  determineEmojiSuggestions(suggestionsText: string) {
     if (!suggestionsText.length) {
       this.formatSuggestions(ALL_SUGGESTIONS);
       this.disableEnterKeyForSelectingSuggestion = true;
@@ -573,6 +575,12 @@ export class GrTextarea extends LitElement {
       this.formatSuggestions(matches);
       this.disableEnterKeyForSelectingSuggestion = false;
     }
+  }
+
+  async determineReviewerSuggestions() {
+   const response = await this.restApiService.getMentions(this.currentSearchString ?? '', 339925 as NumericChangeId);
+   console.log(response);
+   return response;
   }
 
   // private but used in test

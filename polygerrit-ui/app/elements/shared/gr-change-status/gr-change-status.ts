@@ -3,6 +3,7 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import '../gr-icon/gr-icon';
 import '../gr-tooltip-content/gr-tooltip-content';
 import '../../../styles/shared-styles';
 import {
@@ -14,7 +15,6 @@ import {ParsedChangeInfo} from '../../../types/types';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 export enum ChangeStates {
   ABANDONED = 'Abandoned',
@@ -65,7 +65,6 @@ export class GrChangeStatus extends LitElement {
 
   static override get styles() {
     return [
-      iconStyles,
       sharedStyles,
       css`
         .chip {
@@ -125,7 +124,7 @@ export class GrChangeStatus extends LitElement {
         .icon {
           color: var(--status-text-color);
         }
-        .material-icon {
+        gr-icon {
           font-size: 18px;
         }
       `,
@@ -159,7 +158,7 @@ export class GrChangeStatus extends LitElement {
         <div class="chip" aria-label="Label: ${this.status}">
           ${this.computeStatusString()}
           ${this.showResolveIcon()
-            ? html`<span class="material-icon filled">edit</span>`
+            ? html`<gr-icon icon="edit" filled></gr-icon>`
             : ''}
         </div>
       </a>

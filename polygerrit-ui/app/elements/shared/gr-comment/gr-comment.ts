@@ -10,6 +10,7 @@ import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../gr-button/gr-button';
 import '../gr-dialog/gr-dialog';
 import '../gr-formatted-text/gr-formatted-text';
+import '../gr-icon/gr-icon';
 import '../gr-overlay/gr-overlay';
 import '../gr-textarea/gr-textarea';
 import '../gr-tooltip-content/gr-tooltip-content';
@@ -57,7 +58,6 @@ import {debounceTime} from 'rxjs/operators';
 import {configModelToken} from '../../../models/config/config-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {Interaction} from '../../../constants/reporting';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 const UNSAVED_MESSAGE = 'Unable to save draft';
 
@@ -287,7 +287,6 @@ export class GrComment extends LitElement {
 
   static override get styles() {
     return [
-      iconStyles,
       sharedStyles,
       css`
         :host {
@@ -386,7 +385,7 @@ export class GrComment extends LitElement {
           cursor: pointer;
           display: block;
         }
-        label.show-hide .material-icon {
+        label.show-hide gr-icon {
           vertical-align: top;
         }
         :host([collapsed]) #container .body {
@@ -576,7 +575,7 @@ export class GrComment extends LitElement {
         class="action delete"
         @click=${this.openDeleteCommentOverlay}
       >
-        <span id="icon" class="material-icon filled">delete</span>
+        <gr-icon id="icon" icon="delete" filled></gr-icon>
       </gr-button>
     `;
   }
@@ -614,7 +613,7 @@ export class GrComment extends LitElement {
             ?checked=${this.collapsed}
             @change=${() => (this.collapsed = !this.collapsed)}
           />
-          <span id="icon" class="material-icon">${icon}</span>
+          <gr-icon icon=${icon} id="icon"></gr-icon>
         </label>
       </div>
     `;
@@ -666,14 +665,14 @@ export class GrComment extends LitElement {
     // Only show the icon when the thread contains a published comment.
     if (!this.comment?.in_reply_to && isDraftOrUnsaved(this.comment)) return;
     return html`
-      <span
-        class="copy link-icon material-icon"
+      <gr-icon
+        icon="link"
+        class="copy link-icon"
         @click=${this.handleCopyLink}
         title="Copy link to this comment"
         role="button"
         tabindex="0"
-        >link</span
-      >
+      ></gr-icon>
     `;
   }
 

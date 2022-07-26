@@ -30,7 +30,7 @@ suite('gr-diff-check-result tests', () => {
       <div class="container font-normal warning">
         <div class="header">
           <div class="icon">
-            <span class="material-icon filled">warning</span>
+            <gr-icon icon="warning" filled></gr-icon>
           </div>
           <div class="name">
             <gr-hovercard-run> </gr-hovercard-run>

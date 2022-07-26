@@ -24,6 +24,10 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {PropertyValues} from 'lit';
 import {classMap} from 'lit/directives/class-map';
 import {KnownExperimentId} from '../../../services/flags/flags';
+import {NumericChangeId} from '../../../api/rest-api';
+import {subscribe} from '../../lit/subscription-controller';
+import {resolve} from '../../../models/dependency';
+import {changeModelToken} from '../../../models/change/change-model';
 
 const MAX_ITEMS_DROPDOWN = 10;
 
@@ -109,12 +113,27 @@ export class GrTextarea extends LitElement {
   // Accessed in tests.
   readonly reporting = getAppContext().reportingService;
 
+  private readonly getChangeModel = resolve(this, changeModelToken);
+
   private readonly flagsService = getAppContext().flagsService;
+
+  private readonly restApiService = getAppContext().restApiService;
 
   private disableEnterKeyForSelectingSuggestion = false;
 
+  private changeNum?: NumericChangeId;
+
   /** Called in disconnectedCallback. */
   private cleanups: (() => void)[] = [];
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getChangeModel().changeNum$,
+      x => (this.changeNum = x)
+    );
+  }
 
   override disconnectedCallback() {
     super.disconnectedCallback();
@@ -245,17 +264,18 @@ export class GrTextarea extends LitElement {
         vertical-align="top"
         horizontal-align="left"
         @dropdown-closed=${this.resetDropdown}
-        @item-selected=${this.handleEmojiSelect}
+        @item-selected=${this.handleDropdownItemSelect}
       >
       </gr-autocomplete-dropdown>
     `;
   }
 
   private renderMentionsDropdown() {
-    if (!this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS))
-      return nothing;
+    // if (!this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS))
+    //   return nothing;
     return html` <gr-autocomplete-dropdown
       id="mentionsSuggestions"
+      .suggestions=${this.mentions}
       vertical-align="top"
       horizontal-align="left"
       .horizontalOffset=${20}
@@ -269,7 +289,7 @@ export class GrTextarea extends LitElement {
       this.handleTextChanged(this.text);
     }
     if (changedProperties.has('currentSearchString')) {
-      this.determineSuggestions(this.currentSearchString!);
+      this.determineEmojiSuggestions(this.currentSearchString!);
     }
   }
 
@@ -298,6 +318,18 @@ export class GrTextarea extends LitElement {
     if (this.mentionsSuggestions && !this.mentionsSuggestions.isHidden)
       return this.mentionsSuggestions;
     throw new Error('no dropdown visible');
+  }
+
+  private isEmojiDropdownActive() {
+    return (
+      this.specialCharIndex !== null && this.text[this.specialCharIndex] === ':'
+    );
+  }
+
+  private isMentionsDropdownActive() {
+    return (
+      this.specialCharIndex !== null && this.text[this.specialCharIndex] === '@'
+    );
   }
 
   private isDropdownVisible() {
@@ -349,7 +381,7 @@ export class GrTextarea extends LitElement {
     }
     e.preventDefault();
     e.stopPropagation();
-    this.setEmoji(this.getVisibleDropdown().getCurrentText());
+    this.setValue(this.getVisibleDropdown().getCurrentText());
   }
 
   // private but used in test
@@ -366,31 +398,36 @@ export class GrTextarea extends LitElement {
 
     e.preventDefault();
     e.stopPropagation();
-    this.setEmoji(this.emojiSuggestions!.getCurrentText());
+    this.setValue(this.emojiSuggestions!.getCurrentText());
   }
 
   // private but used in test
-  handleEmojiSelect(e: CustomEvent<ItemSelectedEvent>) {
+  handleDropdownItemSelect(e: CustomEvent<ItemSelectedEvent>) {
     if (e.detail.selected?.dataset['value']) {
-      this.setEmoji(e.detail.selected?.dataset['value']);
+      this.setValue(e.detail.selected?.dataset['value']);
     }
   }
 
-  private setEmoji(text: string) {
+  private setValue(text: string) {
     if (this.specialCharIndex === null) {
       return;
     }
-    this.text = this.addValueToText(text);
+    if (this.isEmojiDropdownActive()) {
+      this.text = this.addValueToText(text);
+      this.reporting.reportInteraction('select-emoji', {type: text});
+    } else {
+      this.text = this.addValueToText('@' + text);
+    }
+
     this.textarea!.selectionStart = this.specialCharIndex + 1;
     this.textarea!.selectionEnd = this.specialCharIndex + 1;
-    this.reporting.reportInteraction('select-emoji', {type: text});
     this.resetDropdown();
   }
 
   private addValueToText(value: string) {
     if (!this.text) return '';
     return (
-      this.text.substr(0, this.specialCharIndex || 0) +
+      this.text.substr(0, this.specialCharIndex ?? 0) +
       value +
       this.text.substr(this.textarea!.selectionStart)
     );
@@ -450,7 +487,7 @@ export class GrTextarea extends LitElement {
     return null;
   }
 
-  private openOrResetDropdown(
+  private async openOrResetDropdown(
     activeDropdown: GrAutocompleteDropdown,
     text: string,
     charIndex: number,
@@ -461,25 +498,30 @@ export class GrTextarea extends LitElement {
       this.textarea!.selectionStart - charIndex - 1
     );
     let suggestions: Item[] = [];
-    if (specialChar === ':') {
-      this.determineSuggestions(this.currentSearchString);
+    if (specialChar === ':' && text[charIndex] === specialChar) {
+      this.determineEmojiSuggestions(this.currentSearchString);
       suggestions = this.suggestions;
     } else {
+      this.mentions = ((await this.determineReviewerSuggestions()) ?? [])
+        .filter(account => account.email)
+        .map(account => {
+          return {
+            text: account.email,
+            name: account.email,
+            value: account.email,
+          };
+        });
       suggestions = this.mentions;
     }
 
     if (this.shouldResetDropdown(text, charIndex, suggestions, specialChar)) {
-      this.resetDropdown();
+      // this.resetDropdown();
     } else if (activeDropdown.isHidden) {
       // Otherwise open the dropdown and set the position to be just below the
       // cursor.
       activeDropdown.positionTarget = this.updateCaratPosition();
       // we need separate open methods here for reporting
-      if (
-        specialChar === '@' &&
-        this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)
-      )
-        this.openMentionsDropdown();
+      if (specialChar === '@') this.openMentionsDropdown();
       else this.openEmojiDropdown();
     }
   }
@@ -524,7 +566,7 @@ export class GrTextarea extends LitElement {
       this.textarea!.textarea.focus();
     }
 
-    if (!this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) return;
+    // if (!this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) return;
 
     if (charAtCursor === '@' && this.specialCharIndex === null) {
       this.specialCharIndex = this.getSpecialCharIndex(text);
@@ -563,7 +605,7 @@ export class GrTextarea extends LitElement {
   }
 
   // private but used in test
-  determineSuggestions(suggestionsText: string) {
+  determineEmojiSuggestions(suggestionsText: string) {
     if (!suggestionsText.length) {
       this.formatSuggestions(ALL_SUGGESTIONS);
       this.disableEnterKeyForSelectingSuggestion = true;
@@ -574,6 +616,16 @@ export class GrTextarea extends LitElement {
       this.formatSuggestions(matches);
       this.disableEnterKeyForSelectingSuggestion = false;
     }
+  }
+
+  async determineReviewerSuggestions() {
+    const response = await this.restApiService.getSuggestedAccounts(
+      this.currentSearchString ?? '',
+      undefined,
+      this.changeNum,
+      true
+    );
+    return response;
   }
 
   // private but used in test

@@ -354,10 +354,10 @@ suite('gr-textarea tests', () => {
     assert.isTrue(closeSpy.called);
   });
 
-  test('determineSuggestions', () => {
+  test('determineEmojiSuggestions', () => {
     const emojiText = 'tear';
     const formatSpy = sinon.spy(element, 'formatSuggestions');
-    element.determineSuggestions(emojiText);
+    element.determineEmojiSuggestions(emojiText);
     assert.isTrue(formatSpy.called);
     assert.isTrue(
       formatSpy.lastCall.calledWithExactly([

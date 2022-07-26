@@ -354,10 +354,10 @@ suite('gr-textarea tests', () => {
     assert.isTrue(closeSpy.called);
   });
 
-  test('determineSuggestions', () => {
+  test('determineEmojiSuggestions', () => {
     const emojiText = 'tear';
     const formatSpy = sinon.spy(element, 'formatSuggestions');
-    element.determineSuggestions(emojiText);
+    element.determineEmojiSuggestions(emojiText);
     assert.isTrue(formatSpy.called);
     assert.isTrue(
       formatSpy.lastCall.calledWithExactly([
@@ -387,7 +387,7 @@ suite('gr-textarea tests', () => {
     );
   });
 
-  test('handleEmojiSelect', async () => {
+  test('handleDropdownItemSelect', async () => {
     element.textarea!.selectionStart = 16;
     element.textarea!.selectionEnd = 16;
     element.text = 'test test :tears';
@@ -397,7 +397,7 @@ suite('gr-textarea tests', () => {
     const event = new CustomEvent<ItemSelectedEvent>('item-selected', {
       detail: {trigger: 'click', selected: selectedItem},
     });
-    element.handleEmojiSelect(event);
+    element.handleDropdownItemSelect(event);
     assert.equal(element.text, 'test test 😂');
   });
 

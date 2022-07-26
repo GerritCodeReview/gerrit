@@ -16,6 +16,24 @@
       "message": "Could you clarify why `getSuggestedAccounts` is not the right approach?",
       "revId": "bfb5e736c749923ef0d0596e16b8fea2b4b1b769",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecead2e7_38bab870",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1669,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-26T11:38:16Z",
+      "side": 1,
+      "message": "341682: Request list of mentions | https://gerrit-review.googlesource.com/c/gerrit/+/341682\n\nI have that approach here as well. \nJust getting the query to work first. It\u0027s still WIP.",
+      "parentUuid": "57df3021_135e3635",
+      "revId": "bfb5e736c749923ef0d0596e16b8fea2b4b1b769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

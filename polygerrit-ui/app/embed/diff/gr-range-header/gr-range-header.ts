@@ -3,9 +3,9 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import '../../../elements/shared/gr-icon/gr-icon';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
-import {iconStyles} from '../../../styles/gr-icon-styles';
 
 /**
  * Represents a header (label) for a code chunk whenever showing
@@ -23,7 +23,6 @@ export class GrRangeHeader extends LitElement {
 
   static override get styles() {
     return [
-      iconStyles,
       css`
         .row {
           color: var(--gr-range-header-color);
@@ -47,11 +46,12 @@ export class GrRangeHeader extends LitElement {
   override render() {
     const icon = this.icon ?? '';
     return html` <div class="row">
-      <span
-        class="icon material-icon ${this.filled ? 'filled' : ''}"
+      <gr-icon
+        class="icon"
+        icon=${icon}
+        ?filled=${this.filled}
         aria-hidden="true"
-        >${icon}</span
-      >
+      ></gr-icon>
       <slot></slot>
     </div>`;
   }

@@ -19,6 +19,14 @@ public class TooManyTermsInQueryException extends QueryParseException {
 
   private static final String MESSAGE = "too many terms in query";
 
+  public TooManyTermsInQueryException() {
+    super(MESSAGE);
+  }
+
+  public TooManyTermsInQueryException(Throwable why) {
+    super(MESSAGE, why);
+  }
+
   public TooManyTermsInQueryException(int numTerms, int maxConfiguredTerms) {
     super(MESSAGE + String.format(": %d terms (max = %d)", numTerms, maxConfiguredTerms));
   }

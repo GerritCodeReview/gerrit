@@ -1671,6 +1671,21 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }) as Promise<AccountInfo[] | undefined>;
   }
 
+  getMentions(
+    inputVal: string,
+    change: NumericChangeId
+  ): Promise<AccountInfo[] | undefined> {
+    const params = {q: `cansee:${change}`, suggest: null};
+    if (inputVal) {
+      params.q += `&email:${inputVal}`;
+    }
+    return this._restApiHelper.fetchJSON({
+      url: '/accounts/',
+      params,
+      anonymizedUrl: '/accounts/?n=*',
+    }) as Promise<AccountInfo[] | undefined>;
+  }
+
   addChangeReviewer(
     changeNum: NumericChangeId,
     reviewerID: AccountId | EmailAddress | GroupId

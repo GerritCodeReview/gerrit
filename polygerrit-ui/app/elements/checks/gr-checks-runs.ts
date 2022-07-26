@@ -242,7 +242,11 @@ export class GrChecksRun extends LitElement {
         <div class="left">
           <gr-hovercard-run .run=${this.run}></gr-hovercard-run>
           ${this.renderFilterIcon()}
-          <gr-icon icon=${icon.name} ?filled=${icon.filled}></gr-icon>
+          <gr-icon
+            class=${icon.name}
+            icon=${icon.name}
+            ?filled=${icon.filled}
+          ></gr-icon>
           ${this.renderAdditionalIcon()}
           <span class="name">${this.run.checkName}</span>
           ${this.renderETA()}

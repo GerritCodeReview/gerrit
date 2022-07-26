@@ -1677,7 +1677,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       anonymizedUrl: '/accounts/?n=*',
     }) as Promise<AccountInfo[] | undefined>;
   }
-
   addChangeReviewer(
     changeNum: NumericChangeId,
     reviewerID: AccountId | EmailAddress | GroupId

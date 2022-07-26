@@ -6,6 +6,7 @@
 import '../../../styles/shared-styles';
 import '../../../elements/shared/gr-button/gr-button';
 import '../../../elements/shared/gr-icons/gr-icons';
+import '../../../elements/shared/gr-icon/gr-icon';
 import '../gr-diff-builder/gr-diff-builder-element';
 import '../gr-diff-highlight/gr-diff-highlight';
 import '../gr-diff-selection/gr-diff-selection';
@@ -792,7 +793,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
           font-size: var(--font-size-normal, 14px);
           line-height: var(--line-height-normal);
         }
-        td.lost .material-icon {
+        td.lost gr-icon {
           padding: 0 var(--spacing-s) 0 var(--spacing-m);
           color: var(--blue-700);
         }
@@ -1735,9 +1736,8 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
   private portedCommentsWithoutRangeMessage() {
     const div = document.createElement('div');
-    const icon = document.createElement('span');
-    icon.className = 'material-icon';
-    icon.innerText = 'info';
+    const icon = document.createElement('gr-icon');
+    icon.setAttribute('icon', 'info');
     div.appendChild(icon);
     const span = document.createElement('span');
     span.innerText = 'Original comment position not found in this patchset';

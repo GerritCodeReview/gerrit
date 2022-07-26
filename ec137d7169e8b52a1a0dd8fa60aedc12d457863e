@@ -16,6 +16,24 @@
       "message": "Please annotate both constructors with\n\n  @UsedAt(UsedAt.Project.GOOGLE)\n  \nto prevent people from thinking they are unused and can be dropped.",
       "revId": "ec137d7169e8b52a1a0dd8fa60aedc12d457863e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fd6d96e_8f360183",
+        "filename": "java/com/google/gerrit/index/query/TooManyTermsInQueryException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-26T11:22:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a607fc62_f7480254",
+      "revId": "ec137d7169e8b52a1a0dd8fa60aedc12d457863e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

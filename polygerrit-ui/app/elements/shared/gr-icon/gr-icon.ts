@@ -12,7 +12,13 @@ declare global {
     'gr-icon': GrIcon;
   }
 }
+
 /**
+ * A material icon.  The advantage of using gr-icon over a native span is that
+ * gr-icon uses :host::before trick to avoid that the icon name shows up in
+ * chrome search. It also allows better type-checking in the future by
+ * constraining the icon string to only valid icon names.
+ *
  * @attr {String} icon - the icon to display
  * @attr {Boolean} filled - whether the icon should be filled.
  */

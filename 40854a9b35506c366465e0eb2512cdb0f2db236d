@@ -34,6 +34,24 @@
       "parentUuid": "b364ba06_aa89617a",
       "revId": "40854a9b35506c366465e0eb2512cdb0f2db236d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8403a9e3_d9a0efba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-07-26T09:57:06Z",
+      "side": 1,
+      "message": "Thank you.\n\nIs the intention to change all span icons to gr-icon?",
+      "parentUuid": "006b484f_4f45f264",
+      "revId": "40854a9b35506c366465e0eb2512cdb0f2db236d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

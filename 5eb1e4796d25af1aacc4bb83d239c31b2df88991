@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "762d48fe_bef6f2c9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-checks-chip.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-26T06:51:32Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "80e1f42c_5a274aee",
+      "range": {
+        "startLine": 122,
+        "startChar": 27,
+        "endLine": 122,
+        "endChar": 29
+      },
+      "revId": "5eb1e4796d25af1aacc4bb83d239c31b2df88991",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2af8a00b_2f882da9",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "caaca17c_c29df41a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-26T06:51:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2af8a00b_2f882da9",
+      "range": {
+        "startLine": 273,
+        "startChar": 32,
+        "endLine": 273,
+        "endChar": 33
+      },
+      "revId": "5eb1e4796d25af1aacc4bb83d239c31b2df88991",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "272f1414_ae0795a0",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-07-25T19:32:28Z",
       "side": 1,
       "message": "I assume this is expected change.",
+      "range": {
+        "startLine": 141,
+        "startChar": 34,
+        "endLine": 141,
+        "endChar": 38
+      },
+      "revId": "5eb1e4796d25af1aacc4bb83d239c31b2df88991",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5221bb4_f5b5735d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-actions-js-api_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-26T06:51:32Z",
+      "side": 1,
+      "message": "Yes, I wanted to pick an icon that I know exists for when we move to limiting the string to only valid icons.",
+      "parentUuid": "272f1414_ae0795a0",
       "range": {
         "startLine": 141,
         "startChar": 34,

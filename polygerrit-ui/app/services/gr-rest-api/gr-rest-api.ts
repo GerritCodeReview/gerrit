@@ -160,6 +160,11 @@ export interface RestApiService extends Finalizable {
     input: string,
     n?: number
   ): Promise<AccountInfo[] | undefined>;
+  getMentions(
+    input: string,
+    change: NumericChangeId,
+    n?: number
+  ): Promise<AccountInfo[] | undefined>;
   getSuggestedGroups(
     input: string,
     project?: RepoName,

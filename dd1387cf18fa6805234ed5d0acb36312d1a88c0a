@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9da0f588_0e1750ca",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-26T06:10:58Z",
+      "side": 1,
+      "message": "Because it\u0027s not immediately obvious in this context that mentionsSuggestions can not be null, what about:\n\n```\n  if (this.emojiSuggestions \u0026\u0026 !this.emojiSuggestions.isHidden)\n    return this.emojiSuggestions;\n  if (this.mentionsSuggestions \u0026\u0026 !this.mentionsSuggestions.isHidden)\n    return this.mentionsSuggestions!;\n  throw new Error(\u0027no dropdown visible\u0027);\n```",
+      "revId": "dd1387cf18fa6805234ed5d0acb36312d1a88c0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed322042_65efa529",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-26T06:10:58Z",
+      "side": 1,
+      "message": "I still don\u0027t understand why you don\u0027t neeed the nullness check for this.specialCharIndex?\n\nDon\u0027t you trigger then on your second @?",
+      "revId": "dd1387cf18fa6805234ed5d0acb36312d1a88c0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

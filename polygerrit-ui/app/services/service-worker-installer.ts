@@ -6,6 +6,14 @@
 
 import {FlagsService, KnownExperimentId} from './flags/flags';
 import {registerServiceWorker} from '../utils/worker-util';
+import {getRandomInt} from '../utils/math-util';
+
+/** Type of incoming messages for ServiceWorker. */
+export enum ServiceWorkerMessageType {
+  TRIGGER_NOTIFICATIONS = 'TRIGGER_NOTIFICATIONS',
+}
+
+export const TRIGGER_NOTIFICATION_UPDATES_MS = 5 * 60 * 1000;
 
 export class ServiceWorkerInstaller {
   initialized = false;
@@ -22,14 +30,26 @@ export class ServiceWorkerInstaller {
       return;
     }
     await registerServiceWorker('/service-worker.js');
-    await this.requestNotificationPermission();
+    const permission = await Notification.requestPermission();
+    if (this.isPermitted(permission)) this.startTriggerTimer();
     this.initialized = true;
   }
 
-  async requestNotificationPermission() {
-    const permission = await window.Notification.requestPermission();
-    if (permission !== 'granted') {
-      throw new Error('Permission not granted for Notification');
-    }
+  /**
+   * Every 5 minutes, we trigger service-worker to get
+   * latest updates in attention set and service-worker will create
+   * notifications.
+   */
+  startTriggerTimer() {
+    setTimeout(() => {
+      this.startTriggerTimer();
+      navigator.serviceWorker.controller?.postMessage({
+        type: ServiceWorkerMessageType.TRIGGER_NOTIFICATIONS,
+      });
+    }, TRIGGER_NOTIFICATION_UPDATES_MS + getRandomInt(0, 100));
+  }
+
+  isPermitted(permission: NotificationPermission) {
+    return permission === 'granted';
   }
 }

@@ -225,9 +225,9 @@ interface QueryChangesParams {
 
 interface QueryAccountsParams {
   [paramName: string]: string | undefined | null | number;
-  suggest: null;
   q: string;
   n?: number;
+  o?: string;
 }
 
 interface QueryGroupsParams {
@@ -1645,14 +1645,29 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     });
   }
 
+  /**
+   * Request list of accounts via https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#query-account
+   * Operators defined here https://gerrit-review.googlesource.com/Documentation/user-search-accounts.html#_search_operators
+   */
   getSuggestedAccounts(
     inputVal: string,
-    n?: number
+    n?: number,
+    canSee?: NumericChangeId,
+    filterActive?: boolean
   ): Promise<AccountInfo[] | undefined> {
-    if (!inputVal) {
-      return Promise.resolve([]);
+    const params: QueryAccountsParams = {o: 'DETAILS', q: ''};
+    const queryParams = [];
+    if (inputVal) {
+      queryParams.push(inputVal);
     }
-    const params: QueryAccountsParams = {suggest: null, q: inputVal};
+    if (canSee) {
+      queryParams.push(`cansee:${canSee}`);
+    }
+    if (filterActive) {
+      queryParams.push('is:active');
+    }
+    params.q = queryParams.join(' and ');
+    if (!params.q) return Promise.resolve([]);
     if (n) {
       params.n = n;
     }

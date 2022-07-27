@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75fbfbb0_3c4c6e72",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-27T11:53:07Z",
+      "side": 1,
+      "message": "How will this change help callers in better understanding the error? Apart from bullet \"3\", we are only changing the response code.",
+      "revId": "22247dced7a2a0a37e41a4cd117988c8f799c6eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcf4da60_3443165d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-27T11:53:07Z",
+      "side": 1,
+      "message": "I\u0027d argue that 400 also makes sense: it\u0027s a bad request w.r.t user\u0027s input (i.e. user is supplying wrong SHA-1s in the request). 5xx should be used when server itself fails, i.e. due to a bug.\n\nMaybe what we could do is to enhance the error messages only, but leave the response codes as is?",
+      "range": {
+        "startLine": 10,
+        "startChar": 2,
+        "endLine": 10,
+        "endChar": 65
+      },
+      "revId": "22247dced7a2a0a37e41a4cd117988c8f799c6eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0425d432_534c5f67",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-27T11:53:07Z",
+      "side": 1,
+      "message": "I missed this review. Apologies for the delay.\n\nI left few comments.",
+      "revId": "22247dced7a2a0a37e41a4cd117988c8f799c6eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37975430_3695d236",
+        "filename": "java/com/google/gerrit/server/project/RefUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-27T11:53:07Z",
+      "side": 1,
+      "message": "As an example on why this makes sense to map to 400, the baseRevision is supplied by users of the REST API, and this exception happens if baseRevision is invalid.",
+      "revId": "22247dced7a2a0a37e41a4cd117988c8f799c6eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

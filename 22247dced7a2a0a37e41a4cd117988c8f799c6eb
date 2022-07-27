@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "91c915d1_a4bfe759",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-27T12:36:08Z",
+      "side": 1,
+      "message": "No we are also changing messages. Before this change all cases were rejected with \"invalid revision \u003crevision\u003e\", now we return \"base revision \u003crevision\u003e not found\", \"base revision \u003crevision\u003e is invalid\", \"base revision \u003crevision\u003e is not a commit\" or 500 ISE, so from the message you can understand now better which of the cases is hit.",
+      "parentUuid": "75fbfbb0_3c4c6e72",
+      "revId": "22247dced7a2a0a37e41a4cd117988c8f799c6eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fcf4da60_3443165d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -31,6 +49,30 @@
       "writtenOn": "2022-07-27T11:53:07Z",
       "side": 1,
       "message": "I\u0027d argue that 400 also makes sense: it\u0027s a bad request w.r.t user\u0027s input (i.e. user is supplying wrong SHA-1s in the request). 5xx should be used when server itself fails, i.e. due to a bug.\n\nMaybe what we could do is to enhance the error messages only, but leave the response codes as is?",
+      "range": {
+        "startLine": 10,
+        "startChar": 2,
+        "endLine": 10,
+        "endChar": 65
+      },
+      "revId": "22247dced7a2a0a37e41a4cd117988c8f799c6eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d17329e9_87c26aab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-27T12:36:08Z",
+      "side": 1,
+      "message": "No, specifying a wrong SHA1 doesn\u0027t trigger an IOException, hence we will (still) not return a 500 ISE in this case. An IOException is only thrown if there is a bug in the code that prevents us from checking if the SHA1 exists, but then 500 ISE is correct.",
+      "parentUuid": "fcf4da60_3443165d",
       "range": {
         "startLine": 10,
         "startChar": 2,
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "646198d6_2beb4deb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-27T12:36:08Z",
+      "side": 1,
+      "message": "No worries, this was not urgent at all.",
+      "parentUuid": "0425d432_534c5f67",
+      "revId": "22247dced7a2a0a37e41a4cd117988c8f799c6eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "37975430_3695d236",
@@ -71,6 +131,24 @@
       "writtenOn": "2022-07-27T11:53:07Z",
       "side": 1,
       "message": "As an example on why this makes sense to map to 400, the baseRevision is supplied by users of the REST API, and this exception happens if baseRevision is invalid.",
+      "revId": "22247dced7a2a0a37e41a4cd117988c8f799c6eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68c39ddd_15747425",
+        "filename": "java/com/google/gerrit/server/project/RefUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-27T12:36:08Z",
+      "side": 1,
+      "message": "All 4xx response codes mean that it\u0027s a \"user error\", whereas 5xx is used when it\u0027s a \"server error\". This means if it\u0027s a \"user error\" it doesn\u0027t mean that it should always be a 400, but it can also be another 4xx response code.\n\nYeah, I guess \u0027400 Bad Request\u0027 would be okay too as it\u0027s the most generic response code for \"user error\", but 422 is more specific, and hence I think better. We use 422 when a resource ID that is specified in the response body cannot be resolved [1], which is exactly this case here, the base revision that is specified in the response cannot be resolved. On the other hand 400 should be used is the request is not understood by the server due to malformed syntax [2], which is not the case here.\n\nFWIW this case here is about revid \u003d\u003d null (which is means the specified revision was not found), this is different from the specified revision being \"invalid\" (aka not a parseable SHA1) which is handled below in l. 49 - 51.\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api.html#_422_unprocessable_entity\n[2] https://gerrit-review.googlesource.com/Documentation/rest-api.html#_400_bad_request",
+      "parentUuid": "37975430_3695d236",
       "revId": "22247dced7a2a0a37e41a4cd117988c8f799c6eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

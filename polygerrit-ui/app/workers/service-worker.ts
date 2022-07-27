@@ -5,6 +5,10 @@
  */
 
 import {readResponsePayload} from '../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {
+  ServiceWorkerMessageType,
+  TRIGGER_NOTIFICATION_UPDATES_MS,
+} from '../services/service-worker-installer';
 import {ParsedChangeInfo} from '../types/types';
 
 /**
@@ -14,18 +18,20 @@ import {ParsedChangeInfo} from '../types/types';
  */
 const ctx = self as {} as ServiceWorkerGlobalScope;
 
-// TODO(milutin): Move to onmessage, that webapp will trigger every 5 minutes.
-// "Push" is used for testing purposes, since it is easy to trigger
-// from dev tools.
-ctx.addEventListener('push', async () => {
+ctx.addEventListener('message', async event => {
+  if (event.data?.type !== ServiceWorkerMessageType.TRIGGER_NOTIFICATIONS) {
+    return;
+  }
   const changes = await serviceWorker.getLatestAttentionSetChange();
   // TODO(milutin): Implement handling more than 1 change
-  if (changes.length > 0) {
+  if (changes && changes.length > 0) {
     serviceWorker.showNotification(changes[0]);
   }
 });
 
 class ServiceWorker {
+  latestUpdateTimestampMs?: number;
+
   showNotification(change: ParsedChangeInfo) {
     // TODO(milutin): Replace with getReason from attention-set-util.
     // For get Reason you will need AccountInfo.
@@ -37,14 +43,23 @@ class ServiceWorker {
   }
 
   async getLatestAttentionSetChange() {
+    // We call api only once in 5 minutes, there can be many clients triggerring
+    if (this.latestUpdateTimestampMs) {
+      const durationFromLatestUpdateMS =
+        Date.now() - this.latestUpdateTimestampMs;
+      if (durationFromLatestUpdateMS < TRIGGER_NOTIFICATION_UPDATES_MS) {
+        return [];
+      }
+    }
+    this.latestUpdateTimestampMs = Date.now();
     // TODO(milutin): Implement more generic query builder
     const response = await fetch(
       '/changes/?O=1000081&S=0&n=25&q=attention%3Aself'
     );
     const payload = await readResponsePayload(response);
-    const changes = payload.parsed as unknown as ParsedChangeInfo[];
+    const changes = payload.parsed as unknown as ParsedChangeInfo[] | undefined;
     // TODO(milutin): Filter changes you are already notified about.
-    return changes;
+    return changes ?? [];
   }
 }
 

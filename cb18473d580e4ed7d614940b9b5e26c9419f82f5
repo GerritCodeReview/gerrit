@@ -85,6 +85,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "56aa487b_de716bb4",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-07-27T08:52:00Z",
+      "side": 1,
+      "message": "Thanks. I worry however, that link to gerrit-review.googlesource.com might be confusing for external users with deployment of the older version for example. \n\nNot sure what the right way here, maybe strip the hostname from the path?",
+      "parentUuid": "5ad7c069_a466780d",
+      "range": {
+        "startLine": 159,
+        "startChar": 2,
+        "endLine": 159,
+        "endChar": 23
+      },
+      "revId": "cb18473d580e4ed7d614940b9b5e26c9419f82f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9200760c_35df481d",
         "filename": "polygerrit-ui/app/utils/account-util.ts",
         "patchSetId": 12
@@ -120,6 +144,30 @@
       "side": 1,
       "message": "I think docs do a pretty god job explaining. [1]\nAdded the docs link as a comment(but in rest-api-impl).\n\nLet me know if you want to duplicate the comment in the util as well. For now I think it\u0027s fine to add it only in the restAPI.\n\n[1] https://gerrit-review.googlesource.com/Documentation/user-search-accounts.html#_search_operators",
       "parentUuid": "9200760c_35df481d",
+      "range": {
+        "startLine": 177,
+        "startChar": 16,
+        "endLine": 177,
+        "endChar": 37
+      },
+      "revId": "cb18473d580e4ed7d614940b9b5e26c9419f82f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f64c9946_3fef522c",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-07-27T08:52:00Z",
+      "side": 1,
+      "message": "No I wouldn\u0027t duplicate the comment. But I would describe the format in which it returns the data, ie. \"as a list of (name, account id) pairs\" or smth similar.\n\nBut if you think it\u0027s obvious at a quick glance, feel free to skip.",
+      "parentUuid": "3b3380a7_e21b9211",
       "range": {
         "startLine": 177,
         "startChar": 16,

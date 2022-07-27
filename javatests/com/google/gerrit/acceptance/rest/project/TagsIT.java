@@ -39,6 +39,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;
 import java.time.Instant;
@@ -366,16 +367,49 @@ public class TagsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void nonExistingBaseRevision() throws Exception {
+    grantTagPermissions();
+
+    TagInput input = new TagInput();
+    input.ref = "test";
+    input.revision = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
+
+    UnprocessableEntityException thrown =
+        assertThrows(UnprocessableEntityException.class, () -> tag(input.ref).create(input));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("base revision \"deadbeefdeadbeefdeadbeefdeadbeefdeadbeef\" not found");
+  }
+
+  @Test
   public void invalidBaseRevision() throws Exception {
     grantTagPermissions();
 
     TagInput input = new TagInput();
     input.ref = "test";
-    input.revision = "abcdefg";
+    input.revision = "invalid\trevision";
+
+    UnprocessableEntityException thrown =
+        assertThrows(UnprocessableEntityException.class, () -> tag(input.ref).create(input));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("base revision \"" + input.revision + "\" is invalid");
+  }
+
+  @Test
+  public void nonCommitRevision() throws Exception {
+    grantTagPermissions();
+
+    TagInput input = new TagInput();
+    input.ref = "test";
+    input.revision =
+        projectOperations.project(project).getHead("refs/heads/master").getTree().name();
 
     BadRequestException thrown =
         assertThrows(BadRequestException.class, () -> tag(input.ref).create(input));
-    assertThat(thrown).hasMessageThat().contains("Invalid base revision");
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("base revision \"" + input.revision + "\" is not a commit");
   }
 
   @Test

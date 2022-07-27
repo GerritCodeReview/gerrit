@@ -18,11 +18,9 @@ import static org.eclipse.jgit.lib.Constants.R_REFS;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 import com.google.common.collect.Iterables;
-import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.Nullable;
-import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import java.io.IOException;
 import java.util.Collections;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -37,37 +35,28 @@ import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 public class RefUtil {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   private RefUtil() {}
 
-  public static ObjectId parseBaseRevision(
-      Repository repo, Project.NameKey projectName, String baseRevision)
-      throws InvalidRevisionException {
+  public static ObjectId parseBaseRevision(Repository repo, String baseRevision)
+      throws UnprocessableEntityException, IOException {
     try {
       ObjectId revid = repo.resolve(baseRevision);
       if (revid == null) {
-        throw new InvalidRevisionException(baseRevision);
+        throw new UnprocessableEntityException(
+            String.format("base revision \"%s\" not found", baseRevision));
       }
       return revid;
-    } catch (IOException err) {
-      logger.atSevere().withCause(err).log(
-          "Cannot resolve \"%s\" in project \"%s\"", baseRevision, projectName.get());
-      throw new InvalidRevisionException(baseRevision);
-    } catch (RevisionSyntaxException err) {
-      throw new InvalidRevisionException(baseRevision, err);
+    } catch (RevisionSyntaxException e) {
+      throw new UnprocessableEntityException(
+          String.format("base revision \"%s\" is invalid", baseRevision), e);
     }
   }
 
-  public static RevWalk verifyConnected(Repository repo, ObjectId revid)
-      throws InvalidRevisionException {
+  public static RevWalk verifyConnected(Repository repo, ObjectId baseRevision)
+      throws BadRequestException, UnprocessableEntityException, IOException {
     try {
       ObjectWalk rw = new ObjectWalk(repo);
-      try {
-        rw.markStart(rw.parseCommit(revid));
-      } catch (IncorrectObjectTypeException err) {
-        throw new InvalidRevisionException(revid.name(), err);
-      }
+      rw.markStart(rw.parseCommit(baseRevision));
       RefDatabase refDb = repo.getRefDatabase();
       Iterable<Ref> refs =
           Iterables.concat(
@@ -85,12 +74,12 @@ public class RefUtil {
       }
       rw.checkConnectivity();
       return rw;
-    } catch (IncorrectObjectTypeException | MissingObjectException err) {
-      throw new InvalidRevisionException(revid.name(), err);
-    } catch (IOException err) {
-      logger.atSevere().withCause(err).log(
-          "Repository \"%s\" may be corrupt; suggest running git fsck", repo.getDirectory());
-      throw new InvalidRevisionException(revid.name());
+    } catch (IncorrectObjectTypeException e) {
+      throw new BadRequestException(
+          String.format("base revision \"%s\" is not a commit", baseRevision.name()), e);
+    } catch (MissingObjectException e) {
+      throw new UnprocessableEntityException(
+          String.format("base revision \"%s\" not found", baseRevision.name()), e);
     }
   }
 
@@ -118,20 +107,5 @@ public class RefUtil {
       throw new BadRequestException("invalid tag name \"" + result + "\"");
     }
     return result;
-  }
-
-  /** Error indicating the revision is invalid as supplied. */
-  public static class InvalidRevisionException extends Exception {
-    private static final long serialVersionUID = 1L;
-
-    public static final String MESSAGE = "Invalid Revision";
-
-    InvalidRevisionException(@Nullable String invalidRevision) {
-      super(MESSAGE + ": " + invalidRevision);
-    }
-
-    InvalidRevisionException(@Nullable String invalidRevision, Throwable why) {
-      super(MESSAGE + ": " + invalidRevision, why);
-    }
   }
 }

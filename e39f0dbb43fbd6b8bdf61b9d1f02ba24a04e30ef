@@ -80,6 +80,30 @@
       },
       "revId": "e39f0dbb43fbd6b8bdf61b9d1f02ba24a04e30ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6cec7ea6_b230e7d2",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-07-27T14:35:25Z",
+      "side": 1,
+      "message": "I don\u0027t think we want to add another method. If you think the current match is not fast enough, then perhaps it should be improved first?",
+      "parentUuid": "45933bbd_1dde27a7",
+      "range": {
+        "startLine": 160,
+        "startChar": 17,
+        "endLine": 160,
+        "endChar": 31
+      },
+      "revId": "e39f0dbb43fbd6b8bdf61b9d1f02ba24a04e30ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

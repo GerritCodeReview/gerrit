@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "084f9401_50999175",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-27T15:11:03Z",
+      "side": 1,
+      "message": "Just curious, how did we determine the order of importance? Is this w.r.t. number of usages inside Google?",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 21,
+        "endChar": 40
+      },
+      "revId": "0fbae2e157857fb6b6f01caf8c8f84b7f6db77ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9d82cca_98894e27",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-27T15:11:03Z",
+      "side": 1,
+      "message": "super-nit: this renders as two icons to the left of the heading since we have two anchors. Can we drop one of them?",
+      "revId": "0fbae2e157857fb6b6f01caf8c8f84b7f6db77ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e67c1b71_f356c370",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-27T15:11:03Z",
+      "side": 1,
+      "message": "I think this sentence can be enhanced (unless \"strict superset\" is a git term I\u0027m unfamiliar of).\n\nCopying from [1], maybe some suggestions:\n  * If the destination branch did not advance since this change was branched out of the target branch.\n  * Or, if the destination branch tip is an ancestor of the change commit.\n  \nPlease also feel free to mark as optional (resolved), since it\u0027s not related to what this change is doing.\n\n[1] https://git-scm.com/docs/git-merge#_fast_forward_merge",
+      "range": {
+        "startLine": 343,
+        "startChar": 0,
+        "endLine": 343,
+        "endChar": 76
+      },
+      "revId": "0fbae2e157857fb6b6f01caf8c8f84b7f6db77ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "035ac8cc_25378c26",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-27T15:11:03Z",
+      "side": 1,
+      "message": "The doc does not mention where we should use the exact spelling. Do you mean if someone edited the project.config directly?",
+      "range": {
+        "startLine": 421,
+        "startChar": 28,
+        "endLine": 421,
+        "endChar": 50
+      },
+      "revId": "0fbae2e157857fb6b6f01caf8c8f84b7f6db77ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

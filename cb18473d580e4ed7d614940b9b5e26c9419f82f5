@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fe8bdcb_cd4d3de1",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 1662,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-27T08:22:43Z",
+      "side": 1,
+      "message": "Consider the following instead of constantly checking the params.q:\n\n```\nconst queryParams \u003d [];\nif (inputVal) {\n  queryParams.push(inputVal);\n}\nif (canSee) {\n  queryParams.push(`cansee:${canSee}`)\n}\nif (filterActive) {\n  queryParams.push(\u0027is:active\u0027)\n}\n\nparams.q \u003d queryParams.join(\u0027 and \u0027);",
+      "revId": "cb18473d580e4ed7d614940b9b5e26c9419f82f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

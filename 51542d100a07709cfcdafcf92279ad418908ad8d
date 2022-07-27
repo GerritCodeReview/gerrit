@@ -34,6 +34,24 @@
       "parentUuid": "3e205232_fc837d8a",
       "revId": "51542d100a07709cfcdafcf92279ad418908ad8d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf19c0ab_ff9c8eec",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 1654,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-27T08:40:46Z",
+      "side": 1,
+      "message": "Ah thanks, sorry, not feeling super today so I missed that.\n\nHave you checked with the backend team what the performance impact of this is for the existing places we use suggest today?\n\nI\u0027m just wary about changing the existing suggest logic where it\u0027s already being used.",
+      "parentUuid": "0e597fc2_2c0c17d6",
+      "revId": "51542d100a07709cfcdafcf92279ad418908ad8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

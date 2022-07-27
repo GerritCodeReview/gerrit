@@ -59,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ad7c069_a466780d",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-27T08:41:30Z",
+      "side": 1,
+      "message": "I think docs do a pretty god job explaining. [1]\nAdded the docs link as a comment.\n\n[1] https://gerrit-review.googlesource.com/Documentation/user-search-accounts.html#_search_operators",
+      "parentUuid": "011fede2_fb23b0bf",
+      "range": {
+        "startLine": 159,
+        "startChar": 2,
+        "endLine": 159,
+        "endChar": 23
+      },
+      "revId": "cb18473d580e4ed7d614940b9b5e26c9419f82f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9200760c_35df481d",
@@ -72,6 +96,30 @@
       "writtenOn": "2022-07-27T08:35:36Z",
       "side": 1,
       "message": "Could we add function comment, describing what the function does and what arguments mean?",
+      "range": {
+        "startLine": 177,
+        "startChar": 16,
+        "endLine": 177,
+        "endChar": 37
+      },
+      "revId": "cb18473d580e4ed7d614940b9b5e26c9419f82f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b3380a7_e21b9211",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-27T08:41:30Z",
+      "side": 1,
+      "message": "I think docs do a pretty god job explaining. [1]\nAdded the docs link as a comment(but in rest-api-impl).\n\nLet me know if you want to duplicate the comment in the util as well. For now I think it\u0027s fine to add it only in the restAPI.\n\n[1] https://gerrit-review.googlesource.com/Documentation/user-search-accounts.html#_search_operators",
+      "parentUuid": "9200760c_35df481d",
       "range": {
         "startLine": 177,
         "startChar": 16,

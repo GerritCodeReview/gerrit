@@ -893,7 +893,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }) as Promise<string | undefined>;
   }
 
-  // https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#list-groups
   getAccountGroups() {
     return this._restApiHelper.fetchJSON({
       url: '/accounts/self/groups',
@@ -1645,10 +1644,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     });
   }
 
-  /**
-   * Request list of accounts via https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#query-account
-   * Operators defined here https://gerrit-review.googlesource.com/Documentation/user-search-accounts.html#_search_operators
-   */
   getSuggestedAccounts(
     inputVal: string,
     n?: number,
@@ -2124,17 +2119,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     });
   }
 
-  // Deprecated, prefer to use putChangeCommitMessage instead.
-  saveChangeCommitMessageEdit(changeNum: NumericChangeId, message: string) {
-    return this._getChangeURLAndSend({
-      changeNum,
-      method: HttpMethod.PUT,
-      endpoint: '/edit:message',
-      body: {message},
-      reportEndpointAsIs: true,
-    });
-  }
-
   publishChangeEdit(changeNum: NumericChangeId) {
     return this._getChangeURLAndSend({
       changeNum,
@@ -2227,12 +2211,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     });
   }
 
-  /**
-   * @param basePatchNum Negative values specify merge parent
-   * index.
-   * @param whitespace the ignore-whitespace level for the diff
-   * algorithm.
-   */
   getDiff(
     changeNum: NumericChangeId,
     basePatchNum: PatchSetNum,
@@ -2334,11 +2312,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     );
   }
 
-  /**
-   * If the user is logged in, fetch the user's draft diff comments. If there
-   * is no logged in user, the request is not made and the promise yields an
-   * empty object.
-   */
   async getDiffDrafts(
     changeNum: NumericChangeId
   ): Promise<{[path: string]: DraftInfo[]} | undefined> {
@@ -2563,18 +2536,11 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     );
   }
 
-  /**
-   * @return Whether there are pending diff draft sends.
-   */
   hasPendingDiffDrafts(): number {
     const promises = this._pendingRequests[Requests.SEND_DIFF_DRAFT];
     return promises && promises.length;
   }
 
-  /**
-   * @return A promise that resolves when all pending
-   * diff draft sends have resolved.
-   */
   awaitPendingDiffDrafts(): Promise<void> {
     return Promise.all(
       this._pendingRequests[Requests.SEND_DIFF_DRAFT] || []
@@ -3012,9 +2978,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }) as unknown as Promise<CommentInfo>;
   }
 
-  /**
-   * Given a changeNum, gets the change.
-   */
   getChange(
     changeNum: ChangeId | NumericChangeId,
     errFn: ErrorCallback
@@ -3046,11 +3009,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     this._projectLookup[changeNum] = Promise.resolve(project);
   }
 
-  /**
-   * Checks in _projectLookup for the changeNum. If it exists, returns the
-   * project. If not, calls the restAPI to get the change, populates
-   * _projectLookup with the project for that change, and returns the project.
-   */
   getFromProjectLookup(
     changeNum: NumericChangeId
   ): Promise<RepoName | undefined> {
@@ -3161,9 +3119,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     errFn: ErrorCallback
   ): Promise<Response | undefined>;
 
-  /**
-   * Execute a change action or revision action on a change.
-   */
   executeChangeAction(
     changeNum: NumericChangeId,
     method: HttpMethod | undefined,
@@ -3182,12 +3137,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     });
   }
 
-  /**
-   * Get blame information for the given diff.
-   *
-   * @param base If true, requests blame for the base of the
-   *     diff, rather than the revision.
-   */
   getBlame(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
@@ -3238,10 +3187,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     });
   }
 
-  /**
-   * Fetch a project dashboard definition.
-   * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#get-dashboard
-   */
   getDashboard(
     project: RepoName,
     dashboard: DashboardId,

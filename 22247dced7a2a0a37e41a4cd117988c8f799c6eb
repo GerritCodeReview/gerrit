@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4f82d59_fc7f4a5b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-27T14:30:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "91c915d1_a4bfe759",
+      "revId": "22247dced7a2a0a37e41a4cd117988c8f799c6eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fcf4da60_3443165d",
@@ -73,6 +91,30 @@
       "side": 1,
       "message": "No, specifying a wrong SHA1 doesn\u0027t trigger an IOException, hence we will (still) not return a 500 ISE in this case. An IOException is only thrown if there is a bug in the code that prevents us from checking if the SHA1 exists, but then 500 ISE is correct.",
       "parentUuid": "fcf4da60_3443165d",
+      "range": {
+        "startLine": 10,
+        "startChar": 2,
+        "endLine": 10,
+        "endChar": 65
+      },
+      "revId": "22247dced7a2a0a37e41a4cd117988c8f799c6eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65e8b7d0_48428b1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-27T14:30:59Z",
+      "side": 1,
+      "message": "OK, thanks for clarifying. I\u0027ll post comments on the code change in case I doubt something.",
+      "parentUuid": "d17329e9_87c26aab",
       "range": {
         "startLine": 10,
         "startChar": 2,
@@ -149,6 +191,24 @@
       "side": 1,
       "message": "All 4xx response codes mean that it\u0027s a \"user error\", whereas 5xx is used when it\u0027s a \"server error\". This means if it\u0027s a \"user error\" it doesn\u0027t mean that it should always be a 400, but it can also be another 4xx response code.\n\nYeah, I guess \u0027400 Bad Request\u0027 would be okay too as it\u0027s the most generic response code for \"user error\", but 422 is more specific, and hence I think better. We use 422 when a resource ID that is specified in the response body cannot be resolved [1], which is exactly this case here, the base revision that is specified in the response cannot be resolved. On the other hand 400 should be used is the request is not understood by the server due to malformed syntax [2], which is not the case here.\n\nFWIW this case here is about revid \u003d\u003d null (which is means the specified revision was not found), this is different from the specified revision being \"invalid\" (aka not a parseable SHA1) which is handled below in l. 49 - 51.\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api.html#_422_unprocessable_entity\n[2] https://gerrit-review.googlesource.com/Documentation/rest-api.html#_400_bad_request",
       "parentUuid": "37975430_3695d236",
+      "revId": "22247dced7a2a0a37e41a4cd117988c8f799c6eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5f28fd6_62f9597c",
+        "filename": "java/com/google/gerrit/server/project/RefUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-27T14:30:59Z",
+      "side": 1,
+      "message": "Sorry, by 400 I meant 4xx as BadRequestException ...\n\n\u003e Yeah, I guess \u0027400 Bad Request\u0027 would be okay too as it\u0027s the most generic response code for \"user error\", but 422 is more specific, and hence I think better.\n\nOK I just figured out that UnprocessableEntity maps to 422. LGTM.\n\nOK makes sense. Thanks for explaining.",
+      "parentUuid": "68c39ddd_15747425",
       "revId": "22247dced7a2a0a37e41a4cd117988c8f799c6eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

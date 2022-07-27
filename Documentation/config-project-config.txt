@@ -326,9 +326,104 @@ be modified by any project owner through the project console, `Browse`
 
 [[submit.action]]submit.action::
 +
-Defines the link:#submit-type[submit type].  Valid
-values are 'fast forward only', 'merge if necessary', 'rebase if necessary',
-'rebase always', 'merge always' and 'cherry pick'.  The default is 'merge if necessary'.
+Defines the submit action aka submit type aka submit strategy that Gerrit
+should use to integrate changes into the target branch when they are submitted.
++
+In general, submitting a change only merges the change if all its dependencies
+are also submitted. The only exception is the `cherry pick` submit action which
+ignores dependencies (see link:#cherry_pick[below]).
++
+[[submit-type]]
+--
+The following submit actions are supported:
+
+[[merge_if_necessary]]
+* 'merge if necessary':
++
+If the change being submitted is a strict superset of the destination branch,
+then the branch is fast-forwarded to the change. If not, then a merge commit is
+automatically created. This is identical to the classical `git merge` behavior,
+ or `git merge --ff`.
+
+[[always_merge]]
+[[merge_always]]
+* 'merge always':
++
+Always produce a merge commit, even if the change is a strict superset of the
+destination branch. This is identical to the behavior of `git merge --no-ff`,
+and may be useful if the project needs to follow submits with
+`git log --first-parent`.
+
+[[rebase_if_necessary]]
+* 'rebase if necessary':
++
+If the change being submitted is a strict superset of the destination branch,
+then the branch is fast-forwarded to the change. If not, then the change is
+automatically rebased and then the branch is fast-forwarded to the change.
++
+When Gerrit tries to do a merge, by default the merge will only succeed if
+there is no path conflict. A path conflict occurs when the same file has also
+been changed on the other side of the merge.
+
+[[rebase_always]]
+* 'rebase always':
++
+Basically, the same as `rebase if necessary`, but it creates a new patchset
+even if fast forward is possible and like `cherry pick` it ensures footers such
+as `Change-Id`, `Reviewed-On`, and others are present in resulting commit that
+is merged.
++
+Thus, `rebase always` can be considered similar to `cherry pick`, but with the
+important distinction that `rebase always` does not ignore dependencies.
+
+[[fast_forward_only]]
+* 'fast forward only':
++
+With this action Gerrit does not create merge commits on submitting a change.
+Merge commits may still be submitted, but they must be created on the client
+prior to uploading to Gerrit for review.
++
+To submit a change, the change must be a strict superset of the destination
+branch. That is, the change must already contain the tip of the destination
+branch at submit time.
+
+[[cherry_pick]]
+* 'cherry pick':
++
+Always cherry pick the patch set, ignoring the parent lineage and instead
+creating a brand new commit on top of the current branch head.
++
+When cherry picking a change, Gerrit automatically appends onto the end of the
+commit message a short summary of the change's approvals, and a URL link back
+to the change on the web. The committer header is also set to the submitter,
+while the author header retains the original patch set author.
++
+Note that Gerrit ignores dependencies between changes when using this submit
+action unless
+link:config-gerrit.html#change.submitWholeTopic[`change.submitWholeTopic`]
+is enabled and depending changes share the same topic. So generally submitters
+must remember to submit changes in the right order when using this submit action.
+If all you want is extra information in the commit message, consider using the
+`rebase always` submit strategy.
+
+--
++
+[[submit_type_inherit]]
+In addition the submit action can be set to `Inherit`, which means that the
+value that is configured in the parent project applies. For new projects
+`Inherit` is the default, unless the default is overridden by the global
+link:config-gerrit.html#repository.name.defaultSubmitType[defaultSubmitType]
+configuration. Configuring `Inherit` for the `All-Projects` root project is
+equivalent to configuring link:#merge_if_necessary[merge if necessary].
++
+If `submit.action` is not set, the default is 'merge if necessary'.
++
+NOTE: For the value of `submit.action` in `project.config` use the exact
+spelling as given above, e.g. 'merge if necessary' (without the single quotes,
+but with the spaces).
++
+NOTE: Project owners can also set the submit action in the Gerrit UI:
+`Browse` > `Repositories` > my/repository > `Submit type`
 
 [[submit.matchAuthorToCommitterDate]]submit.matchAuthorToCommitterDate::
 +
@@ -345,98 +440,6 @@ link:#submit.action[submit action] Cherry Pick, Rebase If Necessary or Rebase Al
 become empty upon submit, since the rebase|cherry-pick can lead to an empty commit. If this option
 is set to 'true' the merge would fail in such a case. An empty commit is still allowed as the
 initial commit on a branch.
-
-[[submit-type]]
-==== Submit Type
-
-'submit.action': The method Gerrit uses to submit a change to a project.
-
-The submit type can also be modified by any project owner through the
-project console, `Browse` > `Repositories` > my/project > 'Submit type'.
-In general, a submitting a change only merges the change if all its
-dependencies are also submitted, with exceptions documented below.
-
-The following submit types are supported:
-
-[[submit_type_inherit]]
-* Inherit
-+
-This is the default for new projects, unless overridden by a global
-link:config-gerrit.html#repository.name.defaultSubmitType[`defaultSubmitType` option].
-+
-Inherit the submit type from the parent project. In `All-Projects`, this
-is equivalent to link:#merge_if_necessary[Merge If Necessary].
-
-[[fast_forward_only]]
-* Fast Forward Only
-+
-With this method Gerrit does not create merge commits on submitting a
-change. Merge commits may still be submitted, but they must be created
-on the client prior to uploading to Gerrit for review.
-+
-To submit a change, the change must be a strict superset of the
-destination branch.  That is, the change must already contain the
-tip of the destination branch at submit time.
-
-[[merge_if_necessary]]
-* Merge If Necessary
-+
-If the change being submitted is a strict superset of the destination
-branch, then the branch is fast-forwarded to the change.  If not,
-then a merge commit is automatically created.  This is identical
-to the classical `git merge` behavior, or `git merge --ff`.
-
-[[always_merge]]
-* Always Merge
-+
-Always produce a merge commit, even if the change is a strict
-superset of the destination branch.  This is identical to the
-behavior of `git merge --no-ff`, and may be useful if the
-project needs to follow submits with `git log --first-parent`.
-
-[[cherry_pick]]
-* Cherry Pick
-+
-Always cherry pick the patch set, ignoring the parent lineage
-and instead creating a brand new commit on top of the current
-branch head.
-+
-When cherry picking a change, Gerrit automatically appends onto the
-end of the commit message a short summary of the change's approvals,
-and a URL link back to the change on the web.  The committer header
-is also set to the submitter, while the author header retains the
-original patch set author.
-+
-Note that Gerrit ignores dependencies between changes when using this
-submit type unless
-link:config-gerrit.html#change.submitWholeTopic[`change.submitWholeTopic`]
-is enabled and depending changes share the same topic. So generally
-submitters must remember to submit changes in the right order when using this
-submit type. If all you want is extra information in the commit message,
-consider using the Rebase Always submit strategy.
-
-[[rebase_if_necessary]]
-* Rebase If Necessary
-+
-If the change being submitted is a strict superset of the destination
-branch, then the branch is fast-forwarded to the change.  If not,
-then the change is automatically rebased and then the branch is
-fast-forwarded to the change.
-+
-When Gerrit tries to do a merge, by default the merge will only
-succeed if there is no path conflict.  A path conflict occurs when
-the same file has also been changed on the other side of the merge.
-
-[[rebase_always]]
-* Rebase Always
-+
-Basically, the same as Rebase If Necessary, but it creates a new patchset even
-if fast forward is possible AND like Cherry Pick it ensures footers such as
-Change-Id, Reviewed-On, and others are present in resulting commit that is
-merged.
-+
-Thus, Rebase Always can be considered similar to Cherry Pick, but with
-the important distinction that Rebase Always does not ignore dependencies.
 
 
 [[access-section]]

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e205232_fc837d8a",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 1654,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-27T08:33:25Z",
+      "side": 1,
+      "message": "Why did you have to add \u0027o\u0027?",
+      "revId": "51542d100a07709cfcdafcf92279ad418908ad8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

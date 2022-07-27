@@ -34,6 +34,52 @@
       "parentUuid": "2fe8bdcb_cd4d3de1",
       "revId": "cb18473d580e4ed7d614940b9b5e26c9419f82f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "011fede2_fb23b0bf",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-07-27T08:35:36Z",
+      "side": 1,
+      "message": "We need descriptions of what endpoints do and what arguments mean or a pointer to the REST API docs in this file.",
+      "range": {
+        "startLine": 159,
+        "startChar": 2,
+        "endLine": 159,
+        "endChar": 23
+      },
+      "revId": "cb18473d580e4ed7d614940b9b5e26c9419f82f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9200760c_35df481d",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-07-27T08:35:36Z",
+      "side": 1,
+      "message": "Could we add function comment, describing what the function does and what arguments mean?",
+      "range": {
+        "startLine": 177,
+        "startChar": 16,
+        "endLine": 177,
+        "endChar": 37
+      },
+      "revId": "cb18473d580e4ed7d614940b9b5e26c9419f82f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

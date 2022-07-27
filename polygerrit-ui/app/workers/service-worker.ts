@@ -5,6 +5,7 @@
  */
 
 import {readResponsePayload} from '../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {ServiceWorkerMessageType} from '../types/service-worker-api';
 import {ParsedChangeInfo} from '../types/types';
 
 /**
@@ -14,13 +15,13 @@ import {ParsedChangeInfo} from '../types/types';
  */
 const ctx = self as {} as ServiceWorkerGlobalScope;
 
-// TODO(milutin): Move to onmessage, that webapp will trigger every 5 minutes.
-// "Push" is used for testing purposes, since it is easy to trigger
-// from dev tools.
-ctx.addEventListener('push', async () => {
+ctx.addEventListener('message', async event => {
+  if (event.data?.type !== ServiceWorkerMessageType.TRIGGER_NOTIFICATIONS) {
+    return;
+  }
   const changes = await serviceWorker.getLatestAttentionSetChange();
   // TODO(milutin): Implement handling more than 1 change
-  if (changes.length > 0) {
+  if (changes && changes.length > 0) {
     serviceWorker.showNotification(changes[0]);
   }
 });
@@ -42,7 +43,7 @@ class ServiceWorker {
       '/changes/?O=1000081&S=0&n=25&q=attention%3Aself'
     );
     const payload = await readResponsePayload(response);
-    const changes = payload.parsed as unknown as ParsedChangeInfo[];
+    const changes = payload.parsed as unknown as ParsedChangeInfo[] | undefined;
     // TODO(milutin): Filter changes you are already notified about.
     return changes;
   }

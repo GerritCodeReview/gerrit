@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8af3a270_6644ad1e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-27T10:05:12Z",
+      "side": 1,
+      "message": "Yes, I agree, I will prepare something. This works is under feature flag and it is still very experimental.",
+      "parentUuid": "68c5fc47_0ea67e57",
+      "revId": "610075deb72cab81a5d2e5fdb7500f57e886af61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b93d1582_1bb99b7c",
@@ -48,6 +66,30 @@
       "writtenOn": "2022-07-27T09:04:05Z",
       "side": 1,
       "message": "is this logic already there?\nor will this be added as well.\nJust to get a complete picture of things.",
+      "range": {
+        "startLine": 17,
+        "startChar": 37,
+        "endLine": 17,
+        "endChar": 77
+      },
+      "revId": "610075deb72cab81a5d2e5fdb7500f57e886af61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cedcd152_25eea88a",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-27T10:05:12Z",
+      "side": 1,
+      "message": "No, it\u0027s not. Currently to get notification you need to press push in dev tools. It will be in future. But we need filtering changes that we already notified about, some caching, etc.",
+      "parentUuid": "b93d1582_1bb99b7c",
       "range": {
         "startLine": 17,
         "startChar": 37,
@@ -81,6 +123,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c91f4ac_c6b6167d",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-27T10:05:12Z",
+      "side": 1,
+      "message": "It\u0027s probably possible to use rest-api, but I don\u0027t think it\u0027s good idea. My main points are\n- We don\u0027t want to have huge javascript file size for service-worker. \n- We don\u0027t want to import more than we actually need to service-worker. We don\u0027t want to be able to trigger something out of focus for service-worker\n- We would like to decouple rest-api fetching - we may in future use service-worker for preloading resources (diffs, next change page, etc) since service-worker has good api for caching and preloading.\n\nTherefore we will import only just simple utility functions.\n\nBut I will implement nicer fetching that this string in future. That will involve refactoring some rest-api logic into rest-api-util functions",
+      "parentUuid": "dfc2d73f_839396df",
+      "range": {
+        "startLine": 39,
+        "startChar": 8,
+        "endLine": 39,
+        "endChar": 35
+      },
+      "revId": "610075deb72cab81a5d2e5fdb7500f57e886af61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5f9c3d91_e35e4da1",
@@ -94,6 +160,30 @@
       "writtenOn": "2022-07-27T09:04:05Z",
       "side": 1,
       "message": "nit: \"you are already\" instead of \"you already\"",
+      "range": {
+        "startLine": 46,
+        "startChar": 37,
+        "endLine": 46,
+        "endChar": 48
+      },
+      "revId": "610075deb72cab81a5d2e5fdb7500f57e886af61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed185b88_5ed9b86a",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-27T10:05:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f9c3d91_e35e4da1",
       "range": {
         "startLine": 46,
         "startChar": 37,

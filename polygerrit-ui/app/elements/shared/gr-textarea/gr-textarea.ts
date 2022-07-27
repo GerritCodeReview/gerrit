@@ -484,6 +484,12 @@ export class GrTextarea extends LitElement {
     }
   }
 
+  private isMentionsDropdownActive() {
+    return (
+      this.specialCharIndex !== null && this.text[this.specialCharIndex] === '@'
+    );
+  }
+
   /**
    * handleKeydown used for key handling in the this.textarea! AND all child
    * autocomplete options.
@@ -508,7 +514,7 @@ export class GrTextarea extends LitElement {
 
     const text = e.detail.value ?? '';
 
-    if (!this.mentionsSuggestions || this.mentionsSuggestions.isHidden) {
+    if (!this.isMentionsDropdownActive()) {
       if (charAtCursor === ':' && this.specialCharIndex === null) {
         this.specialCharIndex = this.getSpecialCharIndex(text);
       }

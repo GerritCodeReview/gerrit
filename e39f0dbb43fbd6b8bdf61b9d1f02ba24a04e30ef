@@ -56,6 +56,30 @@
       },
       "revId": "e39f0dbb43fbd6b8bdf61b9d1f02ba24a04e30ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45933bbd_1dde27a7",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-07-27T12:45:40Z",
+      "side": 1,
+      "message": "We could call #match() itself. But I was thinking most of the logic in #match won\u0027t be needed. Like the account logic on line 111-128, where account information is already present on index and no need to check again. WDYT?",
+      "parentUuid": "a2c3d586_8d2dc530",
+      "range": {
+        "startLine": 160,
+        "startChar": 17,
+        "endLine": 160,
+        "endChar": 31
+      },
+      "revId": "e39f0dbb43fbd6b8bdf61b9d1f02ba24a04e30ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

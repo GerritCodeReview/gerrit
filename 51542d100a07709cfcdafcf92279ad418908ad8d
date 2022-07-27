@@ -16,6 +16,24 @@
       "message": "Why did you have to add \u0027o\u0027?",
       "revId": "51542d100a07709cfcdafcf92279ad418908ad8d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e597fc2_2c0c17d6",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 1654,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-27T08:35:33Z",
+      "side": 1,
+      "message": "It\u0027s mentioned in the commit message?\n\nHence replace \"suggest\" with the Details option which is described\nin the docs as:\n```\nDETAILS: Includes full name, preferred email, username, display name\n, avatars, status, state and tags for each account\n```\n\nis there anything missing there?\nWithout O we only get bare accountIds back and not the emails.",
+      "parentUuid": "3e205232_fc837d8a",
+      "revId": "51542d100a07709cfcdafcf92279ad418908ad8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

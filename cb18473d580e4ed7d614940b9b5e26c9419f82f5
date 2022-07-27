@@ -109,6 +109,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7a976d82_12d44b17",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-07-27T08:54:21Z",
+      "side": 1,
+      "message": "One more thing. The comment probably should go to the \"public interface\" (in this file) and not the implementation.",
+      "parentUuid": "56aa487b_de716bb4",
+      "range": {
+        "startLine": 159,
+        "startChar": 2,
+        "endLine": 159,
+        "endChar": 23
+      },
+      "revId": "cb18473d580e4ed7d614940b9b5e26c9419f82f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9200760c_35df481d",
         "filename": "polygerrit-ui/app/utils/account-util.ts",
         "patchSetId": 12

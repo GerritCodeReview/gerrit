@@ -52,6 +52,24 @@
       "parentUuid": "0e597fc2_2c0c17d6",
       "revId": "51542d100a07709cfcdafcf92279ad418908ad8d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26af66be_91376c1c",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 1654,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-27T08:45:24Z",
+      "side": 1,
+      "message": "From the docs [1].\n\n```\nDETAILS: Includes full name, preferred email, username, display name, avatars, status, state and tags for each account.\n\nALL_EMAILS: Includes all registered emails. Requires the caller to have the Modify Account global capability.\n\nFor account suggestions account details and all emails are always returned.\n```\n\nSo I think the performance should only get better since we are not sending the ALL_EMAILS options anymore. Based on the docs I don\u0027t see any way performance can get worse.\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#query-account",
+      "parentUuid": "cf19c0ab_ff9c8eec",
+      "revId": "51542d100a07709cfcdafcf92279ad418908ad8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

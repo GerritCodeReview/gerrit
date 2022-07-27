@@ -16,6 +16,92 @@
       "message": "Nice progress!",
       "revId": "610075deb72cab81a5d2e5fdb7500f57e886af61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68c5fc47_0ea67e57",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-27T09:04:05Z",
+      "side": 1,
+      "message": "It would be nice to have a small doc explaining how to test this added to future commit messages so it\u0027s easier for reviewers to test these changes manually if needed.",
+      "revId": "610075deb72cab81a5d2e5fdb7500f57e886af61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b93d1582_1bb99b7c",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-27T09:04:05Z",
+      "side": 1,
+      "message": "is this logic already there?\nor will this be added as well.\nJust to get a complete picture of things.",
+      "range": {
+        "startLine": 17,
+        "startChar": 37,
+        "endLine": 17,
+        "endChar": 77
+      },
+      "revId": "610075deb72cab81a5d2e5fdb7500f57e886af61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfc2d73f_839396df",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-27T09:04:05Z",
+      "side": 1,
+      "message": "should this be in rest-api or is that not possible for the service worker to use?",
+      "range": {
+        "startLine": 39,
+        "startChar": 8,
+        "endLine": 39,
+        "endChar": 35
+      },
+      "revId": "610075deb72cab81a5d2e5fdb7500f57e886af61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f9c3d91_e35e4da1",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-27T09:04:05Z",
+      "side": 1,
+      "message": "nit: \"you are already\" instead of \"you already\"",
+      "range": {
+        "startLine": 46,
+        "startChar": 37,
+        "endLine": 46,
+        "endChar": 48
+      },
+      "revId": "610075deb72cab81a5d2e5fdb7500f57e886af61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

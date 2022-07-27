@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7e18a84_702a23bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-27T15:41:22Z",
+      "side": 1,
+      "message": "I didn\u0027t check any usage numbers, but decided on the order like this:\n\n1. Merge If Necessary first because it\u0027s the default submit action.\n2. Merge Always second because it\u0027s similar to Merge If Necessary and hence should be nearby\n3. Cherry Pick last because using it is discouraged\n4. Fast Forward Only second last because using it is only recommended in rare cases (small project with a low frequency of changes which has special requirements for not breaking the target branch).\n5. Fill in the Rebase actions between Merge Always and Fast Forward Only, in the same order in which the Merge actions are listed, which means Rebase If Necessary first, then Rebase Always.",
+      "parentUuid": "084f9401_50999175",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 21,
+        "endChar": 40
+      },
+      "revId": "0fbae2e157857fb6b6f01caf8c8f84b7f6db77ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f9d82cca_98894e27",
@@ -37,6 +61,24 @@
       "writtenOn": "2022-07-27T15:11:03Z",
       "side": 1,
       "message": "super-nit: this renders as two icons to the left of the heading since we have two anchors. Can we drop one of them?",
+      "revId": "0fbae2e157857fb6b6f01caf8c8f84b7f6db77ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7870a9e_9f2cbcc5",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-27T15:41:22Z",
+      "side": 1,
+      "message": "Nice observation. I didn\u0027t notice this. Yes, for backwards compatibility we should keep both anchors, but I think we can move one of them a bit down to avoid this issue. Done.",
+      "parentUuid": "f9d82cca_98894e27",
       "revId": "0fbae2e157857fb6b6f01caf8c8f84b7f6db77ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e3136d9_50495664",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-27T15:41:22Z",
+      "side": 1,
+      "message": "Yes, you are completely right. As noted in the commit message the descriptions of the different submit action are still suboptimal and inconsistent, which was supposed to mean that they are not reworked yet and are supposed to be improved by follow-up changes. I\u0027ve updated the commit message to make this clearer.",
+      "parentUuid": "e67c1b71_f356c370",
+      "range": {
+        "startLine": 343,
+        "startChar": 0,
+        "endLine": 343,
+        "endChar": 76
+      },
+      "revId": "0fbae2e157857fb6b6f01caf8c8f84b7f6db77ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "035ac8cc_25378c26",
@@ -77,6 +143,30 @@
       "writtenOn": "2022-07-27T15:11:03Z",
       "side": 1,
       "message": "The doc does not mention where we should use the exact spelling. Do you mean if someone edited the project.config directly?",
+      "range": {
+        "startLine": 421,
+        "startChar": 28,
+        "endLine": 421,
+        "endChar": 50
+      },
+      "revId": "0fbae2e157857fb6b6f01caf8c8f84b7f6db77ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0826705_dd43399a",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-27T15:41:22Z",
+      "side": 1,
+      "message": "Yes, this is about the format in project.config. Since this whole documentation page describes the format of the project.config file, I thought this was clear. I rephrased this a bit to make this explicit.",
+      "parentUuid": "035ac8cc_25378c26",
       "range": {
         "startLine": 421,
         "startChar": 28,

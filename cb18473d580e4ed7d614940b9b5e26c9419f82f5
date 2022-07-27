@@ -131,6 +131,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b54bcb63_ea91c279",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-27T08:55:14Z",
+      "side": 1,
+      "message": "It\u0027s used a lot in other places as well [1] (including this file) so I would prefer fixing such an issue across the codebase.\nKeeping the current link now.\n\n[1] https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/api/rest-api.ts;l\u003d24?q\u003drest-api.ts",
+      "parentUuid": "56aa487b_de716bb4",
+      "range": {
+        "startLine": 159,
+        "startChar": 2,
+        "endLine": 159,
+        "endChar": 23
+      },
+      "revId": "cb18473d580e4ed7d614940b9b5e26c9419f82f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9200760c_35df481d",
@@ -192,6 +216,30 @@
       "side": 1,
       "message": "No I wouldn\u0027t duplicate the comment. But I would describe the format in which it returns the data, ie. \"as a list of (name, account id) pairs\" or smth similar.\n\nBut if you think it\u0027s obvious at a quick glance, feel free to skip.",
       "parentUuid": "3b3380a7_e21b9211",
+      "range": {
+        "startLine": 177,
+        "startChar": 16,
+        "endLine": 177,
+        "endChar": 37
+      },
+      "revId": "cb18473d580e4ed7d614940b9b5e26c9419f82f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b67c4da2_b7c0c319",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-27T08:55:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f64c9946_3fef522c",
       "range": {
         "startLine": 177,
         "startChar": 16,

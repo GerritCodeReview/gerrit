@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8323a24c_52bdb738",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-27T18:25:53Z",
+      "side": 1,
+      "message": "This is hard to read. Maybe it will be better to use {}\n```\n if (this.isMentionsDropdownActive()) {\nthis.mentionsSuggestions?.close();\n}\n    else {\nthis.emojiSuggestions?.close();\n}\n```",
+      "range": {
+        "startLine": 300,
+        "startChar": 4,
+        "endLine": 301,
+        "endChar": 8
+      },
+      "revId": "08b68882db8ac036b632c12b4fb715045c95e9e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27d7fd09_f100bf5d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-27T18:25:53Z",
+      "side": 1,
+      "message": "Maybe this can be inside `determineReviewerSuggestions`",
+      "range": {
+        "startLine": 497,
+        "startChar": 8,
+        "endLine": 503,
+        "endChar": 11
+      },
+      "revId": "08b68882db8ac036b632c12b4fb715045c95e9e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

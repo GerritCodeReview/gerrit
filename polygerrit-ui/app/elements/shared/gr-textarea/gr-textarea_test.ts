@@ -8,8 +8,14 @@ import './gr-textarea';
 import {GrTextarea} from './gr-textarea';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {ItemSelectedEvent} from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
-import {stubFlags, waitUntil} from '../../../test/test-utils';
+import {
+  stubFlags,
+  stubRestApi,
+  waitUntil,
+  waitUntilCalled,
+} from '../../../test/test-utils';
 import {fixture, html} from '@open-wc/testing-helpers';
+import {createAccountWithEmail} from '../../../test/test-data-generators';
 
 suite('gr-textarea tests', () => {
   let element: GrTextarea;
@@ -89,19 +95,20 @@ suite('gr-textarea tests', () => {
       // updated.
       const listenerStub = sinon.stub();
       element.addEventListener('bind-value-changed', listenerStub);
+      stubRestApi('getSuggestedAccounts').returns(
+        Promise.resolve([
+          createAccountWithEmail('abc@google.com'),
+          createAccountWithEmail('abcdef@google.com'),
+        ])
+      );
       MockInteractions.focus(element.textarea!);
       await waitUntil(() => element.textarea!.focused === true);
 
       element.textarea!.selectionStart = 1;
       element.textarea!.selectionEnd = 1;
       element.text = '@';
-      element.mentions = [
-        {
-          name: 'a',
-          value: 'a',
-        },
-      ];
 
+      await waitUntil(() => element.mentions.length > 0);
       await element.updateComplete;
 
       assert.equal(listenerStub.lastCall.args[0].detail.value, '@');
@@ -111,7 +118,7 @@ suite('gr-textarea tests', () => {
       assert.isFalse(element.mentionsSuggestions!.isHidden);
 
       assert.equal(element.specialCharIndex, 0);
-      assert.isTrue(!element.mentionsSuggestions!.isHidden);
+      assert.isFalse(element.mentionsSuggestions!.isHidden);
       assert.equal(element.currentSearchString, '');
 
       element.text = '@abc@google.com';
@@ -121,9 +128,45 @@ suite('gr-textarea tests', () => {
       assert.equal(element.specialCharIndex, 0);
     });
 
+    test('selecting mentions from dropdown', async () => {
+      stubRestApi('getSuggestedAccounts').returns(
+        Promise.resolve([
+          createAccountWithEmail('abc@google.com'),
+          createAccountWithEmail('abcdef@google.com'),
+        ])
+      );
+
+      MockInteractions.focus(element.textarea!);
+      await waitUntil(() => element.textarea!.focused === true);
+
+      element.textarea!.selectionStart = 1;
+      element.textarea!.selectionEnd = 1;
+      element.text = '@';
+
+      await waitUntil(() => element.mentions.length > 0);
+      await element.updateComplete;
+
+      MockInteractions.pressAndReleaseKeyOn(element, 40, null, 'ArrowDown');
+      await element.updateComplete;
+
+      MockInteractions.pressAndReleaseKeyOn(element, 40, null, 'ArrowDown');
+      await element.updateComplete;
+
+      MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'Enter');
+      await element.updateComplete;
+
+      assert.equal(element.text, '@abcdef@google.com');
+    });
+
     test('emoji dropdown does not open if mention dropdown is open', async () => {
       const listenerStub = sinon.stub();
       element.addEventListener('bind-value-changed', listenerStub);
+      stubRestApi('getSuggestedAccounts').returns(
+        Promise.resolve([
+          createAccountWithEmail('abc@google.com'),
+          createAccountWithEmail('abcdef@google.com'),
+        ])
+      );
       MockInteractions.focus(element.textarea!);
       await waitUntil(() => element.textarea!.focused === true);
 
@@ -136,8 +179,9 @@ suite('gr-textarea tests', () => {
           value: 'a',
         },
       ];
-
+      await waitUntil(() => element.mentions.length > 0);
       await element.updateComplete;
+
       assert.isTrue(element.emojiSuggestions!.isHidden);
       assert.isFalse(element.mentionsSuggestions!.isHidden);
 
@@ -338,7 +382,7 @@ suite('gr-textarea tests', () => {
     assert.isFalse(resetStub.called);
     element.text = 'test test test :smi';
     await element.updateComplete;
-    assert.isTrue(resetStub.called);
+    await waitUntilCalled(resetStub, 'resetStub');
   });
 
   test('resetDropdown', async () => {
@@ -354,10 +398,10 @@ suite('gr-textarea tests', () => {
     assert.isTrue(closeSpy.called);
   });
 
-  test('determineSuggestions', () => {
+  test('determineEmojiSuggestions', () => {
     const emojiText = 'tear';
     const formatSpy = sinon.spy(element, 'formatSuggestions');
-    element.determineSuggestions(emojiText);
+    element.determineEmojiSuggestions(emojiText);
     assert.isTrue(formatSpy.called);
     assert.isTrue(
       formatSpy.lastCall.calledWithExactly([
@@ -387,7 +431,7 @@ suite('gr-textarea tests', () => {
     );
   });
 
-  test('handleEmojiSelect', async () => {
+  test('handleDropdownItemSelect', async () => {
     element.textarea!.selectionStart = 16;
     element.textarea!.selectionEnd = 16;
     element.text = 'test test :tears';
@@ -397,7 +441,7 @@ suite('gr-textarea tests', () => {
     const event = new CustomEvent<ItemSelectedEvent>('item-selected', {
       detail: {trigger: 'click', selected: selectedItem},
     });
-    element.handleEmojiSelect(event);
+    element.handleDropdownItemSelect(event);
     assert.equal(element.text, 'test test 😂');
   });
 

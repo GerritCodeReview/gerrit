@@ -281,6 +281,30 @@
       },
       "revId": "096ba0298a6aa6e8dedac612f4e95935034555f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b0c1df4_e3763131",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-28T18:57:30Z",
+      "side": 1,
+      "message": "The comment for the method `throttleWrap` is\n\n```\n/**\n * Ensure only one call is made within THROTTLE_INTERVAL_MS and any call within\n * this interval is ignored\n */\n```\n\nIt is inside the file `async-util` so based on these 2 facts I would expect it to work for this scenario as well.\n\nI don\u0027t see why a method inside the `util` should be tightly coupled to buttons or one specific use case.\n\nI think it should be possible to update the method to take `interval` as argument and support your use case?\n\nIn this case I think clearly our `async-utils` are lagging and I would prefer we add another method in the file instead of adding one here(if `throttleWrap` cannot be easily adjusted to support your use case)",
+      "parentUuid": "3e24b90c_78cb7b0d",
+      "range": {
+        "startLine": 46,
+        "startChar": 7,
+        "endLine": 46,
+        "endChar": 41
+      },
+      "revId": "096ba0298a6aa6e8dedac612f4e95935034555f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -329,6 +329,30 @@
       },
       "revId": "096ba0298a6aa6e8dedac612f4e95935034555f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d15b664_fd75b1dd",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-28T19:40:03Z",
+      "side": 1,
+      "message": "I don\u0027t follow.\n\nWhy can\u0027t we have `throttleWrap` take the interval as an argument and then we pass `latestUpdateTimestampMs`?\n\nI will try and see if it works.",
+      "parentUuid": "293ccc9e_73ca8ee1",
+      "range": {
+        "startLine": 46,
+        "startChar": 7,
+        "endLine": 46,
+        "endChar": 41
+      },
+      "revId": "096ba0298a6aa6e8dedac612f4e95935034555f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

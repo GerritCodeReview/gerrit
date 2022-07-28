@@ -82,8 +82,9 @@ public class GroupIndexerImpl implements GroupIndexer {
 
   @Override
   public void index(AccountGroup.UUID uuid) {
-    // Evict the cache to get an up-to-date value for sure.
+    // By UUID is used for the index and hence should be evicted before refreshing the index.
     groupCache.evict(uuid);
+
     Optional<InternalGroup> internalGroup = groupCache.get(uuid);
 
     if (internalGroup.isPresent()) {
@@ -127,6 +128,15 @@ public class GroupIndexerImpl implements GroupIndexer {
         }
       }
     }
+
+    // These caches use the result from the index and hence must be evicted after refreshing the
+    // index.
+    if (internalGroup.isPresent()) {
+      InternalGroup group = internalGroup.get();
+      groupCache.evict(group.getId());
+      groupCache.evict(group.getNameKey());
+    }
+
     fireGroupIndexedEvent(uuid.get());
   }
 

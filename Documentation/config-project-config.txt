@@ -332,7 +332,8 @@ should use to integrate changes into the target branch when they are submitted.
 +
 In general, submitting a change only merges the change if all its dependencies
 are also submitted. The only exception is the `cherry pick` submit action which
-ignores dependencies (see link:#cherry_pick[below]).
+ignores dependencies and hence is not recommended to be used (see
+link:#cherry_pick[below]).
 +
 [[submit-type]]
 --
@@ -389,23 +390,39 @@ branch. That is, the change must already contain the tip of the destination
 branch at submit time.
 
 [[cherry_pick]]
-* 'cherry pick':
+* 'cherry pick' (usage not recommended, user link:#rebase_always[rebase always]
+instead):
 +
-Always cherry pick the patch set, ignoring the parent lineage and instead
-creating a brand new commit on top of the current branch head.
+With this submit action Gerrit always performs a cherry pick of the current
+patch set when a change is submitted. This ignores the parent lineage and
+instead creates a brand new commit on top of the current head of the target
+branch. The submitter becomes the committer of the new commit and the original
+commit author is retained.
 +
-When cherry picking a change, Gerrit automatically appends onto the end of the
-commit message a short summary of the change's approvals, and a URL link back
-to the change on the web. The committer header is also set to the submitter,
-while the author header retains the original patch set author.
+Ignoring change dependencies on submit is often confusing for users. For users
+that stack changes on top of each other, it's unexpected that these
+dependencies are ignored on submit. Ignoring dependencies also means that
+submitters need to submit the changes individually in the correct order.
+Otherwise it's likely that submissions fail due to conflicts or that the
+target branch gets broken (because it contains the submitted change, but not
+its predecessors which may be required for the submitted change to work
+correctly).
 +
-Note that Gerrit ignores dependencies between changes when using this submit
-action unless
-link:config-gerrit.html#change.submitWholeTopic[`change.submitWholeTopic`]
-is enabled and depending changes share the same topic. So generally submitters
-must remember to submit changes in the right order when using this submit action.
-If all you want is extra information in the commit message, consider using the
-`rebase always` submit strategy.
+If link:config-gerrit.html#change.submitWholeTopic[`change.submitWholeTopic`]
+is enabled changes that have the same topic are submitted together, the same as
+with all other submit actions. This means by setting the same topic on all
+dependent changes it's possible to submit a stack of changes together and
+overcome the limitation that change dependencies are ignored.
++
+When cherry picking the patchset, Gerrit automatically appends onto the end of
+the commit message a short summary of the change's approvals, and a URL link
+back to the change on the web.
++
+Using this submit action is not recommended because it ignores change
+dependencies, instead link:#rebase_always[rebase always] should be used which
+behaves the same way except that it respects change dependencies (in particular
+`rebase always` adds the same kind of footers to the merged commit as
+`cherry pick`).
 
 --
 +

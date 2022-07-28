@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3765a687_823bfa7a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-28T18:31:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "602f677e_72a6b657",
+      "range": {
+        "startLine": 10,
+        "startChar": 49,
+        "endLine": 10,
+        "endChar": 60
+      },
+      "revId": "096ba0298a6aa6e8dedac612f4e95935034555f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bd0de979_6456b95e",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-07-28T12:20:42Z",
       "side": 1,
       "message": "IIUC each tab only polls once every 5 minutes.\n\nBut if I have 10 tabs open then it is possible they all poll at the same time(say at the end of the first minute) but once every five minutes?",
+      "range": {
+        "startLine": 12,
+        "startChar": 13,
+        "endLine": 13,
+        "endChar": 15
+      },
+      "revId": "096ba0298a6aa6e8dedac612f4e95935034555f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "abe0882e_ea592231",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-28T18:31:21Z",
+      "side": 1,
+      "message": "There is always only one service-worker. 10 tabs can send in different times postmessage to trigger polling, but polling will be done only once in 5 minute interval, thanks to check (throttle) in service-worker.\n\nI will update commit message",
+      "parentUuid": "bd0de979_6456b95e",
       "range": {
         "startLine": 12,
         "startChar": 13,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05a10feb_d8ee6583",
+        "filename": "polygerrit-ui/app/services/service-worker-installer.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-28T18:31:21Z",
+      "side": 1,
+      "message": "Good idea.",
+      "parentUuid": "11e76346_76c4ce84",
+      "range": {
+        "startLine": 51,
+        "startChar": 8,
+        "endLine": 51,
+        "endChar": 37
+      },
+      "revId": "096ba0298a6aa6e8dedac612f4e95935034555f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3f2ceb9d_8107035a",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-07-28T12:20:42Z",
       "side": 1,
       "message": "is this possible now?\nIf not maybe throw an error instead of simply returning?",
+      "range": {
+        "startLine": 22,
+        "startChar": 6,
+        "endLine": 22,
+        "endChar": 22
+      },
+      "revId": "096ba0298a6aa6e8dedac612f4e95935034555f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc4073ef_d4adcd15",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-28T18:31:21Z",
+      "side": 1,
+      "message": "Good idea",
+      "parentUuid": "3f2ceb9d_8107035a",
       "range": {
         "startLine": 22,
         "startChar": 6,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b2bfa5a_885b4658",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-28T18:31:21Z",
+      "side": 1,
+      "message": "I kind of now prefer to check for number, instead of using 0 as falsy.\n\n\nhttps://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/docs/rules/strict-boolean-expressions.md\n\nLet me know, if it is important and I can change it.",
+      "parentUuid": "95a0aa54_113255e7",
+      "range": {
+        "startLine": 27,
+        "startChar": 6,
+        "endLine": 27,
+        "endChar": 31
+      },
+      "revId": "096ba0298a6aa6e8dedac612f4e95935034555f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d7ac6039_665336e8",
@@ -129,6 +249,30 @@
       "writtenOn": "2022-07-28T12:20:42Z",
       "side": 1,
       "message": "it is possible to use the `throttle` method from `async-utils` here?\nSeems like that is exactly what you want to do here from the comment.",
+      "range": {
+        "startLine": 46,
+        "startChar": 7,
+        "endLine": 46,
+        "endChar": 41
+      },
+      "revId": "096ba0298a6aa6e8dedac612f4e95935034555f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e24b90c_78cb7b0d",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-28T18:31:21Z",
+      "side": 1,
+      "message": "Kind of, but throttleWrap is now using 500 MS throttle and I feel it was implemented with different purpose - for throttling button clicks. \n\nThis is different case, I want to throttle messages from several actions. \n\nThat\u0027s why I don\u0027t want to do AHA https://en.wikipedia.org/wiki/Don%27t_repeat_yourself#AHA 😊",
+      "parentUuid": "d7ac6039_665336e8",
       "range": {
         "startLine": 46,
         "startChar": 7,

@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd832c8a_f4fd22ef",
+        "filename": "polygerrit-ui/app/services/service-worker-installer.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-28T18:31:21Z",
+      "side": 1,
+      "message": "That\u0027s true. There is 12 results for window.setTimeout and 48 results for setTimeout.\n\nSo I removed window.",
+      "parentUuid": "cab946d0_7ae63d26",
+      "range": {
+        "startLine": 43,
+        "startChar": 3,
+        "endLine": 45,
+        "endChar": 55
+      },
+      "revId": "e6d71b1c39b7cdfd9be4a65f562feaaaefc41818",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "64dfa807_9d9aa6f1",

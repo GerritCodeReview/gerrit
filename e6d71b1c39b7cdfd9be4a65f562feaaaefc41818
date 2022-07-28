@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3831d3e0_4e5cd863",
+        "filename": "polygerrit-ui/app/services/service-worker-installer.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-28T10:47:48Z",
+      "side": 1,
+      "message": "setTimeout is on global window variable - https://developer.mozilla.org/en-US/docs/Web/API/setTimeout\n\nserviceWorker is in navigator - https://developer.mozilla.org/en-US/docs/Web/API/Navigator/serviceWorker",
+      "parentUuid": "abaaab66_cd00cfef",
+      "range": {
+        "startLine": 43,
+        "startChar": 3,
+        "endLine": 45,
+        "endChar": 55
+      },
+      "revId": "e6d71b1c39b7cdfd9be4a65f562feaaaefc41818",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "64dfa807_9d9aa6f1",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "707913b1_ed31f9b1",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-28T10:47:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64dfa807_9d9aa6f1",
+      "range": {
+        "startLine": 33,
+        "startChar": 2,
+        "endLine": 33,
+        "endChar": 14
+      },
+      "revId": "e6d71b1c39b7cdfd9be4a65f562feaaaefc41818",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0f437fcf_fb1a910d",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-07-28T10:06:52Z",
       "side": 1,
       "message": "Should this be || ?\n\nAlso wouldn\u0027t failed cast return undefined anyway? (The value of successful cast can\u0027t be falsey, since you are casting to an array and afaik empty array evaluates to True)",
+      "range": {
+        "startLine": 58,
+        "startChar": 68,
+        "endLine": 58,
+        "endChar": 69
+      },
+      "revId": "e6d71b1c39b7cdfd9be4a65f562feaaaefc41818",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33414340_54d1cb92",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-28T10:47:48Z",
+      "side": 1,
+      "message": "|| is from javascript and it means \u0027or\u0027. You can use it also for defining default value `const value \u003d newValue || defaultValue`\n\n| is from typescript and it means that value can have 2 types. `const value: type1 | type2`\n\nIn this case parsed is unknown value, since we use it for all rest api responses. I know that rest api `/changes` is actually ParsedChangeInfo[] or undefined. I followed type https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/services/gr-rest-api/gr-rest-api.ts;l\u003d469?q\u003dgetChanges\u0026sq\u003d\u0026ss\u003dgerrit\n\nNote that I don\u0027t need to use Promise\u003c\u003e because there is await on readResponsePayload.\n\n\nBtw. there isn\u0027t casting in javascript, typescript will just remove all these types. \n\nI change it to use `?? []`to always return ParseChangeInfo[] from this method.",
+      "parentUuid": "0f437fcf_fb1a910d",
       "range": {
         "startLine": 58,
         "startChar": 68,

@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "bb0041e5_d25d01ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-28T09:46:39Z",
+      "side": 1,
+      "message": "Getting AccountId from the email requires making a getAccountInfo() request in some cases to replace the email with AccountId.\nThis also makes the journey more complicated since we want to avoid rendering the AccountId anywhere hence it\u0027s much simpler to add support for emails inside GrReplyDialog.",
+      "parentUuid": "28fcd538_8e936585",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 14
+      },
+      "revId": "fdadb9422037d65e9f2442d829ad2e065571ad66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "d5e2139a_a4e5806d",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 10

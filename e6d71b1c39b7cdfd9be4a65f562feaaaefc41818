@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cab946d0_7ae63d26",
+        "filename": "polygerrit-ui/app/services/service-worker-installer.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-07-28T12:07:22Z",
+      "side": 1,
+      "message": "Right, but navigator itself is also on global window variable? Aren\u0027t both setTimeout and navigator can be called without reference to window (because everything in window is added to the global scope)?\n\n\n\u003e A Navigator object can be retrieved using the read-only window.navigator property.\n\nhttps://developer.mozilla.org/en-US/docs/Web/API/Navigator",
+      "parentUuid": "3831d3e0_4e5cd863",
+      "range": {
+        "startLine": 43,
+        "startChar": 3,
+        "endLine": 45,
+        "endChar": 55
+      },
+      "revId": "e6d71b1c39b7cdfd9be4a65f562feaaaefc41818",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "64dfa807_9d9aa6f1",
         "filename": "polygerrit-ui/app/workers/service-worker.ts",
         "patchSetId": 7

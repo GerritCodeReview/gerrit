@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e2cf3ac_e92c7658",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-28T08:27:23Z",
+      "side": 1,
+      "message": "Maybe there can be a comment why it\u0027s pre, since it caused regression when changed.",
+      "range": {
+        "startLine": 110,
+        "startChar": 23,
+        "endLine": 110,
+        "endChar": 26
+      },
+      "revId": "ea4002a141e29e8c81bdd4de43dc6b3e1cbf2f98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

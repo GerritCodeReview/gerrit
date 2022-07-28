@@ -107,7 +107,7 @@ export class GrFormattedText extends LitElement {
         }
         code {
           display: block;
-          white-space: nowrap;
+          white-space: pre;
           background-color: var(--background-color-secondary);
           border: 1px solid var(--border-color);
           border-left-width: var(--spacing-s);

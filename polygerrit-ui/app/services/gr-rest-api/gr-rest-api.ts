@@ -156,6 +156,10 @@ export interface RestApiService extends Finalizable {
     changeNum: NumericChangeId,
     input: string
   ): Promise<SuggestedReviewerInfo[] | undefined>;
+  /**
+   * Request list of accounts via https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#query-account
+   * Operators defined here https://gerrit-review.googlesource.com/Documentation/user-search-accounts.html#_search_operators
+   */
   getSuggestedAccounts(
     input: string,
     n?: number,
@@ -167,6 +171,9 @@ export interface RestApiService extends Finalizable {
     project?: RepoName,
     n?: number
   ): Promise<GroupNameToGroupInfoMap | undefined>;
+  /**
+   * Execute a change action or revision action on a change.
+   */
   executeChangeAction(
     changeNum: NumericChangeId,
     method: HttpMethod | undefined,
@@ -189,6 +196,9 @@ export interface RestApiService extends Finalizable {
     opt_cancelCondition?: Function
   ): Promise<ParsedChangeInfo | undefined>;
 
+  /**
+   * Given a changeNum, gets the change.
+   */
   getChange(
     changeNum: ChangeId | NumericChangeId,
     errFn?: ErrorCallback
@@ -372,6 +382,12 @@ export interface RestApiService extends Finalizable {
     changeNum: NumericChangeId
   ): Promise<IncludedInInfo | undefined>;
 
+  /**
+   * Checks in projectLookup map shared across instances for the changeNum.
+   * If it exists, returns the project. If not, calls the restAPI to get the
+   * change, populates projectLookup with the project for that change, and
+   * returns the project.
+   */
   getFromProjectLookup(
     changeNum: NumericChangeId
   ): Promise<RepoName | undefined>;
@@ -428,6 +444,11 @@ export interface RestApiService extends Finalizable {
     | Promise<GetDiffRobotCommentsOutput>
     | Promise<PathToRobotCommentsInfoMap | undefined>;
 
+  /**
+   * If the user is logged in, fetch the user's draft diff comments. If there
+   * is no logged in user, the request is not made and the promise yields an
+   * empty object.
+   */
   getDiffDrafts(
     changeNum: NumericChangeId
   ): Promise<{[path: string]: DraftInfo[]} | undefined>;
@@ -462,6 +483,9 @@ export interface RestApiService extends Finalizable {
 
   getAccountAgreements(): Promise<ContributorAgreementInfo[] | undefined>;
 
+  /**
+   * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#list-groups
+   */
   getAccountGroups(): Promise<GroupInfo[] | undefined>;
 
   getAccountDetails(userId: AccountId): Promise<AccountDetailInfo | undefined>;
@@ -628,7 +652,14 @@ export interface RestApiService extends Finalizable {
     hashtag: string
   ): Promise<ChangeInfo[] | undefined>;
 
+  /**
+   * @return Whether there are pending diff draft sends.
+   */
   hasPendingDiffDrafts(): number;
+  /**
+   * @return A promise that resolves when all pending
+   * diff draft sends have resolved.
+   */
   awaitPendingDiffDrafts(): Promise<void>;
 
   getRobotCommentFixPreview(
@@ -643,6 +674,12 @@ export interface RestApiService extends Finalizable {
     fixId: string
   ): Promise<Response>;
 
+  /**
+   * @param basePatchNum Negative values specify merge parent
+   * index.
+   * @param whitespace the ignore-whitespace level for the diff
+   * algorithm.
+   */
   getDiff(
     changeNum: NumericChangeId,
     basePatchNum: PatchSetNum,
@@ -652,6 +689,12 @@ export interface RestApiService extends Finalizable {
     errFn?: ErrorCallback
   ): Promise<DiffInfo | undefined>;
 
+  /**
+   * Get blame information for the given diff.
+   *
+   * @param base If true, requests blame for the base of the
+   *     diff, rather than the revision.
+   */
   getBlame(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
@@ -681,6 +724,10 @@ export interface RestApiService extends Finalizable {
     starred: boolean
   ): Promise<Response>;
 
+  /**
+   * Fetch a project dashboard definition.
+   * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#get-dashboard
+   */
   getDashboard(
     project: RepoName,
     dashboard: DashboardId,

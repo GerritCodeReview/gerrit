@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abaaab66_cd00cfef",
+        "filename": "polygerrit-ui/app/services/service-worker-installer.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-07-28T10:06:52Z",
+      "side": 1,
+      "message": "nit: You\u0027re using window.setTimeout, but not window.navigator . Seems inconsistent. (Unless I misunderstood something).",
+      "range": {
+        "startLine": 43,
+        "startChar": 3,
+        "endLine": 45,
+        "endChar": 55
+      },
+      "revId": "e6d71b1c39b7cdfd9be4a65f562feaaaefc41818",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64dfa807_9d9aa6f1",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-07-28T10:06:52Z",
+      "side": 1,
+      "message": "latestUpdateTimestampMs ?",
+      "range": {
+        "startLine": 33,
+        "startChar": 2,
+        "endLine": 33,
+        "endChar": 14
+      },
+      "revId": "e6d71b1c39b7cdfd9be4a65f562feaaaefc41818",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f437fcf_fb1a910d",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-07-28T10:06:52Z",
+      "side": 1,
+      "message": "Should this be || ?\n\nAlso wouldn\u0027t failed cast return undefined anyway? (The value of successful cast can\u0027t be falsey, since you are casting to an array and afaik empty array evaluates to True)",
+      "range": {
+        "startLine": 58,
+        "startChar": 68,
+        "endLine": 58,
+        "endChar": 69
+      },
+      "revId": "e6d71b1c39b7cdfd9be4a65f562feaaaefc41818",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

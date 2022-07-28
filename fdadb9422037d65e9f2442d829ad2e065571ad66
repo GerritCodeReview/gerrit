@@ -63,6 +63,23 @@
       "message": "hi @kamil",
       "revId": "fdadb9422037d65e9f2442d829ad2e065571ad66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42a32aca_073249fa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-28T11:48:39Z",
+      "side": 1,
+      "message": "I am fine with implementation, but I would prefer different architecture - to continue with consistency around AccountIds and accounts than to introduce emails. ",
+      "revId": "fdadb9422037d65e9f2442d829ad2e065571ad66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "602f677e_72a6b657",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-28T12:20:42Z",
+      "side": 1,
+      "message": "nit: does not have",
+      "range": {
+        "startLine": 10,
+        "startChar": 49,
+        "endLine": 10,
+        "endChar": 60
+      },
+      "revId": "096ba0298a6aa6e8dedac612f4e95935034555f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd0de979_6456b95e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-28T12:20:42Z",
+      "side": 1,
+      "message": "IIUC each tab only polls once every 5 minutes.\n\nBut if I have 10 tabs open then it is possible they all poll at the same time(say at the end of the first minute) but once every five minutes?",
+      "range": {
+        "startLine": 12,
+        "startChar": 13,
+        "endLine": 13,
+        "endChar": 15
+      },
+      "revId": "096ba0298a6aa6e8dedac612f4e95935034555f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11e76346_76c4ce84",
+        "filename": "polygerrit-ui/app/services/service-worker-installer.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-28T12:20:42Z",
+      "side": 1,
+      "message": "does it make sense to inline this?",
+      "range": {
+        "startLine": 51,
+        "startChar": 8,
+        "endLine": 51,
+        "endChar": 37
+      },
+      "revId": "096ba0298a6aa6e8dedac612f4e95935034555f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f2ceb9d_8107035a",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-28T12:20:42Z",
+      "side": 1,
+      "message": "is this possible now?\nIf not maybe throw an error instead of simply returning?",
+      "range": {
+        "startLine": 22,
+        "startChar": 6,
+        "endLine": 22,
+        "endChar": 22
+      },
+      "revId": "096ba0298a6aa6e8dedac612f4e95935034555f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95a0aa54_113255e7",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-28T12:20:42Z",
+      "side": 1,
+      "message": "`changes?.length`?",
+      "range": {
+        "startLine": 27,
+        "startChar": 6,
+        "endLine": 27,
+        "endChar": 31
+      },
+      "revId": "096ba0298a6aa6e8dedac612f4e95935034555f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7ac6039_665336e8",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-28T12:20:42Z",
+      "side": 1,
+      "message": "it is possible to use the `throttle` method from `async-utils` here?\nSeems like that is exactly what you want to do here from the comment.",
+      "range": {
+        "startLine": 46,
+        "startChar": 7,
+        "endLine": 46,
+        "endChar": 41
+      },
+      "revId": "096ba0298a6aa6e8dedac612f4e95935034555f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

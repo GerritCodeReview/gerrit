@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34839ebe_4e431ee8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-07-28T08:29:00Z",
+      "side": 1,
+      "message": "nit: WDYT about adopting a /*param_name\u003d*/true, syntax for values like that. Common in google-internal code: ex. https://source.corp.google.com/piper///depot/google3/third_party/java_src/protobuf/current/java/com/google/protobuf/GeneratedMessage.java;rcl\u003d455174866;l\u003d219\n\nAnd same for undefined above",
+      "range": {
+        "startLine": 625,
+        "startChar": 8,
+        "endLine": 625,
+        "endChar": 12
+      },
+      "revId": "f8aed8b36d550794ebdf661e7e80573b816b3d75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

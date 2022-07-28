@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94dfac34_115ba440",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-07-28T13:52:46Z",
+      "side": 1,
+      "message": "changes",
+      "range": {
+        "startLine": 9,
+        "startChar": 54,
+        "endLine": 9,
+        "endChar": 63
+      },
+      "revId": "c778191d2e1322bd040ed876f4064c14f095040b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aae00394_f65ef9fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-07-28T13:52:46Z",
+      "side": 1,
+      "message": "caches are evicted",
+      "range": {
+        "startLine": 10,
+        "startChar": 6,
+        "endLine": 10,
+        "endChar": 20
+      },
+      "revId": "c778191d2e1322bd040ed876f4064c14f095040b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71cb352a_7e307b47",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-07-28T13:52:46Z",
+      "side": 1,
+      "message": "instances",
+      "range": {
+        "startLine": 10,
+        "startChar": 56,
+        "endLine": 10,
+        "endChar": 64
+      },
+      "revId": "c778191d2e1322bd040ed876f4064c14f095040b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc48e59f_1d7175f4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-07-28T13:52:46Z",
+      "side": 1,
+      "message": "Might be worth adding a test for this?",
+      "revId": "c778191d2e1322bd040ed876f4064c14f095040b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d237dc4_7e76cc2f",
+        "filename": "java/com/google/gerrit/server/index/group/GroupIndexerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-07-28T13:52:46Z",
+      "side": 1,
+      "message": "UUID (I think you can remove the \"By\")",
+      "range": {
+        "startLine": 85,
+        "startChar": 7,
+        "endLine": 85,
+        "endChar": 14
+      },
+      "revId": "c778191d2e1322bd040ed876f4064c14f095040b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75af0dfc_78aa675c",
+        "filename": "java/com/google/gerrit/server/index/group/GroupIndexerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-07-28T13:52:46Z",
+      "side": 1,
+      "message": "nit: extra space",
+      "revId": "c778191d2e1322bd040ed876f4064c14f095040b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62c1a233_9b8b3421",
+        "filename": "java/com/google/gerrit/server/index/group/GroupIndexerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-07-28T13:52:46Z",
+      "side": 1,
+      "message": "I think this could be moved to L#128.",
+      "range": {
+        "startLine": 134,
+        "startChar": 4,
+        "endLine": 139,
+        "endChar": 0
+      },
+      "revId": "c778191d2e1322bd040ed876f4064c14f095040b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

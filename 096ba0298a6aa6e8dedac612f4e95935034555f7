@@ -305,6 +305,30 @@
       },
       "revId": "096ba0298a6aa6e8dedac612f4e95935034555f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "293ccc9e_73ca8ee1",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-28T19:36:01Z",
+      "side": 1,
+      "message": "I was thinking about it a lot now, but\n\nWe need latestUpdateTimestampMs to save for filtering already announced notifications (where attention_set time was before latestUpdateTimestampMs)\n\nSo I don\u0027t think it makes sense to use any method from utils, because we need to have access to variable latestUpdateTimestampMs.",
+      "parentUuid": "6b0c1df4_e3763131",
+      "range": {
+        "startLine": 46,
+        "startChar": 7,
+        "endLine": 46,
+        "endChar": 41
+      },
+      "revId": "096ba0298a6aa6e8dedac612f4e95935034555f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

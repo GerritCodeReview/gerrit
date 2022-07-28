@@ -107,7 +107,8 @@ export class GrFormattedText extends LitElement {
         }
         code {
           display: block;
-          white-space: nowrap;
+          /* pre will preserve whitespace and linebreaks but not wrap */
+          white-space: pre;
           background-color: var(--background-color-secondary);
           border: 1px solid var(--border-color);
           border-left-width: var(--spacing-s);

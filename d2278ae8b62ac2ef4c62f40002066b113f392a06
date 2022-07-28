@@ -34,6 +34,24 @@
       "parentUuid": "a1281dd4_86ed1764",
       "revId": "d2278ae8b62ac2ef4c62f40002066b113f392a06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fd7987c_29e3dfd7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-07-28T11:02:39Z",
+      "side": 1,
+      "message": "Yes, exactly. Of course you can be \"lucky\" that submitting/cherry-picking change_2 fails with a conflict (if it touches the same lines as change_1), but if not you run exactly into this problem (which is why I think we should really try to get rid of the cherry pick submit action). \n\nI think I\u0027ve this covered here:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/341856/2/Documentation/config-project-config.txt#406",
+      "parentUuid": "938a45f4_44802a62",
+      "revId": "d2278ae8b62ac2ef4c62f40002066b113f392a06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

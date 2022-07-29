@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "59d75924_90624244",
+        "filename": "polygerrit-ui/app/services/service-worker-installer.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-29T08:31:47Z",
+      "side": 1,
+      "message": "We cannot do timeout loop in service worker, it\u0027s not recommended, not reliable, because of service worker lifecycle.\nhttps://github.com/w3c/ServiceWorker/issues/838#issuecomment-625245717\n\nhttps://web.dev/notification-triggers/ was not implemented.\n\nSo in our design doc, we decided on post message from webapp until push from backend is implemented.",
+      "parentUuid": "e6653cac_5c48eb4c",
+      "revId": "15177f9a387fc1f686cfa67d59fdf338e5fb5bab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "72e81e2b_02721696",
@@ -48,6 +66,24 @@
       "writtenOn": "2022-07-29T08:24:34Z",
       "side": 1,
       "message": "\u003e There is always only one service-worker. 10 tabs can send in different times postmessage to trigger polling, but polling will be done only once in 5 minute interval, thanks to check (throttle) in service-worker.\n\nThis is what Milutin wrote and what I missed as well. I think multiple tabs can ask for it to request stuff but the actual request is throttled.\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/341817/comments/bd0de979_6456b95e",
+      "parentUuid": "72e81e2b_02721696",
+      "revId": "15177f9a387fc1f686cfa67d59fdf338e5fb5bab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7c32d51_49dbc437",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-29T08:31:47Z",
+      "side": 1,
+      "message": "Ok, I added it, but theoretically, every user opens gerrit in different time, so it\u0027s randomized by different time tab is open.",
       "parentUuid": "72e81e2b_02721696",
       "revId": "15177f9a387fc1f686cfa67d59fdf338e5fb5bab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

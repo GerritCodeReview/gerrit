@@ -98,6 +98,24 @@
       "parentUuid": "66cc5396_a79da134",
       "revId": "4890c9e783354d335b5c6d9a8b4597035eb5c0f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5890b1b6_f74db6f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-07-29T14:43:16Z",
+      "side": 1,
+      "message": "I am afraid that there enough avid users of that feature. Just removing it is probably not an option. See also\n\nhttps://groups.google.com/g/repo-discuss/c/3ChEeECx7Ls/m/FV2emwdjAAAJ",
+      "parentUuid": "84b2bc43_37a3ca02",
+      "revId": "4890c9e783354d335b5c6d9a8b4597035eb5c0f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

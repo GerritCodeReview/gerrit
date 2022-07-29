@@ -16,7 +16,6 @@ import '../../shared/gr-linked-text/gr-linked-text';
 import '../../shared/gr-select/gr-select';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
-import '../../shared/gr-file-status-chip/gr-file-status-chip';
 import '../../shared/gr-file-status-chip/gr-file-status';
 import {assertIsDefined} from '../../../utils/common-util';
 import {asyncForeach} from '../../../utils/async-util';
@@ -79,7 +78,6 @@ import {when} from 'lit/directives/when';
 import {classMap} from 'lit/directives/class-map';
 import {incrementalRepeat} from '../../lit/incremental-repeat';
 import {ifDefined} from 'lit/directives/if-defined';
-import {KnownExperimentId} from '../../../services/flags/flags';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -296,8 +294,6 @@ export class GrFileList extends LitElement {
   private readonly getCommentsModel = resolve(this, commentsModelToken);
 
   private readonly getBrowserModel = resolve(this, browserModelToken);
-
-  private readonly flagsService = getAppContext().flagsService;
 
   /** Called in disconnectedCallback. */
   private cleanups: (() => void)[] = [];
@@ -1063,7 +1059,6 @@ export class GrFileList extends LitElement {
   }
 
   private renderFileStatus(file?: NormalizedFileInfo) {
-    if (!this.flagsService.isEnabled(KnownExperimentId.MORE_FILES_INFO)) return;
     const hasExtendedStatus = this.filesLeftBase.length > 0;
     const leftStatus = this.renderFileStatusLeft(file?.__path);
     const rightStatus = this.renderFileStatusRight(file);
@@ -1147,10 +1142,6 @@ export class GrFileList extends LitElement {
         >
           ${computeTruncatedPath(file.__path)}
         </span>
-        ${when(
-          !this.flagsService.isEnabled(KnownExperimentId.MORE_FILES_INFO),
-          () => html`<gr-file-status-chip .file=${file}></gr-file-status-chip>`
-        )}
         <gr-copy-clipboard
           ?hideInput=${true}
           .text=${file.__path}

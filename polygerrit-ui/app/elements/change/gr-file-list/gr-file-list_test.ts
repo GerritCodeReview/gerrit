@@ -15,7 +15,6 @@ import {
   stubRestApi,
   waitUntil,
   pressKey,
-  stubFlags,
 } from '../../../test/test-utils';
 import {
   BasePatchSetNum,
@@ -124,6 +123,7 @@ suite('gr-file-list tests', () => {
         </h3>
         <div aria-label="Files list" id="container" role="grid">
           <div class="header-row row" role="row">
+            <div class="status" role="gridcell"></div>
             <div class="path" role="columnheader">File</div>
             <div class="comments desktop" role="columnheader">Comments</div>
             <div class="comments mobile" role="columnheader" title="Comments">
@@ -175,11 +175,13 @@ suite('gr-file-list tests', () => {
         role="row"
         tabindex="-1"
       >
+        <div class="status" role="gridcell">
+          <gr-file-status></gr-file-status>
+        </div>
         <span class="path" role="gridcell">
           <a class="pathLink">
             <span class="fullFileName" title="'/file0"> '/file0 </span>
             <span class="truncatedFileName" title="'/file0"> …/file0 </span>
-            <gr-file-status-chip> </gr-file-status-chip>
             <gr-copy-clipboard hideinput=""> </gr-copy-clipboard>
           </a>
         </span>
@@ -255,7 +257,6 @@ suite('gr-file-list tests', () => {
     });
 
     test('renders file status column', async () => {
-      stubFlags('isEnabled').returns(true);
       element.files = createFiles(1, {lines_inserted: 9});
       element.filesLeftBase = createFiles(1, {lines_inserted: 9});
       await element.updateComplete;
@@ -271,7 +272,6 @@ suite('gr-file-list tests', () => {
     });
 
     test('renders file status column header', async () => {
-      stubFlags('isEnabled').returns(true);
       element.files = createFiles(1, {lines_inserted: 9});
       element.filesLeftBase = createFiles(1, {lines_inserted: 9});
       element.patchRange!.basePatchNum = 1 as PatchSetNumber;

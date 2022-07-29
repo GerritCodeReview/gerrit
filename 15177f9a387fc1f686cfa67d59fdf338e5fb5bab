@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "72e81e2b_02721696",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-29T08:10:05Z",
+      "side": 1,
+      "message": "Could you add some random jitter to this so that not all tabs query at the exact same time?\n\n```\nif (durationFromLatestUpdateMs \u003c TRIGGER_NOTIFICATION_UPDATES_MS + randomSeconds) {\n\n```\n\nWhere randomSeconds can be either positive or negative and I guess should be at most +/- X s.  No strong opinion on the X, could be something like 30.",
+      "revId": "15177f9a387fc1f686cfa67d59fdf338e5fb5bab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8f44b9c0_e005ed89",
         "filename": "polygerrit-ui/app/workers/service-worker.ts",
         "patchSetId": 11
@@ -38,6 +55,30 @@
       "side": 1,
       "message": "I checked return type of `getLatestAttentionSetChange` and it is `Promise\u003cParsedChangeInfo[]\u003e` so async does this automatically\n\n```\nAsync functions always return a promise. If the return value of an async function is not explicitly a promise, it will be implicitly wrapped in a promise.\n```\nfrom https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function",
       "parentUuid": "8f44b9c0_e005ed89",
+      "range": {
+        "startLine": 51,
+        "startChar": 15,
+        "endLine": 51,
+        "endChar": 18
+      },
+      "revId": "15177f9a387fc1f686cfa67d59fdf338e5fb5bab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cebbe328_49f09eb5",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-29T08:10:05Z",
+      "side": 1,
+      "message": "The return `type` Should indeed be `Promise\u003cT\u003e`.  But you can return non-promise values because this function is async, as Milutin mentioned.",
+      "parentUuid": "5f2fd572_82d725d3",
       "range": {
         "startLine": 51,
         "startChar": 15,

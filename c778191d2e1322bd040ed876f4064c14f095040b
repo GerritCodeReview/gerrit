@@ -70,6 +70,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ca81f39_03b2d682",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-07-29T19:22:01Z",
+      "side": 1,
+      "message": "I thought stale caches on replicas was a known issue that you have to configure caches correctly for (i.e. set maxAge/refreshAfterWrite to a low value similar to the periodic reindex)?\n\nForcing an eviction during reindex isn\u0027t obviously the correct solution to me because it assumes the cache is stale.",
+      "revId": "c778191d2e1322bd040ed876f4064c14f095040b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "bc48e59f_1d7175f4",

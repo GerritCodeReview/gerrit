@@ -22,6 +22,30 @@
       },
       "revId": "73fb40a71b790fb50fbefa93f1a724389cbb7698",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46124cf5_5cab966a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-07-29T13:14:36Z",
+      "side": 1,
+      "message": "For more than a week. :-)\nhttps://buganizer.corp.google.com/issues/216343564#comment25",
+      "parentUuid": "762b4b2e_d7b6268e",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "73fb40a71b790fb50fbefa93f1a724389cbb7698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "403d6089_ed92d7a9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-29T13:51:23Z",
+      "side": 1,
+      "message": "```\n .size-16 {\n   font-size: 16px;\n   position: relative\n   top: 2px;\n }\n```",
+      "revId": "4924e5579985f76741508b4df519ca38c7a4cd9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0705ad26_bc8ccb03",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-29T13:51:23Z",
+      "side": 1,
+      "message": "\u003cgr-icon class\u003d\"size-16\" icon\u003d\"edit\" filled\u003e\u003c/gr-icon\u003e",
+      "revId": "4924e5579985f76741508b4df519ca38c7a4cd9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffe911b2_6333242b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-icon/gr-icon.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-29T13:51:23Z",
+      "side": 1,
+      "message": "I don\u0027t like using extra attributes and accounting for all sizes in gr-icon.\n\nInstead simply do \n```\n.size-16 {\n    font-size: 16px;\n    position: relative;\n    top: 2px;\n}\n```\n\nand set the class to size-16 in the consumer.",
+      "revId": "4924e5579985f76741508b4df519ca38c7a4cd9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

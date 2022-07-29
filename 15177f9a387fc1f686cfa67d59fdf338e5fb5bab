@@ -91,6 +91,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1690432b_775d6667",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-29T08:37:57Z",
+      "side": 1,
+      "message": "What is the downside of all tabs querying at the same time?\n\nIIUC it\u0027s throttled eventually so it shouldn\u0027t matter when the query is made?",
+      "parentUuid": "e7c32d51_49dbc437",
+      "revId": "15177f9a387fc1f686cfa67d59fdf338e5fb5bab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8f44b9c0_e005ed89",
         "filename": "polygerrit-ui/app/workers/service-worker.ts",
         "patchSetId": 11

@@ -127,6 +127,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ff815b1c_e71fc094",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-29T08:41:13Z",
+      "side": 1,
+      "message": "+1 on removing code which has no obvious benefit.\n\nRemoves complexity and improves readability.",
+      "parentUuid": "2faff062_3de4ff2a",
+      "revId": "15177f9a387fc1f686cfa67d59fdf338e5fb5bab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8f44b9c0_e005ed89",
         "filename": "polygerrit-ui/app/workers/service-worker.ts",
         "patchSetId": 11

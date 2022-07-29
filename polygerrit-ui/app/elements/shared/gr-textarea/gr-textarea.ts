@@ -620,7 +620,7 @@ export class GrTextarea extends LitElement {
     return (
       (await this.restApiService.getSuggestedAccounts(
         this.currentSearchString ?? '',
-        /* number= */ undefined,
+        /* number= */ 15,
         this.changeNum,
         /* filterActive= */ true
       )) ?? []

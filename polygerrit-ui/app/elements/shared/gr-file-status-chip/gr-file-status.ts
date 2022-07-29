@@ -38,9 +38,6 @@ function statusString(status: FileInfoStatus) {
  *
  * It can also show an additional "new" icon for indicating that a file was
  * newly changed in a patchset.
- *
- * `gr-file-status-chip` was a chip for being shown after a file name. It will
- * become obsolete.
  */
 @customElement('gr-file-status')
 export class GrFileStatus extends LitElement {

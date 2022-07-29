@@ -51,6 +51,11 @@ export class GrIcon extends LitElement {
           font-variation-settings: 'FILL' 0;
           vertical-align: top;
         }
+        :host([size-16]) {
+          font-size: 16px;
+          position: relative;
+          top: 2px;
+        }
         :host([filled]) {
           font-variation-settings: 'FILL' 1;
         }

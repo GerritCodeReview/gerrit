@@ -3,6 +3,98 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c21cc74e_98ae0045",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-29T17:41:15Z",
+      "side": 1,
+      "message": "s/can/should only",
+      "range": {
+        "startLine": 9,
+        "startChar": 19,
+        "endLine": 9,
+        "endChar": 22
+      },
+      "revId": "00f45fcf272d112ac9672bb39c3f7b20a4175f3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "955c3d4f_17218382",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-29T17:41:15Z",
+      "side": 1,
+      "message": "throw an error (assertIsDefined)?\nI think `account_id` should be there?",
+      "range": {
+        "startLine": 29,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 36
+      },
+      "revId": "00f45fcf272d112ac9672bb39c3f7b20a4175f3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "699c040d_230d98a8",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-29T17:41:15Z",
+      "side": 1,
+      "message": "the method is actually really returning the changes we should notify the user about and no longer returning the change with the latest update(latest compared to what?).\n\nPerhaps rename the method(perhaps `getChangesToNotify`) or something like that so that it\u0027s clear we are getting the list of changes we need to notify about?",
+      "range": {
+        "startLine": 48,
+        "startChar": 8,
+        "endLine": 48,
+        "endChar": 35
+      },
+      "revId": "00f45fcf272d112ac9672bb39c3f7b20a4175f3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbf42b4e_9371375c",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-29T17:41:15Z",
+      "side": 1,
+      "message": "nit: `lastUpdateTimestampMs` for consistency?",
+      "range": {
+        "startLine": 73,
+        "startChar": 45,
+        "endLine": 73,
+        "endChar": 57
+      },
+      "revId": "00f45fcf272d112ac9672bb39c3f7b20a4175f3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4933122e_b2c5c890",
         "filename": "polygerrit-ui/app/workers/service-worker.ts",
         "patchSetId": 4

@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e6653cac_5c48eb4c",
+        "filename": "polygerrit-ui/app/services/service-worker-installer.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-29T08:14:43Z",
+      "side": 1,
+      "message": "Please randomize this as well, similar to my other comment.\n\nWhy is this logic existing in the installer? Doesn\u0027t this defeat the purpose of having a service-worker if the main timeout loop is in the app and not the service-worker?",
+      "revId": "15177f9a387fc1f686cfa67d59fdf338e5fb5bab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "72e81e2b_02721696",
         "filename": "polygerrit-ui/app/workers/service-worker.ts",
         "patchSetId": 11

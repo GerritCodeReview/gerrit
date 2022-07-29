@@ -88,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d38666b_ae642fea",
+        "filename": "polygerrit-ui/app/elements/shared/gr-icon/gr-icon.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-07-29T14:39:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd617624_25e8423f",
+      "revId": "4924e5579985f76741508b4df519ca38c7a4cd9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ffe911b2_6333242b",
@@ -119,6 +137,24 @@
       "side": 1,
       "message": "Discussed offline to either use `size\u003d\"16\"` approach or simply a `small` version.",
       "parentUuid": "ffe911b2_6333242b",
+      "revId": "4924e5579985f76741508b4df519ca38c7a4cd9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a70ff48f_e1762079",
+        "filename": "polygerrit-ui/app/elements/shared/gr-icon/gr-icon.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-07-29T14:39:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe2b9605_62c53189",
       "revId": "4924e5579985f76741508b4df519ca38c7a4cd9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

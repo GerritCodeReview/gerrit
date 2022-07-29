@@ -143,6 +143,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3060ea86_4f35a55d",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-29T08:50:54Z",
+      "side": 1,
+      "message": "I rewrite back without randomization. There is throttle mechanism, so it doesn\u0027t matter how browser tabs are triggering it - if they do in the same time, only the one polling will happen. \n\nUsers opens gerrit tabs in different time and it starts, when first tab is open for user. So there is randomization.",
+      "parentUuid": "ff815b1c_e71fc094",
+      "revId": "15177f9a387fc1f686cfa67d59fdf338e5fb5bab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8f44b9c0_e005ed89",

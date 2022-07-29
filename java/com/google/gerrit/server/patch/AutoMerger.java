@@ -169,7 +169,9 @@ public class AutoMerger {
       return Optional.empty();
     }
 
-    if (repoView.getRef(RefNames.refsCacheAutomerge(maybeMergeCommit.name())).isPresent()) {
+    String automergeRef = RefNames.refsCacheAutomerge(maybeMergeCommit.name());
+    logger.atFine().log("AutoMerge ref=%s, mergeCommit=%s", automergeRef, maybeMergeCommit.name());
+    if (repoView.getRef(automergeRef).isPresent()) {
       logger.atFine().log("AutoMerge alredy exists");
       return Optional.empty();
     }
@@ -178,7 +180,7 @@ public class AutoMerger {
         new ReceiveCommand(
             ObjectId.zeroId(),
             createAutoMergeCommit(repoView, rw, ins, maybeMergeCommit),
-            RefNames.refsCacheAutomerge(maybeMergeCommit.name())));
+            automergeRef));
   }
 
   /**
@@ -250,6 +252,7 @@ public class AutoMerger {
               merge.getParent(1),
               m.getMergeResults());
     }
+    logger.atFine().log("AutoMerge treeId=%s", treeId.name());
 
     rw.parseHeaders(merge);
     // For maximum stability, choose a single ident using the committer time of
@@ -269,6 +272,7 @@ public class AutoMerger {
     }
 
     ObjectId commitId = ins.insert(cb);
+    logger.atFine().log("AutoMerge commitId=%s", commitId.name());
     ins.flush();
 
     if (ins instanceof InMemoryInserter) {

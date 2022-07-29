@@ -268,16 +268,19 @@ public class AutoMerger {
       cb.addParentId(p);
     }
 
+    ObjectId commitId = ins.insert(cb);
+    ins.flush();
+
     if (ins instanceof InMemoryInserter) {
       // When using an InMemoryInserter we need to read back the values from that inserter because
       // they are not available.
       try (ObjectReader tmpReader = ins.newReader();
           RevWalk tmpRw = new RevWalk(tmpReader)) {
-        return tmpRw.parseCommit(ins.insert(cb));
+        return tmpRw.parseCommit(commitId);
       }
     }
 
-    return rw.parseCommit(ins.insert(cb));
+    return rw.parseCommit(commitId);
   }
 
   private static class NonFlushingWrapper extends ObjectInserter.Filter {

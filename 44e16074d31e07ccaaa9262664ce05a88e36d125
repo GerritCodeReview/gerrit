@@ -119,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ce8d9b5_b714e50e",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-29T13:40:26Z",
+      "side": 1,
+      "message": "Sorry, that should be `(?!^|\\s)` for negative look-ahead. not `(?:^|\\s)` which simply does a non-binding match.\n\nI would definitely try to get the right regexp instead of linearly scanning through the text at each offset and rechecking the regexp. That seems like going against the nature of regexp.",
+      "parentUuid": "d7f1dc19_b060cd88",
+      "range": {
+        "startLine": 206,
+        "startChar": 0,
+        "endLine": 218,
+        "endChar": 16
+      },
+      "revId": "44e16074d31e07ccaaa9262664ce05a88e36d125",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b4154e26_5c999759",

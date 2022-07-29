@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "73dbbcfc_1b39c5b3",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-29T08:24:34Z",
+      "side": 1,
+      "message": "\u003e There is always only one service-worker. 10 tabs can send in different times postmessage to trigger polling, but polling will be done only once in 5 minute interval, thanks to check (throttle) in service-worker.\n\nThis is what Milutin wrote and what I missed as well. I think multiple tabs can ask for it to request stuff but the actual request is throttled.\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/341817/comments/bd0de979_6456b95e",
+      "parentUuid": "72e81e2b_02721696",
+      "revId": "15177f9a387fc1f686cfa67d59fdf338e5fb5bab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8f44b9c0_e005ed89",
         "filename": "polygerrit-ui/app/workers/service-worker.ts",
         "patchSetId": 11

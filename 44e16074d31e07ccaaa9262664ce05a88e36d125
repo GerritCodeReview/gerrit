@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "95a73331_037dc272",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-29T13:37:37Z",
+      "side": 1,
+      "message": "We want the space before to be optional(in case it starts at the text) or not optional(in case it occurs in between the text).\n\nIf we set the space to be non-optional then we don\u0027t catch the email that begins at the text.\nIf we set it to be optional then we start matching the text `@@\u003cemail\u003e`.\n\nI think solving this by making the regex more complicated doesn\u0027t seem worth the effort.\nUnless there is a simpler regex I am missing here?\n\nI tried 2-3 but they all seem to fail at some case.",
+      "parentUuid": "d7f1dc19_b060cd88",
+      "range": {
+        "startLine": 206,
+        "startChar": 0,
+        "endLine": 218,
+        "endChar": 16
+      },
+      "revId": "44e16074d31e07ccaaa9262664ce05a88e36d125",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b4154e26_5c999759",
         "filename": "polygerrit-ui/app/utils/account-util_test.ts",
         "patchSetId": 8

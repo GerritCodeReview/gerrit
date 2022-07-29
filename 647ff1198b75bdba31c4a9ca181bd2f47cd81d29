@@ -47,6 +47,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "139be93d_2f2a1758",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-29T14:50:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "283909c0_d0c9e5f2",
+      "range": {
+        "startLine": 38,
+        "startChar": 5,
+        "endLine": 38,
+        "endChar": 8
+      },
+      "revId": "647ff1198b75bdba31c4a9ca181bd2f47cd81d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4e36c9b6_92396c62",
@@ -60,6 +84,30 @@
       "writtenOn": "2022-07-14T08:21:46Z",
       "side": 1,
       "message": "better: s/a/no",
+      "range": {
+        "startLine": 40,
+        "startChar": 57,
+        "endLine": 40,
+        "endChar": 58
+      },
+      "revId": "647ff1198b75bdba31c4a9ca181bd2f47cd81d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f894bc3b_68cf332b",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-29T14:50:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e36c9b6_92396c62",
       "range": {
         "startLine": 40,
         "startChar": 57,
@@ -244,6 +292,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e5f5a4a_39c90f10",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-29T14:50:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e379f949_e8f1d31f",
+      "range": {
+        "startLine": 82,
+        "startChar": 15,
+        "endLine": 82,
+        "endChar": 26
+      },
+      "revId": "647ff1198b75bdba31c4a9ca181bd2f47cd81d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e1f8f13_d005313a",
@@ -320,6 +392,30 @@
       "writtenOn": "2022-07-14T08:21:46Z",
       "side": 1,
       "message": "Is this important? I thought the order only matters for the manual migration when Prolog files are present.",
+      "range": {
+        "startLine": 179,
+        "startChar": 5,
+        "endLine": 179,
+        "endChar": 43
+      },
+      "revId": "647ff1198b75bdba31c4a9ca181bd2f47cd81d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85fa20f0_cfe5fff0",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-29T14:50:08Z",
+      "side": 1,
+      "message": "Partially. I think I can drop this to get rid of the project cache.\n\nThe main point is that if the migration failed in the middle, with some projects migrated and others aren\u0027t, then if there are two projects p1 \u0026 p2 (with p1 parent of p2), both defining some label, p2\u0027s definition takes precedence in p2.\n\nIf migration updated p1 but not p2, p2 will be incorrectly using p1\u0027s definition of the SR (since p2\u0027s SR is not yet written to override p1\u0027s SR).",
+      "parentUuid": "9add56f5_f5078ca5",
       "range": {
         "startLine": 179,
         "startChar": 5,

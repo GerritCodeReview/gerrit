@@ -97,6 +97,24 @@
       "message": "This isn\u0027t great because what if someone\u0027s account id is in the new attention set but we added them by account email.\n\nIdeally the reply-dialog still deals with account-ids to avoid potentially duplicate entries.",
       "revId": "fdadb9422037d65e9f2442d829ad2e065571ad66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4aba12c1_bc39bd04",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1583,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-29T11:56:00Z",
+      "side": 1,
+      "message": "Discussed offline.\n\nThe logic that adds items to the attention-set will have to become smarter not to add an account twice, but this part of the code should be ok.",
+      "parentUuid": "81ea253d_f09f5880",
+      "revId": "fdadb9422037d65e9f2442d829ad2e065571ad66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

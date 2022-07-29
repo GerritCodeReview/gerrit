@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4933122e_b2c5c890",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-07-29T14:49:18Z",
+      "side": 1,
+      "message": "Maybe move into its own function with `this.latestUpdateTimestampMs` as a parameter, and then add a test.",
+      "range": {
+        "startLine": 69,
+        "startChar": 2,
+        "endLine": 74,
+        "endChar": 7
+      },
+      "revId": "00f45fcf272d112ac9672bb39c3f7b20a4175f3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

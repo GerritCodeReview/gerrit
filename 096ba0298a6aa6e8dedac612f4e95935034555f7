@@ -353,6 +353,30 @@
       },
       "revId": "096ba0298a6aa6e8dedac612f4e95935034555f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19a1ccd6_83be4f7b",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-29T06:02:46Z",
+      "side": 1,
+      "message": "Throttlewrap already returns this type: `(e: T) \u003d\u003e void` so it\u0027s not easy to return `latestUpdateTimestampMs`\n\nI really don\u0027t think throttlewrap even with modifications is good case here. I don\u0027t think we need one more throttle for service-worker in utils, that probably will not be used on other places. I really think this is not good place to be pushing for https://en.wikipedia.org/wiki/Don%27t_repeat_yourself",
+      "parentUuid": "7d15b664_fd75b1dd",
+      "range": {
+        "startLine": 46,
+        "startChar": 7,
+        "endLine": 46,
+        "endChar": 41
+      },
+      "revId": "096ba0298a6aa6e8dedac612f4e95935034555f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

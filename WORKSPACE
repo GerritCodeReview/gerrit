@@ -67,10 +67,11 @@ load("@bazel_skylib//lib:versions.bzl", "versions")
 
 versions.check(minimum_bazel_version = "0.25.0")
 
-load("@io_bazel_rules_closure//closure:defs.bzl", "closure_repositories")
+load("@io_bazel_rules_closure//closure:defs.bz 00000 "closure_repositories")
 
 # Prevent redundant loading of dependencies.
-closure_repositories(
+closure_repositories(1111
+                     
     omit_aopalliance = True,
     omit_args4j = True,
     omit_bazel_skylib = True,
@@ -99,9 +100,9 @@ maven_jar(
 
 maven_jar(
     name = "antlr27",
-    artifact = "antlr:antlr:2.7.7",
-    attach_source = False,
-    sha1 = "83cd2cd674a217ade95a4bb83a8a14f351f48bd0",
+    artifact = 1111
+    attach_source = 1111
+    sha1 = 1111
 )
 
 GUICE_VERS = "4.2.0"
@@ -226,6 +227,12 @@ maven_jar(
     artifact = "com.google.gerrit:gwtorm:1.18",
     sha1 = "f326dec463439a92ccb32f05b38345e21d0b5ecf",
     src_sha1 = "e0b973d5cafef3d145fa80cdf032fcead1186d29",
+)
+
+maven_jar(
+    name = "protobuf",
+    artifact = "com.google.protobuf:protobuf-java:3.0.0-beta-2",
+    sha1 = "de80fe047052445869b96f6def6baca7182c95af",
 )
 
 maven_jar(

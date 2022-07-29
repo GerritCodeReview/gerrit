@@ -165,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4c59e40_0356306c",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-29T16:47:02Z",
+      "side": 1,
+      "message": "Got rid of both classes.\n\nDone.",
+      "parentUuid": "7e142977_588f23bc",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 66,
+        "endChar": 50
+      },
+      "revId": "647ff1198b75bdba31c4a9ca181bd2f47cd81d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de3e4106_4083a85d",
@@ -243,6 +267,30 @@
       "side": 1,
       "message": "\u003e We needed ProjectCache to get ProjectState, then:\n\u003e  1. check for parents.\n\u003e  2. check for the existence of an SR with some name (in this + parent projects).\n\u003e  3. check for the existence of rules.pl (in this + parent projects).\n\nI\u0027m not sure that this is necessary.\n\nWhy do we need to know anything from the parents in order to convert the function of a label that is defined in a project to a submit requirement that is defined in the same project?\n\n2. If a label/SR with the same name exists in a parent it means that the label/SR is overridden in the child project. In this case we still want to add a corresponding submit requirement that overrides the submit requirement from the parent. It may be that the override is ignored if the parent label/SR disallows overrides, but adding an ignored override shouldn\u0027t do any harm. This means regardless of whether a SR with the same name exists in the parent project, we always add a SR in the child project, hence we can do this without checking the parent projects.\n\n3. cannot happen since we do not execute this migration if any Prolog rule exist, do we?\n\nAm I missing anything?",
       "parentUuid": "1c2ac062_223da489",
+      "range": {
+        "startLine": 74,
+        "startChar": 40,
+        "endLine": 74,
+        "endChar": 97
+      },
+      "revId": "647ff1198b75bdba31c4a9ca181bd2f47cd81d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f4e3772_405e2997",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-29T16:47:02Z",
+      "side": 1,
+      "message": "No I think you\u0027re right. I got rid of the code for parents as well as the project cache. Thanks for pointing this out!\n\nDone.",
+      "parentUuid": "7e3c6d7e_0c303898",
       "range": {
         "startLine": 74,
         "startChar": 40,
@@ -363,6 +411,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b3ac250_11219e2e",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-29T16:47:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e1f8f13_d005313a",
+      "range": {
+        "startLine": 99,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 18
+      },
+      "revId": "647ff1198b75bdba31c4a9ca181bd2f47cd81d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b5bf3c5c_d5e65087",
@@ -393,6 +465,30 @@
       "writtenOn": "2022-07-14T08:21:46Z",
       "side": 1,
       "message": "Using the LabelFunction enum here, will make it more difficult to drop the deprecated LabelFunction values later, as we need to keep the schema migration, even after the deprecated LabelFunction values have been removed. So it might be better to avoid using the LabelFunction enum here and rather read the label functions as strings from the project config. This way we do not need to touch the migration again later when the deprecated LabelFunction values are removed from the LabelFunction enum.",
+      "range": {
+        "startLine": 155,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 24
+      },
+      "revId": "647ff1198b75bdba31c4a9ca181bd2f47cd81d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "914d26cd_7469d21a",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-29T16:47:02Z",
+      "side": 1,
+      "message": "Nice catch! You\u0027re right.\n\nDone.",
+      "parentUuid": "0d1cfa40_c99cd66a",
       "range": {
         "startLine": 155,
         "startChar": 0,

@@ -16,7 +16,7 @@ import '../../shared/gr-linked-text/gr-linked-text';
 import '../../shared/gr-select/gr-select';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
-import '../../shared/gr-file-status-chip/gr-file-status';
+import '../../shared/gr-file-status/gr-file-status';
 import {assertIsDefined} from '../../../utils/common-util';
 import {asyncForeach} from '../../../utils/async-util';
 import {FilesExpandedState} from '../gr-file-list-constants';

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "762b4b2e_d7b6268e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-29T11:28:20Z",
+      "side": 1,
+      "message": "Ok :) I asked about experiment in previous change. Makes sense. So was this rollout 100% for longer time?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "73fb40a71b790fb50fbefa93f1a724389cbb7698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

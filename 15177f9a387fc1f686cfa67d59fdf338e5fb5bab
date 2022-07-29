@@ -109,6 +109,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2faff062_3de4ff2a",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-29T08:40:15Z",
+      "side": 1,
+      "message": "I don\u0027t see any downside. I just did this to be safe, but I can revert latest patchset. WDYT Chris?",
+      "parentUuid": "1690432b_775d6667",
+      "revId": "15177f9a387fc1f686cfa67d59fdf338e5fb5bab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8f44b9c0_e005ed89",
         "filename": "polygerrit-ui/app/workers/service-worker.ts",
         "patchSetId": 11

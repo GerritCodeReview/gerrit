@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3d9cb99_009a0188",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 4820,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-07-29T14:18:02Z",
+      "side": 1,
+      "message": "nit: ccNonExistentAccountByEmailThenRemove is more indicative?",
+      "range": {
+        "startLine": 4820,
+        "startChar": 14,
+        "endLine": 4820,
+        "endChar": 36
+      },
+      "revId": "328ceb28b5ebcee19eb7700cac2342288afdc4a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

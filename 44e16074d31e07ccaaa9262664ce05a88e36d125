@@ -45,6 +45,30 @@
       },
       "revId": "44e16074d31e07ccaaa9262664ce05a88e36d125",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7fe2c87_5820e13f",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-07-29T13:18:52Z",
+      "side": 1,
+      "message": "\\b@ won\u0027t work but yes why can\u0027t you do matchAll like:\n\n```\n.matchAll(/(?:(^|[ ]))@REST_OF_EMAIL_REGEXP\\b/g)\n```",
+      "parentUuid": "58f19dfa_f38baf1c",
+      "range": {
+        "startLine": 206,
+        "startChar": 0,
+        "endLine": 218,
+        "endChar": 16
+      },
+      "revId": "44e16074d31e07ccaaa9262664ce05a88e36d125",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

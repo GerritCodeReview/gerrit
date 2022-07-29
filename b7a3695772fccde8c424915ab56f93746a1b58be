@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9977278b_6786f0f2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-29T13:05:31Z",
+      "side": 1,
+      "message": "I agree, I am really fine with it. I just wanted to write that I would probably have different design taste since I prefer easy to use api 😊 that they do a lot of smart things for me.",
+      "parentUuid": "629fa017_1e28ce7d",
+      "range": {
+        "startLine": 261,
+        "startChar": 33,
+        "endLine": 261,
+        "endChar": 64
+      },
+      "revId": "b7a3695772fccde8c424915ab56f93746a1b58be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a3b34793_c0d4e598",

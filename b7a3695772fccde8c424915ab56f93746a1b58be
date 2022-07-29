@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e56e2eec_30cb4dd0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-29T11:26:32Z",
+      "side": 1,
+      "message": "NIT: I would expect that this check is actually inside \u003cgr-file-status\u003e\nlike in gr-file-status-chip. Maybe also if status is undefined, it also can be invisible, so there doesn\u0027t need to be any check before rendering gr-file-status.\n\nBut I am ok with current state.",
+      "range": {
+        "startLine": 261,
+        "startChar": 33,
+        "endLine": 261,
+        "endChar": 64
+      },
+      "revId": "b7a3695772fccde8c424915ab56f93746a1b58be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3b34793_c0d4e598",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-07-29T11:26:32Z",
+      "side": 1,
+      "message": "Shouldn\u0027t be this under feature flag?\nthis.flagsService.isEnabled(KnownExperimentId.MORE_FILES_INFO)",
+      "range": {
+        "startLine": 261,
+        "startChar": 13,
+        "endLine": 263,
+        "endChar": 76
+      },
+      "revId": "b7a3695772fccde8c424915ab56f93746a1b58be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

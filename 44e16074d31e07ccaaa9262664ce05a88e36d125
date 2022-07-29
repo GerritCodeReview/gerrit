@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4613aa5a_27cd5b03",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-29T14:03:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26b9b8f1_f8304f42",
+      "range": {
+        "startLine": 206,
+        "startChar": 16,
+        "endLine": 206,
+        "endChar": 35
+      },
+      "revId": "44e16074d31e07ccaaa9262664ce05a88e36d125",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "58f19dfa_f38baf1c",
@@ -143,6 +167,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "129ac446_148c7f41",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-29T14:03:19Z",
+      "side": 1,
+      "message": "Done.\nThanks for the help with the regex.",
+      "parentUuid": "8ce8d9b5_b714e50e",
+      "range": {
+        "startLine": 206,
+        "startChar": 0,
+        "endLine": 218,
+        "endChar": 16
+      },
+      "revId": "44e16074d31e07ccaaa9262664ce05a88e36d125",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b4154e26_5c999759",
@@ -156,6 +204,24 @@
       "writtenOn": "2022-07-29T13:19:21Z",
       "side": 1,
       "message": "Add one more test-case for the email being at the start of the comment.",
+      "revId": "44e16074d31e07ccaaa9262664ce05a88e36d125",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67426839_05b8364f",
+        "filename": "polygerrit-ui/app/utils/account-util_test.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-07-29T14:03:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4154e26_5c999759",
       "revId": "44e16074d31e07ccaaa9262664ce05a88e36d125",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

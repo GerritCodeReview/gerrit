@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "629fa017_1e28ce7d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-07-29T13:02:40Z",
+      "side": 1,
+      "message": "I think this is a matter of component design taste. Either you like them smart or you like them dumb. Both have their advantages and disadvantages.\n\nI intentionally designed `gr-file-status` as \"dumb\". It is just a UI widget that does not know anything about files, paths or magic paths. I tend to like that for really small components that are indeed just widgets.\n\nObviously, that has the disadvantage of potentially duplicating the \"smartness\" wherever the component is used. So theoretically we could even wrap every dumb component in a smart one.\n\nSo overall I understand your concern and am interested in discussing this more with the team, but for the moment I would prefer to leave the change as is.\n\nWDYT?",
+      "parentUuid": "e56e2eec_30cb4dd0",
+      "range": {
+        "startLine": 261,
+        "startChar": 33,
+        "endLine": 261,
+        "endChar": 64
+      },
+      "revId": "b7a3695772fccde8c424915ab56f93746a1b58be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a3b34793_c0d4e598",
         "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2022-07-29T11:26:32Z",
       "side": 1,
       "message": "Shouldn\u0027t be this under feature flag?\nthis.flagsService.isEnabled(KnownExperimentId.MORE_FILES_INFO)",
+      "range": {
+        "startLine": 261,
+        "startChar": 13,
+        "endLine": 263,
+        "endChar": 76
+      },
+      "revId": "b7a3695772fccde8c424915ab56f93746a1b58be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6988677_e67f5827",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-07-29T13:02:40Z",
+      "side": 1,
+      "message": "The feature flag is being removed (see other changes). It is already rolled out to 100%.",
+      "parentUuid": "a3b34793_c0d4e598",
       "range": {
         "startLine": 261,
         "startChar": 13,

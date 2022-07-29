@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6a23792_45cc8d73",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-07-29T19:12:41Z",
+      "side": 1,
+      "message": "This came up as an issue for our users in our 3.5 testing environment and is frustrating for them when they have a search that takes a non-trivial time to complete.",
+      "revId": "ccc02015863f87b83db9ba14bcd176dd677eb28f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

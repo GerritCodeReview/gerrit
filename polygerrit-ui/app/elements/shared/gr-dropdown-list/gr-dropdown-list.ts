@@ -10,7 +10,7 @@ import '../../../styles/shared-styles';
 import '../gr-button/gr-button';
 import '../gr-date-formatter/gr-date-formatter';
 import '../gr-select/gr-select';
-import '../gr-file-status-chip/gr-file-status-chip';
+import '../gr-file-status/gr-file-status';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query} from 'lit/decorators';
 import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
@@ -22,6 +22,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {ValueChangedEvent} from '../../../types/events';
 import {incrementalRepeat} from '../../lit/incremental-repeat';
 import {when} from 'lit/directives/when';
+import {isMagicPath} from '../../../utils/path-list-util';
 
 /**
  * Required values are text and value. mobileText and triggerText will
@@ -257,9 +258,9 @@ export class GrDropdownList extends LitElement {
             `
           )}
           ${when(
-            item.file,
+            item.file?.status && !isMagicPath(item.file?.__path),
             () => html`
-              <gr-file-status-chip .file=${item.file}></gr-file-status-chip>
+              <gr-file-status .status=${item.file?.status}></gr-file-status>
             `
           )}
         </div>

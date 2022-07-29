@@ -161,6 +161,7 @@ suite('gr-textarea tests', () => {
     test('emoji dropdown does not open if mention dropdown is open', async () => {
       const listenerStub = sinon.stub();
       element.addEventListener('bind-value-changed', listenerStub);
+      const resetSpy = sinon.spy(element, 'resetDropdown');
       stubRestApi('getSuggestedAccounts').returns(
         Promise.resolve([
           createAccountWithEmail('abc@google.com'),
@@ -181,6 +182,8 @@ suite('gr-textarea tests', () => {
       ];
       await waitUntil(() => element.mentions.length > 0);
       await element.updateComplete;
+
+      assert.isFalse(resetSpy.called);
 
       assert.isTrue(element.emojiSuggestions!.isHidden);
       assert.isFalse(element.mentionsSuggestions!.isHidden);

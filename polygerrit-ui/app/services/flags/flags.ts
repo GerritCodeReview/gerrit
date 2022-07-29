@@ -20,5 +20,5 @@ export enum KnownExperimentId {
   DIFF_RENDERING_LIT = 'UiFeature__diff_rendering_lit',
   PUSH_NOTIFICATIONS = 'UiFeature__push_notifications',
   RELATED_CHANGES_SUBMITTABILITY = 'UiFeature__related_changes_submittability',
-  MENTION_USERS = 'UIFeature_mention_users',
+  MENTION_USERS = 'UiFeature__mention_users',
 }

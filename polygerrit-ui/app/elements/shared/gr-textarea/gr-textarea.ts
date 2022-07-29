@@ -548,6 +548,14 @@ export class GrTextarea extends LitElement {
 
     const text = e.detail.value ?? '';
 
+    if (this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) {
+      // specialCharIndex needs to be assigned before isMentionsDropdownActive
+      // is called
+      if (charAtCursor === '@' && this.specialCharIndex === null) {
+        this.specialCharIndex = this.getSpecialCharIndex(text);
+      }
+    }
+
     if (!this.isMentionsDropdownActive()) {
       if (charAtCursor === ':' && this.specialCharIndex === null) {
         this.specialCharIndex = this.getSpecialCharIndex(text);
@@ -566,9 +574,6 @@ export class GrTextarea extends LitElement {
 
     if (!this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) return;
 
-    if (charAtCursor === '@' && this.specialCharIndex === null) {
-      this.specialCharIndex = this.getSpecialCharIndex(text);
-    }
     if (this.specialCharIndex !== null) {
       this.openOrResetDropdown(
         this.mentionsSuggestions!,

@@ -63,6 +63,23 @@
       "message": "May be we should move that change to main branch to have a better visibility, and agreed on the approach there and backport it to earlier branches?",
       "revId": "4890c9e783354d335b5c6d9a8b4597035eb5c0f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66cc5396_a79da134",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-07-29T12:50:08Z",
+      "side": 1,
+      "message": "Firstly, but just personally, I don\u0027t like the \"mark file reviewed\" feature much and would love to get rid of it. :-)\n\nI would support a server config for turning this of, maybe in java/com/google/gerrit/extensions/common/ChangeConfigInfo.java. This is where we had added the flags for attention set and assignee.\n\nIf we agree to go for a config approach, but don\u0027t want to backport that to stable branches, then I would also be ok with allowing this \"hack\" in stable branches, but I would prefer to not merge this into the main branch.\n\n",
+      "revId": "4890c9e783354d335b5c6d9a8b4597035eb5c0f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26b9b8f1_f8304f42",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-07-29T13:01:47Z",
+      "side": 1,
+      "message": "nit: Add return type. And maybe a function description that explains what is a \"tagged email\"",
+      "range": {
+        "startLine": 206,
+        "startChar": 16,
+        "endLine": 206,
+        "endChar": 35
+      },
+      "revId": "44e16074d31e07ccaaa9262664ce05a88e36d125",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58f19dfa_f38baf1c",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-07-29T13:01:47Z",
+      "side": 1,
+      "message": "If we end up using regex anyway, why are we looking for leading @ separately, instead of looking for something like\n\n\"\\b@\" + EMAIL_REGEX\n\nAlso, the EMAIL_REGEX doesn\u0027t look for word boundary at the end. So something like @a@b.c%63 would be recognized as the valid email (though it will leave out the %63 part).",
+      "range": {
+        "startLine": 206,
+        "startChar": 0,
+        "endLine": 218,
+        "endChar": 16
+      },
+      "revId": "44e16074d31e07ccaaa9262664ce05a88e36d125",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

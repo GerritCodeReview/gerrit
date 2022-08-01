@@ -12,8 +12,12 @@ suite('service woerker installler tests', () => {
 
   setup(() => {
     const flagsService = getAppContext().flagsService;
+    const userModel = getAppContext().userModel;
     sinon.stub(flagsService, 'isEnabled').returns(true);
-    serviceWorkerInstaller = new ServiceWorkerInstaller(flagsService);
+    serviceWorkerInstaller = new ServiceWorkerInstaller(
+      flagsService,
+      userModel
+    );
   });
 
   test('init', () => {

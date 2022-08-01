@@ -6,6 +6,8 @@
 
 import {FlagsService, KnownExperimentId} from './flags/flags';
 import {registerServiceWorker} from '../utils/worker-util';
+import {UserModel} from '../models/user/user-model';
+import {AccountDetailInfo} from '../api/rest-api';
 
 /** Type of incoming messages for ServiceWorker. */
 export enum ServiceWorkerMessageType {
@@ -17,7 +19,14 @@ export const TRIGGER_NOTIFICATION_UPDATES_MS = 5 * 60 * 1000;
 export class ServiceWorkerInstaller {
   initialized = false;
 
-  constructor(private readonly flagsService: FlagsService) {}
+  account?: AccountDetailInfo;
+
+  constructor(
+    private readonly flagsService: FlagsService,
+    private readonly userModel: UserModel
+  ) {
+    this.userModel.account$.subscribe(acc => (this.account = acc));
+  }
 
   async init() {
     if (this.initialized) return;
@@ -44,6 +53,7 @@ export class ServiceWorkerInstaller {
       this.startTriggerTimer();
       navigator.serviceWorker.controller?.postMessage({
         type: ServiceWorkerMessageType.TRIGGER_NOTIFICATIONS,
+        account: this.account,
       });
     }, TRIGGER_NOTIFICATION_UPDATES_MS);
   }

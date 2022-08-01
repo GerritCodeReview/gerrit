@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5be11420_6d773b00",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2128,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-01T20:08:51Z",
+      "side": 1,
+      "message": "I suspect you\u0027ll want to try and align this endpoint closely to the existing \"Apply * Fix\" endpoints like https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#apply-provided-fix\n\nThat means it should create or update a change edit as the action and the response should be an EditInfo.",
+      "range": {
+        "startLine": 2128,
+        "startChar": 4,
+        "endLine": 2128,
+        "endChar": 27
+      },
+      "revId": "d621f14911a199fa54fcc5ffdfad639450270c44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

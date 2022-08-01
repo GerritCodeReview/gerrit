@@ -497,6 +497,7 @@ export class GrTextarea extends LitElement {
       suggestions = this.suggestions;
     } else {
       this.mentions = await this.determineReviewerSuggestions();
+      this.disableEnterKeyForSelectingSuggestion = false;
       suggestions = this.mentions;
     }
 

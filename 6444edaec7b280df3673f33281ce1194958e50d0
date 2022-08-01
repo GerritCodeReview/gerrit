@@ -86,6 +86,24 @@
       "parentUuid": "0585dfc9_f3ffa939",
       "revId": "6444edaec7b280df3673f33281ce1194958e50d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4414d5af_d73506d8",
+        "filename": "polygerrit-ui/app/utils/account-util_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-01T13:14:55Z",
+      "side": 1,
+      "message": "Did not realise there was a dot missing.\nAdded the test case.",
+      "parentUuid": "3d89bc66_9818383a",
+      "revId": "6444edaec7b280df3673f33281ce1194958e50d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

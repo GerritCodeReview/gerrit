@@ -155,11 +155,12 @@ export class GrAccountLabel extends LitElement {
           /* This negates the 4px horizontal padding, which we appreciate as a
          larger click target, but which we don't want to consume space. :-) */
           margin: 0 -4px 0 -4px;
+          --gr-button-padding: 0 var(--spacing-xs);
           vertical-align: top;
         }
         gr-icon.attention {
           color: var(--deemphasized-text-color);
-          font-size: 12px;
+          transform: scaleX(0.8);
         }
         .name {
           display: inline-block;
@@ -235,11 +236,16 @@ export class GrAccountLabel extends LitElement {
                   this.selected,
                   this._selfAccount
                 )}
-                ><gr-icon
-                  icon="label_important"
-                  filled
-                  class="attention"
-                ></gr-icon>
+              >
+                <div>
+                  <gr-icon
+                    icon="label_important"
+                    filled
+                    small
+                    class="attention"
+                  >
+                  </gr-icon>
+                </div>
               </gr-button>
             </gr-tooltip-content>`
           : ''}

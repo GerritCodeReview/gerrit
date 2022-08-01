@@ -121,11 +121,8 @@ export class GrChangeStatus extends LitElement {
           padding: 0;
         }
         :host(:not([flat])) .chip,
-        .icon {
+        :host(:not([flat])) .chip gr-icon {
           color: var(--status-text-color);
-        }
-        gr-icon {
-          font-size: 18px;
         }
       `,
     ];
@@ -158,7 +155,7 @@ export class GrChangeStatus extends LitElement {
         <div class="chip" aria-label="Label: ${this.status}">
           ${this.computeStatusString()}
           ${this.showResolveIcon()
-            ? html`<gr-icon icon="edit" filled></gr-icon>`
+            ? html`<gr-icon icon="edit" filled small></gr-icon>`
             : ''}
         </div>
       </a>

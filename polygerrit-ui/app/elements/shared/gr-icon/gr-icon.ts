@@ -21,7 +21,8 @@ declare global {
  * `icon`.
  *
  * @attr {String} icon - the icon to display
- * @attr {Boolean} filled - whether the icon should be filled.
+ * @attr {Boolean} filled - whether the icon should be filled
+ * @attr {Boolean} small - whether the icon should be smaller than usual
  */
 @customElement('gr-icon')
 export class GrIcon extends LitElement {
@@ -50,6 +51,11 @@ export class GrIcon extends LitElement {
           direction: ltr;
           font-variation-settings: 'FILL' 0;
           vertical-align: top;
+        }
+        :host([small]) {
+          font-size: 16px;
+          position: relative;
+          top: 2px;
         }
         :host([filled]) {
           font-variation-settings: 'FILL' 1;

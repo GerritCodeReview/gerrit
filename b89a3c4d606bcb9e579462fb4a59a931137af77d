@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "770203e3_6913c7c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-01T17:26:37Z",
+      "side": 1,
+      "message": "there is only one GrEndpointSlot so I am not sure what you mean by the correct slot?\n\nWhy do we expect the caller to provide the slot name then? I found these other occurrences [1] where the `slot` property is not required.\n\nWhat is the difference?\n\n[1] https://cs.opensource.google/gerrit/gerrit/plugins/code-owners/+/master:ui/plugin.js;l\u003d48?q\u003d%22plugin.registerCustomComponent%22",
+      "range": {
+        "startLine": 9,
+        "startChar": 34,
+        "endLine": 9,
+        "endChar": 59
+      },
+      "revId": "b89a3c4d606bcb9e579462fb4a59a931137af77d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

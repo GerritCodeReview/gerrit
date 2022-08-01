@@ -227,39 +227,44 @@ export class GrConfirmCherrypickDialog extends LitElement {
         @confirm=${this.handleConfirmTap}
         @cancel=${this.handleCancelTap}
       >
-        <div class="header title" slot="header">
-          Cherry Pick Change to Another Branch
-        </div>
-        <div class="main" slot="main">
-          ${when(this.showCherryPickTopic, () =>
-            this.renderCherrypickTopicLayout()
-          )}
-          <label for="branchInput"> Cherry Pick to branch </label>
-          <gr-autocomplete
-            id="branchInput"
-            .text=${this.branch}
-            .query=${this.query}
-            placeholder="Destination branch"
-            @text-changed=${(e: BindValueChangeEvent) =>
-              (this.branch = e.detail.value as BranchName)}
-          >
-          </gr-autocomplete>
-          ${when(
-            this.invalidBranch,
-            () => html`
-              <span class="error"
-                >Branch name cannot contain space or commas.</span
-              >
-            `
-          )}
-          ${choose(this.cherryPickType, [
-            [
-              CherryPickType.SINGLE_CHANGE,
-              () => this.renderCherrypickSingleChangeInputs(),
-            ],
-            [CherryPickType.TOPIC, () => this.renderCherrypickTopicTable()],
-          ])}
-        </div>
+        <gr-endpoint-decorator name="cherrypick">
+          <gr-endpoint-param name="changes" .value=${this.changes}>
+          </gr-endpoint-param>
+          <div class="header title" slot="header">
+            Cherry Pick Change to Another Branch
+          </div>
+          <gr-endpoint-slot name="below-title"></gr-endpoint-slot>
+          <div class="main" slot="main">
+            ${when(this.showCherryPickTopic, () =>
+              this.renderCherrypickTopicLayout()
+            )}
+            <label for="branchInput"> Cherry Pick to branch </label>
+            <gr-autocomplete
+              id="branchInput"
+              .text=${this.branch}
+              .query=${this.query}
+              placeholder="Destination branch"
+              @text-changed=${(e: BindValueChangeEvent) =>
+                (this.branch = e.detail.value as BranchName)}
+            >
+            </gr-autocomplete>
+            ${when(
+              this.invalidBranch,
+              () => html`
+                <span class="error"
+                  >Branch name cannot contain space or commas.</span
+                >
+              `
+            )}
+            ${choose(this.cherryPickType, [
+              [
+                CherryPickType.SINGLE_CHANGE,
+                () => this.renderCherrypickSingleChangeInputs(),
+              ],
+              [CherryPickType.TOPIC, () => this.renderCherrypickTopicTable()],
+            ])}
+          </div>
+        </gr-endpoint-decorator>
       </gr-dialog>
     `;
   }

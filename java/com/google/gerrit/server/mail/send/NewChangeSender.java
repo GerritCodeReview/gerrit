@@ -116,7 +116,7 @@ public abstract class NewChangeSender extends ChangeEmail {
       names.add(getNameFor(id));
     }
     for (Address address : removedByEmailReviewers) {
-      names.add(address.name());
+      names.add(address.toString());
     }
     return names;
   }

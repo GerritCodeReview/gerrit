@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e23f12b3_9ff4c850",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-01T09:24:56Z",
+      "side": 1,
+      "message": "I think this could be refactor to be easier to read.\n\nEspecially line 575 is confusing. Would it possible to split it to 2 methods?",
+      "range": {
+        "startLine": 551,
+        "startChar": 4,
+        "endLine": 585,
+        "endChar": 0
+      },
+      "revId": "cef7a7556a14cfebe1d91a1b41126f41e6c52dbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

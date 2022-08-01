@@ -22,6 +22,29 @@
       },
       "revId": "cf39ea39bb19a81cd1ca439fe5305afe0592f5e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdf6c20a_54d1d469",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-01T14:43:53Z",
+      "side": 1,
+      "message": "nit: make it b/240921554 so it\u0027s linkified for the reviewers.",
+      "range": {
+        "startLine": 13,
+        "startChar": 15,
+        "endLine": 13,
+        "endChar": 24
+      },
+      "revId": "cf39ea39bb19a81cd1ca439fe5305afe0592f5e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

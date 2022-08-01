@@ -16,6 +16,7 @@ package com.google.gerrit.server.index.group;
 
 import static com.google.gerrit.index.SchemaUtil.schema;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.SchemaDefinitions;
@@ -31,17 +32,27 @@ public class GroupSchemaDefinitions extends SchemaDefinitions<InternalGroup> {
   static final Schema<InternalGroup> V5 =
       schema(
           /* version= */ 5,
-          GroupField.CREATED_ON,
-          GroupField.DESCRIPTION,
-          GroupField.ID,
-          GroupField.IS_VISIBLE_TO_ALL,
-          GroupField.MEMBER,
-          GroupField.NAME,
-          GroupField.NAME_PART,
-          GroupField.OWNER_UUID,
-          GroupField.REF_STATE,
-          GroupField.SUBGROUP,
-          GroupField.UUID);
+          ImmutableList.of(GroupField.REF_STATE, GroupField.UUID),
+          ImmutableList.of(
+              GroupField.CREATED_ON_FIELD,
+              GroupField.DESCRIPTION_FIELD,
+              GroupField.ID_FIELD,
+              GroupField.IS_VISIBLE_TO_ALL_FIELD,
+              GroupField.MEMBER_FIELD,
+              GroupField.NAME_FIELD,
+              GroupField.NAME_PART_FIELD,
+              GroupField.OWNER_UUID_FIELD,
+              GroupField.SUBGROUP_FIELD),
+          ImmutableList.of(
+              GroupField.CREATED_ON_SPEC,
+              GroupField.DESCRIPTION_SPEC,
+              GroupField.ID_FIELD_SPEC,
+              GroupField.IS_VISIBLE_TO_ALL_SPEC,
+              GroupField.MEMBER_SPEC,
+              GroupField.NAME_SPEC,
+              GroupField.NAME_PART_SPEC,
+              GroupField.OWNER_UUID_SPEC,
+              GroupField.SUBGROUP_SPEC));
 
   // Bump Lucene version requires reindexing
   @Deprecated static final Schema<InternalGroup> V6 = schema(V5);

@@ -128,9 +128,7 @@ export class GrHovercardAccount extends base {
           top: 2px;
         }
         gr-icon.attentionIcon {
-          font-size: 14px;
-          position: relative;
-          top: 3px;
+          transform: scaleX(0.8);
         }
         gr-icon.linkIcon {
           font-size: var(--line-height-normal, 20px);
@@ -270,6 +268,7 @@ export class GrHovercardAccount extends base {
           <gr-icon
             icon="label_important"
             filled
+            small
             class="attentionIcon"
           ></gr-icon>
           <span> ${this.computePronoun()} turn to take action. </span>

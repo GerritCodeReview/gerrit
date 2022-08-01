@@ -46,6 +46,30 @@
       },
       "revId": "cef7a7556a14cfebe1d91a1b41126f41e6c52dbf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06d16b2c_a2284d08",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-01T13:05:35Z",
+      "side": 1,
+      "message": "Yeah, it\u0027s not easy. \n\nI think it would be best to take out mentions and emoji from gr-textarea and make them separate. This intertwining can create a lot of complicated bugs. But that\u0027s out of scope of this change. We can discuss it somewhere else.",
+      "parentUuid": "0f02c785_01667f3c",
+      "range": {
+        "startLine": 551,
+        "startChar": 4,
+        "endLine": 585,
+        "endChar": 0
+      },
+      "revId": "cef7a7556a14cfebe1d91a1b41126f41e6c52dbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

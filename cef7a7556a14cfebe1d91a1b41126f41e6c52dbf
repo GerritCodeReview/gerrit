@@ -22,6 +22,30 @@
       },
       "revId": "cef7a7556a14cfebe1d91a1b41126f41e6c52dbf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f02c785_01667f3c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-01T09:28:29Z",
+      "side": 1,
+      "message": "I think it\u0027s just because we are currently adding experimental code.\n\nI agree this doesn\u0027t look nice. Line 575 avoids running the code if the experiment is not enabled.\n\nDo you have any suggestions?\nI have looked at this quite a bit and feel it gets less readable the more I try to simplify. 😞",
+      "parentUuid": "e23f12b3_9ff4c850",
+      "range": {
+        "startLine": 551,
+        "startChar": 4,
+        "endLine": 585,
+        "endChar": 0
+      },
+      "revId": "cef7a7556a14cfebe1d91a1b41126f41e6c52dbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

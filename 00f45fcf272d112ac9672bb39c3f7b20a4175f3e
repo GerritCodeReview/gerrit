@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e0ce2f4e_d32396fa",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-01T11:52:29Z",
+      "side": 1,
+      "message": "It gets hard to differentiate when something is being checked because it\u0027s possible vs when it\u0027s impossible but we don\u0027t want to throw an error.\n\nIs the accountId undefined in some cases? If so mention the case where.\n\nIf not then comment that we don\u0027t expect it to be undefined but don\u0027t want to throw an error so it\u0027s clear to the reader.",
+      "parentUuid": "2164ed6d_cb1778ec",
+      "range": {
+        "startLine": 29,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 36
+      },
+      "revId": "00f45fcf272d112ac9672bb39c3f7b20a4175f3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "699c040d_230d98a8",
         "filename": "polygerrit-ui/app/workers/service-worker.ts",
         "patchSetId": 4

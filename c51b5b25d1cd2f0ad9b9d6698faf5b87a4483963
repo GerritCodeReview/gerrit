@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "067129ec_ae4a0e05",
+        "filename": "polygerrit-ui/app/utils/service-worker-util_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-01T11:52:29Z",
+      "side": 1,
+      "message": "test is hard to read since the timestamps are not in the same format.\n\nPerhaps comment/change format what this timestamp represents wrt the format of the `last_update` timestamp?",
+      "range": {
+        "startLine": 41,
+        "startChar": 6,
+        "endLine": 41,
+        "endChar": 19
+      },
+      "revId": "c51b5b25d1cd2f0ad9b9d6698faf5b87a4483963",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

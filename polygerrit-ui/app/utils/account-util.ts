@@ -26,8 +26,6 @@ import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
 
 export const ACCOUNT_TEMPLATE_REGEX = '<GERRIT_ACCOUNT_(\\d+)>';
 const SUGGESTIONS_LIMIT = 15;
-export const MENTIONS_REGEX =
-  /(?:^|\s)@([a-zA-Z0-9.!#$%&'*+=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*)(?:\s+|$)/g;
 
 export function accountKey(account: AccountInfo): AccountId | EmailAddress {
   if (account._account_id !== undefined) return account._account_id;
@@ -201,17 +199,4 @@ export function getAccountSuggestions(
       }
       return accountSuggestions;
     });
-}
-
-/**
- * Extracts the emails of mentioned users from a given text.
- * A user can be mentioned by triggering the mentions dropdown in a comment
- * by typing @ at the start of the comment or after a space.
- * The Mentions Regex first looks start of sentence or whitespace (?:^|\s) then
- * @ token which would have triggered the mentions dropdown and then looks
- * for the email token ending with a whitespace or end of string.
- */
-export function extractMentionedEmails(text?: string): EmailAddress[] {
-  if (!text) return [];
-  return [...text.matchAll(MENTIONS_REGEX)].map(m => m[1] as EmailAddress);
 }

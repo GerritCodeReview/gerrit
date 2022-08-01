@@ -144,10 +144,10 @@ export class GrEditableLabel extends LitElement {
         }
         gr-button gr-icon {
           color: inherit;
-          font-size: 18px;
         }
         gr-button.pencil {
-          --gr-button-padding: 0px 0px;
+          --gr-button-padding: var(--spacing-s);
+          --margin: calc(0px - var(--spacing-s));
         }
       `,
     ];
@@ -188,8 +188,11 @@ export class GrEditableLabel extends LitElement {
         class="pencil ${this.computeLabelClass()}"
         @click=${this.showDropdown}
         title=${this.computeLabel()}
-        ><gr-icon icon="edit" filled></gr-icon
-      ></gr-button>`;
+      >
+        <div>
+          <gr-icon icon="edit" filled small></gr-icon>
+        </div>
+      </gr-button>`;
     } else {
       return html`<label
         class=${this.computeLabelClass()}

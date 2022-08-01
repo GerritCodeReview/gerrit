@@ -39,7 +39,7 @@ import org.eclipse.jgit.lib.Repository;
 @Singleton
 public class StalenessChecker {
   public static final ImmutableSet<String> FIELDS =
-      ImmutableSet.of(GroupField.UUID.getName(), GroupField.REF_STATE.getName());
+      ImmutableSet.of(GroupField.UUID_FIELD_SPEC.getName(), GroupField.REF_STATE_SPEC.getName());
 
   private final GroupIndexCollection indexes;
   private final GitRepositoryManager repoManager;
@@ -84,7 +84,8 @@ public class StalenessChecker {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       Ref ref = repo.exactRef(RefNames.refsGroups(uuid));
       ObjectId head = ref == null ? ObjectId.zeroId() : ref.getObjectId();
-      ObjectId idFromIndex = ObjectId.fromString(result.get().getValue(GroupField.REF_STATE), 0);
+      ObjectId idFromIndex =
+          ObjectId.fromString(result.get().getValue(GroupField.REF_STATE_SPEC), 0);
       if (head.equals(idFromIndex)) {
         return StalenessCheckResult.notStale();
       }

@@ -30,7 +30,7 @@ public class GroupPredicates {
   }
 
   public static Predicate<InternalGroup> uuid(AccountGroup.UUID uuid) {
-    return new GroupPredicate(GroupField.UUID, GroupQueryBuilder.FIELD_UUID, uuid.get());
+    return new GroupPredicate(GroupField.UUID_FIELD_SPEC, GroupQueryBuilder.FIELD_UUID, uuid.get());
   }
 
   public static Predicate<InternalGroup> description(String description) {

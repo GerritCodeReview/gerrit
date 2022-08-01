@@ -71,6 +71,7 @@ mailing list):
 ** edit hashtags on all changes
 ** edit topics on all open changes
 ** abandon changes
+** revert changes
 * approve posts to the
   link:https://groups.google.com/d/forum/repo-discuss[repo-discuss,role=external,window=_blank]
   mailing list

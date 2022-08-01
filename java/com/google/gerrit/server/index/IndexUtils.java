@@ -94,9 +94,9 @@ public final class IndexUtils {
    */
   public static Set<String> groupFields(QueryOptions opts) {
     Set<String> fs = opts.fields();
-    return fs.contains(GroupField.UUID.getName())
+    return fs.contains(GroupField.UUID_FIELD_SPEC.getName())
         ? fs
-        : Sets.union(fs, ImmutableSet.of(GroupField.UUID.getName()));
+        : Sets.union(fs, ImmutableSet.of(GroupField.UUID_FIELD_SPEC.getName()));
   }
 
   /** Returns a index-friendly representation of a {@link CurrentUser} to be used in queries. */

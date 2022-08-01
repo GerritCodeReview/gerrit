@@ -32,7 +32,7 @@ public class GroupSchemaDefinitions extends SchemaDefinitions<InternalGroup> {
   static final Schema<InternalGroup> V5 =
       schema(
           /* version= */ 5,
-          ImmutableList.of(GroupField.REF_STATE, GroupField.UUID),
+          ImmutableList.of(),
           ImmutableList.of(
               GroupField.CREATED_ON_FIELD,
               GroupField.DESCRIPTION_FIELD,
@@ -42,7 +42,9 @@ public class GroupSchemaDefinitions extends SchemaDefinitions<InternalGroup> {
               GroupField.NAME_FIELD,
               GroupField.NAME_PART_FIELD,
               GroupField.OWNER_UUID_FIELD,
-              GroupField.SUBGROUP_FIELD),
+              GroupField.REF_STATE_FIELD,
+              GroupField.SUBGROUP_FIELD,
+              GroupField.UUID_FIELD),
           ImmutableList.of(
               GroupField.CREATED_ON_SPEC,
               GroupField.DESCRIPTION_SPEC,
@@ -52,7 +54,9 @@ public class GroupSchemaDefinitions extends SchemaDefinitions<InternalGroup> {
               GroupField.NAME_SPEC,
               GroupField.NAME_PART_SPEC,
               GroupField.OWNER_UUID_SPEC,
-              GroupField.SUBGROUP_SPEC));
+              GroupField.REF_STATE_SPEC,
+              GroupField.SUBGROUP_SPEC,
+              GroupField.UUID_FIELD_SPEC));
 
   // Bump Lucene version requires reindexing
   @Deprecated static final Schema<InternalGroup> V6 = schema(V5);

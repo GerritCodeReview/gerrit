@@ -36,9 +36,9 @@ public class IndexedGroupQuery extends IndexedQuery<AccountGroup.UUID, InternalG
   public static QueryOptions createOptions(
       IndexConfig config, int start, int limit, Set<String> fields) {
     // Always include GroupField.UUID since it is needed to load the group from NoteDb.
-    if (!fields.contains(GroupField.UUID.getName())) {
+    if (!fields.contains(GroupField.UUID_FIELD_SPEC.getName())) {
       fields = new HashSet<>(fields);
-      fields.add(GroupField.UUID.getName());
+      fields.add(GroupField.UUID_FIELD_SPEC.getName());
     }
     return QueryOptions.create(config, start, limit, fields);
   }

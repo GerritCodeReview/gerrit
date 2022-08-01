@@ -119,8 +119,6 @@ export class GrTextarea extends LitElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
-  private disableEnterKeyForSelectingSuggestion = false;
-
   private changeNum?: NumericChangeId;
 
   /** Called in disconnectedCallback. */
@@ -350,7 +348,6 @@ export class GrTextarea extends LitElement {
     e.stopPropagation();
     this.getVisibleDropdown().cursorUp();
     this.textarea!.textarea.focus();
-    this.disableEnterKeyForSelectingSuggestion = false;
   }
 
   private handleDownKey(e: KeyboardEvent) {
@@ -361,7 +358,6 @@ export class GrTextarea extends LitElement {
     e.stopPropagation();
     this.getVisibleDropdown().cursorDown();
     this.textarea!.textarea.focus();
-    this.disableEnterKeyForSelectingSuggestion = false;
   }
 
   private handleTabKey(e: KeyboardEvent) {
@@ -369,7 +365,7 @@ export class GrTextarea extends LitElement {
     // has only typed ':'.
     if (
       !this.isDropdownVisible() ||
-      this.disableEnterKeyForSelectingSuggestion
+      (this.isEmojiDropdownActive() && this.currentSearchString === '')
     ) {
       return;
     }
@@ -384,7 +380,7 @@ export class GrTextarea extends LitElement {
     // has only typed ':'. Also make sure that shortcuts aren't clobbered.
     if (
       !this.isDropdownVisible() ||
-      this.disableEnterKeyForSelectingSuggestion
+      (this.isEmojiDropdownActive() && this.currentSearchString === '')
     ) {
       this.indent(e);
       return;
@@ -606,13 +602,11 @@ export class GrTextarea extends LitElement {
   determineEmojiSuggestions(suggestionsText: string) {
     if (!suggestionsText.length) {
       this.formatSuggestions(ALL_SUGGESTIONS);
-      this.disableEnterKeyForSelectingSuggestion = true;
     } else {
       const matches = ALL_SUGGESTIONS.filter(suggestion =>
         suggestion.match.includes(suggestionsText)
       ).slice(0, MAX_ITEMS_DROPDOWN);
       this.formatSuggestions(matches);
-      this.disableEnterKeyForSelectingSuggestion = false;
     }
   }
 

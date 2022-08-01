@@ -16,7 +16,6 @@ package com.google.gerrit.server.index.group;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.index.FieldDef.exact;
-import static com.google.gerrit.index.FieldDef.storedOnly;
 
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.entities.Account;
@@ -46,6 +45,15 @@ public class GroupField {
   /** Group UUID. */
   public static final FieldDef<InternalGroup, String> UUID =
       exact("uuid").stored().build(g -> g.getGroupUUID().get());
+
+  public static final IndexedField<InternalGroup, String> UUID_FIELD =
+      IndexedField.<InternalGroup>stringBuilder("UUID")
+          .required()
+          .stored()
+          .build(g -> g.getGroupUUID().get());
+
+  public static final IndexedField<InternalGroup, String>.SearchSpec UUID_FIELD_SPEC =
+      UUID_FIELD.exact("uuid");
 
   /** Group owner UUID. */
   public static final IndexedField<InternalGroup, String> OWNER_UUID_FIELD =
@@ -120,12 +128,17 @@ public class GroupField {
       SUBGROUP_FIELD.exact("subgroup");
 
   /** ObjectId of HEAD:refs/groups/<UUID>. */
-  public static final FieldDef<InternalGroup, byte[]> REF_STATE =
-      storedOnly("ref_state")
+  public static final IndexedField<InternalGroup, byte[]> REF_STATE_FIELD =
+      IndexedField.<InternalGroup>byteArrayBuilder("RefState")
+          .stored()
+          .required()
           .build(
               g -> {
                 byte[] a = new byte[ObjectIds.STR_LEN];
                 MoreObjects.firstNonNull(g.getRefState(), ObjectId.zeroId()).copyTo(a, 0);
                 return a;
               });
+
+  public static final IndexedField<InternalGroup, byte[]>.SearchSpec REF_STATE_SPEC =
+      REF_STATE_FIELD.storedOnly("ref_state");
 }

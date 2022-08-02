@@ -119,6 +119,7 @@ import {
   TagInput,
   TopMenuEntryInfo,
   UrlEncodedCommentId,
+  FixReplacementInfo,
 } from '../../types/common';
 import {
   DiffInfo,
@@ -2092,6 +2093,23 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     });
   }
 
+  getFixPreview(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum,
+    fixReplacementInfos: FixReplacementInfo[]
+  ): Promise<FilePathToDiffInfoMap | undefined> {
+    return this._getChangeURLAndSend({
+      method: HttpMethod.POST,
+      changeNum,
+      patchNum,
+      endpoint: '/fix:preview',
+      reportEndpointAsId: true,
+      headers: {Accept: 'application/json'},
+      parseResponse: true,
+      body: {fix_replacement_infos: fixReplacementInfos},
+    }) as Promise<FilePathToDiffInfoMap | undefined>;
+  }
+
   getRobotCommentFixPreview(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
@@ -2106,6 +2124,22 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   applyFixSuggestion(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum,
+    fixReplacementInfos: FixReplacementInfo[]
+  ): Promise<Response> {
+    return this._getChangeURLAndSend({
+      method: HttpMethod.POST,
+      changeNum,
+      patchNum,
+      endpoint: '/fix:apply',
+      reportEndpointAsId: true,
+      headers: {Accept: 'application/json'},
+      body: {fix_replacement_infos: fixReplacementInfos},
+    });
+  }
+
+  applyRobotFixSuggestion(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     fixId: string

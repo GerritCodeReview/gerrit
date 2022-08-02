@@ -477,20 +477,16 @@ export class GrChangeListItem extends LitElement {
         ColumnNames.REPO,
         this.visibleChangeTableColumns
       )
-    )
+    ) {
       return;
+    }
 
+    const repo = this.change?.project ?? '';
     return html`
       <td class="cell repo">
-        <a class="fullRepo" href=${this.computeRepoUrl()}>
-          ${this.computeRepoDisplay()}
-        </a>
-        <a
-          class="truncatedRepo"
-          href=${this.computeRepoUrl()}
-          title=${this.computeRepoDisplay()}
-        >
-          ${this.computeTruncatedRepoDisplay()}
+        <a class="fullRepo" href=${this.computeRepoUrl()}> ${repo} </a>
+        <a class="truncatedRepo" href=${this.computeRepoUrl()} title=${repo}>
+          ${truncatePath(repo, 2)}
         </a>
       </td>
     `;
@@ -655,11 +651,7 @@ export class GrChangeListItem extends LitElement {
 
   private computeRepoUrl() {
     if (!this.change) return '';
-    return GerritNav.getUrlForProjectChanges(
-      this.change.project,
-      true,
-      this.change.internalHost
-    );
+    return GerritNav.getUrlForProjectChanges(this.change.project, true);
   }
 
   private computeRepoBranchURL() {
@@ -667,55 +659,19 @@ export class GrChangeListItem extends LitElement {
     return GerritNav.getUrlForBranch(
       this.change.branch,
       this.change.project,
-      undefined,
-      this.change.internalHost
+      undefined
     );
   }
 
   private computeTopicURL() {
     if (!this.change?.topic) return '';
-    return GerritNav.getUrlForTopic(
-      this.change.topic,
-      this.change.internalHost
-    );
-  }
-
-  /**
-   * Computes the display string for the project column. If there is a host
-   * specified in the change detail, the string will be prefixed with it.
-   *
-   * @param truncate whether or not the project name should be
-   * truncated. If this value is truthy, the name will be truncated.
-   *
-   * private but used in test
-   */
-  computeRepoDisplay() {
-    if (!this.change?.project) return '';
-    let str = '';
-    if (this.change.internalHost) {
-      str += this.change.internalHost + '/';
-    }
-    str += this.change.project;
-    return str;
+    return GerritNav.getUrlForTopic(this.change.topic);
   }
 
   private toggleCheckbox() {
     assertIsDefined(this.change, 'change');
     this.checked = !this.checked;
     this.getBulkActionsModel().toggleSelectedChangeNum(this.change._number);
-  }
-
-  // private but used in test
-  computeTruncatedRepoDisplay() {
-    if (!this.change?.project) {
-      return '';
-    }
-    let str = '';
-    if (this.change.internalHost) {
-      str += this.change.internalHost + '/';
-    }
-    str += truncatePath(this.change.project, 2);
-    return str;
   }
 
   // private but used in test

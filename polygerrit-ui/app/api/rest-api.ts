@@ -407,7 +407,6 @@ export declare interface ChangeInfo {
   cherry_pick_of_change?: NumericChangeId;
   cherry_pick_of_patch_set?: RevisionPatchSetNum;
   contains_git_conflicts?: boolean;
-  internalHost?: string; // TODO(TS): provide an explanation what is its
   submit_requirements?: SubmitRequirementResultInfo[];
   submit_records?: SubmitRecordInfo[];
 }

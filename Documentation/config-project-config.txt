@@ -390,7 +390,7 @@ branch. That is, the change must already contain the tip of the destination
 branch at submit time.
 
 [[cherry_pick]]
-* 'cherry pick' (usage not recommended, user link:#rebase_always[rebase always]
+* 'cherry pick' (usage not recommended, use link:#rebase_always[rebase always]
 instead):
 +
 With this submit action Gerrit always performs a cherry pick of the current

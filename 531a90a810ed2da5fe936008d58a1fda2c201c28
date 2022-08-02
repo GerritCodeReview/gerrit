@@ -70,6 +70,30 @@
       },
       "revId": "531a90a810ed2da5fe936008d58a1fda2c201c28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b8223e1_fe156364",
+        "filename": "java/com/google/gerrit/server/index/group/GroupField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-08-02T12:37:58Z",
+      "side": 1,
+      "message": "Ack.\nSame points apply to our current implementation.\n\nSure, there may be a better way and I suggest we discuss any refactoring ideas offline.\nFor now, I am going to stick with the current implementation to save the time.",
+      "parentUuid": "21dda158_f5cfd35e",
+      "range": {
+        "startLine": 41,
+        "startChar": 50,
+        "endLine": 41,
+        "endChar": 52
+      },
+      "revId": "531a90a810ed2da5fe936008d58a1fda2c201c28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -179,7 +179,7 @@ export class GrAccessSection extends LitElement {
                 class=${this.section?.id === GLOBAL_NAME ? 'global' : ''}
                 @click=${this.editReference}
               >
-                <gr-icon id="icon" icon="edit"></gr-icon>
+                <gr-icon id="icon" icon="edit" filled small></gr-icon>
               </gr-button>
             </div>
             <iron-input

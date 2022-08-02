@@ -73,15 +73,14 @@ export class GrReviewerList extends LitElement {
         }
         .addReviewer gr-icon {
           color: inherit;
-          font-size: 18px;
         }
         .controlsContainer {
           display: inline-block;
         }
         gr-button.addReviewer {
-          --gr-button-padding: 1px 0px;
           vertical-align: top;
-          top: 1px;
+          --gr-button-padding: var(--spacing-s);
+          --margin: calc(0px - var(--spacing-s));
         }
         gr-button {
           line-height: var(--line-height-normal);
@@ -117,7 +116,10 @@ export class GrReviewerList extends LitElement {
               class="addReviewer"
               @click=${this.handleAddTap}
               title=${this.ccsOnly ? 'Add CC' : 'Add reviewer'}
-              ><gr-icon icon="edit" filled></gr-icon>
+            >
+              <div>
+                <gr-icon icon="edit" filled small></gr-icon>
+              </div>
             </gr-button>
           </div>
         </div>

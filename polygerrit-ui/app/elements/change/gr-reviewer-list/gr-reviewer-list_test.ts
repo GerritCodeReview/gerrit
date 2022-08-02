@@ -39,7 +39,9 @@ suite('gr-reviewer-list tests', () => {
               tabindex="0"
               title="Add reviewer"
             >
-              <gr-icon icon="edit" filled></gr-icon>
+              <div>
+                <gr-icon icon="edit" filled small></gr-icon>
+              </div>
             </gr-button>
           </div>
         </div>

@@ -84,7 +84,7 @@ suite('gr-access-section tests', () => {
                   role="button"
                   tabindex="0"
                 >
-                  <gr-icon icon="edit" id="icon"></gr-icon>
+                  <gr-icon icon="edit" id="icon" small filled></gr-icon>
                 </gr-button>
               </div>
               <iron-input class="editRefInput">

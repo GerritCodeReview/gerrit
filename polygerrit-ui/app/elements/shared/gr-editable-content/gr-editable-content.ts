@@ -25,6 +25,7 @@ import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 import {nothing} from 'lit';
 import {classMap} from 'lit/directives/class-map';
 import {when} from 'lit/directives/when';
+import {fontStyles} from '../../../styles/gr-font-styles';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
@@ -110,6 +111,7 @@ export class GrEditableContent extends LitElement {
   static override get styles() {
     return [
       sharedStyles,
+      fontStyles,
       css`
         :host {
           display: block;
@@ -166,7 +168,6 @@ export class GrEditableContent extends LitElement {
         }
         .show-all-container gr-icon {
           color: inherit;
-          font-size: 18px;
         }
         .cancel-button {
           margin-right: var(--spacing-l);
@@ -175,8 +176,6 @@ export class GrEditableContent extends LitElement {
           margin-right: var(--spacing-xs);
         }
         gr-button {
-          font-family: var(--font-family);
-          line-height: var(--line-height-normal);
           padding: var(--spacing-xs);
         }
       `,
@@ -233,7 +232,7 @@ export class GrEditableContent extends LitElement {
       return nothing;
 
     return html`
-      <div class="show-all-container">
+      <div class="show-all-container font-normal">
         ${when(
           this.commitCollapsible && !this.editing,
           () => html`
@@ -242,15 +241,17 @@ export class GrEditableContent extends LitElement {
               class="show-all-button"
               @click=${this.toggleCommitCollapsed}
             >
-              ${when(
-                !this.commitCollapsed,
-                () => html`<gr-icon icon="expand_less"></gr-icon>`
-              )}
-              ${when(
-                this.commitCollapsed,
-                () => html`<gr-icon icon="expand_more"></gr-icon>`
-              )}
-              ${this.commitCollapsed ? 'Show all' : 'Show less'}
+              <div>
+                ${when(
+                  !this.commitCollapsed,
+                  () => html`<gr-icon icon="expand_less" small></gr-icon>`
+                )}
+                ${when(
+                  this.commitCollapsed,
+                  () => html`<gr-icon icon="expand_more" small></gr-icon>`
+                )}
+                <span>${this.commitCollapsed ? 'Show all' : 'Show less'}</span>
+              </div>
             </gr-button>
             <div class="flex-space"></div>
           `
@@ -263,7 +264,10 @@ export class GrEditableContent extends LitElement {
               class="edit-commit-message"
               title="Edit commit message"
               @click=${this.handleEditCommitMessage}
-              ><gr-icon icon="edit" filled></gr-icon> Edit</gr-button
+              ><div>
+                <gr-icon icon="edit" filled small></gr-icon>
+                <span>Edit</span>
+              </div></gr-button
             >
           `
         )}

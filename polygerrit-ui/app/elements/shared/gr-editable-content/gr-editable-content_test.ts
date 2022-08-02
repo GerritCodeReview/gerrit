@@ -27,7 +27,7 @@ suite('gr-editable-content tests', () => {
       <div class="collapsed viewer">
         <slot> </slot>
       </div>
-      <div class="show-all-container">
+      <div class="show-all-container font-normal">
         <gr-button
           aria-disabled="false"
           class="show-all-button"
@@ -35,8 +35,10 @@ suite('gr-editable-content tests', () => {
           role="button"
           tabindex="0"
         >
-          <gr-icon icon="expand_more"></gr-icon>
-          Show all
+          <div>
+            <gr-icon icon="expand_more" small></gr-icon>
+            <span>Show all</span>
+          </div>
         </gr-button>
         <div class="flex-space"></div>
         <gr-button
@@ -47,8 +49,10 @@ suite('gr-editable-content tests', () => {
           tabindex="0"
           title="Edit commit message"
         >
-          <gr-icon icon="edit" filled></gr-icon>
-          Edit
+          <div>
+            <gr-icon icon="edit" filled small></gr-icon>
+            <span>Edit</span>
+          </div>
         </gr-button>
       </div>
       <gr-endpoint-slot name="above-actions"> </gr-endpoint-slot>

@@ -328,7 +328,7 @@ export class GrApplyFixDialog extends LitElement {
       throw new Error('Not all required properties are set.');
     }
     this.isApplyFixLoading = true;
-    const res = await this.restApiService.applyFixSuggestion(
+    const res = await this.restApiService.applyRobotFixSuggestion(
       changeNum,
       patchNum,
       this.currentFix.fix_id

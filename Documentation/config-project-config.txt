@@ -415,10 +415,6 @@ and may be useful if the project needs to follow submits with
 If the change being submitted is a strict superset of the destination branch,
 then the branch is fast-forwarded to the change. If not, then the change is
 automatically rebased and then the branch is fast-forwarded to the change.
-+
-When Gerrit tries to do a merge, by default the merge will only succeed if
-there is no path conflict. A path conflict occurs when the same file has also
-been changed on the other side of the merge.
 
 [[rebase_always]]
 * 'rebase always':
@@ -507,6 +503,12 @@ configuration. Configuring `Inherit` for the `All-Projects` root project is
 equivalent to configuring link:#merge_if_necessary[merge if necessary].
 +
 If `submit.action` is not set, the default is 'merge if necessary'.
++
+NOTE: If Gerrit performs a merge, rebase or cherry-pick as part of the
+change submission (true for all submit actions, except for
+link:#fast_forward_only[fast forward only]), it is controlled by the
+link:#submit.mergeContent[mergeContent] setting whether a content merge is
+performed when there is a path conflict.
 +
 NOTE: For the value of `submit.action` in `project.config` use the exact
 spelling as given above, e.g. 'merge if necessary' (without the single quotes,

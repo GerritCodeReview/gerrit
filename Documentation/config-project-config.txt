@@ -332,7 +332,7 @@ contents from both sides of the merge. This is successful if the touched lines
 distinct lines).
 +
 NOTE: The content merge setting is not relevant when
-link:#fast-forward-only[fast forward only] is configured as the
+link:#fast_forward_only[fast forward only] is configured as the
 link:#submit.action[submit action] because in this case Gerrit will never
 perform a merge, rebase or cherry-pick on submit.
 +
@@ -395,10 +395,25 @@ The following submit actions are supported:
 [[merge_if_necessary]]
 * 'merge if necessary':
 +
-If the change being submitted is a strict superset of the destination branch,
-then the branch is fast-forwarded to the change. If not, then a merge commit is
-automatically created. This is identical to the classical `git merge` behavior,
- or `git merge --ff`.
+With this action, when a change is being submitted, Gerrit fast-forwards the
+target branch if possible, and otherwise creates a merge commit automatically.
++
+A fast-forward is possible if the commit that represents the current patch set
+of the change has the current head of the target branch in its parent lineage.
++
+If a fast-forward is not possible, Gerrit automatically creates a merge commit
+that merges the current patch set of the change into the target branch and then
+the target branch is fast-forwarded to the merge commit.
++
+The behavior of this submit action is identical with the classical `git merge`
+behavior, or
+link:https://git-scm.com/docs/git-merge#Documentation/git-merge.txt---ff[git
+merge --ff].
++
+With this submit action the commits that have been reviewed and approved are
+retained in the git history of the target branch. This means, by looking at the
+history of the target branch, you can see for all commits when they were
+originally committed and on which parent commit they were originally based.
 
 [[always_merge]]
 [[merge_always]]
@@ -412,9 +427,28 @@ and may be useful if the project needs to follow submits with
 [[rebase_if_necessary]]
 * 'rebase if necessary':
 +
-If the change being submitted is a strict superset of the destination branch,
-then the branch is fast-forwarded to the change. If not, then the change is
-automatically rebased and then the branch is fast-forwarded to the change.
+With this action, when a change is being submitted, Gerrit fast-forwards the
+target branch if possible, and otherwise does a rebase automatically.
++
+A fast-forward is possible if the commit that represents the current patch set
+of the change has the current head of the target branch in its parent lineage.
++
+If a fast-forward is not possible, Gerrit automatically rebases the current
+patch set of the change on top of the current head of the target branch and
+then the target branch is fast-forwarded to the rebased commit.
++
+With this submit action, when a rebase is performed, the original commits that
+have been reviewed and approved do not become part of the target branch's
+history. This means the information on when the original commits were committed
+and on which parent they were based is not retained in the branch history.
++
+Using this submit action results in a linear history of the target branch,
+unless merge commits are being submitted. For some people this is an advantage
+since they find the linear history easier to read.
++
+NOTE: Rebasing merge commits is not supported. If a change with a merge commit
+is submitted the link:#merge_if_necessary[merge if necessary] submit action is
+applied.
 
 [[rebase_always]]
 * 'rebase always':

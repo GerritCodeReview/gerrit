@@ -379,15 +379,34 @@ Thus, `rebase always` can be considered similar to `cherry pick`, but with the
 important distinction that `rebase always` does not ignore dependencies.
 
 [[fast_forward_only]]
-* 'fast forward only':
+* 'fast forward only' (usage generally not recommended):
 +
-With this action Gerrit does not create merge commits on submitting a change.
-Merge commits may still be submitted, but they must be created on the client
-prior to uploading to Gerrit for review.
+With this action a change can only be submitted if at submit time the target
+branch can be fast-forwarded to the commit that represents the current patch
+set of the change. This means in order for a change to be submittable its
+current patch set must have the current head of the target branch in its parent
+lineage.
 +
-To submit a change, the change must be a strict superset of the destination
-branch. That is, the change must already contain the tip of the destination
-branch at submit time.
+The advantage of using this action is that the target branch is always updated
+to the exact commit that has been reviewed and approved. In particular, if CI
+verification is configured, this means that the CI verified the exact commit to
+which the target branch is being fast-forwarded on submit (assuming no approval
+copying is configured for CI votes).
++
+The huge drawback of using this action is that whenever one change is submitted
+all other open changes for the same branch, that are not successors of the
+submitted change, become non-submittable, since the target branch can no longer
+be fast-forwarded to their current patch sets. Making these changes submittable
+again requires rebasing and re-approving/re-verifying them. For most projects
+this causes an unreasonable amount of overhead that doesn't justify the
+stability gain by verifying exact commits so that using this submit action is
+generally discouraged. Using this action should only be considered for projects
+that have a low frequency of changes and that have special requirements to
+never break any target branch.
++
+NOTE: With this submit action Gerrit does not create merge commits on
+submitting a change, but merge commits that are created on the client, prior to
+uploading to Gerrit for review, may still be submitted.
 
 [[cherry_pick]]
 * 'cherry pick' (usage not recommended, use link:#rebase_always[rebase always]

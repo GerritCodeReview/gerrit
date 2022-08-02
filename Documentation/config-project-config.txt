@@ -319,11 +319,64 @@ submit settings:
 
 [[content_merge]]submit.mergeContent::
 +
-Defines whether Gerrit will try to
-do a content merge when a path conflict occurs. Valid values are
-'true', 'false', or 'INHERIT'.  Default is 'INHERIT'. This option can
-be modified by any project owner through the project console, `Browse`
-> `Repositories` > my/project > `Allow content merges`.
+Defines whether Gerrit will try to do a content merge when a path conflict
+occurs while submitting a change.
++
+A path conflict occurs when the same file has been changed on both sides of a
+merge, e.g. when the same file has been touched in a change and concurrently in
+the target branch.
++
+Doing a content merge means that Gerrit attempts to merge the conflicting file
+contents from both sides of the merge. This is successful if the touched lines
+(plus some surrounding context lines) do not overlap (i.e. both sides touch
+distinct lines).
++
+NOTE: The content merge setting is not relevant when
+link:#fast-forward-only[fast forward only] is configured as the
+link:#submit.action[submit action] because in this case Gerrit will never
+perform a merge, rebase or cherry-pick on submit.
++
+If content merges are disabled, any path conflict that occurs when submitting a
+change will cause the submission to fail. Users then need to rebase the change
+manually to resolve the path conflict, get the change re-approved and submit it
+again.
++
+NOTE: If only distinct lines have been touched on both sides, rebasing the
+change from the Gerrit UI is sufficient to resolve the path conflict, since the
+rebase action always does the rebase with content merge enabled.
++
+The advantage of enabling content merges on submit is that it makes it less
+likely that change submissions are rejected due to conflicts. Each change
+submission that goes through with content merge, but would be rejected
+otherwise, safes the user from needing to do extra work to get the change
+submitted (rebase the change, get it re-approved and then submit it again).
++
+On the other hand, disabling content merges decreases the chance of breaking
+branches by submitting content merges of incompatible modifications in the same
+file, e.g. a function is removed on one side and a new usage of that function
+is added on the other side. Note, that the chance of breaking a branch by
+incompatible modifications is only reduced, but not eliminated, e.g. even with
+content merges disabled it's possible that a function is removed in one file
+and a new usage of that function is added in another file.
++
+The huge drawback of disabling content merge is that users need to do extra
+work when a change isn't submittable due to a path conflict which could be
+avoided if content merge was enabled (see above). In addition to this, it also
+confuses and frustrates users if a change submission is rejected by Gerrit due
+to a path conflict, but then when they rebase the change manually they do not
+see any conflict (because manual rebases are always done with content merge
+enabled).
++
+In general, the stability gain of disabling content merges is not worth the
+overhead and confusion that this adds for users, which is why disabling content
+merges is highly discouraged.
++
+Valid values are `true`, `false`, or `INHERIT`.
++
+The default is `INHERIT`.
++
+NOTE: Project owners can also set this option in the Gerrit UI:
+`Browse` > `Repositories` > my/project > `Allow content merges`.
 
 [[submit.action]]submit.action::
 +

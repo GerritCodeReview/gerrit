@@ -22,6 +22,30 @@
       },
       "revId": "b89a3c4d606bcb9e579462fb4a59a931137af77d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee6212d9_b592a791",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-02T07:12:09Z",
+      "side": 1,
+      "message": "You can add endpoints with a slot and without a slot.\n\nMost endpoints don\u0027t have a slot. Then you just do `registerCustomComponent()` without providing a slot name. Your component will then we added as a direct child to the shadow DOM of the endpoint decorator with a simple `appendChild()`: https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.ts;l\u003d88;drc\u003d02ebc8e1de4b29a03b37fa09afd86d4fde1fe524\n\nTao has introduced endpoint slots at some point, because:\n1. We sometimes have one component that we want to open up for extension by plugins, but we want to allow various positions in the component. A good example is the reply dialog.\n2. This makes it easier to add more endpoints to one component.\n3. This makes refactoring easier, because you have an easier time moving slots around. Or adding/removing them.\n4. It also seems cleaner and makes semantically more sense: You add 1 endpoint at the top-level of the component, which makes the component extensible. Then you add 1 or more slots where the plugins can actually position their extensions.\n\nSo I am using a slot here, because I like that approach very much and think we should prefer it. But technically it is not required. We could also use an endpoint without a slot in this case.\n\nMakes sense?",
+      "parentUuid": "770203e3_6913c7c7",
+      "range": {
+        "startLine": 9,
+        "startChar": 34,
+        "endLine": 9,
+        "endChar": 59
+      },
+      "revId": "b89a3c4d606bcb9e579462fb4a59a931137af77d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

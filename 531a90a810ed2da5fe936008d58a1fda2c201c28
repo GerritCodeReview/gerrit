@@ -46,6 +46,30 @@
       },
       "revId": "531a90a810ed2da5fe936008d58a1fda2c201c28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21dda158_f5cfd35e",
+        "filename": "java/com/google/gerrit/server/index/group/GroupField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-08-02T11:53:10Z",
+      "side": 1,
+      "message": "Ok, I don\u0027t want to block you on submission, but I think we should do another round of review for schema definition in the nearest time.\nThe current implementation requires to define a field based on the internal google storage implementation and then this definition is used to define the actual search field. I.e. our internal-google details \"leak\" to open-source code.\nI see the following problems with the current implementation:\n1) Any changes in internal data-structure should be propagated through the open-source;\n2) Switching to other storage internally (inside google) are very hard - probably we will need to rework this field again and this can be problematic if some other solution already depends on it.\n3) We make open-source more rigid - using other storages are limited by internal google product.\n\nI would like to apply a minimum change to open source code - i.e. add some extensions points and then internally we can add required information.",
+      "parentUuid": "4e4e55ff_7f549e68",
+      "range": {
+        "startLine": 41,
+        "startChar": 50,
+        "endLine": 41,
+        "endChar": 52
+      },
+      "revId": "531a90a810ed2da5fe936008d58a1fda2c201c28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

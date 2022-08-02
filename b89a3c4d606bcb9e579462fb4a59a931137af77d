@@ -46,6 +46,30 @@
       },
       "revId": "b89a3c4d606bcb9e579462fb4a59a931137af77d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74ab7097_e0e1652e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-02T07:45:21Z",
+      "side": 1,
+      "message": "Makes sense. Thanks for the explanation.",
+      "parentUuid": "ee6212d9_b592a791",
+      "range": {
+        "startLine": 9,
+        "startChar": 34,
+        "endLine": 9,
+        "endChar": 59
+      },
+      "revId": "b89a3c4d606bcb9e579462fb4a59a931137af77d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

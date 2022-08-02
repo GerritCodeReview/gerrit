@@ -41,6 +41,7 @@ import {
   FileNameToFileInfoMap,
   FilePathToDiffInfoMap,
   FixId,
+  FixReplacementInfo,
   GitRef,
   GpgKeyId,
   GpgKeyInfo,
@@ -668,7 +669,27 @@ export interface RestApiService extends Finalizable {
     fixId: FixId
   ): Promise<FilePathToDiffInfoMap | undefined>;
 
+  /**
+   * Preview Provided fix
+   * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#preview-provided-fix
+   */
+  getFixPreview(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum,
+    fixReplacementInfos: FixReplacementInfo[]
+  ): Promise<FilePathToDiffInfoMap | undefined>;
+
+  /**
+   * Apply Provided Fix
+   * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#apply-provided-fix
+   */
   applyFixSuggestion(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum,
+    fixReplacementInfos: FixReplacementInfo[]
+  ): Promise<Response>;
+
+  applyRobotFixSuggestion(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     fixId: string

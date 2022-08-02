@@ -22,6 +22,30 @@
       },
       "revId": "531a90a810ed2da5fe936008d58a1fda2c201c28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e4e55ff_7f549e68",
+        "filename": "java/com/google/gerrit/server/index/group/GroupField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-08-02T11:17:01Z",
+      "side": 1,
+      "message": "The name \"Id\" will be used in internal base storage implementation.\n\nThe ID_FIELD_SPEC(\"id\") is currently used both by the internal implementation and by Lucence, Elastic indexes.",
+      "parentUuid": "689a65e2_c8d2138e",
+      "range": {
+        "startLine": 41,
+        "startChar": 50,
+        "endLine": 41,
+        "endChar": 52
+      },
+      "revId": "531a90a810ed2da5fe936008d58a1fda2c201c28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

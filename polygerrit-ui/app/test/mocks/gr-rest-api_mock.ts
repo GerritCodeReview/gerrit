@@ -93,6 +93,9 @@ export const grRestApiMock: RestApiService = {
   applyFixSuggestion(): Promise<Response> {
     return Promise.resolve(new Response());
   },
+  applyRobotFixSuggestion(): Promise<Response> {
+    return Promise.resolve(new Response());
+  },
   awaitPendingDiffDrafts(): Promise<void> {
     return Promise.resolve();
   },
@@ -396,6 +399,9 @@ export const grRestApiMock: RestApiService = {
   },
   getReviewedFiles(): Promise<string[] | undefined> {
     return Promise.resolve([]);
+  },
+  getFixPreview(): Promise<FilePathToDiffInfoMap | undefined> {
+    return Promise.resolve({});
   },
   getRobotCommentFixPreview(): Promise<FilePathToDiffInfoMap | undefined> {
     return Promise.resolve({});

@@ -53,7 +53,6 @@ suite('gr-change-list-item tests', () => {
   const account = createAccountWithId();
   const change: ChangeInfo = {
     ...createChange(),
-    internalHost: 'host',
     project: 'a/test/repo' as RepoName,
     topic: 'test-topic' as TopicName,
     branch: 'test-branch' as BranchName,
@@ -335,18 +334,13 @@ suite('gr-change-list-item tests', () => {
     assert.deepEqual(navStub.getUrlForProjectChanges.lastCall.args, [
       change.project,
       true,
-      change.internalHost,
     ]);
     assert.deepEqual(navStub.getUrlForBranch.lastCall.args, [
       change.branch,
       change.project,
       undefined,
-      change.internalHost,
     ]);
-    assert.deepEqual(navStub.getUrlForTopic.lastCall.args, [
-      change.topic,
-      change.internalHost,
-    ]);
+    assert.deepEqual(navStub.getUrlForTopic.lastCall.args, [change.topic!]);
   });
 
   test('clicking item navigates to change', async () => {
@@ -359,16 +353,6 @@ suite('gr-change-list-item tests', () => {
     await element.updateComplete;
 
     assert.isTrue(navStub.navigateToChange.calledWithExactly(change));
-  });
-
-  test('computeRepoDisplay', () => {
-    element.change = {...change};
-    assert.equal(element.computeRepoDisplay(), 'host/a/test/repo');
-    assert.equal(element.computeTruncatedRepoDisplay(), 'host/…/test/repo');
-    delete change.internalHost;
-    element.change = {...change};
-    assert.equal(element.computeRepoDisplay(), 'a/test/repo');
-    assert.equal(element.computeTruncatedRepoDisplay(), '…/test/repo');
   });
 
   test('renders', async () => {

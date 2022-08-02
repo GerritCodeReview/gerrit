@@ -157,7 +157,6 @@ export interface GenerateUrlSearchViewParameters {
   // TODO(TS): Define more precise type (enum?)
   statuses?: string[];
   hashtag?: string;
-  host?: string;
   owner?: string;
 }
 
@@ -169,7 +168,6 @@ export interface GenerateUrlChangeViewParameters {
   patchNum?: RevisionPatchSetNum;
   basePatchNum?: BasePatchSetNum;
   edit?: boolean;
-  host?: string;
   messageHash?: string;
   commentId?: UrlEncodedCommentId;
   forceReload?: boolean;
@@ -456,49 +454,34 @@ export const GerritNav = {
 
   /**
    * @param openOnly When true, only search open changes in the project.
-   * @param host The host in which to search.
    */
-  getUrlForProjectChanges(
-    project: RepoName,
-    openOnly?: boolean,
-    host?: string
-  ) {
+  getUrlForProjectChanges(project: RepoName, openOnly?: boolean) {
     return this._getUrlFor({
       view: GerritView.SEARCH,
       project,
       statuses: openOnly ? ['open'] : [],
-      host,
     });
   },
 
   /**
    * @param status The status to search.
-   * @param host The host in which to search.
    */
-  getUrlForBranch(
-    branch: BranchName,
-    project: RepoName,
-    status?: string,
-    host?: string
-  ) {
+  getUrlForBranch(branch: BranchName, project: RepoName, status?: string) {
     return this._getUrlFor({
       view: GerritView.SEARCH,
       branch,
       project,
       statuses: status ? [status] : undefined,
-      host,
     });
   },
 
   /**
    * @param topic The name of the topic.
-   * @param host The host in which to search.
    */
-  getUrlForTopic(topic: TopicName, host?: string) {
+  getUrlForTopic(topic: TopicName) {
     return this._getUrlFor({
       view: GerritView.SEARCH,
       topic,
-      host,
     });
   },
 
@@ -543,7 +526,7 @@ export const GerritNav = {
    * @param basePatchNum The string PARENT can be used for none.
    */
   getUrlForChange(
-    change: Pick<ChangeInfo, '_number' | 'project' | 'internalHost'>,
+    change: Pick<ChangeInfo, '_number' | 'project'>,
     options: ChangeUrlParams = {}
   ) {
     let {
@@ -567,7 +550,6 @@ export const GerritNav = {
       patchNum,
       basePatchNum,
       edit: isEdit,
-      host: change.internalHost || undefined,
       messageHash,
       forceReload,
       openReplyDialog,
@@ -600,7 +582,7 @@ export const GerritNav = {
    *     and re-render everything.
    */
   navigateToChange(
-    change: Pick<ChangeInfo, '_number' | 'project' | 'internalHost'>,
+    change: Pick<ChangeInfo, '_number' | 'project'>,
     options: NavigateToChangeParams = {}
   ) {
     const {

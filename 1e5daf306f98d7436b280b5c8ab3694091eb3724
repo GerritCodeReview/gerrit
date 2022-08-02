@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "933aedf7_6560c655",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-08-02T13:59:14Z",
+      "side": 1,
+      "message": "nit: preview in terms of rest-api name (as in non-ui function) is not informative. I can\u0027t make a reasonable guess at what it will return.\n\nSince the backend name is already submitted, I would keep the name of the method. But this one line description before the link, I would reword and use the line from the documentation \"Gets the diffs of all files for a certain {fix-id}.\"",
+      "range": {
+        "startLine": 667,
+        "startChar": 5,
+        "endLine": 667,
+        "endChar": 23
+      },
+      "revId": "1e5daf306f98d7436b280b5c8ab3694091eb3724",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

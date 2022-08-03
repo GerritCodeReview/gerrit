@@ -17,7 +17,7 @@ import {
   ReviewerInput,
   ServerInfo,
 } from '../types/common';
-import {AccountTag, ReviewerState} from '../constants/constants';
+import {AccountTag} from '../constants/constants';
 import {assertNever, hasOwnProperty} from './common-util';
 import {AccountAddition} from '../elements/shared/gr-account-list/gr-account-list';
 import {getDisplayName} from './display-name-util';
@@ -46,18 +46,6 @@ export function mapReviewer(addition: AccountAddition): ReviewerInput {
     return {reviewer, confirmed};
   }
   throw new Error('Reviewer must be either an account or a group.');
-}
-
-export function isReviewerOrCC(
-  change: ChangeInfo,
-  reviewerAddition: AccountAddition
-): boolean {
-  const reviewers = [
-    ...(change.reviewers[ReviewerState.CC] ?? []),
-    ...(change.reviewers[ReviewerState.REVIEWER] ?? []),
-  ];
-  const reviewer = mapReviewer(reviewerAddition);
-  return reviewers.some(r => accountOrGroupKey(r) === reviewer.reviewer);
 }
 
 export function isServiceUser(account?: AccountInfo): boolean {

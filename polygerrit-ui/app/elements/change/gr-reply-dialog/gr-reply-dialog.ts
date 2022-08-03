@@ -321,9 +321,6 @@ export class GrReplyDialog extends LitElement {
   @state()
   isResolvedPatchsetLevelComment = true;
 
-  @state()
-  allReviewers: (AccountInfo | GroupInfo)[] = [];
-
   private readonly restApiService: RestApiService =
     getAppContext().restApiService;
 
@@ -663,9 +660,6 @@ export class GrReplyDialog extends LitElement {
     if (changedProperties.has('draftCommentThreads')) {
       this.handleHeightChanged();
     }
-    if (changedProperties.has('reviewers')) {
-      this.computeAllReviewers();
-    }
     if (changedProperties.has('sendDisabled')) {
       this.sendDisabledChanged();
     }
@@ -704,7 +698,7 @@ export class GrReplyDialog extends LitElement {
               name="change"
               .value=${this.change}
             ></gr-endpoint-param>
-            <gr-endpoint-param name="reviewers" .value=${this.allReviewers}>
+            <gr-endpoint-param name="reviewers" .value=${[...this.reviewers]}>
             </gr-endpoint-param>
             ${this.renderReviewerList()}
             <gr-endpoint-slot name="below"></gr-endpoint-slot>
@@ -2107,10 +2101,6 @@ export class GrReplyDialog extends LitElement {
       actions.push('REMOVE' + self + role);
     }
     this.reporting.reportInteraction('attention-set-actions', {actions});
-  }
-
-  computeAllReviewers() {
-    this.allReviewers = [...this.reviewers];
   }
 }
 

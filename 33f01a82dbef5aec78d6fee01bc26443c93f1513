@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9da4b33_af317a63",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-03T14:05:42Z",
+      "side": 1,
+      "message": "I recall there being a test.\nHow did the test pass then?\nAlso why doesn\u0027t the test need to be updated now that the bug is fixed?",
+      "range": {
+        "startLine": 9,
+        "startChar": 14,
+        "endLine": 9,
+        "endChar": 71
+      },
+      "revId": "33f01a82dbef5aec78d6fee01bc26443c93f1513",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

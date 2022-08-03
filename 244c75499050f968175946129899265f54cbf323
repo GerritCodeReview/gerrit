@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9724e7a_1a57f384",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-03T11:54:53Z",
+      "side": 1,
+      "message": "I will fix tests, after first review round. I would like to hear your first impressions.",
+      "revId": "244c75499050f968175946129899265f54cbf323",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

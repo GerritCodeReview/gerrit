@@ -570,6 +570,10 @@ equivalent to configuring link:#merge_if_necessary[merge if necessary].
 +
 If `submit.action` is not set, the default is 'merge if necessary'.
 +
+NOTE: The different submit actions are also described in the
+link:https://docs.google.com/presentation/d/1C73UgQdzZDw0gzpaEqIC6SPujZJhqamyqO1XOHjH-uk/edit#slide=id.g4d6c16487b_1_800[Gerrit - Concepts and Workflows]
+presentation, where their behavior is visualized by git commit graphs.
++
 NOTE: If Gerrit performs a merge, rebase or cherry-pick as part of the
 change submission (true for all submit actions, except for
 link:#fast_forward_only[fast forward only]), it is controlled by the

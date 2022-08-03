@@ -594,6 +594,10 @@ commit: +
   vote) +
 * `<label-name>: <reviewer>` (once for every reviewer with a positive vote on
   any other label) +
+ +
+In addition, plugins that implement a
+link:dev-plugins.html#change-message-modifier[Change Message Modifier] may add
+additional custom footers.
 --
 +
 NOTE: For the value of `submit.action` in `project.config` use the exact

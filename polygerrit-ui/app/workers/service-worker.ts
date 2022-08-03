@@ -5,14 +5,8 @@
  */
 
 import {AccountDetailInfo} from '../api/rest-api';
-import {readResponsePayload} from '../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
-import {
-  ServiceWorkerMessageType,
-  TRIGGER_NOTIFICATION_UPDATES_MS,
-} from '../services/service-worker-installer';
-import {ParsedChangeInfo} from '../types/types';
-import {getReason} from '../utils/attention-set-util';
-import {filterAttentionChangesAfter} from '../utils/service-worker-util';
+import {ServiceWorkerMessageType} from '../services/service-worker-installer';
+import {ServiceWorker} from './service-worker-class';
 
 /**
  * `self` is for a worker what `window` is for the web app. It is called
@@ -38,46 +32,5 @@ ctx.addEventListener('message', async event => {
   }
 });
 
-class ServiceWorker {
-  latestUpdateTimestampMs?: number;
-
-  showNotification(change: ParsedChangeInfo, account: AccountDetailInfo) {
-    const body = getReason(undefined, account, change);
-    // TODO(milutin): Implement event.action that
-    // focus on firstWindowClient and open change there.
-    // TODO(milutin): Add gerrit host icon
-    ctx.registration.showNotification(change.subject, {body});
-  }
-
-  async getChangesToNotify(account: AccountDetailInfo) {
-    const changes = await serviceWorker.getLatestAttentionSetChanges();
-    return filterAttentionChangesAfter(
-      changes,
-      account,
-      this.latestUpdateTimestampMs!
-    );
-  }
-
-  async getLatestAttentionSetChanges(): Promise<ParsedChangeInfo[]> {
-    // We throttle polling, since there can be many clients triggerring
-    // always only one service worker.
-    if (this.latestUpdateTimestampMs) {
-      const durationFromLatestUpdateMS =
-        Date.now() - this.latestUpdateTimestampMs;
-      if (durationFromLatestUpdateMS < TRIGGER_NOTIFICATION_UPDATES_MS) {
-        return [];
-      }
-    }
-    this.latestUpdateTimestampMs = Date.now();
-    // TODO(milutin): Implement more generic query builder
-    const response = await fetch(
-      '/changes/?O=1000081&S=0&n=25&q=attention%3Aself'
-    );
-    const payload = await readResponsePayload(response);
-    const changes = payload.parsed as unknown as ParsedChangeInfo[] | undefined;
-    return changes ?? [];
-  }
-}
-
 /** Singleton instance being referenced in `onmessage` function above. */
-const serviceWorker = new ServiceWorker();
+const serviceWorker = new ServiceWorker(ctx);

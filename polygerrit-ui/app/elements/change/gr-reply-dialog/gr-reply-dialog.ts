@@ -28,14 +28,13 @@ import {
 import {
   accountKey,
   accountOrGroupKey,
-  mapReviewer,
+  isAccountNewlyAdded,
   removeServiceUsers,
 } from '../../../utils/account-util';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import {TargetElement} from '../../../api/plugin';
 import {FixIronA11yAnnouncer} from '../../../types/types';
 import {
-  AccountAddition,
   AccountInfoInput,
   AccountInput,
   AccountInputDetail,
@@ -747,6 +746,7 @@ export class GrReplyDialog extends LitElement {
           id="reviewers"
           .accounts=${this.getAccountListCopy(this.reviewers)}
           .change=${this.change}
+          .reviewerState=${ReviewerState.REVIEWER}
           @account-added=${this.accountAdded}
           @accounts-changed=${this.handleReviewersChanged}
           .removableValues=${this.change?.removable_reviewers}
@@ -773,6 +773,8 @@ export class GrReplyDialog extends LitElement {
         <gr-account-list
           id="ccs"
           .accounts=${this.getAccountListCopy(this.ccs)}
+          .change=${this.change}
+          .reviewerState=${ReviewerState.CC}
           @account-added=${this.accountAdded}
           @accounts-changed=${this.handleCcsChanged}
           .removableValues=${this.change?.removable_reviewers}
@@ -1300,56 +1302,64 @@ export class GrReplyDialog extends LitElement {
     );
   }
 
+  private mapAccountToReviewInput(
+    account: AccountInfo | GroupInfo,
+    state: ReviewerState
+  ): ReviewerInput {
+    if (isAccount(account)) {
+      return {
+        reviewer: accountKey(account),
+        state,
+      };
+    } else if (isGroup(account)) {
+      const reviewer = decodeURIComponent(account.id) as GroupId;
+      return {reviewer, state};
+    }
+    throw new Error('Must be either an account or a group.');
+  }
+
   computeReviewers() {
     const reviewers: ReviewerInput[] = [];
-    const addToReviewInput = (
-      additions: AccountAddition[],
-      state?: ReviewerState
-    ) => {
-      additions.forEach(addition => {
-        const reviewer = mapReviewer(addition);
-        if (state) reviewer.state = state;
-        reviewers.push(reviewer);
-      });
-    };
-    const mapAccountToReviewInput = (account: AccountInfo): ReviewerInput => {
-      if (isAccount(account)) {
-        return {
-          reviewer: accountKey(account),
-          state: ReviewerState.REMOVED,
-        };
-      } else if (isGroup(account)) {
-        const reviewer = decodeURIComponent(
-          `${accountOrGroupKey(account)}`
-        ) as GroupId;
-        return {reviewer, state: ReviewerState.REMOVED};
-      }
-      throw new Error('Must be either an account or a group.');
-    };
-    addToReviewInput(this.reviewersList!.additions(), ReviewerState.REVIEWER);
-    addToReviewInput(this.ccsList!.additions(), ReviewerState.CC);
+    let additions;
+    additions =
+      this.reviewersList
+        ?.additions()
+        .map(v => this.mapAccountToReviewInput(v, ReviewerState.REVIEWER)) ??
+      [];
+    reviewers.push(...additions);
 
-    this.getRemovals(ReviewerState.REVIEWER, this.reviewersList?.accounts ?? [])
+    additions =
+      this.ccsList
+        ?.additions()
+        .map(v => this.mapAccountToReviewInput(v, ReviewerState.CC)) ?? [];
+    reviewers.push(...additions);
+
+    let removals;
+    removals = this.getRemovals(ReviewerState.REVIEWER, this.reviewersList?.accounts ?? [])
       .filter(
         r =>
           // ignore removal from reviewer request if being added as CC
-          !this.ccsList!.additions().some(
-            account => mapReviewer(account).reviewer === accountOrGroupKey(r)
-          )
+          !this.ccsList
+            ?.additions()
+            .some(
+              account => accountOrGroupKey(account) === accountOrGroupKey(r)
+            )
       )
-      .map(mapAccountToReviewInput)
-      .map(v => reviewers.push(v));
+      .map(v => this.mapAccountToReviewInput(v, ReviewerState.REMOVED));
+    reviewers.push(...removals);
 
-    this.getRemovals(ReviewerState.CC, this.ccsList?.accounts ?? [])
+    removals = this.getRemovals(ReviewerState.CC, this.ccsList?.accounts ?? [])
       .filter(
         r =>
           // ignore removal from CC request if being added as reviewer
-          !this.reviewersList!.additions().some(
-            account => mapReviewer(account).reviewer === accountOrGroupKey(r)
-          )
+          !this.reviewersList
+            ?.additions()
+            .some(
+              account => accountOrGroupKey(account) === accountOrGroupKey(r)
+            )
       )
-      .map(mapAccountToReviewInput)
-      .map(v => reviewers.push(v));
+      .map(v => this.mapAccountToReviewInput(v, ReviewerState.REMOVED));
+    reviewers.push(...removals);
 
     return reviewers;
   }
@@ -1658,7 +1668,11 @@ export class GrReplyDialog extends LitElement {
         );
       this.reviewers
         .filter(r => isAccount(r))
-        .filter(r => r._pendingAdd || (this.canBeStarted && isOwner))
+        .filter(
+          r =>
+            isAccountNewlyAdded(r, ReviewerState.REVIEWER, this.change) ||
+            (this.canBeStarted && isOwner)
+        )
         .filter(notIsReviewerAndHasDraftOrLabel)
         .forEach(r => newAttention.add((r as AccountInfo)._account_id!));
       // Add owner and uploader, if someone else replies.

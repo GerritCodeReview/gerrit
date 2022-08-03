@@ -21,6 +21,11 @@ import {filterAttentionChangesAfter} from '../utils/service-worker-util';
  */
 const ctx = self as {} as ServiceWorkerGlobalScope;
 
+ctx.addEventListener('install', () => {
+  // The promise that skipWaiting() returns can be safely ignored.
+  ctx.skipWaiting();
+});
+
 ctx.addEventListener('message', async event => {
   if (event.data?.type !== ServiceWorkerMessageType.TRIGGER_NOTIFICATIONS) {
     // Only this notification message type exists, but we do not throw error.
@@ -50,15 +55,6 @@ class ServiceWorker {
   }
 
   async getChangesToNotify(account: AccountDetailInfo) {
-    const changes = await serviceWorker.getLatestAttentionSetChanges();
-    return filterAttentionChangesAfter(
-      changes,
-      account,
-      this.latestUpdateTimestampMs!
-    );
-  }
-
-  async getLatestAttentionSetChanges(): Promise<ParsedChangeInfo[]> {
     // We throttle polling, since there can be many clients triggerring
     // always only one service worker.
     if (this.latestUpdateTimestampMs) {
@@ -68,7 +64,17 @@ class ServiceWorker {
         return [];
       }
     }
+    const changes = await serviceWorker.getLatestAttentionSetChanges();
+    const latestAttentionChanges = filterAttentionChangesAfter(
+      changes,
+      account,
+      this.latestUpdateTimestampMs
+    );
     this.latestUpdateTimestampMs = Date.now();
+    return latestAttentionChanges;
+  }
+
+  async getLatestAttentionSetChanges(): Promise<ParsedChangeInfo[]> {
     // TODO(milutin): Implement more generic query builder
     const response = await fetch(
       '/changes/?O=1000081&S=0&n=25&q=attention%3Aself'

@@ -38,15 +38,39 @@ ctx.addEventListener('message', async event => {
   }
 });
 
+// Code based on https://developer.mozilla.org/en-US/docs/Web/API/Clients/openWindow
+ctx.addEventListener<'notificationclick'>('notificationclick', e => {
+  e.notification.close();
+
+  const openWindow = async () => {
+    const clientsArr = await ctx.clients.matchAll({type: 'window'});
+    // If a Window tab matching the targeted URL already exists, focus that;
+    const hadWindowToFocus = clientsArr.some(windowClient =>
+      windowClient.url === e.notification.data.url
+        ? (windowClient.focus(), true)
+        : false
+    );
+    // Otherwise, open a new tab to the applicable URL and focus it.
+    if (!hadWindowToFocus)
+      ctx.clients
+        .openWindow(e.notification.data.url)
+        .then(windowClient => (windowClient ? windowClient.focus() : null));
+  };
+
+  e.waitUntil(openWindow());
+});
+
 class ServiceWorker {
   latestUpdateTimestampMs?: number;
 
   showNotification(change: ParsedChangeInfo, account: AccountDetailInfo) {
     const body = getReason(undefined, account, change);
+    const data = {url: `${self.location.origin}`};
+
     // TODO(milutin): Implement event.action that
     // focus on firstWindowClient and open change there.
     // TODO(milutin): Add gerrit host icon
-    ctx.registration.showNotification(change.subject, {body});
+    ctx.registration.showNotification(change.subject, {body, data});
   }
 
   async getChangesToNotify(account: AccountDetailInfo) {

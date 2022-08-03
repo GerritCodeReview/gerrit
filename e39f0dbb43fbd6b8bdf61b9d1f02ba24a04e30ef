@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "90992521_8bb5941f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-03T12:58:39Z",
+      "side": 1,
+      "message": "+1, it should go at least to stable-3.4 (the earliest supported stable branch)",
+      "parentUuid": "92b4fd46_d9711291",
+      "revId": "e39f0dbb43fbd6b8bdf61b9d1f02ba24a04e30ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a2c3d586_8d2dc530",
         "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
         "patchSetId": 2

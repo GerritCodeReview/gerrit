@@ -56,6 +56,7 @@ import {resolve} from '../../models/dependency';
 import {checksModelToken} from '../../models/checks/checks-model';
 import {Interaction} from '../../constants/reporting';
 import {Deduping} from '../../api/reporting';
+import {when} from 'lit/directives/when';
 
 @customElement('gr-checks-run')
 export class GrChecksRun extends LitElement {
@@ -66,6 +67,14 @@ export class GrChecksRun extends LitElement {
         :host {
           display: block;
           --thick-border: 6px;
+        }
+        :host([condensed]) .eta,
+        :host([condensed]) .middle,
+        :host([condensed]) .right {
+          display: none;
+        }
+        :host([condensed]) * {
+          pointer-events: none;
         }
         .chip {
           display: flex;
@@ -131,7 +140,7 @@ export class GrChecksRun extends LitElement {
         gr-icon.check_circle {
           color: var(--success-foreground);
         }
-        div.chip:hover {
+        :host(:not([condensed])) div.chip:hover {
           background-color: var(--hover-background-color);
         }
         div.chip:focus-within {
@@ -194,6 +203,9 @@ export class GrChecksRun extends LitElement {
 
   @property({attribute: false})
   deselected = false;
+
+  @property({type: Boolean})
+  condensed = false;
 
   @state()
   shouldRender = false;
@@ -445,6 +457,9 @@ export class GrChecksRuns extends LitElement {
       () => this.getChecksModel().loginCallbackLatest$,
       x => (this.loginCallback = x)
     );
+    this.addEventListener('click', () => {
+      if (this.collapsed) this.toggleCollapsed();
+    });
   }
 
   static override get styles() {
@@ -456,12 +471,21 @@ export class GrChecksRuns extends LitElement {
           display: block;
         }
         :host(:not([collapsed])) {
-          min-width: 320px;
+          width: 20%;
           padding: var(--spacing-l) var(--spacing-xl) var(--spacing-xl)
             var(--spacing-xl);
         }
         :host([collapsed]) {
-          padding: var(--spacing-l) 0;
+          width: 90px;
+          padding: var(--spacing-l) var(--spacing-l) var(--spacing-xl)
+            var(--spacing-l);
+        }
+        :host([collapsed]) * {
+          pointer-events: none;
+        }
+        :host([collapsed]:hover) {
+          cursor: pointer;
+          background-color: var(--hover-background-color);
         }
         .title {
           display: flex;
@@ -476,25 +500,28 @@ export class GrChecksRuns extends LitElement {
         .title gr-button.expandButton {
           --gr-button-padding: var(--spacing-xs) var(--spacing-s);
         }
-        :host(:not([collapsed])) .expandButton {
+        :host .expandButton {
           margin-right: calc(0px - var(--spacing-m));
         }
-        .expandIcon {
-          width: var(--line-height-h3);
-          height: var(--line-height-h3);
+        :host([collapsed]:hover) .expandIcon {
+          border: 1px solid var(--border-color);
+          margin: -1px;
         }
         .sectionHeader {
           padding-top: var(--spacing-l);
           text-transform: capitalize;
           cursor: default;
         }
+        :host([collapsed]) .sectionHeader {
+          cursor: pointer;
+        }
         .sectionHeader h3 {
           display: inline-block;
         }
-        .collapsed .sectionRuns {
+        :host(:not([collapsed])) .collapsed .sectionRuns {
           display: none;
         }
-        .collapsed {
+        :host(:not([collapsed])) .collapsed {
           border-bottom: 1px solid var(--border-color);
           padding-bottom: var(--spacing-m);
         }
@@ -584,9 +611,6 @@ export class GrChecksRuns extends LitElement {
   }
 
   override render() {
-    if (this.collapsed) {
-      return html`${this.renderCollapseButton()}`;
-    }
     return html`
       <h2 class="title">
         <div class="heading-2">Runs</div>
@@ -702,24 +726,28 @@ export class GrChecksRuns extends LitElement {
       >
         <gr-button
           link
-          class="expandButton"
+          class="expandButton font-normal"
           role="switch"
           aria-checked=${this.collapsed ? 'true' : 'false'}
           aria-label=${this.collapsed
             ? 'Expand runs panel'
             : 'Collapse runs panel'}
           @click=${this.toggleCollapsed}
-          ><gr-icon
-            icon=${this.collapsed ? 'chevron_right' : 'chevron_left'}
-            class="expandIcon"
-          >
-          </gr-icon>
+        >
+          <div>
+            <gr-icon
+              icon=${this.collapsed ? 'chevron_right' : 'chevron_left'}
+              class="expandIcon"
+            >
+            </gr-icon>
+          </div>
         </gr-button>
       </gr-tooltip-content>
     `;
   }
 
-  private toggleCollapsed() {
+  private toggleCollapsed(event?: Event) {
+    if (event) event.stopPropagation();
     this.collapsed = !this.collapsed;
     this.reporting.reportInteraction(Interaction.CHECKS_RUNS_PANEL_TOGGLE, {
       collapsed: this.collapsed,
@@ -776,11 +804,16 @@ export class GrChecksRuns extends LitElement {
     if (runs.some(r => r.status === RunStatus.SCHEDULED)) {
       header = `${header} / ${headerForStatus(RunStatus.SCHEDULED)}`;
     }
+    const count = when(!this.collapsed, () => html` (${runs.length})`);
+    const grIcon = when(
+      !this.collapsed,
+      () => html`<gr-icon icon=${icon} class="expandIcon"></gr-icon>`
+    );
     return html`
       <div class="${status.toLowerCase()} ${expandedClass}">
         <div class="sectionHeader" @click=${() => this.toggleExpanded(status)}>
-          <gr-icon icon=${icon} class="expandIcon"></gr-icon>
-          <h3 class="heading-3">${header} (${runs.length})</h3>
+          ${grIcon}
+          <h3 class="heading-3">${header}${count}</h3>
         </div>
         <div class="sectionRuns">${runs.map(run => this.renderRun(run))}</div>
       </div>
@@ -788,6 +821,7 @@ export class GrChecksRuns extends LitElement {
   }
 
   toggleExpanded(status: RunStatus) {
+    if (this.collapsed) return;
     const expanded = this.isSectionExpanded.get(status) ?? true;
     this.isSectionExpanded.set(status, !expanded);
     this.reporting.reportInteraction(Interaction.CHECKS_RUN_SECTION_TOGGLE, {
@@ -803,6 +837,7 @@ export class GrChecksRuns extends LitElement {
     const deselected = !selectedRun && this.selectedRuns.length > 0;
     return html`<gr-checks-run
       .run=${run}
+      ?condensed=${this.collapsed}
       .selected=${selectedRun}
       .selectedAttempt=${selectedAttempt}
       .deselected=${deselected}
@@ -810,11 +845,13 @@ export class GrChecksRuns extends LitElement {
   }
 
   showFilter(): boolean {
+    if (this.collapsed) return false;
     return this.runs.length > 10 || !!this.filterRegExp;
   }
 
   renderFakeControls() {
     if (!this.flagService.isEnabled(KnownExperimentId.CHECKS_DEVELOPER)) return;
+    if (this.collapsed) return;
     return html`
       <div class="testing">
         <div>Toggle fake runs by clicking buttons:</div>

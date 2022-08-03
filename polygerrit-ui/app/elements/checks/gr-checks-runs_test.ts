@@ -41,11 +41,13 @@ suite('gr-checks-runs test', () => {
             <gr-button
               aria-checked="false"
               aria-label="Collapse runs panel"
-              class="expandButton"
+              class="expandButton font-normal"
               link=""
               role="switch"
             >
-              <gr-icon icon="chevron_left" class="expandIcon"></gr-icon>
+              <div>
+                <gr-icon icon="chevron_left" class="expandIcon"></gr-icon>
+              </div>
             </gr-button>
           </gr-tooltip-content>
         </h2>
@@ -95,17 +97,56 @@ suite('gr-checks-runs test', () => {
     assert.equal(element.runs.length, 44);
     expect(element).shadowDom.to.equal(
       /* HTML */ `
-        <gr-tooltip-content has-tooltip="" title="Expand runs panel">
-          <gr-button
-            aria-checked="true"
-            aria-label="Expand runs panel"
-            class="expandButton"
-            link=""
-            role="switch"
-          >
-            <gr-icon icon="chevron_right" class="expandIcon"></gr-icon>
-          </gr-button>
-        </gr-tooltip-content>
+        <h2 class="title">
+          <div class="heading-2">Runs</div>
+          <div class="flex-space"></div>
+          <gr-tooltip-content has-tooltip="" title="Expand runs panel">
+            <gr-button
+              aria-checked="true"
+              aria-label="Expand runs panel"
+              class="expandButton font-normal"
+              link=""
+              role="switch"
+            >
+              <div>
+                <gr-icon icon="chevron_right" class="expandIcon"></gr-icon>
+              </div>
+            </gr-button>
+          </gr-tooltip-content>
+        </h2>
+        <input
+          hidden
+          id="filterInput"
+          placeholder="Filter runs by regular expression"
+          type="text"
+        />
+        <div class="expanded running">
+          <div class="sectionHeader">
+            <h3 class="heading-3">Running / Scheduled</h3>
+          </div>
+          <div class="sectionRuns">
+            <gr-checks-run condensed></gr-checks-run>
+            <gr-checks-run condensed></gr-checks-run>
+          </div>
+        </div>
+        <div class="completed expanded">
+          <div class="sectionHeader">
+            <h3 class="heading-3">Completed</h3>
+          </div>
+          <div class="sectionRuns">
+            <gr-checks-run condensed></gr-checks-run>
+            <gr-checks-run condensed></gr-checks-run>
+            <gr-checks-run condensed></gr-checks-run>
+          </div>
+        </div>
+        <div class="expanded runnable">
+          <div class="sectionHeader">
+            <h3 class="heading-3">Not run</h3>
+          </div>
+          <div class="sectionRuns">
+            <gr-checks-run condensed></gr-checks-run>
+          </div>
+        </div>
       `,
       {ignoreAttributes: ['tabindex', 'aria-disabled']}
     );

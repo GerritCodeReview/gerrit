@@ -1281,6 +1281,18 @@ export class GrReplyDialog extends LitElement {
     return isResolvedPatchsetLevelComment ? 'resolved' : 'unresolved';
   }
 
+
+  /**
+   * Get the list of users removed as CC.
+   * A user is removed if they were initially present as CC and are no longer
+   * present in the CC list.
+   */
+  private getCCRemovals(): AccountInfo[] {
+    const existingCCs = this.change?.reviewers[ReviewerState.CC] ?? [];
+    const currentCCs = this.ccsList?.accounts ?? [];
+    return existingCCs.filter(existingCC => !currentCCs.some(currentCC => accountOrGroupKey(currentCC) === accountOrGroupKey(existingCC)))
+  }
+
   computeReviewers(change: ChangeInfo) {
     const reviewers: ReviewerInput[] = [];
     const addToReviewInput = (
@@ -1288,6 +1300,16 @@ export class GrReplyDialog extends LitElement {
       state?: ReviewerState
     ) => {
       additions.forEach(addition => {
+        const reviewer = mapReviewer(addition);
+        if (state) reviewer.state = state;
+        reviewers.push(reviewer);
+      });
+    };
+    const addAccountInfoToReviewInput = (
+      accounts: AccountInfo[],
+      state?: ReviewerState
+    ) => {
+      accounts.forEach(account => {
         const reviewer = mapReviewer(addition);
         if (state) reviewer.state = state;
         reviewers.push(reviewer);
@@ -1306,8 +1328,8 @@ export class GrReplyDialog extends LitElement {
       ),
       ReviewerState.REMOVED
     );
-    addToReviewInput(
-      this.ccsList!.removals().filter(
+    addAccountInfoToReviewInput(
+      this.getCCRemovals().filter(
         r =>
           isReviewerOrCC(change, r) &&
           // ignore removal from CC request if being added as reviewer

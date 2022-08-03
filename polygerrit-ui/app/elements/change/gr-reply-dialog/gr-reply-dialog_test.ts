@@ -899,8 +899,8 @@ suite('gr-reply-dialog tests', () => {
     await element.updateComplete;
 
     element.reviewers = [
-      {_account_id: 1 as AccountId, _pendingAdd: true},
-      {_account_id: 2 as AccountId, _pendingAdd: true},
+      {_account_id: 1 as AccountId},
+      {_account_id: 2 as AccountId},
     ];
     element.ccs = [];
     element.draftCommentThreads = [];
@@ -1388,7 +1388,6 @@ suite('gr-reply-dialog tests', () => {
           name: 'name' as GroupName,
           confirmed: true,
           _group: true,
-          _pendingAdd: true,
         },
       },
     ]);

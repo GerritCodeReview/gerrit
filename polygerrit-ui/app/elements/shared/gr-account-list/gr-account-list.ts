@@ -15,12 +15,17 @@ import {
   SuggestedReviewerGroupInfo,
   SuggestedReviewerAccountInfo,
   SuggestedReviewerInfo,
+  isGroup,
 } from '../../../types/common';
 import {ReviewerSuggestionsProvider} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
 import {GrAccountEntry} from '../gr-account-entry/gr-account-entry';
 import {GrAccountChip} from '../gr-account-chip/gr-account-chip';
 import {fire, fireAlert} from '../../../utils/event-util';
-import {accountOrGroupKey} from '../../../utils/account-util';
+import {
+  accountOrGroupKey,
+  getAccountsAdded,
+  isAccountNewlyAdded,
+} from '../../../utils/account-util';
 import {LitElement, css, html, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -34,6 +39,7 @@ import {ValueChangedEvent} from '../../../types/events';
 import {queryAndAssert} from '../../../utils/common-util';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {IronInputElement} from '@polymer/iron-input';
+import {ReviewerState} from '../../../api/rest-api';
 
 const VALID_EMAIL_ALERT = 'Please input a valid email.';
 
@@ -74,36 +80,17 @@ function isSuggestedReviewerGroupInfo(
 
 // Internal input type with account info
 export interface AccountInfoInput extends AccountInfo {
-  _group?: boolean;
   _account?: boolean;
-  _pendingAdd?: boolean;
   confirmed?: boolean;
 }
 
 // Internal input type with group info
 export interface GroupInfoInput extends GroupInfo {
-  _group?: boolean;
   _account?: boolean;
-  _pendingAdd?: boolean;
   confirmed?: boolean;
 }
 
-function isAccountInfoInput(x: AccountInput): x is AccountInfoInput {
-  const input = x as AccountInfoInput;
-  return !!input._account || !!input._account_id || !!input.email;
-}
-
-function isGroupInfoInput(x: AccountInput): x is GroupInfoInput {
-  const input = x as GroupInfoInput;
-  return !!input._group || !!input.id;
-}
-
 export type AccountInput = AccountInfoInput | GroupInfoInput;
-
-export interface AccountAddition {
-  account?: AccountInfoInput;
-  group?: GroupInfoInput;
-}
 
 @customElement('gr-account-list')
 export class GrAccountList extends LitElement {
@@ -128,6 +115,9 @@ export class GrAccountList extends LitElement {
 
   @property({type: Boolean})
   disabled = false;
+
+  @property({type: String})
+  reviewerState?: ReviewerState;
 
   /**
    * Returns suggestions and convert them to list item
@@ -188,7 +178,7 @@ export class GrAccountList extends LitElement {
       .group {
         --account-label-suffix: ' (group)';
       }
-      .pendingAdd {
+      .newlyAdded {
         font-style: italic;
       }
       .list {
@@ -207,8 +197,12 @@ export class GrAccountList extends LitElement {
               .account=${account}
               .change=${this.change}
               class=${classMap({
-                group: !!account._group,
-                pendingAdd: !!account._pendingAdd,
+                group: isGroup(account),
+                newlyAdded: isAccountNewlyAdded(
+                  account,
+                  this.reviewerState,
+                  this.change
+                ),
               })}
               ?removable=${this.computeRemovable(account)}
               @keydown=${this.handleChipKeydown}
@@ -282,7 +276,7 @@ export class GrAccountList extends LitElement {
     let group;
     let itemTypeAdded = 'unknown';
     if (isAccountObject(item)) {
-      account = {...item.account, _pendingAdd: true};
+      account = {...item.account};
       this.accounts.push(account);
       itemTypeAdded = 'account';
     } else if (isSuggestedReviewerGroupInfo(item)) {
@@ -290,7 +284,7 @@ export class GrAccountList extends LitElement {
         this.pendingConfirmation = item;
         return;
       }
-      group = {...item.group, _pendingAdd: true, _group: true};
+      group = {...item.group};
       this.accounts.push(group);
       itemTypeAdded = 'group';
     } else if (this.allowAnyInput) {
@@ -301,7 +295,7 @@ export class GrAccountList extends LitElement {
         fireAlert(this, VALID_EMAIL_ALERT);
         return false;
       } else {
-        account = {email: item as EmailAddress, _pendingAdd: true};
+        account = {email: item as EmailAddress};
         this.accounts.push(account);
         itemTypeAdded = 'email';
       }
@@ -318,8 +312,6 @@ export class GrAccountList extends LitElement {
     this.accounts.push({
       ...group,
       confirmed: true,
-      _pendingAdd: true,
-      _group: true,
     });
     this.pendingConfirmation = null;
     fire(this, 'accounts-changed', {value: this.accounts});
@@ -340,7 +332,7 @@ export class GrAccountList extends LitElement {
           return true;
         }
       }
-      return !!account._pendingAdd;
+      return isAccountNewlyAdded(account, this.reviewerState, this.change);
     }
     return true;
   }
@@ -455,17 +447,7 @@ export class GrAccountList extends LitElement {
     return wasSubmitted;
   }
 
-  additions(): AccountAddition[] {
-    return this.accounts
-      .filter(account => account._pendingAdd)
-      .map(account => {
-        if (isGroupInfoInput(account)) {
-          return {group: account};
-        } else if (isAccountInfoInput(account)) {
-          return {account};
-        } else {
-          throw new Error('AccountInput must be either Account or Group.');
-        }
-      });
+  additions(): (AccountInfoInput | GroupInfoInput)[] {
+    return getAccountsAdded(this.accounts, this.reviewerState, this.change);
   }
 }

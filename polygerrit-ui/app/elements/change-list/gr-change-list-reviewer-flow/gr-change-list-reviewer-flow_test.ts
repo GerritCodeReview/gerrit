@@ -891,8 +891,6 @@ suite('gr-change-list-reviewer-flow tests', () => {
       );
 
       assert.deepEqual(reviewerList.accounts[1], {
-        _group: true,
-        _pendingAdd: true,
         confirmed: true,
         id: '5' as GroupId,
         name: 'large-group',
@@ -933,8 +931,6 @@ suite('gr-change-list-reviewer-flow tests', () => {
         getComputedStyle(confirmDialog).getPropertyValue('display') === 'none'
       );
       assert.deepEqual(reviewerList.accounts[1], {
-        _group: true,
-        _pendingAdd: true,
         id: '5' as GroupId,
         name: 'small-group',
       });

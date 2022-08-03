@@ -12,6 +12,7 @@ import {ifDefined} from 'lit/directives/if-defined';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {GrButton} from '../gr-button/gr-button';
+import {GrIcon} from '../gr-icon/gr-icon';
 
 const COPY_TIMEOUT_MS = 1000;
 
@@ -119,12 +120,12 @@ export class GrCopyClipboard extends LitElement {
 
     this.text = queryAndAssert<HTMLInputElement>(this, '#input').value;
     assertIsDefined(this.text, 'text');
-    this.iconEl.innerText = 'check';
+    this.iconEl.icon = 'check';
     navigator.clipboard.writeText(this.text);
-    setTimeout(() => (this.iconEl.innerText = 'content_copy'), COPY_TIMEOUT_MS);
+    setTimeout(() => (this.iconEl.icon = 'content_copy'), COPY_TIMEOUT_MS);
   }
 
-  private get iconEl(): HTMLSpanElement {
-    return queryAndAssert<HTMLSpanElement>(this, '#icon');
+  private get iconEl(): GrIcon {
+    return queryAndAssert<GrIcon>(this, '#icon');
   }
 }

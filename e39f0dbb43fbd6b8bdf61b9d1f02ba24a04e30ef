@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "001c602d_cfaaa0b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-08-03T15:20:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f57ca964_decbedc8",
+      "revId": "e39f0dbb43fbd6b8bdf61b9d1f02ba24a04e30ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "92b4fd46_d9711291",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -49,6 +67,24 @@
       "side": 1,
       "message": "+1, it should go at least to stable-3.4 (the earliest supported stable branch)",
       "parentUuid": "92b4fd46_d9711291",
+      "revId": "e39f0dbb43fbd6b8bdf61b9d1f02ba24a04e30ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "034c0c97_82b445e5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-08-03T15:20:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90992521_8bb5941f",
       "revId": "e39f0dbb43fbd6b8bdf61b9d1f02ba24a04e30ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -138,6 +174,30 @@
       "side": 1,
       "message": "\u003e I don\u0027t think we want to add another method.\n\nDone.",
       "parentUuid": "6cec7ea6_b230e7d2",
+      "range": {
+        "startLine": 160,
+        "startChar": 17,
+        "endLine": 160,
+        "endChar": 31
+      },
+      "revId": "e39f0dbb43fbd6b8bdf61b9d1f02ba24a04e30ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57a71487_9afde629",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-08-03T15:20:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a34bd726_da07eee6",
       "range": {
         "startLine": 160,
         "startChar": 17,

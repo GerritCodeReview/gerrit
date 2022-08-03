@@ -327,18 +327,6 @@ export class GrAccountList extends LitElement {
   }
 
   // private but used in test
-  computeChipClass(account: AccountInput) {
-    const classes = [];
-    if (account._group) {
-      classes.push('group');
-    }
-    if (account._pendingAdd) {
-      classes.push('pendingAdd');
-    }
-    return classes.join(' ');
-  }
-
-  // private but used in test
   computeRemovable(account: AccountInput) {
     if (this.readonly) {
       return false;

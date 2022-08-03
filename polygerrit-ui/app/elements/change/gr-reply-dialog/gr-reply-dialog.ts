@@ -26,6 +26,7 @@ import {
   SpecialFilePath,
 } from '../../../constants/constants';
 import {
+  accountKey,
   accountOrGroupKey,
   isReviewerOrCC,
   mapReviewer,
@@ -63,6 +64,7 @@ import {
   ServerInfo,
   SuggestedReviewerGroupInfo,
   Suggestion,
+  isGroup,
 } from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrLabelScores} from '../gr-label-scores/gr-label-scores';
@@ -1281,6 +1283,18 @@ export class GrReplyDialog extends LitElement {
     return isResolvedPatchsetLevelComment ? 'resolved' : 'unresolved';
   }
 
+
+  /**
+   * Get the list of users removed as CC.
+   * A user is removed if they were initially present as CC and are no longer
+   * present in the CC list.
+   */
+  private getCCRemovals(): AccountInfo[] {
+    const existingCCs = this.change?.reviewers[ReviewerState.CC] ?? [];
+    const currentCCs = this.ccsList?.accounts ?? [];
+    return existingCCs.filter(existingCC => !currentCCs.some(currentCC => accountOrGroupKey(currentCC) === accountOrGroupKey(existingCC)))
+  }
+
   computeReviewers(change: ChangeInfo) {
     const reviewers: ReviewerInput[] = [];
     const addToReviewInput = (
@@ -1306,17 +1320,22 @@ export class GrReplyDialog extends LitElement {
       ),
       ReviewerState.REMOVED
     );
-    addToReviewInput(
-      this.ccsList!.removals().filter(
+      this.getCCRemovals().filter(
         r =>
-          isReviewerOrCC(change, r) &&
           // ignore removal from CC request if being added as reviewer
           !this.reviewersList!.additions().some(
-            account => mapReviewer(account).reviewer === mapReviewer(r).reviewer
+            account => mapReviewer(account).reviewer === accountOrGroupKey(r)
           )
-      ),
-      ReviewerState.REMOVED
-    );
+      ).map(account => {
+        if (isAccount(account)) {
+          reviewers.push({reviewer: accountKey(account), state: ReviewerState.REMOVED})
+        } else if (isGroup(account)) {
+          const reviewer = decodeURIComponent(`${accountOrGroupKey(account)}`);
+          const confirmed = true;
+          return {reviewer, confirmed};
+        }
+        throw new Error('Reviewer must be either an account or a group.');
+      })
     return reviewers;
   }
 

@@ -164,8 +164,6 @@ export class GrAccountList extends LitElement {
 
   private readonly reporting = getAppContext().reportingService;
 
-  private pendingRemoval: Set<AccountInput> = new Set();
-
   constructor() {
     super();
     this.querySuggestions = input => this.getSuggestions(input);
@@ -285,7 +283,6 @@ export class GrAccountList extends LitElement {
     let itemTypeAdded = 'unknown';
     if (isAccountObject(item)) {
       account = {...item.account, _pendingAdd: true};
-      this.removeFromPendingRemoval(account);
       this.accounts.push(account);
       itemTypeAdded = 'account';
     } else if (isSuggestedReviewerGroupInfo(item)) {
@@ -295,7 +292,6 @@ export class GrAccountList extends LitElement {
       }
       group = {...item.group, _pendingAdd: true, _group: true};
       this.accounts.push(group);
-      this.removeFromPendingRemoval(group);
       itemTypeAdded = 'group';
     } else if (this.allowAnyInput) {
       if (!item.includes('@')) {
@@ -307,7 +303,6 @@ export class GrAccountList extends LitElement {
       } else {
         account = {email: item as EmailAddress, _pendingAdd: true};
         this.accounts.push(account);
-        this.removeFromPendingRemoval(account);
         itemTypeAdded = 'email';
       }
     }
@@ -375,7 +370,6 @@ export class GrAccountList extends LitElement {
     for (let i = 0; i < this.accounts.length; i++) {
       if (accountOrGroupKey(toRemove) === accountOrGroupKey(this.accounts[i])) {
         this.accounts.splice(i, 1);
-        this.pendingRemoval.add(toRemove);
         this.reporting.reportInteraction(`Remove from ${this.id}`);
         this.requestUpdate();
         fire(this, 'accounts-changed', {value: this.accounts.slice()});
@@ -485,25 +479,5 @@ export class GrAccountList extends LitElement {
           throw new Error('AccountInput must be either Account or Group.');
         }
       });
-  }
-
-  removals(): AccountAddition[] {
-    return Array.from(this.pendingRemoval).map(account => {
-      if (isGroupInfoInput(account)) {
-        return {group: account};
-      } else if (isAccountInfoInput(account)) {
-        return {account};
-      } else {
-        throw new Error('AccountInput must be either Account or Group.');
-      }
-    });
-  }
-
-  private removeFromPendingRemoval(account: AccountInput) {
-    this.pendingRemoval.delete(account);
-  }
-
-  clearPendingRemovals() {
-    this.pendingRemoval.clear();
   }
 }

@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d17d923_6cfeb801",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-03T20:15:56Z",
+      "side": 1,
+      "message": "Ok, I will try to do it in a future change. I added TODO about that.",
+      "parentUuid": "cd811a9e_6b537e04",
+      "range": {
+        "startLine": 226,
+        "startChar": 6,
+        "endLine": 235,
+        "endChar": 8
+      },
+      "revId": "dec86cd8d7b537795da1a8d6218375dd57cc9b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae159c4a_bf61988b",
@@ -101,6 +125,30 @@
       "writtenOn": "2022-08-03T12:59:26Z",
       "side": 1,
       "message": "extract a function",
+      "range": {
+        "startLine": 237,
+        "startChar": 8,
+        "endLine": 252,
+        "endChar": 10
+      },
+      "revId": "dec86cd8d7b537795da1a8d6218375dd57cc9b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a971c93_9c1f7f1d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-03T20:15:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4949b1fb_ac0b3dd0",
       "range": {
         "startLine": 237,
         "startChar": 8,
@@ -181,6 +229,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dba9997e_c04db239",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 817,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-03T20:15:56Z",
+      "side": 1,
+      "message": "`renderPreviewSuggestEditButton` need to be for drafts as well. And drafts have different structure how with already defined buttons. \n\nWe discussed this with Delphine and we think it\u0027s good idea to enable reviewer to preview suggested edits. But we disable apply fix (it\u0027s not yet, but I will do it next changes)\n\nSo I don\u0027t see much how to combine this method with button",
+      "parentUuid": "6aef2053_a1b1aa11",
+      "range": {
+        "startLine": 817,
+        "startChar": 10,
+        "endLine": 817,
+        "endChar": 34
+      },
+      "revId": "dec86cd8d7b537795da1a8d6218375dd57cc9b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e20d745f_b9955a5e",
@@ -229,6 +301,24 @@
       "writtenOn": "2022-08-03T12:59:26Z",
       "side": 1,
       "message": "Maybe assert or alert?",
+      "revId": "dec86cd8d7b537795da1a8d6218375dd57cc9b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f29ffd44_0ac977a2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 1005,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-03T20:15:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f8b00f2_c485a4bc",
       "revId": "dec86cd8d7b537795da1a8d6218375dd57cc9b63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -332,6 +422,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "73f2a2b8_ae6fb20e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 1008,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-03T20:15:56Z",
+      "side": 1,
+      "message": "Good point",
+      "parentUuid": "e4d9e0b6_9b3d394e",
+      "revId": "dec86cd8d7b537795da1a8d6218375dd57cc9b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90a71ee1_361bb29c",
@@ -345,6 +453,30 @@
       "writtenOn": "2022-08-03T12:59:26Z",
       "side": 1,
       "message": "Maybe assert or alert?",
+      "range": {
+        "startLine": 1014,
+        "startChar": 6,
+        "endLine": 1014,
+        "endChar": 43
+      },
+      "revId": "dec86cd8d7b537795da1a8d6218375dd57cc9b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1abed71b_0fed17c8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 1014,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-03T20:15:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90a71ee1_361bb29c",
       "range": {
         "startLine": 1014,
         "startChar": 6,
@@ -420,6 +552,30 @@
         "startChar": 39,
         "endLine": 1017,
         "endChar": 44
+      },
+      "revId": "dec86cd8d7b537795da1a8d6218375dd57cc9b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a037d533_86649df5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 1017,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-03T20:15:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa8ecae8_f41e24cd",
+      "range": {
+        "startLine": 1017,
+        "startChar": 15,
+        "endLine": 1017,
+        "endChar": 31
       },
       "revId": "dec86cd8d7b537795da1a8d6218375dd57cc9b63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

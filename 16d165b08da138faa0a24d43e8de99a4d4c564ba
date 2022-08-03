@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9469f3c8_9752053e",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-03T20:15:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63bb11b2_5f3cbe52",
+      "range": {
+        "startLine": 497,
+        "startChar": 0,
+        "endLine": 509,
+        "endChar": 1
+      },
+      "revId": "16d165b08da138faa0a24d43e8de99a4d4c564ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "703226c4_e35a31cc",
@@ -37,6 +61,24 @@
       "writtenOn": "2022-08-03T12:59:26Z",
       "side": 1,
       "message": "Is that more a file util than a comment util?",
+      "revId": "16d165b08da138faa0a24d43e8de99a4d4c564ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9311b03e_c7422d2b",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-03T20:15:56Z",
+      "side": 1,
+      "message": "I can see both, but I would say this is more comment util. Since we are interested we are interested what text is comment actually referring to.",
+      "parentUuid": "703226c4_e35a31cc",
       "revId": "16d165b08da138faa0a24d43e8de99a4d4c564ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

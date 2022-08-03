@@ -899,8 +899,8 @@ suite('gr-reply-dialog tests', () => {
     await element.updateComplete;
 
     element.reviewers = [
-      {_account_id: 1 as AccountId, _pendingAdd: true},
-      {_account_id: 2 as AccountId, _pendingAdd: true},
+      {_account_id: 1 as AccountId},
+      {_account_id: 2 as AccountId},
     ];
     element.ccs = [];
     element.draftCommentThreads = [];
@@ -1342,14 +1342,8 @@ suite('gr-reply-dialog tests', () => {
     );
 
     // No reviewer/CC should have been added.
-    assert.equal(
-      queryAndAssert<GrAccountList>(element, '#ccs').additions().length,
-      0
-    );
-    assert.equal(
-      queryAndAssert<GrAccountList>(element, '#reviewers').additions().length,
-      0
-    );
+    assert.equal(element.ccsList?.additions().length, 0);
+    assert.equal(element.reviewersList?.additions().length, 0);
 
     // Reopen confirmation dialog.
     observer = overlayObserver('opened');
@@ -1379,17 +1373,11 @@ suite('gr-reply-dialog tests', () => {
       isVisible(queryAndAssert(element, 'reviewerConfirmationOverlay'))
     );
     const additions = cc
-      ? queryAndAssert<GrAccountList>(element, '#ccs').additions()
-      : queryAndAssert<GrAccountList>(element, '#reviewers').additions();
+      ? element.ccsList?.additions()
+      : element.reviewersList?.additions();
     assert.deepEqual(additions, [
       {
-        group: {
-          id: 'id' as GroupId,
-          name: 'name' as GroupName,
-          confirmed: true,
-          _group: true,
-          _pendingAdd: true,
-        },
+        name: 'name' as GroupName,
       },
     ]);
 
@@ -2004,6 +1992,8 @@ suite('gr-reply-dialog tests', () => {
       [ReviewerState.CC]: [],
       [ReviewerState.REVIEWER]: [{_account_id: reviewer1._account_id}],
     };
+
+    await element.updateComplete;
 
     const mutations: ReviewerInput[] = [];
 

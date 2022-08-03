@@ -8,18 +8,15 @@ import {
   AccountInfo,
   ChangeInfo,
   EmailAddress,
-  GroupId,
   GroupInfo,
   isAccount,
   isDetailedLabelInfo,
   isGroup,
   NumericChangeId,
-  ReviewerInput,
   ServerInfo,
 } from '../types/common';
-import {AccountTag} from '../constants/constants';
+import {AccountTag, ReviewerState} from '../constants/constants';
 import {assertNever, hasOwnProperty} from './common-util';
-import {AccountAddition} from '../elements/shared/gr-account-list/gr-account-list';
 import {getDisplayName} from './display-name-util';
 import {getApprovalInfo} from './label-util';
 import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
@@ -34,18 +31,6 @@ export function accountKey(account: AccountInfo): AccountId | EmailAddress {
   if (account._account_id !== undefined) return account._account_id;
   if (account.email) return account.email;
   throw new Error('Account has neither _account_id nor email.');
-}
-
-export function mapReviewer(addition: AccountAddition): ReviewerInput {
-  if (addition.account) {
-    return {reviewer: accountKey(addition.account)};
-  }
-  if (addition.group) {
-    const reviewer = decodeURIComponent(addition.group.id) as GroupId;
-    const confirmed = addition.group.confirmed;
-    return {reviewer, confirmed};
-  }
-  throw new Error('Reviewer must be either an account or a group.');
 }
 
 export function isServiceUser(account?: AccountInfo): boolean {
@@ -68,6 +53,29 @@ export function accountOrGroupKey(entry: AccountInfo | GroupInfo) {
   if (isAccount(entry)) return accountKey(entry);
   if (isGroup(entry)) return entry.id;
   assertNever(entry, 'entry must be account or group');
+}
+
+export function isAccountNewlyAdded(
+  account: AccountInfo | GroupInfo,
+  state?: ReviewerState,
+  change?: ChangeInfo
+) {
+  if (!change || !state) return false;
+  const accounts = [...(change.reviewers[state] ?? [])];
+  return !accounts.some(
+    a => accountOrGroupKey(a) === accountOrGroupKey(account)
+  );
+}
+
+export function getAccountsAdded(
+  currentAccounts: AccountInfo[],
+  state?: ReviewerState,
+  change?: ChangeInfo
+) {
+  if (!change) return [];
+  return currentAccounts.filter(account =>
+    isAccountNewlyAdded(account, state, change)
+  );
 }
 
 export function uniqueDefinedAvatar(

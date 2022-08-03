@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21f9538d_690a7df0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-03T20:51:48Z",
+      "side": 1,
+      "message": "Interesting, it was replaced by classMap https://gerrit-review.googlesource.com/c/gerrit/+/334321/24/polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts#220",
+      "revId": "7335b2f01eba62405a33ab67a15a5a1ca7fa1ffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

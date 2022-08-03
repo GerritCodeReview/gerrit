@@ -55,17 +55,6 @@ export class GrCopyClipboard extends LitElement {
           line-height: var(--line-height-mono);
           width: 100%;
         }
-        /*
-         * Typically icons are 20px, which is the normal line-height.
-         * The copy icon is too prominent at 20px, so we choose 16px
-         * here, but add 2x2px padding below, so the entire
-         * component should still fit nicely into a normal inline
-         * layout flow.
-         */
-        #icon {
-          height: 16px;
-          width: 16px;
-        }
         gr-icon {
           color: var(--deemphasized-text-color);
         }
@@ -107,7 +96,7 @@ export class GrCopyClipboard extends LitElement {
             @click=${this._copyToClipboard}
             aria-label="Click to copy to clipboard"
           >
-            <gr-icon id="icon" icon="content_copy"></gr-icon>
+            <gr-icon id="icon" icon="content_copy" small></gr-icon>
           </gr-button>
         </gr-tooltip-content>
       </div>

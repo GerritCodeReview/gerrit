@@ -20,7 +20,6 @@ import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../gr-submit-requirements/gr-submit-requirements';
 import '../gr-commit-info/gr-commit-info';
 import '../gr-reviewer-list/gr-reviewer-list';
-import '../../shared/gr-account-list/gr-account-list';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {
   ChangeStatus,

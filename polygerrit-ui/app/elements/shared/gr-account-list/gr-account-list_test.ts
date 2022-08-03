@@ -28,6 +28,8 @@ import {
   GrAutocomplete,
 } from '../gr-autocomplete/gr-autocomplete';
 import {GrAccountEntry} from '../gr-account-entry/gr-account-entry';
+import {createChange} from '../../../test/test-data-generators';
+import {ReviewerState} from '../../../api/rest-api';
 
 const basicFixture = fixtureFromElement('gr-account-list');
 
@@ -65,7 +67,6 @@ suite('gr-account-list tests', () => {
     const groupId = `group${++_nextAccountId}`;
     return {
       id: groupId as GroupId,
-      _group: true,
       name: 'abcd' as GroupName,
     };
   };
@@ -94,6 +95,9 @@ suite('gr-account-list tests', () => {
 
     element = basicFixture.instantiate();
     element.accounts = [existingAccount1, existingAccount2];
+    element.reviewerState = ReviewerState.REVIEWER;
+    element.change = {...createChange()};
+    element.change.reviewers[ReviewerState.REVIEWER] = [...element.accounts];
     suggestionsProvider = new MockSuggestionsProvider();
     element.suggestionsProvider = suggestionsProvider;
     await element.updateComplete;
@@ -130,18 +134,18 @@ suite('gr-account-list tests', () => {
     // Existing accounts are listed.
     let chips = getChips();
     assert.equal(chips.length, 2);
-    assert.isFalse(chips[0].classList.contains('pendingAdd'));
-    assert.isFalse(chips[1].classList.contains('pendingAdd'));
+    assert.isFalse(chips[0].classList.contains('newlyAdded'));
+    assert.isFalse(chips[1].classList.contains('newlyAdded'));
 
-    // New accounts are added to end with pendingAdd class.
+    // New accounts are added to end with newlyAdded class.
     const newAccount = makeAccount();
     handleAdd({account: newAccount, count: 1});
     await element.updateComplete;
     chips = getChips();
     assert.equal(chips.length, 3);
-    assert.isFalse(chips[0].classList.contains('pendingAdd'));
-    assert.isFalse(chips[1].classList.contains('pendingAdd'));
-    assert.isTrue(chips[2].classList.contains('pendingAdd'));
+    assert.isFalse(chips[0].classList.contains('newlyAdded'));
+    assert.isFalse(chips[1].classList.contains('newlyAdded'));
+    assert.isTrue(chips[2].classList.contains('newlyAdded'));
 
     // Removed accounts are taken out of the list.
     element.dispatchEvent(
@@ -154,8 +158,8 @@ suite('gr-account-list tests', () => {
     await element.updateComplete;
     chips = getChips();
     assert.equal(chips.length, 2);
-    assert.isFalse(chips[0].classList.contains('pendingAdd'));
-    assert.isTrue(chips[1].classList.contains('pendingAdd'));
+    assert.isFalse(chips[0].classList.contains('newlyAdded'));
+    assert.isTrue(chips[1].classList.contains('newlyAdded'));
 
     // Invalid remove is ignored.
     element.dispatchEvent(
@@ -175,16 +179,16 @@ suite('gr-account-list tests', () => {
     await element.updateComplete;
     chips = getChips();
     assert.equal(chips.length, 1);
-    assert.isFalse(chips[0].classList.contains('pendingAdd'));
+    assert.isFalse(chips[0].classList.contains('newlyAdded'));
 
-    // New groups are added to end with pendingAdd and group classes.
+    // New groups are added to end with newlyAdded and group classes.
     const newGroup = makeGroup();
     handleAdd({group: newGroup, confirm: false, count: 1});
     await element.updateComplete;
     chips = getChips();
     assert.equal(chips.length, 2);
     assert.isTrue(chips[1].classList.contains('group'));
-    assert.isTrue(chips[1].classList.contains('pendingAdd'));
+    assert.isTrue(chips[1].classList.contains('newlyAdded'));
 
     // Removed groups are taken out of the list.
     element.dispatchEvent(
@@ -197,7 +201,7 @@ suite('gr-account-list tests', () => {
     await element.updateComplete;
     chips = getChips();
     assert.equal(chips.length, 1);
-    assert.isFalse(chips[0].classList.contains('pendingAdd'));
+    assert.isFalse(chips[0].classList.contains('newlyAdded'));
   });
 
   test('getSuggestions uses filter correctly', () => {
@@ -262,7 +266,6 @@ suite('gr-account-list tests', () => {
 
   test('computeRemovable', async () => {
     const newAccount = makeAccount() as AccountInfoInput;
-    newAccount._pendingAdd = true;
     element.readonly = false;
     element.removableValues = [];
     element.updateComplete;
@@ -309,7 +312,7 @@ suite('gr-account-list tests', () => {
     assert.isTrue(element.submitEntryText());
     assert.isTrue(clearStub.called);
     assert.equal(
-      element.additions()[0].account?.email,
+      (element.additions()[0] as AccountInfo)?.email,
       'test@test' as EmailAddress
     );
   });
@@ -324,18 +327,11 @@ suite('gr-account-list tests', () => {
 
     assert.deepEqual(element.additions(), [
       {
-        account: {
-          _account_id: newAccount._account_id,
-          _pendingAdd: true,
-        },
+        _account_id: newAccount._account_id,
       },
       {
-        group: {
-          id: newGroup.id,
-          _group: true,
-          _pendingAdd: true,
-          name: 'abcd' as GroupName,
-        },
+        id: newGroup.id,
+        name: 'abcd' as GroupName,
       },
     ]);
   });
@@ -345,7 +341,7 @@ suite('gr-account-list tests', () => {
     assert.deepEqual(element.additions(), []);
 
     const group = makeGroup();
-    const reviewer = {
+    const reviewer: RawAccountInput = {
       group,
       count: 10,
       confirm: true,
@@ -359,13 +355,9 @@ suite('gr-account-list tests', () => {
     assert.isNull(element.pendingConfirmation);
     assert.deepEqual(element.additions(), [
       {
-        group: {
-          id: group.id,
-          _group: true,
-          _pendingAdd: true,
-          confirmed: true,
-          name: 'abcd' as GroupName,
-        },
+        id: group.id,
+        name: 'abcd' as GroupName,
+        confirmed: true,
       },
     ]);
   });

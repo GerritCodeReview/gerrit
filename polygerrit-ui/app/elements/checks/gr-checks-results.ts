@@ -861,7 +861,6 @@ export class GrChecksResults extends LitElement {
         }
         .headerTopRow,
         .headerBottomRow {
-          max-width: 1600px;
           display: flex;
           justify-content: space-between;
           align-items: flex-end;
@@ -987,7 +986,6 @@ export class GrChecksResults extends LitElement {
         }
         .noResultsMessage {
           width: 100%;
-          max-width: 1600px;
           margin-top: var(--spacing-m);
           background-color: var(--background-color-primary);
           box-shadow: var(--elevation-level-1);
@@ -996,7 +994,6 @@ export class GrChecksResults extends LitElement {
         }
         table.resultsTable {
           width: 100%;
-          max-width: 1600px;
           table-layout: fixed;
           margin-top: var(--spacing-m);
           background-color: var(--background-color-primary);

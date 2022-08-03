@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {LitElement, css, html, PropertyValues} from 'lit';
-import {customElement, property, state} from 'lit/decorators';
+import {customElement, property, query, state} from 'lit/decorators';
 import {
   CheckResult,
   CheckRun,
@@ -21,6 +21,7 @@ import {subscribe} from '../lit/subscription-controller';
 import {Deduping} from '../../api/reporting';
 import {Interaction} from '../../constants/reporting';
 import {resolve} from '../../models/dependency';
+import {GrChecksRuns} from './gr-checks-runs';
 
 /**
  * The "Checks" tab on the Gerrit change page. Gets its data from plugins that
@@ -28,6 +29,9 @@ import {resolve} from '../../models/dependency';
  */
 @customElement('gr-checks-tab')
 export class GrChecksTab extends LitElement {
+  @query('.runs')
+  checksRuns?: GrChecksRuns;
+
   @state()
   runs: CheckRun[] = [];
 
@@ -62,6 +66,8 @@ export class GrChecksTab extends LitElement {
 
   private readonly reporting = getAppContext().reportingService;
 
+  private offsetWidthBefore = 0;
+
   constructor() {
     super();
     subscribe(
@@ -89,6 +95,14 @@ export class GrChecksTab extends LitElement {
       () => this.getChangeModel().changeNum$,
       x => (this.changeNum = x)
     );
+    const observer = new ResizeObserver(() => {
+      if (!this.checksRuns) return;
+      // The appearance of a scroll bar (<40px width) should not trigger.
+      if (Math.abs(this.offsetWidth - this.offsetWidthBefore) < 40) return;
+      this.offsetWidthBefore = this.offsetWidth;
+      this.checksRuns.collapsed = this.offsetWidth < 1200;
+    });
+    observer.observe(this);
   }
 
   static override get styles() {
@@ -102,9 +116,10 @@ export class GrChecksTab extends LitElement {
       .runs {
         min-height: 400px;
         border-right: 1px solid var(--border-color);
+        flex: 0 0 auto;
       }
       .results {
-        flex-grow: 1;
+        flex: 1 1 auto;
       }
     `;
   }

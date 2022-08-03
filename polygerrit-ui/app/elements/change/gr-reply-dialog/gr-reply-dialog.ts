@@ -1047,7 +1047,7 @@ export class GrReplyDialog extends LitElement {
         <div class="peopleList">
           <div class="peopleListLabel">Reviewers</div>
           <div class="peopleListValues">
-            ${this.removeServiceUsers(this.reviewers).map(
+            ${removeServiceUsers(this.reviewers).map(
               account => html`
                 <gr-account-label
                   .account=${account}
@@ -1069,7 +1069,7 @@ export class GrReplyDialog extends LitElement {
             <div class="peopleList">
               <div class="peopleListLabel">CC</div>
               <div class="peopleListValues">
-                ${this.removeServiceUsers(this.ccs).map(
+                ${removeServiceUsers(this.ccs).map(
                   account => html`
                     <gr-account-label
                       .account=${account}
@@ -1741,10 +1741,6 @@ export class GrReplyDialog extends LitElement {
     if (this.reviewers) allAccounts = [...allAccounts, ...this.reviewers];
     if (this.ccs) allAccounts = [...allAccounts, ...this.ccs];
     return removeServiceUsers(allAccounts.filter(isAccount));
-  }
-
-  removeServiceUsers(accounts: AccountInfo[]) {
-    return removeServiceUsers(accounts);
   }
 
   computeUploader() {

@@ -260,17 +260,6 @@ suite('gr-account-list tests', () => {
       });
   });
 
-  test('computeChipClass', () => {
-    const account = makeAccount() as AccountInfoInput;
-    assert.equal(element.computeChipClass(account), '');
-    account._pendingAdd = true;
-    assert.equal(element.computeChipClass(account), 'pendingAdd');
-    account._group = true;
-    assert.equal(element.computeChipClass(account), 'group pendingAdd');
-    account._pendingAdd = false;
-    assert.equal(element.computeChipClass(account), 'group');
-  });
-
   test('computeRemovable', async () => {
     const newAccount = makeAccount() as AccountInfoInput;
     newAccount._pendingAdd = true;

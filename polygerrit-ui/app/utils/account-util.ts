@@ -17,7 +17,7 @@ import {
   ReviewerInput,
   ServerInfo,
 } from '../types/common';
-import {AccountTag} from '../constants/constants';
+import {AccountTag, ReviewerState} from '../constants/constants';
 import {assertNever, hasOwnProperty} from './common-util';
 import {AccountAddition} from '../elements/shared/gr-account-list/gr-account-list';
 import {getDisplayName} from './display-name-util';
@@ -68,6 +68,20 @@ export function accountOrGroupKey(entry: AccountInfo | GroupInfo) {
   if (isAccount(entry)) return accountKey(entry);
   if (isGroup(entry)) return entry.id;
   assertNever(entry, 'entry must be account or group');
+}
+
+export function isAccountNewlyAdded(
+  account: AccountInfo | GroupInfo,
+  change?: ChangeInfo
+) {
+  if (!change) return false;
+  const accounts = [
+    ...(change.reviewers[ReviewerState.REVIEWER] ?? []),
+    ...(change.reviewers[ReviewerState.CC] ?? []),
+  ];
+  return !accounts.some(
+    a => accountOrGroupKey(a) === accountOrGroupKey(account)
+  );
 }
 
 export function uniqueDefinedAvatar(

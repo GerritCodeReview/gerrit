@@ -104,6 +104,30 @@
       },
       "revId": "e39f0dbb43fbd6b8bdf61b9d1f02ba24a04e30ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a34bd726_da07eee6",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-08-03T11:44:12Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t think we want to add another method.\n\nDone.",
+      "parentUuid": "6cec7ea6_b230e7d2",
+      "range": {
+        "startLine": 160,
+        "startChar": 17,
+        "endLine": 160,
+        "endChar": 31
+      },
+      "revId": "e39f0dbb43fbd6b8bdf61b9d1f02ba24a04e30ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

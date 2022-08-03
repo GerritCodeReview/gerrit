@@ -419,10 +419,18 @@ originally committed and on which parent commit they were originally based.
 [[merge_always]]
 * 'merge always':
 +
-Always produce a merge commit, even if the change is a strict superset of the
-destination branch. This is identical to the behavior of `git merge --no-ff`,
-and may be useful if the project needs to follow submits with
-`git log --first-parent`.
+With this action, when a change is being submitted, Gerrit always creates a
+merge commit, even if a fast-forward is possible.
++
+This is identical to the behavior of
+link:https://git-scm.com/docs/git-merge#Documentation/git-merge.txt---no-ff[git merge --no-ff].
++
+With this submit action the commits that have been reviewed and approved are
+retained in the git history of the target branch. This means, by looking at the
+history of the target branch, you can see for all commits when they were
+originally committed and on which parent commit they were originally based. In
+addition, from the merge commits you can see when the changes were submitted
+and it's possible to follow submissions with `git log --first-parent`.
 
 [[rebase_if_necessary]]
 * 'rebase if necessary':
@@ -458,8 +466,21 @@ is done no footers are added.
 [[rebase_always]]
 * 'rebase always':
 +
-Basically, the same as `rebase if necessary`, but it creates a new patchset
-even if a fast-forward is possible.
+With this action, when a change is being submitted, Gerrit always does a
+rebase, even if a fast-forward is possible.
++
+With this submit action, the original commits that have been reviewed and
+approved do not become part of the target branch's history. This means the
+information on when the original commits were committed and on which parent
+they were based is not retained in the branch history.
++
+Using this submit action results in a linear history of the target branch,
+unless merge commits are being submitted. For some people this is an advantage
+since they find the linear history easier to read.
++
+NOTE: Rebasing merge commits is not supported. If a change with a merge commit
+is submitted the link:#merge_if_necessary[merge if necessary] submit action is
+applied.
 +
 When rebasing the patchset, Gerrit automatically appends onto the end of the
 commit message a short summary of the change's approvals, and a URL link back

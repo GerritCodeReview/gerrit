@@ -28,6 +28,8 @@ import {
   GrAutocomplete,
 } from '../gr-autocomplete/gr-autocomplete';
 import {GrAccountEntry} from '../gr-account-entry/gr-account-entry';
+import {createChange} from '../../../test/test-data-generators';
+import {ReviewerState} from '../../../api/rest-api';
 
 const basicFixture = fixtureFromElement('gr-account-list');
 
@@ -94,6 +96,8 @@ suite('gr-account-list tests', () => {
 
     element = basicFixture.instantiate();
     element.accounts = [existingAccount1, existingAccount2];
+    element.change = {...createChange()};
+    element.change.reviewers[ReviewerState.REVIEWER] = [...element.accounts];
     suggestionsProvider = new MockSuggestionsProvider();
     element.suggestionsProvider = suggestionsProvider;
     await element.updateComplete;
@@ -262,7 +266,6 @@ suite('gr-account-list tests', () => {
 
   test('computeRemovable', async () => {
     const newAccount = makeAccount() as AccountInfoInput;
-    newAccount._pendingAdd = true;
     element.readonly = false;
     element.removableValues = [];
     element.updateComplete;
@@ -326,14 +329,12 @@ suite('gr-account-list tests', () => {
       {
         account: {
           _account_id: newAccount._account_id,
-          _pendingAdd: true,
         },
       },
       {
         group: {
           id: newGroup.id,
           _group: true,
-          _pendingAdd: true,
           name: 'abcd' as GroupName,
         },
       },
@@ -362,7 +363,6 @@ suite('gr-account-list tests', () => {
         group: {
           id: group.id,
           _group: true,
-          _pendingAdd: true,
           confirmed: true,
           name: 'abcd' as GroupName,
         },

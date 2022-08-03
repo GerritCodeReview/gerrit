@@ -26,8 +26,8 @@ import {
   SpecialFilePath,
 } from '../../../constants/constants';
 import {
+  accountKey,
   accountOrGroupKey,
-  isReviewerOrCC,
   mapReviewer,
   removeServiceUsers,
 } from '../../../utils/account-util';
@@ -63,6 +63,7 @@ import {
   ServerInfo,
   SuggestedReviewerGroupInfo,
   Suggestion,
+  isGroup,
 } from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrLabelScores} from '../gr-label-scores/gr-label-scores';
@@ -99,7 +100,7 @@ import {addShortcut, Key, Modifier} from '../../../utils/dom-util';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
-import {ConfigInfo, LabelNameToValuesMap} from '../../../api/rest-api';
+import {ConfigInfo, GroupId, LabelNameToValuesMap} from '../../../api/rest-api';
 import {css, html, PropertyValues, LitElement} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {when} from 'lit/directives/when';
@@ -1281,7 +1282,28 @@ export class GrReplyDialog extends LitElement {
     return isResolvedPatchsetLevelComment ? 'resolved' : 'unresolved';
   }
 
-  computeReviewers(change: ChangeInfo) {
+  /**
+   * Get the list of users removed .
+   * A user is removed if they were initially present in change.reviewer[state]
+   * and not present in this.<state>list.accounts
+   */
+
+  private getRemovals(
+    state: ReviewerState,
+    currentAccounts: AccountInput[]
+  ): AccountInfo[] {
+    const existingAccounts = this.change?.reviewers[state] ?? [];
+    return existingAccounts.filter(
+      existingAccount =>
+        !currentAccounts.some(
+          currentAccount =>
+            accountOrGroupKey(currentAccount) ===
+            accountOrGroupKey(existingAccount)
+        )
+    );
+  }
+
+  computeReviewers() {
     const reviewers: ReviewerInput[] = [];
     const addToReviewInput = (
       additions: AccountAddition[],
@@ -1293,30 +1315,45 @@ export class GrReplyDialog extends LitElement {
         reviewers.push(reviewer);
       });
     };
+    const mapAccountToReviewInput = (account: AccountInfo): ReviewerInput => {
+      if (isAccount(account)) {
+        return {
+          reviewer: accountKey(account),
+          state: ReviewerState.REMOVED,
+        };
+      } else if (isGroup(account)) {
+        const reviewer = decodeURIComponent(
+          `${accountOrGroupKey(account)}`
+        ) as GroupId;
+        return {reviewer, state: ReviewerState.REMOVED};
+      }
+      throw new Error('Must be either an account or a group.');
+    };
     addToReviewInput(this.reviewersList!.additions(), ReviewerState.REVIEWER);
     addToReviewInput(this.ccsList!.additions(), ReviewerState.CC);
-    addToReviewInput(
-      this.reviewersList!.removals().filter(
+
+    this.getRemovals(ReviewerState.REVIEWER, this.reviewersList?.accounts ?? [])
+      .filter(
         r =>
-          isReviewerOrCC(change, r) &&
-          // ignore removal from reviewer request if being added to CC
+          // ignore removal from reviewer request if being added as CC
           !this.ccsList!.additions().some(
-            account => mapReviewer(account).reviewer === mapReviewer(r).reviewer
+            account => mapReviewer(account).reviewer === accountOrGroupKey(r)
           )
-      ),
-      ReviewerState.REMOVED
-    );
-    addToReviewInput(
-      this.ccsList!.removals().filter(
+      )
+      .map(mapAccountToReviewInput)
+      .map(v => reviewers.push(v));
+
+    this.getRemovals(ReviewerState.CC, this.ccsList?.accounts ?? [])
+      .filter(
         r =>
-          isReviewerOrCC(change, r) &&
           // ignore removal from CC request if being added as reviewer
           !this.reviewersList!.additions().some(
-            account => mapReviewer(account).reviewer === mapReviewer(r).reviewer
+            account => mapReviewer(account).reviewer === accountOrGroupKey(r)
           )
-      ),
-      ReviewerState.REMOVED
-    );
+      )
+      .map(mapAccountToReviewInput)
+      .map(v => reviewers.push(v));
+
     return reviewers;
   }
 
@@ -1367,7 +1404,7 @@ export class GrReplyDialog extends LitElement {
     }
 
     assertIsDefined(this.change, 'change');
-    reviewInput.reviewers = this.computeReviewers(this.change);
+    reviewInput.reviewers = this.computeReviewers();
     this.disabled = true;
 
     const errFn = (r?: Response | null) => this.handle400Error(r);
@@ -1816,7 +1853,6 @@ export class GrReplyDialog extends LitElement {
       })
     );
     queryAndAssert<GrTextarea>(this, 'gr-textarea').closeDropdown();
-    this.reviewersList?.clearPendingRemovals();
     this.rebuildReviewerArrays();
   }
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "494aa6d3_3555440c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-03T11:04:21Z",
+      "side": 1,
+      "message": "```suggestion\nimport {Test} from \u0027./gr-apply-fix-dialog_html\u0027;\n```",
+      "range": {
+        "startLine": 23,
+        "startChar": 8,
+        "endLine": 23,
+        "endChar": 20
+      },
+      "revId": "1942f62096f01c6ac7e10e7fcd0360ccc7a7a5d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "861e061a_ff0d35a6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-03T11:04:21Z",
+      "side": 1,
+      "message": "Test",
+      "revId": "68728cc2edcbaf045a57e3e9fc937a9b9b9026c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e19d9dce_40c62a47",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-03T11:04:21Z",
+      "side": 1,
+      "message": "```suggestion\n   * @return Test that resolves either when all\n```",
+      "range": {
+        "startLine": 126,
+        "startChar": 13,
+        "endLine": 126,
+        "endChar": 20
+      },
+      "revId": "68728cc2edcbaf045a57e3e9fc937a9b9b9026c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

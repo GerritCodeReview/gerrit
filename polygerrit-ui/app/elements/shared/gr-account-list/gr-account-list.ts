@@ -20,7 +20,10 @@ import {ReviewerSuggestionsProvider} from '../../../scripts/gr-reviewer-suggesti
 import {GrAccountEntry} from '../gr-account-entry/gr-account-entry';
 import {GrAccountChip} from '../gr-account-chip/gr-account-chip';
 import {fire, fireAlert} from '../../../utils/event-util';
-import {accountOrGroupKey} from '../../../utils/account-util';
+import {
+  accountOrGroupKey,
+  isAccountNewlyAdded,
+} from '../../../utils/account-util';
 import {LitElement, css, html, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -76,7 +79,6 @@ function isSuggestedReviewerGroupInfo(
 export interface AccountInfoInput extends AccountInfo {
   _group?: boolean;
   _account?: boolean;
-  _pendingAdd?: boolean;
   confirmed?: boolean;
 }
 
@@ -84,7 +86,6 @@ export interface AccountInfoInput extends AccountInfo {
 export interface GroupInfoInput extends GroupInfo {
   _group?: boolean;
   _account?: boolean;
-  _pendingAdd?: boolean;
   confirmed?: boolean;
 }
 
@@ -208,7 +209,7 @@ export class GrAccountList extends LitElement {
               .change=${this.change}
               class=${classMap({
                 group: !!account._group,
-                pendingAdd: !!account._pendingAdd,
+                pendingAdd: isAccountNewlyAdded(account, this.change),
               })}
               ?removable=${this.computeRemovable(account)}
               @keydown=${this.handleChipKeydown}
@@ -282,7 +283,7 @@ export class GrAccountList extends LitElement {
     let group;
     let itemTypeAdded = 'unknown';
     if (isAccountObject(item)) {
-      account = {...item.account, _pendingAdd: true};
+      account = {...item.account};
       this.accounts.push(account);
       itemTypeAdded = 'account';
     } else if (isSuggestedReviewerGroupInfo(item)) {
@@ -290,7 +291,7 @@ export class GrAccountList extends LitElement {
         this.pendingConfirmation = item;
         return;
       }
-      group = {...item.group, _pendingAdd: true, _group: true};
+      group = {...item.group, _group: true};
       this.accounts.push(group);
       itemTypeAdded = 'group';
     } else if (this.allowAnyInput) {
@@ -301,7 +302,7 @@ export class GrAccountList extends LitElement {
         fireAlert(this, VALID_EMAIL_ALERT);
         return false;
       } else {
-        account = {email: item as EmailAddress, _pendingAdd: true};
+        account = {email: item as EmailAddress};
         this.accounts.push(account);
         itemTypeAdded = 'email';
       }
@@ -318,7 +319,6 @@ export class GrAccountList extends LitElement {
     this.accounts.push({
       ...group,
       confirmed: true,
-      _pendingAdd: true,
       _group: true,
     });
     this.pendingConfirmation = null;
@@ -332,7 +332,7 @@ export class GrAccountList extends LitElement {
     if (account._group) {
       classes.push('group');
     }
-    if (account._pendingAdd) {
+    if (isAccountNewlyAdded(account, this.change)) {
       classes.push('pendingAdd');
     }
     return classes.join(' ');
@@ -352,7 +352,7 @@ export class GrAccountList extends LitElement {
           return true;
         }
       }
-      return !!account._pendingAdd;
+      return isAccountNewlyAdded(account, this.change);
     }
     return true;
   }
@@ -469,7 +469,7 @@ export class GrAccountList extends LitElement {
 
   additions(): AccountAddition[] {
     return this.accounts
-      .filter(account => account._pendingAdd)
+      .filter(account => isAccountNewlyAdded(account, this.change))
       .map(account => {
         if (isGroupInfoInput(account)) {
           return {group: account};

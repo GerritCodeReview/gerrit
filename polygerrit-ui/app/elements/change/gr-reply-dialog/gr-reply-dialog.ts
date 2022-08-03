@@ -28,6 +28,7 @@ import {
 import {
   accountKey,
   accountOrGroupKey,
+  isAccountNewlyAdded,
   mapReviewer,
   removeServiceUsers,
 } from '../../../utils/account-util';
@@ -1661,7 +1662,11 @@ export class GrReplyDialog extends LitElement {
         );
       this.reviewers
         .filter(r => isAccount(r))
-        .filter(r => r._pendingAdd || (this.canBeStarted && isOwner))
+        .filter(
+          r =>
+            isAccountNewlyAdded(r, this.change) ||
+            (this.canBeStarted && isOwner)
+        )
         .filter(notIsReviewerAndHasDraftOrLabel)
         .forEach(r => newAttention.add((r as AccountInfo)._account_id!));
       // Add owner and uploader, if someone else replies.

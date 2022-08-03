@@ -337,14 +337,12 @@ suite('gr-account-list tests', () => {
       {
         account: {
           _account_id: newAccount._account_id,
-          _pendingAdd: true,
         },
       },
       {
         group: {
           id: newGroup.id,
           _group: true,
-          _pendingAdd: true,
           name: 'abcd' as GroupName,
         },
       },
@@ -373,7 +371,6 @@ suite('gr-account-list tests', () => {
         group: {
           id: group.id,
           _group: true,
-          _pendingAdd: true,
           confirmed: true,
           name: 'abcd' as GroupName,
         },

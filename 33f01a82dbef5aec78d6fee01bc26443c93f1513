@@ -22,6 +22,30 @@
       },
       "revId": "33f01a82dbef5aec78d6fee01bc26443c93f1513",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fb54d22_183449d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-03T14:10:19Z",
+      "side": 1,
+      "message": "Test is checking filterAttentionChangesAfter method. Which works well. \n\nThe problem was that latestUpdateTimestampMs which was send to this method was wrong - it shouldn\u0027t be updated before calling this method.\n\nProblem is that service worker functionality cannot be tested, because there isn\u0027t export in service worker.",
+      "parentUuid": "c9da4b33_af317a63",
+      "range": {
+        "startLine": 9,
+        "startChar": 14,
+        "endLine": 9,
+        "endChar": 71
+      },
+      "revId": "33f01a82dbef5aec78d6fee01bc26443c93f1513",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

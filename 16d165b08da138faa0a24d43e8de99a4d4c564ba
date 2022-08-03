@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63bb11b2_5f3cbe52",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-03T12:59:26Z",
+      "side": 1,
+      "message": "Maybe add a simple test for each function.",
+      "range": {
+        "startLine": 497,
+        "startChar": 0,
+        "endLine": 509,
+        "endChar": 1
+      },
+      "revId": "16d165b08da138faa0a24d43e8de99a4d4c564ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "703226c4_e35a31cc",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-03T12:59:26Z",
+      "side": 1,
+      "message": "Is that more a file util than a comment util?",
+      "revId": "16d165b08da138faa0a24d43e8de99a4d4c564ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

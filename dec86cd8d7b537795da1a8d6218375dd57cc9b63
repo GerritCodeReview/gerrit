@@ -1,0 +1,296 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1014b48_22510854",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-03T12:59:26Z",
+      "side": 1,
+      "message": "Woohoo! 🎉 Super nice.",
+      "revId": "dec86cd8d7b537795da1a8d6218375dd57cc9b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd811a9e_6b537e04",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-03T12:59:26Z",
+      "side": 1,
+      "message": "This is duplicated code and rather belongs into a service/model. If you don\u0027t feel like creating a new file or fix service, then maybe use the files-model. Components should not have a dependency on restApiService directly.",
+      "range": {
+        "startLine": 226,
+        "startChar": 6,
+        "endLine": 235,
+        "endChar": 8
+      },
+      "revId": "dec86cd8d7b537795da1a8d6218375dd57cc9b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae159c4a_bf61988b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-03T12:59:26Z",
+      "side": 1,
+      "message": "extract a constant",
+      "range": {
+        "startLine": 238,
+        "startChar": 18,
+        "endLine": 238,
+        "endChar": 44
+      },
+      "revId": "dec86cd8d7b537795da1a8d6218375dd57cc9b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4949b1fb_ac0b3dd0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-03T12:59:26Z",
+      "side": 1,
+      "message": "extract a function",
+      "range": {
+        "startLine": 237,
+        "startChar": 8,
+        "endLine": 252,
+        "endChar": 10
+      },
+      "revId": "dec86cd8d7b537795da1a8d6218375dd57cc9b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1753cedc_c5e4fdcc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-03T12:59:26Z",
+      "side": 1,
+      "message": "use extracted constant",
+      "range": {
+        "startLine": 288,
+        "startChar": 33,
+        "endLine": 288,
+        "endChar": 50
+      },
+      "revId": "dec86cd8d7b537795da1a8d6218375dd57cc9b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6aef2053_a1b1aa11",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 817,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-03T12:59:26Z",
+      "side": 1,
+      "message": "Maybe just combine this with `renderPreviewSuggestEditButton` method?",
+      "range": {
+        "startLine": 817,
+        "startChar": 10,
+        "endLine": 817,
+        "endChar": 34
+      },
+      "revId": "dec86cd8d7b537795da1a8d6218375dd57cc9b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e20d745f_b9955a5e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 818,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-03T12:59:26Z",
+      "side": 1,
+      "message": "Maybe add\n```\n    if (!this.flagsService.isEnabled(KnownExperimentId.SUGGEST_EDIT)) {\n      return nothing;\n    }\n```",
+      "revId": "dec86cd8d7b537795da1a8d6218375dd57cc9b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f8b00f2_c485a4bc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 1005,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-03T12:59:26Z",
+      "side": 1,
+      "message": "Maybe assert or alert?",
+      "revId": "dec86cd8d7b537795da1a8d6218375dd57cc9b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3aef7984_60709716",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 1006,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-03T12:59:26Z",
+      "side": 1,
+      "message": "Maybe simpler:\n```\nconst start \u003d USER_SUGGESTION_START_PATTERN;\n```\nBut maybe even inline `start`?",
+      "range": {
+        "startLine": 1006,
+        "startChar": 3,
+        "endLine": 1006,
+        "endChar": 53
+      },
+      "revId": "dec86cd8d7b537795da1a8d6218375dd57cc9b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6168d0e1_4ccddb6e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 1007,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-03T12:59:26Z",
+      "side": 1,
+      "message": "Maybe just inline?",
+      "revId": "dec86cd8d7b537795da1a8d6218375dd57cc9b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4d9e0b6_9b3d394e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 1008,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-03T12:59:26Z",
+      "side": 1,
+      "message": "Maybe add a TODO for showing a toast while the file is being loaded. Otherwise the user would get no feedback at all after clicking a button.",
+      "revId": "dec86cd8d7b537795da1a8d6218375dd57cc9b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90a71ee1_361bb29c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 1014,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-03T12:59:26Z",
+      "side": 1,
+      "message": "Maybe assert or alert?",
+      "range": {
+        "startLine": 1014,
+        "startChar": 6,
+        "endLine": 1014,
+        "endChar": 43
+      },
+      "revId": "dec86cd8d7b537795da1a8d6218375dd57cc9b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d279050e_6d397f17",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 1017,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-03T12:59:26Z",
+      "side": 1,
+      "message": "find",
+      "range": {
+        "startLine": 1017,
+        "startChar": 39,
+        "endLine": 1017,
+        "endChar": 44
+      },
+      "revId": "dec86cd8d7b537795da1a8d6218375dd57cc9b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa8ecae8_f41e24cd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 1017,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-03T12:59:26Z",
+      "side": 1,
+      "message": "Does that create a user visible alert or only console.error? I think the user should see it, if an error occurs.",
+      "range": {
+        "startLine": 1017,
+        "startChar": 15,
+        "endLine": 1017,
+        "endChar": 31
+      },
+      "revId": "dec86cd8d7b537795da1a8d6218375dd57cc9b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

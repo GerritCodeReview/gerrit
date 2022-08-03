@@ -254,9 +254,6 @@ export class GrReplyDialog extends LitElement {
   account?: AccountInfo;
 
   @state()
-  ccs: AccountInput[] = [];
-
-  @state()
   attentionCcsCount = 0;
 
   @state()
@@ -1071,7 +1068,7 @@ export class GrReplyDialog extends LitElement {
             <div class="peopleList">
               <div class="peopleListLabel">CC</div>
               <div class="peopleListValues">
-                ${removeServiceUsers(this.ccs).map(
+                ${removeServiceUsers(this.ccsList?.accounts ?? []).map(
                   account => html`
                     <gr-account-label
                       .account=${account}
@@ -1569,7 +1566,7 @@ export class GrReplyDialog extends LitElement {
       }
     }
 
-    this.ccs = ccs;
+    this.ccsList!.accounts = ccs;
     this.reviewers = reviewers;
   }
 
@@ -1641,7 +1638,7 @@ export class GrReplyDialog extends LitElement {
     const hasVote = !!this.labelsChanged;
     const isOwner = this.isOwner(this.account, this.change);
     const isUploader = this.uploader?._account_id === this.account._account_id;
-    this.attentionCcsCount = removeServiceUsers(this.ccs).length;
+    this.attentionCcsCount = removeServiceUsers(this.ccsList?.accounts).length;
     this.currentAttentionSet = new Set(
       Object.keys(this.change.attention_set || {}).map(
         id => Number(id) as AccountId
@@ -1779,7 +1776,7 @@ export class GrReplyDialog extends LitElement {
     if (this.change && this.change.owner) allAccounts.push(this.change.owner);
     if (this.uploader) allAccounts.push(this.uploader);
     if (this.reviewers) allAccounts = [...allAccounts, ...this.reviewers];
-    if (this.ccs) allAccounts = [...allAccounts, ...this.ccs];
+    if (this.ccsList?.accounts) allAccounts = [...allAccounts, ...this.ccsList.accounts];
     return removeServiceUsers(allAccounts.filter(isAccount));
   }
 
@@ -1831,7 +1828,7 @@ export class GrReplyDialog extends LitElement {
       const finder = (entry: AccountInfo | GroupInfo) =>
         accountOrGroupKey(entry) === key;
       if (isCCs) {
-        return this.ccs.find(finder) === undefined;
+        return this.ccsList?.accounts.find(finder) === undefined;
       }
       return this.reviewers.find(finder) === undefined;
     };
@@ -1999,8 +1996,7 @@ export class GrReplyDialog extends LitElement {
     this.reviewersMutated = true;
   }
 
-  handleCcsChanged(e: ValueChangedEvent<(AccountInfo | GroupInfo)[]>) {
-    this.ccs = e.detail.value.slice();
+  handleCcsChanged() {
     this.reviewersMutated = true;
   }
 

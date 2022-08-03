@@ -449,17 +449,28 @@ since they find the linear history easier to read.
 NOTE: Rebasing merge commits is not supported. If a change with a merge commit
 is submitted the link:#merge-if-necessary[merge if necessary] submit action is
 applied.
++
+When rebasing the patchset, Gerrit automatically appends onto the end of the
+commit message a short summary of the change's approvals, and a URL link back
+to the change in the web UI (see link:#submit-footers[below]). If a fast-forward
+is done no footers are added.
 
 [[rebase_always]]
 * 'rebase always':
 +
 Basically, the same as `rebase if necessary`, but it creates a new patchset
-even if fast forward is possible and like `cherry pick` it ensures footers such
-as `Change-Id`, `Reviewed-On`, and others are present in resulting commit that
-is merged.
+even if a fast-forward is possible.
 +
-Thus, `rebase always` can be considered similar to `cherry pick`, but with the
-important distinction that `rebase always` does not ignore dependencies.
+When rebasing the patchset, Gerrit automatically appends onto the end of the
+commit message a short summary of the change's approvals, and a URL link back
+to the change in the web UI (see link:#submit-footers[below]).
++
+The footers that are added are exactly the same footers that are also added by
+the link:cherry_pick[cherry pick] action. Thus, the `rebase always` action can
+be considered similar to the `cherry pick` action, but with the important
+distinction that `rebase always` does not ignore dependencies, which is why
+using the `rebase always` action should be preferred over the `cherry pick`
+submit action.
 
 [[fast_forward_only]]
 * 'fast forward only' (usage generally not recommended):
@@ -518,7 +529,7 @@ overcome the limitation that change dependencies are ignored.
 +
 When cherry picking the patchset, Gerrit automatically appends onto the end of
 the commit message a short summary of the change's approvals, and a URL link
-back to the change on the web.
+back to the change in the web UI (see link:#submit-footers[below]).
 +
 Using this submit action is not recommended because it ignores change
 dependencies, instead link:#rebase_always[rebase always] should be used which
@@ -543,6 +554,26 @@ change submission (true for all submit actions, except for
 link:#fast_forward_only[fast forward only]), it is controlled by the
 link:#submit.mergeContent[mergeContent] setting whether a content merge is
 performed when there is a path conflict.
++
+[[submit-footers]]
+--
+NOTE: If Gerrit performs a rebase or cherry-pick as part of the change
+submission (true for link:#rebase_if_necessary[rebase if necessary],
+link:#rebase_always[rebase always] and link:#cherry_pick[cherry pick]) Gerrit
+inserts additional footers into the commit message of the newly created
+commit: +
+ +
+* `Change-Id: <change-id>` (only if this footer is not already present, see
+  link:user-changeid.html[Change-Id]) +
+* `Reviewed-on: <change-url>` (links to the change in Gerrit where this commit
+  was reviewed) +
+* `Reviewed-by: <reviewer>` (once for every reviewer with a positive
+  `Code-Review` vote) +
+* `Tested-by: <reviewer>` (once for every reviewer with a positive `Verified`
+  vote) +
+* `<label-name>: <reviewer>` (once for every reviewer with a positive vote on
+  any other label) +
+--
 +
 NOTE: For the value of `submit.action` in `project.config` use the exact
 spelling as given above, e.g. 'merge if necessary' (without the single quotes,

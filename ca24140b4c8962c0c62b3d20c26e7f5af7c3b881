@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39353538_60941fbe",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 1184,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-04T08:30:39Z",
+      "side": 1,
+      "message": "nit: line length.\nFix wrapping.",
+      "range": {
+        "startLine": 1184,
+        "startChar": 3,
+        "endLine": 1184,
+        "endChar": 81
+      },
+      "revId": "ca24140b4c8962c0c62b3d20c26e7f5af7c3b881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2f5d54c_aabf9640",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-04T08:30:39Z",
+      "side": 1,
+      "message": "maybe move this error in the rest API method?\nLooks like all callers must make this check.",
+      "range": {
+        "startLine": 235,
+        "startChar": 6,
+        "endLine": 236,
+        "endChar": 56
+      },
+      "revId": "ca24140b4c8962c0c62b3d20c26e7f5af7c3b881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e9b29f8_e2668f9a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-04T08:30:39Z",
+      "side": 1,
+      "message": "maybe move the check of `!comment` inside `hasUserSuggestion`? we can simplify the expression here and in other places.",
+      "range": {
+        "startLine": 724,
+        "startChar": 26,
+        "endLine": 724,
+        "endChar": 43
+      },
+      "revId": "ca24140b4c8962c0c62b3d20c26e7f5af7c3b881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9659ac73_508e6c1c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 826,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-04T08:30:39Z",
+      "side": 1,
+      "message": "maybe return nothing here for consistency?",
+      "range": {
+        "startLine": 826,
+        "startChar": 6,
+        "endLine": 826,
+        "endChar": 13
+      },
+      "revId": "ca24140b4c8962c0c62b3d20c26e7f5af7c3b881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

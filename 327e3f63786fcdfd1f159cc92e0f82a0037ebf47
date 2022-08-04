@@ -16,6 +16,24 @@
       "message": "should we also mention what happens if there is a merge conflict? and how the \u0027content merge\u0027 setting affects it? with maybe a pointer to the note section you added in the last change.",
       "revId": "327e3f63786fcdfd1f159cc92e0f82a0037ebf47",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33c60d88_81a65612",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-08-04T10:49:35Z",
+      "side": 1,
+      "message": "\u003e should we also mention what happens if there is a merge conflict?\n\u003e and how the \u0027content merge\u0027 setting affects it?\n\nAdding this is a good idea, but I\u0027m hesitant to add it here for \u0027merge if necessary\u0027 only. If we add this here, we would also need to add it for all other submit actions where conflicts can appear, which would be quite some redundancy. Hence I would rather add a general note about this. Done in https://gerrit-review.googlesource.com/c/gerrit/+/342394\n\n\u003e with maybe a pointer to the note section you added in the last change.\n\nI would rather like to omit this, because if we add it here, we also need to add it to the descriptions of all other submit actions (except ffo).",
+      "parentUuid": "8742fcc5_206f658c",
+      "revId": "327e3f63786fcdfd1f159cc92e0f82a0037ebf47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

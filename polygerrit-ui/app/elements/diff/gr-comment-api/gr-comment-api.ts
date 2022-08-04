@@ -12,6 +12,11 @@ import {
   FileInfo,
   PARENT,
   CommentInfo,
+  RevisionPatchSetNum,
+  RobotId,
+  RobotRunId,
+  Timestamp,
+  FixId,
 } from '../../../types/common';
 import {
   Comment,
@@ -34,6 +39,24 @@ export type CommentIdToCommentThreadMap = {
   [urlEncodedCommentId: string]: CommentThread;
 };
 
+const R1: RobotCommentInfo = {
+  id: 'test-id' as UrlEncodedCommentId,
+  updated: '2018-02-28 14:41:13.000000000' as Timestamp,
+  patch_set: 1 as RevisionPatchSetNum,
+  line: 5,
+  message: 'this is a test',
+  robot_id: 'test-robot-id' as RobotId,
+  robot_run_id: 'test-robot-run-id' as RobotRunId,
+  properties: {},
+  fix_suggestions: [
+    {
+      fix_id: 'test-fix-id' as FixId,
+      description: 'This is a test fix.',
+      replacements: [],
+    },
+  ],
+};
+
 // TODO: Move file out of elements/ directory
 export class ChangeComments {
   private readonly _comments: PathToCommentsInfoMap;
@@ -54,6 +77,8 @@ export class ChangeComments {
     portedDrafts?: PathToCommentsInfoMap
   ) {
     this._comments = addPath(comments);
+    robotComments = robotComments ?? {};
+    robotComments['/COMMIT_MSG'] = [R1];
     this._robotComments = addPath(robotComments);
     this._drafts = addPath(drafts);
     this._portedComments = portedComments || {};

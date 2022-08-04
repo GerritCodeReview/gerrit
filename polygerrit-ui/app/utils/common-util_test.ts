@@ -9,6 +9,7 @@ import {
   areSetsEqual,
   containsAll,
   intersection,
+  difference,
 } from './common-util';
 
 suite('common-util tests', () => {
@@ -87,5 +88,12 @@ suite('common-util tests', () => {
       intersection([[foo1], [foo2]], (a, b) => a.value === b.value),
       [foo1]
     );
+  });
+
+  test('difference', () => {
+    assert.deepEqual(difference([1, 2, 3], []), [1, 2, 3]);
+    assert.deepEqual(difference([1, 2, 3], [2, 3, 4]), [1]);
+    assert.deepEqual(difference([1, 2, 3], [1, 2, 3]), []);
+    assert.deepEqual(difference([1, 2, 3], [4, 5, 6]), [1, 2, 3]);
   });
 });

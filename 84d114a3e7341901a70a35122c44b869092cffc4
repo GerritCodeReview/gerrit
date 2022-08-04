@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5f0e2a17_c8cbb8cc",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 1294,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-04T18:03:15Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "df52f866_f8cf990b",
+      "revId": "84d114a3e7341901a70a35122c44b869092cffc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c9f2f7fe_585c76d1",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
         "patchSetId": 14
@@ -31,6 +49,24 @@
       "writtenOn": "2022-08-04T15:04:25Z",
       "side": 1,
       "message": "Maybe a function, not a method? And rename to just `toReviewInput()`?",
+      "revId": "84d114a3e7341901a70a35122c44b869092cffc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db7306ff_8ac7c4e4",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 1305,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-04T18:03:15Z",
+      "side": 1,
+      "message": "Yes, this can be in util",
+      "parentUuid": "c9f2f7fe_585c76d1",
       "revId": "84d114a3e7341901a70a35122c44b869092cffc4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

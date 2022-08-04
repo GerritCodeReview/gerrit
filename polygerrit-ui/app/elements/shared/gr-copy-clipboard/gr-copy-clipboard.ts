@@ -10,8 +10,9 @@ import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
 import {classMap} from 'lit/directives/class-map';
 import {ifDefined} from 'lit/directives/if-defined';
 import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property, query} from 'lit/decorators';
 import {GrButton} from '../gr-button/gr-button';
+import {GrIcon} from '../gr-icon/gr-icon';
 
 const COPY_TIMEOUT_MS = 1000;
 
@@ -34,6 +35,9 @@ export class GrCopyClipboard extends LitElement {
   @property({type: Boolean})
   hideInput = false;
 
+  @query('#icon')
+  iconEl!: GrIcon;
+
   static override get styles() {
     return [
       css`
@@ -54,17 +58,6 @@ export class GrCopyClipboard extends LitElement {
           font-size: var(--font-size-mono);
           line-height: var(--line-height-mono);
           width: 100%;
-        }
-        /*
-         * Typically icons are 20px, which is the normal line-height.
-         * The copy icon is too prominent at 20px, so we choose 16px
-         * here, but add 2x2px padding below, so the entire
-         * component should still fit nicely into a normal inline
-         * layout flow.
-         */
-        #icon {
-          height: 16px;
-          width: 16px;
         }
         gr-icon {
           color: var(--deemphasized-text-color);
@@ -107,7 +100,7 @@ export class GrCopyClipboard extends LitElement {
             @click=${this._copyToClipboard}
             aria-label="Click to copy to clipboard"
           >
-            <gr-icon id="icon" icon="content_copy"></gr-icon>
+            <gr-icon id="icon" icon="content_copy" small></gr-icon>
           </gr-button>
         </gr-tooltip-content>
       </div>
@@ -130,12 +123,8 @@ export class GrCopyClipboard extends LitElement {
 
     this.text = queryAndAssert<HTMLInputElement>(this, '#input').value;
     assertIsDefined(this.text, 'text');
-    this.iconEl.innerText = 'check';
+    this.iconEl.icon = 'check';
     navigator.clipboard.writeText(this.text);
-    setTimeout(() => (this.iconEl.innerText = 'content_copy'), COPY_TIMEOUT_MS);
-  }
-
-  private get iconEl(): HTMLSpanElement {
-    return queryAndAssert<HTMLSpanElement>(this, '#icon');
+    setTimeout(() => (this.iconEl.icon = 'content_copy'), COPY_TIMEOUT_MS);
   }
 }

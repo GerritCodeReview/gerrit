@@ -496,7 +496,13 @@ export function reportingDetails(comment: CommentBasics) {
 }
 
 export const USER_SUGGESTION_START_PATTERN = '```suggestion\n';
-export const USER_SUGGEST_EDIT_FIX_ID = 'user_suggestion' as FixId;
+
+// This can either mean a user or a checks provided fix.
+// "Provided" means that the fix is sent along with the request
+// when previewing and applying the fix. This is in contrast to
+// robot comment fixes, which are stored in the backend, and they
+// are referenced by a unique `FixId`;
+export const PROVIDED_FIX_ID = 'provided_fix' as FixId;
 
 export function hasUserSuggestion(comment: Comment) {
   return comment.message?.includes(USER_SUGGESTION_START_PATTERN) ?? false;
@@ -529,7 +535,7 @@ export function createUserFixSuggestion(
 ): FixSuggestionInfo[] {
   return [
     {
-      fix_id: USER_SUGGEST_EDIT_FIX_ID,
+      fix_id: PROVIDED_FIX_ID,
       description: 'User suggestion',
       replacements: [
         {

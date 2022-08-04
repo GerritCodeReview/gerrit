@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d54805c_e4ff5fa9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-04T07:13:37Z",
+      "side": 1,
+      "message": "Can this bug be exposed in a test?",
+      "revId": "cf8cbb072f12aaf0fb281bb726bba8b8728c473b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -34,6 +34,24 @@
       "parentUuid": "8742fcc5_206f658c",
       "revId": "327e3f63786fcdfd1f159cc92e0f82a0037ebf47",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6144b980_8f2474e8",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-08-04T11:25:55Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "33c60d88_81a65612",
+      "revId": "327e3f63786fcdfd1f159cc92e0f82a0037ebf47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

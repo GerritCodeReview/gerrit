@@ -130,6 +130,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a102bff1_1da7f74d",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1291,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-04T11:18:58Z",
+      "side": 1,
+      "message": "We have an `intersection` util in common-util. It would be nice to have a `difference` function as a util, as well.\n\n```\nexport function difference\u003cT\u003e(a: T[], b: T[], compareBy: (t: T, u: T) \u003d\u003e boolean \u003d (t, u) \u003d\u003e t \u003d\u003d\u003d u) {\n  ...\n}\n```",
+      "revId": "74cfc82b98a9a64f49aca39a0b17b3a99ba8b7b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10b09193_b3714d87",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1306,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-04T11:18:58Z",
+      "side": 1,
+      "message": "method is too long",
+      "revId": "74cfc82b98a9a64f49aca39a0b17b3a99ba8b7b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1d2df40a_a67d2ded",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
         "patchSetId": 7
@@ -216,6 +250,46 @@
         "endLine": 1344,
         "endChar": 35
       },
+      "revId": "74cfc82b98a9a64f49aca39a0b17b3a99ba8b7b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19bbdd7c_9b960882",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1351,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-04T11:18:58Z",
+      "side": 1,
+      "message": "Why not `accountOrGroupKey(account)` here?",
+      "range": {
+        "startLine": 1351,
+        "startChar": 23,
+        "endLine": 1351,
+        "endChar": 53
+      },
+      "revId": "74cfc82b98a9a64f49aca39a0b17b3a99ba8b7b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e6dde8a_f19eabbd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-04T11:18:58Z",
+      "side": 1,
+      "message": "While getting rid of `removals()` why not get rid of `additions()` at the same time? It seems weird to ask the component for `additions()`, but calculate the removals somewhere else.",
       "revId": "74cfc82b98a9a64f49aca39a0b17b3a99ba8b7b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

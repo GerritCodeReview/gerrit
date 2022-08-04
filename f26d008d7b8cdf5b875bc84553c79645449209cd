@@ -34,6 +34,24 @@
       "parentUuid": "2b8c13eb_0b541181",
       "revId": "f26d008d7b8cdf5b875bc84553c79645449209cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d38e285_50433151",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-08-04T13:00:41Z",
+      "side": 1,
+      "message": "Well, if excluding docs from verification won\u0027t hurt any other project (which I assume is true), then let\u0027s do it.\n\nMy thoughts here is that avoiding redefinitions - if possible - is always better and simpler.",
+      "parentUuid": "05604bba_c0daa4da",
+      "revId": "f26d008d7b8cdf5b875bc84553c79645449209cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

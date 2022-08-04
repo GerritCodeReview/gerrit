@@ -159,6 +159,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7aabfdac_b56c336c",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-08-04T11:24:55Z",
+      "side": 1,
+      "message": "Ah right. I got confused. Yes, CI verifies last PS but here we are talking about the merge commit in the target branch.\n\nThanks for clarifying.",
+      "parentUuid": "fd86a0a7_155c6970",
+      "range": {
+        "startLine": 354,
+        "startChar": 44,
+        "endLine": 355,
+        "endChar": 8
+      },
+      "revId": "88f00b76a5f604c837de5b19365dc23531f6550c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee8b15e8_ef250cd8",

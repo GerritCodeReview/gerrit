@@ -580,6 +580,15 @@ link:#fast_forward_only[fast forward only]), it is controlled by the
 link:#submit.mergeContent[mergeContent] setting whether a content merge is
 performed when there is a path conflict.
 +
+NOTE: If Gerrit performs a merge, rebase or cherry-pick as part of the
+change submission (true for all submit actions, except for
+link:#fast_forward_only[fast forward only]), it can be that trying to submit
+a change would fail due to Git conflicts (if the same lines were modified
+concurrently, or if link:#submit.mergeContent[mergeContent] is disabled also if
+the same files were modified concurrently). In this case the submit button in
+the Gerrit web UI is disabled and a tooltip on the disabled submit button
+informs about the change being non-mergeable.
++
 [[submit-footers]]
 --
 NOTE: If Gerrit performs a rebase or cherry-pick as part of the change

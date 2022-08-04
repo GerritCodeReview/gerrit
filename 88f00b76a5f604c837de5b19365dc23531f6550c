@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf39a64b_c91a7fe5",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-08-04T10:32:45Z",
+      "side": 1,
+      "message": "Nice catch! You are right that the submit button is disabled in this case.\n\nUpdated the text.",
+      "parentUuid": "c5791d81_4635c5cc",
+      "range": {
+        "startLine": 340,
+        "startChar": 7,
+        "endLine": 340,
+        "endChar": 40
+      },
+      "revId": "88f00b76a5f604c837de5b19365dc23531f6550c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b2201fde_9d08b900",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-08-04T08:56:09Z",
       "side": 1,
       "message": "nit: saves",
+      "range": {
+        "startLine": 351,
+        "startChar": 11,
+        "endLine": 351,
+        "endChar": 16
+      },
+      "revId": "88f00b76a5f604c837de5b19365dc23531f6550c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1e78317_2238c453",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-08-04T10:32:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2201fde_9d08b900",
       "range": {
         "startLine": 351,
         "startChar": 11,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd86a0a7_155c6970",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-08-04T10:32:45Z",
+      "side": 1,
+      "message": "This description assumes that the CI verifies the current patch set of the change. So it can be that the CI is fine, and then the merged commit that was created with content merge enabled would fail the CI. If you disable content merge you can avoid this particular case of breaking the target branch. \n\nI agree that disabling content merges doesn\u0027t provide much benefit, which is why I think we should actually get rid of this option and just always do content merges. But while we still have this option, I think this is only reason why someone would like to disable content merges.",
+      "parentUuid": "44d52bfe_f1bc66f2",
+      "range": {
+        "startLine": 354,
+        "startChar": 44,
+        "endLine": 355,
+        "endChar": 8
+      },
+      "revId": "88f00b76a5f604c837de5b19365dc23531f6550c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee8b15e8_ef250cd8",
@@ -100,6 +172,30 @@
       "writtenOn": "2022-08-04T08:56:09Z",
       "side": 1,
       "message": "nit: my/repository (to be consistent with the other occurrence in this doc).",
+      "range": {
+        "startLine": 379,
+        "startChar": 28,
+        "endLine": 379,
+        "endChar": 38
+      },
+      "revId": "88f00b76a5f604c837de5b19365dc23531f6550c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23168a88_a7039854",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-08-04T10:32:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee8b15e8_ef250cd8",
       "range": {
         "startLine": 379,
         "startChar": 28,

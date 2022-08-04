@@ -168,3 +168,14 @@ export function intersection<T>(
     result.filter(t => array.find(u => compareBy(t, u)))
   );
 }
+
+/**
+ * Returns the elements that are present in A but not present in B.
+ */
+export function difference<T>(
+  a: T[],
+  b: T[],
+  compareBy: (t: T, u: T) => boolean = (t, u) => t === u
+): T[] {
+  return a.filter(aVal => !b.some(bVal => compareBy(aVal, bVal)));
+}

@@ -16,6 +16,24 @@
       "message": "Just one question before I start reviewing, \u003cgr-account-list is used in gr-change-list-reviewer-flow. Won\u0027t gr-change-list-reviewer-flow  be missing this functionality?\n",
       "revId": "74cfc82b98a9a64f49aca39a0b17b3a99ba8b7b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8274e8c_5e5a85c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-04T08:13:56Z",
+      "side": 1,
+      "message": "gr-change-list-reviewer-flow does not support removals hence we won\u0027t need to update that code for now.",
+      "parentUuid": "498d3259_3500932f",
+      "revId": "74cfc82b98a9a64f49aca39a0b17b3a99ba8b7b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

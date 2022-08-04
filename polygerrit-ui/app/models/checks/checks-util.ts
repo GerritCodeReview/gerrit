@@ -12,8 +12,12 @@ import {
   LinkIcon,
   RunStatus,
 } from '../../api/checks';
+import {PatchSetNumber} from '../../api/rest-api';
+import {OpenFixPreviewEventDetail} from '../../types/events';
+import {PROVIDED_FIX_ID} from '../../utils/comment-util';
 import {assertNever} from '../../utils/common-util';
-import {CheckResult, CheckRun} from './checks-model';
+import {fire} from '../../utils/event-util';
+import {CheckResult, CheckRun, RunResult} from './checks-model';
 
 export interface ChecksIcon {
   name: string;
@@ -76,6 +80,32 @@ export function tooltipForLink(linkIcon?: LinkIcon) {
       // linkIcon.
       return 'Link to details';
   }
+}
+
+export function createFixAction(
+  target: EventTarget,
+  result?: RunResult
+): Action | undefined {
+  const fix = result?.fix;
+  if (!fix) return;
+  if (!result?.patchset) return;
+  const eventDetail: OpenFixPreviewEventDetail = {
+    patchNum: result?.patchset as PatchSetNumber,
+    fixSuggestions: [
+      {
+        description: `Fix provided by ${result?.checkName}`,
+        fix_id: PROVIDED_FIX_ID,
+        replacements: [fix],
+      },
+    ],
+  };
+  return {
+    name: 'Show Fix',
+    callback: () => {
+      fire(target, 'open-fix-preview', eventDetail);
+      return undefined;
+    },
+  };
 }
 
 export function worstCategory(run: CheckRun) {

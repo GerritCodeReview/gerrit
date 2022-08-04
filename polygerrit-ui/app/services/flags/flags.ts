@@ -20,6 +20,7 @@ export enum KnownExperimentId {
   DIFF_RENDERING_LIT = 'UiFeature__diff_rendering_lit',
   PUSH_NOTIFICATIONS = 'UiFeature__push_notifications',
   SUGGEST_EDIT = 'UiFeature__suggest_edit',
+  CHECKS_FIXES = 'UiFeature__checks_fixes',
   RELATED_CHANGES_SUBMITTABILITY = 'UiFeature__related_changes_submittability',
   MENTION_USERS = 'UiFeature__mention_users',
 }

@@ -430,6 +430,35 @@ export declare interface CheckResult {
    * Make blocking, Downgrade severity.
    */
   actions?: Action[];
+
+  /**
+   * Optionally you can provide fixes that would solve the issue reported. The
+   * user will then see a "SHOW FIX" button for previewing the fix in a dialog,
+   * whichs allows the user to apply the fix. That will create a new EDIT
+   * patchset or use the exiting EDIT patchset, so the user can also apply fixes
+   * from multiple check results.
+   *
+   * Normally, you would only provide one fix, but you can also provide multiple
+   * different options to the user to choose from. Each fix may contain one or
+   * more replacements, each being a modification of one file. These files do
+   * not have to be part of the change yet.
+   */
+  fixes?: Fix[];
+}
+
+export declare interface Fix {
+  description?: string;
+  replacements: Replacement[];
+}
+
+export declare interface Replacement {
+  /**
+   * For example `polygerrit-ui/app/package.json`.
+   * `/COMMIT_MSG` is not supported yet.
+   */
+  path: string;
+  range: CommentRange;
+  replacement: string;
 }
 
 export enum Category {

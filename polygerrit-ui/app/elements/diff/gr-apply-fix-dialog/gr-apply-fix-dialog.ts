@@ -19,7 +19,7 @@ import {
 } from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
-import {USER_SUGGEST_EDIT_FIX_ID} from '../../../utils/comment-util';
+import {PROVIDED_FIX_ID} from '../../../utils/comment-util';
 import {OpenFixPreviewEvent} from '../../../types/events';
 import {getAppContext} from '../../../services/app-context';
 import {fireCloseFixPreview, fireEvent} from '../../../utils/event-util';
@@ -229,7 +229,7 @@ export class GrApplyFixDialog extends LitElement {
     }
     let res: FilePathToDiffInfoMap | undefined;
     try {
-      if (fixSuggestion.fix_id === USER_SUGGEST_EDIT_FIX_ID) {
+      if (fixSuggestion.fix_id === PROVIDED_FIX_ID) {
         res = await this.restApiService.getFixPreview(
           this.changeNum,
           this.patchNum,
@@ -324,7 +324,7 @@ export class GrApplyFixDialog extends LitElement {
     }
     this.isApplyFixLoading = true;
     let res;
-    if (this.fixSuggestions?.[0].fix_id === USER_SUGGEST_EDIT_FIX_ID) {
+    if (this.fixSuggestions?.[0].fix_id === PROVIDED_FIX_ID) {
       res = await this.restApiService.applyFixSuggestion(
         changeNum,
         patchNum,

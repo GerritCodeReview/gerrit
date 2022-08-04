@@ -34,7 +34,7 @@ import {
   createUnsaved,
 } from '../../../test/test-data-generators';
 import {
-  CreateFixCommentEvent,
+  ReplyToCommentEvent,
   OpenFixPreviewEventDetail,
 } from '../../../types/events';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
@@ -612,10 +612,10 @@ suite('gr-comment tests', () => {
       assert.isFalse(saveStub.called);
     });
 
-    test('handleFix fires create-fix event', async () => {
-      const listener = listenOnce<CreateFixCommentEvent>(
+    test('handlePleaseFix fires reply-to-comment event', async () => {
+      const listener = listenOnce<ReplyToCommentEvent>(
         element,
-        'create-fix-comment'
+        'reply-to-comment'
       );
       element.comment = createRobotComment();
       element.comments = [element.comment];
@@ -624,7 +624,9 @@ suite('gr-comment tests', () => {
       tap(queryAndAssert(element, '.fix'));
 
       const e = await listener;
-      assert.deepEqual(e.detail, element.getEventPayload());
+      assert.equal(e.detail.unresolved, true);
+      assert.equal(e.detail.userWantsToEdit, false);
+      assert.isTrue(e.detail.content.includes('Please fix.'));
     });
 
     test('do not show Please Fix button if human reply exists', async () => {
@@ -659,7 +661,7 @@ suite('gr-comment tests', () => {
       tap(queryAndAssert(element, '.show-fix'));
 
       const e = await listener;
-      assert.deepEqual(e.detail, element.getEventPayload());
+      assert.deepEqual(e.detail, await element.createFixPreview());
     });
   });
 

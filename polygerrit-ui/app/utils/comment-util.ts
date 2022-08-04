@@ -99,6 +99,8 @@ export function isFormattedReviewerUpdate(
 
 export type LabelExtreme = {[labelName: string]: VotingRangeInfo};
 
+export const NEWLINE_PATTERN = /\n/g;
+
 export const PATCH_SET_PREFIX_PATTERN =
   /^(?:Uploaded\s*)?[Pp]atch [Ss]et \d+:\s*(.*)/;
 

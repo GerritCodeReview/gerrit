@@ -33,20 +33,24 @@ import {
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
 import {
   Comment,
+  createUserFixSuggestion,
   DraftInfo,
   getContentInCommentRange,
+  getUserSuggestion,
   hasUserSuggestion,
   isDraftOrUnsaved,
   isRobot,
   isUnsaved,
+  NEWLINE_PATTERN,
   USER_SUGGESTION_START_PATTERN,
 } from '../../../utils/comment-util';
 import {
   OpenFixPreviewEventDetail,
+  ReplyToCommentEventDetail,
   ValueChangedEvent,
 } from '../../../types/events';
-import {fire, fireAlert, fireEvent} from '../../../utils/event-util';
-import {assertIsDefined} from '../../../utils/common-util';
+import {fire, fireEvent} from '../../../utils/event-util';
+import {assertIsDefined, check} from '../../../utils/common-util';
 import {Key, Modifier} from '../../../utils/dom-util';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -89,13 +93,13 @@ export interface CommentAnchorTapEventDetail {
 @customElement('gr-comment')
 export class GrComment extends LitElement {
   /**
-   * Fired when the create fix comment action is triggered.
+   * Fired when the parent thread component should create a reply.
    *
-   * @event create-fix-comment
+   * @event reply-to-comment
    */
 
   /**
-   * Fired when the show fix preview action is triggered.
+   * Fired when the open fix preview action is triggered.
    *
    * @event open-fix-preview
    */
@@ -854,7 +858,7 @@ export class GrComment extends LitElement {
         link
         ?disabled=${this.robotButtonDisabled}
         class="action fix"
-        @click=${this.handleFix}
+        @click=${this.handlePleaseFix}
       >
         Please Fix
       </gr-button>
@@ -954,9 +958,37 @@ export class GrComment extends LitElement {
   }
 
   // private, but visible for testing
-  getEventPayload(): OpenFixPreviewEventDetail {
+  async createFixPreview(): Promise<OpenFixPreviewEventDetail> {
     assertIsDefined(this.comment?.patch_set, 'comment.patch_set');
-    return {comment: this.comment, patchNum: this.comment.patch_set};
+    assertIsDefined(this.comment?.path, 'comment.path');
+
+    if (hasUserSuggestion(this.comment)) {
+      const replacement = getUserSuggestion(this.comment);
+      check(!!replacement, 'malformed user suggestion');
+      const line = await this.getCommentedCode();
+
+      return {
+        fixSuggestions: createUserFixSuggestion(
+          this.comment,
+          line,
+          replacement
+        ),
+        patchNum: this.comment.patch_set,
+      };
+    }
+    if (isRobot(this.comment) && this.comment.fix_suggestions.length > 0) {
+      const id = this.comment.robot_id;
+      return {
+        fixSuggestions: this.comment.fix_suggestions.map(s => {
+          return {
+            ...s,
+            description: `${id ?? ''} - ${s.description ?? ''}`,
+          };
+        }),
+        patchNum: this.comment.patch_set,
+      };
+    }
+    throw new Error('unable to create preview fix event');
   }
 
   private onEditingChanged() {
@@ -996,35 +1028,46 @@ export class GrComment extends LitElement {
     });
   }
 
-  private handleFix() {
+  private handlePleaseFix() {
+    const message = this.comment?.message;
+    check(!!message, 'empty message');
+    const quoted = message.replace(NEWLINE_PATTERN, '\n> ');
+    const eventDetail: ReplyToCommentEventDetail = {
+      content: `> ${quoted}\n\nPlease fix.`,
+      userWantsToEdit: false,
+      unresolved: true,
+    };
     // Handled by <gr-comment-thread>.
-    fire(this, 'create-fix-comment', this.getEventPayload());
+    fire(this, 'reply-to-comment', eventDetail);
   }
 
-  private handleShowFix() {
+  private async handleShowFix() {
     // Handled top-level in the diff and change view components.
-    fire(this, 'open-fix-preview', this.getEventPayload());
+    fire(this, 'open-fix-preview', await this.createFixPreview());
   }
 
   async createSuggestEdit() {
+    const line = await this.getCommentedCode();
+    this.messageText += `${USER_SUGGESTION_START_PATTERN}${line}${'\n```'}`;
+  }
+
+  async getCommentedCode() {
     assertIsDefined(this.comment, 'comment');
     assertIsDefined(this.changeNum, 'changeNum');
-    // TODO(milutin): showing a toast while the file is being loaded.
+    // TODO(milutin): Show a toast while the file is being loaded.
+    // TODO(milutin): This should be moved into a service/model.
     const file = await this.restApiService.getFileContent(
       this.changeNum,
       this.comment.path!,
       this.comment.patch_set!
     );
-    if (!file || !isBase64FileContent(file) || !file.content) {
-      fireAlert(this, 'Cannot create suggestion for this file');
-      return;
-    }
+    check(
+      !!file && isBase64FileContent(file) && !!file.content,
+      'file content for comment not found'
+    );
     const line = getContentInCommentRange(file.content, this.comment);
-    if (!line) {
-      fireAlert(this, 'Cannot create suggestion for comment selection');
-      return;
-    }
-    this.messageText += `${USER_SUGGESTION_START_PATTERN}${line}${'\n```'}`;
+    check(!!line, 'file content for comment not found');
+    return line;
   }
 
   // private, but visible for testing

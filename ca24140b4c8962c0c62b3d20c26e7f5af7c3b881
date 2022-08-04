@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aca8e0a7_6bdf4e30",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 1184,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-04T09:52:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39353538_60941fbe",
+      "range": {
+        "startLine": 1184,
+        "startChar": 3,
+        "endLine": 1184,
+        "endChar": 81
+      },
+      "revId": "ca24140b4c8962c0c62b3d20c26e7f5af7c3b881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c2f5d54c_aabf9640",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-08-04T08:30:39Z",
       "side": 1,
       "message": "maybe move this error in the rest API method?\nLooks like all callers must make this check.",
+      "range": {
+        "startLine": 235,
+        "startChar": 6,
+        "endLine": 236,
+        "endChar": 56
+      },
+      "revId": "ca24140b4c8962c0c62b3d20c26e7f5af7c3b881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4749161_f38449fa",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-04T09:52:32Z",
+      "side": 1,
+      "message": "I plan to rewrite this to service/model in future. I would leave this for later. if you are ok with it. But you are right, all callers do this check so it better be in api method.",
+      "parentUuid": "c2f5d54c_aabf9640",
       "range": {
         "startLine": 235,
         "startChar": 6,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b3f9818_1106e942",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-04T09:52:32Z",
+      "side": 1,
+      "message": "For typescript it is better to check if there is comment, so we now this.comment cannot be undefined. But assert will be better here.. Changed. thanks.",
+      "parentUuid": "1e9b29f8_e2668f9a",
+      "range": {
+        "startLine": 724,
+        "startChar": 26,
+        "endLine": 724,
+        "endChar": 43
+      },
+      "revId": "ca24140b4c8962c0c62b3d20c26e7f5af7c3b881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9659ac73_508e6c1c",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-08-04T08:30:39Z",
       "side": 1,
       "message": "maybe return nothing here for consistency?",
+      "range": {
+        "startLine": 826,
+        "startChar": 6,
+        "endLine": 826,
+        "endChar": 13
+      },
+      "revId": "ca24140b4c8962c0c62b3d20c26e7f5af7c3b881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8be436cb_0d26f739",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 826,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-04T09:52:32Z",
+      "side": 1,
+      "message": "good point",
+      "parentUuid": "9659ac73_508e6c1c",
       "range": {
         "startLine": 826,
         "startChar": 6,

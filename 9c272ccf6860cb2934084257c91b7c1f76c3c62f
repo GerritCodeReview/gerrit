@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9aa60708_923f7458",
+        "filename": "polygerrit-ui/app/workers/service-worker-class_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-04T14:48:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77d63481_6f7bfb3c",
+      "range": {
+        "startLine": 30,
+        "startChar": 26,
+        "endLine": 30,
+        "endChar": 36
+      },
+      "revId": "9c272ccf6860cb2934084257c91b7c1f76c3c62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7611e5d3_67208715",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-08-04T14:37:35Z",
       "side": 1,
       "message": "Nit: I would prefer `getTime()`.",
+      "range": {
+        "startLine": 31,
+        "startChar": 6,
+        "endLine": 31,
+        "endChar": 13
+      },
+      "revId": "9c272ccf6860cb2934084257c91b7c1f76c3c62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40ee8899_d54fa3f8",
+        "filename": "polygerrit-ui/app/workers/service-worker-class_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-04T14:48:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7611e5d3_67208715",
       "range": {
         "startLine": 31,
         "startChar": 6,

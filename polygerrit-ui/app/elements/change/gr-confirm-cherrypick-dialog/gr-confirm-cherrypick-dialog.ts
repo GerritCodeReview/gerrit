@@ -231,34 +231,40 @@ export class GrConfirmCherrypickDialog extends LitElement {
           Cherry Pick Change to Another Branch
         </div>
         <div class="main" slot="main">
-          ${when(this.showCherryPickTopic, () =>
-            this.renderCherrypickTopicLayout()
-          )}
-          <label for="branchInput"> Cherry Pick to branch </label>
-          <gr-autocomplete
-            id="branchInput"
-            .text=${this.branch}
-            .query=${this.query}
-            placeholder="Destination branch"
-            @text-changed=${(e: BindValueChangeEvent) =>
-              (this.branch = e.detail.value as BranchName)}
-          >
-          </gr-autocomplete>
-          ${when(
-            this.invalidBranch,
-            () => html`
-              <span class="error"
-                >Branch name cannot contain space or commas.</span
-              >
-            `
-          )}
-          ${choose(this.cherryPickType, [
-            [
-              CherryPickType.SINGLE_CHANGE,
-              () => this.renderCherrypickSingleChangeInputs(),
-            ],
-            [CherryPickType.TOPIC, () => this.renderCherrypickTopicTable()],
-          ])}
+          <gr-endpoint-decorator name="cherrypick-main">
+            <gr-endpoint-param name="changes" .value=${this.changes}>
+            </gr-endpoint-param>
+            <gr-endpoint-slot name="top"></gr-endpoint-slot>
+            ${when(this.showCherryPickTopic, () =>
+              this.renderCherrypickTopicLayout()
+            )}
+            <label for="branchInput"> Cherry Pick to branch </label>
+            <gr-autocomplete
+              id="branchInput"
+              .text=${this.branch}
+              .query=${this.query}
+              placeholder="Destination branch"
+              @text-changed=${(e: BindValueChangeEvent) =>
+                (this.branch = e.detail.value as BranchName)}
+            >
+            </gr-autocomplete>
+            ${when(
+              this.invalidBranch,
+              () => html`
+                <span class="error"
+                  >Branch name cannot contain space or commas.</span
+                >
+              `
+            )}
+            ${choose(this.cherryPickType, [
+              [
+                CherryPickType.SINGLE_CHANGE,
+                () => this.renderCherrypickSingleChangeInputs(),
+              ],
+              [CherryPickType.TOPIC, () => this.renderCherrypickTopicTable()],
+            ])}
+            <gr-endpoint-slot name="bottom"></gr-endpoint-slot>
+          </gr-endpoint-decorator>
         </div>
       </gr-dialog>
     `;

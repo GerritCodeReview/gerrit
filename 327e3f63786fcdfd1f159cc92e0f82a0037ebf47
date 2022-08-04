@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8742fcc5_206f658c",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-08-04T09:20:34Z",
+      "side": 1,
+      "message": "should we also mention what happens if there is a merge conflict? and how the \u0027content merge\u0027 setting affects it? with maybe a pointer to the note section you added in the last change.",
+      "revId": "327e3f63786fcdfd1f159cc92e0f82a0037ebf47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

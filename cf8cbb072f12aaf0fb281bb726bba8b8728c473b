@@ -16,6 +16,24 @@
       "message": "Can this bug be exposed in a test?",
       "revId": "cf8cbb072f12aaf0fb281bb726bba8b8728c473b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7572003f_84318d43",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-04T07:23:02Z",
+      "side": 1,
+      "message": "I would like to expose this in test, but you cannot export anything from service worker (export keyword is not allowed for service worker) and this is connected to latestUpdateTimestampMs that is inside service-worker class.\n\nI don\u0027t see a way how to write test.",
+      "parentUuid": "1d54805c_e4ff5fa9",
+      "revId": "cf8cbb072f12aaf0fb281bb726bba8b8728c473b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

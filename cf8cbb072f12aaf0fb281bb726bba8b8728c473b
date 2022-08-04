@@ -34,6 +34,24 @@
       "parentUuid": "1d54805c_e4ff5fa9",
       "revId": "cf8cbb072f12aaf0fb281bb726bba8b8728c473b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85c8788a_2c9cceb3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-04T14:30:45Z",
+      "side": 1,
+      "message": "I rewrote it in a way that such test can be added. I check test before change - it failed, after this change - it passed.",
+      "parentUuid": "7572003f_84318d43",
+      "revId": "cf8cbb072f12aaf0fb281bb726bba8b8728c473b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

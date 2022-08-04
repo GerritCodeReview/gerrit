@@ -16,6 +16,24 @@
       "message": "Oh, the Verified SR is defined in All-Projects I guess.\n\nCan we update it there?\n\nhttps://gerrit.googlesource.com/All-Projects/+/refs/meta/config/project.config#69",
       "revId": "f26d008d7b8cdf5b875bc84553c79645449209cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05604bba_c0daa4da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-08-04T12:43:47Z",
+      "side": 1,
+      "message": "We could, but not sure if excluding documentation only changes is relevant for any other project? I don\u0027t mind much, what do you prefer?",
+      "parentUuid": "2b8c13eb_0b541181",
+      "revId": "f26d008d7b8cdf5b875bc84553c79645449209cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

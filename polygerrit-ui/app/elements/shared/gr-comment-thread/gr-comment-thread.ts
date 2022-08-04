@@ -24,6 +24,7 @@ import {
   getFirstComment,
   createUnsavedReply,
   isUnsaved,
+  NEWLINE_PATTERN,
 } from '../../../utils/comment-util';
 import {ChangeMessageId} from '../../../api/rest-api';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
@@ -58,15 +59,16 @@ import {subscribe} from '../../lit/subscription-controller';
 import {repeat} from 'lit/directives/repeat';
 import {classMap} from 'lit/directives/class-map';
 import {ShortcutController} from '../../lit/shortcut-controller';
-import {ValueChangedEvent} from '../../../types/events';
+import {
+  ReplyToCommentEvent as ReplyToCommentEvent,
+  ValueChangedEvent,
+} from '../../../types/events';
 import {notDeepEqual} from '../../../utils/deep-util';
 import {resolve} from '../../../models/dependency';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {whenRendered} from '../../../utils/dom-util';
 import {Interaction} from '../../../constants/reporting';
-
-const NEWLINE_PATTERN = /\n/g;
 
 declare global {
   interface HTMLElementEventMap {
@@ -511,7 +513,7 @@ export class GrCommentThread extends LitElement {
         ?show-patchset=${this.showPatchset}
         ?show-ported-comment=${this.showPortedComment &&
         comment.id === this.rootId}
-        @create-fix-comment=${this.handleCommentFix}
+        @reply-to-comment=${this.handleReplyToComment}
         @copy-comment-link=${this.handleCopyLink}
         @comment-editing-changed=${(e: CustomEvent) => {
           if (isDraftOrUnsaved(comment)) this.editing = e.detail;
@@ -855,13 +857,9 @@ export class GrCommentThread extends LitElement {
     this.createReplyComment('Done', false, false);
   }
 
-  private handleCommentFix(e: CustomEvent) {
-    const comment = e.detail.comment;
-    const msg = comment.message;
-    const quoted = msg.replace(NEWLINE_PATTERN, '\n> ') as string;
-    const quoteStr = '> ' + quoted + '\n\n';
-    const response = quoteStr + 'Please fix.';
-    this.createReplyComment(response, false, true);
+  private handleReplyToComment(e: ReplyToCommentEvent) {
+    const {content, userWantsToEdit, unresolved} = e.detail;
+    this.createReplyComment(content, userWantsToEdit, unresolved);
   }
 
   private computeAriaHeading() {

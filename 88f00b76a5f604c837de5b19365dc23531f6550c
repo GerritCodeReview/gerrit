@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce40e0ee_db92f608",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-08-04T08:56:09Z",
+      "side": 1,
+      "message": "Nice! Thanks for the detailed writeup.",
+      "revId": "88f00b76a5f604c837de5b19365dc23531f6550c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5791d81_4635c5cc",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-08-04T08:56:09Z",
+      "side": 1,
+      "message": "small nit: Are users allowed to submit then submission fails (as suggested here)? Or is submission prevented (submit button disabled and a merge conflict label is displayed)?\n\n(assuming the usage of the web UI)",
+      "range": {
+        "startLine": 340,
+        "startChar": 7,
+        "endLine": 340,
+        "endChar": 40
+      },
+      "revId": "88f00b76a5f604c837de5b19365dc23531f6550c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2201fde_9d08b900",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-08-04T08:56:09Z",
+      "side": 1,
+      "message": "nit: saves",
+      "range": {
+        "startLine": 351,
+        "startChar": 11,
+        "endLine": 351,
+        "endChar": 16
+      },
+      "revId": "88f00b76a5f604c837de5b19365dc23531f6550c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44d52bfe_f1bc66f2",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-08-04T08:56:09Z",
+      "side": 1,
+      "message": "Yes, but if the change is CI verified pre-submit then disabling content merges does not provide that much of a benefit.",
+      "range": {
+        "startLine": 354,
+        "startChar": 44,
+        "endLine": 355,
+        "endChar": 8
+      },
+      "revId": "88f00b76a5f604c837de5b19365dc23531f6550c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee8b15e8_ef250cd8",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-08-04T08:56:09Z",
+      "side": 1,
+      "message": "nit: my/repository (to be consistent with the other occurrence in this doc).",
+      "range": {
+        "startLine": 379,
+        "startChar": 28,
+        "endLine": 379,
+        "endChar": 38
+      },
+      "revId": "88f00b76a5f604c837de5b19365dc23531f6550c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

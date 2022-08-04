@@ -14,7 +14,7 @@ import {
   getUserSuggestion,
   getContentInCommentRange,
   createUserFixSuggestion,
-  USER_SUGGEST_EDIT_FIX_ID,
+  PROVIDED_FIX_ID,
 } from './comment-util';
 import {createComment, createCommentThread} from '../test/test-data-generators';
 import {CommentSide} from '../constants/constants';
@@ -266,7 +266,7 @@ suite('comment-util', () => {
     const replacement = 'line1';
     assert.deepEqual(createUserFixSuggestion(comment, line, replacement), [
       {
-        fix_id: USER_SUGGEST_EDIT_FIX_ID,
+        fix_id: PROVIDED_FIX_ID,
         description: 'User suggestion',
         replacements: [
           {

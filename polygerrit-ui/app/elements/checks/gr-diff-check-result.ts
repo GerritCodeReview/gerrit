@@ -8,11 +8,13 @@ import '../shared/gr-icon/gr-icon';
 import {LitElement, css, html, PropertyValues, nothing} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
 import {RunResult} from '../../models/checks/checks-model';
-import {iconFor} from '../../models/checks/checks-util';
+import {createFixAction, iconFor} from '../../models/checks/checks-util';
 import {modifierPressed} from '../../utils/dom-util';
 import './gr-checks-results';
 import './gr-hovercard-run';
 import {fontStyles} from '../../styles/gr-font-styles';
+import {KnownExperimentId} from '../../services/flags/flags';
+import {getAppContext} from '../../services/app-context';
 
 @customElement('gr-diff-check-result')
 export class GrDiffCheckResult extends LitElement {
@@ -31,6 +33,8 @@ export class GrDiffCheckResult extends LitElement {
 
   @state()
   isExpandable = false;
+
+  private readonly flags = getAppContext().flagsService;
 
   static override get styles() {
     return [
@@ -106,6 +110,10 @@ export class GrDiffCheckResult extends LitElement {
           position: relative;
           top: 2px;
         }
+        div.actions {
+          display: flex;
+          justify-content: flex-end;
+        }
       `,
     ];
   }
@@ -139,7 +147,9 @@ export class GrDiffCheckResult extends LitElement {
           </div>
           ${this.renderToggle()}
         </div>
-        <div class="details">${this.renderExpanded()}</div>
+        <div class="details">
+          ${this.renderExpanded()}${this.renderActions()}
+        </div>
       </div>
     `;
   }
@@ -171,6 +181,20 @@ export class GrDiffCheckResult extends LitElement {
         hidecodepointers
         .result=${this.result}
       ></gr-result-expanded>
+    `;
+  }
+
+  private renderActions() {
+    if (!this.isExpanded) return nothing;
+    return html`<div class="actions">${this.renderFixButton()}</div>`;
+  }
+
+  private renderFixButton() {
+    if (!this.flags.isEnabled(KnownExperimentId.CHECKS_FIXES)) return nothing;
+    const action = createFixAction(this, this.result);
+    if (!action) return nothing;
+    return html`
+      <gr-checks-action context="diff-fix" .action=${action}></gr-checks-action>
     `;
   }
 

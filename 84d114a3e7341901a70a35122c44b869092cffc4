@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "63166b36_df414ec1",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 1294,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-04T18:15:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f0e2a17_c8cbb8cc",
+      "revId": "84d114a3e7341901a70a35122c44b869092cffc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c9f2f7fe_585c76d1",
@@ -71,6 +89,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c85b1f00_45f9aae5",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 1305,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-04T18:15:39Z",
+      "side": 1,
+      "message": "Moved to account-util.",
+      "parentUuid": "db7306ff_8ac7c4e4",
+      "revId": "84d114a3e7341901a70a35122c44b869092cffc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6d52e6af_95d73945",
@@ -94,6 +130,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0b2fb11_aa1613c8",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 1330,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-04T18:15:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d52e6af_95d73945",
+      "range": {
+        "startLine": 1323,
+        "startChar": 4,
+        "endLine": 1330,
+        "endChar": 0
+      },
+      "revId": "84d114a3e7341901a70a35122c44b869092cffc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "944e503d_4b28ccc8",
@@ -107,6 +167,30 @@
       "writtenOn": "2022-08-04T15:04:25Z",
       "side": 1,
       "message": "Maybe just `accounts`. \"Current\" is ambiguous IMO.",
+      "range": {
+        "startLine": 71,
+        "startChar": 2,
+        "endLine": 71,
+        "endChar": 17
+      },
+      "revId": "84d114a3e7341901a70a35122c44b869092cffc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57e1653a_80b1d329",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-04T18:15:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "944e503d_4b28ccc8",
       "range": {
         "startLine": 71,
         "startChar": 2,

@@ -82,6 +82,7 @@ export class GrEndpointDecorator extends LitElement {
       const slotEl = slot
         ? this.querySelector(`gr-endpoint-slot[name=${slot}]`)
         : null;
+      if (slot) console.log(`slot ${slot} ${slotEl}`);
       if (slot && slotEl?.parentNode) {
         slotEl.parentNode.insertBefore(el, slotEl.nextSibling);
       } else {

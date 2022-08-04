@@ -16,6 +16,8 @@ import {getPluginEndpoints} from './gr-plugin-endpoints';
 import {PluginApi} from '../../../api/plugin';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {fireAlert} from '../../../utils/event-util';
+import {css, html, LitElement} from 'lit';
+import {customElement} from 'lit/decorators';
 
 enum PluginState {
   /** State that indicates the plugin is pending to be loaded. */
@@ -54,6 +56,59 @@ const UNKNOWN_PLUGIN_PREFIX = '__$$__';
 // Current API version for Plugin,
 // plugins with incompatible version will not be loaded.
 const API_VERSION = '0.1';
+
+@customElement('gr-a')
+export class GrA extends LitElement {
+  static override get styles() {
+    return [
+      css`
+        div {
+          background-color: var(--info-background);
+          margin: 8px 0;
+          padding: 4px;
+        }
+        gr-icon {
+          color: var(--info-foreground);
+          margin-right: 4px;
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    return html`<div><gr-icon icon="info"></gr-icon>TOP</div>`;
+  }
+}
+
+@customElement('gr-b')
+export class GrB extends LitElement {
+  static override get styles() {
+    return [
+      css`
+        div {
+          background-color: var(--error-background);
+          margin: 8px 0;
+          padding: 4px;
+        }
+        gr-icon {
+          color: var(--error-foreground);
+          margin-right: 4px;
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    return html`<div><gr-icon icon="error"></gr-icon>BOTTOM</div>`;
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-a': GrA;
+    'gr-b': GrB;
+  }
+}
 
 /**
  * PluginLoader, responsible for:
@@ -99,6 +154,15 @@ export class PluginLoader {
   loadPlugins(plugins: string[] = [], instanceId?: string) {
     this.instanceId = instanceId;
     this._pluginListLoaded = true;
+    const plugin = new Plugin(
+      'https://gerrit-review.googlesource.com/plugins/reviewers/static/asdf.js'
+    );
+    plugin.registerCustomComponent('cherrypick-main', 'gr-a', {
+      slot: 'top',
+    });
+    plugin.registerCustomComponent('cherrypick-main', 'gr-b', {
+      slot: 'bottom',
+    });
 
     plugins.forEach(path => {
       const url = this._urlFor(path, window.ASSETS_PATH);

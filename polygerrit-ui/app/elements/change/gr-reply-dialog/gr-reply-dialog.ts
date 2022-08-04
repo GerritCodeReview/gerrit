@@ -72,6 +72,7 @@ import {
   areSetsEqual,
   assertIsDefined,
   containsAll,
+  difference,
   queryAndAssert,
 } from '../../../utils/common-util';
 import {CommentThread, isUnresolved} from '../../../utils/comment-util';
@@ -1292,14 +1293,10 @@ export class GrReplyDialog extends LitElement {
     state: ReviewerState,
     currentAccounts: AccountInput[]
   ): AccountInfo[] {
-    const existingAccounts = this.change?.reviewers[state] ?? [];
-    return existingAccounts.filter(
-      existingAccount =>
-        !currentAccounts.some(
-          currentAccount =>
-            accountOrGroupKey(currentAccount) ===
-            accountOrGroupKey(existingAccount)
-        )
+    return difference(
+      this.change?.reviewers[state] ?? [],
+      currentAccounts,
+      (a, b) => accountOrGroupKey(a) === accountOrGroupKey(b)
     );
   }
 

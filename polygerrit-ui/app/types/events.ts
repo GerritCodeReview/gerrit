@@ -3,8 +3,8 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {PatchSetNum} from './common';
-import {ChangeMessage, Comment} from '../utils/comment-util';
+import {FixSuggestionInfo, PatchSetNum} from './common';
+import {ChangeMessage} from '../utils/comment-util';
 import {FetchRequest} from './types';
 import {LineNumberEventDetail, MovedLinkClickedEventDetail} from '../api/diff';
 import {Category, RunStatus} from '../api/checks';
@@ -66,7 +66,7 @@ declare global {
     'moved-link-clicked': MovedLinkClickedEvent;
     'open-fix-preview': OpenFixPreviewEvent;
     'close-fix-preview': CloseFixPreviewEvent;
-    'create-fix-comment': CreateFixCommentEvent;
+    'please-fix': PleaseFixEvent;
     /* prettier-ignore */
     'reload': ReloadEvent;
     /* prettier-ignore */
@@ -155,8 +155,8 @@ export interface NetworkErrorEventDetail {
 export type NetworkErrorEvent = CustomEvent<NetworkErrorEventDetail>;
 
 export interface OpenFixPreviewEventDetail {
-  patchNum?: PatchSetNum;
-  comment?: Comment;
+  patchNum: PatchSetNum;
+  fixSuggestions: FixSuggestionInfo[];
 }
 export type OpenFixPreviewEvent = CustomEvent<OpenFixPreviewEventDetail>;
 
@@ -164,11 +164,10 @@ export interface CloseFixPreviewEventDetail {
   fixApplied: boolean;
 }
 export type CloseFixPreviewEvent = CustomEvent<CloseFixPreviewEventDetail>;
-export interface CreateFixCommentEventDetail {
-  patchNum?: PatchSetNum;
-  comment?: Comment;
+export interface PleaseFixEventDetail {
+  message: string;
 }
-export type CreateFixCommentEvent = CustomEvent<CreateFixCommentEventDetail>;
+export type PleaseFixEvent = CustomEvent<PleaseFixEventDetail>;
 
 export interface PageErrorEventDetail {
   response?: Response;

@@ -58,7 +58,7 @@ import {subscribe} from '../../lit/subscription-controller';
 import {repeat} from 'lit/directives/repeat';
 import {classMap} from 'lit/directives/class-map';
 import {ShortcutController} from '../../lit/shortcut-controller';
-import {ValueChangedEvent} from '../../../types/events';
+import {PleaseFixEvent, ValueChangedEvent} from '../../../types/events';
 import {notDeepEqual} from '../../../utils/deep-util';
 import {resolve} from '../../../models/dependency';
 import {commentsModelToken} from '../../../models/comments/comments-model';
@@ -511,7 +511,7 @@ export class GrCommentThread extends LitElement {
         ?show-patchset=${this.showPatchset}
         ?show-ported-comment=${this.showPortedComment &&
         comment.id === this.rootId}
-        @create-fix-comment=${this.handleCommentFix}
+        @please-fix=${this.handlePleaseFix}
         @copy-comment-link=${this.handleCopyLink}
         @comment-editing-changed=${(e: CustomEvent) => {
           if (isDraftOrUnsaved(comment)) this.editing = e.detail;
@@ -855,12 +855,9 @@ export class GrCommentThread extends LitElement {
     this.createReplyComment('Done', false, false);
   }
 
-  private handleCommentFix(e: CustomEvent) {
-    const comment = e.detail.comment;
-    const msg = comment.message;
-    const quoted = msg.replace(NEWLINE_PATTERN, '\n> ') as string;
-    const quoteStr = '> ' + quoted + '\n\n';
-    const response = quoteStr + 'Please fix.';
+  private handlePleaseFix(e: PleaseFixEvent) {
+    const quoted = e.detail.message.replace(NEWLINE_PATTERN, '\n> ');
+    const response = `> ${quoted}\n\nPlease fix.`;
     this.createReplyComment(response, false, true);
   }
 

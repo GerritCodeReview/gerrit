@@ -14,20 +14,12 @@ import {
   EDIT,
   FixSuggestionInfo,
   PatchSetNum,
-  RobotId,
   BasePatchSetNum,
   FilePathToDiffInfoMap,
 } from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
-import {
-  createUserFixSuggestion,
-  getContentInCommentRange,
-  getUserSuggestion,
-  hasUserSuggestion,
-  isRobot,
-  USER_SUGGEST_EDIT_FIX_ID,
-} from '../../../utils/comment-util';
+import {USER_SUGGEST_EDIT_FIX_ID} from '../../../utils/comment-util';
 import {OpenFixPreviewEvent} from '../../../types/events';
 import {getAppContext} from '../../../services/app-context';
 import {fireCloseFixPreview, fireEvent} from '../../../utils/event-util';
@@ -38,8 +30,7 @@ import {css, html, LitElement} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {subscribe} from '../../lit/subscription-controller';
-import {isBase64FileContent} from '../../../api/rest-api';
-import {assertIsDefined} from '../../../utils/common-util';
+import {check} from '../../../utils/common-util';
 
 interface FilePreview {
   filepath: string;
@@ -62,9 +53,6 @@ export class GrApplyFixDialog extends LitElement {
 
   @state()
   patchNum?: PatchSetNum;
-
-  @state()
-  robotId?: RobotId;
 
   @state()
   currentFix?: FixSuggestionInfo;
@@ -161,9 +149,7 @@ export class GrApplyFixDialog extends LitElement {
 
   private renderHeader() {
     return html`
-      <div slot="header">
-        ${this.robotId ?? ''} - ${this.currentFix?.description ?? ''}
-      </div>
+      <div slot="header">${this.currentFix?.description ?? ''}</div>
     `;
   }
 
@@ -212,42 +198,13 @@ export class GrApplyFixDialog extends LitElement {
   }
 
   /**
-   * Given robot comment CustomEvent object, fetch diffs associated
-   * with first robot comment suggested fix and open dialog.
-   *
-   * @param e to be passed from gr-comment with robot comment detail.
-   * @return Promise that resolves either when all
-   * preview diffs are fetched or no fix suggestions in custom event detail.
+   * Given event with fixSuggestions, fetch diffs associated with first
+   * suggested fix and open dialog.
    */
   async open(e: OpenFixPreviewEvent) {
-    const detail = e.detail;
-    const comment = detail.comment;
-    if (comment && hasUserSuggestion(comment)) {
-      const replacement = getUserSuggestion(comment);
-      if (!replacement) throw new Error('User suggestion is malformatted');
-      // TODO(milutin): This should belongs into service/model.
-      const file = await this.restApiService.getFileContent(
-        this.changeNum!,
-        comment.path!,
-        comment.patch_set!
-      );
-      assertIsDefined(file, 'file');
-      if (!isBase64FileContent(file))
-        throw new Error('Cannot retrieve file content');
-      assertIsDefined(file.content, 'content');
-      const line = getContentInCommentRange(file.content, comment);
-      this.fixSuggestions = createUserFixSuggestion(comment, line, replacement);
-    } else {
-      if (!detail.patchNum || !comment || !isRobot(comment)) {
-        return Promise.resolve();
-      }
-      this.fixSuggestions = comment.fix_suggestions;
-      this.robotId = comment.robot_id;
-    }
-    this.patchNum = detail.patchNum;
-    if (!this.fixSuggestions || !this.fixSuggestions.length) {
-      return Promise.resolve();
-    }
+    this.patchNum = e.detail.patchNum;
+    this.fixSuggestions = e.detail.fixSuggestions;
+    check(this.fixSuggestions.length > 0, 'no fix in the event');
     this.selectedFixIdx = 0;
     const promises = [];
     promises.push(

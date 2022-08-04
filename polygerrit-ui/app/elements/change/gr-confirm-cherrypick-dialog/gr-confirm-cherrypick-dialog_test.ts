@@ -56,38 +56,34 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
   test('render', () => {
     expect(element).shadowDom.to.equal(/* HTML */ `
       <gr-dialog confirm-label="Cherry Pick" disabled="" role="dialog">
-        <gr-endpoint-decorator name="cherrypick">
-          <gr-endpoint-param name="changes"> </gr-endpoint-param>
-          <div class="header title" slot="header">
-            Cherry Pick Change to Another Branch
-          </div>
-          <gr-endpoint-slot name="below-title"> </gr-endpoint-slot>
-          <div class="main" slot="main">
-            <label for="branchInput"> Cherry Pick to branch </label>
-            <gr-autocomplete id="branchInput" placeholder="Destination branch">
-            </gr-autocomplete>
-            <label for="baseInput">
-              Provide base commit sha1 for cherry-pick
-            </label>
-            <iron-input>
-              <input
-                id="baseCommitInput"
-                is="iron-input"
-                maxlength="40"
-                placeholder="(optional)"
-              />
-            </iron-input>
-            <label for="messageInput"> Cherry Pick Commit Message </label>
-            <iron-autogrow-textarea
-              aria-disabled="false"
-              autocomplete="on"
-              class="message"
-              id="messageInput"
-              rows="4"
-            >
-            </iron-autogrow-textarea>
-          </div>
-        </gr-endpoint-decorator>
+        <div class="header title" slot="header">
+          Cherry Pick Change to Another Branch
+        </div>
+        <div class="main" slot="main">
+          <label for="branchInput"> Cherry Pick to branch </label>
+          <gr-autocomplete id="branchInput" placeholder="Destination branch">
+          </gr-autocomplete>
+          <label for="baseInput">
+            Provide base commit sha1 for cherry-pick
+          </label>
+          <iron-input>
+            <input
+              id="baseCommitInput"
+              is="iron-input"
+              maxlength="40"
+              placeholder="(optional)"
+            />
+          </iron-input>
+          <label for="messageInput"> Cherry Pick Commit Message </label>
+          <iron-autogrow-textarea
+            aria-disabled="false"
+            autocomplete="on"
+            class="message"
+            id="messageInput"
+            rows="4"
+          >
+          </iron-autogrow-textarea>
+        </div>
       </gr-dialog>
     `);
   });

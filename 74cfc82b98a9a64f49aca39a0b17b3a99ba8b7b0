@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1892b78b_69e79b19",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-04T09:17:18Z",
+      "side": 1,
+      "message": "Nit: Aim is to make GrAccountList *to* maintain\n\nBut maybe this whole paragraph could be rewritten so it\u0027s easier to read.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 37
+      },
+      "revId": "74cfc82b98a9a64f49aca39a0b17b3a99ba8b7b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "948ef207_005ccd72",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-04T09:17:18Z",
+      "side": 1,
+      "message": "Where is this [1] referenced?",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 0
+      },
+      "revId": "74cfc82b98a9a64f49aca39a0b17b3a99ba8b7b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "498d3259_3500932f",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 7
@@ -32,6 +78,144 @@
       "side": 1,
       "message": "gr-change-list-reviewer-flow does not support removals hence we won\u0027t need to update that code for now.",
       "parentUuid": "498d3259_3500932f",
+      "revId": "74cfc82b98a9a64f49aca39a0b17b3a99ba8b7b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19ebd3b3_56c08bc3",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1286,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-04T09:17:18Z",
+      "side": 1,
+      "message": "Nit: space",
+      "range": {
+        "startLine": 1286,
+        "startChar": 34,
+        "endLine": 1286,
+        "endChar": 35
+      },
+      "revId": "74cfc82b98a9a64f49aca39a0b17b3a99ba8b7b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b27a05a_155726c0",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1288,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-04T09:17:18Z",
+      "side": 1,
+      "message": "What means?\n\nthis.\u003cstate\u003e?\n\nMaybe just in `and not present in currentAccounts`.",
+      "range": {
+        "startLine": 1288,
+        "startChar": 24,
+        "endLine": 1288,
+        "endChar": 48
+      },
+      "revId": "74cfc82b98a9a64f49aca39a0b17b3a99ba8b7b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d2df40a_a67d2ded",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1318,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-04T09:17:18Z",
+      "side": 1,
+      "message": "Maybe this can be on class level as function",
+      "range": {
+        "startLine": 1318,
+        "startChar": 10,
+        "endLine": 1318,
+        "endChar": 33
+      },
+      "revId": "74cfc82b98a9a64f49aca39a0b17b3a99ba8b7b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "244983c6_c00ce7c2",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1327,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-04T09:17:18Z",
+      "side": 1,
+      "message": "```\ndecodeURIComponent(account.group.id) as GroupId\n```\n\nmaybe would be enough.",
+      "range": {
+        "startLine": 1325,
+        "startChar": 25,
+        "endLine": 1327,
+        "endChar": 21
+      },
+      "revId": "74cfc82b98a9a64f49aca39a0b17b3a99ba8b7b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "577bb442_8f090218",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1343,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-04T09:17:18Z",
+      "side": 1,
+      "message": "It looks like before, we did\n{[rev1, rev2, rev3], state: Removed}\n\nand now e do\n[{rev1, state: Removed}, {rev2, state: Removed}, {rev3, state: Removed}]\n\nIs that intended?",
+      "range": {
+        "startLine": 1343,
+        "startChar": 11,
+        "endLine": 1343,
+        "endChar": 34
+      },
+      "revId": "74cfc82b98a9a64f49aca39a0b17b3a99ba8b7b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ce11ed4_b177dd5a",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1344,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-04T09:17:18Z",
+      "side": 1,
+      "message": "This look weird. \n\nShouldn\u0027t be this \n```\nconst removing \u003d this.getRemovals(ReviewerState.REVIEWER, this.reviewersList?.accounts ?? []).filter().map()\n\nreviewers.push([...removing])\n```",
+      "range": {
+        "startLine": 1344,
+        "startChar": 6,
+        "endLine": 1344,
+        "endChar": 35
+      },
       "revId": "74cfc82b98a9a64f49aca39a0b17b3a99ba8b7b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "333404bf_c050354b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-04T18:16:23Z",
+      "side": 1,
+      "message": "typo: OpenFixPreviewEvent",
+      "range": {
+        "startLine": 19,
+        "startChar": 19,
+        "endLine": 19,
+        "endChar": 39
+      },
+      "revId": "86331c0fd3a747d70d31db42de31e98640840900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d73e5df_8c3c1710",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-04T18:16:23Z",
+      "side": 1,
+      "message": "Thanks, that\u0027s very nice refactoring",
+      "revId": "86331c0fd3a747d70d31db42de31e98640840900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "160b6d15_676d7a81",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1046,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-04T18:16:23Z",
+      "side": 1,
+      "message": "I would rename this to \n\n```\ngetCommentedContent()\n```",
+      "range": {
+        "startLine": 1046,
+        "startChar": 8,
+        "endLine": 1046,
+        "endChar": 22
+      },
+      "revId": "86331c0fd3a747d70d31db42de31e98640840900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

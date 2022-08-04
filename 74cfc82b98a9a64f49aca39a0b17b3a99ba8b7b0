@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c115714_ebb98b61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-04T12:36:02Z",
+      "side": 1,
+      "message": "Grammatically I think the original sentence is correct.\nWill keep as is.",
+      "parentUuid": "1892b78b_69e79b19",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 37
+      },
+      "revId": "74cfc82b98a9a64f49aca39a0b17b3a99ba8b7b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "948ef207_005ccd72",
@@ -105,6 +129,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5760322_4dc21e0a",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1286,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-04T12:36:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19ebd3b3_56c08bc3",
+      "range": {
+        "startLine": 1286,
+        "startChar": 34,
+        "endLine": 1286,
+        "endChar": 35
+      },
+      "revId": "74cfc82b98a9a64f49aca39a0b17b3a99ba8b7b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2b27a05a_155726c0",
@@ -118,6 +166,30 @@
       "writtenOn": "2022-08-04T09:17:18Z",
       "side": 1,
       "message": "What means?\n\nthis.\u003cstate\u003e?\n\nMaybe just in `and not present in currentAccounts`.",
+      "range": {
+        "startLine": 1288,
+        "startChar": 24,
+        "endLine": 1288,
+        "endChar": 48
+      },
+      "revId": "74cfc82b98a9a64f49aca39a0b17b3a99ba8b7b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0654af4_9ccbfeb5",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1288,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-04T12:36:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b27a05a_155726c0",
       "range": {
         "startLine": 1288,
         "startChar": 24,
@@ -145,6 +217,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e86deba2_80209d5c",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1291,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-04T12:36:02Z",
+      "side": 1,
+      "message": "Tackling in a follow up change.\n\n342435: Introduce difference method | https://gerrit-review.googlesource.com/c/gerrit/+/342435",
+      "parentUuid": "a102bff1_1da7f74d",
+      "revId": "74cfc82b98a9a64f49aca39a0b17b3a99ba8b7b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "10b09193_b3714d87",
@@ -162,6 +252,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "73918564_32fe951c",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1306,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-04T12:36:02Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "10b09193_b3714d87",
+      "revId": "74cfc82b98a9a64f49aca39a0b17b3a99ba8b7b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1d2df40a_a67d2ded",
@@ -175,6 +283,30 @@
       "writtenOn": "2022-08-04T09:17:18Z",
       "side": 1,
       "message": "Maybe this can be on class level as function",
+      "range": {
+        "startLine": 1318,
+        "startChar": 10,
+        "endLine": 1318,
+        "endChar": 33
+      },
+      "revId": "74cfc82b98a9a64f49aca39a0b17b3a99ba8b7b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29c18f6b_8e9a8da7",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1318,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-04T12:36:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d2df40a_a67d2ded",
       "range": {
         "startLine": 1318,
         "startChar": 10,
@@ -208,6 +340,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "77866015_609f61d8",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1327,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-04T12:36:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "244983c6_c00ce7c2",
+      "range": {
+        "startLine": 1325,
+        "startChar": 25,
+        "endLine": 1327,
+        "endChar": 21
+      },
+      "revId": "74cfc82b98a9a64f49aca39a0b17b3a99ba8b7b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "577bb442_8f090218",
@@ -221,6 +377,30 @@
       "writtenOn": "2022-08-04T09:17:18Z",
       "side": 1,
       "message": "It looks like before, we did\n{[rev1, rev2, rev3], state: Removed}\n\nand now e do\n[{rev1, state: Removed}, {rev2, state: Removed}, {rev3, state: Removed}]\n\nIs that intended?",
+      "range": {
+        "startLine": 1343,
+        "startChar": 11,
+        "endLine": 1343,
+        "endChar": 34
+      },
+      "revId": "74cfc82b98a9a64f49aca39a0b17b3a99ba8b7b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "134f8488_ef37d1e7",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1343,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-04T12:36:02Z",
+      "side": 1,
+      "message": "Inside addToReviewInput before\n\n```\nif (state) reviewer.state \u003d state;\n        reviewers.push(reviewer);\n```\n\nIt\u0027s doing `reviewer.state` which means updating the individual object?\nI think it\u0027s the same as before, adding state to all reviewers.\n\nI also looked at a existing network request.\nThe payload was\n\n```\nreviewers: [{reviewer: 5056, state: \"REMOVED\"}, {reviewer: 5152, state: \"REMOVED\"}]\n```",
+      "parentUuid": "577bb442_8f090218",
       "range": {
         "startLine": 1343,
         "startChar": 11,
@@ -254,6 +434,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f39feaa5_7c570027",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1344,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-04T12:36:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ce11ed4_b177dd5a",
+      "range": {
+        "startLine": 1344,
+        "startChar": 6,
+        "endLine": 1344,
+        "endChar": 35
+      },
+      "revId": "74cfc82b98a9a64f49aca39a0b17b3a99ba8b7b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "19bbdd7c_9b960882",
@@ -277,6 +481,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c67d8e1_9b6190dd",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1351,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-04T12:36:02Z",
+      "side": 1,
+      "message": "account is of type \u0027AccountAddition\u0027 hence we cannot use `accountOrGroupKey` here.\n\nI am removing this method `mapReviewer` entirely in Change 342254 so this should be removed pretty soon.",
+      "parentUuid": "19bbdd7c_9b960882",
+      "range": {
+        "startLine": 1351,
+        "startChar": 23,
+        "endLine": 1351,
+        "endChar": 53
+      },
+      "revId": "74cfc82b98a9a64f49aca39a0b17b3a99ba8b7b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4e6dde8a_f19eabbd",
@@ -290,6 +518,24 @@
       "writtenOn": "2022-08-04T11:18:58Z",
       "side": 1,
       "message": "While getting rid of `removals()` why not get rid of `additions()` at the same time? It seems weird to ask the component for `additions()`, but calculate the removals somewhere else.",
+      "revId": "74cfc82b98a9a64f49aca39a0b17b3a99ba8b7b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "569b7128_43c107d8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-04T12:36:02Z",
+      "side": 1,
+      "message": "342254: Remove pendingAdd from GrAccountList | https://gerrit-review.googlesource.com/c/gerrit/+/342254",
+      "parentUuid": "4e6dde8a_f19eabbd",
       "revId": "74cfc82b98a9a64f49aca39a0b17b3a99ba8b7b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

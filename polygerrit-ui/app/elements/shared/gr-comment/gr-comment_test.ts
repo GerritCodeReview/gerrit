@@ -33,10 +33,7 @@ import {
   createRobotComment,
   createUnsaved,
 } from '../../../test/test-data-generators';
-import {
-  CreateFixCommentEvent,
-  OpenFixPreviewEventDetail,
-} from '../../../types/events';
+import {PleaseFixEvent, OpenFixPreviewEventDetail} from '../../../types/events';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
 import {DraftInfo} from '../../../utils/comment-util';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -613,10 +610,7 @@ suite('gr-comment tests', () => {
     });
 
     test('handleFix fires create-fix event', async () => {
-      const listener = listenOnce<CreateFixCommentEvent>(
-        element,
-        'create-fix-comment'
-      );
+      const listener = listenOnce<PleaseFixEvent>(element, 'please-fix');
       element.comment = createRobotComment();
       element.comments = [element.comment];
       await element.updateComplete;
@@ -624,7 +618,7 @@ suite('gr-comment tests', () => {
       tap(queryAndAssert(element, '.fix'));
 
       const e = await listener;
-      assert.deepEqual(e.detail, element.getEventPayload());
+      assert.deepEqual(e.detail, {message: element.comment.message});
     });
 
     test('do not show Please Fix button if human reply exists', async () => {
@@ -659,7 +653,7 @@ suite('gr-comment tests', () => {
       tap(queryAndAssert(element, '.show-fix'));
 
       const e = await listener;
-      assert.deepEqual(e.detail, element.getEventPayload());
+      assert.deepEqual(e.detail, await element.createFixPreview());
     });
   });
 

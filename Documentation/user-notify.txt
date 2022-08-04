@@ -18,8 +18,8 @@ Those are the available recipient types:
 [[user]]
 == User Level Settings
 
-Individual users can configure email subscriptions by editing
-watched projects through Settings > Watched Projects with the web UI.
+Individual users can configure email subscriptions by editing their
+notifications in the Web UI under `Settings` > `Notifications`.
 
 Specific projects may be watched, or the special project
 `All-Projects` can be watched to watch all projects that

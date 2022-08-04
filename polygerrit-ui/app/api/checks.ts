@@ -430,6 +430,14 @@ export declare interface CheckResult {
    * Make blocking, Downgrade severity.
    */
   actions?: Action[];
+
+  fix?: FixReplacementInfo;
+}
+
+export declare interface FixReplacementInfo {
+  path: string;
+  range: CommentRange;
+  replacement: string;
 }
 
 export enum Category {

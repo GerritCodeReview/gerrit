@@ -20,6 +20,7 @@ import {CheckRun, ChecksModel, ChecksPatchset} from './checks-model';
 export const fakeRun0: CheckRun = {
   pluginName: 'f0',
   internalRunId: 'f0',
+  patchset: 1,
   checkName: 'FAKE Error Finder Finder Finder Finder Finder Finder Finder',
   labelName: 'Presubmit',
   isSingleAttempt: true,
@@ -88,7 +89,7 @@ export const fakeRun1: CheckRun = {
   checkName: 'FAKE Super Check',
   startedTimestamp: new Date(new Date().getTime() - 5 * 60 * 1000),
   finishedTimestamp: new Date(new Date().getTime() + 5 * 60 * 1000),
-  patchset: 2,
+  patchset: 1,
   labelName: 'Verified',
   isSingleAttempt: true,
   isLatestAttempt: true,
@@ -169,6 +170,16 @@ export const fakeRun1: CheckRun = {
           },
         },
       ],
+      fix: {
+        path: 'BUILD',
+        range: {
+          start_line: 1,
+          start_character: 0,
+          end_line: 1,
+          end_character: 0,
+        },
+        replacement: '# This is now fixed.\n',
+      },
       links: [],
     },
   ],
@@ -178,6 +189,7 @@ export const fakeRun1: CheckRun = {
 export const fakeRun2: CheckRun = {
   pluginName: 'f2',
   internalRunId: 'f2',
+  patchset: 1,
   checkName: 'FAKE Mega Analysis',
   statusDescription: 'This run is nearly completed, but not quite.',
   statusLink: 'https://www.google.com/',
@@ -287,6 +299,7 @@ export const fakeRun4_3: CheckRun = {
 export const fakeRun4_4: CheckRun = {
   pluginName: 'f4',
   internalRunId: 'f4',
+  patchset: 1,
   checkName: 'FAKE Elimination Long Long Long Long Long',
   checkDescription: 'Shows you the possible eliminations.',
   checkLink: 'https://www.google.com',
@@ -305,6 +318,16 @@ export const fakeRun4_4: CheckRun = {
       internalResultId: 'f44r0',
       category: Category.INFO,
       summary: 'Dont be afraid. All TODOs will be eliminated.',
+      fix: {
+        path: 'BUILD',
+        range: {
+          start_line: 1,
+          start_character: 0,
+          end_line: 1,
+          end_character: 0,
+        },
+        replacement: '# This is now fixed.\n',
+      },
       actions: [
         {
           name: 'Re-Run',

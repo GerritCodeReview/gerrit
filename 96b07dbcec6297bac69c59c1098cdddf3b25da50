@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cae9358d_e164b5ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-04T21:03:18Z",
+      "side": 1,
+      "message": "This doesn\u0027t fully explain the bug. You\u0027re not adding new code to account for the index not having group information, but you don\u0027t mention here why the existing match() code wasn\u0027t resulting in the correct operation before this change (i.e. because match() isn\u0027t called).",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 47
+      },
+      "revId": "96b07dbcec6297bac69c59c1098cdddf3b25da50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebe11d5b_b3854255",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-04T21:03:18Z",
+      "side": 1,
+      "message": "Can we be even clearer about what the new predicate type does?\n\n```\nIntroduce a new ChangeIndexPostFilterPredicate that is able to do additional\nfiltering in the match method after searching the change index.\n```",
+      "range": {
+        "startLine": 13,
+        "startChar": 16,
+        "endLine": 13,
+        "endChar": 25
+      },
+      "revId": "96b07dbcec6297bac69c59c1098cdddf3b25da50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8be05289_b45b6525",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-04T21:03:18Z",
+      "side": 1,
+      "message": "nit: s/the new predicate/ChangeIndexPostFilterPredicate/",
+      "range": {
+        "startLine": 15,
+        "startChar": 26,
+        "endLine": 15,
+        "endChar": 43
+      },
+      "revId": "96b07dbcec6297bac69c59c1098cdddf3b25da50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ef41463_c7b839e6",
+        "filename": "java/com/google/gerrit/server/group/testing/TestGroupBackend.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-04T21:03:18Z",
+      "side": 1,
+      "message": "use (and match the logic from?) line 109?",
+      "range": {
+        "startLine": 119,
+        "startChar": 18,
+        "endLine": 119,
+        "endChar": 28
+      },
+      "revId": "96b07dbcec6297bac69c59c1098cdddf3b25da50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

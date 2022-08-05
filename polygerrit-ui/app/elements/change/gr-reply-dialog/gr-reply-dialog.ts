@@ -108,6 +108,7 @@ import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 import {customElement, property, state, query} from 'lit/decorators';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
+import {hasHumanReviewer, isOwner} from '../../../utils/change-util';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -1415,19 +1416,9 @@ export class GrReplyDialog extends LitElement {
   }
 
   chooseFocusTarget() {
-    // If we are the owner and the reviewers field is empty, focus on that.
-    if (
-      this.account &&
-      this.change &&
-      this.change.owner &&
-      this.account._account_id === this.change.owner._account_id &&
-      (!this.reviewers || this.reviewers?.length === 0)
-    ) {
-      return FocusTarget.REVIEWERS;
-    }
-
-    // Default to BODY.
-    return FocusTarget.BODY;
+    if (!isOwner(this.change, this.account)) return FocusTarget.BODY;
+    if (hasHumanReviewer(this.change)) return FocusTarget.BODY;
+    return FocusTarget.REVIEWERS;
   }
 
   isOwner(account?: AccountInfo, change?: ChangeInfo) {

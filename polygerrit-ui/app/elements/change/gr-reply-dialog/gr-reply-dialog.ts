@@ -1265,14 +1265,15 @@ export class GrReplyDialog extends LitElement {
         ? ReviewerType.CC
         : ReviewerType.REVIEWER;
     const isReviewer = ReviewerType.REVIEWER === reviewerType;
-    const array = isReviewer ? this.ccs : this.reviewers;
-    const index = array.findIndex(
-      reviewer => accountOrGroupKey(reviewer) === key
-    );
-    if (index >= 0) {
+    const reviewerList = isReviewer ? this.ccsList : this.reviewersList;
+    if (
+      reviewerList?.accounts.find(
+        reviewer => accountOrGroupKey(reviewer) === key
+      )
+    ) {
       // Remove any accounts that already exist as a CC for reviewer
       // or vice versa.
-      array.splice(index, 1);
+      reviewerList.removeAccount(account);
       const moveFrom = isReviewer ? 'CC' : 'reviewer';
       const moveTo = isReviewer ? 'reviewer' : 'CC';
       const id = account.name || key;

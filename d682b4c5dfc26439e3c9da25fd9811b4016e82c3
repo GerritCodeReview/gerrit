@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "51e1add2_87cec7d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-05T08:20:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34de2949_9cece915",
+      "range": {
+        "startLine": 10,
+        "startChar": 28,
+        "endLine": 10,
+        "endChar": 33
+      },
+      "revId": "d682b4c5dfc26439e3c9da25fd9811b4016e82c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f14b7179_79747d51",
@@ -37,6 +61,24 @@
       "writtenOn": "2022-08-04T13:10:10Z",
       "side": 1,
       "message": "Original change had the following unresolved comment, which I think still applies\n\n\"\"\"\nShould this new endpoint be added to the docs too? https://gerrit-review.googlesource.com/Documentation/pg-plugin-endpoints.html\n\"\"\"",
+      "revId": "d682b4c5dfc26439e3c9da25fd9811b4016e82c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "733a00e3_8feb8d76",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-05T08:20:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f14b7179_79747d51",
       "revId": "d682b4c5dfc26439e3c9da25fd9811b4016e82c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -33,7 +33,7 @@ import {
   secondaryLinks,
   tooltipForLink,
 } from '../../models/checks/checks-util';
-import {assertIsDefined, check} from '../../utils/common-util';
+import {assertIsDefined, assert} from '../../utils/common-util';
 import {modifierPressed, toggleClass, whenVisible} from '../../utils/dom-util';
 import {durationString} from '../../utils/date-util';
 import {charsOnly} from '../../utils/string-util';
@@ -1201,7 +1201,7 @@ export class GrChecksResults extends LitElement {
 
   private onPatchsetSelected(e: CustomEvent<{value: string}>) {
     const patchset = Number(e.detail.value);
-    check(!isNaN(patchset), 'selected patchset must be a number');
+    assert(!isNaN(patchset), 'selected patchset must be a number');
     this.getChecksModel().setPatchset(patchset as PatchSetNumber);
   }
 

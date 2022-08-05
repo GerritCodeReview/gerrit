@@ -9,7 +9,7 @@ import {
   RevisionPatchSetNum,
 } from '../types/common';
 import {EditRevisionInfo, ParsedChangeInfo} from '../types/types';
-import {check} from './common-util';
+import {assert} from './common-util';
 
 /**
  * @license
@@ -261,7 +261,7 @@ export function computeLatestPatchNum(
   if (latest === EDIT) {
     latest = allPatchSets[1].num;
   }
-  check(isNumber(latest), 'Latest patchset cannot be EDIT or PARENT.');
+  assert(isNumber(latest), 'Latest patchset cannot be EDIT or PARENT.');
   return latest;
 }
 

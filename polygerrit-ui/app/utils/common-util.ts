@@ -38,33 +38,11 @@ export function assertNever(obj: never, msg: string): never {
 /**
  * Throws an error with the provided error message if the condition is false.
  */
-export function check(
+export function assert(
   condition: boolean,
   errorMessage: string
 ): asserts condition {
   if (!condition) throw new Error(errorMessage);
-}
-
-/**
- * Throws an error if the property is not defined.
- */
-export function checkProperty(
-  condition: boolean,
-  propertyName: string
-): asserts condition {
-  check(condition, `missing required property '${propertyName}'`);
-}
-
-/**
- * Throws an error if the property is not defined.
- */
-export function checkRequiredProperty<T>(
-  property: T,
-  propertyName: string
-): asserts property is NonNullable<T> {
-  if (property === undefined || property === null) {
-    throw new Error(`Required property '${propertyName}' not set.`);
-  }
 }
 
 /**

@@ -6,7 +6,7 @@
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {Action} from '../../api/checks';
-import {checkRequiredProperty} from '../../utils/common-util';
+import {assertIsDefined} from '../../utils/common-util';
 import {resolve} from '../../models/dependency';
 import {checksModelToken} from '../../models/checks/checks-model';
 @customElement('gr-checks-action')
@@ -25,7 +25,7 @@ export class GrChecksAction extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    checkRequiredProperty(this.action, 'action');
+    assertIsDefined(this.action, 'action');
   }
 
   static override get styles() {

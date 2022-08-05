@@ -6,7 +6,7 @@
 import {BLANK_LINE, GrDiffLine, GrDiffLineType} from './gr-diff-line';
 import {LineRange, Side} from '../../../api/diff';
 import {LineNumber} from './gr-diff-line';
-import {assertIsDefined, check} from '../../../utils/common-util';
+import {assertIsDefined, assert} from '../../../utils/common-util';
 import {untilRendered} from '../../../utils/dom-util';
 
 export enum GrDiffGroupType {
@@ -267,7 +267,7 @@ export class GrDiffGroup {
           };
         } else {
           assertIsDefined(options.lines);
-          check(options.lines.length > 0, 'diff group must have lines');
+          assert(options.lines.length > 0, 'diff group must have lines');
           for (const line of options.lines) {
             this.addLine(line);
           }

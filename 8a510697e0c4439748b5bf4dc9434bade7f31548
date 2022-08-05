@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03deb348_5501e7b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-05T07:24:35Z",
+      "side": 1,
+      "message": "Maybe add what logic was changed?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "8a510697e0c4439748b5bf4dc9434bade7f31548",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1031eef_b4d30d06",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-05T07:24:35Z",
+      "side": 1,
+      "message": "`Also` makes it read like it\u0027s in addition to the title but I guess you are describing here what logic was changed?\nDrop the word `also` then?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 4
+      },
+      "revId": "8a510697e0c4439748b5bf4dc9434bade7f31548",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7a93f12_de3045f8",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1636,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-05T07:24:35Z",
+      "side": 1,
+      "message": "maybe add a test with both as well for the sake of completeness?",
+      "range": {
+        "startLine": 1636,
+        "startChar": 4,
+        "endLine": 1636,
+        "endChar": 65
+      },
+      "revId": "8a510697e0c4439748b5bf4dc9434bade7f31548",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

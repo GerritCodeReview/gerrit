@@ -65,9 +65,13 @@ public class RepoRefCacheTest {
           new InMemoryRepository.Builder()
               .setRepositoryDescription(new DfsRepositoryDescription(""))
               .setFS(FS.detect().setUserHome(null));
-      TestRepositoryWithRefCounting testRepo = new TestRepositoryWithRefCounting(builder);
-      new TestRepository<>(testRepo).branch(branchName).commit().message("").create();
-      return testRepo;
+      TestRepositoryWithRefCounting testRepoWithRefCounting =
+          new TestRepositoryWithRefCounting(builder);
+      try (TestRepository<TestRepositoryWithRefCounting> testRepo =
+          new TestRepository<>(testRepoWithRefCounting)) {
+        testRepo.branch(branchName).commit().message("").create();
+      }
+      return testRepoWithRefCounting;
     }
 
     private final Repository repo;

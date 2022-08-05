@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ecf2a06_97d2f2e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-05T08:08:16Z",
+      "side": 1,
+      "message": "The header is rendering the description of each fix. So I have added the robot id to all descriptions, see `createFixPreview()` in `gr-comment.ts`.",
+      "parentUuid": "f3d80af0_0e50e896",
+      "range": {
+        "startLine": 15,
+        "startChar": 14,
+        "endLine": 16,
+        "endChar": 51
+      },
+      "revId": "86331c0fd3a747d70d31db42de31e98640840900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "333404bf_c050354b",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-08-04T18:16:23Z",
       "side": 1,
       "message": "typo: OpenFixPreviewEvent",
+      "range": {
+        "startLine": 19,
+        "startChar": 19,
+        "endLine": 19,
+        "endChar": 39
+      },
+      "revId": "86331c0fd3a747d70d31db42de31e98640840900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7b284f2_ce68570d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-05T08:08:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "333404bf_c050354b",
       "range": {
         "startLine": 19,
         "startChar": 19,
@@ -89,6 +137,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "adfbacac_39ec4c16",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-05T08:08:16Z",
+      "side": 1,
+      "message": "Maybe just `assert` then instead of `assertIsTrue`? And also change `checkProperty` and `checkRequiredProperty`? Do you want to create a change or shall I?",
+      "parentUuid": "2dba3b8c_6f8a6e3b",
+      "range": {
+        "startLine": 207,
+        "startChar": 4,
+        "endLine": 207,
+        "endChar": 9
+      },
+      "revId": "86331c0fd3a747d70d31db42de31e98640840900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6daa3305_34eb024b",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
         "patchSetId": 2
@@ -100,6 +172,30 @@
       "writtenOn": "2022-08-05T07:28:36Z",
       "side": 1,
       "message": "`please` to me is something that is purely UI facing and should not be used in any of the events/method names.\nI would propose removing the word `please` from all methods/events that are dealing with pure logic and not being rendered to the user anywhere.",
+      "range": {
+        "startLine": 514,
+        "startChar": 9,
+        "endLine": 514,
+        "endChar": 15
+      },
+      "revId": "86331c0fd3a747d70d31db42de31e98640840900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c1cc594_ddd42eb9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-05T08:08:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6daa3305_34eb024b",
       "range": {
         "startLine": 514,
         "startChar": 9,
@@ -133,6 +229,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af7ee676_4d4cb41a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-05T08:08:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01f66af3_030ecedd",
+      "range": {
+        "startLine": 94,
+        "startChar": 20,
+        "endLine": 94,
+        "endChar": 30
+      },
+      "revId": "86331c0fd3a747d70d31db42de31e98640840900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "45f453d6_9f7b07f8",
@@ -156,6 +276,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a36456be_aca6efcf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-05T08:08:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45f453d6_9f7b07f8",
+      "range": {
+        "startLine": 100,
+        "startChar": 20,
+        "endLine": 100,
+        "endChar": 36
+      },
+      "revId": "86331c0fd3a747d70d31db42de31e98640840900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "160b6d15_676d7a81",
@@ -169,6 +313,30 @@
       "writtenOn": "2022-08-04T18:16:23Z",
       "side": 1,
       "message": "I would rename this to \n\n```\ngetCommentedContent()\n```",
+      "range": {
+        "startLine": 1046,
+        "startChar": 8,
+        "endLine": 1046,
+        "endChar": 22
+      },
+      "revId": "86331c0fd3a747d70d31db42de31e98640840900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90b73096_d2820e5e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1046,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-05T08:08:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "160b6d15_676d7a81",
       "range": {
         "startLine": 1046,
         "startChar": 8,

@@ -18,6 +18,7 @@ import static com.google.gerrit.index.SchemaUtil.schema;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.InternalGroup;
+import com.google.gerrit.index.IndexedField;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.SchemaDefinitions;
 
@@ -43,7 +44,7 @@ public class GroupSchemaDefinitions extends SchemaDefinitions<InternalGroup> {
               GroupField.NAME_PART_FIELD,
               GroupField.OWNER_UUID_FIELD,
               GroupField.SUBGROUP_FIELD),
-          ImmutableList.of(
+          ImmutableList.<IndexedField<InternalGroup, ?>.SearchSpec>of(
               GroupField.CREATED_ON_SPEC,
               GroupField.DESCRIPTION_SPEC,
               GroupField.ID_FIELD_SPEC,

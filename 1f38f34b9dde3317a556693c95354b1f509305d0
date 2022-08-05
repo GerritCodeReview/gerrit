@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "187f8505_ff21c041",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-05T09:27:06Z",
+      "side": 1,
+      "message": "Great, that looks very good. ",
+      "revId": "1f38f34b9dde3317a556693c95354b1f509305d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "067b195c_2fc8bef9",
+        "filename": "polygerrit-ui/app/api/checks.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-05T09:27:06Z",
+      "side": 1,
+      "message": "Before robot comments could have one or more fixes. Maybe this should be\n\nfixes?: FixReplacementInfo[]",
+      "range": {
+        "startLine": 434,
+        "startChar": 2,
+        "endLine": 434,
+        "endChar": 26
+      },
+      "revId": "1f38f34b9dde3317a556693c95354b1f509305d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

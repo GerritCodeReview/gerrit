@@ -60,6 +60,7 @@ public class RepoRefCacheTest {
   private static class TestRepositoryWithRefCounting extends Repository {
     private int refCounter;
 
+    @SuppressWarnings("resource")
     static TestRepositoryWithRefCounting createWithBranch(String branchName) throws Exception {
       InMemoryRepository.Builder builder =
           new InMemoryRepository.Builder()

@@ -26,16 +26,15 @@ import {
   SpecialFilePath,
 } from '../../../constants/constants';
 import {
-  accountKey,
   accountOrGroupKey,
-  mapReviewer,
+  isAccountNewlyAdded,
   removeServiceUsers,
+  toReviewInput,
 } from '../../../utils/account-util';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import {TargetElement} from '../../../api/plugin';
 import {FixIronA11yAnnouncer} from '../../../types/types';
 import {
-  AccountAddition,
   AccountInfoInput,
   AccountInput,
   AccountInputDetail,
@@ -63,7 +62,6 @@ import {
   ServerInfo,
   SuggestedReviewerGroupInfo,
   Suggestion,
-  isGroup,
 } from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrLabelScores} from '../gr-label-scores/gr-label-scores';
@@ -101,7 +99,7 @@ import {addShortcut, Key, Modifier} from '../../../utils/dom-util';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
-import {ConfigInfo, GroupId, LabelNameToValuesMap} from '../../../api/rest-api';
+import {ConfigInfo, LabelNameToValuesMap} from '../../../api/rest-api';
 import {css, html, PropertyValues, LitElement} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {when} from 'lit/directives/when';
@@ -747,6 +745,7 @@ export class GrReplyDialog extends LitElement {
           id="reviewers"
           .accounts=${this.getAccountListCopy(this.reviewers)}
           .change=${this.change}
+          .reviewerState=${ReviewerState.REVIEWER}
           @account-added=${this.accountAdded}
           @accounts-changed=${this.handleReviewersChanged}
           .removableValues=${this.change?.removable_reviewers}
@@ -773,6 +772,8 @@ export class GrReplyDialog extends LitElement {
         <gr-account-list
           id="ccs"
           .accounts=${this.getAccountListCopy(this.ccs)}
+          .change=${this.change}
+          .reviewerState=${ReviewerState.CC}
           @account-added=${this.accountAdded}
           @accounts-changed=${this.handleCcsChanged}
           .removableValues=${this.change?.removable_reviewers}
@@ -1283,78 +1284,30 @@ export class GrReplyDialog extends LitElement {
     return isResolvedPatchsetLevelComment ? 'resolved' : 'unresolved';
   }
 
-  /**
-   * Get the list of users removed.
-   * A user is removed if they were initially present in change.reviewer[state]
-   * and not present in currentAccounts
-   */
-
-  private getRemovals(
-    state: ReviewerState,
-    currentAccounts: AccountInput[]
-  ): AccountInfo[] {
-    return difference(
-      this.change?.reviewers[state] ?? [],
-      currentAccounts,
-      (a, b) => accountOrGroupKey(a) === accountOrGroupKey(b)
-    );
-  }
-
-  private mapAccountToReviewInput(
-    account: AccountInfo | GroupInfo
-  ): ReviewerInput {
-    if (isAccount(account)) {
-      return {
-        reviewer: accountKey(account),
-        state: ReviewerState.REMOVED,
-      };
-    } else if (isGroup(account)) {
-      const reviewer = decodeURIComponent(account.id) as GroupId;
-      return {reviewer, state: ReviewerState.REMOVED};
-    }
-    throw new Error('Must be either an account or a group.');
-  }
-
   computeReviewers() {
     const reviewers: ReviewerInput[] = [];
-    const addToReviewInput = (
-      additions: AccountAddition[],
-      state?: ReviewerState
-    ) => {
-      additions.forEach(addition => {
-        const reviewer = mapReviewer(addition);
-        if (state) reviewer.state = state;
-        reviewers.push(reviewer);
-      });
-    };
-    addToReviewInput(this.reviewersList!.additions(), ReviewerState.REVIEWER);
-    addToReviewInput(this.ccsList!.additions(), ReviewerState.CC);
+    const reviewerAdditions = this.reviewersList?.additions() ?? [];
+    reviewers.push(
+      ...reviewerAdditions.map(v => toReviewInput(v, ReviewerState.REVIEWER))
+    );
 
-    let removals;
-    removals = this.getRemovals(
-      ReviewerState.REVIEWER,
-      this.reviewersList?.accounts ?? []
-    )
-      .filter(
-        r =>
-          // ignore removal from reviewer request if being added as CC
-          !this.ccsList!.additions().some(
-            account => mapReviewer(account).reviewer === accountOrGroupKey(r)
-          )
-      )
-      .map(this.mapAccountToReviewInput);
+    const ccAdditions = this.ccsList?.additions() ?? [];
+    reviewers.push(...ccAdditions.map(v => toReviewInput(v, ReviewerState.CC)));
+
+    // ignore removal from reviewer request if being added as CC
+    let removals = difference(
+      this.reviewersList?.removals() ?? [],
+      ccAdditions,
+      (a, b) => accountOrGroupKey(a) === accountOrGroupKey(b)
+    ).map(v => toReviewInput(v, ReviewerState.REMOVED));
     reviewers.push(...removals);
 
-    removals = this.getRemovals(ReviewerState.CC, this.ccsList?.accounts ?? [])
-      .filter(
-        r =>
-          // ignore removal from CC request if being added as reviewer
-          !this.reviewersList!.additions().some(
-            account => mapReviewer(account).reviewer === accountOrGroupKey(r)
-          )
-      )
-      .map(this.mapAccountToReviewInput);
-
+    // ignore removal from CC request if being added as reviewer
+    removals = difference(
+      this.ccsList?.removals() ?? [],
+      reviewerAdditions,
+      (a, b) => accountOrGroupKey(a) === accountOrGroupKey(b)
+    ).map(v => toReviewInput(v, ReviewerState.REMOVED));
     reviewers.push(...removals);
 
     return reviewers;
@@ -1664,7 +1617,11 @@ export class GrReplyDialog extends LitElement {
         );
       this.reviewers
         .filter(r => isAccount(r))
-        .filter(r => r._pendingAdd || (this.canBeStarted && isOwner))
+        .filter(
+          r =>
+            isAccountNewlyAdded(r, ReviewerState.REVIEWER, this.change) ||
+            (this.canBeStarted && isOwner)
+        )
         .filter(notIsReviewerAndHasDraftOrLabel)
         .forEach(r => newAttention.add((r as AccountInfo)._account_id!));
       // Add owner and uploader, if someone else replies.

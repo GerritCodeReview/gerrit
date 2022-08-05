@@ -72,6 +72,7 @@ import {
 } from '../types/common';
 import {
   AccountsVisibility,
+  AccountTag,
   AppTheme,
   AuthType,
   ChangeStatus,
@@ -185,6 +186,13 @@ export function createConfig(): ConfigInfo {
 export function createAccountWithId(id = 5): AccountInfo {
   return {
     _account_id: id as AccountId,
+  };
+}
+
+export function createServiceUserWithId(id = 5): AccountInfo {
+  return {
+    ...createAccountWithId(id),
+    tags: [AccountTag.SERVICE_USER],
   };
 }
 

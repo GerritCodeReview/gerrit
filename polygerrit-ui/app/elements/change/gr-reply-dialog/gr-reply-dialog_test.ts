@@ -28,6 +28,7 @@ import {
   createCommentThread,
   createDraft,
   createRevision,
+  createServiceUserWithId,
 } from '../../../test/test-data-generators';
 import {
   pressAndReleaseKeyOn,
@@ -1624,28 +1625,22 @@ suite('gr-reply-dialog tests', () => {
 
   test('chooseFocusTarget', () => {
     element.account = undefined;
-    assert.strictEqual(element.chooseFocusTarget(), element.FocusTarget.BODY);
+    assert.equal(element.chooseFocusTarget(), element.FocusTarget.BODY);
 
-    element.account = {_account_id: 1 as AccountId};
-    assert.strictEqual(element.chooseFocusTarget(), element.FocusTarget.BODY);
+    element.account = element.change!.owner;
+    assert.equal(element.chooseFocusTarget(), element.FocusTarget.REVIEWERS);
 
-    element.change!.owner = {_account_id: 2 as AccountId};
-    assert.strictEqual(element.chooseFocusTarget(), element.FocusTarget.BODY);
+    element.change!.reviewers.REVIEWER = [createAccountWithId(314)];
+    assert.equal(element.chooseFocusTarget(), element.FocusTarget.BODY);
 
-    element.change!.owner._account_id = 1 as AccountId;
-    assert.strictEqual(
-      element.chooseFocusTarget(),
-      element.FocusTarget.REVIEWERS
-    );
+    element.change!.reviewers.REVIEWER = [createServiceUserWithId(314)];
+    assert.equal(element.chooseFocusTarget(), element.FocusTarget.REVIEWERS);
 
-    element.reviewers = [];
-    assert.strictEqual(
-      element.chooseFocusTarget(),
-      element.FocusTarget.REVIEWERS
-    );
-
-    element.reviewers.push({});
-    assert.strictEqual(element.chooseFocusTarget(), element.FocusTarget.BODY);
+    element.change!.reviewers.REVIEWER = [
+      createAccountWithId(314),
+      createServiceUserWithId(314),
+    ];
+    assert.equal(element.chooseFocusTarget(), element.FocusTarget.BODY);
   });
 
   test('only send labels that have changed', async () => {

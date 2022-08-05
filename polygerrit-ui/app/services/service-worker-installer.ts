@@ -14,7 +14,7 @@ export enum ServiceWorkerMessageType {
   TRIGGER_NOTIFICATIONS = 'TRIGGER_NOTIFICATIONS',
 }
 
-export const TRIGGER_NOTIFICATION_UPDATES_MS = 5 * 60 * 1000;
+export const TRIGGER_NOTIFICATION_UPDATES_MS = 0.5 * 60 * 1000;
 
 export class ServiceWorkerInstaller {
   initialized = false;

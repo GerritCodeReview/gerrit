@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d37c283_0a39a1d3",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 1288,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-05T06:10:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fb9b42a_dadd65e5",
+      "range": {
+        "startLine": 1288,
+        "startChar": 4,
+        "endLine": 1288,
+        "endChar": 18
+      },
+      "revId": "f4ae57f1cf15aaad6b184d4d9a76975d7b46cb20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e39590b7_bbf932a3",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d350e2f7_a1f9d9c1",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 1305,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-05T06:10:32Z",
+      "side": 1,
+      "message": "Great suggestion!",
+      "parentUuid": "e39590b7_bbf932a3",
+      "range": {
+        "startLine": 1296,
+        "startChar": 3,
+        "endLine": 1305,
+        "endChar": 7
+      },
+      "revId": "f4ae57f1cf15aaad6b184d4d9a76975d7b46cb20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7e3afb8_1f889d4c",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-08-04T20:23:57Z",
       "side": 1,
       "message": "Optional super nit: My perfectionist self would strive for more symmetry, i.e. either logic here for both, or logic in util for both.",
+      "range": {
+        "startLine": 450,
+        "startChar": 2,
+        "endLine": 461,
+        "endChar": 3
+      },
+      "revId": "f4ae57f1cf15aaad6b184d4d9a76975d7b46cb20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a78401e5_0c450fc4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-05T06:10:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7e3afb8_1f889d4c",
       "range": {
         "startLine": 450,
         "startChar": 2,

@@ -25,7 +25,7 @@ public class SchemaFieldDefs {
    *
    * <p>{@link SchemaField}-s must not be changed once introduced to the codebase. Instead, a new
    * FieldDef must be added and the old one removed from the schema (in two upgrade steps, see
-   * {@link IndexUpgradeValidator}).
+   * {@code com.google.gerrit.index.IndexUpgradeValidator}).
    *
    * @param <I> input type from which documents are created and search results are returned.
    * @param <T> type that should be extracted from the input object when converting to an index
@@ -72,11 +72,11 @@ public class SchemaFieldDefs {
    * Getter to extract value that should be stored in index from the input object.
    *
    * <p>This interface allows to specify a method or lambda for populating an index field. Note that
-   * for existing fields, changing the code of either the {@link FieldDef.Getter} implementation or
-   * the method(s) that it calls would invalidate existing index data. Therefore, instead of
-   * changing the semantics of an existing field, a new field must be added using the new semantics
-   * from the start. The old field can be removed in another upgrade step (cf. {@link
-   * IndexUpgradeValidator}).
+   * for existing fields, changing the code of either the {@link Getter} implementation or the
+   * method(s) that it calls would invalidate existing index data. Therefore, instead of changing
+   * the semantics of an existing field, a new field must be added using the new semantics from the
+   * start. The old field can be removed in another upgrade step (cf. {@code
+   * com.google.gerrit.index.IndexUpgradeValidator}).
    *
    * @param <I> type from which documents are created and search results are returned.
    * @param <T> type that should be extracted from the input object to an index field.
@@ -90,7 +90,7 @@ public class SchemaFieldDefs {
   /**
    * Setter to reconstruct fields from indexed values back to an object.
    *
-   * <p>See {@link FieldDef.Getter} for restrictions on changing the implementation.
+   * <p>See {@link Getter} for restrictions on changing the implementation.
    *
    * @param <I> type from which documents are created and search results are returned.
    * @param <T> type that should be extracted from the input object when converting toto an index

@@ -60,29 +60,34 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
           Cherry Pick Change to Another Branch
         </div>
         <div class="main" slot="main">
-          <label for="branchInput"> Cherry Pick to branch </label>
-          <gr-autocomplete id="branchInput" placeholder="Destination branch">
-          </gr-autocomplete>
-          <label for="baseInput">
-            Provide base commit sha1 for cherry-pick
-          </label>
-          <iron-input>
-            <input
-              id="baseCommitInput"
-              is="iron-input"
-              maxlength="40"
-              placeholder="(optional)"
-            />
-          </iron-input>
-          <label for="messageInput"> Cherry Pick Commit Message </label>
-          <iron-autogrow-textarea
-            aria-disabled="false"
-            autocomplete="on"
-            class="message"
-            id="messageInput"
-            rows="4"
-          >
-          </iron-autogrow-textarea>
+          <gr-endpoint-decorator name="cherrypick-main">
+            <gr-endpoint-param name="changes"> </gr-endpoint-param>
+            <gr-endpoint-slot name="top"> </gr-endpoint-slot>
+            <label for="branchInput"> Cherry Pick to branch </label>
+            <gr-autocomplete id="branchInput" placeholder="Destination branch">
+            </gr-autocomplete>
+            <label for="baseInput">
+              Provide base commit sha1 for cherry-pick
+            </label>
+            <iron-input>
+              <input
+                id="baseCommitInput"
+                is="iron-input"
+                maxlength="40"
+                placeholder="(optional)"
+              />
+            </iron-input>
+            <label for="messageInput"> Cherry Pick Commit Message </label>
+            <iron-autogrow-textarea
+              aria-disabled="false"
+              autocomplete="on"
+              class="message"
+              id="messageInput"
+              rows="4"
+            >
+            </iron-autogrow-textarea>
+            <gr-endpoint-slot name="bottom"></gr-endpoint-slot>
+          </gr-endpoint-decorator>
         </div>
       </gr-dialog>
     `);

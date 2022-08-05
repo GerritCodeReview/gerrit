@@ -33,6 +33,24 @@
       "message": "Thank you for fixing it. I will be more careful with other indexes!",
       "revId": "e8f2b22980ef61a57f01888f8f9afbbcd91d0f2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78c3d899_de07c8ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-08-05T08:34:28Z",
+      "side": 1,
+      "message": "Thanks, but no worries. It\u0027s not a big deal.",
+      "parentUuid": "ddf2dea5_cf747a2d",
+      "revId": "e8f2b22980ef61a57f01888f8f9afbbcd91d0f2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

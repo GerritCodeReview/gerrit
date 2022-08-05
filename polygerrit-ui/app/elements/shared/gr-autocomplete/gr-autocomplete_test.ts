@@ -32,30 +32,38 @@ suite('gr-autocomplete tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <paper-input
-        aria-disabled="false"
-        autocomplete="off"
-        id="input"
-        tabindex="0"
-      >
-        <div slot="prefix">
-          <gr-icon icon="search" class="searchIcon"></gr-icon>
-        </div>
-        <div slot="suffix">
-          <slot name="suffix"> </slot>
-        </div>
-      </paper-input>
-      <gr-autocomplete-dropdown
-        horizontal-align="left"
-        id="suggestions"
-        is-hidden=""
-        role="listbox"
-        style="position: fixed; top: 300px; left: 392.5px; box-sizing: border-box; max-height: 600px; max-width: 785px;"
-        vertical-align="top"
-      >
-      </gr-autocomplete-dropdown>
-    `);
+    expect(element).shadowDom.to.equal(
+      /* HTML */ `
+        <paper-input
+          aria-disabled="false"
+          autocomplete="off"
+          id="input"
+          tabindex="0"
+        >
+          <div slot="prefix">
+            <gr-icon icon="search" class="searchIcon"></gr-icon>
+          </div>
+          <div slot="suffix">
+            <slot name="suffix"> </slot>
+          </div>
+        </paper-input>
+        <gr-autocomplete-dropdown
+          horizontal-align="left"
+          id="suggestions"
+          is-hidden=""
+          role="listbox"
+          style="position: fixed; top: 300px; left: 392.5px; box-sizing: border-box; max-height: 600px; max-width: 785px;"
+          vertical-align="top"
+        >
+        </gr-autocomplete-dropdown>
+      `,
+      {
+        // gr-autocomplete-dropdown sizing seems to vary between local & CI
+        ignoreAttributes: [
+          {tags: ['gr-autocomplete-dropdown'], attributes: ['style']},
+        ],
+      }
+    );
   });
 
   test('renders with suggestions', async () => {

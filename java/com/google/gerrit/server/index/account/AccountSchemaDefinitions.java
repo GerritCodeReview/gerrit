@@ -25,7 +25,7 @@ import com.google.gerrit.server.account.AccountState;
 /**
  * Definition of account index versions (schemata). See {@link SchemaDefinitions}.
  *
- * <p>Upgrades are subject to constraints, see {@link
+ * <p>Upgrades are subject to constraints, see {@code
  * com.google.gerrit.index.IndexUpgradeValidator}.
  */
 public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {

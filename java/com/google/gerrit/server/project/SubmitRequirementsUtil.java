@@ -18,7 +18,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementResult;
-import com.google.gerrit.metrics.Counter2;
+import com.google.gerrit.metrics.Counter1;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
@@ -48,10 +48,10 @@ public class SubmitRequirementsUtil {
 
   @Singleton
   static class Metrics {
-    final Counter2<String, String> submitRequirementsMatchingWithLegacy;
-    final Counter2<String, String> submitRequirementsMismatchingWithLegacy;
-    final Counter2<String, String> legacyNotInSrs;
-    final Counter2<String, String> srsNotInLegacy;
+    final Counter1<String> submitRequirementsMatchingWithLegacy;
+    final Counter1<String> submitRequirementsMismatchingWithLegacy;
+    final Counter1<String> legacyNotInSrs;
+    final Counter1<String> srsNotInLegacy;
 
     @Inject
     Metrics(MetricMaker metricMaker) {
@@ -65,7 +65,6 @@ public class SubmitRequirementsUtil {
                           + "w.r.t. change submittability.")
                   .setRate()
                   .setUnit("count"),
-              Field.ofString("project", Metadata.Builder::projectName).build(),
               Field.ofString("sr_name", Metadata.Builder::submitRequirementName)
                   .description("Submit requirement name")
                   .build());
@@ -79,7 +78,6 @@ public class SubmitRequirementsUtil {
                           + "w.r.t. change submittability.")
                   .setRate()
                   .setUnit("count"),
-              Field.ofString("project", Metadata.Builder::projectName).build(),
               Field.ofString("sr_name", Metadata.Builder::submitRequirementName)
                   .description("Submit requirement name")
                   .build());
@@ -91,7 +89,6 @@ public class SubmitRequirementsUtil {
                           + "but not a project config requirement with the same name for a change.")
                   .setRate()
                   .setUnit("count"),
-              Field.ofString("project", Metadata.Builder::projectName).build(),
               Field.ofString("sr_name", Metadata.Builder::submitRequirementName)
                   .description("Submit requirement name")
                   .build());
@@ -103,7 +100,6 @@ public class SubmitRequirementsUtil {
                           + "result but not a legacy requirement with the same name for a change.")
                   .setRate()
                   .setUnit("count"),
-              Field.ofString("project", Metadata.Builder::projectName).build(),
               Field.ofString("sr_name", Metadata.Builder::submitRequirementName)
                   .description("Submit requirement name")
                   .build());
@@ -157,7 +153,7 @@ public class SubmitRequirementsUtil {
       if (projectConfigResult == null) {
         result.put(legacy.getKey(), legacy.getValue());
         if (shouldReportMetric(cd)) {
-          metrics.legacyNotInSrs.increment(cd.project().get(), srName);
+          metrics.legacyNotInSrs.increment(srName);
         }
         continue;
       }
@@ -166,14 +162,14 @@ public class SubmitRequirementsUtil {
         // matching in result. No need to include the legacy SR in the output since the project
         // config SR is already there.
         if (shouldReportMetric(cd)) {
-          metrics.submitRequirementsMatchingWithLegacy.increment(cd.project().get(), srName);
+          metrics.submitRequirementsMatchingWithLegacy.increment(srName);
         }
         continue;
       }
       // There exists a project config SR with the same name as the legacy SR but they are not
       // matching in their result. Increment the mismatch count and add the legacy SR to the result.
       if (shouldReportMetric(cd)) {
-        metrics.submitRequirementsMismatchingWithLegacy.increment(cd.project().get(), srName);
+        metrics.submitRequirementsMismatchingWithLegacy.increment(srName);
       }
       result.put(legacy.getKey(), legacy.getValue());
     }
@@ -184,7 +180,7 @@ public class SubmitRequirementsUtil {
             .collect(Collectors.toSet());
     for (String projectConfigSrName : requirementsByName.keySet()) {
       if (!legacyNames.contains(projectConfigSrName) && shouldReportMetric(cd)) {
-        metrics.srsNotInLegacy.increment(cd.project().get(), projectConfigSrName);
+        metrics.srsNotInLegacy.increment(projectConfigSrName);
       }
     }
 

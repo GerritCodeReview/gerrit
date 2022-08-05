@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f3d80af0_0e50e896",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-05T07:28:36Z",
+      "side": 1,
+      "message": "I don\u0027t understand this line.\nWhich descriptions?\nWhich dialog title?\n\nIn the code I see robotId is removed from renderHeader().\n\nI don\u0027t see where it is being rendered again in this change.",
+      "range": {
+        "startLine": 15,
+        "startChar": 14,
+        "endLine": 16,
+        "endChar": 51
+      },
+      "revId": "86331c0fd3a747d70d31db42de31e98640840900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "333404bf_c050354b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -37,6 +60,98 @@
       "writtenOn": "2022-08-04T18:16:23Z",
       "side": 1,
       "message": "Thanks, that\u0027s very nice refactoring",
+      "revId": "86331c0fd3a747d70d31db42de31e98640840900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2dba3b8c_6f8a6e3b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-05T07:28:36Z",
+      "side": 1,
+      "message": "this is basically the same as `assert.isTrue`?\nI think `assertIsTrue` is a better name than `check`.\n`check` to me implies it is possible that the condition can be wrong and we don\u0027t expect to throw an error then.\nUsing assert is consistent with how we write tests as well.",
+      "range": {
+        "startLine": 207,
+        "startChar": 4,
+        "endLine": 207,
+        "endChar": 9
+      },
+      "revId": "86331c0fd3a747d70d31db42de31e98640840900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6daa3305_34eb024b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-05T07:28:36Z",
+      "side": 1,
+      "message": "`please` to me is something that is purely UI facing and should not be used in any of the events/method names.\nI would propose removing the word `please` from all methods/events that are dealing with pure logic and not being rendered to the user anywhere.",
+      "range": {
+        "startLine": 514,
+        "startChar": 9,
+        "endLine": 514,
+        "endChar": 15
+      },
+      "revId": "86331c0fd3a747d70d31db42de31e98640840900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01f66af3_030ecedd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-05T07:28:36Z",
+      "side": 1,
+      "message": "update",
+      "range": {
+        "startLine": 94,
+        "startChar": 20,
+        "endLine": 94,
+        "endChar": 30
+      },
+      "revId": "86331c0fd3a747d70d31db42de31e98640840900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45f453d6_9f7b07f8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-05T07:28:36Z",
+      "side": 1,
+      "message": "nit: open fix preview",
+      "range": {
+        "startLine": 100,
+        "startChar": 20,
+        "endLine": 100,
+        "endChar": 36
+      },
       "revId": "86331c0fd3a747d70d31db42de31e98640840900",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

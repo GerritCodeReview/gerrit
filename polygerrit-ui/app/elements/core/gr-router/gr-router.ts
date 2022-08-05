@@ -57,7 +57,9 @@ import {addQuotesWhen} from '../../../utils/string-util';
 import {windowLocationReload} from '../../../utils/dom-util';
 import {
   encodeURL,
+  generateChangeUrl,
   getBaseUrl,
+  getPatchRangeExpression,
   toPath,
   toPathname,
   toSearchParams,
@@ -514,39 +516,7 @@ export class GrRouter {
   }
 
   private generateChangeUrl(params: GenerateUrlChangeViewParameters) {
-    let range = this.getPatchRangeExpression(params);
-    if (range.length) {
-      range = '/' + range;
-    }
-    let suffix = `${range}`;
-    const queries = [];
-    if (params.forceReload) {
-      queries.push('forceReload=true');
-    }
-    if (params.openReplyDialog) {
-      queries.push('openReplyDialog=true');
-    }
-    if (params.usp) {
-      queries.push(`usp=${params.usp}`);
-    }
-    if (params.edit) {
-      suffix += ',edit';
-    }
-    if (params.commentId) {
-      suffix = suffix + `/comments/${params.commentId}`;
-    }
-    if (queries.length > 0) {
-      suffix += '?' + queries.join('&');
-    }
-    if (params.messageHash) {
-      suffix += params.messageHash;
-    }
-    if (params.project) {
-      const encodedProject = encodeURL(params.project, true);
-      return `/c/${encodedProject}/+/${params.changeNum}${suffix}`;
-    } else {
-      return `/c/${params.changeNum}${suffix}`;
-    }
+    return generateChangeUrl(params);
   }
 
   private generateDashboardUrl(params: GenerateUrlDashboardViewParameters) {
@@ -658,14 +628,7 @@ export class GrRouter {
    * no range is indicated in the params, the empty string is returned.
    */
   getPatchRangeExpression(params: PatchRangeParams) {
-    let range = '';
-    if (params.patchNum) {
-      range = `${params.patchNum}`;
-    }
-    if (params.basePatchNum && params.basePatchNum !== PARENT) {
-      range = `${params.basePatchNum}..${range}`;
-    }
-    return range;
+    return getPatchRangeExpression(params);
   }
 
   /**

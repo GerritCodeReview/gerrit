@@ -32,5 +32,33 @@ ctx.addEventListener('message', async event => {
   }
 });
 
+// Code based on code sample from
+// https://developer.mozilla.org/en-US/docs/Web/API/Clients/openWindow
+ctx.addEventListener<'notificationclick'>('notificationclick', e => {
+  e.notification.close();
+
+  const openWindow = async () => {
+    const clientsArr = await ctx.clients.matchAll({type: 'window'});
+    // If a Window tab matching the targeted URL already exists, focus that;
+    const hadWindowToFocus = clientsArr.some(windowClient =>
+      windowClient.url === e.notification.data.url
+        ? (windowClient.focus(), true)
+        : false
+    );
+    // Otherwise, open a new tab to the applicable URL and focus it.
+    if (!hadWindowToFocus)
+      try {
+        const windowClient = await ctx.clients.openWindow(
+          e.notification.data.url
+        );
+        windowClient?.focus();
+      } catch (e) {
+        console.error(`Cannot open window about notificed change - ${e}`);
+      }
+  };
+
+  e.waitUntil(openWindow());
+});
+
 /** Singleton instance being referenced in `onmessage` function above. */
 const serviceWorker = new ServiceWorker(ctx);

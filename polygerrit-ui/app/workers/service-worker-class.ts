@@ -10,6 +10,8 @@ import {readResponsePayload} from '../elements/shared/gr-rest-api-interface/gr-r
 import {filterAttentionChangesAfter} from '../utils/service-worker-util';
 import {AccountDetailInfo} from '../api/rest-api';
 import {TRIGGER_NOTIFICATION_UPDATES_MS} from '../services/service-worker-installer';
+import {generateChangeUrl} from '../utils/url-util';
+import {GerritView} from '../services/router/router-model';
 
 export class ServiceWorker {
   constructor(private ctx: ServiceWorkerGlobalScope) {}
@@ -18,10 +20,16 @@ export class ServiceWorker {
 
   showNotification(change: ParsedChangeInfo, account: AccountDetailInfo) {
     const body = getReason(undefined, account, change);
-    // TODO(milutin): Implement event.action that
-    // focus on firstWindowClient and open change there.
+    const changeUrl = generateChangeUrl({
+      view: GerritView.CHANGE,
+      changeNum: change._number,
+      project: change.project,
+      usp: 'service-worker-notification',
+    });
+    const data = {url: `${self.location.origin}${changeUrl}`};
+
     // TODO(milutin): Add gerrit host icon
-    this.ctx.registration.showNotification(change.subject, {body});
+    this.ctx.registration.showNotification(change.subject, {body, data});
   }
 
   async getChangesToNotify(account: AccountDetailInfo) {

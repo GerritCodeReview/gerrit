@@ -566,9 +566,8 @@ public class CommitValidators {
       try {
         if (perm.test(RefPermission.MERGE)) {
           return Collections.emptyList();
-        } else {
-          throw new CommitValidationException("you are not allowed to upload merges");
         }
+        throw new CommitValidationException("you are not allowed to upload merges");
       } catch (PermissionBackendException e) {
         logger.atSevere().withCause(e).log("cannot check MERGE");
         throw new CommitValidationException("internal auth error");

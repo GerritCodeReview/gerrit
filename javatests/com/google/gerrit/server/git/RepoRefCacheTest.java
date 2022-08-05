@@ -196,6 +196,7 @@ public class RepoRefCacheTest {
         }
 
         @Override
+        @Deprecated
         public Map<String, Ref> getRefs(String prefix) throws IOException {
           checkIsOpen();
           return refDatabase.getRefs(prefix);

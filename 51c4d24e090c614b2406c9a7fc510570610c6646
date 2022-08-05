@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98a5b2a7_df6a7ad9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-08-05T09:15:27Z",
+      "side": 1,
+      "message": "\u003e There is no REST API vs. UI here.\n\nAh right, sorry it\u0027s \"post review\" vs. \"delete reviewer\" as you mentioned.\nThanks for explaining and for updating the commit message.",
+      "parentUuid": "e2e87ab8_085c646b",
+      "revId": "51c4d24e090c614b2406c9a7fc510570610c6646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c74c2f21_8ff8d4c1",

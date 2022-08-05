@@ -4817,7 +4817,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void ccNonExistentAccountByEmailThenRemove() throws Exception {
+  public void ccNonExistentAccountByEmailThenRemoveByDelete() throws Exception {
     // Create a project that allows reviewers by email.
     Project.NameKey project = projectOperations.newProject().create();
     try (ProjectConfigUpdate u = updateProject(project)) {
@@ -4855,6 +4855,54 @@ public class ChangeIT extends AbstractDaemonTest {
     // Remove the CC.
     sender.clear();
     gApi.changes().id(r.getChangeId()).reviewer(reviewerInput.reviewer).remove();
+
+    // Check that the email was removed as a CC and an email was sent.
+    assertThat(gApi.changes().id(r.getChangeId()).get().reviewers).isEmpty();
+    assertThat(Iterables.getOnlyElement(sender.getMessages()).body())
+        .contains(String.format("%s has removed %s", admin.fullName(), reviewerInput.reviewer));
+  }
+
+  @Test
+  public void ccNonExistentAccountByEmailThenRemoveByPostReview() throws Exception {
+    // Create a project that allows reviewers by email.
+    Project.NameKey project = projectOperations.newProject().create();
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .updateProject(
+              b ->
+                  b.setBooleanConfig(
+                      BooleanProjectConfig.ENABLE_REVIEWER_BY_EMAIL, InheritableBoolean.TRUE));
+      u.save();
+    }
+
+    // Create a change
+    TestRepository<?> testRepo = cloneProject(project, admin);
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertOkStatus();
+
+    // Add an email as a CC for which no Gerrit account exists.
+    sender.clear();
+    ReviewerInput reviewerInput = new ReviewerInput();
+    reviewerInput.state = CC;
+    reviewerInput.reviewer = "email-without-account@example.com";
+    gApi.changes().id(r.getChangeId()).addReviewer(reviewerInput);
+
+    // Check that the email was added as a CC and an email was sent.
+    AccountInfo ccedAccountInfo =
+        Iterables.getOnlyElement(
+            gApi.changes().id(r.getChangeId()).get().reviewers.get(ReviewerState.CC));
+    assertThat(ccedAccountInfo.email).isEqualTo(reviewerInput.reviewer);
+    assertThat(ccedAccountInfo._accountId).isNull();
+    assertThat(ccedAccountInfo.name).isNull();
+    assertThat(Iterables.getOnlyElement(sender.getMessages()).body())
+        .contains(String.format("%s has uploaded this change for review", admin.fullName()));
+
+    // Remove the CC.
+    sender.clear();
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.reviewer(reviewerInput.reviewer, ReviewerState.REMOVED, /* confirmed= */ false);
+    gApi.changes().id(r.getChangeId()).current().review(reviewInput);
 
     // Check that the email was removed as a CC and an email was sent.
     assertThat(gApi.changes().id(r.getChangeId()).get().reviewers).isEmpty();

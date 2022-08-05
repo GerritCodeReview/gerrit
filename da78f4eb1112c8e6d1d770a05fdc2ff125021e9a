@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23eccbdb_4d9bbdd2",
+        "filename": "polygerrit-ui/app/models/comments/comments-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-05T13:55:58Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be mentionedUsersInDrafts? We will not need mentionedUsersInComments?",
+      "range": {
+        "startLine": 256,
+        "startChar": 18,
+        "endLine": 256,
+        "endChar": 32
+      },
+      "revId": "da78f4eb1112c8e6d1d770a05fdc2ff125021e9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

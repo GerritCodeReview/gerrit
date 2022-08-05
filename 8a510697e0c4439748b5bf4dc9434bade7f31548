@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa056194_b87ab8ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-05T07:33:43Z",
+      "side": 1,
+      "message": "I did not manage to do that in one line. So the details are below.",
+      "parentUuid": "03deb348_5501e7b8",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "8a510697e0c4439748b5bf4dc9434bade7f31548",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a1031eef_b4d30d06",
@@ -60,6 +84,30 @@
       "writtenOn": "2022-08-05T07:24:35Z",
       "side": 1,
       "message": "maybe add a test with both as well for the sake of completeness?",
+      "range": {
+        "startLine": 1636,
+        "startChar": 4,
+        "endLine": 1636,
+        "endChar": 65
+      },
+      "revId": "8a510697e0c4439748b5bf4dc9434bade7f31548",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a601777_c730f080",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1636,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-05T07:33:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7a93f12_de3045f8",
       "range": {
         "startLine": 1636,
         "startChar": 4,

@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "2222b042_afae2b25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-08-05T08:22:48Z",
+      "side": 1,
+      "message": "Maybe you want to clarify which codepath is exercised by the REST API vs. the UI, and highlight why is this only reproducible with the post review call? For example is NewChangeSender invoked by the UI and not the REST API? also for DeleteReviewerSender?",
+      "revId": "51c4d24e090c614b2406c9a7fc510570610c6646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c74c2f21_8ff8d4c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-08-05T08:22:48Z",
+      "side": 1,
+      "message": "DeleteReviewerSender*",
+      "range": {
+        "startLine": 25,
+        "startChar": 31,
+        "endLine": 25,
+        "endChar": 51
+      },
+      "revId": "51c4d24e090c614b2406c9a7fc510570610c6646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "a256c3e4_9ad4a172",
@@ -14,6 +54,29 @@
       "writtenOn": "2022-08-03T13:09:47Z",
       "side": 1,
       "message": "ping",
+      "revId": "51c4d24e090c614b2406c9a7fc510570610c6646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4e4f44b_9e50dd6d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 4904,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-08-05T08:22:48Z",
+      "side": 1,
+      "message": "nit: would you please annotate the variable name?",
+      "range": {
+        "startLine": 4904,
+        "startChar": 72,
+        "endLine": 4904,
+        "endChar": 77
+      },
       "revId": "51c4d24e090c614b2406c9a7fc510570610c6646",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

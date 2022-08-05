@@ -11,7 +11,9 @@ const PROBE_PATH = '/Documentation/index.html';
 const DOCS_BASE_PATH = '/Documentation';
 
 export function getBaseUrl(): string {
-  return window.CANONICAL_PATH || '';
+  // self because it works on both on web and in service worker, but
+  // window works only on web and not in service worker
+  return self.CANONICAL_PATH || '';
 }
 
 export function prependOrigin(path: string): string {

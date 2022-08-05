@@ -199,14 +199,16 @@ export function getAccountSuggestions(
  * @ token which would have triggered the mentions dropdown and then looks
  * for the email token ending with a whitespace or end of string.
  */
-export function extractMentionedEmails(text?: string): EmailAddress[] {
+export function extractMentionedUsers(text?: string): AccountInfo[] {
   if (!text) return [];
   let match;
-  const emails = [];
+  const users = [];
   while ((match = MENTIONS_REGEX.exec(text))) {
-    emails.push(match[1] as EmailAddress);
+    users.push({
+      email: match[1] as EmailAddress,
+    });
   }
-  return emails;
+  return users;
 }
 
 export function toReviewInput(

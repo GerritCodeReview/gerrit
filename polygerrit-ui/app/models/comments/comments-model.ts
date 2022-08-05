@@ -14,6 +14,7 @@ import {
   PathToCommentsInfoMap,
   RobotCommentInfo,
   PathToRobotCommentsInfoMap,
+  AccountInfo,
 } from '../../types/common';
 import {
   addPath,
@@ -34,12 +35,13 @@ import {CURRENT} from '../../utils/patch-set-util';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {ChangeModel} from '../change/change-model';
 import {Interaction, Timing} from '../../constants/reporting';
-import {assertIsDefined} from '../../utils/common-util';
+import {assertIsDefined, unique} from '../../utils/common-util';
 import {debounce, DelayedTask} from '../../utils/async-util';
 import {pluralize} from '../../utils/string-util';
 import {ReportingService} from '../../services/gr-reporting/gr-reporting';
 import {Model} from '../model';
 import {Deduping} from '../../api/reporting';
+import {extractMentionedUsers} from '../../utils/account-util';
 
 export interface CommentState {
   /** undefined means 'still loading' */
@@ -250,6 +252,15 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
     this.state$,
     commentState => commentState.discardedDrafts
   );
+
+  public readonly mentionedUsers$ = select(this.drafts$, drafts => {
+    const users: AccountInfo[] = [];
+    const comments = Object.values(drafts ?? {}).flat();
+    for (const comment of comments) {
+      users.push(...extractMentionedUsers(comment.message));
+    }
+    return users.filter(unique);
+  });
 
   // Emits a new value even if only a single draft is changed. Components should
   // aim to subsribe to something more specific.

@@ -1677,9 +1677,14 @@ suite('gr-reply-dialog tests', () => {
     const cc2 = makeAccount();
     const cc3 = makeAccount();
     const cc4 = makeAccount();
-    element.reviewers = [reviewer1, reviewer2, reviewer3];
-    element.ccs = [cc1, cc2, cc3, cc4];
-    element.reviewers.push(cc1);
+    element.reviewersList!.accounts = [reviewer1, reviewer2, reviewer3];
+    element.ccsList!.accounts = [cc1, cc2, cc3, cc4];
+    await element.updateComplete;
+    element.reviewersList!.accounts.push(cc1);
+
+    element.reviewers = element.reviewersList!.accounts;
+    element.ccs = element.ccsList!.accounts;
+
     element.reviewersList!.dispatchEvent(
       new CustomEvent('account-added', {
         detail: {account: cc1},
@@ -1690,7 +1695,7 @@ suite('gr-reply-dialog tests', () => {
     assert.deepEqual(element.reviewers, [reviewer1, reviewer2, reviewer3, cc1]);
     assert.deepEqual(element.ccs, [cc2, cc3, cc4]);
 
-    element.reviewers.push(cc4);
+    element.reviewersList!.addAccountItem({account: cc4, count: 1});
     element.reviewersList!.dispatchEvent(
       new CustomEvent('account-added', {
         detail: {account: cc4},
@@ -1698,7 +1703,7 @@ suite('gr-reply-dialog tests', () => {
     );
     await element.updateComplete;
 
-    element.reviewers.push(cc3);
+    element.reviewersList!.addAccountItem({account: cc3, count: 1});
     element.reviewersList!.dispatchEvent(
       new CustomEvent('account-added', {
         detail: {account: cc3},
@@ -1788,8 +1793,10 @@ suite('gr-reply-dialog tests', () => {
     const cc2 = makeAccount();
     const cc3 = makeAccount();
     const cc4 = makeAccount();
-    element.reviewers = [reviewer1, reviewer2, reviewer3];
-    element.ccs = [cc1, cc2, cc3, cc4];
+    element.reviewersList!.accounts = [reviewer1, reviewer2, reviewer3];
+    element.ccsList!.accounts = [cc1, cc2, cc3, cc4];
+    element.reviewers = element.reviewersList!.accounts;
+    element.ccs = element.ccsList!.accounts;
     element.ccs.push(reviewer1);
     element.ccsList!.dispatchEvent(
       new CustomEvent('account-added', {
@@ -1802,7 +1809,7 @@ suite('gr-reply-dialog tests', () => {
     assert.deepEqual(element.reviewers, [reviewer2, reviewer3]);
     assert.deepEqual(element.ccs, [cc1, cc2, cc3, cc4, reviewer1]);
 
-    element.ccs.push(reviewer3);
+    element.ccsList!.addAccountItem({account: reviewer3, count: 1});
     element.ccsList!.dispatchEvent(
       new CustomEvent('account-added', {
         detail: {account: reviewer3},
@@ -1810,7 +1817,7 @@ suite('gr-reply-dialog tests', () => {
     );
     await element.updateComplete;
 
-    element.ccs.push(reviewer2);
+    element.ccsList!.addAccountItem({account: reviewer2, count: 1});
     element.ccsList!.dispatchEvent(
       new CustomEvent('account-added', {
         detail: {account: reviewer2},

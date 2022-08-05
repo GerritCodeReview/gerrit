@@ -344,7 +344,7 @@ export class GrAccountList extends LitElement {
 
   removeAccount(toRemove?: AccountInput) {
     if (!toRemove || !this.computeRemovable(toRemove)) {
-      return;
+      return false;
     }
     for (let i = 0; i < this.accounts.length; i++) {
       if (accountOrGroupKey(toRemove) === accountOrGroupKey(this.accounts[i])) {
@@ -352,12 +352,13 @@ export class GrAccountList extends LitElement {
         this.reporting.reportInteraction(`Remove from ${this.id}`);
         this.requestUpdate();
         fire(this, 'accounts-changed', {value: this.accounts.slice()});
-        return;
+        return true;
       }
     }
     this.reporting.error(
       new Error(`Received "remove" event for missing account: ${toRemove}`)
     );
+    return false;
   }
 
   // private but used in test

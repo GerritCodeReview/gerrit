@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2e87ab8_085c646b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-08-05T08:54:15Z",
+      "side": 1,
+      "message": "\u003e Maybe you want to clarify which codepath is exercised by the REST API vs. the UI,\n\nThere is no REST API vs. UI here.\n\nThere are 2 ways to delete a reviewer in the UI, that each trigger different REST endpoints:\n\n1. click on the pencil icon next to the CC,remove the CC in the Reply dialog and click SEND -\u003e calls the PostReview REST endpoint (wrong email)\n2. click on Remove CC in the user popup -\u003e calls the DeleteReview REST endpoint (correct email)\n\nI think that\u0027s already covered above?\n\nI clarified now that NewChangeSender is used to send the email if PostReview is used and the DeleteReviewerSender is used to send the email if DeleteReviewer is used.",
+      "parentUuid": "2222b042_afae2b25",
+      "revId": "51c4d24e090c614b2406c9a7fc510570610c6646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c74c2f21_8ff8d4c1",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-08-05T08:22:48Z",
       "side": 1,
       "message": "DeleteReviewerSender*",
+      "range": {
+        "startLine": 25,
+        "startChar": 31,
+        "endLine": 25,
+        "endChar": 51
+      },
+      "revId": "51c4d24e090c614b2406c9a7fc510570610c6646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d5c5cd1_79e53989",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-08-05T08:54:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c74c2f21_8ff8d4c1",
       "range": {
         "startLine": 25,
         "startChar": 31,
@@ -71,6 +113,30 @@
       "writtenOn": "2022-08-05T08:22:48Z",
       "side": 1,
       "message": "nit: would you please annotate the variable name?",
+      "range": {
+        "startLine": 4904,
+        "startChar": 72,
+        "endLine": 4904,
+        "endChar": 77
+      },
+      "revId": "51c4d24e090c614b2406c9a7fc510570610c6646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "282d8ec9_5eedc98a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 4904,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-08-05T08:54:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4e4f44b_9e50dd6d",
       "range": {
         "startLine": 4904,
         "startChar": 72,

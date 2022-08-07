@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e418fb1_d0e2f1d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-08-07T14:41:51Z",
+      "side": 1,
+      "message": "Called tests and GJF locally and all is green.",
+      "revId": "ccfb4486fecfbe73c7192a33c73a4bdf0f465c7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

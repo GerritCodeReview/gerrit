@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4d9fd94_e233734f",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 1498,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-08T09:27:43Z",
+      "side": 1,
+      "message": "Nice cleanup!",
+      "revId": "ed1739595d8e9787f7e13232904c7e03f8f5742c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

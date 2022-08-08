@@ -82,7 +82,7 @@ export const tableStyles = css`
     text-decoration: underline;
   }
   .genericList .description {
-    width: 99%;
+    width: var(--generic-list-description-width, 99%);
   }
   .genericList .loadingMsg {
     color: var(--deemphasized-text-color);

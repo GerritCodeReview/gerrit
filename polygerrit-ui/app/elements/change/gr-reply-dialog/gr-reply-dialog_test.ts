@@ -2040,6 +2040,30 @@ suite('gr-reply-dialog tests', () => {
     });
   });
 
+  test('Ignore removal requests from reviewer if owner', async () => {
+    await element.updateComplete;
+    const reviewer1 = makeAccount();
+    element.reviewers = [reviewer1];
+    element._ccs = [];
+    element.change!.owner = reviewer1;
+
+    element.change!.reviewers = {
+      [ReviewerState.CC]: [],
+      [ReviewerState.REVIEWER]: [{_account_id: reviewer1._account_id}],
+    };
+
+    await element.updateComplete;
+
+    const mutations: ReviewerInput[] = [];
+
+    stubSaveReview((review: ReviewInput) => {
+      mutations.push(...review.reviewers!);
+    });
+
+    await element.send(false, false);
+    expect(mutations).to.have.lengthOf(0);
+  });
+
   test('emits cancel on esc key', async () => {
     const cancelHandler = sinon.spy();
     element.addEventListener('cancel', cancelHandler);

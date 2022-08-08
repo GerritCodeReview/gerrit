@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5aa95bf2_58e9706b",
+        "filename": "polygerrit-ui/app/styles/gr-table-styles.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2022-08-08T14:31:05Z",
+      "side": 0,
+      "message": "While I pointed this out in the issue, the one part of the puzzle I don\u0027t have is if this is reused elsewhere and will make that look wonky.\n\nI think it\u0027s used for the Repository list-view as well, but I don\u0027t know of other sources.",
+      "revId": "f56083cad18768db7e5c1d974c07dcdaceeec187",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

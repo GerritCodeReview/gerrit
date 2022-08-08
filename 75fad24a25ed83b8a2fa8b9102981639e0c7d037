@@ -470,6 +470,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c210c6d0_2bfa47bf",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 1589,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-08T14:24:19Z",
+      "side": 1,
+      "message": "I don\u0027t want to push you any further in this change. Feel free to not do this, but let me explain my thinking.\n\nI think *no* component should be listening to `ChangeInfo` and having a `change` property at all. `ChangeInfo` is huge and depending on it ties a component to all of it. It would be better for each component to spell out explicitly what parts of `change` they actually need.\n\nIt would be nice, if the components don\u0027t have to do much in `updated()` or `willUpdate()` methods. It seems more appropriate for the model to implement that in a selector.\n\nMostly component should just present data in a user interface. It makes testing easier, if \"business logic\" is kept as much as possible to models, services and utilities.\n\nNote that at the moment `rebuildReviewerArrays()` would be called, even if only a comment was added to the change.",
+      "parentUuid": "b3d445cd_70e548a8",
+      "range": {
+        "startLine": 1558,
+        "startChar": 2,
+        "endLine": 1589,
+        "endChar": 3
+      },
+      "revId": "75fad24a25ed83b8a2fa8b9102981639e0c7d037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b65f31d2_7a46a4dc",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
         "patchSetId": 20

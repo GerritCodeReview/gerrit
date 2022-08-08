@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8ca2e41c_7fe69853",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-08-08T14:31:04Z",
+      "side": 1,
+      "message": "```suggestion\n          border-top: 2px solid var(--border-color);\n```",
+      "range": {
+        "startLine": 118,
+        "startChar": 22,
+        "endLine": 118,
+        "endChar": 25
+      },
+      "revId": "d03ce1bec33f5038eed205398844ffb49e4bbf71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b5c35756_642e113e",
         "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
         "patchSetId": 1
@@ -14,6 +37,29 @@
       "writtenOn": "2022-08-08T14:28:52Z",
       "side": 1,
       "message": "```suggestion\n          margin-top: var(--spacing-m);\n```\n\nTo follow specs",
+      "revId": "d03ce1bec33f5038eed205398844ffb49e4bbf71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db9d8edb_f725333c",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-08-08T14:31:04Z",
+      "side": 1,
+      "message": "```suggestion\n          padding: var(--spacing-xs) var(--spacing-s) 0;\n```",
+      "range": {
+        "startLine": 120,
+        "startChar": 23,
+        "endLine": 120,
+        "endChar": 34
+      },
       "revId": "d03ce1bec33f5038eed205398844ffb49e4bbf71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

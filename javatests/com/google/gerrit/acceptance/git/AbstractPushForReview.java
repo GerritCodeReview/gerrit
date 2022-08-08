@@ -46,6 +46,7 @@ import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -2440,8 +2441,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     }
 
     @Nullable
-    public CommitReceivedEvent getReceivedEvent() {
-      return receivedEvent;
+    public ImmutableListMultimap<String, String> pushOptions() {
+      return receivedEvent != null ? receivedEvent.pushOptions : null;
     }
   }
 
@@ -2537,7 +2538,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       push.setPushOptions(ImmutableList.of("trace=123", "gerrit~foo", "gerrit~bar=456"));
       PushOneCommit.Result r = push.to("refs/for/master");
       r.assertOkStatus();
-      assertThat(validator.getReceivedEvent().pushOptions)
+      assertThat(validator.pushOptions())
           .containsExactly("trace", "123", "gerrit~foo", "", "gerrit~bar", "456");
     }
   }

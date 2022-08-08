@@ -22,7 +22,7 @@ import com.google.gerrit.index.SchemaDefinitions;
 /**
  * Definition of project index versions (schemata). See {@link SchemaDefinitions}.
  *
- * <p>Upgrades are subject to constraints, see {@link
+ * <p>Upgrades are subject to constraints, see {@code
  * com.google.gerrit.index.IndexUpgradeValidator}.
  */
 public class ProjectSchemaDefinitions extends SchemaDefinitions<ProjectData> {

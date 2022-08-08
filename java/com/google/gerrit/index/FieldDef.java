@@ -32,8 +32,8 @@ import java.util.Optional;
  * Definition of a field stored in the secondary index.
  *
  * <p>{@link FieldDef}-s must not be changed once introduced to the codebase. Instead, a new
- * FieldDef must be added and the old one removed from the schema (in two upgrade steps, see {@link
- * IndexUpgradeValidator}).
+ * FieldDef must be added and the old one removed from the schema (in two upgrade steps, see {@code
+ * com.google.gerrit.index.IndexUpgradeValidator}).
  *
  * <p>Note that {@link FieldDef} does not override {@link Object#equals(Object)}. It relies on
  * instances being singletons so that the default (i.e. reference) comparison works.

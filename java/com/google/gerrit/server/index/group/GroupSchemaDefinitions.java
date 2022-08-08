@@ -25,7 +25,7 @@ import com.google.gerrit.index.SchemaDefinitions;
 /**
  * Definition of group index versions (schemata). See {@link SchemaDefinitions}.
  *
- * <p>Upgrades are subject to constraints, see {@link
+ * <p>Upgrades are subject to constraints, see {@code
  * com.google.gerrit.index.IndexUpgradeValidator}.
  */
 public class GroupSchemaDefinitions extends SchemaDefinitions<InternalGroup> {

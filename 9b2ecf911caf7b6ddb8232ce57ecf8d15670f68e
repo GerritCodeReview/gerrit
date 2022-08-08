@@ -137,6 +137,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5385d495_c7272b2d",
+        "filename": "polygerrit-ui/app/workers/service-worker-class.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-08T09:17:29Z",
+      "side": 1,
+      "message": "Makes sense.\nAdd the explanation as a comment so it\u0027s clear to future readers.",
+      "parentUuid": "707e2138_c093a241",
+      "range": {
+        "startLine": 29,
+        "startChar": 18,
+        "endLine": 29,
+        "endChar": 60
+      },
+      "revId": "9b2ecf911caf7b6ddb8232ce57ecf8d15670f68e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e7ee1ae8_9f989b8f",
         "filename": "polygerrit-ui/app/workers/service-worker.ts",
         "patchSetId": 3

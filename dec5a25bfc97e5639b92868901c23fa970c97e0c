@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1b67920_6fa7178c",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-08T09:17:29Z",
+      "side": 1,
+      "message": "typo: notified",
+      "range": {
+        "startLine": 56,
+        "startChar": 48,
+        "endLine": 56,
+        "endChar": 57
+      },
+      "revId": "dec5a25bfc97e5639b92868901c23fa970c97e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -39,6 +39,52 @@
       },
       "revId": "1f38f34b9dde3317a556693c95354b1f509305d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b57ff73_d482eda7",
+        "filename": "polygerrit-ui/app/api/checks.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-08T12:20:11Z",
+      "side": 1,
+      "message": "link to docs if it exists?",
+      "range": {
+        "startLine": 437,
+        "startChar": 25,
+        "endLine": 437,
+        "endChar": 43
+      },
+      "revId": "1f38f34b9dde3317a556693c95354b1f509305d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "410cfcda_f6286596",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-08T12:20:11Z",
+      "side": 1,
+      "message": "why are we passing `this` and `this.result`?",
+      "range": {
+        "startLine": 194,
+        "startChar": 35,
+        "endLine": 194,
+        "endChar": 52
+      },
+      "revId": "1f38f34b9dde3317a556693c95354b1f509305d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

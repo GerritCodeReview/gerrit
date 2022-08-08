@@ -250,7 +250,7 @@ export function getRevisionKey(
   );
 }
 
-export function hasHumanReviewer(change?: ChangeInfo): boolean {
+export function hasHumanReviewer(change?: ParsedChangeInfo): boolean {
   const reviewers = change?.reviewers.REVIEWER ?? [];
   return reviewers.some(r => !isServiceUser(r));
 }

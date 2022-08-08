@@ -22,6 +22,7 @@ import {assertNever, hasOwnProperty} from './common-util';
 import {getDisplayName} from './display-name-util';
 import {getApprovalInfo} from './label-util';
 import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
+import {ParsedChangeInfo} from '../types/types';
 
 export const ACCOUNT_TEMPLATE_REGEX = '<GERRIT_ACCOUNT_(\\d+)>';
 const SUGGESTIONS_LIMIT = 15;
@@ -60,7 +61,7 @@ export function accountOrGroupKey(entry: AccountInfo | GroupInfo) {
 export function isAccountNewlyAdded(
   account: AccountInfo | GroupInfo,
   state?: ReviewerState,
-  change?: ChangeInfo
+  change?: ChangeInfo | ParsedChangeInfo
 ) {
   if (!change || !state) return false;
   const accounts = [...(change.reviewers[state] ?? [])];

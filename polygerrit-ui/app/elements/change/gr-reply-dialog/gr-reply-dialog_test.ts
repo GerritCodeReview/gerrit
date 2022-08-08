@@ -23,12 +23,13 @@ import {JSON_PREFIX} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-re
 import {StandardLabels} from '../../../utils/label-util';
 import {
   createAccountWithId,
-  createChange,
   createComment,
   createCommentThread,
   createDraft,
   createRevision,
   createServiceUserWithId,
+  createParsedChange,
+  createChange,
 } from '../../../test/test-data-generators';
 import {
   pressAndReleaseKeyOn,
@@ -110,7 +111,7 @@ suite('gr-reply-dialog tests', () => {
     `);
 
     element.change = {
-      ...createChange(),
+      ...createParsedChange(),
       _number: changeNum,
       owner: {
         _account_id: 999 as AccountId,
@@ -466,7 +467,7 @@ suite('gr-reply-dialog tests', () => {
       })
     );
     const change = {
-      ...createChange(),
+      ...createParsedChange(),
       owner: {_account_id: ownerId},
       status,
       reviewers: {
@@ -891,7 +892,7 @@ suite('gr-reply-dialog tests', () => {
   test('computeNewAttention when adding reviewers', async () => {
     element.account = {_account_id: 1 as AccountId};
     element.change = {
-      ...createChange(),
+      ...createParsedChange(),
       owner: {_account_id: 5 as AccountId},
       status: ChangeStatus.NEW,
       attention_set: {},
@@ -926,7 +927,7 @@ suite('gr-reply-dialog tests', () => {
 
   test('computeNewAttention when sending wip change for review', async () => {
     element.change = {
-      ...createChange(),
+      ...createParsedChange(),
       owner: {_account_id: 1 as AccountId},
       status: ChangeStatus.NEW,
       attention_set: {},
@@ -1003,7 +1004,7 @@ suite('gr-reply-dialog tests', () => {
 
   test('computeCommentAccounts', () => {
     element.change = {
-      ...createChange(),
+      ...createParsedChange(),
       labels: {
         'Code-Review': {
           all: [
@@ -1555,7 +1556,7 @@ suite('gr-reply-dialog tests', () => {
     const cc2 = makeGroup();
     let filter = element.filterReviewerSuggestionGenerator(false);
 
-    element.change = createChange();
+    element.change = createParsedChange();
     element.change.owner = owner;
     element.reviewers = [reviewer1, reviewer2];
     element.ccs = [cc1, cc2];

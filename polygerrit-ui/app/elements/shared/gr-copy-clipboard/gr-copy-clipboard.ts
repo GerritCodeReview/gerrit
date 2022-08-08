@@ -100,7 +100,9 @@ export class GrCopyClipboard extends LitElement {
             @click=${this._copyToClipboard}
             aria-label="Click to copy to clipboard"
           >
-            <gr-icon id="icon" icon="content_copy" small></gr-icon>
+            <div>
+              <gr-icon id="icon" icon="content_copy" small></gr-icon>
+            </div>
           </gr-button>
         </gr-tooltip-content>
       </div>

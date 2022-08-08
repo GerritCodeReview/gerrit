@@ -193,7 +193,7 @@ export function getAccountSuggestions(
 }
 
 /**
- * Extracts the emails of mentioned users from a given text.
+ * Extracts mentioned users from a given text.
  * A user can be mentioned by triggering the mentions dropdown in a comment
  * by typing @ at the start of the comment or after a space.
  * The Mentions Regex first looks start of sentence or whitespace (?:^|\s) then

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45e5a89f_73cac843",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-08T11:37:33Z",
+      "side": 0,
+      "message": "All methods generating URLs belong together in one file. You cannot just pull one out.\n\nYou have to move `generateUrl()` and all the other `generate...()` methods into their own file (not url-util.ts).\n\nI have tried it quickly and it seems to be not a big deal.\n\nIt also makes sure that you don\u0027t forget `getBaseUrl()`, which I think is a bug in your current version of the change.",
+      "revId": "bc598893e6d0006df5bcf858b535fa4f697014df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

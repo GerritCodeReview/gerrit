@@ -16,12 +16,20 @@ export class ServiceWorker {
 
   latestUpdateTimestampMs?: number;
 
-  showNotification(change: ParsedChangeInfo, account: AccountDetailInfo) {
+  showNotificationForChange(
+    change: ParsedChangeInfo,
+    account: AccountDetailInfo
+  ) {
     const body = getReason(undefined, account, change);
     // TODO(milutin): Implement event.action that
     // focus on firstWindowClient and open change there.
     // TODO(milutin): Add gerrit host icon
     this.ctx.registration.showNotification(change.subject, {body});
+  }
+
+  showNotificationForMoreChanges(numOfChanges: number) {
+    const title = `You are in the attention set for ${numOfChanges} changes.`;
+    this.ctx.registration.showNotification(title);
   }
 
   async getChangesToNotify(account: AccountDetailInfo) {

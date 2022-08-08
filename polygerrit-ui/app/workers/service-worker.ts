@@ -26,9 +26,17 @@ ctx.addEventListener('message', async event => {
   const latestAttentionChanges = await serviceWorker.getChangesToNotify(
     account
   );
-  // TODO(milutin): Implement handling more than 1 change
   if (latestAttentionChanges && latestAttentionChanges.length > 0) {
-    serviceWorker.showNotification(latestAttentionChanges[0], account);
+    if (latestAttentionChanges.length === 1) {
+      serviceWorker.showNotificationForChange(
+        latestAttentionChanges[0],
+        account
+      );
+    } else {
+      serviceWorker.showNotificationForMoreChanges(
+        latestAttentionChanges.length
+      );
+    }
   }
 });
 

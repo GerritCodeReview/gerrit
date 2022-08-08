@@ -26,6 +26,47 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "50bfdd5b_a69606ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-08T09:16:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82a5b2cc_e6a5745f",
+      "range": {
+        "startLine": 9,
+        "startChar": 59,
+        "endLine": 9,
+        "endChar": 70
+      },
+      "revId": "9b2ecf911caf7b6ddb8232ce57ecf8d15670f68e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f47e228_27c8c622",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-08T09:16:19Z",
+      "side": 1,
+      "message": "Thanks for review",
+      "revId": "9b2ecf911caf7b6ddb8232ce57ecf8d15670f68e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "239548bc_a03267f9",
         "filename": "polygerrit-ui/app/utils/url-util.ts",
         "patchSetId": 3
@@ -70,6 +111,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "707e2138_c093a241",
+        "filename": "polygerrit-ui/app/workers/service-worker-class.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-08T09:16:19Z",
+      "side": 1,
+      "message": "Service worker is a special case here. Normally you don\u0027t need origin, because browser does it for you. But here is different you can have 2 service workers for 2 different origins and we need to know from which origin a notification came.\n\nSince it\u0027s a special case, I wouldn\u0027t add it to utility. WDYT?",
+      "parentUuid": "accf900d_5909af65",
+      "range": {
+        "startLine": 29,
+        "startChar": 18,
+        "endLine": 29,
+        "endChar": 60
+      },
+      "revId": "9b2ecf911caf7b6ddb8232ce57ecf8d15670f68e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e7ee1ae8_9f989b8f",
@@ -83,6 +148,30 @@
       "writtenOn": "2022-08-08T06:42:56Z",
       "side": 1,
       "message": "Docs say\n\n```\nIf the calling script doesn\u0027t have permission to show popups,\nopenWindow() will throw an InvalidAccessError.\n```\n\nDo we have to worry about this error?",
+      "range": {
+        "startLine": 36,
+        "startChar": 3,
+        "endLine": 36,
+        "endChar": 70
+      },
+      "revId": "9b2ecf911caf7b6ddb8232ce57ecf8d15670f68e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e768a8c_1a556fa8",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-08T09:16:19Z",
+      "side": 1,
+      "message": "Thanks, I added catch.",
+      "parentUuid": "e7ee1ae8_9f989b8f",
       "range": {
         "startLine": 36,
         "startChar": 3,

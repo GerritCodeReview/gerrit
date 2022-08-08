@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "74eb3edd_bb0c33c2",
+        "filename": "polygerrit-ui/app/api/checks.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-08T13:40:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "067b195c_2fc8bef9",
+      "range": {
+        "startLine": 434,
+        "startChar": 2,
+        "endLine": 434,
+        "endChar": 26
+      },
+      "revId": "1f38f34b9dde3317a556693c95354b1f509305d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b57ff73_d482eda7",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-08-08T12:20:11Z",
       "side": 1,
       "message": "link to docs if it exists?",
+      "range": {
+        "startLine": 437,
+        "startChar": 25,
+        "endLine": 437,
+        "endChar": 43
+      },
+      "revId": "1f38f34b9dde3317a556693c95354b1f509305d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97ba7468_619de919",
+        "filename": "polygerrit-ui/app/api/checks.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-08T13:40:34Z",
+      "side": 1,
+      "message": "Added documentation to `fixes` field above.",
+      "parentUuid": "3b57ff73_d482eda7",
       "range": {
         "startLine": 437,
         "startChar": 25,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "89def595_5518c05a",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-08T13:40:34Z",
+      "side": 1,
+      "message": "`createFixAction()` needs an event target for firing the event: `this`.\n\nAnd it needs data: `this.result`.\n\nWe could just pass `this` and let `createFixAction()` look up the result inside, but using two parameters means that we have less coupling and `createFixAction()` does not have to \"know\" much about the caller.",
+      "parentUuid": "410cfcda_f6286596",
+      "range": {
+        "startLine": 194,
+        "startChar": 35,
+        "endLine": 194,
+        "endChar": 52
+      },
+      "revId": "1f38f34b9dde3317a556693c95354b1f509305d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "767de960_3a3ea99a",
@@ -104,6 +176,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "54c4e6d9_d2f3919c",
+        "filename": "polygerrit-ui/app/models/checks/checks-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-08T13:40:34Z",
+      "side": 1,
+      "message": "Done. But I actually do this intentionally. My personal taste is to often split up these guard statements into individual lines, because I think that makes it more readable. But I understand that this taste is probably not mainstream. :-)",
+      "parentUuid": "767de960_3a3ea99a",
+      "revId": "1f38f34b9dde3317a556693c95354b1f509305d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e2cc2c3e_ab87861a",
@@ -117,6 +207,24 @@
       "writtenOn": "2022-08-08T12:27:52Z",
       "side": 1,
       "message": "No need to have return undefined.  That\u0027s implicit by making this a block-based lambda (not sure what the right name is, but the curly braces).",
+      "revId": "1f38f34b9dde3317a556693c95354b1f509305d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f328866_b2138489",
+        "filename": "polygerrit-ui/app/models/checks/checks-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-08T13:40:34Z",
+      "side": 1,
+      "message": "I have tried that, but it will not compile without the return statement.",
+      "parentUuid": "e2cc2c3e_ab87861a",
       "revId": "1f38f34b9dde3317a556693c95354b1f509305d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

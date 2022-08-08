@@ -262,6 +262,20 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
     return users.filter(unique);
   });
 
+  public readonly mentionedUsersInUnresolvedDrafts$ = select(
+    this.drafts$,
+    drafts => {
+      const users: AccountInfo[] = [];
+      const comments = Object.values(drafts ?? {})
+        .flat()
+        .filter(c => c.unresolved);
+      for (const comment of comments) {
+        users.push(...extractMentionedUsers(comment.message));
+      }
+      return users.filter(unique);
+    }
+  );
+
   // Emits a new value even if only a single draft is changed. Components should
   // aim to subsribe to something more specific.
   public readonly changeComments$ = select(

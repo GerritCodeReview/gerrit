@@ -1379,7 +1379,14 @@ export class GrReplyDialog extends LitElement {
     ).map(v => toReviewInput(v, ReviewerState.REMOVED));
     reviewers.push(...removals);
 
-    return reviewers;
+    // filter removal of owner as a reviewer from the change
+    return reviewers.filter(
+      account =>
+        !(
+          this.change?.owner._account_id === account.reviewer &&
+          account.state === ReviewerState.REMOVED
+        )
+    );
   }
 
   send(includeComments: boolean, startReview: boolean) {

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82a5b2cc_e6a5745f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-08T06:42:56Z",
+      "side": 1,
+      "message": "typo: documentation.",
+      "range": {
+        "startLine": 9,
+        "startChar": 59,
+        "endLine": 9,
+        "endChar": 70
+      },
+      "revId": "9b2ecf911caf7b6ddb8232ce57ecf8d15670f68e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "239548bc_a03267f9",
+        "filename": "polygerrit-ui/app/utils/url-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-08T06:42:56Z",
+      "side": 1,
+      "message": "Very nice!!",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 39
+      },
+      "revId": "9b2ecf911caf7b6ddb8232ce57ecf8d15670f68e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "accf900d_5909af65",
+        "filename": "polygerrit-ui/app/workers/service-worker-class.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-08T06:42:56Z",
+      "side": 1,
+      "message": "I am surprised url is not simply `changeUrl` and we need to add the `self.location.origin` before it.\nThere should be some util that returns the change url completely?.",
+      "range": {
+        "startLine": 29,
+        "startChar": 18,
+        "endLine": 29,
+        "endChar": 60
+      },
+      "revId": "9b2ecf911caf7b6ddb8232ce57ecf8d15670f68e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7ee1ae8_9f989b8f",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-08T06:42:56Z",
+      "side": 1,
+      "message": "Docs say\n\n```\nIf the calling script doesn\u0027t have permission to show popups,\nopenWindow() will throw an InvalidAccessError.\n```\n\nDo we have to worry about this error?",
+      "range": {
+        "startLine": 36,
+        "startChar": 3,
+        "endLine": 36,
+        "endChar": 70
+      },
+      "revId": "9b2ecf911caf7b6ddb8232ce57ecf8d15670f68e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

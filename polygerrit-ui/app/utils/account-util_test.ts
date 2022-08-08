@@ -101,6 +101,13 @@ suite('account-util tests', () => {
     assert.deepEqual(extractMentionedUsers(text), [
       {email: 'abc@google.com' as EmailAddress},
     ]);
+
+    text = '@a@google.com @b@google.com @c@google.com';
+    assert.deepEqual(extractMentionedUsers(text), [
+      {email: 'a@google.com' as EmailAddress},
+      {email: 'b@google.com' as EmailAddress},
+      {email: 'c@google.com' as EmailAddress},
+    ]);
   });
 
   test('removeServiceUsers', () => {

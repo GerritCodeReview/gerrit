@@ -16,6 +16,24 @@
       "message": "I propose you make removeAccount return a boolean whether an account was actually removed or not and then simplify this code to:\n\n```\nif (reviewerList.removeAccount(account)) {\n  ...\n```",
       "revId": "7d50dfcb1a1d0716b7c84befed0e1c00b55ad760",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8c5244b_a4d4657b",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1272,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-08T11:25:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be2bf4d6_2f7a7484",
+      "revId": "7d50dfcb1a1d0716b7c84befed0e1c00b55ad760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

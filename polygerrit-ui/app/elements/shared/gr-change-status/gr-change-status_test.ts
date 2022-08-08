@@ -34,7 +34,7 @@ suite('gr-change-status tests', () => {
         has-tooltip=""
         max-width="40em"
         position-below=""
-        title="This change isn't ready to be reviewed or submitted. It will not appear on dashboards unless you are CC'ed, and email notifications will be silenced until the review is started."
+        title="This change isn't ready to be reviewed or submitted. It will not appear on dashboards unless you are in the attention set, and email notifications will be silenced until the review is started."
       >
         <div aria-label="Label: WIP" class="chip">Work in Progress</div>
       </gr-tooltip-content>

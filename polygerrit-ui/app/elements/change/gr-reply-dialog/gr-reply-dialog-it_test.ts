@@ -20,7 +20,7 @@ import {
   Timestamp,
 } from '../../../types/common';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
-import {createChange} from '../../../test/test-data-generators';
+import {createParsedChange} from '../../../test/test-data-generators';
 import {GrTextarea} from '../../shared/gr-textarea/gr-textarea';
 
 const basicFixture = fixtureFromElement('gr-reply-dialog');
@@ -32,7 +32,7 @@ suite('gr-reply-dialog-it tests', () => {
 
   const setupElement = (element: GrReplyDialog) => {
     element.change = {
-      ...createChange(),
+      ...createParsedChange(),
       _number: changeNum,
       labels: {
         Verified: {

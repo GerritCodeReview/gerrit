@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8687d5e_a5400c7e",
+        "filename": "polygerrit-ui/app/workers/service-worker-class.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-08T17:44:20Z",
+      "side": 1,
+      "message": "Does getBaseUrl() work properly, which is based on `window.CANONICAL_PATH`? Maybe add a TODO?",
+      "revId": "447d215779a0757dfe3a1de038837cdff2e298dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a748464_a6aae1f0",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-08T17:44:20Z",
+      "side": 1,
+      "message": "Nit: I don\u0027t find the line comments very helpful.",
+      "revId": "447d215779a0757dfe3a1de038837cdff2e298dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65fcc670_2dd8178c",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-08T17:44:20Z",
+      "side": 1,
+      "message": "Nit: I find this a bit hard to read. Maybe:\n```\n    const url \u003d e.notification.data.url;\n    let client \u003d clientsArr.find(c \u003d\u003e c.url \u003d\u003d\u003d url);\n    if (!client) client \u003d await ctx.clients.openWindow(url);\n    client?.focus();\n```\nLooking forward to user suggestions! :-)",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 6
+      },
+      "revId": "447d215779a0757dfe3a1de038837cdff2e298dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

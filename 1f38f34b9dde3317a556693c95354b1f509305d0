@@ -85,6 +85,40 @@
       },
       "revId": "1f38f34b9dde3317a556693c95354b1f509305d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "767de960_3a3ea99a",
+        "filename": "polygerrit-ui/app/models/checks/checks-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-08T12:27:52Z",
+      "side": 1,
+      "message": "Single line:\nif (!fix || !result?.patchset) return;",
+      "revId": "1f38f34b9dde3317a556693c95354b1f509305d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2cc2c3e_ab87861a",
+        "filename": "polygerrit-ui/app/models/checks/checks-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-08T12:27:52Z",
+      "side": 1,
+      "message": "No need to have return undefined.  That\u0027s implicit by making this a block-based lambda (not sure what the right name is, but the curly braces).",
+      "revId": "1f38f34b9dde3317a556693c95354b1f509305d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

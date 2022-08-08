@@ -1,11 +1,12 @@
-import {ServerInfo} from '../types/common';
-import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
-
 /**
  * @license
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+
+import {ServerInfo} from '../types/common';
+import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
+
 const PROBE_PATH = '/Documentation/index.html';
 const DOCS_BASE_PATH = '/Documentation';
 

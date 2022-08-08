@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87e7b523_9667fab8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-08T11:25:31Z",
+      "side": 1,
+      "message": "What about:\n\n```\n#copy-clipboard-button #icon {\n  display: block\n}\n```",
+      "revId": "0e50d89b73d89806b2d8e86230fe15ce66dc8429",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

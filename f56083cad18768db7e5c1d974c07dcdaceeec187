@@ -16,6 +16,24 @@
       "message": "While I pointed this out in the issue, the one part of the puzzle I don\u0027t have is if this is reused elsewhere and will make that look wonky.\n\nI think it\u0027s used for the Repository list-view as well, but I don\u0027t know of other sources.",
       "revId": "f56083cad18768db7e5c1d974c07dcdaceeec187",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c881d55d_3e52504a",
+        "filename": "polygerrit-ui/app/styles/gr-table-styles.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-08T14:41:38Z",
+      "side": 0,
+      "message": "I see 5 usages of \u003cgr-list-view\u003e:\nhttps://cs.opensource.google/search?q\u003d%3Cgr-list-view%20-f:test\u0026ss\u003dgerrit\n\nAnd there is also usage of `genericList` here:\npolygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.ts\npolygerrit-ui/app/elements/admin/gr-repo-dashboards/gr-repo-dashboards.ts\n\nI am also worried that other tables will be messed up.",
+      "parentUuid": "5aa95bf2_58e9706b",
+      "revId": "f56083cad18768db7e5c1d974c07dcdaceeec187",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

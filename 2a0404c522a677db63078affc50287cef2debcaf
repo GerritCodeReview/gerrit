@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "964a784d_728f5b9b",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-08T11:36:51Z",
+      "side": 1,
+      "message": "It doesn\u0027t look it\u0027s supported by Safari. https://caniuse.com/js-regexp-lookbehind\n\nMaybe that\u0027s too costly for just pure cleanup.",
+      "range": {
+        "startLine": 31,
+        "startChar": 5,
+        "endLine": 31,
+        "endChar": 7
+      },
+      "revId": "2a0404c522a677db63078affc50287cef2debcaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

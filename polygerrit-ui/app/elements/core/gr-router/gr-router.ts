@@ -63,6 +63,7 @@ import {
   toSearchParams,
 } from '../../../utils/url-util';
 import {Execution, LifeCycle, Timing} from '../../../constants/reporting';
+import { generateChangeUrl, generateDashboardUrl } from '../../../utils/router-util';
 
 const RoutePattern = {
   ROOT: '/',
@@ -245,8 +246,6 @@ const LEGACY_LINENUM_PATTERN = /@([ab]?\d+)$/;
 
 const LEGACY_QUERY_SUFFIX_PATTERN = /,n,z$/;
 
-const REPO_TOKEN_PATTERN = /\${(project|repo)}/g;
-
 // Polymer makes `app` intrinsically defined on the window by virtue of the
 // custom element having the id "pg-app", but it is made explicit here.
 // If you move this code to other place, please update comment about
@@ -334,9 +333,9 @@ export class GrRouter {
     if (params.view === GerritView.SEARCH) {
       url = this.generateSearchUrl(params);
     } else if (params.view === GerritView.CHANGE) {
-      url = this.generateChangeUrl(params);
+      url = generateChangeUrl(params);
     } else if (params.view === GerritView.DASHBOARD) {
-      url = this.generateDashboardUrl(params);
+      url = generateDashboardUrl(params);
     } else if (
       params.view === GerritView.DIFF ||
       params.view === GerritView.EDIT
@@ -511,79 +510,6 @@ export class GrRouter {
     }
 
     return '/q/' + operators.join('+') + offsetExpr;
-  }
-
-  private generateChangeUrl(params: GenerateUrlChangeViewParameters) {
-    let range = this.getPatchRangeExpression(params);
-    if (range.length) {
-      range = '/' + range;
-    }
-    let suffix = `${range}`;
-    const queries = [];
-    if (params.forceReload) {
-      queries.push('forceReload=true');
-    }
-    if (params.openReplyDialog) {
-      queries.push('openReplyDialog=true');
-    }
-    if (params.usp) {
-      queries.push(`usp=${params.usp}`);
-    }
-    if (params.edit) {
-      suffix += ',edit';
-    }
-    if (params.commentId) {
-      suffix = suffix + `/comments/${params.commentId}`;
-    }
-    if (queries.length > 0) {
-      suffix += '?' + queries.join('&');
-    }
-    if (params.messageHash) {
-      suffix += params.messageHash;
-    }
-    if (params.project) {
-      const encodedProject = encodeURL(params.project, true);
-      return `/c/${encodedProject}/+/${params.changeNum}${suffix}`;
-    } else {
-      return `/c/${params.changeNum}${suffix}`;
-    }
-  }
-
-  private generateDashboardUrl(params: GenerateUrlDashboardViewParameters) {
-    const repoName = params.repo || params.project || undefined;
-    if (params.sections) {
-      // Custom dashboard.
-      const queryParams = this.sectionsToEncodedParams(
-        params.sections,
-        repoName
-      );
-      if (params.title) {
-        queryParams.push('title=' + encodeURIComponent(params.title));
-      }
-      const user = params.user ? params.user : '';
-      return `/dashboard/${user}?${queryParams.join('&')}`;
-    } else if (repoName) {
-      // Project dashboard.
-      const encodedRepo = encodeURL(repoName, true);
-      return `/p/${encodedRepo}/+/dashboard/${params.dashboard}`;
-    } else {
-      // User dashboard.
-      return `/dashboard/${params.user || 'self'}`;
-    }
-  }
-
-  private sectionsToEncodedParams(
-    sections: DashboardSection[],
-    repoName?: RepoName
-  ) {
-    return sections.map(section => {
-      // If there is a repo name provided, make sure to substitute it into the
-      // ${repo} (or legacy ${project}) query tokens.
-      const query = repoName
-        ? section.query.replace(REPO_TOKEN_PATTERN, repoName)
-        : section.query;
-      return encodeURIComponent(section.name) + '=' + encodeURIComponent(query);
-    });
   }
 
   private generateDiffOrEditUrl(
@@ -821,7 +747,7 @@ export class GrRouter {
           page.show(url);
         }
       },
-      params => this.generateUrl(params),
+      params => generateUrl(params),
       params => this.generateWeblinks(params),
       x => x
     );

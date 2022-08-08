@@ -34,6 +34,24 @@
       "parentUuid": "87e7b523_9667fab8",
       "revId": "0e50d89b73d89806b2d8e86230fe15ce66dc8429",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b8c56e3_f5e3b297",
+        "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-08T11:59:57Z",
+      "side": 1,
+      "message": "Thanks for the explanation!",
+      "parentUuid": "922c4cdc_71221e46",
+      "revId": "0e50d89b73d89806b2d8e86230fe15ce66dc8429",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

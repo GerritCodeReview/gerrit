@@ -116,7 +116,7 @@ export class GrSubmitRequirementHovercard extends base {
         }
         div.button {
           border-top: 1px solid var(--border-color);
-          margin-top: var(--spacing-m);
+          margin-top: var(--spacing-xl);
           padding: var(--spacing-m) var(--spacing-xl) 0;
         }
       `,

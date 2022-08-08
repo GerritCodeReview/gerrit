@@ -33,7 +33,7 @@ import {
 } from '../../../utils/account-util';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import {TargetElement} from '../../../api/plugin';
-import {FixIronA11yAnnouncer} from '../../../types/types';
+import {FixIronA11yAnnouncer, ParsedChangeInfo} from '../../../types/types';
 import {
   AccountInfoInput,
   AccountInput,
@@ -197,7 +197,7 @@ export class GrReplyDialog extends LitElement {
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   @property({type: Object})
-  change?: ChangeInfo;
+  change?: ParsedChangeInfo | ChangeInfo;
 
   @property({type: String})
   patchNum?: PatchSetNum;
@@ -594,6 +594,13 @@ export class GrReplyDialog extends LitElement {
         this.serverConfig = config;
       }
     );
+    subscribe(
+      this,
+      () => this.getChangeModel().change$,
+      x => {
+        this.change = x;
+      }
+    );
   }
 
   override connectedCallback() {
@@ -649,7 +656,7 @@ export class GrReplyDialog extends LitElement {
     }
     if (changedProperties.has('change')) {
       this.computeUploader();
-      this.changeUpdated();
+      this.rebuildReviewerArrays();
     }
     if (changedProperties.has('canBeStarted')) {
       this.computeMessagePlaceholder();
@@ -1421,7 +1428,7 @@ export class GrReplyDialog extends LitElement {
     return FocusTarget.REVIEWERS;
   }
 
-  isOwner(account?: AccountInfo, change?: ChangeInfo) {
+  isOwner(account?: AccountInfo, change?: ParsedChangeInfo | ChangeInfo) {
     if (!account || !change || !change.owner) return false;
     return account._account_id === change.owner._account_id;
   }
@@ -1479,42 +1486,15 @@ export class GrReplyDialog extends LitElement {
       : 'Say something nice...';
   }
 
-  changeUpdated() {
-    if (this.change === undefined) return;
-    this.rebuildReviewerArrays();
-  }
-
   rebuildReviewerArrays() {
     if (!this.change?.owner || !this.change?.reviewers) return;
+    const getAccounts = (state: ReviewerState) =>
+      Object.values(this.change?.reviewers[state] ?? []).filter(
+        account => account._account_id !== this.change!.owner._account_id
+      );
 
-    const reviewers: AccountInput[] = [];
-    const ccs: AccountInput[] = [];
-
-    if (this.change.reviewers) {
-      for (const key of Object.keys(this.change.reviewers)) {
-        if (key !== 'REVIEWER' && key !== 'CC') {
-          this.reporting.error(new Error(`Unexpected reviewer state: ${key}`));
-          continue;
-        }
-        if (!this.change.reviewers[key]) continue;
-        for (const entry of this.change.reviewers[key]!) {
-          if (entry._account_id === this.change?.owner._account_id) {
-            continue;
-          }
-          switch (key) {
-            case 'REVIEWER':
-              reviewers.push(entry);
-              break;
-            case 'CC':
-              ccs.push(entry);
-              break;
-          }
-        }
-      }
-    }
-
-    this.ccs = ccs;
-    this.reviewers = reviewers;
+    this.ccs = getAccounts(ReviewerState.CC);
+    this.reviewers = getAccounts(ReviewerState.REVIEWER);
   }
 
   handleAttentionModify() {
@@ -2038,7 +2018,7 @@ export class GrReplyDialog extends LitElement {
     this.dispatchEvent(new CustomEvent('send-disabled-changed'));
   }
 
-  getReviewerSuggestionsProvider(change?: ChangeInfo) {
+  getReviewerSuggestionsProvider(change?: ChangeInfo | ParsedChangeInfo) {
     if (!change) return;
     const provider = new GrReviewerSuggestionsProvider(
       this.restApiService,
@@ -2050,7 +2030,7 @@ export class GrReplyDialog extends LitElement {
     return provider;
   }
 
-  getCcSuggestionsProvider(change?: ChangeInfo) {
+  getCcSuggestionsProvider(change?: ChangeInfo | ParsedChangeInfo) {
     if (!change) return;
     const provider = new GrReviewerSuggestionsProvider(
       this.restApiService,

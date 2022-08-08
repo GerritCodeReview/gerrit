@@ -1215,7 +1215,6 @@ export class GrChangeView extends LitElement {
           () => html`
             <gr-reply-dialog
               id="replyDialog"
-              .change=${this.change}
               .patchNum=${computeLatestPatchNum(this.allPatchSets)}
               .permittedLabels=${this.change?.permitted_labels}
               .draftCommentThreads=${this.draftCommentThreads}

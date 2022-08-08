@@ -20,7 +20,7 @@ import {
 import {assertNever} from '../../utils/common-util';
 import {AutocompleteSuggestion} from '../../elements/shared/gr-autocomplete/gr-autocomplete';
 import {allSettled, isFulfilled} from '../../utils/async-util';
-import {notUndefined} from '../../types/types';
+import {notUndefined, ParsedChangeInfo} from '../../types/types';
 import {accountKey} from '../../utils/account-util';
 import {
   AccountId,
@@ -40,14 +40,14 @@ export interface ReviewerSuggestionsProvider {
 export class GrReviewerSuggestionsProvider
   implements ReviewerSuggestionsProvider
 {
-  private changes: ChangeInfo[];
+  private changes: (ChangeInfo | ParsedChangeInfo)[];
 
   constructor(
     private restApi: RestApiService,
     private type: ReviewerState.REVIEWER | ReviewerState.CC,
     private config: ServerInfo | undefined,
     private loggedIn: boolean,
-    ...changes: ChangeInfo[]
+    ...changes: (ChangeInfo | ParsedChangeInfo)[]
   ) {
     this.changes = changes;
   }

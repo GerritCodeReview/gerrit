@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "292fbfff_0d170596",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-08-08T12:02:02Z",
+      "side": 1,
+      "message": "I took a look on my machine and have the following feedback: \n* For Zero state: if no runs, display nothing in the collapsed state (it is currently displaying “No checks run to show”)\n* Do not display the hover state on the collapsed side panel  https://screenshot.googleplex.com/36tGcA24CbvNYXy \n* Display no border around Arrow icon https://screenshot.googleplex.com/36tGcA24CbvNYXy",
+      "revId": "843c68f601ed7e1a8696a271188d15fec0244175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "905e303c_a185c962",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-08-08T12:02:02Z",
+      "side": 1,
+      "message": "What is the rationale behind this?",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 27
+      },
+      "revId": "843c68f601ed7e1a8696a271188d15fec0244175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

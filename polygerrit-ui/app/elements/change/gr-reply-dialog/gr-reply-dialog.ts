@@ -1379,7 +1379,16 @@ export class GrReplyDialog extends LitElement {
     ).map(v => toReviewInput(v, ReviewerState.REMOVED));
     reviewers.push(...removals);
 
-    return reviewers;
+    // The owner is returned as a reviewer in the ChangeInfo object in some
+    // cases, and trying to remove the owner as a reviewer returns in a
+    // 500 server error.
+    return reviewers.filter(
+      reviewerInput =>
+        !(
+          this.change?.owner._account_id === reviewerInput.reviewer &&
+          reviewerInput.state === ReviewerState.REMOVED
+        )
+    );
   }
 
   send(includeComments: boolean, startReview: boolean) {

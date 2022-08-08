@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5c35756_642e113e",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-08-08T14:28:52Z",
+      "side": 1,
+      "message": "```suggestion\n          margin-top: var(--spacing-m);\n```\n\nTo follow specs",
+      "revId": "d03ce1bec33f5038eed205398844ffb49e4bbf71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

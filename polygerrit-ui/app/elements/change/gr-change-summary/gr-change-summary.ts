@@ -81,6 +81,9 @@ export class GrChangeSummary extends LitElement {
   commentThreads?: CommentThread[];
 
   @state()
+  mentionedUsersInCommentsCount = 0;
+
+  @state()
   selfAccount?: AccountInfo;
 
   @state()
@@ -162,6 +165,11 @@ export class GrChangeSummary extends LitElement {
       this,
       () => this.getCommentsModel().threads$,
       x => (this.commentThreads = x)
+    );
+    subscribe(
+      this,
+      () => this.getCommentsModel().mentionedUsersInComments$,
+      x => (this.mentionedUsersInCommentsCount = x.length)
     );
     subscribe(
       this,
@@ -523,7 +531,7 @@ export class GrChangeSummary extends LitElement {
                 draftCount,
                 countUnresolvedComments
               )}
-              ${this.renderDraftChip(draftCount)}
+              ${this.renderMentionChip()} ${this.renderDraftChip(draftCount)}
               ${this.renderUnresolvedCommentsChip(
                 countUnresolvedComments,
                 unresolvedAuthors
@@ -549,6 +557,20 @@ export class GrChangeSummary extends LitElement {
     if (!!countResolvedComments || !!draftCount || !!countUnresolvedComments)
       return nothing;
     return html`<span class="zeroState"> No comments</span>`;
+  }
+
+  private renderMentionChip() {
+    if (!this.mentionedUsersInCommentsCount) return nothing;
+    return html` <gr-summary-chip
+      styleType=${SummaryChipStyles.WARNING}
+      category=${CommentTabState.UNRESOLVED}
+      icon="alternate_email"
+    >
+      ${pluralize(
+        this.mentionedUsersInCommentsCount,
+        'mention'
+      )}</gr-summary-chip
+    >`;
   }
 
   private renderDraftChip(draftCount: number) {

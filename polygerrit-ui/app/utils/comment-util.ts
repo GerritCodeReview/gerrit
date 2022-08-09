@@ -513,15 +513,16 @@ export function getUserSuggestion(comment: Comment) {
   return comment.message.substring(start, end);
 }
 
-/**
- * Currently it works only on 1 line.
- * TODO(milutin): Extend for multiline comments
- */
 export function getContentInCommentRange(
   fileContent: string,
   comment: Comment
 ) {
-  return fileContent.split('\n')[comment.line! - 1];
+  const lines = fileContent.split('\n');
+  if (comment.range) {
+    const range = comment.range;
+    return lines.slice(range.start_line - 1, range.end_line).join('\n');
+  }
+  return lines[comment.line! - 1];
 }
 
 export function createUserFixSuggestion(
@@ -529,6 +530,7 @@ export function createUserFixSuggestion(
   line: string,
   replacement: string
 ): FixSuggestionInfo[] {
+  const lastLine = line.split('\n').pop();
   return [
     {
       fix_id: USER_SUGGEST_EDIT_FIX_ID,
@@ -537,10 +539,10 @@ export function createUserFixSuggestion(
         {
           path: comment.path!,
           range: {
-            start_line: comment.line!,
+            start_line: comment.range?.start_line ?? comment.line!,
             start_character: 0,
-            end_line: comment.line!,
-            end_character: line.length,
+            end_line: comment.range?.end_line ?? comment.line!,
+            end_character: lastLine!.length,
           },
           replacement,
         },

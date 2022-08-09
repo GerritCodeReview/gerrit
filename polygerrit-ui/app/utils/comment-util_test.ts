@@ -247,40 +247,103 @@ suite('comment-util', () => {
     assert.equal(getUserSuggestion(comment), suggestion);
   });
 
-  test('getContentInCommentRange', () => {
-    const comment = {
-      ...createComment(),
-      line: 1,
-    };
-    const content = 'line1\nline2\nline3';
-    assert.equal(getContentInCommentRange(content, comment), 'line1');
+  suite('getContentInCommentRange', () => {
+    test('one line', () => {
+      const comment = {
+        ...createComment(),
+        line: 1,
+      };
+      const content = 'line1\nline2\nline3';
+      assert.equal(getContentInCommentRange(content, comment), 'line1');
+    });
+
+    test('multi line', () => {
+      const comment = {
+        ...createComment(),
+        line: 3,
+        range: {
+          start_line: 1,
+          start_character: 5,
+          end_line: 3,
+          end_character: 39,
+        },
+      };
+      const selectedText =
+        '   * Examples:\n' +
+        '      * Acknowledge/Dismiss, Delete, Report a bug, Report as not useful,\n' +
+        '      * Make blocking, Downgrade severity.';
+      const content = `${selectedText}\n`;
+      assert.equal(getContentInCommentRange(content, comment), selectedText);
+    });
   });
 
-  test('createUserFixSuggestion', () => {
-    const comment = {
-      ...createComment(),
-      line: 1,
-      path: 'abc.txt',
-    };
-    const line = 'lane1';
-    const replacement = 'line1';
-    assert.deepEqual(createUserFixSuggestion(comment, line, replacement), [
-      {
-        fix_id: USER_SUGGEST_EDIT_FIX_ID,
-        description: 'User suggestion',
-        replacements: [
-          {
-            path: 'abc.txt',
-            range: {
-              start_line: 1,
-              start_character: 0,
-              end_line: 1,
-              end_character: line.length,
+  suite('createUserFixSuggestion', () => {
+    test('one line', () => {
+      const comment = {
+        ...createComment(),
+        line: 1,
+        path: 'abc.txt',
+      };
+      const line = 'lane1';
+      const replacement = 'line1';
+      assert.deepEqual(createUserFixSuggestion(comment, line, replacement), [
+        {
+          fix_id: USER_SUGGEST_EDIT_FIX_ID,
+          description: 'User suggestion',
+          replacements: [
+            {
+              path: 'abc.txt',
+              range: {
+                start_line: 1,
+                start_character: 0,
+                end_line: 1,
+                end_character: line.length,
+              },
+              replacement,
             },
-            replacement,
-          },
-        ],
-      },
-    ]);
+          ],
+        },
+      ]);
+    });
+
+    test('multiline', () => {
+      const comment = {
+        ...createComment(),
+        line: 3,
+        range: {
+          start_line: 1,
+          start_character: 5,
+          end_line: 3,
+          end_character: 39,
+        },
+        path: 'abc.txt',
+      };
+      const line =
+        '   * Examples:\n' +
+        '      * Acknowledge/Dismiss, Delete, Report a bug, Report as not useful,\n' +
+        '      * Make blocking, Downgrade severity.';
+      const replacement =
+        '   - Examples:\n' +
+        '      - Acknowledge/Dismiss, Delete, Report a bug, Report as not useful,\n' +
+        '      - Make blocking, Downgrade severity.';
+      assert.deepEqual(createUserFixSuggestion(comment, line, replacement), [
+        {
+          fix_id: USER_SUGGEST_EDIT_FIX_ID,
+          description: 'User suggestion',
+          replacements: [
+            {
+              path: 'abc.txt',
+              range: {
+                start_line: 1,
+                start_character: 0,
+                end_line: 3,
+                end_character: 42,
+              },
+              replacement,
+            },
+          ],
+        },
+      ]);
+    });
   });
 });

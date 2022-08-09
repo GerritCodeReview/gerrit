@@ -6,8 +6,13 @@
 import '../../../test/common-test-setup-karma';
 import {fixture, html} from '@open-wc/testing-helpers';
 import {GrChangeSummary} from './gr-change-summary';
-import {queryAndAssert} from '../../../utils/common-util';
+import {query, queryAndAssert} from '../../../utils/common-util';
 import {fakeRun0} from '../../../models/checks/checks-fakes';
+import {
+  createChangeComments,
+  createComment,
+  createCommentThread,
+} from '../../../test/test-data-generators';
 
 suite('gr-change-summary test', () => {
   let element: GrChangeSummary;
@@ -20,46 +25,36 @@ suite('gr-change-summary test', () => {
     assert.instanceOf(el, GrChangeSummary);
   });
 
-  test('renders', () => {
+  test('renders', async () => {
+    element.commentThreads = [
+      createCommentThread([createComment()]),
+      createCommentThread([{...createComment(), unresolved: true}]),
+    ];
+    element.changeComments = createChangeComments();
+    await element.updateComplete;
     expect(element).shadowDom.to.equal(/* HTML */ `<div>
       <table>
         <tbody>
           <tr>
             <td class="key">Comments</td>
             <td class="value">
-              <span class="zeroState"> No comments </span>
               <gr-summary-chip
                 category="drafts"
-                hidden=""
                 icon="edit"
                 styletype="warning"
               >
+                3 drafts
               </gr-summary-chip>
-              <gr-summary-chip
-                category="unresolved"
-                hidden=""
-                styletype="warning"
-              >
-                0 unresolved
+              <gr-summary-chip category="unresolved" styletype="warning">
+                1 unresolved
               </gr-summary-chip>
               <gr-summary-chip
                 category="show all"
-                hidden=""
                 icon="mark_chat_read"
                 styletype="check"
               >
-                0 resolved
+                1 resolved
               </gr-summary-chip>
-            </td>
-          </tr>
-          <tr hidden="">
-            <td class="key">Checks</td>
-            <td class="value">
-              <div class="checksSummary">
-                <span class="loading zeroState" role="status">
-                  No results
-                </span>
-              </div>
             </td>
           </tr>
           <tr hidden="">
@@ -68,18 +63,13 @@ suite('gr-change-summary test', () => {
           </tr>
         </tbody>
       </table>
-    </div>`);
+    </div> `);
   });
 
   test('renders checks summary', async () => {
     element.runs = [fakeRun0];
     await element.updateComplete;
-    const checksSummary = queryAndAssert(element, '.checksSummary');
-    expect(checksSummary).dom.to.equal(/* HTML */ `
-      <div class="checksSummary">
-        <gr-checks-chip> </gr-checks-chip>
-      </div>
-    `);
+    assert.isNotOk(query(element, '.checksSummary'));
   });
 
   test('renders checks summary message', async () => {

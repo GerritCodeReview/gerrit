@@ -101,7 +101,7 @@ export class TokenHighlightLayer implements DiffLayer {
   private updateTokenTask?: DelayedTask;
 
   constructor(
-    container: HTMLElement = document.documentElement,
+    container: HTMLElement,
     tokenHighlightListener?: TokenHighlightListener
   ) {
     this.tokenHighlightListener = tokenHighlightListener;

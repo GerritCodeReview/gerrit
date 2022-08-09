@@ -23,7 +23,7 @@ declare global {
       GrDiffCursor: {new (): GrDiffCursor};
       TokenHighlightLayer: {
         new (
-          container?: HTMLElement,
+          container: HTMLElement,
           listener?: TokenHighlightListener
         ): DiffLayer;
       };

@@ -32,7 +32,9 @@ import {
 import {
   CommentThread,
   getFirstComment,
+  getMentionedThreads,
   hasHumanReply,
+  isDraftThread,
   isResolved,
   isRobotThread,
   isUnresolved,
@@ -55,6 +57,8 @@ import {roleDetails} from '../../../utils/change-util';
 
 import {SummaryChipStyles} from './gr-summary-chip';
 import {when} from 'lit/directives/when';
+import {KnownExperimentId} from '../../../services/flags/flags';
+import {combineLatest} from 'rxjs';
 
 function handleSpaceOrEnter(e: KeyboardEvent, handler: () => void) {
   if (modifierPressed(e)) return;
@@ -75,6 +79,9 @@ DETAILS_QUOTA.set(RunStatus.RUNNING, 2);
 export class GrChangeSummary extends LitElement {
   @state()
   commentThreads?: CommentThread[];
+
+  @state()
+  mentionCount = 0;
 
   @state()
   selfAccount?: AccountInfo;
@@ -108,13 +115,16 @@ export class GrChangeSummary extends LitElement {
   // private but used in tests
   readonly getCommentsModel = resolve(this, commentsModelToken);
 
-  private readonly userModel = getAppContext().userModel;
+  // private but used in tests
+  readonly userModel = getAppContext().userModel;
 
   private readonly getChecksModel = resolve(this, checksModelToken);
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly reporting = getAppContext().reportingService;
+
+  private readonly flagsService = getAppContext().flagsService;
 
   constructor() {
     super();
@@ -168,6 +178,26 @@ export class GrChangeSummary extends LitElement {
       () => this.userModel.account$,
       x => (this.selfAccount = x)
     );
+    if (this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) {
+      subscribe(
+        this,
+        () =>
+          combineLatest([
+            this.userModel.account$,
+            this.getCommentsModel().threads$,
+          ]),
+        ([selfAccount, threads]) => {
+          if (!selfAccount || !selfAccount.email) return;
+          const unresolvedThreadsMentioningSelf = getMentionedThreads(
+            threads,
+            selfAccount
+          )
+            .filter(isUnresolved)
+            .filter(t => !isDraftThread(t));
+          this.mentionCount = unresolvedThreadsMentioningSelf.length;
+        }
+      );
+    }
   }
 
   static override get styles() {
@@ -521,7 +551,7 @@ export class GrChangeSummary extends LitElement {
                 countResolvedComments,
                 countUnresolvedComments
               )}
-              ${this.renderDraftChip()}
+              ${this.renderMentionChip()} ${this.renderDraftChip()}
               ${this.renderUnresolvedCommentsChip(
                 countUnresolvedComments,
                 unresolvedAuthors
@@ -546,6 +576,20 @@ export class GrChangeSummary extends LitElement {
     )
       return nothing;
     return html`<span class="zeroState"> No comments</span>`;
+  }
+
+  private renderMentionChip() {
+    if (!this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS))
+      return nothing;
+    if (!this.mentionCount) return nothing;
+    return html` <gr-summary-chip
+      class="mentionSummary"
+      styleType=${SummaryChipStyles.WARNING}
+      category=${CommentTabState.UNRESOLVED}
+      icon="alternate_email"
+    >
+      ${pluralize(this.mentionCount, 'mention')}</gr-summary-chip
+    >`;
   }
 
   private renderDraftChip() {

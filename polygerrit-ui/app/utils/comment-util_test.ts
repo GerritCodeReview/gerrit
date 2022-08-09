@@ -15,8 +15,13 @@ import {
   getContentInCommentRange,
   createUserFixSuggestion,
   PROVIDED_FIX_ID,
+  getMentionedThreads,
 } from './comment-util';
-import {createComment, createCommentThread} from '../test/test-data-generators';
+import {
+  createAccountWithEmail,
+  createComment,
+  createCommentThread,
+} from '../test/test-data-generators';
 import {CommentSide} from '../constants/constants';
 import {
   PARENT,
@@ -81,6 +86,43 @@ suite('comment-util', () => {
         }
       );
     });
+  });
+
+  test('getMentionedThreads', () => {
+    const account = createAccountWithEmail('abcd@def.com');
+    const threads = [
+      createCommentThread([
+        {
+          ...createComment(),
+          message: 'random text with no emails',
+        },
+      ]),
+      createCommentThread([
+        {
+          ...createComment(),
+          message: '@abcd@def.com please take a look',
+        },
+        {
+          ...createComment(),
+          message: '@abcd@def.com please take a look again at this',
+        },
+      ]),
+      createCommentThread([
+        {
+          ...createComment(),
+          message: '@abcd@def.com this is important',
+        },
+      ]),
+    ];
+    assert.deepEqual(getMentionedThreads(threads, account), [
+      threads[1],
+      threads[2],
+    ]);
+
+    assert.deepEqual(
+      getMentionedThreads(threads, createAccountWithEmail('xyz@def.com')),
+      []
+    );
   });
 
   test('comments sorting', () => {

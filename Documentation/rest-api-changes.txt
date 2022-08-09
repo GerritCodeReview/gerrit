@@ -8150,6 +8150,8 @@ Absent if no reviewer additions were requested.
 |`ready`                  |optional|
 If true, the change was moved from WIP to ready for review as a result of this
 action. Not set if false.
+|`error`                  |optional|
+Error message for non-200 responses.
 |============================
 
 [[reviewer-info]]

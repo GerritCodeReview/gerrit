@@ -30,6 +30,7 @@ import {isMergeParent, getParentIndex} from './patch-set-util';
 import {DiffInfo} from '../types/diff';
 import {LineNumber} from '../api/diff';
 import {FormattedReviewerUpdateInfo} from '../types/types';
+import {extractMentionedUsers} from './account-util';
 
 export interface DraftCommentProps {
   // This must be true for all drafts. Drafts received from the backend will be
@@ -549,4 +550,20 @@ export function createUserFixSuggestion(
       ],
     },
   ];
+}
+
+function getMentionedUsers(thread: CommentThread) {
+  return thread.comments.map(c => extractMentionedUsers(c.message)).flat();
+}
+
+export function getMentionedThreads(
+  threads: CommentThread[],
+  account: AccountInfo
+) {
+  if (!account.email) return [];
+  return threads.filter(t =>
+    getMentionedUsers(t)
+      .map(v => v.email)
+      .includes(account.email)
+  );
 }

@@ -12,8 +12,8 @@ import {
   stubRestApi,
 } from '../../../test/test-utils';
 import {BranchName} from '../../../types/common';
-import {RepoDetailView} from '../../core/gr-navigation/gr-navigation';
 import {IronInputElement} from '@polymer/iron-input';
+import {RepoDetailView} from '../../../utils/router-util';
 
 const basicFixture = fixtureFromElement('gr-create-pointer-dialog');
 

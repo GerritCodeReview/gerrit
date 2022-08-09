@@ -4,12 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {
-  DashboardSection,
-  GenerateUrlParameters,
-  GroupDetailView,
-  RepoDetailView,
-} from './core/gr-navigation/gr-navigation';
-import {
   BasePatchSetNum,
   DashboardId,
   GroupId,
@@ -19,6 +13,12 @@ import {
   UrlEncodedCommentId,
 } from '../types/common';
 import {GerritView} from '../services/router/router-model';
+import {
+  GenerateUrlParameters,
+  DashboardSection,
+  GroupDetailView,
+  RepoDetailView,
+} from '../utils/router-util';
 
 export interface AppElement extends HTMLElement {
   params: AppElementParams | GenerateUrlParameters;

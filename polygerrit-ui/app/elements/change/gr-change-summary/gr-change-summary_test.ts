@@ -6,13 +6,16 @@
 import '../../../test/common-test-setup-karma';
 import {fixture, html} from '@open-wc/testing-helpers';
 import {GrChangeSummary} from './gr-change-summary';
-import {query, queryAndAssert} from '../../../utils/common-util';
+import {queryAndAssert} from '../../../utils/common-util';
 import {fakeRun0} from '../../../models/checks/checks-fakes';
 import {
+  createAccountWithEmail,
   createComment,
   createCommentThread,
   createDraft,
 } from '../../../test/test-data-generators';
+import {stubFlags} from '../../../test/test-utils';
+import {Timestamp} from '../../../api/rest-api';
 
 suite('gr-change-summary test', () => {
   let element: GrChangeSummary;
@@ -67,12 +70,6 @@ suite('gr-change-summary test', () => {
     </div> `);
   });
 
-  test('renders checks summary', async () => {
-    element.runs = [fakeRun0];
-    await element.updateComplete;
-    assert.isNotOk(query(element, '.checksSummary'));
-  });
-
   test('renders checks summary message', async () => {
     element.runs = [fakeRun0];
     element.messages = ['a message'];
@@ -91,6 +88,59 @@ suite('gr-change-summary test', () => {
           </div>
         </div>
       </div>
+    `);
+  });
+
+  test('renders mentions summary', async () => {
+    stubFlags('isEnabled').returns(true);
+    // recreate element so that flag protected subscriptions are added
+    element = await fixture(html`<gr-change-summary></gr-change-summary>`);
+    await element.updateComplete;
+
+    element.getCommentsModel().setState({
+      drafts: {
+        a: [
+          {
+            ...createDraft(),
+            message: 'Hey @abc@def.com pleae take a look at this.',
+            unresolved: true,
+          },
+          // Resolved draft thread hence ignored
+          {...createDraft(), message: 'Hey @abc@def.com this is important.'},
+          createDraft(),
+        ],
+      },
+      comments: {
+        a: [
+          {
+            ...createComment(),
+            message: 'Hey @abc@def.com pleae take a look at this.',
+            unresolved: true,
+          },
+        ],
+        b: [
+          {...createComment(), message: 'Hey @abc@def.com this is important.'},
+        ],
+      },
+      discardedDrafts: [],
+    });
+    element.userModel.setAccount({
+      ...createAccountWithEmail('abc@def.com'),
+      registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
+    });
+    await element.updateComplete;
+    const mentionSummary = queryAndAssert(element, '.mentionSummary');
+    // Only count occurences in unresolved published threads
+    // Resolved threads are ignored hence mention chip count is 2
+    expect(mentionSummary).dom.to.equal(/* HTML */ `
+      <gr-summary-chip
+        category="unresolved"
+        class="mentionSummary"
+        icon="alternate_email"
+        styletype="warning"
+      >
+        2 mentions
+      </gr-summary-chip>
     `);
   });
 });

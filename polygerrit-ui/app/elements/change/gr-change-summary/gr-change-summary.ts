@@ -8,7 +8,7 @@ import './gr-summary-chip';
 import '../../shared/gr-avatar/gr-avatar';
 import '../../shared/gr-icon/gr-icon';
 import '../../checks/gr-checks-action';
-import {LitElement, css, html} from 'lit';
+import {LitElement, css, html, nothing} from 'lit';
 import {customElement, state} from 'lit/decorators';
 import {subscribe} from '../../lit/subscription-controller';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -512,76 +512,26 @@ export class GrChangeSummary extends LitElement {
     const countUnresolvedComments = unresolvedThreads.length;
     const unresolvedAuthors = this.getAccounts(unresolvedThreads);
     const draftCount = this.changeComments?.computeDraftCount() ?? 0;
-    const hasNonRunningChip = this.runs.some(
-      run => hasCompletedWithoutResults(run) || hasResults(run)
-    );
-    const hasRunningChip = this.runs.some(isRunningOrScheduled);
     return html`
       <div>
         <table>
           <tr>
             <td class="key">Comments</td>
             <td class="value">
-              <span
-                class="zeroState"
-                ?hidden=${!!countResolvedComments ||
-                !!draftCount ||
-                !!countUnresolvedComments}
-              >
-                No comments</span
-              ><gr-summary-chip
-                styleType=${SummaryChipStyles.WARNING}
-                category=${CommentTabState.DRAFTS}
-                icon="edit"
-                ?hidden=${!draftCount}
-              >
-                ${pluralize(draftCount, 'draft')}</gr-summary-chip
-              ><gr-summary-chip
-                styleType=${SummaryChipStyles.WARNING}
-                category=${CommentTabState.UNRESOLVED}
-                ?hidden=${!countUnresolvedComments}
-              >
-                ${unresolvedAuthors.map(
-                  account =>
-                    html`<gr-avatar
-                      .account=${account}
-                      imageSize="32"
-                    ></gr-avatar>`
-                )}
-                ${countUnresolvedComments} unresolved</gr-summary-chip
-              ><gr-summary-chip
-                styleType=${SummaryChipStyles.CHECK}
-                category=${CommentTabState.SHOW_ALL}
-                icon="mark_chat_read"
-                ?hidden=${!countResolvedComments}
-                >${countResolvedComments} resolved</gr-summary-chip
-              >
+              ${this.renderZeroState(
+                countResolvedComments,
+                draftCount,
+                countUnresolvedComments
+              )}
+              ${this.renderDraftChip(draftCount)}
+              ${this.renderUnresolvedCommentsChip(
+                countUnresolvedComments,
+                unresolvedAuthors
+              )}
+              ${this.renderResolvedCommentsChip(countResolvedComments)}
             </td>
           </tr>
-          <tr ?hidden=${!this.showChecksSummary}>
-            <td class="key">Checks</td>
-            <td class="value">
-              <div class="checksSummary">
-                ${this.renderChecksZeroState()}${this.renderChecksChipForCategory(
-                  Category.ERROR
-                )}${this.renderChecksChipForCategory(
-                  Category.WARNING
-                )}${this.renderChecksChipForCategory(
-                  Category.INFO
-                )}${this.renderChecksChipForCategory(
-                  Category.SUCCESS
-                )}${hasNonRunningChip && hasRunningChip
-                  ? html`<br />`
-                  : ''}${this.renderChecksChipRunning()}
-                ${when(
-                  this.someProvidersAreLoading,
-                  () => html`<span class="loadingSpin"></span>`
-                )}
-                ${this.renderErrorMessages()} ${this.renderChecksLogin()}
-                ${this.renderSummaryMessage()} ${this.renderActions()}
-              </div>
-            </td>
-          </tr>
+          ${this.renderChecksSummary()}
           <tr hidden>
             <td class="key">Findings</td>
             <td class="value"></td>
@@ -589,6 +539,87 @@ export class GrChangeSummary extends LitElement {
         </table>
       </div>
     `;
+  }
+
+  private renderZeroState(
+    countResolvedComments: number,
+    draftCount: number,
+    countUnresolvedComments: number
+  ) {
+    if (!!countResolvedComments || !!draftCount || !!countUnresolvedComments)
+      return nothing;
+    return html`<span class="zeroState"> No comments</span>`;
+  }
+
+  private renderDraftChip(draftCount: number) {
+    if (!draftCount) return nothing;
+    return html` <gr-summary-chip
+      styleType=${SummaryChipStyles.WARNING}
+      category=${CommentTabState.DRAFTS}
+      icon="edit"
+    >
+      ${pluralize(draftCount, 'draft')}</gr-summary-chip
+    >`;
+  }
+
+  private renderUnresolvedCommentsChip(
+    countUnresolvedComments: number,
+    unresolvedAuthors: AccountInfo[]
+  ) {
+    if (!countUnresolvedComments) return nothing;
+    return html` <gr-summary-chip
+      styleType=${SummaryChipStyles.WARNING}
+      category=${CommentTabState.UNRESOLVED}
+      ?hidden=${!countUnresolvedComments}
+    >
+      ${unresolvedAuthors.map(
+        account =>
+          html`<gr-avatar .account=${account} imageSize="32"></gr-avatar>`
+      )}
+      ${countUnresolvedComments} unresolved</gr-summary-chip
+    >`;
+  }
+
+  private renderResolvedCommentsChip(countResolvedComments: number) {
+    if (!countResolvedComments) return nothing;
+    return html` <gr-summary-chip
+      styleType=${SummaryChipStyles.CHECK}
+      category=${CommentTabState.SHOW_ALL}
+      icon="mark_chat_read"
+      >${countResolvedComments} resolved</gr-summary-chip
+    >`;
+  }
+
+  private renderChecksSummary() {
+    const hasNonRunningChip = this.runs.some(
+      run => hasCompletedWithoutResults(run) || hasResults(run)
+    );
+    const hasRunningChip = this.runs.some(isRunningOrScheduled);
+    if (!this.showChecksSummary) return nothing;
+    return html` <tr>
+      <td class="key">Checks</td>
+      <td class="value">
+        <div class="checksSummary">
+          ${this.renderChecksZeroState()}${this.renderChecksChipForCategory(
+            Category.ERROR
+          )}${this.renderChecksChipForCategory(
+            Category.WARNING
+          )}${this.renderChecksChipForCategory(
+            Category.INFO
+          )}${this.renderChecksChipForCategory(
+            Category.SUCCESS
+          )}${hasNonRunningChip && hasRunningChip
+            ? html`<br />`
+            : ''}${this.renderChecksChipRunning()}
+          ${when(
+            this.someProvidersAreLoading,
+            () => html`<span class="loadingSpin"></span>`
+          )}
+          ${this.renderErrorMessages()} ${this.renderChecksLogin()}
+          ${this.renderSummaryMessage()} ${this.renderActions()}
+        </div>
+      </td>
+    </tr>`;
   }
 
   getAccounts(commentThreads: CommentThread[]): AccountInfo[] {

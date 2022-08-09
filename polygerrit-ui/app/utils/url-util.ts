@@ -11,7 +11,9 @@ const PROBE_PATH = '/Documentation/index.html';
 const DOCS_BASE_PATH = '/Documentation';
 
 export function getBaseUrl(): string {
-  return window.CANONICAL_PATH || '';
+  // window is not defined in service worker, therefore no CANONICAL_PATH
+  if (typeof window === 'undefined') return '';
+  return self.CANONICAL_PATH || '';
 }
 
 export function prependOrigin(path: string): string {

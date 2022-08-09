@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f4b7707_611447f6",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1382,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-09T07:13:29Z",
+      "side": 1,
+      "message": "I don\u0027t find this code obvious. Why are you only removing the owner if reviewer state is removed?\n\nWouldn\u0027t you want to remove the owner AND remove other people who are in reviewer state removed?",
+      "parentUuid": "ddcfbe0c_6f9aa28a",
+      "revId": "0c59afb0e3d67f3be6b58348e890b1fc780de0d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ad7cb37_2e8ad4d0",

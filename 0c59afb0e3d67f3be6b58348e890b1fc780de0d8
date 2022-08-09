@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddcfbe0c_6f9aa28a",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1382,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-09T07:09:33Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "e62dd75e_90ab1e69",
+      "revId": "0c59afb0e3d67f3be6b58348e890b1fc780de0d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ad7cb37_2e8ad4d0",
@@ -79,6 +97,30 @@
       "side": 1,
       "message": "Nit: `account` as a variable name is a bit confusing then.",
       "parentUuid": "727a37b8_edd15340",
+      "range": {
+        "startLine": 1386,
+        "startChar": 10,
+        "endLine": 1386,
+        "endChar": 61
+      },
+      "revId": "0c59afb0e3d67f3be6b58348e890b1fc780de0d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49a76d26_7ce24d80",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1386,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-09T07:09:33Z",
+      "side": 1,
+      "message": "Updated to `reviewerInput`",
+      "parentUuid": "c65c4415_fc072958",
       "range": {
         "startLine": 1386,
         "startChar": 10,

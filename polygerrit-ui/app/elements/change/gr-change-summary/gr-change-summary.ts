@@ -532,10 +532,6 @@ export class GrChangeSummary extends LitElement {
             </td>
           </tr>
           ${this.renderChecksSummary()}
-          <tr hidden>
-            <td class="key">Findings</td>
-            <td class="value"></td>
-          </tr>
         </table>
       </div>
     `;

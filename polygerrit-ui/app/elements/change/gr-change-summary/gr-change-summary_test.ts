@@ -57,10 +57,6 @@ suite('gr-change-summary test', () => {
               </gr-summary-chip>
             </td>
           </tr>
-          <tr hidden="">
-            <td class="key">Findings</td>
-            <td class="value"></td>
-          </tr>
         </tbody>
       </table>
     </div> `);

@@ -83,6 +83,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -453,9 +454,13 @@ public class ReviewerModifier {
       this.input = input;
       this.failureType = null;
       result = new ReviewerResult(input.reviewer);
-      // Always silently ignore adding the owner as any type of reviewer on their own change. They
-      // may still be implicitly added as a reviewer if they vote, but not via the reviewer API.
-      this.reviewers = omitOwner(notes, reviewers);
+      if (!state().equals(REMOVED)) {
+        // Always silently ignore adding the owner as any type of reviewer on their own change. They
+        // may still be implicitly added as a reviewer if they vote, but not via the reviewer API.
+        this.reviewers = reviewersAsList(notes, reviewers, /* omitChangeOwner= */ true);
+      } else {
+        this.reviewers = reviewersAsList(notes, reviewers, /* omitChangeOwner= */ false);
+      }
       this.reviewersByEmail =
           reviewersByEmail == null ? ImmutableSet.of() : ImmutableSet.copyOf(reviewersByEmail);
       this.caller = caller.asIdentifiedUser();
@@ -489,12 +494,18 @@ public class ReviewerModifier {
       this.exactMatchFound = exactMatchFound;
     }
 
-    private ImmutableSet<Account> omitOwner(ChangeNotes notes, Iterable<Account> reviewers) {
-      return reviewers != null
-          ? Streams.stream(reviewers)
-              .filter(account -> !account.id().equals(notes.getChange().getOwner()))
-              .collect(toImmutableSet())
-          : ImmutableSet.of();
+    private ImmutableSet<Account> reviewersAsList(
+        ChangeNotes notes, @Nullable Iterable<Account> reviewers, boolean omitChangeOwner) {
+      if (reviewers == null) {
+        return ImmutableSet.of();
+      }
+
+      Stream<Account> reviewerStream = Streams.stream(reviewers);
+      if (omitChangeOwner) {
+        reviewerStream =
+            reviewerStream.filter(account -> !account.id().equals(notes.getChange().getOwner()));
+      }
+      return reviewerStream.collect(toImmutableSet());
     }
 
     public void gatherResults(ChangeData cd) throws PermissionBackendException {

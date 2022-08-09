@@ -2542,6 +2542,36 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void removeChangeOwnerAsReviewerByDelete() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    // vote on the change so that the change owner becomes a reviewer
+    approve(changeId);
+    assertThat(getReviewers(gApi.changes().id(changeId).get().reviewers.get(REVIEWER)))
+        .containsExactly(admin.id());
+
+    gApi.changes().id(changeId).reviewer(admin.id().toString()).remove();
+    assertThat(getReviewers(gApi.changes().id(changeId).get().reviewers.get(REVIEWER))).isEmpty();
+  }
+
+  @Test
+  public void removeChangeOwnerAsReviewerByPostReview() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    // vote on the change so that the change owner becomes a reviewer
+    approve(changeId);
+    assertThat(getReviewers(gApi.changes().id(changeId).get().reviewers.get(REVIEWER)))
+        .containsExactly(admin.id());
+
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.reviewer(admin.id().toString(), ReviewerState.REMOVED, /* confirmed= */ false);
+    gApi.changes().id(changeId).current().review(reviewInput);
+    assertThat(getReviewers(gApi.changes().id(changeId).get().reviewers.get(REVIEWER))).isEmpty();
+  }
+
+  @Test
   public void removeCC() throws Exception {
     PushOneCommit.Result result = createChange();
     String changeId = result.getChangeId();

@@ -41,7 +41,10 @@ import {
 import {pluralize} from '../../../utils/string-util';
 import {AccountInfo} from '../../../types/common';
 import {notUndefined} from '../../../types/types';
-import {uniqueDefinedAvatar} from '../../../utils/account-util';
+import {
+  accountOrGroupKey,
+  uniqueDefinedAvatar,
+} from '../../../utils/account-util';
 import {PrimaryTab} from '../../../constants/constants';
 import {ChecksTabState, CommentTabState} from '../../../types/events';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';
@@ -56,6 +59,8 @@ import {roleDetails} from '../../../utils/change-util';
 
 import {SummaryChipStyles} from './gr-summary-chip';
 import {when} from 'lit/directives/when';
+import {KnownExperimentId} from '../../../services/flags/flags';
+import {combineLatest} from 'rxjs';
 
 function handleSpaceOrEnter(e: KeyboardEvent, handler: () => void) {
   if (modifierPressed(e)) return;
@@ -79,6 +84,9 @@ export class GrChangeSummary extends LitElement {
 
   @state()
   commentThreads?: CommentThread[];
+
+  @state()
+  mentionedCount = 0;
 
   @state()
   selfAccount?: AccountInfo;
@@ -115,6 +123,8 @@ export class GrChangeSummary extends LitElement {
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly reporting = getAppContext().reportingService;
+
+  private readonly flagsService = getAppContext().flagsService;
 
   constructor() {
     super();
@@ -165,8 +175,27 @@ export class GrChangeSummary extends LitElement {
     );
     subscribe(
       this,
+      () => this.getCommentsModel().mentionedUsersInComments$,
+      x => (this.mentionedCount = x.length)
+    );
+    subscribe(
+      this,
       () => this.userModel.account$,
       x => (this.selfAccount = x)
+    );
+    subscribe(
+      this,
+      () =>
+        combineLatest([
+          this.userModel.account$,
+          this.getCommentsModel().mentionedUsersInComments$,
+        ]),
+      ([selfAccount, mentionedUsersInComments]) => {
+        if (!selfAccount) return;
+        this.mentionedCount = mentionedUsersInComments.filter(
+          v => accountOrGroupKey(v) === accountOrGroupKey(selfAccount)
+        ).length;
+      }
     );
   }
 
@@ -523,7 +552,7 @@ export class GrChangeSummary extends LitElement {
                 draftCount,
                 countUnresolvedComments
               )}
-              ${this.renderDraftChip(draftCount)}
+              ${this.renderMentionChip()} ${this.renderDraftChip(draftCount)}
               ${this.renderUnresolvedCommentsChip(
                 countUnresolvedComments,
                 unresolvedAuthors
@@ -549,6 +578,19 @@ export class GrChangeSummary extends LitElement {
     if (!!countResolvedComments || !!draftCount || !!countUnresolvedComments)
       return nothing;
     return html`<span class="zeroState"> No comments</span>`;
+  }
+
+  private renderMentionChip() {
+    if (!this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS))
+      return nothing;
+    if (!this.mentionedCount) return nothing;
+    return html` <gr-summary-chip
+      styleType=${SummaryChipStyles.WARNING}
+      category=${CommentTabState.UNRESOLVED}
+      icon="alternate_email"
+    >
+      ${pluralize(this.mentionedCount, 'mention')}</gr-summary-chip
+    >`;
   }
 
   private renderDraftChip(draftCount: number) {

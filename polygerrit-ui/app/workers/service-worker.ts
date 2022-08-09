@@ -32,25 +32,5 @@ ctx.addEventListener('message', async event => {
   }
 });
 
-// Code based on code sample from
-// https://developer.mozilla.org/en-US/docs/Web/API/Clients/openWindow
-ctx.addEventListener<'notificationclick'>('notificationclick', e => {
-  e.notification.close();
-
-  const openWindow = async () => {
-    const clientsArr = await ctx.clients.matchAll({type: 'window'});
-    try {
-      const url = e.notification.data.url;
-      let client = clientsArr.find(c => c.url === url);
-      if (!client) client = (await ctx.clients.openWindow(url)) ?? undefined;
-      client?.focus();
-    } catch (e) {
-      console.error(`Cannot open window about notified change - ${e}`);
-    }
-  };
-
-  e.waitUntil(openWindow());
-});
-
 /** Singleton instance being referenced in `onmessage` function above. */
 const serviceWorker = new ServiceWorker(ctx);

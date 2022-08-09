@@ -56,6 +56,8 @@ import {roleDetails} from '../../../utils/change-util';
 
 import {SummaryChipStyles} from './gr-summary-chip';
 import {when} from 'lit/directives/when';
+import {KnownExperimentId} from '../../../services/flags/flags';
+import {combineLatest} from 'rxjs';
 
 function handleSpaceOrEnter(e: KeyboardEvent, handler: () => void) {
   if (modifierPressed(e)) return;
@@ -79,6 +81,9 @@ export class GrChangeSummary extends LitElement {
 
   @state()
   commentThreads?: CommentThread[];
+
+  @state()
+  mentionCount = 0;
 
   @state()
   selfAccount?: AccountInfo;
@@ -115,6 +120,8 @@ export class GrChangeSummary extends LitElement {
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly reporting = getAppContext().reportingService;
+
+  private readonly flagsService = getAppContext().flagsService;
 
   constructor() {
     super();
@@ -165,8 +172,27 @@ export class GrChangeSummary extends LitElement {
     );
     subscribe(
       this,
+      () => this.getCommentsModel().mentionedUsersInComments$,
+      x => (this.mentionCount = x.length)
+    );
+    subscribe(
+      this,
       () => this.userModel.account$,
       x => (this.selfAccount = x)
+    );
+    subscribe(
+      this,
+      () =>
+        combineLatest([
+          this.userModel.account$,
+          this.getCommentsModel().mentionedUsersInComments$,
+        ]),
+      ([selfAccount, mentionedUsersInComments]) => {
+        if (!selfAccount) return;
+        this.mentionCount = mentionedUsersInComments.filter(
+          v => v.email && v.email === selfAccount.email
+        ).length;
+      }
     );
   }
 
@@ -523,7 +549,7 @@ export class GrChangeSummary extends LitElement {
                 draftCount,
                 countUnresolvedComments
               )}
-              ${this.renderDraftChip(draftCount)}
+              ${this.renderMentionChip()} ${this.renderDraftChip(draftCount)}
               ${this.renderUnresolvedCommentsChip(
                 countUnresolvedComments,
                 unresolvedAuthors
@@ -549,6 +575,19 @@ export class GrChangeSummary extends LitElement {
     if (!!countResolvedComments || !!draftCount || !!countUnresolvedComments)
       return nothing;
     return html`<span class="zeroState"> No comments</span>`;
+  }
+
+  private renderMentionChip() {
+    if (!this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS))
+      return nothing;
+    if (!this.mentionCount) return nothing;
+    return html` <gr-summary-chip
+      styleType=${SummaryChipStyles.WARNING}
+      category=${CommentTabState.UNRESOLVED}
+      icon="alternate_email"
+    >
+      ${pluralize(this.mentionCount, 'mention')}</gr-summary-chip
+    >`;
   }
 
   private renderDraftChip(draftCount: number) {

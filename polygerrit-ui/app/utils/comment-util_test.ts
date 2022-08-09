@@ -247,14 +247,17 @@ suite('comment-util', () => {
     assert.equal(getUserSuggestion(comment), suggestion);
   });
 
-  test('getContentInCommentRange', () => {
-    const comment = {
-      ...createComment(),
-      line: 1,
-    };
-    const content = 'line1\nline2\nline3';
-    assert.equal(getContentInCommentRange(content, comment), 'line1');
+  suite('getContentInCommentRange', () => {
+    test('one line', () => {
+      const comment = {
+        ...createComment(),
+        line: 1,
+      };
+      const content = 'line1\nline2\nline3';
+      assert.equal(getContentInCommentRange(content, comment), 'line1');
+    });
   });
+  
 
   test('createUserFixSuggestion', () => {
     const comment = {

@@ -258,7 +258,7 @@ public abstract class IndexedField<I, T> {
   }
 
   public SearchSpec longSearch(String name) {
-    checkState(fieldType().equals(LONG_TYPE));
+    checkState(fieldType().equals(LONG_TYPE) || fieldType().equals(ITERABLE_LONG_TYPE));
     return addSearchSpec(name, SearchOption.EXACT);
   }
 

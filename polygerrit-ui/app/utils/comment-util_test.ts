@@ -247,13 +247,34 @@ suite('comment-util', () => {
     assert.equal(getUserSuggestion(comment), suggestion);
   });
 
-  test('getContentInCommentRange', () => {
-    const comment = {
-      ...createComment(),
-      line: 1,
-    };
-    const content = 'line1\nline2\nline3';
-    assert.equal(getContentInCommentRange(content, comment), 'line1');
+  suite('getContentInCommentRange', () => {
+    test('one line', () => {
+      const comment = {
+        ...createComment(),
+        line: 1,
+      };
+      const content = 'line1\nline2\nline3';
+      assert.equal(getContentInCommentRange(content, comment), 'line1');
+    });
+
+    test('multi line', () => {
+      const comment = {
+        ...createComment(),
+        line: 3,
+        range: {
+          start_line: 1,
+          start_character: 5,
+          end_line: 3,
+          end_character: 39,
+        },
+      };
+      const selectedText =
+        '   * Examples:\n' +
+        '      * Acknowledge/Dismiss, Delete, Report a bug, Report as not useful,\n' +
+        '      * Make blocking, Downgrade severity.';
+      const content = `${selectedText}\n`;
+      assert.equal(getContentInCommentRange(content, comment), selectedText);
+    });
   });
 
   test('createUserFixSuggestion', () => {

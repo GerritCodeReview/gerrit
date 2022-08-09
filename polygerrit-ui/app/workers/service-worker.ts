@@ -43,7 +43,7 @@ ctx.addEventListener<'notificationclick'>('notificationclick', e => {
       const url = e.notification.data.url;
       let client = clientsArr.find(c => c.url === url);
       if (!client) client = (await ctx.clients.openWindow(url)) ?? undefined;
-      client?.focus();
+      await client?.focus();
     } catch (e) {
       console.error(`Cannot open window about notified change - ${e}`);
     }

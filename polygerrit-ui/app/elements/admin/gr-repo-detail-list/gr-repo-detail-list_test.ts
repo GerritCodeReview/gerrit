@@ -14,7 +14,6 @@ import {
   queryAndAssert,
   stubRestApi,
 } from '../../../test/test-utils';
-import {RepoDetailView} from '../../core/gr-navigation/gr-navigation';
 import {
   BranchInfo,
   EmailAddress,
@@ -36,6 +35,7 @@ import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {GrListView} from '../../shared/gr-list-view/gr-list-view';
 import {SHOWN_ITEMS_COUNT} from '../../../constants/constants';
+import {RepoDetailView} from '../../../utils/router-util';
 
 const basicFixture = fixtureFromElement('gr-repo-detail-list');
 

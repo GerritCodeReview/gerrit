@@ -25,6 +25,12 @@ import {
 } from '../../../types/common';
 import {GerritView} from '../../../services/router/router-model';
 import {ParsedChangeInfo} from '../../../types/types';
+import {
+  DashboardSection,
+  GenerateUrlParameters,
+  GroupDetailView,
+  RepoDetailView,
+} from '../../../utils/router-util';
 
 // Navigation parameters object format:
 //
@@ -57,15 +63,6 @@ const uninitializedMapCommentLinks: MapCommentLinksCallback = () => {
 };
 
 const USER_PLACEHOLDER_PATTERN = /\${user}/g;
-
-export interface DashboardSection {
-  name: string;
-  query: string;
-  suffixForDashboard?: string;
-  selfOnly?: boolean;
-  hideIfEmpty?: boolean;
-  results?: ChangeInfo[];
-}
 
 export interface UserDashboardConfig {
   change?: ChangeConfigInfo;
@@ -147,125 +144,6 @@ const DEFAULT_SECTIONS: DashboardSection[] = [
   CLOSED,
 ];
 
-export interface GenerateUrlSearchViewParameters {
-  view: GerritView.SEARCH;
-  query?: string;
-  offset?: number;
-  project?: RepoName;
-  branch?: BranchName;
-  topic?: TopicName;
-  // TODO(TS): Define more precise type (enum?)
-  statuses?: string[];
-  hashtag?: string;
-  owner?: string;
-}
-
-export interface GenerateUrlChangeViewParameters {
-  view: GerritView.CHANGE;
-  // TODO(TS): NumericChangeId - not sure about it, may be it can be removed
-  changeNum: NumericChangeId;
-  project: RepoName;
-  patchNum?: RevisionPatchSetNum;
-  basePatchNum?: BasePatchSetNum;
-  edit?: boolean;
-  messageHash?: string;
-  commentId?: UrlEncodedCommentId;
-  forceReload?: boolean;
-  openReplyDialog?: boolean;
-  tab?: string;
-  /** regular expression for filtering check runs */
-  filter?: string;
-  /** regular expression for selecting check runs */
-  select?: string;
-  /** selected attempt for selected check runs */
-  attempt?: number;
-  usp?: string;
-}
-
-export interface GenerateUrlRepoViewParameters {
-  view: GerritView.REPO;
-  repoName: RepoName;
-  detail?: RepoDetailView;
-}
-
-export interface GenerateUrlDashboardViewParameters {
-  view: GerritView.DASHBOARD;
-  user?: string;
-  repo?: RepoName;
-  dashboard?: DashboardId;
-
-  // TODO(TS): properties bellow aren't set anywhere, try to remove
-  project?: RepoName;
-  sections?: DashboardSection[];
-  title?: string;
-}
-
-export interface GenerateUrlGroupViewParameters {
-  view: GerritView.GROUP;
-  groupId: GroupId;
-  detail?: GroupDetailView;
-}
-
-export interface GenerateUrlEditViewParameters {
-  view: GerritView.EDIT;
-  changeNum: NumericChangeId;
-  project: RepoName;
-  path: string;
-  patchNum: RevisionPatchSetNum;
-  lineNum?: number | string;
-}
-
-export interface GenerateUrlRootViewParameters {
-  view: GerritView.ROOT;
-}
-
-export interface GenerateUrlSettingsViewParameters {
-  view: GerritView.SETTINGS;
-}
-
-export interface GenerateUrlDiffViewParameters {
-  view: GerritView.DIFF;
-  changeNum: NumericChangeId;
-  project: RepoName;
-  path?: string;
-  patchNum?: RevisionPatchSetNum;
-  basePatchNum?: BasePatchSetNum;
-  lineNum?: number | string;
-  leftSide?: boolean;
-  commentId?: UrlEncodedCommentId;
-  // TODO(TS): remove - property is set but never used
-  commentLink?: boolean;
-}
-
-export type GenerateUrlParameters =
-  | GenerateUrlSearchViewParameters
-  | GenerateUrlChangeViewParameters
-  | GenerateUrlRepoViewParameters
-  | GenerateUrlDashboardViewParameters
-  | GenerateUrlGroupViewParameters
-  | GenerateUrlEditViewParameters
-  | GenerateUrlRootViewParameters
-  | GenerateUrlSettingsViewParameters
-  | GenerateUrlDiffViewParameters;
-
-export function isGenerateUrlChangeViewParameters(
-  x: GenerateUrlParameters
-): x is GenerateUrlChangeViewParameters {
-  return x.view === GerritView.CHANGE;
-}
-
-export function isGenerateUrlEditViewParameters(
-  x: GenerateUrlParameters
-): x is GenerateUrlEditViewParameters {
-  return x.view === GerritView.EDIT;
-}
-
-export function isGenerateUrlDiffViewParameters(
-  x: GenerateUrlParameters
-): x is GenerateUrlDiffViewParameters {
-  return x.view === GerritView.DIFF;
-}
-
 export interface GenerateWebLinksOptions {
   weblinks?: GeneratedWebLink[];
   config?: ServerInfo;
@@ -330,20 +208,6 @@ export interface GeneratedWebLink {
   name?: string;
   label?: string;
   url?: string;
-}
-
-export enum GroupDetailView {
-  MEMBERS = 'members',
-  LOG = 'log',
-}
-
-export enum RepoDetailView {
-  GENERAL = 'general',
-  ACCESS = 'access',
-  BRANCHES = 'branches',
-  COMMANDS = 'commands',
-  DASHBOARDS = 'dashboards',
-  TAGS = 'tags',
 }
 
 export enum WeblinkType {

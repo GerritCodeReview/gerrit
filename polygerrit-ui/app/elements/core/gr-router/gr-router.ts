@@ -10,9 +10,6 @@ import {
 } from '../../../utils/page-wrapper-utils';
 import {
   GeneratedWebLink,
-  GenerateUrlChangeViewParameters,
-  GenerateUrlDiffViewParameters,
-  GenerateUrlParameters,
   GenerateWebLinksChangeParameters,
   GenerateWebLinksEditParameters,
   GenerateWebLinksFileParameters,
@@ -20,8 +17,6 @@ import {
   GenerateWebLinksPatchsetParameters,
   GenerateWebLinksResolveConflictsParameters,
   GerritNav,
-  GroupDetailView,
-  RepoDetailView,
   WeblinkType,
 } from '../gr-navigation/gr-navigation';
 import {getAppContext} from '../../../services/app-context';
@@ -54,7 +49,14 @@ import {
   toSearchParams,
 } from '../../../utils/url-util';
 import {Execution, LifeCycle, Timing} from '../../../constants/reporting';
-import {generateUrl} from '../../../utils/router-util';
+import {
+  generateUrl,
+  GenerateUrlChangeViewParameters,
+  GenerateUrlDiffViewParameters,
+  GenerateUrlParameters,
+  GroupDetailView,
+  RepoDetailView,
+} from '../../../utils/router-util';
 
 const RoutePattern = {
   ROOT: '/',

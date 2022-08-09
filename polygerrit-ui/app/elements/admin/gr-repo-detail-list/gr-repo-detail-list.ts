@@ -25,7 +25,6 @@ import {
   WebLinkInfo,
 } from '../../../types/common';
 import {AppElementRepoParams} from '../../gr-app-types';
-import {RepoDetailView} from '../../core/gr-navigation/gr-navigation';
 import {firePageError} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
@@ -38,6 +37,7 @@ import {customElement, query, property, state} from 'lit/decorators';
 import {BindValueChangeEvent} from '../../../types/events';
 import {assertIsDefined} from '../../../utils/common-util';
 import {ifDefined} from 'lit/directives/if-defined';
+import {RepoDetailView} from '../../../utils/router-util';
 
 const PGP_START = '-----BEGIN PGP SIGNATURE-----';
 

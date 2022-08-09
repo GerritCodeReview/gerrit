@@ -3,11 +3,7 @@
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {
-  GerritNav,
-  RepoDetailView,
-  GroupDetailView,
-} from '../elements/core/gr-navigation/gr-navigation';
+import {GerritNav} from '../elements/core/gr-navigation/gr-navigation';
 import {
   RepoName,
   GroupId,
@@ -17,6 +13,7 @@ import {
 import {hasOwnProperty} from './common-util';
 import {GerritView} from '../services/router/router-model';
 import {MenuLink} from '../api/admin';
+import {GroupDetailView, RepoDetailView} from './router-util';
 
 const ADMIN_LINKS: NavLink[] = [
   {

@@ -3,26 +3,166 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {PARENT, RepoName} from '../types/common';
 import {
-  DashboardSection,
-  GenerateUrlChangeViewParameters,
-  GenerateUrlDashboardViewParameters,
-  GenerateUrlDiffViewParameters,
-  GenerateUrlEditViewParameters,
-  GenerateUrlGroupViewParameters,
-  GenerateUrlParameters,
-  GenerateUrlRepoViewParameters,
-  GenerateUrlSearchViewParameters,
-  GroupDetailView,
-  isGenerateUrlDiffViewParameters,
-  RepoDetailView,
-} from '../elements/core/gr-navigation/gr-navigation';
+  BasePatchSetNum,
+  BranchName,
+  ChangeInfo,
+  DashboardId,
+  GroupId,
+  NumericChangeId,
+  PARENT,
+  RepoName,
+  RevisionPatchSetNum,
+  TopicName,
+  UrlEncodedCommentId,
+} from '../types/common';
 import {PatchRangeParams} from '../elements/core/gr-router/gr-router';
 import {encodeURL, getBaseUrl} from './url-util';
 import {assertNever} from './common-util';
 import {GerritView} from '../services/router/router-model';
 import {addQuotesWhen} from './string-util';
+
+export interface DashboardSection {
+  name: string;
+  query: string;
+  suffixForDashboard?: string;
+  selfOnly?: boolean;
+  hideIfEmpty?: boolean;
+  results?: ChangeInfo[];
+}
+
+export enum GroupDetailView {
+  MEMBERS = 'members',
+  LOG = 'log',
+}
+
+export enum RepoDetailView {
+  GENERAL = 'general',
+  ACCESS = 'access',
+  BRANCHES = 'branches',
+  COMMANDS = 'commands',
+  DASHBOARDS = 'dashboards',
+  TAGS = 'tags',
+}
+
+export interface GenerateUrlSearchViewParameters {
+  view: GerritView.SEARCH;
+  query?: string;
+  offset?: number;
+  project?: RepoName;
+  branch?: BranchName;
+  topic?: TopicName;
+  // TODO(TS): Define more precise type (enum?)
+  statuses?: string[];
+  hashtag?: string;
+  owner?: string;
+}
+
+export interface GenerateUrlChangeViewParameters {
+  view: GerritView.CHANGE;
+  // TODO(TS): NumericChangeId - not sure about it, may be it can be removed
+  changeNum: NumericChangeId;
+  project: RepoName;
+  patchNum?: RevisionPatchSetNum;
+  basePatchNum?: BasePatchSetNum;
+  edit?: boolean;
+  messageHash?: string;
+  commentId?: UrlEncodedCommentId;
+  forceReload?: boolean;
+  openReplyDialog?: boolean;
+  tab?: string;
+  /** regular expression for filtering check runs */
+  filter?: string;
+  /** regular expression for selecting check runs */
+  select?: string;
+  /** selected attempt for selected check runs */
+  attempt?: number;
+  usp?: string;
+}
+
+export interface GenerateUrlRepoViewParameters {
+  view: GerritView.REPO;
+  repoName: RepoName;
+  detail?: RepoDetailView;
+}
+
+export interface GenerateUrlDashboardViewParameters {
+  view: GerritView.DASHBOARD;
+  user?: string;
+  repo?: RepoName;
+  dashboard?: DashboardId;
+
+  // TODO(TS): properties bellow aren't set anywhere, try to remove
+  project?: RepoName;
+  sections?: DashboardSection[];
+  title?: string;
+}
+
+export interface GenerateUrlGroupViewParameters {
+  view: GerritView.GROUP;
+  groupId: GroupId;
+  detail?: GroupDetailView;
+}
+
+export interface GenerateUrlEditViewParameters {
+  view: GerritView.EDIT;
+  changeNum: NumericChangeId;
+  project: RepoName;
+  path: string;
+  patchNum: RevisionPatchSetNum;
+  lineNum?: number | string;
+}
+
+export interface GenerateUrlRootViewParameters {
+  view: GerritView.ROOT;
+}
+
+export interface GenerateUrlSettingsViewParameters {
+  view: GerritView.SETTINGS;
+}
+
+export interface GenerateUrlDiffViewParameters {
+  view: GerritView.DIFF;
+  changeNum: NumericChangeId;
+  project: RepoName;
+  path?: string;
+  patchNum?: RevisionPatchSetNum;
+  basePatchNum?: BasePatchSetNum;
+  lineNum?: number | string;
+  leftSide?: boolean;
+  commentId?: UrlEncodedCommentId;
+  // TODO(TS): remove - property is set but never used
+  commentLink?: boolean;
+}
+
+export type GenerateUrlParameters =
+  | GenerateUrlSearchViewParameters
+  | GenerateUrlChangeViewParameters
+  | GenerateUrlRepoViewParameters
+  | GenerateUrlDashboardViewParameters
+  | GenerateUrlGroupViewParameters
+  | GenerateUrlEditViewParameters
+  | GenerateUrlRootViewParameters
+  | GenerateUrlSettingsViewParameters
+  | GenerateUrlDiffViewParameters;
+
+export function isGenerateUrlChangeViewParameters(
+  x: GenerateUrlParameters
+): x is GenerateUrlChangeViewParameters {
+  return x.view === GerritView.CHANGE;
+}
+
+export function isGenerateUrlEditViewParameters(
+  x: GenerateUrlParameters
+): x is GenerateUrlEditViewParameters {
+  return x.view === GerritView.EDIT;
+}
+
+export function isGenerateUrlDiffViewParameters(
+  x: GenerateUrlParameters
+): x is GenerateUrlDiffViewParameters {
+  return x.view === GerritView.DIFF;
+}
 
 export const TEST_ONLY = {
   getPatchRangeExpression,

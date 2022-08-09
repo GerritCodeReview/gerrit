@@ -64,7 +64,8 @@ export class GrCopyClipboard extends LitElement {
         }
         gr-button {
           display: block;
-          --gr-button-padding: 2px;
+          --gr-button-padding: var(--spacing-s);
+          margin: calc(0px - var(--spacing-s));
         }
       `,
     ];

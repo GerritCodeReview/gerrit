@@ -93,4 +93,25 @@ suite('gr-change-summary test', () => {
       </div>
     `);
   });
+
+  test('renders mentions summary', async () => {
+    element.runs = [fakeRun0];
+    element.messages = ['a message'];
+    element.showChecksSummary = true;
+    await element.updateComplete;
+    const checksSummary = queryAndAssert(element, '.checksSummary');
+    expect(checksSummary).dom.to.equal(/* HTML */ `
+      <div class="checksSummary">
+        <gr-checks-chip> </gr-checks-chip>
+        <div class="info">
+          <div class="left">
+            <gr-icon icon="info" filled></gr-icon>
+          </div>
+          <div class="right">
+            <div class="message" title="a message">a message</div>
+          </div>
+        </div>
+      </div>
+    `);
+  });
 });

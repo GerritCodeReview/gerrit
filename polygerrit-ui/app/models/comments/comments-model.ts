@@ -258,6 +258,17 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
     commentState => commentState.discardedDrafts
   );
 
+  public readonly mentionedUsersInComments$ = select(
+    this.comments$,
+    comments => {
+      const users: AccountInfo[] = [];
+      for (const comment of Object.values(comments ?? {}).flat()) {
+        users.push(...extractMentionedUsers(comment.message));
+      }
+      return users.filter(unique);
+    }
+  );
+
   public readonly mentionedUsersInDrafts$ = select(this.drafts$, drafts => {
     const users: AccountInfo[] = [];
     const comments = Object.values(drafts ?? {}).flat();

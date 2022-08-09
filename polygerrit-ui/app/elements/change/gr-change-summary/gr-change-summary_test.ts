@@ -13,6 +13,7 @@ import {
   createCommentThread,
   createDraft,
 } from '../../../test/test-data-generators';
+import { stubFlags } from '../../../test/test-utils';
 
 suite('gr-change-summary test', () => {
   let element: GrChangeSummary;
@@ -67,12 +68,6 @@ suite('gr-change-summary test', () => {
     </div> `);
   });
 
-  test('renders checks summary', async () => {
-    element.runs = [fakeRun0];
-    await element.updateComplete;
-    assert.isNotOk(query(element, '.checksSummary'));
-  });
-
   test('renders checks summary message', async () => {
     element.runs = [fakeRun0];
     element.messages = ['a message'];
@@ -91,6 +86,43 @@ suite('gr-change-summary test', () => {
           </div>
         </div>
       </div>
+    `);
+  });
+
+  test.only('renders mentions summary', async () => {
+    
+    stubFlags('isEnabled').returns(true);
+    element.requestUpdate();
+    await element.updateComplete;
+
+    element.getCommentsModel().setState({
+      drafts: {
+        a: [
+          {
+            ...createDraft(),
+            message: 'Hey @abc@def.com pleae take a look at this.',
+          },
+          {...createDraft(), message: 'Hey @abc@def.com this is important.'},
+          createDraft(),
+        ],
+      },
+      discardedDrafts: [],
+    });
+    element.commentThreads = [
+      createCommentThread([
+        {
+          ...createComment(),
+          message: 'Hey @abc@def.com pleae take a look at this.',
+          unresolved: true,
+        },
+      ]),
+      createCommentThread([
+        {...createComment(), message: 'Hey @abc@def.com this is important.'},
+      ]),
+    ];
+    await element.updateComplete;
+    const checksSummary = queryAndAssert(element, '.mentionSummary');
+    expect(checksSummary).dom.to.equal(/* HTML */ `
     `);
   });
 });

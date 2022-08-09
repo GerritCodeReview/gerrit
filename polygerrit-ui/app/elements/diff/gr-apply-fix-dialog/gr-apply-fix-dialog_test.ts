@@ -8,17 +8,7 @@ import './gr-apply-fix-dialog';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {GrApplyFixDialog} from './gr-apply-fix-dialog';
-import {
-  BasePatchSetNum,
-  EDIT,
-  PatchSetNum,
-  RobotCommentInfo,
-  RobotId,
-  RobotRunId,
-  Timestamp,
-  UrlEncodedCommentId,
-} from '../../../types/common';
-import {Comment} from '../../../utils/comment-util';
+import {BasePatchSetNum, EDIT, PatchSetNum} from '../../../types/common';
 import {
   createFixSuggestionInfo,
   createParsedChange,
@@ -38,25 +28,17 @@ import {fixture, html} from '@open-wc/testing-helpers';
 suite('gr-apply-fix-dialog tests', () => {
   let element: GrApplyFixDialog;
 
-  const ROBOT_COMMENT_WITH_TWO_FIXES: RobotCommentInfo = {
-    id: '1' as UrlEncodedCommentId,
-    updated: '2018-02-08 18:49:18.000000000' as Timestamp,
-    robot_id: 'robot_1' as RobotId,
-    robot_run_id: 'run_1' as RobotRunId,
-    properties: {},
-    fix_suggestions: [
+  const TWO_FIXES: OpenFixPreviewEventDetail = {
+    patchNum: 2 as PatchSetNum,
+    fixSuggestions: [
       createFixSuggestionInfo('fix_1'),
       createFixSuggestionInfo('fix_2'),
     ],
   };
 
-  const ROBOT_COMMENT_WITH_ONE_FIX: RobotCommentInfo = {
-    id: '2' as UrlEncodedCommentId,
-    updated: '2018-02-08 18:49:18.000000000' as Timestamp,
-    robot_id: 'robot_1' as RobotId,
-    robot_run_id: 'run_1' as RobotRunId,
-    properties: {},
-    fix_suggestions: [createFixSuggestionInfo('fix_1')],
+  const ONE_FIX: OpenFixPreviewEventDetail = {
+    patchNum: 2 as PatchSetNum,
+    fixSuggestions: [createFixSuggestionInfo('fix_1')],
   };
 
   function getConfirmButton(): GrButton {
@@ -66,13 +48,10 @@ suite('gr-apply-fix-dialog tests', () => {
     );
   }
 
-  async function open(comment: Comment) {
+  async function open(detail: OpenFixPreviewEventDetail) {
     await element.open(
       new CustomEvent<OpenFixPreviewEventDetail>(EventType.OPEN_FIX_PREVIEW, {
-        detail: {
-          patchNum: 2 as PatchSetNum,
-          comment,
-        },
+        detail,
       })
     );
     await element.updateComplete;
@@ -163,10 +142,9 @@ suite('gr-apply-fix-dialog tests', () => {
     });
 
     test('dialog opens fetch and sets previews', async () => {
-      await open(ROBOT_COMMENT_WITH_TWO_FIXES);
+      await open(TWO_FIXES);
       assert.equal(element.currentFix!.fix_id, 'fix_1');
       assert.equal(element.currentPreviews.length, 2);
-      assert.equal(element.robotId, 'robot_1' as RobotId);
       const button = getConfirmButton();
       assert.isFalse(button.hasAttribute('disabled'));
       assert.equal(button.getAttribute('title'), '');
@@ -174,7 +152,7 @@ suite('gr-apply-fix-dialog tests', () => {
 
     test('tooltip is hidden if apply fix is loading', async () => {
       element.isApplyFixLoading = true;
-      await open(ROBOT_COMMENT_WITH_TWO_FIXES);
+      await open(TWO_FIXES);
       const button = getConfirmButton();
       assert.isTrue(button.hasAttribute('disabled'));
       assert.equal(button.getAttribute('title'), '');
@@ -186,7 +164,7 @@ suite('gr-apply-fix-dialog tests', () => {
         revisions: createRevisions(2),
         current_revision: getCurrentRevision(0),
       };
-      await open(ROBOT_COMMENT_WITH_TWO_FIXES);
+      await open(TWO_FIXES);
       const button = getConfirmButton();
       assert.isTrue(button.hasAttribute('disabled'));
       assert.equal(
@@ -197,12 +175,12 @@ suite('gr-apply-fix-dialog tests', () => {
   });
 
   test('renders', async () => {
-    await open(ROBOT_COMMENT_WITH_TWO_FIXES);
+    await open(TWO_FIXES);
     expect(element).shadowDom.to.equal(
       /* HTML */ `
         <gr-overlay id="applyFixOverlay" tabindex="-1" with-backdrop="">
           <gr-dialog id="applyFixDialog" role="dialog">
-            <div slot="header">robot_1 - Fix fix_1</div>
+            <div slot="header">Fix fix_1</div>
             <div slot="main"></div>
             <div class="fix-picker" slot="footer">
               <span>Suggested fix 1 of 2</span>
@@ -235,10 +213,10 @@ suite('gr-apply-fix-dialog tests', () => {
     stubRestApi('getRobotCommentFixPreview').returns(Promise.resolve({}));
     sinon.stub(element.applyFixOverlay!, 'open').returns(Promise.resolve());
 
-    await open(ROBOT_COMMENT_WITH_ONE_FIX);
+    await open(ONE_FIX);
     await element.updateComplete;
     assert.notOk(element.nextFix);
-    await open(ROBOT_COMMENT_WITH_TWO_FIXES);
+    await open(TWO_FIXES);
     assert.ok(element.nextFix);
     assert.notOk(element.nextFix!.disabled);
   });
@@ -248,7 +226,7 @@ suite('gr-apply-fix-dialog tests', () => {
       Promise.reject(new Error('backend error'))
     );
     try {
-      await open(ROBOT_COMMENT_WITH_TWO_FIXES);
+      await open(TWO_FIXES);
     } catch (error) {
       // expected
     }
@@ -317,7 +295,7 @@ suite('gr-apply-fix-dialog tests', () => {
   test('select fix forward and back of multiple suggested fixes', async () => {
     sinon.stub(element.applyFixOverlay!, 'open').returns(Promise.resolve());
 
-    await open(ROBOT_COMMENT_WITH_TWO_FIXES);
+    await open(TWO_FIXES);
     element.onNextFixClick(new CustomEvent('click'));
     assert.equal(element.currentFix!.fix_id, 'fix_2');
     element.onPrevFixClick(new CustomEvent('click'));

@@ -52,6 +52,24 @@
       "parentUuid": "ce9f7ea8_effc849d",
       "revId": "a19a1cfc97bbb5bd75130599dac6f9902fbc48f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c669f09_30ceac10",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-10T07:05:58Z",
+      "side": 1,
+      "message": "I am on the fence here. I think you can argue both ways.\n\nOn the one hand, Chris is right: Maybe we should not add selectors just for `.length` all over the place. And yes, Lit can deal with numbers that don\u0027t change.\n\nOTOH selectors are also cheap, and personally I don\u0027t mind adding a lot of them. It encourages developers to put any business logic into models and helps us keeping components dumb, if desired.\n\nSo I am fine either way. :-)",
+      "parentUuid": "ba3594b1_e1b5abf6",
+      "revId": "a19a1cfc97bbb5bd75130599dac6f9902fbc48f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

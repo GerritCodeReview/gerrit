@@ -34,6 +34,24 @@
       "parentUuid": "f1df991b_87e82f16",
       "revId": "a19a1cfc97bbb5bd75130599dac6f9902fbc48f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba3594b1_e1b5abf6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-10T06:56:29Z",
+      "side": 1,
+      "message": "I\u0027m not sure what you mean with \"component shouldn\u0027t update\"?\n\nUpdating a variable on a lit-component with the same value doesn\u0027t trigger an update.",
+      "parentUuid": "ce9f7ea8_effc849d",
+      "revId": "a19a1cfc97bbb5bd75130599dac6f9902fbc48f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

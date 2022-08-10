@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6cdb280f_9ceb2528",
+        "filename": "java/com/google/gerrit/index/testing/TestIndexedFields.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-08-10T09:44:09Z",
+      "side": 1,
+      "message": "Please add license header",
+      "revId": "fdc1e56a53e173bc95e1e602c8ba8a371ee1bcc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f735d0b9_fb31eae1",
+        "filename": "java/com/google/gerrit/index/testing/TestIndexedFields.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-08-10T09:44:09Z",
+      "side": 1,
+      "message": "Can we add Javadocs explaining what this class do? For example (if I\u0027m correct) that this is equivalent to {@link AccountField, ChangeField} but used for testing. \n\nIn this case, can we also rename the class to TestField (for consistency), and (optional) rename TestIndexedData to TestData.",
+      "revId": "fdc1e56a53e173bc95e1e602c8ba8a371ee1bcc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ad89f70_a4b9d59a",
+        "filename": "java/com/google/gerrit/index/testing/TestIndexedFields.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-08-10T09:44:09Z",
+      "side": 1,
+      "message": "nit: this is unused.",
+      "range": {
+        "startLine": 90,
+        "startChar": 72,
+        "endLine": 90,
+        "endChar": 96
+      },
+      "revId": "fdc1e56a53e173bc95e1e602c8ba8a371ee1bcc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ac14c8d_d94c862e",
+        "filename": "java/com/google/gerrit/index/testing/TestIndexedFields.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-08-10T09:44:09Z",
+      "side": 1,
+      "message": "nit: this is unused.",
+      "range": {
+        "startLine": 99,
+        "startChar": 6,
+        "endLine": 99,
+        "endChar": 39
+      },
+      "revId": "fdc1e56a53e173bc95e1e602c8ba8a371ee1bcc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bffa5b8_a3959aa6",
+        "filename": "java/com/google/gerrit/index/testing/TestIndexedFields.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-08-10T09:44:09Z",
+      "side": 1,
+      "message": "nit: this is unused.",
+      "range": {
+        "startLine": 120,
+        "startChar": 69,
+        "endLine": 120,
+        "endChar": 90
+      },
+      "revId": "fdc1e56a53e173bc95e1e602c8ba8a371ee1bcc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a037bf96_05d0497d",
+        "filename": "java/com/google/gerrit/index/testing/TestIndexedFields.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-08-10T09:44:09Z",
+      "side": 1,
+      "message": "nit: this is unused.",
+      "range": {
+        "startLine": 129,
+        "startChar": 6,
+        "endLine": 129,
+        "endChar": 36
+      },
+      "revId": "fdc1e56a53e173bc95e1e602c8ba8a371ee1bcc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24e1366c_c61695e1",
+        "filename": "java/com/google/gerrit/index/testing/TestIndexedFields.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-08-10T09:44:09Z",
+      "side": 1,
+      "message": "nit: can be omitted",
+      "range": {
+        "startLine": 169,
+        "startChar": 42,
+        "endLine": 169,
+        "endChar": 48
+      },
+      "revId": "fdc1e56a53e173bc95e1e602c8ba8a371ee1bcc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa043d02_c35f3d5c",
+        "filename": "java/com/google/gerrit/index/testing/TestIndexedFields.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-08-10T09:44:09Z",
+      "side": 1,
+      "message": "nit: can be omittted",
+      "range": {
+        "startLine": 179,
+        "startChar": 54,
+        "endLine": 179,
+        "endChar": 79
+      },
+      "revId": "fdc1e56a53e173bc95e1e602c8ba8a371ee1bcc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

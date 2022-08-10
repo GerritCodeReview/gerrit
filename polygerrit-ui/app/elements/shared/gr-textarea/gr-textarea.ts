@@ -246,7 +246,6 @@ export class GrTextarea extends LitElement {
         @value-changed=${(e: ValueChangedEvent) => {
           this.text = e.detail.value;
         }}
-        @bind-value-changed=${this.onValueChanged}
       ></iron-autogrow-textarea>
     `;
   }
@@ -285,10 +284,19 @@ export class GrTextarea extends LitElement {
 
   override willUpdate(changedProperties: PropertyValues) {
     if (changedProperties.has('text')) {
+      this.computeSpecialCharIndex();
+      this.computeCurrentSearchString();
       this.handleTextChanged(this.text);
     }
     if (changedProperties.has('currentSearchString')) {
       this.determineEmojiSuggestions(this.currentSearchString!);
+    }
+    if (
+      changedProperties.has('text') ||
+      changedProperties.has('specialCharIndex') ||
+      changedProperties.has('currentSearchString')
+    ) {
+      this.shouldResetDropdown();
     }
   }
 
@@ -364,7 +372,7 @@ export class GrTextarea extends LitElement {
     // has only typed ':'.
     if (
       !this.isDropdownVisible() ||
-      (this.isEmojiDropdownActive() && this.currentSearchString === '')
+      (this.isEmojiDropdownActive(this.text) && this.currentSearchString === '')
     ) {
       return;
     }
@@ -379,7 +387,7 @@ export class GrTextarea extends LitElement {
     // has only typed ':'. Also make sure that shortcuts aren't clobbered.
     if (
       !this.isDropdownVisible() ||
-      (this.isEmojiDropdownActive() && this.currentSearchString === '')
+      (this.isEmojiDropdownActive(this.text) && this.currentSearchString === '')
     ) {
       this.indent(e);
       return;
@@ -401,7 +409,7 @@ export class GrTextarea extends LitElement {
     if (this.specialCharIndex === -1) {
       return;
     }
-    if (this.isEmojiDropdownActive()) {
+    if (this.isEmojiDropdownActive(this.text)) {
       this.text = this.addValueToText(text);
       this.reporting.reportInteraction('select-emoji', {type: text});
     } else {
@@ -442,12 +450,7 @@ export class GrTextarea extends LitElement {
     return caratSpan;
   }
 
-  private shouldResetDropdown(
-    text: string,
-    charIndex: number,
-    suggestions?: Item[],
-    char?: string
-  ) {
+  private shouldResetDropdown() {
     // Under any of the following conditions, close and reset the dropdown:
     // - The cursor is no longer at the end of the current search string
     // - The search string is an space or new line
@@ -476,16 +479,38 @@ export class GrTextarea extends LitElement {
     return -1;
   }
 
+  private computeSpecialCharIndex() {
+    const charAtCursor = this.text[this.textarea!.selectionStart - 1];
+
+    if (this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) {
+      // specialCharIndex needs to be assigned before isMentionsDropdownActive
+      // is called
+      if (charAtCursor === '@' && this.specialCharIndex === -1) {
+        this.specialCharIndex = this.getSpecialCharIndex(this.text);
+      }
+    }
+    if (charAtCursor === ':' && this.specialCharIndex === -1) {
+      this.specialCharIndex = this.getSpecialCharIndex(this.text);
+    }
+  }
+
+  private computeCurrentSearchString() {
+    if (this.specialCharIndex === -1) {
+      this.currentSearchString = undefined;
+      return;
+    }
+    this.currentSearchString = this.text.substr(
+      this.specialCharIndex + 1,
+      this.textarea!.selectionStart - this.specialCharIndex - 1
+    );
+  }
+
   private async openOrResetDropdown(
     activeDropdown: GrAutocompleteDropdown,
     text: string,
     charIndex: number,
     specialChar: string
   ) {
-    this.currentSearchString = text.substr(
-      charIndex + 1,
-      this.textarea!.selectionStart - charIndex - 1
-    );
     let suggestions: Item[] = [];
     if (specialChar === ':' && text[charIndex] === specialChar) {
       this.determineEmojiSuggestions(this.currentSearchString);
@@ -511,10 +536,8 @@ export class GrTextarea extends LitElement {
     return this.specialCharIndex !== -1 && text[this.specialCharIndex] === '@';
   }
 
-  private isEmojiDropdownActive() {
-    return (
-      this.specialCharIndex !== -1 && this.text[this.specialCharIndex] === ':'
-    );
+  private isEmojiDropdownActive(text: string) {
+    return this.specialCharIndex !== -1 && text[this.specialCharIndex] === ':';
   }
 
   /**
@@ -522,9 +545,9 @@ export class GrTextarea extends LitElement {
    * autocomplete options.
    * private but used in test
    */
-  onValueChanged(e: BindValueChangeEvent) {
+  onValueChanged() {
     // Relay the event.
-    fire(this, 'bind-value-changed', {value: e.detail.value});
+    fire(this, 'bind-value-changed', {value: this.text});
     // If cursor is not in textarea (just opened with colon as last char),
     // Don't do anything.
     if (
@@ -534,30 +557,11 @@ export class GrTextarea extends LitElement {
       return;
     }
 
-    const charAtCursor =
-      e.detail && e.detail.value
-        ? e.detail.value[this.textarea!.selectionStart - 1]
-        : '';
-
-    const text = e.detail.value ?? '';
-
-    if (this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) {
-      // specialCharIndex needs to be assigned before isMentionsDropdownActive
-      // is called
-      if (charAtCursor === '@' && this.specialCharIndex === -1) {
-        this.specialCharIndex = this.getSpecialCharIndex(text);
-      }
-    }
-    if (charAtCursor === ':' && this.specialCharIndex === -1) {
-      this.specialCharIndex = this.getSpecialCharIndex(text);
-    }
-
-    // this.text does not contain newly typed character yet
-    if (!this.isMentionsDropdownActive(text)) {
-      if (this.specialCharIndex !== -1) {
+    if (!this.isMentionsDropdownActive(this.text)) {
+      if (this.isEmojiDropdownActive(this.text)) {
         this.openOrResetDropdown(
           this.emojiSuggestions!,
-          text,
+          this.text,
           this.specialCharIndex,
           ':'
         );
@@ -568,13 +572,20 @@ export class GrTextarea extends LitElement {
 
     if (!this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) return;
 
-    if (this.specialCharIndex !== -1) {
+    if (this.isMentionsDropdownActive(this.text)) {
       this.openOrResetDropdown(
         this.mentionsSuggestions!,
-        text,
+        this.text,
         this.specialCharIndex,
         '@'
       );
+    }
+
+    if (
+      !this.isMentionsDropdownActive(this.text) &&
+      !this.isEmojiDropdownActive(this.text)
+    ) {
+      this.resetDropdown();
     }
 
     this.textarea!.textarea.focus();
@@ -651,6 +662,7 @@ export class GrTextarea extends LitElement {
     this.dispatchEvent(
       new CustomEvent('text-changed', {detail: {value: text}})
     );
+    this.onValueChanged();
   }
 
   private indent(e: KeyboardEvent): void {

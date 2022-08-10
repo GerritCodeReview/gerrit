@@ -18,6 +18,8 @@ export class ServiceWorker {
 
   latestUpdateTimestampMs?: number;
 
+  loading = false;
+
   showNotification(change: ParsedChangeInfo, account: AccountDetailInfo) {
     const body = getReason(undefined, account, change);
     const changeUrl = generateUrl({
@@ -36,6 +38,7 @@ export class ServiceWorker {
   }
 
   async getChangesToNotify(account: AccountDetailInfo) {
+    if (this.loading) return [];
     // We throttle polling, since there can be many clients triggerring
     // always only one service worker.
     if (this.latestUpdateTimestampMs) {
@@ -45,6 +48,7 @@ export class ServiceWorker {
         return [];
       }
     }
+    this.loading = true;
     const changes = await this.getLatestAttentionSetChanges();
     const latestAttentionChanges = filterAttentionChangesAfter(
       changes,
@@ -52,6 +56,7 @@ export class ServiceWorker {
       this.latestUpdateTimestampMs
     );
     this.latestUpdateTimestampMs = Date.now();
+    this.loading = false;
     return latestAttentionChanges;
   }
 

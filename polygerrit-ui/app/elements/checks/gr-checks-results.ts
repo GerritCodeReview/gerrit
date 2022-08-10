@@ -24,6 +24,7 @@ import {sharedStyles} from '../../styles/shared-styles';
 import {CheckRun, RunResult} from '../../models/checks/checks-model';
 import {
   allResults,
+  createFixAction,
   firstPrimaryLink,
   hasCompletedWithoutResults,
   iconFor,
@@ -63,6 +64,7 @@ import {Deduping} from '../../api/reporting';
 import {changeModelToken} from '../../models/change/change-model';
 import {getAppContext} from '../../services/app-context';
 import {when} from 'lit/directives/when';
+import {KnownExperimentId} from '../../services/flags/flags';
 
 /**
  * Firing this event sets the regular expression of the results filter.
@@ -106,6 +108,8 @@ export class GrResultRow extends LitElement {
   private getChecksModel = resolve(this, checksModelToken);
 
   private readonly reporting = getAppContext().reportingService;
+
+  private readonly flags = getAppContext().flagsService;
 
   constructor() {
     super();
@@ -505,7 +509,11 @@ export class GrResultRow extends LitElement {
   }
 
   private renderActions() {
-    const actions = this.result?.actions ?? [];
+    const actions = [...(this.result?.actions ?? [])];
+    if (this.flags.isEnabled(KnownExperimentId.CHECKS_FIXES)) {
+      const fixAction = createFixAction(this, this.result);
+      if (fixAction) actions.unshift(fixAction);
+    }
     if (actions.length === 0) return;
     const overflowItems = actions.slice(2).map(action => {
       return {...action, id: action.name};

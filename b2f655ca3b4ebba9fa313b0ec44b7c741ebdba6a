@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69a7b1ca_0a8d78a5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-10T09:38:18Z",
+      "side": 1,
+      "message": "Consider only subscribing if the flag is set.",
+      "revId": "b2f655ca3b4ebba9fa313b0ec44b7c741ebdba6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78de80ae_3efec6f3",
+        "filename": "polygerrit-ui/app/utils/comment-util_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-10T09:38:18Z",
+      "side": 1,
+      "message": "This is relying on createComment and createCommentThread to always return the same values when called again.  This might not be desirable in the future if we want to give comment unique ids as part of createComment.\n\nWhat about:\n```\nassert.deepEqual(getMentionedThreads(threads, account), [\n   threads[1], threads[2]\n]);\n```",
+      "revId": "b2f655ca3b4ebba9fa313b0ec44b7c741ebdba6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

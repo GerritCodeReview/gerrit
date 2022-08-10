@@ -210,6 +210,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7229e18a_98f430ed",
+        "filename": "java/com/google/gerrit/index/testing/TestIndexedFields.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-08-10T11:04:20Z",
+      "side": 1,
+      "message": "ACK. Thanks for checking.",
+      "parentUuid": "050f9edc_661fce32",
+      "range": {
+        "startLine": 169,
+        "startChar": 42,
+        "endLine": 169,
+        "endChar": 48
+      },
+      "revId": "fdc1e56a53e173bc95e1e602c8ba8a371ee1bcc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fa043d02_c35f3d5c",
@@ -247,6 +271,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "fa043d02_c35f3d5c",
+      "range": {
+        "startLine": 179,
+        "startChar": 54,
+        "endLine": 179,
+        "endChar": 79
+      },
+      "revId": "fdc1e56a53e173bc95e1e602c8ba8a371ee1bcc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6eb7729_69ef56f5",
+        "filename": "java/com/google/gerrit/index/testing/TestIndexedFields.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-08-10T11:04:20Z",
+      "side": 1,
+      "message": "I think you forgot to remove?",
+      "parentUuid": "ae10ba50_27788027",
       "range": {
         "startLine": 179,
         "startChar": 54,

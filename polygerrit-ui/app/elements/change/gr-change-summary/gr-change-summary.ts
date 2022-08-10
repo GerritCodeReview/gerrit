@@ -582,7 +582,7 @@ export class GrChangeSummary extends LitElement {
     return html` <gr-summary-chip
       class="mentionSummary"
       styleType=${SummaryChipStyles.WARNING}
-      category=${CommentTabState.UNRESOLVED}
+      category=${CommentTabState.MENTIONS}
       icon="alternate_email"
     >
       ${pluralize(this.mentionCount, 'mention')}</gr-summary-chip

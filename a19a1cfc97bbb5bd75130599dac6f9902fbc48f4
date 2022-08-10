@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1df991b_87e82f16",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-10T06:08:22Z",
+      "side": 1,
+      "message": "I propose you simply listen to drafts$ and compute the length here.\n\nThis selector doesn\u0027t add much value to the model.",
+      "revId": "a19a1cfc97bbb5bd75130599dac6f9902fbc48f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

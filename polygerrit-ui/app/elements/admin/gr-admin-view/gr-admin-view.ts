@@ -18,11 +18,7 @@ import '../gr-repo-dashboards/gr-repo-dashboards';
 import '../gr-repo-detail-list/gr-repo-detail-list';
 import '../gr-repo-list/gr-repo-list';
 import {getBaseUrl} from '../../../utils/url-util';
-import {
-  GerritNav,
-  GroupDetailView,
-  RepoDetailView,
-} from '../../core/gr-navigation/gr-navigation';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {
   AdminNavLinksOption,
@@ -51,6 +47,7 @@ import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
 import {ifDefined} from 'lit/directives/if-defined';
 import {ValueChangedEvent} from '../../../types/events';
+import {GroupDetailView, RepoDetailView} from '../../../utils/router-util';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
 

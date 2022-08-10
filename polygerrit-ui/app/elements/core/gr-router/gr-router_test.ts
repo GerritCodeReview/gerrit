@@ -6,14 +6,7 @@
 import '../../../test/common-test-setup-karma';
 import './gr-router';
 import {page} from '../../../utils/page-wrapper-utils';
-import {
-  GenerateUrlChangeViewParameters,
-  GenerateUrlEditViewParameters,
-  GenerateUrlParameters,
-  GerritNav,
-  GroupDetailView,
-  WeblinkType,
-} from '../gr-navigation/gr-navigation';
+import {GerritNav, WeblinkType} from '../gr-navigation/gr-navigation';
 import {
   stubBaseUrl,
   stubRestApi,
@@ -42,6 +35,12 @@ import {
   createServerInfo,
 } from '../../../test/test-data-generators';
 import {AppElementParams} from '../../gr-app-types';
+import {
+  GenerateUrlParameters,
+  GroupDetailView,
+  GenerateUrlEditViewParameters,
+  GenerateUrlChangeViewParameters,
+} from '../../../utils/router-util';
 
 suite('gr-router tests', () => {
   let router: GrRouter;

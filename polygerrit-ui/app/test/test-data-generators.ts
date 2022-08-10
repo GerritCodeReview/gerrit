@@ -107,7 +107,6 @@ import {
 import {GerritView} from '../services/router/router-model';
 import {ChangeComments} from '../elements/diff/gr-comment-api/gr-comment-api';
 import {EditRevisionInfo, ParsedChangeInfo} from '../types/types';
-import {GenerateUrlEditViewParameters} from '../elements/core/gr-navigation/gr-navigation';
 import {
   DetailedLabelInfo,
   FileInfo,
@@ -119,6 +118,7 @@ import {
 import {CheckResult, RunResult} from '../models/checks/checks-model';
 import {Category, RunStatus} from '../api/checks';
 import {DiffInfo} from '../api/diff';
+import {GenerateUrlEditViewParameters} from '../utils/router-util';
 
 const TEST_DEFAULT_EXPRESSION = 'label:Verified=MAX -label:Verified=MIN';
 export const TEST_PROJECT_NAME: RepoName = 'test-project' as RepoName;

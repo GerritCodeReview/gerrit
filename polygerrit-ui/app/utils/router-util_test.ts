@@ -13,21 +13,22 @@ import {
   EDIT,
   GroupId,
 } from '../api/rest-api';
-import {
-  GenerateUrlSearchViewParameters,
-  GerritNav,
-  GenerateUrlChangeViewParameters,
-  GenerateUrlDiffViewParameters,
-  GenerateUrlEditViewParameters,
-  GenerateUrlDashboardViewParameters,
-  GenerateUrlGroupViewParameters,
-  GroupDetailView,
-} from '../elements/core/gr-navigation/gr-navigation';
+import {GerritNav} from '../elements/core/gr-navigation/gr-navigation';
 import {PatchRangeParams} from '../elements/core/gr-router/gr-router';
 import {GerritView} from '../services/router/router-model';
 import '../test/common-test-setup-karma';
 import {DashboardId} from '../types/common';
-import {generateUrl, TEST_ONLY} from './router-util';
+import {
+  generateUrl,
+  GenerateUrlChangeViewParameters,
+  GenerateUrlDashboardViewParameters,
+  GenerateUrlDiffViewParameters,
+  GenerateUrlEditViewParameters,
+  GenerateUrlGroupViewParameters,
+  GenerateUrlSearchViewParameters,
+  GroupDetailView,
+  TEST_ONLY,
+} from './router-util';
 
 suite('router-util tests', () => {
   suite('generateUrl', () => {

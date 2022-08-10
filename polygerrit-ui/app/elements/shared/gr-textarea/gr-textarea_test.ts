@@ -393,7 +393,7 @@ suite('gr-textarea tests', () => {
     element.resetDropdown();
     assert.equal(element.currentSearchString, '');
     assert.isFalse(!element.emojiSuggestions!.isHidden);
-    assert.equal(element.specialCharIndex, null);
+    assert.equal(element.specialCharIndex, -1);
 
     element.emojiSuggestions!.open();
     await element.updateComplete;

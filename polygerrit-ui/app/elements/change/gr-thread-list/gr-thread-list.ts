@@ -17,9 +17,11 @@ import {ChangeMessageId} from '../../../api/rest-api';
 import {
   CommentThread,
   getCommentAuthors,
+  getMentionedThreads,
   hasHumanReply,
   isDraft,
   isDraftThread,
+  isMentionedThread,
   isRobotThread,
   isUnresolved,
   lastUpdated,
@@ -40,6 +42,7 @@ import {getAppContext} from '../../../services/app-context';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {Interaction} from '../../../constants/reporting';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 enum SortDropdownState {
   TIMESTAMP = 'Latest timestamp',
@@ -192,9 +195,14 @@ export class GrThreadList extends LitElement {
   @state()
   draftsOnly = false;
 
+  @state()
+  mentionsOnly = false;
+
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly reporting = getAppContext().reportingService;
+
+  private readonly flagsService = getAppContext().flagsService;
 
   private readonly userModel = getAppContext().userModel;
 
@@ -228,6 +236,9 @@ export class GrThreadList extends LitElement {
 
   private onCommentTabStateUpdate() {
     switch (this.commentTabState?.commentTab) {
+      case CommentTabState.MENTIONS:
+        this.handleOnlyMentions();
+        break;
       case CommentTabState.UNRESOLVED:
         this.handleOnlyUnresolved();
         break;
@@ -452,6 +463,7 @@ export class GrThreadList extends LitElement {
   }
 
   private getCommentsDropdownValue() {
+    if (this.mentionsOnly) return CommentTabState.MENTIONS;
     if (this.draftsOnly) return CommentTabState.DRAFTS;
     if (this.unresolvedOnly) return CommentTabState.UNRESOLVED;
     return CommentTabState.SHOW_ALL;
@@ -473,6 +485,14 @@ export class GrThreadList extends LitElement {
       value: CommentTabState.UNRESOLVED,
     });
     if (this.account) {
+      if (this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) {
+        items.push({
+          text: `Mentions (${
+            getMentionedThreads(threads, this.account).length
+          })`,
+          value: CommentTabState.MENTIONS,
+        });
+      }
       items.push({
         text: `Drafts (${threads.filter(isDraftThread).length})`,
         value: CommentTabState.DRAFTS,
@@ -503,6 +523,9 @@ export class GrThreadList extends LitElement {
     switch (value) {
       case CommentTabState.UNRESOLVED:
         this.handleOnlyUnresolved();
+        break;
+      case CommentTabState.MENTIONS:
+        this.handleOnlyMentions();
         break;
       case CommentTabState.DRAFTS:
         this.handleOnlyDrafts();
@@ -566,6 +589,9 @@ export class GrThreadList extends LitElement {
       if (isRobotThread(thread) && !hasHumanReply(thread)) return false;
     }
 
+    if (this.mentionsOnly && !isMentionedThread(thread, this.account))
+      return false;
+
     if (this.draftsOnly && !isDraftThread(thread)) return false;
     if (this.unresolvedOnly && !isUnresolved(thread)) return false;
 
@@ -575,16 +601,25 @@ export class GrThreadList extends LitElement {
   private handleOnlyUnresolved() {
     this.unresolvedOnly = true;
     this.draftsOnly = false;
+    this.mentionsOnly = false;
+  }
+
+  private handleOnlyMentions() {
+    this.mentionsOnly = true;
+    this.unresolvedOnly = true;
+    this.draftsOnly = false;
   }
 
   private handleOnlyDrafts() {
     this.draftsOnly = true;
     this.unresolvedOnly = false;
+    this.mentionsOnly = false;
   }
 
   private handleAllComments() {
     this.draftsOnly = false;
     this.unresolvedOnly = false;
+    this.mentionsOnly = false;
   }
 
   private queryThreadElement(rootId: string): GrCommentThread | undefined {

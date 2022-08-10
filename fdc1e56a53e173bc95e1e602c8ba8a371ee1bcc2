@@ -303,6 +303,30 @@
       },
       "revId": "fdc1e56a53e173bc95e1e602c8ba8a371ee1bcc2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a873e05e_b83c4360",
+        "filename": "java/com/google/gerrit/index/testing/TestIndexedFields.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-08-10T12:03:09Z",
+      "side": 1,
+      "message": "It is same as other comment: does not compile without this annotation.",
+      "parentUuid": "c6eb7729_69ef56f5",
+      "range": {
+        "startLine": 179,
+        "startChar": 54,
+        "endLine": 179,
+        "endChar": 79
+      },
+      "revId": "fdc1e56a53e173bc95e1e602c8ba8a371ee1bcc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

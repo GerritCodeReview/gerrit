@@ -17,9 +17,11 @@ import {ChangeMessageId} from '../../../api/rest-api';
 import {
   CommentThread,
   getCommentAuthors,
+  getMentionedThreads,
   hasHumanReply,
   isDraft,
   isDraftThread,
+  isMentionedThread,
   isRobotThread,
   isUnresolved,
   lastUpdated,
@@ -191,6 +193,9 @@ export class GrThreadList extends LitElement {
   /** Along with `unresolvedOnly` is the currently selected filter. */
   @state()
   draftsOnly = false;
+
+  @state()
+  mentionsOnly = false;
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
@@ -452,6 +457,7 @@ export class GrThreadList extends LitElement {
   }
 
   private getCommentsDropdownValue() {
+    if (this.mentionsOnly) return CommentTabState.MENTIONS;
     if (this.draftsOnly) return CommentTabState.DRAFTS;
     if (this.unresolvedOnly) return CommentTabState.UNRESOLVED;
     return CommentTabState.SHOW_ALL;
@@ -473,6 +479,10 @@ export class GrThreadList extends LitElement {
       value: CommentTabState.UNRESOLVED,
     });
     if (this.account) {
+      items.push({
+        text: `Mentions (${getMentionedThreads(threads, this.account).length})`,
+        value: CommentTabState.MENTIONS,
+      });
       items.push({
         text: `Drafts (${threads.filter(isDraftThread).length})`,
         value: CommentTabState.DRAFTS,
@@ -503,6 +513,9 @@ export class GrThreadList extends LitElement {
     switch (value) {
       case CommentTabState.UNRESOLVED:
         this.handleOnlyUnresolved();
+        break;
+      case CommentTabState.MENTIONS:
+        this.handleOnlyMentions();
         break;
       case CommentTabState.DRAFTS:
         this.handleOnlyDrafts();
@@ -566,6 +579,9 @@ export class GrThreadList extends LitElement {
       if (isRobotThread(thread) && !hasHumanReply(thread)) return false;
     }
 
+    if (this.mentionsOnly && !isMentionedThread(thread, this.account))
+      return false;
+
     if (this.draftsOnly && !isDraftThread(thread)) return false;
     if (this.unresolvedOnly && !isUnresolved(thread)) return false;
 
@@ -573,16 +589,25 @@ export class GrThreadList extends LitElement {
   }
 
   private handleOnlyUnresolved() {
+    this.mentionsOnly = false;
     this.unresolvedOnly = true;
     this.draftsOnly = false;
   }
 
+  private handleOnlyMentions() {
+    this.mentionsOnly = true;
+    this.draftsOnly = false;
+    this.unresolvedOnly = true;
+  }
+
   private handleOnlyDrafts() {
+    this.mentionsOnly = false;
     this.draftsOnly = true;
     this.unresolvedOnly = false;
   }
 
   private handleAllComments() {
+    this.mentionsOnly = false;
     this.draftsOnly = false;
     this.unresolvedOnly = false;
   }

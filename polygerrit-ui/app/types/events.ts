@@ -225,6 +225,7 @@ export enum CommentTabState {
   UNRESOLVED = 'unresolved',
   DRAFTS = 'drafts',
   SHOW_ALL = 'show all',
+  MENTIONS = 'mentions',
 }
 export interface ChecksTabState {
   statusOrCategory?: RunStatus | Category;

@@ -134,7 +134,7 @@ suite('gr-change-summary test', () => {
     // Resolved threads are ignored hence mention chip count is 2
     expect(mentionSummary).dom.to.equal(/* HTML */ `
       <gr-summary-chip
-        category="unresolved"
+        category="mentions"
         class="mentionSummary"
         icon="alternate_email"
         styletype="warning"

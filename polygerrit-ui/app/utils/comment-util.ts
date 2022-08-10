@@ -289,6 +289,16 @@ export function isDraftThread(thread: CommentThread): boolean {
   return isDraft(getLastComment(thread));
 }
 
+export function isMentionedThread(
+  thread: CommentThread,
+  account?: AccountInfo
+) {
+  if (!account?.email) return false;
+  return getMentionedUsers(thread)
+    .map(v => v.email)
+    .includes(account.email);
+}
+
 export function isRobotThread(thread: CommentThread): boolean {
   return isRobot(getFirstComment(thread));
 }

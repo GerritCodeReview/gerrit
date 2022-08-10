@@ -101,8 +101,7 @@ export class GrTextarea extends LitElement {
     standard monospace font. */
   @property({type: Boolean}) code = false;
 
-  // TODO(dhruvsri): remove null from specialCharIndex
-  @state() specialCharIndex: number | null = null;
+  @state() specialCharIndex = -1;
 
   @state() mentions: Item[] = [];
 
@@ -399,7 +398,7 @@ export class GrTextarea extends LitElement {
   }
 
   private setValue(text: string) {
-    if (this.specialCharIndex === null) {
+    if (this.specialCharIndex === -1) {
       return;
     }
     if (this.isEmojiDropdownActive()) {
@@ -474,7 +473,7 @@ export class GrTextarea extends LitElement {
     ) {
       return this.textarea!.selectionStart - 1;
     }
-    return null;
+    return -1;
   }
 
   private async openOrResetDropdown(
@@ -509,14 +508,12 @@ export class GrTextarea extends LitElement {
   }
 
   private isMentionsDropdownActive(text: string) {
-    return (
-      this.specialCharIndex !== null && text[this.specialCharIndex] === '@'
-    );
+    return this.specialCharIndex !== -1 && text[this.specialCharIndex] === '@';
   }
 
   private isEmojiDropdownActive() {
     return (
-      this.specialCharIndex !== null && this.text[this.specialCharIndex] === ':'
+      this.specialCharIndex !== -1 && this.text[this.specialCharIndex] === ':'
     );
   }
 
@@ -547,17 +544,17 @@ export class GrTextarea extends LitElement {
     if (this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) {
       // specialCharIndex needs to be assigned before isMentionsDropdownActive
       // is called
-      if (charAtCursor === '@' && this.specialCharIndex === null) {
+      if (charAtCursor === '@' && this.specialCharIndex === -1) {
         this.specialCharIndex = this.getSpecialCharIndex(text);
       }
     }
-    if (charAtCursor === ':' && this.specialCharIndex === null) {
+    if (charAtCursor === ':' && this.specialCharIndex === -1) {
       this.specialCharIndex = this.getSpecialCharIndex(text);
     }
 
     // this.text does not contain newly typed character yet
     if (!this.isMentionsDropdownActive(text)) {
-      if (this.specialCharIndex !== null) {
+      if (this.specialCharIndex !== -1) {
         this.openOrResetDropdown(
           this.emojiSuggestions!,
           text,
@@ -571,7 +568,7 @@ export class GrTextarea extends LitElement {
 
     if (!this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) return;
 
-    if (this.specialCharIndex !== null) {
+    if (this.specialCharIndex !== -1) {
       this.openOrResetDropdown(
         this.mentionsSuggestions!,
         text,
@@ -640,7 +637,7 @@ export class GrTextarea extends LitElement {
     this.requestUpdate();
     this.currentSearchString = '';
     this.closeDropdown();
-    this.specialCharIndex = null;
+    this.specialCharIndex = -1;
     this.textarea!.textarea.focus();
   }
 

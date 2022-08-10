@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce1b544c_3731a282",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-08-10T10:04:51Z",
+      "side": 1,
+      "message": "The hover background of the arrow icon when the Runs panel is expanded is using grey whereas the hover background of the arrow icon when the Runs panel is collapsed is using blue. When the Runs side panel is expanded and collapsed, the arrow should use the same hover background color: grey. ",
+      "revId": "eb8f53574b09136e5a6f63172ebfe524569a6667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -70,6 +70,24 @@
       "parentUuid": "ba3594b1_e1b5abf6",
       "revId": "a19a1cfc97bbb5bd75130599dac6f9902fbc48f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a82db526_7d9e0df7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-10T07:13:30Z",
+      "side": 1,
+      "message": "@Chris great point that Lit would be smart enough to not re-render.\nThat is correct but I still dislike the fact that component is listening to the entire object when it only cares about the count.\n\n@Ben Thanks for unblocking the change.\nI have added this to the team meeting agenda but would like to proceed with the change as it is right now.\nIf we as a team agree to remove these count selectors then I will do the cleanup later of all count selectors.",
+      "parentUuid": "2c669f09_30ceac10",
+      "revId": "a19a1cfc97bbb5bd75130599dac6f9902fbc48f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

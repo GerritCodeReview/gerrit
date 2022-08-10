@@ -572,19 +572,23 @@ export class GrThreadList extends LitElement {
     return true;
   }
 
-  private handleOnlyUnresolved() {
-    this.unresolvedOnly = true;
+  private resetFilterState() {
     this.draftsOnly = false;
+    this.unresolvedOnly = false;
+  }
+
+  private handleOnlyUnresolved() {
+    this.resetFilterState();
+    this.unresolvedOnly = true;
   }
 
   private handleOnlyDrafts() {
+    this.resetFilterState();
     this.draftsOnly = true;
-    this.unresolvedOnly = false;
   }
 
   private handleAllComments() {
-    this.draftsOnly = false;
-    this.unresolvedOnly = false;
+    this.resetFilterState();
   }
 
   private queryThreadElement(rootId: string): GrCommentThread | undefined {

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "09fbc44d_bf3fe175",
+        "filename": "java/com/google/gerrit/index/testing/TestIndexedFields.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-08-10T10:15:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6cdb280f_9ceb2528",
+      "revId": "fdc1e56a53e173bc95e1e602c8ba8a371ee1bcc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f735d0b9_fb31eae1",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-08-10T09:44:09Z",
       "side": 1,
       "message": "Can we add Javadocs explaining what this class do? For example (if I\u0027m correct) that this is equivalent to {@link AccountField, ChangeField} but used for testing. \n\nIn this case, can we also rename the class to TestField (for consistency), and (optional) rename TestIndexedData to TestData.",
+      "revId": "fdc1e56a53e173bc95e1e602c8ba8a371ee1bcc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5b21573_8b748a26",
+        "filename": "java/com/google/gerrit/index/testing/TestIndexedFields.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-08-10T10:15:11Z",
+      "side": 1,
+      "message": "Added a Javadoc.\nSince this does not exactly match what we do for real indexed objects (e.g there is no TestIndex or TestSchemaDefinition that operates over these fields), I would not rename it.\n\nThis is really just a collection of fields that can be used in tests. They do not map to any index and cannot be queried, unlike the ChangeField.",
+      "parentUuid": "f735d0b9_fb31eae1",
       "revId": "fdc1e56a53e173bc95e1e602c8ba8a371ee1bcc2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -150,6 +186,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "050f9edc_661fce32",
+        "filename": "java/com/google/gerrit/index/testing/TestIndexedFields.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-08-10T10:15:11Z",
+      "side": 1,
+      "message": "Without this, the change fails to build with the following\n\n    compiler message file broken: key\u003dcompiler.misc.msg.bug arguments\u003d11.0.12, {1}, \n     {2}, {3}, {4}, {5}, {6}, {7}\n     java.lang.NullPointerException\n\tat \n\tjdk.compiler/\n\tcom.sun.tools.javac.comp.Flow$FlowAnalyzer.visitApply(Flow.java:1235)",
+      "parentUuid": "24e1366c_c61695e1",
+      "range": {
+        "startLine": 169,
+        "startChar": 42,
+        "endLine": 169,
+        "endChar": 48
+      },
+      "revId": "fdc1e56a53e173bc95e1e602c8ba8a371ee1bcc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fa043d02_c35f3d5c",
@@ -163,6 +223,30 @@
       "writtenOn": "2022-08-10T09:44:09Z",
       "side": 1,
       "message": "nit: can be omittted",
+      "range": {
+        "startLine": 179,
+        "startChar": 54,
+        "endLine": 179,
+        "endChar": 79
+      },
+      "revId": "fdc1e56a53e173bc95e1e602c8ba8a371ee1bcc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae10ba50_27788027",
+        "filename": "java/com/google/gerrit/index/testing/TestIndexedFields.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-08-10T10:15:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa043d02_c35f3d5c",
       "range": {
         "startLine": 179,
         "startChar": 54,

@@ -29,7 +29,6 @@ import {
   isRunningOrScheduled,
   isRunningScheduledOrCompleted,
 } from '../../../models/checks/checks-util';
-import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {
   CommentThread,
   getFirstComment,
@@ -75,9 +74,6 @@ DETAILS_QUOTA.set(RunStatus.RUNNING, 2);
 @customElement('gr-change-summary')
 export class GrChangeSummary extends LitElement {
   @state()
-  changeComments?: ChangeComments;
-
-  @state()
   commentThreads?: CommentThread[];
 
   @state()
@@ -104,9 +100,13 @@ export class GrChangeSummary extends LitElement {
   @state()
   messages: string[] = [];
 
+  @state()
+  draftCount = 0;
+
   private readonly showAllChips = new Map<RunStatus | Category, boolean>();
 
-  private readonly getCommentsModel = resolve(this, commentsModelToken);
+  // private but used in tests
+  readonly getCommentsModel = resolve(this, commentsModelToken);
 
   private readonly userModel = getAppContext().userModel;
 
@@ -155,8 +155,8 @@ export class GrChangeSummary extends LitElement {
     );
     subscribe(
       this,
-      () => this.getCommentsModel().changeComments$,
-      x => (this.changeComments = x)
+      () => this.getCommentsModel().draftsCount$,
+      x => (this.draftCount = x)
     );
     subscribe(
       this,
@@ -511,7 +511,6 @@ export class GrChangeSummary extends LitElement {
     const unresolvedThreads = commentThreads.filter(isUnresolved);
     const countUnresolvedComments = unresolvedThreads.length;
     const unresolvedAuthors = this.getAccounts(unresolvedThreads);
-    const draftCount = this.changeComments?.computeDraftCount() ?? 0;
     return html`
       <div>
         <table>
@@ -520,10 +519,9 @@ export class GrChangeSummary extends LitElement {
             <td class="value">
               ${this.renderZeroState(
                 countResolvedComments,
-                draftCount,
                 countUnresolvedComments
               )}
-              ${this.renderDraftChip(draftCount)}
+              ${this.renderDraftChip()}
               ${this.renderUnresolvedCommentsChip(
                 countUnresolvedComments,
                 unresolvedAuthors
@@ -539,22 +537,25 @@ export class GrChangeSummary extends LitElement {
 
   private renderZeroState(
     countResolvedComments: number,
-    draftCount: number,
     countUnresolvedComments: number
   ) {
-    if (!!countResolvedComments || !!draftCount || !!countUnresolvedComments)
+    if (
+      !!countResolvedComments ||
+      !!this.draftCount ||
+      !!countUnresolvedComments
+    )
       return nothing;
     return html`<span class="zeroState"> No comments</span>`;
   }
 
-  private renderDraftChip(draftCount: number) {
-    if (!draftCount) return nothing;
+  private renderDraftChip() {
+    if (!this.draftCount) return nothing;
     return html` <gr-summary-chip
       styleType=${SummaryChipStyles.WARNING}
       category=${CommentTabState.DRAFTS}
       icon="edit"
     >
-      ${pluralize(draftCount, 'draft')}</gr-summary-chip
+      ${pluralize(this.draftCount, 'draft')}</gr-summary-chip
     >`;
   }
 

@@ -9,9 +9,9 @@ import {GrChangeSummary} from './gr-change-summary';
 import {query, queryAndAssert} from '../../../utils/common-util';
 import {fakeRun0} from '../../../models/checks/checks-fakes';
 import {
-  createChangeComments,
   createComment,
   createCommentThread,
+  createDraft,
 } from '../../../test/test-data-generators';
 
 suite('gr-change-summary test', () => {
@@ -26,11 +26,16 @@ suite('gr-change-summary test', () => {
   });
 
   test('renders', async () => {
+    element.getCommentsModel().setState({
+      drafts: {
+        a: [createDraft(), createDraft(), createDraft()],
+      },
+      discardedDrafts: [],
+    });
     element.commentThreads = [
       createCommentThread([createComment()]),
       createCommentThread([{...createComment(), unresolved: true}]),
     ];
-    element.changeComments = createChangeComments();
     await element.updateComplete;
     expect(element).shadowDom.to.equal(/* HTML */ `<div>
       <table>

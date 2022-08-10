@@ -16,7 +16,7 @@ import {generateUrl} from '../utils/router-util';
 export class ServiceWorker {
   constructor(private ctx: ServiceWorkerGlobalScope) {}
 
-  latestUpdateTimestampMs?: number;
+  latestUpdateTimestampMs = Date.now();
 
   loading = false;
 
@@ -41,12 +41,10 @@ export class ServiceWorker {
     if (this.loading) return [];
     // We throttle polling, since there can be many clients triggerring
     // always only one service worker.
-    if (this.latestUpdateTimestampMs) {
-      const durationFromLatestUpdateMS =
-        Date.now() - this.latestUpdateTimestampMs;
-      if (durationFromLatestUpdateMS < TRIGGER_NOTIFICATION_UPDATES_MS) {
-        return [];
-      }
+    const durationFromLatestUpdateMS =
+      Date.now() - this.latestUpdateTimestampMs;
+    if (durationFromLatestUpdateMS < TRIGGER_NOTIFICATION_UPDATES_MS) {
+      return [];
     }
     this.loading = true;
     const changes = await this.getLatestAttentionSetChanges();

@@ -16,7 +16,7 @@ import {generateUrl} from '../utils/router-util';
 export class ServiceWorker {
   constructor(private ctx: ServiceWorkerGlobalScope) {}
 
-  latestUpdateTimestampMs?: number;
+  latestUpdateTimestampMs = Date.now();
 
   showNotification(change: ParsedChangeInfo, account: AccountDetailInfo) {
     const body = getReason(undefined, account, change);
@@ -38,12 +38,10 @@ export class ServiceWorker {
   async getChangesToNotify(account: AccountDetailInfo) {
     // We throttle polling, since there can be many clients triggerring
     // always only one service worker.
-    if (this.latestUpdateTimestampMs) {
-      const durationFromLatestUpdateMS =
-        Date.now() - this.latestUpdateTimestampMs;
-      if (durationFromLatestUpdateMS < TRIGGER_NOTIFICATION_UPDATES_MS) {
-        return [];
-      }
+    const durationFromLatestUpdateMS =
+      Date.now() - this.latestUpdateTimestampMs;
+    if (durationFromLatestUpdateMS < TRIGGER_NOTIFICATION_UPDATES_MS) {
+      return [];
     }
     const prevLatestUpdateTimestampMs = this.latestUpdateTimestampMs;
     this.latestUpdateTimestampMs = Date.now();

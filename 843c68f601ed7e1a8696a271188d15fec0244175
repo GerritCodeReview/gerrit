@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a2194c4_0b85d176",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-10T08:32:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "292fbfff_0d170596",
+      "revId": "843c68f601ed7e1a8696a271188d15fec0244175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "905e303c_a185c962",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-08-08T12:02:02Z",
       "side": 1,
       "message": "What is the rationale behind this?",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 27
+      },
+      "revId": "843c68f601ed7e1a8696a271188d15fec0244175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95ce85f8_2d2c9b42",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-10T08:32:00Z",
+      "side": 1,
+      "message": "As discussed offline, this is for giving more space to the results for screen sizes 1200-1500px.",
+      "parentUuid": "905e303c_a185c962",
       "range": {
         "startLine": 18,
         "startChar": 0,

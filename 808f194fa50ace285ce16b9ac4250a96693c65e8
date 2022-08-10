@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c717426_ae36f2ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-10T07:33:11Z",
+      "side": 1,
+      "message": "Most of the group names fit nicely on my macbook pro with the 70% value.\n\nI\u0027d include a screenshot but I don\u0027t want to leak group names.",
+      "revId": "808f194fa50ace285ce16b9ac4250a96693c65e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "88ea93a0_86d60d63",
@@ -14,6 +31,24 @@
       "writtenOn": "2022-08-08T14:41:38Z",
       "side": 1,
       "message": "An alternative approach could be to use these styles on `.genericList .name`:\n```\n    white-space: nowrap;\n    text-overflow: ellipsis;\n    overflow: hidden;\n```\nMaybe along with a `width` or `max-width` setting and a `title` for when the name is actually hidden.",
+      "revId": "808f194fa50ace285ce16b9ac4250a96693c65e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df39eec9_e5c54e3d",
+        "filename": "polygerrit-ui/app/styles/gr-table-styles.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-10T07:33:11Z",
+      "side": 1,
+      "message": "Thanks for the input. I actually think that in general, the space allocated for group-names is too small.\n\nGiven that gr-list-view is used in more locations, I took a slightly different approach.",
+      "parentUuid": "88ea93a0_86d60d63",
       "revId": "808f194fa50ace285ce16b9ac4250a96693c65e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

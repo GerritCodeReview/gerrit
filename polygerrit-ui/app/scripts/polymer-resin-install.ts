@@ -1,60 +1,61 @@
-/**
- * @license
- * Copyright 2020 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-import 'polymer-resin/standalone/polymer-resin';
+// /**
+//  * @license
+//  * Copyright 2020 Google LLC
+//  * SPDX-License-Identifier: Apache-2.0
+//  */
 
-export type SafeTypeBridge = (
-  value: unknown,
-  type: string,
-  fallback: unknown
-) => unknown;
+// import 'polymer-resin/standalone/polymer-resin';
 
-export type ReportHandler = (
-  isDisallowedValue: boolean,
-  printfFormatString: string,
-  ...printfArgs: unknown[]
-) => void;
+// export type SafeTypeBridge = (
+//   value: unknown,
+//   type: string,
+//   fallback: unknown
+// ) => unknown;
 
-declare global {
-  interface Window {
-    security: {
-      polymer_resin: {
-        SafeType: {
-          CONSTANT: string;
-          HTML: string;
-          JAVASCRIPT: string;
-          RESOURCE_URL: string;
-          /** Unprivileged but possibly wrapped string. */
-          STRING: string;
-          STYLE: string;
-          URL: string;
-        };
-        CONSOLE_LOGGING_REPORT_HANDLER: ReportHandler;
-        install(options: {
-          UNSAFE_passThruDisallowedValues?: boolean;
-          allowedIdentifierPrefixes?: string[];
-          reportHandler?: ReportHandler;
-          safeTypesBridge?: SafeTypeBridge;
-        }): void;
-      };
-    };
-  }
-}
+// export type ReportHandler = (
+//   isDisallowedValue: boolean,
+//   printfFormatString: string,
+//   ...printfArgs: unknown[]
+// ) => void;
 
-const security = window.security;
+// declare global {
+//   interface Window {
+//     security: {
+//       polymer_resin: {
+//         SafeType: {
+//           CONSTANT: string;
+//           HTML: string;
+//           JAVASCRIPT: string;
+//           RESOURCE_URL: string;
+//           /** Unprivileged but possibly wrapped string. */
+//           STRING: string;
+//           STYLE: string;
+//           URL: string;
+//         };
+//         CONSOLE_LOGGING_REPORT_HANDLER: ReportHandler;
+//         install(options: {
+//           UNSAFE_passThruDisallowedValues?: boolean;
+//           allowedIdentifierPrefixes?: string[];
+//           reportHandler?: ReportHandler;
+//           safeTypesBridge?: SafeTypeBridge;
+//         }): void;
+//       };
+//     };
+//   }
+// }
 
-export const _testOnly_defaultResinReportHandler =
-  security.polymer_resin.CONSOLE_LOGGING_REPORT_HANDLER;
+// const security = window.security;
 
-export function installPolymerResin(
-  safeTypesBridge: SafeTypeBridge,
-  reportHandler = security.polymer_resin.CONSOLE_LOGGING_REPORT_HANDLER
-) {
-  window.security.polymer_resin.install({
-    allowedIdentifierPrefixes: [''],
-    reportHandler,
-    safeTypesBridge,
-  });
-}
+// export const _testOnly_defaultResinReportHandler =
+//   security.polymer_resin.CONSOLE_LOGGING_REPORT_HANDLER;
+
+// export function installPolymerResin(
+//   safeTypesBridge: SafeTypeBridge,
+//   reportHandler = security.polymer_resin.CONSOLE_LOGGING_REPORT_HANDLER
+// ) {
+//   window.security.polymer_resin.install({
+//     allowedIdentifierPrefixes: [''],
+//     reportHandler,
+//     safeTypesBridge,
+//   });
+// }

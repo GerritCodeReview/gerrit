@@ -3,7 +3,8 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import 'ba-linkify/ba-linkify';
+// @ts-ignore
+import {linkify} from 'ba-linkify';
 import {getBaseUrl} from '../../../utils/url-util';
 import {CommentLinkInfo} from '../../../types/common';
 
@@ -275,7 +276,7 @@ export class GrLinkTextParser {
    */
   parse(text?: string | null) {
     if (text) {
-      window.linkify(text, {
+      linkify(text, {
         callback: (text: string, href?: string) => this.parseChunk(text, href),
       });
     }

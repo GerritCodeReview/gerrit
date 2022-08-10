@@ -3,19 +3,19 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {
+import type {
   BasePatchSetNum,
   BranchName,
   ChangeInfo,
   DashboardId,
   GroupId,
   NumericChangeId,
-  PARENT,
   RepoName,
   RevisionPatchSetNum,
   TopicName,
   UrlEncodedCommentId,
 } from '../types/common';
+import {PARENT} from '../types/common';
 import {PatchRangeParams} from '../elements/core/gr-router/gr-router';
 import {encodeURL, getBaseUrl} from './url-util';
 import {assertNever} from './common-util';

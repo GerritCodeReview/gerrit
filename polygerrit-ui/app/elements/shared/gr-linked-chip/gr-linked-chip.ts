@@ -9,7 +9,7 @@ import '../gr-limited-text/gr-limited-text';
 import {fireEvent} from '../../../utils/event-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property} from 'lit/decorators.js';
 
 declare global {
   interface HTMLElementTagNameMap {

@@ -3,7 +3,7 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {CommentRange} from '../api/core';
+import type {CommentRange} from '../api/core';
 import {
   ChangeStatus,
   ProjectState,
@@ -24,7 +24,7 @@ import {
   MergeStrategy,
 } from '../constants/constants';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
-import {
+import type {
   AccountId,
   AccountDetailInfo,
   AccountInfo,
@@ -57,7 +57,6 @@ import {
   DetailedLabelInfo,
   DownloadInfo,
   DownloadSchemeInfo,
-  EDIT,
   EditPatchSet,
   EmailAddress,
   FetchInfo,
@@ -83,7 +82,6 @@ import {
   MaxObjectSizeLimitInfo,
   NumericChangeId,
   ParentCommitInfo,
-  PARENT,
   PatchSetNum,
   PatchSetNumber,
   PluginConfigInfo,
@@ -113,13 +111,17 @@ import {
   UserConfigInfo,
   VotingRangeInfo,
   WebLinkInfo,
+} from '../api/rest-api';
+import {
+  EDIT,
+  PARENT,
   isDetailedLabelInfo,
   isQuickLabelInfo,
   Base64FileContent,
 } from '../api/rest-api';
 import {DiffInfo, IgnoreWhitespaceType} from './diff';
 
-export {
+export type {
   AccountId,
   AccountDetailInfo,
   AccountInfo,
@@ -154,7 +156,6 @@ export {
   DetailedLabelInfo,
   DownloadInfo,
   DownloadSchemeInfo,
-  EDIT,
   EditPatchSet,
   EmailAddress,
   FileInfo,
@@ -179,7 +180,6 @@ export {
   MaxObjectSizeLimitInfo,
   NumericChangeId,
   ParentCommitInfo,
-  PARENT,
   PatchSetNum,
   PatchSetNumber,
   PluginConfigInfo,
@@ -208,9 +208,8 @@ export {
   UserConfigInfo,
   VotingRangeInfo,
   WebLinkInfo,
-  isDetailedLabelInfo,
-  isQuickLabelInfo,
 };
+export {EDIT, PARENT, isDetailedLabelInfo, isQuickLabelInfo};
 
 /*
  * In T, make a set of properties whose keys are in the union K required

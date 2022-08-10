@@ -3,10 +3,13 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {safeTypesBridge} from '../utils/safe-types-util';
+// import {safeTypesBridge} from '../utils/safe-types-util';
 import './font-roboto-local-loader';
 // Sets up global Polymer variable, because plugins requires it.
 import '../scripts/bundled-polymer';
+import '../styles/main.css';
+import '../styles/fonts.css';
+import '../styles/material-icons.css';
 
 /**
  * setCancelSyntheticClickEvents is set to true by
@@ -25,7 +28,7 @@ import {initGlobalVariables} from './gr-app-global-var-init';
 import './gr-app-element';
 import {Finalizable} from '../services/registry';
 import {provide} from '../models/dependency';
-import {installPolymerResin} from '../scripts/polymer-resin-install';
+// import {installPolymerResin} from '../scripts/polymer-resin-install';
 
 import {
   createAppContext,
@@ -39,7 +42,8 @@ import {
 } from '../services/gr-reporting/gr-reporting_impl';
 import {injectAppContext} from '../services/app-context';
 import {html, LitElement} from 'lit';
-import {customElement} from 'lit/decorators';
+import 'lit/decorators/custom-element.js';
+import {customElement} from 'lit/decorators.js';
 import {ServiceWorkerInstaller} from '../services/service-worker-installer';
 
 const appContext = createAppContext();
@@ -50,7 +54,7 @@ initPerformanceReporter(reportingService);
 initWebVitals(reportingService);
 initErrorReporter(reportingService);
 
-installPolymerResin(safeTypesBridge);
+// installPolymerResin(safeTypesBridge);
 
 @customElement('gr-app')
 export class GrApp extends LitElement {

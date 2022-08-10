@@ -33,7 +33,8 @@ export interface CommitRange {
   commit: CommitId;
 }
 
-export {CoverageRange, CoverageType} from '../api/diff';
+export {CoverageType} from '../api/diff';
+export type {CoverageRange} from '../api/diff';
 
 export enum ErrorType {
   AUTH = 'AUTH',

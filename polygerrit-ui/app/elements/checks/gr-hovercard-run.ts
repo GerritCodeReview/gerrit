@@ -5,7 +5,7 @@
  */
 import '../shared/gr-icon/gr-icon';
 import {fontStyles} from '../../styles/gr-font-styles';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property} from 'lit/decorators.js';
 import './gr-checks-action';
 import {CheckRun} from '../../models/checks/checks-model';
 import {

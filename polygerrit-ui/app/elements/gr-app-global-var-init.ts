@@ -12,14 +12,14 @@
  */
 
 import {GrAnnotation} from '../embed/diff/gr-diff-highlight/gr-annotation';
-import {page} from '../utils/page-wrapper-utils';
+// import '../utils/page-wrapper-utils';
 import {GrPluginActionContext} from './shared/gr-js-api-interface/gr-plugin-action-context';
 import {initGerritPluginApi} from './shared/gr-js-api-interface/gr-gerrit';
 import {AppContext} from '../services/app-context';
 
 export function initGlobalVariables(appContext: AppContext) {
   window.GrAnnotation = GrAnnotation;
-  window.page = page;
+  // window.page = page;
   window.GrPluginActionContext = GrPluginActionContext;
   initGerritPluginApi(appContext);
 }

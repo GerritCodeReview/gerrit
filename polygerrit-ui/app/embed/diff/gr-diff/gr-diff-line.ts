@@ -3,11 +3,8 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {
-  GrDiffLine as GrDiffLineApi,
-  GrDiffLineType,
-  LineNumber,
-} from '../../../api/diff';
+import {GrDiffLine as GrDiffLineApi, GrDiffLineType} from '../../../api/diff';
+import type {LineNumber} from '../../../api/diff';
 
 export {GrDiffLineType, LineNumber};
 

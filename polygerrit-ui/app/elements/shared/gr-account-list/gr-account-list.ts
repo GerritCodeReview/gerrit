@@ -26,9 +26,9 @@ import {
   isAccountNewlyAdded,
 } from '../../../utils/account-util';
 import {LitElement, css, html, PropertyValues} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {classMap} from 'lit/directives/class-map';
+import {classMap} from 'lit/directives/class-map.js';
 import {
   AutocompleteQuery,
   AutocompleteSuggestion,

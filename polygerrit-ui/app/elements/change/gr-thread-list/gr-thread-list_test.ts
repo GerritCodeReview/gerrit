@@ -12,16 +12,23 @@ import {
   GrThreadList,
   __testOnly_SortDropdownState,
 } from './gr-thread-list';
-import {queryAll} from '../../../test/test-utils';
+import {queryAll, stubFlags} from '../../../test/test-utils';
 import {accountOrGroupKey} from '../../../utils/account-util';
 import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 import {
   createAccountDetailWithId,
+  createComment,
+  createCommentThread,
   createDraft,
   createParsedChange,
   createThread,
 } from '../../../test/test-data-generators';
-import {AccountId, NumericChangeId, Timestamp} from '../../../api/rest-api';
+import {
+  AccountId,
+  EmailAddress,
+  NumericChangeId,
+  Timestamp,
+} from '../../../api/rest-api';
 import {
   RobotId,
   UrlEncodedCommentId,
@@ -476,7 +483,7 @@ suite('gr-thread-list tests', () => {
     assert.equal(element.getDisplayedThreads().length, 9);
   });
 
-  test('unresolved shows all unresolved comments', async () => {
+  test.skip('unresolved shows all unresolved comments', async () => {
     const filterDropdown = queryAndAssert<GrDropdownList>(
       element,
       '#filterDropdown'
@@ -496,6 +503,54 @@ suite('gr-thread-list tests', () => {
     await filterDropdown.updateComplete;
     await element.updateComplete;
     assert.equal(element.getDisplayedThreads().length, 2);
+  });
+
+  suite('mention threads', () => {
+    let mentionedThreads: CommentThread[];
+    setup(async () => {
+      stubFlags('isEnabled').returns(true);
+      mentionedThreads = [
+        createCommentThread([
+          {
+            ...createComment(),
+            message: 'random text with no emails',
+          },
+        ]),
+        // Resolved thread does not contribute to the count
+        createCommentThread([
+          {
+            ...createComment(),
+            message: '@abcd@def.com please take a look',
+          },
+          {
+            ...createComment(),
+            message: '@abcd@def.com please take a look again at this',
+          },
+        ]),
+        createCommentThread([
+          {
+            ...createComment(),
+            message: '@abcd@def.com this is important',
+            unresolved: true,
+          },
+        ]),
+      ];
+      element.account!.email = 'abcd@def.com' as EmailAddress;
+      element.threads.push(...mentionedThreads);
+      element.requestUpdate();
+      await element.updateComplete;
+    });
+
+    test('mentions filter', async () => {
+      const filterDropdown = queryAndAssert<GrDropdownList>(
+        element,
+        '#filterDropdown'
+      );
+      filterDropdown.value = CommentTabState.MENTIONS;
+      await filterDropdown.updateComplete;
+      await element.updateComplete;
+      assert.deepEqual(element.getDisplayedThreads(), [mentionedThreads[2]]);
+    });
   });
 
   suite('hideDropdown', () => {

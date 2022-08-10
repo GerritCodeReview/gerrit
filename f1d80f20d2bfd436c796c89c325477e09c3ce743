@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "38888eb8_f85c38af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-10T17:27:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2afad4da_b42d10b5",
+      "range": {
+        "startLine": 7,
+        "startChar": 25,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "f1d80f20d2bfd436c796c89c325477e09c3ce743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1b726efd_ebdcc80e",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-08-10T14:04:31Z",
       "side": 1,
       "message": "I don\u0027t understand why we need this loading variable.\nWhat is the problem we are trying to solve?\n\nWe have throttling in the request so I don\u0027t see why calling from multiple clients causes things to break down.",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 21,
+        "endChar": 17
+      },
+      "revId": "f1d80f20d2bfd436c796c89c325477e09c3ce743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d792a71_776d8071",
+        "filename": "polygerrit-ui/app/workers/service-worker-class.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-10T17:27:47Z",
+      "side": 1,
+      "message": "I think unit test shows race condition quite well. Without loading variable, unit test fails. \n\nThrottling is not enough, because we set time on the end of function (after await) so many other calls can call it in the time we are waiting for await.",
+      "parentUuid": "1b726efd_ebdcc80e",
       "range": {
         "startLine": 21,
         "startChar": 2,

@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e8e192a3_6165591d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-08-10T09:42:28Z",
+      "side": 1,
+      "message": "Why do we exclude draft threads?\n\nI guess one argument, is that a person is already focusing on it. But the distinction is not clear in the status summary.\n\nAlso as an edge case.\nIf I start writing a draft, then go away. Someone mentions me on a thread and then I come back. The fact that I was mentioned in a thread that I started writing the draft on, will be hidden from me.",
+      "range": {
+        "startLine": 195,
+        "startChar": 10,
+        "endLine": 195,
+        "endChar": 42
+      },
+      "revId": "b2f655ca3b4ebba9fa313b0ec44b7c741ebdba6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "78de80ae_3efec6f3",
         "filename": "polygerrit-ui/app/utils/comment-util_test.ts",
         "patchSetId": 11

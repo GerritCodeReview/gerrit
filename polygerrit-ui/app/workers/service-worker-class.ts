@@ -45,13 +45,14 @@ export class ServiceWorker {
         return [];
       }
     }
+    const prevLatestUpdateTimestampMs = this.latestUpdateTimestampMs;
+    this.latestUpdateTimestampMs = Date.now();
     const changes = await this.getLatestAttentionSetChanges();
     const latestAttentionChanges = filterAttentionChangesAfter(
       changes,
       account,
-      this.latestUpdateTimestampMs
+      prevLatestUpdateTimestampMs
     );
-    this.latestUpdateTimestampMs = Date.now();
     return latestAttentionChanges;
   }
 

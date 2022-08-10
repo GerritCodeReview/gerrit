@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0aba389d_bc60321b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-10T09:50:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69a7b1ca_0a8d78a5",
+      "revId": "b2f655ca3b4ebba9fa313b0ec44b7c741ebdba6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e8e192a3_6165591d",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c3f0633_d7612636",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-10T09:50:32Z",
+      "side": 1,
+      "message": "Initially I wanted to show only published threads but I guess you can reply to a thread that someone else mentioned you on making the whole thread a draft thread but that thread should still be visible to you.\n\nUpdated to remove the filter for draft threads.",
+      "parentUuid": "e8e192a3_6165591d",
+      "range": {
+        "startLine": 195,
+        "startChar": 10,
+        "endLine": 195,
+        "endChar": 42
+      },
+      "revId": "b2f655ca3b4ebba9fa313b0ec44b7c741ebdba6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "78de80ae_3efec6f3",
@@ -54,6 +96,24 @@
       "writtenOn": "2022-08-10T09:38:18Z",
       "side": 1,
       "message": "This is relying on createComment and createCommentThread to always return the same values when called again.  This might not be desirable in the future if we want to give comment unique ids as part of createComment.\n\nWhat about:\n```\nassert.deepEqual(getMentionedThreads(threads, account), [\n   threads[1], threads[2]\n]);\n```",
+      "revId": "b2f655ca3b4ebba9fa313b0ec44b7c741ebdba6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed41f073_1c0b2884",
+        "filename": "polygerrit-ui/app/utils/comment-util_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-10T09:50:32Z",
+      "side": 1,
+      "message": "Much better.\nThanks!",
+      "parentUuid": "78de80ae_3efec6f3",
       "revId": "b2f655ca3b4ebba9fa313b0ec44b7c741ebdba6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

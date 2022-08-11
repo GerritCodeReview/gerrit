@@ -28,7 +28,6 @@ import {NumericChangeId} from '../../../api/rest-api';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
-import {assertIsDefined} from '../../../utils/common-util';
 
 const MAX_ITEMS_DROPDOWN = 10;
 
@@ -285,7 +284,13 @@ export class GrTextarea extends LitElement {
 
   override willUpdate(changedProperties: PropertyValues) {
     if (changedProperties.has('currentSearchString')) {
-      this.determineEmojiSuggestions(this.currentSearchString!);
+      this.computeSuggestions();
+    }
+    if (
+      changedProperties.has('suggestions') ||
+      changedProperties.has('mentions')
+    ) {
+      this.openOrResetDropdown();
     }
   }
 
@@ -302,7 +307,7 @@ export class GrTextarea extends LitElement {
 
   // private but used in test
   closeDropdown() {
-    if (this.isMentionsDropdownActive(this.text)) {
+    if (this.isMentionsDropdownActive()) {
       this.mentionsSuggestions?.close();
     } else {
       this.emojiSuggestions?.close();
@@ -484,23 +489,44 @@ export class GrTextarea extends LitElement {
     return -1;
   }
 
-  private async openOrResetDropdown(
-    activeDropdown: GrAutocompleteDropdown,
-    text: string,
-    charIndex: number,
-    specialChar: string
-  ) {
-    let suggestions: Item[] = [];
-    if (specialChar === ':' && text[charIndex] === specialChar) {
-      assertIsDefined(this.currentSearchString, 'currentSearchString');
+  private async computeSuggestions() {
+    if (this.currentSearchString === undefined) {
+      this.mentions = [];
+      this.suggestions = [];
+      return;
+    }
+    if (this.isEmojiDropdownActive()) {
       this.determineEmojiSuggestions(this.currentSearchString);
-      suggestions = this.suggestions;
-    } else {
+    } else if (this.isMentionsDropdownActive()) {
       this.mentions = await this.determineReviewerSuggestions();
+    }
+  }
+
+  private openOrResetDropdown() {
+    let suggestions: Item[] = [];
+    let specialChar: string;
+    let activeDropdown: GrAutocompleteDropdown;
+    if (this.isEmojiDropdownActive()) {
+      suggestions = this.suggestions;
+      activeDropdown = this.emojiSuggestions!;
+      specialChar = ':';
+    } else if (this.isMentionsDropdownActive()) {
       suggestions = this.mentions;
+      activeDropdown = this.mentionsSuggestions!;
+      specialChar = '@';
+    } else {
+      this.resetDropdown();
+      return;
     }
 
-    if (this.shouldResetDropdown(text, charIndex, suggestions, specialChar)) {
+    if (
+      this.shouldResetDropdown(
+        this.text,
+        this.specialCharIndex,
+        suggestions,
+        specialChar
+      )
+    ) {
       this.resetDropdown();
     } else if (activeDropdown.isHidden && this.textarea!.focused) {
       // Otherwise open the dropdown and set the position to be just below the
@@ -513,8 +539,10 @@ export class GrTextarea extends LitElement {
     }
   }
 
-  private isMentionsDropdownActive(text: string) {
-    return this.specialCharIndex !== -1 && text[this.specialCharIndex] === '@';
+  private isMentionsDropdownActive() {
+    return (
+      this.specialCharIndex !== -1 && this.text[this.specialCharIndex] === '@'
+    );
   }
 
   private isEmojiDropdownActive() {
@@ -551,29 +579,6 @@ export class GrTextarea extends LitElement {
    * private but used in test
    */
   handleTextChanged() {
-    if (!this.isMentionsDropdownActive(this.text)) {
-      if (this.specialCharIndex !== -1) {
-        this.openOrResetDropdown(
-          this.emojiSuggestions!,
-          this.text,
-          this.specialCharIndex,
-          ':'
-        );
-        return;
-      }
-    }
-
-    if (!this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) return;
-
-    if (this.specialCharIndex !== -1) {
-      this.openOrResetDropdown(
-        this.mentionsSuggestions!,
-        this.text,
-        this.specialCharIndex,
-        '@'
-      );
-    }
-
     this.textarea!.textarea.focus();
   }
 
@@ -635,7 +640,7 @@ export class GrTextarea extends LitElement {
     this.currentSearchString = '';
     this.closeDropdown();
     this.specialCharIndex = -1;
-    this.textarea!.textarea.focus();
+    this.textarea?.textarea.focus();
   }
 
   private fireChangedEvents() {

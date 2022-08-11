@@ -13,7 +13,7 @@ import {GrShellCommand} from '../gr-shell-command/gr-shell-command';
 import {paperStyles} from '../../../styles/gr-paper-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, html, css} from 'lit';
-import {customElement, property, state} from 'lit/decorators';
+import {customElement, property, state} from 'lit/decorators.js';
 import {fire} from '../../../utils/event-util';
 import {BindValueChangeEvent} from '../../../types/events';
 

@@ -8,7 +8,7 @@ import {getPluginLoader} from '../gr-js-api-interface/gr-plugin-loader';
 import {AccountInfo} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import {LitElement, css, html} from 'lit';
-import {customElement, property, state} from 'lit/decorators';
+import {customElement, property, state} from 'lit/decorators.js';
 
 /**
  * The <gr-avatar> component works by updating its own background and visibility

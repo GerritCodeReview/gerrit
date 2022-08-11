@@ -8,7 +8,7 @@ import '@polymer/iron-icon/iron-icon';
 import '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import '../../../elements/shared/gr-button/gr-button';
 import {DiffViewMode} from '../../../constants/constants';
-import {customElement, property, state} from 'lit/decorators';
+import {customElement, property, state} from 'lit/decorators.js';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import {FixIronA11yAnnouncer} from '../../../types/types';
 import {getAppContext} from '../../../services/app-context';

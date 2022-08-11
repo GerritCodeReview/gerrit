@@ -11,7 +11,7 @@ import {ErrorCallback} from '../../../api/rest';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {tableStyles} from '../../../styles/gr-table-styles';
 import {LitElement, css, html, PropertyValues} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property} from 'lit/decorators.js';
 
 interface DashboardRef {
   section: string;

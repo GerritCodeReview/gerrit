@@ -9,7 +9,8 @@ import {
   LineNumber,
 } from '../../../api/diff';
 
-export {GrDiffLineType, LineNumber};
+export {GrDiffLineType};
+export type {LineNumber};
 
 export const FILE = 'FILE';
 

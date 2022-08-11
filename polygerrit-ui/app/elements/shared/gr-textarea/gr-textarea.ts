@@ -28,6 +28,7 @@ import {NumericChangeId} from '../../../api/rest-api';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
+import {assertIsDefined} from '../../../utils/common-util';
 
 const MAX_ITEMS_DROPDOWN = 10;
 
@@ -101,11 +102,7 @@ export class GrTextarea extends LitElement {
     standard monospace font. */
   @property({type: Boolean}) code = false;
 
-  @state() specialCharIndex = -1;
-
   @state() mentions: Item[] = [];
-
-  @state() currentSearchString?: string;
 
   @state() suggestions: EmojiSuggestion[] = [];
 
@@ -119,6 +116,12 @@ export class GrTextarea extends LitElement {
   private readonly restApiService = getAppContext().restApiService;
 
   private changeNum?: NumericChangeId;
+
+  // private but used in tests
+  specialCharIndex = -1;
+
+  // private but used in tests
+  currentSearchString?: string;
 
   /** Called in disconnectedCallback. */
   private cleanups: (() => void)[] = [];
@@ -282,17 +285,14 @@ export class GrTextarea extends LitElement {
     ></gr-autocomplete-dropdown>`;
   }
 
-  override willUpdate(changedProperties: PropertyValues) {
-    if (changedProperties.has('currentSearchString')) {
-      this.determineEmojiSuggestions(this.currentSearchString!);
-    }
-  }
-
   override updated(changedProperties: PropertyValues) {
     if (changedProperties.has('text')) {
       this.fireChangedEvents();
       // Add to updated because we want this.textarea.selectionStart and
       // this.textarea is null in the willUpdate lifecycle
+      this.computeSpecialCharIndex();
+      this.computeCurrentSearchString();
+      this.computeEmojiSuggestions(this.currentSearchString);
       this.handleTextChanged();
     }
   }
@@ -487,13 +487,10 @@ export class GrTextarea extends LitElement {
     charIndex: number,
     specialChar: string
   ) {
-    this.currentSearchString = text.substr(
-      charIndex + 1,
-      this.textarea!.selectionStart - charIndex - 1
-    );
     let suggestions: Item[] = [];
     if (specialChar === ':' && text[charIndex] === specialChar) {
-      this.determineEmojiSuggestions(this.currentSearchString);
+      assertIsDefined(this.currentSearchString, 'currentSearchString');
+      this.computeEmojiSuggestions(this.currentSearchString);
       suggestions = this.suggestions;
     } else {
       this.mentions = await this.determineReviewerSuggestions();
@@ -523,15 +520,10 @@ export class GrTextarea extends LitElement {
     );
   }
 
-  /**
-   * private but used in test
-   */
-  handleTextChanged() {
+  private computeSpecialCharIndex() {
     const charAtCursor = this.text[this.textarea!.selectionStart - 1];
 
     if (this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) {
-      // specialCharIndex needs to be assigned before isMentionsDropdownActive
-      // is called
       if (charAtCursor === '@' && this.specialCharIndex === -1) {
         this.specialCharIndex = this.getSpecialCharIndex(this.text);
       }
@@ -539,8 +531,21 @@ export class GrTextarea extends LitElement {
     if (charAtCursor === ':' && this.specialCharIndex === -1) {
       this.specialCharIndex = this.getSpecialCharIndex(this.text);
     }
+  }
 
-    // this.text does not contain newly typed character yet
+  private computeCurrentSearchString() {
+    if (this.specialCharIndex === -1) {
+      this.currentSearchString = undefined;
+      return;
+    }
+    this.currentSearchString = this.text.substr(
+      this.specialCharIndex + 1,
+      this.textarea!.selectionStart - this.specialCharIndex - 1
+    );
+  }
+
+  // Private but used in tests.
+  handleTextChanged() {
     if (!this.isMentionsDropdownActive(this.text)) {
       if (this.specialCharIndex !== -1) {
         this.openOrResetDropdown(
@@ -589,7 +594,11 @@ export class GrTextarea extends LitElement {
   }
 
   // private but used in test
-  determineEmojiSuggestions(suggestionsText: string) {
+  computeEmojiSuggestions(suggestionsText?: string) {
+    if (suggestionsText === undefined) {
+      this.suggestions = [];
+      return;
+    }
     if (!suggestionsText.length) {
       this.formatSuggestions(ALL_SUGGESTIONS);
     } else {

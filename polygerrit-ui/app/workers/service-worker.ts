@@ -32,6 +32,12 @@ ctx.addEventListener('message', async event => {
   }
 });
 
+ctx.addEventListener('activate', event => {
+  event.waitUntil(async function() {
+    
+  }());
+});
+
 // Code based on code sample from
 // https://developer.mozilla.org/en-US/docs/Web/API/Clients/openWindow
 ctx.addEventListener<'notificationclick'>('notificationclick', e => {

@@ -12,7 +12,7 @@ import '../gr-date-formatter/gr-date-formatter';
 import '../gr-select/gr-select';
 import '../gr-file-status/gr-file-status';
 import {css, html, LitElement, PropertyValues} from 'lit';
-import {customElement, property, query} from 'lit/decorators';
+import {customElement, property, query} from 'lit/decorators.js';
 import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
 import {Timestamp} from '../../../types/common';
 import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
@@ -21,7 +21,7 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {ValueChangedEvent} from '../../../types/events';
 import {incrementalRepeat} from '../../lit/incremental-repeat';
-import {when} from 'lit/directives/when';
+import {when} from 'lit/directives/when.js';
 import {isMagicPath} from '../../../utils/path-list-util';
 
 /**

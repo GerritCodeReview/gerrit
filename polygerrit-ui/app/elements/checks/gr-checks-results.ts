@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../shared/gr-icon/gr-icon';
-import {classMap} from 'lit/directives/class-map';
-import {repeat} from 'lit/directives/repeat';
-import {ifDefined} from 'lit/directives/if-defined';
+import {classMap} from 'lit/directives/class-map.js';
+import {repeat} from 'lit/directives/repeat.js';
+import {ifDefined} from 'lit/directives/if-defined.js';
 import {LitElement, css, html, PropertyValues, TemplateResult} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import './gr-checks-action';
 import './gr-hovercard-run';
 import '@polymer/paper-tooltip/paper-tooltip';
@@ -63,7 +63,7 @@ import {Interaction} from '../../constants/reporting';
 import {Deduping} from '../../api/reporting';
 import {changeModelToken} from '../../models/change/change-model';
 import {getAppContext} from '../../services/app-context';
-import {when} from 'lit/directives/when';
+import {when} from 'lit/directives/when.js';
 import {KnownExperimentId} from '../../services/flags/flags';
 
 /**

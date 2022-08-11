@@ -27,7 +27,7 @@ import {
 } from '../../../utils/common-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, html, css} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {IronInputElement} from '@polymer/iron-input/iron-input';

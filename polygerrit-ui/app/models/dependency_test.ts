@@ -5,7 +5,7 @@
  */
 import {define, provide, resolve} from './dependency';
 import {html, LitElement} from 'lit';
-import {customElement, property, query} from 'lit/decorators';
+import {customElement, property, query} from 'lit/decorators.js';
 import '../test/common-test-setup-karma.js';
 
 interface FooService {

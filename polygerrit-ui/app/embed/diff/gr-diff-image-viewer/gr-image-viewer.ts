@@ -18,10 +18,10 @@ import {GrLibLoader} from '../../../elements/shared/gr-lib-loader/gr-lib-loader'
 import {RESEMBLEJS_LIBRARY_CONFIG} from '../../../elements/shared/gr-lib-loader/resemblejs_config';
 
 import {css, html, LitElement, PropertyValues} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators';
-import {ifDefined} from 'lit/directives/if-defined';
-import {classMap} from 'lit/directives/class-map';
-import {StyleInfo, styleMap} from 'lit/directives/style-map';
+import {customElement, property, query, state} from 'lit/decorators.js';
+import {ifDefined} from 'lit/directives/if-defined.js';
+import {classMap} from 'lit/directives/class-map.js';
+import {StyleInfo, styleMap} from 'lit/directives/style-map.js';
 
 import {
   createEvent,

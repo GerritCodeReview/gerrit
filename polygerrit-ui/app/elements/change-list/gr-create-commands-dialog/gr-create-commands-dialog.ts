@@ -9,7 +9,7 @@ import '../../shared/gr-shell-command/gr-shell-command';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
-import {customElement, property, query} from 'lit/decorators';
+import {customElement, property, query} from 'lit/decorators.js';
 
 enum Commands {
   CREATE = 'git commit',

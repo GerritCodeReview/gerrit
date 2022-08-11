@@ -15,7 +15,7 @@ import {
 } from '../../shared/gr-dropdown/gr-dropdown';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property} from 'lit/decorators.js';
 
 const INTERPOLATE_URL_PATTERN = /\${([\w]+)}/g;
 

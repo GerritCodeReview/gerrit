@@ -9,6 +9,7 @@
     "@bazel/typescript": "^5.5.0"
   },
   "devDependencies": {
+    "@types/page": "^1.11.5",
     "@typescript-eslint/eslint-plugin": "^5.27.0",
     "eslint": "^8.16.0",
     "eslint-config-google": "^0.14.0",

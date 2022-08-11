@@ -119,7 +119,7 @@ import {
 } from '../api/rest-api';
 import {DiffInfo, IgnoreWhitespaceType} from './diff';
 
-export {
+export type {
   AccountId,
   AccountDetailInfo,
   AccountInfo,
@@ -154,7 +154,6 @@ export {
   DetailedLabelInfo,
   DownloadInfo,
   DownloadSchemeInfo,
-  EDIT,
   EditPatchSet,
   EmailAddress,
   FileInfo,
@@ -179,7 +178,6 @@ export {
   MaxObjectSizeLimitInfo,
   NumericChangeId,
   ParentCommitInfo,
-  PARENT,
   PatchSetNum,
   PatchSetNumber,
   PluginConfigInfo,
@@ -208,9 +206,8 @@ export {
   UserConfigInfo,
   VotingRangeInfo,
   WebLinkInfo,
-  isDetailedLabelInfo,
-  isQuickLabelInfo,
 };
+export {EDIT, PARENT, isDetailedLabelInfo, isQuickLabelInfo};
 
 /*
  * In T, make a set of properties whose keys are in the union K required

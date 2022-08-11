@@ -14,7 +14,7 @@ import {AppElementAdminParams} from '../../gr-app-types';
 import {tableStyles} from '../../../styles/gr-table-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
-import {customElement, property, state} from 'lit/decorators';
+import {customElement, property, state} from 'lit/decorators.js';
 
 // Exported for tests
 export interface PluginInfoWithName extends PluginInfo {

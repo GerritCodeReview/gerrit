@@ -297,11 +297,8 @@ export class GrTextarea extends LitElement {
 
   // private but used in test
   closeDropdown() {
-    if (this.isMentionsDropdownActive()) {
-      this.mentionsSuggestions?.close();
-    } else {
-      this.emojiSuggestions?.close();
-    }
+    this.mentionsSuggestions?.close();
+    this.emojiSuggestions?.close();
   }
 
   getNativeTextarea() {

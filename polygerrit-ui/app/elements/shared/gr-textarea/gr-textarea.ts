@@ -246,7 +246,10 @@ export class GrTextarea extends LitElement {
         @value-changed=${(e: ValueChangedEvent) => {
           this.text = e.detail.value;
         }}
-        @bind-value-changed=${this.onValueChanged}
+        @bind-value-changed=${(e: BindValueChangeEvent) => {
+          // Relay the event.
+          fire(this, 'bind-value-changed', {value: e.detail.value});
+        }}
       ></iron-autogrow-textarea>
     `;
   }
@@ -285,10 +288,16 @@ export class GrTextarea extends LitElement {
 
   override willUpdate(changedProperties: PropertyValues) {
     if (changedProperties.has('text')) {
-      this.handleTextChanged(this.text);
+      this.handleTextChanged();
     }
     if (changedProperties.has('currentSearchString')) {
       this.determineEmojiSuggestions(this.currentSearchString!);
+    }
+  }
+
+  override updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('text')) {
+      this.fireChangedEvents();
     }
   }
 
@@ -518,46 +527,28 @@ export class GrTextarea extends LitElement {
   }
 
   /**
-   * handleKeydown used for key handling in the this.textarea! AND all child
-   * autocomplete options.
    * private but used in test
    */
-  onValueChanged(e: BindValueChangeEvent) {
-    // Relay the event.
-    fire(this, 'bind-value-changed', {value: e.detail.value});
-    // If cursor is not in textarea (just opened with colon as last char),
-    // Don't do anything.
-    if (
-      e.currentTarget === null ||
-      !(e.currentTarget as IronAutogrowTextareaElement).focused
-    ) {
-      return;
-    }
-
-    const charAtCursor =
-      e.detail && e.detail.value
-        ? e.detail.value[this.textarea!.selectionStart - 1]
-        : '';
-
-    const text = e.detail.value ?? '';
+  handleTextChanged() {
+    const charAtCursor = this.text[this.textarea!.selectionStart - 1];
 
     if (this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) {
       // specialCharIndex needs to be assigned before isMentionsDropdownActive
       // is called
       if (charAtCursor === '@' && this.specialCharIndex === -1) {
-        this.specialCharIndex = this.getSpecialCharIndex(text);
+        this.specialCharIndex = this.getSpecialCharIndex(this.text);
       }
     }
     if (charAtCursor === ':' && this.specialCharIndex === -1) {
-      this.specialCharIndex = this.getSpecialCharIndex(text);
+      this.specialCharIndex = this.getSpecialCharIndex(this.text);
     }
 
     // this.text does not contain newly typed character yet
-    if (!this.isMentionsDropdownActive(text)) {
+    if (!this.isMentionsDropdownActive(this.text)) {
       if (this.specialCharIndex !== -1) {
         this.openOrResetDropdown(
           this.emojiSuggestions!,
-          text,
+          this.text,
           this.specialCharIndex,
           ':'
         );
@@ -571,7 +562,7 @@ export class GrTextarea extends LitElement {
     if (this.specialCharIndex !== -1) {
       this.openOrResetDropdown(
         this.mentionsSuggestions!,
-        text,
+        this.text,
         this.specialCharIndex,
         '@'
       );
@@ -641,15 +632,15 @@ export class GrTextarea extends LitElement {
     this.textarea!.textarea.focus();
   }
 
-  private handleTextChanged(text: string) {
+  private fireChangedEvents() {
     // This is a bit redundant, because the `text` property has `notify:true`,
     // so whenever the `text` changes the component fires two identical events
     // `text-changed` and `value-changed`.
     this.dispatchEvent(
-      new CustomEvent('value-changed', {detail: {value: text}})
+      new CustomEvent('value-changed', {detail: {value: this.text}})
     );
     this.dispatchEvent(
-      new CustomEvent('text-changed', {detail: {value: text}})
+      new CustomEvent('text-changed', {detail: {value: this.text}})
     );
   }
 

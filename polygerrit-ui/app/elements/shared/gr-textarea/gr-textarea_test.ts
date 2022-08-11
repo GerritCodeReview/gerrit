@@ -8,12 +8,7 @@ import './gr-textarea';
 import {GrTextarea} from './gr-textarea';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {ItemSelectedEvent} from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
-import {
-  stubFlags,
-  stubRestApi,
-  waitUntil,
-  waitUntilCalled,
-} from '../../../test/test-utils';
+import {stubFlags, stubRestApi, waitUntil} from '../../../test/test-utils';
 import {fixture, html} from '@open-wc/testing-helpers';
 import {createAccountWithEmail} from '../../../test/test-data-generators';
 
@@ -366,7 +361,6 @@ suite('gr-textarea tests', () => {
   });
 
   test('emoji selector closes when text changes before the colon', async () => {
-    const resetStub = sinon.stub(element, 'resetDropdown');
     MockInteractions.focus(element.textarea!);
     await waitUntil(() => element.textarea!.focused === true);
     await element.updateComplete;
@@ -376,18 +370,25 @@ suite('gr-textarea tests', () => {
     await element.updateComplete;
     element.textarea!.selectionStart = 12;
     element.textarea!.selectionEnd = 12;
+
     element.text = 'test test :';
     await element.updateComplete;
+
+    // typing : opens the selector
+    assert.isFalse(element.emojiSuggestions!.isHidden);
+
     element.textarea!.selectionStart = 15;
     element.textarea!.selectionEnd = 15;
     element.text = 'test test :smi';
     await element.updateComplete;
 
     assert.equal(element.currentSearchString, 'smi');
-    assert.isFalse(resetStub.called);
+    assert.isFalse(element.emojiSuggestions!.isHidden);
+
     element.text = 'test test test :smi';
     await element.updateComplete;
-    await waitUntilCalled(resetStub, 'resetStub');
+
+    assert.isTrue(element.emojiSuggestions!.isHidden);
   });
 
   test('resetDropdown', async () => {

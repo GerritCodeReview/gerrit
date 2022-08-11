@@ -69,6 +69,24 @@
       "parentUuid": "888ba85a_bae96024",
       "revId": "74ea36dfd5bd62c2a87cd95e7ee44b6565683ca0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fd2ac32_d2b3f40c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-11T11:02:56Z",
+      "side": 1,
+      "message": "That won\u0027t work",
+      "parentUuid": "e01b7548_1c84a77a",
+      "revId": "74ea36dfd5bd62c2a87cd95e7ee44b6565683ca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

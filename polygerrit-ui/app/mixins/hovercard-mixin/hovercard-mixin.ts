@@ -6,7 +6,7 @@
 import {getRootElement} from '../../scripts/rootElement';
 import {Constructor} from '../../utils/common-util';
 import {LitElement, PropertyValues} from 'lit';
-import {property, query} from 'lit/decorators';
+import {property, query} from 'lit/decorators.js';
 import {ShowAlertEventDetail} from '../../types/events';
 import {debounce, DelayedTask} from '../../utils/async-util';
 import {hovercardStyles} from '../../styles/gr-hovercard-styles';

@@ -28,7 +28,7 @@ import {changeIsMerged, changeIsAbandoned} from '../../../utils/change-util';
 import {addShortcut, Modifier} from '../../../utils/dom-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
-import {customElement, property, state} from 'lit/decorators';
+import {customElement, property, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {GenerateUrlEditViewParameters} from '../../../utils/router-util';
 

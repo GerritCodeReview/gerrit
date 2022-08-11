@@ -3,7 +3,9 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import 'page/page';
+// @ts-ignore
+import pagejs from 'page';
+// I think we can delete this whole file by adding @types/page dev dependency
 
 // Reexport page.js. To make it work, karma, server.go and rollup patch
 // page.js and replace "this" to "window". Otherwise, it can't assign global
@@ -40,4 +42,4 @@ export type PageCallback = (
   next: PageNextCallback
 ) => void;
 
-export const page = window['page'] as Page;
+export const page = pagejs as unknown as Page;

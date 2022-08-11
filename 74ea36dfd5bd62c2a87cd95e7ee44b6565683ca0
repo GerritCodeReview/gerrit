@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4215721d_e7243a1b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-11T10:51:57Z",
+      "side": 1,
+      "message": "Don\u0027t make this an @state, otherwise setting this in updated will cause another update and render.",
+      "revId": "74ea36dfd5bd62c2a87cd95e7ee44b6565683ca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "888ba85a_bae96024",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-11T10:51:57Z",
+      "side": 1,
+      "message": "This will cause another update/render cycle.\n\nI would also make currentSearchString no longer an @state, and move the determineEmojiSuggestions into the coputeCurrentSearchString.",
+      "revId": "74ea36dfd5bd62c2a87cd95e7ee44b6565683ca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

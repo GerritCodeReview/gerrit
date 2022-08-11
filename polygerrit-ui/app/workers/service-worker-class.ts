@@ -12,11 +12,25 @@ import {AccountDetailInfo} from '../api/rest-api';
 import {TRIGGER_NOTIFICATION_UPDATES_MS} from '../services/service-worker-installer';
 import {GerritView} from '../services/router/router-model';
 import {generateUrl} from '../utils/router-util';
+import {
+  GerritServiceWorkerState,
+  putServiceWorkerState,
+} from '../utils/indexdb-util';
 
 export class ServiceWorker {
   constructor(private ctx: ServiceWorkerGlobalScope) {}
 
   latestUpdateTimestampMs = Date.now();
+
+  saveState() {
+    return putServiceWorkerState({
+      latestUpdateTimestampMs: this.latestUpdateTimestampMs,
+    });
+  }
+
+  loadState(state: GerritServiceWorkerState) {
+    this.latestUpdateTimestampMs = state.latestUpdateTimestampMs;
+  }
 
   showNotification(change: ParsedChangeInfo, account: AccountDetailInfo) {
     const body = getReason(undefined, account, change);
@@ -45,6 +59,7 @@ export class ServiceWorker {
     }
     const prevLatestUpdateTimestampMs = this.latestUpdateTimestampMs;
     this.latestUpdateTimestampMs = Date.now();
+    await this.saveState();
     const changes = await this.getLatestAttentionSetChanges();
     const latestAttentionChanges = filterAttentionChangesAfter(
       changes,

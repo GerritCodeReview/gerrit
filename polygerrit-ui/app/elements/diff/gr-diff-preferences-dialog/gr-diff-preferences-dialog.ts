@@ -12,7 +12,7 @@ import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {assertIsDefined} from '../../../utils/common-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, html, css, PropertyValues} from 'lit';
-import {customElement, query, state} from 'lit/decorators';
+import {customElement, query, state} from 'lit/decorators.js';
 import {ValueChangedEvent} from '../../../types/events';
 
 @customElement('gr-diff-preferences-dialog')

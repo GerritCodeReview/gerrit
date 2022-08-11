@@ -14,8 +14,8 @@ import {
 } from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
-import {ClassInfo, classMap} from 'lit/directives/class-map';
+import {customElement, property} from 'lit/decorators.js';
+import {ClassInfo, classMap} from 'lit/directives/class-map.js';
 import {getLabelStatus, hasVoted, LabelStatus} from '../../../utils/label-util';
 
 @customElement('gr-account-chip')

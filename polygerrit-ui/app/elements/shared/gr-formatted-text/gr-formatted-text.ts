@@ -6,7 +6,7 @@
 import '../gr-linked-text/gr-linked-text';
 import {CommentLinks} from '../../../types/common';
 import {LitElement, css, html, TemplateResult} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property} from 'lit/decorators.js';
 
 const CODE_MARKER_PATTERN = /^(`{1,3})([^`]+?)\1$/;
 const INLINE_PATTERN = /(\[.+?\]\(.+?\)|`[^`]+?`)/;

@@ -5,7 +5,7 @@
  */
 import '../../shared/gr-icon/gr-icon';
 import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {getAppContext} from '../../../services/app-context';
 import {fireShowPrimaryTab} from '../../../utils/event-util';

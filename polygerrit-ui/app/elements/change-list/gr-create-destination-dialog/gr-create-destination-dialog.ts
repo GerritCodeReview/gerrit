@@ -10,7 +10,7 @@ import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {RepoName, BranchName} from '../../../types/common';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, html} from 'lit';
-import {customElement, state, query} from 'lit/decorators';
+import {customElement, state, query} from 'lit/decorators.js';
 import {assertIsDefined} from '../../../utils/common-util';
 import {BindValueChangeEvent} from '../../../types/events';
 

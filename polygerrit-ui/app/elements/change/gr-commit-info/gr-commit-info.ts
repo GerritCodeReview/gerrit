@@ -8,7 +8,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {ChangeInfo, CommitInfo, ServerInfo} from '../../../types/common';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
-import {customElement, property, state} from 'lit/decorators';
+import {customElement, property, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';

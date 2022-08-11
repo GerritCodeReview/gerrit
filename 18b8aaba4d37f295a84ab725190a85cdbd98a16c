@@ -22,6 +22,30 @@
       },
       "revId": "18b8aaba4d37f295a84ab725190a85cdbd98a16c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56b5ec05_15344267",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-11T07:49:14Z",
+      "side": 0,
+      "message": "I think good practice is to first add\n```\nthis.reporting.reportExecution(Execution.REACHABLE_CODE\n```\n\nthen to check data and if it really doesn\u0027t get trigger, then it is save to be removed",
+      "parentUuid": "f094ffe7_2ce1c632",
+      "range": {
+        "startLine": 534,
+        "startChar": 6,
+        "endLine": 534,
+        "endChar": 12
+      },
+      "revId": "18b8aaba4d37f295a84ab725190a85cdbd98a16c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

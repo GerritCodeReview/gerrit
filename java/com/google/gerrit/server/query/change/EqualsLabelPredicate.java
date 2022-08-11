@@ -30,7 +30,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import java.util.Optional;
 
-public class EqualsLabelPredicate extends ChangeIndexPredicate {
+public class EqualsLabelPredicate extends ChangeIndexPostFilterPredicate {
   protected final ProjectCache projectCache;
   protected final PermissionBackend permissionBackend;
   protected final IdentifiedUser.GenericFactory userFactory;

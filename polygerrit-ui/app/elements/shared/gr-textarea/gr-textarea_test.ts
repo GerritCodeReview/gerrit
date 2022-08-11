@@ -482,16 +482,6 @@ suite('gr-textarea tests', () => {
     assert.isTrue(resetSpy.called);
   });
 
-  test('onValueChanged fires bind-value-changed', () => {
-    const listenerStub = sinon.stub();
-    const eventObject = new CustomEvent('bind-value-changed', {
-      detail: {currentTarget: {focused: false}, value: ''},
-    });
-    element.addEventListener('bind-value-changed', listenerStub);
-    element.onValueChanged(eventObject);
-    assert.isTrue(listenerStub.called);
-  });
-
   suite('keyboard shortcuts', async () => {
     async function setupDropdown() {
       MockInteractions.focus(element.textarea!);

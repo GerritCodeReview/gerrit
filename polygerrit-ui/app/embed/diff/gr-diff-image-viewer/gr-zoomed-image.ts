@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {css, html, LitElement, PropertyValues} from 'lit';
-import {customElement, property, state} from 'lit/decorators';
-import {StyleInfo, styleMap} from 'lit/directives/style-map';
+import {customElement, property, state} from 'lit/decorators.js';
+import {StyleInfo, styleMap} from 'lit/directives/style-map.js';
 import {Rect} from './util';
 
 /**

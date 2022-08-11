@@ -8,7 +8,7 @@ import '../../shared/gr-button/gr-button';
 import {EmailInfo} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import {LitElement, css, html} from 'lit';
-import {customElement, property, state} from 'lit/decorators';
+import {customElement, property, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {ValueChangedEvent} from '../../../types/events';

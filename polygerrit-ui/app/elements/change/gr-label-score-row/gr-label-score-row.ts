@@ -7,8 +7,8 @@ import '@polymer/iron-selector/iron-selector';
 import '../../shared/gr-button/gr-button';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators';
-import {ifDefined} from 'lit/directives/if-defined';
+import {customElement, property, query, state} from 'lit/decorators.js';
+import {ifDefined} from 'lit/directives/if-defined.js';
 import {IronSelectorElement} from '@polymer/iron-selector/iron-selector';
 import {
   LabelNameToInfoMap,

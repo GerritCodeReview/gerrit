@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09e2bc8a_26cfefe1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-11T08:30:26Z",
+      "side": 1,
+      "message": "`call this function and call promise?`\nI don\u0027t understand this sentence.\n\nThis message still doesn\u0027t explain what the race condition is and what issue is exactly caused by this.\n\nReading the tests is also not completely clear to me but the fact that the commit message is lacking details and relies on reading the test is already for me a sign this can be explained better.",
+      "range": {
+        "startLine": 13,
+        "startChar": 35,
+        "endLine": 14,
+        "endChar": 30
+      },
+      "revId": "97203e427a633996f73f445f7705e5fe3f730fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

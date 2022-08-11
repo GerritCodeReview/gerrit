@@ -67,6 +67,7 @@ import {changeModelToken} from '../../../models/change/change-model';
 import {Interaction} from '../../../constants/reporting';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {isBase64FileContent} from '../../../api/rest-api';
+import { GrCommentThread } from '../gr-comment-thread/gr-comment-thread';
 
 const UNSAVED_MESSAGE = 'Unable to save draft';
 
@@ -974,6 +975,7 @@ export class GrComment extends LitElement {
           replacement
         ),
         patchNum: this.comment.patch_set,
+        targetThread: this.parentElement as GrCommentThread,
       };
     }
     if (isRobot(this.comment) && this.comment.fix_suggestions.length > 0) {
@@ -986,6 +988,7 @@ export class GrComment extends LitElement {
           };
         }),
         patchNum: this.comment.patch_set,
+        targetThread: this.parentElement as GrCommentThread,
       };
     }
     throw new Error('unable to create preview fix event');

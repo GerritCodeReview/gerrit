@@ -20,9 +20,9 @@ import {
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {PROVIDED_FIX_ID} from '../../../utils/comment-util';
-import {OpenFixPreviewEvent} from '../../../types/events';
+import {OpenFixPreviewEvent, ReplyToCommentEventDetail} from '../../../types/events';
 import {getAppContext} from '../../../services/app-context';
-import {fireCloseFixPreview, fireEvent} from '../../../utils/event-util';
+import {fire, fireCloseFixPreview, fireEvent} from '../../../utils/event-util';
 import {DiffLayer, ParsedChangeInfo} from '../../../types/types';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-highlight-layer';
@@ -31,6 +31,7 @@ import {customElement, property, query, state} from 'lit/decorators';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {subscribe} from '../../lit/subscription-controller';
 import {assert} from '../../../utils/common-util';
+import { GrCommentThread } from '../../shared/gr-comment-thread/gr-comment-thread';
 
 interface FilePreview {
   filepath: string;
@@ -74,6 +75,9 @@ export class GrApplyFixDialog extends LitElement {
 
   @state()
   diffPrefs?: DiffPreferencesInfo;
+
+  @state()
+  targetThread?: GrCommentThread;
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -204,6 +208,7 @@ export class GrApplyFixDialog extends LitElement {
   async open(e: OpenFixPreviewEvent) {
     this.patchNum = e.detail.patchNum;
     this.fixSuggestions = e.detail.fixSuggestions;
+    this.targetThread = e.detail.targetThread;
     assert(this.fixSuggestions.length > 0, 'no fix in the event');
     this.selectedFixIdx = 0;
     const promises = [];
@@ -338,6 +343,14 @@ export class GrApplyFixDialog extends LitElement {
       );
     }
     if (res && res.ok) {
+      if (this.targetThread) {
+        const eventDetail: ReplyToCommentEventDetail = {
+          content: 'Fix Applied.',
+          userWantsToEdit: false,
+          unresolved: true,
+        };
+        fire(this.targetThread, 'reply-to-comment', eventDetail);
+      }
       GerritNav.navigateToChange(change, {
         patchNum: EDIT,
         basePatchNum: patchNum as BasePatchSetNum,

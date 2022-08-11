@@ -25,6 +25,7 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperationsImpl;
 import com.google.gerrit.auth.AuthModule;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.gerrit.gpg.GpgModule;
 import com.google.gerrit.httpd.auth.restapi.OAuthRestModule;
@@ -39,6 +40,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.LibModuleType;
 import com.google.gerrit.server.PluginUser;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.api.GerritApiModule;
 import com.google.gerrit.server.api.PluginApiModule;
 import com.google.gerrit.server.audit.AuditModule;
@@ -77,6 +79,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PerThreadRequestScope;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl.SearchingChangeCacheImplModule;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.group.testing.TestGroupBackend;
 import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
 import com.google.gerrit.server.index.account.AllAccountsIndexer;
 import com.google.gerrit.server.index.change.AllChangesIndexer;
@@ -267,6 +270,8 @@ public class InMemoryModule extends FactoryModule {
     install(new ConfigExperimentFeaturesModule());
 
     bind(ProjectOperations.class).to(ProjectOperationsImpl.class);
+    bind(TestGroupBackend.class).in(SINGLETON);
+    DynamicSet.bind(binder(), GroupBackend.class).to(TestGroupBackend.class);
   }
 
   /** Copy of SchemaModule with a slightly different server ID provider. */

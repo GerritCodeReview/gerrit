@@ -244,6 +244,34 @@ suite('gr-textarea tests', () => {
       assert.isTrue(element.emojiSuggestions!.isHidden);
       assert.isTrue(element.mentionsSuggestions!.isHidden);
     });
+
+    test.only('mention dropdown is cleared if @ is deleted', async () => {
+      stubRestApi('getSuggestedAccounts').returns(
+        Promise.resolve([
+          createAccountWithEmail('abc@google.com'),
+          createAccountWithEmail('abcdef@google.com'),
+        ])
+      );
+
+      MockInteractions.focus(element.textarea!);
+      await waitUntil(() => element.textarea!.focused === true);
+
+      element.textarea!.selectionStart = 1;
+      element.textarea!.selectionEnd = 1;
+      element.text = '@';
+
+      await waitUntil(() => element.mentions.length > 0);
+      await element.updateComplete;
+
+      assert.isFalse(element.mentionsSuggestions!.isHidden);
+
+      MockInteractions.pressAndReleaseKeyOn(
+        element,
+        8
+      ); // Backspace
+      await element.updateComplete;
+      assert.isTrue(element.mentionsSuggestions!.isHidden);
+    })
   });
 
   test('monospace is set properly', () => {

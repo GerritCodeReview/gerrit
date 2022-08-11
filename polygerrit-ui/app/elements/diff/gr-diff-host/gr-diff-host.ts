@@ -90,7 +90,7 @@ import {Category} from '../../../api/checks';
 import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer-worker';
 import {CODE_MAX_LINES} from '../../../services/highlight/highlight-service';
 import {html, LitElement, PropertyValues} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {ValueChangedEvent} from '../../../types/events';
 import {
   debounceP,

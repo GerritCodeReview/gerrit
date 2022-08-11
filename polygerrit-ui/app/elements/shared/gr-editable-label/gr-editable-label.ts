@@ -16,7 +16,7 @@ import {
 import {addShortcut, Key} from '../../../utils/dom-util';
 import {queryAndAssert} from '../../../utils/common-util';
 import {LitElement, css, html} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {IronInputElement} from '@polymer/iron-input';

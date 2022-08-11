@@ -15,7 +15,7 @@ import {addShortcut} from '../../../utils/dom-util';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
-import {customElement, property, state, query} from 'lit/decorators';
+import {customElement, property, state, query} from 'lit/decorators.js';
 import {assertIsDefined} from '../../../utils/common-util';
 import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
 import {BindValueChangeEvent} from '../../../types/events';

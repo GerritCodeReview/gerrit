@@ -18,7 +18,7 @@ import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions'
 import {mockPromise, queryAndAssert} from '../test/test-utils';
 import {fixture} from '@open-wc/testing-helpers';
 import {LitElement, html} from 'lit';
-import {customElement} from 'lit/decorators';
+import {customElement} from 'lit/decorators.js';
 
 /**
  * You might think that instead of passing in the callback with assertions as a

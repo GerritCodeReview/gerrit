@@ -7,7 +7,7 @@ import '../../shared/gr-overlay/gr-overlay';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, html} from 'lit';
-import {customElement, query} from 'lit/decorators';
+import {customElement, query} from 'lit/decorators.js';
 
 declare global {
   interface HTMLElementTagNameMap {

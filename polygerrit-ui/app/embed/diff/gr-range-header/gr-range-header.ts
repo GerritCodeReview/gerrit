@@ -5,7 +5,7 @@
  */
 import '../../../elements/shared/gr-icon/gr-icon';
 import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property} from 'lit/decorators.js';
 
 /**
  * Represents a header (label) for a code chunk whenever showing

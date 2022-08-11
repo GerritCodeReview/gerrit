@@ -87,6 +87,24 @@
       "parentUuid": "e01b7548_1c84a77a",
       "revId": "74ea36dfd5bd62c2a87cd95e7ee44b6565683ca0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0eeea71a_ca5feed7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-11T11:05:23Z",
+      "side": 1,
+      "message": "Right I see the issue. It needs to be a state() to trigger the willUpdate() lifecycle.\n\nI don\u0027t fully follow what you mean by \n```\ncurrentSearchString no longer an @state, and move the determineEmojiSuggestions into the coputeCurrentSearchString.\n```",
+      "parentUuid": "8fd2ac32_d2b3f40c",
+      "revId": "74ea36dfd5bd62c2a87cd95e7ee44b6565683ca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -285,7 +285,7 @@ export class GrTextarea extends LitElement {
 
   override willUpdate(changedProperties: PropertyValues) {
     if (changedProperties.has('currentSearchString')) {
-      this.determineEmojiSuggestions(this.currentSearchString!);
+      this.computeSuggestions();
     }
   }
 
@@ -302,7 +302,7 @@ export class GrTextarea extends LitElement {
 
   // private but used in test
   closeDropdown() {
-    if (this.isMentionsDropdownActive(this.text)) {
+    if (this.isMentionsDropdownActive()) {
       this.mentionsSuggestions?.close();
     } else {
       this.emojiSuggestions?.close();
@@ -484,6 +484,15 @@ export class GrTextarea extends LitElement {
     return -1;
   }
 
+  private async computeSuggestions() {
+    if (this.currentSearchString === undefined) return;
+    if (this.isEmojiDropdownActive()) {
+      this.determineEmojiSuggestions(this.currentSearchString);
+    } else if (this.isMentionsDropdownActive()) {
+      this.mentions = await this.determineReviewerSuggestions();
+    }
+  }
+
   private async openOrResetDropdown(
     activeDropdown: GrAutocompleteDropdown,
     text: string,
@@ -513,8 +522,10 @@ export class GrTextarea extends LitElement {
     }
   }
 
-  private isMentionsDropdownActive(text: string) {
-    return this.specialCharIndex !== -1 && text[this.specialCharIndex] === '@';
+  private isMentionsDropdownActive() {
+    return (
+      this.specialCharIndex !== -1 && this.text[this.specialCharIndex] === '@'
+    );
   }
 
   private isEmojiDropdownActive() {
@@ -551,7 +562,7 @@ export class GrTextarea extends LitElement {
    * private but used in test
    */
   handleTextChanged() {
-    if (!this.isMentionsDropdownActive(this.text)) {
+    if (!this.isMentionsDropdownActive()) {
       if (this.specialCharIndex !== -1) {
         this.openOrResetDropdown(
           this.emojiSuggestions!,

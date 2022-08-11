@@ -22,6 +22,30 @@
       },
       "revId": "97203e427a633996f73f445f7705e5fe3f730fec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5bced99_402e220e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-11T09:01:44Z",
+      "side": 1,
+      "message": "I rewrite whole commit message. I hope it is clearer now. \n\nI also changed implementation so we do not need to introduce loading variable.\n\nPTAL",
+      "parentUuid": "09e2bc8a_26cfefe1",
+      "range": {
+        "startLine": 13,
+        "startChar": 35,
+        "endLine": 14,
+        "endChar": 30
+      },
+      "revId": "97203e427a633996f73f445f7705e5fe3f730fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

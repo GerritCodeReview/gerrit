@@ -105,6 +105,24 @@
       "parentUuid": "8fd2ac32_d2b3f40c",
       "revId": "74ea36dfd5bd62c2a87cd95e7ee44b6565683ca0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1ad964b_707cca1d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-11T11:17:16Z",
+      "side": 1,
+      "message": "Is causing another cycle problematic, if we are sure that there is no infinite loop?",
+      "parentUuid": "0eeea71a_ca5feed7",
+      "revId": "74ea36dfd5bd62c2a87cd95e7ee44b6565683ca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -22,6 +22,29 @@
       },
       "revId": "e73b19ff58ca38bb10c6697526dc9638fc9e51eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "755d76a8_39c78812",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-11T11:17:16Z",
+      "side": 1,
+      "message": "```suggestion\n  // Private but used in tests.\n```\n(I had to somehow use that feature.)",
+      "range": {
+        "startLine": 550,
+        "startChar": 1,
+        "endLine": 552,
+        "endChar": 5
+      },
+      "revId": "e73b19ff58ca38bb10c6697526dc9638fc9e51eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

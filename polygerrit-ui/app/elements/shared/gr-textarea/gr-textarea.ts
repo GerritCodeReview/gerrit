@@ -285,10 +285,16 @@ export class GrTextarea extends LitElement {
 
   override willUpdate(changedProperties: PropertyValues) {
     if (changedProperties.has('text')) {
-      this.handleTextChanged(this.text);
+      this.fireChangedEvents();
     }
     if (changedProperties.has('currentSearchString')) {
       this.determineEmojiSuggestions(this.currentSearchString!);
+    }
+  }
+
+  override updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('text')) {
+      this.fireChangedEvents();
     }
   }
 
@@ -641,16 +647,14 @@ export class GrTextarea extends LitElement {
     this.textarea!.textarea.focus();
   }
 
-  private handleTextChanged(text: string) {
+  private fireChangedEvents() {
     // This is a bit redundant, because the `text` property has `notify:true`,
     // so whenever the `text` changes the component fires two identical events
     // `text-changed` and `value-changed`.
-    this.dispatchEvent(
-      new CustomEvent('value-changed', {detail: {value: text}})
-    );
-    this.dispatchEvent(
-      new CustomEvent('text-changed', {detail: {value: text}})
-    );
+    fire(this, 'value-changed', {value: this.text});
+    fire(this, 'text-changed', {value: this.text});
+    // Relay the event.
+    fire(this, 'bind-value-changed', {value: this.text});
   }
 
   private indent(e: KeyboardEvent): void {

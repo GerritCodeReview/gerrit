@@ -5,7 +5,7 @@
  */
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
-import {customElement, query, state} from 'lit/decorators';
+import {customElement, query, state} from 'lit/decorators.js';
 import {assertIsDefined} from '../../../utils/common-util';
 
 declare global {

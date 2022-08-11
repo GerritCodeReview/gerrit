@@ -23,7 +23,7 @@ import {getAppContext} from '../../../services/app-context';
 import {GerritView} from '../../../services/router/router-model';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
-import {customElement, property, state, query} from 'lit/decorators';
+import {customElement, property, state, query} from 'lit/decorators.js';
 import {ValueChangedEvent} from '../../../types/events';
 
 const LOOKUP_QUERY_PATTERNS: RegExp[] = [

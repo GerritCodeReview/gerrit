@@ -6,7 +6,7 @@
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-label-info/gr-label-info';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property} from 'lit/decorators.js';
 import {
   AccountInfo,
   ChangeStatus,

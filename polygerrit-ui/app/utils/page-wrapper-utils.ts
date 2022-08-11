@@ -3,7 +3,8 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import 'page/page';
+// @ts-ignore: Bazel is not yet configured to download the types
+import pagejs from 'page';
 
 // Reexport page.js. To make it work, karma, server.go and rollup patch
 // page.js and replace "this" to "window". Otherwise, it can't assign global
@@ -40,4 +41,6 @@ export type PageCallback = (
   next: PageNextCallback
 ) => void;
 
-export const page = window['page'] as Page;
+// TODO: Convert page usages to the real types and remove this file of wrapper
+// types. Also remove workarounds in karma and rollup configs.
+export const page = pagejs as unknown as Page;

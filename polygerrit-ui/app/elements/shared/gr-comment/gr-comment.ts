@@ -60,9 +60,13 @@ import {changeModelToken} from '../../../models/change/change-model';
 import {Interaction} from '../../../constants/reporting';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {isBase64FileContent} from '../../../api/rest-api';
+<<<<<<< PATCH SET (bf5ef1 After apply fix - resolved comment.)
+import { GrCommentThread } from '../gr-comment-thread/gr-comment-thread';
+=======
 import {createDiffUrl} from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
 import {modalStyles} from '../../../styles/gr-modal-styles';
+>>>>>>> BASE      (72b006 Merge "Tweak `isExpandable` of check result row")
 
 const UNSAVED_MESSAGE = 'Unable to save draft';
 
@@ -1053,11 +1057,15 @@ export class GrComment extends LitElement {
           replacement
         ),
         patchNum: this.comment.patch_set,
+<<<<<<< PATCH SET (bf5ef1 After apply fix - resolved comment.)
+        targetThread: this.parentElement as GrCommentThread,
+=======
         onCloseFixPreviewCallbacks: [
           fixApplied => {
             if (fixApplied) this.handleAppliedFix();
           },
         ],
+>>>>>>> BASE      (72b006 Merge "Tweak `isExpandable` of check result row")
       };
     }
     if (isRobot(this.comment) && this.comment.fix_suggestions.length > 0) {
@@ -1070,7 +1078,11 @@ export class GrComment extends LitElement {
           };
         }),
         patchNum: this.comment.patch_set,
+<<<<<<< PATCH SET (bf5ef1 After apply fix - resolved comment.)
+        targetThread: this.parentElement as GrCommentThread,
+=======
         onCloseFixPreviewCallbacks: [],
+>>>>>>> BASE      (72b006 Merge "Tweak `isExpandable` of check result row")
       };
     }
     throw new Error('unable to create preview fix event');

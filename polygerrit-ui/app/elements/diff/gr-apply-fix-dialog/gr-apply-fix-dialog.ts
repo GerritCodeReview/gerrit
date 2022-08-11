@@ -18,8 +18,12 @@ import {
 } from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {PROVIDED_FIX_ID} from '../../../utils/comment-util';
-import {OpenFixPreviewEvent} from '../../../types/events';
+import {OpenFixPreviewEvent, ReplyToCommentEventDetail} from '../../../types/events';
 import {getAppContext} from '../../../services/app-context';
+<<<<<<< PATCH SET (bf5ef1 After apply fix - resolved comment.)
+import {fire, fireCloseFixPreview, fireEvent} from '../../../utils/event-util';
+=======
+>>>>>>> BASE      (72b006 Merge "Tweak `isExpandable` of check result row")
 import {DiffLayer, ParsedChangeInfo} from '../../../types/types';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-highlight-layer';
@@ -28,6 +32,9 @@ import {customElement, property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {subscribe} from '../../lit/subscription-controller';
 import {assert} from '../../../utils/common-util';
+<<<<<<< PATCH SET (bf5ef1 After apply fix - resolved comment.)
+import { GrCommentThread } from '../../shared/gr-comment-thread/gr-comment-thread';
+=======
 import {resolve} from '../../../models/dependency';
 import {createChangeUrl} from '../../../models/views/change';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
@@ -38,6 +45,7 @@ import {highlightServiceToken} from '../../../services/highlight/highlight-servi
 import {anyLineTooLong} from '../../../embed/diff/gr-diff/gr-diff-utils';
 import {changeModelToken} from '../../../models/change/change-model';
 import {fireReload} from '../../../utils/event-util';
+>>>>>>> BASE      (72b006 Merge "Tweak `isExpandable` of check result row")
 
 interface FilePreview {
   filepath: string;
@@ -92,10 +100,14 @@ export class GrApplyFixDialog extends LitElement {
   diffPrefs?: DiffPreferencesInfo;
 
   @state()
+<<<<<<< PATCH SET (bf5ef1 After apply fix - resolved comment.)
+  targetThread?: GrCommentThread;
+=======
   isOwner = false;
 
   @state()
   onCloseFixPreviewCallbacks: ((fixapplied: boolean) => void)[] = [];
+>>>>>>> BASE      (72b006 Merge "Tweak `isExpandable` of check result row")
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -248,7 +260,11 @@ export class GrApplyFixDialog extends LitElement {
   open(e: OpenFixPreviewEvent) {
     this.patchNum = e.detail.patchNum;
     this.fixSuggestions = e.detail.fixSuggestions;
+<<<<<<< PATCH SET (bf5ef1 After apply fix - resolved comment.)
+    this.targetThread = e.detail.targetThread;
+=======
     this.onCloseFixPreviewCallbacks = e.detail.onCloseFixPreviewCallbacks;
+>>>>>>> BASE      (72b006 Merge "Tweak `isExpandable` of check result row")
     assert(this.fixSuggestions.length > 0, 'no fix in the event');
     this.selectedFixIdx = 0;
     this.applyFixModal?.showModal();
@@ -383,6 +399,20 @@ export class GrApplyFixDialog extends LitElement {
       );
     }
     if (res && res.ok) {
+<<<<<<< PATCH SET (bf5ef1 After apply fix - resolved comment.)
+      if (this.targetThread) {
+        const eventDetail: ReplyToCommentEventDetail = {
+          content: 'Fix Applied.',
+          userWantsToEdit: false,
+          unresolved: true,
+        };
+        fire(this.targetThread, 'reply-to-comment', eventDetail);
+      }
+      GerritNav.navigateToChange(change, {
+        patchNum: EDIT,
+        basePatchNum: patchNum as BasePatchSetNum,
+      });
+=======
       this.getNavigation().setUrl(
         createChangeUrl({
           change,
@@ -390,6 +420,7 @@ export class GrApplyFixDialog extends LitElement {
           basePatchNum: patchNum as BasePatchSetNum,
         })
       );
+>>>>>>> BASE      (72b006 Merge "Tweak `isExpandable` of check result row")
       this.close(true);
     }
     this.isApplyFixLoading = false;

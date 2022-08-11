@@ -8,6 +8,8 @@ import {ChangeMessage} from '../utils/comment-util';
 import {FetchRequest} from './types';
 import {LineNumberEventDetail, MovedLinkClickedEventDetail} from '../api/diff';
 import {Category, RunStatus} from '../api/checks';
+import { GrComment } from '../elements/shared/gr-comment/gr-comment';
+import { GrCommentThread } from '../elements/shared/gr-comment-thread/gr-comment-thread';
 
 export enum EventType {
   BIND_VALUE_CHANGED = 'bind-value-changed',
@@ -154,7 +156,11 @@ export type NetworkErrorEvent = CustomEvent<NetworkErrorEventDetail>;
 export interface OpenFixPreviewEventDetail {
   patchNum: PatchSetNum;
   fixSuggestions: FixSuggestionInfo[];
+<<<<<<< PATCH SET (bf5ef1 After apply fix - resolved comment.)
+  targetThread: GrCommentThread;
+=======
   onCloseFixPreviewCallbacks: ((fixapplied: boolean) => void)[];
+>>>>>>> BASE      (72b006 Merge "Tweak `isExpandable` of check result row")
 }
 export type OpenFixPreviewEvent = CustomEvent<OpenFixPreviewEventDetail>;
 

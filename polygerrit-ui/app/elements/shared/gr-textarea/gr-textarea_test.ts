@@ -351,6 +351,7 @@ suite('gr-textarea tests', () => {
     sinon.stub(element, 'textarea').value({
       selectionStart: 1,
       value: text,
+      focused: true,
       textarea: {
         focus: () => {},
       },
@@ -480,16 +481,6 @@ suite('gr-textarea tests', () => {
     );
     await element.updateComplete;
     assert.isTrue(resetSpy.called);
-  });
-
-  test('onValueChanged fires bind-value-changed', () => {
-    const listenerStub = sinon.stub();
-    const eventObject = new CustomEvent('bind-value-changed', {
-      detail: {currentTarget: {focused: false}, value: ''},
-    });
-    element.addEventListener('bind-value-changed', listenerStub);
-    element.onValueChanged(eventObject);
-    assert.isTrue(listenerStub.called);
   });
 
   suite('keyboard shortcuts', async () => {

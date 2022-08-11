@@ -16,7 +16,7 @@ import {
   ItemSelectedEvent,
 } from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 import {addShortcut, Key} from '../../../utils/dom-util';
-import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
+import {ValueChangedEvent} from '../../../types/events';
 import {fire} from '../../../utils/event-util';
 import {LitElement, css, html, nothing} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
@@ -246,7 +246,6 @@ export class GrTextarea extends LitElement {
         @value-changed=${(e: ValueChangedEvent) => {
           this.text = e.detail.value;
         }}
-        @bind-value-changed=${this.onValueChanged}
       ></iron-autogrow-textarea>
     `;
   }
@@ -284,11 +283,17 @@ export class GrTextarea extends LitElement {
   }
 
   override willUpdate(changedProperties: PropertyValues) {
-    if (changedProperties.has('text')) {
-      this.handleTextChanged(this.text);
-    }
     if (changedProperties.has('currentSearchString')) {
       this.determineEmojiSuggestions(this.currentSearchString!);
+    }
+  }
+
+  override updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('text')) {
+      this.fireChangedEvents();
+      // Add to updated because we want this.textarea.selectionStart and
+      // this.textarea is null in the willUpdate lifecycle
+      this.handleTextChanged();
     }
   }
 
@@ -497,9 +502,10 @@ export class GrTextarea extends LitElement {
 
     if (this.shouldResetDropdown(text, charIndex, suggestions, specialChar)) {
       this.resetDropdown();
-    } else if (activeDropdown.isHidden) {
+    } else if (activeDropdown.isHidden && this.textarea!.focused) {
       // Otherwise open the dropdown and set the position to be just below the
       // cursor.
+      // Do not open dropdown if textarea is not focused
       activeDropdown.positionTarget = this.updateCaratPosition();
       // we need separate open methods here for reporting
       if (specialChar === '@') this.openMentionsDropdown();
@@ -518,52 +524,33 @@ export class GrTextarea extends LitElement {
   }
 
   /**
-   * handleKeydown used for key handling in the this.textarea! AND all child
-   * autocomplete options.
    * private but used in test
    */
-  onValueChanged(e: BindValueChangeEvent) {
-    // Relay the event.
-    fire(this, 'bind-value-changed', {value: e.detail.value});
-    // If cursor is not in textarea (just opened with colon as last char),
-    // Don't do anything.
-    if (
-      e.currentTarget === null ||
-      !(e.currentTarget as IronAutogrowTextareaElement).focused
-    ) {
-      return;
-    }
-
-    const charAtCursor =
-      e.detail && e.detail.value
-        ? e.detail.value[this.textarea!.selectionStart - 1]
-        : '';
-
-    const text = e.detail.value ?? '';
+  handleTextChanged() {
+    const charAtCursor = this.text[this.textarea!.selectionStart - 1];
 
     if (this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) {
       // specialCharIndex needs to be assigned before isMentionsDropdownActive
       // is called
       if (charAtCursor === '@' && this.specialCharIndex === -1) {
-        this.specialCharIndex = this.getSpecialCharIndex(text);
+        this.specialCharIndex = this.getSpecialCharIndex(this.text);
       }
     }
     if (charAtCursor === ':' && this.specialCharIndex === -1) {
-      this.specialCharIndex = this.getSpecialCharIndex(text);
+      this.specialCharIndex = this.getSpecialCharIndex(this.text);
     }
 
     // this.text does not contain newly typed character yet
-    if (!this.isMentionsDropdownActive(text)) {
+    if (!this.isMentionsDropdownActive(this.text)) {
       if (this.specialCharIndex !== -1) {
         this.openOrResetDropdown(
           this.emojiSuggestions!,
-          text,
+          this.text,
           this.specialCharIndex,
           ':'
         );
         return;
       }
-      this.textarea!.textarea.focus();
     }
 
     if (!this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) return;
@@ -571,7 +558,7 @@ export class GrTextarea extends LitElement {
     if (this.specialCharIndex !== -1) {
       this.openOrResetDropdown(
         this.mentionsSuggestions!,
-        text,
+        this.text,
         this.specialCharIndex,
         '@'
       );
@@ -641,16 +628,14 @@ export class GrTextarea extends LitElement {
     this.textarea!.textarea.focus();
   }
 
-  private handleTextChanged(text: string) {
+  private fireChangedEvents() {
     // This is a bit redundant, because the `text` property has `notify:true`,
     // so whenever the `text` changes the component fires two identical events
     // `text-changed` and `value-changed`.
-    this.dispatchEvent(
-      new CustomEvent('value-changed', {detail: {value: text}})
-    );
-    this.dispatchEvent(
-      new CustomEvent('text-changed', {detail: {value: text}})
-    );
+    fire(this, 'value-changed', {value: this.text});
+    fire(this, 'text-changed', {value: this.text});
+    // Relay the event.
+    fire(this, 'bind-value-changed', {value: this.text});
   }
 
   private indent(e: KeyboardEvent): void {

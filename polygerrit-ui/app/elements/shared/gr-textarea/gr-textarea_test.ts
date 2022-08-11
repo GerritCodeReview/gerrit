@@ -255,12 +255,13 @@ suite('gr-textarea tests', () => {
     assert.isFalse(element.textarea!.classList.contains('noBorder'));
   });
 
-  test('emoji selector is not open with the textarea lacks focus', async () => {
+  test('emoji selector is not open when the textarea lacks focus', async () => {
+    if (element.textarea!.focused) throw new Error('focus already there');
     element.textarea!.selectionStart = 1;
     element.textarea!.selectionEnd = 1;
     element.text = ':';
     await element.updateComplete;
-    assert.isFalse(!element.emojiSuggestions!.isHidden);
+    assert.isTrue(element.emojiSuggestions!.isHidden);
   });
 
   test('emoji selector is not open when a general text is entered', async () => {
@@ -270,7 +271,7 @@ suite('gr-textarea tests', () => {
     element.textarea!.selectionEnd = 9;
     element.text = 'some text';
     await element.updateComplete;
-    assert.isFalse(!element.emojiSuggestions!.isHidden);
+    assert.isTrue(element.emojiSuggestions!.isHidden);
   });
 
   test('emoji selector is open when a colon is typed & the textarea has focus', async () => {
@@ -317,7 +318,7 @@ suite('gr-textarea tests', () => {
     element.text = 'test:';
     await element.updateComplete;
     assert.isTrue(element.emojiSuggestions!.isHidden);
-    assert.isFalse(!element.emojiSuggestions!.isHidden);
+    assert.isTrue(element.emojiSuggestions!.isHidden);
   });
 
   test('emoji selector opens when a colon is typed and some substring', async () => {
@@ -351,6 +352,7 @@ suite('gr-textarea tests', () => {
     sinon.stub(element, 'textarea').value({
       selectionStart: 1,
       value: text,
+      focused: true,
       textarea: {
         focus: () => {},
       },
@@ -392,7 +394,7 @@ suite('gr-textarea tests', () => {
     const closeSpy = sinon.spy(element, 'closeDropdown');
     element.resetDropdown();
     assert.equal(element.currentSearchString, '');
-    assert.isFalse(!element.emojiSuggestions!.isHidden);
+    assert.isTrue(element.emojiSuggestions!.isHidden);
     assert.equal(element.specialCharIndex, -1);
 
     element.emojiSuggestions!.open();
@@ -482,16 +484,6 @@ suite('gr-textarea tests', () => {
     assert.isTrue(resetSpy.called);
   });
 
-  test('onValueChanged fires bind-value-changed', () => {
-    const listenerStub = sinon.stub();
-    const eventObject = new CustomEvent('bind-value-changed', {
-      detail: {currentTarget: {focused: false}, value: ''},
-    });
-    element.addEventListener('bind-value-changed', listenerStub);
-    element.onValueChanged(eventObject);
-    assert.isTrue(listenerStub.called);
-  });
-
   suite('keyboard shortcuts', async () => {
     async function setupDropdown() {
       MockInteractions.focus(element.textarea!);
@@ -522,7 +514,7 @@ suite('gr-textarea tests', () => {
         'Escape'
       );
       assert.isTrue(resetSpy.called);
-      assert.isFalse(!element.emojiSuggestions!.isHidden);
+      assert.isTrue(element.emojiSuggestions!.isHidden);
     });
 
     test('up key', async () => {

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {html, LitElement, PropertyValues} from 'lit';
-import {customElement} from 'lit/decorators';
+import {customElement} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
 import {fire} from '../../../utils/event-util';
 

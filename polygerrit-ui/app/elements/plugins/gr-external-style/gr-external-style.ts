@@ -7,7 +7,7 @@ import {updateStyles} from '@polymer/polymer/lib/mixins/element-mixin';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {LitElement, html} from 'lit';
-import {customElement, property, state} from 'lit/decorators';
+import {customElement, property, state} from 'lit/decorators.js';
 
 @customElement('gr-external-style')
 export class GrExternalStyle extends LitElement {

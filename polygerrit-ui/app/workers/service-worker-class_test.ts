@@ -51,6 +51,7 @@ suite('service worker class tests', () => {
 
   test('check race condition', async () => {
     const promise = mockPromise<ParsedChangeInfo[]>();
+    sinon.stub(serviceWorker, 'saveState').returns(Promise.resolve());
     const getLatestAttentionSetChangesStub = sinon
       .stub(serviceWorker, 'getLatestAttentionSetChanges')
       .returns(promise);

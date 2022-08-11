@@ -123,6 +123,24 @@
       "parentUuid": "0eeea71a_ca5feed7",
       "revId": "74ea36dfd5bd62c2a87cd95e7ee44b6565683ca0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b2dbe98_1014d863",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-11T11:43:49Z",
+      "side": 1,
+      "message": "Removed as state() so another render should not happen now.",
+      "parentUuid": "b1ad964b_707cca1d",
+      "revId": "74ea36dfd5bd62c2a87cd95e7ee44b6565683ca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "This will no longer trigger.",
       "revId": "21b4a75c86e349922ed0a60e956a6f865435a2f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31f0bd50_6017edae",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-11T11:43:49Z",
+      "side": 1,
+      "message": "Moved from `willUpdate` to after `this.computeCurrentSearchString();`.",
+      "parentUuid": "2d8c478e_79be5340",
+      "revId": "21b4a75c86e349922ed0a60e956a6f865435a2f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

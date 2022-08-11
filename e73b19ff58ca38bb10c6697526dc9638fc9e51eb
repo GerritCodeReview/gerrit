@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad98541d_d710687b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-11T11:43:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "467b5688_8e0da725",
+      "range": {
+        "startLine": 298,
+        "startChar": 0,
+        "endLine": 298,
+        "endChar": 40
+      },
+      "revId": "e73b19ff58ca38bb10c6697526dc9638fc9e51eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "755d76a8_39c78812",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-08-11T11:17:16Z",
       "side": 1,
       "message": "```suggestion\n  // Private but used in tests.\n```\n(I had to somehow use that feature.)",
+      "range": {
+        "startLine": 550,
+        "startChar": 1,
+        "endLine": 552,
+        "endChar": 5
+      },
+      "revId": "e73b19ff58ca38bb10c6697526dc9638fc9e51eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab920829_f7cd5509",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-11T11:43:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "755d76a8_39c78812",
       "range": {
         "startLine": 550,
         "startChar": 1,

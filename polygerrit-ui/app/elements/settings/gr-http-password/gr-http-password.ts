@@ -11,7 +11,7 @@ import {getAppContext} from '../../../services/app-context';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
-import {customElement, property, query} from 'lit/decorators';
+import {customElement, property, query} from 'lit/decorators.js';
 
 declare global {
   interface HTMLElementTagNameMap {

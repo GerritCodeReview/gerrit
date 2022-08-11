@@ -21,7 +21,7 @@ import {convertToString} from '../../../utils/string-util';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
-import {customElement, query, property, state} from 'lit/decorators';
+import {customElement, query, property, state} from 'lit/decorators.js';
 import {fireEvent} from '../../../utils/event-util';
 
 declare global {

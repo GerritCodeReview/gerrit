@@ -7,7 +7,7 @@ import '../../change/gr-submit-requirement-dashboard-hovercard/gr-submit-require
 import '../../shared/gr-change-status/gr-change-status';
 import '../../shared/gr-icon/gr-icon';
 import {LitElement, css, html, TemplateResult} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property} from 'lit/decorators.js';
 import {ChangeInfo, SubmitRequirementStatus} from '../../../api/rest-api';
 import {changeStatuses} from '../../../utils/change-util';
 import {

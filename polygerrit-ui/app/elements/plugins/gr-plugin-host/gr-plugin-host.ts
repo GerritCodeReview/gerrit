@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {LitElement} from 'lit';
-import {customElement, state} from 'lit/decorators';
+import {customElement, state} from 'lit/decorators.js';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {ServerInfo} from '../../../types/common';
 import {subscribe} from '../../lit/subscription-controller';

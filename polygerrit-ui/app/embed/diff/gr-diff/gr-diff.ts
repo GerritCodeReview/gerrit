@@ -62,13 +62,13 @@ import {
   DELAYED_CANCELLATION,
 } from '../../../utils/async-util';
 import {GrDiffSelection} from '../gr-diff-selection/gr-diff-selection';
-import {customElement, property, query, state} from 'lit/decorators';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
-import {when} from 'lit/directives/when';
+import {when} from 'lit/directives/when.js';
 import {grSyntaxTheme} from '../gr-syntax-themes/gr-syntax-theme';
 import {grRangedCommentTheme} from '../gr-ranged-comment-themes/gr-ranged-comment-theme';
-import {classMap} from 'lit/directives/class-map';
+import {classMap} from 'lit/directives/class-map.js';
 import {iconStyles} from '../../../styles/gr-icon-styles';
 
 const NO_NEWLINE_LEFT = 'No newline at end of left file.';

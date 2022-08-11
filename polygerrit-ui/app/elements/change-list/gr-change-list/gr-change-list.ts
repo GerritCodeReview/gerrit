@@ -28,7 +28,7 @@ import {changeListStyles} from '../../../styles/gr-change-list-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css, nothing} from 'lit';
-import {customElement, property, state} from 'lit/decorators';
+import {customElement, property, state} from 'lit/decorators.js';
 import {Shortcut, ShortcutController} from '../../lit/shortcut-controller';
 import {queryAll} from '../../../utils/common-util';
 import {GrChangeListSection} from '../gr-change-list-section/gr-change-list-section';

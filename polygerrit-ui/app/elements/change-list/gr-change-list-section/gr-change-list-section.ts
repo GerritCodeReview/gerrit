@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {LitElement, html, css, PropertyValues} from 'lit';
-import {customElement, property, state} from 'lit/decorators';
+import {customElement, property, state} from 'lit/decorators.js';
 import {ChangeListSection} from '../gr-change-list/gr-change-list';
 import '../gr-change-list-action-bar/gr-change-list-action-bar';
 import {
@@ -26,7 +26,7 @@ import {
   BulkActionsModel,
 } from '../../../models/bulk-actions/bulk-actions-model';
 import {subscribe} from '../../lit/subscription-controller';
-import {classMap} from 'lit/directives/class-map';
+import {classMap} from 'lit/directives/class-map.js';
 
 const NUMBER_FIXED_COLUMNS = 3;
 const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';

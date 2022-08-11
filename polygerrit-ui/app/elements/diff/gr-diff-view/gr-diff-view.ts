@@ -112,12 +112,12 @@ import {BehaviorSubject} from 'rxjs';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {subscribe} from '../../lit/subscription-controller';
-import {customElement, property, query, state} from 'lit/decorators';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {configModelToken} from '../../../models/config/config-model';
 import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {ifDefined} from 'lit/directives/if-defined';
-import {when} from 'lit/directives/when';
+import {ifDefined} from 'lit/directives/if-defined.js';
+import {when} from 'lit/directives/when.js';
 
 const LOADING_BLAME = 'Loading blame...';
 const LOADED_BLAME = 'Blame loaded';

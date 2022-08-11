@@ -18,6 +18,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.AccessSection;
+import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.LabelType;
@@ -65,7 +66,8 @@ public class SetAccessUtil {
     this.pluginPermissionsUtil = pluginPermissionsUtil;
   }
 
-  ImmutableList<AccessSection> getAccessSections(Map<String, AccessSectionInfo> sectionInfos)
+  ImmutableList<AccessSection> getAccessSections(
+      Map<String, AccessSectionInfo> sectionInfos, boolean rejectNonResolvableGroups)
       throws UnprocessableEntityException {
     if (sectionInfos == null) {
       return ImmutableList.of();
@@ -93,13 +95,20 @@ public class SetAccessUtil {
         for (Map.Entry<String, PermissionRuleInfo> permissionRuleInfoEntry :
             permissionEntry.getValue().rules.entrySet()) {
           GroupDescription.Basic group = groupResolver.parseId(permissionRuleInfoEntry.getKey());
-          if (group == null) {
-            throw new UnprocessableEntityException(
-                permissionRuleInfoEntry.getKey() + " is not a valid group ID");
+          GroupReference groupReference;
+          if (group != null) {
+            groupReference = GroupReference.forGroup(group);
+          } else {
+            if (rejectNonResolvableGroups) {
+              throw new UnprocessableEntityException(
+                  permissionRuleInfoEntry.getKey() + " is not a valid group ID");
+            }
+            AccountGroup.UUID uuid = AccountGroup.UUID.parse(permissionRuleInfoEntry.getKey());
+            groupReference = GroupReference.create(uuid, uuid.get());
           }
 
           PermissionRuleInfo pri = permissionRuleInfoEntry.getValue();
-          PermissionRule.Builder r = PermissionRule.builder(GroupReference.forGroup(group));
+          PermissionRule.Builder r = PermissionRule.builder(groupReference);
           if (pri != null) {
             if (pri.max != null) {
               r.setMax(pri.max);

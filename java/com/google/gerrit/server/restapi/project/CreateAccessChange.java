@@ -113,8 +113,10 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
         .checkStatePermitsWrite();
 
     MetaDataUpdate.User metaDataUpdateUser = metaDataUpdateFactory.get();
-    ImmutableList<AccessSection> removals = setAccess.getAccessSections(input.remove);
-    ImmutableList<AccessSection> additions = setAccess.getAccessSections(input.add);
+    ImmutableList<AccessSection> removals =
+        setAccess.getAccessSections(input.remove, /* rejectNonResolvableGroups= */ false);
+    ImmutableList<AccessSection> additions =
+        setAccess.getAccessSections(input.add, /* rejectNonResolvableGroups= */ true);
 
     Project.NameKey newParentProjectName =
         input.parent == null ? null : Project.nameKey(input.parent);

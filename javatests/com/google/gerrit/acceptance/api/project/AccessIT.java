@@ -36,6 +36,7 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.AccessSection;
+import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.Permission;
@@ -62,6 +63,7 @@ import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.group.testing.TestGroupBackend;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.schema.GrantRevertPermission;
 import com.google.inject.Inject;
@@ -464,6 +466,40 @@ public class AccessIT extends AbstractDaemonTest {
 
     // Check
     assertThat(pApi().access().local).isEqualTo(accessInput.add);
+  }
+
+  @Test
+  public void removePermissionRuleForNonExistingeExternalGroup() throws Exception {
+    // Register a group backend with an external group
+    TestGroupBackend testGroupBackend = new TestGroupBackend();
+    GroupDescription.Basic externalGroup = testGroupBackend.create("External Group");
+    try (ExtensionRegistry.Registration registration =
+        extensionRegistry.newRegistration().add(testGroupBackend)) {
+      // Add a permission for the external group.
+      ProjectAccessInput accessInput = newProjectAccessInput();
+      AccessSectionInfo accessSectionInfo = newAccessSectionInfo();
+      PermissionInfo push = newPermissionInfo();
+      PermissionRuleInfo pri = new PermissionRuleInfo(PermissionRuleInfo.Action.ALLOW, false);
+      push.rules.put(externalGroup.getGroupUUID().get(), pri);
+      accessSectionInfo.permissions.put(Permission.PUSH, push);
+      accessInput.add.put(REFS_HEADS, accessSectionInfo);
+      pApi().access(accessInput);
+      assertThat(pApi().access().local).isNotEmpty();
+
+      // Remove the external group.
+      testGroupBackend.remove(externalGroup.getGroupUUID());
+
+      // Remove the permission rule for the external group that no longer exists.
+      AccessSectionInfo accessSectionToRemove = newAccessSectionInfo();
+      push = newPermissionInfo();
+      pri = new PermissionRuleInfo(PermissionRuleInfo.Action.ALLOW, false);
+      push.rules.put(externalGroup.getGroupUUID().get(), pri);
+      accessSectionToRemove.permissions.put(Permission.PUSH, push);
+      ProjectAccessInput removal = newProjectAccessInput();
+      removal.remove.put(REFS_HEADS, accessSectionToRemove);
+      pApi().access(removal);
+      assertThat(pApi().access().local).isEmpty();
+    }
   }
 
   @Test

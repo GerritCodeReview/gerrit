@@ -82,8 +82,10 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
 
     ProjectConfig config;
 
-    List<AccessSection> removals = accessUtil.getAccessSections(input.remove);
-    List<AccessSection> additions = accessUtil.getAccessSections(input.add);
+    List<AccessSection> removals =
+        accessUtil.getAccessSections(input.remove, /* rejectNonResolvableGroups= */ false);
+    List<AccessSection> additions =
+        accessUtil.getAccessSections(input.add, /* rejectNonResolvableGroups= */ true);
     try (MetaDataUpdate md = metaDataUpdateUser.create(rsrc.getNameKey())) {
       config = projectConfigFactory.read(md);
 

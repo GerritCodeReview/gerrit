@@ -20,6 +20,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "88ac5a03_1ca45676",
+        "filename": "polygerrit-ui/app/workers/service-worker-class.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-12T10:45:42Z",
+      "side": 1,
+      "message": "```suggestion\n    this.setState(await loadState());\n```",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 35,
+        "endChar": 50
+      },
+      "revId": "39d7bacecf5c56ec68ad03811e9cd2edaec22235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0209bec8_81c1f9eb",
+        "filename": "polygerrit-ui/app/workers/service-worker-class.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-12T10:45:42Z",
+      "side": 1,
+      "message": "```suggestion\n    return saveState({\n```",
+      "range": {
+        "startLine": 43,
+        "startChar": 11,
+        "endLine": 43,
+        "endChar": 32
+      },
+      "revId": "39d7bacecf5c56ec68ad03811e9cd2edaec22235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "83b683eb_e3a160bf",
         "filename": "polygerrit-ui/app/workers/service-worker-class.ts",
         "patchSetId": 12

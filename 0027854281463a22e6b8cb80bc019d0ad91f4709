@@ -20,6 +20,98 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dee619b9_02dda730",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-12T12:55:03Z",
+      "side": 1,
+      "message": "why do these need to be set manually if it is auto updating when `:smi` is typed?",
+      "range": {
+        "startLine": 411,
+        "startChar": 0,
+        "endLine": 413,
+        "endChar": 0
+      },
+      "revId": "0027854281463a22e6b8cb80bc019d0ad91f4709",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e04b63d0_28bd2510",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-12T12:55:03Z",
+      "side": 1,
+      "message": "what is the point of asserting something that is incorrect due to a test mechanism? It should just be a comment explaining that it is a test-only quirk",
+      "range": {
+        "startLine": 424,
+        "startChar": 0,
+        "endLine": 424,
+        "endChar": 72
+      },
+      "revId": "0027854281463a22e6b8cb80bc019d0ad91f4709",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e36e66c1_16ced00a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-12T12:55:03Z",
+      "side": 1,
+      "message": "This comment is not clear what \"Reset condition\" means",
+      "range": {
+        "startLine": 426,
+        "startChar": 7,
+        "endLine": 426,
+        "endChar": 22
+      },
+      "revId": "0027854281463a22e6b8cb80bc019d0ad91f4709",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4470f98f_35617151",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-12T12:55:03Z",
+      "side": 1,
+      "message": "set the cursor position before the colon",
+      "range": {
+        "startLine": 428,
+        "startChar": 18,
+        "endLine": 428,
+        "endChar": 41
+      },
+      "revId": "0027854281463a22e6b8cb80bc019d0ad91f4709",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9b5a63dc_60895681",
         "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea_test.ts",
         "patchSetId": 4

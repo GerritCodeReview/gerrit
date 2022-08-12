@@ -16,6 +16,46 @@
       "message": "Thanks for review!",
       "revId": "16d135824dd6f729fe07573b2dbc613fb2171970",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ece5cf1e_8d7cf3b5",
+        "filename": "polygerrit-ui/app/utils/indexdb-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-12T03:44:00Z",
+      "side": 1,
+      "message": "Please use proper grammar with capitalization and punctuation.",
+      "revId": "16d135824dd6f729fe07573b2dbc613fb2171970",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9977e49_ee1649f7",
+        "filename": "polygerrit-ui/app/utils/indexdb-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-12T03:44:00Z",
+      "side": 1,
+      "message": "```suggestion\n    request.onsuccess \u003d () \u003d\u003e resolve(request.result);\n```",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 6
+      },
+      "revId": "16d135824dd6f729fe07573b2dbc613fb2171970",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

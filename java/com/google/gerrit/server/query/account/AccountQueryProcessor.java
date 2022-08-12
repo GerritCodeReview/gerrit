@@ -43,6 +43,7 @@ import com.google.inject.Provider;
 public class AccountQueryProcessor extends QueryProcessor<AccountState> {
   private final AccountControl.Factory accountControlFactory;
   private final Sequences sequences;
+  private final IndexConfig indexConfig;
 
   static {
     // It is assumed that basic rewrites do not touch visibleto predicates.
@@ -71,12 +72,13 @@ public class AccountQueryProcessor extends QueryProcessor<AccountState> {
         () -> limitsFactory.create(userProvider.get()).getQueryLimit());
     this.accountControlFactory = accountControlFactory;
     this.sequences = sequences;
+    this.indexConfig = indexConfig;
   }
 
   @Override
   protected Predicate<AccountState> enforceVisibility(Predicate<AccountState> pred) {
     return new AndSource<>(
-        pred, new AccountIsVisibleToPredicate(accountControlFactory.get()), start);
+        pred, new AccountIsVisibleToPredicate(accountControlFactory.get()), start, indexConfig);
   }
 
   @Override

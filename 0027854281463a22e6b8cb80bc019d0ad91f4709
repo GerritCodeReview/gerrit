@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93e75cd6_278c2dcd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-12T12:45:44Z",
+      "side": 1,
+      "message": "T",
+      "revId": "0027854281463a22e6b8cb80bc019d0ad91f4709",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b5a63dc_60895681",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-12T12:45:44Z",
+      "side": 1,
+      "message": "Please make the test fail by having these lines not be present, otherwise I do not see what this is adding as value except for line 424.",
+      "revId": "0027854281463a22e6b8cb80bc019d0ad91f4709",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

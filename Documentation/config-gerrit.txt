@@ -3156,6 +3156,15 @@ this threshold times the requested limit will result in an error. Set to
 +
 Defaults to no limit.
 
+[[index.pageSizeMultiplier]]index.pageSizeMultiplier::
++
+When index queries are repeated to obtain more results, this multiplier
+will be used to determine the limit for next query. For example, if limit
+of previous query was 500 and pageSizeMultiplier is configured to 5, the
+next query will have a limit of 2500.
++
+Defaults to 1.
+
 [[index.maxTerms]]index.maxTerms::
 +
 Maximum number of leaf terms to allow in a query. Too-large queries may

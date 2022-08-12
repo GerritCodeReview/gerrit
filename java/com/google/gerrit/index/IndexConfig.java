@@ -30,6 +30,7 @@ import org.eclipse.jgit.lib.Config;
 @AutoValue
 public abstract class IndexConfig {
   private static final int DEFAULT_MAX_TERMS = 1024;
+  private static final int DEFAULT_PAGE_SIZE_MULTIPLIER = 1;
 
   public static IndexConfig createDefault() {
     return builder().build();
@@ -40,6 +41,7 @@ public abstract class IndexConfig {
     setIfPresent(cfg, "maxLimit", b::maxLimit);
     setIfPresent(cfg, "maxPages", b::maxPages);
     setIfPresent(cfg, "maxTerms", b::maxTerms);
+    setIfPresent(cfg, "pageSizeMultiplier", b::pageSizeMultiplier);
     setTypeOrDefault(cfg, b::type);
     setPaginationTypeOrDefault(cfg, b::paginationType);
     return b;
@@ -67,6 +69,7 @@ public abstract class IndexConfig {
         .maxLimit(Integer.MAX_VALUE)
         .maxPages(Integer.MAX_VALUE)
         .maxTerms(DEFAULT_MAX_TERMS)
+        .pageSizeMultiplier(DEFAULT_PAGE_SIZE_MULTIPLIER)
         .type(IndexType.getDefault())
         .separateChangeSubIndexes(false)
         .paginationType(PaginationType.OFFSET);
@@ -94,6 +97,8 @@ public abstract class IndexConfig {
 
     public abstract Builder paginationType(PaginationType type);
 
+    public abstract Builder pageSizeMultiplier(int pageSizeMultiplier);
+
     abstract IndexConfig autoBuild();
 
     public IndexConfig build() {
@@ -101,6 +106,7 @@ public abstract class IndexConfig {
       checkLimit(cfg.maxLimit(), "maxLimit");
       checkLimit(cfg.maxPages(), "maxPages");
       checkLimit(cfg.maxTerms(), "maxTerms");
+      checkLimit(cfg.pageSizeMultiplier(), "pageSizeMultiplier");
       return cfg;
     }
   }
@@ -136,4 +142,10 @@ public abstract class IndexConfig {
 
   /** Returns the kind of pagination type to use for index queries. */
   public abstract PaginationType paginationType();
+
+  /**
+   * Returns the multiplier to be used to determine the size of the set of results to retrieve when
+   * repeating queries to obtain more results.
+   */
+  public abstract int pageSizeMultiplier();
 }

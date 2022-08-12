@@ -417,6 +417,18 @@ suite('gr-textarea tests', () => {
     assert.isFalse(element.emojiSuggestions!.isHidden);
 
     element.text = 'test test test :smi';
+
+    await element.updateComplete;
+    // Cursor should not be at the end of the string but since we are editing
+    // the text value directly, the cursor position is not updating
+    assert.equal(element.textarea!.selectionStart, element.text.length);
+
+    // Reset condition is that cursor is no longer at the end of the search
+    // string. 
+    // Explicitly set the cursor position
+    element.textarea!.selectionStart = 15;
+    element.textarea!.selectionEnd = 15;
+
     await element.updateComplete;
 
     assert.isTrue(element.emojiSuggestions!.isHidden);

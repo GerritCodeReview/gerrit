@@ -31,7 +31,7 @@ suite('gr-create-change-help tests', () => {
     expect(element).shadowDom.to.equal(/* HTML */ `
       <div id="graphic">
         <div id="circle">
-          <iron-icon icon="gr-icons:zeroState" id="icon"> </iron-icon>
+          <gr-icon icon="empty_dashboard" id="icon"> </gr-icon>
         </div>
         <p>No outgoing changes yet</p>
       </div>

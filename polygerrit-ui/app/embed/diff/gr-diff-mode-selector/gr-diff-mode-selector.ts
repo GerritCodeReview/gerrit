@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {Subscription} from 'rxjs';
-import '@polymer/iron-icon/iron-icon';
 import '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import '../../../elements/shared/gr-button/gr-button';
+import '../../../elements/shared/gr-icon/gr-icon';
 import {DiffViewMode} from '../../../constants/constants';
 import {customElement, property, state} from 'lit/decorators';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
@@ -69,12 +69,11 @@ export class GrDiffModeSelector extends LitElement {
         /* Used to remove horizontal whitespace between the icons. */
         display: flex;
       }
-      gr-button.selected iron-icon {
+      gr-button.selected gr-icon {
         color: var(--link-color);
       }
-      iron-icon {
-        height: 1.3rem;
-        width: 1.3rem;
+      gr-icon {
+        font-size: 1.3rem;
       }
     `,
   ];
@@ -93,7 +92,7 @@ export class GrDiffModeSelector extends LitElement {
           aria-pressed=${this.isSideBySideSelected()}
           @click=${this.handleSideBySideTap}
         >
-          <iron-icon icon="gr-icons:side-by-side"></iron-icon>
+          <gr-icon icon="view_column_2" filled></gr-icon>
         </gr-button>
       </gr-tooltip-content>
       <gr-tooltip-content
@@ -108,7 +107,7 @@ export class GrDiffModeSelector extends LitElement {
           aria-pressed=${this.isUnifiedSelected()}
           @click=${this.handleUnifiedTap}
         >
-          <iron-icon icon="gr-icons:unified"></iron-icon>
+          <gr-icon icon="calendar_view_day" filled></gr-icon>
         </gr-button>
       </gr-tooltip-content>
     `;

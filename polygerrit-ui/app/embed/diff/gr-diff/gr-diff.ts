@@ -672,7 +672,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
           --divider-border: 1px;
         }
         /* TODO: Is this still used? */
-        .contextControl gr-button iron-icon {
+        .contextControl gr-button gr-icon {
           /* should match line-height of gr-button */
           font-size: var(--line-height-mono, 18px);
         }

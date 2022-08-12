@@ -63,7 +63,7 @@ suite('gr-diff-mode-selector tests', () => {
           role="button"
           tabindex="0"
         >
-          <iron-icon icon="gr-icons:side-by-side"></iron-icon>
+          <gr-icon icon="view_column_2" filled></gr-icon>
         </gr-button>
       </gr-tooltip-content>
       <gr-tooltip-content has-tooltip title="Unified diff">
@@ -75,7 +75,7 @@ suite('gr-diff-mode-selector tests', () => {
           aria-pressed="false"
           tabindex="0"
         >
-          <iron-icon icon="gr-icons:unified"></iron-icon>
+          <gr-icon filled icon="calendar_view_day"></gr-icon>
         </gr-button>
       </gr-tooltip-content>
     `);
@@ -102,7 +102,7 @@ suite('gr-diff-mode-selector tests', () => {
           role="button"
           tabindex="0"
         >
-          <iron-icon icon="gr-icons:side-by-side"></iron-icon>
+          <gr-icon icon="view_column_2" filled></gr-icon>
         </gr-button>
       </gr-tooltip-content>
       <gr-tooltip-content has-tooltip title="Unified diff">
@@ -115,7 +115,7 @@ suite('gr-diff-mode-selector tests', () => {
           aria-pressed="true"
           tabindex="0"
         >
-          <iron-icon icon="gr-icons:unified"></iron-icon>
+          <gr-icon icon="calendar_view_day" filled></gr-icon>
         </gr-button>
       </gr-tooltip-content>
     `);

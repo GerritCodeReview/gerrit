@@ -115,13 +115,15 @@ public class AndSource<T> extends AndPredicate<T>
             //
             @SuppressWarnings("unchecked")
             Paginated<T> p = (Paginated<T>) source;
+            int limit = p.getOptions().limit();
             Object searchAfter = resultSet.searchAfter();
-            while (skipped && r.size() < p.getOptions().limit() + start) {
+            while (skipped && r.size() < limit + start) {
               skipped = false;
+              limit = getNextPageSize(limit);
               ResultSet<T> next =
                   indexConfig.paginationType().equals(PaginationType.SEARCH_AFTER)
-                      ? p.restart(searchAfter)
-                      : p.restart(nextStart);
+                      ? p.restart(searchAfter, limit)
+                      : p.restart(nextStart, limit);
               for (T data : buffer(next)) {
                 if (match(data)) {
                   r.add(data);
@@ -206,5 +208,14 @@ public class AndSource<T> extends AndPredicate<T>
   @SuppressWarnings("unchecked")
   private DataSource<T> toDataSource(Predicate<T> pred) {
     return (DataSource<T>) pred;
+  }
+
+  private int getNextPageSize(int limit) {
+    try {
+      limit = Math.multiplyExact(limit, indexConfig.pageSizeMultiplier());
+    } catch (ArithmeticException e) {
+      limit = Integer.MAX_VALUE;
+    }
+    return indexConfig.maxPageSize() > 0 ? Math.min(indexConfig.maxPageSize(), limit) : limit;
   }
 }

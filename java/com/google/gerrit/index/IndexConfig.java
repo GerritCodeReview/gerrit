@@ -30,6 +30,7 @@ import org.eclipse.jgit.lib.Config;
 @AutoValue
 public abstract class IndexConfig {
   private static final int DEFAULT_MAX_TERMS = 1024;
+  private static final int DEFAULT_PAGE_SIZE_MULTIPLIER = 1;
 
   public static IndexConfig createDefault() {
     return builder().build();
@@ -40,6 +41,8 @@ public abstract class IndexConfig {
     setIfPresent(cfg, "maxLimit", b::maxLimit);
     setIfPresent(cfg, "maxPages", b::maxPages);
     setIfPresent(cfg, "maxTerms", b::maxTerms);
+    setIfPresent(cfg, "pageSizeMultiplier", b::pageSizeMultiplier);
+    setIfPresent(cfg, "maxPageSize", b::maxPageSize);
     setTypeOrDefault(cfg, b::type);
     setPaginationTypeOrDefault(cfg, b::paginationType);
     return b;
@@ -67,6 +70,8 @@ public abstract class IndexConfig {
         .maxLimit(Integer.MAX_VALUE)
         .maxPages(Integer.MAX_VALUE)
         .maxTerms(DEFAULT_MAX_TERMS)
+        .pageSizeMultiplier(DEFAULT_PAGE_SIZE_MULTIPLIER)
+        .maxPageSize(Integer.MAX_VALUE)
         .type(IndexType.getDefault())
         .separateChangeSubIndexes(false)
         .paginationType(PaginationType.OFFSET);
@@ -94,6 +99,10 @@ public abstract class IndexConfig {
 
     public abstract Builder paginationType(PaginationType type);
 
+    public abstract Builder pageSizeMultiplier(int pageSizeMultiplier);
+
+    public abstract Builder maxPageSize(int maxPageSize);
+
     abstract IndexConfig autoBuild();
 
     public IndexConfig build() {
@@ -101,6 +110,8 @@ public abstract class IndexConfig {
       checkLimit(cfg.maxLimit(), "maxLimit");
       checkLimit(cfg.maxPages(), "maxPages");
       checkLimit(cfg.maxTerms(), "maxTerms");
+      checkLimit(cfg.pageSizeMultiplier(), "pageSizeMultiplier");
+      checkLimit(cfg.maxPageSize(), "maxPageSize");
       return cfg;
     }
   }
@@ -139,4 +150,15 @@ public abstract class IndexConfig {
    *     results.
    */
   public abstract PaginationType paginationType();
+
+  /**
+   * @return multiplier to be used to determine the limit when queries are repeated to obtain the
+   *     next set of results.
+   */
+  public abstract int pageSizeMultiplier();
+
+  /**
+   * @return maximum allowed limit when repeating index queries to obtain the next set of results.
+   */
+  public abstract int maxPageSize();
 }

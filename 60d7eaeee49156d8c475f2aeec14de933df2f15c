@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6af9c0f_25b27aa0",
+        "filename": "20f117d.diff",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-12T09:54:18Z",
+      "side": 1,
+      "message": "```suggestion\n           {ignoreArrowShorthand: false},\n```",
+      "revId": "60d7eaeee49156d8c475f2aeec14de933df2f15c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1453a6ea_c294319c",
+        "filename": "20f117d.diff",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-12T09:54:18Z",
+      "side": 1,
+      "message": "```suggestion\n+            disableNullableString: true,\n+            disableNullableBoolean: true,\n```\n\nI would disable these",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 40
+      },
+      "revId": "60d7eaeee49156d8c475f2aeec14de933df2f15c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "037cd74e_bce6135b",
+        "filename": "20f117d.diff",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-12T09:54:18Z",
+      "side": 1,
+      "message": "```suggestion\n         \u0027@typescript-eslint/no-explicit-any\u0027: \u0027on\u0027,\n```",
+      "revId": "60d7eaeee49156d8c475f2aeec14de933df2f15c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

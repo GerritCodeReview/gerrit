@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8412b78b_c2f346f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-12T12:08:27Z",
+      "side": 1,
+      "message": "Looks good, just a few comments",
+      "revId": "4cdb72b1d3eaf68c93cba926fc80ce88907b910a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1f163924_7669a909",
@@ -38,6 +55,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e0abe5ef_305d5106",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-12T12:08:27Z",
+      "side": 1,
+      "message": "Maybe rather check if activeDropdown is defined then using !",
+      "range": {
+        "startLine": 515,
+        "startChar": 15,
+        "endLine": 515,
+        "endChar": 29
+      },
+      "revId": "4cdb72b1d3eaf68c93cba926fc80ce88907b910a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8fae27cb_0a4b37eb",
         "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
         "patchSetId": 15
@@ -67,6 +107,47 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "8fae27cb_0a4b37eb",
+      "revId": "4cdb72b1d3eaf68c93cba926fc80ce88907b910a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ee826ca_63d0ff28",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-12T12:08:27Z",
+      "side": 1,
+      "message": "Nice idea",
+      "parentUuid": "8fae27cb_0a4b37eb",
+      "revId": "4cdb72b1d3eaf68c93cba926fc80ce88907b910a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4764ecd3_55662a27",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-12T12:08:27Z",
+      "side": 1,
+      "message": "Good idea to move this to handleTextChanged from updated",
+      "range": {
+        "startLine": 566,
+        "startChar": 15,
+        "endLine": 566,
+        "endChar": 33
+      },
       "revId": "4cdb72b1d3eaf68c93cba926fc80ce88907b910a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

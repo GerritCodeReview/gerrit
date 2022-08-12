@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3ac5bb90_034a4807",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-12T13:13:57Z",
+      "side": 1,
+      "message": "// Needed for Safari tests. selectionStart is not updated when text is\n// updated.\nFound this comment in some other usage, I guess this comment is not duplicated every time it is used.",
+      "parentUuid": "dee619b9_02dda730",
+      "range": {
+        "startLine": 411,
+        "startChar": 0,
+        "endLine": 413,
+        "endChar": 0
+      },
+      "revId": "0027854281463a22e6b8cb80bc019d0ad91f4709",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e04b63d0_28bd2510",
         "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea_test.ts",
         "patchSetId": 4
@@ -54,6 +78,30 @@
       "writtenOn": "2022-08-12T12:55:03Z",
       "side": 1,
       "message": "what is the point of asserting something that is incorrect due to a test mechanism? It should just be a comment explaining that it is a test-only quirk",
+      "range": {
+        "startLine": 424,
+        "startChar": 0,
+        "endLine": 424,
+        "endChar": 72
+      },
+      "revId": "0027854281463a22e6b8cb80bc019d0ad91f4709",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb910e1f_c3f6361a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-12T13:13:57Z",
+      "side": 1,
+      "message": "Asserts allows the reader to verify this is indeed the case instead of reading a comment.",
+      "parentUuid": "e04b63d0_28bd2510",
       "range": {
         "startLine": 424,
         "startChar": 0,
@@ -100,6 +148,30 @@
       "writtenOn": "2022-08-12T12:55:03Z",
       "side": 1,
       "message": "set the cursor position before the colon",
+      "range": {
+        "startLine": 428,
+        "startChar": 18,
+        "endLine": 428,
+        "endChar": 41
+      },
+      "revId": "0027854281463a22e6b8cb80bc019d0ad91f4709",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bed081f9_023d9096",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-12T13:13:57Z",
+      "side": 1,
+      "message": "Position wasn\u0027t technically before the colon, text length is 19 I think.",
+      "parentUuid": "4470f98f_35617151",
       "range": {
         "startLine": 428,
         "startChar": 18,
@@ -177,6 +249,24 @@
       "side": 1,
       "message": "Whoops, didn\u0027t mean to resolve.",
       "parentUuid": "bad014f7_8befad69",
+      "revId": "0027854281463a22e6b8cb80bc019d0ad91f4709",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9982c0ab_a71f9467",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-12T13:13:57Z",
+      "side": 1,
+      "message": "SG Personally for me this improves readability but doesn\u0027t contribute to the test since the test passes without it.\nSkipping the change then.",
+      "parentUuid": "49a4bfac_e601c411",
       "revId": "0027854281463a22e6b8cb80bc019d0ad91f4709",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

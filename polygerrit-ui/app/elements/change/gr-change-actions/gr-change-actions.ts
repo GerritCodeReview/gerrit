@@ -238,15 +238,15 @@ const STOP_EDIT: UIActionInfo = {
 // Set of keys that have icons.
 const ACTIONS_WITH_ICONS = new Map<
   string,
-  Pick<UIActionInfo, 'filled' | 'icon' | 'custom'>
+  Pick<UIActionInfo, 'filled' | 'icon'>
 >([
   [ChangeActions.ABANDON, {icon: 'block'}],
   [ChangeActions.DELETE_EDIT, {icon: 'delete', filled: true}],
   [ChangeActions.EDIT, {icon: 'edit', filled: true}],
   [ChangeActions.PUBLISH_EDIT, {icon: 'publish', filled: true}],
   [ChangeActions.READY, {icon: 'visibility', filled: true}],
-  [ChangeActions.REBASE_EDIT, {icon: 'gr-icons:rebaseEdit', custom: true}],
-  [RevisionActions.REBASE, {icon: 'gr-icons:rebase', custom: true}],
+  [ChangeActions.REBASE_EDIT, {icon: 'rebase_edit'}],
+  [RevisionActions.REBASE, {icon: 'rebase'}],
   [ChangeActions.RESTORE, {icon: 'history'}],
   [ChangeActions.REVERT, {icon: 'undo'}],
   [ChangeActions.STOP_EDIT, {icon: 'stop', filled: true}],
@@ -585,7 +585,6 @@ export class GrChangeActions
           margin: var(--spacing-l);
           text-align: center;
         }
-        iron-icon,
         gr-icon {
           color: inherit;
           margin-right: var(--spacing-xs);
@@ -792,13 +791,9 @@ export class GrChangeActions
 
   private renderUIActionIcon(action: UIActionInfo) {
     if (!action.icon) return nothing;
-    if (action.custom) {
-      return html`<iron-icon .icon=${action.icon}></iron-icon>`;
-    } else {
-      return html`
-        <gr-icon icon=${action.icon} ?filled=${action.filled}></gr-icon>
-      `;
-    }
+    return html`
+      <gr-icon icon=${action.icon} ?filled=${action.filled}></gr-icon>
+    `;
   }
 
   override willUpdate(changedProperties: PropertyValues) {

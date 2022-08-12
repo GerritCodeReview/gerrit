@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b33bb742_43c2507e",
+        "filename": "polygerrit-ui/app/utils/indexdb-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-12T10:39:21Z",
+      "side": 1,
+      "message": "Yes, kind of. It\u0027s call \u0027object store\u0027 in indexdb https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore",
+      "parentUuid": "46e46240_151cdee0",
+      "revId": "672451fe7a6ace45b4029c0015a23d771fe60ff3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8be763bc_84174980",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "46603cc7_a7715866",
+        "filename": "polygerrit-ui/app/utils/indexdb-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-12T10:39:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8be763bc_84174980",
+      "revId": "672451fe7a6ace45b4029c0015a23d771fe60ff3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ea0baf81_d3850a57",
@@ -48,6 +84,30 @@
       "writtenOn": "2022-08-12T09:57:50Z",
       "side": 1,
       "message": "Ideally, I think a `indexdb-util.ts` should not depend on such a state object.\n\nIf this is a utility, then you probably want to pass the name of the store etc. as a parameters. And the function would just be `writeToDb()`.\n\nOtherwise this is more like a service, or functionality that is better placed where the service worker is located.",
+      "range": {
+        "startLine": 37,
+        "startChar": 51,
+        "endLine": 37,
+        "endChar": 75
+      },
+      "revId": "672451fe7a6ace45b4029c0015a23d771fe60ff3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c0fc0d7_bcf79e40",
+        "filename": "polygerrit-ui/app/utils/indexdb-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-12T10:39:21Z",
+      "side": 1,
+      "message": "Renamed indexdb-util.ts to service-worker-indexdb and moved it to workers folder.",
+      "parentUuid": "ea0baf81_d3850a57",
       "range": {
         "startLine": 37,
         "startChar": 51,
@@ -81,6 +141,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1403ad89_01bb6bf6",
+        "filename": "polygerrit-ui/app/utils/indexdb-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-12T10:39:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aec15b1a_4f091e9d",
+      "range": {
+        "startLine": 50,
+        "startChar": 51,
+        "endLine": 50,
+        "endChar": 60
+      },
+      "revId": "672451fe7a6ace45b4029c0015a23d771fe60ff3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0e943524_40085c3f",
@@ -94,6 +178,30 @@
       "writtenOn": "2022-08-12T09:57:50Z",
       "side": 1,
       "message": "Maybe move `loadState` into `getChangesToNotify()`? I think the worker must take this responsibility itself instead of relying on the caller.",
+      "range": {
+        "startLine": 35,
+        "startChar": 18,
+        "endLine": 35,
+        "endChar": 27
+      },
+      "revId": "672451fe7a6ace45b4029c0015a23d771fe60ff3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1b1bdbb_0ab34537",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-12T10:39:21Z",
+      "side": 1,
+      "message": "Yes, everything was refactor to service worker class.",
+      "parentUuid": "0e943524_40085c3f",
       "range": {
         "startLine": 35,
         "startChar": 18,

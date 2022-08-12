@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bd9c5a3_f0d4a9d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-12T10:26:38Z",
+      "side": 1,
+      "message": "\u003e Patch Set 2:\n\u003e \n\u003e This change is ready for review.\n\n",
+      "revId": "633d61e500ddb265c00d82437f6770bf398f6700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

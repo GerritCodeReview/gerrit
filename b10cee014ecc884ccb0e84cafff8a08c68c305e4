@@ -33,6 +33,24 @@
       "message": "This comment should be moved to the openWindow method.",
       "revId": "b10cee014ecc884ccb0e84cafff8a08c68c305e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dec11538_331fa807",
+        "filename": "polygerrit-ui/app/workers/service-worker-class.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-12T11:00:00Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "5f566df5_d38f894e",
+      "revId": "b10cee014ecc884ccb0e84cafff8a08c68c305e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

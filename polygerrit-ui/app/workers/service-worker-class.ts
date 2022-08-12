@@ -9,11 +9,15 @@ import {getReason} from '../utils/attention-set-util';
 import {readResponsePayload} from '../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {filterAttentionChangesAfter} from '../utils/service-worker-util';
 import {AccountDetailInfo} from '../api/rest-api';
-import {TRIGGER_NOTIFICATION_UPDATES_MS} from '../services/service-worker-installer';
+import {
+  ServiceWorkerMessageType,
+  TRIGGER_NOTIFICATION_UPDATES_MS,
+} from '../services/service-worker-installer';
 import {GerritView} from '../services/router/router-model';
 import {generateUrl} from '../utils/router-util';
 import {
   GerritServiceWorkerState,
+  getServiceWorkerState,
   putServiceWorkerState,
 } from '../utils/indexdb-util';
 
@@ -22,14 +26,67 @@ export class ServiceWorker {
 
   latestUpdateTimestampMs = Date.now();
 
+  /**
+   * We cannot rely on a state in a service worker, because every time
+   * service worker starts or stops, new instance is created. So every time
+   * there is new instance we load state from indexdb.
+   */
+  async init() {
+    this.loadState(await getServiceWorkerState());
+    this.ctx.addEventListener('message', e => this.onMessage(e));
+    this.ctx.addEventListener('notificationclick', e =>
+      this.onNotificationClick(e)
+    );
+  }
+
   saveState() {
     return putServiceWorkerState({
       latestUpdateTimestampMs: this.latestUpdateTimestampMs,
     });
   }
 
-  loadState(state: GerritServiceWorkerState) {
+  loadState(state?: GerritServiceWorkerState) {
+    if (!state) return;
     this.latestUpdateTimestampMs = state.latestUpdateTimestampMs;
+  }
+
+  // Code based on code sample from
+  // https://developer.mozilla.org/en-US/docs/Web/API/Clients/openWindow
+  onMessage(e: ExtendableMessageEvent) {
+    if (e.data?.type !== ServiceWorkerMessageType.TRIGGER_NOTIFICATIONS) {
+      // Only this notification message type exists, but we do not throw error.
+      return;
+    }
+    const showNotification = async () => {
+      const account = e.data?.account as AccountDetailInfo | undefined;
+      // Message always contains account, but we do not throw error.
+      if (!account?._account_id) return;
+      const latestAttentionChanges = await this.getChangesToNotify(account);
+      // TODO(milutin): Implement handling more than 1 change
+      if (latestAttentionChanges && latestAttentionChanges.length > 0) {
+        this.showNotification(latestAttentionChanges[0], account);
+      }
+    };
+    e.waitUntil(showNotification());
+  }
+
+  onNotificationClick(e: NotificationEvent) {
+    e.notification.close();
+
+    const openWindow = async () => {
+      const clientsArr = await this.ctx.clients.matchAll({type: 'window'});
+      try {
+        const url = e.notification.data.url;
+        let client = clientsArr.find(c => c.url === url);
+        if (!client)
+          client = (await this.ctx.clients.openWindow(url)) ?? undefined;
+        await client?.focus();
+      } catch (e) {
+        console.error(`Cannot open window about notified change - ${e}`);
+      }
+    };
+
+    e.waitUntil(openWindow());
   }
 
   showNotification(change: ParsedChangeInfo, account: AccountDetailInfo) {

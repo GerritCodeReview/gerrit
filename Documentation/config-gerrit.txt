@@ -3159,6 +3159,37 @@ this threshold times the requested limit will result in an error. Set to
 +
 Defaults to no limit.
 
+[[index.pageSizeMultiplier]]index.pageSizeMultiplier::
++
+When index queries are repeated to obtain more results, this multiplier
+will be used to determine the limit for the next query. Using a page
+multiplier allows queries to start off small and thus provide good
+latency for queries which may end up only have very few results, and
+then scaling up to have better throughput to handle queries with larger
+result sets without incurring the overhead of making as many queries as
+would be required with a smaller limit. This strategy of using a multiplier
+attempts to create a balance between latency and throughput by dynamically
+adjusting the query size to the number of results being returned by each
+query in the pagination.
++
+This setting can be tuned appropriately based on index query latency. A
+large multiplier will should benefit external index backends such as
+Elasticsearch more, which have a relatively high query latency.
++
+For example, if the limit of previous query was 500 and pageSizeMultiplier
+is configured to 5, the next query will have a limit of 2500.
++
+Defaults to 1 which effectively turns this feature off.
+
+[[index.maxPageSize]]index.maxPageSize::
++
+Maximum size to allow when index queries are repeated to obtain more results.
+For example, if limit of previous query was 500, pageSizeMultiplier is
+configured to 5 and maxPageSize to 2000, the next query will have a limit of
+2000 (instead of 2500).
++
+Defaults to no limit.
+
 [[index.maxTerms]]index.maxTerms::
 +
 Maximum number of leaf terms to allow in a query. Too-large queries may

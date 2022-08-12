@@ -208,6 +208,28 @@ suite('gr-textarea tests', () => {
       assert.isFalse(element.mentionsSuggestions!.isHidden);
     });
 
+    test('empty response if getSuggestedAccounts throws an error', async () => {
+      const response = {...new Response(), status: 500};
+      stubRestApi('getSuggestedAccounts').callsFake(
+        (_input, _n, _canSee, _filterActive, errFn) => {
+          if (errFn !== undefined) {
+            errFn(response);
+          } else {
+            assert.fail('errFn is undefined');
+          }
+          return Promise.resolve(undefined);
+        }
+      );
+
+      MockInteractions.focus(element.textarea!);
+      await waitUntil(() => element.textarea!.focused === true);
+
+      element.text = '@';
+
+      await element.updateComplete;
+      assert.equal(element.suggestions.length, 0);
+    });
+
     test('mention dropdown does not open if emoji dropdown is open', async () => {
       const listenerStub = sinon.stub();
       element.addEventListener('bind-value-changed', listenerStub);

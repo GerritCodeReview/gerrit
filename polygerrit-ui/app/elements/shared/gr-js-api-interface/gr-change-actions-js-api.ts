@@ -23,7 +23,6 @@ export interface UIActionInfo extends RequireProperties<ActionInfo, 'label'> {
   __type: ActionType;
   icon?: string;
   filled?: boolean;
-  custom?: boolean;
 }
 
 // This interface is required to avoid circular dependencies between files;

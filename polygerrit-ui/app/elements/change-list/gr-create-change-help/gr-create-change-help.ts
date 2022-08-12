@@ -41,10 +41,9 @@ export class GrCreateChangeHelp extends LitElement {
           justify-content: center;
           width: 10em;
         }
-        #graphic iron-icon {
+        #graphic gr-icon {
           color: var(--gray-foreground);
-          height: 5em;
-          width: 5em;
+          font-size: 5em;
         }
         #graphic p {
           color: var(--deemphasized-text-color);
@@ -73,7 +72,7 @@ export class GrCreateChangeHelp extends LitElement {
     return html`
       <div id="graphic">
         <div id="circle">
-          <iron-icon id="icon" icon="gr-icons:zeroState"></iron-icon>
+          <gr-icon id="icon" icon="empty_dashboard"></gr-icon>
         </div>
         <p>No outgoing changes yet</p>
       </div>

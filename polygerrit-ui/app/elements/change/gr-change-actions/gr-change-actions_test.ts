@@ -186,7 +186,7 @@ suite('gr-change-actions tests', () => {
                 role="button"
                 tabindex="-1"
               >
-                <iron-icon> </iron-icon>
+                <gr-icon icon="rebase"> </gr-icon>
                 Rebase
               </gr-button>
             </gr-tooltip-content>
@@ -538,7 +538,7 @@ suite('gr-change-actions tests', () => {
       );
       queryAndAssert<GrButton>(
         element,
-        'gr-button[data-action-key="rebase"] iron-icon'
+        'gr-button[data-action-key="rebase"] gr-icon'
       );
       queryAndAssert<GrButton>(
         element,

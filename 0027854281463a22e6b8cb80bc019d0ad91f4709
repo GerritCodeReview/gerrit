@@ -51,6 +51,24 @@
       "parentUuid": "9b5a63dc_60895681",
       "revId": "0027854281463a22e6b8cb80bc019d0ad91f4709",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bad014f7_8befad69",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-12T12:51:18Z",
+      "side": 1,
+      "message": "Line 421, 429 and 430 add no value to this test.  This test can run without them and no assertions fail.\n\nEither we need more assertions or those lines should be removed as they are superfluous.",
+      "parentUuid": "b421c5c5_94f563fd",
+      "revId": "0027854281463a22e6b8cb80bc019d0ad91f4709",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

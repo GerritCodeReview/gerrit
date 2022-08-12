@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f163924_7669a909",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-12T11:58:10Z",
+      "side": 1,
+      "message": "You. need an else branch in case it\u0027s neither.",
+      "revId": "4cdb72b1d3eaf68c93cba926fc80ce88907b910a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fae27cb_0a4b37eb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-12T11:58:10Z",
+      "side": 1,
+      "message": "At the top of your method:\n\n```\nlet activate: () \u003d\u003e void;\n\n...\n if (this.isEmojiDropdownActive()) {\n      suggestions \u003d this.suggestions;\n      activeDropdown \u003d this.emojiSuggestions!;\n      activate \u003d () \u003d\u003e this.openEmojiDropdown();\n    } else if (this.isMentionsDropdownActive()) {\n      suggestions \u003d this.mentions;\n      activeDropdown \u003d this.mentionsSuggestions!;\n      activate \u003d () \u003d\u003e this.openMentionsDropdown();\n    }\n```\n\nThat way you don\u0027t have the if in two different places and simply calla activate here.",
+      "revId": "4cdb72b1d3eaf68c93cba926fc80ce88907b910a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

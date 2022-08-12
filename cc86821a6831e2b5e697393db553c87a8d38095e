@@ -34,6 +34,24 @@
       "parentUuid": "882254b8_976b755a",
       "revId": "cc86821a6831e2b5e697393db553c87a8d38095e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0689da20_3b667efb",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-12T09:48:11Z",
+      "side": 1,
+      "message": "Refactoring done",
+      "parentUuid": "9f7e441f_fe031042",
+      "revId": "cc86821a6831e2b5e697393db553c87a8d38095e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

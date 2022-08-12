@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8c1dd3f_310a9650",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-12T05:41:31Z",
+      "side": 1,
+      "message": "I think you mean `closeDropdown`",
+      "revId": "878150eef21a70f08f755e4fc6a5cd6a8b166a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

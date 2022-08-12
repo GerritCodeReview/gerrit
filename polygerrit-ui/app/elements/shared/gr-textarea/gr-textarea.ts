@@ -28,6 +28,7 @@ import {NumericChangeId} from '../../../api/rest-api';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
+import {assert} from '../../../utils/common-util';
 
 const MAX_ITEMS_DROPDOWN = 10;
 
@@ -55,8 +56,12 @@ const ALL_SUGGESTIONS: EmojiSuggestion[] = [
   {value: '😜', match: 'winking tongue ;)'},
 ];
 
-interface EmojiSuggestion extends Item {
+export interface EmojiSuggestion extends Item {
   match: string;
+}
+
+function isEmojiSuggestion(x: EmojiSuggestion | Item): x is EmojiSuggestion {
+  return !!x && !!(x as EmojiSuggestion).match;
 }
 
 declare global {
@@ -101,9 +106,7 @@ export class GrTextarea extends LitElement {
     standard monospace font. */
   @property({type: Boolean}) code = false;
 
-  @state() mentions: Item[] = [];
-
-  @state() suggestions: EmojiSuggestion[] = [];
+  @state() suggestions: (Item | EmojiSuggestion)[] = [];
 
   // Accessed in tests.
   readonly reporting = getAppContext().reportingService;
@@ -273,7 +276,7 @@ export class GrTextarea extends LitElement {
       return nothing;
     return html` <gr-autocomplete-dropdown
       id="mentionsSuggestions"
-      .suggestions=${this.mentions}
+      .suggestions=${this.suggestions}
       vertical-align="top"
       horizontal-align="left"
       @dropdown-closed=${this.resetDropdown}
@@ -478,27 +481,23 @@ export class GrTextarea extends LitElement {
 
   private async computeSuggestions() {
     if (this.currentSearchString === undefined) {
-      this.mentions = [];
       this.suggestions = [];
       return;
     }
     if (this.isEmojiDropdownActive()) {
       this.computeEmojiSuggestions(this.currentSearchString);
     } else if (this.isMentionsDropdownActive()) {
-      this.mentions = await this.computeReviewerSuggestions();
+      await this.computeReviewerSuggestions();
     }
   }
 
   private openOrResetDropdown() {
-    let suggestions: Item[] = [];
     let activeDropdown: GrAutocompleteDropdown;
     let activate: () => void;
     if (this.isEmojiDropdownActive()) {
-      suggestions = this.suggestions;
       activeDropdown = this.emojiSuggestions!;
       activate = () => this.openEmojiDropdown();
     } else if (this.isMentionsDropdownActive()) {
-      suggestions = this.mentions;
       activeDropdown = this.mentionsSuggestions!;
       activate = () => this.openMentionsDropdown();
     } else {
@@ -510,7 +509,7 @@ export class GrTextarea extends LitElement {
       this.shouldResetDropdown(
         this.text,
         this.specialCharIndex,
-        suggestions,
+        this.suggestions,
         this.text[this.specialCharIndex]
       )
     ) {
@@ -583,6 +582,7 @@ export class GrTextarea extends LitElement {
   formatSuggestions(matchedSuggestions: EmojiSuggestion[]) {
     const suggestions = [];
     for (const suggestion of matchedSuggestions) {
+      assert(isEmojiSuggestion(suggestion), 'malformed suggestion');
       suggestion.dataValue = suggestion.value;
       suggestion.text = `${suggestion.value} ${suggestion.match}`;
       suggestions.push(suggestion);
@@ -607,7 +607,7 @@ export class GrTextarea extends LitElement {
   }
 
   async computeReviewerSuggestions() {
-    return (
+    this.suggestions = (
       (await this.restApiService.getSuggestedAccounts(
         this.currentSearchString ?? '',
         /* number= */ 15,

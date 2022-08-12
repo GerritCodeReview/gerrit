@@ -607,12 +607,17 @@ export class GrTextarea extends LitElement {
   }
 
   async computeReviewerSuggestions() {
+    const errFn = (response?: Response | null) => {
+      console.error(response);
+      return [];
+    };
     this.suggestions = (
       (await this.restApiService.getSuggestedAccounts(
         this.currentSearchString ?? '',
         /* number= */ 15,
         this.changeNum,
-        /* filterActive= */ true
+        /* filterActive= */ true,
+        errFn
       )) ?? []
     )
       .filter(account => account.email)

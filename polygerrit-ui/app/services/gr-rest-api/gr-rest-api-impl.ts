@@ -1649,7 +1649,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     inputVal: string,
     n?: number,
     canSee?: NumericChangeId,
-    filterActive?: boolean
+    filterActive?: boolean,
+    errFn?: ErrorCallback
   ): Promise<AccountInfo[] | undefined> {
     const params: QueryAccountsParams = {o: 'DETAILS', q: ''};
     const queryParams = [];
@@ -1671,6 +1672,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       url: '/accounts/',
       params,
       anonymizedUrl: '/accounts/?n=*',
+      errFn,
     }) as Promise<AccountInfo[] | undefined>;
   }
 

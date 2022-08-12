@@ -607,12 +607,16 @@ export class GrTextarea extends LitElement {
   }
 
   async computeReviewerSuggestions() {
+      this.reporting.error(new Error('Invalid search accounts query'));
+      return [];
+    };
     this.suggestions = (
       (await this.restApiService.getSuggestedAccounts(
         this.currentSearchString ?? '',
         /* number= */ 15,
         this.changeNum,
-        /* filterActive= */ true
+        /* filterActive= */ true,
+        errFn
       )) ?? []
     )
       .filter(account => account.email)

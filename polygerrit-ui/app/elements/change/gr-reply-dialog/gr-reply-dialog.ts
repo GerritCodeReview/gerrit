@@ -259,7 +259,10 @@ export class GrReplyDialog extends LitElement {
   account?: AccountInfo;
 
   get ccs() {
-    return [...this._ccs, ...this.mentionedUsers];
+    return [
+      ...this._ccs,
+      ...this.mentionedUsers.filter(v => !this.isAlreadyReviewerOrCC(v)),
+    ];
   }
 
   /**
@@ -648,7 +651,7 @@ export class GrReplyDialog extends LitElement {
       this,
       () => this.getCommentsModel().mentionedUsersInDrafts$,
       x => {
-        this.mentionedUsers = x.filter(v => !this.isAlreadyReviewerOrCC(v));
+        this.mentionedUsers = x;
         this.reviewersMutated =
           this.reviewersMutated || this.mentionedUsers.length > 0;
       }

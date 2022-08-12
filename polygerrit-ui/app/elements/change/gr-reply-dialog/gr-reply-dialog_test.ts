@@ -2478,42 +2478,73 @@ suite('gr-reply-dialog tests', () => {
     });
 
     test('mention user who is already CCed', async () => {
-      element._ccs = [createAccountWithEmail('abcd@def.com')];
-      element.draftCommentThreads = [
-        createCommentThread([
-          {
-            ...createComment(),
-            message: 'hey @abcd@def.com take a look at this',
-            unresolved: true,
-          },
-        ]),
-      ];
+      element.getCommentsModel().setState({
+        comments: {},
+        robotComments: {},
+        drafts: {
+          a: [
+            {
+              ...createDraft(),
+              message: 'hey @abcd@def.com take a look at this',
+              unresolved: true,
+            },
+          ],
+        },
+        portedComments: {},
+        portedDrafts: {},
+        discardedDrafts: [],
+      });
 
       await element.updateComplete;
 
-      assert.deepEqual(element.mentionedUsers, []);
+      assert.deepEqual(element.ccs, [{email: 'abcd@def.com' as EmailAddress}]);
+      assert.deepEqual(element.mentionedUsers, [
+        {email: 'abcd@def.com' as EmailAddress},
+      ]);
+      element._ccs = [createAccountWithEmail('abcd@def.com')];
+
+      await element.updateComplete;
+
+      assert.deepEqual(element.mentionedUsers, [
+        {email: 'abcd@def.com' as EmailAddress},
+      ]);
       assert.deepEqual(element.ccs, [
-        {
-          email: 'abcd@def.com' as EmailAddress,
-        },
+        {email: 'abcd@def.com' as EmailAddress},
       ]);
     });
 
     test('mention user who is already a reviewer', async () => {
+      element.getCommentsModel().setState({
+        comments: {},
+        robotComments: {},
+        drafts: {
+          a: [
+            {
+              ...createDraft(),
+              message: 'hey @abcd@def.com take a look at this',
+              unresolved: true,
+            },
+          ],
+        },
+        portedComments: {},
+        portedDrafts: {},
+        discardedDrafts: [],
+      });
+      await element.updateComplete;
+      assert.deepEqual(element.mentionedUsers, [
+        {email: 'abcd@def.com' as EmailAddress},
+      ]);
+
+      // ensure updates to reviewers is reflected to mentionedUsers property
       element.reviewers = [createAccountWithEmail('abcd@def.com')];
-      element.draftCommentThreads = [
-        createCommentThread([
-          {
-            ...createComment(),
-            message: 'hey @abcd@def.com take a look at this',
-            unresolved: true,
-          },
-        ]),
-      ];
 
       await element.updateComplete;
 
-      assert.deepEqual(element.mentionedUsers, []);
+      // overall ccs is empty since we filter out existing reviewers
+      assert.deepEqual(element.ccs, []);
+      assert.deepEqual(element.mentionedUsers, [
+        {email: 'abcd@def.com' as EmailAddress},
+      ]);
       assert.deepEqual(element.reviewers, [
         {
           email: 'abcd@def.com' as EmailAddress,

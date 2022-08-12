@@ -59,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "47c7370c_9ae43e17",
+        "filename": "polygerrit-ui/app/workers/service-worker-class.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-12T10:59:10Z",
+      "side": 1,
+      "message": "I moved loading and setting state into loadState().",
+      "parentUuid": "88ac5a03_1ca45676",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 35,
+        "endChar": 50
+      },
+      "revId": "39d7bacecf5c56ec68ad03811e9cd2edaec22235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0209bec8_81c1f9eb",
@@ -72,6 +96,30 @@
       "writtenOn": "2022-08-12T10:45:42Z",
       "side": 1,
       "message": "```suggestion\n    return saveState({\n```",
+      "range": {
+        "startLine": 43,
+        "startChar": 11,
+        "endLine": 43,
+        "endChar": 32
+      },
+      "revId": "39d7bacecf5c56ec68ad03811e9cd2edaec22235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "482f37b7_12b2248c",
+        "filename": "polygerrit-ui/app/workers/service-worker-class.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-12T10:59:10Z",
+      "side": 1,
+      "message": "I left creating state and saving in the same function as now in loadState()",
+      "parentUuid": "0209bec8_81c1f9eb",
       "range": {
         "startLine": 43,
         "startChar": 11,
@@ -165,6 +213,24 @@
       "writtenOn": "2022-08-12T10:47:26Z",
       "side": 1,
       "message": "Maybe this can be a class and the DB can be kept around in a field?",
+      "revId": "39d7bacecf5c56ec68ad03811e9cd2edaec22235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb04bd37_24321b23",
+        "filename": "polygerrit-ui/app/workers/service-worker-indexdb.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-12T10:59:10Z",
+      "side": 1,
+      "message": "Since service worker is stopped so frequently (every 1 minute or often when I am testing) it wouldn\u0027t be useful (since putting is done every 5 minutes) and I am worried it will add complexity - when db is or is not set.",
+      "parentUuid": "68e0786c_bf320498",
       "revId": "39d7bacecf5c56ec68ad03811e9cd2edaec22235",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

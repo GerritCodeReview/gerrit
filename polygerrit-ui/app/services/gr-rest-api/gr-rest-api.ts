@@ -165,7 +165,8 @@ export interface RestApiService extends Finalizable {
     input: string,
     n?: number,
     canSee?: NumericChangeId,
-    filterActive?: boolean
+    filterActive?: boolean,
+    errFn?: ErrorCallback
   ): Promise<AccountInfo[] | undefined>;
   getSuggestedGroups(
     input: string,

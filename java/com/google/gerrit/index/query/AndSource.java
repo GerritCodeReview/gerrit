@@ -20,6 +20,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Ordering;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.PaginationType;
@@ -115,13 +116,16 @@ public class AndSource<T> extends AndPredicate<T>
             //
             @SuppressWarnings("unchecked")
             Paginated<T> p = (Paginated<T>) source;
+            final int limit = p.getOptions().limit();
             Object searchAfter = resultSet.searchAfter();
-            while (skipped && r.size() < p.getOptions().limit() + start) {
+            int pageSize = limit;
+            while (skipped && r.size() < limit + start) {
               skipped = false;
+              pageSize = getNextPageSize(pageSize);
               ResultSet<T> next =
                   indexConfig.paginationType().equals(PaginationType.SEARCH_AFTER)
-                      ? p.restart(searchAfter)
-                      : p.restart(nextStart);
+                      ? p.restart(searchAfter, pageSize)
+                      : p.restart(nextStart, pageSize);
               for (T data : buffer(next)) {
                 if (match(data)) {
                   r.add(data);
@@ -206,5 +210,21 @@ public class AndSource<T> extends AndPredicate<T>
   @SuppressWarnings("unchecked")
   private DataSource<T> toDataSource(Predicate<T> pred) {
     return (DataSource<T>) pred;
+  }
+
+  private int getNextPageSize(int pageSize) {
+    List<Integer> possiblePageSizes = new ArrayList<>(3);
+    try {
+      possiblePageSizes.add(Math.multiplyExact(pageSize, indexConfig.pageSizeMultiplier()));
+    } catch (ArithmeticException e) {
+      possiblePageSizes.add(Integer.MAX_VALUE);
+    }
+    if (indexConfig.maxPageSize() > 0) {
+      possiblePageSizes.add(indexConfig.maxPageSize());
+    }
+    if (indexConfig.maxLimit() > 0) {
+      possiblePageSizes.add(indexConfig.maxLimit());
+    }
+    return Ordering.natural().min(possiblePageSizes);
   }
 }

@@ -216,7 +216,8 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
       }
 
       Change.Key changeKey = change.getKey();
-      if (!asChanges(queryProvider.get().byBranchKey(newDestKey, changeKey)).isEmpty()) {
+      if (!asChanges(queryProvider.get().setLimit(1).byBranchKey(newDestKey, changeKey))
+          .isEmpty()) {
         throw new ResourceConflictException(
             "Destination "
                 + newDestKey.shortName()

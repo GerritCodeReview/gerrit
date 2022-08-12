@@ -503,11 +503,12 @@ export class GrCommentThread extends LitElement {
     // We are deliberately not including the draft in the repeat directive,
     // because we ran into spurious issues with <gr-comment> being destroyed
     // and re-created when an unsaved draft transitions to 'saved' state.
+    // const isFirst = comments.length === 0;
     const draftComment = this.renderComment(this.getDraftOrUnsaved());
     return html`${publishedComments}${draftComment}`;
   }
 
-  private renderComment(comment?: Comment) {
+private renderComment(comment?: Comment, isLast?: boolean) {
     if (!comment) return nothing;
     const robotButtonDisabled = !this.account || this.isDraftOrUnsaved();
     const initiallyCollapsed =
@@ -517,6 +518,7 @@ export class GrCommentThread extends LitElement {
         : !this.unresolved);
     return this.patched.html`
       <gr-comment
+        .isFirst=${!!isFirst}
         .comment=${comment}
         .comments=${this.thread!.comments}
         ?initially-collapsed=${initiallyCollapsed}

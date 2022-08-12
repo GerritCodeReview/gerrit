@@ -66,6 +66,8 @@ import {changeModelToken} from '../../../models/change/change-model';
 import {Interaction} from '../../../constants/reporting';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {isBase64FileContent} from '../../../api/rest-api';
+import {isOwner} from '../../../utils/change-util';
+import {ParsedChangeInfo} from '../../../types/types';
 
 const UNSAVED_MESSAGE = 'Unable to save draft';
 
@@ -162,10 +164,15 @@ export class GrComment extends LitElement {
   @property({type: Boolean, reflect: true})
   saving = false;
 
+<<<<<<< PATCH SET (abd79a Disable suggest edit for owners, ...)
+  @property({type: Boolean})
+  isFirst = false;
+=======
   // GrReplyDialog requires the patchset level comment to always remain
   // editable.
   @property({type: Boolean, attribute: 'permanent-editing-mode'})
   permanentEditingMode = false;
+>>>>>>> BASE      (4a8c61 Merge "Make coverage-colors stand out more in darkmode")
 
   /**
    * `saving` and `autoSaving` are separate and cannot be set at the same time.
@@ -178,6 +185,9 @@ export class GrComment extends LitElement {
 
   @state()
   changeNum?: NumericChangeId;
+
+  @state()
+  change?: ParsedChangeInfo;
 
   @state()
   editing = false;
@@ -277,7 +287,11 @@ export class GrComment extends LitElement {
       () => this.userModel.isAdmin$,
       x => (this.isAdmin = x)
     );
-
+    subscribe(
+      this,
+      () => this.getChangeModel().change$,
+      x => (this.change = x)
+    );
     subscribe(
       this,
       () => this.getChangeModel().repo$,
@@ -776,7 +790,16 @@ export class GrComment extends LitElement {
     // fixed. Currently diff line doesn't match commit message line, because
     // of metadata in diff, which aren't in content api request.
     if (this.comment.path === SpecialFilePath.COMMIT_MESSAGE) return nothing;
+<<<<<<< PATCH SET (abd79a Disable suggest edit for owners, ...)
+    // TODO:(maybe isOwner could be in change-model)
+    if (!this.change || !this.account || isOwner(this.change, this.account)) {
+      return nothing;
+    }
+    if (!this.isFirst) return nothing;
+    if (this.change?.submitted) return nothing;
+=======
     if (this.isOwner) return nothing;
+>>>>>>> BASE      (4a8c61 Merge "Make coverage-colors stand out more in darkmode")
     return html`<gr-button link class="action" @click=${this.createSuggestEdit}
       >Suggest Fix</gr-button
     >`;

@@ -34,6 +34,24 @@
       "parentUuid": "3589c417_4b73e413",
       "revId": "c8027087244febf49abba38381adfd5972c171c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ff57585_b4ab1445",
+        "filename": "web-dev-server.config.mjs",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-12T16:18:21Z",
+      "side": 1,
+      "message": "I guess my question is. Why do we have to load the file at all if we\u0027re going to replace its body?",
+      "parentUuid": "48530b62_ac8ce9b3",
+      "revId": "c8027087244febf49abba38381adfd5972c171c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

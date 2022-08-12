@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46e46240_151cdee0",
+        "filename": "polygerrit-ui/app/utils/indexdb-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-12T09:57:50Z",
+      "side": 1,
+      "message": "Is this similar to a \u0027table\u0027? Maybe add a comment.",
+      "revId": "672451fe7a6ace45b4029c0015a23d771fe60ff3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8be763bc_84174980",
+        "filename": "polygerrit-ui/app/utils/indexdb-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-12T09:57:50Z",
+      "side": 1,
+      "message": "Maybe add a comment.",
+      "revId": "672451fe7a6ace45b4029c0015a23d771fe60ff3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea0baf81_d3850a57",
+        "filename": "polygerrit-ui/app/utils/indexdb-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-12T09:57:50Z",
+      "side": 1,
+      "message": "Ideally, I think a `indexdb-util.ts` should not depend on such a state object.\n\nIf this is a utility, then you probably want to pass the name of the store etc. as a parameters. And the function would just be `writeToDb()`.\n\nOtherwise this is more like a service, or functionality that is better placed where the service worker is located.",
+      "range": {
+        "startLine": 37,
+        "startChar": 51,
+        "endLine": 37,
+        "endChar": 75
+      },
+      "revId": "672451fe7a6ace45b4029c0015a23d771fe60ff3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aec15b1a_4f091e9d",
+        "filename": "polygerrit-ui/app/utils/indexdb-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-12T09:57:50Z",
+      "side": 1,
+      "message": "Do you need \u0027write\u0027 here?",
+      "range": {
+        "startLine": 50,
+        "startChar": 51,
+        "endLine": 50,
+        "endChar": 60
+      },
+      "revId": "672451fe7a6ace45b4029c0015a23d771fe60ff3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e943524_40085c3f",
+        "filename": "polygerrit-ui/app/workers/service-worker.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-12T09:57:50Z",
+      "side": 1,
+      "message": "Maybe move `loadState` into `getChangesToNotify()`? I think the worker must take this responsibility itself instead of relying on the caller.",
+      "range": {
+        "startLine": 35,
+        "startChar": 18,
+        "endLine": 35,
+        "endChar": 27
+      },
+      "revId": "672451fe7a6ace45b4029c0015a23d771fe60ff3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

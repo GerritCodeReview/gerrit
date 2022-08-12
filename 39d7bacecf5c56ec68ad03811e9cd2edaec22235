@@ -41,6 +41,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "097408e4_5c1fdd8b",
+        "filename": "polygerrit-ui/app/workers/service-worker-class.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-12T10:54:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5225ab6_3780896c",
+      "revId": "39d7bacecf5c56ec68ad03811e9cd2edaec22235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0209bec8_81c1f9eb",
@@ -81,6 +99,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e6c8587_502d2e24",
+        "filename": "polygerrit-ui/app/workers/service-worker-class.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-12T10:54:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83b683eb_e3a160bf",
+      "revId": "39d7bacecf5c56ec68ad03811e9cd2edaec22235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0e7a0d06_f3fd15a7",
@@ -94,6 +130,24 @@
       "writtenOn": "2022-08-12T10:45:30Z",
       "side": 1,
       "message": "Factor this function out to a method.",
+      "revId": "39d7bacecf5c56ec68ad03811e9cd2edaec22235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e7a1657_da45d800",
+        "filename": "polygerrit-ui/app/workers/service-worker-class.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-12T10:54:34Z",
+      "side": 1,
+      "message": "Good idea. Done",
+      "parentUuid": "0e7a0d06_f3fd15a7",
       "revId": "39d7bacecf5c56ec68ad03811e9cd2edaec22235",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

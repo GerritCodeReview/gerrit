@@ -107,7 +107,7 @@ suite('gr-textarea tests', () => {
       element.textarea!.selectionEnd = 1;
       element.text = '@';
 
-      await waitUntil(() => element.mentions.length > 0);
+      await waitUntil(() => element.suggestions.length > 0);
       await element.updateComplete;
 
       assert.equal(listenerStub.lastCall.args[0].detail.value, '@');
@@ -142,7 +142,7 @@ suite('gr-textarea tests', () => {
       element.textarea!.selectionEnd = 1;
       element.text = '@';
 
-      await waitUntil(() => element.mentions.length > 0);
+      await waitUntil(() => element.suggestions.length > 0);
       await element.updateComplete;
 
       MockInteractions.pressAndReleaseKeyOn(element, 40, null, 'ArrowDown');
@@ -173,13 +173,13 @@ suite('gr-textarea tests', () => {
       element.textarea!.selectionStart = 1;
       element.textarea!.selectionEnd = 1;
       element.text = '@';
-      element.mentions = [
+      element.suggestions = [
         {
           name: 'a',
           value: 'a',
         },
       ];
-      await waitUntil(() => element.mentions.length > 0);
+      await waitUntil(() => element.suggestions.length > 0);
       await element.updateComplete;
 
       assert.isFalse(resetSpy.called);
@@ -217,7 +217,7 @@ suite('gr-textarea tests', () => {
       element.textarea!.selectionStart = 1;
       element.textarea!.selectionEnd = 1;
       element.text = ':';
-      element.mentions = [
+      element.suggestions = [
         {
           name: 'a',
           value: 'a',
@@ -260,7 +260,7 @@ suite('gr-textarea tests', () => {
       element.textarea!.selectionEnd = 1;
       element.text = '@';
 
-      await waitUntil(() => element.mentions.length > 0);
+      await waitUntil(() => element.suggestions.length > 0);
       await element.updateComplete;
 
       assert.isFalse(element.mentionsSuggestions!.isHidden);

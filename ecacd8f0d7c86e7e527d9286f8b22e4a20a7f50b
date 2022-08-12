@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18387021_75a8bab0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-12T15:15:11Z",
+      "side": 1,
+      "message": "Needs \u0027Forward-Compatible: checked\u0027 too",
+      "revId": "ecacd8f0d7c86e7e527d9286f8b22e4a20a7f50b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

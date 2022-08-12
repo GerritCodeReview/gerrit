@@ -16,6 +16,23 @@
       "message": "Some of the methods could be private.",
       "revId": "b10cee014ecc884ccb0e84cafff8a08c68c305e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f566df5_d38f894e",
+        "filename": "polygerrit-ui/app/workers/service-worker-class.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-12T10:57:19Z",
+      "side": 1,
+      "message": "This comment should be moved to the openWindow method.",
+      "revId": "b10cee014ecc884ccb0e84cafff8a08c68c305e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

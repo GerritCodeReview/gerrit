@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5225ab6_3780896c",
+        "filename": "polygerrit-ui/app/workers/service-worker-class.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-12T10:45:30Z",
+      "side": 1,
+      "message": "Make loadState async and put getServiceWorkerStat inside of it, to have symmetry with saveState.",
+      "revId": "39d7bacecf5c56ec68ad03811e9cd2edaec22235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83b683eb_e3a160bf",
+        "filename": "polygerrit-ui/app/workers/service-worker-class.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-12T10:45:30Z",
+      "side": 1,
+      "message": "Factor this function out to a method, especially given that it will grow.",
+      "revId": "39d7bacecf5c56ec68ad03811e9cd2edaec22235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e7a0d06_f3fd15a7",
+        "filename": "polygerrit-ui/app/workers/service-worker-class.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-12T10:45:30Z",
+      "side": 1,
+      "message": "Factor this function out to a method.",
+      "revId": "39d7bacecf5c56ec68ad03811e9cd2edaec22235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

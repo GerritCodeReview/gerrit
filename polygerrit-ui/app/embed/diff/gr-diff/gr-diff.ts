@@ -1532,8 +1532,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
     if (this.diff) {
       this.diffLength = this.getDiffLength(this.diff);
       this.debounceRenderDiffTable();
-    }
-    if (this.diff) {
       assertIsDefined(this.diffTable, 'diffTable');
       this.diffSelection.init(this.diff, this.diffTable);
       this.highlights.init(this.diffTable, this.diffBuilder);

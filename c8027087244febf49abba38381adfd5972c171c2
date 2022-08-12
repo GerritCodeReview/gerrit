@@ -16,6 +16,24 @@
       "message": "Why does this part have to happen after `await next();`?",
       "revId": "c8027087244febf49abba38381adfd5972c171c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48530b62_ac8ce9b3",
+        "filename": "web-dev-server.config.mjs",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-12T15:34:04Z",
+      "side": 1,
+      "message": "The `next` middleware (the base I guess?) is actually loading the file from disk, so I want to override the loaded body with our fake body. For example, context.body is `undefined` before `next()` is done. I tested it with the override before `next` and it does appear that the base middleware is respecting that body already exists and does not overwrite it, but I think conceptually it\u0027s clearer this way (\"mess with request/url on the way down the middleware stack. mess with response/status on the way up\") and seems to match the style from the koa website and code snippets I have seen.",
+      "parentUuid": "3589c417_4b73e413",
+      "revId": "c8027087244febf49abba38381adfd5972c171c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

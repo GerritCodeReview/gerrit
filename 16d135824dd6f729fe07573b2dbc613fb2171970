@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a49c48b6_b42c8459",
+        "filename": "polygerrit-ui/app/utils/indexdb-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-12T06:29:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ece5cf1e_8d7cf3b5",
+      "revId": "16d135824dd6f729fe07573b2dbc613fb2171970",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f9977e49_ee1649f7",
@@ -48,6 +66,30 @@
       "writtenOn": "2022-08-12T03:44:00Z",
       "side": 1,
       "message": "```suggestion\n    request.onsuccess \u003d () \u003d\u003e resolve(request.result);\n```",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 6
+      },
+      "revId": "16d135824dd6f729fe07573b2dbc613fb2171970",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88d1afc4_f5b0c158",
+        "filename": "polygerrit-ui/app/utils/indexdb-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-12T06:29:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9977e49_ee1649f7",
       "range": {
         "startLine": 55,
         "startChar": 0,

@@ -63,6 +63,7 @@ class InitIndex implements InitStep {
       elasticsearch.string("Index Prefix", "prefix", "gerrit_");
       elasticsearch.string("Server", "server", "http://localhost:9200");
       index.string("Result window size", "maxLimit", "10000");
+      index.string("Result page size", "maxPageSize", "10000");
     }
 
     if ((site.isNew || isEmptySite()) && type.isLucene()) {

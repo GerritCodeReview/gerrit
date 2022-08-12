@@ -1653,7 +1653,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   ): Promise<AccountInfo[] | undefined> {
     const params: QueryAccountsParams = {o: 'DETAILS', q: ''};
     const queryParams = [];
-    if (inputVal) {
+    inputVal = inputVal?.trim() ?? '';
+    if (inputVal.length > 0) {
       queryParams.push(inputVal);
     }
     if (canSee) {

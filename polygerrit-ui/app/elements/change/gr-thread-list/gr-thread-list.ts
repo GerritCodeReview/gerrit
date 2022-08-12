@@ -43,6 +43,7 @@ import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {Interaction} from '../../../constants/reporting';
 import {KnownExperimentId} from '../../../services/flags/flags';
+import {HtmlPatched} from '../../../utils/lit-util';
 
 enum SortDropdownState {
   TIMESTAMP = 'Latest timestamp',
@@ -205,6 +206,13 @@ export class GrThreadList extends LitElement {
   private readonly flagsService = getAppContext().flagsService;
 
   private readonly userModel = getAppContext().userModel;
+
+  private readonly patched = new HtmlPatched(key => {
+    this.reporting.reportInteraction(Interaction.AUTOCLOSE_HTML_PATCHED, {
+      component: this.tagName,
+      key: key.substring(0, 300),
+    });
+  });
 
   constructor() {
     super();
@@ -414,16 +422,16 @@ export class GrThreadList extends LitElement {
           index === 0 || threads[index - 1].path !== threads[index].path;
         const separator =
           index !== 0 && isFirst
-            ? html`<div class="thread-separator"></div>`
+            ? this.patched.html`<div class="thread-separator"></div>`
             : undefined;
         const commentThread = this.renderCommentThread(thread, isFirst);
-        return html`${separator}${commentThread}`;
+        return this.patched.html`${separator}${commentThread}`;
       }
     );
   }
 
   private renderCommentThread(thread: CommentThread, isFirst: boolean) {
-    return html`
+    return this.patched.html`
       <gr-comment-thread
         .thread=${thread}
         show-file-path

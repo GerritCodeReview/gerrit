@@ -107,17 +107,17 @@ suite('gr-textarea tests', () => {
       element.textarea!.selectionEnd = 1;
       element.text = '@';
 
-      await waitUntil(() => element.mentions.length > 0);
+      await waitUntil(() => element.suggestions.length > 0);
       await element.updateComplete;
 
       assert.equal(listenerStub.lastCall.args[0].detail.value, '@');
       assert.isTrue(element.textarea!.focused);
 
       assert.isTrue(element.emojiSuggestions!.isHidden);
-      assert.isFalse(element.mentionsSuggestions!.isHidden);
+      assert.isFalse(element.suggestionsSuggestions!.isHidden);
 
       assert.equal(element.specialCharIndex, 0);
-      assert.isFalse(element.mentionsSuggestions!.isHidden);
+      assert.isFalse(element.suggestionsSuggestions!.isHidden);
       assert.equal(element.currentSearchString, '');
 
       element.text = '@abc@google.com';
@@ -142,7 +142,7 @@ suite('gr-textarea tests', () => {
       element.textarea!.selectionEnd = 1;
       element.text = '@';
 
-      await waitUntil(() => element.mentions.length > 0);
+      await waitUntil(() => element.suggestions.length > 0);
       await element.updateComplete;
 
       MockInteractions.pressAndReleaseKeyOn(element, 40, null, 'ArrowDown');
@@ -173,39 +173,39 @@ suite('gr-textarea tests', () => {
       element.textarea!.selectionStart = 1;
       element.textarea!.selectionEnd = 1;
       element.text = '@';
-      element.mentions = [
+      element.suggestions = [
         {
           name: 'a',
           value: 'a',
         },
       ];
-      await waitUntil(() => element.mentions.length > 0);
+      await waitUntil(() => element.suggestions.length > 0);
       await element.updateComplete;
 
       assert.isFalse(resetSpy.called);
 
       assert.isTrue(element.emojiSuggestions!.isHidden);
-      assert.isFalse(element.mentionsSuggestions!.isHidden);
+      assert.isFalse(element.suggestionsSuggestions!.isHidden);
 
       element.text = '@h';
       await element.updateComplete;
       assert.isTrue(element.emojiSuggestions!.isHidden);
-      assert.isFalse(element.mentionsSuggestions!.isHidden);
+      assert.isFalse(element.suggestionsSuggestions!.isHidden);
 
       element.text = '@h ';
       await element.updateComplete;
       assert.isTrue(element.emojiSuggestions!.isHidden);
-      assert.isFalse(element.mentionsSuggestions!.isHidden);
+      assert.isFalse(element.suggestionsSuggestions!.isHidden);
 
       element.text = '@h :';
       await element.updateComplete;
       assert.isTrue(element.emojiSuggestions!.isHidden);
-      assert.isFalse(element.mentionsSuggestions!.isHidden);
+      assert.isFalse(element.suggestionsSuggestions!.isHidden);
 
       element.text = '@h :D';
       await element.updateComplete;
       assert.isTrue(element.emojiSuggestions!.isHidden);
-      assert.isFalse(element.mentionsSuggestions!.isHidden);
+      assert.isFalse(element.suggestionsSuggestions!.isHidden);
     });
 
     test('mention dropdown does not open if emoji dropdown is open', async () => {
@@ -217,7 +217,7 @@ suite('gr-textarea tests', () => {
       element.textarea!.selectionStart = 1;
       element.textarea!.selectionEnd = 1;
       element.text = ':';
-      element.mentions = [
+      element.suggestions = [
         {
           name: 'a',
           value: 'a',
@@ -226,23 +226,23 @@ suite('gr-textarea tests', () => {
 
       await element.updateComplete;
       assert.isFalse(element.emojiSuggestions!.isHidden);
-      assert.isTrue(element.mentionsSuggestions!.isHidden);
+      assert.isTrue(element.suggestionsSuggestions!.isHidden);
 
       element.text = ':D';
       await element.updateComplete;
       assert.isFalse(element.emojiSuggestions!.isHidden);
-      assert.isTrue(element.mentionsSuggestions!.isHidden);
+      assert.isTrue(element.suggestionsSuggestions!.isHidden);
 
       element.text = ':D@';
       await element.updateComplete;
       // emoji dropdown hidden since we have no more suggestions
       assert.isTrue(element.emojiSuggestions!.isHidden);
-      assert.isTrue(element.mentionsSuggestions!.isHidden);
+      assert.isTrue(element.suggestionsSuggestions!.isHidden);
 
       element.text = ':D@b';
       await element.updateComplete;
       assert.isTrue(element.emojiSuggestions!.isHidden);
-      assert.isTrue(element.mentionsSuggestions!.isHidden);
+      assert.isTrue(element.suggestionsSuggestions!.isHidden);
     });
   });
 

@@ -101,9 +101,7 @@ export class GrTextarea extends LitElement {
     standard monospace font. */
   @property({type: Boolean}) code = false;
 
-  @state() mentions: Item[] = [];
-
-  @state() suggestions: EmojiSuggestion[] = [];
+  @state() suggestions: Item[] = [];
 
   // Accessed in tests.
   readonly reporting = getAppContext().reportingService;
@@ -273,7 +271,7 @@ export class GrTextarea extends LitElement {
       return nothing;
     return html` <gr-autocomplete-dropdown
       id="mentionsSuggestions"
-      .suggestions=${this.mentions}
+      .suggestions=${this.suggestions}
       vertical-align="top"
       horizontal-align="left"
       @dropdown-closed=${this.resetDropdown}
@@ -481,25 +479,21 @@ export class GrTextarea extends LitElement {
 
   private async computeSuggestions() {
     if (this.currentSearchString === undefined) {
-      this.mentions = [];
       this.suggestions = [];
       return;
     }
     if (this.isEmojiDropdownActive()) {
       this.computeEmojiSuggestions(this.currentSearchString);
     } else if (this.isMentionsDropdownActive()) {
-      this.mentions = await this.computeReviewerSuggestions();
+      this.suggestions = await this.computeReviewerSuggestions();
     }
   }
 
   private openOrResetDropdown() {
-    let suggestions: Item[] = [];
     let activeDropdown: GrAutocompleteDropdown;
     if (this.isEmojiDropdownActive()) {
-      suggestions = this.suggestions;
       activeDropdown = this.emojiSuggestions!;
     } else if (this.isMentionsDropdownActive()) {
-      suggestions = this.mentions;
       activeDropdown = this.mentionsSuggestions!;
     }
 
@@ -507,7 +501,7 @@ export class GrTextarea extends LitElement {
       this.shouldResetDropdown(
         this.text,
         this.specialCharIndex,
-        suggestions,
+        this.suggestions,
         this.text[this.specialCharIndex]
       )
     ) {

@@ -76,6 +76,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc04b7d3_e2c5eb60",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-12T12:10:02Z",
+      "side": 1,
+      "message": "With the else branch in #506 this being undefined should not be possible since it would return early in #509.",
+      "parentUuid": "e0abe5ef_305d5106",
+      "range": {
+        "startLine": 515,
+        "startChar": 15,
+        "endLine": 515,
+        "endChar": 29
+      },
+      "revId": "4cdb72b1d3eaf68c93cba926fc80ce88907b910a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8fae27cb_0a4b37eb",
@@ -125,6 +149,24 @@
       "side": 1,
       "message": "Nice idea",
       "parentUuid": "8fae27cb_0a4b37eb",
+      "revId": "4cdb72b1d3eaf68c93cba926fc80ce88907b910a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64612186_178e4fd7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-12T12:10:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ee826ca_63d0ff28",
       "revId": "4cdb72b1d3eaf68c93cba926fc80ce88907b910a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

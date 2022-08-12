@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1b1772d8_d8b24f81",
+        "filename": "polygerrit-ui/app/utils/lit-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-12T10:19:47Z",
+      "side": 1,
+      "message": "Please use a javascript Map.",
+      "revId": "131b482e1a6b57bb1ba26fdabd26eb5ca5d2f709",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "63c462ea_bb839a0d",
         "filename": "polygerrit-ui/app/utils/lit-util.ts",
         "patchSetId": 2

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3589c417_4b73e413",
+        "filename": "web-dev-server.config.mjs",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-12T15:03:35Z",
+      "side": 1,
+      "message": "Why does this part have to happen after `await next();`?",
+      "revId": "c8027087244febf49abba38381adfd5972c171c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

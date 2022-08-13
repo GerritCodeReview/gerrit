@@ -16,6 +16,24 @@
       "message": "Is there a way to maintain this failure on creation (maybe by calling getProjectRoot() with the first project in project_list?)? In PS2 it looks like you won\u0027t fail until \"service()\" is called, which I assume is sometime later than server startup.",
       "revId": "d77e8d0ce600af9d34463c604e8c61a64a57593b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9527874_532d141f",
+        "filename": "java/com/google/gerrit/httpd/gitweb/GitwebServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-08-13T07:23:14Z",
+      "side": 0,
+      "message": "If we agree to do that (@luca? ;)) would \u0027All-Projects\u0027 be a good/better candidate?",
+      "parentUuid": "5f514571_6c6dc69c",
+      "revId": "d77e8d0ce600af9d34463c604e8c61a64a57593b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

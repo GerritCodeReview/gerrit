@@ -21,6 +21,7 @@ import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.google.gerrit.server.account.AccountSshKey;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
+import com.google.gerrit.server.restapi.account.DeleteSshKey;
 import com.google.inject.Inject;
 import java.security.KeyPair;
 import java.util.List;
@@ -29,6 +30,7 @@ import org.junit.Test;
 public class DeleteSshKeyIT extends AbstractDaemonTest {
 
   @Inject VersionedAuthorizedKeys.Accessor authorizedKeys;
+  @Inject DeleteSshKey deleteSshKey;
 
   @Test
   @UseSsh
@@ -41,6 +43,22 @@ public class DeleteSshKeyIT extends AbstractDaemonTest {
     List<AccountSshKey> sshKeysBeforeDel = authorizedKeys.getKeys(user.id());
     assertThat(sshKeysBeforeDel).contains(sshKey);
     gApi.accounts().id(user.id().get()).deleteSshKey(sshKey.seq());
+    List<AccountSshKey> sshKeysAfterDel = authorizedKeys.getKeys(user.id());
+    assertThat(sshKeysAfterDel.size()).isEqualTo(sshKeysBeforeDel.size() - 1);
+    assertThat(sshKeysAfterDel).doesNotContain(sshKey);
+  }
+
+  @Test
+  @UseSsh
+  public void deleteSshKeyOnBehalf() throws Exception {
+    KeyPair keyPair = sshKeys.getKeyPair(user);
+    AccountSshKey sshKey =
+        authorizedKeys.addKey(
+            user(user).getAccountId(), TestSshKeys.publicKey(keyPair, user.email()));
+
+    List<AccountSshKey> sshKeysBeforeDel = authorizedKeys.getKeys(user.id());
+    assertThat(sshKeysBeforeDel).contains(sshKey);
+    deleteSshKey.apply(identifiedUserFactory.create(user.id()), sshKey);
     List<AccountSshKey> sshKeysAfterDel = authorizedKeys.getKeys(user.id());
     assertThat(sshKeysAfterDel.size()).isEqualTo(sshKeysBeforeDel.size() - 1);
     assertThat(sshKeysAfterDel).doesNotContain(sshKey);

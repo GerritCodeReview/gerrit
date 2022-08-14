@@ -91,6 +91,11 @@ export const htmlTemplate = html`
       background-color: var(--view-background-color);
       box-shadow: var(--elevation-level-1);
     }
+    .changeId {
+      color: var(--deemphasized-text-color);
+      font-family: var(--font-family);
+      margin-top: var(--spacing-l);
+    }
     .changeMetadata {
       /* Limit meta section to half of the screen at max */
       max-width: 50%;
@@ -428,6 +433,19 @@ export const htmlTemplate = html`
                     remove-zero-width-space=""
                   ></gr-linked-text>
                 </gr-editable-content>
+                <div
+                  class="changeId"
+                  hidden$="[[!_changeIdCommitMessageError]]"
+                >
+                  <hr />
+                  Change-Id:
+                  <span
+                    class$="[[_computeChangeIdClass(_changeIdCommitMessageError)]]"
+                    title$="[[_computeTitleAttributeWarning(_changeIdCommitMessageError)]]"
+                  >
+                    [[_change.change_id]]
+                  </span>
+                </div>
               </div>
               <gr-change-summary
                 change-comments="[[_changeComments]]"

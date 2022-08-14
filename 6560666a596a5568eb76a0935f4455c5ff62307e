@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c79edd1_a646d739",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-08-14T06:33:57Z",
+      "side": 1,
+      "message": "Please ignore the PS#3, I wasn\u0027t on a clean repo state and committed too much :/",
+      "revId": "6560666a596a5568eb76a0935f4455c5ff62307e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -21,6 +21,7 @@ import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.google.gerrit.server.account.AccountSshKey;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
+import com.google.gerrit.server.restapi.account.DeleteSshKey;
 import com.google.inject.Inject;
 import java.security.KeyPair;
 import java.util.List;
@@ -29,20 +30,39 @@ import org.junit.Test;
 public class DeleteSshKeyIT extends AbstractDaemonTest {
 
   @Inject VersionedAuthorizedKeys.Accessor authorizedKeys;
+  @Inject DeleteSshKey deleteSshKey;
 
-  @Test
-  @UseSsh
-  public void deleteSshKeyRestApi() throws Exception {
+  private List<AccountSshKey> setupSshKeys() throws Exception {
     KeyPair keyPair = sshKeys.getKeyPair(user);
     AccountSshKey sshKey =
         authorizedKeys.addKey(
             user(user).getAccountId(), TestSshKeys.publicKey(keyPair, user.email()));
+    assertThat(authorizedKeys.getKeys(user.id())).contains(sshKey);
+    return authorizedKeys.getKeys(user.id());
+  }
 
-    List<AccountSshKey> sshKeysBeforeDel = authorizedKeys.getKeys(user.id());
-    assertThat(sshKeysBeforeDel).contains(sshKey);
-    gApi.accounts().id(user.id().get()).deleteSshKey(sshKey.seq());
+  private void assertDeleteSshKeys(List<AccountSshKey> sshKeysBeforeDel, AccountSshKey sshKey)
+      throws Exception {
     List<AccountSshKey> sshKeysAfterDel = authorizedKeys.getKeys(user.id());
     assertThat(sshKeysAfterDel.size()).isEqualTo(sshKeysBeforeDel.size() - 1);
     assertThat(sshKeysAfterDel).doesNotContain(sshKey);
+  }
+
+  @Test
+  @UseSsh
+  public void deleteSshKeyRestApi() throws Exception {
+    List<AccountSshKey> sshKeysBeforeDel = setupSshKeys();
+    AccountSshKey sshKey = sshKeysBeforeDel.get(0);
+    gApi.accounts().id(user.id().get()).deleteSshKey(sshKey.seq());
+    assertDeleteSshKeys(sshKeysBeforeDel, sshKey);
+  }
+
+  @Test
+  @UseSsh
+  public void deleteSshKeyOnBehalf() throws Exception {
+    List<AccountSshKey> sshKeysBeforeDel = setupSshKeys();
+    AccountSshKey sshKey = sshKeysBeforeDel.get(0);
+    deleteSshKey.apply(identifiedUserFactory.create(user.id()), sshKey);
+    assertDeleteSshKeys(sshKeysBeforeDel, sshKey);
   }
 }

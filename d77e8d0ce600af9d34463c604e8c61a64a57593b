@@ -52,6 +52,24 @@
       "parentUuid": "c9527874_532d141f",
       "revId": "d77e8d0ce600af9d34463c604e8c61a64a57593b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ed4cdb4_f639c309",
+        "filename": "java/com/google/gerrit/httpd/gitweb/GitwebServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-08-14T06:30:56Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "5cfe7344_382bbe9c",
+      "revId": "d77e8d0ce600af9d34463c604e8c61a64a57593b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

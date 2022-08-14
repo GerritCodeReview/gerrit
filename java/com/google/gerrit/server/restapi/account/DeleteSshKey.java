@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.account.AccountSshKey;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.mail.send.DeleteKeySender;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -74,10 +75,14 @@ public class DeleteSshKey implements RestModifyView<AccountResource.SshKey, Inpu
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     }
 
-    IdentifiedUser user = rsrc.getUser();
-    authorizedKeys.deleteKey(user.getAccountId(), rsrc.getSshKey().seq());
+    return apply(rsrc.getUser(), rsrc.getSshKey());
+  }
+
+  public Response<?> apply(IdentifiedUser user, AccountSshKey sshKey)
+      throws RepositoryNotFoundException, IOException, ConfigInvalidException {
+    authorizedKeys.deleteKey(user.getAccountId(), sshKey.seq());
     try {
-      deleteKeySenderFactory.create(user, rsrc.getSshKey()).send();
+      deleteKeySenderFactory.create(user, sshKey).send();
     } catch (EmailException e) {
       logger.atSevere().withCause(e).log(
           "Cannot send SSH key deletion message to %s", user.getAccount().preferredEmail());

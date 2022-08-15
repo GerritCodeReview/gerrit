@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "39be7f9f_dc042f90",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-15T11:07:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce1b544c_3731a282",
+      "revId": "eb8f53574b09136e5a6f63172ebfe524569a6667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "81edaed6_c3552abc",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-08-10T10:33:09Z",
       "side": 1,
       "message": "Wouldn\u0027t be this easier with css?",
+      "range": {
+        "startLine": 103,
+        "startChar": 6,
+        "endLine": 103,
+        "endChar": 58
+      },
+      "revId": "eb8f53574b09136e5a6f63172ebfe524569a6667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9cda5536_3987ab35",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-tab.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-15T11:07:48Z",
+      "side": 1,
+      "message": "The difference is that we just want to listen for this event once, but not continuously apply a hard css rule.\n\nSo if you shrink your screen, then we will automatically collapse the side panel, but you still have the option of expanding it again.",
+      "parentUuid": "81edaed6_c3552abc",
       "range": {
         "startLine": 103,
         "startChar": 6,

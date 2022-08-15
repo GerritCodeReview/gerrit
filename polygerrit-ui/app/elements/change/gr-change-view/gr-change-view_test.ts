@@ -492,7 +492,7 @@ suite('gr-change-view tests', () => {
             </gr-endpoint-decorator>
           </paper-tab>
         </paper-tabs>
-        <section class="patchInfo">
+        <section class="tabContent">
           <div>
             <gr-file-list-header id="fileListHeader"> </gr-file-list-header>
             <gr-file-list class="hideOnMobileOverlay" id="fileList">

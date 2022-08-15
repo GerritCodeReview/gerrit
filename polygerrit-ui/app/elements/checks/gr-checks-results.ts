@@ -504,8 +504,8 @@ export class GrResultRow extends LitElement {
         ?filled=${icon.filled}
         aria-label="external link to details"
         class="link"
-      ></gr-icon>
-      <paper-tooltip offset="5">${tooltipText}</paper-tooltip></a
+      ></gr-icon
+      ><paper-tooltip offset="5">${tooltipText}</paper-tooltip></a
     >`;
   }
 

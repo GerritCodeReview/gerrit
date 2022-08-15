@@ -36,7 +36,7 @@ export enum EventType {
   SHORTCUT_TRIGGERERD = 'shortcut-triggered',
   SHOW_ALERT = 'show-alert',
   SHOW_ERROR = 'show-error',
-  SHOW_PRIMARY_TAB = 'show-primary-tab',
+  SHOW_TAB = 'show-tab',
   SHOW_SECONDARY_TAB = 'show-secondary-tab',
   TAP_ITEM = 'tap-item',
   TITLE_CHANGE = 'title-change',
@@ -73,7 +73,7 @@ declare global {
     'reply': ReplyEvent;
     'show-alert': ShowAlertEvent;
     'show-error': ShowErrorEvent;
-    'show-primary-tab': SwitchTabEvent;
+    'show-tab': SwitchTabEvent;
     'show-secondary-tab': SwitchTabEvent;
     'tap-item': TapItemEvent;
     'title-change': TitleChangeEvent;

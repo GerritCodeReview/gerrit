@@ -1095,7 +1095,9 @@ export class GrFileList extends LitElement {
     const newlyChanged = hasExtendedStatus && !fileWasAlreadyChanged;
 
     const status = file?.status ?? FileInfoStatus.MODIFIED;
-    const postfix = ` in patchset ${this.patchRange?.patchNum}`;
+    const left = `patchset ${this.patchRange?.basePatchNum}`;
+    const right = `patchset ${this.patchRange?.patchNum}`;
+    const postfix = ` between ${left} and ${right}`;
 
     return html`<gr-file-status
       .status=${status}
@@ -1119,7 +1121,9 @@ export class GrFileList extends LitElement {
     if (!file) return nothing;
 
     const status = file.status ?? FileInfoStatus.MODIFIED;
-    const postfix = ` in patchset ${this.patchRange?.basePatchNum}`;
+    const left = 'base';
+    const right = `patchset ${this.patchRange?.basePatchNum}`;
+    const postfix = ` between ${left} and ${right}`;
 
     return html`
       <gr-file-status

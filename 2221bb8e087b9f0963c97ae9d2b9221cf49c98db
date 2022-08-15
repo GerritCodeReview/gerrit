@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45d8a6c0_31bfb6e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-15T09:02:33Z",
+      "side": 1,
+      "message": "Thanks for fixing 3.4! Overall the change looks good.\n\nPlease, don\u0027t merge this into the master branch as is. If we still need this support in master, then it should be written differently. You can create a product excellence issue for our fixit next week, if you would rather like the frontend team fixing the issue in master.\n\nCan we maybe stop supporting server-side generated Change-Ids in 3.7? What are the plans?\n\nEven if we stop supporting server-side generated Change-Ids, then do we still need to show them for browsing historical changes?",
+      "revId": "2221bb8e087b9f0963c97ae9d2b9221cf49c98db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

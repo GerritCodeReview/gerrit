@@ -440,7 +440,7 @@ suite('gr-change-view tests', () => {
           </div>
         </section>
         <h2 class="assistive-tech-only">Files and Comments tabs</h2>
-        <paper-tabs dir="null" id="primaryTabs" role="tablist" tabindex="0">
+        <paper-tabs dir="null" id="tabs" role="tablist" tabindex="0">
           <paper-tab
             aria-disabled="false"
             aria-selected="true"
@@ -475,7 +475,7 @@ suite('gr-change-view tests', () => {
           <gr-endpoint-param name="change"> </gr-endpoint-param>
           <gr-endpoint-param name="revision"> </gr-endpoint-param>
         </gr-endpoint-decorator>
-        <paper-tabs dir="null" id="secondaryTabs" role="tablist" tabindex="0">
+        <paper-tabs dir="null" role="tablist" tabindex="0">
           <paper-tab
             aria-disabled="false"
             aria-selected="false"
@@ -960,7 +960,7 @@ suite('gr-change-view tests', () => {
       };
       element.commentThreads = THREADS;
       await element.updateComplete;
-      const paperTabs = element.shadowRoot!.querySelector('#primaryTabs')!;
+      const paperTabs = element.shadowRoot!.querySelector('#tabs')!;
       const tabs = paperTabs.querySelectorAll('paper-tab');
       assert.isTrue(tabs.length > 1);
       assert.equal(tabs[1].dataset.name, 'comments');
@@ -1000,7 +1000,7 @@ suite('gr-change-view tests', () => {
       element.commentThreads = THREADS;
       element.showFindingsTab = true;
       await element.updateComplete;
-      const paperTabs = element.shadowRoot!.querySelector('#primaryTabs')!;
+      const paperTabs = element.shadowRoot!.querySelector('#tabs')!;
       const tabs = paperTabs.querySelectorAll('paper-tab');
       assert.isTrue(tabs.length > 2);
       assert.equal(tabs[2].dataset.name, 'findings');

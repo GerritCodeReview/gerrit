@@ -37,8 +37,8 @@ import {subscribe} from '../../lit/subscription-controller';
 import {CheckRun} from '../../../models/checks/checks-model';
 import {getResultsOf, hasResultsOf} from '../../../models/checks/checks-util';
 import {Category, RunStatus} from '../../../api/checks';
-import {fireShowPrimaryTab} from '../../../utils/event-util';
-import {PrimaryTab} from '../../../constants/constants';
+import {fireShowTab} from '../../../utils/event-util';
+import {Tab} from '../../../constants/constants';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
 import {resolve} from '../../../models/dependency';
 import {checksModelToken} from '../../../models/checks/checks-model';
@@ -387,7 +387,7 @@ export class GrSubmitRequirements extends LitElement {
       .links=${links}
       .statusOrCategory=${category}
       @click=${() => {
-        fireShowPrimaryTab(this, PrimaryTab.CHECKS, false, {
+        fireShowTab(this, Tab.CHECKS, false, {
           checksTab: {
             statusOrCategory: category,
           },

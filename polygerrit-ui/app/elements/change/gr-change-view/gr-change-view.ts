@@ -42,8 +42,7 @@ import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revi
 import {
   ChangeStatus,
   DefaultBase,
-  PrimaryTab,
-  SecondaryTab,
+  Tab,
   DiffViewMode,
 } from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
@@ -258,7 +257,7 @@ export class GrChangeView extends LitElement {
 
   @query('#replyBtn') replyBtn?: GrButton;
 
-  @query('#primaryTabs') primaryTabs?: PaperTabsElement;
+  @query('#tabs') tabs?: PaperTabsElement;
 
   @query('gr-messages-list') messagesList?: GrMessagesList;
 
@@ -475,13 +474,8 @@ export class GrChangeView extends LitElement {
   @state()
   private changeViewAriaHidden = false;
 
-  /**
-   * this is a two-element tuple to always
-   * hold the current active tab for both primary and secondary tabs
-   * Private but used in tests.
-   */
   @state()
-  activeTabs: string[] = [PrimaryTab.FILES, SecondaryTab.CHANGE_LOG];
+  private activeTab = Tab.FILES;
 
   @property({type: Boolean})
   unresolvedOnly = true;
@@ -605,7 +599,7 @@ export class GrChangeView extends LitElement {
     this.addEventListener('close-fix-preview', e => this.onCloseFixPreview(e));
 
     this.addEventListener(EventType.SHOW_PRIMARY_TAB, e =>
-      this.setActivePrimaryTab(e)
+      this.setActiveTab(e)
     );
     this.addEventListener('reload', e => {
       this.loadData(
@@ -785,7 +779,7 @@ export class GrChangeView extends LitElement {
   private firstConnectedCallback() {
     if (!this.isFirstConnection) return;
     this.isFirstConnection = false;
-    this.initActiveTabs();
+    this.initActiveTab();
     this.throttledToggleChangeStar = throttleWrap<KeyboardEvent>(_ =>
       this.handleToggleChangeStar()
     );
@@ -1373,16 +1367,13 @@ export class GrChangeView extends LitElement {
 
   private renderTabHeaders() {
     return html`
-      <paper-tabs
-        id="primaryTabs"
-        @selected-changed=${this.setActivePrimaryTab}
-      >
-        <paper-tab @click=${this.onPaperTabClick} data-name=${PrimaryTab.FILES}
+      <paper-tabs id="tabs" @selected-changed=${this.setActiveTab}>
+        <paper-tab @click=${this.onPaperTabClick} data-name=${Tab.FILES}
           ><span>Files</span></paper-tab
         >
         <paper-tab
           @click=${this.onPaperTabClick}
-          data-name=${PrimaryTab.COMMENT_THREADS}
+          data-name=${Tab.COMMENT_THREADS}
           class="commentThreads"
         >
           <gr-tooltip-content
@@ -1395,9 +1386,7 @@ export class GrChangeView extends LitElement {
         ${when(
           this.showChecksTab,
           () => html`
-            <paper-tab
-              data-name=${PrimaryTab.CHECKS}
-              @click=${this.onPaperTabClick}
+            <paper-tab data-name=${Tab.CHECKS} @click=${this.onPaperTabClick}
               ><span>Checks</span></paper-tab
             >
           `
@@ -1405,10 +1394,7 @@ export class GrChangeView extends LitElement {
         ${when(
           this.showFindingsTab,
           () => html`
-            <paper-tab
-              data-name=${PrimaryTab.FINDINGS}
-              @click=${this.onPaperTabClick}
-            >
+            <paper-tab data-name=${Tab.FINDINGS} @click=${this.onPaperTabClick}>
               <span>Findings</span>
             </paper-tab>
           `
@@ -1428,7 +1414,7 @@ export class GrChangeView extends LitElement {
 
   private renderFilesTab() {
     return html`
-      <div ?hidden=${!this.isTabActive(PrimaryTab.FILES)}>
+      <div ?hidden=${this.activeTab !== Tab.FILES}>
         <gr-file-list-header
           id="fileListHeader"
           .account=${this.account}
@@ -1473,7 +1459,7 @@ export class GrChangeView extends LitElement {
   }
 
   private renderCommentsTab() {
-    if (!this.isTabActive(PrimaryTab.COMMENT_THREADS)) return nothing;
+    if (this.activeTab !== Tab.COMMENT_THREADS) return nothing;
     return html`
       <h3 class="assistive-tech-only">Comments</h3>
       <gr-thread-list
@@ -1488,7 +1474,7 @@ export class GrChangeView extends LitElement {
   }
 
   private renderChecksTab() {
-    if (!this.isTabActive(PrimaryTab.CHECKS)) return nothing;
+    if (this.activeTab !== Tab.CHECKS) return nothing;
     return html`
       <h3 class="assistive-tech-only">Checks</h3>
       <gr-checks-tab id="checksTab" .tabState=${this.tabState}></gr-checks-tab>
@@ -1496,7 +1482,7 @@ export class GrChangeView extends LitElement {
   }
 
   private renderFindingsTab() {
-    if (!this.isTabActive(PrimaryTab.FINDINGS)) return nothing;
+    if (this.activeTab !== Tab.FINDINGS) return nothing;
     if (!this.showFindingsTab) return nothing;
     const robotCommentThreads = this.computeRobotCommentThreads();
     const robotCommentsPatchSetDropdownItems =
@@ -1534,8 +1520,8 @@ export class GrChangeView extends LitElement {
         </gr-endpoint-param>
       </gr-endpoint-decorator>
 
-      <paper-tabs id="secondaryTabs">
-        <paper-tab data-name=${SecondaryTab.CHANGE_LOG} class="changeLog">
+      <paper-tabs>
+        <paper-tab data-name="_changeLog" class="changeLog">
           Change Log
         </paper-tab>
       </paper-tabs>
@@ -1582,80 +1568,39 @@ export class GrChangeView extends LitElement {
     }
   }
 
-  private isTabActive(tab?: string) {
-    if (!tab || !this.activeTabs) return false;
-    return this.activeTabs.includes(tab);
-  }
-
-  /**
-   * Actual implementation of switching a tab
-   *
-   * @param paperTabs - the parent tabs container
-   */
-  private setActiveTab(
-    paperTabs: PaperTabsElement | null,
-    activeDetails: {
-      activeTabName?: string;
-      activeTabIndex?: number;
-      scrollIntoView?: boolean;
-    },
-    src?: string
-  ) {
+  setActiveTab(e: SwitchTabEvent) {
+    const paperTabs = this.shadowRoot!.querySelector<PaperTabsElement>('#tabs');
     if (!paperTabs) return;
-    const {activeTabName, activeTabIndex, scrollIntoView} = activeDetails;
     const tabs = paperTabs.querySelectorAll(
       'paper-tab'
     ) as NodeListOf<HTMLElement>;
-    let activeIndex = -1;
-    if (activeTabIndex !== undefined) {
-      activeIndex = activeTabIndex;
-    } else {
-      for (let i = 0; i <= tabs.length; i++) {
-        const tab = tabs[i];
-        if (tab.dataset['name'] === activeTabName) {
-          activeIndex = i;
-          break;
-        }
-      }
+    if (!tabs) return;
+
+    let tabName = e.detail.tab;
+    let tabIndex = e.detail.value;
+
+    if (tabIndex === undefined) {
+      assert(tabName !== undefined, 'tabName or tabIndex must be defined');
+      tabIndex = [...tabs].findIndex(t => t.dataset['name'] === tabName);
+      assert(tabIndex !== -1, `tab ${tabName} not found`);
     }
-    if (activeIndex === -1) {
-      this.reporting.error(new Error(`tab not found for ${activeDetails}`));
-      return;
+
+    if (tabName === undefined) {
+      tabName = tabs[tabIndex].dataset['name'];
     }
-    const tabName = tabs[activeIndex].dataset['name'];
-    if (scrollIntoView) {
-      paperTabs.scrollIntoView({block: 'center'});
-    }
-    if (paperTabs.selected !== activeIndex) {
+
+    if (paperTabs.selected !== tabIndex) {
       // paperTabs.selected is undefined during rendering
       if (paperTabs.selected !== undefined) {
+        const src = (e.composedPath()?.[0] as Element | undefined)?.tagName;
         this.reporting.reportInteraction(Interaction.SHOW_TAB, {tabName, src});
       }
-      paperTabs.selected = activeIndex;
+      paperTabs.selected = tabIndex;
     }
-    return tabName;
-  }
 
-  /**
-   * Changes active primary tab.
-   * Private but used in tests.
-   */
-  setActivePrimaryTab(e: SwitchTabEvent) {
-    const primaryTabs =
-      this.shadowRoot!.querySelector<PaperTabsElement>('#primaryTabs');
-    const activeTabName = this.setActiveTab(
-      primaryTabs,
-      {
-        activeTabName: e.detail.tab,
-        activeTabIndex: e.detail.value,
-        scrollIntoView: e.detail.scrollIntoView,
-      },
-      (e.composedPath()?.[0] as Element | undefined)?.tagName
-    );
-    if (activeTabName) {
-      this.activeTabs = [activeTabName, this.activeTabs[1]];
-    }
+    this.activeTab = tabName as Tab;
     if (e.detail.tabState) this.tabState = e.detail.tabState;
+    if (e.detail.scrollIntoView) paperTabs.scrollIntoView({block: 'center'});
   }
 
   /**
@@ -1675,7 +1620,7 @@ export class GrChangeView extends LitElement {
       target = target?.parentElement as HTMLElement | null;
     } while (target);
 
-    if (tabName === PrimaryTab.COMMENT_THREADS) {
+    if (tabName === Tab.COMMENT_THREADS) {
       // Show unresolved threads by default
       // Show resolved threads only if no unresolved threads exist
       const hasUnresolvedThreads =
@@ -2131,28 +2076,28 @@ export class GrChangeView extends LitElement {
     getPluginLoader()
       .awaitPluginsLoaded()
       .then(() => {
-        this.initActiveTabs();
+        this.initActiveTab();
       });
   }
 
-  private initActiveTabs() {
-    let primaryTab = PrimaryTab.FILES;
+  private initActiveTab() {
+    let tab = Tab.FILES;
     if (this.params?.tab) {
-      primaryTab = this.params?.tab as PrimaryTab;
+      tab = this.params?.tab as Tab;
     } else if (this.params?.commentId) {
-      primaryTab = PrimaryTab.COMMENT_THREADS;
+      tab = Tab.COMMENT_THREADS;
     }
     const detail: SwitchTabEventDetail = {
-      tab: primaryTab,
+      tab,
     };
-    if (primaryTab === PrimaryTab.CHECKS) {
+    if (tab === Tab.CHECKS) {
       const state: ChecksTabState = {};
       detail.tabState = {checksTab: state};
       if (this.params?.filter) state.filter = this.params.filter;
       if (this.params?.select) state.select = this.params.select;
       if (this.params?.attempt) state.attempt = this.params.attempt;
     }
-    this.setActivePrimaryTab(
+    this.setActiveTab(
       new CustomEvent(EventType.SHOW_PRIMARY_TAB, {
         detail,
       })

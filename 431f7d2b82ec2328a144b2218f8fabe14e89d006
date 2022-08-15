@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d82d37e1_abc740ba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-15T19:44:38Z",
+      "side": 1,
+      "message": "I believe the Zuul plugin uses it. What would be the alternative way to add a custom tab to the change screen once the change-view-tab is removed?",
+      "revId": "431f7d2b82ec2328a144b2218f8fabe14e89d006",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

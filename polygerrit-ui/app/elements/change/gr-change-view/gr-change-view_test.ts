@@ -14,7 +14,6 @@ import {
   DiffViewMode,
   HttpMethod,
   MessageTag,
-  PrimaryTab,
   createDefaultPreferences,
 } from '../../../constants/constants';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
@@ -346,21 +345,6 @@ suite('gr-change-view tests', () => {
     stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
     stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
 
-    getPluginLoader().loadPlugins([]);
-    window.Gerrit.install(
-      plugin => {
-        plugin.registerDynamicCustomComponent(
-          'change-view-tab-header',
-          'gr-checks-change-view-tab-header-view'
-        );
-        plugin.registerDynamicCustomComponent(
-          'change-view-tab-content',
-          'gr-checks-view'
-        );
-      },
-      '0.1',
-      'http://some/plugins/url.js'
-    );
     element = await fixture<GrChangeView>(
       html`<gr-change-view></gr-change-view>`
     );
@@ -463,7 +447,7 @@ suite('gr-change-view tests', () => {
             class="iron-selected"
             data-name="files"
             role="tab"
-            tabindex="0"
+            tabindex="-1"
           >
             <span> Files </span>
           </paper-tab>
@@ -478,18 +462,6 @@ suite('gr-change-view tests', () => {
             <gr-tooltip-content has-tooltip="" title="">
               <span> Comments </span>
             </gr-tooltip-content>
-          </paper-tab>
-          <paper-tab
-            aria-disabled="false"
-            aria-selected="false"
-            data-name="change-view-tab-header-url"
-            role="tab"
-            tabindex="-1"
-          >
-            <gr-endpoint-decorator name="change-view-tab-header-url">
-              <gr-endpoint-param name="change"> </gr-endpoint-param>
-              <gr-endpoint-param name="revision"> </gr-endpoint-param>
-            </gr-endpoint-decorator>
           </paper-tab>
         </paper-tabs>
         <section class="patchInfo">
@@ -678,86 +650,6 @@ suite('gr-change-view tests', () => {
 
     element.handleToggleAttentionSet();
     assert.isTrue(removeFromAttentionSetStub.called);
-  });
-
-  suite('plugins adding to file tab', () => {
-    setup(async () => {
-      element.changeNum = TEST_NUMERIC_CHANGE_ID;
-      await element.updateComplete;
-    });
-
-    test('plugin added tab shows up as a dynamic endpoint', async () => {
-      await flush();
-      assert(
-        element.dynamicTabHeaderEndpoints.includes('change-view-tab-header-url')
-      );
-      const primaryTabs = element.shadowRoot!.querySelector('#primaryTabs')!;
-      const paperTabs = primaryTabs.querySelectorAll<HTMLElement>('paper-tab');
-      // 4 Tabs are : Files, Comment Threads, Plugin
-      assert.equal(primaryTabs.querySelectorAll('paper-tab').length, 3);
-      assert.equal(paperTabs[0].dataset.name, 'files');
-      assert.equal(paperTabs[1].dataset.name, 'comments');
-      assert.equal(paperTabs[2].dataset.name, 'change-view-tab-header-url');
-    });
-
-    test('setActivePrimaryTab switched tab correctly', async () => {
-      element.setActivePrimaryTab(
-        new CustomEvent('', {
-          detail: {tab: 'change-view-tab-header-url'},
-        })
-      );
-      await element.updateComplete;
-      assert.equal(element.activeTabs[0], 'change-view-tab-header-url');
-    });
-
-    test('show-primary-tab switched primary tab correctly', async () => {
-      element.dispatchEvent(
-        new CustomEvent('show-primary-tab', {
-          composed: true,
-          bubbles: true,
-          detail: {
-            tab: 'change-view-tab-header-url',
-          },
-        })
-      );
-      await element.updateComplete;
-      assert.equal(element.activeTabs[0], 'change-view-tab-header-url');
-    });
-
-    test('param change should switch primary tab correctly', async () => {
-      assert.equal(element.activeTabs[0], PrimaryTab.FILES);
-      // view is required
-      element.changeNum = undefined;
-      element.params = {
-        ...createAppElementChangeViewParams(),
-        ...element.params,
-        tab: PrimaryTab.COMMENT_THREADS,
-      };
-      await element.updateComplete;
-      assert.equal(element.activeTabs[0], PrimaryTab.COMMENT_THREADS);
-    });
-
-    test('invalid param change should not switch primary tab', async () => {
-      assert.equal(element.activeTabs[0], PrimaryTab.FILES);
-      // view is required
-      element.params = {
-        ...createAppElementChangeViewParams(),
-        ...element.params,
-        tab: 'random',
-      };
-      await element.updateComplete;
-      assert.equal(element.activeTabs[0], PrimaryTab.FILES);
-    });
-
-    test('switching tab sets _selectedTabPluginEndpoint', async () => {
-      const paperTabs = element.shadowRoot!.querySelector('#primaryTabs')!;
-      tap(paperTabs.querySelectorAll('paper-tab')[2]);
-      await element.updateComplete;
-      assert.equal(
-        element.selectedTabPluginEndpoint,
-        'change-view-tab-content-url'
-      );
-    });
   });
 
   suite('keyboard shortcuts', () => {
@@ -1110,9 +1002,9 @@ suite('gr-change-view tests', () => {
       await element.updateComplete;
       const paperTabs = element.shadowRoot!.querySelector('#primaryTabs')!;
       const tabs = paperTabs.querySelectorAll('paper-tab');
-      assert.isTrue(tabs.length > 3);
-      assert.equal(tabs[3].dataset.name, 'findings');
-      tap(tabs[3]);
+      assert.isTrue(tabs.length > 2);
+      assert.equal(tabs[2].dataset.name, 'findings');
+      tap(tabs[2]);
       await element.updateComplete;
     });
 

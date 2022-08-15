@@ -37,7 +37,6 @@ import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {pluralize} from '../../../utils/string-util';
 import {querySelectorAll, windowLocationReload} from '../../../utils/dom-util';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
 import {
@@ -468,22 +467,6 @@ export class GrChangeView extends LitElement {
   @state()
   mergeable: boolean | null = null;
 
-  // Private but used in tests.
-  @state()
-  dynamicTabHeaderEndpoints: string[] = [];
-
-  @state()
-  private dynamicTabContentEndpoints: string[] = [];
-
-  // Private but used in tests.
-  @state()
-  // The dynamic content of the plugin added tab
-  selectedTabPluginEndpoint = '';
-
-  @state()
-  // The dynamic heading of the plugin added tab
-  private selectedTabPluginHeader = '';
-
   @state()
   private currentRobotCommentsPatchSet?: PatchSetNum;
 
@@ -802,23 +785,7 @@ export class GrChangeView extends LitElement {
   private firstConnectedCallback() {
     if (!this.isFirstConnection) return;
     this.isFirstConnection = false;
-
-    getPluginLoader()
-      .awaitPluginsLoaded()
-      .then(() => {
-        this.dynamicTabHeaderEndpoints =
-          getPluginEndpoints().getDynamicEndpoints('change-view-tab-header');
-        this.dynamicTabContentEndpoints =
-          getPluginEndpoints().getDynamicEndpoints('change-view-tab-content');
-        if (
-          this.dynamicTabContentEndpoints.length !==
-          this.dynamicTabHeaderEndpoints.length
-        ) {
-          this.reporting.error(new Error('Mismatch of headers and content.'));
-        }
-      })
-      .then(() => this.initActiveTabs());
-
+    this.initActiveTabs();
     this.throttledToggleChangeStar = throttleWrap<KeyboardEvent>(_ =>
       this.handleToggleChangeStar()
     );
@@ -1434,21 +1401,6 @@ export class GrChangeView extends LitElement {
             >
           `
         )}
-        ${this.dynamicTabHeaderEndpoints.map(
-          tabHeader => html`
-            <paper-tab data-name=${tabHeader}>
-              <gr-endpoint-decorator name=${tabHeader}>
-                <gr-endpoint-param name="change" .value=${this.change}>
-                </gr-endpoint-param>
-                <gr-endpoint-param
-                  name="revision"
-                  .value=${this.selectedRevision}
-                >
-                </gr-endpoint-param>
-              </gr-endpoint-decorator>
-            </paper-tab>
-          `
-        )}
         ${when(
           this.showFindingsTab,
           () => html`
@@ -1559,17 +1511,6 @@ export class GrChangeView extends LitElement {
               `
             )}
           `
-        )}
-        ${when(
-          this.isTabActive(this.selectedTabPluginHeader),
-          () => html`
-          <gr-endpoint-decorator .name=${this.selectedTabPluginEndpoint}>
-            <gr-endpoint-param name="change" .value=${this.change}>
-            </gr-endpoint-param>
-            <gr-endpoint-param name="revision" .value=${this.selectedRevision}></gr-endpoint-param>
-            </gr-endpoint-param>
-          </gr-endpoint-decorator>
-        `
         )}
       </section>
 
@@ -1700,20 +1641,6 @@ export class GrChangeView extends LitElement {
     );
     if (activeTabName) {
       this.activeTabs = [activeTabName, this.activeTabs[1]];
-
-      // update plugin endpoint if its a plugin tab
-      const pluginIndex = (this.dynamicTabHeaderEndpoints || []).indexOf(
-        activeTabName
-      );
-      if (pluginIndex !== -1) {
-        this.selectedTabPluginEndpoint =
-          this.dynamicTabContentEndpoints[pluginIndex];
-        this.selectedTabPluginHeader =
-          this.dynamicTabHeaderEndpoints[pluginIndex];
-      } else {
-        this.selectedTabPluginEndpoint = '';
-        this.selectedTabPluginHeader = '';
-      }
     }
     if (e.detail.tabState) this.tabState = e.detail.tabState;
   }

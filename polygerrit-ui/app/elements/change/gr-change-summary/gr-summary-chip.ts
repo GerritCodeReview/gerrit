@@ -8,8 +8,8 @@ import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {getAppContext} from '../../../services/app-context';
-import {fireShowPrimaryTab} from '../../../utils/event-util';
-import {PrimaryTab} from '../../../constants/constants';
+import {fireShowTab} from '../../../utils/event-util';
+import {Tab} from '../../../constants/constants';
 import {CommentTabState} from '../../../types/events';
 import {fontStyles} from '../../../styles/gr-font-styles';
 
@@ -102,7 +102,7 @@ export class GrSummaryChip extends LitElement {
     this.reporting.reportInteraction('comment chip click', {
       category: this.category,
     });
-    fireShowPrimaryTab(this, PrimaryTab.COMMENT_THREADS, true, {
+    fireShowTab(this, Tab.COMMENT_THREADS, true, {
       commentTab: this.category,
     });
   }

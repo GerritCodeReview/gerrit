@@ -14,8 +14,8 @@ import {
   DiffViewMode,
   HttpMethod,
   MessageTag,
-  PrimaryTab,
   createDefaultPreferences,
+  Tab,
 } from '../../../constants/constants';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {_testOnly_resetEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
@@ -456,7 +456,7 @@ suite('gr-change-view tests', () => {
           </div>
         </section>
         <h2 class="assistive-tech-only">Files and Comments tabs</h2>
-        <paper-tabs dir="null" id="primaryTabs" role="tablist" tabindex="0">
+        <paper-tabs dir="null" id="tabs" role="tablist" tabindex="0">
           <paper-tab
             aria-disabled="false"
             aria-selected="true"
@@ -503,7 +503,7 @@ suite('gr-change-view tests', () => {
           <gr-endpoint-param name="change"> </gr-endpoint-param>
           <gr-endpoint-param name="revision"> </gr-endpoint-param>
         </gr-endpoint-decorator>
-        <paper-tabs dir="null" id="secondaryTabs" role="tablist" tabindex="0">
+        <paper-tabs dir="null" role="tablist" tabindex="0">
           <paper-tab
             aria-disabled="false"
             aria-selected="false"
@@ -684,35 +684,35 @@ suite('gr-change-view tests', () => {
     setup(async () => {
       element.changeNum = TEST_NUMERIC_CHANGE_ID;
       await element.updateComplete;
+      await waitUntil(() => element.pluginTabsHeaderEndpoints.length > 0);
     });
 
     test('plugin added tab shows up as a dynamic endpoint', async () => {
-      await flush();
       assert(
-        element.dynamicTabHeaderEndpoints.includes('change-view-tab-header-url')
+        element.pluginTabsHeaderEndpoints.includes('change-view-tab-header-url')
       );
-      const primaryTabs = element.shadowRoot!.querySelector('#primaryTabs')!;
-      const paperTabs = primaryTabs.querySelectorAll<HTMLElement>('paper-tab');
+      const tabs = element.shadowRoot!.querySelector('#tabs')!;
+      const paperTabs = tabs.querySelectorAll<HTMLElement>('paper-tab');
       // 4 Tabs are : Files, Comment Threads, Plugin
-      assert.equal(primaryTabs.querySelectorAll('paper-tab').length, 3);
+      assert.equal(tabs.querySelectorAll('paper-tab').length, 3);
       assert.equal(paperTabs[0].dataset.name, 'files');
       assert.equal(paperTabs[1].dataset.name, 'comments');
       assert.equal(paperTabs[2].dataset.name, 'change-view-tab-header-url');
     });
 
-    test('setActivePrimaryTab switched tab correctly', async () => {
-      element.setActivePrimaryTab(
+    test('setActiveTab switched tab correctly', async () => {
+      element.setActiveTab(
         new CustomEvent('', {
           detail: {tab: 'change-view-tab-header-url'},
         })
       );
       await element.updateComplete;
-      assert.equal(element.activeTabs[0], 'change-view-tab-header-url');
+      assert.equal(element.activeTab, 'change-view-tab-header-url');
     });
 
-    test('show-primary-tab switched primary tab correctly', async () => {
+    test('show-tab switched primary tab correctly', async () => {
       element.dispatchEvent(
-        new CustomEvent('show-primary-tab', {
+        new CustomEvent('show-tab', {
           composed: true,
           bubbles: true,
           detail: {
@@ -721,24 +721,24 @@ suite('gr-change-view tests', () => {
         })
       );
       await element.updateComplete;
-      assert.equal(element.activeTabs[0], 'change-view-tab-header-url');
+      assert.equal(element.activeTab, 'change-view-tab-header-url');
     });
 
     test('param change should switch primary tab correctly', async () => {
-      assert.equal(element.activeTabs[0], PrimaryTab.FILES);
+      assert.equal(element.activeTab, Tab.FILES);
       // view is required
       element.changeNum = undefined;
       element.params = {
         ...createAppElementChangeViewParams(),
         ...element.params,
-        tab: PrimaryTab.COMMENT_THREADS,
+        tab: Tab.COMMENT_THREADS,
       };
       await element.updateComplete;
-      assert.equal(element.activeTabs[0], PrimaryTab.COMMENT_THREADS);
+      assert.equal(element.activeTab, Tab.COMMENT_THREADS);
     });
 
     test('invalid param change should not switch primary tab', async () => {
-      assert.equal(element.activeTabs[0], PrimaryTab.FILES);
+      assert.equal(element.activeTab, Tab.FILES);
       // view is required
       element.params = {
         ...createAppElementChangeViewParams(),
@@ -746,17 +746,21 @@ suite('gr-change-view tests', () => {
         tab: 'random',
       };
       await element.updateComplete;
-      assert.equal(element.activeTabs[0], PrimaryTab.FILES);
+      assert.equal(element.activeTab, Tab.FILES);
     });
 
-    test('switching tab sets _selectedTabPluginEndpoint', async () => {
-      const paperTabs = element.shadowRoot!.querySelector('#primaryTabs')!;
+    test('switching to plugin tab renders the plugin tab content', async () => {
+      const paperTabs = element.shadowRoot!.querySelector('#tabs')!;
       tap(paperTabs.querySelectorAll('paper-tab')[2]);
       await element.updateComplete;
-      assert.equal(
-        element.selectedTabPluginEndpoint,
-        'change-view-tab-content-url'
-      );
+      const tabContent = queryAndAssert(element, '.tabContent');
+      const endpoint = queryAndAssert(tabContent, 'gr-endpoint-decorator');
+      expect(endpoint).dom.to.equal(/* HTML */ `
+        <gr-endpoint-decorator>
+          <gr-endpoint-param name="change"></gr-endpoint-param>
+          <gr-endpoint-param name="revision"></gr-endpoint-param>
+        </gr-endpoint-decorator>
+      `);
     });
   });
 
@@ -1068,7 +1072,7 @@ suite('gr-change-view tests', () => {
       };
       element.commentThreads = THREADS;
       await element.updateComplete;
-      const paperTabs = element.shadowRoot!.querySelector('#primaryTabs')!;
+      const paperTabs = element.shadowRoot!.querySelector('#tabs')!;
       const tabs = paperTabs.querySelectorAll('paper-tab');
       assert.isTrue(tabs.length > 1);
       assert.equal(tabs[1].dataset.name, 'comments');
@@ -1108,7 +1112,7 @@ suite('gr-change-view tests', () => {
       element.commentThreads = THREADS;
       element.showFindingsTab = true;
       await element.updateComplete;
-      const paperTabs = element.shadowRoot!.querySelector('#primaryTabs')!;
+      const paperTabs = element.shadowRoot!.querySelector('#tabs')!;
       const tabs = paperTabs.querySelectorAll('paper-tab');
       assert.isTrue(tabs.length > 3);
       assert.equal(tabs[3].dataset.name, 'findings');

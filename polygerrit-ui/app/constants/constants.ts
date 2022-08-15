@@ -52,7 +52,7 @@ export enum AccountTag {
   SERVICE_USER = 'SERVICE_USER',
 }
 
-export enum PrimaryTab {
+export enum Tab {
   FILES = 'files',
   /**
    * When renaming 'comments' or 'findings', UrlFormatter.java must be updated.
@@ -60,13 +60,6 @@ export enum PrimaryTab {
   COMMENT_THREADS = 'comments',
   FINDINGS = 'findings',
   CHECKS = 'checks',
-}
-
-/**
- * Tab names for secondary tabs on change view page.
- */
-export enum SecondaryTab {
-  CHANGE_LOG = '_changeLog',
 }
 
 /**

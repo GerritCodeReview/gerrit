@@ -93,14 +93,14 @@ export function fireIronAnnounce(target: EventTarget, text: string) {
   fire(target, EventType.IRON_ANNOUNCE, {text});
 }
 
-export function fireShowPrimaryTab(
+export function fireShowTab(
   target: EventTarget,
   tab: string,
   scrollIntoView?: boolean,
   tabState?: TabState
 ) {
   const detail: SwitchTabEventDetail = {tab, scrollIntoView, tabState};
-  fire(target, EventType.SHOW_PRIMARY_TAB, detail);
+  fire(target, EventType.SHOW_TAB, detail);
 }
 
 export function fireCloseFixPreview(target: EventTarget, fixApplied: boolean) {

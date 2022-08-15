@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b802505_2b819cfc",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1656,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-08-15T01:54:14Z",
+      "side": 1,
+      "message": "Couldn\u0027t this be `inputVal?.trim() || \u0027\u0027` or `inputVal?.trim() ?? \u0027\u0027`",
+      "range": {
+        "startLine": 1656,
+        "startChar": 15,
+        "endLine": 1656,
+        "endChar": 47
+      },
+      "revId": "8eb127690f7fb99679975b3c67688e6186ee68b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

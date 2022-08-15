@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a638bf6_8596e50a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-15T18:58:13Z",
+      "side": 1,
+      "message": "Let\u0027s hold off on this and see if we can implement a broader fix for InternalChangeQuery.",
+      "revId": "5bc8bd95f450ece6300f68f2b5c885612c0b7bae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

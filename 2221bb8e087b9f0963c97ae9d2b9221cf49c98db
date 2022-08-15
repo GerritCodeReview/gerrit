@@ -16,6 +16,24 @@
       "message": "Thanks for fixing 3.4! Overall the change looks good.\n\nPlease, don\u0027t merge this into the master branch as is. If we still need this support in master, then it should be written differently. You can create a product excellence issue for our fixit next week, if you would rather like the frontend team fixing the issue in master.\n\nCan we maybe stop supporting server-side generated Change-Ids in 3.7? What are the plans?\n\nEven if we stop supporting server-side generated Change-Ids, then do we still need to show them for browsing historical changes?",
       "revId": "2221bb8e087b9f0963c97ae9d2b9221cf49c98db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "102f7c24_b1904474",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2022-08-15T16:48:58Z",
+      "side": 1,
+      "message": "\u003e Even if we stop supporting server-side generated Change-Ids, then do we still need to show them for browsing historical changes?\n\nOne workflow where I end up needing to access the server-side generated Change-Ids is to add the missing Change-Id to a commit message that is missing one, in order to upload a new patchset for it. If there\u0027s a button in the UI to edit the commit message to add the Change-Id line, however, then I wouldn\u0027t need the ability to do it manually.",
+      "parentUuid": "45d8a6c0_31bfb6e1",
+      "revId": "2221bb8e087b9f0963c97ae9d2b9221cf49c98db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

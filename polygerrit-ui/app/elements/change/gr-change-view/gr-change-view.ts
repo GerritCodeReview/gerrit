@@ -1116,7 +1116,7 @@ export class GrChangeView extends LitElement {
         .show-robot-comments {
           margin: var(--spacing-m);
         }
-        .patchInfo gr-thread-list::part(threads) {
+        .tabContent gr-thread-list::part(threads) {
           padding: var(--spacing-l);
         }
       `,
@@ -1144,7 +1144,8 @@ export class GrChangeView extends LitElement {
       >
         ${this.renderChangeInfoSection()}
         <h2 class="assistive-tech-only">Files and Comments tabs</h2>
-        ${this.renderPaperTabs()} ${this.renderPatchInfoSection()}
+        ${this.renderTabHeaders()} ${this.renderTabContent()}
+        ${this.renderChangeLog()}
       </div>
       <gr-apply-fix-dialog
         id="applyFixDialog"
@@ -1370,7 +1371,7 @@ export class GrChangeView extends LitElement {
     </div>`;
   }
 
-  private renderPaperTabs() {
+  private renderTabHeaders() {
     return html`
       <paper-tabs
         id="primaryTabs"
@@ -1416,104 +1417,116 @@ export class GrChangeView extends LitElement {
     `;
   }
 
-  private renderPatchInfoSection() {
+  private renderTabContent() {
+    return html`
+      <section class="tabContent">
+        ${this.renderFilesTab()} ${this.renderCommentsTab()}
+        ${this.renderChecksTab()} ${this.renderFindingsTab()}
+      </section>
+    `;
+  }
+
+  private renderFilesTab() {
+    return html`
+      <div ?hidden=${!this.isTabActive(PrimaryTab.FILES)}>
+        <gr-file-list-header
+          id="fileListHeader"
+          .account=${this.account}
+          .allPatchSets=${this.allPatchSets}
+          .change=${this.change}
+          .changeNum=${this.changeNum}
+          .revisionInfo=${this.getRevisionInfo()}
+          .commitInfo=${this.commitInfo}
+          .changeUrl=${this.computeChangeUrl()}
+          .editMode=${this.getEditMode()}
+          .loggedIn=${this.loggedIn}
+          .shownFileCount=${this.shownFileCount}
+          .patchNum=${this.patchRange?.patchNum}
+          .basePatchNum=${this.patchRange?.basePatchNum}
+          .filesExpanded=${this.fileList?.filesExpanded}
+          @open-diff-prefs=${this.handleOpenDiffPrefs}
+          @open-download-dialog=${this.handleOpenDownloadDialog}
+          @expand-diffs=${this.expandAllDiffs}
+          @collapse-diffs=${this.collapseAllDiffs}
+        >
+        </gr-file-list-header>
+        <gr-file-list
+          id="fileList"
+          class="hideOnMobileOverlay"
+          .change=${this.change}
+          .changeNum=${this.changeNum}
+          .patchRange=${this.patchRange}
+          .editMode=${this.getEditMode()}
+          @files-shown-changed=${(e: CustomEvent<{length: number}>) => {
+            this.shownFileCount = e.detail.length;
+          }}
+          @files-expanded-changed=${(
+            _e: ValueChangedEvent<FilesExpandedState>
+          ) => {
+            this.requestUpdate();
+          }}
+          @file-action-tap=${this.handleFileActionTap}
+        >
+        </gr-file-list>
+      </div>
+    `;
+  }
+
+  private renderCommentsTab() {
+    if (!this.isTabActive(PrimaryTab.COMMENT_THREADS)) return nothing;
+    return html`
+      <h3 class="assistive-tech-only">Comments</h3>
+      <gr-thread-list
+        .threads=${this.commentThreads}
+        .commentTabState=${this.tabState}
+        only-show-robot-comments-with-human-reply=""
+        .unresolvedOnly=${this.unresolvedOnly}
+        .scrollCommentId=${this.scrollCommentId}
+        show-comment-context
+      ></gr-thread-list>
+    `;
+  }
+
+  private renderChecksTab() {
+    if (!this.isTabActive(PrimaryTab.CHECKS)) return nothing;
+    return html`
+      <h3 class="assistive-tech-only">Checks</h3>
+      <gr-checks-tab id="checksTab" .tabState=${this.tabState}></gr-checks-tab>
+    `;
+  }
+
+  private renderFindingsTab() {
+    if (!this.isTabActive(PrimaryTab.FINDINGS)) return nothing;
+    if (!this.showFindingsTab) return nothing;
     const robotCommentThreads = this.computeRobotCommentThreads();
     const robotCommentsPatchSetDropdownItems =
       this.computeRobotCommentsPatchSetDropdownItems();
     return html`
-      <section class="patchInfo">
-        <div ?hidden=${!this.isTabActive(PrimaryTab.FILES)}>
-          <gr-file-list-header
-            id="fileListHeader"
-            .account=${this.account}
-            .allPatchSets=${this.allPatchSets}
-            .change=${this.change}
-            .changeNum=${this.changeNum}
-            .revisionInfo=${this.getRevisionInfo()}
-            .commitInfo=${this.commitInfo}
-            .changeUrl=${this.computeChangeUrl()}
-            .editMode=${this.getEditMode()}
-            .loggedIn=${this.loggedIn}
-            .shownFileCount=${this.shownFileCount}
-            .patchNum=${this.patchRange?.patchNum}
-            .basePatchNum=${this.patchRange?.basePatchNum}
-            .filesExpanded=${this.fileList?.filesExpanded}
-            @open-diff-prefs=${this.handleOpenDiffPrefs}
-            @open-download-dialog=${this.handleOpenDownloadDialog}
-            @expand-diffs=${this.expandAllDiffs}
-            @collapse-diffs=${this.collapseAllDiffs}
+      <gr-dropdown-list
+        class="patch-set-dropdown"
+        .items=${robotCommentsPatchSetDropdownItems}
+        .value=${this.currentRobotCommentsPatchSet}
+        @value-change=${this.handleRobotCommentPatchSetChanged}
+      >
+      </gr-dropdown-list>
+      <gr-thread-list .threads=${robotCommentThreads} hide-dropdown>
+      </gr-thread-list>
+      ${when(
+        this.showRobotCommentsButton,
+        () => html`
+          <gr-button
+            class="show-robot-comments"
+            @click=${this.toggleShowRobotComments}
           >
-          </gr-file-list-header>
-          <gr-file-list
-            id="fileList"
-            class="hideOnMobileOverlay"
-            .change=${this.change}
-            .changeNum=${this.changeNum}
-            .patchRange=${this.patchRange}
-            .editMode=${this.getEditMode()}
-            @files-shown-changed=${(e: CustomEvent<{length: number}>) => {
-              this.shownFileCount = e.detail.length;
-            }}
-            @files-expanded-changed=${(
-              _e: ValueChangedEvent<FilesExpandedState>
-            ) => {
-              this.requestUpdate();
-            }}
-            @file-action-tap=${this.handleFileActionTap}
-          >
-          </gr-file-list>
-        </div>
-        ${when(
-          this.isTabActive(PrimaryTab.COMMENT_THREADS),
-          () => html`
-            <h3 class="assistive-tech-only">Comments</h3>
-            <gr-thread-list
-              .threads=${this.commentThreads}
-              .commentTabState=${this.tabState}
-              only-show-robot-comments-with-human-reply=""
-              .unresolvedOnly=${this.unresolvedOnly}
-              .scrollCommentId=${this.scrollCommentId}
-              show-comment-context
-            ></gr-thread-list>
-          `
-        )}
-        ${when(
-          this.isTabActive(PrimaryTab.CHECKS),
-          () => html`
-            <h3 class="assistive-tech-only">Checks</h3>
-            <gr-checks-tab
-              id="checksTab"
-              .tabState=${this.tabState}
-            ></gr-checks-tab>
-          `
-        )}
-        ${when(
-          this.isTabActive(PrimaryTab.FINDINGS),
-          () => html`
-            <gr-dropdown-list
-              class="patch-set-dropdown"
-              .items=${robotCommentsPatchSetDropdownItems}
-              .value=${this.currentRobotCommentsPatchSet}
-              @value-change=${this.handleRobotCommentPatchSetChanged}
-            >
-            </gr-dropdown-list>
-            <gr-thread-list .threads=${robotCommentThreads} hide-dropdown>
-            </gr-thread-list>
-            ${when(
-              this.showRobotCommentsButton,
-              () => html`
-                <gr-button
-                  class="show-robot-comments"
-                  @click=${this.toggleShowRobotComments}
-                >
-                  ${this.showAllRobotComments ? 'Show Less' : 'Show more'}
-                </gr-button>
-              `
-            )}
-          `
-        )}
-      </section>
+            ${this.showAllRobotComments ? 'Show Less' : 'Show more'}
+          </gr-button>
+        `
+      )}
+    `;
+  }
 
+  private renderChangeLog() {
+    return html`
       <gr-endpoint-decorator name="change-view-integration">
         <gr-endpoint-param name="change" .value=${this.change}>
         </gr-endpoint-param>

@@ -28,6 +28,7 @@ java_library(
         "//java/com/google/gerrit/index:query_exception",
         "//java/com/google/gerrit/lifecycle",
         "//java/com/google/gerrit/server",
+        "//java/com/google/gerrit/server/group/testing",
         "//java/com/google/gerrit/server/project/testing:project-test-util",
         "//java/com/google/gerrit/server/schema",
         "//java/com/google/gerrit/server/util/time",

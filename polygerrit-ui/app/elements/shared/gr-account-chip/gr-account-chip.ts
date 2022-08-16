@@ -205,7 +205,10 @@ export class GrAccountChip extends LitElement {
     );
   }
 
-  private getHasAvatars() {
+  private async getHasAvatars() {
+    if (this.account && !this.account._account_id) {
+      this.account = await this.restApiService.getAccount(this.account.email);
+    }
     return this.restApiService
       .getConfig()
       .then(cfg =>

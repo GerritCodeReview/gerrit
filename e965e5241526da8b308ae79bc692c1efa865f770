@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5eba3f9_17436722",
+        "filename": "project.config",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-16T06:49:07Z",
+      "side": 0,
+      "message": "The syntax highlighing of this file really threw me off.\n\nI thought this was under \"Library Compliance\" submit requirement because this line is blue and the Library compliance is properly highlighted.",
+      "revId": "e965e5241526da8b308ae79bc692c1efa865f770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -34,6 +34,24 @@
       "parentUuid": "a20c1ba7_a3dee153",
       "revId": "1e93b1d708d6d20636297ce08647824d92142165",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "666abaf8_7a58bbea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-16T11:53:53Z",
+      "side": 1,
+      "message": "\u003e Can we avoid getting into this error-state at all?\nIn the ideal world we would not get any errors from the server and we don\u0027t need this change at all. 😄\n\nWhat do you think should be the behaviour if server does throw an error? We might get an error for other reasons as well.\n\nThe reason I prefer not showing an error popup is because I feel it would be too disruptive and I don\u0027t want in those cases where we get an error to disrupt the overall flow of the user.\n\nIn case you feel it is better to throw an error then I don\u0027t mind keeping the existing behaviour although I would say this would lead to a much poorer user experience\nMuch better would be the proposed one where we track those errors using reporting and the user can still create a comment without seeing a popup.",
+      "parentUuid": "39960af9_fbeb1716",
+      "revId": "1e93b1d708d6d20636297ce08647824d92142165",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

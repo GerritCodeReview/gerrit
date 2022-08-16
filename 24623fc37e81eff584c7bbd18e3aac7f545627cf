@@ -16,6 +16,24 @@
       "message": "Consider not using this variable name so it\u0027s easier to reason about.\n\nNow I need the mental tax of \"newStrings \u003d\u003d\u003d argument passed in\" and so line 44 looks different than line 34.",
       "revId": "24623fc37e81eff584c7bbd18e3aac7f545627cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ae6ed9b_9c8ed931",
+        "filename": "polygerrit-ui/app/utils/lit-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-16T08:05:47Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "698f2fd3_5402ba2b",
+      "revId": "24623fc37e81eff584c7bbd18e3aac7f545627cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

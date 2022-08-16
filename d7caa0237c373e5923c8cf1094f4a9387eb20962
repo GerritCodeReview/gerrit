@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c728002_b38ac4fe",
+        "filename": "polygerrit-ui/app/utils/lit-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-16T08:05:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e31a2f15_3e519da4",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 52
+      },
+      "revId": "d7caa0237c373e5923c8cf1094f4a9387eb20962",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "417d4cdd_b8f8a3f4",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-08-16T07:53:34Z",
       "side": 1,
       "message": "Consider the following so it\u0027s clear we only query on oldStrings when the keys don\u0027t match and otherwise the flow is as usual.\n\n```suggestion\n    if (oldStrings !\u003d\u003d newStrings) {\n      // Without using HtmlPatcher html`` would be called with `newStrings,\n      // which will be considered different, although actually being equal.\n      console.warn(`HtmlPatcher was required for \u0027${key.substring(0, 100)}\u0027.`);\n      this.reporter?.(key);\n      return this.nativeHtml(oldStrings, ...values);\n    }\n    return this.nativeHtml(strings, ...values);\n```",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 50
+      },
+      "revId": "d7caa0237c373e5923c8cf1094f4a9387eb20962",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "428dec5d_4d65510e",
+        "filename": "polygerrit-ui/app/utils/lit-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-16T08:05:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "417d4cdd_b8f8a3f4",
       "range": {
         "startLine": 47,
         "startChar": 0,

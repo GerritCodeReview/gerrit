@@ -97,6 +97,8 @@ export class GrAccountLabel extends LitElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
+  private readonly accountsModel = getAppContext().accountsModel;
+
   static override get styles() {
     return [
       css`
@@ -184,6 +186,20 @@ export class GrAccountLabel extends LitElement {
         }
       `,
     ];
+  }
+
+  override firstUpdated() {
+    // For mentioned users when the chip is rendered we don't have avatars
+    // since the detailed AccountInfo has not been requested yet.
+    // We don't want to re-request the AccountInfo object on each update hence
+    // request in firstUpdated.
+    this.getAccount();
+  }
+
+  private async getAccount() {
+    if (this.account && !this.account._account_id && this.account.email) {
+      this.account = await this.accountsModel.getAccount(this.account.email);
+    }
   }
 
   override render() {

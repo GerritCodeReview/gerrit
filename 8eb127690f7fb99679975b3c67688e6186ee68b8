@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1fc951b5_7044b4f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-16T06:48:02Z",
+      "side": 1,
+      "message": "Invalid input doesn\u0027t mean we get a server error. This is what I first want verified with gob-ctl before we continue the discussion.\nIf the server does return 400 using gob-ctl as well or you can dig up the pointer in the server side code then we can resolve it.\n\nConsider if BE is doing the trimming on their end as well and we don\u0027t get the benefit of that simply because we did not construct the query string properly.\n\nDid you verify using gob-ctl if we indeed get the same response or we get an empty array.\nAsking for owners starting with emails is for me a technically valid query even though the answer should always be empty response.\n\nThe issue with the query construction might show up in other API requests which is why I want to take a look at our general query construction mechanism instead of focusing solely on the SuggestAccounts API.\n\nThe reason why I filed this bug is because I wanted to see if this query could be made without getting a 400 for which we need to verify how the server actually handles the \"owner:space\" query.\n\nLet me know if you prefer me to do it but I do think the bug involves.\n\n1. Figuring out if 400 is the correct response instead of [].\n2. Our query building mechanism can be improved to fix it.\n3. This change that does the trimming to not request spaces.\n\nI can imagine a potential API in the future that lets users specify space as the starting token and our query building mechanism shouldn\u0027t construct an invalid query in that case.",
+      "parentUuid": "3ff480f8_b9317196",
+      "revId": "8eb127690f7fb99679975b3c67688e6186ee68b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2b802505_2b819cfc",
         "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
         "patchSetId": 2

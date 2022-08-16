@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2c19faa_1157289c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-16T15:14:11Z",
+      "side": 1,
+      "message": "Before reviewering/submitting this there are a few things left to resolve:\n- Enforce import lit stuff from named export path (ie. .js file extensions) hopefully from some eslint rule.\n- Enforce type-only imports `import type` from an eslint rule / tsconfig setting\n- Sorting out import into google. Our internal version of page.js is causing an issue from my test run.",
+      "revId": "42c1a45f81a8c45966b47622fd2dad2f37fc1439",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

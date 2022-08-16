@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1aa1a66b_2dcdd94f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-16T07:37:07Z",
+      "side": 1,
+      "message": "I could not get a screenshot of an empty dashboard because my staging dashboard is broken.\n\nI also don\u0027t know how to get an icon of rebase-edit type.",
+      "revId": "db635d99768e78395699fd9d6d0b09ce292139ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

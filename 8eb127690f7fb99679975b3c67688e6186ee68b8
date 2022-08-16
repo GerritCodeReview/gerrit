@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a88077c8_58270b0c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-16T06:10:09Z",
+      "side": 1,
+      "message": "I would like an answer to the comment before this is submitted(please let me resolve the thread before submitting).\n\nthere are 2 separate issues\n- making a query with invalid input\n- getting an error when using invalid input instead of empty response\n\nIf getting an error is WAI(which is surprising) then this fix is complete and the change can be submitted. \nCan you check(perhaps via gob-ctl) if the server should throw an 500 error instead of empty response if we send \" \" as query otherwise we should be able to send \" \" as query and not have a 500 server response instead of avoiding sending space anytime.\n\nI guess the argument can be made of why send space as a query at all, but I think if there is some issue in which we construct the query and get a 500 then we could first fix that issue to get an empty response(ideal case) and then apply this fix to stop querying the space at all.\n",
+      "revId": "8eb127690f7fb99679975b3c67688e6186ee68b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2b802505_2b819cfc",
         "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
         "patchSetId": 2

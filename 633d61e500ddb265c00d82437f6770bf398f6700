@@ -33,6 +33,24 @@
       "message": "I would change this so that there\u0027s a Set\u003cTemplateStringsArray\u003e that\u0027s checked first. If that contains an entry, then you\u0027ve seen a value before and don\u0027t need to compute the joined strings and perform a map lookup. If it doesn\u0027t contain a value, then check the string-keyed cache.",
       "revId": "633d61e500ddb265c00d82437f6770bf398f6700",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9ec5b52_6f59c8ab",
+        "filename": "polygerrit-ui/app/utils/lit-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-16T07:47:43Z",
+      "side": 1,
+      "message": "Thanks! Done in 343137: Improve performance of `HtmlPatched` | https://gerrit-review.googlesource.com/c/gerrit/+/343137",
+      "parentUuid": "1d422384_ad9ed0ef",
+      "revId": "633d61e500ddb265c00d82437f6770bf398f6700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

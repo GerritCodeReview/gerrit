@@ -358,7 +358,7 @@ export class GrHovercardRun extends base {
     const details = this.run?.attemptDetails ?? [];
     const more =
       details.length > 7
-        ? [{icon: {name: 'more-horiz'}, attempt: undefined}]
+        ? [{icon: {name: 'more_horiz'}, attempt: undefined}]
         : [];
     return [...more, ...details.slice(-7)];
   }

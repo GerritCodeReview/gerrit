@@ -118,6 +118,13 @@ public class TestGroupBackend implements GroupBackend {
 
   @Override
   public Collection<GroupReference> suggest(String name, ProjectState project) {
+    AccountGroup.UUID uuid = AccountGroup.uuid(name);
+    if (handles(uuid)) {
+      GroupDescription.Basic g = get(uuid);
+      if (g != null) {
+        return ImmutableList.of(GroupReference.forGroup(g));
+      }
+    }
     return ImmutableList.of();
   }
 

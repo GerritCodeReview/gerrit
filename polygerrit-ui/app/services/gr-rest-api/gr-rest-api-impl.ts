@@ -758,7 +758,9 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }) as Promise<unknown>;
   }
 
-  getAccountDetails(userId: AccountId): Promise<AccountDetailInfo | undefined> {
+  getAccountDetails(
+    userId: AccountId | EmailAddress
+  ): Promise<AccountDetailInfo | undefined> {
     return this._restApiHelper.fetchJSON({
       url: `/accounts/${encodeURIComponent(userId)}/detail`,
       anonymizedUrl: '/accounts/*/detail',

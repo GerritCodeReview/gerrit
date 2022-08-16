@@ -97,6 +97,8 @@ export class GrAccountLabel extends LitElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
+  private readonly accountsModel = getAppContext().accountsModel;
+
   static override get styles() {
     return [
       css`
@@ -184,6 +186,10 @@ export class GrAccountLabel extends LitElement {
         }
       `,
     ];
+  }
+
+  override async firstUpdated() {
+    this.account = await this.accountsModel.fillDetails(this.account!);
   }
 
   override render() {

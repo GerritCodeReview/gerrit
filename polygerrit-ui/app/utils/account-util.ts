@@ -79,6 +79,10 @@ export function uniqueDefinedAvatar(
   );
 }
 
+export function isNotDetailedAccount(account?: AccountInfo) {
+  return account && !account._account_id;
+}
+
 /**
  * Get account in pseudonymized form, that can be send to the backend.
  *

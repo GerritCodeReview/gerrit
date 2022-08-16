@@ -53,21 +53,21 @@ export class GrDiffCheckResult extends LitElement {
           border-color: var(--info-foreground);
           background-color: var(--info-background);
         }
-        .container.info .icon {
+        .container.info gr-icon {
           color: var(--info-foreground);
         }
         .container.warning {
           border-color: var(--warning-foreground);
           background-color: var(--warning-background);
         }
-        .container.warning .icon {
+        .container.warning gr-icon {
           color: var(--warning-foreground);
         }
         .container.error {
           border-color: var(--error-foreground);
           background-color: var(--error-background);
         }
-        .container.error .icon {
+        .container.error gr-icon {
           color: var(--error-foreground);
         }
         .header {

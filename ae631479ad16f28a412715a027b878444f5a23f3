@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15bce38d_55a06818",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-16T14:23:46Z",
+      "side": 1,
+      "message": "Minor nits",
+      "revId": "ae631479ad16f28a412715a027b878444f5a23f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b5aa6ea_626d8cc7",
+        "filename": "polygerrit-ui/app/workers/service-worker-class.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-16T14:23:46Z",
+      "side": 1,
+      "message": "Remove TODO? 😊",
+      "revId": "ae631479ad16f28a412715a027b878444f5a23f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97026dcf_b07de8eb",
+        "filename": "polygerrit-ui/app/workers/service-worker-class.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-16T14:23:46Z",
+      "side": 1,
+      "message": "Maybe make this part of the if/elseif structure below by comparing with length 0?  I\u0027m assuming that getChangesToNotify always returns an array?",
+      "revId": "ae631479ad16f28a412715a027b878444f5a23f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

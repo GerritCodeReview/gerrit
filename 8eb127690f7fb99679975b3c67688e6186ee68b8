@@ -161,6 +161,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec617c60_00ae3c62",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1656,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-16T07:35:07Z",
+      "side": 1,
+      "message": "Took paladox\u0027s suggestion",
+      "parentUuid": "51301837_6d421608",
+      "range": {
+        "startLine": 1656,
+        "startChar": 15,
+        "endLine": 1656,
+        "endChar": 47
+      },
+      "revId": "8eb127690f7fb99679975b3c67688e6186ee68b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc9bad1e_8f3054cf",
@@ -174,6 +198,24 @@
       "writtenOn": "2022-08-15T08:38:18Z",
       "side": 1,
       "message": "```suggestion\n    if (inputVal.length \u003e 0) {\n```",
+      "revId": "8eb127690f7fb99679975b3c67688e6186ee68b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ea788e7_36560211",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1657,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-16T07:35:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc9bad1e_8f3054cf",
       "revId": "8eb127690f7fb99679975b3c67688e6186ee68b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

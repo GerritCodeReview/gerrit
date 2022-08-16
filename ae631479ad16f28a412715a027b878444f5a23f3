@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fbd0274_b19243e5",
+        "filename": "polygerrit-ui/app/workers/service-worker-class.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-16T16:42:15Z",
+      "side": 1,
+      "message": "Thanks, I forgot about it 😊",
+      "parentUuid": "6b5aa6ea_626d8cc7",
+      "revId": "ae631479ad16f28a412715a027b878444f5a23f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "97026dcf_b07de8eb",
@@ -48,6 +66,24 @@
       "writtenOn": "2022-08-16T14:23:46Z",
       "side": 1,
       "message": "Maybe make this part of the if/elseif structure below by comparing with length 0?  I\u0027m assuming that getChangesToNotify always returns an array?",
+      "revId": "ae631479ad16f28a412715a027b878444f5a23f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec8c1fd0_1f55611b",
+        "filename": "polygerrit-ui/app/workers/service-worker-class.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-16T16:42:15Z",
+      "side": 1,
+      "message": "You are right, latestAttentionChanges is always defined. I removed it. Should I add length \u003d\u003d\u003d 0 check?",
+      "parentUuid": "97026dcf_b07de8eb",
       "revId": "ae631479ad16f28a412715a027b878444f5a23f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

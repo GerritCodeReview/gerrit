@@ -204,6 +204,9 @@ export class GrComment extends LitElement {
   @state()
   isAdmin = false;
 
+  @state()
+  isOwner = false;
+
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly reporting = getAppContext().reportingService;
@@ -274,6 +277,11 @@ export class GrComment extends LitElement {
       this,
       () => this.getChangeModel().changeNum$,
       x => (this.changeNum = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().isOwner$,
+      x => (this.isOwner = x)
     );
     subscribe(
       this,
@@ -750,7 +758,7 @@ export class GrComment extends LitElement {
     // fixed. Currently diff line doesn't match commit message line, because
     // of metadata in diff, which aren't in content api request.
     if (this.comment.path === SpecialFilePath.COMMIT_MESSAGE) return nothing;
-    // TODO(milutin): do not show for author/owner
+    if (this.isOwner) return nothing;
     return html`<gr-button link class="action" @click=${this.createSuggestEdit}
       >Suggest Fix</gr-button
     >`;

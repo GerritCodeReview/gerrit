@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "698f2fd3_5402ba2b",
+        "filename": "polygerrit-ui/app/utils/lit-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-16T07:53:34Z",
+      "side": 0,
+      "message": "Consider not using this variable name so it\u0027s easier to reason about.\n\nNow I need the mental tax of \"newStrings \u003d\u003d\u003d argument passed in\" and so line 44 looks different than line 34.",
+      "revId": "24623fc37e81eff584c7bbd18e3aac7f545627cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

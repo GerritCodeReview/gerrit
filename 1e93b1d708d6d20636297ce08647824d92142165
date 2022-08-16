@@ -16,6 +16,24 @@
       "message": "so user\u0027s see empty results with no error? Why not show them the problem?",
       "revId": "1e93b1d708d6d20636297ce08647824d92142165",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39960af9_fbeb1716",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-16T11:50:29Z",
+      "side": 1,
+      "message": "+1\n\nI don\u0027t like hiding error-cases by making them similar to empty suggestions.\n\nCan we avoid getting into this error-state at all?",
+      "parentUuid": "a20c1ba7_a3dee153",
+      "revId": "1e93b1d708d6d20636297ce08647824d92142165",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

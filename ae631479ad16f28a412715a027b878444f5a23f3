@@ -86,6 +86,24 @@
       "parentUuid": "97026dcf_b07de8eb",
       "revId": "ae631479ad16f28a412715a027b878444f5a23f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "795ff365_29077f4b",
+        "filename": "polygerrit-ui/app/workers/service-worker-class.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-16T16:45:30Z",
+      "side": 1,
+      "message": "No need, less is more.",
+      "parentUuid": "ec8c1fd0_1f55611b",
+      "revId": "ae631479ad16f28a412715a027b878444f5a23f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

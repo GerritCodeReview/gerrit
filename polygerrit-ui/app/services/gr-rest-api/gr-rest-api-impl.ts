@@ -717,9 +717,11 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     });
   }
 
-  getAccount(): Promise<AccountDetailInfo | undefined> {
+  getAccount(
+    id?: EmailAddress | AccountId
+  ): Promise<AccountDetailInfo | undefined> {
     return this._fetchSharedCacheURL({
-      url: '/accounts/self/detail',
+      url: `/accounts/${id ?? 'self'}/detail`,
       reportUrlAsIs: true,
       errFn: resp => {
         if (!resp || resp.status === 403) {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68307159_4fe14e9e",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-16T10:58:28Z",
+      "side": 1,
+      "message": "consider moving `handleValueChange` from `willUpdate` to `updated`.",
+      "range": {
+        "startLine": 565,
+        "startChar": 13,
+        "endLine": 565,
+        "endChar": 48
+      },
+      "revId": "a1287294b79f310fdacd1a8bde4805377f0c3368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

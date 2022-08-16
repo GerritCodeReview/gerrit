@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4851eaea_bd550778",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-16T07:25:35Z",
+      "side": 1,
+      "message": "An invalid input is exactly the kind of thing you\u0027d expect a server error for.  I\u0027ve looked into the code, the logic that fails isn\u0027t even inside of gerrit code, it\u0027s part of the antlr library.\n\nThe URL is malformed. If you wanted to ask for whitespace, you\u0027d have to escape it\n\nSo:\n```\nhttps://gerrit-review.googlesource.com/accounts/?o\u003dDETAILS\u0026q\u003d\"%20\"\u0026n\u003d10\n```\n\nInstead of \n```\nhttps://gerrit-review.googlesource.com/accounts/?o\u003dDETAILS\u0026q\u003d%20\u0026n\u003d10\n```",
+      "parentUuid": "1fc951b5_7044b4f1",
+      "revId": "8eb127690f7fb99679975b3c67688e6186ee68b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2b802505_2b819cfc",
         "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
         "patchSetId": 2

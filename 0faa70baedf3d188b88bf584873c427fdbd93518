@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80100223_9ea00006",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-16T23:52:46Z",
+      "side": 1,
+      "message": "Release-Notes missing",
+      "revId": "0faa70baedf3d188b88bf584873c427fdbd93518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97f2b6c4_64d71305",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-16T23:52:46Z",
+      "side": 1,
+      "message": "Thanks @Kaushik for the improvement. We typically do not add new features in stable branches: any reason why this is needed in stable-3.5?",
+      "revId": "0faa70baedf3d188b88bf584873c427fdbd93518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2a6bd80_83bdd5e7",
+        "filename": "java/com/google/gerrit/index/IndexConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-16T23:52:46Z",
+      "side": 1,
+      "message": "This new setting needs to be documented",
+      "revId": "0faa70baedf3d188b88bf584873c427fdbd93518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

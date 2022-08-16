@@ -21,7 +21,9 @@ import {
 } from './service-worker-indexdb';
 
 export class ServiceWorker {
-  constructor(private ctx: ServiceWorkerGlobalScope) {}
+  constructor(
+    /* private but used in test */ public ctx: ServiceWorkerGlobalScope
+  ) {}
 
   // private but used in test
   latestUpdateTimestampMs = Date.now();
@@ -70,15 +72,18 @@ export class ServiceWorker {
     e.waitUntil(this.openWindow(e.notification.data.url));
   }
 
-  private async showLatestAttentionChangeNotification(
-    account?: AccountDetailInfo
-  ) {
+  // private but used in test
+  async showLatestAttentionChangeNotification(account?: AccountDetailInfo) {
     // Message always contains account, but we do not throw error.
     if (!account?._account_id) return;
     const latestAttentionChanges = await this.getChangesToNotify(account);
     // TODO(milutin): Implement handling more than 1 change
-    if (latestAttentionChanges && latestAttentionChanges.length > 0) {
-      this.showNotification(latestAttentionChanges[0], account);
+    if (!latestAttentionChanges) return;
+    const numOfChangesToNotifyAbout = latestAttentionChanges.length;
+    if (numOfChangesToNotifyAbout === 1) {
+      this.showNotificationForChange(latestAttentionChanges[0], account);
+    } else if (numOfChangesToNotifyAbout > 1) {
+      this.showNotificationForDashboard(numOfChangesToNotifyAbout);
     }
   }
 
@@ -97,7 +102,7 @@ export class ServiceWorker {
     }
   }
 
-  private showNotification(
+  private showNotificationForChange(
     change: ParsedChangeInfo,
     account: AccountDetailInfo
   ) {
@@ -115,6 +120,15 @@ export class ServiceWorker {
 
     // TODO(milutin): Add gerrit host icon
     this.ctx.registration.showNotification(change.subject, {body, data});
+  }
+
+  private showNotificationForDashboard(numOfChangesToNotifyAbout: number) {
+    const title = `You are in the attention set for ${numOfChangesToNotifyAbout} changes.`;
+    const dashboardUrl = generateUrl({
+      view: GerritView.DASHBOARD,
+    });
+    const data = {url: `${self.location.origin}${dashboardUrl}`};
+    this.ctx.registration.showNotification(title, {data});
   }
 
   // private but used in test

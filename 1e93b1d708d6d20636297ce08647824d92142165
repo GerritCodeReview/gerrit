@@ -52,6 +52,24 @@
       "parentUuid": "39960af9_fbeb1716",
       "revId": "1e93b1d708d6d20636297ce08647824d92142165",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7cea175_0a046c17",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-16T11:58:04Z",
+      "side": 1,
+      "message": "The user should see the error so they can understand the problem and work around it, but to me the bug here is that the error comes back every time you close it (when searching `owner: `)",
+      "parentUuid": "666abaf8_7a58bbea",
+      "revId": "1e93b1d708d6d20636297ce08647824d92142165",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

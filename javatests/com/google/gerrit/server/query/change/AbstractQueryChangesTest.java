@@ -109,6 +109,7 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.account.VersionedAccountQueries;
 import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.change.ChangeInserter;
@@ -118,6 +119,7 @@ import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
+import com.google.gerrit.server.group.testing.TestGroupBackend;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexer;
@@ -195,6 +197,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected SchemaCreator schemaCreator;
   @Inject protected Sequences seq;
   @Inject protected ThreadLocalRequestContext requestContext;
+  @Inject protected TestGroupBackend testGroupBackend;
   @Inject protected ProjectCache projectCache;
   @Inject protected MetaDataUpdate.Server metaDataUpdateFactory;
   @Inject protected IdentifiedUser.GenericFactory identifiedUserFactory;
@@ -1384,6 +1387,44 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("label:Code-Review=+1,user=user1", change1);
     assertQuery("label:Code-Review=+1,user=user2");
     assertQuery("label:Code-Review=+1,group=group2");
+  }
+
+  @Test
+  public void byLabelExternalGroup() throws Exception {
+    Account.Id user1 = createAccount("user1");
+    Account.Id user2 = createAccount("user2");
+    TestRepository<InMemoryRepositoryManager.Repo> repo = createProject("repo");
+
+    // create group and add users
+    AccountGroup.UUID external_group1 = AccountGroup.uuid("testbackend:group1");
+    AccountGroup.UUID external_group2 = AccountGroup.uuid("testbackend:group2");
+    testGroupBackend.create(external_group1);
+    testGroupBackend.create(external_group2);
+    testGroupBackend.setMembershipsOf(
+        user1, new ListGroupMembership(ImmutableList.of(external_group1)));
+    testGroupBackend.setMembershipsOf(
+        user2, new ListGroupMembership(ImmutableList.of(external_group2)));
+
+    Change change1 = insert(repo, newChange(repo), user1);
+    Change change2 = insert(repo, newChange(repo), user1);
+
+    // post a review with user1 and other_user
+    requestContext.setContext(newRequestContext(user1));
+    gApi.changes()
+        .id(change1.getId().get())
+        .current()
+        .review(new ReviewInput().label("Code-Review", 1));
+    requestContext.setContext(newRequestContext(userId));
+    gApi.changes()
+        .id(change2.getId().get())
+        .current()
+        .review(new ReviewInput().label("Code-Review", 1));
+
+    assertQuery("label:Code-Review=+1," + external_group1.get(), change1);
+    assertQuery("label:Code-Review=+1,group=" + external_group1.get(), change1);
+    assertQuery("label:Code-Review=+1,user=user1", change1);
+    assertQuery("label:Code-Review=+1,user=user2");
+    assertQuery("label:Code-Review=+1,group=" + external_group2.get());
   }
 
   @Test

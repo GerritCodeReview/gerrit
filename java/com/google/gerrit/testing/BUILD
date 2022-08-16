@@ -34,6 +34,7 @@ java_library(
         "//java/com/google/gerrit/server/audit",
         "//java/com/google/gerrit/server/cache/h2",
         "//java/com/google/gerrit/server/cache/mem",
+        "//java/com/google/gerrit/server/group/testing",
         "//java/com/google/gerrit/server/logging",
         "//java/com/google/gerrit/server/restapi",
         "//java/com/google/gerrit/server/schema",

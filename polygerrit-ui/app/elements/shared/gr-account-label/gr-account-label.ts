@@ -186,6 +186,16 @@ export class GrAccountLabel extends LitElement {
     ];
   }
 
+  override firstUpdated() {
+    this.getAccount();
+  }
+
+  private async getAccount() {
+    if (this.account && !this.account._account_id) {
+      this.account = await this.restApiService.getAccount(this.account.email);
+    }
+  }
+
   override render() {
     const {account, change, highlightAttention, forceAttention, _config} = this;
     if (!account) return;

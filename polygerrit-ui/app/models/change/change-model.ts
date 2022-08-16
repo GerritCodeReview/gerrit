@@ -47,6 +47,7 @@ import {assertIsDefined} from '../../utils/common-util';
 import {Model} from '../model';
 import {UserModel} from '../user/user-model';
 import {define} from '../dependency';
+import {isOwner} from '../../utils/change-util';
 
 export enum LoadingStatus {
   NOT_LOADED = 'NOT_LOADED',
@@ -254,6 +255,15 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
         ),
         distinctUntilChanged()
       );
+
+  public readonly isUserOwner$: Observable<Boolean> = combineLatest([
+    this.state$,
+    this.userModel.state$,
+  ]).pipe(
+    withLatestFrom(this.change$, this.userModel.account$),
+    map(([_, change, account]) => isOwner(change, account)),
+    distinctUntilChanged()
+  );
 
   private subscriptions: Subscription[] = [];
 

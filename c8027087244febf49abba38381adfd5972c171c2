@@ -69,6 +69,24 @@
       "parentUuid": "48530b62_ac8ce9b3",
       "revId": "c8027087244febf49abba38381adfd5972c171c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bca61665_a176a1e0",
+        "filename": "web-dev-server.config.mjs",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-16T07:19:10Z",
+      "side": 1,
+      "message": "Yes it\u0027s probably not needed but other parts of the response may be handled below and skipped on an early return. I don\u0027t think the performance gain of an early return on one single file is worth the investigation.",
+      "parentUuid": "5ff57585_b4ab1445",
+      "revId": "c8027087244febf49abba38381adfd5972c171c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

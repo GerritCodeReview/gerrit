@@ -117,7 +117,9 @@ export interface RestApiService extends Finalizable {
   getLoggedIn(): Promise<boolean>;
   getPreferences(): Promise<PreferencesInfo | undefined>;
   getVersion(): Promise<string | undefined>;
-  getAccount(): Promise<AccountDetailInfo | undefined>;
+  getAccount(
+    id?: AccountId | EmailAddress
+  ): Promise<AccountDetailInfo | undefined>;
   getAccountCapabilities(
     params?: string[]
   ): Promise<AccountCapabilityInfo | undefined>;

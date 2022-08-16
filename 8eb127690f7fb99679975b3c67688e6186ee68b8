@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3ff480f8_b9317196",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-16T06:37:48Z",
+      "side": 1,
+      "message": "I don\u0027t see why a server should not send an error if as you say it received an \"invalid input\".\n\nThe problem is that we are sending an empty white-string which is not escaped to the server.  This means that for instance if \u0027canSee\u0027 is included you get \" and cansee:${canSee}\".  If we wanted this to work correctly for the server we should escape the string and surround it with quotes. However, there\u0027s no point in doing so because we know there are no emails that start with a whitespace. \n\nStarting with the input query \"owner: ...\" is invalid because the whitespace stops the previous token \"owner:\u003cfoo\u003e\" and starts a new token. In fact, if you really want to you could avoid that we even make the query \u0027getSuggestedAccounts\u0027 at all because whitespace is an invalid character.\n\nThe error we get back is a 400 not a 500.\n\nI don\u0027t think it makes sense to have the server consider invalid input and return empty responses.\n\nIf you really want something with a whitespace, you have to escape it correctly: \u0027owner:\" \"\u0027",
+      "parentUuid": "a88077c8_58270b0c",
+      "revId": "8eb127690f7fb99679975b3c67688e6186ee68b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2b802505_2b819cfc",
         "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
         "patchSetId": 2
@@ -55,6 +73,30 @@
       "side": 1,
       "message": "```suggestion\n    inputVal \u003d inputVal.trim();\n```",
       "parentUuid": "2b802505_2b819cfc",
+      "range": {
+        "startLine": 1656,
+        "startChar": 15,
+        "endLine": 1656,
+        "endChar": 47
+      },
+      "revId": "8eb127690f7fb99679975b3c67688e6186ee68b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51301837_6d421608",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1656,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-16T06:37:48Z",
+      "side": 1,
+      "message": "I tried that originally, inputVal can be undefined (at least in the tests).",
+      "parentUuid": "08a5f988_22675ae8",
       "range": {
         "startLine": 1656,
         "startChar": 15,

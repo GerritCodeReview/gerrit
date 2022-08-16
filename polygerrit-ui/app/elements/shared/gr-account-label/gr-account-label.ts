@@ -10,7 +10,11 @@ import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import {getAppContext} from '../../../services/app-context';
 import {getDisplayName} from '../../../utils/display-name-util';
-import {isSelf, isServiceUser} from '../../../utils/account-util';
+import {
+  isNotDetailedAccount,
+  isSelf,
+  isServiceUser,
+} from '../../../utils/account-util';
 import {ChangeInfo, AccountInfo, ServerInfo} from '../../../types/common';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {fireEvent} from '../../../utils/event-util';
@@ -96,6 +100,8 @@ export class GrAccountLabel extends LitElement {
   readonly reporting = getAppContext().reportingService;
 
   private readonly restApiService = getAppContext().restApiService;
+
+  private readonly accountsModel = getAppContext().accountsModel;
 
   static override get styles() {
     return [
@@ -184,6 +190,20 @@ export class GrAccountLabel extends LitElement {
         }
       `,
     ];
+  }
+
+  override firstUpdated() {
+    // For mentioned users when the chip is rendered we don't have avatars
+    // since the detailed AccountInfo has not been requested yet.
+    // We don't want to re-request the AccountInfo object on each update hence
+    // request in firstUpdated.
+    this.fillEmailBasedAccount();
+  }
+
+  private async fillEmailBasedAccount() {
+    if (!isNotDetailedAccount(this.account)) {
+      this.account = await this.accountsModel.getAccount(this.account!.email!);
+    }
   }
 
   override render() {

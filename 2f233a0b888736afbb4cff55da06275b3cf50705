@@ -22,6 +22,30 @@
       },
       "revId": "2f233a0b888736afbb4cff55da06275b3cf50705",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cb385af_5573f137",
+        "filename": "polygerrit-ui/app/services/app-context-init.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-17T13:53:24Z",
+      "side": 0,
+      "message": "I tried that but the compiler complains about unused member variables which I almost griped about on team chat.",
+      "parentUuid": "4d798f24_809f6177",
+      "range": {
+        "startLine": 54,
+        "startChar": 41,
+        "endLine": 54,
+        "endChar": 53
+      },
+      "revId": "2f233a0b888736afbb4cff55da06275b3cf50705",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

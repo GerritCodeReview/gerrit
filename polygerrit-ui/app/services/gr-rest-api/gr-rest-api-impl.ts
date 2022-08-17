@@ -146,6 +146,7 @@ import {ErrorCallback} from '../../api/rest';
 import {addDraftProp, DraftInfo} from '../../utils/comment-util';
 import {BaseScheduler} from '../scheduler/scheduler';
 import {MaxInFlightScheduler} from '../scheduler/max-in-flight-scheduler';
+import {FlagsService} from '../flags/flags';
 
 const MAX_PROJECT_RESULTS = 25;
 
@@ -284,7 +285,11 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   // The value is set in created, before any other actions
   private readonly _restApiHelper: GrRestApiHelper;
 
-  constructor(private readonly authService: AuthService) {
+  constructor(
+    private readonly authService: AuthService,
+    // @ts-ignore: it's ok.
+    private readonly _flagsService: FlagsService
+  ) {
     this._restApiHelper = new GrRestApiHelper(
       this._cache,
       this.authService,
@@ -1721,7 +1726,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     changeNum: NumericChangeId,
     patchNum: PatchSetNum
   ): Promise<RelatedChangesInfo | undefined> {
-    const options = '?o=SUBMITTABLE';
+    const = '?o=SUBMITTABLE';
     return this._getChangeURLAndFetch({
       changeNum,
       endpoint: `/related${options}`,

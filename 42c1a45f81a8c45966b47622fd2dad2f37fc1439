@@ -51,6 +51,46 @@
       "message": "Please block submitting this until the google solution is submitted.",
       "revId": "42c1a45f81a8c45966b47622fd2dad2f37fc1439",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d45c5d65_65ed091e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-17T06:55:00Z",
+      "side": 1,
+      "message": "Awesome!!",
+      "revId": "42c1a45f81a8c45966b47622fd2dad2f37fc1439",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a787692_5e77a6ec",
+        "filename": "web-dev-server.config.mjs",
+        "patchSetId": 14
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-17T06:55:00Z",
+      "side": 1,
+      "message": "Just an idea that could also work and might be simpler:\n\nMaybe Gerrit FE could be configured (by another default rule) to redirect from gr-app.js to a dedicated gr-app.mjs file that we actually keep as a submitted file to the repo instead of creating it on the fly.\n\nNote that we also have a dedicated `gr-app-entry-point.ts` file for creating the rollup bundle. Maybe that can be used/shared?\n\nMaybe it is obvious for you why this does not work, and you have already tried that. :-) Feel free to just close then.",
+      "range": {
+        "startLine": 21,
+        "startChar": 4,
+        "endLine": 45,
+        "endChar": 6
+      },
+      "revId": "42c1a45f81a8c45966b47622fd2dad2f37fc1439",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

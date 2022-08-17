@@ -360,9 +360,12 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
       SearchSourceBuilder searchSource =
           new SearchSourceBuilder(client.adapter())
               .query(qb)
-              .from(opts.start())
               .size(opts.limit())
               .fields(Lists.newArrayList(opts.fields()));
+      searchSource =
+          opts.searchAfter() != null
+              ? searchSource.searchAfter((JsonArray) opts.searchAfter()).trackTotalHits(false)
+              : searchSource.from(opts.start());
       search = getSearch(searchSource, sortArray);
     }
 
@@ -384,6 +387,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     private <T> ResultSet<T> readImpl(Function<JsonObject, T> mapper) {
       try {
         String uri = getURI(SEARCH);
+        JsonArray searchAfter = null;
         Response response =
             performRequest(HttpPost.METHOD_NAME, uri, search, Collections.emptyMap());
         StatusLine statusLine = response.getStatusLine();
@@ -394,13 +398,24 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
           if (obj.get("hits") != null) {
             JsonArray json = obj.getAsJsonArray("hits");
             ImmutableList.Builder<T> results = ImmutableList.builderWithExpectedSize(json.size());
+            JsonObject hit = null;
             for (int i = 0; i < json.size(); i++) {
-              T mapperResult = mapper.apply(json.get(i).getAsJsonObject());
+              hit = json.get(i).getAsJsonObject();
+              T mapperResult = mapper.apply(hit);
               if (mapperResult != null) {
                 results.add(mapperResult);
               }
             }
-            return new ListResultSet<>(results.build());
+            if (hit != null && hit.get("sort") != null) {
+              searchAfter = hit.getAsJsonArray("sort");
+            }
+            JsonArray finalSearchAfter = searchAfter;
+            return new ListResultSet<T>(results.build()) {
+              @Override
+              public Object searchAfter() {
+                return finalSearchAfter;
+              }
+            };
           }
         } else {
           logger.atSevere().log(statusLine.getReasonPhrase());

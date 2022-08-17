@@ -461,39 +461,6 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void watchProjectNoNotificationForIgnoredChange() throws Exception {
-    // watch project
-    String watchedProject = projectOperations.newProject().create().get();
-    requestScopeOperations.setApiUser(user.id());
-    watch(watchedProject);
-
-    // push a change to watched project
-    requestScopeOperations.setApiUser(admin.id());
-    TestRepository<InMemoryRepository> watchedRepo =
-        cloneProject(Project.nameKey(watchedProject), admin);
-    PushOneCommit.Result r =
-        pushFactory
-            .create(admin.newIdent(), watchedRepo, "ignored change", "a", "a1")
-            .to("refs/for/master");
-    r.assertOkStatus();
-
-    // ignore the change
-    requestScopeOperations.setApiUser(user.id());
-    gApi.changes().id(r.getChangeId()).ignore(true);
-
-    sender.clear();
-
-    // post a comment -> should not trigger email notification since user ignored the change
-    requestScopeOperations.setApiUser(admin.id());
-    ReviewInput in = new ReviewInput();
-    in.message = "comment";
-    gApi.changes().id(r.getChangeId()).current().review(in);
-
-    // assert email notification
-    assertThat(sender.getMessages()).isEmpty();
-  }
-
-  @Test
   public void watchProjectNoNotificationForPrivateChange() throws Exception {
     // watch project
     String watchedProject = projectOperations.newProject().create().get();

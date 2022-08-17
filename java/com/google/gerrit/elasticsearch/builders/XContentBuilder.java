@@ -152,6 +152,8 @@ public final class XContentBuilder implements Closeable {
       generator.writeString((String) value);
     } else if (type == Integer.class) {
       generator.writeNumber(((Integer) value));
+    } else if (type == Long.class) {
+      generator.writeNumber(((Long) value));
     } else if (type == byte[].class) {
       generator.writeBinary((byte[]) value);
     } else if (value instanceof Date) {

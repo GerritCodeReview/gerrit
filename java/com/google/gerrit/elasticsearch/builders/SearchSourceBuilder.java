@@ -15,6 +15,7 @@
 package com.google.gerrit.elasticsearch.builders;
 
 import com.google.gerrit.elasticsearch.ElasticQueryAdapter;
+import com.google.gson.JsonArray;
 import java.io.IOException;
 import java.util.List;
 
@@ -28,9 +29,13 @@ public class SearchSourceBuilder {
 
   private QuerySourceBuilder querySourceBuilder;
 
+  private SearchAfterBuilder searchAfterBuilder;
+
   private int from = -1;
 
   private int size = -1;
+
+  private boolean trackTotalHits = true;
 
   private List<String> fieldNames;
 
@@ -53,9 +58,19 @@ public class SearchSourceBuilder {
     return this;
   }
 
+  public SearchSourceBuilder searchAfter(JsonArray sortValues) {
+    this.searchAfterBuilder = new SearchAfterBuilder(sortValues);
+    return this;
+  }
+
   /** The number of search hits to return. Defaults to <tt>10</tt>. */
   public SearchSourceBuilder size(int size) {
     this.size = size;
+    return this;
+  }
+
+  public SearchSourceBuilder trackTotalHits(boolean track) {
+    this.trackTotalHits = track;
     return this;
   }
 
@@ -93,6 +108,10 @@ public class SearchSourceBuilder {
       builder.field("size", size);
     }
 
+    if (!trackTotalHits) {
+      builder.field("track_total_hits", false);
+    }
+
     if (querySourceBuilder != null) {
       querySourceBuilder.innerToXContent(builder);
     }
@@ -107,6 +126,10 @@ public class SearchSourceBuilder {
         }
         builder.endArray();
       }
+    }
+
+    if (searchAfterBuilder != null) {
+      searchAfterBuilder.innerToXContent(builder);
     }
   }
 }

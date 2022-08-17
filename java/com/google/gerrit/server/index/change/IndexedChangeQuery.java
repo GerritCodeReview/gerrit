@@ -110,6 +110,11 @@ public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
       public void close() {
         rs.close();
       }
+
+      @Override
+      public Object searchAfter() {
+        return rs.searchAfter();
+      }
     };
   }
 

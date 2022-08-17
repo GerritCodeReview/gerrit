@@ -53,4 +53,9 @@ public class LazyResultSet<T> implements ResultSet<T> {
 
   @Override
   public void close() {}
+
+  @Override
+  public Object searchAfter() {
+    return null;
+  }
 }

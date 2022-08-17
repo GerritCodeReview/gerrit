@@ -21,6 +21,8 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.index.IndexConfig;
+import com.google.gerrit.index.PaginationType;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -33,23 +35,30 @@ public class AndSource<T> extends AndPredicate<T>
   private final IsVisibleToPredicate<T> isVisibleToPredicate;
   private final int start;
   private final int cardinality;
+  private final IndexConfig indexConfig;
 
-  public AndSource(Collection<? extends Predicate<T>> that) {
-    this(that, null, 0);
+  public AndSource(Collection<? extends Predicate<T>> that, IndexConfig indexConfig) {
+    this(that, null, 0, indexConfig);
   }
 
-  public AndSource(Predicate<T> that, IsVisibleToPredicate<T> isVisibleToPredicate) {
-    this(that, isVisibleToPredicate, 0);
+  public AndSource(
+      Predicate<T> that, IsVisibleToPredicate<T> isVisibleToPredicate, IndexConfig indexConfig) {
+    this(that, isVisibleToPredicate, 0, indexConfig);
   }
 
-  public AndSource(Predicate<T> that, IsVisibleToPredicate<T> isVisibleToPredicate, int start) {
-    this(ImmutableList.of(that), isVisibleToPredicate, start);
+  public AndSource(
+      Predicate<T> that,
+      IsVisibleToPredicate<T> isVisibleToPredicate,
+      int start,
+      IndexConfig indexConfig) {
+    this(ImmutableList.of(that), isVisibleToPredicate, start, indexConfig);
   }
 
   public AndSource(
       Collection<? extends Predicate<T>> that,
       IsVisibleToPredicate<T> isVisibleToPredicate,
-      int start) {
+      int start,
+      IndexConfig indexConfig) {
     super(that);
     checkArgument(start >= 0, "negative start: %s", start);
     this.isVisibleToPredicate = isVisibleToPredicate;
@@ -71,6 +80,7 @@ public class AndSource<T> extends AndPredicate<T>
     }
     this.source = s;
     this.cardinality = c;
+    this.indexConfig = indexConfig;
   }
 
   @Override
@@ -105,10 +115,13 @@ public class AndSource<T> extends AndPredicate<T>
             //
             @SuppressWarnings("unchecked")
             Paginated<T> p = (Paginated<T>) source;
+            Object searchAfter = resultSet.searchAfter();
             while (skipped && r.size() < p.getOptions().limit() + start) {
               skipped = false;
-              ResultSet<T> next = p.restart(nextStart);
-
+              ResultSet<T> next =
+                  indexConfig.paginationType().equals(PaginationType.SEARCH_AFTER)
+                      ? p.restart(searchAfter)
+                      : p.restart(nextStart);
               for (T data : buffer(next)) {
                 if (match(data)) {
                   r.add(data);
@@ -117,6 +130,7 @@ public class AndSource<T> extends AndPredicate<T>
                 }
                 nextStart++;
               }
+              searchAfter = next.searchAfter();
             }
           }
 

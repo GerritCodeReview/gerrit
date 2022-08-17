@@ -41,6 +41,7 @@ public abstract class IndexConfig {
     setIfPresent(cfg, "maxPages", b::maxPages);
     setIfPresent(cfg, "maxTerms", b::maxTerms);
     setTypeOrDefault(cfg, b::type);
+    setPaginationTypeOrDefault(cfg, b::paginationType);
     return b;
   }
 
@@ -56,13 +57,19 @@ public abstract class IndexConfig {
     setter.accept(new IndexType(type).toString());
   }
 
+  private static void setPaginationTypeOrDefault(Config cfg, Consumer<PaginationType> setter) {
+    setter.accept(
+        cfg != null ? cfg.getEnum("index", null, "paginationType", PaginationType.OFFSET) : null);
+  }
+
   public static Builder builder() {
     return new AutoValue_IndexConfig.Builder()
         .maxLimit(Integer.MAX_VALUE)
         .maxPages(Integer.MAX_VALUE)
         .maxTerms(DEFAULT_MAX_TERMS)
         .type(IndexType.getDefault())
-        .separateChangeSubIndexes(false);
+        .separateChangeSubIndexes(false)
+        .paginationType(PaginationType.OFFSET);
   }
 
   @AutoValue.Builder
@@ -84,6 +91,8 @@ public abstract class IndexConfig {
     public abstract String type();
 
     public abstract Builder separateChangeSubIndexes(boolean separate);
+
+    public abstract Builder paginationType(PaginationType type);
 
     abstract IndexConfig autoBuild();
 
@@ -124,4 +133,10 @@ public abstract class IndexConfig {
    * @return whether different subsets of changes may be stored in different physical sub-indexes.
    */
   public abstract boolean separateChangeSubIndexes();
+
+  /**
+   *  @return pagination type to use when index queries are repeated to obtain the next set of
+   *      results.
+   * */
+  public abstract PaginationType paginationType();
 }

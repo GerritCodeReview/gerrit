@@ -3117,6 +3117,25 @@ advantage of new search features without restarting the server.
 +
 Defaults to true.
 
+[[index.paginationType]]index.paginationType::
++
+The pagination type to use when index queries are repeated to
+obtain the next set of results. Supported values are:
++
+* `OFFSET`
++
+Index queries are repeated with a non-zero offset to obtain the
+next set of results.
++
+* `SEARCH_AFTER`
++
+Index queries are repeated using a search-after object. This type
+is supported for Lucene and ElasticSearch. Other index backends can
+provide their custom implementations for search-after. Note that,
+`SEARCH_AFTER` does not impact using offsets in Gerrit query APIs.
++
+Defaults to `OFFSET`.
+
 [[index.maxLimit]]index.maxLimit::
 +
 Maximum limit to allow for search queries. Requesting results above this

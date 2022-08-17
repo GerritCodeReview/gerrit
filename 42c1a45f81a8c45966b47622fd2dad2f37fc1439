@@ -133,6 +133,30 @@
       },
       "revId": "42c1a45f81a8c45966b47622fd2dad2f37fc1439",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "573eb2a8_e503a1b6",
+        "filename": "web-dev-server.config.mjs",
+        "patchSetId": 14
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-17T08:43:29Z",
+      "side": 1,
+      "message": "`gr-app-entry-point.ts` is actually what we bundle via rollup / google-internal build, and that bundle is renamed to `gr-app.js`. So it is more of an accidental connection from the `\u003cscript\u003e` src `gr-app.js` and our `gr-app.ts` source file. If the bundle name was not in conflict with any source file names we could remove this workaround by making a source file that does match the bundle name and contains `import(\u0027./gr-app.mjs\u0027)`. I\u0027m not sure that\u0027s less of a workaround than this though \u003dP\n\nAnother option would be for the bundle output to be in module format and our html files load the bundle as a module just like our source code, but I am not sure how to do that in the google-internal build and it would break our page in IE (not the end of the world but still).\n\nI would prefer to keep this workaround for now since it\u0027s isolated and should be pretty robust.",
+      "parentUuid": "9ad93455_38cbbf5a",
+      "range": {
+        "startLine": 21,
+        "startChar": 4,
+        "endLine": 45,
+        "endChar": 6
+      },
+      "revId": "42c1a45f81a8c45966b47622fd2dad2f37fc1439",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

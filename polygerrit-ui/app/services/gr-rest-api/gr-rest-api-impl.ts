@@ -1725,14 +1725,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     changeNum: NumericChangeId,
     patchNum: PatchSetNum
   ): Promise<RelatedChangesInfo | undefined> {
-    let options = '';
-    if (
-      this.flagsService.isEnabled(
-        KnownExperimentId.RELATED_CHANGES_SUBMITTABILITY
-      )
-    ) {
-      options = '?o=SUBMITTABLE';
-    }
+    const options = '?o=SUBMITTABLE';
     return this._getChangeURLAndFetch({
       changeNum,
       endpoint: `/related${options}`,

@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "729c3ccd_c270e60b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-08-17T09:55:52Z",
+      "side": 1,
+      "message": "nit: Could you leave a comment as to why we need to do this in `firstUpdated`",
+      "range": {
+        "startLine": 191,
+        "startChar": 2,
+        "endLine": 194,
+        "endChar": 0
+      },
+      "revId": "877603a9ead08e186963fff0e7d449f142f8dee1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6efc8f5c_8cba0296",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-08-17T09:55:52Z",
+      "side": 1,
+      "message": "side-effect only method shouldn\u0027t be named \"get\" imo. `fillEmailBasedAccount` maybe or something similar?",
+      "range": {
+        "startLine": 195,
+        "startChar": 2,
+        "endLine": 199,
+        "endChar": 3
+      },
+      "revId": "877603a9ead08e186963fff0e7d449f142f8dee1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1074271d_9fdb667c",
+        "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-08-17T09:55:52Z",
+      "side": 1,
+      "message": "Nothing is ever added to this array. And since it\u0027s private it can only happen in this file. Is there a bug or am I misunderstanding something?",
+      "range": {
+        "startLine": 27,
+        "startChar": 25,
+        "endLine": 27,
+        "endChar": 38
+      },
+      "revId": "877603a9ead08e186963fff0e7d449f142f8dee1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "972f2023_5ed8ec1b",
+        "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-08-17T09:55:52Z",
+      "side": 1,
+      "message": "Why do we use `...` here. Isn\u0027t current already an AccountsState object, i.e object with single `accounts` field?",
+      "range": {
+        "startLine": 40,
+        "startChar": 23,
+        "endLine": 40,
+        "endChar": 35
+      },
+      "revId": "877603a9ead08e186963fff0e7d449f142f8dee1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a215ccb_18dfbdec",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-08-17T09:55:52Z",
+      "side": 1,
+      "message": "Why is `id` optional. What does it mean to get an account, without specifying id?\n\nLooking below looks like the answer is \"self\". Could you add documentation to the getAccount method?",
+      "range": {
+        "startLine": 121,
+        "startChar": 4,
+        "endLine": 121,
+        "endChar": 7
+      },
+      "revId": "877603a9ead08e186963fff0e7d449f142f8dee1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

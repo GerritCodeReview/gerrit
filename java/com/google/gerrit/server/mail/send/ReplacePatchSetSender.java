@@ -131,7 +131,6 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
     }
     bccStarredBy();
     includeWatchers(NotifyType.NEW_PATCHSETS, !change.isWorkInProgress() && !change.isPrivate());
-    removeUsersThatIgnoredTheChange();
   }
 
   @Override

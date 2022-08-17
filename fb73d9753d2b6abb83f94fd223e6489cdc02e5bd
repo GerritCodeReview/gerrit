@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de765603_753cc14e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-17T10:21:26Z",
+      "side": 1,
+      "message": "Yes, I was on fence with these two.",
+      "parentUuid": "472098a6_e5a598ff",
+      "range": {
+        "startLine": 208,
+        "startChar": 2,
+        "endLine": 208,
+        "endChar": 13
+      },
+      "revId": "fb73d9753d2b6abb83f94fd223e6489cdc02e5bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d2a9627_d316a62c",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-08-17T07:18:26Z",
       "side": 1,
       "message": "```suggestion\n  public readonly isUserOwner$: Observable\u003cboolean\u003e \u003d select(\n    combineLatest([this.change$, this.userModel.account$]),\n    ([change, account]) \u003d\u003e isOwner(change, account)\n  );\n```",
+      "range": {
+        "startLine": 259,
+        "startChar": 0,
+        "endLine": 266,
+        "endChar": 4
+      },
+      "revId": "fb73d9753d2b6abb83f94fd223e6489cdc02e5bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aedd9057_f47268bd",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-17T10:21:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d2a9627_d316a62c",
       "range": {
         "startLine": 259,
         "startChar": 0,

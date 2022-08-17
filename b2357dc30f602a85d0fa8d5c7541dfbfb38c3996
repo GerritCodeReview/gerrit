@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a1b4ee1_1df95204",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1087826
+      },
+      "writtenOn": "2022-08-17T13:50:38Z",
+      "side": 1,
+      "message": "It is used by https://gerrit.googlesource.com/plugins/zuul-results-summary/+/refs/heads/main and you can see it in production here: https://review.opendev.org/c/zuul/zuul/+/851268/\n",
+      "revId": "b2357dc30f602a85d0fa8d5c7541dfbfb38c3996",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

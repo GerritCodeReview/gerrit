@@ -1588,14 +1588,16 @@ export class GrReplyDialog extends LitElement {
   }
 
   handleAttentionClick(e: Event) {
-    const id = (e.target as GrAccountChip)?.account?._account_id;
-    if (!id) return;
+    const account = (e.target as GrAccountChip)?.account;
+    if (!account) return;
+    // TODO: This isn't strictly correct as it can be GroupID as well
+    // but currently reply dialog only supports AccountId | Email.
+    const id = accountOrGroupKey(account) as AccountId | EmailAddress;
+    if (!id || !this.account || !this.change?.owner) return;
 
-    const selfId = (this.account && this.account._account_id) || -1;
-    const ownerId =
-      (this.change && this.change.owner && this.change.owner._account_id) || -1;
-    const self = id === selfId ? '_SELF' : '';
-    const role = id === ownerId ? 'OWNER' : '_REVIEWER';
+    const self = id === accountOrGroupKey(this.account) ? '_SELF' : '';
+    const role =
+      id === accountOrGroupKey(this.change.owner) ? 'OWNER' : '_REVIEWER';
 
     if (this.newAttentionSet.has(id)) {
       this.newAttentionSet.delete(id);

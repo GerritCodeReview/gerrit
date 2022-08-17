@@ -1588,14 +1588,15 @@ export class GrReplyDialog extends LitElement {
   }
 
   handleAttentionClick(e: Event) {
-    const id = (e.target as GrAccountChip)?.account?._account_id;
-    if (!id) return;
+    const targetAccount = (e.target as GrAccountChip)?.account;
+    if (!targetAccount) return;
+    // TODO: Remove cast and add support for GroupId as id type
+    const id = accountOrGroupKey(targetAccount) as AccountId | EmailAddress;
+    if (!id || !this.account || !this.change?.owner) return;
 
-    const selfId = (this.account && this.account._account_id) || -1;
-    const ownerId =
-      (this.change && this.change.owner && this.change.owner._account_id) || -1;
-    const self = id === selfId ? '_SELF' : '';
-    const role = id === ownerId ? 'OWNER' : '_REVIEWER';
+    const self = id === accountOrGroupKey(this.account) ? '_SELF' : '';
+    const role =
+      id === accountOrGroupKey(this.change.owner) ? 'OWNER' : '_REVIEWER';
 
     if (this.newAttentionSet.has(id)) {
       this.newAttentionSet.delete(id);

@@ -26,4 +26,11 @@ public class FakeQueryChangesLatestIndexVersionTest extends FakeQueryChangesTest
   public static Config defaultConfig() {
     return IndexConfig.createForFake();
   }
+
+  @ConfigSuite.Config
+  public static Config searchAfterPaginationModel() {
+    Config config = defaultConfig();
+    config.setString("index", null, "paginationModel", "SEARCH_AFTER");
+    return config;
+  }
 }

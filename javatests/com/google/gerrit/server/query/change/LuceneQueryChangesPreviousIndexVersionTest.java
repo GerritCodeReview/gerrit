@@ -33,4 +33,11 @@ public class LuceneQueryChangesPreviousIndexVersionTest extends LuceneQueryChang
                 IndexConfig.createForLucene())
             .values());
   }
+
+  @ConfigSuite.Config
+  public static Config searchAfterPaginationModel() {
+    Config config = againstPreviousIndexVersion();
+    config.setString("index", null, "paginationModel", "SEARCH_AFTER");
+    return config;
+  }
 }

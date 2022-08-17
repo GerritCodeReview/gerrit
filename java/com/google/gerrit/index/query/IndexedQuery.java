@@ -89,17 +89,15 @@ public class IndexedQuery<I, T> extends Predicate<T> implements DataSource<T>, P
   @Override
   public ResultSet<T> restart(int start) {
     opts = opts.withStart(start);
-    try {
-      source = index.getSource(pred, opts);
-    } catch (QueryParseException e) {
-      // Don't need to show this exception to the user; the only thing that
-      // changed about pred was its start, and any other QPEs that might happen
-      // should have already thrown from the constructor.
-      throw new StorageException(e);
-    }
-    // Don't convert start to a limit, since the caller of this method (see
-    // AndSource) has calculated the actual number to skip.
-    return read();
+    return search();
+  }
+
+  @Override
+  public ResultSet<T> restart(Object searchAfter) {
+    // Index search-after APIs don't use 'start', so set it to 0 to be safe. ElasticSearch for
+    // example, expects it to be 0 when using search-after APIs.
+    opts = opts.withSearchAfter(searchAfter).withStart(0);
+    return search();
   }
 
   @Override
@@ -124,5 +122,19 @@ public class IndexedQuery<I, T> extends Predicate<T> implements DataSource<T>, P
   @Override
   public String toString() {
     return MoreObjects.toStringHelper("index").add("p", pred).add("opts", opts).toString();
+  }
+
+  private ResultSet<T> search() {
+    try {
+      source = index.getSource(pred, opts);
+    } catch (QueryParseException e) {
+      // Don't need to show this exception to the user; the only thing that
+      // changed about pred was its start, and any other QPEs that might happen
+      // should have already thrown from the constructor.
+      throw new StorageException(e);
+    }
+    // Don't convert start to a limit, since the caller of this method (see
+    // AndSource) has calculated the actual number to skip.
+    return read();
   }
 }

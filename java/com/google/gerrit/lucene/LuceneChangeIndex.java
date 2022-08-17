@@ -76,9 +76,12 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -398,9 +401,9 @@ public class LuceneChangeIndex implements ChangeIndex {
       final Set<String> fields = IndexUtils.changeFields(opts, schema.useLegacyNumericFields());
       return new ChangeDataResults(
           executor.submit(
-              new Callable<List<Document>>() {
+              new Callable<Results>() {
                 @Override
-                public List<Document> call() throws IOException {
+                public Results call() throws IOException {
                   return doRead(fields);
                 }
 
@@ -415,8 +418,12 @@ public class LuceneChangeIndex implements ChangeIndex {
     @Override
     public ResultSet<FieldBundle> readRaw() {
       List<Document> documents;
+      Map<ChangeSubIndex, ScoreDoc> searchAfterBySubIndex;
+
       try {
-        documents = doRead(IndexUtils.changeFields(opts, schema.useLegacyNumericFields()));
+        Results r = doRead(IndexUtils.changeFields(opts, schema.useLegacyNumericFields()));
+        documents = r.docs;
+        searchAfterBySubIndex = r.searchAfterBySubIndex;
       } catch (IOException e) {
         throw new StorageException(e);
       }
@@ -437,11 +444,17 @@ public class LuceneChangeIndex implements ChangeIndex {
         public void close() {
           // Do nothing.
         }
+
+        @Override
+        public Object searchAfter() {
+          return searchAfterBySubIndex;
+        }
       };
     }
 
-    private List<Document> doRead(Set<String> fields) throws IOException {
+    private Results doRead(Set<String> fields) throws IOException {
       IndexSearcher[] searchers = new IndexSearcher[indexes.size()];
+      Map<ChangeSubIndex, ScoreDoc> searchAfterBySubIndex = new HashMap<>();
       try {
         int realLimit = opts.start() + opts.limit();
         if (Integer.MAX_VALUE - opts.limit() < opts.start()) {
@@ -449,8 +462,22 @@ public class LuceneChangeIndex implements ChangeIndex {
         }
         TopFieldDocs[] hits = new TopFieldDocs[indexes.size()];
         for (int i = 0; i < indexes.size(); i++) {
-          searchers[i] = indexes.get(i).acquire();
-          hits[i] = searchers[i].search(query, realLimit, sort);
+          ChangeSubIndex subIndex = indexes.get(i);
+          searchers[i] = subIndex.acquire();
+          if (opts.searchAfter() != null && opts.searchAfter() instanceof HashMap) {
+            hits[i] =
+                searchers[i].searchAfter(
+                    ((HashMap<ChangeSubIndex, ScoreDoc>) opts.searchAfter()).get(subIndex),
+                    query,
+                    realLimit,
+                    sort,
+                    false,
+                    false);
+          } else {
+            hits[i] = searchers[i].search(query, realLimit, sort);
+          }
+          searchAfterBySubIndex.put(
+              subIndex, Iterables.getLast(Arrays.asList(hits[i].scoreDocs), null));
         }
         TopDocs docs = TopDocs.merge(sort, realLimit, hits);
 
@@ -459,7 +486,7 @@ public class LuceneChangeIndex implements ChangeIndex {
           ScoreDoc sd = docs.scoreDocs[i];
           result.add(searchers[sd.shardIndex].doc(sd.doc, fields));
         }
-        return result;
+        return new Results(result, searchAfterBySubIndex);
       } finally {
         for (int i = 0; i < indexes.size(); i++) {
           if (searchers[i] != null) {
@@ -474,11 +501,22 @@ public class LuceneChangeIndex implements ChangeIndex {
     }
   }
 
-  private class ChangeDataResults implements ResultSet<ChangeData> {
-    private final Future<List<Document>> future;
-    private final Set<String> fields;
+  private static class Results {
+    List<Document> docs;
+    Map<ChangeSubIndex, ScoreDoc> searchAfterBySubIndex;
 
-    ChangeDataResults(Future<List<Document>> future, Set<String> fields) {
+    public Results(List<Document> docs, Map<ChangeSubIndex, ScoreDoc> searchAfterBySubIndex) {
+      this.docs = docs;
+      this.searchAfterBySubIndex = searchAfterBySubIndex;
+    }
+  }
+
+  private class ChangeDataResults implements ResultSet<ChangeData> {
+    private final Future<Results> future;
+    private final Set<String> fields;
+    private Map<ChangeSubIndex, ScoreDoc> searchAfterBySubIndex;
+
+    ChangeDataResults(Future<Results> future, Set<String> fields) {
       this.future = future;
       this.fields = fields;
     }
@@ -491,7 +529,9 @@ public class LuceneChangeIndex implements ChangeIndex {
     @Override
     public ImmutableList<ChangeData> toList() {
       try {
-        List<Document> docs = future.get();
+        Results r = future.get();
+        List<Document> docs = r.docs;
+        searchAfterBySubIndex = r.searchAfterBySubIndex;
         ImmutableList.Builder<ChangeData> result =
             ImmutableList.builderWithExpectedSize(docs.size());
         for (Document doc : docs) {
@@ -510,6 +550,11 @@ public class LuceneChangeIndex implements ChangeIndex {
     @Override
     public void close() {
       future.cancel(false /* do not interrupt Lucene */);
+    }
+
+    @Override
+    public Object searchAfter() {
+      return searchAfterBySubIndex;
     }
   }
 

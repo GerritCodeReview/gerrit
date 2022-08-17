@@ -74,4 +74,35 @@ suite('service worker class tests', () => {
     await serviceWorker.getChangesToNotify(account);
     assert.isTrue(getLatestAttentionSetChangesStub.calledOnce);
   });
+
+  test('when 2 or more changes, link to dashboard', async () => {
+    const t1 = parseDate('2016-01-12 20:20:00' as Timestamp).getTime();
+    const t2 = '2016-01-12 20:30:00' as Timestamp;
+    serviceWorker.latestUpdateTimestampMs = t1;
+    const account = createAccountDetailWithId();
+    const change: ParsedChangeInfo = {
+      ...createParsedChange(),
+      attention_set: {
+        [`${account._account_id}`]: {
+          account,
+          last_update: t2,
+        },
+      },
+    };
+    sinon
+      .stub(serviceWorker, 'getLatestAttentionSetChanges')
+      .returns(Promise.resolve([change, change]));
+    sinon.stub(serviceWorker, 'saveState').returns(Promise.resolve());
+    const showNotificationMock = sinon.stub(
+      serviceWorker.ctx.registration,
+      'showNotification'
+    );
+    await serviceWorker.showLatestAttentionChangeNotification(account);
+    assert.isTrue(showNotificationMock.calledOnce);
+    assert.isTrue(
+      showNotificationMock.calledWithMatch(
+        'You are in the attention set for 2 changes.'
+      )
+    );
+  });
 });

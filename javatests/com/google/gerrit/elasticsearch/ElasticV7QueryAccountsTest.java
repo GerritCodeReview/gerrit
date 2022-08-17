@@ -30,6 +30,13 @@ public class ElasticV7QueryAccountsTest extends AbstractQueryAccountsTest {
     return IndexConfig.createForElasticsearch();
   }
 
+  @ConfigSuite.Config
+  public static Config searchAfterPaginationModel() {
+    Config config = defaultConfig();
+    config.setString("index", null, "paginationModel", "SEARCH_AFTER");
+    return config;
+  }
+
   private static ElasticContainer container;
 
   @BeforeClass

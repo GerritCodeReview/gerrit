@@ -3114,6 +3114,24 @@ advantage of new search features without restarting the server.
 +
 Defaults to true.
 
+[[index.paginationModel]]index.paginationModel::
++
+The pagination model to use when index queries are restarted to
+obtain the next set of results. Supported values are:
++
+* `OFFSET`
++
+Index queries are restarted at a non-zero offset to obtain the
+next set of results.
++
+* `SEARCH_AFTER`
++
+Index queries are restarted using a search-after object. This model
+can be used for Lucene and ElasticSearch. Other index backends can
+provide their custom implementations for search-after.
++
+Defaults to `OFFSET`.
+
 [[index.maxLimit]]index.maxLimit::
 +
 Maximum limit to allow for search queries. Requesting results above this

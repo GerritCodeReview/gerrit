@@ -23,4 +23,11 @@ public class LuceneQueryChangesLatestIndexVersionTest extends LuceneQueryChanges
   public static Config defaultConfig() {
     return IndexConfig.createForLucene();
   }
+
+  @ConfigSuite.Config
+  public static Config searchAfterPaginationModel() {
+    Config config = defaultConfig();
+    config.setString("index", null, "paginationModel", "SEARCH_AFTER");
+    return config;
+  }
 }

@@ -16,6 +16,24 @@
       "message": "Maybe this message should clarify that this notification is about *new* changes? It might be confusing to get a message saying \"you are in the as for 3 changes\" and when you click through to the dashboard, then you see 5 changes. Ideally the message would even include both counts.",
       "revId": "62fe93c9d70d84f35fcd468d7e6068c2b3824a20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52c4eb3a_d38e90a3",
+        "filename": "polygerrit-ui/app/workers/service-worker-class.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-17T10:14:14Z",
+      "side": 1,
+      "message": "That\u0027s good idea. I created http://b/242832164 to discuss this. I think is that this notification is small and shown only for few seconds, so I don\u0027t know if we can write 2 numbers. But writing about new changes, sounds good.",
+      "parentUuid": "0c7643db_1aed4fa9",
+      "revId": "62fe93c9d70d84f35fcd468d7e6068c2b3824a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

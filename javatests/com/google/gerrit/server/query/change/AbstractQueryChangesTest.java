@@ -102,7 +102,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ServerInitiated;
-import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.Accounts;
@@ -2634,11 +2633,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         accountManager.authenticate(authRequestFactory.createForUser("anotheruser")).getAccountId();
 
     assertQuery("has:star", change2, change1);
-    assertQuery("star:star", change2, change1);
 
     requestContext.setContext(newRequestContext(user2));
     assertQuery("has:star");
-    assertQuery("star:star");
   }
 
   @Test
@@ -2669,7 +2666,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     // check default star
     assertQuery("has:star", change1);
     assertQuery("is:starred", change1);
-    assertQuery("star:" + StarredChangesUtil.DEFAULT_LABEL, change1);
   }
 
   public void byStarWithManyStars_starsComputedFromIndex() throws Exception {
@@ -3475,10 +3471,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     new DashboardChangeState(otherAccountId).create(repo);
 
     // Viewing one's own dashboard.
-    assertDashboardQuery(
-        "self",
-        IndexPreloadingUtil.DASHBOARD_OUTGOING_QUERY,
-        ownedOpenReviewable);
+    assertDashboardQuery("self", IndexPreloadingUtil.DASHBOARD_OUTGOING_QUERY, ownedOpenReviewable);
 
     // Viewing another user's dashboard.
     requestContext.setContext(newRequestContext(otherAccountId));
@@ -3899,7 +3892,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void selfFailsForAnonymousUser() throws Exception {
-    for (String query : ImmutableList.of("assignee:self", "has:star", "is:starred", "star:star")) {
+    for (String query : ImmutableList.of("assignee:self", "has:star", "is:starred")) {
       assertQuery(query);
       RequestContext oldContext = requestContext.setContext(anonymousUserProvider::get);
 

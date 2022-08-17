@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "8aadd323_6e60aa0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-08-17T21:35:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80100223_9ea00006",
+      "revId": "0faa70baedf3d188b88bf584873c427fdbd93518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "97f2b6c4_64d71305",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "writtenOn": "2022-08-16T23:52:46Z",
       "side": 1,
       "message": "This new setting needs to be documented",
+      "revId": "0faa70baedf3d188b88bf584873c427fdbd93518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3e930d5_a1fe14a7",
+        "filename": "java/com/google/gerrit/index/IndexConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-08-17T21:35:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2a6bd80_83bdd5e7",
       "revId": "0faa70baedf3d188b88bf584873c427fdbd93518",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

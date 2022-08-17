@@ -65,8 +65,6 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.DynamicOptions;
-import com.google.gerrit.server.StarredChangesUtil;
-import com.google.gerrit.server.StarredChangesUtil.IllegalLabelException;
 import com.google.gerrit.server.change.ChangeMessageResource;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.WorkInProgressOp;
@@ -88,7 +86,6 @@ import com.google.gerrit.server.restapi.change.GetMetaDiff;
 import com.google.gerrit.server.restapi.change.GetPastAssignees;
 import com.google.gerrit.server.restapi.change.GetPureRevert;
 import com.google.gerrit.server.restapi.change.GetTopic;
-import com.google.gerrit.server.restapi.change.Ignore;
 import com.google.gerrit.server.restapi.change.Index;
 import com.google.gerrit.server.restapi.change.ListChangeComments;
 import com.google.gerrit.server.restapi.change.ListChangeDrafts;
@@ -111,7 +108,6 @@ import com.google.gerrit.server.restapi.change.SetReadyForReview;
 import com.google.gerrit.server.restapi.change.SetWorkInProgress;
 import com.google.gerrit.server.restapi.change.SubmittedTogether;
 import com.google.gerrit.server.restapi.change.SuggestChangeReviewers;
-import com.google.gerrit.server.restapi.change.Unignore;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -172,13 +168,10 @@ class ChangeApiImpl implements ChangeApi {
   private final Move move;
   private final PostPrivate postPrivate;
   private final DeletePrivate deletePrivate;
-  private final Ignore ignore;
-  private final Unignore unignore;
   private final SetWorkInProgress setWip;
   private final SetReadyForReview setReady;
   private final PutMessage putMessage;
   private final Provider<GetPureRevert> getPureRevertProvider;
-  private final StarredChangesUtil stars;
   private final DynamicOptionParser dynamicOptionParser;
   private final Injector injector;
   private final DynamicMap<DynamicOptions.DynamicBean> dynamicBeans;
@@ -227,13 +220,10 @@ class ChangeApiImpl implements ChangeApi {
       Move move,
       PostPrivate postPrivate,
       DeletePrivate deletePrivate,
-      Ignore ignore,
-      Unignore unignore,
       SetWorkInProgress setWip,
       SetReadyForReview setReady,
       PutMessage putMessage,
       Provider<GetPureRevert> getPureRevertProvider,
-      StarredChangesUtil stars,
       DynamicOptionParser dynamicOptionParser,
       @Assisted ChangeResource change,
       Injector injector,
@@ -280,13 +270,10 @@ class ChangeApiImpl implements ChangeApi {
     this.move = move;
     this.postPrivate = postPrivate;
     this.deletePrivate = deletePrivate;
-    this.ignore = ignore;
-    this.unignore = unignore;
     this.setWip = setWip;
     this.setReady = setReady;
     this.putMessage = putMessage;
     this.getPureRevertProvider = getPureRevertProvider;
-    this.stars = stars;
     this.dynamicOptionParser = dynamicOptionParser;
     this.change = change;
     this.injector = injector;
@@ -746,30 +733,6 @@ class ChangeApiImpl implements ChangeApi {
       index.apply(change, new Input());
     } catch (Exception e) {
       throw asRestApiException("Cannot index change", e);
-    }
-  }
-
-  @Override
-  public void ignore(boolean ignore) throws RestApiException {
-    // TODO(dborowitz): Convert to RetryingRestModifyView. Needs to plumb BatchUpdate.Factory into
-    // StarredChangesUtil.
-    try {
-      if (ignore) {
-        this.ignore.apply(change, new Input());
-      } else {
-        unignore.apply(change, new Input());
-      }
-    } catch (StorageException | IllegalLabelException e) {
-      throw asRestApiException("Cannot ignore change", e);
-    }
-  }
-
-  @Override
-  public boolean ignored() throws RestApiException {
-    try {
-      return stars.isIgnored(change);
-    } catch (StorageException e) {
-      throw asRestApiException("Cannot check if ignored", e);
     }
   }
 

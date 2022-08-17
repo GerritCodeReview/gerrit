@@ -731,10 +731,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       return new IsSubmittablePredicate();
     }
 
-    if ("ignored".equalsIgnoreCase(value)) {
-      return ignoredBySelf();
-    }
-
     if ("started".equalsIgnoreCase(value)) {
       checkFieldAvailable(ChangeField.STARTED, "is:started");
       return new BooleanPredicate(ChangeField.STARTED);
@@ -1120,26 +1116,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       return new RegexMessagePredicate(text);
     }
     return ChangePredicates.message(text);
-  }
-
-  @Operator
-  public Predicate<ChangeData> star(String label) throws QueryParseException {
-    if ("ignore".equalsIgnoreCase(label)) {
-      return ignoredBySelf();
-    }
-    if ("star".equalsIgnoreCase(label)) {
-      return starredBySelf();
-    }
-    throw new IllegalArgumentException();
-  }
-
-  private Predicate<ChangeData> ignoredBySelf() throws QueryParseException {
-    return ChangePredicates.starBy(
-        args.experimentFeatures.isFeatureEnabled(
-            GERRIT_BACKEND_REQUEST_FEATURE_COMPUTE_FROM_ALL_USERS_REPOSITORY),
-        args.starredChangesUtil,
-        self(),
-        StarredChangesUtil.IGNORE_LABEL);
   }
 
   private Predicate<ChangeData> starredBySelf() throws QueryParseException {

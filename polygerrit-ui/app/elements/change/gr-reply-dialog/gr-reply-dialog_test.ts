@@ -63,6 +63,7 @@ import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {fixture, html, waitUntil} from '@open-wc/testing-helpers';
 import {accountKey} from '../../../utils/account-util';
 import {GrButton} from '../../shared/gr-button/gr-button';
+import {GrAccountLabel} from '../../shared/gr-account-label/gr-account-label';
 
 function cloneableResponse(status: number, text: string) {
   return {
@@ -2475,6 +2476,53 @@ suite('gr-reply-dialog tests', () => {
         [...element.newAttentionSet],
         [999 as AccountId, 'abcd@def.com' as EmailAddress]
       );
+    });
+
+    test('mention user can be manually removed from attention set', async () => {
+      const draft = {
+        ...createDraft(),
+        message: 'hey @abcd@def.com take a look at this',
+        unresolved: true,
+      };
+      element.getCommentsModel().setState({
+        comments: {},
+        robotComments: {},
+        drafts: {
+          a: [draft],
+        },
+        portedComments: {},
+        portedDrafts: {},
+        discardedDrafts: [],
+      });
+      element.draftCommentThreads = [createCommentThread([draft])];
+      await waitUntil(() => element.mentionedUsers.length > 0);
+
+      await element.updateComplete;
+
+      // owner(999) is added since (accountId = 1) replied to the change
+      assert.sameMembers(
+        [...element.newAttentionSet],
+        [999 as AccountId, 'abcd@def.com' as EmailAddress]
+      );
+
+      const modifyButton = queryAndAssert<GrButton>(
+        element,
+        '.edit-attention-button'
+      );
+      modifyButton.click();
+      await element.updateComplete;
+
+      const accountsChips = Array.from(
+        queryAll<GrAccountLabel>(element, '.attention-detail gr-account-label')
+      );
+      assert.deepEqual(accountsChips[1].account, {
+        email: 'abcd@def.com' as EmailAddress,
+      });
+      accountsChips[1].click();
+
+      await element.updateComplete;
+
+      assert.sameMembers([...element.newAttentionSet], [999 as AccountId]);
     });
 
     test('mention user who is already CCed', async () => {

@@ -20,6 +20,7 @@
     "strictBindCallApply": true, /* Enable strict 'bind', 'call', and 'apply' methods on functions. */
     "strictPropertyInitialization": true, /* Enable strict checking of property initialization in classes. */
     "noImplicitThis": true, /* Raise error on 'this' expressions with an implied 'any' type. */
+    "isolatedModules": true, /* Require re-exports of types to use "export type {...}" syntax, for dev server compatibility (esbuild) */
 
     /* Additional Checks */
     "noUnusedLocals": true, /* Report errors on unused locals. */

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d76b0a0_6012fa63",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1594,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-08-17T10:11:41Z",
+      "side": 1,
+      "message": "If it\u0027s a TODO it should ideally mentioned, what will need to be done and why it can\u0027t be done now. I would add this information or remove the \"TODO\"\n\nAlso nit: Reference to \"this\" are likely to get \"stale\" faster. Better to be explicit about what you\u0027re referring to. i.e \"The \u0027as\u0027 cast ...\"",
+      "range": {
+        "startLine": 1593,
+        "startChar": 4,
+        "endLine": 1594,
+        "endChar": 66
+      },
+      "revId": "9f9affebecaf3637b11c1328bfad93aa6010ef6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9228cab9_aa773bc1",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1596,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-08-17T10:11:41Z",
+      "side": 1,
+      "message": "The method is using both `account` and `this.account`. Is there a way to improve the naming to make the difference clear?",
+      "range": {
+        "startLine": 1596,
+        "startChar": 16,
+        "endLine": 1596,
+        "endChar": 28
+      },
+      "revId": "9f9affebecaf3637b11c1328bfad93aa6010ef6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

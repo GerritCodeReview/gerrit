@@ -59,16 +59,15 @@ public class IndexPreloadingUtil {
   public static final String DASHBOARD_HAS_UNPUBLISHED_DRAFTS_QUERY = "has:draft limit:10";
   public static final String YOUR_TURN = "attention:${user} limit:25";
   public static final String DASHBOARD_ASSIGNED_QUERY =
-      "assignee:${user} (-is:wip OR " + "owner:self OR assignee:self) is:open -is:ignored limit:25";
+      "assignee:${user} (-is:wip OR " + "owner:self OR assignee:self) is:open limit:25";
   public static final String DASHBOARD_WORK_IN_PROGRESS_QUERY =
       "is:open owner:${user} is:wip limit:25";
-  public static final String DASHBOARD_OUTGOING_QUERY =
-      "is:open owner:${user} -is:wip -is:ignored limit:25";
+  public static final String DASHBOARD_OUTGOING_QUERY = "is:open owner:${user} -is:wip limit:25";
   public static final String DASHBOARD_INCOMING_QUERY =
-      "is:open -owner:${user} -is:wip -is:ignored (reviewer:${user} OR assignee:${user}) limit:25";
-  public static final String CC_QUERY = "is:open -is:ignored -is:wip cc:${user} limit:10";
+      "is:open -owner:${user} -is:wip (reviewer:${user} OR assignee:${user}) limit:25";
+  public static final String CC_QUERY = "is:open -is:wip cc:${user} limit:10";
   public static final String DASHBOARD_RECENTLY_CLOSED_QUERY =
-      "is:closed -is:ignored (-is:wip OR owner:self) "
+      "is:closed (-is:wip OR owner:self) "
           + "(owner:${user} OR reviewer:${user} OR assignee:${user} "
           + "OR cc:${user}) -age:4w limit:10";
   public static final String NEW_USER = "owner:${user} limit:1";

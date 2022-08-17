@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../shared/gr-icon/gr-icon';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property} from 'lit/decorators.js';
 import {css, html, LitElement} from 'lit';
 import {HovercardMixin} from '../../../mixins/hovercard-mixin/hovercard-mixin';
 import {fontStyles} from '../../../styles/gr-font-styles';

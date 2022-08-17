@@ -8,7 +8,7 @@ import '../../shared/gr-icons/gr-icons';
 import {fireEvent} from '../../../utils/event-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
-import {customElement} from 'lit/decorators';
+import {customElement} from 'lit/decorators.js';
 import {fontStyles} from '../../../styles/gr-font-styles';
 
 declare global {

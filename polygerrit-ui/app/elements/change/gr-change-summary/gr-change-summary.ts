@@ -9,7 +9,7 @@ import '../../shared/gr-avatar/gr-avatar';
 import '../../shared/gr-icon/gr-icon';
 import '../../checks/gr-checks-action';
 import {LitElement, css, html, nothing} from 'lit';
-import {customElement, state} from 'lit/decorators';
+import {customElement, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {getAppContext} from '../../../services/app-context';
@@ -55,7 +55,7 @@ import {Interaction} from '../../../constants/reporting';
 import {roleDetails} from '../../../utils/change-util';
 
 import {SummaryChipStyles} from './gr-summary-chip';
-import {when} from 'lit/directives/when';
+import {when} from 'lit/directives/when.js';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {combineLatest} from 'rxjs';
 

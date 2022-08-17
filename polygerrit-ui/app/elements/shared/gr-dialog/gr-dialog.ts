@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../gr-button/gr-button';
-import {customElement, property, query} from 'lit/decorators';
+import {customElement, property, query} from 'lit/decorators.js';
 import {GrButton} from '../gr-button/gr-button';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';
-import {when} from 'lit/directives/when';
+import {when} from 'lit/directives/when.js';
 
 declare global {
   interface HTMLElementTagNameMap {

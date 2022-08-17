@@ -42,7 +42,7 @@ import {
   computeTruncatedPath,
   isMagicPath,
 } from '../../../utils/path-list-util';
-import {customElement, property, query, state} from 'lit/decorators';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {
   BasePatchSetNum,
   EDIT,
@@ -74,10 +74,10 @@ import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {ValueChangedEvent} from '../../../types/events';
 import {subscribe} from '../../lit/subscription-controller';
-import {when} from 'lit/directives/when';
-import {classMap} from 'lit/directives/class-map';
+import {when} from 'lit/directives/when.js';
+import {classMap} from 'lit/directives/class-map.js';
 import {incrementalRepeat} from '../../lit/incremental-repeat';
-import {ifDefined} from 'lit/directives/if-defined';
+import {ifDefined} from 'lit/directives/if-defined.js';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 

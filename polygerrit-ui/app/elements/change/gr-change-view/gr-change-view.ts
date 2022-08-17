@@ -66,7 +66,7 @@ import {
   roleDetails,
 } from '../../../utils/change-util';
 import {EventType as PluginEventType} from '../../../api/plugin';
-import {customElement, property, query, state} from 'lit/decorators';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {GrApplyFixDialog} from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {GrFileListHeader} from '../gr-file-list-header/gr-file-list-header';
 import {GrEditableContent} from '../../shared/gr-editable-content/gr-editable-content';
@@ -169,8 +169,8 @@ import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {paperStyles} from '../../../styles/gr-paper-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {ifDefined} from 'lit/directives/if-defined';
-import {when} from 'lit/directives/when';
+import {ifDefined} from 'lit/directives/if-defined.js';
+import {when} from 'lit/directives/when.js';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {FilesExpandedState} from '../gr-file-list-constants';
 import {subscribe} from '../../lit/subscription-controller';

@@ -175,6 +175,30 @@
       },
       "revId": "42c1a45f81a8c45966b47622fd2dad2f37fc1439",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7205ab62_9d4eaa64",
+        "filename": "web-dev-server.config.mjs",
+        "patchSetId": 14
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-17T08:44:54Z",
+      "side": 1,
+      "message": "sgtm",
+      "parentUuid": "573eb2a8_e503a1b6",
+      "range": {
+        "startLine": 21,
+        "startChar": 4,
+        "endLine": 45,
+        "endChar": 6
+      },
+      "revId": "42c1a45f81a8c45966b47622fd2dad2f37fc1439",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

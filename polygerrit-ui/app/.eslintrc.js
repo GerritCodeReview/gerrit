@@ -294,6 +294,19 @@ module.exports = {
       files: ['**/*.ts'],
       extends: [require.resolve('gts/.eslintrc.json')],
       rules: {
+        'regex/invalid': [
+          'error', [{
+            regex: '\'lit/decorators\'',
+            message: 'use \'lit/decorators.js\' instead',
+            replacement: '\'lit/decorators.js\'',
+          }, {
+            regex: '\'lit/directives/([^.\']*)\'',
+            message: 'use \'lit/directives/foo.js\' instead',
+            replacement: {
+              function: 'return "\'lit/directives/" + $[1] + ".js\'"',
+            },
+          }],
+        ],
         'no-restricted-imports': ['error', {
           name: 'lit-html/static',
           message: 'Use lit instead',

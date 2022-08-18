@@ -82,7 +82,7 @@ import {
   getPatchRangeForCommentUrl,
   isInBaseOfPatchRange,
 } from '../../../utils/comment-util';
-import {AppElementDiffViewParam, AppElementParams} from '../../gr-app-types';
+import {AppElementDiffViewParam} from '../../gr-app-types';
 import {
   EventType,
   OpenFixPreviewEvent,
@@ -173,14 +173,14 @@ export class GrDiffView extends LitElement {
    * URL params passed from the router.
    * Use params getter/setter.
    */
-  private _params?: AppElementParams;
+  private _params?: AppElementDiffViewParam;
 
   @property({type: Object})
   get params() {
     return this._params;
   }
 
-  set params(params: AppElementParams | undefined) {
+  set params(params: AppElementDiffViewParam | undefined) {
     if (this._params === params) return;
     const oldParams = this._params;
     this._params = params;

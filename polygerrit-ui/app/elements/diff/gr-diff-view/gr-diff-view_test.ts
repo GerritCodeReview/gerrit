@@ -41,7 +41,6 @@ import {
   BasePatchSetNum,
   CommentInfo,
   CommitId,
-  DashboardId,
   EDIT,
   FileInfo,
   NumericChangeId,
@@ -878,8 +877,8 @@ suite('gr-diff-view tests', () => {
         basePatchNum: 1 as BasePatchSetNum,
       };
       element.params = {
-        view: GerritView.DASHBOARD,
-        dashboard: 'id' as DashboardId,
+        view: GerritView.DIFF,
+        changeNum: 42 as NumericChangeId,
       };
       await element.updateComplete;
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
@@ -1765,7 +1764,7 @@ suite('gr-diff-view tests', () => {
       const callCount = saveReviewedStub.callCount;
 
       element.params = {
-        view: GerritView.CHANGE,
+        view: GerritView.DIFF,
         changeNum: 42 as NumericChangeId,
         project: 'test' as RepoName,
       };

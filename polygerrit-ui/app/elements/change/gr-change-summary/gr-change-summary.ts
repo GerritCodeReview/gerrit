@@ -19,7 +19,7 @@ import {
   ErrorMessages,
 } from '../../../models/checks/checks-model';
 import {Action, Category, RunStatus} from '../../../api/checks';
-import {fireShowPrimaryTab} from '../../../utils/event-util';
+import {fireShowTab} from '../../../utils/event-util';
 import {
   compareByWorstCategory,
   getResultsOf,
@@ -42,7 +42,7 @@ import {pluralize} from '../../../utils/string-util';
 import {AccountInfo} from '../../../types/common';
 import {notUndefined} from '../../../types/types';
 import {uniqueDefinedAvatar} from '../../../utils/account-util';
-import {PrimaryTab} from '../../../constants/constants';
+import {Tab} from '../../../constants/constants';
 import {ChecksTabState, CommentTabState} from '../../../types/events';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {modifierPressed} from '../../../utils/dom-util';
@@ -525,7 +525,7 @@ export class GrChangeSummary extends LitElement {
       checkName: state.checkName,
       ...roleDetails(this.getChangeModel().getChange(), this.selfAccount),
     });
-    fireShowPrimaryTab(this, PrimaryTab.CHECKS, false, {
+    fireShowTab(this, Tab.CHECKS, false, {
       checksTab: state,
     });
   }

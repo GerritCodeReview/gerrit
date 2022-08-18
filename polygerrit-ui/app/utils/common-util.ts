@@ -62,8 +62,11 @@ export function queryAll<E extends Element = Element>(
   selector: string
 ): NodeListOf<E> {
   if (!el) throw new Error('element not defined');
-  const root = el.shadowRoot ?? el;
-  return root.querySelectorAll<E>(selector);
+  if (el.shadowRoot) {
+    const r = el.shadowRoot.querySelectorAll<E>(selector);
+    if (r.length > 0) return r;
+  }
+  return el.querySelectorAll<E>(selector);
 }
 
 export function query<E extends Element = Element>(

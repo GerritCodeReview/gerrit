@@ -176,6 +176,7 @@ public class CommentSender extends ReplyToChangeSender {
       bccStarredBy();
       includeWatchers(NotifyType.ALL_COMMENTS, !change.isWorkInProgress() && !change.isPrivate());
     }
+    removeUsersThatIgnoredTheChange();
 
     // Add header that enables identifying comments on parsed email.
     // Grouping is currently done by timestamp.

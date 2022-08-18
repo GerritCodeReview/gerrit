@@ -62,6 +62,7 @@ public class MergedSender extends ReplyToChangeSender {
     bccStarredBy();
     includeWatchers(NotifyType.ALL_COMMENTS);
     includeWatchers(NotifyType.SUBMITTED_CHANGES);
+    removeUsersThatIgnoredTheChange();
   }
 
   @Override

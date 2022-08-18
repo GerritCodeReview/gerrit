@@ -433,6 +433,19 @@ hasfooter:'FOOTERNAME'::
 Matches any change that has a commit message with a footer where the footer
 name is equal to 'FOOTERNAME'.The matching is done case-sensitive.
 
+[[star]]
+star:'LABEL'::
++
+Matches any change that was starred by the current user with the label
+'LABEL'.
++
+E.g. if changes that are not interesting are marked with an `ignore`
+star, they could be filtered out by '-star:ignore'.
++
+'star:star' is the same as 'has:star' and 'is:starred'.
+
+Only "ignore" and "star" are supported labels.
+
 [[has]]
 has:draft::
 +
@@ -441,8 +454,8 @@ True if there is a draft comment saved by the current user.
 [[has-star]]
 has:star::
 +
-Same as 'is:starred', true if the change has been starred by the current user
-with the default label.
+Same as 'is:starred' and 'star:star', true if the change has been
+starred by the current user with the default label.
 
 has:edit::
 +
@@ -544,6 +557,11 @@ not find any abandoned but mergeable changes.
 This operator only works if Gerrit indexes 'mergeable'. See
 link:config-gerrit.html#change.mergeabilityComputationBehavior[change.mergeabilityComputationBehavior]
 for details.
+
+[[ignored]]
+is:ignored::
++
+True if the change is ignored. Same as `star:ignore`.
 
 [[private]]
 is:private::

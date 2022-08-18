@@ -118,6 +118,8 @@ public class ChangeRestApiModule extends RestApiModule {
     post(CHANGE_KIND, "private").to(PostPrivate.class);
     post(CHANGE_KIND, "private.delete").to(DeletePrivateByPost.class);
     delete(CHANGE_KIND, "private").to(DeletePrivate.class);
+    put(CHANGE_KIND, "ignore").to(Ignore.class);
+    put(CHANGE_KIND, "unignore").to(Unignore.class);
     post(CHANGE_KIND, "wip").to(SetWorkInProgress.class);
     post(CHANGE_KIND, "ready").to(SetReadyForReview.class);
     put(CHANGE_KIND, "message").to(PutMessage.class);

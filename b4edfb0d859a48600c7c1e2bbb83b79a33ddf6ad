@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7131909_046284c5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-08-18T08:56:48Z",
+      "side": 1,
+      "message": "You might need to run `tools/format/google-java-format-1.7 -i` on the change files to fix code-style",
+      "revId": "b4edfb0d859a48600c7c1e2bbb83b79a33ddf6ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

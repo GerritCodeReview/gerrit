@@ -714,6 +714,7 @@ export class GrReplyDialog extends LitElement {
   override willUpdate(changedProperties: PropertyValues) {
     if (changedProperties.has('draft')) {
       this.draftChanged(changedProperties.get('draft') as string);
+      this.getCommentsModel().updateChangeLevelDraft(this.draft);
     }
     if (changedProperties.has('ccPendingConfirmation')) {
       this.pendingConfirmationUpdated(this.ccPendingConfirmation);

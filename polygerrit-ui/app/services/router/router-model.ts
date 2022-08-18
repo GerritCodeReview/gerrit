@@ -12,6 +12,8 @@ import {
   BasePatchSetNum,
 } from '../../types/common';
 import {Model} from '../../models/model';
+import {SettingsViewModel} from '../../elements/core/gr-router/gr-settings-page-model';
+import {select} from '../../utils/observable-util';
 
 export enum GerritView {
   ADMIN = 'admin',
@@ -30,9 +32,13 @@ export enum GerritView {
 }
 
 export interface RouterState {
+  // TODO: Rename to `activeView`.
   view?: GerritView;
+  // TODO: Move into a ChangeViewState.
   changeNum?: NumericChangeId;
+  // TODO: Move into a ChangeViewState.
   patchNum?: RevisionPatchSetNum;
+  // TODO: Move into a ChangeViewState.
   basePatchNum?: BasePatchSetNum;
 }
 
@@ -44,6 +50,10 @@ export class RouterModel extends Model<RouterState> implements Finalizable {
   readonly routerPatchNum$: Observable<RevisionPatchSetNum | undefined>;
 
   readonly routerBasePatchNum$: Observable<BasePatchSetNum | undefined>;
+
+  readonly settings = new SettingsViewModel();
+
+  public readonly activeView$ = select(this.state$, state => state.view);
 
   constructor() {
     super({});

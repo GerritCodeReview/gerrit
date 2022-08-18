@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c225f42e_bcbccc19",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-18T10:04:49Z",
+      "side": 1,
+      "message": "Sure but still doesn\u0027t see the point it requesting the AccountInfo object when it hasn\u0027t changed.\nDo you want to clarify the comment or move away from firstUpdated?",
+      "parentUuid": "b94ff151_f9702dd5",
+      "range": {
+        "startLine": 194,
+        "startChar": 4,
+        "endLine": 195,
+        "endChar": 31
+      },
+      "revId": "b75537287f3e9cecd63f1ec3eb860f34a360db53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dc8b0469_7d59a984",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
         "patchSetId": 8
@@ -37,6 +61,30 @@
       "writtenOn": "2022-08-18T09:45:52Z",
       "side": 1,
       "message": "Can we do something like `isNotDetailedAccount()` here? Is this the `account` should be able to tell you, what kind of detail level it has and whether calling getAccountDetails() makes sense.",
+      "range": {
+        "startLine": 200,
+        "startChar": 24,
+        "endLine": 200,
+        "endChar": 71
+      },
+      "revId": "b75537287f3e9cecd63f1ec3eb860f34a360db53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70ce3a76_f46ad6dd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-18T10:04:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc8b0469_7d59a984",
       "range": {
         "startLine": 200,
         "startChar": 24,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a7e7743_b4001764",
+        "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-18T10:04:49Z",
+      "side": 1,
+      "message": "Hah, made it before my refactor.\nDone.",
+      "parentUuid": "b1c83149_f164626e",
+      "range": {
+        "startLine": 13,
+        "startChar": 18,
+        "endLine": 13,
+        "endChar": 43
+      },
+      "revId": "b75537287f3e9cecd63f1ec3eb860f34a360db53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6ab303c4_46c28b9b",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-08-18T09:45:52Z",
       "side": 1,
       "message": "You are manipulating the `accounts` property of the current state object here, which is supposed to be treated as immutable. You have to do the cloning in line 29 instead of in line 33.",
+      "range": {
+        "startLine": 31,
+        "startChar": 6,
+        "endLine": 31,
+        "endChar": 23
+      },
+      "revId": "b75537287f3e9cecd63f1ec3eb860f34a360db53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1519e471_2a20294a",
+        "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-18T10:04:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ab303c4_46c28b9b",
       "range": {
         "startLine": 31,
         "startChar": 6,

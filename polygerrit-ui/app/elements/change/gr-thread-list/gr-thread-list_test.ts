@@ -13,7 +13,7 @@ import {
   __testOnly_SortDropdownState,
 } from './gr-thread-list';
 import {queryAll, stubFlags} from '../../../test/test-utils';
-import {accountOrGroupKey} from '../../../utils/account-util';
+import {getUserId} from '../../../utils/account-util';
 import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 import {
   createAccountDetailWithId,
@@ -391,7 +391,7 @@ suite('gr-thread-list tests', () => {
     const chips = Array.from(
       queryAll<GrAccountLabel>(element, 'gr-account-label')
     );
-    const authors = chips.map(chip => accountOrGroupKey(chip.account!)).sort();
+    const authors = chips.map(chip => getUserId(chip.account!)).sort();
     assert.deepEqual(authors, [
       1 as AccountId,
       1000000 as AccountId,
@@ -426,7 +426,7 @@ suite('gr-thread-list tests', () => {
     const chips = Array.from(
       queryAll<GrAccountLabel>(element, 'gr-account-label')
     );
-    const authors = chips.map(chip => accountOrGroupKey(chip.account!)).sort();
+    const authors = chips.map(chip => getUserId(chip.account!)).sort();
     assert.deepEqual(authors, [1 as AccountId]);
     assert.equal(element.threads.length, 1);
     assert.equal(element.getDisplayedThreads().length, 1);

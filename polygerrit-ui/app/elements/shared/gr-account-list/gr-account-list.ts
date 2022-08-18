@@ -21,10 +21,7 @@ import {ReviewerSuggestionsProvider} from '../../../scripts/gr-reviewer-suggesti
 import {GrAccountEntry} from '../gr-account-entry/gr-account-entry';
 import {GrAccountChip} from '../gr-account-chip/gr-account-chip';
 import {fire, fireAlert} from '../../../utils/event-util';
-import {
-  accountOrGroupKey,
-  isAccountNewlyAdded,
-} from '../../../utils/account-util';
+import {getUserId, isAccountNewlyAdded} from '../../../utils/account-util';
 import {LitElement, css, html, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -324,10 +321,7 @@ export class GrAccountList extends LitElement {
     }
     if (this.removableValues) {
       for (let i = 0; i < this.removableValues.length; i++) {
-        if (
-          accountOrGroupKey(this.removableValues[i]) ===
-          accountOrGroupKey(account)
-        ) {
+        if (getUserId(this.removableValues[i]) === getUserId(account)) {
           return true;
         }
       }
@@ -347,7 +341,7 @@ export class GrAccountList extends LitElement {
       return false;
     }
     for (let i = 0; i < this.accounts.length; i++) {
-      if (accountOrGroupKey(toRemove) === accountOrGroupKey(this.accounts[i])) {
+      if (getUserId(toRemove) === getUserId(this.accounts[i])) {
         this.accounts.splice(i, 1);
         this.reporting.reportInteraction(`Remove from ${this.id}`);
         this.requestUpdate();
@@ -459,7 +453,7 @@ export class GrAccountList extends LitElement {
     return difference(
       this.change?.reviewers[this.reviewerState] ?? [],
       this.accounts,
-      (a, b) => accountOrGroupKey(a) === accountOrGroupKey(b)
+      (a, b) => getUserId(a) === getUserId(b)
     );
   }
 }

@@ -26,7 +26,7 @@ import {
   SpecialFilePath,
 } from '../../../constants/constants';
 import {
-  accountOrGroupKey,
+  getUserId,
   isAccountNewlyAdded,
   removeServiceUsers,
   toReviewInput,
@@ -274,8 +274,7 @@ export class GrReplyDialog extends LitElement {
     this._ccs = ccs.filter(
       cc =>
         !this.mentionedUsers.some(
-          mentionedCC =>
-            accountOrGroupKey(mentionedCC) === accountOrGroupKey(cc)
+          mentionedCC => getUserId(mentionedCC) === getUserId(cc)
         )
     );
     this.requestUpdate('ccs', ccs);
@@ -1334,7 +1333,7 @@ export class GrReplyDialog extends LitElement {
   // remove account-added event from GrAccountList.
   handleAccountAdded(e: CustomEvent<AccountInputDetail>) {
     const account = e.detail.account;
-    const key = accountOrGroupKey(account);
+    const key = getUserId(account);
     const reviewerType =
       (e.target as GrAccountList).getAttribute('id') === 'ccs'
         ? ReviewerType.CC
@@ -1370,7 +1369,7 @@ export class GrReplyDialog extends LitElement {
     let removals = difference(
       this.reviewersList?.removals() ?? [],
       ccAdditions,
-      (a, b) => accountOrGroupKey(a) === accountOrGroupKey(b)
+      (a, b) => getUserId(a) === getUserId(b)
     ).map(v => toReviewInput(v, ReviewerState.REMOVED));
     reviewers.push(...removals);
 
@@ -1378,7 +1377,7 @@ export class GrReplyDialog extends LitElement {
     removals = difference(
       this.ccsList?.removals() ?? [],
       reviewerAdditions,
-      (a, b) => accountOrGroupKey(a) === accountOrGroupKey(b)
+      (a, b) => getUserId(a) === getUserId(b)
     ).map(v => toReviewInput(v, ReviewerState.REMOVED));
     reviewers.push(...removals);
 
@@ -1591,12 +1590,11 @@ export class GrReplyDialog extends LitElement {
     const targetAccount = (e.target as GrAccountChip)?.account;
     if (!targetAccount) return;
     // TODO: Remove cast and add support for GroupId as id type
-    const id = accountOrGroupKey(targetAccount) as AccountId | EmailAddress;
+    const id = getUserId(targetAccount) as AccountId | EmailAddress;
     if (!id || !this.account || !this.change?.owner) return;
 
-    const self = id === accountOrGroupKey(this.account) ? '_SELF' : '';
-    const role =
-      id === accountOrGroupKey(this.change.owner) ? 'OWNER' : '_REVIEWER';
+    const self = id === getUserId(this.account) ? '_SELF' : '';
+    const role = id === getUserId(this.change.owner) ? 'OWNER' : '_REVIEWER';
 
     if (this.newAttentionSet.has(id)) {
       this.newAttentionSet.delete(id);
@@ -1836,9 +1834,9 @@ export class GrReplyDialog extends LitElement {
         return false;
       }
 
-      const key = accountOrGroupKey(entry);
+      const key = getUserId(entry);
       const finder = (entry: AccountInfo | GroupInfo) =>
-        accountOrGroupKey(entry) === key;
+        getUserId(entry) === key;
       if (isCCs) {
         return this.ccs.find(finder) === undefined;
       }

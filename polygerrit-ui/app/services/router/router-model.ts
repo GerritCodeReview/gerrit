@@ -3,8 +3,6 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {Observable} from 'rxjs';
-import {distinctUntilChanged, map} from 'rxjs/operators';
 import {Finalizable} from '../registry';
 import {
   NumericChangeId,
@@ -12,57 +10,49 @@ import {
   BasePatchSetNum,
 } from '../../types/common';
 import {Model} from '../../models/model';
+import {SettingsViewModel} from '../../elements/core/gr-router/settings-view-model';
+import {select} from '../../utils/observable-util';
+import {GerritView} from '../../elements/gr-app-types';
 
-export enum GerritView {
-  ADMIN = 'admin',
-  AGREEMENTS = 'agreements',
-  CHANGE = 'change',
-  DASHBOARD = 'dashboard',
-  DIFF = 'diff',
-  DOCUMENTATION_SEARCH = 'documentation-search',
-  EDIT = 'edit',
-  GROUP = 'group',
-  PLUGIN_SCREEN = 'plugin-screen',
-  REPO = 'repo',
-  ROOT = 'root',
-  SEARCH = 'search',
-  SETTINGS = 'settings',
-}
+export {GerritView};
 
 export interface RouterState {
+  // TODO: Rename to `activeView`.
   view?: GerritView;
+  // TODO: Move into a ChangeViewState.
   changeNum?: NumericChangeId;
+  // TODO: Move into a ChangeViewState.
   patchNum?: RevisionPatchSetNum;
+  // TODO: Move into a ChangeViewState.
   basePatchNum?: BasePatchSetNum;
 }
 
 export class RouterModel extends Model<RouterState> implements Finalizable {
-  readonly routerView$: Observable<GerritView | undefined>;
+  // TODO: Rename to `activeView`.
+  readonly routerView$ = select(this.state$, state => state.view);
 
-  readonly routerChangeNum$: Observable<NumericChangeId | undefined>;
+  // TODO: Move into a ChangeViewModel.
+  readonly routerChangeNum$ = select(this.state$, state => state.changeNum);
 
-  readonly routerPatchNum$: Observable<RevisionPatchSetNum | undefined>;
+  // TODO: Move into a ChangeViewModel.
+  readonly routerPatchNum$ = select(this.state$, state => state.patchNum);
 
-  readonly routerBasePatchNum$: Observable<BasePatchSetNum | undefined>;
+  // TODO: Move into a ChangeViewModel.
+  readonly routerBasePatchNum$ = select(
+    this.state$,
+    state => state.basePatchNum
+  );
+
+  /**
+   * All components in the app may want to access view models for creating URLs.
+   * The router model instantiates them all and provides access to them. That is
+   * more convenient than sticking all view models individually onto the app
+   * context.
+   */
+  readonly settings = new SettingsViewModel();
 
   constructor() {
     super({});
-    this.routerView$ = this.state$.pipe(
-      map(state => state.view),
-      distinctUntilChanged()
-    );
-    this.routerChangeNum$ = this.state$.pipe(
-      map(state => state.changeNum),
-      distinctUntilChanged()
-    );
-    this.routerPatchNum$ = this.state$.pipe(
-      map(state => state.patchNum),
-      distinctUntilChanged()
-    );
-    this.routerBasePatchNum$ = this.state$.pipe(
-      map(state => state.basePatchNum),
-      distinctUntilChanged()
-    );
   }
 
   finalize() {}

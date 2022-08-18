@@ -3,6 +3,7 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+// TODO: Rename this file from gr-app-types to router-types.
 import {
   BasePatchSetNum,
   DashboardId,
@@ -12,13 +13,55 @@ import {
   RevisionPatchSetNum,
   UrlEncodedCommentId,
 } from '../types/common';
-import {GerritView} from '../services/router/router-model';
+import {PageContextWithQueryMap} from '../utils/page-wrapper-utils';
 import {
   GenerateUrlParameters,
   DashboardSection,
   GroupDetailView,
   RepoDetailView,
 } from '../utils/router-util';
+import {SettingsViewState} from './core/gr-router/settings-view-model';
+
+export enum GerritView {
+  ADMIN = 'admin',
+  AGREEMENTS = 'agreements',
+  CHANGE = 'change',
+  DASHBOARD = 'dashboard',
+  DIFF = 'diff',
+  DOCUMENTATION_SEARCH = 'documentation-search',
+  EDIT = 'edit',
+  GROUP = 'group',
+  PLUGIN_SCREEN = 'plugin-screen',
+  REPO = 'repo',
+  ROOT = 'root',
+  SEARCH = 'search',
+  SETTINGS = 'settings',
+}
+
+export interface ViewState {
+  view: GerritView;
+}
+
+export interface Route<S extends ViewState> {
+  name: string;
+  pattern: string | RegExp;
+  urlToState: (data: PageContextWithQueryMap) => S;
+}
+
+export interface ViewModel<S extends ViewState> {
+  view: GerritView;
+  routes: Route<S>[];
+  /**
+   * This is the only public method interesting for the entire app.
+   * Everything else is just interesting for the router and should be
+   * considered "package protected".
+   * TODO: Is there a better way to model that than introducing another
+   * interface?
+   */
+  stateToUrl: (state: S) => string;
+  defaultState?: S;
+  loginRequired: boolean;
+}
 
 export interface AppElement extends HTMLElement {
   params: AppElementParams | GenerateUrlParameters;
@@ -74,11 +117,6 @@ export interface AppElementSearchParam {
   view: GerritView.SEARCH;
   query: string;
   offset: string;
-}
-
-export interface AppElementSettingsParam {
-  view: GerritView.SETTINGS;
-  emailToken?: string;
 }
 
 export interface AppElementAgreementParam {
@@ -145,7 +183,7 @@ export type AppElementParams =
   | AppElementDocSearchParams
   | AppElementPluginScreenParams
   | AppElementSearchParam
-  | AppElementSettingsParam
+  | SettingsViewState
   | AppElementAgreementParam
   | AppElementDiffViewParam
   | AppElementDiffEditViewParam

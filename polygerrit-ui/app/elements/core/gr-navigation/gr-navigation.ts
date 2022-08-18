@@ -710,10 +710,6 @@ export const GerritNav = {
     });
   },
 
-  getUrlForSettings() {
-    return this._getUrlFor({view: GerritView.SETTINGS});
-  },
-
   getEditWebLinks(
     repo: RepoName,
     commit: CommitId,

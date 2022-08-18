@@ -34,6 +34,10 @@ export interface PageContext {
   params: {[paramIndex: string]: string};
 }
 
+export interface PageContextWithQueryMap extends PageContext {
+  queryMap: Map<string, string> | URLSearchParams;
+}
+
 export type PageNextCallback = () => void;
 
 export type PageCallback = (

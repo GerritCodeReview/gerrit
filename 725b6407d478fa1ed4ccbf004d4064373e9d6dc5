@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b59029c9_32c15187",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1662,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-18T10:46:45Z",
+      "side": 0,
+      "message": "That was confusing how this came from event.",
+      "range": {
+        "startLine": 1658,
+        "startChar": 4,
+        "endLine": 1662,
+        "endChar": 6
+      },
+      "revId": "725b6407d478fa1ed4ccbf004d4064373e9d6dc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a3458cd_fa809d61",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1681,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-18T10:46:45Z",
+      "side": 0,
+      "message": "thanks for cleaning this.",
+      "range": {
+        "startLine": 1671,
+        "startChar": 4,
+        "endLine": 1681,
+        "endChar": 5
+      },
+      "revId": "725b6407d478fa1ed4ccbf004d4064373e9d6dc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "621999c7_d094f94e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1732,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-18T10:46:45Z",
+      "side": 0,
+      "message": "That\u0027s cool that we don\u0027t need this since it\u0027s enough to have this.activeTab.",
+      "range": {
+        "startLine": 1717,
+        "startChar": 3,
+        "endLine": 1732,
+        "endChar": 5
+      },
+      "revId": "725b6407d478fa1ed4ccbf004d4064373e9d6dc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

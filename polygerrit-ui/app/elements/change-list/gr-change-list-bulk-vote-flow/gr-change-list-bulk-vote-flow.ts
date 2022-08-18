@@ -15,7 +15,6 @@ import {
   computeLabels,
   computeOrderedLabelValues,
   mergeLabelInfoMaps,
-  getDefaultValue,
   mergeLabelMaps,
   Label,
   StandardLabels,
@@ -377,14 +376,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
           : selectorEl.selectedValue;
 
       if (selectedVal === undefined) continue;
-
-      const defValNum = getDefaultValue(
-        this.selectedChanges[0].labels,
-        label.name
-      );
-      if (selectedVal !== defValNum) {
-        labels[label.name] = selectedVal;
-      }
+      labels[label.name] = selectedVal;
     }
     return labels;
   }

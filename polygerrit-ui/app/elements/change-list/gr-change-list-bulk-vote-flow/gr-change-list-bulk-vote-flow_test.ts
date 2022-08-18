@@ -28,6 +28,7 @@ import {SinonStubbedMember} from 'sinon';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {
   createChange,
+  createDetailedLabelInfo,
   createSubmitRequirementResultInfo,
 } from '../../../test/test-data-generators';
 import './gr-change-list-bulk-vote-flow';
@@ -331,18 +332,45 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     );
   });
 
-  test('progress updates as request is resolved', async () => {
-    const changes: ChangeInfo[] = [{...change1}];
+  test.only('progress updates as request is resolved', async () => {
+    debugger;
+    // const change = {...change1};
+    const change = {
+      ...change1,
+      labels: {
+        ...change1.labels,
+        'C': {
+          ...createDetailedLabelInfo(),
+          all: [
+            {
+              ...element.account!,
+              value: -1,
+            },
+          ],
+        },
+      },
+    };
+    const changes: ChangeInfo[] = [{...change}];
     getChangesStub.returns(Promise.resolve(changes));
     model.sync(changes);
     await waitUntilObserved(
       model.loadingState$,
       state => state === LoadingState.LOADED
     );
-    await selectChange(change1);
+    await selectChange(change);
     await element.updateComplete;
     const saveChangeReview = mockPromise<Response>();
     stubRestApi('saveChangeReview').returns(saveChangeReview);
+
+    const stopsStub = sinon.stub(element.actionOverlay, 'setFocusStops');
+
+    queryAndAssert<GrButton>(element, '#voteFlowButton').click();
+    await element.updateComplete;
+    await element.updateComplete;
+    await element.updateComplete;
+    await waitUntil(() => stopsStub.called);
+
+    await element.updateComplete;
 
     assert.isNotOk(
       queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#confirm').disabled
@@ -351,9 +379,11 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
       queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#cancel').disabled
     );
 
+
     const scores = queryAll(element, 'gr-label-score-row');
     queryAndAssert<GrButton>(scores[0], 'gr-button[data-value="+1"]').click();
     queryAndAssert<GrButton>(scores[1], 'gr-button[data-value="-1"]').click();
+    queryAndAssert<GrButton>(scores[2], 'gr-button[data-value="0"]').click();
 
     await element.updateComplete;
 
@@ -364,6 +394,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
       {
         A: 1,
         B: -1,
+        C: 0,
       }
     );
 

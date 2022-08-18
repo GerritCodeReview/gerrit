@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c80260c1_bc20b52c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-18T10:57:15Z",
+      "side": 1,
+      "message": "Not sure if that means comment can be removed now but I removed the comment and created a fillDetails method as suggested.\nDone",
+      "parentUuid": "59ea7ba8_55c9eaeb",
+      "range": {
+        "startLine": 194,
+        "startChar": 4,
+        "endLine": 195,
+        "endChar": 31
+      },
+      "revId": "b75537287f3e9cecd63f1ec3eb860f34a360db53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dc8b0469_7d59a984",
@@ -133,6 +157,30 @@
       "side": 1,
       "message": "You have changed the name to `isNotDetailedAccount`, but you are still just checking the email address. What I meant is that it would be nice to be more explicit about what kind of data we are missing? What is an incomplete account? How can we tell from looking at the account object that it was a return value from getAccountDetails?",
       "parentUuid": "70ce3a76_f46ad6dd",
+      "range": {
+        "startLine": 200,
+        "startChar": 24,
+        "endLine": 200,
+        "endChar": 71
+      },
+      "revId": "b75537287f3e9cecd63f1ec3eb860f34a360db53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f191875f_8fd1aa09",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-18T10:57:15Z",
+      "side": 1,
+      "message": "I am checking !this.account._account_id to decide that it is an incomplete account.\nAny account without `_account_id` is not detailed.\n\nI removed the check for email from it since technically it is not required for the account to lack details.",
+      "parentUuid": "83a2ce67_6d5641bb",
       "range": {
         "startLine": 200,
         "startChar": 24,

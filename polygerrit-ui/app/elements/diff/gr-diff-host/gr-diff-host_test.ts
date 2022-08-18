@@ -44,7 +44,7 @@ import {
   UrlEncodedCommentId,
 } from '../../../types/common';
 import {CoverageType} from '../../../types/types';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {GerritNav, WeblinkType} from '../../core/gr-navigation/gr-navigation';
 import {GrDiffBuilderImage} from '../../../embed/diff/gr-diff-builder/gr-diff-builder-image';
 import {GrDiffHost, LineInfo} from './gr-diff-host';
 import {DiffInfo, DiffViewMode, IgnoreWhitespaceType} from '../../../api/diff';
@@ -196,7 +196,7 @@ suite('gr-diff-host tests', () => {
         weblinks: undefined,
       },
       repo: 'test-project' as RepoName,
-      type: GerritNav.WeblinkType.EDIT,
+      type: WeblinkType.EDIT,
     });
     assert.deepEqual(element.editWeblinks, [
       {
@@ -211,7 +211,7 @@ suite('gr-diff-host tests', () => {
         weblinks: undefined,
       },
       repo: 'test-project' as RepoName,
-      type: GerritNav.WeblinkType.FILE,
+      type: WeblinkType.FILE,
     });
     assert.deepEqual(weblinksStub.thirdCall.args[0], {
       commit: 'test-commit' as CommitId,
@@ -220,7 +220,7 @@ suite('gr-diff-host tests', () => {
         weblinks: undefined,
       },
       repo: 'test-project' as RepoName,
-      type: GerritNav.WeblinkType.FILE,
+      type: WeblinkType.FILE,
     });
     assert.deepEqual(element.filesWeblinks, {
       meta_a: [{name: 'stubb', url: '#s'}],

@@ -40,6 +40,7 @@ import {
   GroupDetailView,
   GenerateUrlEditViewParameters,
   GenerateUrlChangeViewParameters,
+  RepoDetailView,
 } from '../../../utils/router-util';
 
 suite('gr-router tests', () => {
@@ -404,16 +405,13 @@ suite('gr-router tests', () => {
       const params = createPageContext();
       router.handleNewAgreementsRoute(params);
       assert.isTrue(setParamsStub.calledOnce);
-      assert.equal(
-        setParamsStub.lastCall.args[0].view,
-        GerritNav.View.AGREEMENTS
-      );
+      assert.equal(setParamsStub.lastCall.args[0].view, GerritView.AGREEMENTS);
     });
 
     test('handleSettingsLegacyRoute', () => {
       const data = {...createPageContext(), params: {0: 'my-token'}};
       assertDataToParams(data, 'handleSettingsLegacyRoute', {
-        view: GerritNav.View.SETTINGS,
+        view: GerritView.SETTINGS,
         emailToken: 'my-token',
       });
     });
@@ -421,7 +419,7 @@ suite('gr-router tests', () => {
     test('handleSettingsLegacyRoute with +', () => {
       const data = {...createPageContext(), params: {0: 'my-token test'}};
       assertDataToParams(data, 'handleSettingsLegacyRoute', {
-        view: GerritNav.View.SETTINGS,
+        view: GerritView.SETTINGS,
         emailToken: 'my-token+test',
       });
     });
@@ -429,7 +427,7 @@ suite('gr-router tests', () => {
     test('handleSettingsRoute', () => {
       const data = createPageContext();
       assertDataToParams(data, 'handleSettingsRoute', {
-        view: GerritNav.View.SETTINGS,
+        view: GerritView.SETTINGS,
       });
     });
 
@@ -485,7 +483,7 @@ suite('gr-router tests', () => {
         params: {0: 'project:foo/bar/baz'},
       };
       assertDataToParams(data, 'handleQueryRoute', {
-        view: GerritNav.View.SEARCH,
+        view: GerritView.SEARCH,
         query: 'project:foo/bar/baz',
         offset: undefined,
       });
@@ -493,7 +491,7 @@ suite('gr-router tests', () => {
       data.params[1] = '123';
       data.params[2] = '123';
       assertDataToParams(data, 'handleQueryRoute', {
-        view: GerritNav.View.SEARCH,
+        view: GerritView.SEARCH,
         query: 'project:foo/bar/baz',
         offset: '123',
       });
@@ -512,7 +510,7 @@ suite('gr-router tests', () => {
         params: {0: 'I0123456789abcdef0123456789abcdef01234567'},
       };
       assertDataToParams(data, 'handleChangeIdQueryRoute', {
-        view: GerritNav.View.SEARCH,
+        view: GerritView.SEARCH,
         query: 'I0123456789abcdef0123456789abcdef01234567',
       });
     });
@@ -697,7 +695,7 @@ suite('gr-router tests', () => {
           assert.isFalse(redirectStub.called);
           assert.isTrue(setParamsStub.calledOnce);
           assert.deepEqual(setParamsStub.lastCall.args[0], {
-            view: GerritNav.View.DASHBOARD,
+            view: GerritView.DASHBOARD,
             user: 'foo',
           });
         });
@@ -736,7 +734,7 @@ suite('gr-router tests', () => {
             assert.isFalse(redirectStub.called);
             assert.isTrue(setParamsStub.calledOnce);
             assert.deepEqual(setParamsStub.lastCall.args[0], {
-              view: GerritNav.View.DASHBOARD,
+              view: GerritView.DASHBOARD,
               user: 'self',
               sections: [
                 {name: 'a', query: 'b'},
@@ -760,7 +758,7 @@ suite('gr-router tests', () => {
             assert.isFalse(redirectStub.called);
             assert.isTrue(setParamsStub.calledOnce);
             assert.deepEqual(setParamsStub.lastCall.args[0], {
-              view: GerritNav.View.DASHBOARD,
+              view: GerritView.DASHBOARD,
               user: 'self',
               sections: [{name: 'a', query: 'b'}],
               title: 't',
@@ -781,7 +779,7 @@ suite('gr-router tests', () => {
             assert.isFalse(redirectStub.called);
             assert.isTrue(setParamsStub.calledOnce);
             assert.deepEqual(setParamsStub.lastCall.args[0], {
-              view: GerritNav.View.DASHBOARD,
+              view: GerritView.DASHBOARD,
               user: 'self',
               sections: [{name: 'a', query: 'is:open b'}],
               title: 'Custom Dashboard',
@@ -837,7 +835,7 @@ suite('gr-router tests', () => {
 
         data.hash = 'create';
         assertDataToParams(data, 'handleGroupListOffsetRoute', {
-          view: GerritNav.View.ADMIN,
+          view: GerritView.ADMIN,
           adminView: 'gr-admin-group-list',
           offset: '42',
           filter: null,
@@ -915,7 +913,7 @@ suite('gr-router tests', () => {
         const data = {...createPageContext(), params: {0: '4321'}};
         assertDataToParams(data, 'handleRepoGeneralRoute', {
           view: GerritView.REPO,
-          detail: GerritNav.RepoDetailView.GENERAL,
+          detail: RepoDetailView.GENERAL,
           repo: '4321' as RepoName,
         });
       });
@@ -924,7 +922,7 @@ suite('gr-router tests', () => {
         const data = {...createPageContext(), params: {0: '4321'}};
         assertDataToParams(data, 'handleRepoCommandsRoute', {
           view: GerritView.REPO,
-          detail: GerritNav.RepoDetailView.COMMANDS,
+          detail: RepoDetailView.COMMANDS,
           repo: '4321' as RepoName,
         });
       });
@@ -933,7 +931,7 @@ suite('gr-router tests', () => {
         const data = {...createPageContext(), params: {0: '4321'}};
         assertDataToParams(data, 'handleRepoAccessRoute', {
           view: GerritView.REPO,
-          detail: GerritNav.RepoDetailView.ACCESS,
+          detail: RepoDetailView.ACCESS,
           repo: '4321' as RepoName,
         });
       });
@@ -946,7 +944,7 @@ suite('gr-router tests', () => {
           };
           assertDataToParams(data, 'handleBranchListOffsetRoute', {
             view: GerritView.REPO,
-            detail: GerritNav.RepoDetailView.BRANCHES,
+            detail: RepoDetailView.BRANCHES,
             repo: '4321' as RepoName,
             offset: 0,
             filter: null,
@@ -955,7 +953,7 @@ suite('gr-router tests', () => {
           data.params[2] = '42';
           assertDataToParams(data, 'handleBranchListOffsetRoute', {
             view: GerritView.REPO,
-            detail: GerritNav.RepoDetailView.BRANCHES,
+            detail: RepoDetailView.BRANCHES,
             repo: '4321' as RepoName,
             offset: '42',
             filter: null,
@@ -969,7 +967,7 @@ suite('gr-router tests', () => {
           };
           assertDataToParams(data, 'handleBranchListFilterOffsetRoute', {
             view: GerritView.REPO,
-            detail: GerritNav.RepoDetailView.BRANCHES,
+            detail: RepoDetailView.BRANCHES,
             repo: '4321' as RepoName,
             offset: '42',
             filter: 'foo',
@@ -983,7 +981,7 @@ suite('gr-router tests', () => {
           };
           assertDataToParams(data, 'handleBranchListFilterRoute', {
             view: GerritView.REPO,
-            detail: GerritNav.RepoDetailView.BRANCHES,
+            detail: RepoDetailView.BRANCHES,
             repo: '4321' as RepoName,
             filter: 'foo',
           });
@@ -995,7 +993,7 @@ suite('gr-router tests', () => {
           const data = {...createPageContext(), params: {0: '4321'}};
           assertDataToParams(data, 'handleTagListOffsetRoute', {
             view: GerritView.REPO,
-            detail: GerritNav.RepoDetailView.TAGS,
+            detail: RepoDetailView.TAGS,
             repo: '4321' as RepoName,
             offset: 0,
             filter: null,
@@ -1009,7 +1007,7 @@ suite('gr-router tests', () => {
           };
           assertDataToParams(data, 'handleTagListFilterOffsetRoute', {
             view: GerritView.REPO,
-            detail: GerritNav.RepoDetailView.TAGS,
+            detail: RepoDetailView.TAGS,
             repo: '4321' as RepoName,
             offset: '42',
             filter: 'foo',
@@ -1023,7 +1021,7 @@ suite('gr-router tests', () => {
           };
           assertDataToParams(data, 'handleTagListFilterRoute', {
             view: GerritView.REPO,
-            detail: GerritNav.RepoDetailView.TAGS,
+            detail: RepoDetailView.TAGS,
             repo: '4321' as RepoName,
             filter: null,
           });
@@ -1031,7 +1029,7 @@ suite('gr-router tests', () => {
           data.params.filter = 'foo';
           assertDataToParams(data, 'handleTagListFilterRoute', {
             view: GerritView.REPO,
-            detail: GerritNav.RepoDetailView.TAGS,
+            detail: RepoDetailView.TAGS,
             repo: '4321' as RepoName,
             filter: 'foo',
           });
@@ -1390,7 +1388,7 @@ suite('gr-router tests', () => {
         const appParams: GenerateUrlEditViewParameters = {
           project: 'foo/bar' as RepoName,
           changeNum: 1234 as NumericChangeId,
-          view: GerritNav.View.EDIT,
+          view: GerritView.EDIT,
           path: 'foo/bar/baz',
           patchNum: 3 as RevisionPatchSetNum,
           lineNum: '',
@@ -1423,7 +1421,7 @@ suite('gr-router tests', () => {
         const appParams: GenerateUrlEditViewParameters = {
           project: 'foo/bar' as RepoName,
           changeNum: 1234 as NumericChangeId,
-          view: GerritNav.View.EDIT,
+          view: GerritView.EDIT,
           path: 'foo/bar/baz',
           patchNum: 3 as RevisionPatchSetNum,
           lineNum: '4',
@@ -1473,7 +1471,7 @@ suite('gr-router tests', () => {
     test('handlePluginScreen', () => {
       const ctx = {...createPageContext(), params: {0: 'foo', 1: 'bar'}};
       assertDataToParams(ctx, 'handlePluginScreen', {
-        view: GerritNav.View.PLUGIN_SCREEN,
+        view: GerritView.PLUGIN_SCREEN,
         plugin: 'foo',
         screen: 'bar',
       });

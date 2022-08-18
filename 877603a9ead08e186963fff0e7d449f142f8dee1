@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5afabb1e_cd4d861d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-18T07:41:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "729c3ccd_c270e60b",
+      "range": {
+        "startLine": 191,
+        "startChar": 2,
+        "endLine": 194,
+        "endChar": 0
+      },
+      "revId": "877603a9ead08e186963fff0e7d449f142f8dee1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6efc8f5c_8cba0296",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-08-17T09:55:52Z",
       "side": 1,
       "message": "side-effect only method shouldn\u0027t be named \"get\" imo. `fillEmailBasedAccount` maybe or something similar?",
+      "range": {
+        "startLine": 195,
+        "startChar": 2,
+        "endLine": 199,
+        "endChar": 3
+      },
+      "revId": "877603a9ead08e186963fff0e7d449f142f8dee1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1b62c44_08fa3f1a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-18T07:41:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6efc8f5c_8cba0296",
       "range": {
         "startLine": 195,
         "startChar": 2,
@@ -64,6 +112,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e81b1e9b_f546973e",
+        "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-18T07:41:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18ecefb6_cc7266f8",
+      "revId": "877603a9ead08e186963fff0e7d449f142f8dee1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1074271d_9fdb667c",
@@ -77,6 +143,30 @@
       "writtenOn": "2022-08-17T09:55:52Z",
       "side": 1,
       "message": "Nothing is ever added to this array. And since it\u0027s private it can only happen in this file. Is there a bug or am I misunderstanding something?",
+      "range": {
+        "startLine": 27,
+        "startChar": 25,
+        "endLine": 27,
+        "endChar": 38
+      },
+      "revId": "877603a9ead08e186963fff0e7d449f142f8dee1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac9c0064_077244de",
+        "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-18T07:41:20Z",
+      "side": 1,
+      "message": "Boilerplate code.\nIdeally models have subscriptions to their state which this model doesn\u0027t have hence this `subscriptions` is empty.\nRemoved for clarity.",
+      "parentUuid": "1074271d_9fdb667c",
       "range": {
         "startLine": 27,
         "startChar": 25,
@@ -110,6 +200,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d30fc41_a8e0abd9",
+        "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-18T07:41:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5163da2e_5f957ff4",
+      "range": {
+        "startLine": 36,
+        "startChar": 46,
+        "endLine": 36,
+        "endChar": 56
+      },
+      "revId": "877603a9ead08e186963fff0e7d449f142f8dee1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "140576e0_6f26f9f5",
@@ -123,6 +237,30 @@
       "writtenOn": "2022-08-18T07:18:35Z",
       "side": 1,
       "message": "You are not cloning the map, which must be considered immutable.",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 38,
+        "endChar": 23
+      },
+      "revId": "877603a9ead08e186963fff0e7d449f142f8dee1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2253c56_b24ade6f",
+        "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-18T07:41:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "140576e0_6f26f9f5",
       "range": {
         "startLine": 38,
         "startChar": 6,
@@ -203,6 +341,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd131c16_85d4e3a8",
+        "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-18T07:41:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3c65b8e_cd09ce15",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 37
+      },
+      "revId": "877603a9ead08e186963fff0e7d449f142f8dee1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2a215ccb_18dfbdec",
@@ -216,6 +378,30 @@
       "writtenOn": "2022-08-17T09:55:52Z",
       "side": 1,
       "message": "Why is `id` optional. What does it mean to get an account, without specifying id?\n\nLooking below looks like the answer is \"self\". Could you add documentation to the getAccount method?",
+      "range": {
+        "startLine": 121,
+        "startChar": 4,
+        "endLine": 121,
+        "endChar": 7
+      },
+      "revId": "877603a9ead08e186963fff0e7d449f142f8dee1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6791336d_6617752f",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-18T07:41:20Z",
+      "side": 1,
+      "message": "Removed to use `getAccountDetails` as suggested by Ben\u0027s comment.\n\nNow we are requesting `getAccount` without an ID like before which I\u0027m not sure if clear to you as well.\nLet me know if you want me to update the existing code.",
+      "parentUuid": "2a215ccb_18dfbdec",
       "range": {
         "startLine": 121,
         "startChar": 4,

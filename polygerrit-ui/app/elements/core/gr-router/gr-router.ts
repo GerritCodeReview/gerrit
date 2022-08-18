@@ -21,7 +21,7 @@ import {
 } from '../gr-navigation/gr-navigation';
 import {getAppContext} from '../../../services/app-context';
 import {convertToPatchSetNum} from '../../../utils/patch-set-util';
-import {assertNever} from '../../../utils/common-util';
+import {assertIsDefined, assertNever} from '../../../utils/common-util';
 import {
   BasePatchSetNum,
   DashboardId,
@@ -37,6 +37,8 @@ import {
   AppElement,
   AppElementAgreementParam,
   AppElementParams,
+  ViewModel,
+  ViewState,
 } from '../../gr-app-types';
 import {LocationChangeEventDetail} from '../../../types/events';
 import {GerritView} from '../../../services/router/router-model';
@@ -196,9 +198,6 @@ const RoutePattern = {
   DIFF_LEGACY_LINENUM:
     /^\/c\/((.+)\/\+\/)?(\d+)(\/?((-?\d+|edit)(\.\.(\d+|edit))?\/(.+))?)@[ab]?\d+$/,
 
-  SETTINGS: /^\/settings\/?/,
-  SETTINGS_LEGACY: /^\/settings\/VE\/(\S+)/,
-
   // Matches /c/<changeNum>/ /<URL tail>
   // Catches improperly encoded URLs (context: Issue 7100)
   IMPROPERLY_ENCODED_PLUS: /^\/c\/(.+)\/ \/(.+)$/,
@@ -288,6 +287,7 @@ export class GrRouter {
     this.startRouter();
   }
 
+  // TODO: Rename to something ...State instead of ...Params.
   setParams(params: AppElementParams | GenerateUrlParameters) {
     this.routerModel.updateState({
       view: params.view,
@@ -296,6 +296,8 @@ export class GrRouter {
       basePatchNum:
         'basePatchNum' in params ? params.basePatchNum ?? undefined : undefined,
     });
+    // TODO: Remove this once all components are based on router-model
+    // subscriptions.
     this.appElement().params = params;
   }
 
@@ -321,6 +323,12 @@ export class GrRouter {
 
   generateUrl(params: GenerateUrlParameters) {
     return generateUrl(params);
+  }
+
+  url<S extends ViewState>(page: ViewModel<S>, state?: S) {
+    state = state ?? page.defaultState;
+    assertIsDefined(state, 'state');
+    return getBaseUrl() + page.stateToUrl(state);
   }
 
   generateWeblinks(
@@ -529,17 +537,7 @@ export class GrRouter {
   }
 
   /**
-   * Map a route to a method on the router.
-   *
-   * @param pattern The page.js pattern for the route.
-   * @param handlerName The method name for the handler. If the
-   * route is matched, the handler will be executed with `this` referring
-   * to the component. Its return value will be discarded so that it does
-   * not interfere with page.js.
-   * @param authRedirect If true, then auth is checked before
-   * executing the handler. If the user is not logged in, it will redirect
-   * to the login flow and the handler will not be executed. The login
-   * redirect specifies the matched URL to be used after successful auth.
+   * @deprecated Use initRoutes().
    */
   mapRoute(
     pattern: string | RegExp,
@@ -561,6 +559,26 @@ export class GrRouter {
         });
       }
     );
+  }
+
+  private initRoutes<S extends ViewState>(viewModel: ViewModel<S>) {
+    for (const r of viewModel.routes) {
+      page(
+        r.pattern,
+        (ctx, next) => this.loadUserMiddleware(ctx, next),
+        (ctx, next) => this.queryStringMiddleware(ctx, next),
+        async ctx => {
+          this.reporting.locationChanged(r.name);
+          if (viewModel.loginRequired) {
+            await this.redirectIfNotLoggedIn(ctx);
+          }
+          /* const state = */ r.urlToState(ctx as PageContextWithQueryMap);
+          // TODO: Update the view model with the new state.
+          // TODO: Tell the app element via router-model's `activeView`, which
+          // view it is supposed to show.
+        }
+      );
+    }
   }
 
   startRouter() {
@@ -925,19 +943,7 @@ export class GrRouter {
       true
     );
 
-    this.mapRoute(
-      RoutePattern.SETTINGS_LEGACY,
-      'handleSettingsLegacyRoute',
-      ctx => this.handleSettingsLegacyRoute(ctx),
-      true
-    );
-
-    this.mapRoute(
-      RoutePattern.SETTINGS,
-      'handleSettingsRoute',
-      ctx => this.handleSettingsRoute(ctx),
-      true
-    );
+    this.initRoutes(this.routerModel.settings);
 
     this.mapRoute(RoutePattern.REGISTER, 'handleRegisterRoute', ctx =>
       this.handleRegisterRoute(ctx)
@@ -1614,21 +1620,6 @@ export class GrRouter {
     data.params['view'] = GerritView.AGREEMENTS;
     // TODO(TS): create valid object
     this.setParams(data.params as unknown as AppElementAgreementParam);
-  }
-
-  handleSettingsLegacyRoute(data: PageContextWithQueryMap) {
-    // email tokens may contain '+' but no space.
-    // The parameter parsing replaces all '+' with a space,
-    // undo that to have valid tokens.
-    const token = data.params[0].replace(/ /g, '+');
-    this.setParams({
-      view: GerritView.SETTINGS,
-      emailToken: token,
-    });
-  }
-
-  handleSettingsRoute(_: PageContextWithQueryMap) {
-    this.setParams({view: GerritView.SETTINGS});
   }
 
   handleRegisterRoute(ctx: PageContextWithQueryMap) {

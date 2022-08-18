@@ -157,6 +157,8 @@ export class GrAppElement extends LitElement {
 
   readonly router = new GrRouter();
 
+  private settingsViewModel = getAppContext().routerModel.settings;
+
   private reporting = getAppContext().reportingService;
 
   private readonly restApiService = getAppContext().restApiService;
@@ -235,7 +237,9 @@ export class GrAppElement extends LitElement {
 
     // Note: this is evaluated here to ensure that it only happens after the
     // router has been initialized. @see Issue 7837
-    this.settingsUrl = GerritNav.getUrlForSettings();
+    this.settingsUrl = this.settingsViewModel.stateToUrl(
+      this.settingsViewModel.defaultState
+    );
   }
 
   static override get styles() {
@@ -768,8 +772,9 @@ export class GrAppElement extends LitElement {
 
   private computePluginScreenName() {
     if (this.params?.view !== GerritView.PLUGIN_SCREEN) return '';
-    if (!this.params.plugin || !this.params.screen) return '';
-    return `${this.params.plugin}-screen-${this.params.screen}`;
+    const params = this.params as AppElementPluginScreenParams;
+    if (!params.plugin || !params.screen) return '';
+    return `${params.plugin}-screen-${params.screen}`;
   }
 
   private logWelcome() {

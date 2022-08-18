@@ -32,7 +32,6 @@ import {
   createServerInfo,
 } from '../../../test/test-data-generators';
 import {GrSelect} from '../../shared/gr-select/gr-select';
-import {AppElementSettingsParam} from '../../gr-app-types';
 
 const basicFixture = fixtureFromElement('gr-settings-view');
 const blankFixture = fixtureFromElement('div');
@@ -765,9 +764,6 @@ suite('gr-settings-view tests', () => {
 
   test('emails are loaded without emailToken', () => {
     const emailEditorLoadDataStub = sinon.stub(element.emailEditor, 'loadData');
-    element.params = {
-      view: GerritView.SETTINGS,
-    } as AppElementSettingsParam;
     element.firstUpdated();
     assert.isTrue(emailEditorLoadDataStub.calledOnce);
   });

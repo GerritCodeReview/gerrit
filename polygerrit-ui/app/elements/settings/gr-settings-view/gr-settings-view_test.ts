@@ -6,7 +6,6 @@
 import '../../../test/common-test-setup-karma';
 import './gr-settings-view';
 import {GrSettingsView} from './gr-settings-view';
-import {GerritView} from '../../../services/router/router-model';
 import {queryAll, queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {
   AuthInfo,
@@ -32,7 +31,6 @@ import {
   createServerInfo,
 } from '../../../test/test-data-generators';
 import {GrSelect} from '../../shared/gr-select/gr-select';
-import {AppElementSettingsParam} from '../../gr-app-types';
 
 const basicFixture = fixtureFromElement('gr-settings-view');
 const blankFixture = fixtureFromElement('div');
@@ -765,9 +763,6 @@ suite('gr-settings-view tests', () => {
 
   test('emails are loaded without emailToken', () => {
     const emailEditorLoadDataStub = sinon.stub(element.emailEditor, 'loadData');
-    element.params = {
-      view: GerritView.SETTINGS,
-    } as AppElementSettingsParam;
     element.firstUpdated();
     assert.isTrue(emailEditorLoadDataStub.calledOnce);
   });
@@ -871,8 +866,8 @@ suite('gr-settings-view tests', () => {
         })
       );
 
-      element.params = {view: GerritView.SETTINGS, emailToken: 'foo'};
       element.firstUpdated();
+      element.processEmailToken('foo');
     });
 
     test('it is used to confirm email via rest API', () => {

@@ -15,7 +15,7 @@
 package com.google.gerrit.lucene;
 
 import static com.google.common.collect.Iterables.getOnlyElement;
-import static com.google.gerrit.server.index.group.GroupField.UUID;
+import static com.google.gerrit.server.index.group.GroupField.UUID_FIELD_SPEC;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.AccountGroup;
@@ -57,14 +57,14 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Int
 
   private static final String GROUPS = "groups";
 
-  private static final String UUID_SORT_FIELD = sortFieldName(UUID);
+  private static final String UUID_SORT_FIELD = sortFieldName(UUID_FIELD_SPEC);
 
   private static Term idTerm(InternalGroup group) {
     return idTerm(group.getGroupUUID());
   }
 
   private static Term idTerm(AccountGroup.UUID uuid) {
-    return QueryBuilder.stringTerm(UUID.getName(), uuid.get());
+    return QueryBuilder.stringTerm(UUID_FIELD_SPEC.getName(), uuid.get());
   }
 
   private final GerritIndexWriterConfig indexWriterConfig;
@@ -108,7 +108,7 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Int
   void add(Document doc, Values<InternalGroup> values) {
     // Add separate DocValues field for the field that is needed for sorting.
     SchemaField<InternalGroup, ?> f = values.getField();
-    if (f == UUID) {
+    if (f == UUID_FIELD_SPEC) {
       String value = (String) getOnlyElement(values.getValues());
       doc.add(new SortedDocValuesField(UUID_SORT_FIELD, new BytesRef(value)));
     }
@@ -153,7 +153,8 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Int
 
   @Override
   protected InternalGroup fromDocument(Document doc) {
-    AccountGroup.UUID uuid = AccountGroup.uuid(doc.getField(UUID.getName()).stringValue());
+    AccountGroup.UUID uuid =
+        AccountGroup.uuid(doc.getField(UUID_FIELD_SPEC.getName()).stringValue());
     // Use the GroupCache rather than depending on any stored fields in the
     // document (of which there shouldn't be any).
     return groupCache.get().get(uuid).orElse(null);

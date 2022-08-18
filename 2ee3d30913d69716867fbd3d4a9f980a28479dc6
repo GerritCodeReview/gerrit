@@ -22,6 +22,30 @@
       },
       "revId": "2ee3d30913d69716867fbd3d4a9f980a28479dc6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bd2fe4c_fb3c105d",
+        "filename": "plugins/replication",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-18T10:35:14Z",
+      "side": 1,
+      "message": "Addressed in revert https://gerrit-review.googlesource.com/c/gerrit/+/343414",
+      "parentUuid": "f829154d_12c7077a",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "2ee3d30913d69716867fbd3d4a9f980a28479dc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

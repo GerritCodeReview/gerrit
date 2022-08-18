@@ -21,7 +21,7 @@ import {
 } from '../gr-navigation/gr-navigation';
 import {getAppContext} from '../../../services/app-context';
 import {convertToPatchSetNum} from '../../../utils/patch-set-util';
-import {assertNever} from '../../../utils/common-util';
+import {assertIsDefined, assertNever} from '../../../utils/common-util';
 import {
   BasePatchSetNum,
   DashboardId,
@@ -37,6 +37,7 @@ import {
   AppElement,
   AppElementAgreementParam,
   AppElementParams,
+  Page,
 } from '../../gr-app-types';
 import {LocationChangeEventDetail} from '../../../types/events';
 import {GerritView} from '../../../services/router/router-model';
@@ -57,6 +58,7 @@ import {
   GroupDetailView,
   RepoDetailView,
 } from '../../../utils/router-util';
+import {SettingsPageState, SETTINGS_PAGE} from './gr-settings-page-model';
 
 const RoutePattern = {
   ROOT: '/',
@@ -196,9 +198,6 @@ const RoutePattern = {
   DIFF_LEGACY_LINENUM:
     /^\/c\/((.+)\/\+\/)?(\d+)(\/?((-?\d+|edit)(\.\.(\d+|edit))?\/(.+))?)@[ab]?\d+$/,
 
-  SETTINGS: /^\/settings\/?/,
-  SETTINGS_LEGACY: /^\/settings\/VE\/(\S+)/,
-
   // Matches /c/<changeNum>/ /<URL tail>
   // Catches improperly encoded URLs (context: Issue 7100)
   IMPROPERLY_ENCODED_PLUS: /^\/c\/(.+)\/ \/(.+)$/,
@@ -321,6 +320,12 @@ export class GrRouter {
 
   generateUrl(params: GenerateUrlParameters) {
     return generateUrl(params);
+  }
+
+  url<S extends SettingsPageState>(page: Page<S>, state?: S) {
+    state = state ?? page.defaultState;
+    assertIsDefined(state, 'state');
+    return getBaseUrl() + page.stateToUrl(state);
   }
 
   generateWeblinks(
@@ -925,19 +930,9 @@ export class GrRouter {
       true
     );
 
-    this.mapRoute(
-      RoutePattern.SETTINGS_LEGACY,
-      'handleSettingsLegacyRoute',
-      ctx => this.handleSettingsLegacyRoute(ctx),
-      true
-    );
-
-    this.mapRoute(
-      RoutePattern.SETTINGS,
-      'handleSettingsRoute',
-      ctx => this.handleSettingsRoute(ctx),
-      true
-    );
+    for (const r of SETTINGS_PAGE.routes) {
+      this.mapRoute(r.pattern, r.name, r.urlToState, true);
+    }
 
     this.mapRoute(RoutePattern.REGISTER, 'handleRegisterRoute', ctx =>
       this.handleRegisterRoute(ctx)
@@ -1614,21 +1609,6 @@ export class GrRouter {
     data.params['view'] = GerritView.AGREEMENTS;
     // TODO(TS): create valid object
     this.setParams(data.params as unknown as AppElementAgreementParam);
-  }
-
-  handleSettingsLegacyRoute(data: PageContextWithQueryMap) {
-    // email tokens may contain '+' but no space.
-    // The parameter parsing replaces all '+' with a space,
-    // undo that to have valid tokens.
-    const token = data.params[0].replace(/ /g, '+');
-    this.setParams({
-      view: GerritView.SETTINGS,
-      emailToken: token,
-    });
-  }
-
-  handleSettingsRoute(_: PageContextWithQueryMap) {
-    this.setParams({view: GerritView.SETTINGS});
   }
 
   handleRegisterRoute(ctx: PageContextWithQueryMap) {

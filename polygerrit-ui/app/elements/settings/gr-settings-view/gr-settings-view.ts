@@ -23,7 +23,6 @@ import '../gr-menu-editor/gr-menu-editor';
 import '../gr-ssh-editor/gr-ssh-editor';
 import '../gr-watched-projects-editor/gr-watched-projects-editor';
 import {getDocsBaseUrl} from '../../../utils/url-util';
-import {AppElementParams} from '../../gr-app-types';
 import {GrAccountInfo} from '../gr-account-info/gr-account-info';
 import {GrWatchedProjectsEditor} from '../gr-watched-projects-editor/gr-watched-projects-editor';
 import {GrGroupList} from '../gr-group-list/gr-group-list';
@@ -62,6 +61,10 @@ import {when} from 'lit/directives/when.js';
 import {pageNavStyles} from '../../../styles/gr-page-nav-styles';
 import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
 import {formStyles} from '../../../styles/gr-form-styles';
+import {
+  SettingsPageState,
+  SETTINGS_PAGE,
+} from '../../core/gr-router/gr-settings-page-model';
 
 const GERRIT_DOCS_BASE_URL =
   'https://gerrit-review.googlesource.com/' + 'Documentation';
@@ -142,7 +145,8 @@ export class GrSettingsView extends LitElement {
 
   @state() prefs: PreferencesInput = {};
 
-  @property({type: Object}) params?: AppElementParams;
+  @property({type: Object}) params: SettingsPageState =
+    SETTINGS_PAGE.defaultState;
 
   @state() private accountInfoChanged = false;
 

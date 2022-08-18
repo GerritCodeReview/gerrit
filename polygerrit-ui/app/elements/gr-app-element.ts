@@ -65,6 +65,7 @@ import {Shortcut, ShortcutController} from './lit/shortcut-controller';
 import {cache} from 'lit/directives/cache.js';
 import {assertIsDefined} from '../utils/common-util';
 import './gr-css-mixins';
+import {SETTINGS_PAGE} from './core/gr-router/gr-settings-page-model';
 
 interface ErrorInfo {
   text: string;
@@ -235,7 +236,7 @@ export class GrAppElement extends LitElement {
 
     // Note: this is evaluated here to ensure that it only happens after the
     // router has been initialized. @see Issue 7837
-    this.settingsUrl = GerritNav.getUrlForSettings();
+    this.settingsUrl = this.router.url(SETTINGS_PAGE);
   }
 
   static override get styles() {

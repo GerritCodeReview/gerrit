@@ -19,6 +19,25 @@ import {
   GroupDetailView,
   RepoDetailView,
 } from '../utils/router-util';
+import {SettingsPageState} from './core/gr-router/gr-settings-page-model';
+import {PageContextWithQueryMap} from './core/gr-router/gr-router';
+
+export interface PageState {
+  view: GerritView.SETTINGS;
+}
+
+export interface Route<S extends PageState> {
+  name: string;
+  pattern: string | RegExp;
+  urlToState: (data: PageContextWithQueryMap) => S;
+}
+
+export interface Page<S extends PageState> {
+  view: GerritView;
+  routes: Route<S>[];
+  stateToUrl: (state: S) => string;
+  defaultState?: S;
+}
 
 export interface AppElement extends HTMLElement {
   params: AppElementParams | GenerateUrlParameters;
@@ -74,11 +93,6 @@ export interface AppElementSearchParam {
   view: GerritView.SEARCH;
   query: string;
   offset: string;
-}
-
-export interface AppElementSettingsParam {
-  view: GerritView.SETTINGS;
-  emailToken?: string;
 }
 
 export interface AppElementAgreementParam {
@@ -145,7 +159,7 @@ export type AppElementParams =
   | AppElementDocSearchParams
   | AppElementPluginScreenParams
   | AppElementSearchParam
-  | AppElementSettingsParam
+  | SettingsPageState
   | AppElementAgreementParam
   | AppElementDiffViewParam
   | AppElementDiffEditViewParam

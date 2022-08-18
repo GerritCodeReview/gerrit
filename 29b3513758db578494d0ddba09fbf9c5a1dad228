@@ -16,6 +16,24 @@
       "message": "FYI. You could update the commit message and replace\nDO_NOT_SUBMIT\nwith\nDO NOT SUBMIT\n\na blocking SR will appear on the UI.",
       "revId": "29b3513758db578494d0ddba09fbf9c5a1dad228",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f2ad73c_5fa071b8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-08-18T12:05:41Z",
+      "side": 1,
+      "message": "In All-Projects:\n\n[submit-requirement \"Do-Not-Submit\"]\n\tdescription \u003d Changes that have DO NOT SUBMIT in their commit message are not submittable.\n\tapplicableIf \u003d message:\\\"^.*(D|d)(O|o) (N|n)(O|o)(T|t) (S|s)(U|u)(B|b)(M|m)(I|i)(T|t).*\\\"\n\tsubmittableIf \u003d is:false\n\tcanOverrideInChildProjects \u003d false",
+      "parentUuid": "c5d01c35_d58d8f21",
+      "revId": "29b3513758db578494d0ddba09fbf9c5a1dad228",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

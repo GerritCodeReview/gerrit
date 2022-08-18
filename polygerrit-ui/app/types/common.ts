@@ -1287,7 +1287,7 @@ export interface ReviewerInput {
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#attention-set-input
  */
 export interface AttentionSetInput {
-  user: AccountId | EmailAddress;
+  user: UserId;
   reason: string;
   notify?: NotifyType;
   notify_details?: RecipientTypeToNotifyInfoMap;

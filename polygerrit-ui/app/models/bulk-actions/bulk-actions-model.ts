@@ -23,7 +23,7 @@ import {
   ReviewerInput,
   AttentionSetInput,
 } from '../../types/common';
-import {accountOrGroupKey} from '../../utils/account-util';
+import {getUserId} from '../../utils/account-util';
 
 export const bulkActionsModelToken =
   define<BulkActionsModel>('bulk-actions-model');
@@ -305,7 +305,7 @@ export class BulkActionsModel
         .get(state)
         ?.filter(account => !change.reviewers[state]?.includes(account))
         .map(account => {
-          return {state, reviewer: accountOrGroupKey(account)};
+          return {state, reviewer: getUserId(account)};
         }) ?? []
     );
   }

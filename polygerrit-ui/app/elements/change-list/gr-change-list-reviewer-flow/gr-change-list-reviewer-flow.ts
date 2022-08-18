@@ -39,7 +39,7 @@ import {
 } from '../../shared/gr-account-list/gr-account-list';
 import {getReplyByReason} from '../../../utils/attention-set-util';
 import {intersection, queryAndAssert} from '../../../utils/common-util';
-import {accountKey, accountOrGroupKey} from '../../../utils/account-util';
+import {accountKey, getUserId} from '../../../utils/account-util';
 import {ValueChangedEvent} from '../../../types/events';
 import {fireAlert, fireReload} from '../../../utils/event-util';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
@@ -368,8 +368,7 @@ export class GrChangeListReviewerFlow extends LitElement {
       .get(updatedReviewerState)!
       .filter(account =>
         accountsInCurrentState.some(
-          otherAccount =>
-            accountOrGroupKey(otherAccount) === accountOrGroupKey(account)
+          otherAccount => getUserId(otherAccount) === getUserId(account)
         )
       )
       .map(reviewer => getDisplayName(this.serverConfig, reviewer));
@@ -421,7 +420,7 @@ export class GrChangeListReviewerFlow extends LitElement {
   private onAccountsChanged(reviewerState: ReviewerState) {
     const reviewerStateKeys = this.updatedAccountsByReviewerState
       .get(reviewerState)!
-      .map(accountOrGroupKey);
+      .map(getUserId);
     const oppositeReviewerState =
       reviewerState === ReviewerState.CC
         ? ReviewerState.REVIEWER
@@ -431,7 +430,7 @@ export class GrChangeListReviewerFlow extends LitElement {
     )!;
 
     const notOverwrittenOppositeAccounts = oppositeUpdatedAccounts.filter(
-      acc => !reviewerStateKeys.includes(accountOrGroupKey(acc))
+      acc => !reviewerStateKeys.includes(getUserId(acc))
     );
     if (
       notOverwrittenOppositeAccounts.length !== oppositeUpdatedAccounts.length

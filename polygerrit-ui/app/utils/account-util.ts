@@ -16,6 +16,7 @@ import {
   NumericChangeId,
   ReviewerInput,
   ServerInfo,
+  UserId,
 } from '../types/common';
 import {AccountTag, ReviewerState} from '../constants/constants';
 import {assertNever, hasOwnProperty} from './common-util';
@@ -52,7 +53,7 @@ export function hasSameAvatar(account?: AccountInfo, other?: AccountInfo) {
   return account?.avatars?.[0]?.url === other?.avatars?.[0]?.url;
 }
 
-export function accountOrGroupKey(entry: AccountInfo | GroupInfo) {
+export function getUserId(entry: AccountInfo | GroupInfo): UserId {
   if (isAccount(entry)) return accountKey(entry);
   if (isGroup(entry)) return entry.id;
   assertNever(entry, 'entry must be account or group');
@@ -65,9 +66,7 @@ export function isAccountNewlyAdded(
 ) {
   if (!change || !state) return false;
   const accounts = [...(change.reviewers[state] ?? [])];
-  return !accounts.some(
-    a => accountOrGroupKey(a) === accountOrGroupKey(account)
-  );
+  return !accounts.some(a => getUserId(a) === getUserId(account));
 }
 
 export function uniqueDefinedAvatar(

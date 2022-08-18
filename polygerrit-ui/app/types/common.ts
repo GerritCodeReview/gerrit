@@ -252,6 +252,8 @@ export type LabelName = BrandType<string, '_labelName'>;
 // The Encoded UUID of the group
 export type EncodedGroupId = BrandType<string, '_encodedGroupId'>;
 
+export type UserId = AccountId | GroupId | EmailAddress;
+
 // https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#contributor-agreement-input
 export interface ContributorAgreementInput {
   name?: string;
@@ -1170,8 +1172,7 @@ export interface ReviewInput {
  */
 export interface ReviewResult {
   labels?: unknown;
-  // type of key is (AccountId | GroupId | EmailAddress)
-  reviewers?: {[key: string]: AddReviewerResult};
+  reviewers?: {[key: UserId]: AddReviewerResult};
   ready?: boolean;
 }
 
@@ -1182,7 +1183,7 @@ export interface ReviewResult {
  * TODO(paiking): update this to ReviewerResult while considering removals.
  */
 export interface AddReviewerResult {
-  input: AccountId | GroupId | EmailAddress;
+  input: UserId;
   reviewers?: AccountInfo[];
   ccs?: AccountInfo[];
   error?: string;
@@ -1274,7 +1275,7 @@ export interface NotifyInfo {
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#reviewer-input
  */
 export interface ReviewerInput {
-  reviewer: AccountId | GroupId | EmailAddress;
+  reviewer: UserId;
   state?: ReviewerState;
   confirmed?: boolean;
   notify?: NotifyType;

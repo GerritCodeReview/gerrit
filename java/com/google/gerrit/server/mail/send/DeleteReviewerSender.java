@@ -63,7 +63,6 @@ public class DeleteReviewerSender extends ReplyToChangeSender {
     includeWatchers(NotifyType.ALL_COMMENTS);
     reviewers.stream().forEach(r -> add(RecipientType.TO, r));
     addByEmail(RecipientType.TO, reviewersByEmail);
-    removeUsersThatIgnoredTheChange();
   }
 
   @Override

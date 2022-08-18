@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ffa7270_42aa1c50",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-18T12:41:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d760f74a_b66bdc7f",
+      "revId": "ed13e5047a596e099222b69b6c0dd8d2db132b3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dec0de15_c6501e4d",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc0efaf3_265dbab1",
+        "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-18T12:41:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dec0de15_c6501e4d",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 32
+      },
+      "revId": "ed13e5047a596e099222b69b6c0dd8d2db132b3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b6adc3b_ba5c98f5",
@@ -54,6 +96,30 @@
       "writtenOn": "2022-08-18T12:37:20Z",
       "side": 1,
       "message": "Nit: Maybe `isDetailedAccount()` and then use with negation operator?",
+      "range": {
+        "startLine": 82,
+        "startChar": 16,
+        "endLine": 82,
+        "endChar": 36
+      },
+      "revId": "ed13e5047a596e099222b69b6c0dd8d2db132b3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f49ad3f_dd7522d4",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-18T12:41:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b6adc3b_ba5c98f5",
       "range": {
         "startLine": 82,
         "startChar": 16,

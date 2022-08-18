@@ -94,6 +94,30 @@
       },
       "revId": "37c56d3f40de701ab090a82977a25a8d19af6da5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b426bc8_4001126d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-18T13:23:24Z",
+      "side": 1,
+      "message": "I think it\u0027s in scope since previously there was no default voting here",
+      "parentUuid": "7eaa929b_a6da2beb",
+      "range": {
+        "startLine": 357,
+        "startChar": 0,
+        "endLine": 357,
+        "endChar": 77
+      },
+      "revId": "37c56d3f40de701ab090a82977a25a8d19af6da5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

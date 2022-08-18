@@ -91,6 +91,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a2b59d6a_17d0f525",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-08-18T17:10:11Z",
+      "side": 1,
+      "message": "@Luca, stable-3.4 is impacted and I did move it there. However, we don\u0027t have the infrastructure and resources to test this change against 3.4 for regressions with respect to performance. Would that be acceptable? If not, we are fine moving it back to stable-3.5 where we can do comprehensive performance testing.",
+      "parentUuid": "b1c63452_20e862ac",
+      "revId": "0faa70baedf3d188b88bf584873c427fdbd93518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c2a6bd80_83bdd5e7",
         "filename": "java/com/google/gerrit/index/IndexConfig.java",
         "patchSetId": 1

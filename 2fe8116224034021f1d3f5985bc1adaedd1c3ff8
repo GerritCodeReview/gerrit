@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "efae74fe_1fb57afb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-18T21:31:49Z",
+      "side": 1,
+      "message": "The cannot be built at the moment: there are conflicts with stable-3.4",
+      "revId": "2fe8116224034021f1d3f5985bc1adaedd1c3ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

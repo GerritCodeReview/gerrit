@@ -56,7 +56,7 @@ import {resolve} from '../../models/dependency';
 import {checksModelToken} from '../../models/checks/checks-model';
 import {Interaction} from '../../constants/reporting';
 import {Deduping} from '../../api/reporting';
-import {when} from 'lit/directives/when';
+import {when} from 'lit/directives/when.js';
 
 @customElement('gr-checks-run')
 export class GrChecksRun extends LitElement {

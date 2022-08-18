@@ -365,6 +365,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3c00434_12fe05a4",
+        "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-08-18T08:17:00Z",
+      "side": 1,
+      "message": "I thought that might be the case, but mutating calls to accounts confused me.",
+      "parentUuid": "003b7046_bd8a5663",
+      "range": {
+        "startLine": 40,
+        "startChar": 23,
+        "endLine": 40,
+        "endChar": 35
+      },
+      "revId": "877603a9ead08e186963fff0e7d449f142f8dee1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2a215ccb_18dfbdec",
@@ -402,6 +426,30 @@
       "side": 1,
       "message": "Removed to use `getAccountDetails` as suggested by Ben\u0027s comment.\n\nNow we are requesting `getAccount` without an ID like before which I\u0027m not sure if clear to you as well.\nLet me know if you want me to update the existing code.",
       "parentUuid": "2a215ccb_18dfbdec",
+      "range": {
+        "startLine": 121,
+        "startChar": 4,
+        "endLine": 121,
+        "endChar": 7
+      },
+      "revId": "877603a9ead08e186963fff0e7d449f142f8dee1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07418c58_1c04ba6f",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-08-18T08:17:00Z",
+      "side": 1,
+      "message": "nit: I would like to add method documentation for `getAccountDetails`, since it\u0027s getting touched. Other than that I would leave it up to you as to what you want to touch in existing code.",
+      "parentUuid": "6791336d_6617752f",
       "range": {
         "startLine": 121,
         "startChar": 4,

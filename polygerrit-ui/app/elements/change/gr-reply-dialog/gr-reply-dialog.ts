@@ -49,7 +49,6 @@ import {
   ChangeInfo,
   CommentInput,
   GroupInfo,
-  EmailAddress,
   isAccount,
   isDetailedLabelInfo,
   isReviewerAccountSuggestion,
@@ -62,6 +61,7 @@ import {
   ServerInfo,
   SuggestedReviewerGroupInfo,
   Suggestion,
+  UserId,
 } from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrLabelScores} from '../gr-label-scores/gr-label-scores';
@@ -354,10 +354,10 @@ export class GrReplyDialog extends LitElement {
   attentionExpanded = false;
 
   @state()
-  currentAttentionSet: Set<AccountId | EmailAddress> = new Set();
+  currentAttentionSet: Set<UserId> = new Set();
 
   @state()
-  newAttentionSet: Set<AccountId | EmailAddress> = new Set();
+  newAttentionSet: Set<UserId> = new Set();
 
   @state()
   sendDisabled?: boolean;
@@ -1589,8 +1589,7 @@ export class GrReplyDialog extends LitElement {
   handleAttentionClick(e: Event) {
     const targetAccount = (e.target as GrAccountChip)?.account;
     if (!targetAccount) return;
-    // TODO: Remove cast and add support for GroupId as id type
-    const id = getUserId(targetAccount) as AccountId | EmailAddress;
+    const id = getUserId(targetAccount);
     if (!id || !this.account || !this.change?.owner) return;
 
     const self = id === getUserId(this.account) ? '_SELF' : '';
@@ -1775,9 +1774,9 @@ export class GrReplyDialog extends LitElement {
       .filter(account => !!account) as AccountInfo[];
   }
 
-  findAccountById(accountId: AccountId | EmailAddress) {
+  findAccountById(userId: UserId) {
     return this.allAccounts().find(
-      r => r._account_id === accountId || r.email === accountId
+      r => r._account_id === userId || r.email === userId
     );
   }
 

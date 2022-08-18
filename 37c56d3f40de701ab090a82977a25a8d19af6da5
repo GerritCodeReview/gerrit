@@ -142,6 +142,30 @@
       },
       "revId": "37c56d3f40de701ab090a82977a25a8d19af6da5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72f5a9c4_759c54e8",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-18T15:54:13Z",
+      "side": 1,
+      "message": "I\u0027ve spent ~2 hours trying to get the default value to be -1 and there seems to be some issue with iron-selector not taking the right value that is being passed to it.\n\nI don\u0027t think testing -1 -\u003e 0 adds more value to the test but in case you disagree then I will get to this change later, maybe during fix it week but I don\u0027t think this is worth the time I have invested until now.",
+      "parentUuid": "27f961c1_7b7fa6d7",
+      "range": {
+        "startLine": 357,
+        "startChar": 0,
+        "endLine": 357,
+        "endChar": 77
+      },
+      "revId": "37c56d3f40de701ab090a82977a25a8d19af6da5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

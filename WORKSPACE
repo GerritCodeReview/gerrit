@@ -136,7 +136,7 @@ declare_nongoogle_deps()
 load("@build_bazel_rules_nodejs//:index.bzl", "node_repositories", "yarn_install")
 
 node_repositories(
-    node_version = "16.16.0",
+    node_version = "17.9.1",
     yarn_version = "1.22.19",
 )
 

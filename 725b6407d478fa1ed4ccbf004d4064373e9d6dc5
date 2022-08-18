@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c393964_db969b92",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-18T10:36:35Z",
+      "side": 1,
+      "message": "That\u0027s very nice refactoring! Thanks",
+      "revId": "725b6407d478fa1ed4ccbf004d4064373e9d6dc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8ceb546_99576415",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1531,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-18T10:36:35Z",
+      "side": 1,
+      "message": "```suggestion\n        only-show-robot-comments-with-human-reply\n```\nNit",
+      "range": {
+        "startLine": 1531,
+        "startChar": 8,
+        "endLine": 1531,
+        "endChar": 52
+      },
+      "revId": "725b6407d478fa1ed4ccbf004d4064373e9d6dc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

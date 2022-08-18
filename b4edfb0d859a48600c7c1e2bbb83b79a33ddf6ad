@@ -3,6 +3,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ae9f1ba0_5e36fe38",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-08-18T09:16:41Z",
+      "side": 1,
+      "message": "Probably explicitly mention that we are deprecating `star:ignored` and `is:ignored` operators, and the reason why we are deprecating: not used by the UI.",
+      "revId": "b4edfb0d859a48600c7c1e2bbb83b79a33ddf6ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1df8ab6_54c479fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-08-18T09:16:41Z",
+      "side": 1,
+      "message": ":",
+      "range": {
+        "startLine": 13,
+        "startChar": 59,
+        "endLine": 13,
+        "endChar": 60
+      },
+      "revId": "b4edfb0d859a48600c7c1e2bbb83b79a33ddf6ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a7131909_046284c5",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3

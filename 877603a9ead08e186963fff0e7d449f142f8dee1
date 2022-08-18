@@ -49,6 +49,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "18ecefb6_cc7266f8",
+        "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-18T07:18:35Z",
+      "side": 1,
+      "message": "I don\u0027t think maps work very well in state objects, because you want simple types that serialize/deserialize well and that you can easily clone. Consider using a dictionary. That is what the comments and the checks model do.\n\n```\naccounts: {[id: AccountId | EmailAddress]: AccountInfo;\n```",
+      "revId": "877603a9ead08e186963fff0e7d449f142f8dee1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1074271d_9fdb667c",
         "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
         "patchSetId": 6
@@ -72,6 +89,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5163da2e_5f957ff4",
+        "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-18T07:18:35Z",
+      "side": 1,
+      "message": "Maybe use getAccountDetails() instead?",
+      "range": {
+        "startLine": 36,
+        "startChar": 46,
+        "endLine": 36,
+        "endChar": 56
+      },
+      "revId": "877603a9ead08e186963fff0e7d449f142f8dee1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "140576e0_6f26f9f5",
+        "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-18T07:18:35Z",
+      "side": 1,
+      "message": "You are not cloning the map, which must be considered immutable.",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 38,
+        "endChar": 23
+      },
+      "revId": "877603a9ead08e186963fff0e7d449f142f8dee1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "972f2023_5ed8ec1b",
         "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
         "patchSetId": 6
@@ -83,6 +146,53 @@
       "writtenOn": "2022-08-17T09:55:52Z",
       "side": 1,
       "message": "Why do we use `...` here. Isn\u0027t current already an AccountsState object, i.e object with single `accounts` field?",
+      "range": {
+        "startLine": 40,
+        "startChar": 23,
+        "endLine": 40,
+        "endChar": 35
+      },
+      "revId": "877603a9ead08e186963fff0e7d449f142f8dee1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3c65b8e_cd09ce15",
+        "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-18T07:18:35Z",
+      "side": 1,
+      "message": "This should be moved to a separate `updateState...` method.",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 37
+      },
+      "revId": "877603a9ead08e186963fff0e7d449f142f8dee1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "003b7046_bd8a5663",
+        "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-18T07:18:35Z",
+      "side": 1,
+      "message": "State objects are immutable, you must clone them.",
+      "parentUuid": "972f2023_5ed8ec1b",
       "range": {
         "startLine": 40,
         "startChar": 23,

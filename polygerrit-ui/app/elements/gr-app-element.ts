@@ -99,7 +99,7 @@ export class GrAppElement extends LitElement {
 
   @query('#keyboardShortcuts') keyboardShortcuts?: GrOverlay;
 
-  @query('gr-settings-view') settingdView?: GrSettingsView;
+  @query('gr-settings-view') settingsView?: GrSettingsView;
 
   @property({type: Object})
   params?: AppElementParams;
@@ -108,24 +108,33 @@ export class GrAppElement extends LitElement {
 
   @state() private version?: string;
 
+  @state() private activeView?: GerritView;
+
+  // TODO: Remove all the boolean show... states in favor of this.activeView.
   @state() private showChangeListView?: boolean;
 
+  // TODO: Remove all the boolean show... states in favor of this.activeView.
   @state() private showDashboardView?: boolean;
 
+  // TODO: Remove all the boolean show... states in favor of this.activeView.
   @state() private showChangeView?: boolean;
 
+  // TODO: Remove all the boolean show... states in favor of this.activeView.
   @state() private showDiffView?: boolean;
 
-  @state() private showSettingsView?: boolean;
-
+  // TODO: Remove all the boolean show... states in favor of this.activeView.
   @state() private showAdminView?: boolean;
 
+  // TODO: Remove all the boolean show... states in favor of this.activeView.
   @state() private showCLAView?: boolean;
 
+  // TODO: Remove all the boolean show... states in favor of this.activeView.
   @state() private showEditorView?: boolean;
 
+  // TODO: Remove all the boolean show... states in favor of this.activeView.
   @state() private showPluginScreen?: boolean;
 
+  // TODO: Remove all the boolean show... states in favor of this.activeView.
   @state() private showDocumentationSearch?: boolean;
 
   @state() private lastError?: ErrorInfo;
@@ -165,7 +174,11 @@ export class GrAppElement extends LitElement {
 
   readonly router = new GrRouter();
 
-  private reporting = getAppContext().reportingService;
+  private readonly routerModel = getAppContext().routerModel;
+
+  private readonly settingsViewModel = getAppContext().routerModel.settings;
+
+  private readonly reporting = getAppContext().reportingService;
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -214,7 +227,6 @@ export class GrAppElement extends LitElement {
     this.shortcuts.addAbstract(Shortcut.GO_TO_WATCHED_CHANGES, () =>
       this.goToWatchedChanges()
     );
-
     subscribe(
       this,
       () => this.userModel.preferenceTheme$,
@@ -229,6 +241,11 @@ export class GrAppElement extends LitElement {
         this.applyTheme();
       }
     });
+    subscribe(
+      this,
+      () => this.routerModel.routerView$,
+      x => (this.activeView = x)
+    );
   }
 
   override connectedCallback() {
@@ -273,7 +290,7 @@ export class GrAppElement extends LitElement {
 
     // Note: this is evaluated here to ensure that it only happens after the
     // router has been initialized. @see Issue 7837
-    this.settingsUrl = GerritNav.getUrlForSettings();
+    this.settingsUrl = this.router.url(this.settingsViewModel);
   }
 
   static override get styles() {
@@ -494,10 +511,9 @@ export class GrAppElement extends LitElement {
   }
 
   private renderSettingsView() {
-    if (!this.showSettingsView) return nothing;
+    if (this.activeView !== GerritView.SETTINGS) return nothing;
     return html`
       <gr-settings-view
-        .params=${this.params}
         @account-detail-update=${this.handleAccountDetailUpdate}
       >
       </gr-settings-view>
@@ -602,11 +618,11 @@ export class GrAppElement extends LitElement {
   private async viewChanged() {
     const view = this.params?.view;
     this.errorView?.classList.remove('show');
+    // TODO: Remove all the boolean show... states in favor of this.activeView.
     this.showChangeListView = view === GerritView.SEARCH;
     this.showDashboardView = view === GerritView.DASHBOARD;
     this.showChangeView = view === GerritView.CHANGE;
     this.showDiffView = view === GerritView.DIFF;
-    this.showSettingsView = view === GerritView.SETTINGS;
     // showAdminView must be in sync with the gr-admin-view AdminViewParams type
     this.showAdminView =
       view === GerritView.ADMIN ||
@@ -780,9 +796,9 @@ export class GrAppElement extends LitElement {
 
   private handleAccountDetailUpdate() {
     this.mainHeader?.reload();
-    if (this.params?.view === GerritView.SETTINGS) {
-      assertIsDefined(this.settingdView, 'settingdView');
-      this.settingdView.reloadAccountDetail();
+    if (this.activeView === GerritView.SETTINGS) {
+      assertIsDefined(this.settingsView, 'settingsView');
+      this.settingsView.reloadAccountDetail();
     }
   }
 
@@ -817,8 +833,9 @@ export class GrAppElement extends LitElement {
 
   private computePluginScreenName() {
     if (this.params?.view !== GerritView.PLUGIN_SCREEN) return '';
-    if (!this.params.plugin || !this.params.screen) return '';
-    return `${this.params.plugin}-screen-${this.params.screen}`;
+    const params = this.params;
+    if (!params.plugin || !params.screen) return '';
+    return `${params.plugin}-screen-${params.screen}`;
   }
 
   private logWelcome() {

@@ -149,23 +149,23 @@ export function getGroupSubsections(
   const children: SubsectionInterface[] = [];
   const subsection: SubsectionInterface = {
     name: groupName,
-    view: GerritNav.View.GROUP,
+    view: GerritView.GROUP,
     url: GerritNav.getUrlForGroup(groupId),
     children,
   };
   if (groupIsInternal) {
     children.push({
       name: 'Members',
-      detailType: GerritNav.GroupDetailView.MEMBERS,
-      view: GerritNav.View.GROUP,
+      detailType: GroupDetailView.MEMBERS,
+      view: GerritView.GROUP,
       url: GerritNav.getUrlForGroupMembers(groupId),
     });
   }
   if (groupIsInternal && (isAdmin || groupOwner)) {
     children.push({
       name: 'Audit Log',
-      detailType: GerritNav.GroupDetailView.LOG,
-      view: GerritNav.View.GROUP,
+      detailType: GroupDetailView.LOG,
+      view: GerritView.GROUP,
       url: GerritNav.getUrlForGroupLog(groupId),
     });
   }
@@ -175,42 +175,42 @@ export function getGroupSubsections(
 export function getRepoSubsections(repoName: RepoName) {
   return {
     name: repoName,
-    view: GerritNav.View.REPO,
+    view: GerritView.REPO,
     children: [
       {
         name: 'General',
-        view: GerritNav.View.REPO,
-        detailType: GerritNav.RepoDetailView.GENERAL,
+        view: GerritView.REPO,
+        detailType: RepoDetailView.GENERAL,
         url: GerritNav.getUrlForRepo(repoName),
       },
       {
         name: 'Access',
-        view: GerritNav.View.REPO,
-        detailType: GerritNav.RepoDetailView.ACCESS,
+        view: GerritView.REPO,
+        detailType: RepoDetailView.ACCESS,
         url: GerritNav.getUrlForRepoAccess(repoName),
       },
       {
         name: 'Commands',
-        view: GerritNav.View.REPO,
-        detailType: GerritNav.RepoDetailView.COMMANDS,
+        view: GerritView.REPO,
+        detailType: RepoDetailView.COMMANDS,
         url: GerritNav.getUrlForRepoCommands(repoName),
       },
       {
         name: 'Branches',
-        view: GerritNav.View.REPO,
-        detailType: GerritNav.RepoDetailView.BRANCHES,
+        view: GerritView.REPO,
+        detailType: RepoDetailView.BRANCHES,
         url: GerritNav.getUrlForRepoBranches(repoName),
       },
       {
         name: 'Tags',
-        view: GerritNav.View.REPO,
-        detailType: GerritNav.RepoDetailView.TAGS,
+        view: GerritView.REPO,
+        detailType: RepoDetailView.TAGS,
         url: GerritNav.getUrlForRepoTags(repoName),
       },
       {
         name: 'Dashboards',
-        view: GerritNav.View.REPO,
-        detailType: GerritNav.RepoDetailView.DASHBOARDS,
+        view: GerritView.REPO,
+        detailType: RepoDetailView.DASHBOARDS,
         url: GerritNav.getUrlForRepoDashboards(repoName),
       },
     ],

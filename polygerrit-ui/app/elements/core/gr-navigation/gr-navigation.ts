@@ -34,7 +34,7 @@ import {
 
 // Navigation parameters object format:
 //
-// Each object has a `view` property with a value from GerritNav.View. The
+// Each object has a `view` property with a value from GerritView. The
 // remaining properties depend on the value used for view.
 // GenerateUrlParameters lists all the possible view parameters.
 
@@ -235,14 +235,6 @@ interface ChangeUrlParams extends NavigateToChangeParams {
 // TODO(dmfilippov) Convert to class, extract consts, give better name and
 // expose as a service from appContext
 export const GerritNav = {
-  View: GerritView,
-
-  GroupDetailView,
-
-  RepoDetailView,
-
-  WeblinkType,
-
   _navigate: uninitializedNavigate,
 
   _generateUrl: uninitializedGenerateUrl,
@@ -671,7 +663,7 @@ export const GerritNav = {
     return this._getUrlFor({
       view: GerritView.REPO,
       repoName,
-      detail: GerritNav.RepoDetailView.BRANCHES,
+      detail: RepoDetailView.BRANCHES,
     });
   },
 
@@ -679,7 +671,7 @@ export const GerritNav = {
     return this._getUrlFor({
       view: GerritView.REPO,
       repoName,
-      detail: GerritNav.RepoDetailView.ACCESS,
+      detail: RepoDetailView.ACCESS,
     });
   },
 
@@ -687,7 +679,7 @@ export const GerritNav = {
     return this._getUrlFor({
       view: GerritView.REPO,
       repoName,
-      detail: GerritNav.RepoDetailView.COMMANDS,
+      detail: RepoDetailView.COMMANDS,
     });
   },
 
@@ -695,7 +687,7 @@ export const GerritNav = {
     return this._getUrlFor({
       view: GerritView.REPO,
       repoName,
-      detail: GerritNav.RepoDetailView.DASHBOARDS,
+      detail: RepoDetailView.DASHBOARDS,
     });
   },
 
@@ -710,7 +702,7 @@ export const GerritNav = {
     return this._getUrlFor({
       view: GerritView.GROUP,
       groupId,
-      detail: GerritNav.GroupDetailView.LOG,
+      detail: GroupDetailView.LOG,
     });
   },
 

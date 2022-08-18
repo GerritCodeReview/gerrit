@@ -15,6 +15,7 @@ import {GrRepoList} from '../gr-repo-list/gr-repo-list';
 import {GroupId, GroupName, RepoName, Timestamp} from '../../../types/common';
 import {GrDropdownList} from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {GrGroup} from '../gr-group/gr-group';
+import {GroupDetailView, RepoDetailView} from '../../../utils/router-util';
 
 const basicFixture = fixtureFromElement('gr-admin-view');
 
@@ -312,8 +313,8 @@ suite('gr-admin-view tests', () => {
     element.repoName = 'my-repo' as RepoName;
     element.params = {
       repo: 'my-repo' as RepoName,
-      view: GerritNav.View.REPO,
-      detail: GerritNav.RepoDetailView.ACCESS,
+      view: GerritView.REPO,
+      detail: RepoDetailView.ACCESS,
     };
     stubRestApi('getAccountCapabilities').returns(
       Promise.resolve(createAdminCapabilities())
@@ -341,36 +342,36 @@ suite('gr-admin-view tests', () => {
               name: 'General',
               view: GerritView.REPO,
               url: '',
-              detailType: GerritNav.RepoDetailView.GENERAL,
+              detailType: RepoDetailView.GENERAL,
             },
             {
               name: 'Access',
               view: GerritView.REPO,
-              detailType: GerritNav.RepoDetailView.ACCESS,
+              detailType: RepoDetailView.ACCESS,
               url: '',
             },
             {
               name: 'Commands',
               view: GerritView.REPO,
-              detailType: GerritNav.RepoDetailView.COMMANDS,
+              detailType: RepoDetailView.COMMANDS,
               url: '',
             },
             {
               name: 'Branches',
               view: GerritView.REPO,
-              detailType: GerritNav.RepoDetailView.BRANCHES,
+              detailType: RepoDetailView.BRANCHES,
               url: '',
             },
             {
               name: 'Tags',
               view: GerritView.REPO,
-              detailType: GerritNav.RepoDetailView.TAGS,
+              detailType: RepoDetailView.TAGS,
               url: '',
             },
             {
               name: 'Dashboards',
               view: GerritView.REPO,
-              detailType: GerritNav.RepoDetailView.DASHBOARDS,
+              detailType: RepoDetailView.DASHBOARDS,
               url: '',
             },
           ],
@@ -406,7 +407,7 @@ suite('gr-admin-view tests', () => {
         value: 'repogeneral',
         view: GerritView.REPO,
         url: '',
-        detailType: GerritNav.RepoDetailView.GENERAL,
+        detailType: RepoDetailView.GENERAL,
         parent: 'my-repo' as RepoName,
       },
       {
@@ -414,7 +415,7 @@ suite('gr-admin-view tests', () => {
         value: 'repoaccess',
         view: GerritView.REPO,
         url: '',
-        detailType: GerritNav.RepoDetailView.ACCESS,
+        detailType: RepoDetailView.ACCESS,
         parent: 'my-repo' as RepoName,
       },
       {
@@ -422,7 +423,7 @@ suite('gr-admin-view tests', () => {
         value: 'repocommands',
         view: GerritView.REPO,
         url: '',
-        detailType: GerritNav.RepoDetailView.COMMANDS,
+        detailType: RepoDetailView.COMMANDS,
         parent: 'my-repo' as RepoName,
       },
       {
@@ -430,7 +431,7 @@ suite('gr-admin-view tests', () => {
         value: 'repobranches',
         view: GerritView.REPO,
         url: '',
-        detailType: GerritNav.RepoDetailView.BRANCHES,
+        detailType: RepoDetailView.BRANCHES,
         parent: 'my-repo' as RepoName,
       },
       {
@@ -438,7 +439,7 @@ suite('gr-admin-view tests', () => {
         value: 'repotags',
         view: GerritView.REPO,
         url: '',
-        detailType: GerritNav.RepoDetailView.TAGS,
+        detailType: RepoDetailView.TAGS,
         parent: 'my-repo' as RepoName,
       },
       {
@@ -446,7 +447,7 @@ suite('gr-admin-view tests', () => {
         value: 'repodashboards',
         view: GerritView.REPO,
         url: '',
-        detailType: GerritNav.RepoDetailView.DASHBOARDS,
+        detailType: RepoDetailView.DASHBOARDS,
         parent: 'my-repo' as RepoName,
       },
     ];
@@ -491,7 +492,7 @@ suite('gr-admin-view tests', () => {
     assert.isTrue(element.selectedIsCurrentPage(selected));
     selected.parent = 'my-second-repo' as RepoName;
     assert.isFalse(element.selectedIsCurrentPage(selected));
-    selected.detailType = GerritNav.RepoDetailView.GENERAL;
+    selected.detailType = RepoDetailView.GENERAL;
     assert.isFalse(element.selectedIsCurrentPage(selected));
   });
 
@@ -554,7 +555,7 @@ suite('gr-admin-view tests', () => {
 
       test('repo list', async () => {
         element.params = {
-          view: GerritNav.View.ADMIN,
+          view: GerritView.ADMIN,
           adminView: 'gr-repo-list',
           openCreateModal: false,
         };
@@ -566,7 +567,7 @@ suite('gr-admin-view tests', () => {
 
       test('repo', async () => {
         element.params = {
-          view: GerritNav.View.REPO,
+          view: GerritView.REPO,
           repo: 'foo' as RepoName,
         };
         element.repoName = 'foo' as RepoName;
@@ -579,8 +580,8 @@ suite('gr-admin-view tests', () => {
 
       test('repo access', async () => {
         element.params = {
-          view: GerritNav.View.REPO,
-          detail: GerritNav.RepoDetailView.ACCESS,
+          view: GerritView.REPO,
+          detail: RepoDetailView.ACCESS,
           repo: 'foo' as RepoName,
         };
         element.repoName = 'foo' as RepoName;
@@ -593,8 +594,8 @@ suite('gr-admin-view tests', () => {
 
       test('repo dashboards', async () => {
         element.params = {
-          view: GerritNav.View.REPO,
-          detail: GerritNav.RepoDetailView.DASHBOARDS,
+          view: GerritView.REPO,
+          detail: RepoDetailView.DASHBOARDS,
           repo: 'foo' as RepoName,
         };
         element.repoName = 'foo' as RepoName;
@@ -628,7 +629,7 @@ suite('gr-admin-view tests', () => {
 
       test('group list', async () => {
         element.params = {
-          view: GerritNav.View.ADMIN,
+          view: GerritView.ADMIN,
           adminView: 'gr-admin-group-list',
           openCreateModal: false,
         };
@@ -640,7 +641,7 @@ suite('gr-admin-view tests', () => {
 
       test('internal group', async () => {
         element.params = {
-          view: GerritNav.View.GROUP,
+          view: GerritView.GROUP,
           groupId: '1234' as GroupId,
         };
         element.groupName = 'foo' as GroupName;
@@ -665,7 +666,7 @@ suite('gr-admin-view tests', () => {
           })
         );
         element.params = {
-          view: GerritNav.View.GROUP,
+          view: GerritView.GROUP,
           groupId: '1234' as GroupId,
         };
         element.groupName = 'foo' as GroupName;
@@ -684,8 +685,8 @@ suite('gr-admin-view tests', () => {
 
       test('group members', async () => {
         element.params = {
-          view: GerritNav.View.GROUP,
-          detail: GerritNav.GroupDetailView.MEMBERS,
+          view: GerritView.GROUP,
+          detail: GroupDetailView.MEMBERS,
           groupId: '1234' as GroupId,
         };
         element.groupName = 'foo' as GroupName;

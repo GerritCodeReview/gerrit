@@ -24,6 +24,7 @@ import {
 } from '../../../api/rest-api.js';
 import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 import {waitUntil} from '@open-wc/testing-helpers';
+import {GerritView} from '../../../services/router/router-model.js';
 
 const basicFixture = fixtureFromElement('gr-change-list-view');
 
@@ -302,7 +303,7 @@ suite('gr-change-list-view tests', () => {
       });
 
       element.params = {
-        view: GerritNav.View.SEARCH,
+        view: GerritView.SEARCH,
         query: CHANGE_ID,
         offset: '',
       };
@@ -320,7 +321,7 @@ suite('gr-change-list-view tests', () => {
         promise.resolve();
       });
 
-      element.params = {view: GerritNav.View.SEARCH, query: '1', offset: ''};
+      element.params = {view: GerritView.SEARCH, query: '1', offset: ''};
       await promise;
     });
 
@@ -336,7 +337,7 @@ suite('gr-change-list-view tests', () => {
       });
 
       element.params = {
-        view: GerritNav.View.SEARCH,
+        view: GerritView.SEARCH,
         query: COMMIT_HASH,
         offset: '',
       };
@@ -348,7 +349,7 @@ suite('gr-change-list-view tests', () => {
       const stub = sinon.stub(GerritNav, 'navigateToChange');
 
       element.params = {
-        view: GerritNav.View.SEARCH,
+        view: GerritView.SEARCH,
         query: CHANGE_ID,
         offset: '',
       };
@@ -362,7 +363,7 @@ suite('gr-change-list-view tests', () => {
       const stub = sinon.stub(GerritNav, 'navigateToChange');
 
       element.params = {
-        view: GerritNav.View.SEARCH,
+        view: GerritView.SEARCH,
         query: CHANGE_ID,
         offset: '',
       };

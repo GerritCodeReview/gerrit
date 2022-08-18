@@ -1420,7 +1420,7 @@ export class GrRouter {
     // standard queries gain the ability to search places like commit messages
     // for change IDs.
     this.setParams({
-      view: GerritNav.View.SEARCH,
+      view: GerritView.SEARCH,
       query: data.params[0],
     });
   }

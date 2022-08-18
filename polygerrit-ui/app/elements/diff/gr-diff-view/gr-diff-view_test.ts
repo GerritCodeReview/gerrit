@@ -159,7 +159,7 @@ suite('gr-diff-view tests', () => {
       sinon.stub(element, 'fetchFiles');
       const paramsChangedSpy = sinon.spy(element, 'paramsChanged');
       element.params = {
-        view: GerritNav.View.DIFF,
+        view: GerritView.DIFF,
         changeNum: 42 as NumericChangeId,
         patchNum: 2 as RevisionPatchSetNum,
         basePatchNum: 1 as BasePatchSetNum,
@@ -213,7 +213,7 @@ suite('gr-diff-view tests', () => {
           discardedDrafts: [],
         });
         element.params = {
-          view: GerritNav.View.DIFF,
+          view: GerritView.DIFF,
           changeNum: 42 as NumericChangeId,
           commentLink: true,
           commentId: 'c1' as UrlEncodedCommentId,
@@ -258,7 +258,7 @@ suite('gr-diff-view tests', () => {
       sinon.stub(element, 'initPatchRange');
       sinon.stub(element, 'fetchFiles');
       element.params = {
-        view: GerritNav.View.DIFF,
+        view: GerritView.DIFF,
         changeNum: 42 as NumericChangeId,
         patchNum: 2 as RevisionPatchSetNum,
         basePatchNum: 1 as BasePatchSetNum,
@@ -301,7 +301,7 @@ suite('gr-diff-view tests', () => {
         loadingStatus: LoadingStatus.LOADED,
       });
       element.params = {
-        view: GerritNav.View.DIFF,
+        view: GerritView.DIFF,
         changeNum: 42 as NumericChangeId,
         path: '/COMMIT_MSG',
         commentLink: true,
@@ -353,7 +353,7 @@ suite('gr-diff-view tests', () => {
         loadingStatus: LoadingStatus.LOADED,
       });
       element.params = {
-        view: GerritNav.View.DIFF,
+        view: GerritView.DIFF,
         changeNum: 42 as NumericChangeId,
         path: '/COMMIT_MSG',
         commentLink: true,
@@ -435,7 +435,7 @@ suite('gr-diff-view tests', () => {
       sinon.stub(element, 'isFileUnchanged').returns(false);
       const toastStub = sinon.stub(element, 'displayDiffBaseAgainstLeftToast');
       element.params = {
-        view: GerritNav.View.DIFF,
+        view: GerritView.DIFF,
         changeNum: 42 as NumericChangeId,
         project: 'p' as RepoName,
         commentId: 'c1' as UrlEncodedCommentId,
@@ -1765,14 +1765,14 @@ suite('gr-diff-view tests', () => {
       const callCount = saveReviewedStub.callCount;
 
       element.params = {
-        view: GerritNav.View.CHANGE,
+        view: GerritView.CHANGE,
         changeNum: 42 as NumericChangeId,
         project: 'test' as RepoName,
       };
       await element.updateComplete;
 
       // saveReviewedState observer observes params, but should not fire when
-      // view !== GerritNav.View.DIFF.
+      // view !== GerritView.DIFF.
       assert.equal(saveReviewedStub.callCount, callCount);
     });
 
@@ -1800,7 +1800,7 @@ suite('gr-diff-view tests', () => {
 
       element.loggedIn = true;
       element.params = {
-        view: GerritNav.View.DIFF,
+        view: GerritView.DIFF,
         changeNum: 42 as NumericChangeId,
         patchNum: 2 as RevisionPatchSetNum,
         basePatchNum: 1 as BasePatchSetNum,
@@ -1888,7 +1888,7 @@ suite('gr-diff-view tests', () => {
 
       test('uses the patchNum and basePatchNum ', async () => {
         element.params = {
-          view: GerritNav.View.DIFF,
+          view: GerritView.DIFF,
           changeNum: 42 as NumericChangeId,
           patchNum: 4 as RevisionPatchSetNum,
           basePatchNum: 2 as BasePatchSetNum,
@@ -1905,7 +1905,7 @@ suite('gr-diff-view tests', () => {
 
       test('uses the parent when there is no base patch num ', async () => {
         element.params = {
-          view: GerritNav.View.DIFF,
+          view: GerritView.DIFF,
           changeNum: 42 as NumericChangeId,
           patchNum: 5 as RevisionPatchSetNum,
           path: '/COMMIT_MSG',
@@ -2457,7 +2457,7 @@ suite('gr-diff-view tests', () => {
 
       // Load file1
       element.params = {
-        view: GerritNav.View.DIFF,
+        view: GerritView.DIFF,
         patchNum: 1 as RevisionPatchSetNum,
         changeNum: 101 as NumericChangeId,
         project: 'test-project' as RepoName,
@@ -2482,7 +2482,7 @@ suite('gr-diff-view tests', () => {
 
       // This is to mock the param change triggered by above navigate
       element.params = {
-        view: GerritNav.View.DIFF,
+        view: GerritView.DIFF,
         patchNum: 1 as RevisionPatchSetNum,
         changeNum: 101 as NumericChangeId,
         project: 'test-project' as RepoName,

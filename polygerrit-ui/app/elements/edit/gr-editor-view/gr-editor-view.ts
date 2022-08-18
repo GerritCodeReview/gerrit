@@ -31,6 +31,7 @@ import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {GenerateUrlEditViewParameters} from '../../../utils/router-util';
+import {GerritView} from '../../../services/router/router-model';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const SAVING_MESSAGE = 'Saving changes...';
@@ -293,7 +294,7 @@ export class GrEditorView extends LitElement {
   paramsChanged() {
     if (!this.params) return;
 
-    if (this.params.view !== GerritNav.View.EDIT) {
+    if (this.params.view !== GerritView.EDIT) {
       return;
     }
 

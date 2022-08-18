@@ -13,7 +13,6 @@ import {
   EDIT,
   GroupId,
 } from '../api/rest-api';
-import {GerritNav} from '../elements/core/gr-navigation/gr-navigation';
 import {PatchRangeParams} from '../elements/core/gr-router/gr-router';
 import {GerritView} from '../services/router/router-model';
 import '../test/common-test-setup-karma';
@@ -63,7 +62,7 @@ suite('router-util tests', () => {
       assert.equal(generateUrl(params), '/q/foo%2524bar,100');
 
       params = {
-        view: GerritNav.View.SEARCH,
+        view: GerritView.SEARCH,
         statuses: ['a', 'b', 'c'],
       };
       assert.equal(
@@ -72,17 +71,17 @@ suite('router-util tests', () => {
       );
 
       params = {
-        view: GerritNav.View.SEARCH,
+        view: GerritView.SEARCH,
         topic: 'test' as TopicName,
       };
       assert.equal(generateUrl(params), '/q/topic:test');
       params = {
-        view: GerritNav.View.SEARCH,
+        view: GerritView.SEARCH,
         topic: 'test test' as TopicName,
       };
       assert.equal(generateUrl(params), '/q/topic:"test+test"');
       params = {
-        view: GerritNav.View.SEARCH,
+        view: GerritView.SEARCH,
         topic: 'test:test' as TopicName,
       };
       assert.equal(generateUrl(params), '/q/topic:"test:test"');

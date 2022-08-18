@@ -19,6 +19,33 @@ import {
   GroupDetailView,
   RepoDetailView,
 } from '../utils/router-util';
+import {SettingsViewState} from './core/gr-router/gr-settings-page-model';
+import {PageContextWithQueryMap} from './core/gr-router/gr-router';
+
+export interface ViewState {
+  view: GerritView.SETTINGS;
+}
+
+export interface Route<S extends ViewState> {
+  name: string;
+  pattern: string | RegExp;
+  urlToState: (data: PageContextWithQueryMap) => S;
+}
+
+export interface ViewModel<S extends ViewState> {
+  view: GerritView;
+  routes: Route<S>[];
+  /**
+   * This is the only public method interesting for the entire app.
+   * Everything else is just interesting for the router and should be
+   * considered "package protected".
+   * TODO: Is there a better way to model that than introducing another
+   * interface?
+   */
+  stateToUrl: (state: S) => string;
+  defaultState?: S;
+  loginRequired: boolean;
+}
 
 export interface AppElement extends HTMLElement {
   params: AppElementParams | GenerateUrlParameters;
@@ -74,11 +101,6 @@ export interface AppElementSearchParam {
   view: GerritView.SEARCH;
   query: string;
   offset: string;
-}
-
-export interface AppElementSettingsParam {
-  view: GerritView.SETTINGS;
-  emailToken?: string;
 }
 
 export interface AppElementAgreementParam {
@@ -145,7 +167,7 @@ export type AppElementParams =
   | AppElementDocSearchParams
   | AppElementPluginScreenParams
   | AppElementSearchParam
-  | AppElementSettingsParam
+  | SettingsViewState
   | AppElementAgreementParam
   | AppElementDiffViewParam
   | AppElementDiffEditViewParam

@@ -12,6 +12,7 @@ import {
   BasePatchSetNum,
 } from '../../types/common';
 import {Model} from '../../models/model';
+import {SettingsViewState} from '../../elements/core/gr-router/gr-settings-page-model';
 
 export enum GerritView {
   ADMIN = 'admin',
@@ -30,10 +31,13 @@ export enum GerritView {
 }
 
 export interface RouterState {
+  // TODO: Rename to `activeView`.
   view?: GerritView;
   changeNum?: NumericChangeId;
   patchNum?: RevisionPatchSetNum;
   basePatchNum?: BasePatchSetNum;
+  // TODO: Each page will get its own property in RouterState.
+  settingsPage?: SettingsViewState;
 }
 
 export class RouterModel extends Model<RouterState> implements Finalizable {

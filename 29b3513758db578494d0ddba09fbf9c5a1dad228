@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5d01c35_d58d8f21",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-08-18T12:05:06Z",
+      "side": 1,
+      "message": "FYI. You could update the commit message and replace\nDO_NOT_SUBMIT\nwith\nDO NOT SUBMIT\n\na blocking SR will appear on the UI.",
+      "revId": "29b3513758db578494d0ddba09fbf9c5a1dad228",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

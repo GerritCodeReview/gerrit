@@ -354,6 +354,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     const scores = queryAll(element, 'gr-label-score-row');
     queryAndAssert<GrButton>(scores[0], 'gr-button[data-value="+1"]').click();
     queryAndAssert<GrButton>(scores[1], 'gr-button[data-value="-1"]').click();
+    queryAndAssert<GrButton>(scores[2], 'gr-button[data-value="0"]').click();
 
     await element.updateComplete;
 
@@ -364,6 +365,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
       {
         A: 1,
         B: -1,
+        C: 0,
       }
     );
 

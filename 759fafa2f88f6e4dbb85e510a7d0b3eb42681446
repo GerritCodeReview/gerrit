@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13703e66_d45773c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-08-18T00:48:05Z",
+      "side": 1,
+      "message": "Since https://gerrit-review.googlesource.com/c/gerrit/+/342835 switched all the \"lit/decorators\" to \"lit/decorators.js\" it made this change possible.",
+      "revId": "759fafa2f88f6e4dbb85e510a7d0b3eb42681446",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

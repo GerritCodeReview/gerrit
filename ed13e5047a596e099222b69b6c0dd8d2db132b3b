@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d760f74a_b66bdc7f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-18T12:37:20Z",
+      "side": 1,
+      "message": "```suggestion\n    assertIsDefined(this.account, \u0027account\u0027);\n    this.account \u003d await this.accountsModel.fillDetails(this.account);\n```",
+      "revId": "ed13e5047a596e099222b69b6c0dd8d2db132b3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dec0de15_c6501e4d",
+        "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-18T12:37:20Z",
+      "side": 1,
+      "message": "Move this into the if? Or\n```\nif (!account) return;\n```",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 32
+      },
+      "revId": "ed13e5047a596e099222b69b6c0dd8d2db132b3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b6adc3b_ba5c98f5",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-18T12:37:20Z",
+      "side": 1,
+      "message": "Nit: Maybe `isDetailedAccount()` and then use with negation operator?",
+      "range": {
+        "startLine": 82,
+        "startChar": 16,
+        "endLine": 82,
+        "endChar": 36
+      },
+      "revId": "ed13e5047a596e099222b69b6c0dd8d2db132b3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

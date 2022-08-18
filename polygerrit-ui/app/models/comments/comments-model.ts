@@ -65,6 +65,11 @@ export interface CommentState {
    * draft back. Once restored, the draft is removed from this array.
    */
   discardedDrafts: DraftInfo[];
+  /**
+   * The text which the user typed in the reply dialog that is sent as a change
+   * level comment.
+   */
+  changeLevelDraft: string;
 }
 
 const initialState: CommentState = {
@@ -74,6 +79,7 @@ const initialState: CommentState = {
   portedComments: undefined,
   portedDrafts: undefined,
   discardedDrafts: [],
+  changeLevelDraft: '',
 };
 
 const TOAST_DEBOUNCE_INTERVAL = 200;
@@ -243,6 +249,11 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
     commentState => commentState.drafts
   );
 
+  public readonly changeLevelDraft$ = select(
+    this.state$,
+    commentState => commentState.changeLevelDraft
+  );
+
   public readonly draftsCount$ = select(
     this.drafts$,
     drafts => Object.values(drafts ?? {}).flat().length
@@ -408,6 +419,11 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
   // visible for testing
   setState(state: CommentState) {
     this.subject$.next(state);
+  }
+
+  updateChangeLevelDraft(draft: string) {
+    const current = this.subject$.getValue();
+    this.setState({...current, changeLevelDraft: draft});
   }
 
   async reloadComments(changeNum: NumericChangeId): Promise<void> {

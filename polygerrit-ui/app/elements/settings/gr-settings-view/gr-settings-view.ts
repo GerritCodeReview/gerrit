@@ -23,7 +23,6 @@ import '../gr-menu-editor/gr-menu-editor';
 import '../gr-ssh-editor/gr-ssh-editor';
 import '../gr-watched-projects-editor/gr-watched-projects-editor';
 import {getDocsBaseUrl} from '../../../utils/url-util';
-import {AppElementParams} from '../../gr-app-types';
 import {GrAccountInfo} from '../gr-account-info/gr-account-info';
 import {GrWatchedProjectsEditor} from '../gr-watched-projects-editor/gr-watched-projects-editor';
 import {GrGroupList} from '../gr-group-list/gr-group-list';
@@ -35,7 +34,6 @@ import {GrGpgEditor} from '../gr-gpg-editor/gr-gpg-editor';
 import {GrEmailEditor} from '../gr-email-editor/gr-email-editor';
 import {fireAlert, fireTitleChange} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
-import {GerritView} from '../../../services/router/router-model';
 import {
   ColumnNames,
   DateFormat,
@@ -48,13 +46,7 @@ import {
 } from '../../../constants/constants';
 import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 import {LitElement, css, html, nothing} from 'lit';
-import {
-  customElement,
-  property,
-  query,
-  queryAsync,
-  state,
-} from 'lit/decorators.js';
+import {customElement, query, queryAsync, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {paperStyles} from '../../../styles/gr-paper-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';
@@ -62,6 +54,7 @@ import {when} from 'lit/directives/when.js';
 import {pageNavStyles} from '../../../styles/gr-page-nav-styles';
 import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
 import {formStyles} from '../../../styles/gr-form-styles';
+import {subscribe} from '../../lit/subscription-controller';
 
 const GERRIT_DOCS_BASE_URL =
   'https://gerrit-review.googlesource.com/' + 'Documentation';
@@ -144,8 +137,6 @@ export class GrSettingsView extends LitElement {
 
   @state() prefs: PreferencesInput = {};
 
-  @property({type: Object}) params?: AppElementParams;
-
   @state() private accountInfoChanged = false;
 
   // private but used in test
@@ -193,11 +184,25 @@ export class GrSettingsView extends LitElement {
   @state() themePreference = AppTheme.AUTO;
 
   // private but used in test
+  @state() emailToken?: string;
+
+  // private but used in test
   public _testOnly_loadingPromise?: Promise<void>;
 
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly userModel = getAppContext().userModel;
+
+  private readonly router = getAppContext().routerModel;
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.router.settings.emailToken$,
+      token => this.processEmailToken(token)
+    );
+  }
 
   override connectedCallback() {
     super.connectedCallback();
@@ -260,24 +265,7 @@ export class GrSettingsView extends LitElement {
       })
     );
 
-    if (
-      this.params &&
-      this.params.view === GerritView.SETTINGS &&
-      this.params.emailToken
-    ) {
-      promises.push(
-        this.restApiService
-          .confirmEmail(this.params.emailToken)
-          .then(message => {
-            if (message) {
-              fireAlert(this, message);
-            }
-            this.emailEditor.loadData();
-          })
-      );
-    } else {
-      promises.push(this.emailEditor.loadData());
-    }
+    promises.push(this.emailEditor.loadData());
 
     this._testOnly_loadingPromise = Promise.all(promises).then(() => {
       this.loading = false;
@@ -1186,6 +1174,14 @@ export class GrSettingsView extends LitElement {
       | number
   ) {
     return key !== undefined ? String(key) : '';
+  }
+
+  // visible for testing
+  async processEmailToken(emailToken?: string) {
+    if (!emailToken) return;
+    const message = await this.restApiService.confirmEmail(emailToken);
+    if (message) fireAlert(this, message);
+    await this.emailEditor.loadData();
   }
 }
 

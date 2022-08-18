@@ -190,7 +190,7 @@ export function generateUrl(params: GenerateUrlParameters) {
   } else if (params.view === GerritView.ROOT) {
     url = '/';
   } else if (params.view === GerritView.SETTINGS) {
-    url = generateSettingsUrl();
+    throw new Error('settings already migrated to new page model');
   } else {
     assertNever(params, "Can't generate");
   }
@@ -401,8 +401,4 @@ function generateRepoUrl(params: GenerateUrlRepoViewParameters) {
     url += ',dashboards';
   }
   return url;
-}
-
-function generateSettingsUrl() {
-  return '/settings';
 }

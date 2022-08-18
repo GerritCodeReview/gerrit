@@ -5,19 +5,14 @@
  */
 import '../../../test/common-test-setup-karma';
 import './gr-router';
-import {page} from '../../../utils/page-wrapper-utils';
+import {page, PageContextWithQueryMap} from '../../../utils/page-wrapper-utils';
 import {GerritNav, WeblinkType} from '../gr-navigation/gr-navigation';
 import {
   stubBaseUrl,
   stubRestApi,
   addListenerForTest,
 } from '../../../test/test-utils';
-import {
-  GrRouter,
-  PageContextWithQueryMap,
-  PatchRangeParams,
-  _testOnly_RoutePattern,
-} from './gr-router';
+import {GrRouter, PatchRangeParams, _testOnly_RoutePattern} from './gr-router';
 import {GerritView} from '../../../services/router/router-model';
 import {
   BasePatchSetNum,

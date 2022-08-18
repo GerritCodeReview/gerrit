@@ -8,7 +8,7 @@ import '../gr-repo-header/gr-repo-header';
 import '../gr-user-header/gr-user-header';
 import {page} from '../../../utils/page-wrapper-utils';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {AppElementParams} from '../../gr-app-types';
+import {AppElementSearchParam} from '../../gr-app-types';
 import {
   AccountDetailInfo,
   AccountId,
@@ -52,7 +52,7 @@ export class GrChangeListView extends LitElement {
   @query('#nextArrow') protected nextArrow?: HTMLAnchorElement;
 
   @property({type: Object})
-  params?: AppElementParams;
+  params?: AppElementSearchParam;
 
   @property({type: Object})
   account: AccountDetailInfo | null = null;

@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f829154d_12c7077a",
+        "filename": "plugins/replication",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-18T10:29:33Z",
+      "side": 1,
+      "message": "I don\u0027t think it should be part of this change",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "2ee3d30913d69716867fbd3d4a9f980a28479dc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

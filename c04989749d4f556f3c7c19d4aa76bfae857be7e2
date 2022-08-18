@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4a32a161_cc0963fd",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1471,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-18T12:01:34Z",
+      "side": 1,
+      "message": "Btw. I think it\u0027s good it\u0027s hidden. So it\u0027s not destroyed when you change tab. This is default view. But up to you.",
+      "parentUuid": "3aeecce4_a148d56f",
+      "range": {
+        "startLine": 1471,
+        "startChar": 11,
+        "endLine": 1471,
+        "endChar": 20
+      },
+      "revId": "c04989749d4f556f3c7c19d4aa76bfae857be7e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a3cf1dce_34987468",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
         "patchSetId": 4

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a03e6ef9_8123b9a3",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-18T09:42:13Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "4de77db1_a3993f6c",
+      "range": {
+        "startLine": 561,
+        "startChar": 0,
+        "endLine": 564,
+        "endChar": 53
+      },
+      "revId": "1b35b7b4275363363fe8687b0d137860ae9f7380",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "78a90cd7_53b57fee",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-08-18T09:16:41Z",
       "side": 0,
       "message": "Optional: we can refactor this a bit; i.e. we now only have one \"star\" default label, hence we can get rid of DEFAULT_LABELS.\n\nFor example: L199, you don\u0027t need to pass\n  * Set\u003cString\u003e labelsToAdd\n  * Set\u003cString\u003e labelsToRemove\nanymore.\n\nYou just need two booleans \"addStar\"/\"removeStar\" (or maybe one boolean), or an enum.",
+      "range": {
+        "startLine": 160,
+        "startChar": 2,
+        "endLine": 163,
+        "endChar": 43
+      },
+      "revId": "1b35b7b4275363363fe8687b0d137860ae9f7380",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95bfc2cf_317b8269",
+        "filename": "java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-18T09:42:13Z",
+      "side": 0,
+      "message": "Good idea, will do this as a follow-up as this touches more files and would also need a refactor of StarredChanges.java",
+      "parentUuid": "78a90cd7_53b57fee",
       "range": {
         "startLine": 160,
         "startChar": 2,

@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "59ea7ba8_55c9eaeb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-18T10:48:25Z",
+      "side": 1,
+      "message": "I am fine with using `firstUpdated`, but I think the comment does not help. From this component\u0027s point of view you just want to do something like\n\n```\nthis.account \u003d await this.accountsModel.fillDetails(this.account);\n```\n\nThen there is no need for any comment or an additional method.",
+      "parentUuid": "c225f42e_bcbccc19",
+      "range": {
+        "startLine": 194,
+        "startChar": 4,
+        "endLine": 195,
+        "endChar": 31
+      },
+      "revId": "b75537287f3e9cecd63f1ec3eb860f34a360db53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dc8b0469_7d59a984",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
         "patchSetId": 8
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "dc8b0469_7d59a984",
+      "range": {
+        "startLine": 200,
+        "startChar": 24,
+        "endLine": 200,
+        "endChar": 71
+      },
+      "revId": "b75537287f3e9cecd63f1ec3eb860f34a360db53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83a2ce67_6d5641bb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-18T10:48:25Z",
+      "side": 1,
+      "message": "You have changed the name to `isNotDetailedAccount`, but you are still just checking the email address. What I meant is that it would be nice to be more explicit about what kind of data we are missing? What is an incomplete account? How can we tell from looking at the account object that it was a return value from getAccountDetails?",
+      "parentUuid": "70ce3a76_f46ad6dd",
       "range": {
         "startLine": 200,
         "startChar": 24,

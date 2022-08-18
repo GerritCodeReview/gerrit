@@ -46,6 +46,30 @@
       },
       "revId": "37c56d3f40de701ab090a82977a25a8d19af6da5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d89462a3_53b11d0b",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-18T13:13:57Z",
+      "side": 1,
+      "message": "but clicking 0 has no visual effect. I don\u0027t think this is the UX we want",
+      "parentUuid": "920891e7_5705ad6e",
+      "range": {
+        "startLine": 357,
+        "startChar": 0,
+        "endLine": 357,
+        "endChar": 77
+      },
+      "revId": "37c56d3f40de701ab090a82977a25a8d19af6da5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

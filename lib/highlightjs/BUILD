@@ -21,8 +21,8 @@ rollup_bundle(
     silent = True,
     sourcemap = "hidden",
     deps = [
+        "@tools_npm//@rollup/plugin-commonjs",
+        "@tools_npm//@rollup/plugin-node-resolve",
         "@tools_npm//rollup",
-        "@tools_npm//rollup-plugin-commonjs",
-        "@tools_npm//rollup-plugin-node-resolve",
     ],
 )

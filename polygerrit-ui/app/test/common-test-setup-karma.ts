@@ -5,7 +5,7 @@
  */
 import {testResolver as testResolverImpl} from './common-test-setup';
 import '@polymer/test-fixture/test-fixture';
-import 'chai/chai';
+import 'chai/chai.js';
 
 declare global {
   interface Window {

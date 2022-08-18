@@ -26,7 +26,7 @@ rollup_bundle(
     silent = True,
     deps = [
         ":preprocessor",
-        "@tools_npm//rollup-plugin-node-resolve",
+        "@tools_npm//@rollup/plugin-node-resolve",
     ],
 )
 
@@ -39,7 +39,7 @@ rollup_bundle(
     silent = True,
     deps = [
         ":preprocessor",
-        "@tools_npm//rollup-plugin-node-resolve",
+        "@tools_npm//@rollup/plugin-node-resolve",
     ],
 )
 

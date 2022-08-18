@@ -29,7 +29,7 @@ import {
 } from './test-utils';
 import {safeTypesBridge} from '../utils/safe-types-util';
 import {initGlobalVariables} from '../elements/gr-app-global-var-init';
-import 'chai/chai';
+import 'chai/chai.js';
 import {chaiDomDiff} from '@open-wc/semantic-dom-diff';
 import {fixtureCleanup} from '@open-wc/testing-helpers';
 import {

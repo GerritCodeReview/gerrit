@@ -134,8 +134,7 @@ public class StarredChanges
             self.get().getAccountId(),
             change.getProject(),
             change.getId(),
-            StarredChangesUtil.DEFAULT_LABELS,
-            null);
+            StarredChangesUtil.Operation.ADD);
       } catch (MutuallyExclusiveLabelsException e) {
         throw new ResourceConflictException(e.getMessage());
       } catch (IllegalLabelException e) {
@@ -186,8 +185,7 @@ public class StarredChanges
           self.get().getAccountId(),
           rsrc.getChange().getProject(),
           rsrc.getChange().getId(),
-          null,
-          StarredChangesUtil.DEFAULT_LABELS);
+          StarredChangesUtil.Operation.REMOVE);
       return Response.none();
     }
   }

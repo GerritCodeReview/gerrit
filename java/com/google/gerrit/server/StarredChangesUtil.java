@@ -111,6 +111,10 @@ public class StarredChangesUtil {
     }
   }
 
+  public enum Operation {
+    ADD,
+    REMOVE
+  }
   @AutoValue
   public abstract static class StarRef {
     private static final StarRef MISSING =
@@ -159,9 +163,7 @@ public class StarredChangesUtil {
   }
 
   public static final String DEFAULT_LABEL = "star";
-  public static final ImmutableSortedSet<String> DEFAULT_LABELS =
-      ImmutableSortedSet.of(DEFAULT_LABEL);
-
+  
   private final GitRepositoryManager repoManager;
   private final GitReferenceUpdated gitRefUpdated;
   private final AllUsersName allUsers;
@@ -204,19 +206,20 @@ public class StarredChangesUtil {
       Account.Id accountId,
       Project.NameKey project,
       Change.Id changeId,
-      Set<String> labelsToAdd,
-      Set<String> labelsToRemove)
+      Operation op)
       throws IllegalLabelException {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       String refName = RefNames.refsStarredChanges(changeId, accountId);
       StarRef old = readLabels(repo, refName);
 
       NavigableSet<String> labels = new TreeSet<>(old.labels());
-      if (labelsToAdd != null) {
-        labels.addAll(labelsToAdd);
-      }
-      if (labelsToRemove != null) {
-        labels.removeAll(labelsToRemove);
+      switch (op) {
+        case ADD:
+          labels.add(DEFAULT_LABEL);
+          break;
+        case REMOVE:
+          labels.remove(DEFAULT_LABEL);
+          break;
       }
 
       if (labels.isEmpty()) {

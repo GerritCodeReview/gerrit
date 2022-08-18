@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b1c63452_20e862ac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-18T06:42:16Z",
+      "side": 1,
+      "message": "Sounds good to me. Is also stable-3.4 impacted? If yes, can we move this change to stable-3.4 as it is the earliest non-EOL version?",
+      "parentUuid": "0cc61db4_1d91357e",
+      "revId": "0faa70baedf3d188b88bf584873c427fdbd93518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c2a6bd80_83bdd5e7",
         "filename": "java/com/google/gerrit/index/IndexConfig.java",
         "patchSetId": 1

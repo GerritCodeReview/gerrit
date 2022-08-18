@@ -41,6 +41,7 @@ public class DeleteVoteSender extends ReplyToChangeSender {
     ccAllApprovals();
     bccStarredBy();
     includeWatchers(NotifyType.ALL_COMMENTS);
+    removeUsersThatIgnoredTheChange();
   }
 
   @Override

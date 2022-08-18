@@ -796,6 +796,58 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void ignoreChange() throws Exception {
+    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(accountIndexedCounter)) {
+      TestAccount user2 = accountCreator.user2();
+      accountIndexedCounter.clear();
+
+      PushOneCommit.Result r = createChange();
+
+      ReviewerInput in = new ReviewerInput();
+      in.reviewer = user.email();
+      gApi.changes().id(r.getChangeId()).addReviewer(in);
+
+      in = new ReviewerInput();
+      in.reviewer = user2.email();
+      gApi.changes().id(r.getChangeId()).addReviewer(in);
+
+      requestScopeOperations.setApiUser(user.id());
+      gApi.changes().id(r.getChangeId()).ignore(true);
+
+      sender.clear();
+      requestScopeOperations.setApiUser(admin.id());
+      gApi.changes().id(r.getChangeId()).abandon();
+      List<Message> messages = sender.getMessages();
+      assertThat(messages).hasSize(1);
+      assertThat(messages.get(0).rcpt()).containsExactly(user2.getNameEmail());
+      accountIndexedCounter.assertNoReindex();
+    }
+  }
+
+  @Test
+  public void addReviewerToIgnoredChange() throws Exception {
+    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(accountIndexedCounter)) {
+      PushOneCommit.Result r = createChange();
+
+      requestScopeOperations.setApiUser(user.id());
+      gApi.changes().id(r.getChangeId()).ignore(true);
+
+      sender.clear();
+      requestScopeOperations.setApiUser(admin.id());
+
+      ReviewerInput in = new ReviewerInput();
+      in.reviewer = user.email();
+      gApi.changes().id(r.getChangeId()).addReviewer(in);
+      List<Message> messages = sender.getMessages();
+      assertThat(messages).hasSize(0);
+    }
+  }
+
+  @Test
   public void addExistingReviewersUsingPostReview() throws Exception {
     PushOneCommit.Result r = createChange();
 

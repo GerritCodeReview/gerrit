@@ -36,6 +36,7 @@ public abstract class AttentionSetSender extends ReplyToChangeSender {
     ccAllApprovals();
     bccStarredBy();
     ccExistingReviewers();
+    removeUsersThatIgnoredTheChange();
   }
 
   public void setAttentionSetUser(Account.Id attentionSetUser) {

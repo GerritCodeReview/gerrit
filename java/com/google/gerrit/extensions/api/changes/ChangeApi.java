@@ -128,6 +128,20 @@ public interface ChangeApi {
   }
 
   /**
+   * Ignore or un-ignore this change.
+   *
+   * @param ignore ignore the change if true
+   */
+  void ignore(boolean ignore) throws RestApiException;
+
+  /**
+   * Check if this change is ignored.
+   *
+   * @return true if the change is ignored
+   */
+  boolean ignored() throws RestApiException;
+
+  /**
    * Create a new change that reverts this change.
    *
    * @see Changes#id(int)
@@ -820,6 +834,16 @@ public interface ChangeApi {
 
     @Override
     public ChangeInfo createMergePatchSet(MergePatchSetInput in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void ignore(boolean ignore) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public boolean ignored() throws RestApiException {
       throw new NotImplementedException();
     }
 

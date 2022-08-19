@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup-karma';
-import {isHidden, query, stubRestApi} from '../../../test/test-utils';
+import {
+  isHidden,
+  query,
+  stubElement,
+  stubRestApi,
+} from '../../../test/test-utils';
 import './gr-main-header';
 import {GrMainHeader} from './gr-main-header';
 import {
@@ -23,7 +28,9 @@ suite('gr-main-header tests', () => {
 
   setup(async () => {
     stubRestApi('probePath').returns(Promise.resolve(false));
-    stub('gr-main-header', 'loadAccount').callsFake(() => Promise.resolve());
+    stubElement('gr-main-header', 'loadAccount').callsFake(() =>
+      Promise.resolve()
+    );
     element = basicFixture.instantiate();
     await element.updateComplete;
   });

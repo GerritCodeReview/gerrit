@@ -7,7 +7,7 @@ import '../test/common-test-setup-karma';
 import './gr-app';
 import {getAppContext} from '../services/app-context';
 import {fixture, html} from '@open-wc/testing-helpers';
-import {queryAndAssert, stubRestApi} from '../test/test-utils';
+import {queryAndAssert, stubElement, stubRestApi} from '../test/test-utils';
 import {GrApp} from './gr-app';
 import {
   createAppElementChangeViewParams,
@@ -26,7 +26,7 @@ suite('gr-app tests', () => {
 
   setup(async () => {
     appStartedStub = sinon.stub(getAppContext().reportingService, 'appStarted');
-    stub('gr-account-dropdown', '_getTopContent');
+    stubElement('gr-account-dropdown', '_getTopContent');
     routerStartStub = sinon.stub(GrRouter.prototype, 'start');
     stubRestApi('getAccount').returns(Promise.resolve(undefined));
     stubRestApi('getAccountCapabilities').returns(Promise.resolve({}));

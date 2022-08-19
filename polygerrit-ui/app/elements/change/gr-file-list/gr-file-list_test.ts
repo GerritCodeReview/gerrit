@@ -15,6 +15,7 @@ import {
   stubRestApi,
   waitUntil,
   pressKey,
+  stubElement,
 } from '../../../test/test-utils';
 import {
   BasePatchSetNum,
@@ -81,11 +82,11 @@ suite('gr-file-list tests', () => {
       stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
       stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
       stubRestApi('getAccountCapabilities').returns(Promise.resolve({}));
-      stub('gr-date-formatter', 'loadTimeFormat').callsFake(() =>
+      stubElement('gr-date-formatter', 'loadTimeFormat').callsFake(() =>
         Promise.resolve()
       );
-      stub('gr-diff-host', 'reload').callsFake(() => Promise.resolve());
-      stub('gr-diff-host', 'prefetchDiff').callsFake(() => {});
+      stubElement('gr-diff-host', 'reload').callsFake(() => Promise.resolve());
+      stubElement('gr-diff-host', 'prefetchDiff').callsFake(() => {});
 
       element = basicFixture.instantiate();
 
@@ -2009,11 +2010,11 @@ suite('gr-file-list tests', () => {
       stubRestApi('getDiffComments').returns(Promise.resolve({}));
       stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
       stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
-      stub('gr-date-formatter', 'loadTimeFormat').callsFake(() =>
+      stubElement('gr-date-formatter', 'loadTimeFormat').callsFake(() =>
         Promise.resolve()
       );
       stubRestApi('getDiff').callsFake(() => Promise.resolve(createDiff()));
-      stub('gr-diff-host', 'prefetchDiff').callsFake(() => {});
+      stubElement('gr-diff-host', 'prefetchDiff').callsFake(() => {});
 
       element = basicFixture.instantiate();
       element.diffPrefs = {

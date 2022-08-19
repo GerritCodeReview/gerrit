@@ -49,12 +49,10 @@ declare global {
   interface Window {
     assert: typeof chai.assert;
     fixture: typeof fixtureImpl;
-    stub: typeof stubImpl;
     sinon: typeof sinon;
     chai: typeof chai;
   }
   let assert: typeof chai.assert;
-  let stub: typeof stubImpl;
   let sinon: typeof sinon;
 }
 window.assert = chai.assert;
@@ -141,7 +139,7 @@ setup(() => {
     injectDependency(token, provider);
   }
   document.addEventListener('request-dependency', resolveDependency);
-  // The following calls is nessecary to avoid influence of previously executed
+  // The following calls is necessary to avoid influence of previously executed
   // tests.
   initGlobalVariables(appContext);
 
@@ -160,24 +158,6 @@ setup(() => {
   pl.loadPlugins([]);
   _testOnlyResetGrRestApiSharedObjects();
 });
-
-// For karma always set our implementation
-// (karma doesn't provide the stub method)
-function stubImpl<
-  T extends keyof HTMLElementTagNameMap,
-  K extends keyof HTMLElementTagNameMap[T]
->(tagName: T, method: K) {
-  // This method is inspired by web-component-tester method
-  const proto = document.createElement(tagName).constructor
-    .prototype as HTMLElementTagNameMap[T];
-  const stub = sinon.stub(proto, method);
-  registerTestCleanup(() => {
-    stub.restore();
-  });
-  return stub;
-}
-
-window.stub = stubImpl;
 
 // Very simple function to catch unexpected elements in documents body.
 // It can't catch everything, but in most cases it is enough.

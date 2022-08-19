@@ -8,7 +8,12 @@ import './gr-admin-view';
 import {AdminSubsectionLink, GrAdminView} from './gr-admin-view';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
-import {mockPromise, stubBaseUrl, stubRestApi} from '../../../test/test-utils';
+import {
+  mockPromise,
+  stubBaseUrl,
+  stubElement,
+  stubRestApi,
+} from '../../../test/test-utils';
 import {GerritView} from '../../../services/router/router-model';
 import {query, queryAll, queryAndAssert} from '../../../test/test-utils';
 import {GrRepoList} from '../gr-repo-list/gr-repo-list';
@@ -551,7 +556,7 @@ suite('gr-admin-view tests', () => {
 
     suite('repos', () => {
       setup(() => {
-        stub('gr-repo-access', '_repoChanged').callsFake(() =>
+        stubElement('gr-repo-access', '_repoChanged').callsFake(() =>
           Promise.resolve()
         );
       });
@@ -614,8 +619,8 @@ suite('gr-admin-view tests', () => {
       let getGroupConfigStub: sinon.SinonStub;
 
       setup(async () => {
-        stub('gr-group', 'loadGroup').callsFake(() => Promise.resolve());
-        stub('gr-group-members', 'loadGroupDetails').callsFake(() =>
+        stubElement('gr-group', 'loadGroup').callsFake(() => Promise.resolve());
+        stubElement('gr-group-members', 'loadGroupDetails').callsFake(() =>
           Promise.resolve()
         );
 

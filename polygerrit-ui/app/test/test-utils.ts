@@ -138,6 +138,20 @@ export function stubFlags<K extends keyof FlagsService>(method: K) {
   return sinon.stub(getAppContext().flagsService, method);
 }
 
+export function stubElement<
+  T extends keyof HTMLElementTagNameMap,
+  K extends keyof HTMLElementTagNameMap[T]
+>(tagName: T, method: K) {
+  // This method is inspired by web-component-tester method
+  const proto = document.createElement(tagName).constructor
+    .prototype as HTMLElementTagNameMap[T];
+  const stub = sinon.stub(proto, method);
+  registerTestCleanup(() => {
+    stub.restore();
+  });
+  return stub;
+}
+
 export type SinonSpyMember<F extends (...args: any) => any> = SinonSpy<
   Parameters<F>,
   ReturnType<F>

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup-karma';
+import {stubElement} from '../../../test/test-utils';
 import './gr-plugin-popup';
 import {GrPluginPopup} from './gr-plugin-popup';
 
@@ -17,8 +18,10 @@ suite('gr-plugin-popup tests', () => {
   setup(async () => {
     element = basicFixture.instantiate();
     await element.updateComplete;
-    overlayOpen = stub('gr-overlay', 'open').callsFake(() => Promise.resolve());
-    overlayClose = stub('gr-overlay', 'close');
+    overlayOpen = stubElement('gr-overlay', 'open').callsFake(() =>
+      Promise.resolve()
+    );
+    overlayClose = stubElement('gr-overlay', 'close');
   });
 
   test('exists', () => {

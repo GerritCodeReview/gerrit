@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e367717c_0c174498",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-19T14:02:08Z",
+      "side": 1,
+      "message": "this is stubbing a method so why is it called `stubElement`?",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 15
+      },
+      "revId": "4eedd6f3890e1fb4d779f3e74ad2f622dd6b8abc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

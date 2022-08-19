@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "56f54a23_761e8ee4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-19T07:14:43Z",
+      "side": 1,
+      "message": "@Ben what do you think of @Davido\u0027s proposal?",
+      "parentUuid": "fcb5dbf9_76cf33ca",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 6
+      },
+      "revId": "4890c9e783354d335b5c6d9a8b4597035eb5c0f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "7b5a2af4_fcefdb1b",

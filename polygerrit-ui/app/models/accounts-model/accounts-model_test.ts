@@ -10,12 +10,16 @@ import {getAppContext} from '../../services/app-context';
 import {stubRestApi} from '../../test/test-utils';
 import {AccountsModel} from './accounts-model';
 import {assert} from '@open-wc/testing';
+import {commentsModelToken} from '../comments/comments-model';
 
 suite('accounts-model tests', () => {
   let model: AccountsModel;
 
   setup(() => {
-    model = new AccountsModel(getAppContext().restApiService);
+    model = new AccountsModel(
+      getAppContext().restApiService,
+      testResolver(commentsModelToken)
+    );
   });
 
   teardown(() => {

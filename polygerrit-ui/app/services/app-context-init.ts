@@ -31,7 +31,10 @@ import {ConfigModel, configModelToken} from '../models/config/config-model';
 import {BrowserModel, browserModelToken} from '../models/browser/browser-model';
 import {PluginsModel} from '../models/plugins/plugins-model';
 import {HighlightService} from './highlight/highlight-service';
-import {AccountsModel} from '../models/accounts-model/accounts-model';
+import {
+  AccountsModel,
+  accountsModelToken,
+} from '../models/accounts-model/accounts-model';
 
 /**
  * The AppContext lazy initializator for all services
@@ -65,10 +68,6 @@ export function createAppContext(): AppContext & Finalizable {
       assertIsDefined(ctx.restApiService, 'restApiService');
       return new UserModel(ctx.restApiService);
     },
-    accountsModel: (ctx: Partial<AppContext>) => {
-      assertIsDefined(ctx.restApiService, 'restApiService');
-      return new AccountsModel(ctx.restApiService);
-    },
     pluginsModel: (_ctx: Partial<AppContext>) => new PluginsModel(),
     highlightService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.reportingService, 'reportingService');
@@ -99,6 +98,12 @@ export function createAppDependencies(
     appContext.reportingService
   );
   dependencies.set(commentsModelToken, commentsModel);
+
+  const accountModdel = new AccountsModel(
+    appContext.restApiService,
+    commentsModel
+  );
+  dependencies.set(accountsModelToken, accountModdel);
 
   const filesModel = new FilesModel(
     changeModel,

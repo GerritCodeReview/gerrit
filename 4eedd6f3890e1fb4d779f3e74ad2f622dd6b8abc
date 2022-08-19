@@ -22,6 +22,30 @@
       },
       "revId": "4eedd6f3890e1fb4d779f3e74ad2f622dd6b8abc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1016a0a_15d2e424",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-19T14:49:11Z",
+      "side": 1,
+      "message": "in test-utils.ts, `stubFoo` refers to stubbing a method on `Foo`. `stubStorage`, `stubAuth`, `stubRestApi`, etc.",
+      "parentUuid": "e367717c_0c174498",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 15
+      },
+      "revId": "4eedd6f3890e1fb4d779f3e74ad2f622dd6b8abc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

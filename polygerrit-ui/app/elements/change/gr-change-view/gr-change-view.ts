@@ -106,6 +106,7 @@ import {GrChangeMetadata} from '../gr-change-metadata/gr-change-metadata';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {
   assertIsDefined,
+  assert,
   query as queryEl,
   queryAll,
 } from '../../../utils/common-util';

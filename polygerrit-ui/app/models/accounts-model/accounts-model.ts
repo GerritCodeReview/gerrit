@@ -9,16 +9,26 @@ import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {Finalizable} from '../../services/registry';
 import {UserId} from '../../types/common';
 import {getUserId, isDetailedAccount} from '../../utils/account-util';
+import {CommentsModel} from '../comments/comments-model';
+import {define} from '../dependency';
 import {Model} from '../model';
 
 export interface AccountsState {
   accounts: {[id: UserId]: AccountDetailInfo};
 }
 
+export const accountsModelToken = define<AccountsModel>('accounts-model');
+
 export class AccountsModel extends Model<AccountsState> implements Finalizable {
-  constructor(readonly restApiService: RestApiService) {
+  constructor(
+    readonly restApiService: RestApiService,
+    commentsModel: CommentsModel
+  ) {
     super({
       accounts: {},
+    });
+    commentsModel.mentionedUsersInDrafts$.subscribe(users => {
+      for (const user of users) this.fillDetails(user);
     });
   }
 

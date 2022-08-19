@@ -3,47 +3,52 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
-import '../../../test/common-test-setup-karma';
+// import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 import './gr-button';
 import {addListener} from '@polymer/polymer/lib/utils/gestures';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {assert, fixture, html} from '@open-wc/testing';
 import {GrButton} from './gr-button';
 import {pressKey, queryAndAssert} from '../../../test/test-utils';
 import {PaperButtonElement} from '@polymer/paper-button';
 import {Key, Modifier} from '../../../utils/dom-util';
+import '../../../test/common-test-setup-karma';
 
 suite('gr-button tests', () => {
   let element: GrButton;
 
   const addSpyOn = function (eventName: string) {
-    const spy = sinon.spy();
+    const eventSpy = sinon.spy();
     if (eventName === 'tap') {
-      addListener(element, eventName, spy);
+      addListener(element, eventName, eventSpy);
     } else {
-      element.addEventListener(eventName, spy);
+      element.addEventListener(eventName, eventSpy);
     }
-    return spy;
+    return eventSpy;
   };
 
   setup(async () => {
-    element = await fixture<GrButton>('<gr-button></gr-button>');
+    // const appContext = createTestAppContext();
+    // injectAppContext(appContext);
+    element = await fixture<GrButton>(html`<gr-button></gr-button>`);
     await element.updateComplete;
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <paper-button
-        animated=""
-        aria-disabled="false"
-        elevation="1"
-        part="paper-button"
-        raised=""
-        role="button"
-        tabindex="-1"
-        ><slot></slot><i class="downArrow"></i>
-      </paper-button>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <paper-button
+          animated=""
+          aria-disabled="false"
+          elevation="1"
+          part="paper-button"
+          raised=""
+          role="button"
+          tabindex="-1"
+          ><slot></slot><i class="downArrow"></i>
+        </paper-button>
+      `
+    );
   });
 
   test('disabled is set by disabled', async () => {
@@ -72,7 +77,8 @@ suite('gr-button tests', () => {
       'paper-button'
     );
     assert.isFalse(paperBtn.disabled);
-    MockInteractions.tap(element);
+    element.click();
+    // MockInteractions.tap(element);
     await element.updateComplete;
     assert.isTrue(paperBtn.disabled);
     assert.isTrue(element.hasAttribute('loading'));
@@ -120,21 +126,23 @@ suite('gr-button tests', () => {
   // plugins who didn't move to on-click which is faster and well supported.
   test('dispatches click event', () => {
     const spy = addSpyOn('click');
-    MockInteractions.click(element);
+    // MockInteractions.click(element);
+    element.click();
     assert.isTrue(spy.calledOnce);
   });
 
-  test('dispatches tap event', () => {
-    const spy = addSpyOn('tap');
-    MockInteractions.tap(element);
-    assert.isTrue(spy.calledOnce);
-  });
+  // test('dispatches tap event', () => {
+  //   const spy = addSpyOn('tap');
+  //   // MockInteractions.tap(element);
+  //   tap(element);
+  //   assert.isTrue(spy.calledOnce);
+  // });
 
-  test('dispatches click from tap event', () => {
-    const spy = addSpyOn('click');
-    MockInteractions.tap(element);
-    assert.isTrue(spy.calledOnce);
-  });
+  // test('dispatches click from tap event', () => {
+  //   const spy = addSpyOn('click');
+  //   MockInteractions.tap(element);
+  //   assert.isTrue(spy.calledOnce);
+  // });
 
   for (const key of [Key.ENTER, Key.SPACE]) {
     test(`dispatches click event on key '${key}'`, () => {
@@ -164,7 +172,8 @@ suite('gr-button tests', () => {
     for (const eventName of ['tap', 'click']) {
       test('stops ' + eventName + ' event', () => {
         const spy = addSpyOn(eventName);
-        MockInteractions.tap(element);
+        element.click();
+        // MockInteractions.tap(element);
         assert.isFalse(spy.called);
       });
     }
@@ -183,15 +192,19 @@ suite('gr-button tests', () => {
     let reportStub: sinon.SinonStub;
     setup(() => {
       reportStub = sinon.stub(element.reporting, 'reportInteraction');
-      reportStub.reset();
+    });
+
+    teardown(() => {
+      reportStub.restore();
     });
 
     test('report event after click', () => {
-      MockInteractions.click(element);
+      // MockInteractions.click(element);
+      element.click();
       assert.isTrue(reportStub.calledOnce);
       assert.equal(reportStub.lastCall.args[0], 'button-click');
       assert.deepEqual(reportStub.lastCall.args[1], {
-        path: 'html.lightTheme>body>div>gr-button',
+        path: 'html>body>div>gr-button',
       });
     });
 
@@ -201,11 +214,12 @@ suite('gr-button tests', () => {
           <gr-button class="testBtn"></gr-button>
         </div>
       `);
-      MockInteractions.click(queryAndAssert(nestedElement, 'gr-button'));
+      // MockInteractions.click(queryAndAssert(nestedElement, 'gr-button'));
+      queryAndAssert<GrButton>(nestedElement, 'gr-button').click();
       assert.isTrue(reportStub.calledOnce);
       assert.equal(reportStub.lastCall.args[0], 'button-click');
       assert.deepEqual(reportStub.lastCall.args[1], {
-        path: 'html.lightTheme>body>div>div#test>gr-button.testBtn',
+        path: 'html>body>div>div#test>gr-button.testBtn',
       });
     });
   });

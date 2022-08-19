@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0518292f_b5a5a927",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-19T15:24:20Z",
+      "side": 1,
+      "message": "Maybe say \"does not require Change-Ids in commit messages of new changes.\" or \"in commit messages of uploaded commits.\"?",
+      "range": {
+        "startLine": 15,
+        "startChar": 32,
+        "endLine": 15,
+        "endChar": 66
+      },
+      "revId": "67eb23e8bca2d9e6927705d55863b4351e4d2b0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4c944af_ac0023ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-19T15:24:20Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem to be an accurate statement as-is. There are server-side scenarios where we expect Change-Id generation, such as creating a new change as an edit.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 64
+      },
+      "revId": "67eb23e8bca2d9e6927705d55863b4351e4d2b0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eff4c65e_f0d7bd93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-19T15:24:20Z",
+      "side": 1,
+      "message": "s/Gerrit\u0027s/change\u0027s/\n\nMaybe add \"in the commit message\" to the end of this line?",
+      "range": {
+        "startLine": 21,
+        "startChar": 27,
+        "endLine": 21,
+        "endChar": 35
+      },
+      "revId": "67eb23e8bca2d9e6927705d55863b4351e4d2b0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "840f71ed_c920cec5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-19T15:24:20Z",
+      "side": 1,
+      "message": "Probably makes sense to re-add the tests removed in Change I971bc62ba too?",
+      "revId": "67eb23e8bca2d9e6927705d55863b4351e4d2b0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb2a426a_1581166f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-19T15:24:20Z",
+      "side": 1,
+      "message": "I think you need to restore the .warning class too?",
+      "revId": "67eb23e8bca2d9e6927705d55863b4351e4d2b0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

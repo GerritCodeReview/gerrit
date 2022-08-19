@@ -52,6 +52,24 @@
       "parentUuid": "102f7c24_b1904474",
       "revId": "2221bb8e087b9f0963c97ae9d2b9221cf49c98db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2faf9e6_6b45fd7d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-19T09:25:59Z",
+      "side": 1,
+      "message": "@Ben I believe that we should drop this feature in Gerrit v3.7: it has been deprecated for too long without being removed.\n\nWith regards to old changes, if they are closed they won\u0027t need to be edited anymore and therefore not having the Change-Id display won\u0027t hurt.\n\nFor open changes, we should make a schema change where we add the missing Change-Id as a new patch-set, so that we can drop the front-end code.\n\nAny other suggested way to remove it on master?",
+      "parentUuid": "33e72f83_b207d016",
+      "revId": "2221bb8e087b9f0963c97ae9d2b9221cf49c98db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

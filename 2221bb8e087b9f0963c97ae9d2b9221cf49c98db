@@ -34,6 +34,24 @@
       "parentUuid": "45d8a6c0_31bfb6e1",
       "revId": "2221bb8e087b9f0963c97ae9d2b9221cf49c98db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33e72f83_b207d016",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-19T09:19:15Z",
+      "side": 1,
+      "message": "\u003e \u003e Even if we stop supporting server-side generated Change-Ids, then do we still need to show them for browsing historical changes?\n\u003e \n\u003e One workflow where I end up needing to access the server-side generated Change-Ids is to add the missing Change-Id to a commit message that is missing one, in order to upload a new patchset for it. If there\u0027s a button in the UI to edit the commit message to add the Change-Id line, however, then I wouldn\u0027t need the ability to do it manually.\n\nTrue, that would be cool!",
+      "parentUuid": "102f7c24_b1904474",
+      "revId": "2221bb8e087b9f0963c97ae9d2b9221cf49c98db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

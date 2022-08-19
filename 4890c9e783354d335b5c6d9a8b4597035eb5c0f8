@@ -122,6 +122,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "6b9d7255_76e53eb4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-19T11:06:12Z",
+      "side": 1,
+      "message": "Sure. I don\u0027t care that much about the stable branches. I just want ensure that this is not going into master as is. :-)",
+      "parentUuid": "152532da_bf55fb9b",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 6
+      },
+      "revId": "4890c9e783354d335b5c6d9a8b4597035eb5c0f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "7b5a2af4_fcefdb1b",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -222,6 +246,29 @@
       "side": 1,
       "message": "I still feet that using a server config variable is the most natural way to turn a feature off for a Gerrit instance, as suggested in my first comment.\n\nCan you explain why you don\u0027t want to do that and prefer the current proposal?",
       "parentUuid": "fe4fc25f_c688e684",
+      "revId": "4890c9e783354d335b5c6d9a8b4597035eb5c0f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08679b6e_d54c5206",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-19T11:06:12Z",
+      "side": 1,
+      "message": "Are you sure that `inline-block` works fine for all these elements?",
+      "range": {
+        "startLine": 189,
+        "startChar": 6,
+        "endLine": 222,
+        "endChar": 39
+      },
       "revId": "4890c9e783354d335b5c6d9a8b4597035eb5c0f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

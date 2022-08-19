@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed4ae5b7_51b206af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-19T15:43:37Z",
+      "side": 1,
+      "message": "It took me a bit to find something in the NGINX docs mentioning this. I finally found it in the `proxy_set_header` doc [1] where it says:\n\n```\nIf caching is enabled, the header fields “If-Modified-Since”, “If-Unmodified-Since”,\n“If-None-Match”, “If-Match”, “Range”, and “If-Range” from the original request\nare not passed to the proxied server.\n```\n\nFor cases where caching is not enabled, you can see in [2] and [3] (the default is `proxy_pass_request_headers\u003dtrue`) that these headers are sent unmodified. From [2]:\n\n```\nBy default, NGINX redefines two header fields in proxied requests, “Host” and\n“Connection”, and eliminates the header fields whose values are empty strings.\n```\n\nOur example NGINX config isn\u0027t a reverse proxy with caching [4], so this doesn\u0027t seem to be correct to add there. If you think admins are likely to deploy NGINX with caching, maybe create a new example for that?\n\n[1] https://nginx.org/en/docs/http/ngx_http_proxy_module.html?\u0026_ga\u003d2.156469560.224347596.1660922779-1855128647.1660922779#proxy_set_header\n[2] https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/\n[3] https://nginx.org/en/docs/http/ngx_http_proxy_module.html?\u0026_ga\u003d2.156469560.224347596.1660922779-1855128647.1660922779#proxy_pass_request_headers\n[4] https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 54
+      },
+      "revId": "2ec737df4d3d843b2d11d171e5552087c0c49f4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

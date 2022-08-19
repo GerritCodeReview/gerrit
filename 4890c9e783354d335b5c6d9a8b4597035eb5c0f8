@@ -140,6 +140,24 @@
       "parentUuid": "84b2bc43_37a3ca02",
       "revId": "4890c9e783354d335b5c6d9a8b4597035eb5c0f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe4fc25f_c688e684",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-19T07:44:01Z",
+      "side": 1,
+      "message": "\u003e I am afraid that there enough avid users of that feature. Just removing it is probably not an option. See also\n\u003e \n\u003e https://groups.google.com/g/repo-discuss/c/3ChEeECx7Ls/m/FV2emwdjAAAJ\n\nI agree, we must keep it for the benefit of the people using it. Anyway, we should allow the majority that doesn\u0027t use the feature to avoid maintaining it :-)\n\nWe should allow to relief the burden to keep a centralised DB of millions of records if someone do not use the feature at all. This change is a simple way to at least to hide the user-experience associated with it :-)",
+      "parentUuid": "5890b1b6_f74db6f5",
+      "revId": "4890c9e783354d335b5c6d9a8b4597035eb5c0f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

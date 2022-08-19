@@ -188,10 +188,11 @@ export class GrAccountLabel extends LitElement {
     ];
   }
 
-  override async firstUpdated() {
-    assertIsDefined(this.account, 'account');
-    this.account = await this.accountsModel.fillDetails(this.account);
-  }
+  // override async updated() {
+  //   assertIsDefined(this.account, 'account');
+  //   this.account = await this.accountsModel.fillDetails(this.account);
+  //   console.log("first updated for ", this.account);
+  // }
 
   override render() {
     const {account, change, highlightAttention, forceAttention, _config} = this;

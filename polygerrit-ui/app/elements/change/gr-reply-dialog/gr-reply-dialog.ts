@@ -841,6 +841,7 @@ export class GrReplyDialog extends LitElement {
   }
 
   private renderCCList() {
+    console.log("rendering ccs list");
     return html`
       <div class="peopleList">
         <div class="peopleListLabel">CC</div>

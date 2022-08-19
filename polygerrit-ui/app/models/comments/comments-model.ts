@@ -42,6 +42,7 @@ import {ReportingService} from '../../services/gr-reporting/gr-reporting';
 import {Model} from '../model';
 import {Deduping} from '../../api/reporting';
 import {extractMentionedUsers} from '../../utils/account-util';
+import { getAppContext } from '../../services/app-context';
 
 export interface CommentState {
   /** undefined means 'still loading' */
@@ -258,13 +259,13 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
     commentState => commentState.discardedDrafts
   );
 
-  public readonly mentionedUsersInDrafts$ = select(this.drafts$, drafts => {
+  public readonly mentionedUsersInDrafts$ = select(this.drafts$, async drafts => {
     const users: AccountInfo[] = [];
     const comments = Object.values(drafts ?? {}).flat();
     for (const comment of comments) {
       users.push(...extractMentionedUsers(comment.message));
     }
-    return users.filter(unique);
+    return await Promise.all(users.map(async () => await getAppContext().accountsModel.fillDetails).filter(unique));
   });
 
   public readonly mentionedUsersInUnresolvedDrafts$ = select(
@@ -277,7 +278,7 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
       for (const comment of comments) {
         users.push(...extractMentionedUsers(comment.message));
       }
-      return users.filter(unique);
+      return users.map(async () => await getAppContext().accountsModel.fillDetails).filter(unique);
     }
   );
 

@@ -16,6 +16,24 @@
       "message": "What is the motivation for the upgrade?",
       "revId": "84c1007a95a78046f8410b7ec77fe4d0f4596107",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89e5c8bb_f0517191",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-19T12:07:00Z",
+      "side": 1,
+      "message": "+1. I am fine either way with this small bump but probably will not bring any benefits and only risk. I see this is a stack of changes to upgrade incrementally to 18 (current) while 16 is the LTS.",
+      "parentUuid": "e39bfc14_109b9e8f",
+      "revId": "84c1007a95a78046f8410b7ec77fe4d0f4596107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

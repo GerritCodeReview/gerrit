@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e39bfc14_109b9e8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-19T10:43:30Z",
+      "side": 1,
+      "message": "What is the motivation for the upgrade?",
+      "revId": "84c1007a95a78046f8410b7ec77fe4d0f4596107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

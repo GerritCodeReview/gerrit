@@ -33,6 +33,24 @@
       "message": "We were previously stuck on 16 because karma was broken \u003e16. Has this been resolved?\n\nAlso, our CI is still on 16 because it\u0027s using `sudo apt install nodejs` or equivalent, right? In that case I think we should stay on 16 to match the CI.",
       "revId": "cc607ce0e9dab045ff9b5247f0fed97a6cabcd37",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2199b42b_1e8a8f1f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-19T11:24:20Z",
+      "side": 1,
+      "message": "My first question is resolved. I see https://gerrit-review.googlesource.com/c/gerrit/+/338378 and https://github.com/karma-runner/karma/issues/3730\n\nSecond question stands",
+      "parentUuid": "ee341086_bfdedfe4",
+      "revId": "cc607ce0e9dab045ff9b5247f0fed97a6cabcd37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -70,6 +70,24 @@
       "parentUuid": "33e72f83_b207d016",
       "revId": "2221bb8e087b9f0963c97ae9d2b9221cf49c98db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b100fb4d_d7e641ec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-19T10:54:58Z",
+      "side": 1,
+      "message": "Sounds like a plan. :-) Are you following up on it or is this just theoretical approach for someone who wanted to remove the feature?\n\nmaster has Lit. The component looks very different. You can file a bug against me for fixing the issue in master.",
+      "parentUuid": "e2faf9e6_6b45fd7d",
+      "revId": "2221bb8e087b9f0963c97ae9d2b9221cf49c98db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

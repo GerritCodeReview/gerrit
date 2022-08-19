@@ -25,11 +25,14 @@ suite('gr-limited-text tests', () => {
     element.tooltip = 'tip';
     await element.updateComplete;
 
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <gr-tooltip-content has-tooltip="" title="abc 123 (tip)">
-        abc …
-      </gr-tooltip-content>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <gr-tooltip-content has-tooltip="" title="abc 123 (tip)">
+          abc …
+        </gr-tooltip-content>
+      `
+    );
   });
 
   test('tooltip without title input', async () => {

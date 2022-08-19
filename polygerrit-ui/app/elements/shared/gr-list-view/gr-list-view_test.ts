@@ -22,38 +22,41 @@ suite('gr-list-view tests', () => {
   });
 
   test('render', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <div id="topContainer">
-        <div class="filterContainer">
-          <label> Filter: </label>
-          <iron-input>
-            <input id="filter" type="text" />
-          </iron-input>
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div id="topContainer">
+          <div class="filterContainer">
+            <label> Filter: </label>
+            <iron-input>
+              <input id="filter" type="text" />
+            </iron-input>
+          </div>
+          <div id="createNewContainer">
+            <gr-button
+              aria-disabled="false"
+              id="createNew"
+              link=""
+              primary=""
+              role="button"
+              tabindex="0"
+            >
+              Create New
+            </gr-button>
+          </div>
         </div>
-        <div id="createNewContainer">
-          <gr-button
-            aria-disabled="false"
-            id="createNew"
-            link=""
-            primary=""
-            role="button"
-            tabindex="0"
-          >
-            Create New
-          </gr-button>
-        </div>
-      </div>
-      <slot> </slot>
-      <nav>
-        Page 1
-        <a hidden="" href="" id="prevArrow">
-          <gr-icon icon="chevron_left"></gr-icon>
-        </a>
-        <a hidden="" href=",25" id="nextArrow">
-          <gr-icon icon="chevron_right"></gr-icon>
-        </a>
-      </nav>
-    `);
+        <slot> </slot>
+        <nav>
+          Page 1
+          <a hidden="" href="" id="prevArrow">
+            <gr-icon icon="chevron_left"></gr-icon>
+          </a>
+          <a hidden="" href=",25" id="nextArrow">
+            <gr-icon icon="chevron_right"></gr-icon>
+          </a>
+        </nav>
+      `
+    );
   });
 
   test('computeNavLink', () => {

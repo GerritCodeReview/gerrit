@@ -35,21 +35,24 @@ suite('gr-group-audit-log tests', () => {
   });
 
   test('render', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <table class="genericList" id="list">
-        <tbody>
-          <tr class="headerRow">
-            <th class="date topHeader">Date</th>
-            <th class="topHeader type">Type</th>
-            <th class="member topHeader">Member</th>
-            <th class="by-user topHeader">By User</th>
-          </tr>
-          <tr class="loading loadingMsg" id="loading">
-            <td>Loading...</td>
-          </tr>
-        </tbody>
-      </table>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <table class="genericList" id="list">
+          <tbody>
+            <tr class="headerRow">
+              <th class="date topHeader">Date</th>
+              <th class="topHeader type">Type</th>
+              <th class="member topHeader">Member</th>
+              <th class="by-user topHeader">By User</th>
+            </tr>
+            <tr class="loading loadingMsg" id="loading">
+              <td>Loading...</td>
+            </tr>
+          </tbody>
+        </table>
+      `
+    );
   });
 
   suite('members', () => {

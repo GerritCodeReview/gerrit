@@ -23,7 +23,7 @@ suite('gr-overlay tests', () => {
 
   test('render', async () => {
     await element.open();
-    expect(element).shadowDom.to.equal(/* HTML */ ' <slot></slot> ');
+    assert.shadowDom.equal(element, /* HTML */ ' <slot></slot> ');
   });
 
   test('popstate listener is attached on open and removed on close', () => {

@@ -63,8 +63,9 @@ suite('gr-change-list section', () => {
     // TODO: Check table elements. The shadowDom helper does not understand
     // tables interacting with display: contents, even wrapping the element in a
     // table, does not help.
-    expect(element).shadowDom.to
-      .equal(/* prettier-ignore */ /* HTML */ `
+    assert.shadowDom.equal(
+      element,
+      /* prettier-ignore */ /* HTML */ `
       #
               SubjectStatusOwnerReviewersCommentsRepoBranchUpdatedSize Status
       <gr-change-list-item
@@ -79,7 +80,8 @@ suite('gr-change-list section', () => {
         tabindex="0"
       >
       </gr-change-list-item>
-    `);
+    `
+    );
   });
 
   test('selection checkbox is only shown if experiment is enabled', async () => {

@@ -31,9 +31,16 @@ suite('gr-selection-action-box', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <gr-tooltip invisible id="tooltip" text="Press c to comment"></gr-tooltip>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <gr-tooltip
+          invisible
+          id="tooltip"
+          text="Press c to comment"
+        ></gr-tooltip>
+      `
+    );
   });
 
   test('ignores regular keys', () => {
@@ -103,9 +110,12 @@ suite('gr-selection-action-box', () => {
     test('renders visible', async () => {
       await element.placeAbove(target);
       await element.updateComplete;
-      expect(element).shadowDom.to.equal(/* HTML */ `
-        <gr-tooltip id="tooltip" text="Press c to comment"></gr-tooltip>
-      `);
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-tooltip id="tooltip" text="Press c to comment"></gr-tooltip>
+        `
+      );
     });
 
     test('placeAbove for Element argument', async () => {

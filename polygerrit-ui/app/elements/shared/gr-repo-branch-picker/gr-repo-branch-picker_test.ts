@@ -20,24 +20,27 @@ suite('gr-repo-branch-picker tests', () => {
   });
 
   test('render', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <div>
-        <gr-labeled-autocomplete
-          id="repoInput"
-          label="Repository"
-          placeholder="Select repo"
-        >
-        </gr-labeled-autocomplete>
-        <gr-icon icon="chevron_right"></gr-icon>
-        <gr-labeled-autocomplete
-          disabled=""
-          id="branchInput"
-          label="Branch"
-          placeholder="Select branch"
-        >
-        </gr-labeled-autocomplete>
-      </div>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div>
+          <gr-labeled-autocomplete
+            id="repoInput"
+            label="Repository"
+            placeholder="Select repo"
+          >
+          </gr-labeled-autocomplete>
+          <gr-icon icon="chevron_right"></gr-icon>
+          <gr-labeled-autocomplete
+            disabled=""
+            id="branchInput"
+            label="Branch"
+            placeholder="Select branch"
+          >
+          </gr-labeled-autocomplete>
+        </div>
+      `
+    );
   });
 
   suite('getRepoSuggestions', () => {

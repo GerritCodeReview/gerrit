@@ -32,26 +32,29 @@ suite('gr-agreements-list tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <div class="gr-form-styles">
-        <table id="agreements">
-          <thead>
-            <tr>
-              <th class="nameColumn">Name</th>
-              <th class="descriptionColumn">Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="nameColumn">
-                <a href="/some url" rel="external"> Agreements 1 </a>
-              </td>
-              <td class="descriptionColumn">Agreements 1 description</td>
-            </tr>
-          </tbody>
-        </table>
-        <a href="/settings/new-agreement"> New Contributor Agreement </a>
-      </div>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="gr-form-styles">
+          <table id="agreements">
+            <thead>
+              <tr>
+                <th class="nameColumn">Name</th>
+                <th class="descriptionColumn">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="nameColumn">
+                  <a href="/some url" rel="external"> Agreements 1 </a>
+                </td>
+                <td class="descriptionColumn">Agreements 1 description</td>
+              </tr>
+            </tbody>
+          </table>
+          <a href="/settings/new-agreement"> New Contributor Agreement </a>
+        </div>
+      `
+    );
   });
 });

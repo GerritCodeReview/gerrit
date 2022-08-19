@@ -79,44 +79,47 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
     await selectChange(change1);
     await element.updateComplete;
 
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <gr-button
-        aria-disabled="false"
-        flatten=""
-        id="abandon"
-        role="button"
-        tabindex="0"
-      >
-        Abandon
-      </gr-button>
-      <gr-overlay
-        aria-hidden="true"
-        id="actionOverlay"
-        style="outline: none; display: none;"
-        tabindex="-1"
-        with-backdrop=""
-      >
-        <gr-dialog role="dialog">
-          <div slot="header">1 changes to abandon</div>
-          <div slot="main">
-            <table>
-              <thead>
-                <tr>
-                  <th>Subject</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Change: Test subject</td>
-                  <td id="status">Status: NOT STARTED</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </gr-dialog>
-      </gr-overlay>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <gr-button
+          aria-disabled="false"
+          flatten=""
+          id="abandon"
+          role="button"
+          tabindex="0"
+        >
+          Abandon
+        </gr-button>
+        <gr-overlay
+          aria-hidden="true"
+          id="actionOverlay"
+          style="outline: none; display: none;"
+          tabindex="-1"
+          with-backdrop=""
+        >
+          <gr-dialog role="dialog">
+            <div slot="header">1 changes to abandon</div>
+            <div slot="main">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Subject</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Change: Test subject</td>
+                    <td id="status">Status: NOT STARTED</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </gr-dialog>
+        </gr-overlay>
+      `
+    );
   });
 
   test('button state updates as changes are updated', async () => {

@@ -46,64 +46,70 @@ suite('gr-identities tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `<div class="gr-form-styles">
-        <fieldset class="space">
-          <table>
-            <thead>
-              <tr>
-                <th class="statusHeader">Status</th>
-                <th class="emailAddressHeader">Email Address</th>
-                <th class="identityHeader">Identity</th>
-                <th class="deleteHeader"></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="statusColumn">Untrusted</td>
-                <td class="emailAddressColumn">gerrit@example.com</td>
-                <td class="identityColumn">gerrit:gerrit</td>
-                <td class="deleteColumn">
-                  <gr-button
-                    aria-disabled="false"
-                    class="deleteButton"
-                    data-index="0"
-                    role="button"
-                    tabindex="0"
-                  >
-                    Delete
-                  </gr-button>
-                </td>
-              </tr>
-              <tr>
-                <td class="statusColumn"></td>
-                <td class="emailAddressColumn">gerrit2@example.com</td>
-                <td class="identityColumn"></td>
-                <td class="deleteColumn">
-                  <gr-button
-                    aria-disabled="false"
-                    class="deleteButton show"
-                    data-index="1"
-                    role="button"
-                    tabindex="0"
-                  >
-                    Delete
-                  </gr-button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </fieldset>
-      </div>
-      <gr-overlay
-        aria-hidden="true"
-        id="overlay"
-        style="outline: none; display: none;"
-        tabindex="-1"
-        with-backdrop=""
-      >
-        <gr-confirm-delete-item-dialog class="confirmDialog" itemtypename="ID">
-        </gr-confirm-delete-item-dialog
-      ></gr-overlay>`);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `<div class="gr-form-styles">
+          <fieldset class="space">
+            <table>
+              <thead>
+                <tr>
+                  <th class="statusHeader">Status</th>
+                  <th class="emailAddressHeader">Email Address</th>
+                  <th class="identityHeader">Identity</th>
+                  <th class="deleteHeader"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="statusColumn">Untrusted</td>
+                  <td class="emailAddressColumn">gerrit@example.com</td>
+                  <td class="identityColumn">gerrit:gerrit</td>
+                  <td class="deleteColumn">
+                    <gr-button
+                      aria-disabled="false"
+                      class="deleteButton"
+                      data-index="0"
+                      role="button"
+                      tabindex="0"
+                    >
+                      Delete
+                    </gr-button>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="statusColumn"></td>
+                  <td class="emailAddressColumn">gerrit2@example.com</td>
+                  <td class="identityColumn"></td>
+                  <td class="deleteColumn">
+                    <gr-button
+                      aria-disabled="false"
+                      class="deleteButton show"
+                      data-index="1"
+                      role="button"
+                      tabindex="0"
+                    >
+                      Delete
+                    </gr-button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </fieldset>
+        </div>
+        <gr-overlay
+          aria-hidden="true"
+          id="overlay"
+          style="outline: none; display: none;"
+          tabindex="-1"
+          with-backdrop=""
+        >
+          <gr-confirm-delete-item-dialog
+            class="confirmDialog"
+            itemtypename="ID"
+          >
+          </gr-confirm-delete-item-dialog
+        ></gr-overlay>`
+    );
   });
 
   test('renders', () => {

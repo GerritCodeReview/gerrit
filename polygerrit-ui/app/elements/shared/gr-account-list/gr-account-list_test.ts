@@ -104,7 +104,8 @@ suite('gr-account-list tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(
+    assert.shadowDom.equal(
+      element,
       /* HTML */
       `<div class="list">
           <gr-account-chip removable="" tabindex="-1"> </gr-account-chip>

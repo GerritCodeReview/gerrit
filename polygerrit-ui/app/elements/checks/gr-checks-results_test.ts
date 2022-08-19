@@ -39,24 +39,29 @@ suite('gr-result-row test', () => {
     element.latestPatchNum = 1 as PatchSetNumber;
     await element.updateComplete;
     labelDiv = queryAndAssert(element, '.label');
-    expect(labelDiv).dom.to.equal(/* HTML */ `
-      <div class="approved label">
-        <span> test-label +1 </span>
-        <paper-tooltip
-          fittovisiblebounds=""
-          offset="5"
-          role="tooltip"
-          tabindex="-1"
-        >
-          The check result has (probably) influenced this label vote.
-        </paper-tooltip>
-      </div>
-    `);
+    assert.dom.equal(
+      labelDiv,
+      /* HTML */ `
+        <div class="approved label">
+          <span> test-label +1 </span>
+          <paper-tooltip
+            fittovisiblebounds=""
+            offset="5"
+            role="tooltip"
+            tabindex="-1"
+          >
+            The check result has (probably) influenced this label vote.
+          </paper-tooltip>
+        </div>
+      `
+    );
   });
 
   test('renders', async () => {
     await element.updateComplete;
-    expect(element).shadowDom.to.equal(/* HTML */ `
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
       <div class="flex">
         <gr-hovercard-run> </gr-hovercard-run>
         <div class="name" role="button" tabindex="0">
@@ -118,7 +123,8 @@ suite('gr-result-row test', () => {
           <gr-icon icon="expand_more"></gr-icon>
         </div>
       </div>
-    `);
+    `
+    );
   });
 });
 
@@ -135,7 +141,8 @@ suite('gr-checks-results test', () => {
 
   test('renders', async () => {
     await element.updateComplete;
-    expect(element).shadowDom.to.equal(
+    assert.shadowDom.equal(
+      element,
       /* HTML */ `
         <div class="header">
           <div class="headerTopRow">

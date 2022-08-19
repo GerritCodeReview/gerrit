@@ -54,7 +54,8 @@ suite('gr-change-list-column-requirement tests', () => {
       >
       </gr-change-list-column-requirement>`
     );
-    expect(element).shadowDom.to.equal(
+    assert.shadowDom.equal(
+      element,
       /* HTML */
       ` <div class="container" title="Satisfied">
         <gr-icon class="check_circle" filled icon="check_circle"></gr-icon>
@@ -97,14 +98,16 @@ suite('gr-change-list-column-requirement tests', () => {
       >
       </gr-change-list-column-requirement>`
     );
-    expect(element).shadowDom.to.equal(
+    assert.shadowDom.equal(
+      element,
       /* HTML */
       ` <div class="container">
         <gr-vote-chip tooltip-with-who-voted=""></gr-vote-chip>
       </div>`
     );
     const voteChip = queryAndAssert(element, 'gr-vote-chip');
-    expect(voteChip).shadowDom.to.equal(
+    assert.shadowDom.equal(
+      voteChip,
       /* HTML */
       ` <gr-tooltip-content
         class="container"
@@ -144,14 +147,16 @@ suite('gr-change-list-column-requirement tests', () => {
       >
       </gr-change-list-column-requirement>`
     );
-    expect(element).shadowDom.to.equal(
+    assert.shadowDom.equal(
+      element,
       /* HTML */
       ` <div class="container">
         <gr-vote-chip tooltip-with-who-voted=""></gr-vote-chip>
       </div>`
     );
     const voteChip = queryAndAssert(element, 'gr-vote-chip');
-    expect(voteChip).shadowDom.to.equal(
+    assert.shadowDom.equal(
+      voteChip,
       /* HTML */
       ` <gr-tooltip-content
         class="container"

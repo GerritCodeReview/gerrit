@@ -18,33 +18,36 @@ suite('gr-user-header tests', () => {
   });
 
   test('render', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <gr-avatar aria-label="Account avatar" hidden=""> </gr-avatar>
-      <div class="info">
-        <h1 class="heading-1"></h1>
-        <hr />
-        <div class="hide status">
-          <span> Status: </span>
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <gr-avatar aria-label="Account avatar" hidden=""> </gr-avatar>
+        <div class="info">
+          <h1 class="heading-1"></h1>
+          <hr />
+          <div class="hide status">
+            <span> Status: </span>
+          </div>
+          <div>
+            <span> Email: </span>
+            <a href="mailto:"> </a>
+          </div>
+          <div>
+            <span> Joined: </span>
+            <gr-date-formatter datestr=""> </gr-date-formatter>
+          </div>
+          <gr-endpoint-decorator name="user-header">
+            <gr-endpoint-param name="accountDetails"> </gr-endpoint-param>
+            <gr-endpoint-param name="loggedIn"> </gr-endpoint-param>
+          </gr-endpoint-decorator>
         </div>
-        <div>
-          <span> Email: </span>
-          <a href="mailto:"> </a>
+        <div class="info">
+          <div class="dashboardLink hide">
+            <a href=""> View dashboard </a>
+          </div>
         </div>
-        <div>
-          <span> Joined: </span>
-          <gr-date-formatter datestr=""> </gr-date-formatter>
-        </div>
-        <gr-endpoint-decorator name="user-header">
-          <gr-endpoint-param name="accountDetails"> </gr-endpoint-param>
-          <gr-endpoint-param name="loggedIn"> </gr-endpoint-param>
-        </gr-endpoint-decorator>
-      </div>
-      <div class="info">
-        <div class="dashboardLink hide">
-          <a href=""> View dashboard </a>
-        </div>
-      </div>
-    `);
+      `
+    );
   });
 
   test('loads and clears account info', async () => {

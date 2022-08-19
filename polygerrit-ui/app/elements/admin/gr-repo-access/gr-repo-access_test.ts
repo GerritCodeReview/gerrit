@@ -127,59 +127,62 @@ suite('gr-repo-access tests', () => {
   });
 
   test('render', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <div class="main">
-        <div id="loading">Loading...</div>
-        <div id="loadedContent">
-          <h3 class="heading-3" id="inheritsFrom">
-            <span class="rightsText"> Rights Inherit From </span>
-            <a href="" id="inheritFromName" rel="noopener"> </a>
-            <gr-autocomplete id="editInheritFromInput"> </gr-autocomplete>
-          </h3>
-          <div class="weblinks">History:</div>
-          <div class="referenceContainer">
-            <gr-button
-              aria-disabled="false"
-              id="addReferenceBtn"
-              role="button"
-              tabindex="0"
-            >
-              Add Reference
-            </gr-button>
-          </div>
-          <div>
-            <gr-button
-              aria-disabled="false"
-              id="editBtn"
-              role="button"
-              tabindex="0"
-            >
-              Edit
-            </gr-button>
-            <gr-button
-              aria-disabled="false"
-              class="invisible"
-              id="saveBtn"
-              primary=""
-              role="button"
-              tabindex="0"
-            >
-              Save
-            </gr-button>
-            <gr-button
-              aria-disabled="false"
-              class="invisible"
-              id="saveReviewBtn"
-              primary=""
-              role="button"
-              tabindex="0"
-            >
-              Save for review
-            </gr-button>
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="main">
+          <div id="loading">Loading...</div>
+          <div id="loadedContent">
+            <h3 class="heading-3" id="inheritsFrom">
+              <span class="rightsText"> Rights Inherit From </span>
+              <a href="" id="inheritFromName" rel="noopener"> </a>
+              <gr-autocomplete id="editInheritFromInput"> </gr-autocomplete>
+            </h3>
+            <div class="weblinks">History:</div>
+            <div class="referenceContainer">
+              <gr-button
+                aria-disabled="false"
+                id="addReferenceBtn"
+                role="button"
+                tabindex="0"
+              >
+                Add Reference
+              </gr-button>
+            </div>
+            <div>
+              <gr-button
+                aria-disabled="false"
+                id="editBtn"
+                role="button"
+                tabindex="0"
+              >
+                Edit
+              </gr-button>
+              <gr-button
+                aria-disabled="false"
+                class="invisible"
+                id="saveBtn"
+                primary=""
+                role="button"
+                tabindex="0"
+              >
+                Save
+              </gr-button>
+              <gr-button
+                aria-disabled="false"
+                class="invisible"
+                id="saveReviewBtn"
+                primary=""
+                role="button"
+                tabindex="0"
+              >
+                Save for review
+              </gr-button>
+            </div>
           </div>
         </div>
-      </div>
-    `);
+      `
+    );
   });
 
   test('_repoChanged called when repo name changes', async () => {

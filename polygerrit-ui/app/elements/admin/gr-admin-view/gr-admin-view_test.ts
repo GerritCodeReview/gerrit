@@ -511,39 +511,42 @@ suite('gr-admin-view tests', () => {
     });
 
     test('render', () => {
-      expect(element).shadowDom.to.equal(/* HTML */ `
-        <gr-page-nav class="navStyles">
-          <ul class="sectionContent">
-            <li class="sectionTitle">
-              <a
-                class="title"
-                href="//localhost:9876/admin/repos"
-                rel="noopener"
-              >
-                Repositories
-              </a>
-            </li>
-            <li class="sectionTitle">
-              <a
-                class="title"
-                href="//localhost:9876/admin/groups"
-                rel="noopener"
-              >
-                Groups
-              </a>
-            </li>
-            <li class="sectionTitle">
-              <a
-                class="title"
-                href="//localhost:9876/admin/plugins"
-                rel="noopener"
-              >
-                Plugins
-              </a>
-            </li>
-          </ul>
-        </gr-page-nav>
-      `);
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-page-nav class="navStyles">
+            <ul class="sectionContent">
+              <li class="sectionTitle">
+                <a
+                  class="title"
+                  href="//localhost:9876/admin/repos"
+                  rel="noopener"
+                >
+                  Repositories
+                </a>
+              </li>
+              <li class="sectionTitle">
+                <a
+                  class="title"
+                  href="//localhost:9876/admin/groups"
+                  rel="noopener"
+                >
+                  Groups
+                </a>
+              </li>
+              <li class="sectionTitle">
+                <a
+                  class="title"
+                  href="//localhost:9876/admin/plugins"
+                  rel="noopener"
+                >
+                  Plugins
+                </a>
+              </li>
+            </ul>
+          </gr-page-nav>
+        `
+      );
     });
 
     suite('repos', () => {

@@ -75,19 +75,22 @@ suite('gr-linked-text tests', () => {
     element.content =
       'https://bugs.chromium.org/p/gerrit/issues/detail?id=3650';
     await element.updateComplete;
-    expect(element).lightDom.to.equal(/* HTML */ `
-      <div id="output"></div>
-      <span id="output" slot="insert">
-        <a
-          href="https://bugs.chromium.org/p/gerrit/issues/detail?id=3650"
-          rel="noopener"
-          style="color: var(--link-color)"
-          target="_blank"
-        >
-          https://bugs.chromium.org/p/gerrit/issues/detail?id=3650
-        </a>
-      </span>
-    `);
+    assert.lightDom.equal(
+      element,
+      /* HTML */ `
+        <div id="output"></div>
+        <span id="output" slot="insert">
+          <a
+            href="https://bugs.chromium.org/p/gerrit/issues/detail?id=3650"
+            rel="noopener"
+            style="color: var(--link-color)"
+            target="_blank"
+          >
+            https://bugs.chromium.org/p/gerrit/issues/detail?id=3650
+          </a>
+        </span>
+      `
+    );
   });
 
   test('URL pattern was parsed and linked.', async () => {

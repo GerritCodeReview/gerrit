@@ -82,14 +82,17 @@ suite('gr-formatted-text tests', () => {
     element.content = 'text `code`';
     await element.updateComplete;
 
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <p>
-        <gr-linked-text content="text " inline="" pre="">
-          <span id="output" slot="insert"> text </span>
-        </gr-linked-text>
-        <span class="inline-code"> code </span>
-      </p>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <p>
+          <gr-linked-text content="text " inline="" pre="">
+            <span id="output" slot="insert"> text </span>
+          </gr-linked-text>
+          <span class="inline-code"> code </span>
+        </p>
+      `
+    );
   });
 
   for (const text of [

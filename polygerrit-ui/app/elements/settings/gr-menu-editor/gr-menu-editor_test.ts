@@ -56,189 +56,192 @@ suite('gr-menu-editor tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <div class="gr-form-styles">
-        <h2 class="heading-2" id="Menu">Menu</h2>
-        <fieldset id="menu">
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>URL</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>first name</td>
-                <td class="urlCell">/first/url</td>
-                <td class="buttonColumn">
-                  <gr-button
-                    aria-disabled="false"
-                    class="moveUpButton"
-                    data-index="0"
-                    link=""
-                    role="button"
-                    tabindex="0"
-                  >
-                    ↑
-                  </gr-button>
-                </td>
-                <td class="buttonColumn">
-                  <gr-button
-                    aria-disabled="false"
-                    class="moveDownButton"
-                    data-index="0"
-                    link=""
-                    role="button"
-                    tabindex="0"
-                  >
-                    ↓
-                  </gr-button>
-                </td>
-                <td>
-                  <gr-button
-                    aria-disabled="false"
-                    class="remove-button"
-                    data-index="0"
-                    link=""
-                    role="button"
-                    tabindex="0"
-                  >
-                    Delete
-                  </gr-button>
-                </td>
-              </tr>
-              <tr>
-                <td>second name</td>
-                <td class="urlCell">/second/url</td>
-                <td class="buttonColumn">
-                  <gr-button
-                    aria-disabled="false"
-                    class="moveUpButton"
-                    data-index="1"
-                    link=""
-                    role="button"
-                    tabindex="0"
-                  >
-                    ↑
-                  </gr-button>
-                </td>
-                <td class="buttonColumn">
-                  <gr-button
-                    aria-disabled="false"
-                    class="moveDownButton"
-                    data-index="1"
-                    link=""
-                    role="button"
-                    tabindex="0"
-                  >
-                    ↓
-                  </gr-button>
-                </td>
-                <td>
-                  <gr-button
-                    aria-disabled="false"
-                    class="remove-button"
-                    data-index="1"
-                    link=""
-                    role="button"
-                    tabindex="0"
-                  >
-                    Delete
-                  </gr-button>
-                </td>
-              </tr>
-              <tr>
-                <td>third name</td>
-                <td class="urlCell">/third/url</td>
-                <td class="buttonColumn">
-                  <gr-button
-                    aria-disabled="false"
-                    class="moveUpButton"
-                    data-index="2"
-                    link=""
-                    role="button"
-                    tabindex="0"
-                  >
-                    ↑
-                  </gr-button>
-                </td>
-                <td class="buttonColumn">
-                  <gr-button
-                    aria-disabled="false"
-                    class="moveDownButton"
-                    data-index="2"
-                    link=""
-                    role="button"
-                    tabindex="0"
-                  >
-                    ↓
-                  </gr-button>
-                </td>
-                <td>
-                  <gr-button
-                    aria-disabled="false"
-                    class="remove-button"
-                    data-index="2"
-                    link=""
-                    role="button"
-                    tabindex="0"
-                  >
-                    Delete
-                  </gr-button>
-                </td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr>
-                <th>
-                  <iron-input>
-                    <input is="iron-input" placeholder="New Title" />
-                  </iron-input>
-                </th>
-                <th>
-                  <iron-input>
-                    <input class="newUrlInput" placeholder="New URL" />
-                  </iron-input>
-                </th>
-                <th></th>
-                <th></th>
-                <th>
-                  <gr-button
-                    aria-disabled="true"
-                    disabled=""
-                    id="add"
-                    link=""
-                    role="button"
-                    tabindex="-1"
-                  >
-                    Add
-                  </gr-button>
-                </th>
-              </tr>
-            </tfoot>
-          </table>
-          <gr-button
-            aria-disabled="true"
-            disabled=""
-            id="save"
-            role="button"
-            tabindex="-1"
-          >
-            Save changes
-          </gr-button>
-          <gr-button
-            aria-disabled="false"
-            id="reset"
-            link=""
-            role="button"
-            tabindex="0"
-          >
-            Reset
-          </gr-button>
-        </fieldset>
-      </div>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="gr-form-styles">
+          <h2 class="heading-2" id="Menu">Menu</h2>
+          <fieldset id="menu">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>URL</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>first name</td>
+                  <td class="urlCell">/first/url</td>
+                  <td class="buttonColumn">
+                    <gr-button
+                      aria-disabled="false"
+                      class="moveUpButton"
+                      data-index="0"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      ↑
+                    </gr-button>
+                  </td>
+                  <td class="buttonColumn">
+                    <gr-button
+                      aria-disabled="false"
+                      class="moveDownButton"
+                      data-index="0"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      ↓
+                    </gr-button>
+                  </td>
+                  <td>
+                    <gr-button
+                      aria-disabled="false"
+                      class="remove-button"
+                      data-index="0"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Delete
+                    </gr-button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>second name</td>
+                  <td class="urlCell">/second/url</td>
+                  <td class="buttonColumn">
+                    <gr-button
+                      aria-disabled="false"
+                      class="moveUpButton"
+                      data-index="1"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      ↑
+                    </gr-button>
+                  </td>
+                  <td class="buttonColumn">
+                    <gr-button
+                      aria-disabled="false"
+                      class="moveDownButton"
+                      data-index="1"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      ↓
+                    </gr-button>
+                  </td>
+                  <td>
+                    <gr-button
+                      aria-disabled="false"
+                      class="remove-button"
+                      data-index="1"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Delete
+                    </gr-button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>third name</td>
+                  <td class="urlCell">/third/url</td>
+                  <td class="buttonColumn">
+                    <gr-button
+                      aria-disabled="false"
+                      class="moveUpButton"
+                      data-index="2"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      ↑
+                    </gr-button>
+                  </td>
+                  <td class="buttonColumn">
+                    <gr-button
+                      aria-disabled="false"
+                      class="moveDownButton"
+                      data-index="2"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      ↓
+                    </gr-button>
+                  </td>
+                  <td>
+                    <gr-button
+                      aria-disabled="false"
+                      class="remove-button"
+                      data-index="2"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Delete
+                    </gr-button>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>
+                    <iron-input>
+                      <input is="iron-input" placeholder="New Title" />
+                    </iron-input>
+                  </th>
+                  <th>
+                    <iron-input>
+                      <input class="newUrlInput" placeholder="New URL" />
+                    </iron-input>
+                  </th>
+                  <th></th>
+                  <th></th>
+                  <th>
+                    <gr-button
+                      aria-disabled="true"
+                      disabled=""
+                      id="add"
+                      link=""
+                      role="button"
+                      tabindex="-1"
+                    >
+                      Add
+                    </gr-button>
+                  </th>
+                </tr>
+              </tfoot>
+            </table>
+            <gr-button
+              aria-disabled="true"
+              disabled=""
+              id="save"
+              role="button"
+              tabindex="-1"
+            >
+              Save changes
+            </gr-button>
+            <gr-button
+              aria-disabled="false"
+              id="reset"
+              link=""
+              role="button"
+              tabindex="0"
+            >
+              Reset
+            </gr-button>
+          </fieldset>
+        </div>
+      `
+    );
   });
 
   test('add button disabled', async () => {

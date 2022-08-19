@@ -111,23 +111,26 @@ suite('gr-change-list-reviewer-flow tests', () => {
   });
 
   test('skips dialog render when closed', async () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <gr-button
-        id="start-flow"
-        flatten=""
-        aria-disabled="false"
-        role="button"
-        tabindex="0"
-        >add reviewer/cc</gr-button
-      >
-      <gr-overlay
-        id="flow"
-        aria-hidden="true"
-        with-backdrop=""
-        tabindex="-1"
-        style="outline: none; display: none;"
-      ></gr-overlay>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <gr-button
+          id="start-flow"
+          flatten=""
+          aria-disabled="false"
+          role="button"
+          tabindex="0"
+          >add reviewer/cc</gr-button
+        >
+        <gr-overlay
+          id="flow"
+          aria-hidden="true"
+          with-backdrop=""
+          tabindex="-1"
+          style="outline: none; display: none;"
+        ></gr-overlay>
+      `
+    );
   });
 
   test('flow button enabled when changes selected', async () => {
@@ -188,80 +191,99 @@ suite('gr-change-list-reviewer-flow tests', () => {
     });
 
     test('renders dialog when opened', async () => {
-      expect(element).shadowDom.to.equal(/* HTML */ `
-        <gr-button
-          id="start-flow"
-          flatten=""
-          aria-disabled="false"
-          role="button"
-          tabindex="0"
-          >add reviewer/cc</gr-button
-        >
-        <gr-overlay
-          id="flow"
-          with-backdrop=""
-          tabindex="-1"
-          style="outline: none; display: none;"
-        >
-          <gr-dialog role="dialog">
-            <div slot="header">Add reviewer / CC</div>
-            <div slot="main">
-              <div class="grid">
-                <span>Reviewers</span>
-                <gr-account-list id="reviewer-list"></gr-account-list>
-                <gr-overlay
-                  aria-hidden="true"
-                  id="confirm-reviewer"
-                  style="outline: none; display: none;"
-                >
-                  <div class="confirmation-text">
-                    Group
-                    <span class="groupName"></span>
-                    has
-                    <span class="groupSize"></span>
-                    members.
-                    <br />
-                    Are you sure you want to add them all?
-                  </div>
-                  <div class="confirmation-buttons">
-                    <gr-button aria-disabled="false" role="button" tabindex="0">
-                      Yes
-                    </gr-button>
-                    <gr-button aria-disabled="false" role="button" tabindex="0">
-                      No
-                    </gr-button>
-                  </div>
-                </gr-overlay>
-                <span>CC</span>
-                <gr-account-list id="cc-list"></gr-account-list>
-                <gr-overlay
-                  aria-hidden="true"
-                  id="confirm-cc"
-                  style="outline: none; display: none;"
-                >
-                  <div class="confirmation-text">
-                    Group
-                    <span class="groupName"></span>
-                    has
-                    <span class="groupSize"></span>
-                    members.
-                    <br />
-                    Are you sure you want to add them all?
-                  </div>
-                  <div class="confirmation-buttons">
-                    <gr-button aria-disabled="false" role="button" tabindex="0">
-                      Yes
-                    </gr-button>
-                    <gr-button aria-disabled="false" role="button" tabindex="0">
-                      No
-                    </gr-button>
-                  </div>
-                </gr-overlay>
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-button
+            id="start-flow"
+            flatten=""
+            aria-disabled="false"
+            role="button"
+            tabindex="0"
+            >add reviewer/cc</gr-button
+          >
+          <gr-overlay
+            id="flow"
+            with-backdrop=""
+            tabindex="-1"
+            style="outline: none; display: none;"
+          >
+            <gr-dialog role="dialog">
+              <div slot="header">Add reviewer / CC</div>
+              <div slot="main">
+                <div class="grid">
+                  <span>Reviewers</span>
+                  <gr-account-list id="reviewer-list"></gr-account-list>
+                  <gr-overlay
+                    aria-hidden="true"
+                    id="confirm-reviewer"
+                    style="outline: none; display: none;"
+                  >
+                    <div class="confirmation-text">
+                      Group
+                      <span class="groupName"></span>
+                      has
+                      <span class="groupSize"></span>
+                      members.
+                      <br />
+                      Are you sure you want to add them all?
+                    </div>
+                    <div class="confirmation-buttons">
+                      <gr-button
+                        aria-disabled="false"
+                        role="button"
+                        tabindex="0"
+                      >
+                        Yes
+                      </gr-button>
+                      <gr-button
+                        aria-disabled="false"
+                        role="button"
+                        tabindex="0"
+                      >
+                        No
+                      </gr-button>
+                    </div>
+                  </gr-overlay>
+                  <span>CC</span>
+                  <gr-account-list id="cc-list"></gr-account-list>
+                  <gr-overlay
+                    aria-hidden="true"
+                    id="confirm-cc"
+                    style="outline: none; display: none;"
+                  >
+                    <div class="confirmation-text">
+                      Group
+                      <span class="groupName"></span>
+                      has
+                      <span class="groupSize"></span>
+                      members.
+                      <br />
+                      Are you sure you want to add them all?
+                    </div>
+                    <div class="confirmation-buttons">
+                      <gr-button
+                        aria-disabled="false"
+                        role="button"
+                        tabindex="0"
+                      >
+                        Yes
+                      </gr-button>
+                      <gr-button
+                        aria-disabled="false"
+                        role="button"
+                        tabindex="0"
+                      >
+                        No
+                      </gr-button>
+                    </div>
+                  </gr-overlay>
+                </div>
               </div>
-            </div>
-          </gr-dialog>
-        </gr-overlay>
-      `);
+            </gr-dialog>
+          </gr-overlay>
+        `
+      );
     });
 
     test('only lists reviewers/CCs shared by all changes', async () => {
@@ -611,7 +633,8 @@ suite('gr-change-list-reviewer-flow tests', () => {
       await element.updateComplete;
 
       // prettier and shadowDom string don't agree on the long text in divs
-      expect(element).shadowDom.to.equal(
+      assert.shadowDom.equal(
+        element,
         /* prettier-ignore */
         /* HTML */ `
           <gr-button
@@ -723,7 +746,8 @@ suite('gr-change-list-reviewer-flow tests', () => {
       await waitUntil(() => !!query(dialog, '.error'));
 
       // prettier and shadowDom string don't agree on the long text in divs
-      expect(element).shadowDom.to.equal(
+      assert.shadowDom.equal(
+        element,
         /* prettier-ignore */
         /* HTML */ `
           <gr-button

@@ -75,19 +75,22 @@ suite('gr-label-scores tests', () => {
   });
 
   test('render', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <h3 class="heading-4">Trigger Votes</h3>
-      <div class="scoresTable">
-        <gr-label-score-row name="Code-Review"> </gr-label-score-row>
-        <gr-label-score-row name="Verified"> </gr-label-score-row>
-      </div>
-      <div class="mergedMessage" hidden="">
-        Because this change has been merged, votes may not be decreased.
-      </div>
-      <div class="abandonedMessage" hidden="">
-        Because this change has been abandoned, you cannot vote.
-      </div>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <h3 class="heading-4">Trigger Votes</h3>
+        <div class="scoresTable">
+          <gr-label-score-row name="Code-Review"> </gr-label-score-row>
+          <gr-label-score-row name="Verified"> </gr-label-score-row>
+        </div>
+        <div class="mergedMessage" hidden="">
+          Because this change has been merged, votes may not be decreased.
+        </div>
+        <div class="abandonedMessage" hidden="">
+          Because this change has been abandoned, you cannot vote.
+        </div>
+      `
+    );
   });
 
   test('get and set label scores', async () => {

@@ -40,34 +40,37 @@ suite('gr-change-summary test', () => {
       createCommentThread([{...createComment(), unresolved: true}]),
     ];
     await element.updateComplete;
-    expect(element).shadowDom.to.equal(/* HTML */ `<div>
-      <table>
-        <tbody>
-          <tr>
-            <td class="key">Comments</td>
-            <td class="value">
-              <gr-summary-chip
-                category="drafts"
-                icon="edit"
-                styletype="warning"
-              >
-                3 drafts
-              </gr-summary-chip>
-              <gr-summary-chip category="unresolved" styletype="warning">
-                1 unresolved
-              </gr-summary-chip>
-              <gr-summary-chip
-                category="show all"
-                icon="mark_chat_read"
-                styletype="check"
-              >
-                1 resolved
-              </gr-summary-chip>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div> `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `<div>
+        <table>
+          <tbody>
+            <tr>
+              <td class="key">Comments</td>
+              <td class="value">
+                <gr-summary-chip
+                  category="drafts"
+                  icon="edit"
+                  styletype="warning"
+                >
+                  3 drafts
+                </gr-summary-chip>
+                <gr-summary-chip category="unresolved" styletype="warning">
+                  1 unresolved
+                </gr-summary-chip>
+                <gr-summary-chip
+                  category="show all"
+                  icon="mark_chat_read"
+                  styletype="check"
+                >
+                  1 resolved
+                </gr-summary-chip>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div> `
+    );
   });
 
   test('renders checks summary message', async () => {
@@ -76,19 +79,22 @@ suite('gr-change-summary test', () => {
     element.showChecksSummary = true;
     await element.updateComplete;
     const checksSummary = queryAndAssert(element, '.checksSummary');
-    expect(checksSummary).dom.to.equal(/* HTML */ `
-      <div class="checksSummary">
-        <gr-checks-chip> </gr-checks-chip>
-        <div class="info">
-          <div class="left">
-            <gr-icon icon="info" filled></gr-icon>
-          </div>
-          <div class="right">
-            <div class="message" title="a message">a message</div>
+    assert.dom.equal(
+      checksSummary,
+      /* HTML */ `
+        <div class="checksSummary">
+          <gr-checks-chip> </gr-checks-chip>
+          <div class="info">
+            <div class="left">
+              <gr-icon icon="info" filled></gr-icon>
+            </div>
+            <div class="right">
+              <div class="message" title="a message">a message</div>
+            </div>
           </div>
         </div>
-      </div>
-    `);
+      `
+    );
   });
 
   test('renders mentions summary', async () => {
@@ -130,17 +136,20 @@ suite('gr-change-summary test', () => {
     });
     await element.updateComplete;
     const mentionSummary = queryAndAssert(element, '.mentionSummary');
-    // Only count occurences in unresolved threads
+    // Only count occurrences in unresolved threads
     // Resolved threads are ignored hence mention chip count is 2
-    expect(mentionSummary).dom.to.equal(/* HTML */ `
-      <gr-summary-chip
-        category="mentions"
-        class="mentionSummary"
-        icon="alternate_email"
-        styletype="warning"
-      >
-        2 mentions
-      </gr-summary-chip>
-    `);
+    assert.dom.equal(
+      mentionSummary,
+      /* HTML */ `
+        <gr-summary-chip
+          category="mentions"
+          class="mentionSummary"
+          icon="alternate_email"
+          styletype="warning"
+        >
+          2 mentions
+        </gr-summary-chip>
+      `
+    );
   });
 });

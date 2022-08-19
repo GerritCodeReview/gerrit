@@ -22,7 +22,8 @@ suite('gr-textarea tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(
+    assert.shadowDom.equal(
+      element,
       /* HTML */ `<div id="hiddenText"></div>
         <span id="caratSpan"> </span>
         <gr-autocomplete-dropdown
@@ -52,7 +53,8 @@ suite('gr-textarea tests', () => {
     });
 
     test('renders', () => {
-      expect(element).shadowDom.to.equal(
+      assert.shadowDom.equal(
+        element,
         /* HTML */ `
           <div id="hiddenText"></div>
           <span id="caratSpan"> </span>

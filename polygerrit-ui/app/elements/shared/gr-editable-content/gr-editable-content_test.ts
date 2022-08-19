@@ -20,43 +20,44 @@ suite('gr-editable-content tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `<gr-endpoint-decorator
-      name="commit-message"
-    >
-      <gr-endpoint-param name="editing"> </gr-endpoint-param>
-      <div class="collapsed viewer">
-        <slot> </slot>
-      </div>
-      <div class="show-all-container font-normal">
-        <gr-button
-          aria-disabled="false"
-          class="show-all-button"
-          link=""
-          role="button"
-          tabindex="0"
-        >
-          <div>
-            <gr-icon icon="expand_more" small></gr-icon>
-            <span>Show all</span>
-          </div>
-        </gr-button>
-        <div class="flex-space"></div>
-        <gr-button
-          aria-disabled="false"
-          class="edit-commit-message"
-          link=""
-          role="button"
-          tabindex="0"
-          title="Edit commit message"
-        >
-          <div>
-            <gr-icon icon="edit" filled small></gr-icon>
-            <span>Edit</span>
-          </div>
-        </gr-button>
-      </div>
-      <gr-endpoint-slot name="above-actions"> </gr-endpoint-slot>
-    </gr-endpoint-decorator> `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `<gr-endpoint-decorator name="commit-message">
+        <gr-endpoint-param name="editing"> </gr-endpoint-param>
+        <div class="collapsed viewer">
+          <slot> </slot>
+        </div>
+        <div class="show-all-container font-normal">
+          <gr-button
+            aria-disabled="false"
+            class="show-all-button"
+            link=""
+            role="button"
+            tabindex="0"
+          >
+            <div>
+              <gr-icon icon="expand_more" small></gr-icon>
+              <span>Show all</span>
+            </div>
+          </gr-button>
+          <div class="flex-space"></div>
+          <gr-button
+            aria-disabled="false"
+            class="edit-commit-message"
+            link=""
+            role="button"
+            tabindex="0"
+            title="Edit commit message"
+          >
+            <div>
+              <gr-icon icon="edit" filled small></gr-icon>
+              <span>Edit</span>
+            </div>
+          </gr-button>
+        </div>
+        <gr-endpoint-slot name="above-actions"> </gr-endpoint-slot>
+      </gr-endpoint-decorator> `
+    );
   });
 
   test('show-all-container visibility', async () => {

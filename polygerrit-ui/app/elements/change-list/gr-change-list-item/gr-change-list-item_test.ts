@@ -368,37 +368,44 @@ suite('gr-change-list-item tests', () => {
     // TODO: Check table elements. The shadowDom helper does not understand
     // tables interacting with display: contents, even wrapping the element in a
     // table, does not help.
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <gr-change-star></gr-change-star>
-      <a href="">42</a>
-      <a href="" title="Test subject">
-        <div class="container">
-          <div class="content">Test subject</div>
-          <div class="spacer">Test subject</div>
-          <span></span>
-        </div>
-      </a>
-      <span class="placeholder"> -- </span>
-      <gr-account-label
-        deselected=""
-        clickable=""
-        highlightattention=""
-      ></gr-account-label>
-      <div></div>
-      <span></span>
-      <a class="fullRepo" href=""> test-project </a>
-      <a class="truncatedRepo" href="" title="test-project"> test-project </a>
-      <a href=""> test-branch </a>
-      <gr-date-formatter withtooltip=""></gr-date-formatter>
-      <gr-date-formatter withtooltip=""></gr-date-formatter>
-      <gr-date-formatter forcerelative="" relativeoptionnoago="" withtooltip="">
-      </gr-date-formatter>
-      <gr-tooltip-content has-tooltip="" title="Size unknown">
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <gr-change-star></gr-change-star>
+        <a href="">42</a>
+        <a href="" title="Test subject">
+          <div class="container">
+            <div class="content">Test subject</div>
+            <div class="spacer">Test subject</div>
+            <span></span>
+          </div>
+        </a>
         <span class="placeholder"> -- </span>
-      </gr-tooltip-content>
-      <gr-change-list-column-requirements-summary>
-      </gr-change-list-column-requirements-summary>
-    `);
+        <gr-account-label
+          deselected=""
+          clickable=""
+          highlightattention=""
+        ></gr-account-label>
+        <div></div>
+        <span></span>
+        <a class="fullRepo" href=""> test-project </a>
+        <a class="truncatedRepo" href="" title="test-project"> test-project </a>
+        <a href=""> test-branch </a>
+        <gr-date-formatter withtooltip=""></gr-date-formatter>
+        <gr-date-formatter withtooltip=""></gr-date-formatter>
+        <gr-date-formatter
+          forcerelative=""
+          relativeoptionnoago=""
+          withtooltip=""
+        >
+        </gr-date-formatter>
+        <gr-tooltip-content has-tooltip="" title="Size unknown">
+          <span class="placeholder"> -- </span>
+        </gr-tooltip-content>
+        <gr-change-list-column-requirements-summary>
+        </gr-change-list-column-requirements-summary>
+      `
+    );
   });
 
   test('renders requirement with new submit requirements', async () => {
@@ -430,8 +437,10 @@ suite('gr-change-list-item tests', () => {
     ).element as GrChangeListItem;
 
     const requirement = queryAndAssert(element, '.requirement');
-    expect(requirement).dom.to
-      .equal(/* HTML */ ` <gr-change-list-column-requirement>
-    </gr-change-list-column-requirement>`);
+    assert.dom.equal(
+      requirement,
+      /* HTML */ ` <gr-change-list-column-requirement>
+      </gr-change-list-column-requirement>`
+    );
   });
 });

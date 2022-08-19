@@ -57,28 +57,31 @@ suite('gr-error-manager tests', () => {
     });
 
     test('renders', () => {
-      expect(element).shadowDom.to.equal(/* HTML */ `
-        <gr-overlay
-          aria-hidden="true"
-          id="errorOverlay"
-          style="outline: none; display: none;"
-          tabindex="-1"
-          with-backdrop=""
-        >
-          <gr-error-dialog id="errorDialog"> </gr-error-dialog>
-        </gr-overlay>
-        <gr-overlay
-          always-on-top=""
-          aria-hidden="true"
-          id="noInteractionOverlay"
-          no-cancel-on-esc-key=""
-          no-cancel-on-outside-click=""
-          style="outline: none; display: none;"
-          tabindex="-1"
-          with-backdrop=""
-        >
-        </gr-overlay>
-      `);
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-overlay
+            aria-hidden="true"
+            id="errorOverlay"
+            style="outline: none; display: none;"
+            tabindex="-1"
+            with-backdrop=""
+          >
+            <gr-error-dialog id="errorDialog"> </gr-error-dialog>
+          </gr-overlay>
+          <gr-overlay
+            always-on-top=""
+            aria-hidden="true"
+            id="noInteractionOverlay"
+            no-cancel-on-esc-key=""
+            no-cancel-on-outside-click=""
+            style="outline: none; display: none;"
+            tabindex="-1"
+            with-backdrop=""
+          >
+          </gr-overlay>
+        `
+      );
     });
 
     test('does not show auth error on 403 by default', async () => {

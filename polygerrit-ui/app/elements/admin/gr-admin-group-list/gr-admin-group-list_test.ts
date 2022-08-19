@@ -65,45 +65,48 @@ suite('gr-admin-group-list tests', () => {
   });
 
   test('render', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <gr-list-view>
-        <table class="genericList" id="list">
-          <tbody>
-            <tr class="headerRow">
-              <th class="name topHeader">Group Name</th>
-              <th class="description topHeader">Group Description</th>
-              <th class="topHeader visibleToAll">Visible To All</th>
-            </tr>
-            <tr class="loading loadingMsg" id="loading">
-              <td>Loading...</td>
-            </tr>
-          </tbody>
-          <tbody class="loading"></tbody>
-        </table>
-      </gr-list-view>
-      <gr-overlay
-        aria-hidden="true"
-        id="createOverlay"
-        style="outline: none; display: none;"
-        tabindex="-1"
-        with-backdrop=""
-      >
-        <gr-dialog
-          class="confirmDialog"
-          confirm-label="Create"
-          confirm-on-enter=""
-          disabled=""
-          id="createDialog"
-          role="dialog"
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <gr-list-view>
+          <table class="genericList" id="list">
+            <tbody>
+              <tr class="headerRow">
+                <th class="name topHeader">Group Name</th>
+                <th class="description topHeader">Group Description</th>
+                <th class="topHeader visibleToAll">Visible To All</th>
+              </tr>
+              <tr class="loading loadingMsg" id="loading">
+                <td>Loading...</td>
+              </tr>
+            </tbody>
+            <tbody class="loading"></tbody>
+          </table>
+        </gr-list-view>
+        <gr-overlay
+          aria-hidden="true"
+          id="createOverlay"
+          style="outline: none; display: none;"
+          tabindex="-1"
+          with-backdrop=""
         >
-          <div class="header" slot="header">Create Group</div>
-          <div class="main" slot="main">
-            <gr-create-group-dialog id="createNewModal">
-            </gr-create-group-dialog>
-          </div>
-        </gr-dialog>
-      </gr-overlay>
-    `);
+          <gr-dialog
+            class="confirmDialog"
+            confirm-label="Create"
+            confirm-on-enter=""
+            disabled=""
+            id="createDialog"
+            role="dialog"
+          >
+            <div class="header" slot="header">Create Group</div>
+            <div class="main" slot="main">
+              <gr-create-group-dialog id="createNewModal">
+              </gr-create-group-dialog>
+            </div>
+          </gr-dialog>
+        </gr-overlay>
+      `
+    );
   });
 
   test('computeGroupUrl', () => {

@@ -60,56 +60,59 @@ suite('gr-account-info tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <div class="gr-form-styles">
-        <section>
-          <span class="title"></span>
-          <span class="value">
-            <gr-avatar hidden="" imagesize="120"></gr-avatar>
-          </span>
-        </section>
-        <section>
-          <span class="title">ID</span>
-          <span class="value">123</span>
-        </section>
-        <section>
-          <span class="title">Email</span>
-          <span class="value">user-123@</span>
-        </section>
-        <section>
-          <span class="title">Registered</span>
-          <span class="value">
-            <gr-date-formatter withtooltip=""></gr-date-formatter>
-          </span>
-        </section>
-        <section id="usernameSection">
-          <span class="title">Username</span>
-          <span class="value"></span>
-        </section>
-        <section id="nameSection">
-          <label class="title" for="nameInput">Full name</label>
-          <span class="value">User-123</span>
-        </section>
-        <section>
-          <label class="title" for="displayNameInput">Display name</label>
-          <span class="value">
-            <iron-input>
-              <input id="displayNameInput" />
-            </iron-input>
-          </span>
-        </section>
-        <section>
-          <label class="title" for="statusInput">
-            About me (e.g. employer)
-          </label>
-          <span class="value">
-            <iron-input id="statusIronInput">
-              <input id="statusInput" />
-            </iron-input>
-          </span>
-        </section>
-      </div>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="gr-form-styles">
+          <section>
+            <span class="title"></span>
+            <span class="value">
+              <gr-avatar hidden="" imagesize="120"></gr-avatar>
+            </span>
+          </section>
+          <section>
+            <span class="title">ID</span>
+            <span class="value">123</span>
+          </section>
+          <section>
+            <span class="title">Email</span>
+            <span class="value">user-123@</span>
+          </section>
+          <section>
+            <span class="title">Registered</span>
+            <span class="value">
+              <gr-date-formatter withtooltip=""></gr-date-formatter>
+            </span>
+          </section>
+          <section id="usernameSection">
+            <span class="title">Username</span>
+            <span class="value"></span>
+          </section>
+          <section id="nameSection">
+            <label class="title" for="nameInput">Full name</label>
+            <span class="value">User-123</span>
+          </section>
+          <section>
+            <label class="title" for="displayNameInput">Display name</label>
+            <span class="value">
+              <iron-input>
+                <input id="displayNameInput" />
+              </iron-input>
+            </span>
+          </section>
+          <section>
+            <label class="title" for="statusInput">
+              About me (e.g. employer)
+            </label>
+            <span class="value">
+              <iron-input id="statusIronInput">
+                <input id="statusInput" />
+              </iron-input>
+            </span>
+          </section>
+        </div>
+      `
+    );
   });
 
   test('basic account info render', () => {

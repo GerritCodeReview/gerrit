@@ -21,18 +21,21 @@ suite('gr-confirm-cherrypick-conflict-dialog tests', () => {
   });
 
   test('render', async () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <gr-dialog confirm-label="Continue" role="dialog">
-        <div class="header" slot="header">Cherry Pick Conflict!</div>
-        <div class="main" slot="main">
-          <span>Cherry Pick failed! (merge conflicts)</span>
-          <span
-            >Please select "Continue" to continue with conflicts or select
+    assert.shadowDom.equal(
+      element,
+      /* prettier-ignore */ /* HTML */ `
+        <gr-dialog confirm-label="Continue" role="dialog">
+          <div class="header" slot="header">Cherry Pick Conflict!</div>
+          <div class="main" slot="main">
+            <span>Cherry Pick failed! (merge conflicts)</span>
+            <span
+              >Please select "Continue" to continue with conflicts or select
             "cancel" to close the dialog.</span
-          >
-        </div>
-      </gr-dialog>
-    `);
+            >
+          </div>
+        </gr-dialog>
+      `
+    );
   });
 
   test('confirm', async () => {

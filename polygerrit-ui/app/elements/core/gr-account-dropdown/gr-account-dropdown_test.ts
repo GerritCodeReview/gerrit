@@ -21,12 +21,15 @@ suite('gr-account-dropdown tests', () => {
     element.account = {name: 'John Doe', email: 'john@doe.com'} as AccountInfo;
     await element.updateComplete;
 
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <gr-dropdown link="">
-        <span>John Doe</span>
-        <gr-avatar aria-label="Account avatar" hidden=""> </gr-avatar>
-      </gr-dropdown>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <gr-dropdown link="">
+          <span>John Doe</span>
+          <gr-avatar aria-label="Account avatar" hidden=""> </gr-avatar>
+        </gr-dropdown>
+      `
+    );
   });
 
   test('account information', () => {

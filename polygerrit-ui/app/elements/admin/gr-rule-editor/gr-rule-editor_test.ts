@@ -27,44 +27,47 @@ suite('gr-rule-editor tests', () => {
 
   suite('dom tests', () => {
     test('default', () => {
-      expect(element).shadowDom.to.equal(/* HTML */ `
-        <div class="gr-form-styles" id="mainContainer">
-          <div id="options">
-            <gr-select id="action">
-              <select disabled="">
-                <option value="ALLOW">ALLOW</option>
-                <option value="DENY">DENY</option>
-                <option value="BLOCK">BLOCK</option>
-              </select>
-            </gr-select>
-            <a class="groupPath"> </a>
-            <gr-select id="force">
-              <select disabled=""></select>
-            </gr-select>
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <div class="gr-form-styles" id="mainContainer">
+            <div id="options">
+              <gr-select id="action">
+                <select disabled="">
+                  <option value="ALLOW">ALLOW</option>
+                  <option value="DENY">DENY</option>
+                  <option value="BLOCK">BLOCK</option>
+                </select>
+              </gr-select>
+              <a class="groupPath"> </a>
+              <gr-select id="force">
+                <select disabled=""></select>
+              </gr-select>
+            </div>
+            <gr-button
+              aria-disabled="false"
+              id="removeBtn"
+              link=""
+              role="button"
+              tabindex="0"
+            >
+              Remove
+            </gr-button>
           </div>
-          <gr-button
-            aria-disabled="false"
-            id="removeBtn"
-            link=""
-            role="button"
-            tabindex="0"
-          >
-            Remove
-          </gr-button>
-        </div>
-        <div class="gr-form-styles" id="deletedContainer">
-          was deleted
-          <gr-button
-            aria-disabled="false"
-            id="undoRemoveBtn"
-            link=""
-            role="button"
-            tabindex="0"
-          >
-            Undo
-          </gr-button>
-        </div>
-      `);
+          <div class="gr-form-styles" id="deletedContainer">
+            was deleted
+            <gr-button
+              aria-disabled="false"
+              id="undoRemoveBtn"
+              link=""
+              role="button"
+              tabindex="0"
+            >
+              Undo
+            </gr-button>
+          </div>
+        `
+      );
     });
 
     test('push options', async () => {
@@ -80,26 +83,31 @@ suite('gr-rule-editor tests', () => {
           .permission=${AccessPermissionId.PUSH}
         ></gr-rule-editor>
       `);
-      expect(queryAndAssert(element, '#options')).dom.to.equal(/* HTML */ `
-        <div id="options">
-          <gr-select id="action">
-            <select>
-              <option value="ALLOW">ALLOW</option>
-              <option value="DENY">DENY</option>
-              <option value="BLOCK">BLOCK</option>
-            </select>
-          </gr-select>
-          <a class="groupPath"> </a>
-          <gr-select class="force" id="force">
-            <select>
-              <option value="false">
-                Allow pushing (but not force pushing)
-              </option>
-              <option value="true">Allow pushing with or without force</option>
-            </select>
-          </gr-select>
-        </div>
-      `);
+      assert.dom.equal(
+        queryAndAssert(element, '#options'),
+        /* HTML */ `
+          <div id="options">
+            <gr-select id="action">
+              <select>
+                <option value="ALLOW">ALLOW</option>
+                <option value="DENY">DENY</option>
+                <option value="BLOCK">BLOCK</option>
+              </select>
+            </gr-select>
+            <a class="groupPath"> </a>
+            <gr-select class="force" id="force">
+              <select>
+                <option value="false">
+                  Allow pushing (but not force pushing)
+                </option>
+                <option value="true">
+                  Allow pushing with or without force
+                </option>
+              </select>
+            </gr-select>
+          </div>
+        `
+      );
     });
   });
 

@@ -60,13 +60,13 @@ suite('di-provider-element', () => {
   });
 
   test('provides values to the wrapped element', () => {
-    expect(element).shadowDom.to.equal('<div>foo</div>');
+    assert.shadowDom.equal(element, '<div>foo</div>');
   });
 
   test('enables the test to control the injected dependency', async () => {
     injectedModel.next('bar');
     await waitUntilObserved(injectedModel, value => value === 'bar');
 
-    expect(element).shadowDom.to.equal('<div>bar</div>');
+    assert.shadowDom.equal(element, '<div>bar</div>');
   });
 });

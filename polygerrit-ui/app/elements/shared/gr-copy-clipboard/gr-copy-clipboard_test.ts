@@ -22,34 +22,37 @@ suite('gr-copy-clipboard tests', () => {
   });
 
   test('render', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <div class="text">
-        <iron-input class="copyText">
-          <input
-            id="input"
-            is="iron-input"
-            part="text-container-style"
-            readonly=""
-            type="text"
-          />
-        </iron-input>
-        <gr-tooltip-content>
-          <gr-button
-            aria-disabled="false"
-            aria-label="Click to copy to clipboard"
-            class="copyToClipboard"
-            id="copy-clipboard-button"
-            link=""
-            role="button"
-            tabindex="0"
-          >
-            <div>
-              <gr-icon icon="content_copy" id="icon" small></gr-icon>
-            </div>
-          </gr-button>
-        </gr-tooltip-content>
-      </div>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="text">
+          <iron-input class="copyText">
+            <input
+              id="input"
+              is="iron-input"
+              part="text-container-style"
+              readonly=""
+              type="text"
+            />
+          </iron-input>
+          <gr-tooltip-content>
+            <gr-button
+              aria-disabled="false"
+              aria-label="Click to copy to clipboard"
+              class="copyToClipboard"
+              id="copy-clipboard-button"
+              link=""
+              role="button"
+              tabindex="0"
+            >
+              <div>
+                <gr-icon icon="content_copy" id="icon" small></gr-icon>
+              </div>
+            </gr-button>
+          </gr-tooltip-content>
+        </div>
+      `
+    );
   });
 
   test('copy to clipboard', () => {

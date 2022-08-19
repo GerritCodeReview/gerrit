@@ -18,24 +18,27 @@ suite('gr-create-destination-dialog tests', () => {
   });
 
   test('render', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <gr-overlay
-        aria-hidden="true"
-        id="createOverlay"
-        style="outline: none; display: none;"
-        tabindex="-1"
-        with-backdrop=""
-      >
-        <gr-dialog confirm-label="View commands" disabled="" role="dialog">
-          <div class="header" slot="header">Create change</div>
-          <div class="main" slot="main">
-            <gr-repo-branch-picker> </gr-repo-branch-picker>
-            <p>
-              If you haven't done so, you will need to clone the repository.
-            </p>
-          </div>
-        </gr-dialog>
-      </gr-overlay>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <gr-overlay
+          aria-hidden="true"
+          id="createOverlay"
+          style="outline: none; display: none;"
+          tabindex="-1"
+          with-backdrop=""
+        >
+          <gr-dialog confirm-label="View commands" disabled="" role="dialog">
+            <div class="header" slot="header">Create change</div>
+            <div class="main" slot="main">
+              <gr-repo-branch-picker> </gr-repo-branch-picker>
+              <p>
+                If you haven't done so, you will need to clone the repository.
+              </p>
+            </div>
+          </gr-dialog>
+        </gr-overlay>
+      `
+    );
   });
 });

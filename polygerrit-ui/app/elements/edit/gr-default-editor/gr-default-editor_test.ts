@@ -20,9 +20,10 @@ suite('gr-default-editor tests', () => {
   });
 
   test('render', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <textarea id="textarea"></textarea>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ ' <textarea id="textarea"></textarea> '
+    );
   });
 
   test('fires content-change event', async () => {

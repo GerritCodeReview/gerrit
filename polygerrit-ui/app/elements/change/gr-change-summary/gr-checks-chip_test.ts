@@ -23,14 +23,17 @@ suite('gr-checks-chip test', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `<div
-      aria-label="0 success result"
-      class="check_circle checksChip font-small"
-      role="link"
-      tabindex="0"
-    >
-      <gr-icon icon="check_circle"></gr-icon>
-      <div class="text">0</div>
-    </div>`);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `<div
+        aria-label="0 success result"
+        class="check_circle checksChip font-small"
+        role="link"
+        tabindex="0"
+      >
+        <gr-icon icon="check_circle"></gr-icon>
+        <div class="text">0</div>
+      </div>`
+    );
   });
 });

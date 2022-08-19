@@ -22,15 +22,18 @@ suite('gr-submit-requirement-dashboard-hovercard tests', () => {
   });
 
   test('render', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <div id="container" role="tooltip" tabindex="-1">
-        <gr-submit-requirements
-          disable-endpoints=""
-          disable-hovercards=""
-          suppress-title=""
-        >
-        </gr-submit-requirements>
-      </div>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div id="container" role="tooltip" tabindex="-1">
+          <gr-submit-requirements
+            disable-endpoints=""
+            disable-hovercards=""
+            suppress-title=""
+          >
+          </gr-submit-requirements>
+        </div>
+      `
+    );
   });
 });

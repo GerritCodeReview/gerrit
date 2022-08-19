@@ -306,83 +306,89 @@ suite('gr-thread-list tests', () => {
 
   test('renders', async () => {
     await element.updateComplete;
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <div class="header">
-        <span class="sort-text">Sort By:</span>
-        <gr-dropdown-list id="sortDropdown"></gr-dropdown-list>
-        <span class="separator"></span>
-        <span class="filter-text">Filter By:</span>
-        <gr-dropdown-list id="filterDropdown"></gr-dropdown-list>
-        <span class="author-text">From:</span>
-        <gr-account-label
-          deselected=""
-          selectionchipstyle=""
-          nostatusicons=""
-        ></gr-account-label>
-        <gr-account-label
-          deselected=""
-          selectionchipstyle=""
-          nostatusicons=""
-        ></gr-account-label>
-        <gr-account-label
-          deselected=""
-          selectionchipstyle=""
-          nostatusicons=""
-        ></gr-account-label>
-        <gr-account-label
-          deselected=""
-          selectionchipstyle=""
-          nostatusicons=""
-        ></gr-account-label>
-        <gr-account-label
-          deselected=""
-          selectionchipstyle=""
-          nostatusicons=""
-        ></gr-account-label>
-      </div>
-      <div id="threads" part="threads">
-        <gr-comment-thread
-          show-file-name=""
-          show-file-path=""
-        ></gr-comment-thread>
-        <gr-comment-thread show-file-path=""></gr-comment-thread>
-        <div class="thread-separator"></div>
-        <gr-comment-thread
-          show-file-name=""
-          show-file-path=""
-        ></gr-comment-thread>
-        <gr-comment-thread show-file-path=""></gr-comment-thread>
-        <div class="thread-separator"></div>
-        <gr-comment-thread
-          has-draft=""
-          show-file-name=""
-          show-file-path=""
-        ></gr-comment-thread>
-        <gr-comment-thread show-file-path=""></gr-comment-thread>
-        <gr-comment-thread show-file-path=""></gr-comment-thread>
-        <div class="thread-separator"></div>
-        <gr-comment-thread
-          show-file-name=""
-          show-file-path=""
-        ></gr-comment-thread>
-        <div class="thread-separator"></div>
-        <gr-comment-thread
-          has-draft=""
-          show-file-name=""
-          show-file-path=""
-        ></gr-comment-thread>
-      </div>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="header">
+          <span class="sort-text">Sort By:</span>
+          <gr-dropdown-list id="sortDropdown"></gr-dropdown-list>
+          <span class="separator"></span>
+          <span class="filter-text">Filter By:</span>
+          <gr-dropdown-list id="filterDropdown"></gr-dropdown-list>
+          <span class="author-text">From:</span>
+          <gr-account-label
+            deselected=""
+            selectionchipstyle=""
+            nostatusicons=""
+          ></gr-account-label>
+          <gr-account-label
+            deselected=""
+            selectionchipstyle=""
+            nostatusicons=""
+          ></gr-account-label>
+          <gr-account-label
+            deselected=""
+            selectionchipstyle=""
+            nostatusicons=""
+          ></gr-account-label>
+          <gr-account-label
+            deselected=""
+            selectionchipstyle=""
+            nostatusicons=""
+          ></gr-account-label>
+          <gr-account-label
+            deselected=""
+            selectionchipstyle=""
+            nostatusicons=""
+          ></gr-account-label>
+        </div>
+        <div id="threads" part="threads">
+          <gr-comment-thread
+            show-file-name=""
+            show-file-path=""
+          ></gr-comment-thread>
+          <gr-comment-thread show-file-path=""></gr-comment-thread>
+          <div class="thread-separator"></div>
+          <gr-comment-thread
+            show-file-name=""
+            show-file-path=""
+          ></gr-comment-thread>
+          <gr-comment-thread show-file-path=""></gr-comment-thread>
+          <div class="thread-separator"></div>
+          <gr-comment-thread
+            has-draft=""
+            show-file-name=""
+            show-file-path=""
+          ></gr-comment-thread>
+          <gr-comment-thread show-file-path=""></gr-comment-thread>
+          <gr-comment-thread show-file-path=""></gr-comment-thread>
+          <div class="thread-separator"></div>
+          <gr-comment-thread
+            show-file-name=""
+            show-file-path=""
+          ></gr-comment-thread>
+          <div class="thread-separator"></div>
+          <gr-comment-thread
+            has-draft=""
+            show-file-name=""
+            show-file-path=""
+          ></gr-comment-thread>
+        </div>
+      `
+    );
   });
 
   test('renders empty', async () => {
     element.threads = [];
     await element.updateComplete;
-    expect(queryAndAssert(element, 'div#threads')).dom.to.equal(/* HTML */ `
-      <div id="threads" part="threads">
-        <div><span>No comments</span></div>
-      </div>
-    `);
+    assert.dom.equal(
+      queryAndAssert(element, 'div#threads'),
+      /* HTML */ `
+        <div id="threads" part="threads">
+          <div><span>No comments</span></div>
+        </div>
+      `
+    );
   });
 
   test('tapping single author chips', async () => {

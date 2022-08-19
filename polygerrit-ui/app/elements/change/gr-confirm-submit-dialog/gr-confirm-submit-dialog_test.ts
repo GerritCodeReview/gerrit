@@ -32,27 +32,30 @@ suite('gr-confirm-submit-dialog tests', () => {
     };
     await element.updateComplete;
 
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <gr-dialog
-        confirm-label="Continue"
-        confirm-on-enter=""
-        id="dialog"
-        role="dialog"
-      >
-        <div class="header" slot="header">my-label</div>
-        <div class="main" slot="main">
-          <gr-endpoint-decorator name="confirm-submit-change">
-            <p>
-              Ready to submit “
-              <strong> my-subject </strong>
-              ”?
-            </p>
-            <gr-endpoint-param name="change"> </gr-endpoint-param>
-            <gr-endpoint-param name="action"> </gr-endpoint-param>
-          </gr-endpoint-decorator>
-        </div>
-      </gr-dialog>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <gr-dialog
+          confirm-label="Continue"
+          confirm-on-enter=""
+          id="dialog"
+          role="dialog"
+        >
+          <div class="header" slot="header">my-label</div>
+          <div class="main" slot="main">
+            <gr-endpoint-decorator name="confirm-submit-change">
+              <p>
+                Ready to submit “
+                <strong> my-subject </strong>
+                ”?
+              </p>
+              <gr-endpoint-param name="change"> </gr-endpoint-param>
+              <gr-endpoint-param name="action"> </gr-endpoint-param>
+            </gr-endpoint-decorator>
+          </div>
+        </gr-dialog>
+      `
+    );
   });
 
   test('computeUnresolvedCommentsWarning', () => {

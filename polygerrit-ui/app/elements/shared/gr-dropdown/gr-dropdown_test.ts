@@ -152,7 +152,9 @@ suite('gr-dropdown tests', () => {
     ];
     element.disabledIds = [];
     await element.updateComplete;
-    expect(element).shadowDom.to.equal(/* HTML */ `
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
       <gr-button
         aria-disabled="false"
         class="dropdown-trigger"
@@ -220,7 +222,8 @@ suite('gr-dropdown tests', () => {
             </li>
         </div>
           </ul>
-      </iron-dropdown>`);
+      </iron-dropdown>`
+    );
   });
 
   suite('keyboard navigation', () => {

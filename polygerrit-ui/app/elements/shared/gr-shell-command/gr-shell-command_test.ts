@@ -25,12 +25,15 @@ suite('gr-shell-command tests', () => {
     element.label = 'label1';
     await element.updateComplete;
 
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <label> label1 </label>
-      <div class="commandContainer">
-        <gr-copy-clipboard buttontitle="" hastooltip=""> </gr-copy-clipboard>
-      </div>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <label> label1 </label>
+        <div class="commandContainer">
+          <gr-copy-clipboard buttontitle="" hastooltip=""> </gr-copy-clipboard>
+        </div>
+      `
+    );
   });
 
   test('focusOnCopy', async () => {

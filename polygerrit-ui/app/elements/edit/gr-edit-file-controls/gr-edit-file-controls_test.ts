@@ -26,11 +26,14 @@ suite('gr-edit-file-controls tests', () => {
   });
 
   test('render', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <gr-dropdown down-arrow="" id="actions" link="" vertical-offset="20">
-        Actions
-      </gr-dropdown>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <gr-dropdown down-arrow="" id="actions" link="" vertical-offset="20">
+          Actions
+        </gr-dropdown>
+      `
+    );
   });
 
   test('open tap emits event', async () => {

@@ -39,18 +39,21 @@ suite('gr-labeled-autocomplete tests', () => {
     element.label = 'Some label';
     await element.updateComplete;
 
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <div id="container">
-        <div id="header">Some label</div>
-        <div id="body">
-          <gr-autocomplete
-            id="autocomplete"
-            threshold="0"
-            borderless=""
-          ></gr-autocomplete>
-          <div id="trigger">▼</div>
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div id="container">
+          <div id="header">Some label</div>
+          <div id="body">
+            <gr-autocomplete
+              id="autocomplete"
+              threshold="0"
+              borderless=""
+            ></gr-autocomplete>
+            <div id="trigger">▼</div>
+          </div>
         </div>
-      </div>
-    `);
+      `
+    );
   });
 });

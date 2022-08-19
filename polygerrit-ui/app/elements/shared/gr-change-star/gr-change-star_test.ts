@@ -25,15 +25,18 @@ suite('gr-change-star tests', () => {
   });
 
   test('renders starred', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <button
-        aria-label="Unstar this change"
-        role="checkbox"
-        title="Star/unstar change (shortcut: s)"
-      >
-        <gr-icon icon="star_rate" filled class="active"></gr-icon>
-      </button>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <button
+          aria-label="Unstar this change"
+          role="checkbox"
+          title="Star/unstar change (shortcut: s)"
+        >
+          <gr-icon icon="star_rate" filled class="active"></gr-icon>
+        </button>
+      `
+    );
   });
 
   test('renders unstarred', async () => {
@@ -41,15 +44,18 @@ suite('gr-change-star tests', () => {
     element.requestUpdate('change');
     await element.updateComplete;
 
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <button
-        aria-label="Star this change"
-        role="checkbox"
-        title="Star/unstar change (shortcut: s)"
-      >
-        <gr-icon icon="star_rate"></gr-icon>
-      </button>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <button
+          aria-label="Star this change"
+          role="checkbox"
+          title="Star/unstar change (shortcut: s)"
+        >
+          <gr-icon icon="star_rate"></gr-icon>
+        </button>
+      `
+    );
   });
 
   test('starring', async () => {

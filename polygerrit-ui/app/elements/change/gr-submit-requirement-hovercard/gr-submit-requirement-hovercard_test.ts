@@ -36,109 +36,115 @@ suite('gr-submit-requirement-hovercard tests', () => {
   });
 
   test('renders', async () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <div id="container" role="tooltip" tabindex="-1">
-        <div class="section">
-          <div class="sectionIcon">
-            <gr-icon
-              aria-label="satisfied"
-              role="img"
-              class="check_circle"
-              filled
-              icon="check_circle"
-            >
-            </gr-icon>
-          </div>
-          <div class="sectionContent">
-            <h3 class="heading-3 name">
-              <span> Verified </span>
-            </h3>
-          </div>
-        </div>
-        <div class="section">
-          <div class="sectionIcon">
-            <gr-icon class="small" icon="info"></gr-icon>
-          </div>
-          <div class="sectionContent">
-            <div class="row">
-              <div class="title">Status</div>
-              <div>SATISFIED</div>
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div id="container" role="tooltip" tabindex="-1">
+          <div class="section">
+            <div class="sectionIcon">
+              <gr-icon
+                aria-label="satisfied"
+                role="img"
+                class="check_circle"
+                filled
+                icon="check_circle"
+              >
+              </gr-icon>
+            </div>
+            <div class="sectionContent">
+              <h3 class="heading-3 name">
+                <span> Verified </span>
+              </h3>
             </div>
           </div>
+          <div class="section">
+            <div class="sectionIcon">
+              <gr-icon class="small" icon="info"></gr-icon>
+            </div>
+            <div class="sectionContent">
+              <div class="row">
+                <div class="title">Status</div>
+                <div>SATISFIED</div>
+              </div>
+            </div>
+          </div>
+          <div class="button">
+            <gr-button
+              aria-disabled="false"
+              id="toggleConditionsButton"
+              link=""
+              role="button"
+              tabindex="0"
+            >
+              View conditions
+              <gr-icon icon="expand_more"></gr-icon>
+            </gr-button>
+          </div>
         </div>
-        <div class="button">
-          <gr-button
-            aria-disabled="false"
-            id="toggleConditionsButton"
-            link=""
-            role="button"
-            tabindex="0"
-          >
-            View conditions
-            <gr-icon icon="expand_more"></gr-icon>
-          </gr-button>
-        </div>
-      </div>
-    `);
+      `
+    );
   });
 
   test('renders conditions after click', async () => {
     const button = queryAndAssert<GrButton>(element, '#toggleConditionsButton');
     button.click();
     await element.updateComplete;
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <div id="container" role="tooltip" tabindex="-1">
-        <div class="section">
-          <div class="sectionIcon">
-            <gr-icon
-              aria-label="satisfied"
-              role="img"
-              class="check_circle"
-              filled
-              icon="check_circle"
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div id="container" role="tooltip" tabindex="-1">
+          <div class="section">
+            <div class="sectionIcon">
+              <gr-icon
+                aria-label="satisfied"
+                role="img"
+                class="check_circle"
+                filled
+                icon="check_circle"
+              >
+              </gr-icon>
+            </div>
+            <div class="sectionContent">
+              <h3 class="heading-3 name">
+                <span> Verified </span>
+              </h3>
+            </div>
+          </div>
+          <div class="section">
+            <div class="sectionIcon">
+              <gr-icon class="small" icon="info"></gr-icon>
+            </div>
+            <div class="sectionContent">
+              <div class="row">
+                <div class="title">Status</div>
+                <div>SATISFIED</div>
+              </div>
+            </div>
+          </div>
+          <div class="button">
+            <gr-button
+              aria-disabled="false"
+              id="toggleConditionsButton"
+              link=""
+              role="button"
+              tabindex="0"
             >
-            </gr-icon>
+              Hide conditions
+              <gr-icon icon="expand_less"></gr-icon>
+            </gr-button>
           </div>
-          <div class="sectionContent">
-            <h3 class="heading-3 name">
-              <span> Verified </span>
-            </h3>
-          </div>
-        </div>
-        <div class="section">
-          <div class="sectionIcon">
-            <gr-icon class="small" icon="info"></gr-icon>
-          </div>
-          <div class="sectionContent">
-            <div class="row">
-              <div class="title">Status</div>
-              <div>SATISFIED</div>
+          <div class="section condition">
+            <div class="sectionContent">
+              Submit condition:
+              <br />
+              <span class="expression">
+                label:Verified=MAX -label:Verified=MIN
+              </span>
             </div>
           </div>
         </div>
-        <div class="button">
-          <gr-button
-            aria-disabled="false"
-            id="toggleConditionsButton"
-            link=""
-            role="button"
-            tabindex="0"
-          >
-            Hide conditions
-            <gr-icon icon="expand_less"></gr-icon>
-          </gr-button>
-        </div>
-        <div class="section condition">
-          <div class="sectionContent">
-            Submit condition:
-            <br />
-            <span class="expression">
-              label:Verified=MAX -label:Verified=MIN
-            </span>
-          </div>
-        </div>
-      </div>
-    `);
+      `
+    );
   });
 
   test('renders label', async () => {
@@ -168,65 +174,68 @@ suite('gr-submit-requirement-hovercard tests', () => {
         .account=${createAccountWithId()}
       ></gr-submit-requirement-hovercard>`
     );
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <div id="container" role="tooltip" tabindex="-1">
-        <div class="section">
-          <div class="sectionIcon">
-            <gr-icon
-              aria-label="satisfied"
-              role="img"
-              class="check_circle"
-              filled
-              icon="check_circle"
-            ></gr-icon>
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div id="container" role="tooltip" tabindex="-1">
+          <div class="section">
+            <div class="sectionIcon">
+              <gr-icon
+                aria-label="satisfied"
+                role="img"
+                class="check_circle"
+                filled
+                icon="check_circle"
+              ></gr-icon>
+            </div>
+            <div class="sectionContent">
+              <h3 class="heading-3 name">
+                <span> Verified </span>
+              </h3>
+            </div>
           </div>
-          <div class="sectionContent">
-            <h3 class="heading-3 name">
-              <span> Verified </span>
-            </h3>
+          <div class="section">
+            <div class="sectionIcon">
+              <gr-icon class="small" icon="info"></gr-icon>
+            </div>
+            <div class="sectionContent">
+              <div class="row">
+                <div class="title">Status</div>
+                <div>SATISFIED</div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="section">
-          <div class="sectionIcon">
-            <gr-icon class="small" icon="info"></gr-icon>
-          </div>
-          <div class="sectionContent">
+          <div class="section">
+            <div class="sectionIcon"></div>
             <div class="row">
-              <div class="title">Status</div>
-              <div>SATISFIED</div>
+              <div>
+                <gr-label-info> </gr-label-info>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="section">
-          <div class="sectionIcon"></div>
-          <div class="row">
-            <div>
-              <gr-label-info> </gr-label-info>
+          <div class="section description">
+            <div class="sectionIcon">
+              <gr-icon icon="description"></gr-icon>
+            </div>
+            <div class="sectionContent">
+              <gr-formatted-text notrailingmargin=""></gr-formatted-text>
             </div>
           </div>
-        </div>
-        <div class="section description">
-          <div class="sectionIcon">
-            <gr-icon icon="description"></gr-icon>
+          <div class="button">
+            <gr-button
+              aria-disabled="false"
+              id="toggleConditionsButton"
+              link=""
+              role="button"
+              tabindex="0"
+            >
+              View conditions
+              <gr-icon icon="expand_more"></gr-icon>
+            </gr-button>
           </div>
-          <div class="sectionContent">
-            <gr-formatted-text notrailingmargin=""></gr-formatted-text>
-          </div>
         </div>
-        <div class="button">
-          <gr-button
-            aria-disabled="false"
-            id="toggleConditionsButton"
-            link=""
-            role="button"
-            tabindex="0"
-          >
-            View conditions
-            <gr-icon icon="expand_more"></gr-icon>
-          </gr-button>
-        </div>
-      </div>
-    `);
+      `
+    );
   });
 
   suite('quick approve label', () => {
@@ -264,13 +273,16 @@ suite('gr-submit-requirement-hovercard tests', () => {
         ></gr-submit-requirement-hovercard>`
       );
       const quickApprove = queryAndAssert(element, '.quickApprove');
-      expect(quickApprove).dom.to.equal(/* HTML */ `
-        <div class="button quickApprove">
-          <gr-button aria-disabled="false" link="" role="button" tabindex="0">
-            Vote Verified +2
-          </gr-button>
-        </div>
-      `);
+      assert.dom.equal(
+        quickApprove,
+        /* HTML */ `
+          <div class="button quickApprove">
+            <gr-button aria-disabled="false" link="" role="button" tabindex="0">
+              Vote Verified +2
+            </gr-button>
+          </div>
+        `
+      );
     });
 
     test("doesn't render when already voted max vote", async () => {
@@ -342,13 +354,16 @@ suite('gr-submit-requirement-hovercard tests', () => {
         ></gr-submit-requirement-hovercard>`
       );
       const quickApprove = queryAndAssert(element, '.quickApprove');
-      expect(quickApprove).dom.to.equal(/* HTML */ `
-        <div class="button quickApprove">
-          <gr-button aria-disabled="false" link="" role="button" tabindex="0"
-            >Override (Build-Cop)
-          </gr-button>
-        </div>
-      `);
+      assert.dom.equal(
+        quickApprove,
+        /* HTML */ `
+          <div class="button quickApprove">
+            <gr-button aria-disabled="false" link="" role="button" tabindex="0"
+              >Override (Build-Cop)
+            </gr-button>
+          </div>
+        `
+      );
     });
   });
 });

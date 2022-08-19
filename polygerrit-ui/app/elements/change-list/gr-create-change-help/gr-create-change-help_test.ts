@@ -28,24 +28,27 @@ suite('gr-create-change-help tests', () => {
   });
 
   test('render', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <div id="graphic">
-        <div id="circle">
-          <gr-icon icon="empty_dashboard" id="icon"> </gr-icon>
+    assert.shadowDom.equal(
+      element,
+      /* prettier-ignore */ /* HTML */ `
+        <div id="graphic">
+          <div id="circle">
+            <gr-icon icon="empty_dashboard" id="icon"> </gr-icon>
+          </div>
+          <p>No outgoing changes yet</p>
         </div>
-        <p>No outgoing changes yet</p>
-      </div>
-      <div id="help">
-        <h2 class="heading-3">Push your first change for code review</h2>
-        <p>
-          Pushing a change for review is easy, but a little different from other
+        <div id="help">
+          <h2 class="heading-3">Push your first change for code review</h2>
+          <p>
+            Pushing a change for review is easy, but a little different from other
           git code review tools. Click on the \`Create Change' button and follow
           the step by step instructions.
-        </p>
-        <gr-button aria-disabled="false" role="button" tabindex="0">
-          Create Change
-        </gr-button>
-      </div>
-    `);
+          </p>
+          <gr-button aria-disabled="false" role="button" tabindex="0">
+            Create Change
+          </gr-button>
+        </div>
+      `
+    );
   });
 });

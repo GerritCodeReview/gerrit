@@ -161,8 +161,9 @@ suite('gr-repo tests', () => {
 
   test('render', () => {
     // prettier and shadowDom assert do not agree about span.title wrapping
-    expect(element).shadowDom.to
-      .equal(/* prettier-ignore */ /* HTML */ `
+    assert.shadowDom.equal(
+      element,
+      /* prettier-ignore */ /* HTML */ `
       <div class="gr-form-styles main read-only">
         <div class="info">
           <h1 class="heading-1" id="Title"></h1>
@@ -399,7 +400,8 @@ suite('gr-repo tests', () => {
           </div>
         </div>
       </div>
-    `);
+    `
+    );
   });
 
   test('_computePluginData', async () => {

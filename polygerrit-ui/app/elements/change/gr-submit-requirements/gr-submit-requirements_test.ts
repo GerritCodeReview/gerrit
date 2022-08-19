@@ -63,49 +63,55 @@ suite('gr-submit-requirements tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <h3 class="heading-3 metadata-title" id="submit-requirements-caption">
-        Submit Requirements
-      </h3>
-      <table aria-labelledby="submit-requirements-caption" class="requirements">
-        <thead hidden="">
-          <tr>
-            <th>Status</th>
-            <th>Name</th>
-            <th>Votes</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr id="requirement-0-Verified" role="button" tabindex="0">
-            <td>
-              <gr-icon
-                aria-label="satisfied"
-                role="img"
-                class="check_circle"
-                filled
-                icon="check_circle"
-              >
-              </gr-icon>
-            </td>
-            <td class="name">
-              <gr-limited-text class="name"></gr-limited-text>
-            </td>
-            <td>
-              <gr-endpoint-decorator
-                class="votes-cell"
-                name="submit-requirement-verified"
-              >
-                <gr-endpoint-param name="change"></gr-endpoint-param>
-                <gr-endpoint-param name="requirement"></gr-endpoint-param>
-                <gr-vote-chip></gr-vote-chip>
-              </gr-endpoint-decorator>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <gr-submit-requirement-hovercard for="requirement-0-Verified">
-      </gr-submit-requirement-hovercard>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <h3 class="heading-3 metadata-title" id="submit-requirements-caption">
+          Submit Requirements
+        </h3>
+        <table
+          aria-labelledby="submit-requirements-caption"
+          class="requirements"
+        >
+          <thead hidden="">
+            <tr>
+              <th>Status</th>
+              <th>Name</th>
+              <th>Votes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id="requirement-0-Verified" role="button" tabindex="0">
+              <td>
+                <gr-icon
+                  aria-label="satisfied"
+                  role="img"
+                  class="check_circle"
+                  filled
+                  icon="check_circle"
+                >
+                </gr-icon>
+              </td>
+              <td class="name">
+                <gr-limited-text class="name"></gr-limited-text>
+              </td>
+              <td>
+                <gr-endpoint-decorator
+                  class="votes-cell"
+                  name="submit-requirement-verified"
+                >
+                  <gr-endpoint-param name="change"></gr-endpoint-param>
+                  <gr-endpoint-param name="requirement"></gr-endpoint-param>
+                  <gr-vote-chip></gr-vote-chip>
+                </gr-endpoint-decorator>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <gr-submit-requirement-hovercard for="requirement-0-Verified">
+        </gr-submit-requirement-hovercard>
+      `
+    );
   });
 
   suite('votes-cell', () => {
@@ -115,11 +121,14 @@ suite('gr-submit-requirements tests', () => {
     });
     test('with vote', () => {
       const votesCell = element.shadowRoot?.querySelectorAll('.votes-cell');
-      expect(votesCell?.[0]).dom.equal(/* HTML */ `
-        <div class="votes-cell">
-          <gr-vote-chip> </gr-vote-chip>
-        </div>
-      `);
+      assert.dom.equal(
+        votesCell?.[0],
+        /* HTML */ `
+          <div class="votes-cell">
+            <gr-vote-chip> </gr-vote-chip>
+          </div>
+        `
+      );
     });
 
     test('no votes', async () => {
@@ -132,9 +141,10 @@ suite('gr-submit-requirements tests', () => {
       element.change = modifiedChange;
       await element.updateComplete;
       const votesCell = element.shadowRoot?.querySelectorAll('.votes-cell');
-      expect(votesCell?.[0]).dom.equal(/* HTML */ `
-        <div class="votes-cell">No votes</div>
-      `);
+      assert.dom.equal(
+        votesCell?.[0],
+        /* HTML */ ' <div class="votes-cell">No votes</div> '
+      );
     });
 
     test('without label to vote on', async () => {
@@ -144,9 +154,10 @@ suite('gr-submit-requirements tests', () => {
       element.change = modifiedChange;
       await element.updateComplete;
       const votesCell = element.shadowRoot?.querySelectorAll('.votes-cell');
-      expect(votesCell?.[0]).dom.equal(/* HTML */ `
-        <div class="votes-cell">Satisfied</div>
-      `);
+      assert.dom.equal(
+        votesCell?.[0],
+        /* HTML */ ' <div class="votes-cell">Satisfied</div> '
+      );
     });
 
     test('checks', async () => {
@@ -159,12 +170,15 @@ suite('gr-submit-requirements tests', () => {
       ];
       await element.updateComplete;
       const votesCell = element.shadowRoot?.querySelectorAll('.votes-cell');
-      expect(votesCell?.[0]).dom.equal(/* HTML */ `
-        <div class="votes-cell">
-          <gr-vote-chip></gr-vote-chip>
-          <gr-checks-chip></gr-checks-chip>
-        </div>
-      `);
+      assert.dom.equal(
+        votesCell?.[0],
+        /* HTML */ `
+          <div class="votes-cell">
+            <gr-vote-chip></gr-vote-chip>
+            <gr-checks-chip></gr-checks-chip>
+          </div>
+        `
+      );
     });
 
     test('running checks', async () => {
@@ -178,12 +192,15 @@ suite('gr-submit-requirements tests', () => {
       ];
       await element.updateComplete;
       const votesCell = element.shadowRoot?.querySelectorAll('.votes-cell');
-      expect(votesCell?.[0]).dom.equal(/* HTML */ `
-        <div class="votes-cell">
-          <gr-vote-chip></gr-vote-chip>
-          <gr-checks-chip></gr-checks-chip>
-        </div>
-      `);
+      assert.dom.equal(
+        votesCell?.[0],
+        /* HTML */ `
+          <div class="votes-cell">
+            <gr-vote-chip></gr-vote-chip>
+            <gr-checks-chip></gr-checks-chip>
+          </div>
+        `
+      );
     });
 
     test('with override label', async () => {
@@ -211,10 +228,13 @@ suite('gr-submit-requirements tests', () => {
       element.change = modifiedChange;
       await element.updateComplete;
       const votesCell = element.shadowRoot?.querySelectorAll('.votes-cell');
-      expect(votesCell?.[0]).dom.equal(/* HTML */ `<div class="votes-cell">
-        <gr-vote-chip> </gr-vote-chip>
-        <span class="overrideLabel"> Override </span>
-      </div>`);
+      assert.dom.equal(
+        votesCell?.[0],
+        /* HTML */ `<div class="votes-cell">
+          <gr-vote-chip> </gr-vote-chip>
+          <span class="overrideLabel"> Override </span>
+        </div>`
+      );
     });
 
     test('with override with 2 labels', async () => {
@@ -251,13 +271,16 @@ suite('gr-submit-requirements tests', () => {
       element.change = modifiedChange;
       await element.updateComplete;
       const votesCell = element.shadowRoot?.querySelectorAll('.votes-cell');
-      expect(votesCell?.[0]).dom.equal(/* HTML */ `<div class="votes-cell">
-        <gr-vote-chip> </gr-vote-chip>
-        <span class="overrideLabel"> Override </span>
-        <span class="separator"></span>
-        <gr-vote-chip> </gr-vote-chip>
-        <span class="overrideLabel"> Override2 </span>
-      </div>`);
+      assert.dom.equal(
+        votesCell?.[0],
+        /* HTML */ `<div class="votes-cell">
+          <gr-vote-chip> </gr-vote-chip>
+          <span class="overrideLabel"> Override </span>
+          <span class="separator"></span>
+          <gr-vote-chip> </gr-vote-chip>
+          <span class="overrideLabel"> Override2 </span>
+        </div>`
+      );
     });
   });
 

@@ -52,40 +52,11 @@ suite('gr-account-label tests', () => {
   test('renders', async () => {
     element.account = kermit;
     await element.updateComplete;
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <div class="container">
-        <gr-hovercard-account for="hovercardTarget"></gr-hovercard-account>
-        <span class="hovercardTargetWrapper">
-          <gr-avatar hidden="" imagesize="32"> </gr-avatar>
-          <span
-            class="name"
-            id="hovercardTarget"
-            part="gr-account-label-text"
-            role="button"
-            tabindex="0"
-          >
-            kermit
-          </span>
-          <gr-endpoint-decorator
-            class="accountStatusDecorator"
-            name="account-status-icon"
-          >
-            <gr-endpoint-param name="accountId"></gr-endpoint-param>
-            <span class="rightSidePadding"></span>
-          </gr-endpoint-decorator>
-        </span>
-      </div>
-    `);
-  });
-
-  test('renders clickable', async () => {
-    element.account = kermit;
-    element.clickable = true;
-    await element.updateComplete;
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <div class="container">
-        <gr-hovercard-account for="hovercardTarget"></gr-hovercard-account>
-        <a class="ownerLink" href="test" tabindex="-1">
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="container">
+          <gr-hovercard-account for="hovercardTarget"></gr-hovercard-account>
           <span class="hovercardTargetWrapper">
             <gr-avatar hidden="" imagesize="32"> </gr-avatar>
             <span
@@ -105,9 +76,44 @@ suite('gr-account-label tests', () => {
               <span class="rightSidePadding"></span>
             </gr-endpoint-decorator>
           </span>
-        </a>
-      </div>
-    `);
+        </div>
+      `
+    );
+  });
+
+  test('renders clickable', async () => {
+    element.account = kermit;
+    element.clickable = true;
+    await element.updateComplete;
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="container">
+          <gr-hovercard-account for="hovercardTarget"></gr-hovercard-account>
+          <a class="ownerLink" href="test" tabindex="-1">
+            <span class="hovercardTargetWrapper">
+              <gr-avatar hidden="" imagesize="32"> </gr-avatar>
+              <span
+                class="name"
+                id="hovercardTarget"
+                part="gr-account-label-text"
+                role="button"
+                tabindex="0"
+              >
+                kermit
+              </span>
+              <gr-endpoint-decorator
+                class="accountStatusDecorator"
+                name="account-status-icon"
+              >
+                <gr-endpoint-param name="accountId"></gr-endpoint-param>
+                <span class="rightSidePadding"></span>
+              </gr-endpoint-decorator>
+            </span>
+          </a>
+        </div>
+      `
+    );
   });
 
   suite('_computeName', () => {

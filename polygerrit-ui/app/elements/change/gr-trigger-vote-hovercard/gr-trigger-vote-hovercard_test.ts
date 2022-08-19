@@ -22,29 +22,32 @@ suite('gr-trigger-vote-hovercard tests', () => {
   });
 
   test('render', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <div id="container" role="tooltip" tabindex="-1">
-        <div class="section">
-          <div class="sectionContent">
-            <h3 class="heading-3 name">
-              <span> Foo </span>
-            </h3>
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div id="container" role="tooltip" tabindex="-1">
+          <div class="section">
+            <div class="sectionContent">
+              <h3 class="heading-3 name">
+                <span> Foo </span>
+              </h3>
+            </div>
           </div>
-        </div>
-        <div class="section">
-          <div class="sectionIcon">
-            <gr-icon icon="info" class=" small"></gr-icon>
-          </div>
-          <div class="sectionContent">
-            <div class="row">
-              <div class="title">Status</div>
-              <div>
-                <slot name="label-info"> </slot>
+          <div class="section">
+            <div class="sectionIcon">
+              <gr-icon icon="info" class=" small"></gr-icon>
+            </div>
+            <div class="sectionContent">
+              <div class="row">
+                <div class="title">Status</div>
+                <div>
+                  <slot name="label-info"> </slot>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    `);
+      `
+    );
   });
 });

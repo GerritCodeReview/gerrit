@@ -25,12 +25,15 @@ suite('gr-checks-tab test', () => {
   test('renders', async () => {
     await element.updateComplete;
     assert.equal(element.runs.length, 44);
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <div class="container">
-        <gr-checks-runs class="runs" collapsed=""> </gr-checks-runs>
-        <gr-checks-results class="results"> </gr-checks-results>
-      </div>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="container">
+          <gr-checks-runs class="runs" collapsed=""> </gr-checks-runs>
+          <gr-checks-results class="results"> </gr-checks-results>
+        </div>
+      `
+    );
   });
 
   test('select from tab state', async () => {

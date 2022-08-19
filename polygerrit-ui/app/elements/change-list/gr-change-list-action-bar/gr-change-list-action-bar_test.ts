@@ -55,21 +55,24 @@ suite('gr-change-list-action-bar tests', () => {
   test('renders action bar', async () => {
     await selectChange(change1);
 
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <td>
-        <div class="container">
-          <div class="selectionInfo">
-            <span>1 change selected</span>
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <td>
+          <div class="container">
+            <div class="selectionInfo">
+              <span>1 change selected</span>
+            </div>
+            <div class="actionButtons">
+              <gr-change-list-bulk-vote-flow></gr-change-list-bulk-vote-flow>
+              <gr-change-list-topic-flow></gr-change-list-topic-flow>
+              <gr-change-list-hashtag-flow></gr-change-list-hashtag-flow>
+              <gr-change-list-reviewer-flow></gr-change-list-reviewer-flow>
+            </div>
           </div>
-          <div class="actionButtons">
-            <gr-change-list-bulk-vote-flow></gr-change-list-bulk-vote-flow>
-            <gr-change-list-topic-flow></gr-change-list-topic-flow>
-            <gr-change-list-hashtag-flow></gr-change-list-hashtag-flow>
-            <gr-change-list-reviewer-flow></gr-change-list-reviewer-flow>
-          </div>
-        </div>
-      </td>
-    `);
+        </td>
+      `
+    );
   });
 
   test('label reflects number of selected changes', async () => {

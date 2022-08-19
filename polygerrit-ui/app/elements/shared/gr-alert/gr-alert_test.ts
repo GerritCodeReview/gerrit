@@ -27,20 +27,23 @@ suite('gr-alert tests', () => {
     element.show('Alert text');
     await element.updateComplete;
 
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <div class="content-wrapper">
-        <span class="text"> Alert text </span>
-        <gr-button
-          aria-disabled="false"
-          class="action"
-          hidden=""
-          link=""
-          role="button"
-          tabindex="0"
-        >
-        </gr-button>
-      </div>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="content-wrapper">
+          <span class="text"> Alert text </span>
+          <gr-button
+            aria-disabled="false"
+            class="action"
+            hidden=""
+            link=""
+            role="button"
+            tabindex="0"
+          >
+          </gr-button>
+        </div>
+      `
+    );
   });
 
   test('show/hide', async () => {

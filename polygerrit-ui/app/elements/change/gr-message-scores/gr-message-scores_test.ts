@@ -37,11 +37,14 @@ suite('gr-message-score tests', () => {
     };
     await element.updateComplete;
 
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <span class="max positive score"> Verified +1 </span>
-      <span class="min negative score"> Code-Review -2 </span>
-      <span class="positive score"> Trybot-Label3 +1 </span>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <span class="max positive score"> Verified +1 </span>
+        <span class="min negative score"> Code-Review -2 </span>
+        <span class="positive score"> Trybot-Label3 +1 </span>
+      `
+    );
   });
 
   test('votes', async () => {
@@ -172,17 +175,23 @@ suite('gr-message-score tests', () => {
       element.shadowRoot?.querySelectorAll('gr-trigger-vote');
     assert.equal(triggerChips?.length, 1);
     const triggerChip = triggerChips?.[0];
-    expect(triggerChip).shadowDom.equal(`<div class="container">
+    assert.shadowDom.equal(
+      triggerChip,
+      `<div class="container">
       <span class="label">Auto-Submit</span>
       <gr-vote-chip></gr-vote-chip>
-    </div>`);
+    </div>`
+    );
     const voteChips = triggerChip?.shadowRoot?.querySelectorAll('gr-vote-chip');
     assert.equal(voteChips?.length, 1);
-    expect(voteChips?.[0]).shadowDom.equal('');
+    assert.shadowDom.equal(voteChips?.[0], '');
     const scoreChips = element.shadowRoot?.querySelectorAll('.score');
     assert.equal(scoreChips?.length, 1);
-    expect(scoreChips?.[0]).dom.equal(`<span class="removed score">
-    Commit-Queue 0 (vote reset)
-    </span>`);
+    assert.dom.equal(
+      scoreChips?.[0],
+      /* HTML */ `
+        <span class="removed score"> Commit-Queue 0 (vote reset) </span>
+      `
+    );
   });
 });

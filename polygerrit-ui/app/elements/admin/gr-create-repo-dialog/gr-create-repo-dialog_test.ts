@@ -26,60 +26,63 @@ suite('gr-create-repo-dialog tests', () => {
   });
 
   test('render', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <div class="gr-form-styles">
-        <div id="form">
-          <section>
-            <span class="title"> Repository name </span>
-            <iron-input>
-              <input autocomplete="on" id="repoNameInput" />
-            </iron-input>
-          </section>
-          <section>
-            <span class="title"> Default Branch </span>
-            <iron-input>
-              <input autocomplete="off" id="defaultBranchNameInput" />
-            </iron-input>
-          </section>
-          <section>
-            <span class="title"> Rights inherit from </span>
-            <span class="value">
-              <gr-autocomplete id="rightsInheritFromInput"> </gr-autocomplete>
-            </span>
-          </section>
-          <section>
-            <span class="title"> Owner </span>
-            <span class="value">
-              <gr-autocomplete id="ownerInput"> </gr-autocomplete>
-            </span>
-          </section>
-          <section>
-            <span class="title"> Create initial empty commit </span>
-            <span class="value">
-              <gr-select id="initialCommit">
-                <select>
-                  <option value="false">False</option>
-                  <option value="true">True</option>
-                </select>
-              </gr-select>
-            </span>
-          </section>
-          <section>
-            <span class="title">
-              Only serve as parent for other repositories
-            </span>
-            <span class="value">
-              <gr-select id="parentRepo">
-                <select>
-                  <option value="false">False</option>
-                  <option value="true">True</option>
-                </select>
-              </gr-select>
-            </span>
-          </section>
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="gr-form-styles">
+          <div id="form">
+            <section>
+              <span class="title"> Repository name </span>
+              <iron-input>
+                <input autocomplete="on" id="repoNameInput" />
+              </iron-input>
+            </section>
+            <section>
+              <span class="title"> Default Branch </span>
+              <iron-input>
+                <input autocomplete="off" id="defaultBranchNameInput" />
+              </iron-input>
+            </section>
+            <section>
+              <span class="title"> Rights inherit from </span>
+              <span class="value">
+                <gr-autocomplete id="rightsInheritFromInput"> </gr-autocomplete>
+              </span>
+            </section>
+            <section>
+              <span class="title"> Owner </span>
+              <span class="value">
+                <gr-autocomplete id="ownerInput"> </gr-autocomplete>
+              </span>
+            </section>
+            <section>
+              <span class="title"> Create initial empty commit </span>
+              <span class="value">
+                <gr-select id="initialCommit">
+                  <select>
+                    <option value="false">False</option>
+                    <option value="true">True</option>
+                  </select>
+                </gr-select>
+              </span>
+            </section>
+            <section>
+              <span class="title">
+                Only serve as parent for other repositories
+              </span>
+              <span class="value">
+                <gr-select id="parentRepo">
+                  <select>
+                    <option value="false">False</option>
+                    <option value="true">True</option>
+                  </select>
+                </gr-select>
+              </span>
+            </section>
+          </div>
         </div>
-      </div>
-    `);
+      `
+    );
   });
 
   test('default values are populated', () => {

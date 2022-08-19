@@ -24,8 +24,9 @@ suite('gr-create-commands-dialog tests', () => {
 
   test('render', () => {
     // prettier and shadowDom assert don't agree about wrapping in the <p> tags
-    expect(element).shadowDom.to
-      .equal(/* prettier-ignore */ /* HTML */ `
+    assert.shadowDom.equal(
+      element,
+      /* prettier-ignore */ /* HTML */ `
       <gr-overlay
         aria-hidden="true"
         id="commandsOverlay"
@@ -71,6 +72,7 @@ suite('gr-create-commands-dialog tests', () => {
           </div>
         </gr-dialog>
       </gr-overlay>
-    `);
+    `
+    );
   });
 });

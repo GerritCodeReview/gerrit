@@ -69,7 +69,7 @@ suite('gr-diff-utils tests', () => {
 
     for (const size of [1, 3, 8, 55]) {
       const html = createTabWrapper(size).outerHTML;
-      expect(html).to.match(pattern);
+      assert.match(html, pattern);
       assert.equal(html.match(pattern)?.[2], size.toString());
     }
   });

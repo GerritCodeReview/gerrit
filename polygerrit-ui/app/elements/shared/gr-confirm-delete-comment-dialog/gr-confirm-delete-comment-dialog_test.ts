@@ -19,8 +19,9 @@ suite('gr-confirm-delete-comment-dialog tests', () => {
 
   test('render', () => {
     // prettier and shadowDom string disagree about wrapping in <p> tag.
-    expect(element).shadowDom.to
-      .equal(/* prettier-ignore */ /* HTML */ `
+    assert.shadowDom.equal(
+      element,
+      /* prettier-ignore */ /* HTML */ `
       <gr-dialog confirm-label="Delete" role="dialog">
         <div class="header" slot="header">Delete Comment</div>
         <div class="main" slot="main">
@@ -39,6 +40,7 @@ suite('gr-confirm-delete-comment-dialog tests', () => {
           </iron-autogrow-textarea>
         </div>
       </gr-dialog>
-    `);
+    `
+    );
   });
 });

@@ -40,10 +40,13 @@ suite('gr-tooltip-content tests', () => {
     element.showIcon = true;
     await element.updateComplete;
 
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <slot> </slot>
-      <gr-icon icon="info" filled></gr-icon>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <slot> </slot>
+        <gr-icon icon="info" filled></gr-icon>
+      `
+    );
   });
 
   test('icon is not visible by default', () => {

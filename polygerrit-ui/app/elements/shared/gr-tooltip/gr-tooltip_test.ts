@@ -22,13 +22,16 @@ suite('gr-tooltip tests', () => {
     element.text = 'tooltipText';
     await element.updateComplete;
 
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <div class="tooltip">
-        <i class="arrow arrowPositionBelow" style="margin-left:0;"> </i>
-        tooltipText
-        <i class="arrow arrowPositionAbove" style="margin-left:0;"> </i>
-      </div>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="tooltip">
+          <i class="arrow arrowPositionBelow" style="margin-left:0;"> </i>
+          tooltipText
+          <i class="arrow arrowPositionAbove" style="margin-left:0;"> </i>
+        </div>
+      `
+    );
   });
 
   test('max-width is respected if set', async () => {

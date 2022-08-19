@@ -19,81 +19,87 @@ suite('gr-dialog tests', () => {
   });
 
   test('renders', async () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `<div class="container">
-      <header class="heading-3">
-        <slot name="header"> </slot>
-      </header>
-      <main>
-        <div class="overflow-container">
-          <slot name="main"> </slot>
-        </div>
-      </main>
-      <footer>
-        <div class="flex-space"></div>
-        <gr-button
-          aria-disabled="false"
-          id="cancel"
-          link=""
-          role="button"
-          tabindex="0"
-        >
-          Cancel
-        </gr-button>
-        <gr-button
-          aria-disabled="false"
-          id="confirm"
-          link=""
-          primary=""
-          role="button"
-          tabindex="0"
-          title=""
-        >
-          Confirm
-        </gr-button>
-      </footer>
-    </div> `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `<div class="container">
+        <header class="heading-3">
+          <slot name="header"> </slot>
+        </header>
+        <main>
+          <div class="overflow-container">
+            <slot name="main"> </slot>
+          </div>
+        </main>
+        <footer>
+          <div class="flex-space"></div>
+          <gr-button
+            aria-disabled="false"
+            id="cancel"
+            link=""
+            role="button"
+            tabindex="0"
+          >
+            Cancel
+          </gr-button>
+          <gr-button
+            aria-disabled="false"
+            id="confirm"
+            link=""
+            primary=""
+            role="button"
+            tabindex="0"
+            title=""
+          >
+            Confirm
+          </gr-button>
+        </footer>
+      </div> `
+    );
   });
 
   test('renders with loading state', async () => {
     element.loading = true;
     element.loadingLabel = 'Loading!!';
     await element.updateComplete;
-    expect(element).shadowDom.to.equal(/* HTML */ `<div class="container">
-      <header class="heading-3">
-        <slot name="header"> </slot>
-      </header>
-      <main>
-        <div class="overflow-container">
-          <slot name="main"> </slot>
-        </div>
-      </main>
-      <footer>
-        <span class="loadingSpin" aria-label="Loading!!" role="progressbar">
-        </span>
-        <span class="loadingLabel"> Loading!! </span>
-        <div class="flex-space"></div>
-        <gr-button
-          aria-disabled="false"
-          id="cancel"
-          link=""
-          role="button"
-          tabindex="0"
-        >
-          Cancel
-        </gr-button>
-        <gr-button
-          aria-disabled="false"
-          id="confirm"
-          link=""
-          primary=""
-          role="button"
-          tabindex="0"
-          title=""
-        >
-          Confirm
-        </gr-button>
-      </footer>
-    </div> `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `<div class="container">
+        <header class="heading-3">
+          <slot name="header"> </slot>
+        </header>
+        <main>
+          <div class="overflow-container">
+            <slot name="main"> </slot>
+          </div>
+        </main>
+        <footer>
+          <span class="loadingSpin" aria-label="Loading!!" role="progressbar">
+          </span>
+          <span class="loadingLabel"> Loading!! </span>
+          <div class="flex-space"></div>
+          <gr-button
+            aria-disabled="false"
+            id="cancel"
+            link=""
+            role="button"
+            tabindex="0"
+          >
+            Cancel
+          </gr-button>
+          <gr-button
+            aria-disabled="false"
+            id="confirm"
+            link=""
+            primary=""
+            role="button"
+            tabindex="0"
+            title=""
+          >
+            Confirm
+          </gr-button>
+        </footer>
+      </div> `
+    );
   });
 
   test('events', () => {

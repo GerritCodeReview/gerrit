@@ -51,42 +51,45 @@ suite('gr-group-list tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <div class="gr-form-styles">
-        <table id="groups">
-          <thead>
-            <tr>
-              <th class="nameHeader">Name</th>
-              <th class="descriptionHeader">Description</th>
-              <th class="visibleCell">Visible to all</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="nameColumn">
-                <a href=""> Group 1 </a>
-              </td>
-              <td>Group 1 description</td>
-              <td class="visibleCell">No</td>
-            </tr>
-            <tr>
-              <td class="nameColumn">
-                <a href=""> Group 2 </a>
-              </td>
-              <td></td>
-              <td class="visibleCell">Yes</td>
-            </tr>
-            <tr>
-              <td class="nameColumn">
-                <a href=""> Group 3 </a>
-              </td>
-              <td></td>
-              <td class="visibleCell">No</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="gr-form-styles">
+          <table id="groups">
+            <thead>
+              <tr>
+                <th class="nameHeader">Name</th>
+                <th class="descriptionHeader">Description</th>
+                <th class="visibleCell">Visible to all</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="nameColumn">
+                  <a href=""> Group 1 </a>
+                </td>
+                <td>Group 1 description</td>
+                <td class="visibleCell">No</td>
+              </tr>
+              <tr>
+                <td class="nameColumn">
+                  <a href=""> Group 2 </a>
+                </td>
+                <td></td>
+                <td class="visibleCell">Yes</td>
+              </tr>
+              <tr>
+                <td class="nameColumn">
+                  <a href=""> Group 3 </a>
+                </td>
+                <td></td>
+                <td class="visibleCell">No</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      `
+    );
   });
 
   test('_computeGroupPath', () => {

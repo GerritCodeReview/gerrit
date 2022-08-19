@@ -31,26 +31,29 @@ suite('gr-plugin-config-array-editor tests', () => {
   });
 
   test('render', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <div class="gr-form-styles wrapper">
-        <div class="placeholder row">None configured.</div>
-        <div class="row">
-          <iron-input>
-            <input id="input" />
-          </iron-input>
-          <gr-button
-            aria-disabled="true"
-            disabled=""
-            id="addButton"
-            link=""
-            role="button"
-            tabindex="-1"
-          >
-            Add
-          </gr-button>
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="gr-form-styles wrapper">
+          <div class="placeholder row">None configured.</div>
+          <div class="row">
+            <iron-input>
+              <input id="input" />
+            </iron-input>
+            <gr-button
+              aria-disabled="true"
+              disabled=""
+              id="addButton"
+              link=""
+              role="button"
+              tabindex="-1"
+            >
+              Add
+            </gr-button>
+          </div>
         </div>
-      </div>
-    `);
+      `
+    );
   });
 
   suite('adding', () => {

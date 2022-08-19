@@ -20,22 +20,25 @@ suite('gr-confirm-abandon-dialog tests', () => {
   });
 
   test('render', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <gr-dialog confirm-label="Abandon" role="dialog">
-        <div class="header" slot="header">Abandon Change</div>
-        <div class="main" slot="main">
-          <label for="messageInput"> Abandon Message </label>
-          <iron-autogrow-textarea
-            aria-disabled="false"
-            autocomplete="on"
-            class="message"
-            id="messageInput"
-            placeholder="<Insert reasoning here>"
-          >
-          </iron-autogrow-textarea>
-        </div>
-      </gr-dialog>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <gr-dialog confirm-label="Abandon" role="dialog">
+          <div class="header" slot="header">Abandon Change</div>
+          <div class="main" slot="main">
+            <label for="messageInput"> Abandon Message </label>
+            <iron-autogrow-textarea
+              aria-disabled="false"
+              autocomplete="on"
+              class="message"
+              id="messageInput"
+              placeholder="<Insert reasoning here>"
+            >
+            </iron-autogrow-textarea>
+          </div>
+        </gr-dialog>
+      `
+    );
   });
 
   test('handleConfirmTap', () => {

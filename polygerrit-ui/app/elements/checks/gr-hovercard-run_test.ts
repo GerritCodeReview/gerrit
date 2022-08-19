@@ -23,30 +23,33 @@ suite('gr-hovercard-run tests', () => {
   });
 
   test('render', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <div id="container" role="tooltip" tabindex="-1">
-        <div class="section">
-          <div class="chipRow">
-            <div class="chip">
-              <gr-icon icon="check"></gr-icon>
-              <span> COMPLETED </span>
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div id="container" role="tooltip" tabindex="-1">
+          <div class="section">
+            <div class="chipRow">
+              <div class="chip">
+                <gr-icon icon="check"></gr-icon>
+                <span> COMPLETED </span>
+              </div>
+            </div>
+          </div>
+          <div class="section">
+            <div class="sectionIcon">
+              <gr-icon icon="error" filled class="error"></gr-icon>
+            </div>
+            <div class="sectionContent">
+              <h3 class="heading-3 name">
+                <span>
+                  FAKE Error Finder Finder Finder Finder Finder Finder Finder
+                </span>
+              </h3>
             </div>
           </div>
         </div>
-        <div class="section">
-          <div class="sectionIcon">
-            <gr-icon icon="error" filled class="error"></gr-icon>
-          </div>
-          <div class="sectionContent">
-            <h3 class="heading-3 name">
-              <span>
-                FAKE Error Finder Finder Finder Finder Finder Finder Finder
-              </span>
-            </h3>
-          </div>
-        </div>
-      </div>
-    `);
+      `
+    );
   });
 
   test('hovercard is shown with error icon', () => {

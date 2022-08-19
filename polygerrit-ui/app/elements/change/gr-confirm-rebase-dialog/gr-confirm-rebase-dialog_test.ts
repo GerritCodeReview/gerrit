@@ -24,55 +24,58 @@ suite('gr-confirm-rebase-dialog tests', () => {
   test('render', async () => {
     element.branch = 'test' as BranchName;
     await element.updateComplete;
-    expect(element).shadowDom.to.equal(/* HTML */ `<gr-dialog
-      confirm-label="Rebase"
-      id="confirmDialog"
-      role="dialog"
-    >
-      <div class="header" slot="header">Confirm rebase</div>
-      <div class="main" slot="main">
-        <div class="rebaseOption" hidden="" id="rebaseOnParent">
-          <input id="rebaseOnParentInput" name="rebaseOptions" type="radio" />
-          <label for="rebaseOnParentInput" id="rebaseOnParentLabel">
-            Rebase on parent change
-          </label>
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `<gr-dialog
+        confirm-label="Rebase"
+        id="confirmDialog"
+        role="dialog"
+      >
+        <div class="header" slot="header">Confirm rebase</div>
+        <div class="main" slot="main">
+          <div class="rebaseOption" hidden="" id="rebaseOnParent">
+            <input id="rebaseOnParentInput" name="rebaseOptions" type="radio" />
+            <label for="rebaseOnParentInput" id="rebaseOnParentLabel">
+              Rebase on parent change
+            </label>
+          </div>
+          <div class="message" hidden="" id="parentUpToDateMsg">
+            This change is up to date with its parent.
+          </div>
+          <div class="rebaseOption" hidden="" id="rebaseOnTip">
+            <input
+              disabled=""
+              id="rebaseOnTipInput"
+              name="rebaseOptions"
+              type="radio"
+            />
+            <label for="rebaseOnTipInput" id="rebaseOnTipLabel">
+              Rebase on top of the test branch
+              <span hidden=""> (breaks relation chain) </span>
+            </label>
+          </div>
+          <div class="message" id="tipUpToDateMsg">
+            Change is up to date with the target branch already (test)
+          </div>
+          <div class="rebaseOption" id="rebaseOnOther">
+            <input id="rebaseOnOtherInput" name="rebaseOptions" type="radio" />
+            <label for="rebaseOnOtherInput" id="rebaseOnOtherLabel">
+              Rebase on a specific change, ref, or commit
+              <span hidden=""> (breaks relation chain) </span>
+            </label>
+          </div>
+          <div class="parentRevisionContainer">
+            <gr-autocomplete
+              allow-non-suggested-values=""
+              id="parentInput"
+              no-debounce=""
+              placeholder="Change number, ref, or commit hash"
+            >
+            </gr-autocomplete>
+          </div>
         </div>
-        <div class="message" hidden="" id="parentUpToDateMsg">
-          This change is up to date with its parent.
-        </div>
-        <div class="rebaseOption" hidden="" id="rebaseOnTip">
-          <input
-            disabled=""
-            id="rebaseOnTipInput"
-            name="rebaseOptions"
-            type="radio"
-          />
-          <label for="rebaseOnTipInput" id="rebaseOnTipLabel">
-            Rebase on top of the test branch
-            <span hidden=""> (breaks relation chain) </span>
-          </label>
-        </div>
-        <div class="message" id="tipUpToDateMsg">
-          Change is up to date with the target branch already (test)
-        </div>
-        <div class="rebaseOption" id="rebaseOnOther">
-          <input id="rebaseOnOtherInput" name="rebaseOptions" type="radio" />
-          <label for="rebaseOnOtherInput" id="rebaseOnOtherLabel">
-            Rebase on a specific change, ref, or commit
-            <span hidden=""> (breaks relation chain) </span>
-          </label>
-        </div>
-        <div class="parentRevisionContainer">
-          <gr-autocomplete
-            allow-non-suggested-values=""
-            id="parentInput"
-            no-debounce=""
-            placeholder="Change number, ref, or commit hash"
-          >
-          </gr-autocomplete>
-        </div>
-      </div>
-    </gr-dialog> `);
+      </gr-dialog> `
+    );
   });
 
   test('controls with parent and rebase on current available', async () => {

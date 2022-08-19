@@ -25,36 +25,45 @@ suite('gr-file-status tests', () => {
 
   suite('semantic dom diff tests', () => {
     test('empty status', async () => {
-      expect(element).shadowDom.to.equal(/* HTML */ `
-        <gr-tooltip-content has-tooltip="" title="">
-          <div class="status" aria-label="" tabindex="0"></div>
-        </gr-tooltip-content>
-      `);
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-tooltip-content has-tooltip="" title="">
+            <div class="status" aria-label="" tabindex="0"></div>
+          </gr-tooltip-content>
+        `
+      );
     });
 
     test('added', async () => {
       await setStatus(FileInfoStatus.ADDED);
-      expect(element).shadowDom.to.equal(/* HTML */ `
-        <gr-tooltip-content has-tooltip="" title="Added">
-          <div class="A status" aria-label="Added" tabindex="0">A</div>
-        </gr-tooltip-content>
-      `);
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-tooltip-content has-tooltip="" title="Added">
+            <div class="A status" aria-label="Added" tabindex="0">A</div>
+          </gr-tooltip-content>
+        `
+      );
     });
 
     test('newly added', async () => {
       await setStatus(FileInfoStatus.ADDED, true);
-      expect(element).shadowDom.to.equal(/* HTML */ `
-        <gr-tooltip-content has-tooltip="" title="Newly Added">
-          <gr-icon
-            icon="new_releases"
-            class="size-16"
-            aria-label="Newly Added"
-          ></gr-icon>
-        </gr-tooltip-content>
-        <gr-tooltip-content has-tooltip="" title="Newly Added">
-          <div class="A status" aria-label="Newly Added" tabindex="0">A</div>
-        </gr-tooltip-content>
-      `);
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-tooltip-content has-tooltip="" title="Newly Added">
+            <gr-icon
+              icon="new_releases"
+              class="size-16"
+              aria-label="Newly Added"
+            ></gr-icon>
+          </gr-tooltip-content>
+          <gr-tooltip-content has-tooltip="" title="Newly Added">
+            <div class="A status" aria-label="Newly Added" tabindex="0">A</div>
+          </gr-tooltip-content>
+        `
+      );
     });
   });
 });

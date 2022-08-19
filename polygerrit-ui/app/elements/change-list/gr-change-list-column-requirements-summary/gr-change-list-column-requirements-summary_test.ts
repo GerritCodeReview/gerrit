@@ -57,16 +57,15 @@ suite('gr-change-list-column-requirements-summary tests', () => {
       html`<gr-change-list-column-requirements-summary .change=${change}>
       </gr-change-list-column-requirements-summary>`
     );
-    expect(element).shadowDom.to.equal(/* HTML */ ` <span
-      class="block"
-      role="button"
-      tabindex="0"
-    >
-      <gr-submit-requirement-dashboard-hovercard>
-      </gr-submit-requirement-dashboard-hovercard>
-      <gr-icon class="block" role="img" icon="block"></gr-icon>
-      <span class="unsatisfied">1 missing</span>
-    </span>`);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ ` <span class="block" role="button" tabindex="0">
+        <gr-submit-requirement-dashboard-hovercard>
+        </gr-submit-requirement-dashboard-hovercard>
+        <gr-icon class="block" role="img" icon="block"></gr-icon>
+        <span class="unsatisfied">1 missing</span>
+      </span>`
+    );
   });
 
   test('renders comment count', async () => {
@@ -78,21 +77,20 @@ suite('gr-change-list-column-requirements-summary tests', () => {
       html`<gr-change-list-column-requirements-summary .change=${change}>
       </gr-change-list-column-requirements-summary>`
     );
-    expect(element).shadowDom.to.equal(/* HTML */ ` <span
-        class="block"
-        role="button"
-        tabindex="0"
-      >
-        <gr-submit-requirement-dashboard-hovercard>
-        </gr-submit-requirement-dashboard-hovercard>
-        <gr-icon class="block" role="img" icon="block"></gr-icon>
-        <span class="unsatisfied">1 missing</span>
-      </span>
-      <gr-icon
-        class="commentIcon"
-        filled
-        icon="mode_comment"
-        title="5 unresolved comments"
-      ></gr-icon>`);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ ` <span class="block" role="button" tabindex="0">
+          <gr-submit-requirement-dashboard-hovercard>
+          </gr-submit-requirement-dashboard-hovercard>
+          <gr-icon class="block" role="img" icon="block"></gr-icon>
+          <span class="unsatisfied">1 missing</span>
+        </span>
+        <gr-icon
+          class="commentIcon"
+          filled
+          icon="mode_comment"
+          title="5 unresolved comments"
+        ></gr-icon>`
+    );
   });
 });

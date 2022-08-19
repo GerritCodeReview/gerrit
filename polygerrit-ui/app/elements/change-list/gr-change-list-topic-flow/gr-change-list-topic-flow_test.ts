@@ -94,25 +94,28 @@ suite('gr-change-list-topic-flow tests', () => {
     });
 
     test('skips dropdown render when closed', async () => {
-      expect(element).shadowDom.to.equal(/* HTML */ `
-        <gr-button
-          id="start-flow"
-          flatten=""
-          down-arrow=""
-          aria-disabled="false"
-          role="button"
-          tabindex="0"
-          >Topic</gr-button
-        >
-        <iron-dropdown
-          aria-disabled="false"
-          aria-hidden="true"
-          style="outline: none; display: none;"
-          vertical-align="auto"
-          horizontal-align="auto"
-        >
-        </iron-dropdown>
-      `);
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-button
+            id="start-flow"
+            flatten=""
+            down-arrow=""
+            aria-disabled="false"
+            role="button"
+            tabindex="0"
+            >Topic</gr-button
+          >
+          <iron-dropdown
+            aria-disabled="false"
+            aria-hidden="true"
+            style="outline: none; display: none;"
+            vertical-align="auto"
+            horizontal-align="auto"
+          >
+          </iron-dropdown>
+        `
+      );
     });
 
     test('dropdown hidden before flow button clicked', async () => {
@@ -218,7 +221,8 @@ suite('gr-change-list-topic-flow tests', () => {
     });
 
     test('renders existing-topics flow', () => {
-      expect(element).shadowDom.to.equal(
+      assert.shadowDom.equal(
+        element,
         /* HTML */ `
           <gr-button
             id="start-flow"
@@ -535,7 +539,8 @@ suite('gr-change-list-topic-flow tests', () => {
     });
 
     test('renders no-existing-topics flow', () => {
-      expect(element).shadowDom.to.equal(
+      assert.shadowDom.equal(
+        element,
         /* HTML */ `
           <gr-button
             id="start-flow"

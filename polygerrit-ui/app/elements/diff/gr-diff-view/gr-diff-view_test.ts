@@ -475,146 +475,154 @@ suite('gr-diff-view tests', () => {
       element.path = 'glados.txt';
       element.loggedIn = true;
       await element.updateComplete;
-      expect(element).shadowDom.to.equal(/* HTML */ `
-        <div class="stickyHeader">
-          <h1 class="assistive-tech-only">Diff of glados.txt</h1>
-          <header>
-            <div>
-              <a href=""> 42 </a>
-              <span class="changeNumberColon"> : </span>
-              <span class="headerSubject"> Test subject </span>
-              <input
-                aria-label="file reviewed"
-                class="hideOnEdit reviewed"
-                id="reviewed"
-                title="Toggle reviewed status of file"
-                type="checkbox"
-              />
-              <div class="jumpToFileContainer">
-                <gr-dropdown-list id="dropdown" show-copy-for-trigger-text="">
-                </gr-dropdown-list>
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <div class="stickyHeader">
+            <h1 class="assistive-tech-only">Diff of glados.txt</h1>
+            <header>
+              <div>
+                <a href=""> 42 </a>
+                <span class="changeNumberColon"> : </span>
+                <span class="headerSubject"> Test subject </span>
+                <input
+                  aria-label="file reviewed"
+                  class="hideOnEdit reviewed"
+                  id="reviewed"
+                  title="Toggle reviewed status of file"
+                  type="checkbox"
+                />
+                <div class="jumpToFileContainer">
+                  <gr-dropdown-list id="dropdown" show-copy-for-trigger-text="">
+                  </gr-dropdown-list>
+                </div>
               </div>
-            </div>
-            <div class="desktop navLinks">
-              <span class="fileNum show">
-                File 2 of 3
-                <span class="separator"> </span>
-              </span>
-              <a
-                class="navLink"
-                href=""
-                title="Go to previous file (shortcut: [)"
-              >
-                Prev
-              </a>
-              <span class="separator"> </span>
-              <a class="navLink" href="" title="Up to change (shortcut: u)">
-                Up
-              </a>
-              <span class="separator"> </span>
-              <a class="navLink" href="" title="Go to next file (shortcut: ])">
-                Next
-              </a>
-            </div>
-          </header>
-          <div class="subHeader">
-            <div class="patchRangeLeft">
-              <gr-patch-range-select id="rangeSelect"> </gr-patch-range-select>
-              <span class="desktop download">
-                <span class="separator"> </span>
-                <gr-dropdown down-arrow="" horizontal-align="left" link="">
-                  <span class="downloadTitle"> Download </span>
-                </gr-dropdown>
-              </span>
-            </div>
-            <div class="rightControls">
-              <span class="blameLoader show">
-                <gr-button
-                  aria-disabled="false"
-                  id="toggleBlame"
-                  link=""
-                  role="button"
-                  tabindex="0"
-                  title="Toggle blame (shortcut: b)"
+              <div class="desktop navLinks">
+                <span class="fileNum show">
+                  File 2 of 3
+                  <span class="separator"> </span>
+                </span>
+                <a
+                  class="navLink"
+                  href=""
+                  title="Go to previous file (shortcut: [)"
                 >
-                  Show blame
-                </gr-button>
-              </span>
-              <span class="separator"> </span>
-              <span class="editButton">
-                <gr-button
-                  aria-disabled="false"
-                  link=""
-                  role="button"
-                  tabindex="0"
-                  title="Edit current file"
+                  Prev
+                </a>
+                <span class="separator"> </span>
+                <a class="navLink" href="" title="Up to change (shortcut: u)">
+                  Up
+                </a>
+                <span class="separator"> </span>
+                <a
+                  class="navLink"
+                  href=""
+                  title="Go to next file (shortcut: ])"
                 >
-                  edit
-                </gr-button>
-              </span>
-              <span class="separator"> </span>
-              <div class="diffModeSelector">
-                <span> Diff view: </span>
-                <gr-diff-mode-selector id="modeSelect" show-tooltip-below="">
-                </gr-diff-mode-selector>
+                  Next
+                </a>
               </div>
-              <span id="diffPrefsContainer">
-                <span class="desktop preferences">
-                  <gr-tooltip-content
-                    has-tooltip=""
-                    position-below=""
-                    title="Diff preferences"
+            </header>
+            <div class="subHeader">
+              <div class="patchRangeLeft">
+                <gr-patch-range-select id="rangeSelect">
+                </gr-patch-range-select>
+                <span class="desktop download">
+                  <span class="separator"> </span>
+                  <gr-dropdown down-arrow="" horizontal-align="left" link="">
+                    <span class="downloadTitle"> Download </span>
+                  </gr-dropdown>
+                </span>
+              </div>
+              <div class="rightControls">
+                <span class="blameLoader show">
+                  <gr-button
+                    aria-disabled="false"
+                    id="toggleBlame"
+                    link=""
+                    role="button"
+                    tabindex="0"
+                    title="Toggle blame (shortcut: b)"
                   >
-                    <gr-button
-                      aria-disabled="false"
-                      class="prefsButton"
-                      link=""
-                      role="button"
-                      tabindex="0"
+                    Show blame
+                  </gr-button>
+                </span>
+                <span class="separator"> </span>
+                <span class="editButton">
+                  <gr-button
+                    aria-disabled="false"
+                    link=""
+                    role="button"
+                    tabindex="0"
+                    title="Edit current file"
+                  >
+                    edit
+                  </gr-button>
+                </span>
+                <span class="separator"> </span>
+                <div class="diffModeSelector">
+                  <span> Diff view: </span>
+                  <gr-diff-mode-selector id="modeSelect" show-tooltip-below="">
+                  </gr-diff-mode-selector>
+                </div>
+                <span id="diffPrefsContainer">
+                  <span class="desktop preferences">
+                    <gr-tooltip-content
+                      has-tooltip=""
+                      position-below=""
+                      title="Diff preferences"
                     >
-                      <gr-icon icon="settings" filled></gr-icon>
-                    </gr-button>
-                  </gr-tooltip-content>
+                      <gr-button
+                        aria-disabled="false"
+                        class="prefsButton"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        <gr-icon icon="settings" filled></gr-icon>
+                      </gr-button>
+                    </gr-tooltip-content>
+                  </span>
                 </span>
-              </span>
-              <gr-endpoint-decorator name="annotation-toggler">
-                <span hidden="" id="annotation-span">
-                  <label for="annotation-checkbox" id="annotation-label">
-                  </label>
-                  <iron-input>
-                    <input
-                      disabled=""
-                      id="annotation-checkbox"
-                      is="iron-input"
-                      type="checkbox"
-                      value=""
-                    />
-                  </iron-input>
-                </span>
-              </gr-endpoint-decorator>
+                <gr-endpoint-decorator name="annotation-toggler">
+                  <span hidden="" id="annotation-span">
+                    <label for="annotation-checkbox" id="annotation-label">
+                    </label>
+                    <iron-input>
+                      <input
+                        disabled=""
+                        id="annotation-checkbox"
+                        is="iron-input"
+                        type="checkbox"
+                        value=""
+                      />
+                    </iron-input>
+                  </span>
+                </gr-endpoint-decorator>
+              </div>
+            </div>
+            <div class="fileNav mobile">
+              <a class="mobileNavLink" href=""> < </a>
+              <div class="fullFileName mobile">glados.txt</div>
+              <a class="mobileNavLink" href=""> > </a>
             </div>
           </div>
-          <div class="fileNav mobile">
-            <a class="mobileNavLink" href=""> < </a>
-            <div class="fullFileName mobile">glados.txt</div>
-            <a class="mobileNavLink" href=""> > </a>
-          </div>
-        </div>
-        <div class="loading">Loading...</div>
-        <h2 class="assistive-tech-only">Diff view</h2>
-        <gr-diff-host hidden="" id="diffHost"> </gr-diff-host>
-        <gr-apply-fix-dialog id="applyFixDialog"> </gr-apply-fix-dialog>
-        <gr-diff-preferences-dialog id="diffPreferencesDialog">
-        </gr-diff-preferences-dialog>
-        <gr-overlay
-          aria-hidden="true"
-          id="downloadOverlay"
-          style="outline: none; display: none;"
-        >
-          <gr-download-dialog id="downloadDialog" role="dialog">
-          </gr-download-dialog>
-        </gr-overlay>
-      `);
+          <div class="loading">Loading...</div>
+          <h2 class="assistive-tech-only">Diff view</h2>
+          <gr-diff-host hidden="" id="diffHost"> </gr-diff-host>
+          <gr-apply-fix-dialog id="applyFixDialog"> </gr-apply-fix-dialog>
+          <gr-diff-preferences-dialog id="diffPreferencesDialog">
+          </gr-diff-preferences-dialog>
+          <gr-overlay
+            aria-hidden="true"
+            id="downloadOverlay"
+            style="outline: none; display: none;"
+          >
+            <gr-download-dialog id="downloadDialog" role="dialog">
+            </gr-download-dialog>
+          </gr-overlay>
+        `
+      );
     });
 
     test('keyboard shortcuts', async () => {

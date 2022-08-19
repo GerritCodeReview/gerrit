@@ -65,30 +65,33 @@ suite('gr-hovercard-account tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <div id="container" role="tooltip" tabindex="-1">
-        <div class="top">
-          <div class="avatar">
-            <gr-avatar hidden="" imagesize="56"></gr-avatar>
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div id="container" role="tooltip" tabindex="-1">
+          <div class="top">
+            <div class="avatar">
+              <gr-avatar hidden="" imagesize="56"></gr-avatar>
+            </div>
+            <div class="account">
+              <h3 class="heading-3 name">Kermit The Frog</h3>
+              <div class="email">kermit@gmail.com</div>
+            </div>
           </div>
-          <div class="account">
-            <h3 class="heading-3 name">Kermit The Frog</h3>
-            <div class="email">kermit@gmail.com</div>
+          <gr-endpoint-decorator name="hovercard-status">
+            <gr-endpoint-param name="account"></gr-endpoint-param>
+          </gr-endpoint-decorator>
+          <div class="status">
+            <span class="title">About me:</span>
+            <span class="value">I am a frog</span>
+          </div>
+          <div class="links">
+            <gr-icon icon="link" class="linkIcon"></gr-icon>
+            <a href="">Changes</a>·<a href="">Dashboard</a>
           </div>
         </div>
-        <gr-endpoint-decorator name="hovercard-status">
-          <gr-endpoint-param name="account"></gr-endpoint-param>
-        </gr-endpoint-decorator>
-        <div class="status">
-          <span class="title">About me:</span>
-          <span class="value">I am a frog</span>
-        </div>
-        <div class="links">
-          <gr-icon icon="link" class="linkIcon"></gr-icon>
-          <a href="">Changes</a>·<a href="">Dashboard</a>
-        </div>
-      </div>
-    `);
+      `
+    );
   });
 
   test('account name is shown', () => {

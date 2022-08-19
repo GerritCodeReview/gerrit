@@ -300,73 +300,76 @@ suite('gr-label-row-score tests', () => {
   });
 
   test('shadowDom test', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <span class="labelNameCell" id="labelName" aria-hidden="true">
-        Verified
-      </span>
-      <div class="buttonsCell">
-        <span class="placeholder" data-label="Verified"></span>
-        <iron-selector
-          aria-labelledby="labelName"
-          id="labelSelector"
-          role="radiogroup"
-          selected="+1"
-        >
-          <gr-button
-            aria-disabled="false"
-            aria-label="-1"
-            data-name="Verified"
-            data-value="-1"
-            role="button"
-            tabindex="0"
-            title="bad"
-            data-vote="min"
-            votechip=""
-            flatten=""
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <span class="labelNameCell" id="labelName" aria-hidden="true">
+          Verified
+        </span>
+        <div class="buttonsCell">
+          <span class="placeholder" data-label="Verified"></span>
+          <iron-selector
+            aria-labelledby="labelName"
+            id="labelSelector"
+            role="radiogroup"
+            selected="+1"
           >
-            <gr-tooltip-content light-tooltip="" has-tooltip="" title="bad">
-              -1
-            </gr-tooltip-content>
-          </gr-button>
-          <gr-button
-            aria-disabled="false"
-            aria-label=" 0"
-            data-name="Verified"
-            data-value=" 0"
-            role="button"
-            tabindex="0"
-            data-vote="neutral"
-            votechip=""
-            flatten=""
-          >
-            <gr-tooltip-content light-tooltip="" has-tooltip="">
-              0
-            </gr-tooltip-content>
-          </gr-button>
-          <gr-button
-            aria-checked="true"
-            aria-disabled="false"
-            aria-label="+1"
-            class="iron-selected"
-            data-name="Verified"
-            data-value="+1"
-            role="button"
-            tabindex="0"
-            title="good"
-            data-vote="max"
-            votechip=""
-            flatten=""
-          >
-            <gr-tooltip-content light-tooltip="" has-tooltip="" title="good">
-              +1
-            </gr-tooltip-content>
-          </gr-button>
-        </iron-selector>
-        <span class="placeholder" data-label="Verified"></span>
-      </div>
-      <div class="selectedValueCell ">
-        <span id="selectedValueLabel">good</span>
-      </div>
-    `);
+            <gr-button
+              aria-disabled="false"
+              aria-label="-1"
+              data-name="Verified"
+              data-value="-1"
+              role="button"
+              tabindex="0"
+              title="bad"
+              data-vote="min"
+              votechip=""
+              flatten=""
+            >
+              <gr-tooltip-content light-tooltip="" has-tooltip="" title="bad">
+                -1
+              </gr-tooltip-content>
+            </gr-button>
+            <gr-button
+              aria-disabled="false"
+              aria-label=" 0"
+              data-name="Verified"
+              data-value=" 0"
+              role="button"
+              tabindex="0"
+              data-vote="neutral"
+              votechip=""
+              flatten=""
+            >
+              <gr-tooltip-content light-tooltip="" has-tooltip="">
+                0
+              </gr-tooltip-content>
+            </gr-button>
+            <gr-button
+              aria-checked="true"
+              aria-disabled="false"
+              aria-label="+1"
+              class="iron-selected"
+              data-name="Verified"
+              data-value="+1"
+              role="button"
+              tabindex="0"
+              title="good"
+              data-vote="max"
+              votechip=""
+              flatten=""
+            >
+              <gr-tooltip-content light-tooltip="" has-tooltip="" title="good">
+                +1
+              </gr-tooltip-content>
+            </gr-button>
+          </iron-selector>
+          <span class="placeholder" data-label="Verified"></span>
+        </div>
+        <div class="selectedValueCell ">
+          <span id="selectedValueLabel">good</span>
+        </div>
+      `
+    );
   });
 });

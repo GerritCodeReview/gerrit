@@ -135,7 +135,9 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     );
     await selectChange(change1);
     await element.updateComplete;
-    expect(element).shadowDom.to.equal(`<gr-button
+    assert.shadowDom.equal(
+      element,
+      `<gr-button
         aria-disabled="false"
         flatten=""
         id="voteFlowButton"
@@ -194,7 +196,8 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
             </div>
           </div>
         </gr-dialog>
-      </gr-overlay> `);
+      </gr-overlay> `
+    );
   });
 
   test('renders with errors', async () => {
@@ -223,7 +226,9 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
         ProgressStatus.FAILED
     );
 
-    expect(element).shadowDom.to.equal(`<gr-button
+    assert.shadowDom.equal(
+      element,
+      `<gr-button
         aria-disabled="false"
         flatten=""
         id="voteFlowButton"
@@ -286,7 +291,8 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
             </div>
           </div>
         </gr-dialog>
-      </gr-overlay> `);
+      </gr-overlay> `
+    );
   });
 
   test('button state updates as changes are updated', async () => {

@@ -36,13 +36,16 @@ suite('gr-vote-chip tests', () => {
     });
 
     test('renders', () => {
-      expect(element).shadowDom.to.equal(/* HTML */ ` <gr-tooltip-content
-        class="container"
-        has-tooltip=""
-        title=""
-      >
-        <div class="max vote-chip">&#x2713;</div>
-      </gr-tooltip-content>`);
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ ` <gr-tooltip-content
+          class="container"
+          has-tooltip=""
+          title=""
+        >
+          <div class="max vote-chip">&#x2713;</div>
+        </gr-tooltip-content>`
+      );
     });
   });
 
@@ -61,13 +64,16 @@ suite('gr-vote-chip tests', () => {
     });
 
     test('renders', () => {
-      expect(element).shadowDom.to.equal(/* HTML */ ` <gr-tooltip-content
-        class="container"
-        has-tooltip=""
-        title=""
-      >
-        <div class="positive vote-chip">+2</div>
-      </gr-tooltip-content>`);
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ ` <gr-tooltip-content
+          class="container"
+          has-tooltip=""
+          title=""
+        >
+          <div class="positive vote-chip">+2</div>
+        </gr-tooltip-content>`
+      );
     });
 
     test('renders negative vote', async () => {
@@ -78,13 +84,16 @@ suite('gr-vote-chip tests', () => {
       element = await fixture<GrVoteChip>(
         html`<gr-vote-chip .label=${labelInfo} .vote=${vote}></gr-vote-chip>`
       );
-      expect(element).shadowDom.to.equal(/* HTML */ ` <gr-tooltip-content
-        class="container"
-        has-tooltip=""
-        title="Wrong Style or Formatting"
-      >
-        <div class="min vote-chip">-1</div>
-      </gr-tooltip-content>`);
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ ` <gr-tooltip-content
+          class="container"
+          has-tooltip=""
+          title="Wrong Style or Formatting"
+        >
+          <div class="min vote-chip">-1</div>
+        </gr-tooltip-content>`
+      );
     });
 
     test('renders for more than 1 vote', async () => {
@@ -95,14 +104,17 @@ suite('gr-vote-chip tests', () => {
           more
         ></gr-vote-chip>`
       );
-      expect(element).shadowDom.to.equal(/* HTML */ ` <gr-tooltip-content
-        class="container more"
-        has-tooltip=""
-        title=""
-      >
-        <div class="positive vote-chip">+2</div>
-        <div class="chip-angle positive">+2</div>
-      </gr-tooltip-content>`);
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ ` <gr-tooltip-content
+          class="container more"
+          has-tooltip=""
+          title=""
+        >
+          <div class="positive vote-chip">+2</div>
+          <div class="chip-angle positive">+2</div>
+        </gr-tooltip-content>`
+      );
     });
   });
 });

@@ -1105,21 +1105,24 @@ suite('gr-diff-builder tests', () => {
 
       assert.isTrue(getBlameStub.calledWithExactly(3));
       assert.equal(result.getAttribute('data-line-number'), '3');
-      expect(result).dom.to.equal(/* HTML */ `
-        <span class="gr-diff">
-          <a class="blameDate gr-diff" href="/r/q/1234567890"> 12/12/2019 </a>
-          <span class="blameAuthor gr-diff">Clark</span>
-          <gr-hovercard class="gr-diff">
-            <span class="blameHoverCard gr-diff">
-              Commit 1234567890<br />
-              Author: Clark Kent<br />
-              Date: 12/12/2019<br />
-              <br />
-              Testing Commit
-            </span>
-          </gr-hovercard>
-        </span>
-      `);
+      assert.dom.equal(
+        result,
+        /* HTML */ `
+          <span class="gr-diff">
+            <a class="blameDate gr-diff" href="/r/q/1234567890"> 12/12/2019 </a>
+            <span class="blameAuthor gr-diff">Clark</span>
+            <gr-hovercard class="gr-diff">
+              <span class="blameHoverCard gr-diff">
+                Commit 1234567890<br />
+                Author: Clark Kent<br />
+                Date: 12/12/2019<br />
+                <br />
+                Testing Commit
+              </span>
+            </gr-hovercard>
+          </span>
+        `
+      );
     });
   });
 });

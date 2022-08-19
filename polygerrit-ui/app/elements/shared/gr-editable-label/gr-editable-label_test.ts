@@ -44,7 +44,9 @@ suite('gr-editable-label tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(`<label
+    assert.shadowDom.equal(
+      element,
+      `<label
       aria-label="value text"
       class="editable"
       part="label"
@@ -89,7 +91,8 @@ suite('gr-editable-label tests', () => {
           </div>
         </div>
       </div>
-    </iron-dropdown>`);
+    </iron-dropdown>`
+    );
   });
 
   test('element render', async () => {

@@ -176,7 +176,8 @@ suite('gr-apply-fix-dialog tests', () => {
 
   test('renders', async () => {
     await open(TWO_FIXES);
-    expect(element).shadowDom.to.equal(
+    assert.shadowDom.equal(
+      element,
       /* HTML */ `
         <gr-overlay id="applyFixOverlay" tabindex="-1" with-backdrop="">
           <gr-dialog id="applyFixDialog" role="dialog">

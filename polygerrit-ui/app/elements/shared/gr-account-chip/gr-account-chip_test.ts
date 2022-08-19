@@ -25,25 +25,28 @@ suite('gr-account-chip tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <div class="container">
-        <div>
-          <gr-account-label clickable="" deselected=""></gr-account-label>
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="container">
+          <div>
+            <gr-account-label clickable="" deselected=""></gr-account-label>
+          </div>
+          <slot name="vote-chip"></slot>
+          <gr-button
+            aria-disabled="false"
+            aria-label="Remove"
+            class="remove"
+            hidden=""
+            id="remove"
+            link=""
+            role="button"
+            tabindex="0"
+          >
+            <gr-icon icon="close"></gr-icon>
+          </gr-button>
         </div>
-        <slot name="vote-chip"></slot>
-        <gr-button
-          aria-disabled="false"
-          aria-label="Remove"
-          class="remove"
-          hidden=""
-          id="remove"
-          link=""
-          role="button"
-          tabindex="0"
-        >
-          <gr-icon icon="close"></gr-icon>
-        </gr-button>
-      </div>
-    `);
+      `
+    );
   });
 });

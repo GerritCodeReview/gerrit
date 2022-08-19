@@ -26,37 +26,40 @@ suite('gr-reviewer-list tests', () => {
   });
 
   test('render', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <div class="container">
-        <div>
-          <div class="controlsContainer" hidden="">
-            <gr-button
-              aria-disabled="false"
-              class="addReviewer"
-              id="addReviewer"
-              link=""
-              role="button"
-              tabindex="0"
-              title="Add reviewer"
-            >
-              <div>
-                <gr-icon icon="edit" filled small></gr-icon>
-              </div>
-            </gr-button>
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="container">
+          <div>
+            <div class="controlsContainer" hidden="">
+              <gr-button
+                aria-disabled="false"
+                class="addReviewer"
+                id="addReviewer"
+                link=""
+                role="button"
+                tabindex="0"
+                title="Add reviewer"
+              >
+                <div>
+                  <gr-icon icon="edit" filled small></gr-icon>
+                </div>
+              </gr-button>
+            </div>
           </div>
+          <gr-button
+            aria-disabled="false"
+            class="hiddenReviewers"
+            hidden=""
+            link=""
+            role="button"
+            tabindex="0"
+          >
+            and 0 more
+          </gr-button>
         </div>
-        <gr-button
-          aria-disabled="false"
-          class="hiddenReviewers"
-          hidden=""
-          link=""
-          role="button"
-          tabindex="0"
-        >
-          and 0 more
-        </gr-button>
-      </div>
-    `);
+      `
+    );
   });
 
   test('controls hidden on immutable element', async () => {

@@ -32,7 +32,8 @@ suite('gr-autocomplete tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(
+    assert.shadowDom.equal(
+      element,
       /* HTML */ `
         <paper-input
           aria-disabled="false"
@@ -83,7 +84,8 @@ suite('gr-autocomplete tests', () => {
     await waitUntil(() => queryStub.called);
     await element.updateComplete;
 
-    expect(element).shadowDom.to.equal(
+    assert.shadowDom.equal(
+      element,
       /* HTML */ `
         <paper-input
           aria-disabled="false"

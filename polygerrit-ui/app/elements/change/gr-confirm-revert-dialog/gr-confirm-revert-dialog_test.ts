@@ -20,24 +20,27 @@ suite('gr-confirm-revert-dialog tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <gr-dialog role="dialog">
-        <div class="header" slot="header">Revert Merged Change</div>
-        <div class="main" slot="main">
-          <div class="error" hidden="">
-            <span> A reason is required </span>
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <gr-dialog role="dialog">
+          <div class="header" slot="header">Revert Merged Change</div>
+          <div class="main" slot="main">
+            <div class="error" hidden="">
+              <span> A reason is required </span>
+            </div>
+            <gr-endpoint-decorator name="confirm-revert-change">
+              <label for="messageInput"> Revert Commit Message </label>
+              <iron-autogrow-textarea
+                id="messageInput"
+                class="message"
+                aria-disabled="false"
+              ></iron-autogrow-textarea>
+            </gr-endpoint-decorator>
           </div>
-          <gr-endpoint-decorator name="confirm-revert-change">
-            <label for="messageInput"> Revert Commit Message </label>
-            <iron-autogrow-textarea
-              id="messageInput"
-              class="message"
-              aria-disabled="false"
-            ></iron-autogrow-textarea>
-          </gr-endpoint-decorator>
-        </div>
-      </gr-dialog>
-    `);
+        </gr-dialog>
+      `
+    );
   });
 
   test('no match', () => {

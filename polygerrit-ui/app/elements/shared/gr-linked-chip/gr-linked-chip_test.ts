@@ -20,20 +20,23 @@ suite('gr-linked-chip tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `<div class="container">
-      <a href=""> <gr-limited-text> </gr-limited-text> </a>
-      <gr-button
-        aria-disabled="false"
-        class="remove"
-        hidden=""
-        id="remove"
-        link=""
-        role="button"
-        tabindex="0"
-      >
-        <gr-icon icon="close"></gr-icon>
-      </gr-button>
-    </div>`);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `<div class="container">
+        <a href=""> <gr-limited-text> </gr-limited-text> </a>
+        <gr-button
+          aria-disabled="false"
+          class="remove"
+          hidden=""
+          id="remove"
+          link=""
+          role="button"
+          tabindex="0"
+        >
+          <gr-icon icon="close"></gr-icon>
+        </gr-button>
+      </div>`
+    );
   });
 
   test('remove fired', async () => {

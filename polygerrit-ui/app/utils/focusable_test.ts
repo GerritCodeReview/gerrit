@@ -55,26 +55,18 @@ suite('focusable', () => {
   test('Finds all focusables in-order', async () => {
     const container = await createDom();
     const results = [...getFocusableElements(container)];
-    expect(results.map(e => e.id)).to.have.ordered.members([
-      'first',
-      'second',
-      'third',
-      'fourth',
-      'fifth',
-      'sixth',
-    ]);
+    assert.includeOrderedMembers(
+      results.map(e => e.id),
+      ['first', 'second', 'third', 'fourth', 'fifth', 'sixth']
+    );
   });
 
   test('Finds all focusables in reverse order', async () => {
     const container = await createDom();
     const results = [...getFocusableElementsReverse(container)];
-    expect(results.map(e => e.id)).to.have.ordered.members([
-      'sixth',
-      'fifth',
-      'fourth',
-      'third',
-      'second',
-      'first',
-    ]);
+    assert.includeOrderedMembers(
+      results.map(e => e.id),
+      ['sixth', 'fifth', 'fourth', 'third', 'second', 'first']
+    );
   });
 });

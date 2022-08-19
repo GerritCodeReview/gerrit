@@ -32,7 +32,8 @@ suite('gr-checks-runs test', () => {
   test('renders', async () => {
     await element.updateComplete;
     assert.equal(element.runs.length, 44);
-    expect(element).shadowDom.to.equal(
+    assert.shadowDom.equal(
+      element,
       /* HTML */ `
         <h2 class="title">
           <div class="heading-2">Runs</div>
@@ -95,7 +96,8 @@ suite('gr-checks-runs test', () => {
     element.collapsed = true;
     await element.updateComplete;
     assert.equal(element.runs.length, 44);
-    expect(element).shadowDom.to.equal(
+    assert.shadowDom.equal(
+      element,
       /* HTML */ `
         <h2 class="title">
           <div class="heading-2">Runs</div>

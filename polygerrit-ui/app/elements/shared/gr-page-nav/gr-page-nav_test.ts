@@ -23,11 +23,14 @@ suite('gr-page-nav tests', () => {
   });
 
   test('render', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <nav aria-label="Sidebar">
-        <slot> </slot>
-      </nav>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <nav aria-label="Sidebar">
+          <slot> </slot>
+        </nav>
+      `
+    );
   });
 
   test('header is not pinned just below top', () => {

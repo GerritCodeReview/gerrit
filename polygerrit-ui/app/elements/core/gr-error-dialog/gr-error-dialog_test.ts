@@ -19,18 +19,21 @@ suite('gr-error-dialog tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <gr-dialog
-        cancel-label=""
-        confirm-label="Dismiss"
-        confirm-on-enter=""
-        id="dialog"
-        role="dialog"
-      >
-        <div class="header" slot="header">An error occurred</div>
-        <div class="main" slot="main"></div>
-      </gr-dialog>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <gr-dialog
+          cancel-label=""
+          confirm-label="Dismiss"
+          confirm-on-enter=""
+          id="dialog"
+          role="dialog"
+        >
+          <div class="header" slot="header">An error occurred</div>
+          <div class="main" slot="main"></div>
+        </gr-dialog>
+      `
+    );
   });
 
   test('dismiss tap fires event', async () => {

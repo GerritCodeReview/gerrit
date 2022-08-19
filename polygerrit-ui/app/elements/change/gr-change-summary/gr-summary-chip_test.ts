@@ -22,10 +22,11 @@ suite('gr-summary-chip test', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `<button
-      class="font-small summaryChip warning"
-    >
-      <slot> </slot>
-    </button>`);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `<button class="font-small summaryChip warning">
+        <slot> </slot>
+      </button>`
+    );
   });
 });

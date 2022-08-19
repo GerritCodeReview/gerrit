@@ -38,77 +38,80 @@ suite('gr-change-table-editor tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ ` <div class="gr-form-styles">
-      <table id="changeCols">
-        <thead>
-          <tr>
-            <th class="nameHeader">Column</th>
-            <th class="visibleHeader">Visible</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><label for="numberCheckbox"> Number </label></td>
-            <td class="checkboxContainer">
-              <input id="numberCheckbox" name="number" type="checkbox" />
-            </td>
-          </tr>
-          <tr>
-            <td><label for="Subject"> Subject </label></td>
-            <td class="checkboxContainer">
-              <input checked="" id="Subject" name="Subject" type="checkbox" />
-            </td>
-          </tr>
-          <tr>
-            <td><label for="Owner"> Owner </label></td>
-            <td class="checkboxContainer">
-              <input checked="" id="Owner" name="Owner" type="checkbox" />
-            </td>
-          </tr>
-          <tr>
-            <td><label for="Reviewers"> Reviewers </label></td>
-            <td class="checkboxContainer">
-              <input
-                checked=""
-                id="Reviewers"
-                name="Reviewers"
-                type="checkbox"
-              />
-            </td>
-          </tr>
-          <tr>
-            <td><label for="Repo"> Repo </label></td>
-            <td class="checkboxContainer">
-              <input checked="" id="Repo" name="Repo" type="checkbox" />
-            </td>
-          </tr>
-          <tr>
-            <td><label for="Branch"> Branch </label></td>
-            <td class="checkboxContainer">
-              <input checked="" id="Branch" name="Branch" type="checkbox" />
-            </td>
-          </tr>
-          <tr>
-            <td><label for="Updated"> Updated </label></td>
-            <td class="checkboxContainer">
-              <input checked="" id="Updated" name="Updated" type="checkbox" />
-            </td>
-          </tr>
-          <tr>
-            <td><label for="Size"> Size </label></td>
-            <td class="checkboxContainer">
-              <input id="Size" name="Size" type="checkbox" />
-            </td>
-          </tr>
-          <tr>
-            <td><label for=" Status "> Status </label></td>
-            <td class="checkboxContainer">
-              <input id=" Status " name=" Status " type="checkbox" />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>`);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ ` <div class="gr-form-styles">
+        <table id="changeCols">
+          <thead>
+            <tr>
+              <th class="nameHeader">Column</th>
+              <th class="visibleHeader">Visible</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><label for="numberCheckbox"> Number </label></td>
+              <td class="checkboxContainer">
+                <input id="numberCheckbox" name="number" type="checkbox" />
+              </td>
+            </tr>
+            <tr>
+              <td><label for="Subject"> Subject </label></td>
+              <td class="checkboxContainer">
+                <input checked="" id="Subject" name="Subject" type="checkbox" />
+              </td>
+            </tr>
+            <tr>
+              <td><label for="Owner"> Owner </label></td>
+              <td class="checkboxContainer">
+                <input checked="" id="Owner" name="Owner" type="checkbox" />
+              </td>
+            </tr>
+            <tr>
+              <td><label for="Reviewers"> Reviewers </label></td>
+              <td class="checkboxContainer">
+                <input
+                  checked=""
+                  id="Reviewers"
+                  name="Reviewers"
+                  type="checkbox"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td><label for="Repo"> Repo </label></td>
+              <td class="checkboxContainer">
+                <input checked="" id="Repo" name="Repo" type="checkbox" />
+              </td>
+            </tr>
+            <tr>
+              <td><label for="Branch"> Branch </label></td>
+              <td class="checkboxContainer">
+                <input checked="" id="Branch" name="Branch" type="checkbox" />
+              </td>
+            </tr>
+            <tr>
+              <td><label for="Updated"> Updated </label></td>
+              <td class="checkboxContainer">
+                <input checked="" id="Updated" name="Updated" type="checkbox" />
+              </td>
+            </tr>
+            <tr>
+              <td><label for="Size"> Size </label></td>
+              <td class="checkboxContainer">
+                <input id="Size" name="Size" type="checkbox" />
+              </td>
+            </tr>
+            <tr>
+              <td><label for=" Status "> Status </label></td>
+              <td class="checkboxContainer">
+                <input id=" Status " name=" Status " type="checkbox" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>`
+    );
   });
 
   test('renders', () => {

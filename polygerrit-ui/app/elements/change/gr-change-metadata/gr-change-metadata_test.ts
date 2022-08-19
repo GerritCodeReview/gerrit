@@ -81,7 +81,9 @@ suite('gr-change-metadata tests', () => {
 
   test('renders', async () => {
     await element.updateComplete;
-    expect(element).shadowDom.to.equal(/* HTML */ `<div>
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `<div>
       <div class="metadata-header">
         <h3 class="heading-3 metadata-title">Change Info</h3>
         <gr-button
@@ -198,7 +200,8 @@ suite('gr-change-metadata tests', () => {
         <gr-endpoint-param name="change"> </gr-endpoint-param>
         <gr-endpoint-param name="revision"> </gr-endpoint-param>
       </gr-endpoint-decorator>
-    </div>`);
+    </div>`
+    );
   });
 
   test('computeMergedCommitInfo', () => {

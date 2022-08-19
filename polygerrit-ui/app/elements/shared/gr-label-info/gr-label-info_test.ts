@@ -52,26 +52,29 @@ suite('gr-label-info tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `<div>
-      <div class="reviewer-row">
-        <gr-account-chip>
-          <gr-vote-chip circle-shape="" slot="vote-chip"> </gr-vote-chip>
-        </gr-account-chip>
-        <gr-tooltip-content has-tooltip="" title="Remove vote">
-          <gr-button
-            aria-disabled="false"
-            aria-label="Remove vote"
-            class="deleteBtn hidden"
-            data-account-id="5"
-            link=""
-            role="button"
-            tabindex="0"
-          >
-            <gr-icon icon="delete" filled></gr-icon>
-          </gr-button>
-        </gr-tooltip-content>
-      </div>
-    </div>`);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `<div>
+        <div class="reviewer-row">
+          <gr-account-chip>
+            <gr-vote-chip circle-shape="" slot="vote-chip"> </gr-vote-chip>
+          </gr-account-chip>
+          <gr-tooltip-content has-tooltip="" title="Remove vote">
+            <gr-button
+              aria-disabled="false"
+              aria-label="Remove vote"
+              class="deleteBtn hidden"
+              data-account-id="5"
+              link=""
+              role="button"
+              tabindex="0"
+            >
+              <gr-icon icon="delete" filled></gr-icon>
+            </gr-button>
+          </gr-tooltip-content>
+        </div>
+      </div>`
+    );
   });
 
   suite('remove reviewer votes', () => {

@@ -26,7 +26,9 @@ suite('gr-diff-check-result tests', () => {
     element.result = {...fakeRun1, ...fakeRun1.results?.[0]} as RunResult;
     await element.updateComplete;
     // cannot use /* HTML */ because formatted long message will not match.
-    expect(element).shadowDom.to.equal(`
+    assert.shadowDom.equal(
+      element,
+      `
       <div class="container font-normal warning">
         <div class="header">
           <div class="icon">
@@ -44,6 +46,7 @@ suite('gr-diff-check-result tests', () => {
         </div>
         <div class="details"></div>
       </div>
-    `);
+    `
+    );
   });
 });

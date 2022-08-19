@@ -21,19 +21,22 @@ suite('gr-repo-header tests', () => {
   });
 
   test('render', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <div class="info">
-        <h1 class="heading-1">test</h1>
-        <hr />
-        <div>
-          <span> Detail: </span>
-          <a href=""> Repo settings </a>
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="info">
+          <h1 class="heading-1">test</h1>
+          <hr />
+          <div>
+            <span> Detail: </span>
+            <a href=""> Repo settings </a>
+          </div>
+          <div>
+            <span class="browse"> Browse: </span>
+          </div>
         </div>
-        <div>
-          <span class="browse"> Browse: </span>
-        </div>
-      </div>
-    `);
+      `
+    );
   });
 
   test('repoUrl reset once repo changed', async () => {

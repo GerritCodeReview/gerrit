@@ -104,8 +104,9 @@ suite('gr-download-dialog', () => {
 
   test('render', () => {
     // prettier and shadowDom string don't agree on the long text in the h3
-    expect(element).shadowDom.to
-      .equal(/* prettier-ignore */ /* HTML */ `
+    assert.shadowDom.equal(
+      element,
+      /* prettier-ignore */ /* HTML */ `
       <section>
         <h3 class="heading-3">
           Patch set 1 of
@@ -148,7 +149,8 @@ suite('gr-download-dialog', () => {
           </gr-button>
         </span>
       </section>
-    `);
+    `
+    );
   });
 
   test('anchors use download attribute', () => {

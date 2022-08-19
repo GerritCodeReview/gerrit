@@ -29,27 +29,30 @@ suite('gr-search-bar tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <form>
-        <gr-autocomplete
-          allow-non-suggested-values=""
-          id="searchInput"
-          multi=""
-          show-search-icon=""
-          tab-complete=""
-        >
-          <a
-            class="help"
-            href="https://gerrit-review.googlesource.com/documentation/user-search.html"
-            slot="suffix"
-            tabindex="-1"
-            target="_blank"
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <form>
+          <gr-autocomplete
+            allow-non-suggested-values=""
+            id="searchInput"
+            multi=""
+            show-search-icon=""
+            tab-complete=""
           >
-            <gr-icon icon="help" title="read documentation"></gr-icon>
-          </a>
-        </gr-autocomplete>
-      </form>
-    `);
+            <a
+              class="help"
+              href="https://gerrit-review.googlesource.com/documentation/user-search.html"
+              slot="suffix"
+              tabindex="-1"
+              target="_blank"
+            >
+              <gr-icon icon="help" title="read documentation"></gr-icon>
+            </a>
+          </gr-autocomplete>
+        </form>
+      `
+    );
   });
 
   test('value is propagated to inputVal', async () => {

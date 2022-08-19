@@ -20,9 +20,10 @@ suite('gr-smart-search tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <gr-search-bar id="search"> </gr-search-bar>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ ' <gr-search-bar id="search"> </gr-search-bar> '
+    );
   });
 
   test('Autocompletes accounts', () => {

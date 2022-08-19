@@ -36,26 +36,29 @@ suite('gr-confirm-move-dialog tests', () => {
   });
 
   test('render', async () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <gr-dialog confirm-label="Move Change" role="dialog">
-        <div class="header" slot="header">Move Change to Another Branch</div>
-        <div class="main" slot="main">
-          <p class="warning">
-            Warning: moving a change will not change its parents.
-          </p>
-          <label for="branchInput"> Move change to branch </label>
-          <gr-autocomplete id="branchInput" placeholder="Destination branch">
-          </gr-autocomplete>
-          <label for="messageInput"> Move Change Message </label>
-          <iron-autogrow-textarea
-            aria-disabled="false"
-            id="messageInput"
-            class="message"
-            autocomplete="on"
-          ></iron-autogrow-textarea>
-        </div>
-      </gr-dialog>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <gr-dialog confirm-label="Move Change" role="dialog">
+          <div class="header" slot="header">Move Change to Another Branch</div>
+          <div class="main" slot="main">
+            <p class="warning">
+              Warning: moving a change will not change its parents.
+            </p>
+            <label for="branchInput"> Move change to branch </label>
+            <gr-autocomplete id="branchInput" placeholder="Destination branch">
+            </gr-autocomplete>
+            <label for="messageInput"> Move Change Message </label>
+            <iron-autogrow-textarea
+              aria-disabled="false"
+              id="messageInput"
+              class="message"
+              autocomplete="on"
+            ></iron-autogrow-textarea>
+          </div>
+        </gr-dialog>
+      `
+    );
   });
 
   test('with updated commit message', async () => {

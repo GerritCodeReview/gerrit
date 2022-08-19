@@ -52,33 +52,36 @@ suite('gr-diff-mode-selector tests', () => {
       mode => mode === DiffViewMode.SIDE_BY_SIDE
     );
 
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <gr-tooltip-content has-tooltip="" title="Side-by-side diff">
-        <gr-button
-          id="sideBySideBtn"
-          link=""
-          class="selected"
-          aria-disabled="false"
-          aria-pressed="true"
-          role="button"
-          tabindex="0"
-        >
-          <gr-icon icon="view_column_2" filled></gr-icon>
-        </gr-button>
-      </gr-tooltip-content>
-      <gr-tooltip-content has-tooltip title="Unified diff">
-        <gr-button
-          id="unifiedBtn"
-          link=""
-          role="button"
-          aria-disabled="false"
-          aria-pressed="false"
-          tabindex="0"
-        >
-          <gr-icon filled icon="calendar_view_day"></gr-icon>
-        </gr-button>
-      </gr-tooltip-content>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <gr-tooltip-content has-tooltip="" title="Side-by-side diff">
+          <gr-button
+            id="sideBySideBtn"
+            link=""
+            class="selected"
+            aria-disabled="false"
+            aria-pressed="true"
+            role="button"
+            tabindex="0"
+          >
+            <gr-icon icon="view_column_2" filled></gr-icon>
+          </gr-button>
+        </gr-tooltip-content>
+        <gr-tooltip-content has-tooltip title="Unified diff">
+          <gr-button
+            id="unifiedBtn"
+            link=""
+            role="button"
+            aria-disabled="false"
+            aria-pressed="false"
+            tabindex="0"
+          >
+            <gr-icon filled icon="calendar_view_day"></gr-icon>
+          </gr-button>
+        </gr-tooltip-content>
+      `
+    );
   });
 
   test('renders unified selected', async () => {
@@ -91,34 +94,37 @@ suite('gr-diff-mode-selector tests', () => {
       mode => mode === DiffViewMode.UNIFIED
     );
 
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <gr-tooltip-content has-tooltip="" title="Side-by-side diff">
-        <gr-button
-          id="sideBySideBtn"
-          link=""
-          class=""
-          aria-disabled="false"
-          aria-pressed="false"
-          role="button"
-          tabindex="0"
-        >
-          <gr-icon icon="view_column_2" filled></gr-icon>
-        </gr-button>
-      </gr-tooltip-content>
-      <gr-tooltip-content has-tooltip title="Unified diff">
-        <gr-button
-          id="unifiedBtn"
-          link=""
-          class="selected"
-          role="button"
-          aria-disabled="false"
-          aria-pressed="true"
-          tabindex="0"
-        >
-          <gr-icon icon="calendar_view_day" filled></gr-icon>
-        </gr-button>
-      </gr-tooltip-content>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <gr-tooltip-content has-tooltip="" title="Side-by-side diff">
+          <gr-button
+            id="sideBySideBtn"
+            link=""
+            class=""
+            aria-disabled="false"
+            aria-pressed="false"
+            role="button"
+            tabindex="0"
+          >
+            <gr-icon icon="view_column_2" filled></gr-icon>
+          </gr-button>
+        </gr-tooltip-content>
+        <gr-tooltip-content has-tooltip title="Unified diff">
+          <gr-button
+            id="unifiedBtn"
+            link=""
+            class="selected"
+            role="button"
+            aria-disabled="false"
+            aria-pressed="true"
+            tabindex="0"
+          >
+            <gr-icon icon="calendar_view_day" filled></gr-icon>
+          </gr-button>
+        </gr-tooltip-content>
+      `
+    );
   });
 
   test('set mode', async () => {

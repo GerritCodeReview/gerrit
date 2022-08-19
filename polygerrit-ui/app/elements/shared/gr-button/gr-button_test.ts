@@ -32,18 +32,21 @@ suite('gr-button tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <paper-button
-        animated=""
-        aria-disabled="false"
-        elevation="1"
-        part="paper-button"
-        raised=""
-        role="button"
-        tabindex="-1"
-        ><slot></slot><i class="downArrow"></i>
-      </paper-button>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <paper-button
+          animated=""
+          aria-disabled="false"
+          elevation="1"
+          part="paper-button"
+          raised=""
+          role="button"
+          tabindex="-1"
+          ><slot></slot><i class="downArrow"></i>
+        </paper-button>
+      `
+    );
   });
 
   test('disabled is set by disabled', async () => {

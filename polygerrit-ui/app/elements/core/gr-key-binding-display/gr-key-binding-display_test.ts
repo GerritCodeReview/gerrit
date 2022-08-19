@@ -24,16 +24,19 @@ suite('gr-key-binding-display tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <span class="key"> x </span>
-      or
-      <span class="key modifier"> Ctrl </span>
-      <span class="key"> x </span>
-      or
-      <span class="key modifier"> Shift </span>
-      <span class="key modifier"> Meta </span>
-      <span class="key"> x </span>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <span class="key"> x </span>
+        or
+        <span class="key modifier"> Ctrl </span>
+        <span class="key"> x </span>
+        or
+        <span class="key modifier"> Shift </span>
+        <span class="key modifier"> Meta </span>
+        <span class="key"> x </span>
+      `
+    );
   });
 
   suite('_computeKey', () => {

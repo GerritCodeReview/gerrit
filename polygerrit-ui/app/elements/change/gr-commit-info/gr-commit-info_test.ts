@@ -30,12 +30,15 @@ suite('gr-commit-info tests', () => {
     element.serverConfig = createServerInfo();
     await element.updateComplete;
 
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <div class="container">
-        <a href="" rel="noopener" target="_blank"> </a>
-        <gr-copy-clipboard hastooltip="" hideinput=""> </gr-copy-clipboard>
-      </div>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="container">
+          <a href="" rel="noopener" target="_blank"> </a>
+          <gr-copy-clipboard hastooltip="" hideinput=""> </gr-copy-clipboard>
+        </div>
+      `
+    );
   });
 
   test('weblinks use GerritNav interface', async () => {

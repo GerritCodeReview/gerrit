@@ -55,18 +55,21 @@ suite('gr-change-list-view tests', () => {
     element.loading = false;
     await element.updateComplete;
 
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <div class="loading" hidden="">Loading...</div>
-      <div>
-        <gr-change-list> </gr-change-list>
-        <nav>
-          Page
-          <a href="" id="prevArrow">
-            <gr-icon icon="chevron_left" aria-label="Older"></gr-icon>
-          </a>
-        </nav>
-      </div>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="loading" hidden="">Loading...</div>
+        <div>
+          <gr-change-list> </gr-change-list>
+          <nav>
+            Page
+            <a href="" id="prevArrow">
+              <gr-icon icon="chevron_left" aria-label="Older"></gr-icon>
+            </a>
+          </nav>
+        </div>
+      `
+    );
   });
 
   suite('bulk actions', () => {

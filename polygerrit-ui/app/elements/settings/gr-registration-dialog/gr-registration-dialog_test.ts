@@ -102,7 +102,9 @@ suite('gr-registration-dialog tests', () => {
 
   test('renders', () => {
     // cannot format with /* HTML */, because it breaks test
-    expect(element).shadowDom.to.equal(/* HTML*/ `<div
+    assert.shadowDom.equal(
+      element,
+      /* HTML*/ `<div
       class="container gr-form-styles"
     >
       <header>Please confirm your contact information</header>
@@ -164,7 +166,8 @@ suite('gr-registration-dialog tests', () => {
           Save
         </gr-button>
       </footer>
-    </div>`);
+    </div>`
+    );
   });
 
   test('fires the close event on close', async () => {

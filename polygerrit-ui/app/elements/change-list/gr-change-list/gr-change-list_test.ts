@@ -63,10 +63,13 @@ suite('gr-change-list basic tests', () => {
       {...createChange(), _number: 2 as NumericChangeId},
     ];
     await element.updateComplete;
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <gr-change-list-section> </gr-change-list-section>
-      <table id="changeList"></table>
-    `);
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <gr-change-list-section> </gr-change-list-section>
+        <table id="changeList"></table>
+      `
+    );
   });
 
   suite('test show change number not logged in', () => {

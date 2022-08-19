@@ -125,7 +125,9 @@ suite('gr-settings-view tests', () => {
     element.docsBaseUrl = 'https://test.com';
     await element.updateComplete;
     // this cannot be formatted with /* HTML */, because it breaks test
-    expect(element).shadowDom.to.equal(/* HTML*/ `<div
+    assert.shadowDom.equal(
+      element,
+      /* HTML*/ `<div
         class="loading"
         hidden=""
       >
@@ -512,7 +514,8 @@ suite('gr-settings-view tests', () => {
           <gr-endpoint-decorator name="settings-screen">
           </gr-endpoint-decorator>
         </div>
-      </div>`);
+      </div>`
+    );
   });
 
   test('theme changing', async () => {

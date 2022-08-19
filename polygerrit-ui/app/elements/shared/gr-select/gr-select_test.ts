@@ -24,7 +24,7 @@ suite('gr-select tests', () => {
   });
 
   test('render', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ '<slot></slot>');
+    assert.shadowDom.equal(element, /* HTML */ '<slot></slot>');
   });
 
   test('bindValue must be set to the first option value', () => {

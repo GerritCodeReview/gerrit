@@ -116,144 +116,146 @@ suite('gr-file-list tests', () => {
     });
 
     test('renders', () => {
-      expect(element).shadowDom.to.equal(/* HTML */ `<h3
-          class="assistive-tech-only"
-        >
-          File list
-        </h3>
-        <div aria-label="Files list" id="container" role="grid">
-          <div class="header-row row" role="row">
-            <div class="status" role="gridcell"></div>
-            <div class="path" role="columnheader">File</div>
-            <div class="comments desktop" role="columnheader">Comments</div>
-            <div class="comments mobile" role="columnheader" title="Comments">
-              C
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `<h3 class="assistive-tech-only">File list</h3>
+          <div aria-label="Files list" id="container" role="grid">
+            <div class="header-row row" role="row">
+              <div class="status" role="gridcell"></div>
+              <div class="path" role="columnheader">File</div>
+              <div class="comments desktop" role="columnheader">Comments</div>
+              <div class="comments mobile" role="columnheader" title="Comments">
+                C
+              </div>
+              <div class="desktop sizeBars" role="columnheader">Size</div>
+              <div class="header-stats" role="columnheader">Delta</div>
+              <div aria-hidden="true" class="hideOnEdit reviewed"></div>
+              <div aria-hidden="true" class="editFileControls showOnEdit"></div>
+              <div aria-hidden="true" class="show-hide"></div>
             </div>
-            <div class="desktop sizeBars" role="columnheader">Size</div>
-            <div class="header-stats" role="columnheader">Delta</div>
-            <div aria-hidden="true" class="hideOnEdit reviewed"></div>
-            <div aria-hidden="true" class="editFileControls showOnEdit"></div>
-            <div aria-hidden="true" class="show-hide"></div>
           </div>
-        </div>
-        <div class="controlRow invisible row">
-          <gr-button
-            aria-disabled="false"
-            class="fileListButton"
-            id="incrementButton"
-            link=""
-            role="button"
-            tabindex="0"
-          >
-            Show -200 more
-          </gr-button>
-          <gr-tooltip-content title="">
+          <div class="controlRow invisible row">
             <gr-button
               aria-disabled="false"
               class="fileListButton"
-              id="showAllButton"
+              id="incrementButton"
               link=""
               role="button"
               tabindex="0"
             >
-              Show all 0 files
+              Show -200 more
             </gr-button>
-          </gr-tooltip-content>
-        </div>
-        <gr-diff-preferences-dialog
-          id="diffPreferencesDialog"
-        ></gr-diff-preferences-dialog>`);
+            <gr-tooltip-content title="">
+              <gr-button
+                aria-disabled="false"
+                class="fileListButton"
+                id="showAllButton"
+                link=""
+                role="button"
+                tabindex="0"
+              >
+                Show all 0 files
+              </gr-button>
+            </gr-tooltip-content>
+          </div>
+          <gr-diff-preferences-dialog
+            id="diffPreferencesDialog"
+          ></gr-diff-preferences-dialog>`
+      );
     });
 
     test('renders file row', async () => {
       element.files = createFiles(1, {lines_inserted: 9});
       await element.updateComplete;
       const fileRows = queryAll<HTMLDivElement>(element, '.file-row');
-      expect(fileRows?.[0]).dom.equal(/* HTML */ `<div
-        class="file-row row"
-        data-file='{"path":"&apos;/file0"}'
-        role="row"
-        tabindex="-1"
-      >
-        <div class="status" role="gridcell">
-          <gr-file-status></gr-file-status>
-        </div>
-        <span class="path" role="gridcell">
-          <a class="pathLink">
-            <span class="fullFileName" title="'/file0"> '/file0 </span>
-            <span class="truncatedFileName" title="'/file0"> …/file0 </span>
-            <gr-copy-clipboard hideinput=""> </gr-copy-clipboard>
-          </a>
-        </span>
-        <div role="gridcell">
-          <div class="comments desktop">
-            <span class="drafts"> </span> <span> </span>
-            <span class="noCommentsScreenReaderText"> No comments </span>
+      assert.dom.equal(
+        fileRows?.[0],
+        /* HTML */ `<div
+          class="file-row row"
+          data-file='{"path":"&apos;/file0"}'
+          role="row"
+          tabindex="-1"
+        >
+          <div class="status" role="gridcell">
+            <gr-file-status></gr-file-status>
           </div>
-          <div class="comments mobile">
-            <span class="drafts"> </span> <span> </span>
-            <span class="noCommentsScreenReaderText"> No comments </span>
+          <span class="path" role="gridcell">
+            <a class="pathLink">
+              <span class="fullFileName" title="'/file0"> '/file0 </span>
+              <span class="truncatedFileName" title="'/file0"> …/file0 </span>
+              <gr-copy-clipboard hideinput=""> </gr-copy-clipboard>
+            </a>
+          </span>
+          <div role="gridcell">
+            <div class="comments desktop">
+              <span class="drafts"> </span> <span> </span>
+              <span class="noCommentsScreenReaderText"> No comments </span>
+            </div>
+            <div class="comments mobile">
+              <span class="drafts"> </span> <span> </span>
+              <span class="noCommentsScreenReaderText"> No comments </span>
+            </div>
           </div>
-        </div>
-        <div class="desktop" role="gridcell">
-          <div
-            aria-label="A bar that represents the addition and deletion ratio for the current file"
-            class="hide sizeBars"
-          ></div>
-        </div>
-        <div class="stats" role="gridcell">
-          <div>
-            <span aria-label="9 lines added" class="added" tabindex="0">
-              +9
-            </span>
-            <span aria-label="0 lines removed" class="removed" tabindex="0">
-              -0
-            </span>
-            <span hidden=""> +/-0 B </span>
+          <div class="desktop" role="gridcell">
+            <div
+              aria-label="A bar that represents the addition and deletion ratio for the current file"
+              class="hide sizeBars"
+            ></div>
           </div>
-        </div>
-        <div class="hideOnEdit reviewed" role="gridcell">
-          <span aria-hidden="true" class="reviewedLabel"> Reviewed </span>
-          <span
-            aria-checked="false"
-            aria-label="Reviewed"
-            class="reviewedSwitch"
-            role="switch"
-            tabindex="0"
-          >
+          <div class="stats" role="gridcell">
+            <div>
+              <span aria-label="9 lines added" class="added" tabindex="0">
+                +9
+              </span>
+              <span aria-label="0 lines removed" class="removed" tabindex="0">
+                -0
+              </span>
+              <span hidden=""> +/-0 B </span>
+            </div>
+          </div>
+          <div class="hideOnEdit reviewed" role="gridcell">
+            <span aria-hidden="true" class="reviewedLabel"> Reviewed </span>
             <span
-              class="markReviewed"
-              tabindex="-1"
-              title="Mark as reviewed (shortcut: r)"
+              aria-checked="false"
+              aria-label="Reviewed"
+              class="reviewedSwitch"
+              role="switch"
+              tabindex="0"
             >
-              MARK REVIEWED
+              <span
+                class="markReviewed"
+                tabindex="-1"
+                title="Mark as reviewed (shortcut: r)"
+              >
+                MARK REVIEWED
+              </span>
             </span>
-          </span>
-        </div>
-        <div
-          aria-hidden="true"
-          class="editFileControls showOnEdit"
-          role="gridcell"
-        ></div>
-        <div class="show-hide" role="gridcell">
-          <span
-            aria-checked="false"
-            aria-label="Expand file"
-            class="show-hide"
-            data-expand="true"
-            data-path="'/file0"
-            role="switch"
-            tabindex="0"
-          >
-            <gr-icon
-              icon="expand_more"
-              class="show-hide-icon"
-              id="icon"
-              tabindex="-1"
-            ></gr-icon>
-          </span>
-        </div>
-      </div>`);
+          </div>
+          <div
+            aria-hidden="true"
+            class="editFileControls showOnEdit"
+            role="gridcell"
+          ></div>
+          <div class="show-hide" role="gridcell">
+            <span
+              aria-checked="false"
+              aria-label="Expand file"
+              class="show-hide"
+              data-expand="true"
+              data-path="'/file0"
+              role="switch"
+              tabindex="0"
+            >
+              <gr-icon
+                icon="expand_more"
+                class="show-hide-icon"
+                id="icon"
+                tabindex="-1"
+              ></gr-icon>
+            </span>
+          </div>
+        </div>`
+      );
     });
 
     test('renders file status column', async () => {
@@ -262,13 +264,16 @@ suite('gr-file-list tests', () => {
       await element.updateComplete;
       const fileRows = queryAll<HTMLDivElement>(element, '.file-row');
       const statusCol = queryAndAssert(fileRows?.[0], '.status');
-      expect(statusCol).dom.equal(/* HTML */ `
-        <div class="extended status" role="gridcell">
-          <gr-file-status></gr-file-status>
-          <gr-icon class="file-status-arrow" icon="arrow_right_alt"></gr-icon>
-          <gr-file-status></gr-file-status>
-        </div>
-      `);
+      assert.dom.equal(
+        statusCol,
+        /* HTML */ `
+          <div class="extended status" role="gridcell">
+            <gr-file-status></gr-file-status>
+            <gr-icon class="file-status-arrow" icon="arrow_right_alt"></gr-icon>
+            <gr-file-status></gr-file-status>
+          </div>
+        `
+      );
     });
 
     test('renders file status column header', async () => {
@@ -278,17 +283,20 @@ suite('gr-file-list tests', () => {
       await element.updateComplete;
       const fileRows = queryAll<HTMLDivElement>(element, '.header-row');
       const statusCol = queryAndAssert(fileRows?.[0], '.status');
-      expect(statusCol).dom.equal(/* HTML */ `
-        <div class="extended status" role="gridcell">
-          <gr-tooltip-content has-tooltip="" title="Patchset 1">
-            <div class="content">1</div>
-          </gr-tooltip-content>
-          <gr-icon class="file-status-arrow" icon="arrow_right_alt"></gr-icon>
-          <gr-tooltip-content has-tooltip="" title="Patchset 2">
-            <div class="content">2</div>
-          </gr-tooltip-content>
-        </div>
-      `);
+      assert.dom.equal(
+        statusCol,
+        /* HTML */ `
+          <div class="extended status" role="gridcell">
+            <gr-tooltip-content has-tooltip="" title="Patchset 1">
+              <div class="content">1</div>
+            </gr-tooltip-content>
+            <gr-icon class="file-status-arrow" icon="arrow_right_alt"></gr-icon>
+            <gr-tooltip-content has-tooltip="" title="Patchset 2">
+              <div class="content">2</div>
+            </gr-tooltip-content>
+          </div>
+        `
+      );
     });
 
     test('correct number of files are shown', async () => {

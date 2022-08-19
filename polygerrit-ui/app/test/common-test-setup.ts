@@ -48,19 +48,16 @@ import {
 declare global {
   interface Window {
     assert: typeof chai.assert;
-    expect: typeof chai.expect;
     fixture: typeof fixtureImpl;
     stub: typeof stubImpl;
     sinon: typeof sinon;
     chai: typeof chai;
   }
   let assert: typeof chai.assert;
-  let expect: typeof chai.expect;
   let stub: typeof stubImpl;
   let sinon: typeof sinon;
 }
 window.assert = chai.assert;
-window.expect = chai.expect;
 window.chai.use(chaiDomDiff);
 
 window.sinon = sinon;

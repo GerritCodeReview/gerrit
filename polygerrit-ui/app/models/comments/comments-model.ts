@@ -68,6 +68,8 @@ export interface CommentState {
    * draft back. Once restored, the draft is removed from this array.
    */
   discardedDrafts: DraftInfo[];
+  mentionedUsersInDrafts: AccountInfo[];
+  mentionedUsersInUnresolvedDrafts: AccountInfo[];
 }
 
 const initialState: CommentState = {
@@ -77,6 +79,8 @@ const initialState: CommentState = {
   portedComments: undefined,
   portedDrafts: undefined,
   discardedDrafts: [],
+  mentionedUsersInDrafts: [],
+  mentionedUsersInUnresolvedDrafts: [],
 };
 
 const TOAST_DEBOUNCE_INTERVAL = 200;
@@ -367,6 +371,19 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
     );
     this.subscriptions.push(
       this.drafts$.subscribe(x => (this.drafts = x ?? {}))
+    );
+    this.subscriptions.push(
+      this.drafts$.subscribe(async drafts => {
+        const users: AccountInfo[] = [];
+        const comments = Object.values(drafts ?? {}).flat();
+        for (const comment of comments) {
+          users.push(...(await extractMentionedUsers(comment.message)));
+        }
+        this.setState({
+          ...initialState,
+          mentionedUsersInDrafts: [...users.filter(unique)],
+        });
+      })
     );
     this.subscriptions.push(
       this.changeModel.patchNum$.subscribe(x => (this.patchNum = x))

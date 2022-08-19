@@ -24,6 +24,7 @@ import {getDisplayName} from './display-name-util';
 import {getApprovalInfo} from './label-util';
 import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
 import {ParsedChangeInfo} from '../types/types';
+import {getAppContext} from '../services/app-context';
 
 export const ACCOUNT_TEMPLATE_REGEX = '<GERRIT_ACCOUNT_(\\d+)>';
 const SUGGESTIONS_LIMIT = 15;
@@ -208,14 +209,17 @@ export function getAccountSuggestions(
  * @ token which would have triggered the mentions dropdown and then looks
  * for the email token ending with a whitespace or end of string.
  */
-export function extractMentionedUsers(text?: string): AccountInfo[] {
+export async function extractMentionedUsers(
+  text?: string
+): Promise<AccountInfo[]> {
   if (!text) return [];
   let match;
   const users = [];
   while ((match = MENTIONS_REGEX.exec(text))) {
-    users.push({
+    const user = await getAppContext().accountsModel.fillDetails({
       email: match[1] as EmailAddress,
     });
+    if (user) users.push(user);
   }
   return users;
 }

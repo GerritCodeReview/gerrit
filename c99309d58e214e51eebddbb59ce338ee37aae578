@@ -16,6 +16,24 @@
       "message": "What about:\n```\n? html`\u003cspan class\u003d${classMap(this.computeChangeStatusClasses(change))}\u003e\n              (${this.computeChangeStatus(change)})\n```\n\nThen you don\u0027t need this ugly let.",
       "revId": "c99309d58e214e51eebddbb59ce338ee37aae578",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aab95c23_eac370c4",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-change.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-22T12:13:23Z",
+      "side": 1,
+      "message": "I think it\u0027s fine as is.\nIdeally I would have inlined the classMap since we have this inlined usage in other places as well but we can have this `let` since we have this weird type `ChangeInfo | RelatedChangeAndCommitInfo`.\nI will see in another change if I can improve this type a bit.",
+      "parentUuid": "c3cdc241_9a8a6038",
+      "revId": "c99309d58e214e51eebddbb59ce338ee37aae578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

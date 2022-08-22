@@ -16,8 +16,13 @@ import {
   DetailedLabelInfo,
 } from '../../../types/common';
 import {assertIsDefined, hasOwnProperty} from '../../../utils/common-util';
-import {Label} from '../../../utils/label-util';
-import {LabelNameToValuesMap} from '../../../api/rest-api';
+import {getVoteForAccount, Label} from '../../../utils/label-util';
+import {AccountInfo, LabelNameToValuesMap} from '../../../api/rest-api';
+import {subscribe} from '../../lit/subscription-controller';
+import {getAppContext} from '../../../services/app-context';
+import {ParsedChangeInfo} from '../../../types/types';
+import {resolve} from '../../../models/dependency';
+import {changeModelToken} from '../../../models/change/change-model';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -52,7 +57,17 @@ export class GrLabelScoreRow extends LitElement {
   orderedLabelValues?: number[];
 
   @state()
+  selfAccount?: AccountInfo;
+
+  @state()
+  private change?: ParsedChangeInfo;
+
+  @state()
   private selectedValueText = 'No value selected';
+
+  private readonly userModel = getAppContext().userModel;
+
+  private readonly changeModel = resolve(this, changeModelToken);
 
   static override get styles() {
     return [
@@ -146,6 +161,22 @@ export class GrLabelScoreRow extends LitElement {
         }
       `,
     ];
+  }
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.userModel.account$,
+      x => (this.selfAccount = x)
+    );
+    subscribe(
+      this,
+      () => this.changeModel().change$,
+      x => {
+        this.change = x;
+      }
+    );
   }
 
   override render() {
@@ -384,11 +415,21 @@ export class GrLabelScoreRow extends LitElement {
 
   private computeLabelValueTitle(value: string) {
     if (!this.labels || !this.label) return '';
-    const label = this.labels[this.label.name];
-    if (label && (label as DetailedLabelInfo).values) {
+    const label = this.labels[this.label.name] as DetailedLabelInfo;
+    if (label && label.values) {
+      // In case the user already voted a certain value and then selects 0
+      // we should show "Reset Vote" instead of "No Value selected"
+      const vote = getVoteForAccount(
+        this.label.name,
+        this.selfAccount,
+        this.change
+      );
+      if (Number(value) === 0 && Number(vote) > 0) {
+        return 'Reset vote';
+      }
       // TODO(TS): maybe add a type guard for DetailedLabelInfo and
       // QuickLabelInfo
-      return (label as DetailedLabelInfo).values![value];
+      return label.values[value];
     } else {
       return '';
     }

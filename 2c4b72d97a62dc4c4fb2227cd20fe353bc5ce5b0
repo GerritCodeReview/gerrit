@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7bac0fd_97a0dcbf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-22T13:44:48Z",
+      "side": 1,
+      "message": "Woot! Less is more 😊",
+      "revId": "2c4b72d97a62dc4c4fb2227cd20fe353bc5ce5b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6651d8a4_325e394d",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-08-22T12:39:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b095e77a_40748275",
+      "range": {
+        "startLine": 293,
+        "startChar": 25,
+        "endLine": 293,
+        "endChar": 28
+      },
+      "revId": "dcbe5404a27776aef3e66138a4fdf234f35682bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5392d23b_b5e6bc89",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bc7f6d1_5afeda60",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-08-22T12:39:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5392d23b_b5e6bc89",
+      "range": {
+        "startLine": 363,
+        "startChar": 10,
+        "endLine": 363,
+        "endChar": 27
+      },
+      "revId": "dcbe5404a27776aef3e66138a4fdf234f35682bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "20c4fab2_9e67e30f",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-08-22T12:18:06Z",
       "side": 1,
       "message": "split into it\u0027s own render method and return nothing if the condition is false.\n`renderUnresolvedIcon`?",
+      "range": {
+        "startLine": 368,
+        "startChar": 8,
+        "endLine": 380,
+        "endChar": 15
+      },
+      "revId": "dcbe5404a27776aef3e66138a4fdf234f35682bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1c10619_46557e00",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-08-22T12:39:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20c4fab2_9e67e30f",
       "range": {
         "startLine": 368,
         "startChar": 8,

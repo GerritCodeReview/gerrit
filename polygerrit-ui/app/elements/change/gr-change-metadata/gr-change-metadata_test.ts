@@ -57,8 +57,7 @@ import {GrLinkedChip} from '../../shared/gr-linked-chip/gr-linked-chip';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrRouter} from '../../core/gr-router/gr-router';
 import {nothing} from 'lit';
-
-const basicFixture = fixtureFromElement('gr-change-metadata');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-change-metadata tests', () => {
   let element: GrChangeMetadata;
@@ -74,7 +73,7 @@ suite('gr-change-metadata tests', () => {
         },
       })
     );
-    element = basicFixture.instantiate();
+    element = await fixture(html`<gr-change-metadata></gr-change-metadata>`);
     element.change = createParsedChange();
     await element.updateComplete;
   });
@@ -1000,7 +999,7 @@ suite('gr-change-metadata tests', () => {
   suite('plugin endpoints', () => {
     setup(async () => {
       resetPlugins();
-      element = basicFixture.instantiate();
+      element = await fixture(html`<gr-change-metadata></gr-change-metadata>`);
       element.change = createParsedChange();
       element.revision = createRevision();
       await element.updateComplete;

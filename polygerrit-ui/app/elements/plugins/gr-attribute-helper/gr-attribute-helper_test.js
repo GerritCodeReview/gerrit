@@ -5,6 +5,7 @@
  */
 import '../../../test/common-test-setup-karma.js';
 import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
+import {fixture, html} from '@open-wc/testing-helpers';
 
 Polymer({
   is: 'gr-attribute-helper-some-element',
@@ -16,17 +17,24 @@ Polymer({
   },
 });
 
-const basicFixture = fixtureFromElement('gr-attribute-helper-some-element');
-
 suite('gr-attribute-helper tests', () => {
   let element;
   let instance;
 
-  setup(() => {
+  setup(async () => {
     let plugin;
-    window.Gerrit.install(p => { plugin = p; }, '0.1',
-        'http://test.com/plugins/testplugin/static/test.js');
-    element = basicFixture.instantiate();
+    window.Gerrit.install(
+        p => {
+          plugin = p;
+        },
+        '0.1',
+        'http://test.com/plugins/testplugin/static/test.js'
+    );
+    element = await fixture(
+        html`
+        <gr-attribute-helper-some-element></gr-attribute-helper-some-element>
+      `
+    );
     instance = plugin.attributeHelper(element);
   });
 

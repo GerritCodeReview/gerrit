@@ -21,8 +21,7 @@ import './gr-download-dialog';
 import {GrDownloadDialog} from './gr-download-dialog';
 import {mockPromise, queryAll, queryAndAssert} from '../../../test/test-utils';
 import {GrDownloadCommands} from '../../shared/gr-download-commands/gr-download-commands';
-
-const basicFixture = fixtureFromElement('gr-download-dialog');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 function getChangeObject() {
   return {
@@ -96,7 +95,7 @@ suite('gr-download-dialog', () => {
   let element: GrDownloadDialog;
 
   setup(async () => {
-    element = basicFixture.instantiate();
+    element = await fixture(html`<gr-download-dialog></gr-download-dialog>`);
     element.patchNum = 1 as PatchSetNum;
     element.config = createDownloadInfo();
     await element.updateComplete;

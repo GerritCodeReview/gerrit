@@ -36,8 +36,7 @@ import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {GrListView} from '../../shared/gr-list-view/gr-list-view';
 import {SHOWN_ITEMS_COUNT} from '../../../constants/constants';
 import {RepoDetailView} from '../../../utils/router-util';
-
-const basicFixture = fixtureFromElement('gr-repo-detail-list');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 function branchGenerator(counter: number) {
   return {
@@ -95,8 +94,9 @@ suite('gr-repo-detail-list', () => {
     let branches: BranchInfo[];
 
     setup(async () => {
-      element = basicFixture.instantiate();
-      await element.updateComplete;
+      element = await fixture(
+        html`<gr-repo-detail-list></gr-repo-detail-list>`
+      );
       element.detailType = RepoDetailView.BRANCHES;
       sinon.stub(page, 'show');
     });
@@ -2349,8 +2349,9 @@ suite('gr-repo-detail-list', () => {
     let tags: TagInfo[];
 
     setup(async () => {
-      element = basicFixture.instantiate();
-      await element.updateComplete;
+      element = await fixture(
+        html`<gr-repo-detail-list></gr-repo-detail-list>`
+      );
       element.detailType = RepoDetailView.TAGS;
       sinon.stub(page, 'show');
     });

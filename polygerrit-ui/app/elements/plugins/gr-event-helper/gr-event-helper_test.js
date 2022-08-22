@@ -7,6 +7,7 @@ import '../../../test/common-test-setup-karma.js';
 import {addListener} from '@polymer/polymer/lib/utils/gestures.js';
 import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
 import {mockPromise} from '../../../test/test-utils.js';
+import {fixture, html} from '@open-wc/testing-helpers';
 
 Polymer({
   is: 'gr-event-helper-some-element',
@@ -19,17 +20,22 @@ Polymer({
   },
 });
 
-const basicFixture = fixtureFromElement('gr-event-helper-some-element');
-
 suite('gr-event-helper tests', () => {
   let element;
   let instance;
 
-  setup(() => {
+  setup(async () => {
     let plugin;
-    window.Gerrit.install(p => { plugin = p; }, '0.1',
-        'http://test.com/plugins/testplugin/static/test.js');
-    element = basicFixture.instantiate();
+    window.Gerrit.install(
+        p => {
+          plugin = p;
+        },
+        '0.1',
+        'http://test.com/plugins/testplugin/static/test.js'
+    );
+    element = await fixture(
+        html`<gr-event-helper-some-element></gr-event-helper-some-element>`
+    );
     instance = plugin.eventHelper(element);
   });
 

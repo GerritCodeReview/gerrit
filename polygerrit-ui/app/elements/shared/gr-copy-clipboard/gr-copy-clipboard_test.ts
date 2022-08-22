@@ -8,14 +8,13 @@ import './gr-copy-clipboard';
 import {GrCopyClipboard} from './gr-copy-clipboard';
 import {queryAndAssert} from '../../../test/test-utils';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
-
-const basicFixture = fixtureFromElement('gr-copy-clipboard');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-copy-clipboard tests', () => {
   let element: GrCopyClipboard;
 
   setup(async () => {
-    element = basicFixture.instantiate();
+    element = await fixture(html`<gr-copy-clipboard></gr-copy-clipboard>`);
     element.text = `git fetch http://gerrit@localhost:8080/a/test-project
         refs/changes/05/5/1 && git checkout FETCH_HEAD`;
     await flush();

@@ -8,8 +8,7 @@ import './gr-agreements-list';
 import {stubRestApi} from '../../../test/test-utils';
 import {GrAgreementsList} from './gr-agreements-list';
 import {ContributorAgreementInfo} from '../../../types/common';
-
-const basicFixture = fixtureFromElement('gr-agreements-list');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-agreements-list tests', () => {
   let element: GrAgreementsList;
@@ -25,7 +24,7 @@ suite('gr-agreements-list tests', () => {
 
     stubRestApi('getAccountAgreements').returns(Promise.resolve(agreements));
 
-    element = basicFixture.instantiate();
+    element = await fixture(html`<gr-agreements-list></gr-agreements-list>`);
 
     await element.loadData();
     await flush();

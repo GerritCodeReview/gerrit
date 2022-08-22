@@ -8,15 +8,13 @@ import './gr-smart-search';
 import {GrSmartSearch} from './gr-smart-search';
 import {stubRestApi} from '../../../test/test-utils';
 import {EmailAddress, GroupId, UrlEncodedRepoName} from '../../../types/common';
-
-const basicFixture = fixtureFromElement('gr-smart-search');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-smart-search tests', () => {
   let element: GrSmartSearch;
 
   setup(async () => {
-    element = basicFixture.instantiate();
-    await element.updateComplete;
+    element = await fixture(html`<gr-smart-search></gr-smart-search>`);
   });
 
   test('renders', () => {

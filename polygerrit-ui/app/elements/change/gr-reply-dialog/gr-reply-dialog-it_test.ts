@@ -23,8 +23,6 @@ import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions'
 import {createChange} from '../../../test/test-data-generators';
 import {GrTextarea} from '../../shared/gr-textarea/gr-textarea';
 
-const basicFixture = fixtureFromElement('gr-reply-dialog');
-
 suite('gr-reply-dialog-it tests', () => {
   let element: GrReplyDialog;
   let changeNum: NumericChangeId;
@@ -116,7 +114,7 @@ suite('gr-reply-dialog-it tests', () => {
       undefined,
       'http://test.com/plugins/lgtm.js'
     );
-    element = basicFixture.instantiate();
+    element = await fixture(html`<gr-reply-dialog></gr-reply-dialog>`);
     setupElement(element);
     getPluginLoader().loadPlugins([]);
     await getPluginLoader().awaitPluginsLoaded();

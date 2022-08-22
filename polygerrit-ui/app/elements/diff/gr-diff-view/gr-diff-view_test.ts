@@ -65,8 +65,7 @@ import {CommentMap} from '../../../utils/comment-util';
 import {ParsedChangeInfo} from '../../../types/types';
 import {assertIsDefined} from '../../../utils/common-util';
 import {GrDiffModeSelector} from '../../../embed/diff/gr-diff-mode-selector/gr-diff-mode-selector';
-
-const basicFixture = fixtureFromElement('gr-diff-view');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 function createComment(
   id: string,
@@ -119,7 +118,7 @@ suite('gr-diff-view tests', () => {
       stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
       stubRestApi('getPortedComments').returns(Promise.resolve({}));
 
-      element = basicFixture.instantiate();
+      element = await fixture(html`<gr-diff-view></gr-diff-view>`);
       element.changeNum = 42 as NumericChangeId;
       element.path = 'some/path.txt';
       element.change = createParsedChange();
@@ -2626,7 +2625,8 @@ suite('gr-diff-view tests', () => {
 
   suite('unmodified files with comments', () => {
     let element: GrDiffView;
-    setup(() => {
+
+    setup(async () => {
       const changedFiles = {
         'file1.txt': createFileInfo(),
         'a/b/test.c': createFileInfo(),
@@ -2639,7 +2639,7 @@ suite('gr-diff-view tests', () => {
       stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
       stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
       stubRestApi('getReviewedFiles').returns(Promise.resolve([]));
-      element = basicFixture.instantiate();
+      element = await fixture(html`<gr-diff-view></gr-diff-view>`);
       element.changeNum = 42 as NumericChangeId;
     });
 

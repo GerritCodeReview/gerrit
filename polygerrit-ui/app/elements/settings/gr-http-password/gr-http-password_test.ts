@@ -15,8 +15,7 @@ import {
 import {AccountDetailInfo, ServerInfo} from '../../../types/common';
 import {queryAndAssert} from '../../../test/test-utils';
 import {GrButton} from '../../shared/gr-button/gr-button';
-
-const basicFixture = fixtureFromElement('gr-http-password');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-http-password tests', () => {
   let element: GrHttpPassword;
@@ -30,7 +29,7 @@ suite('gr-http-password tests', () => {
     stubRestApi('getAccount').returns(Promise.resolve(account));
     stubRestApi('getConfig').returns(Promise.resolve(config));
 
-    element = basicFixture.instantiate();
+    element = await fixture(html`<gr-http-password></gr-http-password>`);
     await element.loadData();
     await flush();
   });

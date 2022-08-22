@@ -21,8 +21,7 @@ import {GroupId, GroupName, RepoName, Timestamp} from '../../../types/common';
 import {GrDropdownList} from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {GrGroup} from '../gr-group/gr-group';
 import {GroupDetailView, RepoDetailView} from '../../../utils/router-util';
-
-const basicFixture = fixtureFromElement('gr-admin-view');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 function createAdminCapabilities() {
   return {
@@ -36,7 +35,7 @@ suite('gr-admin-view tests', () => {
   let element: GrAdminView;
 
   setup(async () => {
-    element = basicFixture.instantiate();
+    element = await fixture(html`<gr-admin-view></gr-admin-view>`);
     stubRestApi('getProjectConfig').returns(Promise.resolve(undefined));
     const pluginsLoaded = Promise.resolve();
     sinon.stub(getPluginLoader(), 'awaitPluginsLoaded').returns(pluginsLoaded);

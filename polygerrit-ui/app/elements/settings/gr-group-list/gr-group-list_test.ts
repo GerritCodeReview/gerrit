@@ -9,8 +9,7 @@ import {GrGroupList} from './gr-group-list';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {GroupId, GroupInfo, GroupName} from '../../../types/common';
 import {stubRestApi} from '../../../test/test-utils';
-
-const basicFixture = fixtureFromElement('gr-group-list');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-group-list tests', () => {
   let element: GrGroupList;
@@ -44,7 +43,7 @@ suite('gr-group-list tests', () => {
 
     stubRestApi('getAccountGroups').returns(Promise.resolve(groups));
 
-    element = basicFixture.instantiate();
+    element = await fixture(html`<gr-group-list></gr-group-list>`);
 
     await element.loadData();
     await flush();

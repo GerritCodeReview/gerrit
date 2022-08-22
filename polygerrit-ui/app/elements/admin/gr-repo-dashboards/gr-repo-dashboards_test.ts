@@ -15,15 +15,13 @@ import {
 } from '../../../test/test-utils';
 import {DashboardId, DashboardInfo, RepoName} from '../../../types/common';
 import {PageErrorEvent} from '../../../types/events.js';
-
-const basicFixture = fixtureFromElement('gr-repo-dashboards');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-repo-dashboards tests', () => {
   let element: GrRepoDashboards;
 
   setup(async () => {
-    element = basicFixture.instantiate();
-    await flush();
+    element = await fixture(html`<gr-repo-dashboards></gr-repo-dashboards>`);
   });
 
   suite('dashboard table', () => {

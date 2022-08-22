@@ -19,8 +19,7 @@ import {AppElementAdminParams} from '../../gr-app-types';
 import {GerritView} from '../../../services/router/router-model';
 import {PageErrorEvent} from '../../../types/events';
 import {SHOWN_ITEMS_COUNT} from '../../../constants/constants';
-
-const basicFixture = fixtureFromElement('gr-plugin-list');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 function pluginGenerator(counter: number) {
   const plugin: PluginInfo = {
@@ -63,8 +62,7 @@ suite('gr-plugin-list tests', () => {
   const value: AppElementAdminParams = {view: GerritView.ADMIN, adminView: ''};
 
   setup(async () => {
-    element = basicFixture.instantiate();
-    await element.updateComplete;
+    element = await fixture(html`<gr-plugin-list></gr-plugin-list>`);
   });
 
   suite('list with plugins', async () => {

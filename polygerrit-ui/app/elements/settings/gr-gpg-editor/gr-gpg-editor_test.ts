@@ -19,8 +19,7 @@ import {
   OpenPgpUserIds,
 } from '../../../api/rest-api';
 import {GrButton} from '../../shared/gr-button/gr-button';
-
-const basicFixture = fixtureFromElement('gr-gpg-editor');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-gpg-editor tests', () => {
   let element: GrGpgEditor;
@@ -54,7 +53,7 @@ suite('gr-gpg-editor tests', () => {
 
     stubRestApi('getAccountGPGKeys').returns(Promise.resolve(keys));
 
-    element = basicFixture.instantiate();
+    element = await fixture(html`<gr-gpg-editor></gr-gpg-editor>`);
 
     await element.loadData();
     await element.updateComplete;

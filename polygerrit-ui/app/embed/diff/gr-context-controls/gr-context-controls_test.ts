@@ -11,8 +11,7 @@ import {GrContextControls} from './gr-context-controls';
 import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {DiffFileMetaInfo, DiffInfo, SyntaxBlock} from '../../../api/diff';
-
-const blankFixture = fixtureFromElement('div');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-context-control tests', () => {
   let element: GrContextControls;
@@ -21,7 +20,8 @@ suite('gr-context-control tests', () => {
     element = document.createElement('gr-context-controls');
     element.diff = {content: []} as any as DiffInfo;
     element.renderPreferences = {};
-    blankFixture.instantiate().appendChild(element);
+    const div = await fixture(html`<div></div>`);
+    div.appendChild(element);
     await flush();
   });
 

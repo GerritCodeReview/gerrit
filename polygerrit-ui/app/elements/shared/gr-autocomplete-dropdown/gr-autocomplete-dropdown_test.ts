@@ -9,8 +9,7 @@ import {GrAutocompleteDropdown} from './gr-autocomplete-dropdown';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {queryAll, queryAndAssert} from '../../../test/test-utils';
 import {assertIsDefined} from '../../../utils/common-util';
-
-const basicFixture = fixtureFromElement('gr-autocomplete-dropdown');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-autocomplete-dropdown', () => {
   let element: GrAutocompleteDropdown;
@@ -18,7 +17,9 @@ suite('gr-autocomplete-dropdown', () => {
   const suggestionsEl = () => queryAndAssert(element, '#suggestions');
 
   setup(async () => {
-    element = basicFixture.instantiate();
+    element = await fixture(
+      html`<gr-autocomplete-dropdown></gr-autocomplete-dropdown>`
+    );
     element.open();
     element.suggestions = [
       {dataValue: 'test value 1', name: 'test name 1', text: '1', label: 'hi'},

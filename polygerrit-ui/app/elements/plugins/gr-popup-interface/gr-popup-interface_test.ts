@@ -11,6 +11,7 @@ import {HookApi, PluginElement} from '../../../api/hook';
 import {queryAndAssert} from '../../../test/test-utils';
 import {LitElement, html} from 'lit';
 import {customElement} from 'lit/decorators.js';
+import {fixture} from '@open-wc/testing-helpers';
 
 @customElement('gr-user-test-popup')
 class GrUserTestPopupElement extends LitElement {
@@ -24,14 +25,12 @@ declare global {
   }
 }
 
-const containerFixture = fixtureFromElement('div');
-
 suite('gr-popup-interface tests', () => {
   let container: HTMLElement;
   let instance: GrPopupInterface;
   let plugin: PluginApi;
 
-  setup(() => {
+  setup(async () => {
     window.Gerrit.install(
       p => {
         plugin = p;
@@ -39,7 +38,7 @@ suite('gr-popup-interface tests', () => {
       '0.1',
       'http://test.com/plugins/testplugin/static/test.js'
     );
-    container = containerFixture.instantiate();
+    container = await fixture(html`<div></div>`);
     sinon.stub(plugin, 'hook').returns({
       getLastAttached() {
         return Promise.resolve(container);

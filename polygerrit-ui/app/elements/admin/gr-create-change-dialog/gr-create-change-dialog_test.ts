@@ -11,8 +11,7 @@ import {InheritedBooleanInfoConfiguredValue} from '../../../constants/constants'
 import {createChange} from '../../../test/test-data-generators';
 import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
-
-const basicFixture = fixtureFromElement('gr-create-change-dialog');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-create-change-dialog tests', () => {
   let element: GrCreateChangeDialog;
@@ -31,8 +30,9 @@ suite('gr-create-change-dialog tests', () => {
         return Promise.resolve([]);
       }
     });
-    element = basicFixture.instantiate();
-    await element.updateComplete;
+    element = await fixture(
+      html`<gr-create-change-dialog></gr-create-change-dialog>`
+    );
     element.repoName = 'test-repo' as RepoName;
   });
 

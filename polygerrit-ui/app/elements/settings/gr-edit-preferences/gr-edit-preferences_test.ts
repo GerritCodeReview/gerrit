@@ -10,8 +10,7 @@ import {GrEditPreferences} from './gr-edit-preferences';
 import {EditPreferencesInfo, ParsedJSON} from '../../../types/common';
 import {IronInputElement} from '@polymer/iron-input';
 import {createDefaultEditPrefs} from '../../../constants/constants';
-
-const basicFixture = fixtureFromElement('gr-edit-preferences');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-edit-preferences tests', () => {
   let element: GrEditPreferences;
@@ -35,7 +34,7 @@ suite('gr-edit-preferences tests', () => {
 
     stubRestApi('getEditPreferences').returns(Promise.resolve(editPreferences));
 
-    element = basicFixture.instantiate();
+    element = await fixture(html`<gr-edit-preferences></gr-edit-preferences>`);
 
     await element.updateComplete;
   });

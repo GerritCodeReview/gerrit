@@ -853,11 +853,7 @@ export class GrFileList extends LitElement {
 
   protected override async getUpdateComplete(): Promise<boolean> {
     const result = await super.getUpdateComplete();
-    await Promise.all(
-      this.diffs.map(async d => {
-        await d.updateComplete;
-      })
-    );
+    await Promise.all(this.diffs.map(d => d.updateComplete));
     return result;
   }
 

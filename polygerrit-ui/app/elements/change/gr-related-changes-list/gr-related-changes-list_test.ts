@@ -197,6 +197,12 @@ suite('gr-related-changes-list', () => {
       stubRestApi('getRelatedChanges').returns(
         Promise.resolve(relatedChangeInfo)
       );
+      stubRestApi('getChangesSubmittedTogether').returns(
+        Promise.resolve(submittedTogether)
+      );
+      stubRestApi('getChangeCherryPicks').returns(
+        Promise.resolve([createChange()])
+      );
       await element.reload();
 
       assert.shadowDom.equal(
@@ -214,6 +220,35 @@ suite('gr-related-changes-list', () => {
                     show-submittable-check=""
                   >
                     Test commit subject
+                  </gr-related-change>
+                </div>
+              </gr-related-collapse>
+            </section>
+            <section id="submittedTogether">
+              <gr-related-collapse title="Submitted together">
+                <div class="relatedChangeLine show-when-collapsed">
+                  <span
+                    aria-label="Arrow marking current change"
+                    class="arrowToCurrentChange marker"
+                    role="img"
+                  >
+                    ➔
+                  </span>
+                  <span class="repo" title="test-project">test-project</span>
+                  <span class="branch">&nbsp;|&nbsp;test-branch&nbsp;</span>
+                  <gr-related-change show-submittable-check="">
+                    Test subject
+                  </gr-related-change>
+                </div>
+              </gr-related-collapse>
+              <div class="note" hidden="">(+ )</div>
+            </section>
+            <section id="cherryPicks">
+              <gr-related-collapse title="Cherry picks">
+                <div class="relatedChangeLine show-when-collapsed">
+                  <span class="marker space"> </span>
+                  <gr-related-change>
+                    test-branch: Test subject
                   </gr-related-change>
                 </div>
               </gr-related-collapse>
@@ -265,6 +300,7 @@ suite('gr-related-changes-list', () => {
         Promise.resolve([createChange()])
       );
       await element.reload();
+
       const relatedChanges = queryAndAssert<GrRelatedCollapse>(
         queryAndAssert<HTMLElement>(element, '#relatedChanges'),
         'gr-related-collapse'

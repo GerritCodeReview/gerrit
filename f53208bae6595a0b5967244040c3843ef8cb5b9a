@@ -1,0 +1,279 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d2f2f7e_8188bc8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-22T06:05:05Z",
+      "side": 1,
+      "message": "nit: Moving this sentence to the end of the first paragraph (and s/SEARCH_AFTER/searchAfter/) would help the flow of this message by explaining up front why this change is being made.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 21
+      },
+      "revId": "f53208bae6595a0b5967244040c3843ef8cb5b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7f8ba75_2ef557d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-22T06:05:05Z",
+      "side": 1,
+      "message": "Add a note that this doesn\u0027t impact using a offsets in Gerrit\u0027s query APIs?",
+      "revId": "f53208bae6595a0b5967244040c3843ef8cb5b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a01973d_10732d48",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3117,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-22T06:05:05Z",
+      "side": 1,
+      "message": "nit: s/Model/Type/ ? We don\u0027t seem to use \u0027model\u0027 to describe this kind of difference, but \u0027type\u0027 is pretty standard.",
+      "range": {
+        "startLine": 3117,
+        "startChar": 18,
+        "endLine": 3117,
+        "endChar": 23
+      },
+      "revId": "f53208bae6595a0b5967244040c3843ef8cb5b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd4f2787_e8a774e1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3119,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-22T06:05:05Z",
+      "side": 1,
+      "message": "s/restarted/repeated/ ? I know the method is named `restart()`, but I think the concept is more than we\u0027re repeating the query with a different `start` or a different `searchAfter`.",
+      "range": {
+        "startLine": 3119,
+        "startChar": 51,
+        "endLine": 3119,
+        "endChar": 60
+      },
+      "revId": "f53208bae6595a0b5967244040c3843ef8cb5b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3deaa4b9_51094f5e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3124,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-22T06:05:05Z",
+      "side": 1,
+      "message": "\"repeated with\" ?",
+      "range": {
+        "startLine": 3124,
+        "startChar": 18,
+        "endLine": 3124,
+        "endChar": 30
+      },
+      "revId": "f53208bae6595a0b5967244040c3843ef8cb5b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f3f4228_5654987e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3129,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-22T06:05:05Z",
+      "side": 1,
+      "message": "repeated",
+      "range": {
+        "startLine": 3129,
+        "startChar": 18,
+        "endLine": 3129,
+        "endChar": 27
+      },
+      "revId": "f53208bae6595a0b5967244040c3843ef8cb5b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "070f50be_f4bcbd63",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3130,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-22T06:05:05Z",
+      "side": 1,
+      "message": "\"is supported\"",
+      "range": {
+        "startLine": 3130,
+        "startChar": 0,
+        "endLine": 3130,
+        "endChar": 11
+      },
+      "revId": "f53208bae6595a0b5967244040c3843ef8cb5b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ce5f0cd_0f902777",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3134,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-22T06:05:05Z",
+      "side": 1,
+      "message": "Add a note that this doesn\u0027t impact using a offsets in Gerrit\u0027s query APIs?",
+      "revId": "f53208bae6595a0b5967244040c3843ef8cb5b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fc6bc6b_a6f68092",
+        "filename": "java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-22T06:05:05Z",
+      "side": 1,
+      "message": "Do you need this variable or can you return \u0027searchAfter\u0027 on line 416?",
+      "range": {
+        "startLine": 412,
+        "startChar": 22,
+        "endLine": 412,
+        "endChar": 38
+      },
+      "revId": "f53208bae6595a0b5967244040c3843ef8cb5b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c49ebdec_0d4f8d6b",
+        "filename": "java/com/google/gerrit/index/QueryOptions.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-22T06:05:05Z",
+      "side": 1,
+      "message": "Should this method be doing the `withStart(0)` instead of having it in `IndexedQuery`?",
+      "revId": "f53208bae6595a0b5967244040c3843ef8cb5b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77bca058_445ab19e",
+        "filename": "java/com/google/gerrit/index/query/IndexedQuery.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-22T06:05:05Z",
+      "side": 1,
+      "message": "Add a comment explaining the `withStart(0)`?",
+      "revId": "f53208bae6595a0b5967244040c3843ef8cb5b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9778a60b_d861f213",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-22T06:05:05Z",
+      "side": 1,
+      "message": "Do you need `searchAfter` or can you return `scoreDoc` here instead?",
+      "range": {
+        "startLine": 560,
+        "startChar": 19,
+        "endLine": 560,
+        "endChar": 30
+      },
+      "revId": "f53208bae6595a0b5967244040c3843ef8cb5b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8677dfe_e162641c",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-22T06:05:05Z",
+      "side": 1,
+      "message": "I would split this up with if/then instead of using a ternary",
+      "range": {
+        "startLine": 469,
+        "startChar": 18,
+        "endLine": 469,
+        "endChar": 19
+      },
+      "revId": "f53208bae6595a0b5967244040c3843ef8cb5b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

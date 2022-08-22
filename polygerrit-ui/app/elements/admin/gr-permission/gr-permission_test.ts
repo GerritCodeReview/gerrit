@@ -17,14 +17,13 @@ import {
 import {queryAndAssert} from '../../../test/test-utils';
 import {GrRuleEditor} from '../gr-rule-editor/gr-rule-editor';
 import {GrButton} from '../../shared/gr-button/gr-button';
-
-const basicFixture = fixtureFromElement('gr-permission');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-permission tests', () => {
   let element: GrPermission;
 
-  setup(() => {
-    element = basicFixture.instantiate();
+  setup(async () => {
+    element = await fixture(html`<gr-permission></gr-permission>`);
     stubRestApi('getSuggestedGroups').returns(
       Promise.resolve({
         Administrators: {

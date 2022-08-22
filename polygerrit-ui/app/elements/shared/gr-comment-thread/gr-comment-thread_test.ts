@@ -27,9 +27,7 @@ import {
 } from '../../../test/test-data-generators';
 import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 import {SinonStub} from 'sinon';
-import {waitUntil} from '@open-wc/testing-helpers';
-
-const basicFixture = fixtureFromElement('gr-comment-thread');
+import {fixture, html, waitUntil} from '@open-wc/testing-helpers';
 
 const c1 = {
   author: {name: 'Kermit'},
@@ -73,7 +71,7 @@ suite('gr-comment-thread tests', () => {
 
   setup(async () => {
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
-    element = basicFixture.instantiate();
+    element = await fixture(html`<gr-comment-thread></gr-comment-thread>`);
     element.changeNum = 1 as NumericChangeId;
     element.showFileName = true;
     element.showFilePath = true;
@@ -352,7 +350,7 @@ suite('gr-comment-thread tests', () => {
     let threadEl: GrCommentThread;
 
     setup(async () => {
-      threadEl = basicFixture.instantiate();
+      threadEl = await fixture(html`<gr-comment-thread></gr-comment-thread>`);
       threadEl.thread = createThread();
     });
 

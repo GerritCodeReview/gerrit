@@ -9,14 +9,15 @@ import {CommentRange} from '../../../types/common';
 import {GrRangedCommentHint} from './gr-ranged-comment-hint';
 import {queryAndAssert} from '../../../test/test-utils';
 import {GrRangeHeader} from '../gr-range-header/gr-range-header';
-
-const basicFixture = fixtureFromElement('gr-ranged-comment-hint');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-ranged-comment-hint tests', () => {
   let element: GrRangedCommentHint;
 
   setup(async () => {
-    element = basicFixture.instantiate();
+    element = await fixture(
+      html`<gr-ranged-comment-hint></gr-ranged-comment-hint>`
+    );
     await flush();
   });
 

@@ -7,15 +7,15 @@ import '../../../test/common-test-setup-karma';
 import './gr-labeled-autocomplete';
 import {GrLabeledAutocomplete} from './gr-labeled-autocomplete';
 import {assertIsDefined} from '../../../utils/common-util';
-
-const basicFixture = fixtureFromElement('gr-labeled-autocomplete');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-labeled-autocomplete tests', () => {
   let element: GrLabeledAutocomplete;
 
   setup(async () => {
-    element = basicFixture.instantiate();
-    await element.updateComplete;
+    element = await fixture(
+      html`<gr-labeled-autocomplete></gr-labeled-autocomplete>`
+    );
   });
 
   test('tapping trigger focuses autocomplete', () => {

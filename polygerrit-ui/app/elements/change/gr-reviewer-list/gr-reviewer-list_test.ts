@@ -14,15 +14,13 @@ import {
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {AccountId, EmailAddress} from '../../../types/common';
 import './gr-reviewer-list';
-
-const basicFixture = fixtureFromElement('gr-reviewer-list');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-reviewer-list tests', () => {
   let element: GrReviewerList;
 
   setup(async () => {
-    element = basicFixture.instantiate();
-    await element.updateComplete;
+    element = await fixture(html`<gr-reviewer-list></gr-reviewer-list>`);
   });
 
   test('render', () => {

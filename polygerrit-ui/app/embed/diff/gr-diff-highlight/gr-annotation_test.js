@@ -4,22 +4,25 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-const basicFixture = fixtureFromTemplate(html`
-<div>Lorem ipsum dolor sit amet, suspendisse inceptos vehicula</div>
-`);
-
 import '../../../test/common-test-setup-karma.js';
 import {GrAnnotation} from './gr-annotation.js';
-import {sanitizeDOMValue, setSanitizeDOMValue} from '@polymer/polymer/lib/utils/settings.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {
+  sanitizeDOMValue,
+  setSanitizeDOMValue,
+} from '@polymer/polymer/lib/utils/settings.js';
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('annotation', () => {
   let str;
   let parent;
   let textNode;
 
-  setup(() => {
-    parent = basicFixture.instantiate();
+  setup(async () => {
+    parent = await fixture(
+        html`
+        <div>Lorem ipsum dolor sit amet, suspendisse inceptos vehicula</div>
+      `
+    );
     textNode = parent.childNodes[0];
     str = textNode.textContent;
   });
@@ -96,17 +99,16 @@ suite('annotation', () => {
   });
 
   test('_annotateElement design doc example', () => {
-    const layers = [
-      'amet, ',
-      'inceptos ',
-      'amet, ',
-      'et, suspendisse ince',
-    ];
+    const layers = ['amet, ', 'inceptos ', 'amet, ', 'et, suspendisse ince'];
 
     // Apply the layers successively.
     layers.forEach((layer, i) => {
       GrAnnotation.annotateElement(
-          parent, str.indexOf(layer), layer.length, `layer-${i + 1}`);
+          parent,
+          str.indexOf(layer),
+          layer.length,
+          `layer-${i + 1}`
+      );
     });
 
     assert.equal(parent.textContent, str);
@@ -142,10 +144,10 @@ suite('annotation', () => {
     assert.equal(layer4[2].textContent, 'ince');
     assert.equal(layer4[2].parentElement, layer2[0]);
 
-    assert.equal(layer4[0].textContent +
-        layer4[1].textContent +
-        layer4[2].textContent,
-    layers[3]);
+    assert.equal(
+        layer4[0].textContent + layer4[1].textContent + layer4[2].textContent,
+        layers[3]
+    );
   });
 
   test('splitTextNode', () => {
@@ -189,12 +191,14 @@ suite('annotation', () => {
       const length = 10;
       const container = document.createElement('div');
       container.textContent = fullText;
-      GrAnnotation.annotateWithElement(
-          container, 1, length, {tagName: 'test-wrapper'});
+      GrAnnotation.annotateWithElement(container, 1, length, {
+        tagName: 'test-wrapper',
+      });
 
       assert.equal(
           container.innerHTML,
-          '0<test-wrapper>1234567890</test-wrapper>123456789');
+          '0<test-wrapper>1234567890</test-wrapper>123456789'
+      );
     });
 
     test('annotates when spanning multiple nodes', () => {
@@ -202,8 +206,9 @@ suite('annotation', () => {
       const container = document.createElement('div');
       container.textContent = fullText;
       GrAnnotation.annotateElement(container, 5, length, 'testclass');
-      GrAnnotation.annotateWithElement(
-          container, 1, length, {tagName: 'test-wrapper'});
+      GrAnnotation.annotateWithElement(container, 1, length, {
+        tagName: 'test-wrapper',
+      });
 
       assert.equal(
           container.innerHTML,
@@ -213,19 +218,22 @@ suite('annotation', () => {
           '<hl class="testclass">567890</hl>' +
           '</test-wrapper>' +
           '<hl class="testclass">1234</hl>' +
-          '56789');
+          '56789'
+      );
     });
 
     test('annotates text node', () => {
       const length = 10;
       const container = document.createElement('div');
       container.textContent = fullText;
-      GrAnnotation.annotateWithElement(
-          container.childNodes[0], 1, length, {tagName: 'test-wrapper'});
+      GrAnnotation.annotateWithElement(container.childNodes[0], 1, length, {
+        tagName: 'test-wrapper',
+      });
 
       assert.equal(
           container.innerHTML,
-          '0<test-wrapper>1234567890</test-wrapper>123456789');
+          '0<test-wrapper>1234567890</test-wrapper>123456789'
+      );
     });
 
     test('handles zero-length nodes', () => {
@@ -233,12 +241,14 @@ suite('annotation', () => {
       container.appendChild(document.createTextNode('0123456789'));
       container.appendChild(document.createElement('span'));
       container.appendChild(document.createTextNode('0123456789'));
-      GrAnnotation.annotateWithElement(
-          container, 1, 10, {tagName: 'test-wrapper'});
+      GrAnnotation.annotateWithElement(container, 1, 10, {
+        tagName: 'test-wrapper',
+      });
 
       assert.equal(
           container.innerHTML,
-          '0<test-wrapper>123456789<span></span>0</test-wrapper>123456789');
+          '0<test-wrapper>123456789<span></span>0</test-wrapper>123456789'
+      );
     });
 
     test('handles comment nodes', () => {
@@ -248,15 +258,17 @@ suite('annotation', () => {
       container.appendChild(document.createComment('comment2'));
       container.appendChild(document.createElement('span'));
       container.appendChild(document.createTextNode('0123456789'));
-      GrAnnotation.annotateWithElement(
-          container, 1, 10, {tagName: 'test-wrapper'});
+      GrAnnotation.annotateWithElement(container, 1, 10, {
+        tagName: 'test-wrapper',
+      });
 
       assert.equal(
           container.innerHTML,
           '<!--comment1-->' +
           '0<test-wrapper>123456789' +
           '<!--comment2-->' +
-          '<span></span>0</test-wrapper>123456789');
+          '<span></span>0</test-wrapper>123456789'
+      );
     });
 
     test('sets sanitized attributes', () => {
@@ -267,17 +279,34 @@ suite('annotation', () => {
         'data-foo': 'bar',
         'class': 'hello world',
       };
-      GrAnnotation.annotateWithElement(
-          container, 1, length, {tagName: 'test-wrapper', attributes});
-      assert(mockSanitize.calledWith(
-          'foo', 'href', 'attribute', sinon.match.instanceOf(Element)));
-      assert(mockSanitize.calledWith(
-          'bar', 'data-foo', 'attribute', sinon.match.instanceOf(Element)));
-      assert(mockSanitize.calledWith(
-          'hello world',
-          'class',
-          'attribute',
-          sinon.match.instanceOf(Element)));
+      GrAnnotation.annotateWithElement(container, 1, length, {
+        tagName: 'test-wrapper',
+        attributes,
+      });
+      assert(
+          mockSanitize.calledWith(
+              'foo',
+              'href',
+              'attribute',
+              sinon.match.instanceOf(Element)
+          )
+      );
+      assert(
+          mockSanitize.calledWith(
+              'bar',
+              'data-foo',
+              'attribute',
+              sinon.match.instanceOf(Element)
+          )
+      );
+      assert(
+          mockSanitize.calledWith(
+              'hello world',
+              'class',
+              'attribute',
+              sinon.match.instanceOf(Element)
+          )
+      );
       const el = container.querySelector('test-wrapper');
       assert.equal(el.getAttribute('href'), 'foo');
       assert.equal(el.getAttribute('data-foo'), 'bar');
@@ -285,4 +314,3 @@ suite('annotation', () => {
     });
   });
 });
-

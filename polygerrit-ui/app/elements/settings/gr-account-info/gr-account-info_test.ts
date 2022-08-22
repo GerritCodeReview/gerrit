@@ -19,8 +19,7 @@ import {IronInputElement} from '@polymer/iron-input';
 import {SinonStubbedMember} from 'sinon';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {EditableAccountField} from '../../../api/rest-api';
-
-const basicFixture = fixtureFromElement('gr-account-info');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-account-info tests', () => {
   let element!: GrAccountInfo;
@@ -54,7 +53,7 @@ suite('gr-account-info tests', () => {
     stubRestApi('getConfig').resolves(config);
     stubRestApi('getPreferences').resolves(createPreferences());
 
-    element = basicFixture.instantiate();
+    element = await fixture(html`<gr-account-info></gr-account-info>`);
     await element.loadData();
     await element.updateComplete;
   });

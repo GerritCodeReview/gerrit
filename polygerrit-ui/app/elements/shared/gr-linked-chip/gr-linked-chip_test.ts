@@ -8,15 +8,13 @@ import './gr-linked-chip';
 import {GrLinkedChip} from './gr-linked-chip';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {queryAndAssert} from '../../../test/test-utils';
-
-const basicFixture = fixtureFromElement('gr-linked-chip');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-linked-chip tests', () => {
   let element: GrLinkedChip;
 
   setup(async () => {
-    element = basicFixture.instantiate();
-    await flush();
+    element = await fixture(html`<gr-linked-chip></gr-linked-chip>`);
   });
 
   test('renders', () => {

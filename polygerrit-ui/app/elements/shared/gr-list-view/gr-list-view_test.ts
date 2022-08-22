@@ -10,15 +10,13 @@ import {page} from '../../../utils/page-wrapper-utils';
 import {queryAndAssert, stubBaseUrl} from '../../../test/test-utils';
 import {GrButton} from '../gr-button/gr-button';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
-
-const basicFixture = fixtureFromElement('gr-list-view');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-list-view tests', () => {
   let element: GrListView;
 
   setup(async () => {
-    element = basicFixture.instantiate();
-    await element.updateComplete;
+    element = await fixture(html`<gr-list-view></gr-list-view>`);
   });
 
   test('render', () => {

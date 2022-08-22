@@ -3,6 +3,7 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import {fixture, html} from '@open-wc/testing-helpers';
 import '../../../test/common-test-setup-karma';
 import './gr-formatted-text';
 import {
@@ -18,8 +19,6 @@ import {
   TextSpan,
   LinkSpan,
 } from './gr-formatted-text';
-
-const basicFixture = fixtureFromElement('gr-formatted-text');
 
 suite('gr-formatted-text tests', () => {
   let element: GrFormattedText;
@@ -70,8 +69,8 @@ suite('gr-formatted-text tests', () => {
     return block as QuoteBlock;
   }
 
-  setup(() => {
-    element = basicFixture.instantiate();
+  setup(async () => {
+    element = await fixture(html`<gr-formatted-text></gr-formatted-text>`);
   });
 
   test('parse empty', () => {

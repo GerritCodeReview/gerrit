@@ -6,8 +6,7 @@
 import '../../../test/common-test-setup-karma.js';
 import '../../change/gr-reply-dialog/gr-reply-dialog.js';
 import {stubRestApi} from '../../../test/test-utils.js';
-
-const basicFixture = fixtureFromElement('gr-reply-dialog');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-change-reply-js-api tests', () => {
   let element;
@@ -19,11 +18,16 @@ suite('gr-change-reply-js-api tests', () => {
   });
 
   suite('early init', () => {
-    setup(() => {
-      window.Gerrit.install(p => { plugin = p; }, '0.1',
-          'http://test.com/plugins/testplugin/static/test.js');
+    setup(async () => {
+      window.Gerrit.install(
+          p => {
+            plugin = p;
+          },
+          '0.1',
+          'http://test.com/plugins/testplugin/static/test.js'
+      );
       changeReply = plugin.changeReply();
-      element = basicFixture.instantiate();
+      element = await fixture(html`<gr-reply-dialog></gr-reply-dialog>`);
     });
 
     teardown(() => {
@@ -37,7 +41,8 @@ suite('gr-change-reply-js-api tests', () => {
       sinon.stub(element, 'setLabelValue');
       changeReply.setLabelValue('My-Label', '+1337');
       assert.isTrue(
-          element.setLabelValue.calledWithExactly('My-Label', '+1337'));
+          element.setLabelValue.calledWithExactly('My-Label', '+1337')
+      );
 
       sinon.stub(element, 'setPluginMessage');
       changeReply.showMessage('foobar');
@@ -46,10 +51,15 @@ suite('gr-change-reply-js-api tests', () => {
   });
 
   suite('normal init', () => {
-    setup(() => {
-      element = basicFixture.instantiate();
-      window.Gerrit.install(p => { plugin = p; }, '0.1',
-          'http://test.com/plugins/testplugin/static/test.js');
+    setup(async () => {
+      element = await fixture(html`<gr-reply-dialog></gr-reply-dialog>`);
+      window.Gerrit.install(
+          p => {
+            plugin = p;
+          },
+          '0.1',
+          'http://test.com/plugins/testplugin/static/test.js'
+      );
       changeReply = plugin.changeReply();
     });
 
@@ -64,7 +74,8 @@ suite('gr-change-reply-js-api tests', () => {
       sinon.stub(element, 'setLabelValue');
       changeReply.setLabelValue('My-Label', '+1337');
       assert.isTrue(
-          element.setLabelValue.calledWithExactly('My-Label', '+1337'));
+          element.setLabelValue.calledWithExactly('My-Label', '+1337')
+      );
 
       sinon.stub(element, 'setPluginMessage');
       changeReply.showMessage('foobar');

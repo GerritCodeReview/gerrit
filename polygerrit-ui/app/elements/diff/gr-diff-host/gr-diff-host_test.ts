@@ -54,8 +54,7 @@ import {RunResult} from '../../../models/checks/checks-model';
 import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
 import {assertIsDefined} from '../../../utils/common-util';
 import {GrAnnotationActionsInterface} from '../../shared/gr-js-api-interface/gr-annotation-actions-js-api';
-
-const basicFixture = fixtureFromElement('gr-diff-host');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-diff-host tests', () => {
   let element: GrDiffHost;
@@ -64,7 +63,7 @@ suite('gr-diff-host tests', () => {
 
   setup(async () => {
     stubRestApi('getAccount').callsFake(() => Promise.resolve(account));
-    element = basicFixture.instantiate();
+    element = await fixture(html`<gr-diff-host></gr-diff-host>`);
     element.changeNum = 123 as NumericChangeId;
     element.path = 'some/path';
     element.change = createChange();
@@ -79,7 +78,7 @@ suite('gr-diff-host tests', () => {
     let getDiffLayersStub: sinon.SinonStub;
     const pluginLayers = [{annotate: () => {}}, {annotate: () => {}}];
     setup(async () => {
-      element = basicFixture.instantiate();
+      element = await fixture(html`<gr-diff-host></gr-diff-host>`);
       getDiffLayersStub = sinon
         .stub(element.jsAPI, 'getDiffLayers')
         .returns(pluginLayers);
@@ -699,7 +698,7 @@ suite('gr-diff-host tests', () => {
 
   suite('blame', () => {
     setup(async () => {
-      element = basicFixture.instantiate();
+      element = await fixture(html`<gr-diff-host></gr-diff-host>`);
       element.changeNum = 123 as NumericChangeId;
       element.path = 'some/path';
       await element.updateComplete;
@@ -891,7 +890,7 @@ suite('gr-diff-host tests', () => {
     let reportStub: SinonStub;
 
     setup(async () => {
-      element = basicFixture.instantiate();
+      element = await fixture(html`<gr-diff-host></gr-diff-host>`);
       element.changeNum = 123 as NumericChangeId;
       element.path = 'file.txt';
       element.patchRange = createPatchRange(1, 2);
@@ -1652,9 +1651,7 @@ suite('gr-diff-host tests', () => {
       coverageProviderStub = sinon
         .stub()
         .returns(Promise.resolve(exampleRanges));
-
-      element = basicFixture.instantiate();
-
+      element = await fixture(html`<gr-diff-host></gr-diff-host>`);
       element.changeNum = 123 as NumericChangeId;
       element.change = createChange();
       element.path = 'some/path';
@@ -1667,6 +1664,8 @@ suite('gr-diff-host tests', () => {
       };
       element.patchRange = createPatchRange();
       element.prefs = prefs;
+      await element.updateComplete;
+
       getDiffRestApiStub.returns(
         Promise.resolve({
           ...createDiff(),
@@ -1685,6 +1684,7 @@ suite('gr-diff-host tests', () => {
             } as unknown as GrAnnotationActionsInterface,
           ])
         );
+      await element.reload();
     });
 
     test('getCoverageAnnotationApis should be called', async () => {
@@ -1705,6 +1705,8 @@ suite('gr-diff-host tests', () => {
 
     test('provider is called with appropriate params', async () => {
       element.patchRange = createPatchRange(1, 3);
+      await element.updateComplete;
+      await element.reload();
       await element.waitForReloadToRender();
       assert.isTrue(
         coverageProviderStub.calledWithExactly(

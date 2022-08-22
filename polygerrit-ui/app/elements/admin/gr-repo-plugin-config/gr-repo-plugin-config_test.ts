@@ -11,15 +11,15 @@ import {ConfigParameterInfoType} from '../../../constants/constants';
 import {queryAndAssert} from '../../../test/test-utils';
 import {GrPluginConfigArrayEditor} from '../gr-plugin-config-array-editor/gr-plugin-config-array-editor';
 import {PaperToggleButtonElement} from '@polymer/paper-toggle-button/paper-toggle-button';
-
-const basicFixture = fixtureFromElement('gr-repo-plugin-config');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-repo-plugin-config tests', () => {
   let element: GrRepoPluginConfig;
 
   setup(async () => {
-    element = basicFixture.instantiate();
-    await element.updateComplete;
+    element = await fixture(
+      html`<gr-repo-plugin-config></gr-repo-plugin-config>`
+    );
   });
 
   test('render', async () => {

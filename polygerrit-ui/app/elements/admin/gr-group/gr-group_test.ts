@@ -19,8 +19,7 @@ import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrCopyClipboard} from '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import {GrSelect} from '../../shared/gr-select/gr-select';
-
-const basicFixture = fixtureFromElement('gr-group');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-group tests', () => {
   let element: GrGroup;
@@ -40,8 +39,7 @@ suite('gr-group tests', () => {
   };
 
   setup(async () => {
-    element = basicFixture.instantiate();
-    await element.updateComplete;
+    element = await fixture(html`<gr-group></gr-group>`);
     groupStub = stubRestApi('getGroupConfig').returns(Promise.resolve(group));
   });
 

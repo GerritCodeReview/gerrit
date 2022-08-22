@@ -44,8 +44,7 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrSelect} from '../../shared/gr-select/gr-select';
 import {GrTextarea} from '../../shared/gr-textarea/gr-textarea';
 import {IronInputElement} from '@polymer/iron-input/iron-input';
-
-const basicFixture = fixtureFromElement('gr-repo');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-repo tests', () => {
   let element: GrRepo;
@@ -155,8 +154,7 @@ suite('gr-repo tests', () => {
     repoStub = stubRestApi('getProjectConfig').returns(
       Promise.resolve(repoConf)
     );
-    element = basicFixture.instantiate();
-    await element.updateComplete;
+    element = await fixture(html`<gr-repo></gr-repo>`);
   });
 
   test('render', () => {

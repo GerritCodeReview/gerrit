@@ -5,20 +5,14 @@
  */
 import '../../../test/common-test-setup-karma';
 import './gr-overlay';
-import {html} from '@polymer/polymer/lib/utils/html-tag';
 import {GrOverlay} from './gr-overlay';
-
-const basicFixture = fixtureFromTemplate(html`
-  <gr-overlay>
-    <div>content</div>
-  </gr-overlay>
-`);
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-overlay tests', () => {
   let element: GrOverlay;
 
-  setup(() => {
-    element = basicFixture.instantiate() as GrOverlay;
+  setup(async () => {
+    element = await fixture(html`<gr-overlay><div>content</div></gr-overlay>`);
   });
 
   test('render', async () => {

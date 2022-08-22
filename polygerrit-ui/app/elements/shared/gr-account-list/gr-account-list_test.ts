@@ -30,8 +30,7 @@ import {
 import {GrAccountEntry} from '../gr-account-entry/gr-account-entry';
 import {createChange} from '../../../test/test-data-generators';
 import {ReviewerState} from '../../../api/rest-api';
-
-const basicFixture = fixtureFromElement('gr-account-list');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 class MockSuggestionsProvider implements ReviewerSuggestionsProvider {
   init() {}
@@ -93,7 +92,7 @@ suite('gr-account-list tests', () => {
     existingAccount1 = makeAccount();
     existingAccount2 = makeAccount();
 
-    element = basicFixture.instantiate();
+    element = await fixture(html`<gr-account-list></gr-account-list>`);
     element.accounts = [existingAccount1, existingAccount2];
     element.reviewerState = ReviewerState.REVIEWER;
     element.change = {...createChange()};

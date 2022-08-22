@@ -8,15 +8,15 @@ import './gr-confirm-abandon-dialog';
 import {GrConfirmAbandonDialog} from './gr-confirm-abandon-dialog';
 import {queryAndAssert} from '../../../test/test-utils';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
-
-const basicFixture = fixtureFromElement('gr-confirm-abandon-dialog');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-confirm-abandon-dialog tests', () => {
   let element: GrConfirmAbandonDialog;
 
   setup(async () => {
-    element = basicFixture.instantiate();
-    await element.updateComplete;
+    element = await fixture(
+      html`<gr-confirm-abandon-dialog></gr-confirm-abandon-dialog>`
+    );
   });
 
   test('render', () => {

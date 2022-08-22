@@ -38,14 +38,13 @@ import {CommentThread, isDraft} from '../../../utils/comment-util';
 import {query, queryAndAssert} from '../../../utils/common-util';
 import {GrAccountLabel} from '../../shared/gr-account-label/gr-account-label';
 import {GrDropdownList} from '../../shared/gr-dropdown-list/gr-dropdown-list';
-
-const basicFixture = fixtureFromElement('gr-thread-list');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-thread-list tests', () => {
   let element: GrThreadList;
 
   setup(async () => {
-    element = basicFixture.instantiate();
+    element = await fixture(html`<gr-thread-list></gr-thread-list>`);
     element.changeNum = 123 as NumericChangeId;
     element.change = createParsedChange();
     element.account = createAccountDetailWithId();

@@ -19,8 +19,7 @@ import {GrListView} from '../../shared/gr-list-view/gr-list-view';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {SHOWN_ITEMS_COUNT} from '../../../constants/constants';
-
-const basicFixture = fixtureFromElement('gr-admin-group-list');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 function createGroup(name: string, counter: number) {
   return {
@@ -60,8 +59,7 @@ suite('gr-admin-group-list tests', () => {
   const value: AppElementAdminParams = {view: GerritView.ADMIN, adminView: ''};
 
   setup(async () => {
-    element = basicFixture.instantiate();
-    await element.updateComplete;
+    element = await fixture(html`<gr-admin-group-list></gr-admin-group-list>`);
   });
 
   test('render', () => {

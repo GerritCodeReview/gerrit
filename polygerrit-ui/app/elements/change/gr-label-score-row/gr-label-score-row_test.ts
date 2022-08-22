@@ -8,14 +8,13 @@ import './gr-label-score-row';
 import {GrLabelScoreRow} from './gr-label-score-row';
 import {AccountId} from '../../../api/rest-api';
 import {GrButton} from '../../shared/gr-button/gr-button';
-
-const basicFixture = fixtureFromElement('gr-label-score-row');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-label-row-score tests', () => {
   let element: GrLabelScoreRow;
 
   setup(async () => {
-    element = basicFixture.instantiate();
+    element = await fixture(html`<gr-label-score-row></gr-label-score-row>`);
     element.labels = {
       'Code-Review': {
         values: {

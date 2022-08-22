@@ -19,16 +19,14 @@ import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {PageErrorEvent} from '../../../types/events';
 import {RepoName} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
-
-const basicFixture = fixtureFromElement('gr-repo-commands');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-repo-commands tests', () => {
   let element: GrRepoCommands;
   let repoStub: sinon.SinonStub;
 
   setup(async () => {
-    element = basicFixture.instantiate();
-    await element.updateComplete;
+    element = await fixture(html`<gr-repo-commands></gr-repo-commands>`);
     // Note that this probably does not achieve what it is supposed to, because
     // getProjectConfig() is called as soon as the element is attached, so
     // stubbing it here has not effect anymore.

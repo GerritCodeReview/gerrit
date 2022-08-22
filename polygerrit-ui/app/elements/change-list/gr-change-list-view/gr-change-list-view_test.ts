@@ -23,10 +23,8 @@ import {
   RepoName,
 } from '../../../api/rest-api.js';
 import {tap} from '@polymer/iron-test-helpers/mock-interactions';
-import {waitUntil} from '@open-wc/testing-helpers';
+import {fixture, html, waitUntil} from '@open-wc/testing-helpers';
 import {GerritView} from '../../../services/router/router-model.js';
-
-const basicFixture = fixtureFromElement('gr-change-list-view');
 
 const CHANGE_ID = 'IcA3dAB3edAB9f60B8dcdA6ef71A75980e4B7127';
 const COMMIT_HASH = '12345678';
@@ -39,8 +37,7 @@ suite('gr-change-list-view tests', () => {
     stubRestApi('getChanges').returns(Promise.resolve([]));
     stubRestApi('getAccountDetails').returns(Promise.resolve(undefined));
     stubRestApi('getAccountStatus').returns(Promise.resolve(undefined));
-    element = basicFixture.instantiate();
-    await element.updateComplete;
+    element = await fixture(html`<gr-change-list-view></gr-change-list-view>`);
   });
 
   teardown(async () => {

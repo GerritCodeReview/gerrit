@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0880b3f_fb3ed057",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-22T09:34:54Z",
+      "side": 1,
+      "message": "@poucet@google.com there is no `warning-text-color` hence the use of this css variable. This is red as requested on the bug but the overall thing is a warning and not a error hence I prefer the use of the word `warning` everywhere.",
+      "range": {
+        "startLine": 209,
+        "startChar": 17,
+        "endLine": 209,
+        "endChar": 41
+      },
+      "revId": "60d90129c130d900bbb867d97c7bb9f966bf163e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -22,7 +22,6 @@ import {_testOnlyResetGrRestApiSharedObjects} from '../services/gr-rest-api/gr-r
 import {
   cleanupTestUtils,
   getCleanupsCount,
-  registerTestCleanup,
   addIronOverlayBackdropStyleEl,
   removeIronOverlayBackdropStyleEl,
   removeThemeStyles,
@@ -48,7 +47,6 @@ import {
 declare global {
   interface Window {
     assert: typeof chai.assert;
-    fixture: typeof fixtureImpl;
     sinon: typeof sinon;
     chai: typeof chai;
   }
@@ -70,24 +68,6 @@ installPolymerResin(safeTypesBridge, (isViolation, fmt, ...args) => {
   }
 });
 
-interface TestFixtureElement extends HTMLElement {
-  restore(): void;
-  create(model?: unknown): HTMLElement | HTMLElement[];
-}
-
-function getFixtureElementById(fixtureId: string) {
-  return document.getElementById(fixtureId) as TestFixtureElement;
-}
-
-// For karma always set our implementation
-// (karma doesn't provide the fixture method)
-function fixtureImpl(fixtureId: string, model: unknown) {
-  // This method is inspired by web-component-tester method
-  registerTestCleanup(() => getFixtureElementById(fixtureId).restore());
-  return getFixtureElementById(fixtureId).create(model);
-}
-
-window.fixture = fixtureImpl;
 let testSetupTimestampMs = 0;
 let appContext: AppContext & Finalizable;
 

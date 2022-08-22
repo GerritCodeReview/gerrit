@@ -3,12 +3,13 @@
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../test/common-test-setup-karma.js';
-import {HovercardMixin} from './hovercard-mixin.js';
-import {html, LitElement} from 'lit';
+import '../../test/common-test-setup-karma';
+import {HovercardMixin} from './hovercard-mixin';
+import {LitElement} from 'lit';
 import {customElement} from 'lit/decorators.js';
-import {MockPromise, mockPromise, pressKey} from '../../test/test-utils.js';
-import {findActiveElement, Key} from '../../utils/dom-util.js';
+import {MockPromise, mockPromise, pressKey} from '../../test/test-utils';
+import {findActiveElement, Key} from '../../utils/dom-util';
+import {fixture, html} from '@open-wc/testing';
 
 const base = HovercardMixin(LitElement);
 
@@ -33,22 +34,22 @@ class HovercardMixinTest extends base {
   }
 }
 
-const basicFixture = fixtureFromElement('hovercard-mixin-test');
-
 suite('gr-hovercard tests', () => {
   let element: HovercardMixinTest;
 
   let button: HTMLElement;
   let testPromise: MockPromise<void>;
 
-  setup(() => {
+  setup(async () => {
     testPromise = mockPromise();
     button = document.createElement('button');
     button.innerHTML = 'Hello';
     button.setAttribute('id', 'foo');
     document.body.appendChild(button);
 
-    element = basicFixture.instantiate();
+    element = await fixture(
+      html`<hovercard-mixin-test></hovercard-mixin-test>`
+    );
   });
 
   teardown(() => {

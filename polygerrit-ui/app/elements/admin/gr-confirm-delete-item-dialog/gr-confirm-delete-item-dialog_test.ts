@@ -8,15 +8,15 @@ import './gr-confirm-delete-item-dialog';
 import {GrConfirmDeleteItemDialog} from './gr-confirm-delete-item-dialog';
 import {queryAndAssert} from '../../../test/test-utils';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
-
-const basicFixture = fixtureFromElement('gr-confirm-delete-item-dialog');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-confirm-delete-item-dialog tests', () => {
   let element: GrConfirmDeleteItemDialog;
 
   setup(async () => {
-    element = basicFixture.instantiate();
-    await flush();
+    element = await fixture(
+      html`<gr-confirm-delete-item-dialog></gr-confirm-delete-item-dialog>`
+    );
   });
 
   test('render', () => {

@@ -9,15 +9,15 @@ import {GrIncludedInDialog} from './gr-included-in-dialog';
 import {BranchName, IncludedInInfo, TagName} from '../../../types/common';
 import {IronInputElement} from '@polymer/iron-input';
 import {queryAndAssert} from '../../../test/test-utils';
-
-const basicFixture = fixtureFromElement('gr-included-in-dialog');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-included-in-dialog', () => {
   let element: GrIncludedInDialog;
 
   setup(async () => {
-    element = basicFixture.instantiate();
-    await element.updateComplete;
+    element = await fixture(
+      html`<gr-included-in-dialog></gr-included-in-dialog>`
+    );
   });
 
   test('render', () => {

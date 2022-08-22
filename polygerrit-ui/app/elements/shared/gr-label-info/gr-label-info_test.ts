@@ -20,15 +20,14 @@ import {
   createParsedChange,
 } from '../../../test/test-data-generators';
 import {ApprovalInfo, LabelInfo} from '../../../types/common';
-
-const basicFixture = fixtureFromElement('gr-label-info');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-label-info tests', () => {
   let element: GrLabelInfo;
   const account = createAccountWithIdNameAndEmail(5);
 
   setup(async () => {
-    element = basicFixture.instantiate();
+    element = await fixture(html`<gr-label-info></gr-label-info>`);
 
     // Needed to trigger computed bindings.
     element.account = {};

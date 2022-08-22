@@ -9,15 +9,15 @@ import {GrCreateChangeHelp} from './gr-create-change-help';
 import {mockPromise, queryAndAssert} from '../../../test/test-utils';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
-
-const basicFixture = fixtureFromElement('gr-create-change-help');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-create-change-help tests', () => {
   let element: GrCreateChangeHelp;
 
   setup(async () => {
-    element = basicFixture.instantiate();
-    await flush();
+    element = await fixture(
+      html`<gr-create-change-help></gr-create-change-help>`
+    );
   });
 
   test('Create change tap', async () => {

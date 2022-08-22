@@ -14,15 +14,15 @@ import {
 import {BranchName, GroupId, RepoName} from '../../../types/common';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {GrSelect} from '../../shared/gr-select/gr-select';
-
-const basicFixture = fixtureFromElement('gr-create-repo-dialog');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-create-repo-dialog tests', () => {
   let element: GrCreateRepoDialog;
 
   setup(async () => {
-    element = basicFixture.instantiate();
-    await element.updateComplete;
+    element = await fixture(
+      html`<gr-create-repo-dialog></gr-create-repo-dialog>`
+    );
   });
 
   test('render', () => {

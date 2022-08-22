@@ -14,8 +14,7 @@ import {
 import {BranchName} from '../../../types/common';
 import {IronInputElement} from '@polymer/iron-input';
 import {RepoDetailView} from '../../../utils/router-util';
-
-const basicFixture = fixtureFromElement('gr-create-pointer-dialog');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-create-pointer-dialog tests', () => {
   let element: GrCreatePointerDialog;
@@ -24,8 +23,9 @@ suite('gr-create-pointer-dialog tests', () => {
     queryAndAssert<IronInputElement>(element, 'iron-input');
 
   setup(async () => {
-    element = basicFixture.instantiate();
-    await element.updateComplete;
+    element = await fixture(
+      html`<gr-create-pointer-dialog></gr-create-pointer-dialog>`
+    );
   });
 
   test('render', () => {

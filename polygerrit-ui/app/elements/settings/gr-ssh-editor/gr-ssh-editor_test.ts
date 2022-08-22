@@ -10,8 +10,7 @@ import {GrSshEditor} from './gr-ssh-editor';
 import {SshKeyInfo} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
-
-const basicFixture = fixtureFromElement('gr-ssh-editor');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-ssh-editor tests', () => {
   let element: GrSshEditor;
@@ -39,7 +38,7 @@ suite('gr-ssh-editor tests', () => {
 
     stubRestApi('getAccountSSHKeys').returns(Promise.resolve(keys));
 
-    element = basicFixture.instantiate();
+    element = await fixture(html`<gr-ssh-editor></gr-ssh-editor>`);
 
     await element.loadData();
     await flush();

@@ -9,14 +9,13 @@ import {GrChangeStar} from './gr-change-star';
 import './gr-change-star';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {createChange} from '../../../test/test-data-generators';
-
-const basicFixture = fixtureFromElement('gr-change-star');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-change-star tests', () => {
   let element: GrChangeStar;
 
   setup(async () => {
-    element = basicFixture.instantiate();
+    element = await fixture(html`<gr-change-star></gr-change-star>`);
     element.change = {
       ...createChange(),
       starred: true,

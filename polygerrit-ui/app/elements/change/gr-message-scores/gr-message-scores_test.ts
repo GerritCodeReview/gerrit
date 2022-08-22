@@ -12,15 +12,13 @@ import {
 } from '../../../test/test-data-generators';
 import {queryAll, stubFlags} from '../../../test/test-utils';
 import {GrMessageScores} from './gr-message-scores';
-
-const basicFixture = fixtureFromElement('gr-message-scores');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-message-score tests', () => {
   let element: GrMessageScores;
 
   setup(async () => {
-    element = basicFixture.instantiate();
-    await element.updateComplete;
+    element = await fixture(html`<gr-message-scores></gr-message-scores>`);
   });
 
   test('render', async () => {
@@ -152,7 +150,7 @@ suite('gr-message-score tests', () => {
 
   test('reset vote', async () => {
     stubFlags('isEnabled').returns(true);
-    element = basicFixture.instantiate();
+    element = await fixture(html`<gr-message-scores></gr-message-scores>`);
     element.change = {
       ...createChange(),
       labels: {

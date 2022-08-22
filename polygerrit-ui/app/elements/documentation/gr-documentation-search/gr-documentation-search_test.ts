@@ -9,8 +9,7 @@ import {GrDocumentationSearch} from './gr-documentation-search';
 import {page} from '../../../utils/page-wrapper-utils';
 import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {DocResult} from '../../../types/common';
-
-const basicFixture = fixtureFromElement('gr-documentation-search');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 function documentationGenerator(counter: number) {
   return {
@@ -33,8 +32,9 @@ suite('gr-documentation-search tests', () => {
 
   setup(async () => {
     sinon.stub(page, 'show');
-    element = basicFixture.instantiate();
-    await element.updateComplete;
+    element = await fixture(
+      html`<gr-documentation-search></gr-documentation-search>`
+    );
   });
 
   suite('list with searches for documentation', () => {

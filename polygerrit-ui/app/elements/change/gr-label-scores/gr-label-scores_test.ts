@@ -15,8 +15,7 @@ import {
 } from '../../../test/test-data-generators';
 import {ChangeStatus} from '../../../constants/constants';
 import {getVoteForAccount} from '../../../utils/label-util';
-
-const basicFixture = fixtureFromElement('gr-label-scores');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-label-scores tests', () => {
   const accountId = 123 as AccountId;
@@ -24,7 +23,7 @@ suite('gr-label-scores tests', () => {
 
   setup(async () => {
     stubRestApi('getLoggedIn').resolves(false);
-    element = basicFixture.instantiate();
+    element = await fixture(html`<gr-label-scores></gr-label-scores>`);
     element.change = {
       ...createChange(),
       labels: {

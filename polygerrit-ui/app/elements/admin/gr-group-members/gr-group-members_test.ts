@@ -29,8 +29,7 @@ import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions'
 import {PageErrorEvent} from '../../../types/events.js';
 import {getAccountSuggestions} from '../../../utils/account-util';
 import {getAppContext} from '../../../services/app-context';
-
-const basicFixture = fixtureFromElement('gr-group-members');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-group-members tests', () => {
   let element: GrGroupMembers;
@@ -138,8 +137,7 @@ suite('gr-group-members tests', () => {
     stubRestApi('getGroupMembers').returns(Promise.resolve(groupMembers));
     stubRestApi('getIsGroupOwner').returns(Promise.resolve(true));
     stubRestApi('getIncludedGroup').returns(Promise.resolve(includedGroups));
-    element = basicFixture.instantiate();
-    await element.updateComplete;
+    element = await fixture(html`<gr-group-members></gr-group-members>`);
     stubBaseUrl('https://test/site');
     element.groupId = 'testId1' as GroupId;
     groupStub = stubRestApi('getGroupConfig').returns(Promise.resolve(groups));

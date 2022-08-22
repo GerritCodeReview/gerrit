@@ -14,8 +14,7 @@ import {
   createAccountDetailWithId,
   createServerInfo,
 } from '../test/test-data-generators';
-
-const basicFixture = fixtureFromElement('gr-app');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-app custom light theme tests', () => {
   let element: GrApp;
@@ -28,7 +27,7 @@ suite('gr-app custom light theme tests', () => {
     stubRestApi('getDiffComments').returns(Promise.resolve({}));
     stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
     stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
-    element = basicFixture.instantiate();
+    element = await fixture(html`<gr-app></gr-app>`);
     getPluginLoader().loadPlugins([]);
     await getPluginLoader().awaitPluginsLoaded();
     await flush();

@@ -33,9 +33,7 @@ import {
 } from '../../../test/test-data-generators';
 import {GrSelect} from '../../shared/gr-select/gr-select';
 import {AppElementSettingsParam} from '../../gr-app-types';
-
-const basicFixture = fixtureFromElement('gr-settings-view');
-const blankFixture = fixtureFromElement('div');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-settings-view tests', () => {
   let element: GrSettingsView;
@@ -109,8 +107,7 @@ suite('gr-settings-view tests', () => {
     stubRestApi('getPreferences').returns(Promise.resolve(preferences));
     stubRestApi('getAccountEmails').returns(Promise.resolve(undefined));
     stubRestApi('getConfig').returns(Promise.resolve(config));
-    element = basicFixture.instantiate();
-    await element.updateComplete;
+    element = await fixture(html`<gr-settings-view></gr-settings-view>`);
 
     // Allow the element to render.
     if (element._testOnly_loadingPromise)
@@ -538,15 +535,15 @@ suite('gr-settings-view tests', () => {
     assert.isTrue(reloadStub.calledTwice);
   });
 
-  test('calls the title-change event', () => {
+  test('calls the title-change event', async () => {
     const titleChangedStub = sinon.stub();
 
     // Create a new view.
     const newElement = document.createElement('gr-settings-view');
     newElement.addEventListener('title-change', titleChangedStub);
 
-    const blank = blankFixture.instantiate();
-    blank.appendChild(newElement);
+    const div = await fixture(html`<div></div>`);
+    div.appendChild(newElement);
 
     flush();
 

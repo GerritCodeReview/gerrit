@@ -12,8 +12,7 @@ import {queryAndAssert} from '../../../test/test-utils';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {IronInputElement} from '@polymer/iron-input';
 import {assertIsDefined} from '../../../utils/common-util';
-
-const basicFixture = fixtureFromElement('gr-watched-projects-editor');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-watched-projects-editor tests', () => {
   let element: GrWatchedProjectsEditor;
@@ -57,7 +56,9 @@ suite('gr-watched-projects-editor tests', () => {
       }
     });
 
-    element = basicFixture.instantiate();
+    element = await fixture(
+      html`<gr-watched-projects-editor></gr-watched-projects-editor>`
+    );
 
     await element.loadData();
     await element.updateComplete;

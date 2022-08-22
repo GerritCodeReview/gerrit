@@ -3,6 +3,7 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import {fixture, html} from '@open-wc/testing-helpers';
 import {SinonStubbedMember} from 'sinon';
 import {PluginApi} from '../../../api/plugin';
 import {ChangeStatus} from '../../../constants/constants';
@@ -44,13 +45,13 @@ import {
 } from './gr-related-changes-list';
 import {GrRelatedCollapse} from './gr-related-collapse';
 
-const basicFixture = fixtureFromElement('gr-related-changes-list');
-
 suite('gr-related-changes-list', () => {
   let element: GrRelatedChangesList;
 
-  setup(() => {
-    element = basicFixture.instantiate();
+  setup(async () => {
+    element = await fixture(
+      html`<gr-related-changes-list></gr-related-changes-list>`
+    );
   });
 
   suite('show when collapsed', () => {
@@ -329,8 +330,10 @@ suite('gr-related-changes-list', () => {
     let element: GrRelatedChangesList;
     let conflictsStub: SinonStubbedMember<RestApiService['getChangeConflicts']>;
 
-    setup(() => {
-      element = basicFixture.instantiate();
+    setup(async () => {
+      element = await fixture(
+        html`<gr-related-changes-list></gr-related-changes-list>`
+      );
       conflictsStub = stubRestApi('getChangeConflicts').returns(
         Promise.resolve(undefined)
       );
@@ -604,9 +607,11 @@ suite('gr-related-changes-list', () => {
   suite('gr-related-changes-list plugin tests', () => {
     let element: GrRelatedChangesList;
 
-    setup(() => {
+    setup(async () => {
       resetPlugins();
-      element = basicFixture.instantiate();
+      element = await fixture(
+        html`<gr-related-changes-list></gr-related-changes-list>`
+      );
     });
 
     teardown(() => {

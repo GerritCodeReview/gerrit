@@ -7,14 +7,13 @@ import '../../../test/common-test-setup-karma';
 import './gr-tooltip';
 import {GrTooltip} from './gr-tooltip';
 import {queryAndAssert} from '../../../test/test-utils';
-
-const basicFixture = fixtureFromElement('gr-tooltip');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-tooltip tests', () => {
   let element: GrTooltip;
 
   setup(async () => {
-    element = basicFixture.instantiate();
+    element = await fixture(html`<gr-tooltip></gr-tooltip>`);
     await element.updateComplete;
   });
 

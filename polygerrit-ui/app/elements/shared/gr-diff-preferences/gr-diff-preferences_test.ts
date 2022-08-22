@@ -12,8 +12,7 @@ import {createDefaultDiffPrefs} from '../../../constants/constants';
 import {IronInputElement} from '@polymer/iron-input';
 import {GrSelect} from '../gr-select/gr-select';
 import {ParsedJSON} from '../../../types/common';
-
-const basicFixture = fixtureFromElement('gr-diff-preferences');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-diff-preferences tests', () => {
   let element: GrDiffPreferences;
@@ -38,7 +37,7 @@ suite('gr-diff-preferences tests', () => {
 
     stubRestApi('getDiffPreferences').returns(Promise.resolve(diffPreferences));
 
-    element = basicFixture.instantiate();
+    element = await fixture(html`<gr-diff-preferences></gr-diff-preferences>`);
 
     await element.updateComplete;
   });

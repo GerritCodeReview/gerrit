@@ -17,15 +17,13 @@ import {MergeabilityComputationBehavior} from '../../../constants/constants';
 import {queryAndAssert} from '../../../test/test-utils';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
-
-const basicFixture = fixtureFromElement('gr-search-bar');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-search-bar tests', () => {
   let element: GrSearchBar;
 
   setup(async () => {
-    element = basicFixture.instantiate();
-    await element.updateComplete;
+    element = await fixture(html`<gr-search-bar></gr-search-bar>`);
   });
 
   test('renders', () => {
@@ -200,7 +198,7 @@ suite('gr-search-bar tests', () => {
 
   suite('getSearchSuggestions', () => {
     setup(async () => {
-      element = basicFixture.instantiate();
+      element = await fixture(html`<gr-search-bar></gr-search-bar>`);
       element.mergeabilityComputationBehavior =
         MergeabilityComputationBehavior.NEVER;
       await element.updateComplete;
@@ -262,7 +260,7 @@ suite('gr-search-bar tests', () => {
   ].forEach(mergeability => {
     suite(`mergeability as ${mergeability}`, () => {
       setup(async () => {
-        element = basicFixture.instantiate();
+        element = await fixture(html`<gr-search-bar></gr-search-bar>`);
         element.serverConfig = {
           ...createServerInfo(),
           change: {
@@ -287,7 +285,7 @@ suite('gr-search-bar tests', () => {
 
   suite('doc url', () => {
     setup(async () => {
-      element = basicFixture.instantiate();
+      element = await fixture(html`<gr-search-bar></gr-search-bar>`);
     });
 
     test('compute help doc url with correct path', async () => {

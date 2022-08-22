@@ -585,10 +585,15 @@ export function createDiff(): DiffInfo {
         ],
       },
       {
-        ab: [
+        a: [
+          'Arcu eget, rhoncus amet cursus, ipsum elementum.  ',
+          'Eros suspendisse.  ',
+        ],
+        b: [
           'Arcu eget, rhoncus amet cursus, ipsum elementum.',
           'Eros suspendisse.',
         ],
+        common: true,
       },
       {
         a: ['Rhoncus tempor, ultricies aliquam ipsum.'],

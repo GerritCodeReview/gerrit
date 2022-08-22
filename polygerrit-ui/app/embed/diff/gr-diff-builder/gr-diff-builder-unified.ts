@@ -149,6 +149,11 @@ export class GrDiffBuilderUnified extends GrDiffBuilderLegacy {
   getNextContentOnSide(content: HTMLElement, side: Side): HTMLElement | null {
     let tr: HTMLElement = content.parentElement!.parentElement!;
     while ((tr = tr.nextSibling as HTMLElement)) {
+      // Note that this does not work when there is a "common" chunk in the
+      // diff (different content only because of whitespace). Such chunks are
+      // rendered with class "add", so these rows will be skipped for the
+      // 'left' side.
+      // TODO: Fix this when writing a Lit component for unified diff.
       if (
         tr.classList.contains('both') ||
         (side === 'left' && tr.classList.contains('remove')) ||

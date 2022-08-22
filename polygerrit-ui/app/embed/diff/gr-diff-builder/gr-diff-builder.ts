@@ -283,9 +283,19 @@ export abstract class GrDiffBuilder implements DiffBuilder {
           }
           if (content) {
             out_elements.push(content);
+          } else {
+            // out_lines and out_elements must match. So if we don't have an
+            // element to push, then also don't push a line.
+            if (out_lines) out_lines.pop();
           }
         }
       }
+    }
+    if (out_lines && out_elements) {
+      assert(
+        out_lines.length === out_elements.length,
+        'findLinesByRange: lines and elements arrays must have same length'
+      );
     }
   }
 

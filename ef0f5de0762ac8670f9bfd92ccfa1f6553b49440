@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d847b130_a9c99d4f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-22T13:57:35Z",
+      "side": 1,
+      "message": "flexbox ensures that no spaces will be added between \u003cspan\u003es without needing formatting tricks to avoid newlines in our template like:\n```\n\u003cspan\u003espan1\u003c/span\u003e\u003cspan\n\u003espan2\u003c/span\n\u003e\n```",
+      "range": {
+        "startLine": 498,
+        "startChar": 19,
+        "endLine": 498,
+        "endChar": 30
+      },
+      "revId": "ef0f5de0762ac8670f9bfd92ccfa1f6553b49440",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

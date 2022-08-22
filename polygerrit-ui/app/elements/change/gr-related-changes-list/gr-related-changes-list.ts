@@ -216,8 +216,8 @@ export class GrRelatedChangesList extends LitElement {
                   ? GerritNav.getUrlForChangeById(
                       change._change_number,
                       change.project,
-                      change._revision_number as RevisionPatchSetNum,
-                      'related-change'
+                      'related-change',
+                      change._revision_number as RevisionPatchSetNum
                     )
                   : ''}
                 show-change-status
@@ -293,7 +293,6 @@ export class GrRelatedChangesList extends LitElement {
         .href=${GerritNav.getUrlForChangeById(
           change._number,
           change.project,
-          undefined,
           'submitted-together'
         )}
         ?show-submittable-check=${showSubmittabilityCheck}
@@ -375,7 +374,6 @@ export class GrRelatedChangesList extends LitElement {
                 .href=${GerritNav.getUrlForChangeById(
                   change._number,
                   change.project,
-                  undefined,
                   'merge-conflict'
                 )}
                 >${change.subject}</gr-related-change
@@ -421,7 +419,6 @@ export class GrRelatedChangesList extends LitElement {
                 .href=${GerritNav.getUrlForChangeById(
                   change._number,
                   change.project,
-                  undefined,
                   'cherry-pick'
                 )}
                 >${change.branch}: ${change.subject}</gr-related-change

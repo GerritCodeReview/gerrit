@@ -7,6 +7,7 @@ import {define, provide, resolve} from './dependency';
 import {html, LitElement} from 'lit';
 import {customElement, property, query} from 'lit/decorators.js';
 import '../test/common-test-setup-karma.js';
+import {fixture} from '@open-wc/testing-helpers';
 
 interface FooService {
   value: string;
@@ -89,17 +90,17 @@ export class LeafLitElement extends LitElement {
 }
 
 suite('Dependency', () => {
+  let element: LitFooProviderElement;
+
+  setup(async () => {
+    element = await fixture(html`<lit-foo-provider></lit-foo-provider>`);
+  });
+
   test('It instantiates', async () => {
-    const fixture = fixtureFromElement('lit-foo-provider');
-    const element = fixture.instantiate();
-    await element.updateComplete;
     assert.isDefined(element.bar?.litChild?.barRef());
   });
 
   test('It works by connecting and reconnecting', async () => {
-    const fixture = fixtureFromElement('lit-foo-provider');
-    const element = fixture.instantiate();
-    await element.updateComplete;
     assert.isDefined(element.bar?.litChild?.barRef());
 
     element.showBarProvider = false;

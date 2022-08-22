@@ -17,8 +17,7 @@ import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions'
 import {GrShellCommand} from '../gr-shell-command/gr-shell-command';
 import {createDefaultPreferences} from '../../../constants/constants';
 import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
-
-const basicFixture = fixtureFromElement('gr-download-commands');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-download-commands', () => {
   let element: GrDownloadCommands;
@@ -51,7 +50,9 @@ suite('gr-download-commands', () => {
   suite('unauthenticated', () => {
     setup(async () => {
       stubRestApi('getLoggedIn').returns(Promise.resolve(false));
-      element = basicFixture.instantiate();
+      element = await fixture(
+        html`<gr-download-commands></gr-download-commands>`
+      );
       element.schemes = SCHEMES;
       element.commands = COMMANDS;
       element.selectedScheme = SELECTED_SCHEME;
@@ -167,8 +168,9 @@ suite('gr-download-commands', () => {
   });
   suite('authenticated', () => {
     test('loads scheme from preferences', async () => {
-      const element = basicFixture.instantiate();
-      await element.updateComplete;
+      const element: GrDownloadCommands = await fixture(
+        html`<gr-download-commands></gr-download-commands>`
+      );
       element.userModel.setPreferences({
         ...createPreferences(),
         download_scheme: 'repo',
@@ -177,8 +179,9 @@ suite('gr-download-commands', () => {
     });
 
     test('normalize scheme from preferences', async () => {
-      const element = basicFixture.instantiate();
-      await element.updateComplete;
+      const element: GrDownloadCommands = await fixture(
+        html`<gr-download-commands></gr-download-commands>`
+      );
       element.userModel.setPreferences({
         ...createPreferences(),
         download_scheme: 'REPO',

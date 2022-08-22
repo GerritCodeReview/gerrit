@@ -7,14 +7,13 @@ import '../../../test/common-test-setup-karma';
 import './gr-default-editor';
 import {GrDefaultEditor} from './gr-default-editor';
 import {mockPromise, queryAndAssert} from '../../../test/test-utils';
-
-const basicFixture = fixtureFromElement('gr-default-editor');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-default-editor tests', () => {
   let element: GrDefaultEditor;
 
   setup(async () => {
-    element = basicFixture.instantiate();
+    element = await fixture(html`<gr-default-editor></gr-default-editor>`);
     element.fileContent = '';
     await flush();
   });

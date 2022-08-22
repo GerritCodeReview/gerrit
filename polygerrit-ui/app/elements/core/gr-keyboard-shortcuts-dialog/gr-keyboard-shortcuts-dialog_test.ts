@@ -10,8 +10,7 @@ import {
   SectionView,
   ShortcutSection,
 } from '../../../services/shortcuts/shortcuts-service';
-
-const basicFixture = fixtureFromElement('gr-keyboard-shortcuts-dialog');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 const x = ['x'];
 const ctrlX = ['Ctrl', 'x'];
@@ -21,7 +20,9 @@ suite('gr-keyboard-shortcuts-dialog tests', () => {
   let element: GrKeyboardShortcutsDialog;
 
   setup(async () => {
-    element = basicFixture.instantiate();
+    element = await fixture(
+      html`<gr-keyboard-shortcuts-dialog></gr-keyboard-shortcuts-dialog>`
+    );
     await flush();
   });
 

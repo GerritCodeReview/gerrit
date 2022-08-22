@@ -38,13 +38,11 @@ import {
 } from '../../../services/shortcuts/shortcuts-service';
 import {html} from 'lit';
 
-const basicFixture = fixtureFromElement('gr-change-list');
-
 suite('gr-change-list basic tests', () => {
   let element: GrChangeList;
 
-  setup(() => {
-    element = basicFixture.instantiate();
+  setup(async () => {
+    element = await fixture(html`<gr-change-list></gr-change-list><`);
   });
 
   test('renders', async () => {
@@ -74,7 +72,7 @@ suite('gr-change-list basic tests', () => {
 
   suite('test show change number not logged in', () => {
     setup(async () => {
-      element = basicFixture.instantiate();
+      element = await fixture(html`<gr-change-list></gr-change-list>`);
       element.account = undefined;
       element.preferences = undefined;
       element.config = createServerInfo();
@@ -88,7 +86,7 @@ suite('gr-change-list basic tests', () => {
 
   suite('test show change number preference enabled', () => {
     setup(async () => {
-      element = basicFixture.instantiate();
+      element = await fixture(html`<gr-change-list></gr-change-list>`);
       element.preferences = {
         legacycid_in_change_table: true,
         time_format: TimeFormat.HHMM_12,
@@ -106,7 +104,7 @@ suite('gr-change-list basic tests', () => {
 
   suite('test show change number preference disabled', () => {
     setup(async () => {
-      element = basicFixture.instantiate();
+      element = await fixture(html`<gr-change-list></gr-change-list>`);
       // legacycid_in_change_table is not set when false.
       element.preferences = {
         time_format: TimeFormat.HHMM_12,
@@ -402,7 +400,7 @@ suite('gr-change-list basic tests', () => {
 
     setup(async () => {
       stubFlags('isEnabled').returns(true);
-      element = basicFixture.instantiate();
+      element = await fixture(html`<gr-change-list></gr-change-list>`);
       element.sections = [{results: [{...createChange()}]}];
       element.account = {_account_id: 1001 as AccountId};
       element.preferences = {
@@ -434,7 +432,7 @@ suite('gr-change-list basic tests', () => {
 
     setup(async () => {
       stubFlags('isEnabled').returns(true);
-      element = basicFixture.instantiate();
+      element = await fixture(html`<gr-change-list></gr-change-list>`);
       element.sections = [{results: [{...createChange()}]}];
       element.account = {_account_id: 1001 as AccountId};
       element.preferences = {
@@ -473,7 +471,7 @@ suite('gr-change-list basic tests', () => {
 
     setup(async () => {
       stubFlags('isEnabled').returns(true);
-      element = basicFixture.instantiate();
+      element = await fixture(html`<gr-change-list></gr-change-list>`);
       element.sections = [{results: [{...createChange()}]}];
       element.account = {_account_id: 1001 as AccountId};
       element.preferences = {
@@ -526,7 +524,7 @@ suite('gr-change-list basic tests', () => {
   });
 
   test('showStar and showNumber', async () => {
-    element = basicFixture.instantiate();
+    element = await fixture(html`<gr-change-list></gr-change-list>`);
     element.sections = [{results: [{...createChange()}], name: 'a'}];
     element.account = {_account_id: 1001 as AccountId};
     element.preferences = {
@@ -577,7 +575,7 @@ suite('gr-change-list basic tests', () => {
     /* This would only exist if somebody manually updated the config
     file. */
     setup(async () => {
-      element = basicFixture.instantiate();
+      element = await fixture(html`<gr-change-list></gr-change-list>`);
       element.account = {_account_id: 1001 as AccountId};
       element.preferences = {
         legacycid_in_change_table: true,
@@ -594,7 +592,7 @@ suite('gr-change-list basic tests', () => {
 
   test('Show new status with feature flag', async () => {
     stubFlags('isEnabled').returns(true);
-    element = basicFixture.instantiate();
+    element = await fixture(html`<gr-change-list></gr-change-list>`);
     element.sections = [{results: [{...createChange()}]}];
     element.account = {_account_id: 1001 as AccountId};
     element.preferences = {

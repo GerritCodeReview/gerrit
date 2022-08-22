@@ -12,14 +12,15 @@ import {
 import {EDIT} from '../../../types/common';
 import {GrConfirmSubmitDialog} from './gr-confirm-submit-dialog';
 import './gr-confirm-submit-dialog';
-
-const basicFixture = fixtureFromElement('gr-confirm-submit-dialog');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-confirm-submit-dialog tests', () => {
   let element: GrConfirmSubmitDialog;
 
-  setup(() => {
-    element = basicFixture.instantiate();
+  setup(async () => {
+    element = await fixture(
+      html`<gr-confirm-submit-dialog></gr-confirm-submit-dialog>`
+    );
     element.initialised = true;
   });
 

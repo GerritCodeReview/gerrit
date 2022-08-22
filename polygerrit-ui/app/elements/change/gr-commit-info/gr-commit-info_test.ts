@@ -14,14 +14,13 @@ import {
 } from '../../../test/test-data-generators';
 import {CommitId, RepoName} from '../../../types/common';
 import {GrRouter} from '../../core/gr-router/gr-router';
-
-const basicFixture = fixtureFromElement('gr-commit-info');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-commit-info tests', () => {
   let element: GrCommitInfo;
 
-  setup(() => {
-    element = basicFixture.instantiate();
+  setup(async () => {
+    element = await fixture(html`<gr-commit-info></gr-commit-info>`);
   });
 
   test('render', async () => {

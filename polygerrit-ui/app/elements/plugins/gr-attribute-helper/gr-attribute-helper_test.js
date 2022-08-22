@@ -5,9 +5,10 @@
  */
 import '../../../test/common-test-setup-karma.js';
 import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
+import { fixture, html } from "@open-wc/testing-helpers";
 
 Polymer({
-  is: 'gr-attribute-helper-some-element',
+  is: "gr-attribute-helper-some-element",
   properties: {
     fooBar: {
       type: Object,
@@ -16,50 +17,55 @@ Polymer({
   },
 });
 
-const basicFixture = fixtureFromElement('gr-attribute-helper-some-element');
-
-suite('gr-attribute-helper tests', () => {
+suite("gr-attribute-helper tests", () => {
   let element;
   let instance;
 
-  setup(() => {
+  setup(async () => {
     let plugin;
-    window.Gerrit.install(p => { plugin = p; }, '0.1',
-        'http://test.com/plugins/testplugin/static/test.js');
-    element = basicFixture.instantiate();
+    window.Gerrit.install(
+      (p) => {
+        plugin = p;
+      },
+      "0.1",
+      "http://test.com/plugins/testplugin/static/test.js"
+    );
+    element = await fixture(
+      html`<gr-attribute-helper-some-element></gr-attribute-helper-some-element>`
+    );
     instance = plugin.attributeHelper(element);
   });
 
-  test('resolved on value change from undefined', () => {
-    const promise = instance.get('fooBar').then(value => {
-      assert.equal(value, 'foo! bar!');
+  test("resolved on value change from undefined", () => {
+    const promise = instance.get("fooBar").then((value) => {
+      assert.equal(value, "foo! bar!");
     });
-    element.fooBar = 'foo! bar!';
+    element.fooBar = "foo! bar!";
     return promise;
   });
 
-  test('resolves to current attribute value', () => {
-    element.fooBar = 'foo-foo-bar';
-    const promise = instance.get('fooBar').then(value => {
-      assert.equal(value, 'foo-foo-bar');
+  test("resolves to current attribute value", () => {
+    element.fooBar = "foo-foo-bar";
+    const promise = instance.get("fooBar").then((value) => {
+      assert.equal(value, "foo-foo-bar");
     });
-    element.fooBar = 'no bar';
+    element.fooBar = "no bar";
     return promise;
   });
 
-  test('bind', () => {
+  test("bind", () => {
     const stub = sinon.stub();
-    element.fooBar = 'bar foo';
-    const unbind = instance.bind('fooBar', stub);
-    element.fooBar = 'partridge in a foo tree';
-    element.fooBar = 'five gold bars';
+    element.fooBar = "bar foo";
+    const unbind = instance.bind("fooBar", stub);
+    element.fooBar = "partridge in a foo tree";
+    element.fooBar = "five gold bars";
     assert.equal(stub.callCount, 3);
-    assert.deepEqual(stub.args[0], ['bar foo']);
-    assert.deepEqual(stub.args[1], ['partridge in a foo tree']);
-    assert.deepEqual(stub.args[2], ['five gold bars']);
+    assert.deepEqual(stub.args[0], ["bar foo"]);
+    assert.deepEqual(stub.args[1], ["partridge in a foo tree"]);
+    assert.deepEqual(stub.args[2], ["five gold bars"]);
     stub.reset();
     unbind();
-    instance.fooBar = 'ladies dancing';
+    instance.fooBar = "ladies dancing";
     assert.isFalse(stub.called);
   });
 });

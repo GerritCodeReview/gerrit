@@ -10,8 +10,7 @@ import {GrEditConstants} from '../gr-edit-constants';
 import {queryAndAssert} from '../../../test/test-utils';
 import {GrDropdown} from '../../shared/gr-dropdown/gr-dropdown';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
-
-const basicFixture = fixtureFromElement('gr-edit-file-controls');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-edit-file-controls tests', () => {
   let element: GrEditFileControls;
@@ -19,7 +18,9 @@ suite('gr-edit-file-controls tests', () => {
   let fileActionHandler: sinon.SinonStub;
 
   setup(async () => {
-    element = basicFixture.instantiate();
+    element = await fixture(
+      html`<gr-edit-file-controls></gr-edit-file-controls>`
+    );
     fileActionHandler = sinon.stub();
     element.addEventListener('file-action-tap', fileActionHandler);
     await element.updateComplete;

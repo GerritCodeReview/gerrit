@@ -8,17 +8,16 @@ import './gr-shell-command';
 import {GrShellCommand} from './gr-shell-command';
 import {GrCopyClipboard} from '../gr-copy-clipboard/gr-copy-clipboard';
 import {queryAndAssert} from '../../../test/test-utils';
-
-const basicFixture = fixtureFromElement('gr-shell-command');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-shell-command tests', () => {
   let element: GrShellCommand;
 
   setup(async () => {
-    element = basicFixture.instantiate();
+    element = await fixture(html`<gr-shell-command></gr-shell-command>`);
     element.command = `git fetch http://gerrit@localhost:8080/a/test-project
         refs/changes/05/5/1 && git checkout FETCH_HEAD`;
-    await flush();
+    await element.updateComplete;
   });
 
   test('render', async () => {

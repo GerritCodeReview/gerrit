@@ -23,8 +23,7 @@ import {GerritView} from '../../../services/router/router-model';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {GrListView} from '../../shared/gr-list-view/gr-list-view';
-
-const basicFixture = fixtureFromElement('gr-repo-list');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 function createRepo(name: string, counter: number) {
   return {
@@ -54,8 +53,7 @@ suite('gr-repo-list tests', () => {
 
   setup(async () => {
     sinon.stub(page, 'show');
-    element = basicFixture.instantiate();
-    await element.updateComplete;
+    element = await fixture(html`<gr-repo-list></gr-repo-list>`);
   });
 
   suite('list with repos', () => {

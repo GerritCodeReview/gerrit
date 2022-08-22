@@ -20,8 +20,7 @@ import {
 import {NavLink} from '../../../utils/admin-nav-util';
 import {ServerInfo, TopMenuItemInfo} from '../../../types/common';
 import {AuthType} from '../../../constants/constants';
-
-const basicFixture = fixtureFromElement('gr-main-header');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-main-header tests', () => {
   let element: GrMainHeader;
@@ -31,8 +30,7 @@ suite('gr-main-header tests', () => {
     stubElement('gr-main-header', 'loadAccount').callsFake(() =>
       Promise.resolve()
     );
-    element = basicFixture.instantiate();
-    await element.updateComplete;
+    element = await fixture(html`<gr-main-header></gr-main-header>`);
   });
 
   test('renders', () => {

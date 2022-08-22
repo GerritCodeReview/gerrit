@@ -6,50 +6,60 @@
 import '../../../test/common-test-setup-karma.js';
 import '../../change/gr-reply-dialog/gr-reply-dialog.js';
 import {stubRestApi} from '../../../test/test-utils.js';
+import { fixture, html } from "@open-wc/testing-helpers";
 
-const basicFixture = fixtureFromElement('gr-reply-dialog');
-
-suite('gr-change-reply-js-api tests', () => {
+suite("gr-change-reply-js-api tests", () => {
   let element;
   let changeReply;
   let plugin;
 
   setup(() => {
-    stubRestApi('getAccount').returns(Promise.resolve(null));
+    stubRestApi("getAccount").returns(Promise.resolve(null));
   });
 
-  suite('early init', () => {
-    setup(() => {
-      window.Gerrit.install(p => { plugin = p; }, '0.1',
-          'http://test.com/plugins/testplugin/static/test.js');
+  suite("early init", () => {
+    setup(async () => {
+      window.Gerrit.install(
+        (p) => {
+          plugin = p;
+        },
+        "0.1",
+        "http://test.com/plugins/testplugin/static/test.js"
+      );
       changeReply = plugin.changeReply();
-      element = basicFixture.instantiate();
+      element = await fixture(html`<gr-reply-dialog></gr-reply-dialog>`);
     });
 
     teardown(() => {
       changeReply = null;
     });
 
-    test('works', () => {
-      sinon.stub(element, 'getLabelValue').returns('+123');
-      assert.equal(changeReply.getLabelValue('My-Label'), '+123');
+    test("works", () => {
+      sinon.stub(element, "getLabelValue").returns("+123");
+      assert.equal(changeReply.getLabelValue("My-Label"), "+123");
 
-      sinon.stub(element, 'setLabelValue');
-      changeReply.setLabelValue('My-Label', '+1337');
+      sinon.stub(element, "setLabelValue");
+      changeReply.setLabelValue("My-Label", "+1337");
       assert.isTrue(
-          element.setLabelValue.calledWithExactly('My-Label', '+1337'));
+        element.setLabelValue.calledWithExactly("My-Label", "+1337")
+      );
 
-      sinon.stub(element, 'setPluginMessage');
-      changeReply.showMessage('foobar');
-      assert.isTrue(element.setPluginMessage.calledWithExactly('foobar'));
+      sinon.stub(element, "setPluginMessage");
+      changeReply.showMessage("foobar");
+      assert.isTrue(element.setPluginMessage.calledWithExactly("foobar"));
     });
   });
 
-  suite('normal init', () => {
-    setup(() => {
-      element = basicFixture.instantiate();
-      window.Gerrit.install(p => { plugin = p; }, '0.1',
-          'http://test.com/plugins/testplugin/static/test.js');
+  suite("normal init", () => {
+    setup(async () => {
+      element = await fixture(html`<gr-reply-dialog></gr-reply-dialog>`);
+      window.Gerrit.install(
+        (p) => {
+          plugin = p;
+        },
+        "0.1",
+        "http://test.com/plugins/testplugin/static/test.js"
+      );
       changeReply = plugin.changeReply();
     });
 
@@ -57,18 +67,19 @@ suite('gr-change-reply-js-api tests', () => {
       changeReply = null;
     });
 
-    test('works', () => {
-      sinon.stub(element, 'getLabelValue').returns('+123');
-      assert.equal(changeReply.getLabelValue('My-Label'), '+123');
+    test("works", () => {
+      sinon.stub(element, "getLabelValue").returns("+123");
+      assert.equal(changeReply.getLabelValue("My-Label"), "+123");
 
-      sinon.stub(element, 'setLabelValue');
-      changeReply.setLabelValue('My-Label', '+1337');
+      sinon.stub(element, "setLabelValue");
+      changeReply.setLabelValue("My-Label", "+1337");
       assert.isTrue(
-          element.setLabelValue.calledWithExactly('My-Label', '+1337'));
+        element.setLabelValue.calledWithExactly("My-Label", "+1337")
+      );
 
-      sinon.stub(element, 'setPluginMessage');
-      changeReply.showMessage('foobar');
-      assert.isTrue(element.setPluginMessage.calledWithExactly('foobar'));
+      sinon.stub(element, "setPluginMessage");
+      changeReply.showMessage("foobar");
+      assert.isTrue(element.setPluginMessage.calledWithExactly("foobar"));
     });
   });
 });

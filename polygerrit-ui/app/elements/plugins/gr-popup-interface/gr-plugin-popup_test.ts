@@ -3,12 +3,11 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import {fixture, html} from '@open-wc/testing-helpers';
 import '../../../test/common-test-setup-karma';
 import {stubElement} from '../../../test/test-utils';
 import './gr-plugin-popup';
 import {GrPluginPopup} from './gr-plugin-popup';
-
-const basicFixture = fixtureFromElement('gr-plugin-popup');
 
 suite('gr-plugin-popup tests', () => {
   let element: GrPluginPopup;
@@ -16,7 +15,7 @@ suite('gr-plugin-popup tests', () => {
   let overlayClose: sinon.SinonStub;
 
   setup(async () => {
-    element = basicFixture.instantiate();
+    element = await fixture(html`<gr-plugin-popup></gr-plugin-popup>`);
     await element.updateComplete;
     overlayOpen = stubElement('gr-overlay', 'open').callsFake(() =>
       Promise.resolve()

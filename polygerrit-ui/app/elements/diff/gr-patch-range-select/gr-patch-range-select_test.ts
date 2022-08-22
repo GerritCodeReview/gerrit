@@ -35,8 +35,7 @@ import {
 } from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {queryAndAssert} from '../../../test/test-utils';
 import {fire} from '../../../utils/event-util';
-
-const basicFixture = fixtureFromElement('gr-patch-range-select');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 type RevIdToRevisionInfo = {
   [revisionId: string]: RevisionInfo | EditRevisionInfo;
@@ -60,7 +59,9 @@ suite('gr-patch-range-select tests', () => {
 
     // Element must be wrapped in an element with direct access to the
     // comment API.
-    element = basicFixture.instantiate();
+    element = await fixture(
+      html`<gr-patch-range-select></gr-patch-range-select>`
+    );
 
     // Stub methods on the changeComments object after changeComments has
     // been initialized.

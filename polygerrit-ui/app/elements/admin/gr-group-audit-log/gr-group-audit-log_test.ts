@@ -23,15 +23,13 @@ import {
   createGroupInfo,
 } from '../../../test/test-data-generators';
 import {PageErrorEvent} from '../../../types/events';
-
-const basicFixture = fixtureFromElement('gr-group-audit-log');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-group-audit-log tests', () => {
   let element: GrGroupAuditLog;
 
   setup(async () => {
-    element = basicFixture.instantiate();
-    await element.updateComplete;
+    element = await fixture(html`<gr-group-audit-log></gr-group-audit-log>`);
   });
 
   test('render', () => {

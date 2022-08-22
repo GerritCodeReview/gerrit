@@ -14,8 +14,7 @@ import {
 } from '../../../test/test-utils';
 import {IronInputElement} from '@polymer/iron-input';
 import {GroupId} from '../../../types/common';
-
-const basicFixture = fixtureFromElement('gr-create-group-dialog');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-create-group-dialog tests', () => {
   let element: GrCreateGroupDialog;
@@ -23,8 +22,9 @@ suite('gr-create-group-dialog tests', () => {
   const GROUP_NAME = 'test-group';
 
   setup(async () => {
-    element = basicFixture.instantiate();
-    await element.updateComplete;
+    element = await fixture(
+      html`<gr-create-group-dialog></gr-create-group-dialog>`
+    );
   });
 
   test('render', () => {

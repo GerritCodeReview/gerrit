@@ -8,15 +8,15 @@ import './gr-repo-branch-picker';
 import {GrRepoBranchPicker} from './gr-repo-branch-picker';
 import {stubRestApi} from '../../../test/test-utils';
 import {GitRef, ProjectInfoWithName, RepoName} from '../../../types/common';
-
-const basicFixture = fixtureFromElement('gr-repo-branch-picker');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-repo-branch-picker tests', () => {
   let element: GrRepoBranchPicker;
 
   setup(async () => {
-    element = basicFixture.instantiate();
-    await element.updateComplete;
+    element = await fixture(
+      html`<gr-repo-branch-picker></gr-repo-branch-picker>`
+    );
   });
 
   test('render', () => {

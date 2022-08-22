@@ -46,6 +46,30 @@
       },
       "revId": "0c53a211830e0b30d6d1544dd1848274c80f55c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e704f9c_2b962677",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-22T09:48:59Z",
+      "side": 1,
+      "message": "To your first question, yes.\n\nFair enough, swapped the arguments around.",
+      "parentUuid": "e5e421e0_53667d3e",
+      "range": {
+        "startLine": 415,
+        "startChar": 4,
+        "endLine": 415,
+        "endChar": 45
+      },
+      "revId": "0c53a211830e0b30d6d1544dd1848274c80f55c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

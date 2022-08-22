@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b91a5b8d_25c71930",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-22T09:20:55Z",
+      "side": 1,
+      "message": "it broke tests in ~3 files so I want to check the rest in first because this change would be annoying to keep up to date if it takes a while to resolve those rest. fixtureFromElement/fixtureFromTemplate/basicFixture can be removed when those ~3 are done.",
+      "parentUuid": "7c3c2451_ea5ef7a9",
+      "revId": "4bdce2993caecfb9d89d40cdb9afbe36a4edc0d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fd23035e_3478d5d0",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-08-22T09:14:03Z",
       "side": 1,
       "message": "async not necessary",
+      "revId": "4bdce2993caecfb9d89d40cdb9afbe36a4edc0d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "158a8de7_f45daa5e",
+        "filename": "polygerrit-ui/app/models/dependency_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-22T09:20:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd23035e_3478d5d0",
       "revId": "4bdce2993caecfb9d89d40cdb9afbe36a4edc0d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

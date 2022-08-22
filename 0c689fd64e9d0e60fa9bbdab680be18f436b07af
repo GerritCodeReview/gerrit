@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2a936696_02ccc903",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2130,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-22T18:48:58Z",
+      "side": 1,
+      "message": "+1 for being able to create a new change this way",
+      "parentUuid": "af4ac829_1e481e6d",
+      "range": {
+        "startLine": 2130,
+        "startChar": 6,
+        "endLine": 2130,
+        "endChar": 58
+      },
+      "revId": "0c689fd64e9d0e60fa9bbdab680be18f436b07af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "af62a17d_a4410134",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 5

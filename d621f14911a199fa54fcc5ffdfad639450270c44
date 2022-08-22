@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0fa0fd6b_28a988ea",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2128,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-22T18:48:58Z",
+      "side": 1,
+      "message": "\u003e I do not think we need to align this endpoint to edits.\n\nI agree, but that\u0027s not what I suggested. I suggested aligning to the apply fix endpoints because those are intended to apply a patch to a change in the form of a set of \"replacements\". Applying a patch to a change in the form of a diff seems like an almost identical thing.\n\n\u003e \n\u003e Edits are in-progress draft of the patch sets, while we want to create a new patch-set/change from the provided patch.\n\nThat seems reasonable, but maybe that\u0027s optional behavior? i.e. either \"apply this patch and leave the change in edit mode for me\" or \"apply this patch and immediately publish it as a new patchset\". Very similar to the --[no-]edit git command line options.",
+      "parentUuid": "bcd4764e_c151b020",
+      "range": {
+        "startLine": 2128,
+        "startChar": 4,
+        "endLine": 2128,
+        "endChar": 27
+      },
+      "revId": "d621f14911a199fa54fcc5ffdfad639450270c44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "99dc2f80_2d144cfd",
         "filename": "java/com/google/gerrit/extensions/api/changes/ApplyPatchInput.java",
         "patchSetId": 7

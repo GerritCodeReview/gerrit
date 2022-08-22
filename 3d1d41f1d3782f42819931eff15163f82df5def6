@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7911dd7_8cd15dd9",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-22T21:26:01Z",
+      "side": 1,
+      "message": "nit: I\u0027ve seen some places in the code now where we have a comment with the parameter name when we\u0027re passing a boolean, like `/* doDocScores\u003d */ false,`",
+      "revId": "3d1d41f1d3782f42819931eff15163f82df5def6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

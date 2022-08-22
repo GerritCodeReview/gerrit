@@ -437,6 +437,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8d1d020c_1afec639",
+        "filename": "java/com/google/gerrit/index/QueryOptions.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-22T21:26:01Z",
+      "side": 1,
+      "message": "Because we\u0027re saying it\u0027s an incorrect use of this API to do otherwise. Better to just not allow it by doing it for the user.",
+      "parentUuid": "f3592512_67c53d8b",
+      "revId": "f53208bae6595a0b5967244040c3843ef8cb5b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "77bca058_445ab19e",
         "filename": "java/com/google/gerrit/index/query/IndexedQuery.java",
         "patchSetId": 5

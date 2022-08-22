@@ -16,6 +16,24 @@
       "message": "Should we have a dom test for this?",
       "revId": "97ae09de7783ff0fcf56ad0f98f630abccea2b18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67a31754_0224ebad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-22T09:59:32Z",
+      "side": 1,
+      "message": "Yes, extended the current shadow dom test to include these sections.",
+      "parentUuid": "4c102e5f_ba8973bf",
+      "revId": "97ae09de7783ff0fcf56ad0f98f630abccea2b18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

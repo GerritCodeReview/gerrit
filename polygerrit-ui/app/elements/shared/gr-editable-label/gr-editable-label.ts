@@ -71,7 +71,7 @@ export class GrEditableLabel extends LitElement {
   // This is used to push the iron-input element up on the page, so
   // the input is placed in approximately the same position as the
   // trigger.
-  @state() readonly verticalOffset = -30;
+  readonly verticalOffset = 0;
 
   @property({type: Boolean})
   showAsEditPencil = false;

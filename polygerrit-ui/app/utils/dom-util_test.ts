@@ -16,7 +16,7 @@ import {
 } from './dom-util';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {mockPromise, queryAndAssert} from '../test/test-utils';
-import {fixture} from '@open-wc/testing-helpers';
+import {fixture} from '@open-wc/testing';
 import {LitElement, html} from 'lit';
 import {customElement} from 'lit/decorators.js';
 

@@ -25,7 +25,7 @@ import {
 } from '../../../test/test-utils';
 import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
 import {ChangeListSection} from '../gr-change-list/gr-change-list';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 import {ColumnNames} from '../../../constants/constants';
 
 suite('gr-change-list section', () => {

@@ -27,7 +27,7 @@ import {
 } from '../../../test/test-data-generators';
 import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 import {SinonStub} from 'sinon';
-import {fixture, html, waitUntil} from '@open-wc/testing-helpers';
+import {fixture, html, waitUntil} from '@open-wc/testing';
 
 const c1 = {
   author: {name: 'Kermit'},

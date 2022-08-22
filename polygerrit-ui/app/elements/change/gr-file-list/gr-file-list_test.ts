@@ -8,7 +8,6 @@ import '../../shared/gr-date-formatter/gr-date-formatter';
 import './gr-file-list';
 import {FilesExpandedState} from '../gr-file-list-constants';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {runA11yAudit} from '../../../test/a11y-test-utils';
 import {
   mockPromise,
   query,
@@ -54,12 +53,11 @@ import {normalize} from '../../../models/change/files-model';
 import {GrDiffHost} from '../../diff/gr-diff-host/gr-diff-host';
 import {GrEditFileControls} from '../../edit/gr-edit-file-controls/gr-edit-file-controls';
 import {GrIcon} from '../../shared/gr-icon/gr-icon';
-
-const basicFixture = fixtureFromElement('gr-file-list');
+import {fixture, html, assert} from '@open-wc/testing';
 
 suite('gr-diff a11y test', () => {
   test('audit', async () => {
-    await runA11yAudit(basicFixture);
+    assert.isAccessible(await fixture(html`<gr-file-list></gr-file-list>`));
   });
 });
 
@@ -88,7 +86,7 @@ suite('gr-file-list tests', () => {
       stubElement('gr-diff-host', 'reload').callsFake(() => Promise.resolve());
       stubElement('gr-diff-host', 'prefetchDiff').callsFake(() => {});
 
-      element = basicFixture.instantiate();
+      element = await fixture(html`<gr-file-list></gr-file-list>`);
 
       element.diffPrefs = {
         context: 10,
@@ -2016,7 +2014,7 @@ suite('gr-file-list tests', () => {
       stubRestApi('getDiff').callsFake(() => Promise.resolve(createDiff()));
       stubElement('gr-diff-host', 'prefetchDiff').callsFake(() => {});
 
-      element = basicFixture.instantiate();
+      element = await fixture(html`<gr-file-list></gr-file-list>`);
       element.diffPrefs = {
         context: 10,
         tab_size: 8,

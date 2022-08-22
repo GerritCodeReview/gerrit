@@ -9,7 +9,7 @@ import {GrEditableContent} from './gr-editable-content';
 import {query, queryAndAssert, stubStorage} from '../../../test/test-utils';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {GrButton} from '../gr-button/gr-button';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 
 suite('gr-editable-content tests', () => {
   let element: GrEditableContent;

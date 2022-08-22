@@ -23,7 +23,7 @@ import {
   createGroupInfo,
 } from '../../../test/test-data-generators';
 import {PageErrorEvent} from '../../../types/events';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 
 suite('gr-group-audit-log tests', () => {
   let element: GrGroupAuditLog;

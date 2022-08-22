@@ -6,7 +6,7 @@
 import '../test/common-test-setup-karma';
 import './gr-app';
 import {getAppContext} from '../services/app-context';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 import {queryAndAssert, stubElement, stubRestApi} from '../test/test-utils';
 import {GrApp} from './gr-app';
 import {

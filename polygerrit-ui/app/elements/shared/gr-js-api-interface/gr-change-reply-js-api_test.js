@@ -6,7 +6,8 @@
 import '../../../test/common-test-setup-karma.js';
 import '../../change/gr-reply-dialog/gr-reply-dialog.js';
 import {stubRestApi} from '../../../test/test-utils.js';
-import {fixture, html} from '@open-wc/testing-helpers';
+// eslint-disable-next-line import/named
+import {fixture, html} from '@open-wc/testing';
 
 suite('gr-change-reply-js-api tests', () => {
   let element;

@@ -6,7 +6,7 @@
 import '../../../test/common-test-setup-karma';
 import './gr-diff-highlight';
 import {_getTextOffset} from './gr-range-normalizer';
-import {fixture, fixtureCleanup, html} from '@open-wc/testing-helpers';
+import {fixture, fixtureCleanup, html} from '@open-wc/testing';
 import {
   GrDiffHighlight,
   DiffBuilderInterface,

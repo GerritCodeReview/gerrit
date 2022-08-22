@@ -19,7 +19,7 @@ import {
   LoadingState,
 } from '../../../models/bulk-actions/bulk-actions-model';
 import './gr-change-list-bulk-abandon-flow';
-import {fixture, waitUntil} from '@open-wc/testing-helpers';
+import {fixture, waitUntil} from '@open-wc/testing';
 import {wrapInProvider} from '../../../models/di-provider-element';
 import {html} from 'lit';
 import {getAppContext} from '../../../services/app-context';

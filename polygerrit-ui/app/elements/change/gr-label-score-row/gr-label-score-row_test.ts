@@ -8,7 +8,7 @@ import './gr-label-score-row';
 import {GrLabelScoreRow} from './gr-label-score-row';
 import {AccountId} from '../../../api/rest-api';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 
 suite('gr-label-row-score tests', () => {
   let element: GrLabelScoreRow;

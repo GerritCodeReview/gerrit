@@ -23,7 +23,7 @@ import {GerritView} from '../../../services/router/router-model';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {GrListView} from '../../shared/gr-list-view/gr-list-view';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 
 function createRepo(name: string, counter: number) {
   return {

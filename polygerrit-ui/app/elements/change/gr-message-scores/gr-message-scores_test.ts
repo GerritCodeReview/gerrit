@@ -12,7 +12,7 @@ import {
 } from '../../../test/test-data-generators';
 import {queryAll, stubFlags} from '../../../test/test-utils';
 import {GrMessageScores} from './gr-message-scores';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 
 suite('gr-message-score tests', () => {
   let element: GrMessageScores;

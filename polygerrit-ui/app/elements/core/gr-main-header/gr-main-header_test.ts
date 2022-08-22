@@ -20,7 +20,7 @@ import {
 import {NavLink} from '../../../utils/admin-nav-util';
 import {ServerInfo, TopMenuItemInfo} from '../../../types/common';
 import {AuthType} from '../../../constants/constants';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 
 suite('gr-main-header tests', () => {
   let element: GrMainHeader;

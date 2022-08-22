@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b129e05f_d8b4f73f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-22T08:41:23Z",
+      "side": 1,
+      "message": "Can we remove this altogether? If not, then maybe update the comment to explain what the difference is between using \u00270\u0027 and not setting it at all.",
+      "revId": "55866c6b20900345afa190559c5b96d59f9fadd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -63,6 +63,24 @@
       "message": "Can you get a screenshot? I\u0027ve had issues with whitespace getting trimmed and had to use `\u0026nbsp;`",
       "revId": "60d90129c130d900bbb867d97c7bb9f966bf163e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09bc11eb_da90d1be",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-22T09:37:44Z",
+      "side": 1,
+      "message": "It\u0027s in the commit message already?\nI am not relying on this whitespace to render in the html.",
+      "parentUuid": "49f58b1a_e293fb58",
+      "revId": "60d90129c130d900bbb867d97c7bb9f966bf163e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

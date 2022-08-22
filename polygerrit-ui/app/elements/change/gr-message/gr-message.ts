@@ -33,6 +33,7 @@ import {
   isFormattedReviewerUpdate,
   LabelExtreme,
   PATCH_SET_PREFIX_PATTERN,
+  isUnresolved,
 } from '../../../utils/comment-util';
 import {LABEL_TITLE_SCORE_PATTERN} from '../gr-message-scores/gr-message-scores';
 import {getAppContext} from '../../../services/app-context';
@@ -278,13 +279,18 @@ export class GrMessage extends LitElement {
         }
         .commentsSummary {
           margin-right: var(--spacing-s);
-          min-width: 115px;
         }
         .expanded .commentsSummary {
           display: none;
         }
-        .commentsIcon {
+        gr-icon.commentsIcon {
           vertical-align: top;
+        }
+        gr-icon.unresolved.commentsIcon {
+          color: var(--warning-foreground);
+        }
+        .numberOfComments {
+          padding-right: 8px;
         }
         gr-account-label::part(gr-account-label-text) {
           font-weight: var(--font-weight-bold);
@@ -354,11 +360,37 @@ export class GrMessage extends LitElement {
   private renderCommentsSummary() {
     if (!this.commentThreads?.length) return nothing;
 
-    const commentCountText = pluralize(this.commentThreads.length, 'comment');
+    const unresolvedThreads = this.commentThreads.filter(isUnresolved).length;
+    const resolvedThreads = this.commentThreads.length - unresolvedThreads;
+
     return html`
       <div class="commentsSummary">
-        <gr-icon icon="mode_comment" filled class="commentsIcon"></gr-icon>
-        <span class="numberOfComments">${commentCountText}</span>
+        ${unresolvedThreads !== 0
+          ? html`<span
+              class="numberOfComments"
+              title=${pluralize(unresolvedThreads, 'unresolved comment')}
+            >
+              <gr-icon
+                icon="feedback"
+                filled
+                class="unresolved commentsIcon"
+              ></gr-icon>
+              ${unresolvedThreads}</span
+            >`
+          : ''}
+        ${resolvedThreads !== 0
+          ? html`<span
+              class="numberOfComments"
+              title=${pluralize(resolvedThreads, 'resolved comment')}
+            >
+              <gr-icon
+                icon="mark_chat_read"
+                filled
+                class="commentsIcon"
+              ></gr-icon>
+              ${resolvedThreads}</span
+            >`
+          : ''}
       </div>
     `;
   }

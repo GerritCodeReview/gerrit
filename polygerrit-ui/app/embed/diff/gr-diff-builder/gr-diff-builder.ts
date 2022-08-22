@@ -281,12 +281,24 @@ export abstract class GrDiffBuilder implements DiffBuilder {
           } else {
             content = this.getContentByLine(lineNumber, side, group.element);
           }
+          console.log(
+            `findLinesByRange ${side} ${line.beforeNumber} ${line.afterNumber} ${content?.id} ${content?.innerText}`
+          );
           if (content) {
             out_elements.push(content);
           }
+          // else {
+          //   if (out_lines) out_lines.pop();
+          // }
         }
       }
     }
+    // if (out_lines && out_elements) {
+    //   assert(
+    //     out_lines.length === out_elements.length,
+    //     'findLinesByRange: lines and elements arrays must have same length'
+    //   );
+    // }
   }
 
   protected abstract renderContentByRange(

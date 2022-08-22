@@ -111,6 +111,9 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
     let line;
     let el;
     this.findLinesByRange(start, end, side, lines, elements);
+    console.log(
+      `unified ##### renderContentByRange ${side} ${start} ${end} ${lines.length} ${elements.length}`
+    );
     for (let i = 0; i < lines.length; i++) {
       line = lines[i];
       el = elements[i];
@@ -120,10 +123,12 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
         continue;
       }
       const lineNumberEl = this.getLineNumberEl(el, side);
-      el.parentElement.replaceChild(
-        this.createTextEl(lineNumberEl, line, side).firstChild!,
-        el
+      const newContent = this.createTextEl(lineNumberEl, line, side)
+        .firstChild as HTMLElement;
+      console.log(
+        `unified renderContentByRange ${side} ${line?.beforeNumber} ${line?.afterNumber} ${el.id} ${newContent.id}`
       );
+      el.parentElement.replaceChild(newContent, el);
     }
   }
 
@@ -391,6 +396,7 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
       }
 
       td.appendChild(contentText);
+      console.log(`unified createTextEl ${contentText.id}`);
     } else if (line.beforeNumber === 'FILE') td.classList.add('file');
     else if (line.beforeNumber === 'LOST') td.classList.add('lost');
 

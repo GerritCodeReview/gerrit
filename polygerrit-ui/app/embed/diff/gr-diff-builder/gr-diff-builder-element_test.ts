@@ -744,288 +744,318 @@ suite('gr-diff-builder tests', () => {
     });
   });
 
-  suite('mock-diff', () => {
-    let builder: GrDiffBuilderSideBySide;
-    let diff: DiffInfo;
-    let keyLocations: KeyLocations;
+  [DiffViewMode.UNIFIED, DiffViewMode.SIDE_BY_SIDE].forEach(mode => {
+    suite(`mock-diff mode:${mode}`, () => {
+      let builder: GrDiffBuilderSideBySide;
+      let diff: DiffInfo;
+      let keyLocations: KeyLocations;
 
-    setup(() => {
-      element.viewMode = DiffViewMode.SIDE_BY_SIDE;
-      diff = createDiff();
-      element.diff = diff;
+      setup(() => {
+        element.viewMode = mode;
+        diff = createDiff();
+        element.diff = diff;
 
-      keyLocations = {left: {}, right: {}};
+        keyLocations = {left: {}, right: {}};
 
-      element.prefs = {
-        ...createDefaultDiffPrefs(),
-        line_length: 80,
-        show_tabs: true,
-        tab_size: 4,
-      };
-      element.render(keyLocations);
-      builder = element.builder as GrDiffBuilderSideBySide;
-    });
-
-    test('aria-labels on added line numbers', () => {
-      const deltaLineNumberButton = diffTable.querySelectorAll(
-        '.lineNumButton.right'
-      )[5];
-
-      assert.isOk(deltaLineNumberButton);
-      assert.equal(deltaLineNumberButton.getAttribute('aria-label'), '5 added');
-    });
-
-    test('aria-labels on removed line numbers', () => {
-      const deltaLineNumberButton = diffTable.querySelectorAll(
-        '.lineNumButton.left'
-      )[10];
-
-      assert.isOk(deltaLineNumberButton);
-      assert.equal(
-        deltaLineNumberButton.getAttribute('aria-label'),
-        '10 removed'
-      );
-    });
-
-    test('getContentByLine', () => {
-      let actual: HTMLElement | null;
-
-      actual = builder.getContentByLine(2, Side.LEFT);
-      assert.equal(actual?.textContent, diff.content[0].ab?.[1]);
-
-      actual = builder.getContentByLine(2, Side.RIGHT);
-      assert.equal(actual?.textContent, diff.content[0].ab?.[1]);
-
-      actual = builder.getContentByLine(5, Side.LEFT);
-      assert.equal(actual?.textContent, diff.content[2].ab?.[0]);
-
-      actual = builder.getContentByLine(5, Side.RIGHT);
-      assert.equal(actual?.textContent, diff.content[1].b?.[0]);
-    });
-
-    test('getContentTdByLineEl works both with button and td', () => {
-      const diffRow = diffTable.querySelectorAll('tr.diff-row')[2];
-
-      const lineNumTdLeft = queryAndAssert(diffRow, 'td.lineNum.left');
-      const lineNumButtonLeft = queryAndAssert(lineNumTdLeft, 'button');
-      const contentTdLeft = diffRow.querySelectorAll('.content')[0];
-
-      const lineNumTdRight = queryAndAssert(diffRow, 'td.lineNum.right');
-      const lineNumButtonRight = queryAndAssert(lineNumTdRight, 'button');
-      const contentTdRight = diffRow.querySelectorAll('.content')[1];
-
-      assert.equal(element.getContentTdByLineEl(lineNumTdLeft), contentTdLeft);
-      assert.equal(
-        element.getContentTdByLineEl(lineNumButtonLeft),
-        contentTdLeft
-      );
-      assert.equal(
-        element.getContentTdByLineEl(lineNumTdRight),
-        contentTdRight
-      );
-      assert.equal(
-        element.getContentTdByLineEl(lineNumButtonRight),
-        contentTdRight
-      );
-    });
-
-    test('findLinesByRange', () => {
-      const lines: GrDiffLine[] = [];
-      const elems: HTMLElement[] = [];
-      const start = 6;
-      const end = 10;
-      const count = end - start + 1;
-
-      builder.findLinesByRange(start, end, Side.RIGHT, lines, elems);
-
-      assert.equal(lines.length, count);
-      assert.equal(elems.length, count);
-
-      for (let i = 0; i < 5; i++) {
-        assert.instanceOf(lines[i], GrDiffLine);
-        assert.equal(lines[i].afterNumber, start + i);
-        assert.instanceOf(elems[i], HTMLElement);
-        assert.equal(lines[i].text, elems[i].textContent);
-      }
-    });
-
-    test('renderContentByRange', () => {
-      const spy = sinon.spy(builder, 'createTextEl');
-      const start = 9;
-      const end = 14;
-      const count = end - start + 1;
-
-      builder.renderContentByRange(start, end, Side.LEFT);
-
-      assert.equal(spy.callCount, count);
-      spy.getCalls().forEach((call, i: number) => {
-        assert.equal(call.args[1].beforeNumber, start + i);
+        element.prefs = {
+          ...createDefaultDiffPrefs(),
+          line_length: 80,
+          show_tabs: true,
+          tab_size: 4,
+        };
+        element.render(keyLocations);
+        builder = element.builder as GrDiffBuilderSideBySide;
       });
-    });
 
-    test('renderContentByRange non-existent elements', () => {
-      const spy = sinon.spy(builder, 'createTextEl');
+      test('aria-labels on added line numbers', () => {
+        const deltaLineNumberButton = diffTable.querySelectorAll(
+          '.lineNumButton.right'
+        )[5];
 
-      sinon
-        .stub(builder, 'getLineNumberEl')
-        .returns(document.createElement('div'));
-      sinon
-        .stub(builder, 'findLinesByRange')
-        .callsFake((_1, _2, _3, lines, elements) => {
-          // Add a line and a corresponding element.
-          lines?.push(new GrDiffLine(GrDiffLineType.BOTH));
-          const tr = document.createElement('tr');
-          const td = document.createElement('td');
-          const el = document.createElement('div');
-          tr.appendChild(td);
-          td.appendChild(el);
-          elements?.push(el);
+        assert.isOk(deltaLineNumberButton);
+        assert.equal(
+          deltaLineNumberButton.getAttribute('aria-label'),
+          '5 added'
+        );
+      });
 
-          // Add 2 lines without corresponding elements.
-          lines?.push(new GrDiffLine(GrDiffLineType.BOTH));
-          lines?.push(new GrDiffLine(GrDiffLineType.BOTH));
+      test('aria-labels on removed line numbers', () => {
+        const deltaLineNumberButton = diffTable.querySelectorAll(
+          '.lineNumButton.left'
+        )[10];
+
+        assert.isOk(deltaLineNumberButton);
+        assert.equal(
+          deltaLineNumberButton.getAttribute('aria-label'),
+          '10 removed'
+        );
+      });
+
+      test('getContentByLine', () => {
+        let actual: HTMLElement | null;
+
+        actual = builder.getContentByLine(2, Side.LEFT);
+        assert.equal(actual?.textContent, diff.content[0].ab?.[1]);
+
+        actual = builder.getContentByLine(2, Side.RIGHT);
+        assert.equal(actual?.textContent, diff.content[0].ab?.[1]);
+
+        actual = builder.getContentByLine(5, Side.LEFT);
+        assert.equal(actual?.textContent, diff.content[2].ab?.[0]);
+
+        actual = builder.getContentByLine(5, Side.RIGHT);
+        assert.equal(actual?.textContent, diff.content[1].b?.[0]);
+      });
+
+      test('getContentTdByLineEl works both with button and td', () => {
+        const diffRow = diffTable.querySelectorAll('tr.diff-row')[2];
+
+        const lineNumTdLeft = queryAndAssert(diffRow, 'td.lineNum.left');
+        const lineNumButtonLeft = queryAndAssert(lineNumTdLeft, 'button');
+        const contentTdLeft = diffRow.querySelectorAll('.content')[0];
+
+        const lineNumTdRight = queryAndAssert(diffRow, 'td.lineNum.right');
+        const lineNumButtonRight = queryAndAssert(lineNumTdRight, 'button');
+        const contentTdRight = diffRow.querySelectorAll('.content')[1];
+
+        assert.equal(
+          element.getContentTdByLineEl(lineNumTdLeft),
+          contentTdLeft
+        );
+        assert.equal(
+          element.getContentTdByLineEl(lineNumButtonLeft),
+          contentTdLeft
+        );
+        assert.equal(
+          element.getContentTdByLineEl(lineNumTdRight),
+          contentTdRight
+        );
+        assert.equal(
+          element.getContentTdByLineEl(lineNumButtonRight),
+          contentTdRight
+        );
+      });
+
+      test.only('findLinesByRange LEFT', () => {
+        const lines: GrDiffLine[] = [];
+        const elems: HTMLElement[] = [];
+        const start = 1;
+        const end = 44;
+
+        // lines 26-29 are collapsed, so minus 4
+        const count = end - start + 1 - 4;
+
+        builder.findLinesByRange(start, end, Side.LEFT, lines, elems);
+
+        assert.equal(lines.length, count);
+        assert.equal(elems.length, count);
+
+        for (let i = 0; i < count; i++) {
+          assert.instanceOf(lines[i], GrDiffLine);
+          assert.instanceOf(elems[i], HTMLElement);
+          assert.equal(lines[i].text, elems[i].textContent);
+        }
+      });
+
+      test.only('findLinesByRange RIGHT', () => {
+        const lines: GrDiffLine[] = [];
+        const elems: HTMLElement[] = [];
+        const start = 1;
+        const end = 48;
+
+        // lines 26-29 are collapsed, so minus 4
+        const count = end - start + 1 - 4;
+
+        builder.findLinesByRange(start, end, Side.RIGHT, lines, elems);
+
+        assert.equal(lines.length, count);
+        assert.equal(elems.length, count);
+
+        for (let i = 0; i < count; i++) {
+          assert.instanceOf(lines[i], GrDiffLine);
+          assert.instanceOf(elems[i], HTMLElement);
+          assert.equal(lines[i].text, elems[i].textContent);
+        }
+      });
+
+      test('renderContentByRange', () => {
+        const spy = sinon.spy(builder, 'createTextEl');
+        const start = 9;
+        const end = 14;
+        const count = end - start + 1;
+
+        builder.renderContentByRange(start, end, Side.LEFT);
+
+        assert.equal(spy.callCount, count);
+        spy.getCalls().forEach((call, i: number) => {
+          assert.equal(call.args[1].beforeNumber, start + i);
         });
+      });
 
-      builder.renderContentByRange(1, 10, Side.LEFT);
-      // Should be called only once because only one line had a corresponding
-      // element.
-      assert.equal(spy.callCount, 1);
-    });
+      test('renderContentByRange non-existent elements', () => {
+        const spy = sinon.spy(builder, 'createTextEl');
 
-    test('getLineNumberEl side-by-side left', () => {
-      const contentEl = builder.getContentByLine(
-        5,
-        Side.LEFT,
-        element.diffElement as HTMLTableElement
-      );
-      assert.isOk(contentEl);
-      const lineNumberEl = builder.getLineNumberEl(contentEl!, Side.LEFT);
-      assert.isOk(lineNumberEl);
-      assert.isTrue(lineNumberEl!.classList.contains('lineNum'));
-      assert.isTrue(lineNumberEl!.classList.contains(Side.LEFT));
-    });
+        sinon
+          .stub(builder, 'getLineNumberEl')
+          .returns(document.createElement('div'));
+        sinon
+          .stub(builder, 'findLinesByRange')
+          .callsFake((_1, _2, _3, lines, elements) => {
+            // Add a line and a corresponding element.
+            lines?.push(new GrDiffLine(GrDiffLineType.BOTH));
+            const tr = document.createElement('tr');
+            const td = document.createElement('td');
+            const el = document.createElement('div');
+            tr.appendChild(td);
+            td.appendChild(el);
+            elements?.push(el);
 
-    test('getLineNumberEl side-by-side right', () => {
-      const contentEl = builder.getContentByLine(
-        5,
-        Side.RIGHT,
-        element.diffElement as HTMLTableElement
-      );
-      assert.isOk(contentEl);
-      const lineNumberEl = builder.getLineNumberEl(contentEl!, Side.RIGHT);
-      assert.isOk(lineNumberEl);
-      assert.isTrue(lineNumberEl!.classList.contains('lineNum'));
-      assert.isTrue(lineNumberEl!.classList.contains(Side.RIGHT));
-    });
+            // Add 2 lines without corresponding elements.
+            lines?.push(new GrDiffLine(GrDiffLineType.BOTH));
+            lines?.push(new GrDiffLine(GrDiffLineType.BOTH));
+          });
 
-    test('getLineNumberEl unified left', async () => {
-      // Re-render as unified:
-      element.viewMode = 'UNIFIED_DIFF';
-      element.render(keyLocations);
-      builder = element.builder as GrDiffBuilderSideBySide;
+        builder.renderContentByRange(1, 10, Side.LEFT);
+        // Should be called only once because only one line had a corresponding
+        // element.
+        assert.equal(spy.callCount, 1);
+      });
 
-      const contentEl = builder.getContentByLine(
-        5,
-        Side.LEFT,
-        element.diffElement as HTMLTableElement
-      );
-      assert.isOk(contentEl);
-      const lineNumberEl = builder.getLineNumberEl(contentEl!, Side.LEFT);
-      assert.isOk(lineNumberEl);
-      assert.isTrue(lineNumberEl!.classList.contains('lineNum'));
-      assert.isTrue(lineNumberEl!.classList.contains(Side.LEFT));
-    });
+      test('getLineNumberEl side-by-side left', () => {
+        const contentEl = builder.getContentByLine(
+          5,
+          Side.LEFT,
+          element.diffElement as HTMLTableElement
+        );
+        assert.isOk(contentEl);
+        const lineNumberEl = builder.getLineNumberEl(contentEl!, Side.LEFT);
+        assert.isOk(lineNumberEl);
+        assert.isTrue(lineNumberEl!.classList.contains('lineNum'));
+        assert.isTrue(lineNumberEl!.classList.contains(Side.LEFT));
+      });
 
-    test('getLineNumberEl unified right', async () => {
-      // Re-render as unified:
-      element.viewMode = 'UNIFIED_DIFF';
-      element.render(keyLocations);
-      builder = element.builder as GrDiffBuilderSideBySide;
+      test('getLineNumberEl side-by-side right', () => {
+        const contentEl = builder.getContentByLine(
+          5,
+          Side.RIGHT,
+          element.diffElement as HTMLTableElement
+        );
+        assert.isOk(contentEl);
+        const lineNumberEl = builder.getLineNumberEl(contentEl!, Side.RIGHT);
+        assert.isOk(lineNumberEl);
+        assert.isTrue(lineNumberEl!.classList.contains('lineNum'));
+        assert.isTrue(lineNumberEl!.classList.contains(Side.RIGHT));
+      });
 
-      const contentEl = builder.getContentByLine(
-        5,
-        Side.RIGHT,
-        element.diffElement as HTMLTableElement
-      );
-      assert.isOk(contentEl);
-      const lineNumberEl = builder.getLineNumberEl(contentEl!, Side.RIGHT);
-      assert.isOk(lineNumberEl);
-      assert.isTrue(lineNumberEl!.classList.contains('lineNum'));
-      assert.isTrue(lineNumberEl!.classList.contains(Side.RIGHT));
-    });
+      test('getLineNumberEl unified left', async () => {
+        // Re-render as unified:
+        element.viewMode = 'UNIFIED_DIFF';
+        element.render(keyLocations);
+        builder = element.builder as GrDiffBuilderSideBySide;
 
-    test('getNextContentOnSide side-by-side left', () => {
-      const startElem = builder.getContentByLine(
-        5,
-        Side.LEFT,
-        element.diffElement as HTMLTableElement
-      );
-      assert.isOk(startElem);
-      const expectedStartString = diff.content[2].ab?.[0];
-      const expectedNextString = diff.content[2].ab?.[1];
-      assert.equal(startElem!.textContent, expectedStartString);
+        const contentEl = builder.getContentByLine(
+          5,
+          Side.LEFT,
+          element.diffElement as HTMLTableElement
+        );
+        assert.isOk(contentEl);
+        const lineNumberEl = builder.getLineNumberEl(contentEl!, Side.LEFT);
+        assert.isOk(lineNumberEl);
+        assert.isTrue(lineNumberEl!.classList.contains('lineNum'));
+        assert.isTrue(lineNumberEl!.classList.contains(Side.LEFT));
+      });
 
-      const nextElem = builder.getNextContentOnSide(startElem!, Side.LEFT);
-      assert.isOk(nextElem);
-      assert.equal(nextElem!.textContent, expectedNextString);
-    });
+      test('getLineNumberEl unified right', async () => {
+        // Re-render as unified:
+        element.viewMode = 'UNIFIED_DIFF';
+        element.render(keyLocations);
+        builder = element.builder as GrDiffBuilderSideBySide;
 
-    test('getNextContentOnSide side-by-side right', () => {
-      const startElem = builder.getContentByLine(
-        5,
-        Side.RIGHT,
-        element.diffElement as HTMLTableElement
-      );
-      const expectedStartString = diff.content[1].b?.[0];
-      const expectedNextString = diff.content[1].b?.[1];
-      assert.isOk(startElem);
-      assert.equal(startElem!.textContent, expectedStartString);
+        const contentEl = builder.getContentByLine(
+          5,
+          Side.RIGHT,
+          element.diffElement as HTMLTableElement
+        );
+        assert.isOk(contentEl);
+        const lineNumberEl = builder.getLineNumberEl(contentEl!, Side.RIGHT);
+        assert.isOk(lineNumberEl);
+        assert.isTrue(lineNumberEl!.classList.contains('lineNum'));
+        assert.isTrue(lineNumberEl!.classList.contains(Side.RIGHT));
+      });
 
-      const nextElem = builder.getNextContentOnSide(startElem!, Side.RIGHT);
-      assert.isOk(nextElem);
-      assert.equal(nextElem!.textContent, expectedNextString);
-    });
+      test('getNextContentOnSide side-by-side left', () => {
+        const startElem = builder.getContentByLine(
+          5,
+          Side.LEFT,
+          element.diffElement as HTMLTableElement
+        );
+        assert.isOk(startElem);
+        const expectedStartString = diff.content[2].ab?.[0];
+        const expectedNextString = diff.content[2].ab?.[1];
+        assert.equal(startElem!.textContent, expectedStartString);
 
-    test('getNextContentOnSide unified left', async () => {
-      // Re-render as unified:
-      element.viewMode = 'UNIFIED_DIFF';
-      element.render(keyLocations);
-      builder = element.builder as GrDiffBuilderSideBySide;
+        const nextElem = builder.getNextContentOnSide(startElem!, Side.LEFT);
+        assert.isOk(nextElem);
+        assert.equal(nextElem!.textContent, expectedNextString);
+      });
 
-      const startElem = builder.getContentByLine(
-        5,
-        Side.LEFT,
-        element.diffElement as HTMLTableElement
-      );
-      const expectedStartString = diff.content[2].ab?.[0];
-      const expectedNextString = diff.content[2].ab?.[1];
-      assert.isOk(startElem);
-      assert.equal(startElem!.textContent, expectedStartString);
+      test('getNextContentOnSide side-by-side right', () => {
+        const startElem = builder.getContentByLine(
+          5,
+          Side.RIGHT,
+          element.diffElement as HTMLTableElement
+        );
+        const expectedStartString = diff.content[1].b?.[0];
+        const expectedNextString = diff.content[1].b?.[1];
+        assert.isOk(startElem);
+        assert.equal(startElem!.textContent, expectedStartString);
 
-      const nextElem = builder.getNextContentOnSide(startElem!, Side.LEFT);
-      assert.isOk(nextElem);
-      assert.equal(nextElem!.textContent, expectedNextString);
-    });
+        const nextElem = builder.getNextContentOnSide(startElem!, Side.RIGHT);
+        assert.isOk(nextElem);
+        assert.equal(nextElem!.textContent, expectedNextString);
+      });
 
-    test('getNextContentOnSide unified right', async () => {
-      // Re-render as unified:
-      element.viewMode = 'UNIFIED_DIFF';
-      element.render(keyLocations);
-      builder = element.builder as GrDiffBuilderSideBySide;
+      test('getNextContentOnSide unified left', async () => {
+        // Re-render as unified:
+        element.viewMode = 'UNIFIED_DIFF';
+        element.render(keyLocations);
+        builder = element.builder as GrDiffBuilderSideBySide;
 
-      const startElem = builder.getContentByLine(
-        5,
-        Side.RIGHT,
-        element.diffElement as HTMLTableElement
-      );
-      const expectedStartString = diff.content[1].b?.[0];
-      const expectedNextString = diff.content[1].b?.[1];
-      assert.isOk(startElem);
-      assert.equal(startElem!.textContent, expectedStartString);
+        const startElem = builder.getContentByLine(
+          5,
+          Side.LEFT,
+          element.diffElement as HTMLTableElement
+        );
+        const expectedStartString = diff.content[2].ab?.[0];
+        const expectedNextString = diff.content[2].ab?.[1];
+        assert.isOk(startElem);
+        assert.equal(startElem!.textContent, expectedStartString);
 
-      const nextElem = builder.getNextContentOnSide(startElem!, Side.RIGHT);
-      assert.isOk(nextElem);
-      assert.equal(nextElem!.textContent, expectedNextString);
+        const nextElem = builder.getNextContentOnSide(startElem!, Side.LEFT);
+        assert.isOk(nextElem);
+        assert.equal(nextElem!.textContent, expectedNextString);
+      });
+
+      test('getNextContentOnSide unified right', async () => {
+        // Re-render as unified:
+        element.viewMode = 'UNIFIED_DIFF';
+        element.render(keyLocations);
+        builder = element.builder as GrDiffBuilderSideBySide;
+
+        const startElem = builder.getContentByLine(
+          5,
+          Side.RIGHT,
+          element.diffElement as HTMLTableElement
+        );
+        const expectedStartString = diff.content[1].b?.[0];
+        const expectedNextString = diff.content[1].b?.[1];
+        assert.isOk(startElem);
+        assert.equal(startElem!.textContent, expectedStartString);
+
+        const nextElem = builder.getNextContentOnSide(startElem!, Side.RIGHT);
+        assert.isOk(nextElem);
+        assert.equal(nextElem!.textContent, expectedNextString);
+      });
     });
   });
 

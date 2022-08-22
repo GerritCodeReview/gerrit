@@ -59,6 +59,7 @@ export class GrDiffBuilderUnified extends GrDiffBuilderLegacy {
       // If only whitespace has changed and the settings ask for whitespace to
       // be ignored, only render the right-side line in unified diff mode.
       if (group.ignoredWhitespaceOnly && line.type === GrDiffLineType.REMOVE) {
+        console.log(`unified ignoredWhitespaceOnly ${i}`);
         continue;
       }
       sectionEl.appendChild(this.createRow(line));
@@ -142,6 +143,9 @@ export class GrDiffBuilderUnified extends GrDiffBuilderLegacy {
           .trim()
       );
     }
+    console.log(
+      `unified createRow ${side} ${line?.beforeNumber} ${line?.afterNumber} ${line?.text}`
+    );
     row.appendChild(this.createTextEl(lineNumberEl, line, side));
     return row;
   }
@@ -149,6 +153,11 @@ export class GrDiffBuilderUnified extends GrDiffBuilderLegacy {
   getNextContentOnSide(content: HTMLElement, side: Side): HTMLElement | null {
     let tr: HTMLElement = content.parentElement!.parentElement!;
     while ((tr = tr.nextSibling as HTMLElement)) {
+      // Note that this does not work when there is a "common" chunk in the
+      // diff (different content only because of whitespace). Such chunks are
+      // rendered with class "add", so these rows will be skipped for the
+      // 'left' side.
+      // TODO: Fix this when writing a Lit component for unified diff.
       if (
         tr.classList.contains('both') ||
         (side === 'left' && tr.classList.contains('remove')) ||

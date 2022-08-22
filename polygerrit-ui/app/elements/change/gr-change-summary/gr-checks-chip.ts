@@ -162,14 +162,7 @@ export class GrChecksChip extends LitElement {
     if (!this.text) return;
     if (!this.statusOrCategory) return;
     const icon = iconFor(this.statusOrCategory);
-    const label = labelFor(this.statusOrCategory);
-    const count = Number(this.text);
-    let ariaLabel = label;
-    if (!isNaN(count)) {
-      const type = isStatus(this.statusOrCategory) ? 'run' : 'result';
-      const plural = count > 1 ? 's' : '';
-      ariaLabel = `${this.text} ${label} ${type}${plural}`;
-    }
+    const ariaLabel = this.computeAriaLabel();
     const chipClass = `checksChip font-small ${icon.name}`;
     const chipClassFullLength = `${chipClass} hoverFullLength`;
     // 15 is roughly the number of chars for the chip exceeding its 120px width.
@@ -179,6 +172,19 @@ export class GrChecksChip extends LitElement {
         : ''}
       ${this.renderChip(chipClass, ariaLabel, icon)}
     `;
+  }
+
+  private computeAriaLabel() {
+    if (!this.statusOrCategory) return '';
+    const label = labelFor(this.statusOrCategory);
+    const type = isStatus(this.statusOrCategory) ? 'run' : 'result';
+    const count = Number(this.text);
+    const isCountChip = !isNaN(count);
+    if (isCountChip) {
+      const plural = count > 1 ? 's' : '';
+      return `${this.text} ${label} ${type}${plural}`;
+    }
+    return `${label} for check ${this.text}`;
   }
 
   private renderChip(clazz: string, ariaLabel: string, icon: ChecksIcon) {

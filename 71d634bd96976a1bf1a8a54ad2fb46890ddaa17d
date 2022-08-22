@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3fe5656_13e1ad41",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-22T11:44:12Z",
+      "side": 1,
+      "message": "Same style as the one in RelatedChanges [1].\n\n[1] https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-change.ts;l\u003d60?q\u003d%22.strikethrough%20%7B%22\u0026sq\u003d",
+      "range": {
+        "startLine": 174,
+        "startChar": 8,
+        "endLine": 174,
+        "endChar": 24
+      },
+      "revId": "71d634bd96976a1bf1a8a54ad2fb46890ddaa17d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

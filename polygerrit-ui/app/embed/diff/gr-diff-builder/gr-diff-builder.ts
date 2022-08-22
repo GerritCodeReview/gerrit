@@ -240,21 +240,18 @@ export abstract class GrDiffBuilder implements DiffBuilder {
    * @param start The first line number
    * @param end The last line number
    * @param side The side of the range. Either 'left' or 'right'.
-   * @param out_lines The output list of line objects. Use null if not desired.
-   *        TODO: Change `null` to `undefined` in paramete type. Also: Do we
-   *        really need to support null/undefined? Also change to camelCase.
-   * @param out_elements The output list of line elements. Use null if not
-   *        desired.
-   *        TODO: Change `null` to `undefined` in paramete type. Also: Do we
-   *        really need to support null/undefined? Also change to camelCase.
+   * @param out_lines The output list of line objects.
+   *        TODO: Change to camelCase.
+   * @param out_elements The output list of line elements.
+   *        TODO: Change to camelCase.
    */
   // visible for testing
   findLinesByRange(
     start: LineNumber,
     end: LineNumber,
     side: Side,
-    out_lines: GrDiffLine[] | null,
-    out_elements: HTMLElement[] | null
+    out_lines: GrDiffLine[],
+    out_elements: HTMLElement[]
   ) {
     const groups = this.getGroupsByLineRange(start, end, side);
     for (const group of groups) {
@@ -272,21 +269,23 @@ export abstract class GrDiffBuilder implements DiffBuilder {
           continue;
         }
 
-        if (out_lines) {
-          out_lines.push(line);
+        if (content) {
+          content = this.getNextContentOnSide(content, side);
+        } else {
+          content = this.getContentByLine(lineNumber, side, group.element);
         }
-        if (out_elements) {
-          if (content) {
-            content = this.getNextContentOnSide(content, side);
-          } else {
-            content = this.getContentByLine(lineNumber, side, group.element);
-          }
-          if (content) {
-            out_elements.push(content);
-          }
+        if (content) {
+          // out_lines and out_elements must match. So if we don't have an
+          // element to push, then also don't push a line.
+          out_lines.push(line);
+          out_elements.push(content);
         }
       }
     }
+    assert(
+      out_lines.length === out_elements.length,
+      'findLinesByRange: lines and elements arrays must have same length'
+    );
   }
 
   protected abstract renderContentByRange(

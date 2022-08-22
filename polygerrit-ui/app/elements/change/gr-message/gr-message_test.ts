@@ -13,6 +13,7 @@ import {
   createComment,
   createRevisions,
   createLabelInfo,
+  createCommentThread,
 } from '../../../test/test-data-generators';
 import {
   mockPromise,
@@ -305,6 +306,70 @@ suite('gr-message tests', () => {
       await element.updateComplete;
       console.error(element.computeIsAutomated());
 
+      assert.shadowDom.equal(element, rendered);
+    });
+
+    test('renders comment message', async () => {
+      element.commentThreads = [
+        createCommentThread([createComment({message: 'hello 1',
+                                          unresolved: true})]),
+        createCommentThread([createComment({message: 'hello 2'})])];
+      element.message = {
+        ...createChangeMessage(),
+        commentThreads: element.commentThreads,
+      };
+      await element.updateComplete;
+
+      const rendered = /* HTML */ `<div class="collapsed">
+        <div class="contentContainer">
+          <div class="author">
+            <gr-account-label class="authorLabel"> </gr-account-label>
+            <gr-message-scores> </gr-message-scores>
+          </div>
+          <div class="commentsSummary">
+            <span
+              class="numberOfComments"
+              title="1 unresolved comment"
+            >
+              <gr-icon
+                class="commentsIcon unresolved"
+                filled=""
+                icon="feedback"
+              >
+              </gr-icon>
+              1
+            </span>
+            <span
+              class="numberOfComments"
+              title="1 resolved comment"
+            >
+              <gr-icon
+                class="commentsIcon"
+                filled=""
+                icon="mark_chat_read"
+              >
+              </gr-icon>
+              1
+            </span>
+          </div>
+          <div class="content messageContent">
+            <div class="hideOnOpen message">
+              This is a message with id cm_id_1
+            </div>
+          </div>
+          <span class="dateContainer">
+            <span class="date">
+              <gr-date-formatter showdateandtime="" withtooltip="">
+              </gr-date-formatter>
+            </span>
+            <gr-icon
+              icon="expand_more"
+              id="expandToggle"
+              title="Toggle expanded state"
+            ></gr-icon>
+          </span>
+        </div>
+      </div>`;
       assert.shadowDom.equal(element, rendered);
     });
 

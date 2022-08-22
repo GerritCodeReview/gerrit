@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b095e77a_40748275",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-22T12:18:06Z",
+      "side": 1,
+      "message": "use `--spacing-m`.",
+      "range": {
+        "startLine": 293,
+        "startChar": 25,
+        "endLine": 293,
+        "endChar": 28
+      },
+      "revId": "dcbe5404a27776aef3e66138a4fdf234f35682bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5392d23b_b5e6bc89",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-22T12:18:06Z",
+      "side": 1,
+      "message": "add `length/count` to the variable names?",
+      "range": {
+        "startLine": 363,
+        "startChar": 10,
+        "endLine": 363,
+        "endChar": 27
+      },
+      "revId": "dcbe5404a27776aef3e66138a4fdf234f35682bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20c4fab2_9e67e30f",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-22T12:18:06Z",
+      "side": 1,
+      "message": "split into it\u0027s own render method and return nothing if the condition is false.\n`renderUnresolvedIcon`?",
+      "range": {
+        "startLine": 368,
+        "startChar": 8,
+        "endLine": 380,
+        "endChar": 15
+      },
+      "revId": "dcbe5404a27776aef3e66138a4fdf234f35682bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

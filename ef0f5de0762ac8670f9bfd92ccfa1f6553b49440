@@ -3,6 +3,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "000f3973_be47939a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-22T16:18:01Z",
+      "side": 1,
+      "message": "Super nice!!! Love it. ❤️",
+      "revId": "ef0f5de0762ac8670f9bfd92ccfa1f6553b49440",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "d847b130_a9c99d4f",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
         "patchSetId": 2
@@ -19,6 +36,53 @@
         "startChar": 19,
         "endLine": 498,
         "endChar": 30
+      },
+      "revId": "ef0f5de0762ac8670f9bfd92ccfa1f6553b49440",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59f3fa99_328db39f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-22T16:18:01Z",
+      "side": 1,
+      "message": "I don\u0027t consider this a trick. If you don\u0027t want a space between spans, then don\u0027t add them. :-)\n\nI am fine with keeping `inline-flex`, but please make sure that direct children of flex layouts are always `display:block`. Using `display:inline` children (as you currently have with \u003cspan\u003es) leads to major debugging headaches, because inline children don\u0027t make sense, and the browser has to resolve this somehow magically by inserting a \u003cdiv\u003e that you don\u0027t see. Better add this \u003cdiv\u003e explicitly.\n\nAlso we aware of vertical-align problems when you are using `inline-flex`. Make sure that the file row do not grow compared to what we had before: the usual 20px + 8px padding + maybe border.",
+      "parentUuid": "d847b130_a9c99d4f",
+      "range": {
+        "startLine": 498,
+        "startChar": 19,
+        "endLine": 498,
+        "endChar": 30
+      },
+      "revId": "ef0f5de0762ac8670f9bfd92ccfa1f6553b49440",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2089f9ea_51db73b1",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-22T16:18:01Z",
+      "side": 1,
+      "message": "Maybe you can test this is a separate dedicated test case where you only apply the `assert.dom.equal` to the `span.path` of each row.",
+      "range": {
+        "startLine": 275,
+        "startChar": 12,
+        "endLine": 283,
+        "endChar": 16
       },
       "revId": "ef0f5de0762ac8670f9bfd92ccfa1f6553b49440",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

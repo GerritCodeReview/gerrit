@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc75f110_d422aa90",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-22T09:44:06Z",
+      "side": 1,
+      "message": "I assume this is to avoid the \"Non optional param cannot follow an optional param\"?\nWondering why this was done. Ideally we switch the order of the params(not worth the effort I agree).",
+      "range": {
+        "startLine": 415,
+        "startChar": 4,
+        "endLine": 415,
+        "endChar": 45
+      },
+      "revId": "0c53a211830e0b30d6d1544dd1848274c80f55c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

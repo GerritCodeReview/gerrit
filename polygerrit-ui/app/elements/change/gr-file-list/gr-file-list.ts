@@ -494,6 +494,9 @@ export class GrFileList extends LitElement {
           display: block;
           overflow-x: auto;
         }
+        .fullFileName {
+          display: inline-flex;
+        }
         .truncatedFileName {
           display: none;
         }
@@ -609,7 +612,7 @@ export class GrFileList extends LitElement {
           }
           .expanded .fullFileName,
           .truncatedFileName {
-            display: inline;
+            display: inline-flex;
           }
           .expanded .truncatedFileName,
           .fullFileName {
@@ -993,6 +996,7 @@ export class GrFileList extends LitElement {
     showPrependedDynamicColumns: boolean
   ) {
     this.reportRenderedRow(index);
+    const previousFileName = this.shownFiles[index - 1]?.__path;
     const patchSetFile = this.computePatchSetFile(file);
     return html` <div class="stickyArea">
       <div
@@ -1005,7 +1009,8 @@ export class GrFileList extends LitElement {
         ${when(showPrependedDynamicColumns, () =>
           this.renderPrependedContentEndpointsForFile(file)
         )}
-        ${this.renderFileStatus(file)} ${this.renderFilePath(file)}
+        ${this.renderFileStatus(file)}
+        ${this.renderFilePath(file, previousFileName)}
         ${this.renderFileComments(file)}
         ${this.renderSizeBar(file, sizeBarLayout)} ${this.renderFileStats(file)}
         ${when(showDynamicColumns, () =>
@@ -1134,36 +1139,78 @@ export class GrFileList extends LitElement {
     `;
   }
 
-  private renderFilePath(file: NormalizedFileInfo) {
-    return html` <span class="path" role="gridcell">
-      <a class="pathLink" href=${ifDefined(this.computeDiffURL(file.__path))}>
-        <span title=${computeDisplayPath(file.__path)} class="fullFileName">
-          ${computeDisplayPath(file.__path)}
-        </span>
-        <span
-          title=${computeDisplayPath(file.__path)}
-          class="truncatedFileName"
-        >
-          ${computeTruncatedPath(file.__path)}
-        </span>
-        <gr-copy-clipboard
-          ?hideInput=${true}
-          .text=${file.__path}
-        ></gr-copy-clipboard>
-      </a>
-      ${when(
-        file.old_path,
-        () => html`
-          <div class="oldPath" title=${ifDefined(file.old_path)}>
-            ${file.old_path}
-            <gr-copy-clipboard
-              ?hideInput=${true}
-              .text=${file.old_path}
-            ></gr-copy-clipboard>
-          </div>
-        `
-      )}
-    </span>`;
+  private renderFilePath(file: NormalizedFileInfo, previousFilePath?: string) {
+    return html`
+      <span class="path" role="gridcell">
+        <a class="pathLink" href=${ifDefined(this.computeDiffURL(file.__path))}>
+          <span title=${computeDisplayPath(file.__path)} class="fullFileName">
+            ${this.renderStyledPath(file.__path, previousFilePath)}
+          </span>
+          <span
+            title=${computeDisplayPath(file.__path)}
+            class="truncatedFileName"
+          >
+            ${computeTruncatedPath(file.__path)}
+          </span>
+          <gr-copy-clipboard
+            ?hideInput=${true}
+            .text=${file.__path}
+          ></gr-copy-clipboard>
+        </a>
+        ${when(
+          file.old_path,
+          () => html`
+            <div class="oldPath" title=${ifDefined(file.old_path)}>
+              ${file.old_path}
+              <gr-copy-clipboard
+                ?hideInput=${true}
+                .text=${file.old_path}
+              ></gr-copy-clipboard>
+            </div>
+          `
+        )}
+      </span>
+    `;
+  }
+
+  private renderStyledPath(filePath: string, previousFilePath?: string) {
+    // Separate each string into an array of folder names + file name.
+    const displayPath = computeDisplayPath(filePath);
+    const previousFileDisplayPath = computeDisplayPath(previousFilePath);
+    const displayPathParts = displayPath.split('/');
+    const previousFileDisplayPathParts = previousFileDisplayPath.split('/');
+
+    // Construct separate strings for matching folders, new folders, and file
+    // name.
+    const firstDifferencePartIndex = displayPathParts.findIndex(
+      (part, index) => previousFileDisplayPathParts[index] !== part
+    );
+    const matchingSection = displayPathParts
+      .slice(0, firstDifferencePartIndex)
+      .join('/');
+    const newFolderSection = displayPathParts
+      .slice(firstDifferencePartIndex, -1)
+      .join('/');
+    const fileNameSection = displayPathParts.at(-1)!;
+
+    // Note: folder sections need '/' appended back.
+    return [
+      matchingSection.length > 0
+        ? html`
+            <span style="color: var(--deemphasized-text-color);"
+              >${matchingSection}/</span
+            >
+          `
+        : nothing,
+      newFolderSection.length > 0
+        ? html`
+            <span style="color: var(--primary-text-color);"
+              >${newFolderSection}/</span
+            >
+          `
+        : nothing,
+      html`<span style="color: var(--link-color);">${fileNameSection}</span>`,
+    ];
   }
 
   private renderFileComments(file: NormalizedFileInfo) {

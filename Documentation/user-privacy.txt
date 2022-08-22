@@ -8,7 +8,7 @@ This page documents how Gerrit handles user data.
 |===
 | Note: Gerrit has extensive support for link:config-plugins.html[plugins]
   which extend Gerrits functionality, and these plugins could access, export, or
-  maniuplate user data. This document only focuses on the behavior of Gerrit
+  manipulate user data. This document only focuses on the behavior of Gerrit
   core and its link:dev-core-plugins.html[core plugins].
 |===
 
@@ -97,11 +97,6 @@ identifiable information. Notably, Gerrit cannot:
 
 * Remove a user's e-mail from all existing commits
 * Remove a user's username
-
-There is also a known
-link:https://bugs.chromium.org/p/gerrit/issues/detail?id=14185[bug] where a
-user's username is stored in metadata for link:user-attention-set.html[Attention
-Set].
 
 
 ## Open Source Software Limitations

@@ -81,6 +81,24 @@
       "parentUuid": "49f58b1a_e293fb58",
       "revId": "60d90129c130d900bbb867d97c7bb9f966bf163e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95c90e3d_d1c13aaa",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-22T09:39:46Z",
+      "side": 1,
+      "message": "AH yes, thanks. Could you add whitespace before the `(Old Patchset)` and remove the extraneous spaces?\n\n```suggestion\n    return html`\u003cspan class\u003d\"warning\"\u003e\u0026nbsp;(Old Patchset)\u003c/span\u003e`;\n```",
+      "parentUuid": "09bc11eb_da90d1be",
+      "revId": "60d90129c130d900bbb867d97c7bb9f966bf163e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

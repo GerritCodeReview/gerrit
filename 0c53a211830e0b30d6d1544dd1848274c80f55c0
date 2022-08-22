@@ -22,6 +22,30 @@
       },
       "revId": "0c53a211830e0b30d6d1544dd1848274c80f55c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5e421e0_53667d3e",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-22T09:44:55Z",
+      "side": 1,
+      "message": "Note this now requires sending \"undefined\" instead of omitting the patchNum argument if we use this method in the future.",
+      "parentUuid": "bc75f110_d422aa90",
+      "range": {
+        "startLine": 415,
+        "startChar": 4,
+        "endLine": 415,
+        "endChar": 45
+      },
+      "revId": "0c53a211830e0b30d6d1544dd1848274c80f55c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

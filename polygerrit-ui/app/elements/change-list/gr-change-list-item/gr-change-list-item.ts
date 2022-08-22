@@ -38,10 +38,11 @@ import {customElement, property, state} from 'lit/decorators.js';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {KnownExperimentId} from '../../../services/flags/flags';
-import {ColumnNames, WAITING} from '../../../constants/constants';
+import {ChangeStatus, ColumnNames, WAITING} from '../../../constants/constants';
 import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
+import {classMap} from 'lit/directives/class-map.js';
 
 enum ChangeSize {
   XS = 10,
@@ -169,6 +170,10 @@ export class GrChangeListItem extends LitElement {
         }
         .container {
           position: relative;
+        }
+        .strikethrough {
+          color: var(--deemphasized-text-color);
+          text-decoration: line-through;
         }
         .content {
           overflow: hidden;
@@ -359,7 +364,14 @@ export class GrChangeListItem extends LitElement {
           @click=${this.handleChangeClick}
         >
           <div class="container">
-            <div class="content">${this.change?.subject}</div>
+            <div
+              class=${classMap({
+                content: true,
+                strikethrough: this.change?.status === ChangeStatus.ABANDONED,
+              })}
+            >
+              ${this.change?.subject}
+            </div>
             <div class="spacer">${this.change?.subject}</div>
             <span>&nbsp;</span>
           </div>

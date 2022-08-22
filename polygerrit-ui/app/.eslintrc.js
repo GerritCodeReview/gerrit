@@ -385,7 +385,6 @@ module.exports = {
         a11ySuite: 'readonly',
         assert: 'readonly',
         expect: 'readonly',
-        fixture: 'readonly',
         flush: 'readonly',
         setup: 'readonly',
         sinon: 'readonly',
@@ -395,8 +394,6 @@ module.exports = {
         suiteTeardown: 'readonly',
         teardown: 'readonly',
         test: 'readonly',
-        fixtureFromElement: 'readonly',
-        fixtureFromTemplate: 'readonly',
       },
     },
     {

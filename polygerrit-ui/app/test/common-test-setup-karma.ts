@@ -4,19 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {testResolver as testResolverImpl} from './common-test-setup';
-import '@polymer/test-fixture/test-fixture';
-import 'chai/chai';
 
 declare global {
   interface Window {
     flush: typeof flushImpl;
-    fixtureFromTemplate: typeof fixtureFromTemplateImpl;
-    fixtureFromElement: typeof fixtureFromElementImpl;
     testResolver: typeof testResolverImpl;
   }
   let flush: typeof flushImpl;
-  let fixtureFromTemplate: typeof fixtureFromTemplateImpl;
-  let fixtureFromElement: typeof fixtureFromElementImpl;
   let testResolver: typeof testResolverImpl;
 }
 
@@ -95,109 +89,4 @@ function flushImpl(callback?: () => void): Promise<void> | void {
 
 self.flush = flushImpl;
 
-class TestFixtureIdProvider {
-  public static readonly instance: TestFixtureIdProvider =
-    new TestFixtureIdProvider();
-
-  private fixturesCount = 1;
-
-  generateNewFixtureId() {
-    this.fixturesCount++;
-    return `fixture-${this.fixturesCount}`;
-  }
-}
-
-interface TagTestFixture<T extends Element> {
-  instantiate(model?: unknown): T;
-}
-
-class TestFixture {
-  constructor(readonly fixtureId: string) {}
-
-  /**
-   * Create an instance of a fixture's template.
-   *
-   * @param model - see Data-bound sections at
-   *   https://www.webcomponents.org/element/@polymer/test-fixture
-   * @return - if the fixture's template contains
-   *   a single element, returns the appropriated instantiated element.
-   *   Otherwise, it return an array of all instantiated elements from the
-   *   template.
-   */
-  instantiate(model?: unknown): HTMLElement | HTMLElement[] {
-    // The window.fixture method is defined in common-test-setup.js
-    return window.fixture(this.fixtureId, model);
-  }
-}
-
-/**
- * Wraps provided template to a test-fixture tag and adds test-fixture to
- * the document. You can use the html function to create a template.
- *
- * Example:
- * import {html} from '@polymer/polymer/lib/utils/html-tag.js';
- *
- * // Create fixture at the root level of a test file
- * const basicTestFixture = fixtureFromTemplate(html`
- *   <gr-cursor-manager cursor-target-class="targeted"></gr-cursor-manager>
- *   <ul>
- *    <li>A</li>
- *    <li>B</li>
- *    <li>C</li>
- *    <li>D</li>
- *   </ul>
- * `);
- * ...
- * // Instantiate fixture when needed:
- *
- * suite('example') {
- *   let elements;
- *   setup(() => {
- *     elements = basicTestFixture.instantiate();
- *   });
- * }
- *
- * @param template - a template for a fixture
- */
-function fixtureFromTemplateImpl(template: HTMLTemplateElement): TestFixture {
-  const fixtureId = TestFixtureIdProvider.instance.generateNewFixtureId();
-  const testFixture = document.createElement('test-fixture');
-  testFixture.setAttribute('id', fixtureId);
-  testFixture.appendChild(template);
-  document.body.appendChild(testFixture);
-  return new TestFixture(fixtureId);
-}
-
-/**
- * Wraps provided tag to a test-fixture/template tags and adds test-fixture
- * to the document.
- *
- * Example:
- *
- * // Create fixture at the root level of a test file
- * const basicTestFixture = fixtureFromElement('gr-diff-view');
- * ...
- * // Instantiate fixture when needed:
- *
- * suite('example') {
- *   let element;
- *   setup(() => {
- *     element = basicTestFixture.instantiate();
- *   });
- * }
- *
- * @param tagName - a template for a fixture is <tagName></tagName>
- */
-function fixtureFromElementImpl<T extends keyof HTMLElementTagNameMap>(
-  tagName: T
-): TagTestFixture<HTMLElementTagNameMap[T]> {
-  const template = document.createElement('template');
-  template.innerHTML = `<${tagName}></${tagName}>`;
-  return fixtureFromTemplate(template) as unknown as TagTestFixture<
-    HTMLElementTagNameMap[T]
-  >;
-}
-
-window.fixtureFromTemplate = fixtureFromTemplateImpl;
-window.fixtureFromElement = fixtureFromElementImpl;
 window.testResolver = testResolverImpl;

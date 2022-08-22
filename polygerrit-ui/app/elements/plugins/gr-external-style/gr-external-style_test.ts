@@ -4,22 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup-karma';
-import {resetPlugins} from '../../../test/test-utils';
-import './gr-external-style.js';
-import {GrExternalStyle} from './gr-external-style.js';
+import {mockPromise, MockPromise, resetPlugins} from '../../../test/test-utils';
+import './gr-external-style';
+import {GrExternalStyle} from './gr-external-style';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
-import {html} from '@polymer/polymer/lib/utils/html-tag';
 import {PluginApi} from '../../../api/plugin';
-
-const basicFixture = fixtureFromTemplate(
-  html`<gr-external-style name="foo"></gr-external-style>`
-);
+import {fixture, html} from '@open-wc/testing';
 
 suite('gr-external-style integration tests', () => {
   const TEST_URL = 'http://some.com/plugins/url.js';
 
   let element: GrExternalStyle;
   let plugin: PluginApi;
+  let pluginsLoaded: MockPromise<void>;
   let applyStyleSpy: sinon.SinonSpy;
 
   const installPlugin = () => {
@@ -36,33 +33,34 @@ suite('gr-external-style integration tests', () => {
   };
 
   const createElement = async () => {
-    element = basicFixture.instantiate() as GrExternalStyle;
-    applyStyleSpy = sinon.spy(element, 'applyStyle');
+    applyStyleSpy = sinon.spy(GrExternalStyle.prototype, 'applyStyle');
+    element = await fixture(
+      html`<gr-external-style .name=${'foo'}></gr-external-style>`
+    );
     await element.updateComplete;
   };
 
   /**
    * Installs the plugin, creates the element, registers style module.
    */
-  const lateRegister = () => {
+  const lateRegister = async () => {
     installPlugin();
-    createElement();
+    await createElement();
     plugin.registerStyleModule('foo', 'some-module');
   };
 
   /**
    * Installs the plugin, registers style module, creates the element.
    */
-  const earlyRegister = () => {
+  const earlyRegister = async () => {
     installPlugin();
     plugin.registerStyleModule('foo', 'some-module');
-    createElement();
+    await createElement();
   };
 
   setup(() => {
-    sinon
-      .stub(getPluginLoader(), 'awaitPluginsLoaded')
-      .returns(Promise.resolve());
+    pluginsLoaded = mockPromise();
+    sinon.stub(getPluginLoader(), 'awaitPluginsLoaded').returns(pluginsLoaded);
   });
 
   teardown(() => {
@@ -73,13 +71,14 @@ suite('gr-external-style integration tests', () => {
   });
 
   test('applies plugin-provided styles', async () => {
-    lateRegister();
+    await lateRegister();
+    pluginsLoaded.resolve();
     await element.updateComplete;
     assert.isTrue(applyStyleSpy.calledWith('some-module'));
   });
 
   test('does not double apply', async () => {
-    earlyRegister();
+    await earlyRegister();
     await element.updateComplete;
     plugin.registerStyleModule('foo', 'some-module');
     await element.updateComplete;
@@ -90,7 +89,7 @@ suite('gr-external-style integration tests', () => {
   });
 
   test('loads and applies preloaded modules', async () => {
-    earlyRegister();
+    await earlyRegister();
     await element.updateComplete;
     assert.isTrue(applyStyleSpy.calledWith('some-module'));
   });

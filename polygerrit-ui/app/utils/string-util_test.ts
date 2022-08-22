@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../test/common-test-setup-karma';
-import {pluralize, ordinal, listForSentence} from './string-util';
+import {
+  pluralize,
+  ordinal,
+  listForSentence,
+  diffFilePaths,
+} from './string-util';
 
 suite('formatter util tests', () => {
   test('pluralize', () => {
@@ -33,5 +38,49 @@ suite('formatter util tests', () => {
     assert.equal(listForSentence(['Foo', 'Bar']), 'Foo and Bar');
     assert.equal(listForSentence(['Foo']), 'Foo');
     assert.equal(listForSentence([]), '');
+  });
+
+  test('diffFilePaths', () => {
+    const path = 'some/new/path/to/foo.js';
+
+    // no other path
+    assert.deepStrictEqual(diffFilePaths(path, undefined), {
+      matchingFolders: '',
+      newFolders: 'some/new/path/to/',
+      fileName: 'foo.js',
+    });
+    // no new folders
+    assert.deepStrictEqual(diffFilePaths(path, 'some/new/path/to/bar.js'), {
+      matchingFolders: 'some/new/path/to/',
+      newFolders: '',
+      fileName: 'foo.js',
+    });
+    // folder partially matches
+    assert.deepStrictEqual(diffFilePaths(path, 'some/ne/foo.js'), {
+      matchingFolders: 'some/',
+      newFolders: 'new/path/to/',
+      fileName: 'foo.js',
+    });
+    // no matching folders
+    assert.deepStrictEqual(
+      diffFilePaths(path, 'another/path/entirely/foo.js'),
+      {
+        matchingFolders: '',
+        newFolders: 'some/new/path/to/',
+        fileName: 'foo.js',
+      }
+    );
+    // some folders match
+    assert.deepStrictEqual(diffFilePaths(path, 'some/other/path/to/bar.js'), {
+      matchingFolders: 'some/',
+      newFolders: 'new/path/to/',
+      fileName: 'foo.js',
+    });
+    // no folders
+    assert.deepStrictEqual(diffFilePaths('COMMIT_MSG', 'some/other/foo.js'), {
+      matchingFolders: '',
+      newFolders: '',
+      fileName: 'COMMIT_MSG',
+    });
   });
 });

@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import {computeDisplayPath} from './path-list-util';
+
 /**
  * Returns a count plus string that is pluralized when necessary.
  */
@@ -57,4 +59,46 @@ export function listForSentence(items: string[]): string {
   const firstItems = items.slice(0, items.length - 1);
   const lastItem = items[items.length - 1];
   return `${firstItems.join(', ')}, and ${lastItem}`;
+}
+
+/**
+ *  Separates a path into:
+ *  - The part that matches another path,
+ *  - The part that does not match the other path,
+ *  - The file name
+ *
+ *  For example:
+ *    diffFilePaths('same/part/new/part/foo.js', 'same/part/different/foo.js');
+ *  yields: {
+ *      matchingFolders: 'same/part/',
+ *      newFolders: 'new/part/',
+ *      fileName: 'foo.js',
+ *    }
+ */
+export function diffFilePaths(filePath: string, otherFilePath?: string) {
+  // Separate each string into an array of folder names + file name.
+  const displayPath = computeDisplayPath(filePath);
+  const previousFileDisplayPath = computeDisplayPath(otherFilePath);
+  const displayPathParts = displayPath.split('/');
+  const previousFileDisplayPathParts = previousFileDisplayPath.split('/');
+
+  // Construct separate strings for matching folders, new folders, and file
+  // name.
+  const firstDifferencePartIndex = displayPathParts.findIndex(
+    (part, index) => previousFileDisplayPathParts[index] !== part
+  );
+  const matchingSection = displayPathParts
+    .slice(0, firstDifferencePartIndex)
+    .join('/');
+  const newFolderSection = displayPathParts
+    .slice(firstDifferencePartIndex, -1)
+    .join('/');
+  const fileNameSection = displayPathParts.at(-1)!;
+
+  // Note: folder sections need '/' appended back.
+  return {
+    matchingFolders: matchingSection.length > 0 ? `${matchingSection}/` : '',
+    newFolders: newFolderSection.length > 0 ? `${newFolderSection}/` : '',
+    fileName: fileNameSection,
+  };
 }

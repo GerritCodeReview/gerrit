@@ -264,16 +264,7 @@ export class GrRelatedChangesList extends LitElement {
             >
               ${this.renderMarkers(
                 submittedTogetherMarkersPredicate(index)
-              )}<gr-related-change
-                .label=${this.renderChangeTitle(change)}
-                .change=${change}
-                .href=${GerritNav.getUrlForChangeById(
-                  change._number,
-                  change.project
-                )}
-                show-submittable-check
-                >${this.renderChangeLine(change)}</gr-related-change
-              >
+              )}${this.renderSubmittedTogetherLine(change, true)}
             </div>`
         )}
       </gr-related-collapse>
@@ -281,6 +272,31 @@ export class GrRelatedChangesList extends LitElement {
         (+ ${pluralize(countNonVisibleChanges, 'non-visible change')})
       </div>
     </section>`;
+  }
+
+  private renderSubmittedTogetherLine(
+    change: ChangeInfo,
+    showSubmittabilityCheck: boolean
+  ) {
+    const truncatedRepo = truncatePath(change.project, 2);
+    return html`
+      <span class="truncatedRepo" .title=${change.project}
+        >${truncatedRepo}</span
+      >
+      | <span class="branch">${change.branch}</span>
+      <gr-related-change
+        .label=${this.renderChangeTitle(change)}
+        .change=${change}
+        .href=${GerritNav.getUrlForChangeById(
+          change._number,
+          change.project,
+          undefined,
+          'submitted-together'
+        )}
+        ?show-submittable-check=${showSubmittabilityCheck}
+        >${change.subject}</gr-related-change
+      >
+    `;
   }
 
   private renderSameTopic(
@@ -314,15 +330,7 @@ export class GrRelatedChangesList extends LitElement {
             >
               ${this.renderMarkers(
                 sameTopicMarkersPredicate(index)
-              )}<gr-related-change
-                .change=${change}
-                .label=${this.renderChangeTitle(change)}
-                .href=${GerritNav.getUrlForChangeById(
-                  change._number,
-                  change.project
-                )}
-                >${this.renderChangeLine(change)}</gr-related-change
-              >
+              )}${this.renderSubmittedTogetherLine(change, false)}
             </div>`
         )}
       </gr-related-collapse>
@@ -363,7 +371,9 @@ export class GrRelatedChangesList extends LitElement {
                 .change=${change}
                 .href=${GerritNav.getUrlForChangeById(
                   change._number,
-                  change.project
+                  change.project,
+                  undefined,
+                  'merge-conflict'
                 )}
                 >${change.subject}</gr-related-change
               >
@@ -407,7 +417,9 @@ export class GrRelatedChangesList extends LitElement {
                 .change=${change}
                 .href=${GerritNav.getUrlForChangeById(
                   change._number,
-                  change.project
+                  change.project,
+                  undefined,
+                  'cherry-pick'
                 )}
                 >${change.branch}: ${change.subject}</gr-related-change
               >
@@ -419,13 +431,6 @@ export class GrRelatedChangesList extends LitElement {
 
   private renderChangeTitle(change: ChangeInfo) {
     return `${change.project}: ${change.branch}: ${change.subject}`;
-  }
-
-  private renderChangeLine(change: ChangeInfo) {
-    const truncatedRepo = truncatePath(change.project, 2);
-    return html`<span class="truncatedRepo" .title=${change.project}
-        >${truncatedRepo}</span
-      >: ${change.branch}: ${change.subject}`;
   }
 
   sectionSizeFactory(

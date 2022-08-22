@@ -16,6 +16,7 @@ import {
   Base64FileContent,
   NumericChangeId,
   EDIT,
+  PatchSetNumber,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../types/types';
 import {HttpMethod, NotifyType} from '../../../constants/constants';
@@ -27,11 +28,13 @@ import {debounce, DelayedTask} from '../../../utils/async-util';
 import {changeIsMerged, changeIsAbandoned} from '../../../utils/change-util';
 import {addShortcut, Modifier} from '../../../utils/dom-util';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, PropertyValues, html, css} from 'lit';
+import {LitElement, PropertyValues, html, css, nothing} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {GenerateUrlEditViewParameters} from '../../../utils/router-util';
 import {GerritView} from '../../../services/router/router-model';
+import {resolve} from '../../../models/dependency';
+import {changeModelToken} from '../../../models/change/change-model';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const SAVING_MESSAGE = 'Saving changes...';
@@ -90,6 +93,8 @@ export class GrEditorView extends LitElement {
 
   @state() private lineNum?: number;
 
+  @state() private latestPatchsetNumber?: PatchSetNumber;
+
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly storage = getAppContext().storageService;
@@ -97,6 +102,8 @@ export class GrEditorView extends LitElement {
   private readonly reporting = getAppContext().reportingService;
 
   private readonly userModel = getAppContext().userModel;
+
+  private readonly getChangeModel = resolve(this, changeModelToken);
 
   // Tests use this so needs to be non private
   storeTask?: DelayedTask;
@@ -115,6 +122,11 @@ export class GrEditorView extends LitElement {
       editPreferences => {
         this.editPrefs = editPreferences;
       }
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().latestPatchNum$,
+      x => (this.latestPatchsetNumber = x)
     );
   }
 
@@ -193,6 +205,9 @@ export class GrEditorView extends LitElement {
         .rightControls {
           justify-content: flex-end;
         }
+        .warning {
+          color: var(--error-text-color);
+        }
       `,
     ];
   }
@@ -207,6 +222,7 @@ export class GrEditorView extends LitElement {
         <header>
           <span class="controlGroup">
             <span>Edit mode</span>
+            ${this.renderEditingOldPatchsetWarning()}
             <span class="separator"></span>
             <gr-editable-label
               labelText="File path"
@@ -241,6 +257,12 @@ export class GrEditorView extends LitElement {
         </header>
       </div>
     `;
+  }
+
+  private renderEditingOldPatchsetWarning() {
+    const patchset = this.params?.patchNum;
+    if (patchset === this.latestPatchsetNumber) return nothing;
+    return html` <span class="warning"> (Old Patchset) </span> `;
   }
 
   private renderEndpoint() {

@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05ed3921_4648d8cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-22T10:38:22Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "2258e484c3effe853e99b572c15e70f3e669d834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d1ad51a_14bf661a",
@@ -14,6 +31,30 @@
       "writtenOn": "2022-08-22T10:31:03Z",
       "side": 1,
       "message": "There are two \u0026nbsp; between repo and branch.",
+      "range": {
+        "startLine": 288,
+        "startChar": 25,
+        "endLine": 289,
+        "endChar": 34
+      },
+      "revId": "2258e484c3effe853e99b572c15e70f3e669d834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10adde89_37e31a1e",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-22T10:38:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d1ad51a_14bf661a",
       "range": {
         "startLine": 288,
         "startChar": 25,

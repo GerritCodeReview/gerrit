@@ -165,8 +165,8 @@ suite('gr-file-list tests', () => {
       );
     });
 
-    test('renders file row', async () => {
-      element.files = createFiles(1, {lines_inserted: 9});
+    test('renders file rows', async () => {
+      element.files = createFiles(2, {lines_inserted: 9});
       await element.updateComplete;
       const fileRows = queryAll<HTMLDivElement>(element, '.file-row');
       assert.dom.equal(
@@ -182,7 +182,10 @@ suite('gr-file-list tests', () => {
           </div>
           <span class="path" role="gridcell">
             <a class="pathLink">
-              <span class="fullFileName" title="'/file0"> '/file0 </span>
+              <span class="fullFileName" title="'/file0">
+                <span class="newFilePath"> '/ </span>
+                <span class="fileName"> file0 </span>
+              </span>
               <span class="truncatedFileName" title="'/file0"> …/file0 </span>
               <gr-copy-clipboard hideinput=""> </gr-copy-clipboard>
             </a>
@@ -244,6 +247,98 @@ suite('gr-file-list tests', () => {
               class="show-hide"
               data-expand="true"
               data-path="'/file0"
+              role="switch"
+              tabindex="0"
+            >
+              <gr-icon
+                icon="expand_more"
+                class="show-hide-icon"
+                id="icon"
+                tabindex="-1"
+              ></gr-icon>
+            </span>
+          </div>
+        </div>`
+      );
+      // The second row will have a matchingFilePath instead of newFilePath.
+      assert.dom.equal(
+        fileRows?.[1],
+        /* HTML */ `<div
+          class="file-row row"
+          data-file='{"path":"&apos;/file1"}'
+          role="row"
+          tabindex="-1"
+        >
+          <div class="status" role="gridcell">
+            <gr-file-status></gr-file-status>
+          </div>
+          <span class="path" role="gridcell">
+            <a class="pathLink">
+              <span class="fullFileName" title="'/file1">
+                <span class="matchingFilePath"> '/ </span>
+                <span class="fileName"> file1 </span>
+              </span>
+              <span class="truncatedFileName" title="'/file1"> …/file1 </span>
+              <gr-copy-clipboard hideinput=""> </gr-copy-clipboard>
+            </a>
+          </span>
+          <div role="gridcell">
+            <div class="comments desktop">
+              <span class="drafts"> </span> <span> </span>
+              <span class="noCommentsScreenReaderText"> No comments </span>
+            </div>
+            <div class="comments mobile">
+              <span class="drafts"> </span> <span> </span>
+              <span class="noCommentsScreenReaderText"> No comments </span>
+            </div>
+          </div>
+          <div class="desktop" role="gridcell">
+            <div
+              aria-label="A bar that represents the addition and deletion ratio for the current file"
+              class="hide sizeBars"
+            ></div>
+          </div>
+          <div class="stats" role="gridcell">
+            <div>
+              <span aria-label="9 lines added" class="added" tabindex="0">
+                +9
+              </span>
+              <span aria-label="0 lines removed" class="removed" tabindex="0">
+                -0
+              </span>
+              <span hidden=""> +/-0 B </span>
+            </div>
+          </div>
+          <div class="hideOnEdit reviewed" role="gridcell">
+            <span aria-hidden="true" class="reviewedLabel"> Reviewed </span>
+            <span
+              aria-checked="false"
+              aria-label="Reviewed"
+              class="reviewedSwitch"
+              role="switch"
+              tabindex="0"
+            >
+              <span
+                class="markReviewed"
+                tabindex="-1"
+                title="Mark as reviewed (shortcut: r)"
+              >
+                MARK REVIEWED
+              </span>
+            </span>
+          </div>
+          <div
+            aria-hidden="true"
+            class="editFileControls showOnEdit"
+            role="gridcell"
+          ></div>
+          <div class="show-hide" role="gridcell">
+            <span
+              aria-checked="false"
+              aria-label="Expand file"
+              class="show-hide"
+              data-expand="true"
+              data-path="'/file1"
               role="switch"
               tabindex="0"
             >

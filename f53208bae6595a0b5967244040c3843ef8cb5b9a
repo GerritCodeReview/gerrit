@@ -453,6 +453,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11d04231_57231785",
+        "filename": "java/com/google/gerrit/index/QueryOptions.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-08-22T23:05:02Z",
+      "side": 1,
+      "message": "Makes sense. Done.",
+      "parentUuid": "8d1d020c_1afec639",
+      "revId": "f53208bae6595a0b5967244040c3843ef8cb5b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "77bca058_445ab19e",

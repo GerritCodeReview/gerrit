@@ -31,10 +31,10 @@ export class GrEventHelper implements EventHelperPluginApi {
    */
   onClick(callback: (event: Event) => boolean) {
     this.reporting.trackApi(this.plugin, 'event', 'onClick');
-    return this._listen(this.element, callback);
+    return this.listen(this.element, callback);
   }
 
-  _listen(
+  private listen(
     container: HTMLElement,
     callback: (event: Event) => boolean
   ): UnsubscribeCallback {

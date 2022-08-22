@@ -88,7 +88,7 @@ suite('gr-change-list-column-requirements-summary tests', () => {
         <gr-icon
           class="commentIcon"
           filled
-          icon="mode_comment"
+          icon="feedback"
           title="5 unresolved comments"
         ></gr-icon>`
     );

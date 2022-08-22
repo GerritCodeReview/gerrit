@@ -13,7 +13,7 @@ import {
 } from '../../../test/test-utils';
 import {getPluginLoader} from './gr-plugin-loader';
 import {GrChangeActions} from '../../change/gr-change-actions/gr-change-actions';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 import {PluginApi} from '../../../api/plugin';
 import {
   ActionType,

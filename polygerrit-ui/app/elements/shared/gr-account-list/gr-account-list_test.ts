@@ -30,7 +30,7 @@ import {
 import {GrAccountEntry} from '../gr-account-entry/gr-account-entry';
 import {createChange} from '../../../test/test-data-generators';
 import {ReviewerState} from '../../../api/rest-api';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 
 class MockSuggestionsProvider implements ReviewerSuggestionsProvider {
   init() {}

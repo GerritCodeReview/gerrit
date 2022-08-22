@@ -12,7 +12,7 @@ import {
   stubUsers,
   waitUntilObserved,
 } from '../../../test/test-utils';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 import {wrapInProvider} from '../../../models/di-provider-element';
 import {
   BrowserModel,

@@ -9,7 +9,7 @@ import {GrAutocompleteDropdown} from './gr-autocomplete-dropdown';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {queryAll, queryAndAssert} from '../../../test/test-utils';
 import {assertIsDefined} from '../../../utils/common-util';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 
 suite('gr-autocomplete-dropdown', () => {
   let element: GrAutocompleteDropdown;

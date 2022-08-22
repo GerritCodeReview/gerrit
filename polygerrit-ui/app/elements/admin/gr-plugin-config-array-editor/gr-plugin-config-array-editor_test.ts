@@ -10,7 +10,7 @@ import {GrPluginConfigArrayEditor} from './gr-plugin-config-array-editor';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {queryAll, queryAndAssert} from '../../../test/test-utils.js';
 import {GrButton} from '../../shared/gr-button/gr-button.js';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 
 suite('gr-plugin-config-array-editor tests', () => {
   let element: GrPluginConfigArrayEditor;

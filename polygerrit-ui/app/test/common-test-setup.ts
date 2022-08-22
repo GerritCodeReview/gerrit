@@ -31,7 +31,7 @@ import {safeTypesBridge} from '../utils/safe-types-util';
 import {initGlobalVariables} from '../elements/gr-app-global-var-init';
 import 'chai/chai';
 import {chaiDomDiff} from '@open-wc/semantic-dom-diff';
-import {fixtureCleanup} from '@open-wc/testing-helpers';
+import {fixtureCleanup} from '@open-wc/testing';
 import {
   _testOnly_defaultResinReportHandler,
   installPolymerResin,

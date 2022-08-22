@@ -12,7 +12,7 @@ import {
   createAccountWithId,
   createServerInfo,
 } from '../../../test/test-data-generators';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 import {isVisible, stubRestApi} from '../../../test/test-utils';
 
 suite('gr-avatar tests', () => {

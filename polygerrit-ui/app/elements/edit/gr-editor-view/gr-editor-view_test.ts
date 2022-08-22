@@ -23,7 +23,7 @@ import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions'
 import {GrEndpointDecorator} from '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import {GrDefaultEditor} from '../gr-default-editor/gr-default-editor';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 
 suite('gr-editor-view tests', () => {
   let element: GrEditorView;

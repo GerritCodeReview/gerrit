@@ -14,7 +14,7 @@ import {
   createAccountDetailWithId,
   createServerInfo,
 } from '../test/test-data-generators';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 
 suite('gr-app custom light theme tests', () => {
   let element: GrApp;

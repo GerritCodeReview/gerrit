@@ -21,7 +21,7 @@ import './gr-download-dialog';
 import {GrDownloadDialog} from './gr-download-dialog';
 import {mockPromise, queryAll, queryAndAssert} from '../../../test/test-utils';
 import {GrDownloadCommands} from '../../shared/gr-download-commands/gr-download-commands';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 
 function getChangeObject() {
   return {

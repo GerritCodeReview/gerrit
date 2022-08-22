@@ -12,7 +12,7 @@ import {queryAndAssert} from '../../../test/test-utils';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {IronInputElement} from '@polymer/iron-input';
 import {assertIsDefined} from '../../../utils/common-util';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 
 suite('gr-watched-projects-editor tests', () => {
   let element: GrWatchedProjectsEditor;

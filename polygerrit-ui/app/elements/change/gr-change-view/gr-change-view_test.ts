@@ -95,7 +95,7 @@ import {GrChangeStar} from '../../shared/gr-change-star/gr-change-star';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 import {assertIsDefined} from '../../../utils/common-util';
 import {DEFAULT_NUM_FILES_SHOWN} from '../gr-file-list/gr-file-list';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 import {deepClone} from '../../../utils/deep-util';
 
 suite('gr-change-view tests', () => {

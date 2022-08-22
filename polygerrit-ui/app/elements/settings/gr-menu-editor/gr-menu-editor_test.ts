@@ -11,7 +11,7 @@ import {query, queryAndAssert, waitUntil} from '../../../test/test-utils';
 import {PaperButtonElement} from '@polymer/paper-button';
 import {TopMenuItemInfo} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 import {createDefaultPreferences} from '../../../constants/constants';
 
 suite('gr-menu-editor tests', () => {

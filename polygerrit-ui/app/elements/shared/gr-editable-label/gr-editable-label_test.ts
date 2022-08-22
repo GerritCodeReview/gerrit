@@ -10,7 +10,7 @@ import {queryAndAssert} from '../../../utils/common-util';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {GrButton} from '../gr-button/gr-button';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 import {IronDropdownElement} from '@polymer/iron-dropdown';
 import {
   AutocompleteSuggestion,

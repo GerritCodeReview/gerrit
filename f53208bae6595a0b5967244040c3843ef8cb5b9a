@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c5ee8fd_604b8053",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-08-22T17:01:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d2f2f7e_8188bc8c",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 21
+      },
+      "revId": "f53208bae6595a0b5967244040c3843ef8cb5b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c7f8ba75_2ef557d1",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f419ac8_61749832",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-08-22T17:01:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7f8ba75_2ef557d1",
+      "revId": "f53208bae6595a0b5967244040c3843ef8cb5b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5a01973d_10732d48",
@@ -54,6 +96,30 @@
       "writtenOn": "2022-08-22T06:05:05Z",
       "side": 1,
       "message": "nit: s/Model/Type/ ? We don\u0027t seem to use \u0027model\u0027 to describe this kind of difference, but \u0027type\u0027 is pretty standard.",
+      "range": {
+        "startLine": 3117,
+        "startChar": 18,
+        "endLine": 3117,
+        "endChar": 23
+      },
+      "revId": "f53208bae6595a0b5967244040c3843ef8cb5b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b38d6092_35d812d2",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3117,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-08-22T17:01:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a01973d_10732d48",
       "range": {
         "startLine": 3117,
         "startChar": 18,
@@ -87,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c474a71d_f08a8e87",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3119,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-08-22T17:01:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd4f2787_e8a774e1",
+      "range": {
+        "startLine": 3119,
+        "startChar": 51,
+        "endLine": 3119,
+        "endChar": 60
+      },
+      "revId": "f53208bae6595a0b5967244040c3843ef8cb5b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3deaa4b9_51094f5e",
@@ -100,6 +190,30 @@
       "writtenOn": "2022-08-22T06:05:05Z",
       "side": 1,
       "message": "\"repeated with\" ?",
+      "range": {
+        "startLine": 3124,
+        "startChar": 18,
+        "endLine": 3124,
+        "endChar": 30
+      },
+      "revId": "f53208bae6595a0b5967244040c3843ef8cb5b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4a32df6_1291277a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3124,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-08-22T17:01:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3deaa4b9_51094f5e",
       "range": {
         "startLine": 3124,
         "startChar": 18,
@@ -133,6 +247,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "53b61f76_68e597c4",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3129,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-08-22T17:01:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f3f4228_5654987e",
+      "range": {
+        "startLine": 3129,
+        "startChar": 18,
+        "endLine": 3129,
+        "endChar": 27
+      },
+      "revId": "f53208bae6595a0b5967244040c3843ef8cb5b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "070f50be_f4bcbd63",
@@ -146,6 +284,30 @@
       "writtenOn": "2022-08-22T06:05:05Z",
       "side": 1,
       "message": "\"is supported\"",
+      "range": {
+        "startLine": 3130,
+        "startChar": 0,
+        "endLine": 3130,
+        "endChar": 11
+      },
+      "revId": "f53208bae6595a0b5967244040c3843ef8cb5b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07cad32e_cdd74ff7",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3130,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-08-22T17:01:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "070f50be_f4bcbd63",
       "range": {
         "startLine": 3130,
         "startChar": 0,
@@ -173,6 +335,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e066af55_65bae7f2",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3134,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-08-22T17:01:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ce5f0cd_0f902777",
+      "revId": "f53208bae6595a0b5967244040c3843ef8cb5b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9fc6bc6b_a6f68092",
@@ -186,6 +366,30 @@
       "writtenOn": "2022-08-22T06:05:05Z",
       "side": 1,
       "message": "Do you need this variable or can you return \u0027searchAfter\u0027 on line 416?",
+      "range": {
+        "startLine": 412,
+        "startChar": 22,
+        "endLine": 412,
+        "endChar": 38
+      },
+      "revId": "f53208bae6595a0b5967244040c3843ef8cb5b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c51dd293_1869e2b5",
+        "filename": "java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-08-22T17:01:39Z",
+      "side": 1,
+      "message": "Yeah. Fails to compile with error \u0027Local variables referenced from an inner class must be final or effectively final\u0027.",
+      "parentUuid": "9fc6bc6b_a6f68092",
       "range": {
         "startLine": 412,
         "startChar": 22,
@@ -215,6 +419,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f3592512_67c53d8b",
+        "filename": "java/com/google/gerrit/index/QueryOptions.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-08-22T17:01:39Z",
+      "side": 1,
+      "message": "queryOptions are being updated in `IndexedQuery`, for example in the `restart(int start)` method. So, I think it is probably correct to do it there. Why do you think it is apt to do it here instead?",
+      "parentUuid": "c49ebdec_0d4f8d6b",
+      "revId": "f53208bae6595a0b5967244040c3843ef8cb5b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "77bca058_445ab19e",
         "filename": "java/com/google/gerrit/index/query/IndexedQuery.java",
         "patchSetId": 5
@@ -226,6 +448,24 @@
       "writtenOn": "2022-08-22T06:05:05Z",
       "side": 1,
       "message": "Add a comment explaining the `withStart(0)`?",
+      "revId": "f53208bae6595a0b5967244040c3843ef8cb5b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c36ec356_75e670e7",
+        "filename": "java/com/google/gerrit/index/query/IndexedQuery.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-08-22T17:01:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77bca058_445ab19e",
       "revId": "f53208bae6595a0b5967244040c3843ef8cb5b9a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -253,6 +493,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff6c8aa9_19e5f86c",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-08-22T17:01:39Z",
+      "side": 1,
+      "message": "Yeah. Fails to compile with error \u0027Local variables referenced from an inner class must be final or effectively final\u0027.",
+      "parentUuid": "9778a60b_d861f213",
+      "range": {
+        "startLine": 560,
+        "startChar": 19,
+        "endLine": 560,
+        "endChar": 30
+      },
+      "revId": "f53208bae6595a0b5967244040c3843ef8cb5b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c8677dfe_e162641c",
@@ -266,6 +530,30 @@
       "writtenOn": "2022-08-22T06:05:05Z",
       "side": 1,
       "message": "I would split this up with if/then instead of using a ternary",
+      "range": {
+        "startLine": 469,
+        "startChar": 18,
+        "endLine": 469,
+        "endChar": 19
+      },
+      "revId": "f53208bae6595a0b5967244040c3843ef8cb5b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aafa1f43_db8ffc91",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-08-22T17:01:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8677dfe_e162641c",
       "range": {
         "startLine": 469,
         "startChar": 18,

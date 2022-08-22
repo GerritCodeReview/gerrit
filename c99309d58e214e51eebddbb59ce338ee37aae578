@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3cdc241_9a8a6038",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-change.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-22T12:04:29Z",
+      "side": 1,
+      "message": "What about:\n```\n? html`\u003cspan class\u003d${classMap(this.computeChangeStatusClasses(change))}\u003e\n              (${this.computeChangeStatus(change)})\n```\n\nThen you don\u0027t need this ugly let.",
+      "revId": "c99309d58e214e51eebddbb59ce338ee37aae578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

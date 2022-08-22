@@ -5,7 +5,7 @@
  */
 import './gr-checks-chip';
 import './gr-summary-chip';
-import '../../shared/gr-avatar/gr-avatar';
+import '../../shared/gr-avatar/gr-avatar-stack';
 import '../../shared/gr-icon/gr-icon';
 import '../../checks/gr-checks-action';
 import {LitElement, css, html, nothing} from 'lit';
@@ -41,7 +41,6 @@ import {
 import {pluralize} from '../../../utils/string-util';
 import {AccountInfo} from '../../../types/common';
 import {notUndefined} from '../../../types/types';
-import {uniqueDefinedAvatar} from '../../../utils/account-util';
 import {Tab} from '../../../constants/constants';
 import {ChecksTabState, CommentTabState} from '../../../types/events';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';
@@ -272,11 +271,13 @@ export class GrChangeSummary extends LitElement {
           padding-bottom: var(--spacing-s);
           line-height: calc(var(--line-height-normal) + var(--spacing-s));
         }
-        gr-avatar {
-          height: var(--line-height-small, 16px);
-          width: var(--line-height-small, 16px);
-          vertical-align: top;
-          margin-right: var(--spacing-xs);
+        gr-avatar-stack {
+          --avatar-size: var(--line-height-small, 16px);
+          --stack-border-color: var(--warning-background);
+        }
+        .unresolvedIcon {
+          font-size: var(--line-height-small);
+          color: var(--warning-foreground);
         }
         /* The basics of .loadingSpin are defined in shared styles. */
         .loadingSpin {
@@ -610,10 +611,13 @@ export class GrChangeSummary extends LitElement {
       category=${CommentTabState.UNRESOLVED}
       ?hidden=${!countUnresolvedComments}
     >
-      ${unresolvedAuthors.map(
-        account =>
-          html`<gr-avatar .account=${account} imageSize="32"></gr-avatar>`
-      )}
+      <gr-avatar-stack
+        .accounts=${unresolvedAuthors}
+        imageSize="32"
+      >
+        <gr-icon slot="fallback" icon="feedback" filled class="unresolvedIcon">
+        </gr-icon>
+      </gr-avatar-stack>
       ${countUnresolvedComments} unresolved</gr-summary-chip
     >`;
   }
@@ -661,13 +665,10 @@ export class GrChangeSummary extends LitElement {
   }
 
   getAccounts(commentThreads: CommentThread[]): AccountInfo[] {
-    const uniqueAuthors = commentThreads
+    return commentThreads
       .map(getFirstComment)
       .map(comment => comment?.author ?? this.selfAccount)
-      .filter(notUndefined)
-      .filter(account => !!account?.avatars?.[0]?.url)
-      .filter(uniqueDefinedAvatar);
-    return uniqueAuthors.slice(0, 3);
+      .filter(notUndefined);
   }
 }
 

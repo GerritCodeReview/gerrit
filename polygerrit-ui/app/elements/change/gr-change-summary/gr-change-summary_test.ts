@@ -56,6 +56,18 @@ suite('gr-change-summary test', () => {
                   3 drafts
                 </gr-summary-chip>
                 <gr-summary-chip category="unresolved" styletype="warning">
+                  <gr-avatar-stack
+                    avatarSize="16"
+                    borderColor="var(--warning-background)"
+                    imageSize="32"
+                  >
+                    <gr-icon
+                      class="unresolvedIcon"
+                      filled
+                      icon="feedback"
+                      slot="fallback"
+                    ></gr-icon>
+                  </gr-avatar-stack>
                   1 unresolved
                 </gr-summary-chip>
                 <gr-summary-chip

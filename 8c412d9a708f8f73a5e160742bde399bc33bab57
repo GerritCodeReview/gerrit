@@ -45,6 +45,30 @@
       },
       "revId": "8c412d9a708f8f73a5e160742bde399bc33bab57",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "303ae76e_e1ed172e",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-22T13:21:30Z",
+      "side": 1,
+      "message": "Maybe file a separate bug for this?\nI just realised we do this in other places in the UI as well, use the word `comments` instead of `threads` so makes sense to fix it in all places instead of just this one.",
+      "parentUuid": "159ec8b7_b61c1ff0",
+      "range": {
+        "startLine": 374,
+        "startChar": 53,
+        "endLine": 374,
+        "endChar": 60
+      },
+      "revId": "8c412d9a708f8f73a5e160742bde399bc33bab57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

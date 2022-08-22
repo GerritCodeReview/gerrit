@@ -42,40 +42,51 @@ import {DraftInfo} from '../../../utils/comment-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {Modifier} from '../../../utils/dom-util';
 import {SinonStub} from 'sinon';
+import {fixture, html} from '@open-wc/testing';
 
 suite('gr-comment tests', () => {
   let element: GrComment;
+  const account = {
+    email: 'dhruvsri@google.com' as EmailAddress,
+    name: 'Dhruv Srivastava',
+    _account_id: 1083225 as AccountId,
+    avatars: [{url: 'abc', height: 32, width: 32}],
+    registered_on: '123' as Timestamp,
+  };
+  const comment = {
+    ...createComment(),
+    author: {
+      name: 'Mr. Peanutbutter',
+      email: 'tenn1sballchaser@aol.com' as EmailAddress,
+    },
+    id: 'baf0414d_60047215' as UrlEncodedCommentId,
+    line: 5,
+    message: 'This is the test comment message.',
+    updated: '2015-12-08 19:48:33.843000000' as Timestamp,
+  };
 
-  setup(() => {
-    element = fixtureFromElement('gr-comment').instantiate();
-    element.account = {
-      email: 'dhruvsri@google.com' as EmailAddress,
-      name: 'Dhruv Srivastava',
-      _account_id: 1083225 as AccountId,
-      avatars: [{url: 'abc', height: 32, width: 32}],
-      registered_on: '123' as Timestamp,
-    };
-    element.showPatchset = true;
-    element.getRandomInt = () => 1;
-    element.comment = {
-      ...createComment(),
-      author: {
-        name: 'Mr. Peanutbutter',
-        email: 'tenn1sballchaser@aol.com' as EmailAddress,
-      },
-      id: 'baf0414d_60047215' as UrlEncodedCommentId,
-      line: 5,
-      message: 'This is the test comment message.',
-      updated: '2015-12-08 19:48:33.843000000' as Timestamp,
-    };
+  setup(async () => {
+    element = await fixture(
+      html`<gr-comment
+        .account=${account}
+        .showPatchset=${true}
+        .comment=${comment}
+      ></gr-comment>`
+    );
   });
 
   suite('DOM rendering', () => {
     test('renders collapsed', async () => {
-      element.initiallyCollapsed = true;
-      await element.updateComplete;
+      const initiallyCollapsedElement = await fixture(
+        html`<gr-comment
+          .account=${account}
+          .showPatchset=${true}
+          .comment=${comment}
+          .initiallyCollapsed=${true}
+        ></gr-comment>`
+      );
       assert.shadowDom.equal(
-        element,
+        initiallyCollapsedElement,
         /* HTML */ `
           <div class="container" id="container">
             <div class="header" id="header">

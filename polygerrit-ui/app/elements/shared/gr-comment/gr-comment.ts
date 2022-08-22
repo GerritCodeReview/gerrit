@@ -59,7 +59,6 @@ import {ShortcutController} from '../../lit/shortcut-controller';
 import {classMap} from 'lit/directives/class-map.js';
 import {LineNumber} from '../../../api/diff';
 import {CommentSide, SpecialFilePath} from '../../../constants/constants';
-import {getRandomInt} from '../../../utils/math-util';
 import {Subject} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
 import {configModelToken} from '../../../models/config/config-model';
@@ -936,11 +935,6 @@ export class GrComment extends LitElement {
       line: this.comment.line,
       range: this.comment.range,
     });
-  }
-
-  // private, but visible for testing
-  getRandomInt(from: number, to: number) {
-    return getRandomInt(from, to);
   }
 
   private handleCopyLink() {

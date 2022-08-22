@@ -7,7 +7,8 @@ import '../../../test/common-test-setup-karma.js';
 import {addListener} from '@polymer/polymer/lib/utils/gestures.js';
 import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
 import {mockPromise} from '../../../test/test-utils.js';
-import {fixture, html} from '@open-wc/testing-helpers';
+// eslint-disable-next-line import/named
+import {fixture, html} from '@open-wc/testing';
 
 Polymer({
   is: 'gr-event-helper-some-element',

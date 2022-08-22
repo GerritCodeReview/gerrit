@@ -15,7 +15,7 @@ import {
 } from '../../../test/test-data-generators';
 import {ChangeStatus} from '../../../constants/constants';
 import {getVoteForAccount} from '../../../utils/label-util';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 
 suite('gr-label-scores tests', () => {
   const accountId = 123 as AccountId;

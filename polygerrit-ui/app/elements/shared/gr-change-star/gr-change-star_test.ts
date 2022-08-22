@@ -9,7 +9,7 @@ import {GrChangeStar} from './gr-change-star';
 import './gr-change-star';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {createChange} from '../../../test/test-data-generators';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 
 suite('gr-change-star tests', () => {
   let element: GrChangeStar;

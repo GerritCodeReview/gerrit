@@ -29,7 +29,7 @@ import {GrDiffBuilderElement} from './gr-diff-builder-element';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
 import {KeyLocations} from '../gr-diff-processor/gr-diff-processor';
 import {BlameInfo} from '../../../types/common';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 
 const DEFAULT_PREFS = createDefaultDiffPrefs();
 

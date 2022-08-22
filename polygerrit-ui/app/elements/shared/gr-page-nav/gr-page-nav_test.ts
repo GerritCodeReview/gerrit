@@ -6,7 +6,7 @@
 import '../../../test/common-test-setup-karma';
 import './gr-page-nav';
 import {GrPageNav} from './gr-page-nav';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 import {queryAndAssert} from '../../../test/test-utils';
 
 suite('gr-page-nav tests', () => {

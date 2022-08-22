@@ -8,7 +8,7 @@ import './gr-shell-command';
 import {GrShellCommand} from './gr-shell-command';
 import {GrCopyClipboard} from '../gr-copy-clipboard/gr-copy-clipboard';
 import {queryAndAssert} from '../../../test/test-utils';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 
 suite('gr-shell-command tests', () => {
   let element: GrShellCommand;

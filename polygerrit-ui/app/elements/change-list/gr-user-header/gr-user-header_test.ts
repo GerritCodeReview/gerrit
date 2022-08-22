@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup-karma';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 import './gr-user-header';
 import {GrUserHeader} from './gr-user-header';
 import {stubRestApi} from '../../../test/test-utils';

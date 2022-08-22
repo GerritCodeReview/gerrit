@@ -10,7 +10,7 @@ import {GrEditPreferences} from './gr-edit-preferences';
 import {EditPreferencesInfo, ParsedJSON} from '../../../types/common';
 import {IronInputElement} from '@polymer/iron-input';
 import {createDefaultEditPrefs} from '../../../constants/constants';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 
 suite('gr-edit-preferences tests', () => {
   let element: GrEditPreferences;

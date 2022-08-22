@@ -8,7 +8,7 @@ import '../../../test/common-test-setup-karma';
 import './gr-dialog';
 import {GrDialog} from './gr-dialog';
 import {isHidden, queryAndAssert} from '../../../test/test-utils';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 
 suite('gr-dialog tests', () => {
   let element: GrDialog;

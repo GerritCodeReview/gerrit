@@ -23,7 +23,7 @@ import {
   OpenFixPreviewEventDetail,
 } from '../../../types/events';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 
 suite('gr-apply-fix-dialog tests', () => {
   let element: GrApplyFixDialog;

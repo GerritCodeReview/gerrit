@@ -7,7 +7,7 @@ import '../../../test/common-test-setup-karma';
 import './gr-plugin-host';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {GrPluginHost} from './gr-plugin-host';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 import {SinonStub} from 'sinon';
 import {createServerInfo} from '../../../test/test-data-generators';
 

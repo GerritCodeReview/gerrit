@@ -42,7 +42,7 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {CommentSide} from '../../../constants/constants';
 import {SinonStubbedMember} from 'sinon';
 import {html} from 'lit';
-import {fixture} from '@open-wc/testing-helpers';
+import {fixture} from '@open-wc/testing';
 
 suite('gr-message tests', () => {
   let element: GrMessage;

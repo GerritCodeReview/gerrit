@@ -5,7 +5,7 @@
  */
 import '../../test/common-test-setup-karma';
 import './gr-hovercard-run';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 import {GrHovercardRun} from './gr-hovercard-run';
 import {fakeRun0} from '../../models/checks/checks-fakes';
 

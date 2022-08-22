@@ -14,7 +14,7 @@ import {
 } from '../../../test/test-utils';
 import {IronInputElement} from '@polymer/iron-input';
 import {GroupId} from '../../../types/common';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 
 suite('gr-create-group-dialog tests', () => {
   let element: GrCreateGroupDialog;

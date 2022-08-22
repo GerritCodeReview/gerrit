@@ -8,7 +8,7 @@ import './gr-smart-search';
 import {GrSmartSearch} from './gr-smart-search';
 import {stubRestApi} from '../../../test/test-utils';
 import {EmailAddress, GroupId, UrlEncodedRepoName} from '../../../types/common';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 
 suite('gr-smart-search tests', () => {
   let element: GrSmartSearch;

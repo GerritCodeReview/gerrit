@@ -13,7 +13,7 @@ import {
   createAccountWithId,
   createServerInfo,
 } from '../../../test/test-data-generators';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 import {GrButton} from '../../shared/gr-button/gr-button';
 
 suite('gr-registration-dialog tests', () => {

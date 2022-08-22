@@ -6,7 +6,7 @@
 import '../test/common-test-setup-karma';
 import {getFocusableElements, getFocusableElementsReverse} from './focusable';
 import {html, render} from 'lit';
-import {fixture} from '@open-wc/testing-helpers';
+import {fixture} from '@open-wc/testing';
 
 async function createDom() {
   const container = await fixture<HTMLDivElement>(html`<div></div>`);

@@ -7,7 +7,7 @@ import '../../../test/common-test-setup-karma';
 import './gr-default-editor';
 import {GrDefaultEditor} from './gr-default-editor';
 import {mockPromise, queryAndAssert} from '../../../test/test-utils';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 
 suite('gr-default-editor tests', () => {
   let element: GrDefaultEditor;

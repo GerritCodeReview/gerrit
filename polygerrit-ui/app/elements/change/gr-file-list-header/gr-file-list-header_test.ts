@@ -27,7 +27,7 @@ import {
 import {ChangeInfo, ChangeStatus} from '../../../api/rest-api';
 import {PatchSet} from '../../../utils/patch-set-util';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 import {GrButton} from '../../shared/gr-button/gr-button';
 
 suite('gr-file-list-header tests', () => {

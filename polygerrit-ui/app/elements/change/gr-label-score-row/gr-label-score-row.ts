@@ -382,13 +382,23 @@ export class GrLabelScoreRow extends LitElement {
     return this.permittedLabels[this.label.name] || [];
   }
 
-  private computeLabelValueTitle(value: string) {
+  // private but used in tests
+  computeLabelValueTitle(value: string) {
     if (!this.labels || !this.label) return '';
-    const label = this.labels[this.label.name];
-    if (label && (label as DetailedLabelInfo).values) {
+    const label = this.labels[this.label.name] as DetailedLabelInfo;
+    if (label && label.values) {
+      // In case the user already voted a certain value and then selects 0
+      // we should show "Reset Vote" instead of "No Value selected"
+      if (
+        Number(value) === 0 &&
+        this.label.value &&
+        Number(this.label.value) !== 0
+      ) {
+        return 'Reset Vote';
+      }
       // TODO(TS): maybe add a type guard for DetailedLabelInfo and
       // QuickLabelInfo
-      return (label as DetailedLabelInfo).values![value];
+      return label.values[value];
     } else {
       return '';
     }

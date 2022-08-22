@@ -98,11 +98,6 @@ identifiable information. Notably, Gerrit cannot:
 * Remove a user's e-mail from all existing commits
 * Remove a user's username
 
-There is also a known
-link:https://bugs.chromium.org/p/gerrit/issues/detail?id=14185[bug] where a
-user's username is stored in metadata for link:user-attention-set.html[Attention
-Set].
-
 
 ## Open Source Software Limitations
 

@@ -14,6 +14,7 @@ import {
 import {ChangeStatus} from '../../../constants/constants';
 import {isChangeInfo} from '../../../utils/change-util';
 import {ifDefined} from 'lit/directives/if-defined.js';
+import {classMap} from 'lit/directives/class-map.js';
 
 @customElement('gr-related-change')
 export class GrRelatedChange extends LitElement {
@@ -99,60 +100,48 @@ export class GrRelatedChange extends LitElement {
   override render() {
     const change = this.change;
     if (!change) throw new Error('Missing change');
-    const linkClass = this._computeLinkClass(change);
+    const linkClass = {
+      strikethrough: change.status === ChangeStatus.ABANDONED,
+      submittable: !!change.submittable,
+    };
+    let statusClass = {};
+    if (!isChangeInfo(change)) {
+      statusClass = {
+        status: true,
+        notCurrent: change._revision_number !== change._current_revision_number,
+        indirectAncestor: !!this.isIndirectAncestor(change),
+        submittable: !!change.submittable,
+        hidden: change.status === ChangeStatus.NEW,
+      };
+    }
     return html`
       <div class="changeContainer">
         <a
           href=${ifDefined(this.href)}
           aria-label=${ifDefined(this.label)}
-          class=${linkClass}
+          class=${classMap(linkClass)}
           ><slot></slot
         ></a>
         ${this.showSubmittableCheck
           ? html`<span
               tabindex="-1"
               title="Submittable"
-              class="submittableCheck ${linkClass}"
+              class="submittableCheck ${classMap(linkClass)}"
               role="img"
               aria-label="Submittable"
               >✓</span
             >`
           : ''}
         ${this.showChangeStatus && !isChangeInfo(change)
-          ? html`<span class=${this._computeChangeStatusClass(change)}>
-              (${this._computeChangeStatus(change)})
+          ? html`<span class=${classMap(statusClass)}>
+              (${this.computeChangeStatus(change)})
             </span>`
           : ''}
       </div>
     `;
   }
 
-  _computeLinkClass(change: ChangeInfo | RelatedChangeAndCommitInfo) {
-    const statuses = [];
-    if (change.status === ChangeStatus.ABANDONED) {
-      statuses.push('strikethrough');
-    }
-    if (change.submittable) {
-      statuses.push('submittable');
-    }
-    return statuses.join(' ');
-  }
-
-  _computeChangeStatusClass(change: RelatedChangeAndCommitInfo) {
-    const classes = ['status'];
-    if (change._revision_number !== change._current_revision_number) {
-      classes.push('notCurrent');
-    } else if (this._isIndirectAncestor(change)) {
-      classes.push('indirectAncestor');
-    } else if (change.submittable) {
-      classes.push('submittable');
-    } else if (change.status === ChangeStatus.NEW) {
-      classes.push('hidden');
-    }
-    return classes.join(' ');
-  }
-
-  _computeChangeStatus(change: RelatedChangeAndCommitInfo) {
+  private computeChangeStatus(change: RelatedChangeAndCommitInfo) {
     switch (change.status) {
       case ChangeStatus.MERGED:
         return 'Merged';
@@ -161,7 +150,7 @@ export class GrRelatedChange extends LitElement {
     }
     if (change._revision_number !== change._current_revision_number) {
       return 'Not current';
-    } else if (this._isIndirectAncestor(change)) {
+    } else if (this.isIndirectAncestor(change)) {
       return 'Indirect ancestor';
     } else if (change.submittable) {
       return 'Submittable';
@@ -169,7 +158,7 @@ export class GrRelatedChange extends LitElement {
     return '';
   }
 
-  _isIndirectAncestor(change: RelatedChangeAndCommitInfo) {
+  private isIndirectAncestor(change: RelatedChangeAndCommitInfo) {
     return (
       this.connectedRevisions &&
       !this.connectedRevisions.includes(change.commit.commit)

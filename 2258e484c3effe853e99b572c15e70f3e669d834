@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d1ad51a_14bf661a",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-22T10:31:03Z",
+      "side": 1,
+      "message": "There are two \u0026nbsp; between repo and branch.",
+      "range": {
+        "startLine": 288,
+        "startChar": 25,
+        "endLine": 289,
+        "endChar": 34
+      },
+      "revId": "2258e484c3effe853e99b572c15e70f3e669d834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

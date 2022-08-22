@@ -22,6 +22,47 @@
       },
       "revId": "60d90129c130d900bbb867d97c7bb9f966bf163e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5414a136_4d9d9d53",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-22T09:36:57Z",
+      "side": 1,
+      "message": "Makes sense.",
+      "parentUuid": "d0880b3f_fb3ed057",
+      "range": {
+        "startLine": 209,
+        "startChar": 17,
+        "endLine": 209,
+        "endChar": 41
+      },
+      "revId": "60d90129c130d900bbb867d97c7bb9f966bf163e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49f58b1a_e293fb58",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-22T09:36:57Z",
+      "side": 1,
+      "message": "Can you get a screenshot? I\u0027ve had issues with whitespace getting trimmed and had to use `\u0026nbsp;`",
+      "revId": "60d90129c130d900bbb867d97c7bb9f966bf163e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

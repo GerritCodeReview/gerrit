@@ -16,6 +16,24 @@
       "message": "Consider computing this into a variable to keep the code a bit more legible.",
       "revId": "871026b7567e38ad5ee620b30e901dd0fde1b07b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd793e16_7c885310",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-change.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-22T11:54:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2cb1bea_55940ac7",
+      "revId": "871026b7567e38ad5ee620b30e901dd0fde1b07b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

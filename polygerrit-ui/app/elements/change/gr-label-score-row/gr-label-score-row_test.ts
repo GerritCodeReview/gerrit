@@ -106,6 +106,17 @@ suite('gr-label-row-score tests', () => {
     checkAriaCheckedValid();
   });
 
+  test('Reset Vote title', () => {
+    // User already voted +1 so we show reset vote
+    assert.equal(element.computeLabelValueTitle('0'), 'Reset Vote');
+    element.label = {
+      name: 'Verified',
+      value: '0',
+    };
+    // User voted 0 and selected 0 hence no score
+    assert.equal(element.computeLabelValueTitle('0'), 'No score');
+  });
+
   test('_computeVoteAttribute', () => {
     let value = 1;
     let index = 0;
@@ -221,7 +232,7 @@ suite('gr-label-row-score tests', () => {
     const selectedValueLabel = element.shadowRoot!.querySelector(
       '#selectedValueLabel'
     );
-    assert.strictEqual(selectedValueLabel!.textContent!.trim(), 'No score');
+    assert.strictEqual(selectedValueLabel!.textContent!.trim(), 'Reset Vote');
     checkAriaCheckedValid();
   });
 
@@ -337,10 +348,15 @@ suite('gr-label-row-score tests', () => {
               role="button"
               tabindex="0"
               data-vote="neutral"
+              title="Reset Vote"
               votechip=""
               flatten=""
             >
-              <gr-tooltip-content light-tooltip="" has-tooltip="">
+              <gr-tooltip-content
+                light-tooltip=""
+                title="Reset Vote"
+                has-tooltip=""
+              >
                 0
               </gr-tooltip-content>
             </gr-button>

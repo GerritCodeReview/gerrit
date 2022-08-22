@@ -68,11 +68,6 @@ export class GrEditableLabel extends LitElement {
   /* private but used in test */
   @state() inputText = '';
 
-  // This is used to push the iron-input element up on the page, so
-  // the input is placed in approximately the same position as the
-  // trigger.
-  @state() readonly verticalOffset = -30;
-
   @property({type: Boolean})
   showAsEditPencil = false;
 
@@ -160,7 +155,6 @@ export class GrEditableLabel extends LitElement {
         id="dropdown"
         .verticalAlign=${'auto'}
         .horizontalAlign=${'auto'}
-        .verticalOffset=${this.verticalOffset}
         .allowOutsideScroll=${true}
         .noCancelOnEscKey=${true}
         .noCancelOnOutsideClick=${true}

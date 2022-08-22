@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c3c2451_ea5ef7a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-22T09:14:03Z",
+      "side": 1,
+      "message": "Why most and not all?\n\nCan we get rid of basicFixture?",
+      "revId": "4bdce2993caecfb9d89d40cdb9afbe36a4edc0d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd23035e_3478d5d0",
+        "filename": "polygerrit-ui/app/models/dependency_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-22T09:14:03Z",
+      "side": 1,
+      "message": "async not necessary",
+      "revId": "4bdce2993caecfb9d89d40cdb9afbe36a4edc0d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

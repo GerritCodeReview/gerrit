@@ -956,7 +956,7 @@ export class GrChangeMetadata extends LitElement {
     if (!change || !project) {
       return '';
     }
-    return GerritNav.getUrlForChangeById(change, project, patchset);
+    return GerritNav.getUrlForChangeById(change, project, 'metadata', patchset);
   }
 
   private computeHashtagUrl(hashtag: Hashtag) {

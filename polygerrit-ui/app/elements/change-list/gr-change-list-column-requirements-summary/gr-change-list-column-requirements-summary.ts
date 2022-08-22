@@ -35,7 +35,7 @@ export class GrChangeListColumnRequirementsSummary extends LitElement {
           margin-right: var(--spacing-xs);
         }
         gr-icon.commentIcon {
-          color: var(--deemphasized-text-color);
+          color: var(--warning-foreground);
           margin-left: var(--spacing-s);
         }
         span {
@@ -134,7 +134,7 @@ export class GrChangeListColumnRequirementsSummary extends LitElement {
     if (!this.change?.unresolved_comment_count) return;
     return html`<gr-icon
       class="commentIcon"
-      icon="mode_comment"
+      icon="feedback"
       filled
       .title=${pluralize(
         this.change?.unresolved_comment_count,

@@ -65,6 +65,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f16832b_bced325c",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-22T18:43:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59f3fa99_328db39f",
+      "range": {
+        "startLine": 498,
+        "startChar": 19,
+        "endLine": 498,
+        "endChar": 30
+      },
+      "revId": "ef0f5de0762ac8670f9bfd92ccfa1f6553b49440",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2089f9ea_51db73b1",
@@ -78,6 +102,30 @@
       "writtenOn": "2022-08-22T16:18:01Z",
       "side": 1,
       "message": "Maybe you can test this is a separate dedicated test case where you only apply the `assert.dom.equal` to the `span.path` of each row.",
+      "range": {
+        "startLine": 275,
+        "startChar": 12,
+        "endLine": 283,
+        "endChar": 16
+      },
+      "revId": "ef0f5de0762ac8670f9bfd92ccfa1f6553b49440",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13dfd1a9_73b998e5",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-22T18:43:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2089f9ea_51db73b1",
       "range": {
         "startLine": 275,
         "startChar": 12,

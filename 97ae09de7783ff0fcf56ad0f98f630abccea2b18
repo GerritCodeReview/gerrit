@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f7a4b2d_853af06a",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-22T09:50:17Z",
+      "side": 0,
+      "message": "Nice!!",
+      "range": {
+        "startLine": 378,
+        "startChar": 18,
+        "endLine": 379,
+        "endChar": 34
+      },
+      "revId": "97ae09de7783ff0fcf56ad0f98f630abccea2b18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

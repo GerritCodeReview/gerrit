@@ -180,7 +180,10 @@ suite('gr-file-list tests', () => {
           </div>
           <span class="path" role="gridcell">
             <a class="pathLink">
-              <span class="fullFileName" title="'/file0"> '/file0 </span>
+              <span class="fullFileName" title="'/file0">
+                <span class="newFilePath"> '/ </span>
+                <span class="fileName"> file0 </span>
+              </span>
               <span class="truncatedFileName" title="'/file0"> …/file0 </span>
               <gr-copy-clipboard hideinput=""> </gr-copy-clipboard>
             </a>
@@ -254,6 +257,44 @@ suite('gr-file-list tests', () => {
             </span>
           </div>
         </div>`
+      );
+    });
+
+    test('renders file paths', async () => {
+      element.files = createFiles(2, {lines_inserted: 9});
+      await element.updateComplete;
+      const fileRows = queryAll<HTMLDivElement>(element, '.file-row');
+
+      assert.dom.equal(
+        fileRows[0].querySelector('.path'),
+        /* HTML */ `
+          <span class="path" role="gridcell">
+            <a class="pathLink">
+              <span class="fullFileName" title="'/file0">
+                <span class="newFilePath"> '/ </span>
+                <span class="fileName"> file0 </span>
+              </span>
+              <span class="truncatedFileName" title="'/file0"> …/file0 </span>
+              <gr-copy-clipboard hideinput=""> </gr-copy-clipboard>
+            </a>
+          </span>
+        `
+      );
+      // The second row will have a matchingFilePath instead of newFilePath.
+      assert.dom.equal(
+        fileRows[1].querySelector('.path'),
+        /* HTML */ `
+          <span class="path" role="gridcell">
+            <a class="pathLink">
+              <span class="fullFileName" title="'/file1">
+                <span class="matchingFilePath"> '/ </span>
+                <span class="fileName"> file1 </span>
+              </span>
+              <span class="truncatedFileName" title="'/file1"> …/file1 </span>
+              <gr-copy-clipboard hideinput=""> </gr-copy-clipboard>
+            </a>
+          </span>
+        `
       );
     });
 

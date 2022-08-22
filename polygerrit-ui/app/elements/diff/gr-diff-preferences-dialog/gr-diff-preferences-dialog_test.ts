@@ -11,7 +11,7 @@ import {queryAndAssert, stubRestApi, waitUntil} from '../../../test/test-utils';
 import {DiffPreferencesInfo} from '../../../api/diff';
 import {ParsedJSON} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 
 suite('gr-diff-preferences-dialog', () => {
   let element: GrDiffPreferencesDialog;

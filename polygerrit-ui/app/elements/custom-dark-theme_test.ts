@@ -8,7 +8,7 @@ import {getComputedStyleValue} from '../utils/dom-util';
 import './gr-app';
 import {getPluginLoader} from './shared/gr-js-api-interface/gr-plugin-loader';
 import {GrApp} from './gr-app';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 
 suite('gr-app custom dark theme tests', () => {
   let element: GrApp;

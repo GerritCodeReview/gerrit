@@ -7,7 +7,7 @@ import '../../../test/common-test-setup-karma';
 import './gr-date-formatter';
 import {GrDateFormatter} from './gr-date-formatter';
 import {parseDate} from '../../../utils/date-util';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 import {query, queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {GrTooltipContent} from '../gr-tooltip-content/gr-tooltip-content';
 import {Timestamp} from '../../../api/rest-api';

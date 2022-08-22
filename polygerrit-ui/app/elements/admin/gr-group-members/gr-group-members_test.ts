@@ -29,7 +29,7 @@ import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions'
 import {PageErrorEvent} from '../../../types/events.js';
 import {getAccountSuggestions} from '../../../utils/account-util';
 import {getAppContext} from '../../../services/app-context';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 
 suite('gr-group-members tests', () => {
   let element: GrGroupMembers;

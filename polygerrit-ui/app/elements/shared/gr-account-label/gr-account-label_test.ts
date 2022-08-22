@@ -21,7 +21,7 @@ import {
   createServerInfo,
 } from '../../../test/test-data-generators';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 
 suite('gr-account-label tests', () => {
   let element: GrAccountLabel;

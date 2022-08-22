@@ -17,7 +17,7 @@ import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions'
 import {GrShellCommand} from '../gr-shell-command/gr-shell-command';
 import {createDefaultPreferences} from '../../../constants/constants';
 import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 
 suite('gr-download-commands', () => {
   let element: GrDownloadCommands;

@@ -7,7 +7,7 @@ import '../../../test/common-test-setup-karma';
 import './gr-endpoint-decorator';
 import '../gr-endpoint-param/gr-endpoint-param';
 import '../gr-endpoint-slot/gr-endpoint-slot';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 import {
   mockPromise,
   queryAndAssert,

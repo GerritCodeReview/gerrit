@@ -9,7 +9,7 @@ import {GrGroupList} from './gr-group-list';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {GroupId, GroupInfo, GroupName} from '../../../types/common';
 import {stubRestApi} from '../../../test/test-utils';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 
 suite('gr-group-list tests', () => {
   let element: GrGroupList;

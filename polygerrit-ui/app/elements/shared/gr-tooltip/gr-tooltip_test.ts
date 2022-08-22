@@ -7,7 +7,7 @@ import '../../../test/common-test-setup-karma';
 import './gr-tooltip';
 import {GrTooltip} from './gr-tooltip';
 import {queryAndAssert} from '../../../test/test-utils';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 
 suite('gr-tooltip tests', () => {
   let element: GrTooltip;

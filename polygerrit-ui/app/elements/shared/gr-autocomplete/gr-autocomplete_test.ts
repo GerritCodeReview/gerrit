@@ -10,7 +10,7 @@ import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions'
 import {queryAndAssert, waitUntil} from '../../../test/test-utils';
 import {GrAutocompleteDropdown} from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 import {Key} from '../../../utils/dom-util';
 
 suite('gr-autocomplete tests', () => {

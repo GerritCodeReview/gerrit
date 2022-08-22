@@ -9,7 +9,7 @@ import {GrTextarea} from './gr-textarea';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {ItemSelectedEvent} from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 import {stubFlags, stubRestApi, waitUntil} from '../../../test/test-utils';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 import {createAccountWithEmail} from '../../../test/test-data-generators';
 
 suite('gr-textarea tests', () => {

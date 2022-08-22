@@ -5,7 +5,7 @@
  */
 import '../../../test/common-test-setup-karma.js';
 import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
-import {fixture, html} from '@open-wc/testing-helpers';
+import { fixture, html } from "@open-wc/testing";
 
 Polymer({
   is: 'gr-attribute-helper-some-element',

@@ -9,7 +9,6 @@ import './gr-diff';
 import {GrDiffBuilderImage} from '../gr-diff-builder/gr-diff-builder-image';
 import {getComputedStyleValue} from '../../../utils/dom-util';
 import {_setHiddenScroll} from '../../../scripts/hiddenscroll';
-import {runA11yAudit} from '../../../test/a11y-test-utils';
 import '@polymer/paper-button/paper-button';
 import {
   DiffContent,
@@ -34,11 +33,11 @@ import {GrDiff} from './gr-diff';
 import {ImageInfo} from '../../../types/common';
 import {GrRangedCommentHint} from '../gr-ranged-comment-hint/gr-ranged-comment-hint';
 import {assertIsDefined} from '../../../utils/common-util';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html, assert} from '@open-wc/testing';
 
 suite('gr-diff a11y test', () => {
   test('audit', async () => {
-    await runA11yAudit(fixtureFromElement('gr-diff'));
+    assert.isAccessible(await fixture(html`<gr-diff></gr-diff>`));
   });
 });
 

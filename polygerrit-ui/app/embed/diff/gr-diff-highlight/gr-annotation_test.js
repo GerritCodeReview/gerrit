@@ -10,7 +10,7 @@ import {
   sanitizeDOMValue,
   setSanitizeDOMValue,
 } from '@polymer/polymer/lib/utils/settings.js';
-import {fixture, html} from '@open-wc/testing-helpers';
+import { fixture, html } from "@open-wc/testing";
 
 suite('annotation', () => {
   let str;

@@ -19,7 +19,7 @@ import {
 import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 import {AccountId} from '../../../types/common';
 import {waitUntil} from '../../../test/test-utils';
-import {fixture} from '@open-wc/testing-helpers';
+import {fixture} from '@open-wc/testing';
 import {html} from 'lit';
 
 suite('gr-error-manager tests', () => {

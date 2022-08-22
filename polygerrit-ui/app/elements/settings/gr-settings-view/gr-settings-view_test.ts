@@ -33,7 +33,7 @@ import {
 } from '../../../test/test-data-generators';
 import {GrSelect} from '../../shared/gr-select/gr-select';
 import {AppElementSettingsParam} from '../../gr-app-types';
-import {fixture, html} from '@open-wc/testing-helpers';
+import {fixture, html} from '@open-wc/testing';
 
 suite('gr-settings-view tests', () => {
   let element: GrSettingsView;

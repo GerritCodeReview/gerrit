@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1564e60e_37b624ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-08-22T09:17:10Z",
+      "side": 1,
+      "message": "\"which reads the reservoir type\" ?",
+      "range": {
+        "startLine": 16,
+        "startChar": 44,
+        "endLine": 17,
+        "endChar": 9
+      },
+      "revId": "f714c17db384198d009e4c4897133da3776a0a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6359005_da6a4f00",
+        "filename": "java/com/google/gerrit/metrics/dropwizard/DropWizardReservoirProvider.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-08-22T09:17:10Z",
+      "side": 1,
+      "message": "what about always calling this constructor and handling the defaulting in the `MetricsConfig` implementation?\n\nIt will also allow defining one of the 2 parameters only (alpha or size), which at the moment is not possible.",
+      "range": {
+        "startLine": 43,
+        "startChar": 14,
+        "endLine": 43,
+        "endChar": 97
+      },
+      "revId": "f714c17db384198d009e4c4897133da3776a0a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8404362_98b671c1",
+        "filename": "javatests/com/google/gerrit/metrics/dropwizard/DropWizardReservoirProviderTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-08-22T09:17:10Z",
+      "side": 1,
+      "message": "Magic number, shall we add a constant in the MetricConfig implementation?",
+      "range": {
+        "startLine": 59,
+        "startChar": 48,
+        "endLine": 59,
+        "endChar": 51
+      },
+      "revId": "f714c17db384198d009e4c4897133da3776a0a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

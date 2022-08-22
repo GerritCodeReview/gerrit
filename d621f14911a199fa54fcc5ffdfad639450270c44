@@ -22,6 +22,53 @@
       },
       "revId": "d621f14911a199fa54fcc5ffdfad639450270c44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcd4764e_c151b020",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2128,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-08-22T09:25:33Z",
+      "side": 1,
+      "message": "I do not think we need to align this endpoint to edits.\n\nEdits are in-progress draft of the patch sets, while we want to create a new patch-set/change from the provided patch.",
+      "parentUuid": "5be11420_6d773b00",
+      "range": {
+        "startLine": 2128,
+        "startChar": 4,
+        "endLine": 2128,
+        "endChar": 27
+      },
+      "revId": "d621f14911a199fa54fcc5ffdfad639450270c44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99dc2f80_2d144cfd",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ApplyPatchInput.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-08-22T09:25:33Z",
+      "side": 1,
+      "message": "Do we need a base-commit in input? Which parent will the new patch set have?",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 29
+      },
+      "revId": "d621f14911a199fa54fcc5ffdfad639450270c44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "af4ac829_1e481e6d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2130,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-08-22T09:25:33Z",
+      "side": 1,
+      "message": "Following up on comment thread https://gerrit-review.googlesource.com/c/gerrit/+/340065/comments/70e5760f_2942f963,\nI though we agreed to add ApplyPatchInput to CreateChange, so it would be possible to create a change with the first PS from the ApplyPatchInput.\nThen we need to add this new parameter and document this behavior.",
+      "parentUuid": "d24c0b86_07b6b277",
+      "range": {
+        "startLine": 2130,
+        "startChar": 6,
+        "endLine": 2130,
+        "endChar": 58
+      },
+      "revId": "0c689fd64e9d0e60fa9bbdab680be18f436b07af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "af62a17d_a4410134",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 5
@@ -214,6 +238,30 @@
       "side": 1,
       "message": "This was copied from [MergePatchSetInput](https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#merge-patch-set-input).\nI assumed it\u0027s being used by scripts which are not associated with a specific user.",
       "parentUuid": "d4350ac2_03cc8641",
+      "range": {
+        "startLine": 23,
+        "startChar": 9,
+        "endLine": 23,
+        "endChar": 28
+      },
+      "revId": "0c689fd64e9d0e60fa9bbdab680be18f436b07af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6aab386c_8d50573c",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ApplyPatchInput.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-08-22T09:25:33Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ddee846f_28b5ecce",
       "range": {
         "startLine": 23,
         "startChar": 9,

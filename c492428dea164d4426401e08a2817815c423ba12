@@ -43,6 +43,53 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4286d980_0d5ca15f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-23T15:11:16Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "5a7de8c0_5732ae5f",
+      "range": {
+        "startLine": 614,
+        "startChar": 0,
+        "endLine": 614,
+        "endChar": 47
+      },
+      "revId": "c492428dea164d4426401e08a2817815c423ba12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6f35dec_4f3bcdc3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar-stack.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-23T15:11:16Z",
+      "side": 1,
+      "message": "```suggestion\n * Copyright 2022 Google LLC\n```",
+      "range": {
+        "startLine": 3,
+        "startChar": 13,
+        "endLine": 3,
+        "endChar": 17
+      },
+      "revId": "c492428dea164d4426401e08a2817815c423ba12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cac1ebe3_48d18db6",
         "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar-stack.ts",
         "patchSetId": 2
@@ -83,6 +130,23 @@
         "endLine": 98,
         "endChar": 18
       },
+      "revId": "c492428dea164d4426401e08a2817815c423ba12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15ac23f5_72e82e53",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar-stack.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-23T15:11:16Z",
+      "side": 1,
+      "message": "Maybe use a `:not(:first-child)` css rule for this.",
       "revId": "c492428dea164d4426401e08a2817815c423ba12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

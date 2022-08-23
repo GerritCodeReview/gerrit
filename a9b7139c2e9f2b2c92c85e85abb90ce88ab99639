@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75cefdfb_3a914f56",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-23T14:22:00Z",
+      "side": 1,
+      "message": "Can you describe the issue/fix a bit more in the commit message? It sounded like a difficult bug, so I would appreciate some guidance to understand this tiny fix to the problem. The comments you have added make it seem like it needs to correct for newlines mainly?",
+      "revId": "a9b7139c2e9f2b2c92c85e85abb90ce88ab99639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98d18532_24acb9b5",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-23T14:22:00Z",
+      "side": 1,
+      "message": "consider simplifying to an `else if (out_lines) {`",
+      "range": {
+        "startLine": 286,
+        "startChar": 12,
+        "endLine": 289,
+        "endChar": 14
+      },
+      "revId": "a9b7139c2e9f2b2c92c85e85abb90ce88ab99639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

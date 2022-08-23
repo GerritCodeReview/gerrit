@@ -43,6 +43,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cac1ebe3_48d18db6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar-stack.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-23T15:07:08Z",
+      "side": 1,
+      "message": "should we look for ones with the right size? I am guessing this is currently finding N users with any avatars but then trying to load a specific size for those users that may not exist?",
+      "range": {
+        "startLine": 84,
+        "startChar": 45,
+        "endLine": 84,
+        "endChar": 47
+      },
+      "revId": "c492428dea164d4426401e08a2817815c423ba12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dfcbce96_74e47f0c",
         "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar-stack.ts",
         "patchSetId": 2
@@ -59,6 +82,52 @@
         "startChar": 11,
         "endLine": 98,
         "endChar": 18
+      },
+      "revId": "c492428dea164d4426401e08a2817815c423ba12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8628ea17_8ab8c770",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar-stack_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-23T15:07:08Z",
+      "side": 1,
+      "message": "use \u0027@open-wc/testing\u0027 now. https://gerrit-review.googlesource.com/c/gerrit/+/343603",
+      "range": {
+        "startLine": 12,
+        "startChar": 29,
+        "endLine": 12,
+        "endChar": 53
+      },
+      "revId": "c492428dea164d4426401e08a2817815c423ba12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35d7ac1c_2c9d9f7b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar-stack_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-23T15:07:08Z",
+      "side": 1,
+      "message": "add another test for other fallback case (0 accounts with avatars)",
+      "range": {
+        "startLine": 70,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 24
       },
       "revId": "c492428dea164d4426401e08a2817815c423ba12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d47d185_ef83e23e",
+        "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-23T13:33:47Z",
+      "side": 1,
+      "message": "Add a comment that `() \u003d\u003e {}` is an errFn and why we are ignoring errors.",
+      "range": {
+        "startLine": 45,
+        "startChar": 68,
+        "endLine": 45,
+        "endChar": 76
+      },
+      "revId": "606e1a8a1b0dffb055946965df96fe4284777558",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2a0b3eb_c61cc67d",
+        "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-23T13:33:47Z",
+      "side": 1,
+      "message": "Maybe actually update the state. Otherwise you run the risk of continually trying again to load account details for an email address.",
+      "revId": "606e1a8a1b0dffb055946965df96fe4284777558",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "76a6a88c_4a2b857d",
+        "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-23T14:27:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d47d185_ef83e23e",
+      "range": {
+        "startLine": 45,
+        "startChar": 68,
+        "endLine": 45,
+        "endChar": 76
+      },
+      "revId": "606e1a8a1b0dffb055946965df96fe4284777558",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b2a0b3eb_c61cc67d",
@@ -37,6 +61,24 @@
       "writtenOn": "2022-08-23T13:33:47Z",
       "side": 1,
       "message": "Maybe actually update the state. Otherwise you run the risk of continually trying again to load account details for an email address.",
+      "revId": "606e1a8a1b0dffb055946965df96fe4284777558",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73874f20_e54572c7",
+        "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-23T14:27:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2a0b3eb_c61cc67d",
       "revId": "606e1a8a1b0dffb055946965df96fe4284777558",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -80,6 +80,24 @@
       "parentUuid": "6efbab76_daca4614",
       "revId": "6e80489d378dc437cd02e997e341b6754f1ed7e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e5903f6_4e0cf63e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-08-23T22:06:39Z",
+      "side": 1,
+      "message": "@hanwen@google.com Thanks for bringing to my attention.\n\nInternally we have a custom implementation of MemoryCacheFactory (SiteCacheFactory). There exists a removalListener (GuavaCachePool#createCache) that publishes pubsub events on cache invalidations (GuavaCachePool#onInvalidate). Other tasks should receive these events and evict their caches (GuavaCachePool#onGlobalUpdateEvent).\n\nFinally we need to register this cache (internally) to be invalidated via PubSub. We have this setup for other in-memory caches (e.g. Project cache \"projects\" and others - GobCaches for a pointer).\n\n@nasser.grainawi@linaro.org I was unsure about the existence of a pubsub mechanism for cache invalidations in OS code/plugins. I did a quick code search but it looks like there isn\u0027t. In this case, yes you can set aggressive maxAge. Note that this problem is not specific to this cache, for example other in-memory caches (e.g. \"groups\" cache - see [1]) are invalidated in the same way.\nTo bring more context, Iba2284a7586b (which is guarded by an experiment) is now rolled out to all our instances and caused an increase to the p90 latencies - among others - which I\u0027m trying to enhance with this change.\n\nWe can also set this cache to disabled by default with a hint that it can optimize performance for \"has:drafts\" queries.\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#cache_names",
+      "parentUuid": "6efbab76_daca4614",
+      "revId": "6e80489d378dc437cd02e997e341b6754f1ed7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

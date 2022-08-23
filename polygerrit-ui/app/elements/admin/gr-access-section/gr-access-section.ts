@@ -357,6 +357,7 @@ export class GrAccessSection extends LitElement {
     if (!this.permissions) {
       return;
     }
+    delete this.section?.value.permissions[this.permissions[index].id];
     this.permissions = this.permissions
       .slice(0, index)
       .concat(this.permissions.slice(index + 1, this.permissions.length));

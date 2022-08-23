@@ -190,7 +190,8 @@ export class GrAccountLabel extends LitElement {
 
   override async firstUpdated() {
     assertIsDefined(this.account, 'account');
-    this.account = await this.accountsModel.fillDetails(this.account);
+    const account = await this.accountsModel.fillDetails(this.account);
+    if (account) this.account = account;
   }
 
   override render() {

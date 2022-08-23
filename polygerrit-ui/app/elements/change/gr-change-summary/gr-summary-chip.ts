@@ -25,6 +25,9 @@ export class GrSummaryChip extends LitElement {
   @property()
   icon = '';
 
+  @property({type: Boolean})
+  iconFilled = false;
+
   @property()
   styleType = SummaryChipStyles.UNDEFINED;
 
@@ -91,7 +94,8 @@ export class GrSummaryChip extends LitElement {
   override render() {
     const chipClass = `summaryChip font-small ${this.styleType}`;
     return html`<button class=${chipClass} @click=${this.handleClick}>
-      ${this.icon && html`<gr-icon icon=${this.icon}></gr-icon>`}
+      ${this.icon &&
+      html`<gr-icon .filled=${this.iconFilled} icon=${this.icon}></gr-icon>`}
       <slot></slot>
     </button>`;
   }

@@ -42,8 +42,8 @@ export class AccountsModel extends Model<AccountsState> implements Finalizable {
   async getAccount(id: AccountId | EmailAddress) {
     const current = this.subject$.getValue();
     if (current.accounts[id]) return current.accounts[id];
-    const account = await this.restApiService.getAccountDetails(id);
-    this.updateStateAccount(id, account);
+    const account = await this.restApiService.getAccountDetails(id, () => {});
+    if (account) this.updateStateAccount(id, account);
     return account;
   }
 

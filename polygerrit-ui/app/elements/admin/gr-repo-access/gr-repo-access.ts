@@ -418,6 +418,8 @@ export class GrRepoAccess extends LitElement {
 
   private handleAddedSectionRemoved(index: number) {
     if (!this.sections) return;
+    assertIsDefined(this.local, 'local');
+    delete this.local[this.sections[index].id];
     this.sections = this.sections
       .slice(0, index)
       .concat(this.sections.slice(index + 1, this.sections.length));

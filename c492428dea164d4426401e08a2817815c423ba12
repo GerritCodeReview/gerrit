@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e620979_cce27908",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-08-23T20:17:38Z",
+      "side": 1,
+      "message": "I am not sure, I think on a dashboard there is less context what the avatars could mean. To me it seems better to always have the icon at the dashboard. In any case not in this commit,",
+      "parentUuid": "3c5cd5a9_1bb042ec",
+      "revId": "c492428dea164d4426401e08a2817815c423ba12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5a7de8c0_5732ae5f",
@@ -67,6 +85,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dff3292e_6009e33f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-08-23T20:17:38Z",
+      "side": 1,
+      "message": "The problem with a css variable. Is that I couldn\u0027t figure out a way to do (divide by 2) in css. And since I need an evaluation based on arguments I only know of a way to set style in render()\n\nI could set only the border color as a css variable, but to me having two different places to pass arguments into the element makes the API harder to understand.\n\n\nDo you know of the way to also pass the size and margin-right this way?",
+      "parentUuid": "4286d980_0d5ca15f",
+      "range": {
+        "startLine": 614,
+        "startChar": 0,
+        "endLine": 614,
+        "endChar": 47
+      },
+      "revId": "c492428dea164d4426401e08a2817815c423ba12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a6f35dec_4f3bcdc3",
         "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar-stack.ts",
         "patchSetId": 2
@@ -78,6 +120,30 @@
       "writtenOn": "2022-08-23T15:11:16Z",
       "side": 1,
       "message": "```suggestion\n * Copyright 2022 Google LLC\n```",
+      "range": {
+        "startLine": 3,
+        "startChar": 13,
+        "endLine": 3,
+        "endChar": 17
+      },
+      "revId": "c492428dea164d4426401e08a2817815c423ba12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52527e39_9bcfdcf4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar-stack.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-08-23T20:17:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6f35dec_4f3bcdc3",
       "range": {
         "startLine": 3,
         "startChar": 13,
@@ -111,6 +177,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "99b6ca23_b8c1fe6d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar-stack.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-08-23T20:17:38Z",
+      "side": 1,
+      "message": "There is a fallback behavior in gr-avatar, that constructs a url if none in the list the size. And in our deployment you can specify any size and it will get served. This is the code that already existed, and I am guessing the idea is accounts with duplicate avatars will have all avatars the same. (different sizes of \"No Avatar\" picture maybe?)\n\nI did however grabbed a code snippet from gr-avatar that checks if config has avatars and added it as another fallback option.",
+      "parentUuid": "cac1ebe3_48d18db6",
+      "range": {
+        "startLine": 84,
+        "startChar": 45,
+        "endLine": 84,
+        "endChar": 47
+      },
+      "revId": "c492428dea164d4426401e08a2817815c423ba12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dfcbce96_74e47f0c",
@@ -124,6 +214,30 @@
       "writtenOn": "2022-08-23T14:58:43Z",
       "side": 1,
       "message": "you can return the results of `uniqueAvatarAccounts.map()` directly without this html template literal wrapper",
+      "range": {
+        "startLine": 98,
+        "startChar": 11,
+        "endLine": 98,
+        "endChar": 18
+      },
+      "revId": "c492428dea164d4426401e08a2817815c423ba12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94742882_3465a35e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar-stack.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-08-23T20:17:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dfcbce96_74e47f0c",
       "range": {
         "startLine": 98,
         "startChar": 11,
@@ -153,6 +267,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "56dc8ab9_91fab349",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar-stack.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-08-23T20:17:38Z",
+      "side": 1,
+      "message": "Same problem as described in https://gerrit-review.googlesource.com/c/gerrit/+/343720/comments/5a7de8c0_5732ae5f, since I am calculating the margin based on elements properties, I have to do it in render. I could put it in a separate \u003cstyle\u003e tag though. Let me know if you think that would be better",
+      "parentUuid": "15ac23f5_72e82e53",
+      "revId": "c492428dea164d4426401e08a2817815c423ba12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "eb2d90d6_3637dd22",
         "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar-stack.ts",
         "patchSetId": 2
@@ -164,6 +296,30 @@
       "writtenOn": "2022-08-23T15:14:14Z",
       "side": 1,
       "message": "have you considered a constant negative marginLeft on each so they slide left instead of right? I think it could avoid needing to detect end-of-avatars-list",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 110,
+        "endChar": 0
+      },
+      "revId": "c492428dea164d4426401e08a2817815c423ba12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a814ed20_7c58a6b3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar-stack.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-08-23T20:17:38Z",
+      "side": 1,
+      "message": "It will push the stack left outside of the chip. I guess I could also insert some empty element to shift them back right. But I am not sure which one is more of a hack. Let me know if you know a more elegant solution.",
+      "parentUuid": "eb2d90d6_3637dd22",
       "range": {
         "startLine": 108,
         "startChar": 0,
@@ -197,6 +353,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a93283d9_4e526845",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar-stack_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-08-23T20:17:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8628ea17_8ab8c770",
+      "range": {
+        "startLine": 12,
+        "startChar": 29,
+        "endLine": 12,
+        "endChar": 53
+      },
+      "revId": "c492428dea164d4426401e08a2817815c423ba12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "35d7ac1c_2c9d9f7b",
@@ -210,6 +390,30 @@
       "writtenOn": "2022-08-23T15:07:08Z",
       "side": 1,
       "message": "add another test for other fallback case (0 accounts with avatars)",
+      "range": {
+        "startLine": 70,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 24
+      },
+      "revId": "c492428dea164d4426401e08a2817815c423ba12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02815d67_12e1a81e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar-stack_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-08-23T20:17:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35d7ac1c_2c9d9f7b",
       "range": {
         "startLine": 70,
         "startChar": 8,

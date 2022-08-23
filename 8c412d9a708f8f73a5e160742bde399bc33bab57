@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3a86275_160c3177",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-08-23T08:42:27Z",
+      "side": 1,
+      "message": "This is a type declaration otherwise the implicit type is any.",
+      "parentUuid": "a13f0e67_1c199f61",
+      "range": {
+        "startLine": 363,
+        "startChar": 3,
+        "endLine": 366,
+        "endChar": 3
+      },
+      "revId": "8c412d9a708f8f73a5e160742bde399bc33bab57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "159ec8b7_b61c1ff0",
@@ -61,6 +85,30 @@
       "side": 1,
       "message": "Maybe file a separate bug for this?\nI just realised we do this in other places in the UI as well, use the word `comments` instead of `threads` so makes sense to fix it in all places instead of just this one.",
       "parentUuid": "159ec8b7_b61c1ff0",
+      "range": {
+        "startLine": 374,
+        "startChar": 53,
+        "endLine": 374,
+        "endChar": 60
+      },
+      "revId": "8c412d9a708f8f73a5e160742bde399bc33bab57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de69efc6_d47d6871",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-08-23T08:42:27Z",
+      "side": 1,
+      "message": "Created b/243491244 to track",
+      "parentUuid": "303ae76e_e1ed172e",
       "range": {
         "startLine": 374,
         "startChar": 53,

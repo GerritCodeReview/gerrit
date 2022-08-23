@@ -970,6 +970,22 @@ suite('gr-repo-access tests', () => {
       assert.deepEqual(element.computeAddAndRemove(), expectedInput);
     });
 
+    test('add and remove and re-add ref', async () => {
+      // refs/for/* is added
+      queryAndAssert<GrButton>(element, '#addReferenceBtn').click();
+      await element.updateComplete;
+
+      // refs/for/* is removed
+      element.handleAddedSectionRemoved(1);
+      await element.updateComplete;
+
+      // refs/for/* is re-added without extra starts
+      queryAndAssert<GrButton>(element, '#addReferenceBtn').click();
+      await element.updateComplete;
+
+      assert.equal(element.sections![1].id, 'refs/for/*');
+    });
+
     test('computeAddAndRemove new section', async () => {
       // Add a new permission to a section
       let expectedInput = {};

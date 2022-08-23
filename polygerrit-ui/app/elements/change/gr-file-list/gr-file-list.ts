@@ -20,7 +20,7 @@ import '../../shared/gr-file-status/gr-file-status';
 import {assertIsDefined} from '../../../utils/common-util';
 import {asyncForeach} from '../../../utils/async-util';
 import {FilesExpandedState} from '../gr-file-list-constants';
-import {pluralize} from '../../../utils/string-util';
+import {diffFilePaths, pluralize} from '../../../utils/string-util';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
@@ -493,6 +493,15 @@ export class GrFileList extends LitElement {
         gr-diff {
           display: block;
           overflow-x: auto;
+        }
+        .matchingFilePath {
+          color: var(--deemphasized-text-color);
+        }
+        .newFilePath {
+          color: var(--primary-text-color);
+        }
+        .fileName {
+          color: var(--link-color);
         }
         .truncatedFileName {
           display: none;
@@ -989,6 +998,7 @@ export class GrFileList extends LitElement {
     showPrependedDynamicColumns: boolean
   ) {
     this.reportRenderedRow(index);
+    const previousFileName = this.shownFiles[index - 1]?.__path;
     const patchSetFile = this.computePatchSetFile(file);
     return html` <div class="stickyArea">
       <div
@@ -1001,7 +1011,8 @@ export class GrFileList extends LitElement {
         ${when(showPrependedDynamicColumns, () =>
           this.renderPrependedContentEndpointsForFile(file)
         )}
-        ${this.renderFileStatus(file)} ${this.renderFilePath(file)}
+        ${this.renderFileStatus(file)}
+        ${this.renderFilePath(file, previousFileName)}
         ${this.renderFileComments(file)}
         ${this.renderSizeBar(file, sizeBarLayout)} ${this.renderFileStats(file)}
         ${when(showDynamicColumns, () =>
@@ -1130,36 +1141,54 @@ export class GrFileList extends LitElement {
     `;
   }
 
-  private renderFilePath(file: NormalizedFileInfo) {
-    return html` <span class="path" role="gridcell">
-      <a class="pathLink" href=${ifDefined(this.computeDiffURL(file.__path))}>
-        <span title=${computeDisplayPath(file.__path)} class="fullFileName">
-          ${computeDisplayPath(file.__path)}
-        </span>
-        <span
-          title=${computeDisplayPath(file.__path)}
-          class="truncatedFileName"
-        >
-          ${computeTruncatedPath(file.__path)}
-        </span>
-        <gr-copy-clipboard
-          ?hideInput=${true}
-          .text=${file.__path}
-        ></gr-copy-clipboard>
-      </a>
-      ${when(
-        file.old_path,
-        () => html`
-          <div class="oldPath" title=${ifDefined(file.old_path)}>
-            ${file.old_path}
-            <gr-copy-clipboard
-              ?hideInput=${true}
-              .text=${file.old_path}
-            ></gr-copy-clipboard>
-          </div>
-        `
-      )}
-    </span>`;
+  private renderFilePath(file: NormalizedFileInfo, previousFilePath?: string) {
+    return html`
+      <span class="path" role="gridcell">
+        <a class="pathLink" href=${ifDefined(this.computeDiffURL(file.__path))}>
+          <span title=${computeDisplayPath(file.__path)} class="fullFileName">
+            ${this.renderStyledPath(file.__path, previousFilePath)}
+          </span>
+          <span
+            title=${computeDisplayPath(file.__path)}
+            class="truncatedFileName"
+          >
+            ${computeTruncatedPath(file.__path)}
+          </span>
+          <gr-copy-clipboard
+            ?hideInput=${true}
+            .text=${file.__path}
+          ></gr-copy-clipboard>
+        </a>
+        ${when(
+          file.old_path,
+          () => html`
+            <div class="oldPath" title=${ifDefined(file.old_path)}>
+              ${file.old_path}
+              <gr-copy-clipboard
+                ?hideInput=${true}
+                .text=${file.old_path}
+              ></gr-copy-clipboard>
+            </div>
+          `
+        )}
+      </span>
+    `;
+  }
+
+  private renderStyledPath(filePath: string, previousFilePath?: string) {
+    const {matchingFolders, newFolders, fileName} = diffFilePaths(
+      filePath,
+      previousFilePath
+    );
+    return [
+      matchingFolders.length > 0
+        ? html`<span class="matchingFilePath">${matchingFolders}</span>`
+        : nothing,
+      newFolders.length > 0
+        ? html`<span class="newFilePath">${newFolders}</span>`
+        : nothing,
+      html`<span class="fileName">${fileName}</span>`,
+    ];
   }
 
   private renderFileComments(file: NormalizedFileInfo) {

@@ -383,8 +383,8 @@ the new email address.
 [[starred-changes]]
 == Starred Changes
 
-link:dev-stars.html[Starred changes] allow users to mark changes as
-favorites and receive email notifications for them.
+Starred changes allow users to mark changes as favorites and receive email
+notifications for them.
 
 Each starred change is a tuple of an account ID, a change ID and a
 label.
@@ -402,8 +402,7 @@ Since JGit has explicit optimizations for looking up refs by prefix
 when the prefix ends with '/', this ref format is optimized to find
 starred changes by change ID. Finding starred changes by change ID is
 e.g. needed when a change is updated so that all users that have
-the link:dev-stars.html#default-star[default star] on the change can be
-notified by email.
+the star on the change can be notified by email.
 
 Gerrit also needs an efficient way to find all changes that were
 starred by an account, e.g. to provide results for the

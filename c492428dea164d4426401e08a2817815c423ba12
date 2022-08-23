@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3c5cd5a9_1bb042ec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-23T14:58:43Z",
+      "side": 1,
+      "message": "This looks nice! It would be cool to see it on the dashboard as well",
+      "revId": "c492428dea164d4426401e08a2817815c423ba12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5a7de8c0_5732ae5f",
         "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
         "patchSetId": 2
@@ -19,6 +36,29 @@
         "startChar": 0,
         "endLine": 614,
         "endChar": 47
+      },
+      "revId": "c492428dea164d4426401e08a2817815c423ba12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfcbce96_74e47f0c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar-stack.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-23T14:58:43Z",
+      "side": 1,
+      "message": "you can return the results of `uniqueAvatarAccounts.map()` directly without this html template literal wrapper",
+      "range": {
+        "startLine": 98,
+        "startChar": 11,
+        "endLine": 98,
+        "endChar": 18
       },
       "revId": "c492428dea164d4426401e08a2817815c423ba12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

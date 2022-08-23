@@ -489,9 +489,7 @@ export interface RestApiService extends Finalizable {
    */
   getAccountGroups(): Promise<GroupInfo[] | undefined>;
 
-  getAccountDetails(
-    userId: AccountId | EmailAddress
-  ): Promise<AccountDetailInfo | undefined>;
+  getAccountDetails(userId: AccountId): Promise<AccountDetailInfo | undefined>;
 
   getAccountStatus(userId: AccountId): Promise<string | undefined>;
 

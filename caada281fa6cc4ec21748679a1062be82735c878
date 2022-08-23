@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a73d520d_92ef7fd1",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-08-23T23:45:44Z",
+      "side": 1,
+      "message": "It looks like we can\u0027t rely on maxLimit to determine the max page size. I am seeing that maxLimit currently limits the total results even if --no-limit is provided. Should this behaviour be considered a bug?",
+      "range": {
+        "startLine": 124,
+        "startChar": 33,
+        "endLine": 124,
+        "endChar": 55
+      },
+      "revId": "caada281fa6cc4ec21748679a1062be82735c878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63701186_fd643da1",
+        "filename": "java/com/google/gerrit/index/query/Paginated.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-08-23T19:18:39Z",
+      "side": 1,
+      "message": "It\u0027s a bit weird for this interface to share these two different approaches since a backend may decide to only implement one of them. Likely there should be separate interfaces defined for each approach.",
+      "range": {
+        "startLine": 24,
+        "startChar": 15,
+        "endLine": 24,
+        "endChar": 22
+      },
+      "revId": "cedd4e9525f2b2ca896809cd867e768205535204",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -93,7 +93,7 @@ export function diffFilePaths(filePath: string, otherFilePath?: string) {
   const newFolderSection = displayPathParts
     .slice(firstDifferencePartIndex, -1)
     .join('/');
-  const fileNameSection = displayPathParts.at(-1)!;
+  const fileNameSection = displayPathParts[displayPathParts.length - 1];
 
   // Note: folder sections need '/' appended back.
   return {

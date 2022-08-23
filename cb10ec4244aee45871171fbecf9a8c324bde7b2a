@@ -22,6 +22,30 @@
       },
       "revId": "cb10ec4244aee45871171fbecf9a8c324bde7b2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7e70dd9_94a565e0",
+        "filename": ".gitignore",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-23T08:56:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b39f7094_5aa3e08d",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 25
+      },
+      "revId": "cb10ec4244aee45871171fbecf9a8c324bde7b2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

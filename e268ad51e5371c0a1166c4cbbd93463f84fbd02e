@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b751b805_c32321c5",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1001,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-23T07:22:32Z",
+      "side": 1,
+      "message": "if index \u003d\u003d\u003d 0 we just access [-1]?",
+      "range": {
+        "startLine": 1001,
+        "startChar": 45,
+        "endLine": 1001,
+        "endChar": 55
+      },
+      "revId": "e268ad51e5371c0a1166c4cbbd93463f84fbd02e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2827b9ed_d084dd4c",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1197,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-23T07:22:32Z",
+      "side": 1,
+      "message": "I would move this logic into a util so we can test properly then add more test.\n\nWhat if files don\u0027t have any folder associated with them.\nOne file has a folder and the other doesn\u0027t.\n\nEasy to add tests in the future as well if we find some special case where file matching doesn\u0027t work perfectly.",
+      "range": {
+        "startLine": 1182,
+        "startChar": 0,
+        "endLine": 1197,
+        "endChar": 0
+      },
+      "revId": "e268ad51e5371c0a1166c4cbbd93463f84fbd02e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

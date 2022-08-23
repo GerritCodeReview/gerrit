@@ -69,6 +69,30 @@
       },
       "revId": "e268ad51e5371c0a1166c4cbbd93463f84fbd02e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed6ca262_c2f75f7c",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1197,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-23T10:07:01Z",
+      "side": 1,
+      "message": "Done. See if there are any additional cases you feel should be added",
+      "parentUuid": "2827b9ed_d084dd4c",
+      "range": {
+        "startLine": 1182,
+        "startChar": 0,
+        "endLine": 1197,
+        "endChar": 0
+      },
+      "revId": "e268ad51e5371c0a1166c4cbbd93463f84fbd02e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

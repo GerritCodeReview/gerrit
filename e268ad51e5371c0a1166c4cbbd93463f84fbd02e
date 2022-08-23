@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7dd23638_9a0fea49",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1001,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-23T08:39:06Z",
+      "side": 1,
+      "message": "yes this variable is \"previous file path or undefined\"",
+      "parentUuid": "b751b805_c32321c5",
+      "range": {
+        "startLine": 1001,
+        "startChar": 45,
+        "endLine": 1001,
+        "endChar": 55
+      },
+      "revId": "e268ad51e5371c0a1166c4cbbd93463f84fbd02e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2827b9ed_d084dd4c",

@@ -109,6 +109,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c9d9babc_08722839",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-23T20:21:03Z",
+      "side": 1,
+      "message": "calc() should divide by 2 just fine https://developer.mozilla.org/en-US/docs/Web/CSS/calc\n\nI will look at the other stuff tomorrow",
+      "parentUuid": "dff3292e_6009e33f",
+      "range": {
+        "startLine": 614,
+        "startChar": 0,
+        "endLine": 614,
+        "endChar": 47
+      },
+      "revId": "c492428dea164d4426401e08a2817815c423ba12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a6f35dec_4f3bcdc3",
         "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar-stack.ts",
         "patchSetId": 2

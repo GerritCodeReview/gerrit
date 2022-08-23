@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.account.DraftCommentsCache;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -48,17 +49,20 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
   private final Provider<CommentJson> commentJson;
   private final CommentsUtil commentsUtil;
   private final PatchSetUtil psUtil;
+  private final DraftCommentsCache draftCache;
 
   @Inject
   CreateDraftComment(
       BatchUpdate.Factory updateFactory,
       Provider<CommentJson> commentJson,
       CommentsUtil commentsUtil,
-      PatchSetUtil psUtil) {
+      PatchSetUtil psUtil,
+      DraftCommentsCache draftCache) {
     this.updateFactory = updateFactory;
     this.commentJson = commentJson;
     this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
+    this.draftCache = draftCache;
   }
 
   @Override
@@ -83,7 +87,7 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
     }
 
     try (BatchUpdate bu = updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.now())) {
-      Op op = new Op(rsrc.getPatchSet().id(), in);
+      Op op = new Op(rsrc.getPatchSet().id(), in, draftCache);
       bu.addOp(rsrc.getChange().getId(), op);
       bu.execute();
       return Response.created(
@@ -94,12 +98,14 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
   private class Op implements BatchUpdateOp {
     private final PatchSet.Id psId;
     private final DraftInput in;
+    private DraftCommentsCache draftCache;
 
     private HumanComment comment;
 
-    private Op(PatchSet.Id psId, DraftInput in) {
+    private Op(PatchSet.Id psId, DraftInput in, DraftCommentsCache draftCache) {
       this.psId = psId;
       this.in = in;
+      this.draftCache = draftCache;
     }
 
     @Override
@@ -129,6 +135,8 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
 
       commentsUtil.putHumanComments(
           ctx.getUpdate(psId), HumanComment.Status.DRAFT, Collections.singleton(comment));
+
+      draftCache.evict(ctx.getAccountId());
       return true;
     }
   }

@@ -59,6 +59,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.server.account.DraftCommentsCache;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
@@ -96,6 +97,7 @@ public class CommentsIT extends AbstractDaemonTest {
   @Inject private ChangeOperations changeOperations;
   @Inject private AccountOperations accountOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private DraftCommentsCache draftCache;
 
   private final Integer[] lines = {0, 1};
 
@@ -133,6 +135,56 @@ public class CommentsIT extends AbstractDaemonTest {
       actual = list.get(0);
       assertThat(comment).isEqualTo(infoToDraft(path).apply(actual));
     }
+  }
+
+  @Test
+  public void createDraftInvalidatesDraftCache() throws Exception {
+    // Create a change
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+
+    // Draft cache is empty
+    assertThat(draftCache.get(user.id())).isEmpty();
+
+    // Add a comment on the change
+    DraftInput comment = CommentsUtil.newDraft("file1", Side.REVISION, 1, "comment 1");
+    addDraft(changeId, revId, comment);
+
+    // Draft cache contains the change ID
+    List<Change.Id> changeIds = draftCache.get(user.id());
+    assertThat(changeIds).containsExactly(r.getChange().getId());
+
+    // Create a second change and add a comment
+    PushOneCommit.Result r2 = createChange();
+    String changeId2 = r2.getChangeId();
+    String revId2 = r2.getCommit().getName();
+    DraftInput comment2 = CommentsUtil.newDraft("file1", Side.REVISION, 1, "comment 1");
+    addDraft(changeId2, revId2, comment2);
+
+    // Draft cache contains the two change IDs
+    changeIds = draftCache.get(user.id());
+    assertThat(changeIds).containsExactly(r.getChange().getId(), r2.getChange().getId());
+  }
+
+  @Test
+  public void deleteDraftInvalidatesDraftCache() throws Exception {
+    // Create a change
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+
+    // Add a comment
+    DraftInput comment = CommentsUtil.newDraft("file1", Side.REVISION, 1, "comment 1");
+    CommentInfo cInfo = addDraft(changeId, revId, comment);
+
+    // Draft cache contains one entry for the change ID
+    List<Change.Id> changeIds = draftCache.get(user.id());
+    assertThat(changeIds).containsExactly(r.getChange().getId());
+
+    // Delete the draft comment. Draft cache will be empty
+    deleteDraft(changeId, revId, cInfo.id);
+    assertThat(draftCache.get(user.id())).isEmpty();
   }
 
   @Test

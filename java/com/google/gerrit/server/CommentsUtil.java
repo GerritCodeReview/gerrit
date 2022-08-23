@@ -37,6 +37,7 @@ import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.server.account.DraftCommentsCache;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -53,11 +54,9 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -117,16 +116,19 @@ public class CommentsUtil {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsers;
   private final String serverId;
+  private final DraftCommentsCache draftCache;
 
   @Inject
   CommentsUtil(
       DiffOperations diffOperations,
       GitRepositoryManager repoManager,
       AllUsersName allUsers,
+      DraftCommentsCache draftCache,
       @GerritServerId String serverId) {
     this.diffOperations = diffOperations;
     this.repoManager = repoManager;
     this.allUsers = allUsers;
+    this.draftCache = draftCache;
     this.serverId = serverId;
   }
 
@@ -470,31 +472,11 @@ public class CommentsUtil {
 
   /** returns all changes that contain draft comments of {@code accountId}. */
   public Collection<Change.Id> getChangesWithDrafts(Account.Id accountId) {
-    try (Repository repo = repoManager.openRepository(allUsers)) {
-      return getChangesWithDrafts(repo, accountId);
-    } catch (IOException e) {
-      throw new StorageException(e);
-    }
+    return draftCache.get(accountId);
   }
 
   private Collection<Ref> getDraftRefs(Repository repo, Change.Id changeId) throws IOException {
     return repo.getRefDatabase().getRefsByPrefix(RefNames.refsDraftCommentsPrefix(changeId));
-  }
-
-  private Collection<Change.Id> getChangesWithDrafts(Repository repo, Account.Id accountId)
-      throws IOException {
-    Set<Change.Id> changes = new HashSet<>();
-    for (Ref ref : repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_DRAFT_COMMENTS)) {
-      Integer accountIdFromRef = RefNames.parseRefSuffix(ref.getName());
-      if (accountIdFromRef != null && accountIdFromRef == accountId.get()) {
-        Change.Id changeId = Change.Id.fromAllUsersRef(ref.getName());
-        if (changeId == null) {
-          continue;
-        }
-        changes.add(changeId);
-      }
-    }
-    return changes;
   }
 
   private static <T extends Comment> List<T> sort(List<T> comments) {

@@ -101,6 +101,7 @@ import com.google.gerrit.server.account.AccountModule;
 import com.google.gerrit.server.account.AccountTagProvider;
 import com.google.gerrit.server.account.AccountVisibilityProvider;
 import com.google.gerrit.server.account.CapabilityCollection;
+import com.google.gerrit.server.account.DraftCommentsCacheImpl;
 import com.google.gerrit.server.account.EmailExpander;
 import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.account.GroupControl;
@@ -259,6 +260,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(ChangeFinder.module());
     install(ConflictsCacheImpl.module());
     install(DefaultPreferencesCacheImpl.module());
+    install(DraftCommentsCacheImpl.module());
     install(GroupCacheImpl.module());
     install(GroupIncludeCacheImpl.module());
     install(MergeabilityCacheImpl.module());

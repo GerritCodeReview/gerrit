@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.account.DraftCommentsCache;
 import com.google.gerrit.server.change.DraftCommentResource;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -40,13 +41,18 @@ import java.util.Optional;
 public class DeleteDraftComment implements RestModifyView<DraftCommentResource, Input> {
   private final BatchUpdate.Factory updateFactory;
   private final CommentsUtil commentsUtil;
+  private final DraftCommentsCache draftCache;
   private final PatchSetUtil psUtil;
 
   @Inject
   DeleteDraftComment(
-      BatchUpdate.Factory updateFactory, CommentsUtil commentsUtil, PatchSetUtil psUtil) {
+      BatchUpdate.Factory updateFactory,
+      CommentsUtil commentsUtil,
+      DraftCommentsCache draftCache,
+      PatchSetUtil psUtil) {
     this.updateFactory = updateFactory;
     this.commentsUtil = commentsUtil;
+    this.draftCache = draftCache;
     this.psUtil = psUtil;
   }
 
@@ -55,7 +61,7 @@ public class DeleteDraftComment implements RestModifyView<DraftCommentResource, 
       throws RestApiException, UpdateException {
     try (BatchUpdate bu =
         updateFactory.create(rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.now())) {
-      Op op = new Op(rsrc.getComment().key);
+      Op op = new Op(rsrc.getComment().key, draftCache);
       bu.addOp(rsrc.getChange().getId(), op);
       bu.execute();
     }
@@ -64,9 +70,11 @@ public class DeleteDraftComment implements RestModifyView<DraftCommentResource, 
 
   private class Op implements BatchUpdateOp {
     private final Comment.Key key;
+    private final DraftCommentsCache draftCache;
 
-    private Op(Comment.Key key) {
+    private Op(Comment.Key key, DraftCommentsCache draftCache) {
       this.key = key;
+      this.draftCache = draftCache;
     }
 
     @Override
@@ -84,6 +92,7 @@ public class DeleteDraftComment implements RestModifyView<DraftCommentResource, 
       HumanComment c = maybeComment.get();
       commentsUtil.setCommentCommitId(c, ctx.getChange(), ps);
       commentsUtil.deleteHumanComments(ctx.getUpdate(psId), Collections.singleton(c));
+      draftCache.evict(ctx.getAccountId());
       return true;
     }
   }

@@ -39,6 +39,7 @@ import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.account.DraftCommentsCache;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -78,6 +79,7 @@ public class DeleteDraftComments
   private final CommentsUtil commentsUtil;
   private final PatchSetUtil psUtil;
   private final ExperimentFeatures experimentFeatures;
+  private final DraftCommentsCache draftCache;
 
   @Inject
   DeleteDraftComments(
@@ -90,7 +92,8 @@ public class DeleteDraftComments
       Provider<CommentJson> commentJsonProvider,
       CommentsUtil commentsUtil,
       PatchSetUtil psUtil,
-      ExperimentFeatures experimentFeatures) {
+      ExperimentFeatures experimentFeatures,
+      DraftCommentsCache draftCache) {
     this.userProvider = userProvider;
     this.batchUpdateFactory = batchUpdateFactory;
     this.queryBuilder = queryBuilder;
@@ -101,6 +104,7 @@ public class DeleteDraftComments
     this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
     this.experimentFeatures = experimentFeatures;
+    this.draftCache = draftCache;
   }
 
   @Override
@@ -135,7 +139,7 @@ public class DeleteDraftComments
       BatchUpdate update =
           updates.computeIfAbsent(
               cd.project(), p -> batchUpdateFactory.create(p, rsrc.getUser(), now));
-      Op op = new Op(humanCommentFormatter, accountId);
+      Op op = new Op(humanCommentFormatter, accountId, draftCache);
       update.addOp(cd.getId(), op);
       ops.add(op);
     }
@@ -170,11 +174,16 @@ public class DeleteDraftComments
   private class Op implements BatchUpdateOp {
     private final HumanCommentFormatter humanCommentFormatter;
     private final Account.Id accountId;
+    private final DraftCommentsCache draftCache;
     private DeletedDraftCommentInfo result;
 
-    Op(HumanCommentFormatter humanCommentFormatter, Account.Id accountId) {
+    Op(
+        HumanCommentFormatter humanCommentFormatter,
+        Account.Id accountId,
+        DraftCommentsCache draftCache) {
       this.humanCommentFormatter = humanCommentFormatter;
       this.accountId = accountId;
+      this.draftCache = draftCache;
     }
 
     @Override
@@ -194,6 +203,7 @@ public class DeleteDraftComments
             changeJsonFactory.noOptions().format(changeDataFactory.create(ctx.getNotes()));
         result.deleted = comments.build();
       }
+      draftCache.evict(ctx.getAccountId());
       return dirty;
     }
 

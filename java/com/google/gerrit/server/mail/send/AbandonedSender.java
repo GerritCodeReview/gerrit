@@ -41,6 +41,7 @@ public class AbandonedSender extends ReplyToChangeSender {
     ccAllApprovals();
     bccStarredBy();
     includeWatchers(NotifyType.ABANDONED_CHANGES);
+    removeUsersThatIgnoredTheChange();
   }
 
   @Override

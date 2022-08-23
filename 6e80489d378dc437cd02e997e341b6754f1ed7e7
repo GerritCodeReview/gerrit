@@ -62,6 +62,24 @@
       "message": "how does this cache work in a distributed setting? If I post a draft comment in datacenter A, how does datacenter B evict? ",
       "revId": "6e80489d378dc437cd02e997e341b6754f1ed7e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7209663_be96dc0a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-23T21:38:51Z",
+      "side": 1,
+      "message": "Commenting to make this unresolved as I also share this concern. Should admins with a multi-primary setup have an aggressive maxAge setting for the cache so these are evicted sooner? Would doing that negate the value of the cache?",
+      "parentUuid": "6efbab76_daca4614",
+      "revId": "6e80489d378dc437cd02e997e341b6754f1ed7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

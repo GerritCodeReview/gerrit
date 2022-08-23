@@ -48,22 +48,24 @@ suite('gr-change-summary test', () => {
             <tr>
               <td class="key">Comments</td>
               <td class="value">
-                <gr-summary-chip
-                  category="drafts"
-                  icon="edit"
-                  styletype="warning"
-                >
-                  3 drafts
-                </gr-summary-chip>
                 <gr-summary-chip category="unresolved" styletype="warning">
                   1 unresolved
                 </gr-summary-chip>
                 <gr-summary-chip
                   category="show all"
                   icon="mark_chat_read"
+                  iconFilled
                   styletype="check"
                 >
                   1 resolved
+                </gr-summary-chip>
+                <gr-summary-chip
+                  category="drafts"
+                  icon="rate_review"
+                  iconFilled
+                  styletype="check"
+                >
+                  3 drafts
                 </gr-summary-chip>
               </td>
             </tr>

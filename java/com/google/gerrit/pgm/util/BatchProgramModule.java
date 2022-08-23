@@ -35,6 +35,7 @@ import com.google.gerrit.server.ModuleOverloader;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountVisibilityProvider;
 import com.google.gerrit.server.account.CapabilityCollection;
+import com.google.gerrit.server.account.DraftCommentsCacheImpl;
 import com.google.gerrit.server.account.FakeRealm;
 import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.account.GroupIncludeCacheImpl;
@@ -178,6 +179,7 @@ public class BatchProgramModule extends FactoryModule {
     modules.add(AccountCacheImpl.module());
     modules.add(ConflictsCacheImpl.module());
     modules.add(DefaultPreferencesCacheImpl.module());
+    modules.add(DraftCommentsCacheImpl.module());
     modules.add(GroupCacheImpl.module());
     modules.add(GroupIncludeCacheImpl.module());
     modules.add(ProjectCacheImpl.module());

@@ -164,7 +164,6 @@ import com.google.gerrit.httpd.raw.IndexPreloadingUtil;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.query.PostFilterPredicate;
 import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.testing.TestChangeETagComputation;
@@ -4663,110 +4662,6 @@ public class ChangeIT extends AbstractDaemonTest {
       assertThat(change.stars).isNull();
       changeIndexedCounter.assertReindexOf(change);
     }
-  }
-
-  @Test
-  public void ignore() throws Exception {
-    String email = "user2@example.com";
-    String fullname = "User2";
-    accountOperations
-        .newAccount()
-        .username("user2")
-        .preferredEmail(email)
-        .fullname(fullname)
-        .create();
-
-    PushOneCommit.Result r = createChange();
-
-    ReviewerInput in = new ReviewerInput();
-    in.reviewer = user.email();
-    gApi.changes().id(r.getChangeId()).addReviewer(in);
-
-    in = new ReviewerInput();
-    in.reviewer = email;
-    gApi.changes().id(r.getChangeId()).addReviewer(in);
-
-    requestScopeOperations.setApiUser(user.id());
-    gApi.changes().id(r.getChangeId()).ignore(true);
-    assertThat(gApi.changes().id(r.getChangeId()).ignored()).isTrue();
-
-    // New patch set notification is not sent to users ignoring the change
-    sender.clear();
-    requestScopeOperations.setApiUser(admin.id());
-    amendChange(r.getChangeId());
-    List<Message> messages = sender.getMessages();
-    assertThat(messages).hasSize(1);
-    Address address = Address.create(fullname, email);
-    assertThat(messages.get(0).rcpt()).containsExactly(address);
-
-    // Review notification is not sent to users ignoring the change
-    sender.clear();
-    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
-    messages = sender.getMessages();
-    assertThat(messages).hasSize(1);
-    assertThat(messages.get(0).rcpt()).containsExactly(address);
-
-    // Abandoned notification is not sent to users ignoring the change
-    sender.clear();
-    gApi.changes().id(r.getChangeId()).abandon();
-    messages = sender.getMessages();
-    assertThat(messages).hasSize(1);
-    assertThat(messages.get(0).rcpt()).containsExactly(address);
-
-    requestScopeOperations.setApiUser(user.id());
-    gApi.changes().id(r.getChangeId()).ignore(false);
-    assertThat(gApi.changes().id(r.getChangeId()).ignored()).isFalse();
-  }
-
-  @Test
-  public void cannotIgnoreOwnChange() throws Exception {
-    String changeId = createChange().getChangeId();
-
-    BadRequestException thrown =
-        assertThrows(BadRequestException.class, () -> gApi.changes().id(changeId).ignore(true));
-    assertThat(thrown).hasMessageThat().contains("cannot ignore own change");
-  }
-
-  @Test
-  public void cannotIgnoreStarredChange() throws Exception {
-    String changeId = createChange().getChangeId();
-
-    requestScopeOperations.setApiUser(user.id());
-    gApi.accounts().self().starChange(changeId);
-    assertThat(gApi.changes().id(changeId).get().starred).isTrue();
-
-    ResourceConflictException thrown =
-        assertThrows(
-            ResourceConflictException.class, () -> gApi.changes().id(changeId).ignore(true));
-    assertThat(thrown)
-        .hasMessageThat()
-        .contains(
-            "The labels "
-                + StarredChangesUtil.DEFAULT_LABEL
-                + " and "
-                + StarredChangesUtil.IGNORE_LABEL
-                + " are mutually exclusive. Only one of them can be set.");
-  }
-
-  @Test
-  public void cannotStarIgnoredChange() throws Exception {
-    String changeId = createChange().getChangeId();
-
-    requestScopeOperations.setApiUser(user.id());
-    gApi.changes().id(changeId).ignore(true);
-    assertThat(gApi.changes().id(changeId).ignored()).isTrue();
-
-    ResourceConflictException thrown =
-        assertThrows(
-            ResourceConflictException.class, () -> gApi.accounts().self().starChange(changeId));
-    assertThat(thrown)
-        .hasMessageThat()
-        .contains(
-            "The labels "
-                + StarredChangesUtil.DEFAULT_LABEL
-                + " and "
-                + StarredChangesUtil.IGNORE_LABEL
-                + " are mutually exclusive. Only one of them can be set.");
   }
 
   @Test

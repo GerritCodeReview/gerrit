@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b39f7094_5aa3e08d",
+        "filename": ".gitignore",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-23T08:37:57Z",
+      "side": 1,
+      "message": "add a comment that this is not used, or maybe make a real dir with a readme to explain",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 25
+      },
+      "revId": "cb10ec4244aee45871171fbecf9a8c324bde7b2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

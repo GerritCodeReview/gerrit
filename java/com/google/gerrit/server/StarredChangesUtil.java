@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import static com.google.gerrit.server.experiments.ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_COMPUTE_FROM_ALL_USERS_REPOSITORY;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
@@ -39,6 +40,7 @@ import com.google.gerrit.git.GitUpdateFailureException;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -168,6 +170,7 @@ public class StarredChangesUtil {
   private final Provider<PersonIdent> serverIdent;
   private final ChangeIndexer indexer;
   private final Provider<InternalChangeQuery> queryProvider;
+  private final ExperimentFeatures experimentFeatures;
 
   @Inject
   StarredChangesUtil(
@@ -176,13 +179,15 @@ public class StarredChangesUtil {
       AllUsersName allUsers,
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
       ChangeIndexer indexer,
-      Provider<InternalChangeQuery> queryProvider) {
+      Provider<InternalChangeQuery> queryProvider,
+      ExperimentFeatures experimentFeatures) {
     this.repoManager = repoManager;
     this.gitRefUpdated = gitRefUpdated;
     this.allUsers = allUsers;
     this.serverIdent = serverIdent;
     this.indexer = indexer;
     this.queryProvider = queryProvider;
+    this.experimentFeatures = experimentFeatures;
   }
 
   public NavigableSet<String> getLabels(Account.Id accountId, Change.Id changeId) {
@@ -222,8 +227,10 @@ public class StarredChangesUtil {
         checkMutuallyExclusiveLabels(labels);
         updateLabels(repo, refName, old.objectId(), labels);
       }
-
-      indexer.index(project, changeId);
+      if (!experimentFeatures.isFeatureEnabled(
+          GERRIT_BACKEND_REQUEST_FEATURE_COMPUTE_FROM_ALL_USERS_REPOSITORY)) {
+        indexer.index(project, changeId);
+      }
       return Collections.unmodifiableNavigableSet(labels);
     } catch (IOException e) {
       throw new StorageException(

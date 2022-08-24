@@ -52,6 +52,24 @@
       "parentUuid": "aa7bd4d2_b3e67587",
       "revId": "e1c86cc8c192e27062fb2d445277ad2086f86c0c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0eec7065_1a43a4e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-08-24T09:02:49Z",
+      "side": 1,
+      "message": "please no appeals to authority. the ux team is certainly able to properly justify their decisions as well.\n\nalignment with google-internal tooling alone isn\u0027t a valid argument, except when it really doesn\u0027t matter otherwise.\n\nif you look at it from the \"action item perspective\", then having unpublished drafts *is* something that still requires attention, and failing to do so is in fact one of the most common modes of failure (you have sufficiently addressed this problem for a \"dashboard-driven\" workflow, but in my notification-driven one it still happens from time to time).",
+      "parentUuid": "67f8d9fd_a007dcfa",
+      "revId": "e1c86cc8c192e27062fb2d445277ad2086f86c0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

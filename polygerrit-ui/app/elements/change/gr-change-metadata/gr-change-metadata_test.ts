@@ -58,6 +58,7 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrRouter} from '../../core/gr-router/gr-router';
 import {nothing} from 'lit';
 import {fixture, html} from '@open-wc/testing';
+import {EventType} from '../../../types/events';
 
 suite('gr-change-metadata tests', () => {
   let element: GrChangeMetadata;
@@ -907,7 +908,7 @@ suite('gr-change-metadata tests', () => {
         Promise.resolve(newTopic)
       );
       const alertStub = sinon.stub();
-      element.addEventListener('show-alert', alertStub);
+      element.addEventListener(EventType.SHOW_ALERT, alertStub);
       element.handleTopicChanged(new CustomEvent('test', {detail: newTopic}));
       const topicChangedSpy = sinon.spy();
       element.addEventListener('topic-changed', topicChangedSpy);
@@ -930,7 +931,7 @@ suite('gr-change-metadata tests', () => {
         Promise.resolve(newTopic)
       );
       const alertStub = sinon.stub();
-      element.addEventListener('show-alert', alertStub);
+      element.addEventListener(EventType.SHOW_ALERT, alertStub);
       sinon.stub(GerritNav, 'getUrlForTopic').returns('/q/topic:the+new+topic');
       await element.updateComplete;
       const chip = queryAndAssert<GrLinkedChip>(element, 'gr-linked-chip');
@@ -958,7 +959,7 @@ suite('gr-change-metadata tests', () => {
         Promise.resolve(newHashtag)
       );
       const alertStub = sinon.stub();
-      element.addEventListener('show-alert', alertStub);
+      element.addEventListener(EventType.SHOW_ALERT, alertStub);
       element.handleHashtagChanged(
         new CustomEvent('test', {detail: 'new hashtag'})
       );

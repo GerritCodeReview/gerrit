@@ -26,6 +26,7 @@ import {
   createDetailedLabelInfo,
 } from '../../../test/test-data-generators.js';
 import {GrButton} from '../gr-button/gr-button.js';
+import {EventType} from '../../../types/events';
 
 suite('gr-hovercard-account tests', () => {
   let element: GrHovercardAccount;
@@ -281,7 +282,7 @@ suite('gr-hovercard-account tests', () => {
     const showAlertListener = sinon.spy();
     const hideAlertListener = sinon.spy();
     const updatedListener = sinon.spy();
-    element._target.addEventListener('show-alert', showAlertListener);
+    element._target.addEventListener(EventType.SHOW_ALERT, showAlertListener);
     element._target.addEventListener('hide-alert', hideAlertListener);
     element._target.addEventListener('attention-set-updated', updatedListener);
 
@@ -335,7 +336,7 @@ suite('gr-hovercard-account tests', () => {
     const showAlertListener = sinon.spy();
     const hideAlertListener = sinon.spy();
     const updatedListener = sinon.spy();
-    element._target.addEventListener('show-alert', showAlertListener);
+    element._target.addEventListener(EventType.SHOW_ALERT, showAlertListener);
     element._target.addEventListener('hide-alert', hideAlertListener);
     element._target.addEventListener('attention-set-updated', updatedListener);
 

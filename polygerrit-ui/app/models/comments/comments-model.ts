@@ -42,6 +42,7 @@ import {ReportingService} from '../../services/gr-reporting/gr-reporting';
 import {Model} from '../model';
 import {Deduping} from '../../api/reporting';
 import {extractMentionedUsers} from '../../utils/account-util';
+import {EventType} from '../../types/events';
 
 export interface CommentState {
   /** undefined means 'still loading' */
@@ -569,7 +570,7 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
     this.updateState(s => deleteDraft(s, draft));
     // We don't store empty discarded drafts and don't need an UNDO then.
     if (draft.message?.trim()) {
-      fire(document, 'show-alert', {
+      fire(document, EventType.SHOW_ALERT, {
         message: 'Draft Discarded',
         action: 'Undo',
         callback: () => this.restoreDraft(draft.id),

@@ -55,6 +55,7 @@ import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread'
 import {assertIsDefined} from '../../../utils/common-util';
 import {GrAnnotationActionsInterface} from '../../shared/gr-js-api-interface/gr-annotation-actions-js-api';
 import {fixture, html} from '@open-wc/testing';
+import {EventType} from '../../../types/events';
 
 suite('gr-diff-host tests', () => {
   let element: GrDiffHost;
@@ -725,7 +726,7 @@ suite('gr-diff-host tests', () => {
     test('loadBlame', async () => {
       const mockBlame: BlameInfo[] = [createBlame()];
       const showAlertStub = sinon.stub();
-      element.addEventListener('show-alert', showAlertStub);
+      element.addEventListener(EventType.SHOW_ALERT, showAlertStub);
       const getBlameStub = stubRestApi('getBlame').returns(
         Promise.resolve(mockBlame)
       );
@@ -757,7 +758,7 @@ suite('gr-diff-host tests', () => {
       const mockBlame: BlameInfo[] = [];
       const showAlertStub = sinon.stub();
       const isBlameLoadedStub = sinon.stub();
-      element.addEventListener('show-alert', showAlertStub);
+      element.addEventListener(EventType.SHOW_ALERT, showAlertStub);
       element.addEventListener('is-blame-loaded-changed', isBlameLoadedStub);
       stubRestApi('getBlame').returns(Promise.resolve(mockBlame));
       const changeNum = 42 as NumericChangeId;
@@ -1399,7 +1400,7 @@ suite('gr-diff-host tests', () => {
 
     test('cannot create thread on an edit', () => {
       const alertSpy = sinon.spy();
-      element.addEventListener('show-alert', alertSpy);
+      element.addEventListener(EventType.SHOW_ALERT, alertSpy);
 
       const diffSide = Side.RIGHT;
       element.patchRange = {
@@ -1427,7 +1428,7 @@ suite('gr-diff-host tests', () => {
 
     test('cannot create thread on an edit base', () => {
       const alertSpy = sinon.spy();
-      element.addEventListener('show-alert', alertSpy);
+      element.addEventListener(EventType.SHOW_ALERT, alertSpy);
 
       const diffSide = Side.LEFT;
       element.patchRange = {

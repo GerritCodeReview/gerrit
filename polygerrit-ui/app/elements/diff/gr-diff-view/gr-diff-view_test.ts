@@ -66,6 +66,7 @@ import {ParsedChangeInfo} from '../../../types/types';
 import {assertIsDefined} from '../../../utils/common-util';
 import {GrDiffModeSelector} from '../../../embed/diff/gr-diff-mode-selector/gr-diff-mode-selector';
 import {fixture, html} from '@open-wc/testing';
+import {EventType} from '../../../types/events';
 
 function createComment(
   id: string,
@@ -2354,7 +2355,10 @@ suite('gr-diff-view tests', () => {
         MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
 
         assert.isTrue(moveToNextChunkStub.called);
-        assert.equal(dispatchEventStub.lastCall.args[0].type, 'show-alert');
+        assert.equal(
+          dispatchEventStub.lastCall.args[0].type,
+          EventType.SHOW_ALERT
+        );
         assert.isFalse(navToFileStub.called);
       });
 
@@ -2394,7 +2398,10 @@ suite('gr-diff-view tests', () => {
         MockInteractions.pressAndReleaseKeyOn(element, 80, null, 'p');
 
         assert.isTrue(moveToPreviousChunkStub.called);
-        assert.equal(dispatchEventStub.lastCall.args[0].type, 'show-alert');
+        assert.equal(
+          dispatchEventStub.lastCall.args[0].type,
+          EventType.SHOW_ALERT
+        );
         assert.isFalse(navToFileStub.called);
       });
 

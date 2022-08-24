@@ -7,6 +7,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-js-api-interface.js';
 import {GrPluginActionContext} from './gr-plugin-action-context.js';
 import {addListenerForTest} from '../../../test/test-utils.js';
+import {EventType} from '../../../types/events.js';
 
 suite('gr-plugin-action-context tests', () => {
   let instance;
@@ -123,7 +124,7 @@ suite('gr-plugin-action-context tests', () => {
       send: sendStub,
     });
     const errorStub = sinon.stub();
-    addListenerForTest(document, 'show-alert', errorStub);
+    addListenerForTest(document, EventType.SHOW_ALERT, errorStub);
     instance.call();
     await flush();
     assert.isTrue(errorStub.calledOnce);

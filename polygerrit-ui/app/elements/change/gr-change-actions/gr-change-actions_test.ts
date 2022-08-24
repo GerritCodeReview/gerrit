@@ -58,6 +58,7 @@ import {GrConfirmRebaseDialog} from '../gr-confirm-rebase-dialog/gr-confirm-reba
 import {GrConfirmMoveDialog} from '../gr-confirm-move-dialog/gr-confirm-move-dialog';
 import {GrConfirmAbandonDialog} from '../gr-confirm-abandon-dialog/gr-confirm-abandon-dialog';
 import {GrConfirmRevertDialog} from '../gr-confirm-revert-dialog/gr-confirm-revert-dialog';
+import {EventType} from '../../../types/events';
 
 // TODO(dhruvsri): remove use of _populateRevertMessage as it's private
 suite('gr-change-actions tests', () => {
@@ -2436,7 +2437,7 @@ suite('gr-change-actions tests', () => {
         onShowError = sinon.stub();
         element.addEventListener('show-error', onShowError);
         onShowAlert = sinon.stub();
-        element.addEventListener('show-alert', onShowAlert);
+        element.addEventListener(EventType.SHOW_ALERT, onShowAlert);
       });
 
       suite('happy path', () => {

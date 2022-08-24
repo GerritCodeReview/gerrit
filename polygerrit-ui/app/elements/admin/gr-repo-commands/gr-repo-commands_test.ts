@@ -16,7 +16,7 @@ import {
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
-import {PageErrorEvent} from '../../../types/events';
+import {EventType, PageErrorEvent} from '../../../types/events';
 import {RepoName} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {fixture, html} from '@open-wc/testing';
@@ -138,7 +138,7 @@ suite('gr-repo-commands tests', () => {
       handleSpy = sinon.spy(element, 'handleEditRepoConfig');
       alertStub = sinon.stub();
       element.repo = 'test' as RepoName;
-      element.addEventListener('show-alert', alertStub);
+      element.addEventListener(EventType.SHOW_ALERT, alertStub);
     });
 
     test('successful creation of change', async () => {

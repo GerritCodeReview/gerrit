@@ -15,7 +15,7 @@ import {ChangeInfo, AccountInfo, ServerInfo} from '../../../types/common';
 import {assertIsDefined, hasOwnProperty} from '../../../utils/common-util';
 import {fireEvent} from '../../../utils/event-util';
 import {isInvolved} from '../../../utils/change-util';
-import {ShowAlertEventDetail} from '../../../types/events';
+import {EventType, ShowAlertEventDetail} from '../../../types/events';
 import {LitElement, css, html, TemplateResult} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
@@ -362,7 +362,7 @@ export class GrAccountLabel extends LitElement {
     if (!this.account._account_id) return;
 
     this.dispatchEvent(
-      new CustomEvent<ShowAlertEventDetail>('show-alert', {
+      new CustomEvent<ShowAlertEventDetail>(EventType.SHOW_ALERT, {
         detail: {
           message: 'Saving attention set update ...',
           dismissOnNavigation: true,

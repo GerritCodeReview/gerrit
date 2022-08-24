@@ -24,6 +24,7 @@ import {GrEndpointDecorator} from '../../plugins/gr-endpoint-decorator/gr-endpoi
 import {GrDefaultEditor} from '../gr-default-editor/gr-default-editor';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {fixture, html} from '@open-wc/testing';
+import {EventType} from '../../../types/events';
 
 suite('gr-editor-view tests', () => {
   let element: GrEditorView;
@@ -422,7 +423,7 @@ suite('gr-editor-view tests', () => {
 
   test('showAlert', async () => {
     const promise = mockPromise();
-    element.addEventListener('show-alert', e => {
+    element.addEventListener(EventType.SHOW_ALERT, e => {
       assert.deepEqual(e.detail, {message: 'test message', showDismiss: true});
       assert.isTrue(e.bubbles);
       promise.resolve();
@@ -500,7 +501,7 @@ suite('gr-editor-view tests', () => {
       );
 
       const alertStub = sinon.stub();
-      element.addEventListener('show-alert', alertStub);
+      element.addEventListener(EventType.SHOW_ALERT, alertStub);
 
       return element
         .getFileData(1 as NumericChangeId, 'test', 1 as PatchSetNum)
@@ -528,7 +529,7 @@ suite('gr-editor-view tests', () => {
       );
 
       const alertStub = sinon.stub();
-      element.addEventListener('show-alert', alertStub);
+      element.addEventListener(EventType.SHOW_ALERT, alertStub);
 
       return element
         .getFileData(1 as NumericChangeId, 'test', 1 as PatchSetNum)

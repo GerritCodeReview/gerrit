@@ -87,7 +87,7 @@ import {
   getVotingRange,
   StandardLabels,
 } from '../../../utils/label-util';
-import {ShowAlertEventDetail} from '../../../types/events';
+import {EventType, ShowAlertEventDetail} from '../../../types/events';
 import {
   ActionPriority,
   ActionType,
@@ -1943,7 +1943,7 @@ export class GrChangeActions
       .then(result => {
         if (!result.isLatest) {
           this.dispatchEvent(
-            new CustomEvent<ShowAlertEventDetail>('show-alert', {
+            new CustomEvent<ShowAlertEventDetail>(EventType.SHOW_ALERT, {
               detail: {
                 message:
                   'Cannot set label: a newer patch has been ' +

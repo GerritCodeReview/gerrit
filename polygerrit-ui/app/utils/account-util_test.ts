@@ -8,6 +8,7 @@ import {
   computeVoteableText,
   extractMentionedUsers,
   getAccountTemplate,
+  isAccountEmailOnly,
   isServiceUser,
   removeServiceUsers,
   replaceTemplates,
@@ -25,8 +26,11 @@ import {
 } from '../api/rest-api';
 import {
   createAccountDetailWithId,
+  createAccountWithEmail,
+  createAccountWithId,
   createChange,
   createDetailedLabelInfo,
+  createGroupInfo,
   createServerInfo,
 } from '../test/test-data-generators';
 
@@ -118,6 +122,14 @@ suite('account-util tests', () => {
       EMPTY,
       ERNIE,
     ]);
+  });
+
+  test('isAccountEmailOnly', () => {
+    assert.isFalse(isAccountEmailOnly(createAccountWithId(1)));
+    assert.isTrue(
+      isAccountEmailOnly(createAccountWithEmail('a' as EmailAddress))
+    );
+    assert.isFalse(isAccountEmailOnly(createGroupInfo()));
   });
 
   test('replaceTemplates with display config', () => {

@@ -10,7 +10,7 @@ import {
 } from '../../../api/diff';
 import {GrDiffLine, GrDiffLineType, LineNumber} from '../gr-diff/gr-diff-line';
 import {GrDiffGroup} from '../gr-diff/gr-diff-group';
-
+import {assert} from '../../../utils/common-util';
 import '../gr-context-controls/gr-context-controls';
 import {BlameInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';

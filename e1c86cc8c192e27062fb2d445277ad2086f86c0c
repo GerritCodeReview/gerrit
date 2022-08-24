@@ -88,6 +88,24 @@
       "parentUuid": "0eec7065_1a43a4e3",
       "revId": "e1c86cc8c192e27062fb2d445277ad2086f86c0c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a462be3_77e05db4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-08-24T10:06:14Z",
+      "side": 1,
+      "message": "\u003e Forgetting to publish drafts is known issue, which we have ideas on improving. This doesn\u0027t however mean that we can never make changes that even slightly reduce the prominence of existing drafts (like changing the color).\n\ni think it does, until you actually implement said ideas.\n\n\u003e (drafts don\u0027t make sense as the first element in the list of chips, because it\u0027s not the first thing you need to look at, when you arrive at the page. In fact it\u0027s probably the last).\n\nmaybe the argument you\u0027re looking for is that drafts don\u0027t belong into this particular list at all? the presence of drafts is a different dimension than the presence of (un-)resolved threads. in fact, the presentation of threads in different states as chips is kinda weird - a more traditional \"status line\" would look something like \"3 drafts | 7/10 threads resolved\".\n\n\u003e However in the context of making an argument, it\u0027s more a reference to \"work been done\" - an indication, that the change is not otherwise arbitrary, even if the artifacts of the work are not readily shareable.\n\ni don\u0027t buy that. decisions need to be verifiable, otherwise you\u0027re violating the spirit of true openness.",
+      "parentUuid": "da19f6ed_cf4fba19",
+      "revId": "e1c86cc8c192e27062fb2d445277ad2086f86c0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

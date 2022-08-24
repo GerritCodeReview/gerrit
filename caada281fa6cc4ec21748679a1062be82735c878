@@ -22,6 +22,30 @@
       },
       "revId": "caada281fa6cc4ec21748679a1062be82735c878",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcdbdbba_9197ac45",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-24T02:06:03Z",
+      "side": 1,
+      "message": "\u003e Should this behaviour be considered a bug?\n\nReading the tip version of the docs [1], I think it\u0027s not a bug. It\u0027s the maximum amount of results to get from the index backend (ever, not per-request/restart). Given that, I think probably we need a new config value for it.\n\nThat said, after this merges up to master, maybe on master we will want to fix what\u0027s necessary to ensure that there isn\u0027t a need to ever set maxLimit or maxPages to anything but unlimited (at least when using Lucene or ES).\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#index.maxLimit",
+      "parentUuid": "a73d520d_92ef7fd1",
+      "range": {
+        "startLine": 124,
+        "startChar": 33,
+        "endLine": 124,
+        "endChar": 55
+      },
+      "revId": "caada281fa6cc4ec21748679a1062be82735c878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

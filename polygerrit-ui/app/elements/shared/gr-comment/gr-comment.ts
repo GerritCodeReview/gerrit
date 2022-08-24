@@ -310,11 +310,9 @@ export class GrComment extends LitElement {
         :host {
           display: block;
           font-family: var(--font-family);
-          padding: var(--spacing-m);
+          padding: 0;
         }
-        :host([collapsed]) {
-          padding: var(--spacing-s) var(--spacing-m);
-        }
+
         :host([saving]) {
           pointer-events: none;
         }
@@ -324,14 +322,28 @@ export class GrComment extends LitElement {
           opacity: 0.5;
         }
         .body {
-          padding-top: var(--spacing-m);
+          padding: var(--spacing-m);
+        }
+        :host([collapsed]) .body {
+          padding-top: 0;
+          padding-bottom: 0;
+        }
+        :host([collapsed]) .header {
+          padding-top: var(--spacing-s);
+          padding-bottom: var(--spacing-s);
+          border-bottom: 0px;
         }
         .header {
           align-items: center;
           cursor: pointer;
           display: flex;
+          padding: var(--spacing-m);
         }
-        .headerLeft > span {
+        .draft .header {
+          border-bottom: 1px solid var(--border-color);
+          background: var(--info-background);
+        }
+        .draft .headerLeft > span {
           font-weight: var(--font-weight-bold);
         }
         .headerMiddle {
@@ -341,8 +353,11 @@ export class GrComment extends LitElement {
         }
         .draftLabel,
         .draftTooltip {
-          color: var(--deemphasized-text-color);
+          color: var(--info-foreground);
           display: inline;
+        }
+        .draftTooltip gr-icon {
+          color: var(--info-foreground);
         }
         .date {
           justify-content: flex-end;
@@ -379,7 +394,7 @@ export class GrComment extends LitElement {
         }
         .editMessage {
           display: block;
-          margin: var(--spacing-m) 0;
+          margin-bottom: var(--spacing-m);
           width: 100%;
         }
         .show-hide {
@@ -406,9 +421,6 @@ export class GrComment extends LitElement {
         label.show-hide gr-icon {
           vertical-align: top;
         }
-        :host([collapsed]) #container .body {
-          padding-top: 0;
-        }
         #container .collapsedContent {
           display: block;
           overflow: hidden;
@@ -416,8 +428,7 @@ export class GrComment extends LitElement {
           text-overflow: ellipsis;
           white-space: nowrap;
         }
-        .resolve,
-        .unresolved {
+        .resolve {
           align-items: center;
           display: flex;
           flex: 1;
@@ -475,7 +486,11 @@ export class GrComment extends LitElement {
 
   override render() {
     if (isUnsaved(this.comment) && !this.editing) return;
-    const classes = {container: true, draft: isDraftOrUnsaved(this.comment)};
+    const classes = {
+      container: true,
+      draft: isDraftOrUnsaved(this.comment),
+      unresolved: this.unresolved,
+    };
     return html`
       <div id="container" class=${classMap(classes)}>
         <div
@@ -484,8 +499,8 @@ export class GrComment extends LitElement {
           @click=${() => (this.collapsed = !this.collapsed)}
         >
           <div class="headerLeft">
-            ${this.renderAuthor()} ${this.renderPortedCommentMessage()}
-            ${this.renderDraftLabel()}
+            ${this.renderDraftLabel()} ${this.renderAuthor()}
+            ${this.renderPortedCommentMessage()}
           </div>
           <div class="headerMiddle">${this.renderCollapsedContent()}</div>
           ${this.renderRunDetails()} ${this.renderDeleteButton()}
@@ -502,6 +517,7 @@ export class GrComment extends LitElement {
   }
 
   private renderAuthor() {
+    if (isDraftOrUnsaved(this.comment)) return;
     if (isRobot(this.comment)) {
       const id = this.comment.robot_id;
       return html`<span class="robotName">${id}</span>`;
@@ -530,13 +546,13 @@ export class GrComment extends LitElement {
 
   private renderDraftLabel() {
     if (!isDraftOrUnsaved(this.comment)) return;
-    let label = 'DRAFT';
+    let label = 'draft';
     let tooltip =
       'This draft is only visible to you. ' +
       "To publish drafts, click the 'Reply' or 'Start review' button " +
       "at the top of the change or press the 'a' key.";
     if (this.unableToSave) {
-      label += ' (Failed to save)';
+      label += ' (failed to save)';
       tooltip = 'Unable to save draft. Please try to save again.';
     }
     return html`
@@ -545,9 +561,8 @@ export class GrComment extends LitElement {
         has-tooltip
         title=${tooltip}
         max-width="20em"
-        show-icon
       >
-        <span class="draftLabel">${label}</span>
+        <gr-icon icon="edit"></gr-icon> <span class="draftLabel">${label}</span>
       </gr-tooltip-content>
     `;
   }

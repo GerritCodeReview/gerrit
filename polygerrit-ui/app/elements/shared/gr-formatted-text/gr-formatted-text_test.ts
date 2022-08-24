@@ -518,4 +518,11 @@ suite('gr-formatted-text tests', () => {
     assert.equal(result[3].type, 'code');
     assert.equal(result[4].type, 'quote');
   });
+
+  test('text with \\t is paragraph', () => {
+    const comment = "Changes to NoteDb or entities packages require careful consideration. 		      Make sure your change is forward compatible and add the footer 		      'Forward-Compatible: checked' to your commit message";
+    const result = element._computeBlocks(comment);
+    assert.lengthOf(result, 1);
+    assert.equal(result[0].type, 'paragraph');
+  });
 });

@@ -74,7 +74,8 @@ export class ConfigModel extends Model<ConfigState> implements Finalizable {
     ];
   }
 
-  private updateRepoConfig(repoConfig?: ConfigInfo) {
+  // visible for testing
+  updateRepoConfig(repoConfig?: ConfigInfo) {
     const current = this.subject$.getValue();
     this.subject$.next({...current, repoConfig});
   }

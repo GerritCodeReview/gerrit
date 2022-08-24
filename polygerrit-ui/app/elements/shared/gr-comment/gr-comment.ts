@@ -66,6 +66,7 @@ import {changeModelToken} from '../../../models/change/change-model';
 import {Interaction} from '../../../constants/reporting';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {isBase64FileContent} from '../../../api/rest-api';
+import '../gr-markdown/gr-markdown';
 
 const UNSAVED_MESSAGE = 'Unable to save draft';
 
@@ -667,6 +668,7 @@ export class GrComment extends LitElement {
 
   private renderCommentMessage() {
     if (this.collapsed || this.editing) return;
+
     return html`
       <!--The "message" class is needed to ensure selectability from
           gr-diff-selection.-->

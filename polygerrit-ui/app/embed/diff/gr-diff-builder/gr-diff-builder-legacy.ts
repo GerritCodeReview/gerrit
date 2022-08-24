@@ -120,10 +120,12 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
         continue;
       }
       const lineNumberEl = this.getLineNumberEl(el, side);
-      el.parentElement.replaceChild(
-        this.createTextEl(lineNumberEl, line, side).firstChild!,
-        el
-      );
+      const newContent = this.createTextEl(lineNumberEl, line, side)
+        .firstChild as HTMLElement;
+      // Note that ${el.id} ${newContent.id} might actually mismatch: In unified
+      // diff we are rendering the same content twice for all the diff chunk
+      // that are unchanged from left to right. TODO: Be smarter about this.
+      el.parentElement.replaceChild(newContent, el);
     }
   }
 

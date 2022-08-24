@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48507fd0_a930bfb0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-08-24T12:18:07Z",
+      "side": 1,
+      "message": "Maybe add the one that affected me:\n\n SSHD-1163: Wrong server key algorithm choose\n\nWhich is certainly a corner case (needs a ssh-rsa host key and kex negotiated to one of the diffie-helmman algos).",
+      "revId": "c0085a49d1f89412d6c9189cca217892c2c7956b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee926562_ae6e7fd0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-08-24T12:18:07Z",
+      "side": 1,
+      "message": "Thanks! Looks like CI is not happy cause jgit is compiled targeting Java 8 but the source code requires Java 11?",
+      "revId": "c0085a49d1f89412d6c9189cca217892c2c7956b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

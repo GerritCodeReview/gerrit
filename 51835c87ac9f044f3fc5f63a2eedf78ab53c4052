@@ -22,6 +22,30 @@
       },
       "revId": "51835c87ac9f044f3fc5f63a2eedf78ab53c4052",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0edb1c55_2b257341",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-24T08:23:35Z",
+      "side": 1,
+      "message": "Yep, I keep misusing that word.",
+      "parentUuid": "620af269_4b7437d1",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 9
+      },
+      "revId": "51835c87ac9f044f3fc5f63a2eedf78ab53c4052",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

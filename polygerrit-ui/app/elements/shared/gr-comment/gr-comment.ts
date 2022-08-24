@@ -310,11 +310,9 @@ export class GrComment extends LitElement {
         :host {
           display: block;
           font-family: var(--font-family);
-          padding: var(--spacing-m);
+          padding: 0;
         }
-        :host([collapsed]) {
-          padding: var(--spacing-s) var(--spacing-m);
-        }
+
         :host([saving]) {
           pointer-events: none;
         }
@@ -324,20 +322,43 @@ export class GrComment extends LitElement {
           opacity: 0.5;
         }
         .body {
-          padding-top: var(--spacing-m);
+          padding: var(--spacing-m);
+        }
+        :host([collapsed]) .body {
+          padding-top: 0;
+          padding-bottom: 0;
+        }
+        :host([collapsed]) .header {
+          padding-top: var(--spacing-s);
+          padding-bottom: var(--spacing-s);
+          border-bottom: 0px;
         }
         .header {
           align-items: center;
           cursor: pointer;
           display: flex;
+          padding: var(--spacing-m);
         }
-        .headerLeft > span {
+        .draft .header {
+          border-bottom: 1px solid gray;
+          border-color: var(--gray-foreground);
+          background: var(--gray-background);
+        }
+        .draft.unresolved .header {
+          border-bottom: 1px solid gray;
+
+          border-color: var(--warning-foreground);
+          background: var(--warning-background);
+        }
+        .draft .headerLeft > span {
           font-weight: var(--font-weight-bold);
         }
         .headerMiddle {
           color: var(--deemphasized-text-color);
           flex: 1;
           overflow: hidden;
+          display: flex;
+          justify-content: space-around;
         }
         .draftLabel,
         .draftTooltip {
@@ -406,9 +427,6 @@ export class GrComment extends LitElement {
         label.show-hide gr-icon {
           vertical-align: top;
         }
-        :host([collapsed]) #container .body {
-          padding-top: 0;
-        }
         #container .collapsedContent {
           display: block;
           overflow: hidden;
@@ -416,8 +434,7 @@ export class GrComment extends LitElement {
           text-overflow: ellipsis;
           white-space: nowrap;
         }
-        .resolve,
-        .unresolved {
+        .resolve {
           align-items: center;
           display: flex;
           flex: 1;
@@ -475,7 +492,11 @@ export class GrComment extends LitElement {
 
   override render() {
     if (isUnsaved(this.comment) && !this.editing) return;
-    const classes = {container: true, draft: isDraftOrUnsaved(this.comment)};
+    const classes = {
+      container: true,
+      draft: isDraftOrUnsaved(this.comment),
+      unresolved: this.unresolved,
+    };
     return html`
       <div id="container" class=${classMap(classes)}>
         <div
@@ -485,9 +506,10 @@ export class GrComment extends LitElement {
         >
           <div class="headerLeft">
             ${this.renderAuthor()} ${this.renderPortedCommentMessage()}
-            ${this.renderDraftLabel()}
           </div>
-          <div class="headerMiddle">${this.renderCollapsedContent()}</div>
+          <div class="headerMiddle">
+            ${this.renderDraftLabel()} ${this.renderCollapsedContent()}
+          </div>
           ${this.renderRunDetails()} ${this.renderDeleteButton()}
           ${this.renderPatchset()} ${this.renderDate()} ${this.renderToggle()}
         </div>

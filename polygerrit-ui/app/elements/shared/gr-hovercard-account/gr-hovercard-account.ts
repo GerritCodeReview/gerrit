@@ -12,6 +12,7 @@ import {getAppContext} from '../../../services/app-context';
 import {
   accountKey,
   computeVoteableText,
+  isAccountEmailOnly,
   isSelf,
 } from '../../../utils/account-util';
 import {customElement, property, state} from 'lit/decorators.js';
@@ -34,7 +35,7 @@ import {CURRENT} from '../../../utils/patch-set-util';
 import {isInvolved, isRemovableReviewer} from '../../../utils/change-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {fontStyles} from '../../../styles/gr-font-styles';
-import {css, html, LitElement} from 'lit';
+import {css, html, LitElement, nothing} from 'lit';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {HovercardMixin} from '../../../mixins/hovercard-mixin/hovercard-mixin';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
@@ -221,6 +222,7 @@ export class GrHovercardAccount extends base {
   }
 
   private renderLinks() {
+    if (!this.account || isAccountEmailOnly(this.account)) return nothing;
     return html` <div class="links">
       <gr-icon icon="link" class="linkIcon"></gr-icon
       ><a

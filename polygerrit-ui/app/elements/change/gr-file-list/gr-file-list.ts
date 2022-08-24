@@ -78,6 +78,7 @@ import {when} from 'lit/directives/when.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {incrementalRepeat} from '../../lit/incremental-repeat';
 import {ifDefined} from 'lit/directives/if-defined.js';
+import {HtmlPatched} from '../../../utils/lit-util';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -294,6 +295,13 @@ export class GrFileList extends LitElement {
   private readonly getCommentsModel = resolve(this, commentsModelToken);
 
   private readonly getBrowserModel = resolve(this, browserModelToken);
+
+  private readonly patched = new HtmlPatched(key => {
+    this.reporting.reportInteraction(Interaction.AUTOCLOSE_HTML_PATCHED, {
+      component: this.tagName,
+      key: key.substring(0, 300),
+    });
+  });
 
   /** Called in disconnectedCallback. */
   private cleanups: (() => void)[] = [];
@@ -1024,7 +1032,7 @@ export class GrFileList extends LitElement {
       </div>
       ${when(
         this.isFileExpanded(file.__path),
-        () => html`
+        () => this.patched.html`
           <gr-diff-host
             ?noAutoRender=${true}
             ?showLoadFailure=${true}

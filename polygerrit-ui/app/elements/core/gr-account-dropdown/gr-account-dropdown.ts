@@ -47,7 +47,7 @@ export class GrAccountDropdown extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
     this.handleLocationChange();
-    window.addEventListener('location-change', this.handleLocationChange);
+    document.addEventListener('location-change', this.handleLocationChange);
     this.restApiService.getConfig().then(cfg => {
       this.config = cfg;
 
@@ -61,7 +61,7 @@ export class GrAccountDropdown extends LitElement {
   }
 
   override disconnectedCallback() {
-    window.removeEventListener('location-change', this.handleLocationChange);
+    document.removeEventListener('location-change', this.handleLocationChange);
     super.disconnectedCallback();
   }
 

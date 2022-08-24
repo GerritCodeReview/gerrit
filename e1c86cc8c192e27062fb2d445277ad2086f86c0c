@@ -34,6 +34,24 @@
       "parentUuid": "e772720a_eaccccee",
       "revId": "e1c86cc8c192e27062fb2d445277ad2086f86c0c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67f8d9fd_a007dcfa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-08-24T08:37:00Z",
+      "side": 1,
+      "message": "This is the result of UX teams work done to align icons used across different tools (including Google internal code review tool). Which is the reason for icon changes.\n\nThe positioning and color of drafts is changing, because it effectively \"Action Items you\u0027ve already addressed\", so we think it shouldn\u0027t be as prominent as Action Items you still have to address\" (such as unresolved comments).\n\nOf course it\u0027s not magical 100% clear improvements without any trade-offs. But as Chris said, we would like to stick to suggestions made by UX design team.",
+      "parentUuid": "aa7bd4d2_b3e67587",
+      "revId": "e1c86cc8c192e27062fb2d445277ad2086f86c0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

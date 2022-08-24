@@ -349,9 +349,6 @@ export class GrAccountList extends LitElement {
         return true;
       }
     }
-    this.reporting.error(
-      new Error(`Received "remove" event for missing account: ${toRemove}`)
-    );
     return false;
   }
 

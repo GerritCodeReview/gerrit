@@ -56,6 +56,10 @@ export class GrVoteChip extends LitElement {
           border: none;
           padding: 2px;
         }
+        :host(:not([circle-shape])).container {
+          /* fix for firefox */
+          display: inline-block;
+        }
         .vote-chip.max {
           background-color: var(--vote-color-approved);
           padding: 2px;

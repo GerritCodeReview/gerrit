@@ -549,12 +549,13 @@ export class GrChangeSummary extends LitElement {
                 countResolvedComments,
                 countUnresolvedComments
               )}
-              ${this.renderMentionChip()} ${this.renderDraftChip()}
+              ${this.renderMentionChip()}
               ${this.renderUnresolvedCommentsChip(
                 countUnresolvedComments,
                 unresolvedAuthors
               )}
               ${this.renderResolvedCommentsChip(countResolvedComments)}
+              ${this.renderDraftChip()}
             </td>
           </tr>
           ${this.renderChecksSummary()}
@@ -593,9 +594,10 @@ export class GrChangeSummary extends LitElement {
   private renderDraftChip() {
     if (!this.draftCount) return nothing;
     return html` <gr-summary-chip
-      styleType=${SummaryChipStyles.WARNING}
+      styleType=${SummaryChipStyles.CHECK}
       category=${CommentTabState.DRAFTS}
-      icon="edit"
+      icon="rate_review"
+      iconFilled
     >
       ${pluralize(this.draftCount, 'draft')}</gr-summary-chip
     >`;
@@ -625,6 +627,7 @@ export class GrChangeSummary extends LitElement {
       styleType=${SummaryChipStyles.CHECK}
       category=${CommentTabState.SHOW_ALL}
       icon="mark_chat_read"
+      iconFilled
       >${countResolvedComments} resolved</gr-summary-chip
     >`;
   }

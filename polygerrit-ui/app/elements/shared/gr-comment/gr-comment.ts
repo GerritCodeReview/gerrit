@@ -667,6 +667,7 @@ export class GrComment extends LitElement {
 
   private renderCommentMessage() {
     if (this.collapsed || this.editing) return;
+
     return html`
       <!--The "message" class is needed to ensure selectability from
           gr-diff-selection.-->

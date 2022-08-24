@@ -126,6 +126,12 @@ export class GrVoteChip extends LitElement {
         .container {
           position: relative;
         }
+        /* fix for firefox only */
+        @supports (-moz-appearance: none) {
+          .container.more {
+            display: inline-block;
+          }
+        }
       `,
     ];
   }

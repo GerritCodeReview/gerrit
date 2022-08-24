@@ -90,6 +90,7 @@ import {
   TagInput,
   TopMenuEntryInfo,
   UrlEncodedCommentId,
+  UserId,
 } from '../../types/common';
 import {
   DiffInfo,
@@ -489,7 +490,10 @@ export interface RestApiService extends Finalizable {
    */
   getAccountGroups(): Promise<GroupInfo[] | undefined>;
 
-  getAccountDetails(userId: AccountId): Promise<AccountDetailInfo | undefined>;
+  getAccountDetails(
+    userId: UserId,
+    errFn?: ErrorCallback
+  ): Promise<AccountDetailInfo | undefined>;
 
   getAccountStatus(userId: AccountId): Promise<string | undefined>;
 

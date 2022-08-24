@@ -12,7 +12,7 @@ import {getAppContext} from '../../../services/app-context';
 import {getDisplayName} from '../../../utils/display-name-util';
 import {isSelf, isServiceUser} from '../../../utils/account-util';
 import {ChangeInfo, AccountInfo, ServerInfo} from '../../../types/common';
-import {hasOwnProperty} from '../../../utils/common-util';
+import {assertIsDefined, hasOwnProperty} from '../../../utils/common-util';
 import {fireEvent} from '../../../utils/event-util';
 import {isInvolved} from '../../../utils/change-util';
 import {ShowAlertEventDetail} from '../../../types/events';
@@ -96,6 +96,8 @@ export class GrAccountLabel extends LitElement {
   readonly reporting = getAppContext().reportingService;
 
   private readonly restApiService = getAppContext().restApiService;
+
+  private readonly accountsModel = getAppContext().accountsModel;
 
   static override get styles() {
     return [
@@ -184,6 +186,12 @@ export class GrAccountLabel extends LitElement {
         }
       `,
     ];
+  }
+
+  override async firstUpdated() {
+    assertIsDefined(this.account, 'account');
+    const account = await this.accountsModel.fillDetails(this.account);
+    if (account) this.account = account;
   }
 
   override render() {

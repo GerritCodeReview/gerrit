@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c47bd98_5d8a2ad3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar-stack.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-08-24T10:11:49Z",
+      "side": 1,
+      "message": "Used transparent (ie no border) as default. var(--border-color) looks like it meant for prominent kind of borders.",
+      "parentUuid": "59a6564d_6a959610",
+      "range": {
+        "startLine": 55,
+        "startChar": 54,
+        "endLine": 55,
+        "endChar": 61
+      },
+      "revId": "14a143d548849be00e2baae7cf2a6491e28eada6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8e4ce29e_01410b8b",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-08-24T09:29:21Z",
       "side": 1,
       "message": "```suggestion\n  private readonly getConfigModel \u003d resolve(this, configModelToken);\n\n  constructor() {\n    super();\n    subscribe(\n      this,\n      () \u003d\u003e this.getConfigModel().serverConfig$,\n      config \u003d\u003e {\n        this.hasAvatars \u003d Boolean(config?.plugin?.has_avatars);\n      }\n    );\n  }  \n```",
+      "range": {
+        "startLine": 64,
+        "startChar": 1,
+        "endLine": 72,
+        "endChar": 3
+      },
+      "revId": "14a143d548849be00e2baae7cf2a6491e28eada6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48344a1b_5d41f3eb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar-stack.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-08-24T10:11:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e4ce29e_01410b8b",
       "range": {
         "startLine": 64,
         "startChar": 1,

@@ -115,11 +115,11 @@ Developer Setup guide to configure a local site for testing.
 
 == Testing
 
-=== The Gerrit web app UI is served by `server.go` process. To launch it,
+=== The Gerrit web app UI is served by `Web Dev Server`. To launch it,
 run this command:
 
 ----
-  $ bazel run polygerrit-ui:devserver
+  $ npm run start
 ----
 
 === Running the Daemon

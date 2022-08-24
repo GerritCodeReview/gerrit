@@ -108,26 +108,16 @@ options `--project polygerrit-ui/app/tsconfig.json` in the IDE settings.
 
 ## Serving files locally
 
-#### Go server
+#### Web Dev Server
 
-To test the local Polymer frontend against production data or a local test site execute:
+To test the local frontend against production data or a local test site execute:
 
 ```sh
-./polygerrit-ui/run-server.sh
-
-// or
 npm run start
 ```
 
-These commands start the [simple hand-written Go webserver](https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/server.go).
-Mostly it just switches between serving files locally and proxying the real
-server based on the file name. It also does some basic response rewriting, e.g.
-it patches the `config/server/info` response with plugin information provided on
-the command line:
-
-```sh
-./polygerrit-ui/run-server.sh --plugins=plugins/my_plugin/static/my_plugin.js
-```
+This command starts the [Web Dev Server](https://modern-web.dev/docs/dev-server/overview/).
+To inject plugins or other files, we use the [Gerrit FE Dev Helper](https://chrome.google.com/webstore/detail/gerrit-fe-dev-helper/jimgomcnodkialnpmienbomamgomglkd) Chrome extension.
 
 If any issues occured, please refer to the Troubleshooting section at the bottom or contact the team!
 

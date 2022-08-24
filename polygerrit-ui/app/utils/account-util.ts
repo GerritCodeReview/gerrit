@@ -59,6 +59,11 @@ export function getUserId(entry: AccountInfo | GroupInfo): UserId {
   assertNever(entry, 'entry must be account or group');
 }
 
+export function isAccountEmailOnly(entry: AccountInfo | GroupInfo) {
+  if (isGroup(entry)) return false;
+  return !entry._account_id;
+}
+
 export function isAccountNewlyAdded(
   account: AccountInfo | GroupInfo,
   state?: ReviewerState,

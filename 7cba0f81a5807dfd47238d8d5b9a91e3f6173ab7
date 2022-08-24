@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d42421b4_2d4b9058",
+        "filename": "polygerrit-ui/app/models/accounts-model/accounts-model_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-24T08:43:32Z",
+      "side": 1,
+      "message": "accounts",
+      "range": {
+        "startLine": 13,
+        "startChar": 7,
+        "endLine": 13,
+        "endChar": 13
+      },
+      "revId": "7cba0f81a5807dfd47238d8d5b9a91e3f6173ab7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a6156bdf_fb90fea1",
         "filename": "polygerrit-ui/app/models/accounts-model/accounts-model_test.ts",
         "patchSetId": 6
@@ -14,6 +37,30 @@
       "writtenOn": "2022-08-23T14:38:27Z",
       "side": 1,
       "message": "@brohlfs@google.com added tests. PTAL.",
+      "range": {
+        "startLine": 24,
+        "startChar": 2,
+        "endLine": 24,
+        "endChar": 6
+      },
+      "revId": "7cba0f81a5807dfd47238d8d5b9a91e3f6173ab7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5cecf02_9684f8be",
+        "filename": "polygerrit-ui/app/models/accounts-model/accounts-model_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-24T08:43:32Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "a6156bdf_fb90fea1",
       "range": {
         "startLine": 24,
         "startChar": 2,

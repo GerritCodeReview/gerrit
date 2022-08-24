@@ -251,6 +251,8 @@ suite('gr-comment tests', () => {
                   class="draft"
                   deselected=""
                 ></gr-account-label>
+              </div>
+              <div class="headerMiddle">
                 <gr-tooltip-content
                   class="draftTooltip"
                   has-tooltip=""
@@ -261,7 +263,6 @@ suite('gr-comment tests', () => {
                   <span class="draftLabel">DRAFT</span>
                 </gr-tooltip-content>
               </div>
-              <div class="headerMiddle"></div>
               <span class="patchset-text">Patchset 1</span>
               <span class="separator"></span>
               <span class="date" tabindex="0">
@@ -325,6 +326,8 @@ suite('gr-comment tests', () => {
                   class="draft"
                   deselected=""
                 ></gr-account-label>
+              </div>
+              <div class="headerMiddle">
                 <gr-tooltip-content
                   class="draftTooltip"
                   has-tooltip=""
@@ -335,7 +338,6 @@ suite('gr-comment tests', () => {
                   <span class="draftLabel">DRAFT</span>
                 </gr-tooltip-content>
               </div>
-              <div class="headerMiddle"></div>
               <span class="patchset-text">Patchset 1</span>
               <span class="separator"></span>
               <span class="date" tabindex="0">

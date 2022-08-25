@@ -735,6 +735,7 @@ export class GrComment extends LitElement {
 
   private renderDraftActions() {
     if (!isDraftOrUnsaved(this.comment)) return;
+    if (this.permanentEditingMode) return;
     return html`
       <div class="rightActions">
         ${this.autoSaving ? html`.&nbsp;&nbsp;` : ''}

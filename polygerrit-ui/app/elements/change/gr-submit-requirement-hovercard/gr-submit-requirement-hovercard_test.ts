@@ -138,7 +138,12 @@ suite('gr-submit-requirement-hovercard tests', () => {
               Submit condition:
               <br />
               <span class="expression">
-                label:Verified=MAX -label:Verified=MIN
+                <span class="passing atom" title="Atom evaluates to True">
+                  label:Verified=MAX
+                </span>
+                <span class="passing atom" title="Atom evaluates to True">
+                  -label:Verified=MIN
+                </span>
               </span>
             </div>
           </div>

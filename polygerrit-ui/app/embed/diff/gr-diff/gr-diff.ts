@@ -861,12 +861,24 @@ export class GrDiff extends LitElement implements GrDiffApi {
           display: none;
         }
         .lineNum.COVERED .lineNumButton {
+          color: var(
+            --coverage-covered-line-num-color,
+            var(--deemphasized-text-color)
+          );
           background-color: var(--coverage-covered, #e0f2f1);
         }
         .lineNum.NOT_COVERED .lineNumButton {
+          color: var(
+            --coverage-covered-line-num-color,
+            var(--deemphasized-text-color)
+          );
           background-color: var(--coverage-not-covered, #ffd1a4);
         }
         .lineNum.PARTIALLY_COVERED .lineNumButton {
+          color: var(
+            --coverage-covered-line-num-color,
+            var(--deemphasized-text-color)
+          );
           background: linear-gradient(
             to right bottom,
             var(--coverage-not-covered, #ffd1a4) 0%,

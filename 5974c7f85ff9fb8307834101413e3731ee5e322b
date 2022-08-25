@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce7403a6_eb86bd49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-25T09:22:53Z",
+      "side": 1,
+      "message": "@brohlfs@google.com sending for an early impression.\nFeel free to note down any concerns/future pitfalls you may see and I will note them down in the main bug.\nOverall with this change I want to make small incremental progress and discover the issues as they come.(as it\u0027s flag protected).\nIn case you think this should not be merged feel free to treat CR + 1 as the approval and I can start building future changes on top of this.\nI\u0027m not in a hurry to get this merged but would like to get a review of the idea and brainstorm potential issues. 😊",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 15
+      },
+      "revId": "5974c7f85ff9fb8307834101413e3731ee5e322b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

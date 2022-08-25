@@ -688,17 +688,18 @@ export class GrReplyDialog extends LitElement {
       this,
       () => this.getCommentsModel().draftThreads$,
       threads => {
-        this.draftCommentThreads = threads.map(thread => {
-          const copiedThread = {...thread};
-          // Make a hardcopy of all comments and collapse all but last one
-          const commentsInThread = (copiedThread.comments = thread.comments.map(
-            comment => {
-              return {...comment, collapsed: true as boolean};
-            }
-          ));
-          commentsInThread[commentsInThread.length - 1].collapsed = false;
-          return copiedThread;
-        });
+        this.draftCommentThreads = threads
+          .filter(t => t.path !== SpecialFilePath.PATCHSET_LEVEL_COMMENTS)
+          .map(thread => {
+            const copiedThread = {...thread};
+            // Make a hardcopy of all comments and collapse all but last one
+            const commentsInThread = (copiedThread.comments =
+              thread.comments.map(comment => {
+                return {...comment, collapsed: true as boolean};
+              }));
+            commentsInThread[commentsInThread.length - 1].collapsed = false;
+            return copiedThread;
+          });
       }
     );
   }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d45ed361_8d5043ac",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-25T11:00:37Z",
+      "side": 1,
+      "message": "I think I would prefer to keep the `editing` state as is. That would reflect the *state* of the component.\n\nInstead you could add a `@property` for the *behavior*, maybe something like `permanentEditingMode`, which the reply dialog can set. And that behavior would prevent the `save()` method from setting `this.editing \u003d false;`.",
+      "revId": "3620d823928c4cc44f429f7adc52dd6fc2cc8536",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

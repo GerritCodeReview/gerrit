@@ -72,6 +72,7 @@ ts_project(
         exclude = [
             "node_modules/**",
             "node_modules_licenses/**",
+            "plugins/**",
             "rollup.config.js",
         ],
     ),
@@ -108,6 +109,7 @@ filegroup(
         exclude = [
             "node_modules/**",
             "node_modules_licenses/**",
+            "plugins/**",
         ],
     ) + [
         "@ui_dev_npm//:node_modules",
@@ -124,6 +126,7 @@ filegroup(
         exclude = [
             "node_modules/**",
             "node_modules_licenses/**",
+            "plugins/**",
         ],
     ) + [":compile_pg_with_tests"],
 )

@@ -20,6 +20,7 @@ export enum ChangeStates {
   ABANDONED = 'Abandoned',
   ACTIVE = 'Active',
   MERGE_CONFLICT = 'Merge Conflict',
+  GIT_CONFLICT = 'Git Conflict',
   MERGED = 'Merged',
   PRIVATE = 'Private',
   READY_TO_SUBMIT = 'Ready to submit',
@@ -37,6 +38,10 @@ export const MERGE_CONFLICT_TOOLTIP =
   'This change has merge conflicts. ' +
   'Download the patch and run "git rebase". ' +
   'Upload a new patchset after resolving all merge conflicts.';
+
+export const GIT_CONFLICT_TOOLTIP =
+  'A file contents of the change contain git conflict markers' +
+  'to indicate the conflicts.';
 
 const PRIVATE_TOOLTIP =
   'This change is only visible to its owner and ' +
@@ -89,7 +94,8 @@ export class GrChangeStatus extends LitElement {
           background-color: var(--status-private);
           color: var(--status-private);
         }
-        :host(.merge-conflict) .chip {
+        :host(.merge-conflict) .chip,
+        :host(.git-conflict) .chip {
           background-color: var(--status-conflict);
           color: var(--status-conflict);
         }
@@ -231,6 +237,9 @@ export class GrChangeStatus extends LitElement {
         break;
       case ChangeStates.MERGE_CONFLICT:
         this.tooltipText = MERGE_CONFLICT_TOOLTIP;
+        break;
+      case ChangeStates.GIT_CONFLICT:
+        this.tooltipText = GIT_CONFLICT_TOOLTIP;
         break;
       default:
         this.tooltipText = '';

@@ -73,6 +73,12 @@ suite('gr-confirm-rebase-dialog tests', () => {
             >
             </gr-autocomplete>
           </div>
+          <div class="rebaseAllowConflicts">
+            <input id="rebaseAllowConflicts" type="checkbox" />
+            <label for="rebaseAllowConflicts">
+              Allow rebase with conflicts
+            </label>
+          </div>
         </div>
       </gr-dialog> `
     );

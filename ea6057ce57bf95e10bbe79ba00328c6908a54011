@@ -1,5 +1,92 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "775464aa_4c1f167e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-25T17:55:27Z",
+      "side": 1,
+      "message": "Nice work!",
+      "range": {
+        "startLine": 12,
+        "startChar": 11,
+        "endLine": 12,
+        "endChar": 39
+      },
+      "revId": "ea6057ce57bf95e10bbe79ba00328c6908a54011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6791453d_bd5e9487",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-25T17:55:27Z",
+      "side": 1,
+      "message": "```suggestion\n          border-bottom: var(--spacing-xs) solid var(--error-foreground);\n```\n\n--spacing-xs are 2px",
+      "range": {
+        "startLine": 119,
+        "startChar": 25,
+        "endLine": 119,
+        "endChar": 28
+      },
+      "revId": "ea6057ce57bf95e10bbe79ba00328c6908a54011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "054d1ed1_3d656c42",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-25T17:55:27Z",
+      "side": 1,
+      "message": "```suggestion\n          border-bottom: var(--spacing-xs) solid var(--error-foreground);\n```\n\n--spacing-xs are 2px",
+      "range": {
+        "startLine": 122,
+        "startChar": 25,
+        "endLine": 122,
+        "endChar": 28
+      },
+      "revId": "ea6057ce57bf95e10bbe79ba00328c6908a54011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bbce504_c44e8de6",
+        "filename": "polygerrit-ui/app/utils/submit-requirement-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-25T17:55:27Z",
+      "side": 1,
+      "message": "Nit: All submit requirements utils are in label-util.ts. Maybe this can be move there, but I don\u0027t have strong preference.",
+      "revId": "ea6057ce57bf95e10bbe79ba00328c6908a54011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

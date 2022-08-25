@@ -73,7 +73,11 @@ import {
   difference,
   queryAndAssert,
 } from '../../../utils/common-util';
-import {CommentThread, isUnresolved} from '../../../utils/comment-util';
+import {
+  CommentThread,
+  isUnresolved,
+  UnsavedInfo,
+} from '../../../utils/comment-util';
 import {GrTextarea} from '../../shared/gr-textarea/gr-textarea';
 import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
 import {GrOverlay, GrOverlayStops} from '../../shared/gr-overlay/gr-overlay';
@@ -99,8 +103,12 @@ import {addShortcut, Key, Modifier} from '../../../utils/dom-util';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
-import {ConfigInfo, LabelNameToValuesMap} from '../../../api/rest-api';
-import {css, html, PropertyValues, LitElement} from 'lit';
+import {
+  ConfigInfo,
+  LabelNameToValuesMap,
+  RevisionPatchSetNum,
+} from '../../../api/rest-api';
+import {css, html, PropertyValues, LitElement, nothing} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {when} from 'lit/directives/when.js';
 import {classMap} from 'lit/directives/class-map.js';
@@ -111,6 +119,7 @@ import {configModelToken} from '../../../models/config/config-model';
 import {hasHumanReviewer, isOwner} from '../../../utils/change-util';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {commentsModelToken} from '../../../models/comments/comments-model';
+import {HtmlPatched} from '../../../utils/lit-util';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -912,6 +921,66 @@ export class GrReplyDialog extends LitElement {
     `;
   }
 
+  private createDraft(): UnsavedInfo {
+    assertIsDefined(this.patchNum, 'patchNum');
+    return {
+      // TODO: provide proper patchset, also check why "current" does not work
+      patch_set: 1 as RevisionPatchSetNum,
+      message: this.draft,
+      unresolved: !this.isResolvedPatchsetLevelComment,
+      path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS,
+      __unsaved: true,
+    };
+  }
+
+  private readonly patched = new HtmlPatched(key => {
+    this.reporting.reportInteraction(Interaction.AUTOCLOSE_HTML_PATCHED, {
+      component: this.tagName,
+      key: key.substring(0, 300),
+    });
+  });
+
+  private renderPatchsetLevelComment() {
+    if (
+      !this.flagsService.isEnabled(
+        KnownExperimentId.PATCHSET_LEVEL_COMMENT_USES_GRCOMMENT
+      )
+    )
+      return nothing;
+    const comment = this.createDraft();
+    return this.patched.html`
+      <gr-comment
+        .comment=${comment}
+        .comments=${[comment]}
+        ?initially-collapsed=${false}
+      ></gr-comment>
+    `;
+  }
+
+  private renderPatchsetLevelTextarea() {
+    if (
+      this.flagsService.isEnabled(
+        KnownExperimentId.PATCHSET_LEVEL_COMMENT_USES_GRCOMMENT
+      )
+    )
+      return nothing;
+    return html` <gr-textarea
+      id="textarea"
+      class="message newReplyDialog"
+      .autocomplete=${'on'}
+      .placeholder=${this.messagePlaceholder}
+      monospace
+      ?disabled=${this.disabled}
+      .rows=${4}
+      .text=${this.draft}
+      @bind-value-changed=${(e: BindValueChangeEvent) => {
+        this.draft = e.detail.value ?? '';
+        this.handleHeightChanged();
+      }}
+    >
+    </gr-textarea>`;
+  }
+
   private renderReplyText() {
     if (!this.change) return;
     return html`
@@ -924,21 +993,8 @@ export class GrReplyDialog extends LitElement {
         })}
       >
         <gr-endpoint-decorator name="reply-text">
-          <gr-textarea
-            id="textarea"
-            class="message newReplyDialog"
-            .autocomplete=${'on'}
-            .placeholder=${this.messagePlaceholder}
-            monospace
-            ?disabled=${this.disabled}
-            .rows=${4}
-            .text=${this.draft}
-            @bind-value-changed=${(e: BindValueChangeEvent) => {
-              this.draft = e.detail.value ?? '';
-              this.handleHeightChanged();
-            }}
-          >
-          </gr-textarea>
+          ${this.renderPatchsetLevelComment()}
+          ${this.renderPatchsetLevelTextarea()}
           <gr-endpoint-param name="change" .value=${this.change}>
           </gr-endpoint-param>
         </gr-endpoint-decorator>

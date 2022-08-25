@@ -162,6 +162,10 @@ export class GrComment extends LitElement {
   @property({type: Boolean, reflect: true})
   saving = false;
 
+  // Property not a state because GrReplyDialog always sets it to true
+  @property({type: Boolean})
+  editing = false;
+
   /**
    * `saving` and `autoSaving` are separate and cannot be set at the same time.
    * `saving` affects the UI state (disabled buttons, etc.) and eventually
@@ -173,9 +177,6 @@ export class GrComment extends LitElement {
 
   @state()
   changeNum?: NumericChangeId;
-
-  @state()
-  editing = false;
 
   @state()
   commentLinks: CommentLinks = {};

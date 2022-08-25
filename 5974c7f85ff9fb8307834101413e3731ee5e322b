@@ -41,6 +41,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "326da46a_ffefc9e5",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 927,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-25T11:05:10Z",
+      "side": 1,
+      "message": "I saw it was passing too many arguments, `patchNum` `path` `draft` `unresolved` hence didn\u0027t like being passed to the util.\nLeft a TODO in case it changes later.",
+      "parentUuid": "2fdf70ec_4857acde",
+      "revId": "5974c7f85ff9fb8307834101413e3731ee5e322b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3016d7e8_502661fa",
@@ -54,6 +72,24 @@
       "writtenOn": "2022-08-25T10:51:08Z",
       "side": 1,
       "message": "I don\u0027t think that you need this here. We have only seen this to be an issue inside `repeat()` and `when()`. If we start using the patch on a hyptothetical defensiveness basis, then we can as well replace *all* usages of `html`.",
+      "revId": "5974c7f85ff9fb8307834101413e3731ee5e322b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e93532c7_edb788c7",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 939,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-25T11:05:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3016d7e8_502661fa",
       "revId": "5974c7f85ff9fb8307834101413e3731ee5e322b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -75,6 +111,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d419244c_70e514bc",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 963,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-25T11:05:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70b6cf8b_197bfc8f",
+      "revId": "5974c7f85ff9fb8307834101413e3731ee5e322b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0567f55a_ed0dc20d",
@@ -88,6 +142,30 @@
       "writtenOn": "2022-08-25T10:51:08Z",
       "side": 1,
       "message": "```suggestion\n        hide-header\n```",
+      "range": {
+        "startLine": 964,
+        "startChar": 8,
+        "endLine": 964,
+        "endChar": 28
+      },
+      "revId": "5974c7f85ff9fb8307834101413e3731ee5e322b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29c5663d_5cf3d2c3",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 964,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-25T11:05:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0567f55a_ed0dc20d",
       "range": {
         "startLine": 964,
         "startChar": 8,

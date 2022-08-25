@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "17cd53c3_c4626646",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-25T13:02:40Z",
+      "side": 1,
+      "message": "Oops, forgot to upload",
+      "parentUuid": "056296e3_d817d810",
+      "range": {
+        "startLine": 242,
+        "startChar": 40,
+        "endLine": 242,
+        "endChar": 46
+      },
+      "revId": "15729d4acff0aaf644b586de100ec1b9584233eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3839ca8e_004ff18f",
         "filename": "polygerrit-ui/app/styles/themes/dark-theme.ts",
         "patchSetId": 1

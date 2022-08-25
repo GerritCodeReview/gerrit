@@ -6,7 +6,8 @@
     "@gerritcodereview/typescript-api": "3.6.0",
     "@polymer/decorators": "^3.0.0",
     "@polymer/polymer": "^3.4.1",
-    "lit": "^2.2.3"
+    "lit": "^2.2.3",
+    "rxjs": "^6.6.7"
   },
   "license": "Apache-2.0",
   "private": true

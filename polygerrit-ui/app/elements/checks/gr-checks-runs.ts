@@ -479,6 +479,8 @@ export class GrChecksRuns extends LitElement {
           width: 90px;
           padding: var(--spacing-l) var(--spacing-l) var(--spacing-xl)
             var(--spacing-l);
+          max-height: 600px;
+          overflow: hidden;
         }
         :host([collapsed]) * {
           pointer-events: none;

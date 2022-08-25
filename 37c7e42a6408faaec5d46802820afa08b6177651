@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d23ca0f0_c69dda57",
+        "filename": "plugins/replication",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-08-25T07:10:52Z",
+      "side": 0,
+      "message": "Why is the replication plugin being updated here?",
+      "revId": "37c7e42a6408faaec5d46802820afa08b6177651",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

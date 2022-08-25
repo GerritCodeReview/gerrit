@@ -125,9 +125,9 @@ export class GrDiffCursor implements GrDiffCursorApi {
   }
 
   dispose() {
+    this.cursorManager.unsetCursor();
     if (this.targetSubscription) this.targetSubscription.unsubscribe();
     window.removeEventListener('scroll', this._boundHandleWindowScroll);
-    this.cursorManager.unsetCursor();
   }
 
   // Don't remove - used by clients embedding gr-diff outside of Gerrit.
@@ -290,6 +290,7 @@ export class GrDiffCursor implements GrDiffCursorApi {
    * reset the scroll behavior, use reInit() instead.
    */
   reInitCursor() {
+    this._updateStops();
     if (!this.diffRow) {
       // does not scroll during init unless requested
       this.cursorManager.scrollMode = this.initialLineNumber
@@ -323,7 +324,6 @@ export class GrDiffCursor implements GrDiffCursorApi {
   }
 
   handleDiffUpdate() {
-    this._updateStops();
     this.reInitCursor();
   }
 

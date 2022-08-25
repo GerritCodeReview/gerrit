@@ -22,6 +22,30 @@
       },
       "revId": "8b6c59cdb4ab55c8b4205645628034db36daf59d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a39aa1c1_1dd420ef",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-25T09:16:15Z",
+      "side": 1,
+      "message": "No, we don\u0027t want a scroll. This is just for the collapsed version of the panel. The user can just click the panel to expand it and see all runs.",
+      "parentUuid": "756d3eea_49667b14",
+      "range": {
+        "startLine": 483,
+        "startChar": 10,
+        "endLine": 483,
+        "endChar": 27
+      },
+      "revId": "8b6c59cdb4ab55c8b4205645628034db36daf59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

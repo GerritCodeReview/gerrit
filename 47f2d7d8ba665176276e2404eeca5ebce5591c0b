@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "550ff556_476961b8",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-08-25T14:26:46Z",
+      "side": 1,
+      "message": "```suggestion\n * newPatchSet messages that have Outdated Votes are an exception to the \n * above and are important\n```",
+      "range": {
+        "startLine": 222,
+        "startChar": 3,
+        "endLine": 222,
+        "endChar": 66
+      },
+      "revId": "47f2d7d8ba665176276e2404eeca5ebce5591c0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "98d5a88e_5ed2412e",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.ts",
         "patchSetId": 2

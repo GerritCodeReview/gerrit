@@ -98,6 +98,24 @@
       "parentUuid": "6efbab76_daca4614",
       "revId": "6e80489d378dc437cd02e997e341b6754f1ed7e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ecb050be_c110d9fa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-25T18:07:24Z",
+      "side": 1,
+      "message": "\u003e @nasser.grainawi@linaro.org I was unsure about the existence of a pubsub mechanism for cache invalidations in OS code/plugins. I did a quick code search but it looks like there isn\u0027t.\n\nI think the high-availability plugin does do some cache evictions across primaries.\n\n\u003e In this case, yes you can set aggressive maxAge. Note that this problem is not specific to this cache, for example other in-memory caches (e.g. \"groups\" cache - see [1]) are invalidated in the same way.\n\nAgreed. We have a set of caches where we set maxAge to something like 5 minutes because we know they won\u0027t get updates from other primaries otherwise. We use refreshAfterWrite to try and mitigate the impact of expiring those entries and hopefully prevent user threads from waiting for a cache miss (at least for frequently used entries).\n\nWhat\u0027s your analysis of configuring this cache that way? Will it work well to mitigate the increase in latencies?\n\n\u003e To bring more context, Iba2284a7586b (which is guarded by an experiment) is now rolled out to all our instances and caused an increase to the p90 latencies - among others - which I\u0027m trying to enhance with this change.\n\u003e \n\u003e We can also set this cache to disabled by default with a hint that it can optimize performance for \"has:drafts\" queries.\n\nAssuming we\u0027re talking about future when this is non-experiment, I\u0027d be worried about disabling by default if you\u0027re already seeing performance issues, unless you somehow think those issues wouldn\u0027t affect a typical non-Google instance. I don\u0027t think reading from noteDb is guaranteed to be faster for non-Google though (and in fact, the commit message of Iba2284a7586b seems to say this was already measured and confirmed as a regression?).",
+      "parentUuid": "3e5903f6_4e0cf63e",
+      "revId": "6e80489d378dc437cd02e997e341b6754f1ed7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

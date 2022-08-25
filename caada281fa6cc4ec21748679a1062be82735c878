@@ -3,6 +3,86 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fb4499c3_681c4885",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3162,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-08-25T22:54:53Z",
+      "side": 1,
+      "message": "s/next/the next/\ns/if limit/if the limit/",
+      "range": {
+        "startLine": 3162,
+        "startChar": 40,
+        "endLine": 3162,
+        "endChar": 45
+      },
+      "revId": "caada281fa6cc4ec21748679a1062be82735c878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99f824c6_b355455a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3164,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-08-25T22:54:53Z",
+      "side": 1,
+      "message": "Maybe add some wording like:\n\nUsing a pageMultiplier allows queries to start off small and thus provide good latency for queries which may end up only have very few results, and then scaling up to have better throughput to handle queries with larger result sets without incurring the overhead of making as many queries as would be required with a smaller limit. This strategy of using a multiplier attempts to create a balance between latency and throughput by dynamically adjusting the query size to the number of results being returned by each query in the pagination.",
+      "revId": "caada281fa6cc4ec21748679a1062be82735c878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73ee164b_24c4998b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3165,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-08-25T22:54:53Z",
+      "side": 1,
+      "message": "We may want to add a section here with an explanation on how to tune this to a specific backend.",
+      "range": {
+        "startLine": 3165,
+        "startChar": 0,
+        "endLine": 3165,
+        "endChar": 1
+      },
+      "revId": "caada281fa6cc4ec21748679a1062be82735c878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05b298c1_bbdecac5",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3166,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-08-25T22:54:53Z",
+      "side": 1,
+      "message": "Maybe add \"which effectively turns this feature off.\"",
+      "revId": "caada281fa6cc4ec21748679a1062be82735c878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a73d520d_92ef7fd1",
         "filename": "java/com/google/gerrit/index/query/AndSource.java",
         "patchSetId": 1
@@ -38,6 +118,30 @@
       "side": 1,
       "message": "\u003e Should this behaviour be considered a bug?\n\nReading the tip version of the docs [1], I think it\u0027s not a bug. It\u0027s the maximum amount of results to get from the index backend (ever, not per-request/restart). Given that, I think probably we need a new config value for it.\n\nThat said, after this merges up to master, maybe on master we will want to fix what\u0027s necessary to ensure that there isn\u0027t a need to ever set maxLimit or maxPages to anything but unlimited (at least when using Lucene or ES).\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#index.maxLimit",
       "parentUuid": "a73d520d_92ef7fd1",
+      "range": {
+        "startLine": 124,
+        "startChar": 33,
+        "endLine": 124,
+        "endChar": 55
+      },
+      "revId": "caada281fa6cc4ec21748679a1062be82735c878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a355872e_70c6e041",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-08-25T22:54:53Z",
+      "side": 1,
+      "message": "In order to be able to set maxLimit to unlimited, we would need a maxPageSize which can be set to the backend limit to protect it. I would favor doing that in this change, but I am not against doing it in a follow on change.",
+      "parentUuid": "dcdbdbba_9197ac45",
       "range": {
         "startLine": 124,
         "startChar": 33,

@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "61f5b804_b04c6257",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-25T12:40:41Z",
+      "side": 1,
+      "message": "this is gray-200. We should be checking if the color is already on the material list to add a named variable in app-theme if it is not there already.",
+      "range": {
+        "startLine": 242,
+        "startChar": 40,
+        "endLine": 242,
+        "endChar": 46
+      },
+      "revId": "15729d4acff0aaf644b586de100ec1b9584233eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3839ca8e_004ff18f",
         "filename": "polygerrit-ui/app/styles/themes/dark-theme.ts",
         "patchSetId": 1
@@ -38,6 +61,30 @@
       "side": 1,
       "message": "These come directly from the UX spec",
       "parentUuid": "3839ca8e_004ff18f",
+      "range": {
+        "startLine": 241,
+        "startChar": 0,
+        "endLine": 243,
+        "endChar": 0
+      },
+      "revId": "15729d4acff0aaf644b586de100ec1b9584233eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84e0f110_b528080b",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-25T12:40:41Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "fcdf3405_42ed3f15",
       "range": {
         "startLine": 241,
         "startChar": 0,

@@ -50,7 +50,11 @@ import {
   createRevision,
 } from '../../../test/test-data-generators';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
-import {queryAll, queryAndAssert} from '../../../utils/common-util';
+import {
+  assertIsDefined,
+  queryAll,
+  queryAndAssert,
+} from '../../../utils/common-util';
 import {GrFileList, NormalizedFileInfo} from './gr-file-list';
 import {DiffPreferencesInfo} from '../../../types/diff';
 import {GrButton} from '../../shared/gr-button/gr-button';
@@ -895,6 +899,7 @@ suite('gr-file-list tests', () => {
         MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
         assert.equal(element.fileCursor.index, 1);
         assert.equal(element.selectedIndex, 1);
+        assertIsDefined(element.diffCursor);
 
         const createCommentInPlaceStub = sinon.stub(
           element.diffCursor,
@@ -1012,6 +1017,7 @@ suite('gr-file-list tests', () => {
       });
 
       test('shift+left/shift+right', () => {
+        assertIsDefined(element.diffCursor);
         const moveLeftStub = sinon.stub(element.diffCursor, 'moveLeft');
         const moveRightStub = sinon.stub(element.diffCursor, 'moveRight');
 
@@ -1286,6 +1292,7 @@ suite('gr-file-list tests', () => {
 
     test('expandAllDiffs and collapseAllDiffs', () => {
       const collapseStub = sinon.stub(element, '_clearCollapsedDiffs');
+      assertIsDefined(element.diffCursor);
       const cursorUpdateStub = sinon.stub(
         element.diffCursor,
         'handleDiffUpdate'
@@ -1958,6 +1965,7 @@ suite('gr-file-list tests', () => {
         await setupDiff(diffs[i]);
       }
 
+      assertIsDefined(element.diffCursor);
       element._updateDiffCursor();
       element.diffCursor.handleDiffUpdate();
       return diffs;
@@ -2118,6 +2126,7 @@ suite('gr-file-list tests', () => {
 
       setup(() => {
         sinon.stub(element, '_renderInOrder').returns(Promise.resolve());
+        assertIsDefined(element.diffCursor);
         nextCommentStub = sinon.stub(
           element.diffCursor,
           'moveToNextCommentThread'

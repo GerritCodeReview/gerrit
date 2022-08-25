@@ -56,7 +56,7 @@ suite('gr-markdown tests', () => {
   });
 
   test('renders markdown with links and rewrites', async () => {
-    element.markdown = '# Heading\ngoogle.com foo';
+    element.markdown = '# Heading\ngoogle.com foo\n> A quote';
     await setCommentLinks({
       'foo-capitalizer': {
         match: 'foo',
@@ -77,6 +77,11 @@ suite('gr-markdown tests', () => {
               </a>
               <div>FOO</div>
             </p>
+            <blockquote>
+              <p>
+                A quote
+              </p>
+            </blockquote>
           </div>
         </marked-element>
       `

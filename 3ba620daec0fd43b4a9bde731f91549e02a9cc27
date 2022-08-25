@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85b4dc05_925a39a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-25T14:32:14Z",
+      "side": 1,
+      "message": "You can probably manage to create two drafts in two separate tabs, but just picking the first one is fine, because this is really an edge case that we probably don\u0027t have to worry about that much.",
+      "range": {
+        "startLine": 17,
+        "startChar": 34,
+        "endLine": 18,
+        "endChar": 36
+      },
+      "revId": "3ba620daec0fd43b4a9bde731f91549e02a9cc27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbeb1757_7c706a09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-25T14:32:14Z",
+      "side": 1,
+      "message": "I think you rather want a `repeat()` of all drafts in the reply dialog then.",
+      "revId": "3ba620daec0fd43b4a9bde731f91549e02a9cc27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78d6da2d_c2a2457a",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-25T14:32:14Z",
+      "side": 1,
+      "message": "Convert this into a local state and subscribe to the model directly instead of handing this down from the change view.\n\nThen filter the patchset level drafts in the subscription.",
+      "revId": "3ba620daec0fd43b4a9bde731f91549e02a9cc27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

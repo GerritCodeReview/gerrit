@@ -148,6 +148,8 @@ interface ChecksState {
   };
 }
 
+const FETCH_RESULT_TIMEOUT_MS = 10000;
+
 /**
  * Can be used in `reduce()` to collect all results from all runs from all
  * providers into one array.
@@ -849,7 +851,19 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
         timer.end({pluginName});
         return response;
       });
-    return from(fetchPromise).pipe(
+    let timerId: number;
+
+    const timeoutPromise = new Promise<FetchResponse>((_, reject) => {
+      timerId = window.setTimeout(() => {
+        reject(new Error('Checks results took too long to fetch.'));
+      }, FETCH_RESULT_TIMEOUT_MS);
+    });
+    const racingPromise = Promise.race([fetchPromise, timeoutPromise]);
+    racingPromise.finally(() => {
+      if (timerId) clearTimeout(timerId);
+    });
+
+    return from(racingPromise).pipe(
       catchError(e => of(this.createErrorResponse(pluginName, e)))
     );
   }

@@ -10,6 +10,7 @@ import {query, queryAndAssert, stubStorage} from '../../../test/test-utils';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {GrButton} from '../gr-button/gr-button';
 import {fixture, html} from '@open-wc/testing';
+import {EventType} from '../../../types/events';
 
 suite('gr-editable-content tests', () => {
   let element: GrEditableContent;
@@ -204,7 +205,7 @@ suite('gr-editable-content tests', () => {
       await element.updateComplete;
       assert.equal(element.newContent, 'stored content');
       assert.isTrue(dispatchSpy.called);
-      assert.equal(dispatchSpy.lastCall.args[0].type, 'show-alert');
+      assert.equal(dispatchSpy.lastCall.args[0].type, EventType.SHOW_ALERT);
     });
 
     test('editing toggled to true, has no stored data', async () => {

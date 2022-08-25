@@ -354,7 +354,7 @@ export class GrErrorManager extends LitElement {
     el.show(text, actionText, actionCallback);
     this.alertElement = el;
     fireIronAnnounce(this, `Alert: ${text}`);
-    this.reporting.reportInteraction('show-alert', {text});
+    this.reporting.reportInteraction(EventType.SHOW_ALERT, {text});
   }
 
   private readonly hideAlert = () => {

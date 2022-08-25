@@ -7,7 +7,7 @@ import {getRootElement} from '../../scripts/rootElement';
 import {Constructor} from '../../utils/common-util';
 import {LitElement, PropertyValues} from 'lit';
 import {property, query} from 'lit/decorators.js';
-import {ShowAlertEventDetail} from '../../types/events';
+import {EventType, ShowAlertEventDetail} from '../../types/events';
 import {debounce, DelayedTask} from '../../utils/async-util';
 import {hovercardStyles} from '../../styles/gr-hovercard-styles';
 import {sharedStyles} from '../../styles/shared-styles';
@@ -313,7 +313,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
     dispatchEventThroughTarget(eventName: string): void;
 
     dispatchEventThroughTarget(
-      eventName: 'show-alert',
+      eventName: EventType.SHOW_ALERT,
       detail: ShowAlertEventDetail
     ): void;
 

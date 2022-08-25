@@ -39,6 +39,7 @@ import {css, html, LitElement, nothing} from 'lit';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {HovercardMixin} from '../../../mixins/hovercard-mixin/hovercard-mixin';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {EventType} from '../../../types/events';
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
 const base = HovercardMixin(LitElement);
@@ -398,7 +399,7 @@ export class GrHovercardAccount extends base {
     // accountKey() throws an error if _account_id & email is not found, which
     // we want to check before showing reloading toast
     const _accountKey = accountKey(this.account);
-    this.dispatchEventThroughTarget('show-alert', {
+    this.dispatchEventThroughTarget(EventType.SHOW_ALERT, {
       message: 'Reloading page...',
     });
     const reviewInput: Partial<ReviewInput> = {};
@@ -427,7 +428,7 @@ export class GrHovercardAccount extends base {
   private handleRemoveReviewerOrCC() {
     if (!this.change || !(this.account?._account_id || this.account?.email))
       throw new Error('Missing change or account.');
-    this.dispatchEventThroughTarget('show-alert', {
+    this.dispatchEventThroughTarget(EventType.SHOW_ALERT, {
       message: 'Reloading page...',
     });
     this.restApiService
@@ -460,7 +461,7 @@ export class GrHovercardAccount extends base {
 
   private handleClickAddToAttentionSet(e: MouseEvent) {
     if (!this.change || !this.account._account_id) return;
-    this.dispatchEventThroughTarget('show-alert', {
+    this.dispatchEventThroughTarget(EventType.SHOW_ALERT, {
       message: 'Saving attention set update ...',
       dismissOnNavigation: true,
     });
@@ -491,7 +492,7 @@ export class GrHovercardAccount extends base {
 
   private handleClickRemoveFromAttentionSet(e: MouseEvent) {
     if (!this.change || !this.account._account_id) return;
-    this.dispatchEventThroughTarget('show-alert', {
+    this.dispatchEventThroughTarget(EventType.SHOW_ALERT, {
       message: 'Saving attention set update ...',
       dismissOnNavigation: true,
     });

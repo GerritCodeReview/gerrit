@@ -21,6 +21,7 @@ import {AccountId} from '../../../types/common';
 import {waitUntil} from '../../../test/test-utils';
 import {fixture} from '@open-wc/testing';
 import {html} from 'lit';
+import {EventType} from '../../../types/events';
 
 suite('gr-error-manager tests', () => {
   let element: GrErrorManager;
@@ -398,7 +399,7 @@ suite('gr-error-manager tests', () => {
 
       // fake an alert
       element.dispatchEvent(
-        new CustomEvent('show-alert', {
+        new CustomEvent(EventType.SHOW_ALERT, {
           detail: {message: 'test reload', action: 'reload'},
           composed: true,
           bubbles: true,
@@ -446,7 +447,7 @@ suite('gr-error-manager tests', () => {
 
       // fake an alert
       element.dispatchEvent(
-        new CustomEvent('show-alert', {
+        new CustomEvent(EventType.SHOW_ALERT, {
           detail: {message: 'test reload', action: 'reload'},
           composed: true,
           bubbles: true,
@@ -459,7 +460,7 @@ suite('gr-error-manager tests', () => {
 
       // new alert
       element.dispatchEvent(
-        new CustomEvent('show-alert', {
+        new CustomEvent(EventType.SHOW_ALERT, {
           detail: {message: 'second-test', action: 'reload'},
           composed: true,
           bubbles: true,
@@ -505,7 +506,7 @@ suite('gr-error-manager tests', () => {
 
       // fake an alert
       element.dispatchEvent(
-        new CustomEvent('show-alert', {
+        new CustomEvent(EventType.SHOW_ALERT, {
           detail: {
             message: 'test-alert',
             action: 'reload',
@@ -526,7 +527,7 @@ suite('gr-error-manager tests', () => {
       const alertObj = {message: 'foo'};
       const showAlertStub = sinon.stub(element, '_showAlert');
       element.dispatchEvent(
-        new CustomEvent('show-alert', {
+        new CustomEvent(EventType.SHOW_ALERT, {
           detail: alertObj,
           composed: true,
           bubbles: true,

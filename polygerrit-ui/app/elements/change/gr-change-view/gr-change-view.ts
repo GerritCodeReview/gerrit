@@ -3105,7 +3105,7 @@ export class GrChangeView extends LitElement {
 
           this.cancelUpdateCheckTimer();
           this.dispatchEvent(
-            new CustomEvent<ShowAlertEventDetail>('show-alert', {
+            new CustomEvent<ShowAlertEventDetail>(EventType.SHOW_ALERT, {
               detail: {
                 message: toastMessage,
                 // Persist this alert.

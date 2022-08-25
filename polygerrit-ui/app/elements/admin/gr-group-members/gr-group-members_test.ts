@@ -26,7 +26,7 @@ import {
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
-import {PageErrorEvent} from '../../../types/events.js';
+import {EventType, PageErrorEvent} from '../../../types/events.js';
 import {getAccountSuggestions} from '../../../utils/account-util';
 import {getAppContext} from '../../../services/app-context';
 import {fixture, html} from '@open-wc/testing';
@@ -451,7 +451,7 @@ suite('gr-group-members tests', () => {
 
     const memberName = 'bad-name';
     const alertStub = sinon.stub();
-    element.addEventListener('show-alert', alertStub);
+    element.addEventListener(EventType.SHOW_ALERT, alertStub);
     const errorResponse = {...new Response(), status: 404, ok: false};
     stubRestApi('saveIncludedGroup').callsFake((_, _non, errFn) => {
       if (errFn !== undefined) {

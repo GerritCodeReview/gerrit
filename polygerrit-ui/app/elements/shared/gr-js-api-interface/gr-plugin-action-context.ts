@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {RevisionInfo, ChangeInfo, RequestPayload} from '../../../types/common';
-import {ShowAlertEventDetail} from '../../../types/events';
+import {EventType, ShowAlertEventDetail} from '../../../types/events';
 import {PluginApi} from '../../../api/plugin';
 import {UIActionInfo} from './gr-change-actions-js-api';
 import {windowLocationReload} from '../../../utils/dom-util';
@@ -110,7 +110,7 @@ export class GrPluginActionContext {
       .then(onSuccess)
       .catch((error: unknown) => {
         document.dispatchEvent(
-          new CustomEvent<ShowAlertEventDetail>('show-alert', {
+          new CustomEvent<ShowAlertEventDetail>(EventType.SHOW_ALERT, {
             detail: {
               message: `Plugin network error: ${error}`,
             },

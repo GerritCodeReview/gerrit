@@ -861,6 +861,10 @@ export class GrDiff extends LitElement implements GrDiffApi {
           display: none;
         }
         .lineNum.COVERED .lineNumButton {
+          color: var(
+            --coverage-covered-line-num-color,
+            var(--deemphasized-text-color)
+          );
           background-color: var(--coverage-covered, #e0f2f1);
         }
         .lineNum.NOT_COVERED .lineNumButton {

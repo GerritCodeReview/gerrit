@@ -65,6 +65,7 @@ import {fixture, html, waitUntil} from '@open-wc/testing';
 import {accountKey} from '../../../utils/account-util';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrAccountLabel} from '../../shared/gr-account-label/gr-account-label';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 function cloneableResponse(status: number, text: string) {
   return {
@@ -2399,7 +2400,9 @@ suite('gr-reply-dialog tests', () => {
 
   suite('mention users', () => {
     setup(async () => {
-      stubFlags('isEnabled').returns(true);
+      stubFlags('isEnabled')
+        .withArgs(KnownExperimentId.MENTION_USERS)
+        .returns(true);
       element.account = createAccountWithId(1);
       element.requestUpdate();
       await element.updateComplete;

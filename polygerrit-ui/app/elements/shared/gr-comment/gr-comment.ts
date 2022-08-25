@@ -142,6 +142,12 @@ export class GrComment extends LitElement {
   initiallyCollapsed?: boolean;
 
   /**
+   * Hide the header for patchset level comments used in GrReplyDialog.
+   */
+  @property({type: Boolean, attribute: 'hide-header'})
+  hideHeader = false;
+
+  /**
    * This is the *current* (internal) collapsed state of the comment. Do not set
    * from the outside. Use `initiallyCollapsed` instead. This is just a
    * reflected property such that css rules can be based on it.
@@ -478,19 +484,7 @@ export class GrComment extends LitElement {
     const classes = {container: true, draft: isDraftOrUnsaved(this.comment)};
     return html`
       <div id="container" class=${classMap(classes)}>
-        <div
-          class="header"
-          id="header"
-          @click=${() => (this.collapsed = !this.collapsed)}
-        >
-          <div class="headerLeft">
-            ${this.renderAuthor()} ${this.renderPortedCommentMessage()}
-            ${this.renderDraftLabel()}
-          </div>
-          <div class="headerMiddle">${this.renderCollapsedContent()}</div>
-          ${this.renderRunDetails()} ${this.renderDeleteButton()}
-          ${this.renderPatchset()} ${this.renderDate()} ${this.renderToggle()}
-        </div>
+        ${this.renderHeader()}
         <div class="body">
           ${this.renderRobotAuthor()} ${this.renderEditingTextarea()}
           ${this.renderCommentMessage()} ${this.renderHumanActions()}
@@ -498,6 +492,25 @@ export class GrComment extends LitElement {
         </div>
       </div>
       ${this.renderConfirmDialog()}
+    `;
+  }
+
+  private renderHeader() {
+    if (this.hideHeader) return nothing;
+    return html`
+      <div
+        class="header"
+        id="header"
+        @click=${() => (this.collapsed = !this.collapsed)}
+      >
+        <div class="headerLeft">
+          ${this.renderAuthor()} ${this.renderPortedCommentMessage()}
+          ${this.renderDraftLabel()}
+        </div>
+        <div class="headerMiddle">${this.renderCollapsedContent()}</div>
+        ${this.renderRunDetails()} ${this.renderDeleteButton()}
+        ${this.renderPatchset()} ${this.renderDate()} ${this.renderToggle()}
+      </div>
     `;
   }
 

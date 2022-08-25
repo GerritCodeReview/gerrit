@@ -9,7 +9,7 @@ import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../gr-button/gr-button';
 import '../gr-dialog/gr-dialog';
-import '../gr-formatted-text/gr-formatted-text';
+import '../gr-markdown/gr-markdown';
 import '../gr-icon/gr-icon';
 import '../gr-overlay/gr-overlay';
 import '../gr-textarea/gr-textarea';
@@ -689,12 +689,10 @@ export class GrComment extends LitElement {
     return html`
       <!--The "message" class is needed to ensure selectability from
           gr-diff-selection.-->
-      <gr-formatted-text
+      <gr-markdown
         class="message"
-        .content=${this.comment?.message}
-        .config=${this.commentLinks}
-        ?noTrailingMargin=${!isDraftOrUnsaved(this.comment)}
-      ></gr-formatted-text>
+        .markdown=${this.comment?.message}
+      ></gr-markdown>
     `;
   }
 

@@ -1223,7 +1223,6 @@ export class GrChangeView extends LitElement {
               .patchNum=${computeLatestPatchNum(this.allPatchSets)}
               .permittedLabels=${this.change?.permitted_labels}
               .draftCommentThreads=${this.draftCommentThreads}
-              .projectConfig=${this.projectConfig}
               .canBeStarted=${this.canStartReview()}
               @send=${this.handleReplySent}
               @cancel=${this.handleReplyCancel}

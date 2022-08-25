@@ -137,10 +137,7 @@ suite('gr-comment tests', () => {
               </div>
             </div>
             <div class="body">
-              <gr-formatted-text
-                class="message"
-                notrailingmargin=""
-              ></gr-formatted-text>
+              <gr-markdown class="message"></gr-markdown>
             </div>
           </div>
         `
@@ -174,10 +171,7 @@ suite('gr-comment tests', () => {
             </div>
             <div class="body">
               <div class="robotId"></div>
-              <gr-formatted-text
-                class="message"
-                notrailingmargin=""
-              ></gr-formatted-text>
+              <gr-markdown class="message"></gr-markdown>
               <div class="robotActions">
                 <gr-icon
                   icon="link"
@@ -275,7 +269,7 @@ suite('gr-comment tests', () => {
               </div>
             </div>
             <div class="body">
-              <gr-formatted-text class="message"></gr-formatted-text>
+              <gr-markdown class="message"></gr-markdown>
               <div class="actions">
                 <div class="action resolve">
                   <label>

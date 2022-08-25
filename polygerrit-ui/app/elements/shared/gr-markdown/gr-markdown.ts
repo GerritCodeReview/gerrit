@@ -20,6 +20,8 @@ import {
 /**
  * This element renders markdown and also applies some regex replacements to
  * linkify key parts of the text defined by the host's config.
+ *
+ * TODO: Remove gr-formatted-text once this is rolled out.
  */
 @customElement('gr-markdown')
 export class GrMarkdown extends LitElement {
@@ -45,25 +47,27 @@ export class GrMarkdown extends LitElement {
       code,
       blockquote {
         margin: 0 0 var(--spacing-m) 0;
-        max-width: var(--gr-formatted-text-prose-max-width, none);
+        max-width: var(--gr-markdown-prose-max-width, none);
       }
       blockquote {
-        border-left: 1px solid #aaa;
+        border-left: var(--spacing-xxs) solid var(--gray-500);
         padding: 0 var(--spacing-m);
       }
       code {
         background-color: var(--background-color-secondary);
-        border: 1px solid var(--border-color);
+        border: var(--spacing-xxs) solid var(--border-color);
         display: block;
         font-family: var(--monospace-font-family);
         font-size: var(--font-size-code);
         line-height: var(--line-height-mono);
         margin: var(--spacing-m) 0;
-        padding: 1px var(--spacing-s);
+        padding: var(--spacing-xxs) var(--spacing-s);
         overflow-x: auto;
         /* pre will preserve whitespace and linebreaks but not wrap */
         white-space: pre;
       }
+      /* code within a sentence needs display:inline to shrink and not take a
+         whole row */
       p code {
         display: inline;
       }
@@ -112,7 +116,8 @@ export class GrMarkdown extends LitElement {
     // TrustedHTML object from sanitization and so it is manually stringified.
     const sanitized = sanitizeHtml(htmledFromConfig).toString();
 
-    // Unescape block quotes '>'.
+    // Unescape block quotes '>'. This is slightly dangerous as '>' can be used
+    // in HTML fragments, but it is insufficient on it's own.
     const quotesUnescaped = sanitized.replace(/(^|\n)&gt;/g, '$1>');
 
     // The child with slot is optional but allows us control over the styling.

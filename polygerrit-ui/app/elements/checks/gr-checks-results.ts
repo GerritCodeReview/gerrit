@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../shared/gr-icon/gr-icon';
+import '../shared/gr-markdown/gr-markdown';
 import {classMap} from 'lit/directives/class-map.js';
 import {repeat} from 'lit/directives/repeat.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
@@ -649,12 +650,10 @@ class GrResultExpanded extends LitElement {
           name="result"
           .value=${this.result}
         ></gr-endpoint-param>
-        <gr-formatted-text
-          noTrailingMargin
+        <gr-markdown
           class="message"
-          .content=${this.result.message}
-          .config=${this.repoConfig?.commentlinks}
-        ></gr-formatted-text>
+          .markdown=${this.result.message}
+        ></gr-markdown>
       </gr-endpoint-decorator>
     `;
   }

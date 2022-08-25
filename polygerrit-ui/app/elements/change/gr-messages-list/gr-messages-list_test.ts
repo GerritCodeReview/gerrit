@@ -516,6 +516,12 @@ suite('gr-messages-list tests', () => {
         randomMessage(),
         randomMessage({
           ...randomMessage(),
+          tag: MessageTag.TAG_NEW_PATCHSET as ReviewInputTag,
+          message:
+            '\nUploaded patch set 35.\n\nInitial upload\n\nOutdated Votes:\n',
+        }),
+        randomMessage({
+          ...randomMessage(),
           tag: 'auto' as ReviewInputTag,
           _revision_number: 2 as PatchSetNum,
         }),
@@ -540,7 +546,7 @@ suite('gr-messages-list tests', () => {
 
     test('one unimportant message is hidden initially', () => {
       const displayedMsgs = queryAll<GrMessage>(element, 'gr-message');
-      assert.equal(displayedMsgs.length, 2);
+      assert.equal(displayedMsgs.length, 3);
     });
 
     test('unimportant messages hidden after toggle', async () => {
@@ -551,7 +557,7 @@ suite('gr-messages-list tests', () => {
       MockInteractions.tap(toggle);
       await element.updateComplete;
       const displayedMsgs = queryAll<GrMessage>(element, 'gr-message');
-      assert.equal(displayedMsgs.length, 2);
+      assert.equal(displayedMsgs.length, 3);
     });
 
     test('unimportant messages shown after toggle', async () => {
@@ -562,7 +568,7 @@ suite('gr-messages-list tests', () => {
       MockInteractions.tap(toggle);
       await element.updateComplete;
       const displayedMsgs = queryAll<GrMessage>(element, 'gr-message');
-      assert.equal(displayedMsgs.length, 3);
+      assert.equal(displayedMsgs.length, 4);
     });
 
     test('_computeLabelExtremes', () => {

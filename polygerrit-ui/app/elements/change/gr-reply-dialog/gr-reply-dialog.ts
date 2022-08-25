@@ -75,6 +75,7 @@ import {
 } from '../../../utils/common-util';
 import {
   CommentThread,
+  DraftInfo,
   isUnresolved,
   UnsavedInfo,
 } from '../../../utils/comment-util';
@@ -375,7 +376,7 @@ export class GrReplyDialog extends LitElement {
   isResolvedPatchsetLevelComment = true;
 
   @state()
-  patchsetLevelComment?: UnsavedInfo;
+  patchsetLevelComment?: UnsavedInfo | DraftInfo;
 
   private readonly restApiService: RestApiService =
     getAppContext().restApiService;
@@ -678,6 +679,11 @@ export class GrReplyDialog extends LitElement {
           v => !this.isAlreadyReviewerOrCC(v)
         );
       }
+    );
+    subscribe(
+      this,
+      () => this.getCommentsModel().patchsetLevelDrafts$,
+      x => (this.patchsetLevelComment = x[0])
     );
   }
 

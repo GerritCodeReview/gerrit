@@ -8,7 +8,7 @@ import './gr-diff-selection';
 import {GrDiffSelection} from './gr-diff-selection';
 import {createDiff} from '../../../test/test-data-generators';
 import {DiffInfo, Side} from '../../../api/diff';
-import {GrFormattedText} from '../../../elements/shared/gr-formatted-text/gr-formatted-text';
+import {GrMarkdown} from '../../../elements/shared/gr-markdown/gr-markdown';
 import {fixture, html} from '@open-wc/testing';
 import {mouseDown} from '../../../test/test-utils';
 
@@ -21,7 +21,7 @@ const diffTableTemplate = html`
         <div class="contentText" data-side="left">ba ba</div>
         <div data-side="left">
           <div class="comment-thread">
-            <div class="gr-formatted-text message">
+            <div class="gr-markdown message">
               <span id="output" class="gr-linked-text">This is a comment</span>
             </div>
           </div>
@@ -43,7 +43,7 @@ const diffTableTemplate = html`
         <div class="contentText" data-side="right">more more more</div>
         <div data-side="right">
           <div class="comment-thread">
-            <div class="gr-formatted-text message">
+            <div class="gr-markdown message">
               <span id="output" class="gr-linked-text"
                 >This is a comment on the right</span
               >
@@ -59,7 +59,7 @@ const diffTableTemplate = html`
         <div class="contentText" data-side="left">ga ga</div>
         <div data-side="left">
           <div class="comment-thread">
-            <div class="gr-formatted-text message">
+            <div class="gr-markdown message">
               <span id="output" class="gr-linked-text"
                 >This is <a>a</a> different comment 💩 unicode is fun</span
               >
@@ -266,12 +266,9 @@ suite('gr-diff-selection', () => {
     if (selection === null) assert.fail('no selection');
     selection.removeAllRanges();
     const range = document.createRange();
-    range.setStart(
-      diffTable.querySelector('.gr-formatted-text *')!.firstChild!,
-      3
-    );
+    range.setStart(diffTable.querySelector('.gr-markdown *')!.firstChild!, 3);
     range.setEnd(
-      diffTable.querySelectorAll('.gr-formatted-text *')[2].childNodes[2],
+      diffTable.querySelectorAll('.gr-markdown *')[2].childNodes[2],
       7
     );
     selection.addRange(range);
@@ -289,7 +286,7 @@ suite('gr-diff-selection', () => {
     if (selection === null) assert.fail('no selection');
     selection.removeAllRanges();
     const range = document.createRange();
-    const nodes = diffTable.querySelectorAll('.gr-formatted-text *');
+    const nodes = diffTable.querySelectorAll('.gr-markdown *');
     range.setStart(nodes[2].childNodes[2], 13);
     range.setEnd(nodes[2].childNodes[2], 23);
     selection.addRange(range);
@@ -343,7 +340,7 @@ suite('gr-diff-selection', () => {
   suite('getTextContentForRange', () => {
     let selection: Selection;
     let range: Range;
-    let nodes: NodeListOf<GrFormattedText>;
+    let nodes: NodeListOf<GrMarkdown>;
 
     setup(() => {
       element.diffTable!.classList.add('selected-left');
@@ -354,7 +351,7 @@ suite('gr-diff-selection', () => {
       selection = s;
       selection.removeAllRanges();
       range = document.createRange();
-      nodes = diffTable.querySelectorAll('.gr-formatted-text *');
+      nodes = diffTable.querySelectorAll('.gr-markdown *');
     });
 
     test('multi level element contained in range', () => {

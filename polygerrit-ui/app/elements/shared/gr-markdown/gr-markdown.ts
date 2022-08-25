@@ -5,7 +5,7 @@
  */
 import {css, html, LitElement} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
-import {sanitizeHtml, htmlEscape} from 'safevalues';
+import {sanitizeHtml, htmlEscape} from '../../../utils/inner-html-util';
 import '@polymer/marked-element';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
@@ -45,7 +45,7 @@ export class GrMarkdown extends LitElement {
       code,
       blockquote {
         margin: 0 0 var(--spacing-m) 0;
-        max-width: var(--gr-formatted-text-prose-max-width, none);
+        max-width: var(--gr-markdown-prose-max-width, none);
       }
       blockquote {
         border-left: 1px solid #aaa;

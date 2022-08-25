@@ -6,6 +6,7 @@
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-label-info/gr-label-info';
+import '../../shared/gr-markdown/gr-markdown';
 import {customElement, property} from 'lit/decorators.js';
 import {
   AccountInfo,
@@ -178,10 +179,7 @@ export class GrSubmitRequirementHovercard extends base {
         <gr-icon icon="description"></gr-icon>
       </div>
       <div class="sectionContent">
-        <gr-formatted-text
-          noTrailingMargin
-          .content=${description}
-        ></gr-formatted-text>
+        <gr-markdown .markdown=${description}></gr-markdown>
       </div>
     </div>`;
   }

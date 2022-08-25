@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36421299_a2fd8213",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-25T10:48:51Z",
+      "side": 1,
+      "message": "This is necessary for https://gerrit-review.googlesource.com/c/plugins/code-owners/+/343717",
+      "revId": "de1a2cefd8bb355ba2aed9cda85700c45012a8b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -409,6 +409,7 @@ export class GrTextarea extends LitElement {
       this.reporting.reportInteraction('select-emoji', {type: text});
     } else {
       this.text = this.addValueToText('@' + text);
+      this.reporting.reportInteraction('select-mention', {type: text});
     }
 
     this.textarea!.selectionStart = this.specialCharIndex + 1;

@@ -20,6 +20,7 @@ export enum ChangeStates {
   ABANDONED = 'Abandoned',
   ACTIVE = 'Active',
   MERGE_CONFLICT = 'Merge Conflict',
+  GIT_CONFLICT = 'Git Conflict',
   MERGED = 'Merged',
   PRIVATE = 'Private',
   READY_TO_SUBMIT = 'Ready to submit',

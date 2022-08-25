@@ -153,6 +153,8 @@ export function changeStatuses(
   ) {
     // 'mergeable' prop may not always exist (@see Issue 6819)
     states.push(ChangeStates.MERGE_CONFLICT);
+  } else if (change.contains_git_conflicts) {
+    states.push(ChangeStates.GIT_CONFLICT);
   }
   if (change.work_in_progress) {
     states.push(ChangeStates.WIP);

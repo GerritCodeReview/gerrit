@@ -18,7 +18,6 @@ import {
   LabelNameToInfoMap,
   NumericChangeId,
   PatchSetNum,
-  RepoName,
   VotingRangeInfo,
 } from '../../../types/common';
 import {CommentThread, isRobot} from '../../../utils/comment-util';
@@ -43,8 +42,8 @@ import {
   ShortcutSection,
   shortcutsServiceToken,
 } from '../../../services/shortcuts/shortcuts-service';
-import {GrFormattedText} from '../../shared/gr-formatted-text/gr-formatted-text';
 import {Interaction} from '../../../constants/reporting';
+import {GrMarkdown} from '../../shared/gr-markdown/gr-markdown';
 
 /**
  * The content of the enum is also used in the UI for the button text.
@@ -313,9 +312,6 @@ export class GrMessagesList extends LitElement {
   private commentThreads: CommentThread[] = [];
 
   @state()
-  private projectName?: RepoName;
-
-  @state()
   expandAllState = ExpandAllState.EXPAND_ALL;
 
   // Private but used in tests.
@@ -348,13 +344,6 @@ export class GrMessagesList extends LitElement {
       () => this.changeModel().change$,
       x => {
         this.change = x;
-      }
-    );
-    subscribe(
-      this,
-      () => this.changeModel().repo$,
-      x => {
-        this.projectName = x;
       }
     );
     subscribe(
@@ -407,7 +396,6 @@ export class GrMessagesList extends LitElement {
           .changeNum=${this.changeNum}
           .message=${message}
           .commentThreads=${message.commentThreads}
-          .projectName=${this.projectName}
           @message-anchor-tap=${this.handleAnchorClick}
           .labelExtremes=${labelExtremes}
           data-message-id=${ifDefined(getMessageId(message) as String)}
@@ -473,8 +461,7 @@ export class GrMessagesList extends LitElement {
     // Must wait for message to expand and render before we can scroll to it
     el.requestUpdate();
     await el.updateComplete;
-    await query<GrFormattedText>(el, 'gr-formatted-text.message')
-      ?.updateComplete;
+    await query<GrMarkdown>(el, 'gr-markdown.message')?.updateComplete;
     let top = el.offsetTop;
     for (
       let offsetParent = el.offsetParent as HTMLElement | null;

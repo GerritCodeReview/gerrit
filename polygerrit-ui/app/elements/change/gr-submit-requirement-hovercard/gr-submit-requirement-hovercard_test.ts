@@ -223,7 +223,7 @@ suite('gr-submit-requirement-hovercard tests', () => {
               <gr-icon icon="description"></gr-icon>
             </div>
             <div class="sectionContent">
-              <gr-formatted-text notrailingmargin=""></gr-formatted-text>
+              <gr-markdown></gr-markdown>
             </div>
           </div>
           <div class="button">

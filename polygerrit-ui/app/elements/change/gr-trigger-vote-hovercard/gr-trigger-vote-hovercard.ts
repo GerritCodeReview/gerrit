@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../shared/gr-icon/gr-icon';
+import '../../shared/gr-markdown/gr-markdown';
 import {customElement, property} from 'lit/decorators.js';
 import {css, html, LitElement} from 'lit';
 import {HovercardMixin} from '../../../mixins/hovercard-mixin/hovercard-mixin';
@@ -88,10 +89,7 @@ export class GrTriggerVoteHovercard extends base {
         <gr-icon icon="description"></gr-icon>
       </div>
       <div class="sectionContent">
-        <gr-formatted-text
-          noTrailingMargin
-          .content=${description}
-        ></gr-formatted-text>
+        <gr-markdown .markdown=${description}></gr-markdown>
       </div>
     </div>`;
   }

@@ -8,17 +8,15 @@ import '../../shared/gr-account-chip/gr-account-chip';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-date-formatter/gr-date-formatter';
-import '../../shared/gr-formatted-text/gr-formatted-text';
+import '../../shared/gr-markdown/gr-markdown';
 import '../gr-message-scores/gr-message-scores';
-import {css, html, LitElement, nothing, PropertyValues} from 'lit';
+import {css, html, LitElement, nothing} from 'lit';
 import {MessageTag, SpecialFilePath} from '../../../constants/constants';
 import {customElement, property, state} from 'lit/decorators.js';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {
   ChangeInfo,
   ServerInfo,
-  ConfigInfo,
-  RepoName,
   ReviewInputTag,
   NumericChangeId,
   ChangeMessageId,
@@ -103,18 +101,12 @@ export class GrMessage extends LitElement {
   @property({type: Boolean})
   hideAutomated = false;
 
-  @property({type: String})
-  projectName?: RepoName;
-
   /**
    * A mapping from label names to objects representing the minimum and
    * maximum possible values for that label.
    */
   @property({type: Object})
   labelExtremes?: LabelExtreme;
-
-  @state()
-  private projectConfig?: ConfigInfo;
 
   @property({type: Boolean})
   loggedIn = false;
@@ -191,7 +183,7 @@ export class GrMessage extends LitElement {
           font-weight: var(--font-weight-bold);
         }
         .message {
-          --gr-formatted-text-prose-max-width: 120ch;
+          --gr-markdown-prose-max-width: 120ch;
         }
         .collapsed .message {
           max-width: none;
@@ -313,12 +305,6 @@ export class GrMessage extends LitElement {
     ];
   }
 
-  override willUpdate(changedProperties: PropertyValues) {
-    if (changedProperties.has('projectName')) {
-      this.projectNameChanged();
-    }
-  }
-
   override render() {
     if (!this.message) return nothing;
     if (this.hideAutomated && this.computeIsAutomated()) return nothing;
@@ -431,12 +417,10 @@ export class GrMessage extends LitElement {
       this.change?.labels
     );
     return html`
-      <gr-formatted-text
-        noTrailingMargin
+      <gr-markdown
         class="message hideOnCollapsed"
-        .content=${messageContentExpanded}
-        .config=${this.projectConfig?.commentlinks}
-      ></gr-formatted-text>
+        .markdown=${messageContentExpanded}
+      ></gr-markdown>
       ${when(messageContentExpanded, () => this.renderActionContainer())}
       <gr-thread-list
         ?hidden=${!this.commentThreads.length}
@@ -794,16 +778,6 @@ export class GrMessage extends LitElement {
           })
         );
       });
-  }
-
-  private projectNameChanged() {
-    if (!this.projectName) {
-      this.projectConfig = undefined;
-      return;
-    }
-    this.restApiService.getProjectConfig(this.projectName).then(config => {
-      this.projectConfig = config;
-    });
   }
 
   private computeExpandToggleIcon() {

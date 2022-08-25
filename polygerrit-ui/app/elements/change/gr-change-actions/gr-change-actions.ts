@@ -1566,7 +1566,7 @@ export class GrChangeActions
     assertIsDefined(this.confirmRebase, 'confirmRebase');
     assertIsDefined(this.overlay, 'overlay');
     const el = this.confirmRebase;
-    const payload = {base: e.detail.base};
+    const payload = {base: e.detail.base, allow_conflicts: e.detail.allowConflicts};
     this.overlay.close();
     el.hidden = true;
     this.fireAction(

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98d5a88e_5ed2412e",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-25T14:25:35Z",
+      "side": 1,
+      "message": "can you add a specific test case that focuses on this element so it is possible to understand the test data a bit better. Often I feel these long test data are append-only because you don\u0027t know what test needs it and what cases it is covering. Or worse it is cleaned up and the case is left uncovered.",
+      "range": {
+        "startLine": 519,
+        "startChar": 0,
+        "endLine": 525,
+        "endChar": 0
+      },
+      "revId": "47f2d7d8ba665176276e2404eeca5ebce5591c0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

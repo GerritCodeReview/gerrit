@@ -766,6 +766,7 @@ export class GrReplyDialog extends LitElement {
       this.handleHeightChanged();
     }
     if (changedProperties.has('draftCommentThreads')) {
+      this.filterPatchsetLevelDrafts();
       this.handleHeightChanged();
     }
     if (changedProperties.has('sendDisabled')) {
@@ -2081,6 +2082,14 @@ export class GrReplyDialog extends LitElement {
         }
       },
       STORAGE_DEBOUNCE_INTERVAL_MS
+    );
+  }
+
+  private filterPatchsetLevelDrafts() {
+    // filter out patchset level draft as it is supposed to render in the
+    // top level textarea
+    this.draftCommentThreads = [...(this.draftCommentThreads ?? [])].filter(
+      thread => thread.path !== SpecialFilePath.PATCHSET_LEVEL_COMMENTS
     );
   }
 

@@ -33,6 +33,24 @@
       "message": "Do you need to update polygerrit-ui/app/api/package.json to higher version like in https://gerrit-review.googlesource.com/c/gerrit/+/340069 ?",
       "revId": "de1a2cefd8bb355ba2aed9cda85700c45012a8b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d7d95b2_3c6eada5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-25T11:02:19Z",
+      "side": 1,
+      "message": "@brohlfs@google.com ?",
+      "parentUuid": "2aac6faf_0557465e",
+      "revId": "de1a2cefd8bb355ba2aed9cda85700c45012a8b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

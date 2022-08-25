@@ -16,6 +16,24 @@
       "message": "Can you also add one test to cover the new use-case?",
       "revId": "0681a7cb8f0302c6efd860f6d35275d7cf773f77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2c03020_2ef1f375",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1040243
+      },
+      "writtenOn": "2022-08-25T14:51:13Z",
+      "side": 1,
+      "message": "I will be happy, however, there is no good example for me to copy... the use case of AddSshKey on behalf is not tested as well, do you have any hint for me to a similar test?",
+      "parentUuid": "66cadae4_b442b306",
+      "revId": "0681a7cb8f0302c6efd860f6d35275d7cf773f77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

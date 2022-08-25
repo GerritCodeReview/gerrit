@@ -45,7 +45,7 @@ export class GrMarkdown extends LitElement {
       code,
       blockquote {
         margin: 0 0 var(--spacing-m) 0;
-        max-width: var(--gr-formatted-text-prose-max-width, none);
+        max-width: var(--gr-markdown-prose-max-width, none);
       }
       blockquote {
         border-left: 1px solid #aaa;

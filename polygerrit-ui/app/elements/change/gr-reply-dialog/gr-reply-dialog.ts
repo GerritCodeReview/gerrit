@@ -11,9 +11,9 @@ import '../../shared/gr-account-chip/gr-account-chip';
 import '../../shared/gr-textarea/gr-textarea';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icon/gr-icon';
-import '../../shared/gr-formatted-text/gr-formatted-text';
 import '../../shared/gr-overlay/gr-overlay';
 import '../../shared/gr-account-list/gr-account-list';
+import '../../shared/gr-markdown/gr-markdown';
 import '../gr-label-scores/gr-label-scores';
 import '../gr-thread-list/gr-thread-list';
 import '../../../styles/shared-styles';
@@ -99,7 +99,7 @@ import {addShortcut, Key, Modifier} from '../../../utils/dom-util';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
-import {ConfigInfo, LabelNameToValuesMap} from '../../../api/rest-api';
+import {LabelNameToValuesMap} from '../../../api/rest-api';
 import {css, html, PropertyValues, LitElement} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {when} from 'lit/directives/when.js';
@@ -219,9 +219,6 @@ export class GrReplyDialog extends LitElement {
 
   @property({type: Object})
   permittedLabels?: LabelNameToValuesMap;
-
-  @property({type: Object})
-  projectConfig?: ConfigInfo;
 
   @query('#reviewers') reviewersList?: GrAccountList;
 
@@ -499,7 +496,7 @@ export class GrReplyDialog extends LitElement {
       .previewContainer {
         border-top: none;
       }
-      .previewContainer gr-formatted-text {
+      .previewContainer gr-markdown {
         background: var(--table-header-background-color);
         padding: var(--spacing-l);
       }
@@ -788,10 +785,7 @@ export class GrReplyDialog extends LitElement {
           this.previewFormatting,
           () => html`
             <section class="previewContainer">
-              <gr-formatted-text
-                .content=${this.draft}
-                .config=${this.projectConfig?.commentlinks}
-              ></gr-formatted-text>
+              <gr-markdown .markdown=${this.draft}></gr-markdown>
             </section>
           `
         )}

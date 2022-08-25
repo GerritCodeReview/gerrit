@@ -33,6 +33,10 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {CURRENT} from '../../../utils/patch-set-util';
 import {fireReload} from '../../../utils/event-util';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
+import {
+  atomizeExpression,
+  SubmitRequirementExpressionAtomStatus,
+} from '../../../utils/submit-requirement-util';
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
 const base = HovercardMixin(LitElement);
@@ -110,6 +114,12 @@ export class GrSubmitRequirementHovercard extends base {
         }
         .expression {
           color: var(--gray-foreground);
+        }
+        .expression .failing.atom {
+          border-bottom: 2px solid var(--error-foreground);
+        }
+        .expression .passing.atom {
+          border-bottom: 2px solid var(--success-foreground);
         }
         .button gr-icon {
           color: inherit;
@@ -335,6 +345,32 @@ export class GrSubmitRequirementHovercard extends base {
     `;
   }
 
+  private getClassFromAtomStatus(
+    status: SubmitRequirementExpressionAtomStatus
+  ) {
+    switch (status) {
+      case SubmitRequirementExpressionAtomStatus.PASSING:
+        return 'passing atom';
+      case SubmitRequirementExpressionAtomStatus.FAILING:
+        return 'failing atom';
+      default:
+        return 'atom';
+    }
+  }
+
+  private getTitleFromAtomStatus(
+    status: SubmitRequirementExpressionAtomStatus
+  ) {
+    switch (status) {
+      case SubmitRequirementExpressionAtomStatus.PASSING:
+        return 'Atom evaluates to True';
+      case SubmitRequirementExpressionAtomStatus.FAILING:
+        return 'Atom evaluates to False';
+      default:
+        return 'Atom value is unknown';
+    }
+  }
+
   private renderCondition(
     name: string,
     expression?: SubmitRequirementExpressionInfo
@@ -344,7 +380,17 @@ export class GrSubmitRequirementHovercard extends base {
       <div class="section condition">
         <div class="sectionContent">
           ${name}:<br />
-          <span class="expression"> ${expression.expression} </span>
+          <span class="expression">
+            ${atomizeExpression(expression).map(part =>
+              part.isAtom
+                ? html`<span
+                    class=${this.getClassFromAtomStatus(part.atomStatus!)}
+                    title=${this.getTitleFromAtomStatus(part.atomStatus!)}
+                    >${part.value}</span
+                  >`
+                : part.value
+            )}
+          </span>
         </div>
       </div>
     `;

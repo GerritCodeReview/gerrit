@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "756d3eea_49667b14",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-25T09:01:46Z",
+      "side": 1,
+      "message": "Shouldn\u0027t be this a scroll? How will user get to hidden part?",
+      "range": {
+        "startLine": 483,
+        "startChar": 10,
+        "endLine": 483,
+        "endChar": 27
+      },
+      "revId": "8b6c59cdb4ab55c8b4205645628034db36daf59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

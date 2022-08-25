@@ -296,6 +296,11 @@ export class GrComment extends LitElement {
         this.autoSave();
       }
     );
+    subscribe(
+      this,
+      () => this.getCommentsModel().patchsetLevelDrafts$,
+      x => (this.patc = x)
+    );
   }
 
   override disconnectedCallback() {

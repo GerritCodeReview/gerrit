@@ -373,7 +373,7 @@ export class GrFileList extends base {
   fileCursor = new GrCursorManager();
 
   // private but used in test
-  diffCursor = new GrDiffCursor();
+  diffCursor?: GrDiffCursor;
 
   constructor() {
     super();
@@ -453,6 +453,8 @@ export class GrFileList extends base {
         shouldSuppress: true,
       })
     );
+    this.diffCursor = new GrDiffCursor();
+    this.diffCursor.replaceDiffs(this.diffs);
   }
 
   override disconnectedCallback() {
@@ -460,7 +462,7 @@ export class GrFileList extends base {
       s.unsubscribe();
     }
     this.subscriptions = [];
-    this.diffCursor.dispose();
+    this.diffCursor?.dispose();
     this.fileCursor.unsetCursor();
     this._cancelDiffs();
     this.loadingTask?.cancel();
@@ -643,7 +645,7 @@ export class GrFileList extends base {
       this._expandedFiles.length,
       this._files.length
     );
-    this.diffCursor.handleDiffUpdate();
+    this.diffCursor?.handleDiffUpdate();
   }
 
   /**
@@ -885,12 +887,12 @@ export class GrFileList extends base {
 
   _handleLeftPane() {
     if (this._noDiffsExpanded()) return;
-    this.diffCursor.moveLeft();
+    this.diffCursor?.moveLeft();
   }
 
   _handleRightPane() {
     if (this._noDiffsExpanded()) return;
-    this.diffCursor.moveRight();
+    this.diffCursor?.moveRight();
   }
 
   _handleToggleInlineDiff() {
@@ -900,7 +902,7 @@ export class GrFileList extends base {
 
   _handleCursorNext(e: KeyboardEvent) {
     if (this.filesExpanded === FilesExpandedState.ALL) {
-      this.diffCursor.moveDown();
+      this.diffCursor?.moveDown();
       this._displayLine = true;
     } else {
       if (e.key === Key.DOWN) return;
@@ -911,7 +913,7 @@ export class GrFileList extends base {
 
   _handleCursorPrev(e: KeyboardEvent) {
     if (this.filesExpanded === FilesExpandedState.ALL) {
-      this.diffCursor.moveUp();
+      this.diffCursor?.moveUp();
       this._displayLine = true;
     } else {
       if (e.key === Key.UP) return;
@@ -922,7 +924,7 @@ export class GrFileList extends base {
 
   _handleNewComment() {
     this.classList.remove('hideComments');
-    this.diffCursor.createCommentInPlace();
+    this.diffCursor?.createCommentInPlace();
   }
 
   handleOpenFile() {
@@ -935,22 +937,22 @@ export class GrFileList extends base {
 
   _handleNextChunk() {
     if (this._noDiffsExpanded()) return;
-    this.diffCursor.moveToNextChunk();
+    this.diffCursor?.moveToNextChunk();
   }
 
   _handleNextComment() {
     if (this._noDiffsExpanded()) return;
-    this.diffCursor.moveToNextCommentThread();
+    this.diffCursor?.moveToNextCommentThread();
   }
 
   _handlePrevChunk() {
     if (this._noDiffsExpanded()) return;
-    this.diffCursor.moveToPreviousChunk();
+    this.diffCursor?.moveToPreviousChunk();
   }
 
   _handlePrevComment() {
     if (this._noDiffsExpanded()) return;
-    this.diffCursor.moveToPreviousCommentThread();
+    this.diffCursor?.moveToPreviousCommentThread();
   }
 
   _handleToggleFileReviewed() {
@@ -975,7 +977,7 @@ export class GrFileList extends base {
   }
 
   _openCursorFile() {
-    const diff = this.diffCursor.getTargetDiffElement();
+    const diff = this.diffCursor?.getTargetDiffElement();
     if (!this.change || !diff || !this.patchRange || !diff.path) {
       throw new Error('change, diff and patchRange must be all set and valid');
     }
@@ -1192,7 +1194,7 @@ export class GrFileList extends base {
 
   _updateDiffCursor() {
     // Overwrite the cursor's list of diffs:
-    this.diffCursor.replaceDiffs(this.diffs);
+    this.diffCursor?.replaceDiffs(this.diffs);
   }
 
   _filesChanged() {
@@ -1325,7 +1327,7 @@ export class GrFileList extends base {
     }
 
     this._updateDiffCursor();
-    this.diffCursor.reInitAndUpdateStops();
+    this.diffCursor?.reInitAndUpdateStops();
   }
 
   // private but used in test
@@ -1407,7 +1409,7 @@ export class GrFileList extends base {
     * prevented the issue of scrolling to top when we expand the second
     * file individually.
     */
-    this.diffCursor.reInitAndUpdateStops();
+    this.diffCursor?.reInitAndUpdateStops();
   }
 
   /** Cancel the rendering work of every diff in the list */

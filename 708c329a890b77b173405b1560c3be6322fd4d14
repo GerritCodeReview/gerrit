@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1ad3ba4_2afa1334",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-25T15:46:36Z",
+      "side": 1,
+      "message": "missed this one 😊",
+      "range": {
+        "startLine": 9,
+        "startChar": 5,
+        "endLine": 9,
+        "endChar": 15
+      },
+      "revId": "708c329a890b77b173405b1560c3be6322fd4d14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20351dd5_c5c079a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-25T15:46:36Z",
+      "side": 1,
+      "message": "So, I was thinking this was the same as what Gal brought up a year ago in [1], but reading that closer I think he was saying this feature (ignored) was used still. Was there a discussion on the list about removing this?\n\n[1] https://groups.google.com/g/repo-discuss/c/asYTJmEi4hk/m/mbY8pT2cAwAJ",
+      "revId": "708c329a890b77b173405b1560c3be6322fd4d14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -104,7 +104,7 @@ import {
   getPatchRangeForCommentUrl,
   isInBaseOfPatchRange,
 } from '../../../utils/comment-util';
-import {AppElementParams, AppElementDiffViewParam} from '../../gr-app-types';
+import {AppElementDiffViewParam, AppElementParams} from '../../gr-app-types';
 import {
   EventType,
   OpenFixPreviewEvent,
@@ -292,11 +292,11 @@ export class GrDiffView extends base {
 
   override keyboardShortcuts(): ShortcutListener[] {
     return [
-      listen(Shortcut.LEFT_PANE, _ => this.cursor.moveLeft()),
-      listen(Shortcut.RIGHT_PANE, _ => this.cursor.moveRight()),
+      listen(Shortcut.LEFT_PANE, _ => this.cursor?.moveLeft()),
+      listen(Shortcut.RIGHT_PANE, _ => this.cursor?.moveRight()),
       listen(Shortcut.NEXT_LINE, _ => this._handleNextLine()),
       listen(Shortcut.PREV_LINE, _ => this._handlePrevLine()),
-      listen(Shortcut.VISIBLE_LINE, _ => this.cursor.moveToVisibleArea()),
+      listen(Shortcut.VISIBLE_LINE, _ => this.cursor?.moveToVisibleArea()),
       listen(Shortcut.NEXT_FILE_WITH_COMMENTS, _ =>
         this._moveToNextFileWithComment()
       ),
@@ -382,7 +382,7 @@ export class GrDiffView extends base {
 
   _onRenderHandler?: EventListener;
 
-  private cursor = new GrDiffCursor();
+  private cursor?: GrDiffCursor;
 
   private subscriptions: Subscription[] = [];
 
@@ -478,9 +478,10 @@ export class GrDiffView extends base {
       this.getChangeModel().diffPath$.subscribe(path => (this._path = path))
     );
     this.addEventListener('open-fix-preview', e => this._onOpenFixPreview(e));
+    this.cursor = new GrDiffCursor();
     this.cursor.replaceDiffs([this.$.diffHost]);
     this._onRenderHandler = (_: Event) => {
-      this.cursor.reInitCursor();
+      this.cursor?.reInitCursor();
     };
     this.$.diffHost.addEventListener('render', this._onRenderHandler);
     this.cleanups.push(
@@ -492,9 +493,10 @@ export class GrDiffView extends base {
   }
 
   override disconnectedCallback() {
-    this.cursor.dispose();
+    this.cursor?.dispose();
     if (this._onRenderHandler) {
       this.$.diffHost.removeEventListener('render', this._onRenderHandler);
+      this._onRenderHandler = undefined;
     }
     for (const cleanup of this.cleanups) cleanup();
     this.cleanups = [];
@@ -636,7 +638,7 @@ export class GrDiffView extends base {
 
   _handlePrevLine() {
     this.$.diffHost.displayLine = true;
-    this.cursor.moveUp();
+    this.cursor?.moveUp();
   }
 
   _onOpenFixPreview(e: OpenFixPreviewEvent) {
@@ -645,7 +647,7 @@ export class GrDiffView extends base {
 
   _handleNextLine() {
     this.$.diffHost.displayLine = true;
-    this.cursor.moveDown();
+    this.cursor?.moveDown();
   }
 
   _moveToPreviousFileWithComment() {
@@ -689,7 +691,7 @@ export class GrDiffView extends base {
 
   _handleNewComment() {
     this.classList.remove('hideComments');
-    this.cursor.createCommentInPlace();
+    this.cursor?.createCommentInPlace();
   }
 
   _handlePrevFile() {
@@ -705,14 +707,14 @@ export class GrDiffView extends base {
   }
 
   _handleNextChunk() {
-    const result = this.cursor.moveToNextChunk();
-    if (result === CursorMoveResult.CLIPPED && this.cursor.isAtEnd()) {
+    const result = this.cursor?.moveToNextChunk();
+    if (result === CursorMoveResult.CLIPPED && this.cursor?.isAtEnd()) {
       this.showToastAndNavigateFile('next', 'n');
     }
   }
 
   _handleNextCommentThread() {
-    const result = this.cursor.moveToNextCommentThread();
+    const result = this.cursor?.moveToNextCommentThread();
     if (result === CursorMoveResult.CLIPPED) {
       this._navigateToNextFileWithCommentThread();
     }
@@ -757,14 +759,14 @@ export class GrDiffView extends base {
   }
 
   _handlePrevChunk() {
-    this.cursor.moveToPreviousChunk();
-    if (this.cursor.isAtStart()) {
+    this.cursor?.moveToPreviousChunk();
+    if (this.cursor?.isAtStart()) {
       this.showToastAndNavigateFile('previous', 'p');
     }
   }
 
   _handlePrevCommentThread() {
-    this.cursor.moveToPreviousCommentThread();
+    this.cursor?.moveToPreviousCommentThread();
   }
 
   // Similar to gr-change-view._handleOpenReplyDialog
@@ -907,7 +909,7 @@ export class GrDiffView extends base {
     if (!this._patchRange) return;
 
     // TODO(taoalpha): add a shortcut for editing
-    const cursorAddress = this.cursor.getAddress();
+    const cursorAddress = this.cursor?.getAddress();
     const editUrl = GerritNav.getEditUrlForDiff(
       this._change,
       this._path,
@@ -1234,6 +1236,7 @@ export class GrDiffView extends base {
     if (this._focusLineNum === undefined) {
       return;
     }
+    if (!this.cursor) return;
     if (leftSide) {
       this.cursor.side = Side.LEFT;
     } else {

@@ -31,6 +31,7 @@ import {
 import {EditPatchSetNum} from '../../../types/common.js';
 import {CursorMoveResult} from '../../../api/core.js';
 import {Side} from '../../../api/diff.js';
+import {assertIsDefined} from '../../../utils/common-util.js';
 
 const basicFixture = fixtureFromElement('gr-diff-view');
 
@@ -473,6 +474,7 @@ suite('gr-diff-view tests', () => {
       MockInteractions.pressAndReleaseKeyOn(element, 188, null, ',');
       assert(showPrefsStub.calledOnce);
 
+      assertIsDefined(element.cursor);
       let scrollStub = sinon.stub(element.cursor, 'moveToNextChunk');
       MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
       assert(scrollStub.calledOnce);
@@ -529,6 +531,7 @@ suite('gr-diff-view tests', () => {
     test('moveToNextCommentThread navigates to next file', () => {
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       const diffChangeStub = sinon.stub(element, '_navigateToChange');
+      assertIsDefined(element.cursor);
       sinon.stub(element.cursor, 'isAtEnd').returns(true);
       element._changeNum = '42';
       const comment = {
@@ -904,6 +907,7 @@ suite('gr-diff-view tests', () => {
           b: {_number: 2, commit: {parents: []}},
         },
       };
+      assertIsDefined(element.cursor);
       sinon.stub(element.cursor, 'getAddress')
           .returns({number: lineNumber, isLeftSide: false});
       const redirectStub = sinon.stub(GerritNav, 'navigateToRelativeUrl');
@@ -1440,6 +1444,7 @@ suite('gr-diff-view tests', () => {
     });
 
     test('_initCursor', () => {
+      assertIsDefined(element.cursor);
       assert.isNotOk(element.cursor.initialLineNumber);
 
       // Does nothing when params specify no cursor address:
@@ -1486,6 +1491,7 @@ suite('gr-diff-view tests', () => {
     test('_onLineSelected', () => {
       const getUrlStub = sinon.stub(GerritNav, 'getUrlForDiffById');
       const replaceStateStub = sinon.stub(history, 'replaceState');
+      assertIsDefined(element.cursor);
       sinon.stub(element.cursor, 'getAddress')
           .returns({number: 123, isLeftSide: false});
 
@@ -1508,6 +1514,7 @@ suite('gr-diff-view tests', () => {
     test('line selected on left side', () => {
       const getUrlStub = sinon.stub(GerritNav, 'getUrlForDiffById');
       const replaceStateStub = sinon.stub(history, 'replaceState');
+      assertIsDefined(element.cursor);
       sinon.stub(element.cursor, 'getAddress')
           .returns({number: 123, isLeftSide: true});
 
@@ -1785,6 +1792,7 @@ suite('gr-diff-view tests', () => {
         dispatchEventStub = sinon.stub(
             element, 'dispatchEvent').callThrough();
         navToFileStub = sinon.stub(element, '_navToFile');
+        assertIsDefined(element.cursor);
         moveToPreviousChunkStub =
             sinon.stub(element.cursor, 'moveToPreviousChunk');
         moveToNextChunkStub =

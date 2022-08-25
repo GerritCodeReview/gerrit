@@ -55,6 +55,7 @@ import {
   ChecksUpdate,
   PluginsModel,
 } from '../plugins/plugins-model';
+import {timeoutPromise} from '../../utils/async-util';
 
 /**
  * The checks model maintains the state of checks for two patchsets: the latest
@@ -147,6 +148,8 @@ interface ChecksState {
     [name: string]: ChecksProviderState;
   };
 }
+
+const FETCH_RESULT_TIMEOUT_MS = 10000;
 
 /**
  * Can be used in `reduce()` to collect all results from all runs from all
@@ -849,7 +852,20 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
         timer.end({pluginName});
         return response;
       });
-    return from(fetchPromise).pipe(
+    const racingPromise = timeoutPromise(
+      fetchPromise,
+      FETCH_RESULT_TIMEOUT_MS,
+      () => {
+        this.reporting.reportExecution(Execution.CHECKS_API_ERROR, {
+          pluginName,
+          changeNumber: data.changeNumber,
+          repo: data.repo,
+          patchsetNumber: data.patchsetNumber,
+        });
+      }
+    );
+
+    return from(racingPromise).pipe(
       catchError(e => of(this.createErrorResponse(pluginName, e)))
     );
   }

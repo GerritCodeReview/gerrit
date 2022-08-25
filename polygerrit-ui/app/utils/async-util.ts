@@ -3,8 +3,8 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {Observable} from 'rxjs';
-import {filter, take} from 'rxjs/operators';
+import {from, Observable, TimeoutError} from 'rxjs';
+import {filter, take, timeout} from 'rxjs/operators';
 import {assertIsDefined} from './common-util';
 
 /**
@@ -244,4 +244,21 @@ export function allSettled<T>(
         .catch(reason => ({status: 'rejected', reason} as const))
     )
   );
+}
+
+export async function timeoutPromise<T>(
+  promise: Promise<T>,
+  timeoutMs: number,
+  errFn?: () => void
+): Promise<T> {
+  try {
+    return await from(promise).pipe(timeout(timeoutMs)).toPromise();
+  } catch (e) {
+    if (e instanceof TimeoutError) {
+      if (errFn) errFn();
+      throw new Error('Promise timed out');
+    } else {
+      throw e;
+    }
+  }
 }

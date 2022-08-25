@@ -16,6 +16,23 @@
       "message": "Nice fix!!",
       "revId": "4c1883d40c397e4f0041f5dcc4e031e93aa1bc3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "076adbcd_2dea8573",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-25T07:51:02Z",
+      "side": 1,
+      "message": "The implementation is fine, but I would like to discuss the UX more.\n\nI am not sure whether the color scheme is consistent enough.\n\nI am not so happy about how draft replies look.\n\nI am not sure whether we are addressing the root cause of what we want to fix.\n\nWe should probably reach out to Mariana for making this consistent across tools.",
+      "revId": "4c1883d40c397e4f0041f5dcc4e031e93aa1bc3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

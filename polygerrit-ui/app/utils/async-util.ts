@@ -245,3 +245,22 @@ export function allSettled<T>(
     )
   );
 }
+
+export function timeoutPromise<T>(
+  promise: Promise<T>,
+  timeoutMs: number,
+  errFn?: () => void
+): Promise<T> {
+  let timerId: number;
+
+  const timeoutPromise = new Promise<T>((_, reject) => {
+    timerId = window.setTimeout(() => {
+      if (errFn) errFn();
+      reject(new Error('Promise timed out.'));
+    }, timeoutMs);
+  });
+  const racingPromise = Promise.race([promise, timeoutPromise]);
+  return racingPromise.finally(() => {
+    if (timerId) window.clearTimeout(timerId);
+  });
+}

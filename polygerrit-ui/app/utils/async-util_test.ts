@@ -5,7 +5,7 @@
  */
 import {SinonFakeTimers} from 'sinon';
 import '../test/common-test-setup-karma';
-import {asyncForeach, debounceP} from './async-util';
+import {asyncForeach, debounceP, timeoutPromise} from './async-util';
 
 suite('async-util tests', () => {
   suite('asyncForeach', () => {
@@ -32,6 +32,83 @@ suite('async-util tests', () => {
 
       assert.isTrue(stub.calledOnce);
       assert.equal(stub.lastCall.firstArg, 1);
+    });
+  });
+
+  suite('timeoutPromise', () => {
+    let clock: SinonFakeTimers;
+    setup(() => {
+      clock = sinon.useFakeTimers();
+    });
+
+    test('it resolves before timeout', async () => {
+      const promise = new Promise<number>(resolve =>
+        setTimeout(() => resolve(1), 100)
+      );
+      const racingPromise = timeoutPromise(promise, 200);
+      let hasResolved = false;
+      racingPromise.then((value: number) => {
+        hasResolved = true;
+        assert.equal(value, 5);
+      });
+      racingPromise.catch((_reason?: any) => {
+        assert.fail();
+      });
+      await flush();
+      assert.isFalse(hasResolved);
+      clock.tick(99);
+      await flush();
+      assert.isFalse(hasResolved);
+      clock.tick(1);
+      await flush();
+      assert.isTrue(hasResolved);
+      await racingPromise;
+    });
+
+    test('it fails after timeout', async () => {
+      const promise = new Promise<number>(resolve =>
+        setTimeout(() => resolve(1), 200)
+      );
+      const racingPromise = timeoutPromise(promise, 100);
+      let hasRejected = false;
+      racingPromise
+        .then((_value: number) => {
+          assert.fail();
+        })
+        .catch((_reason?: any) => {
+          hasRejected = true;
+        });
+      await flush();
+      assert.isFalse(hasRejected);
+      clock.tick(99);
+      await flush();
+      assert.isFalse(hasRejected);
+      clock.tick(1);
+      await flush();
+      assert.isTrue(hasRejected);
+      await racingPromise;
+    });
+
+    test('calls errFn', async () => {
+      const promise = new Promise<number>(resolve =>
+        setTimeout(() => resolve(1), 200)
+      );
+      const errFn = sinon.stub();
+      const racingPromise = timeoutPromise(promise, 100, errFn);
+      racingPromise
+        .then((_value: number) => {
+          assert.fail();
+        })
+        .catch((_reason?: any) => {});
+      await flush();
+      assert.isFalse(errFn.called);
+      clock.tick(99);
+      await flush();
+      assert.isFalse(errFn.called);
+      clock.tick(1);
+      await flush();
+      assert.isTrue(errFn.called);
+      await racingPromise;
     });
   });
 

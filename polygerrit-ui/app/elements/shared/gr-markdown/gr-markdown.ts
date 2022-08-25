@@ -24,7 +24,7 @@ import {
 @customElement('gr-markdown')
 export class GrMarkdown extends LitElement {
   @property({type: String})
-  markdown = '';
+  markdown?: string;
 
   @state()
   private repoCommentLinks: CommentLinks = {};
@@ -37,8 +37,38 @@ export class GrMarkdown extends LitElement {
    */
   static override styles = [
     css`
-      [slot='markdown-html'] p {
-        margin: 0;
+      a {
+        color: var(--link-color);
+      }
+      p,
+      ul,
+      code,
+      blockquote {
+        margin: 0 0 var(--spacing-m) 0;
+        max-width: var(--gr-formatted-text-prose-max-width, none);
+      }
+      blockquote {
+        border-left: 1px solid #aaa;
+        padding: 0 var(--spacing-m);
+      }
+      code {
+        background-color: var(--background-color-secondary);
+        border: 1px solid var(--border-color);
+        display: block;
+        font-family: var(--monospace-font-family);
+        font-size: var(--font-size-code);
+        line-height: var(--line-height-mono);
+        margin: var(--spacing-m) 0;
+        padding: 1px var(--spacing-s);
+        overflow-x: auto;
+        /* pre will preserve whitespace and linebreaks but not wrap */
+        white-space: pre;
+      }
+      p code {
+        display: inline;
+      }
+      li {
+        margin-left: var(--spacing-xl);
       }
     `,
   ];
@@ -58,7 +88,8 @@ export class GrMarkdown extends LitElement {
 
     // Escaping the message should be done first to make sure user's literal
     // input does not get rendered without affecting html added in later steps.
-    const escaped = htmlEscape(this.markdown).toString();
+    const escaped = htmlEscape(this.markdown ?? '').toString();
+
     // Turn universally identifiable URLs into links. Ex: www.google.com. The
     // markdown library inside marked-element does this too, but is more
     // conservative and misses some URLs like "google.com" without "www" prefix.
@@ -81,9 +112,12 @@ export class GrMarkdown extends LitElement {
     // TrustedHTML object from sanitization and so it is manually stringified.
     const sanitized = sanitizeHtml(htmledFromConfig).toString();
 
+    // Unescape block quotes '>'.
+    const quotesUnescaped = sanitized.replace(/(^|\n)&gt;/g, '$1>');
+
     // The child with slot is optional but allows us control over the styling.
     return html`
-      <marked-element .markdown=${sanitized} .breaks=${true}>
+      <marked-element .markdown=${quotesUnescaped} .breaks=${true}>
         <div slot="markdown-html"></div>
       </marked-element>
     `;

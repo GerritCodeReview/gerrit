@@ -977,8 +977,8 @@ export function createSubmitRequirementExpressionInfo(
   return {
     expression,
     fulfilled: true,
-    passing_atoms: ['label2:verified=MAX'],
-    failing_atoms: ['label2:verified=MIN'],
+    passing_atoms: ['label:Verified=MAX'],
+    failing_atoms: ['label:Verified=MIN'],
   };
 }
 

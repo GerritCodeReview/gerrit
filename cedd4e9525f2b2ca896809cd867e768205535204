@@ -46,6 +46,30 @@
       },
       "revId": "cedd4e9525f2b2ca896809cd867e768205535204",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd542913_0a9a5636",
+        "filename": "java/com/google/gerrit/index/query/Paginated.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-08-25T22:36:21Z",
+      "side": 1,
+      "message": "Right, `IndexedQuery` which is a class in core Gerrit and not in the Lucene/ES layer implements `Paginated`. So, having a separate interface won\u0027t bring us any benefits.",
+      "parentUuid": "63701186_fd643da1",
+      "range": {
+        "startLine": 24,
+        "startChar": 15,
+        "endLine": 24,
+        "endChar": 22
+      },
+      "revId": "cedd4e9525f2b2ca896809cd867e768205535204",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83e06e71_13cf3c43",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-25T13:05:50Z",
+      "side": 1,
+      "message": "I think we should be using the same text color also for NOT_COVERED and PARTIALLY-COVERED.",
+      "range": {
+        "startLine": 864,
+        "startChar": 9,
+        "endLine": 867,
+        "endChar": 12
+      },
+      "revId": "5aa4e3baca5211c63b9daae24f06e2d5036e4428",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

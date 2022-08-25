@@ -5,7 +5,7 @@
  */
 import {css, html, LitElement} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
-import {sanitizeHtml, htmlEscape} from 'safevalues';
+import {sanitizeHtml, htmlEscape} from '../../../utils/inner-html-util';
 import '@polymer/marked-element';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';

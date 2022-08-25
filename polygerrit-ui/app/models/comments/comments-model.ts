@@ -43,6 +43,7 @@ import {Model} from '../model';
 import {Deduping} from '../../api/reporting';
 import {extractMentionedUsers} from '../../utils/account-util';
 import {EventType} from '../../types/events';
+import {SpecialFilePath} from '../../constants/constants';
 
 export interface CommentState {
   /** undefined means 'still loading' */
@@ -257,6 +258,12 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
   public readonly discardedDrafts$ = select(
     this.state$,
     commentState => commentState.discardedDrafts
+  );
+
+  public readonly patchsetLevelDrafts$ = select(this.drafts$, drafts =>
+    Object.values(drafts ?? {})
+      .flat()
+      .filter(draft => draft.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS)
   );
 
   public readonly mentionedUsersInDrafts$ = select(this.drafts$, drafts => {

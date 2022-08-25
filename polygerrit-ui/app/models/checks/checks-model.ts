@@ -15,6 +15,7 @@ import {
   of,
   Subject,
   Subscription,
+  TimeoutError,
   timer,
 } from 'rxjs';
 import {
@@ -24,6 +25,7 @@ import {
   take,
   takeUntil,
   takeWhile,
+  timeout,
   throttleTime,
   withLatestFrom,
 } from 'rxjs/operators';
@@ -147,6 +149,8 @@ interface ChecksState {
     [name: string]: ChecksProviderState;
   };
 }
+
+const FETCH_RESULT_TIMEOUT_MS = 10000;
 
 /**
  * Can be used in `reduce()` to collect all results from all runs from all
@@ -824,15 +828,17 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
     };
   }
 
-  private createErrorResponse(
-    pluginName: string,
-    message: object
-  ): FetchResponse {
+  private createErrorResponse(pluginName: string, error: Error): FetchResponse {
+    if (error instanceof TimeoutError) {
+      this.reporting.reportExecution(Execution.CHECKS_API_ERROR, {
+        pluginName,
+      });
+    }
     return {
       responseCode: ResponseCode.ERROR,
       errorMessage:
         `Error message from plugin '${pluginName}':` +
-        ` ${JSON.stringify(message)}`,
+        ` ${JSON.stringify(error)}`,
     };
   }
 
@@ -849,8 +855,9 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
         timer.end({pluginName});
         return response;
       });
-    return from(fetchPromise).pipe(
-      catchError(e => of(this.createErrorResponse(pluginName, e)))
-    );
+
+    return from(fetchPromise)
+      .pipe(timeout(FETCH_RESULT_TIMEOUT_MS))
+      .pipe(catchError(e => of(this.createErrorResponse(pluginName, e))));
   }
 }

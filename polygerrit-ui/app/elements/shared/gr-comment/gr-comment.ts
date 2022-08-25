@@ -162,6 +162,11 @@ export class GrComment extends LitElement {
   @property({type: Boolean, reflect: true})
   saving = false;
 
+  // GrReplyDialog requires the patchset level comment to always remain
+  // editable.
+  @property({type: Boolean, attribute: 'permanent-editing-mode'})
+  permanentEditingMode = false;
+
   /**
    * `saving` and `autoSaving` are separate and cannot be set at the same time.
    * `saving` affects the UI state (disabled buttons, etc.) and eventually
@@ -915,7 +920,7 @@ export class GrComment extends LitElement {
   firstWillUpdate() {
     if (this.firstWillUpdateDone) return;
     this.firstWillUpdateDone = true;
-
+    if (this.permanentEditingMode) this.editing = true;
     assertIsDefined(this.comment, 'comment');
     this.unresolved = this.comment.unresolved ?? true;
     if (isUnsaved(this.comment)) this.editing = true;
@@ -1146,7 +1151,9 @@ export class GrComment extends LitElement {
       this.reporting.reportInteraction(
         Interaction.COMMENTS_AUTOCLOSE_EDITING_FALSE_SAVE
       );
-      this.editing = false;
+      if (!this.permanentEditingMode) {
+        this.editing = false;
+      }
     } catch (e) {
       this.unableToSave = true;
       throw e;

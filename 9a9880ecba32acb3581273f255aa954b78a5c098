@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb907805_f2cacbe0",
+        "filename": "polygerrit-ui/app/utils/submit-requirement-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-08-25T14:00:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73ac8edc_5ae1366f",
+      "revId": "9a9880ecba32acb3581273f255aa954b78a5c098",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "79846c0d_a79fdc3d",
@@ -48,6 +66,24 @@
       "writtenOn": "2022-08-25T13:44:53Z",
       "side": 1,
       "message": "Move into a separate function with a meaningful name.",
+      "revId": "9a9880ecba32acb3581273f255aa954b78a5c098",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f7a6eb9_dd06e0b5",
+        "filename": "polygerrit-ui/app/utils/submit-requirement-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-08-25T14:00:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79846c0d_a79fdc3d",
       "revId": "9a9880ecba32acb3581273f255aa954b78a5c098",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

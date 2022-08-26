@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cab5c7f_ad12fa2e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3194,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-26T22:25:52Z",
+      "side": 1,
+      "message": "Don\u0027t you need to add code to do that in java/com/google/gerrit/pgm/init/InitIndex.java?\n\nAnd then I guess once you do that and after the no-limit change, you could remove the 10k default for maxLimit for ES since maxPageSize would always be used? Or does maxLimit affect non-paginated InternalChangeQueries still?",
+      "range": {
+        "startLine": 3193,
+        "startChar": 65,
+        "endLine": 3194,
+        "endChar": 5
+      },
+      "revId": "8c7f92abced9500e3c54f9316782e1c38bc76a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

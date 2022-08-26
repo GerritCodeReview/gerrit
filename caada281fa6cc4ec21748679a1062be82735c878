@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f503e664_a563d343",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3162,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-08-26T01:50:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb4499c3_681c4885",
+      "range": {
+        "startLine": 3162,
+        "startChar": 40,
+        "endLine": 3162,
+        "endChar": 45
+      },
+      "revId": "caada281fa6cc4ec21748679a1062be82735c878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "99f824c6_b355455a",
@@ -37,6 +61,24 @@
       "writtenOn": "2022-08-25T22:54:53Z",
       "side": 1,
       "message": "Maybe add some wording like:\n\nUsing a pageMultiplier allows queries to start off small and thus provide good latency for queries which may end up only have very few results, and then scaling up to have better throughput to handle queries with larger result sets without incurring the overhead of making as many queries as would be required with a smaller limit. This strategy of using a multiplier attempts to create a balance between latency and throughput by dynamically adjusting the query size to the number of results being returned by each query in the pagination.",
+      "revId": "caada281fa6cc4ec21748679a1062be82735c878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20276313_2b1dfcc0",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3164,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-08-26T01:50:56Z",
+      "side": 1,
+      "message": "Nice summary. Thanks.",
+      "parentUuid": "99f824c6_b355455a",
       "revId": "caada281fa6cc4ec21748679a1062be82735c878",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "968fc8c2_5d7c727f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3165,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-08-26T01:50:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73ee164b_24c4998b",
+      "range": {
+        "startLine": 3165,
+        "startChar": 0,
+        "endLine": 3165,
+        "endChar": 1
+      },
+      "revId": "caada281fa6cc4ec21748679a1062be82735c878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "05b298c1_bbdecac5",
@@ -77,6 +143,24 @@
       "writtenOn": "2022-08-25T22:54:53Z",
       "side": 1,
       "message": "Maybe add \"which effectively turns this feature off.\"",
+      "revId": "caada281fa6cc4ec21748679a1062be82735c878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "604ba33d_fdf1db5b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3166,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-08-26T01:50:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05b298c1_bbdecac5",
       "revId": "caada281fa6cc4ec21748679a1062be82735c878",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -142,6 +226,30 @@
       "side": 1,
       "message": "In order to be able to set maxLimit to unlimited, we would need a maxPageSize which can be set to the backend limit to protect it. I would favor doing that in this change, but I am not against doing it in a follow on change.",
       "parentUuid": "dcdbdbba_9197ac45",
+      "range": {
+        "startLine": 124,
+        "startChar": 33,
+        "endLine": 124,
+        "endChar": 55
+      },
+      "revId": "caada281fa6cc4ec21748679a1062be82735c878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e96a8d64_863f15f1",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-08-26T01:50:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a355872e_70c6e041",
       "range": {
         "startLine": 124,
         "startChar": 33,

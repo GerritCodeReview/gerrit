@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a7c7839_47e57803",
+        "filename": "polygerrit-ui/app/elements/shared/gr-markdown/gr-markdown.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-26T09:17:31Z",
+      "side": 1,
+      "message": "swapped to gray-500, it also has 3 \u0027a\u0027s \u003dP",
+      "parentUuid": "c6837e2d_768b7c4b",
+      "revId": "3a91a235ff00025523ecc83f8d1cb82aa6c63cb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "93e66a6d_b09c0880",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-08-25T18:02:32Z",
       "side": 1,
       "message": "Just question - gr-markdown down doesn\u0027t have inline-code?",
+      "range": {
+        "startLine": 54,
+        "startChar": 6,
+        "endLine": 54,
+        "endChar": 10
+      },
+      "revId": "3a91a235ff00025523ecc83f8d1cb82aa6c63cb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f828d9a_01086a09",
+        "filename": "polygerrit-ui/app/elements/shared/gr-markdown/gr-markdown.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-26T09:17:31Z",
+      "side": 1,
+      "message": "This rule below is for code inside lines\n`p code {display: inline;}`\n\nI added a comment explaining.",
+      "parentUuid": "93e66a6d_b09c0880",
       "range": {
         "startLine": 54,
         "startChar": 6,
@@ -88,6 +130,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f41ad9bb_48057382",
+        "filename": "polygerrit-ui/app/elements/shared/gr-markdown/gr-markdown.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-26T09:17:31Z",
+      "side": 1,
+      "message": "Yes I would retire gr-formatted-text since it is our partial markdown implementation. I am not sure which name is better to use after old code is gone. Left a comment at the top.",
+      "parentUuid": "aa038f4e_d921f4eb",
+      "range": {
+        "startLine": 40,
+        "startChar": 6,
+        "endLine": 59,
+        "endChar": 21
+      },
+      "revId": "3a91a235ff00025523ecc83f8d1cb82aa6c63cb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c23c194f_1587ba52",
@@ -101,6 +167,30 @@
       "writtenOn": "2022-08-25T18:02:32Z",
       "side": 1,
       "message": "maybe var(--spacing-xxs)",
+      "range": {
+        "startLine": 62,
+        "startChar": 17,
+        "endLine": 62,
+        "endChar": 20
+      },
+      "revId": "3a91a235ff00025523ecc83f8d1cb82aa6c63cb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e487ce8_2c8663a7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-markdown/gr-markdown.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-26T09:17:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c23c194f_1587ba52",
       "range": {
         "startLine": 62,
         "startChar": 17,
@@ -128,6 +218,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0175a05d_7b7fcf0a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-markdown/gr-markdown.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-26T09:17:31Z",
+      "side": 1,
+      "message": "marked-element does have sanitize as a boolean prop, but it just passes through to the underlying markedjs library which has a big warning not to use it\u0027s deprecated sanitize capabilities https://marked.js.org/#usage",
+      "parentUuid": "28dbf6f1_6f87d6ac",
+      "revId": "3a91a235ff00025523ecc83f8d1cb82aa6c63cb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49d05093_e9ad6381",
@@ -141,6 +249,24 @@
       "writtenOn": "2022-08-26T07:37:34Z",
       "side": 1,
       "message": "This feels slightly dangerous, because it comes after HTML sanitization, but I guess it is ok. Maybe add a comment.",
+      "revId": "3a91a235ff00025523ecc83f8d1cb82aa6c63cb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91456203_9e3eef51",
+        "filename": "polygerrit-ui/app/elements/shared/gr-markdown/gr-markdown.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-26T09:17:31Z",
+      "side": 1,
+      "message": "Added note.",
+      "parentUuid": "49d05093_e9ad6381",
       "revId": "3a91a235ff00025523ecc83f8d1cb82aa6c63cb2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

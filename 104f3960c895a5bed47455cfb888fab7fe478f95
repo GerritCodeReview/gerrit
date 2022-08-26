@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9843eec6_6df4de0e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-commands/gr-repo-commands.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-26T11:18:37Z",
+      "side": 1,
+      "message": "TIL. That\u0027s nice. last time I was downloading refs/meta/config. This would be nicer.",
+      "range": {
+        "startLine": 124,
+        "startChar": 12,
+        "endLine": 130,
+        "endChar": 27
+      },
+      "revId": "104f3960c895a5bed47455cfb888fab7fe478f95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

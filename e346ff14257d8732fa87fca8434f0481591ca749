@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "984971ba_12a63aa5",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-26T09:00:45Z",
+      "side": 1,
+      "message": "I think you can remove this line (also below line 268), because calling `savePreferences()` is exactly what `userModel.updatePreferences()` does. No need to do it twice.",
+      "revId": "e346ff14257d8732fa87fca8434f0481591ca749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "827f9aea_514b0ce2",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 1093,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-26T09:00:45Z",
+      "side": 1,
+      "message": "This calls `this.restApiService.savePreferences` already. Is this saving twice?",
+      "revId": "e346ff14257d8732fa87fca8434f0481591ca749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

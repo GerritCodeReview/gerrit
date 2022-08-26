@@ -43,21 +43,39 @@ suite('gr-repo-commands tests', () => {
           <h1 class="heading-1" id="Title">Repository Commands</h1>
           <div class="loading" id="loading">Loading...</div>
           <div class="loading" id="loadedContent">
-            <h2 class="heading-2" id="options">Command</h2>
             <div id="form">
-              <h3 class="heading-3">Create change</h3>
-              <gr-button aria-disabled="false" role="button" tabindex="0">
-                Create change
-              </gr-button>
-              <h3 class="heading-3">Edit repo config</h3>
-              <gr-button
-                aria-disabled="false"
-                id="editRepoConfig"
-                role="button"
-                tabindex="0"
-              >
-                Edit repo config
-              </gr-button>
+              <h2 class="heading-2">Create change</h2>
+              <div>
+                <p>
+                  Creates an empty work-in-progress change that can be used to
+                  edit files online and send the modifications for review.
+                </p>
+              </div>
+              <div>
+                <gr-button aria-disabled="false" role="button" tabindex="0">
+                  Create change
+                </gr-button>
+              </div>
+              <h2 class="heading-2">Edit repo config</h2>
+              <div>
+                <p>
+                  Creates a work-in-progress change that allows to edit the
+                  <code> project.config </code>
+                  file in the
+                  <code> refs/meta/config </code>
+                  branch and send the modifications for review.
+                </p>
+              </div>
+              <div>
+                <gr-button
+                  aria-disabled="false"
+                  id="editRepoConfig"
+                  role="button"
+                  tabindex="0"
+                >
+                  Edit repo config
+                </gr-button>
+              </div>
               <gr-endpoint-decorator name="repo-command">
                 <gr-endpoint-param name="config"> </gr-endpoint-param>
                 <gr-endpoint-param name="repoName"> </gr-endpoint-param>
@@ -85,7 +103,8 @@ suite('gr-repo-commands tests', () => {
             </div>
           </gr-dialog>
         </gr-overlay>
-      `
+      `,
+      {ignoreTags: ['p']}
     );
   });
 

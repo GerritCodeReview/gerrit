@@ -85,8 +85,11 @@ export class GrRepoCommands extends LitElement {
       subpageStyles,
       sharedStyles,
       css`
-        #form gr-button {
-          margin-bottom: var(--spacing-xxl);
+        #form h2 {
+          margin-top: var(--spacing-xxl);
+        }
+        p {
+          padding: var(--spacing-m) 0;
         }
       `,
     ];
@@ -100,27 +103,44 @@ export class GrRepoCommands extends LitElement {
           Loading...
         </div>
         <div id="loadedContent" class=${this.loading ? 'loading' : ''}>
-          <h2 id="options" class="heading-2">Command</h2>
           <div id="form">
-            <h3 class="heading-3">Create change</h3>
-            <gr-button
-              ?loading=${this.creatingChange}
-              @click=${() => {
-                this.createNewChange();
-              }}
-            >
-              Create change
-            </gr-button>
-            <h3 class="heading-3">Edit repo config</h3>
-            <gr-button
-              id="editRepoConfig"
-              ?loading=${this.editingConfig}
-              @click=${() => {
-                this.handleEditRepoConfig();
-              }}
-            >
-              Edit repo config
-            </gr-button>
+            <h2 class="heading-2">Create change</h2>
+            <div>
+              <p>
+                Creates an empty work-in-progress change that can be used to
+                edit files online and send the modifications for review.
+              </p>
+            </div>
+            <div>
+              <gr-button
+                ?loading=${this.creatingChange}
+                @click=${() => {
+                  this.createNewChange();
+                }}
+              >
+                Create change
+              </gr-button>
+            </div>
+            <h2 class="heading-2">Edit repo config</h2>
+            <div>
+              <p>
+                Creates a work-in-progress change that allows to edit the
+                <code>project.config</code> file in the
+                <code>refs/meta/config</code> branch and send the modifications
+                for review.
+              </p>
+            </div>
+            <div>
+              <gr-button
+                id="editRepoConfig"
+                ?loading=${this.editingConfig}
+                @click=${() => {
+                  this.handleEditRepoConfig();
+                }}
+              >
+                Edit repo config
+              </gr-button>
+            </div>
             ${this.renderRepoGarbageCollector()}
             <gr-endpoint-decorator name="repo-command">
               <gr-endpoint-param name="config" .value=${this.repoConfig}>

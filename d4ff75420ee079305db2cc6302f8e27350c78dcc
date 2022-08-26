@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8f2c8d6_d66cb677",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3167,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-26T04:37:33Z",
+      "side": 1,
+      "message": "nit: having",
+      "range": {
+        "startLine": 3167,
+        "startChar": 42,
+        "endLine": 3167,
+        "endChar": 46
+      },
+      "revId": "d4ff75420ee079305db2cc6302f8e27350c78dcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fabb5f3e_424435d2",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3179,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-26T04:37:33Z",
+      "side": 1,
+      "message": "nit: s/previous/the previous/",
+      "range": {
+        "startLine": 3179,
+        "startChar": 29,
+        "endLine": 3179,
+        "endChar": 37
+      },
+      "revId": "d4ff75420ee079305db2cc6302f8e27350c78dcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0fadd30_5d200b18",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3187,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-26T04:37:33Z",
+      "side": 1,
+      "message": "nit: s/limit of/the limit of the/",
+      "range": {
+        "startLine": 3187,
+        "startChar": 16,
+        "endLine": 3187,
+        "endChar": 21
+      },
+      "revId": "d4ff75420ee079305db2cc6302f8e27350c78dcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac0c3518_ecbd1b0b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3190,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-26T04:37:33Z",
+      "side": 1,
+      "message": "nit: Should you copy the note about ES max_result_window to here too?",
+      "revId": "d4ff75420ee079305db2cc6302f8e27350c78dcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db5a4d5a_c81279a6",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-26T04:37:33Z",
+      "side": 1,
+      "message": "can this overflow?",
+      "range": {
+        "startLine": 122,
+        "startChar": 14,
+        "endLine": 122,
+        "endChar": 55
+      },
+      "revId": "d4ff75420ee079305db2cc6302f8e27350c78dcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

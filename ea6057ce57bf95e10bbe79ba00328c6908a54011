@@ -85,6 +85,24 @@
       "message": "Nit: All submit requirements utils are in label-util.ts. Maybe this can be move there, but I don\u0027t have strong preference.",
       "revId": "ea6057ce57bf95e10bbe79ba00328c6908a54011",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b381dd7d_904175a8",
+        "filename": "polygerrit-ui/app/utils/submit-requirement-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-08-26T09:03:39Z",
+      "side": 1,
+      "message": "I felt like not everything in submit requirement is about labels, so it would be better for it to have it\u0027s own util file. And maybe move non-label related methods from label-util to the new file as well. WDYT?",
+      "parentUuid": "3bbce504_c44e8de6",
+      "revId": "ea6057ce57bf95e10bbe79ba00328c6908a54011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

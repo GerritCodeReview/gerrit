@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "69bda179_da1c7416",
+        "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 857,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-26T08:49:55Z",
+      "side": 1,
+      "message": "If I just use setTimeout, VSCode complains that the return type is a Timeout not an number due to a NodeJS setTimeout version.\n\nMaybe something we need to fix with our vscode setup to ignore nodejs types.",
+      "parentUuid": "5c7afcea_391f6d4d",
+      "revId": "5d8bb6dbf1d62780c2109c8ac438b95d2de6b3a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac8bb361_2b555cce",
@@ -52,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1137e7e0_86fccefc",
+        "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 863,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-26T08:49:55Z",
+      "side": 1,
+      "message": "This line should trigger regardless. I\u0027m assuming you want this to go in the timeout promise",
+      "parentUuid": "ac8bb361_2b555cce",
+      "revId": "5d8bb6dbf1d62780c2109c8ac438b95d2de6b3a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1f833716_715cc620",
@@ -65,6 +101,30 @@
       "writtenOn": "2022-08-26T07:49:48Z",
       "side": 1,
       "message": "This code of converting a promise into a racing promise with a timeout looks like it could be easily moved into `async-util`. WDYT?\n\nA more generic error message would be fine IMO.",
+      "range": {
+        "startLine": 856,
+        "startChar": 4,
+        "endLine": 865,
+        "endChar": 0
+      },
+      "revId": "5d8bb6dbf1d62780c2109c8ac438b95d2de6b3a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "259ad055_43c550c7",
+        "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 865,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-26T08:49:55Z",
+      "side": 1,
+      "message": "Good idea",
+      "parentUuid": "1f833716_715cc620",
       "range": {
         "startLine": 856,
         "startChar": 4,

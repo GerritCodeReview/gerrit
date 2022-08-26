@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c6837e2d_768b7c4b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-markdown/gr-markdown.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-26T07:37:34Z",
+      "side": 1,
+      "message": "`#aaa` is here from the beginning of time, but we should really replace all constant colors with theme colors, if possible. At least add a TODO.",
+      "revId": "3a91a235ff00025523ecc83f8d1cb82aa6c63cb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "93e66a6d_b09c0880",
         "filename": "polygerrit-ui/app/elements/shared/gr-markdown/gr-markdown.ts",
         "patchSetId": 4
@@ -49,6 +66,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "aa038f4e_d921f4eb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-markdown/gr-markdown.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-26T07:37:34Z",
+      "side": 1,
+      "message": "Do you mean to suggest that those styles should be shared?\n\nMaybe the plan is to retire `gr-formatted-text`? But yeah, a TODO for that would be good.",
+      "parentUuid": "9305b0a5_43e18f62",
+      "range": {
+        "startLine": 40,
+        "startChar": 6,
+        "endLine": 59,
+        "endChar": 21
+      },
+      "revId": "3a91a235ff00025523ecc83f8d1cb82aa6c63cb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c23c194f_1587ba52",
         "filename": "polygerrit-ui/app/elements/shared/gr-markdown/gr-markdown.ts",
         "patchSetId": 4
@@ -66,6 +107,40 @@
         "endLine": 62,
         "endChar": 20
       },
+      "revId": "3a91a235ff00025523ecc83f8d1cb82aa6c63cb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28dbf6f1_6f87d6ac",
+        "filename": "polygerrit-ui/app/elements/shared/gr-markdown/gr-markdown.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-26T07:37:34Z",
+      "side": 1,
+      "message": "`marked-element` does not do sanitization itself?",
+      "revId": "3a91a235ff00025523ecc83f8d1cb82aa6c63cb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49d05093_e9ad6381",
+        "filename": "polygerrit-ui/app/elements/shared/gr-markdown/gr-markdown.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-26T07:37:34Z",
+      "side": 1,
+      "message": "This feels slightly dangerous, because it comes after HTML sanitization, but I guess it is ok. Maybe add a comment.",
       "revId": "3a91a235ff00025523ecc83f8d1cb82aa6c63cb2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

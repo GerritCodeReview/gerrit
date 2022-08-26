@@ -295,6 +295,7 @@ const appThemeCss = safeStyleSheet`
     --border-color: var(--gray-300);
     --input-focus-border-color: var(--blue-800);
     --comment-separator-color: var(--gray-300);
+    --comment-quote-marker-color: var(--gray-500);
 
     /* checks tag colors */
     --tag-gray: var(--gray-200);

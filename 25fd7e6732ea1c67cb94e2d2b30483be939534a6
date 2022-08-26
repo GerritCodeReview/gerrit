@@ -87,6 +87,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1eb9e76_d7f1885f",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 36
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-26T08:30:20Z",
+      "side": 1,
+      "message": "Yes, I think it\u0027s fine that user will in 3.7 set their DARK preference again. It\u0027s highly possible they prefer also OS dark preference so they will not even see change.\n\nI added more info to release notes.",
+      "parentUuid": "eb6789c6_f42bb2e0",
+      "revId": "25fd7e6732ea1c67cb94e2d2b30483be939534a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "995b0987_a72015f0",

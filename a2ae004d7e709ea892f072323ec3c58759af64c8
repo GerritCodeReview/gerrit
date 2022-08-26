@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2ed725d_1e644319",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-08-26T10:57:23Z",
+      "side": 0,
+      "message": "can you please change it to \"non-parseable copy condition\"? (something that we can search for in the logs).",
+      "range": {
+        "startLine": 587,
+        "startChar": 42,
+        "endLine": 587,
+        "endChar": 56
+      },
+      "revId": "a2ae004d7e709ea892f072323ec3c58759af64c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

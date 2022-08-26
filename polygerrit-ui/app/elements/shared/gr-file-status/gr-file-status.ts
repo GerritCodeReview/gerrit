@@ -27,6 +27,8 @@ function statusString(status: FileInfoStatus) {
       return 'Rewritten';
     case FileInfoStatus.UNMODIFIED:
       return 'Unchanged';
+    case FileInfoStatus.REVERTED:
+      return 'Reverted';
     default:
       assertNever(status, `Unsupported status: ${status}`);
   }
@@ -91,6 +93,9 @@ export class GrFileStatus extends LitElement {
         }
         div.status.U {
           background-color: var(--file-status-unchanged);
+        }
+        div.status.X {
+          background-color: var(--file-status-reverted);
         }
         .size-16 {
           font-size: 16px;

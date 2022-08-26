@@ -34,6 +34,24 @@
       "parentUuid": "f8458869_30ba6957",
       "revId": "1f9b1ad798361d6f94ad2042d105d712265287dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54e3dd71_ef72106f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-file-status/gr-file-status.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-26T09:45:56Z",
+      "side": 1,
+      "message": "Yes, that looks even better.",
+      "parentUuid": "3efe4daf_88a2f5ec",
+      "revId": "1f9b1ad798361d6f94ad2042d105d712265287dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

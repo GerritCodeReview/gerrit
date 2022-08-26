@@ -188,6 +188,7 @@ const darkThemeCss = safeStyleSheet`
     --file-status-modified: var(--gray-500);
     --file-status-renamed: var(--orange-400);
     --file-status-unchanged: var(--gray-500);
+    --file-status-reverted: var(--gray-500);
 
     /* fonts */
     --font-weight-bold: 700; /* 700 is the same as 'bold' */

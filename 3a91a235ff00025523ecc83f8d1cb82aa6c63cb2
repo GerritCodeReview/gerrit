@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1aae156d_0d9ee943",
+        "filename": "polygerrit-ui/app/elements/shared/gr-markdown/gr-markdown.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-26T10:12:08Z",
+      "side": 1,
+      "message": "Done, for now using the same gray500 in light and dark looks ok and is not a regression from #aaa anyway, but we can add a version in dark-theme later if we come up with one.\n\nI wish there was a good way to declare light/dark vars in the component instead of a big global list, that would be cool.",
+      "parentUuid": "e09c9015_77172668",
+      "revId": "3a91a235ff00025523ecc83f8d1cb82aa6c63cb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "93e66a6d_b09c0880",
@@ -268,6 +286,24 @@
       "side": 1,
       "message": "Maybe mention that in a comment?",
       "parentUuid": "0175a05d_7b7fcf0a",
+      "revId": "3a91a235ff00025523ecc83f8d1cb82aa6c63cb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73f680e7_c0aa7873",
+        "filename": "polygerrit-ui/app/elements/shared/gr-markdown/gr-markdown.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-26T10:12:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5dbc218_966fe1fb",
       "revId": "3a91a235ff00025523ecc83f8d1cb82aa6c63cb2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

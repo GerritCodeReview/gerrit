@@ -33,6 +33,24 @@
       "message": "Returning an error response to the checks model should trigger this line:\n\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/models/checks/checks-model.ts;l\u003d782;drc\u003dbf11061d58601a373b045a005b3334ea61504d22\n\nSo maybe you don\u0027t need this here?",
       "revId": "2a194b1ff28e1f714631f491c08e58fd92bcd82c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3da8a00c_bc940836",
+        "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 833,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-26T09:50:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7de6c24a_482ebd50",
+      "revId": "2a194b1ff28e1f714631f491c08e58fd92bcd82c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

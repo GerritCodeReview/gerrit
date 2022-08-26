@@ -47,6 +47,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfe9c7c3_63b0db01",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-08-26T09:14:53Z",
+      "side": 1,
+      "message": "Discussed elsewhere. Conclusion: it\u0027s ok to use explicit sizes for borders",
+      "parentUuid": "6791453d_bd5e9487",
+      "range": {
+        "startLine": 119,
+        "startChar": 25,
+        "endLine": 119,
+        "endChar": 28
+      },
+      "revId": "ea6057ce57bf95e10bbe79ba00328c6908a54011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "054d1ed1_3d656c42",
@@ -60,6 +84,30 @@
       "writtenOn": "2022-08-25T17:55:27Z",
       "side": 1,
       "message": "```suggestion\n          border-bottom: var(--spacing-xs) solid var(--error-foreground);\n```\n\n--spacing-xs are 2px",
+      "range": {
+        "startLine": 122,
+        "startChar": 25,
+        "endLine": 122,
+        "endChar": 28
+      },
+      "revId": "ea6057ce57bf95e10bbe79ba00328c6908a54011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "490a33c6_7c97a8a9",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-08-26T09:14:53Z",
+      "side": 1,
+      "message": "Discussed elsewhere. Conclusion: it\u0027s ok to use explicit sizes for borders",
+      "parentUuid": "054d1ed1_3d656c42",
       "range": {
         "startLine": 122,
         "startChar": 25,

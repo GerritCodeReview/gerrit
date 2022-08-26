@@ -584,7 +584,7 @@ public class ApprovalsUtil {
     try {
       containsUserInPredicate = containsUserInPredicate(copyCondition);
     } catch (QueryParseException e) {
-      logger.atWarning().withCause(e).log(e.getMessage());
+      logger.atWarning().withCause(e).log();
       message.append(formatApprovalsAsLabelVotesList(approvalsForSameLabel));
       message.append(String.format(" (non-parseable copy condition: \"%s\")", copyCondition));
       return message.toString();

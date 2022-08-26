@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8458869_30ba6957",
+        "filename": "polygerrit-ui/app/elements/shared/gr-file-status/gr-file-status.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-26T09:42:37Z",
+      "side": 1,
+      "message": "I wonder whether instead of \u0027X\u0027 we could show something like:\nhttps://fonts.google.com/icons?selected\u003dMaterial%20Symbols%20Outlined%3Asettings_backup_restore%3AFILL%400%3Bwght%40400%3BGRAD%400%3Bopsz%4048",
+      "revId": "1f9b1ad798361d6f94ad2042d105d712265287dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

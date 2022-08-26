@@ -218,6 +218,8 @@ export class GrFileList extends LitElement {
   // Private but used in tests.
   @state() filesLeftBase: NormalizedFileInfo[] = [];
 
+  @state() private filesRightBase: NormalizedFileInfo[] = [];
+
   // Private but used in tests.
   @state()
   loggedIn = false;
@@ -747,6 +749,13 @@ export class GrFileList extends LitElement {
     );
     subscribe(
       this,
+      () => this.getFilesModel().filesRightBase$,
+      files => {
+        this.filesRightBase = [...files];
+      }
+    );
+    subscribe(
+      this,
       () => this.getBrowserModel().diffViewMode$,
       diffView => {
         this.diffViewMode = diffView;
@@ -1107,9 +1116,14 @@ export class GrFileList extends LitElement {
     const fileWasAlreadyChanged = this.filesLeftBase.some(
       info => info.__path === file?.__path
     );
+    const fileIsReverted =
+      fileWasAlreadyChanged &&
+      !this.filesRightBase.some(info => info.__path === file?.__path);
     const newlyChanged = hasExtendedStatus && !fileWasAlreadyChanged;
 
-    const status = file?.status ?? FileInfoStatus.MODIFIED;
+    const status = fileIsReverted
+      ? FileInfoStatus.REVERTED
+      : file?.status ?? FileInfoStatus.MODIFIED;
     const left = `patchset ${this.patchRange?.basePatchNum}`;
     const right = `patchset ${this.patchRange?.patchNum}`;
     const postfix = ` between ${left} and ${right}`;

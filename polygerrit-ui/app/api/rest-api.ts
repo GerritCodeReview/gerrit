@@ -90,6 +90,7 @@ export enum FileInfoStatus {
   REWRITTEN = 'W',
   MODIFIED = 'M', // Not returned by BE, M is the default
   UNMODIFIED = 'U', // Not returned by BE, but added by UI for certain files
+  REVERTED = 'X', // Not returned by BE, but added by UI for certain files
 }
 
 /**

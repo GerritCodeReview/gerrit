@@ -322,6 +322,7 @@ const appThemeCss = safeStyleSheet`
     --file-status-modified: var(--gray-300);
     --file-status-renamed: var(--orange-300);
     --file-status-unchanged: var(--gray-300);
+    --file-status-reverted: var(--gray-300);
 
     /* fonts */
     --font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI',

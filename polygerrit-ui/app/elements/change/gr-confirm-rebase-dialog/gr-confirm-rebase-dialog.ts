@@ -24,6 +24,7 @@ export interface RebaseChange {
 
 export interface ConfirmRebaseEventDetail {
   base: string | null;
+  allowConflicts: boolean;
 }
 
 @customElement('gr-confirm-rebase-dialog')
@@ -70,6 +71,9 @@ export class GrConfirmRebaseDialog extends LitElement {
   @query('#rebaseOnOtherInput')
   rebaseOnOtherInput!: HTMLInputElement;
 
+  @query('#rebaseAllowConflicts')
+  private rebaseAllowConflicts!: HTMLInputElement;
+
   @query('#parentInput')
   parentInput!: GrAutocomplete;
 
@@ -111,8 +115,8 @@ export class GrConfirmRebaseDialog extends LitElement {
         display: block;
         width: 100%;
       }
-      .parentRevisionContainer label {
-        margin-bottom: var(--spacing-xs);
+      .rebaseAllowConflicts {
+        margin-top: var(--spacing-m);
       }
       .rebaseOption {
         margin: var(--spacing-m) 0;
@@ -198,6 +202,12 @@ export class GrConfirmRebaseDialog extends LitElement {
               placeholder="Change number, ref, or commit hash"
             >
             </gr-autocomplete>
+          </div>
+          <div class="rebaseAllowConflicts">
+            <input id="rebaseAllowConflicts" type="checkbox" />
+            <label for="rebaseAllowConflicts"
+              >Allow rebase with conflicts</label
+            >
           </div>
         </div>
       </gr-dialog>
@@ -297,6 +307,7 @@ export class GrConfirmRebaseDialog extends LitElement {
     e.stopPropagation();
     const detail: ConfirmRebaseEventDetail = {
       base: this.getSelectedBase(),
+      allowConflicts: this.rebaseAllowConflicts.checked,
     };
     this.dispatchEvent(new CustomEvent('confirm', {detail}));
     this.text = '';

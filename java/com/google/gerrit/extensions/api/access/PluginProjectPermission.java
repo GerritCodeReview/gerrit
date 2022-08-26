@@ -34,7 +34,7 @@ public final class PluginProjectPermission implements CoreOrPluginProjectPermiss
     requireNonNull(pluginName, "pluginName");
     requireNonNull(permission, "permission");
     checkArgument(
-        isValidPluginPermissionName(permission), "invalid plugin permission name: ", permission);
+        isValidPluginPermissionName(permission), "invalid plugin permission name: %s", permission);
 
     this.pluginName = pluginName;
     this.permission = permission;

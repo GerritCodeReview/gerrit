@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5ac4280_16c9373a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-26T07:49:48Z",
+      "side": 1,
+      "message": "Nice! 👍",
+      "revId": "5d8bb6dbf1d62780c2109c8ac438b95d2de6b3a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c7afcea_391f6d4d",
+        "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 857,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-26T07:49:48Z",
+      "side": 1,
+      "message": "Maybe drop `window.`. More consistent with `clearTimeout()` below and other places in the code base.\n\n```suggestion\n      timerId \u003d setTimeout(() \u003d\u003e {\n```",
+      "revId": "5d8bb6dbf1d62780c2109c8ac438b95d2de6b3a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac8bb361_2b555cce",
+        "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 863,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-26T07:49:48Z",
+      "side": 1,
+      "message": "Can you verify that this line in checks-model is triggered when we run into the timeout? Would be good to know that we have reporting for this.\n```\n this.reporting.reportExecution(Execution.CHECKS_API_ERROR, {...\n```",
+      "revId": "5d8bb6dbf1d62780c2109c8ac438b95d2de6b3a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f833716_715cc620",
+        "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 865,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-26T07:49:48Z",
+      "side": 1,
+      "message": "This code of converting a promise into a racing promise with a timeout looks like it could be easily moved into `async-util`. WDYT?\n\nA more generic error message would be fine IMO.",
+      "range": {
+        "startLine": 856,
+        "startChar": 4,
+        "endLine": 865,
+        "endChar": 0
+      },
+      "revId": "5d8bb6dbf1d62780c2109c8ac438b95d2de6b3a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

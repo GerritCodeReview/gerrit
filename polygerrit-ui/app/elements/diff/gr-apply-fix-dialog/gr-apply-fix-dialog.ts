@@ -106,9 +106,6 @@ export class GrApplyFixDialog extends LitElement {
   static override styles = [
     sharedStyles,
     css`
-      gr-diff {
-        --content-width: 90vw;
-      }
       .diffContainer {
         padding: var(--spacing-l) 0;
         border-bottom: 1px solid var(--border-color);
@@ -257,7 +254,10 @@ export class GrApplyFixDialog extends LitElement {
   private overridePartialDiffPrefs() {
     if (!this.diffPrefs) return undefined;
     // generate a smaller gr-diff than fullscreen for dialog
-    return {...this.diffPrefs, line_length: 50};
+    return {
+      ...this.diffPrefs,
+      line_length: Math.min(this.diffPrefs.line_length, 100),
+    };
   }
 
   // visible for testing

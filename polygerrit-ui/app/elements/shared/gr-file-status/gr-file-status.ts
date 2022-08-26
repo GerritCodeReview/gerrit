@@ -27,6 +27,8 @@ function statusString(status: FileInfoStatus) {
       return 'Rewritten';
     case FileInfoStatus.UNMODIFIED:
       return 'Unchanged';
+    case FileInfoStatus.REVERTED:
+      return 'Reverted';
     default:
       assertNever(status, `Unsupported status: ${status}`);
   }
@@ -73,6 +75,9 @@ export class GrFileStatus extends LitElement {
           background-color: transparent;
           color: var(--file-status-font-color);
         }
+        div.status gr-icon {
+          color: var(--file-status-font-color);
+        }
         div.status.M {
           border: 1px solid var(--border-color);
           line-height: calc(var(--line-height-normal) - 2px);
@@ -91,6 +96,9 @@ export class GrFileStatus extends LitElement {
         }
         div.status.U {
           background-color: var(--file-status-unchanged);
+        }
+        div.status.X {
+          background-color: var(--file-status-reverted);
         }
         .size-16 {
           font-size: 16px;
@@ -113,9 +121,16 @@ export class GrFileStatus extends LitElement {
         tabindex="0"
         aria-label=${this.computeLabel()}
       >
-        ${this.status ?? ''}
+        ${this.renderIconOrLetter()}
       </div>
     </gr-tooltip-content>`;
+  }
+
+  private renderIconOrLetter() {
+    if (this.status === FileInfoStatus.REVERTED) {
+      return html`<gr-icon small icon="undo"></gr-icon>`;
+    }
+    return html`<span>${this.status ?? ''}</span>`;
   }
 
   private renderNewlyChanged() {

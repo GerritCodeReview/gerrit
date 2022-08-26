@@ -4,9 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../gr-linked-text/gr-linked-text';
+import '../gr-markdown/gr-markdown';
 import {CommentLinks} from '../../../types/common';
 import {LitElement, css, html, TemplateResult} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
+import {getAppContext} from '../../../services/app-context';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 const CODE_MARKER_PATTERN = /^(`{1,3})([^`]+?)\1$/;
 const INLINE_PATTERN = /(\[.+?\]\(.+?\)|`[^`]+?`)/;
@@ -72,6 +75,8 @@ export class GrFormattedText extends LitElement {
   @property({type: Boolean, reflect: true})
   noTrailingMargin = false;
 
+  private readonly flagsService = getAppContext().flagsService;
+
   static override get styles() {
     return [
       css`
@@ -135,8 +140,13 @@ export class GrFormattedText extends LitElement {
 
   override render() {
     if (!this.content) return;
-    const blocks = this._computeBlocks(this.content);
-    return html`${blocks.map(block => this.renderBlock(block))}`;
+
+    if (!this.flagsService.isEnabled(KnownExperimentId.RENDER_MARKDOWN)) {
+      return html`<gr-markdown .markdown=${this.content}></gr-markdown>`;
+    } else {
+      const blocks = this._computeBlocks(this.content);
+      return html`${blocks.map(block => this.renderBlock(block))}`;
+    }
   }
 
   /**

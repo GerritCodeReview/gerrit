@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b43d359_92c0011e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-26T07:21:34Z",
+      "side": 1,
+      "message": "Nice. So easy! Why did we not do that 1.5 years ago?? 😮",
+      "revId": "b2a07dcec00d299e2c37090032102ef3f18fca3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c64f608_48ac51c0",
+        "filename": "polygerrit-ui/app/utils/change-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-26T07:21:34Z",
+      "side": 1,
+      "message": "What is the desired implication of this?\n\nHow will `gr-change-list-column-requirements-summary.ts` behave?\n\nShould `gr-change-status.ts` be changed? Maybe think of a color and a tooltip?",
+      "revId": "b2a07dcec00d299e2c37090032102ef3f18fca3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -69,6 +69,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a3a4a2e_28d13d89",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 36
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-26T08:23:21Z",
+      "side": 1,
+      "message": "Good idea, Added.",
+      "parentUuid": "b79a9dc7_c2a39382",
+      "revId": "25fd7e6732ea1c67cb94e2d2b30483be939534a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "995b0987_a72015f0",
@@ -105,6 +123,48 @@
       "writtenOn": "2022-08-26T07:12:26Z",
       "side": 1,
       "message": "Can you double check that this leaves all other prefs alone?",
+      "revId": "25fd7e6732ea1c67cb94e2d2b30483be939534a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "877ffaee_c7cf7c63",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 36
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-26T08:23:21Z",
+      "side": 1,
+      "message": "Good point. thanks",
+      "parentUuid": "995b0987_a72015f0",
+      "range": {
+        "startLine": 259,
+        "startChar": 6,
+        "endLine": 260,
+        "endChar": 48
+      },
+      "revId": "25fd7e6732ea1c67cb94e2d2b30483be939534a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "377f7083_53894877",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 36
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-26T08:23:21Z",
+      "side": 1,
+      "message": "Good point. According to documentation it should be fine\n\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#preferences-input\n\nThe PreferencesInput entity contains information for setting the user preferences. Fields which are not set will not be updated.",
+      "parentUuid": "b000df89_bf9fef93",
       "revId": "25fd7e6732ea1c67cb94e2d2b30483be939534a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -155,6 +215,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3cc1837_8ed14d43",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 36
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-26T08:23:21Z",
+      "side": 1,
+      "message": "Actually updating preferences will trigger applyTheme.",
+      "parentUuid": "d4e94347_c5a7187b",
+      "range": {
+        "startLine": 261,
+        "startChar": 28,
+        "endLine": 261,
+        "endChar": 38
+      },
+      "revId": "25fd7e6732ea1c67cb94e2d2b30483be939534a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "726ba6c3_15e6ccdc",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 36
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-26T08:23:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59d11372_d0d3b4bd",
+      "range": {
+        "startLine": 261,
+        "startChar": 39,
+        "endLine": 261,
+        "endChar": 51
+      },
+      "revId": "25fd7e6732ea1c67cb94e2d2b30483be939534a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1d5b575_6c8303a1",
@@ -172,6 +280,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "560208d5_6dc848fd",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 36
+      },
+      "lineNbr": 641,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-26T08:23:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1d5b575_6c8303a1",
+      "revId": "25fd7e6732ea1c67cb94e2d2b30483be939534a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b87f0ef_8d889e54",
@@ -185,6 +311,30 @@
       "writtenOn": "2022-08-26T07:12:26Z",
       "side": 1,
       "message": "It would be more consistent with all the other prefs, if this method was inlined here.",
+      "range": {
+        "startLine": 725,
+        "startChar": 27,
+        "endLine": 725,
+        "endChar": 55
+      },
+      "revId": "25fd7e6732ea1c67cb94e2d2b30483be939534a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2c712f6_3bb1d6b5",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 36
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-26T08:23:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b87f0ef_8d889e54",
       "range": {
         "startLine": 725,
         "startChar": 27,
@@ -218,6 +368,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9db7810_aecb4bc9",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 36
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-26T08:23:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb136ff1_d9b6ace8",
+      "range": {
+        "startLine": 728,
+        "startChar": 35,
+        "endLine": 728,
+        "endChar": 39
+      },
+      "revId": "25fd7e6732ea1c67cb94e2d2b30483be939534a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63060d36_c61280c6",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 36
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-26T08:23:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb136ff1_d9b6ace8",
+      "range": {
+        "startLine": 728,
+        "startChar": 35,
+        "endLine": 728,
+        "endChar": 39
+      },
+      "revId": "25fd7e6732ea1c67cb94e2d2b30483be939534a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e5b91e5f_656d4a98",
@@ -241,6 +439,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65e43bf3_6133dd9c",
+        "filename": "polygerrit-ui/app/utils/theme-util.ts",
+        "patchSetId": 36
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-26T08:23:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5b91e5f_656d4a98",
+      "range": {
+        "startLine": 25,
+        "startChar": 16,
+        "endLine": 25,
+        "endChar": 39
+      },
+      "revId": "25fd7e6732ea1c67cb94e2d2b30483be939534a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bdc72582_fc30ab6b",
@@ -254,6 +476,24 @@
       "writtenOn": "2022-08-26T07:12:26Z",
       "side": 1,
       "message": "I think you can and should make the `theme` parameter required in `isDarkTheme()` and `applyTheme()`. Then you can remove the `getThemePreference()` function.",
+      "revId": "25fd7e6732ea1c67cb94e2d2b30483be939534a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ed0c659_3cbd5bb6",
+        "filename": "polygerrit-ui/app/utils/theme-util.ts",
+        "patchSetId": 36
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-26T08:23:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdc72582_fc30ab6b",
       "revId": "25fd7e6732ea1c67cb94e2d2b30483be939534a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

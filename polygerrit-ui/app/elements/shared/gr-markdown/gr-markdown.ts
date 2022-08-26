@@ -5,7 +5,8 @@
  */
 import {css, html, LitElement} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
-import {sanitizeHtml, htmlEscape} from '../../../utils/inner-html-util';
+import {htmlEscape} from '../../../utils/inner-html-util';
+import {unescapeHTML} from '../../../utils/syntax-util';
 import '@polymer/marked-element';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
@@ -90,48 +91,70 @@ export class GrMarkdown extends LitElement {
     // Note: Handling \u200B added in gr-change-view.ts is not needed here
     // because the commit message is not markdown formatted.
 
-    // Escaping the message should be done first to make sure user's literal
-    // input does not get rendered without affecting html added in later steps.
-    const escaped = htmlEscape(this.markdown ?? '').toString();
+    // <marked-element> internals will be in charge of calling our custom
+    // renderer so we wrap 'this.rewriteText' so that 'this' is preserved via
+    // closure.
+    const boundRewriteText = (text: string) =>
+      this.rewriteText(text, this.repoCommentLinks);
 
-    // Turn universally identifiable URLs into links. Ex: www.google.com. The
-    // markdown library inside marked-element does this too, but is more
-    // conservative and misses some URLs like "google.com" without "www" prefix.
-    const linkedNormalUrls = linkifyNormalUrls(escaped);
-    // Apply the host's config-specific regex replacements to create links. Ex:
-    // link "Bug 12345" to "google.com/bug/12345"
-    const linkedFromConfig = applyLinkRewritesFromConfig(
-      linkedNormalUrls,
-      this.repoCommentLinks
-    );
-
-    // Apply the host's config-specific regex replacements to write arbitrary
-    // html. Most examples seen in the wild are also used for linking but with
-    // finer control over the rendered text. Ex: "Bug 12345" => "#12345"
-    const htmledFromConfig = applyHtmlRewritesFromConfig(
-      linkedFromConfig,
-      this.repoCommentLinks
-    );
-
-    // Final sanitization should preserve our modifications but sort out any XSS
-    // attacks that may sneak in. Many polymer and lit parsers do not expect a
-    // TrustedHTML object from sanitization and so it is manually stringified.
-    // marked-element has sanitize functionality but it's marked 'do not use'.
-    // See: https://marked.js.org/#usage
-    const sanitized = sanitizeHtml(htmledFromConfig).toString();
-
-    // Unescape block quotes '>'. This is slightly dangerous as '>' can be used
-    // in HTML fragments, but it is insufficient on it's own.
-    const quotesUnescaped = sanitized.replace(/(^|\n)&gt;/g, '$1>');
+    // we are overriding some marked-element renderers for a few reasons:
+    // 1. disable inline images as a design/policy choice.
+    // 2. inline code blocks ("codespan") do not unescape HTML characters when
+    //    rendering and so we must do this manually.
+    // 3. multiline code blocks ("code") is similarly handling escaped
+    //    characters using <pre>. The convention is to only use <pre> for multi-
+    //    line code blocks so it is not used for inline code blocks.
+    function customRenderer(renderer: {[type: string]: Function}) {
+      renderer.code = (text: string) => `<pre><code>${text}</code></pre>`;
+      renderer.codespan = (text: string) =>
+        `<code>${unescapeHTML(text)}</code>`;
+      renderer.image = (href: string, _title: string, text: string) =>
+        `![${text}](${href})`;
+      renderer.text = boundRewriteText;
+    }
 
     // The child with slot is optional but allows us control over the styling.
     return html`
-      <marked-element .markdown=${quotesUnescaped} .breaks=${true}>
+      <marked-element
+        .markdown=${this.escapeAllButBlockQuotes(this.markdown ?? '')}
+        .breaks=${true}
+        .renderer=${customRenderer}
+      >
         <div slot="markdown-html"></div>
       </marked-element>
     `;
   }
+
+  private escapeAllButBlockQuotes(text: string) {
+    // Escaping the message should be done first to make sure user's literal
+    // input does not get rendered without affecting html added in later steps.
+    text = htmlEscape(text).toString();
+    // Unescape block quotes '>'. This is slightly dangerous as '>' can be used
+    // in HTML fragments, but it is insufficient on it's own.
+    text = text.replace(/(^|\n)&gt;/g, '$1>');
+
+    return text;
+  }
+
+  private rewriteText(text: string, repoCommentLinks: CommentLinks) {
+    // Turn universally identifiable URLs into links. Ex: www.google.com. The
+    // markdown library inside marked-element does this too, but is more
+    // conservative and misses some URLs like "google.com" without "www" prefix.
+    text = linkifyNormalUrls(text);
+
+    // Apply the host's config-specific regex replacements to create links. Ex:
+    // link "Bug 12345" to "google.com/bug/12345"
+    text = applyLinkRewritesFromConfig(text, repoCommentLinks);
+
+    // Apply the host's config-specific regex replacements to write arbitrary
+    // html. Most examples seen in the wild are also used for linking but with
+    // finer control over the rendered text. Ex: "Bug 12345" => "#12345"
+    text = applyHtmlRewritesFromConfig(text, repoCommentLinks);
+
+    return text;
+  }
 }
+
 declare global {
   interface HTMLElementTagNameMap {
     'gr-markdown': GrMarkdown;

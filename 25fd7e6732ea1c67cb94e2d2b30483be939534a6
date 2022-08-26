@@ -1,0 +1,261 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15277677_df4c4ee7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 36
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-26T07:12:26Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "25fd7e6732ea1c67cb94e2d2b30483be939534a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f28a3e63_2a2d14e3",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 36
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-26T07:12:26Z",
+      "side": 1,
+      "message": "TIL Cool! 👍",
+      "revId": "25fd7e6732ea1c67cb94e2d2b30483be939534a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b79a9dc7_c2a39382",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 36
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-26T07:12:26Z",
+      "side": 1,
+      "message": "Maybe add reporting (interaction or execution) so that we know when to switch.",
+      "revId": "25fd7e6732ea1c67cb94e2d2b30483be939534a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb6789c6_f42bb2e0",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 36
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-26T07:12:26Z",
+      "side": 1,
+      "message": "What is the plan for the public 3.7 release? I guess it is fine for the users to just set dark theme manually once more, but would be good to note that in the commit message, maybe even in the release notes footer.",
+      "revId": "25fd7e6732ea1c67cb94e2d2b30483be939534a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "995b0987_a72015f0",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 36
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-26T07:12:26Z",
+      "side": 1,
+      "message": "You are bypassing the user model here. Should the user model maybe be updated? Could the user model emit LIGHT after you have saved DARK here?",
+      "range": {
+        "startLine": 259,
+        "startChar": 6,
+        "endLine": 260,
+        "endChar": 48
+      },
+      "revId": "25fd7e6732ea1c67cb94e2d2b30483be939534a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b000df89_bf9fef93",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 36
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-26T07:12:26Z",
+      "side": 1,
+      "message": "Can you double check that this leaves all other prefs alone?",
+      "revId": "25fd7e6732ea1c67cb94e2d2b30483be939534a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59d11372_d0d3b4bd",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 36
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-26T07:12:26Z",
+      "side": 1,
+      "message": "Maybe just AppTheme.DARK here?",
+      "range": {
+        "startLine": 261,
+        "startChar": 39,
+        "endLine": 261,
+        "endChar": 51
+      },
+      "revId": "25fd7e6732ea1c67cb94e2d2b30483be939534a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4e94347_c5a7187b",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 36
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-26T07:12:26Z",
+      "side": 1,
+      "message": "Maybe even call `this.applyTheme()` before calling `savePreferences()`? Then you avoid a potential flicker.",
+      "range": {
+        "startLine": 261,
+        "startChar": 28,
+        "endLine": 261,
+        "endChar": 38
+      },
+      "revId": "25fd7e6732ea1c67cb94e2d2b30483be939534a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1d5b575_6c8303a1",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 36
+      },
+      "lineNbr": 641,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-26T07:12:26Z",
+      "side": 1,
+      "message": "Maybe `applyTheme` can just be based on `this.theme` instead of taking a parameter?",
+      "revId": "25fd7e6732ea1c67cb94e2d2b30483be939534a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b87f0ef_8d889e54",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 36
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-26T07:12:26Z",
+      "side": 1,
+      "message": "It would be more consistent with all the other prefs, if this method was inlined here.",
+      "range": {
+        "startLine": 725,
+        "startChar": 27,
+        "endLine": 725,
+        "endChar": 55
+      },
+      "revId": "25fd7e6732ea1c67cb94e2d2b30483be939534a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb136ff1_d9b6ace8",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 36
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-26T07:12:26Z",
+      "side": 1,
+      "message": "maybe with more explanation like: `Auto (based on OS prefs)`",
+      "range": {
+        "startLine": 728,
+        "startChar": 35,
+        "endLine": 728,
+        "endChar": 39
+      },
+      "revId": "25fd7e6732ea1c67cb94e2d2b30483be939534a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5b91e5f_656d4a98",
+        "filename": "polygerrit-ui/app/utils/theme-util.ts",
+        "patchSetId": 36
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-26T07:12:26Z",
+      "side": 1,
+      "message": "name should include `dark`\n\nmaybe `prefersDarkColorScheme()`?",
+      "range": {
+        "startLine": 25,
+        "startChar": 16,
+        "endLine": 25,
+        "endChar": 39
+      },
+      "revId": "25fd7e6732ea1c67cb94e2d2b30483be939534a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdc72582_fc30ab6b",
+        "filename": "polygerrit-ui/app/utils/theme-util.ts",
+        "patchSetId": 36
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-26T07:12:26Z",
+      "side": 1,
+      "message": "I think you can and should make the `theme` parameter required in `isDarkTheme()` and `applyTheme()`. Then you can remove the `getThemePreference()` function.",
+      "revId": "25fd7e6732ea1c67cb94e2d2b30483be939534a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

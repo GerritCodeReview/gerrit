@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e09c9015_77172668",
+        "filename": "polygerrit-ui/app/elements/shared/gr-markdown/gr-markdown.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-26T09:38:34Z",
+      "side": 1,
+      "message": "Cool, but note that referencing color vars directly is also not perfect. We rather want to reference a semantic color var that has a dark theme override (or introduce a new one), because you rarely have a color that works fine in both light and dark theme. Just FYI.",
+      "parentUuid": "8a7c7839_47e57803",
+      "revId": "3a91a235ff00025523ecc83f8d1cb82aa6c63cb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "93e66a6d_b09c0880",
         "filename": "polygerrit-ui/app/elements/shared/gr-markdown/gr-markdown.ts",
         "patchSetId": 4
@@ -232,6 +250,24 @@
       "side": 1,
       "message": "marked-element does have sanitize as a boolean prop, but it just passes through to the underlying markedjs library which has a big warning not to use it\u0027s deprecated sanitize capabilities https://marked.js.org/#usage",
       "parentUuid": "28dbf6f1_6f87d6ac",
+      "revId": "3a91a235ff00025523ecc83f8d1cb82aa6c63cb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5dbc218_966fe1fb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-markdown/gr-markdown.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-26T09:38:34Z",
+      "side": 1,
+      "message": "Maybe mention that in a comment?",
+      "parentUuid": "0175a05d_7b7fcf0a",
       "revId": "3a91a235ff00025523ecc83f8d1cb82aa6c63cb2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

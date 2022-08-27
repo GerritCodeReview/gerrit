@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b1a44a76_a44b31be",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3177,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-08-27T19:08:18Z",
+      "side": 1,
+      "message": "I think we should explain here how the multiplier affects latency and throughput. The larger the multiplier, the better the throughput on large queries, and it also improves latency on large queries by scaling up quickly. However a larger multiplier can hurt latencies a bit by making the \"last\" query in a series longer than needed. The impact of this depends on how much the backend latency goes up when specifying a large limit and few results are returned. Setting maxPageSize that isn\u0027t too large, can likely help reduce the impacts of this.",
+      "revId": "8c7f92abced9500e3c54f9316782e1c38bc76a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5cab5c7f_ad12fa2e",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 3

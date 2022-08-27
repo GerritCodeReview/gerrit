@@ -22,6 +22,46 @@
       },
       "revId": "8c7f92abced9500e3c54f9316782e1c38bc76a01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80effb2a_7148c647",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-08-27T18:00:41Z",
+      "side": 1,
+      "message": "Put all this in a function to keep the loop simpler?",
+      "range": {
+        "startLine": 122,
+        "startChar": 14,
+        "endLine": 129,
+        "endChar": 15
+      },
+      "revId": "8c7f92abced9500e3c54f9316782e1c38bc76a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e72595c6_3bf84a34",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-08-27T18:00:41Z",
+      "side": 1,
+      "message": "It\u0027s not clear to me why this is needed here, I don\u0027t see anything like this in the old code?",
+      "revId": "8c7f92abced9500e3c54f9316782e1c38bc76a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

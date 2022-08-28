@@ -159,6 +159,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa230ae9_52e7adf8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1040243
+      },
+      "writtenOn": "2022-08-28T07:39:13Z",
+      "side": 1,
+      "message": "Thanks, fixed in [1]\n\n[1] https://gerrit-review.googlesource.com/c/plugins/serviceuser/+/344060",
+      "parentUuid": "3f4ca700_0146a8bd",
+      "revId": "42c1a45f81a8c45966b47622fd2dad2f37fc1439",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2a787692_5e77a6ec",

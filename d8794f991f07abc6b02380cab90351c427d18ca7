@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "42cbd5a5_b66ab3cd",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-08-29T23:36:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbf3154b_ed963846",
+      "range": {
+        "startLine": 118,
+        "startChar": 16,
+        "endLine": 118,
+        "endChar": 22
+      },
+      "revId": "d8794f991f07abc6b02380cab90351c427d18ca7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62cc30c4_be1154a2",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2983e4a9_51fe02fa",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-08-29T23:36:39Z",
+      "side": 1,
+      "message": "Yes, good catch. I am saving the original limit in a variable to avoid that now. We cannot use  `p.getOptions().limit()` though as that gets updated when we call `p.restart()` with a limit.",
+      "parentUuid": "62cc30c4_be1154a2",
+      "range": {
+        "startLine": 120,
+        "startChar": 41,
+        "endLine": 120,
+        "endChar": 46
+      },
+      "revId": "d8794f991f07abc6b02380cab90351c427d18ca7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cba58ff9_860ed909",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-08-29T21:58:03Z",
       "side": 1,
       "message": "s/limit/pageSize/?",
+      "range": {
+        "startLine": 213,
+        "startChar": 34,
+        "endLine": 213,
+        "endChar": 39
+      },
+      "revId": "d8794f991f07abc6b02380cab90351c427d18ca7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10ed71dc_4497d024",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-08-29T23:36:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cba58ff9_860ed909",
       "range": {
         "startLine": 213,
         "startChar": 34,
@@ -118,6 +190,24 @@
       "writtenOn": "2022-08-29T23:15:15Z",
       "side": 1,
       "message": "+1",
+      "parentUuid": "93e61334_0ab982b3",
+      "revId": "d8794f991f07abc6b02380cab90351c427d18ca7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ade97832_d9dfb8cc",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-08-29T23:36:39Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "93e61334_0ab982b3",
       "revId": "d8794f991f07abc6b02380cab90351c427d18ca7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

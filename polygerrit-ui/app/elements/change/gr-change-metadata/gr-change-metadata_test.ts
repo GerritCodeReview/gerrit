@@ -42,7 +42,6 @@ import {
   Hashtag,
   CommitInfo,
 } from '../../../types/common';
-import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 import {GrEditableLabel} from '../../shared/gr-editable-label/gr-editable-label';
 import {PluginApi} from '../../../api/plugin';
 import {GrEndpointDecorator} from '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
@@ -935,10 +934,10 @@ suite('gr-change-metadata tests', () => {
       sinon.stub(GerritNav, 'getUrlForTopic').returns('/q/topic:the+new+topic');
       await element.updateComplete;
       const chip = queryAndAssert<GrLinkedChip>(element, 'gr-linked-chip');
-      const remove = queryAndAssert(chip, '#remove');
+      const remove = queryAndAssert<GrButton>(chip, '#remove');
       const topicChangedSpy = sinon.spy();
       element.addEventListener('topic-changed', topicChangedSpy);
-      tap(remove);
+      remove.click();
       assert.isTrue(chip?.disabled);
       assert.isTrue(setChangeTopicStub.calledWith(42 as NumericChangeId));
       await setChangeTopicStub.lastCall.returnValue;

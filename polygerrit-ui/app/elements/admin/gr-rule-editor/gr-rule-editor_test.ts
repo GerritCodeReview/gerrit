@@ -10,7 +10,6 @@ import {AccessPermissionId} from '../../../utils/access-util';
 import {query, queryAll, queryAndAssert} from '../../../test/test-utils';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrSelect} from '../../shared/gr-select/gr-select';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {fixture, html, assert} from '@open-wc/testing';
 import {EditablePermissionRuleInfo} from '../gr-repo-access/gr-repo-access-interfaces';
 import {PermissionAction} from '../../../constants/constants';
@@ -363,7 +362,7 @@ suite('gr-rule-editor tests', () => {
           '#deletedContainer'
         ).classList.contains('deleted')
       );
-      MockInteractions.tap(queryAndAssert<GrButton>(element, '#removeBtn'));
+      queryAndAssert<GrButton>(element, '#removeBtn').click();
       await element.updateComplete;
       assert.isTrue(
         queryAndAssert<HTMLDivElement>(
@@ -374,7 +373,7 @@ suite('gr-rule-editor tests', () => {
       assert.isTrue(element.deleted);
       assert.isTrue(element.rule.value!.deleted);
 
-      MockInteractions.tap(queryAndAssert<GrButton>(element, '#undoRemoveBtn'));
+      queryAndAssert<GrButton>(element, '#undoRemoveBtn').click();
       await element.updateComplete;
       assert.isFalse(element.deleted);
       assert.isNotOk(element.rule.value!.deleted);
@@ -397,7 +396,7 @@ suite('gr-rule-editor tests', () => {
 
       element.rule = {value: {action: PermissionAction.ALLOW}};
       await element.updateComplete;
-      MockInteractions.tap(queryAndAssert<GrButton>(element, '#removeBtn'));
+      queryAndAssert<GrButton>(element, '#removeBtn').click();
       await element.updateComplete;
       assert.notEqual(
         getComputedStyle(queryAndAssert<GrButton>(element, '#removeBtn'))
@@ -489,7 +488,7 @@ suite('gr-rule-editor tests', () => {
       element.editing = true;
       const removeStub = sinon.stub();
       element.addEventListener('added-rule-removed', removeStub);
-      MockInteractions.tap(queryAndAssert<GrButton>(element, '#removeBtn'));
+      queryAndAssert<GrButton>(element, '#removeBtn').click();
       await element.updateComplete;
       assert.isTrue(removeStub.called);
     });

@@ -24,6 +24,7 @@ import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader
 import {EventType, PluginApi} from '../../../api/plugin';
 import {
   mockPromise,
+  pressKey,
   queryAndAssert,
   stubRestApi,
   stubUsers,
@@ -75,10 +76,6 @@ import {
   RepoName,
   QuickLabelInfo,
 } from '../../../types/common';
-import {
-  pressAndReleaseKeyOn,
-  tap,
-} from '@polymer/iron-test-helpers/mock-interactions';
 import {GrEditControls} from '../../edit/gr-edit-controls/gr-edit-controls';
 import {AppElementChangeViewParams} from '../../gr-app-types';
 import {SinonFakeTimers, SinonStubbedMember} from 'sinon';
@@ -97,6 +94,8 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {DEFAULT_NUM_FILES_SHOWN} from '../gr-file-list/gr-file-list';
 import {fixture, html, assert} from '@open-wc/testing';
 import {deepClone} from '../../../utils/deep-util';
+import {Modifier} from '../../../utils/dom-util';
+import {GrButton} from '../../shared/gr-button/gr-button';
 
 suite('gr-change-view tests', () => {
   let element: GrChangeView;
@@ -752,7 +751,7 @@ suite('gr-change-view tests', () => {
 
     test('switching to plugin tab renders the plugin tab content', async () => {
       const paperTabs = element.shadowRoot!.querySelector('#tabs')!;
-      tap(paperTabs.querySelectorAll('paper-tab')[2]);
+      paperTabs.querySelectorAll('paper-tab')[2].click();
       await element.updateComplete;
       const tabContent = queryAndAssert(element, '.tabContent');
       const endpoint = queryAndAssert(tabContent, 'gr-endpoint-decorator');
@@ -782,32 +781,32 @@ suite('gr-change-view tests', () => {
     test('t to add topic', () => {
       assertIsDefined(element.metadata);
       const editStub = sinon.stub(element.metadata, 'editTopic');
-      pressAndReleaseKeyOn(element, 83, null, 't');
+      pressKey(element, 't');
       assert(editStub.called);
     });
 
     test('S should toggle the CL star', () => {
       assertIsDefined(element.changeStar);
       const starStub = sinon.stub(element.changeStar, 'toggleStar');
-      pressAndReleaseKeyOn(element, 83, null, 's');
+      pressKey(element, 's');
       assert(starStub.called);
     });
 
     test('toggle star is throttled', () => {
       assertIsDefined(element.changeStar);
       const starStub = sinon.stub(element.changeStar, 'toggleStar');
-      pressAndReleaseKeyOn(element, 83, null, 's');
+      pressKey(element, 's');
       assert(starStub.called);
-      pressAndReleaseKeyOn(element, 83, null, 's');
+      pressKey(element, 's');
       assert.equal(starStub.callCount, 1);
       clock.tick(1000);
-      pressAndReleaseKeyOn(element, 83, null, 's');
+      pressKey(element, 's');
       assert.equal(starStub.callCount, 2);
     });
 
     test('U should navigate to root if no backPage set', () => {
       const relativeNavStub = sinon.stub(GerritNav, 'navigateToRelativeUrl');
-      pressAndReleaseKeyOn(element, 85, null, 'u');
+      pressKey(element, 'u');
       assert.isTrue(relativeNavStub.called);
       assert.isTrue(
         relativeNavStub.lastCall.calledWithExactly(GerritNav.getUrlForRoot())
@@ -817,7 +816,7 @@ suite('gr-change-view tests', () => {
     test('U should navigate to backPage if set', () => {
       const relativeNavStub = sinon.stub(GerritNav, 'navigateToRelativeUrl');
       element.backPage = '/dashboard/self';
-      pressAndReleaseKeyOn(element, 85, null, 'u');
+      pressKey(element, 'u');
       assert.isTrue(relativeNavStub.called);
       assert.isTrue(
         relativeNavStub.lastCall.calledWithExactly('/dashboard/self')
@@ -828,7 +827,7 @@ suite('gr-change-view tests', () => {
       element.userModel.setAccount(undefined);
       const loggedInErrorSpy = sinon.spy();
       element.addEventListener('show-auth-required', loggedInErrorSpy);
-      pressAndReleaseKeyOn(element, 65, null, 'a');
+      pressKey(element, 'a');
       await element.updateComplete;
       assertIsDefined(element.replyOverlay);
       assert.isFalse(element.replyOverlay.opened);
@@ -836,7 +835,7 @@ suite('gr-change-view tests', () => {
     });
 
     test('shift A does not open reply overlay', async () => {
-      pressAndReleaseKeyOn(element, 65, 'shift', 'a');
+      pressKey(element, 'a', Modifier.SHIFT_KEY);
       await element.updateComplete;
       assertIsDefined(element.replyOverlay);
       assert.isFalse(element.replyOverlay.opened);
@@ -853,7 +852,7 @@ suite('gr-change-view tests', () => {
 
       const openSpy = sinon.spy(element, 'openReplyDialog');
 
-      pressAndReleaseKeyOn(element, 65, null, 'a');
+      pressKey(element, 'a');
       await element.updateComplete;
       assertIsDefined(element.replyOverlay);
       assert.isTrue(element.replyOverlay.opened);
@@ -960,7 +959,7 @@ suite('gr-change-view tests', () => {
         element.messagesList!,
         'handleExpandCollapse'
       );
-      pressAndReleaseKeyOn(element, 88, null, 'x');
+      pressKey(element, 'x');
       assert(handleExpand.calledWith(true));
     });
 
@@ -970,7 +969,7 @@ suite('gr-change-view tests', () => {
         element.messagesList!,
         'handleExpandCollapse'
       );
-      pressAndReleaseKeyOn(element, 90, null, 'z');
+      pressKey(element, 'z');
       assert(handleExpand.calledWith(false));
     });
 
@@ -979,7 +978,7 @@ suite('gr-change-view tests', () => {
       const stub = sinon
         .stub(element.downloadOverlay, 'open')
         .returns(Promise.resolve());
-      pressAndReleaseKeyOn(element, 68, null, 'd');
+      pressKey(element, 'd');
       assert.isTrue(stub.called);
     });
 
@@ -989,11 +988,11 @@ suite('gr-change-view tests', () => {
       assertIsDefined(element.fileList.diffPreferencesDialog);
       const stub = sinon.stub(element.fileList.diffPreferencesDialog, 'open');
       element.loggedIn = false;
-      pressAndReleaseKeyOn(element, 188, null, ',');
+      pressKey(element, ',');
       assert.isFalse(stub.called);
 
       element.loggedIn = true;
-      pressAndReleaseKeyOn(element, 188, null, ',');
+      pressKey(element, ',');
       assert.isTrue(stub.called);
     });
 
@@ -1080,7 +1079,7 @@ suite('gr-change-view tests', () => {
       const tabs = paperTabs.querySelectorAll('paper-tab');
       assert.isTrue(tabs.length > 1);
       assert.equal(tabs[1].dataset.name, 'comments');
-      tap(tabs[1]);
+      tabs[1].click();
       await element.updateComplete;
     });
 
@@ -1120,7 +1119,7 @@ suite('gr-change-view tests', () => {
       const tabs = paperTabs.querySelectorAll('paper-tab');
       assert.isTrue(tabs.length > 3);
       assert.equal(tabs[3].dataset.name, 'findings');
-      tap(tabs[3]);
+      tabs[3].click();
       await element.updateComplete;
     });
 
@@ -1196,7 +1195,9 @@ suite('gr-change-view tests', () => {
       });
 
       test('Clicking show more button renders all comments', async () => {
-        tap(element.shadowRoot!.querySelector('.show-robot-comments')!);
+        element
+          .shadowRoot!.querySelector<GrButton>('.show-robot-comments')!
+          .click();
         await element.updateComplete;
         assert.equal(element.computeRobotCommentThreads().length, 62);
       });
@@ -1879,7 +1880,7 @@ suite('gr-change-view tests', () => {
     await element.updateComplete;
     assertIsDefined(element.replyBtn);
     const openStub = sinon.stub(element, 'openReplyDialog');
-    tap(element.replyBtn);
+    element.replyBtn.click();
     assert(
       openStub.lastCall.calledWithExactly(FocusTarget.ANY),
       'openReplyDialog should have been passed ANY'
@@ -2470,7 +2471,7 @@ suite('gr-change-view tests', () => {
     const stub = sinon.stub(element, 'handleToggleStar');
 
     const changeStar = queryAndAssert<GrChangeStar>(element, '#changeStar');
-    tap(queryAndAssert<HTMLButtonElement>(changeStar, 'button')!);
+    queryAndAssert<HTMLButtonElement>(changeStar, 'button')!.click();
     assert.isTrue(stub.called);
   });
 

@@ -108,6 +108,7 @@ public abstract class CachedAccountDetails {
               .setId(account.id().get())
               .setRegisteredOn(account.registeredOn().toEpochMilli())
               .setInactive(account.inactive())
+              .setIsHidden(account.isHidden())
               .setFullName(Strings.nullToEmpty(account.fullName()))
               .setDisplayName(Strings.nullToEmpty(account.displayName()))
               .setPreferredEmail(Strings.nullToEmpty(account.preferredEmail()))
@@ -147,6 +148,8 @@ public abstract class CachedAccountDetails {
               .setDisplayName(Strings.emptyToNull(proto.getAccount().getDisplayName()))
               .setPreferredEmail(Strings.emptyToNull(proto.getAccount().getPreferredEmail()))
               .setInactive(proto.getAccount().getInactive())
+              // To default?
+              .setIsHidden(proto.getAccount().getIsHidden())
               .setStatus(Strings.emptyToNull(proto.getAccount().getStatus()))
               .setMetaId(Strings.emptyToNull(proto.getAccount().getMetaId()))
               .build();

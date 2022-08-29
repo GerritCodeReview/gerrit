@@ -86,12 +86,18 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   private StoredPreferences preferences;
   private Optional<AccountDelta> accountDelta = Optional.empty();
   private List<ValidationError> validationErrors;
+  private final boolean defaultNewAccountHidden;
 
-  public AccountConfig(Account.Id accountId, AllUsersName allUsersName, Repository allUsersRepo) {
+  AccountConfig(
+      Account.Id accountId,
+      AllUsersName allUsersName,
+      Repository allUsersRepo,
+      boolean defaultNewAccountHidden) {
     this.accountId = requireNonNull(accountId, "accountId");
     this.allUsersName = requireNonNull(allUsersName, "allUsersName");
     this.repo = requireNonNull(allUsersRepo, "allUsersRepo");
     this.ref = RefNames.refsUsers(accountId);
+    this.defaultNewAccountHidden = defaultNewAccountHidden;
   }
 
   @Override
@@ -157,11 +163,13 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
     checkLoaded();
     this.loadedAccountProperties =
         Optional.of(
-            new AccountProperties(account.id(), account.registeredOn(), new Config(), null));
+            new AccountProperties(
+                account.id(), account.registeredOn(), new Config(), null, defaultNewAccountHidden));
     this.accountDelta =
         Optional.of(
             AccountDelta.builder()
                 .setActive(account.isActive())
+                .setHidden(account.isHidden())
                 .setFullName(account.fullName())
                 .setDisplayName(account.displayName())
                 .setPreferredEmail(account.preferredEmail())
@@ -192,7 +200,9 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
       throw new DuplicateKeyException(String.format("account %s already exists", accountId));
     }
     this.loadedAccountProperties =
-        Optional.of(new AccountProperties(accountId, registeredOn, new Config(), null));
+        Optional.of(
+            new AccountProperties(
+                accountId, registeredOn, new Config(), null, defaultNewAccountHidden));
     return loadedAccountProperties.map(AccountProperties::getAccount).get();
   }
 
@@ -220,7 +230,9 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
 
       Config accountConfig = readConfig(AccountProperties.ACCOUNT_CONFIG);
       loadedAccountProperties =
-          Optional.of(new AccountProperties(accountId, registeredOn, accountConfig, revision));
+          Optional.of(
+              new AccountProperties(
+                  accountId, registeredOn, accountConfig, revision, defaultNewAccountHidden));
 
       projectWatches = new ProjectWatches(accountId, readConfig(ProjectWatches.WATCH_CONFIG), this);
 

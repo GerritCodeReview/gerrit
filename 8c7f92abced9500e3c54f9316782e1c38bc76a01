@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "815a9262_da127471",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3177,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-08-29T20:59:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1a44a76_a44b31be",
+      "revId": "8c7f92abced9500e3c54f9316782e1c38bc76a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5cab5c7f_ad12fa2e",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-08-26T22:25:52Z",
       "side": 1,
       "message": "Don\u0027t you need to add code to do that in java/com/google/gerrit/pgm/init/InitIndex.java?\n\nAnd then I guess once you do that and after the no-limit change, you could remove the 10k default for maxLimit for ES since maxPageSize would always be used? Or does maxLimit affect non-paginated InternalChangeQueries still?",
+      "range": {
+        "startLine": 3193,
+        "startChar": 65,
+        "endLine": 3194,
+        "endChar": 5
+      },
+      "revId": "8c7f92abced9500e3c54f9316782e1c38bc76a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d84b513b_2d01d736",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3194,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-08-29T20:59:08Z",
+      "side": 1,
+      "message": "\u003e Don\u0027t you need to add code to do that in java/com/google/gerrit/pgm/init/InitIndex.java?\nDone\n\u003e \n\u003e And then I guess once you do that and after the no-limit change, you could remove the 10k default for maxLimit for ES since maxPageSize would always be used? Or does maxLimit affect non-paginated InternalChangeQueries still?\nmaxLimit does affect InternalChangeQueries",
+      "parentUuid": "5cab5c7f_ad12fa2e",
       "range": {
         "startLine": 3193,
         "startChar": 65,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dad2f8a4_6fb4d3a2",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-08-29T20:59:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80effb2a_7148c647",
+      "range": {
+        "startLine": 122,
+        "startChar": 14,
+        "endLine": 129,
+        "endChar": 15
+      },
+      "revId": "8c7f92abced9500e3c54f9316782e1c38bc76a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e72595c6_3bf84a34",
@@ -77,6 +143,24 @@
       "writtenOn": "2022-08-27T18:00:41Z",
       "side": 1,
       "message": "It\u0027s not clear to me why this is needed here, I don\u0027t see anything like this in the old code?",
+      "revId": "8c7f92abced9500e3c54f9316782e1c38bc76a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9eb9d81a_1818f6a2",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-08-29T20:59:08Z",
+      "side": 1,
+      "message": "If we get fewer results that we asked for, we can stop doing more index queries. It helps us avoid an extra index query. Although this is a good \u0027fix\u0027, it isn\u0027t a good idea to include it in this change. I have removed it. We can re-evaluate it after we are done with our improvements.",
+      "parentUuid": "e72595c6_3bf84a34",
       "revId": "8c7f92abced9500e3c54f9316782e1c38bc76a01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

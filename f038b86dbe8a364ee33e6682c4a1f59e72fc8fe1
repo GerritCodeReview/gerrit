@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87cbafb0_942c82b0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-08-29T16:14:18Z",
+      "side": 1,
+      "message": "déjà vu. Could you please include in the commit message that this is an exact re-land of https://gerrit-review.googlesource.com/c/gerrit/+/343395? (or state modifications if there are any)?\n\nAlso the reason why it was reverted (FE / BE release sync).",
+      "revId": "f038b86dbe8a364ee33e6682c4a1f59e72fc8fe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

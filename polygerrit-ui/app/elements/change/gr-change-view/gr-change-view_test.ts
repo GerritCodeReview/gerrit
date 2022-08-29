@@ -390,15 +390,16 @@ suite('gr-change-view tests', () => {
               <div class="headerTitle">
                 <div class="changeStatuses"></div>
                 <gr-change-star id="changeStar"> </gr-change-star>
-                <a aria-label="Change undefined" class="changeNumber"> </a>
-                <span class="changeNumberColon"> : </span>
-                <span class="headerSubject"> </span>
-                <gr-copy-clipboard
-                  class="changeCopyClipboard"
-                  hideinput=""
-                  text="undefined: undefined | http://localhost:9876undefined"
+                <gr-button
+                  aria-disabled="false"
+                  down-arrow=""
+                  flatten=""
+                  role="button"
+                  tabindex="0"
                 >
-                </gr-copy-clipboard>
+                  <a aria-label="Change undefined" class="changeNumber"> </a>
+                </gr-button>
+                <span class="headerSubject"> </span>
               </div>
               <div class="commitActions">
                 <gr-change-actions hidden="" id="actions"> </gr-change-actions>

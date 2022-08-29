@@ -116,6 +116,24 @@
       "parentUuid": "3e5903f6_4e0cf63e",
       "revId": "6e80489d378dc437cd02e997e341b6754f1ed7e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0789de2b_9fefe104",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-08-29T16:18:45Z",
+      "side": 1,
+      "message": "Sorry for putting this on-hold for a while. We found out that the performance of getRefsByPrefix [1] was specifically slow (O(hundreds of millis) with tracing), so did put this on hold and am trying to understand the slowness.\n\nI\u0027ll put this temporarily as WIP.\n\n[1] https://gerrit.googlesource.com/gerrit/+/3daae68771b895e13227b1e043ca45411601d198/java/com/google/gerrit/server/CommentsUtil.java#487",
+      "parentUuid": "ecb050be_c110d9fa",
+      "revId": "6e80489d378dc437cd02e997e341b6754f1ed7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

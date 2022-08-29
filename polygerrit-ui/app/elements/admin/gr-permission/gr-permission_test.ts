@@ -9,7 +9,6 @@ import {GrPermission} from './gr-permission';
 import {query, stubRestApi} from '../../../test/test-utils';
 import {GitRef, GroupId, GroupName} from '../../../types/common';
 import {PermissionAction} from '../../../constants/constants';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {
   AutocompleteCommitEventDetail,
   GrAutocomplete,
@@ -18,6 +17,7 @@ import {queryAndAssert} from '../../../test/test-utils';
 import {GrRuleEditor} from '../gr-rule-editor/gr-rule-editor';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {fixture, html, assert} from '@open-wc/testing';
+import {PaperToggleButtonElement} from '@polymer/paper-toggle-button';
 
 suite('gr-permission tests', () => {
   let element: GrPermission;
@@ -444,7 +444,7 @@ suite('gr-permission tests', () => {
       element.section = 'refs/*' as GitRef;
       element.permission!.value.added = true;
       await element.updateComplete;
-      MockInteractions.tap(queryAndAssert<GrButton>(element, '#removeBtn'));
+      queryAndAssert<GrButton>(element, '#removeBtn').click();
       await element.updateComplete;
       assert.isTrue(removeStub.called);
     });
@@ -462,13 +462,14 @@ suite('gr-permission tests', () => {
         queryAndAssert(element, '#permission').classList.contains('deleted')
       );
       assert.isFalse(element.deleted);
-      MockInteractions.tap(queryAndAssert<GrButton>(element, '#removeBtn'));
+      queryAndAssert<GrButton>(element, '#removeBtn').click();
       await element.updateComplete;
       assert.isTrue(
         queryAndAssert(element, '#permission').classList.contains('deleted')
       );
       assert.isTrue(element.deleted);
-      MockInteractions.tap(queryAndAssert<GrButton>(element, '#undoRemoveBtn'));
+      queryAndAssert<GrButton>(element, '#undoRemoveBtn').click();
+
       await element.updateComplete;
       assert.isFalse(
         queryAndAssert(element, '#permission').classList.contains('deleted')
@@ -485,7 +486,10 @@ suite('gr-permission tests', () => {
 
       assert.isFalse(element.originalExclusiveValue);
       assert.isNotOk(element.permission!.value.modified);
-      MockInteractions.tap(queryAndAssert(element, '#exclusiveToggle'));
+      queryAndAssert<PaperToggleButtonElement>(
+        element,
+        '#exclusiveToggle'
+      ).click();
       await element.updateComplete;
       assert.isTrue(element.permission!.value.exclusive);
       assert.isTrue(element.permission!.value.modified);
@@ -504,7 +508,10 @@ suite('gr-permission tests', () => {
       element.addEventListener('access-modified', modifiedHandler);
       await element.updateComplete;
       assert.isNotOk(element.permission.value.modified);
-      MockInteractions.tap(queryAndAssert(element, '#exclusiveToggle'));
+      queryAndAssert<PaperToggleButtonElement>(
+        element,
+        '#exclusiveToggle'
+      ).click();
       await element.updateComplete;
       assert.isTrue(element.permission.value.modified);
       assert.isTrue(modifiedHandler.called);

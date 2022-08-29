@@ -29,7 +29,6 @@ import {
 } from '../../../types/common';
 import {GerritView} from '../../../services/router/router-model';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {PageErrorEvent} from '../../../types/events';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
@@ -2194,7 +2193,7 @@ suite('gr-repo-detail-list', () => {
           assert.equal(getComputedStyle(item).display, 'none');
         }
 
-        MockInteractions.tap(editBtn);
+        editBtn.click();
         await element.updateComplete;
         // The revision and edit button are not visible.
         assert.equal(getComputedStyle(revisionWithEditing).display, 'none');
@@ -2223,11 +2222,11 @@ suite('gr-repo-detail-list', () => {
 
         // Save button calls handleSave. since this is stubbed, the edit
         // section remains open.
-        MockInteractions.tap(saveBtn);
+        saveBtn.click();
         assert.isTrue(handleSaveRevisionStub.called);
 
         // When cancel is tapped, the edit section closes.
-        MockInteractions.tap(cancelBtn);
+        cancelBtn.click();
         await element.updateComplete;
 
         // The revision and edit button are visible.

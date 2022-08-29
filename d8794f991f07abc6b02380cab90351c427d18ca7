@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "62cc30c4_be1154a2",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-29T23:14:09Z",
+      "side": 1,
+      "message": "Should this be staying as `p.getOptions().limit()`? Otherwise it seems we\u0027d be increasing the overall result limit with our multiplier.",
+      "range": {
+        "startLine": 120,
+        "startChar": 41,
+        "endLine": 120,
+        "endChar": 46
+      },
+      "revId": "d8794f991f07abc6b02380cab90351c427d18ca7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cba58ff9_860ed909",
         "filename": "java/com/google/gerrit/index/query/AndSource.java",
         "patchSetId": 4

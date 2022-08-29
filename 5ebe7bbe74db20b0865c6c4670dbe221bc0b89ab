@@ -16,6 +16,23 @@
       "message": "Thanks for the cleanup!",
       "revId": "5ebe7bbe74db20b0865c6c4670dbe221bc0b89ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "275bec07_ff245eda",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-29T16:51:40Z",
+      "side": 1,
+      "message": "Thanks! That was long 😊",
+      "revId": "5ebe7bbe74db20b0865c6c4670dbe221bc0b89ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

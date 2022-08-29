@@ -6,7 +6,11 @@
 import '@polymer/iron-input/iron-input';
 import '../gr-button/gr-button';
 import '../gr-icon/gr-icon';
-import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
+import {
+  assertIsDefined,
+  copyToClipbard,
+  queryAndAssert,
+} from '../../../utils/common-util';
 import {classMap} from 'lit/directives/class-map.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {LitElement, css, html} from 'lit';
@@ -127,7 +131,7 @@ export class GrCopyClipboard extends LitElement {
     this.text = queryAndAssert<HTMLInputElement>(this, '#input').value;
     assertIsDefined(this.text, 'text');
     this.iconEl.icon = 'check';
-    navigator.clipboard.writeText(this.text);
+    copyToClipbard(this.text, 'Link');
     setTimeout(() => (this.iconEl.icon = 'content_copy'), COPY_TIMEOUT_MS);
   }
 }

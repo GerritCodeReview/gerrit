@@ -8,9 +8,13 @@ import {changeBaseURL, getRevisionKey} from '../../../utils/change-util';
 import {ChangeInfo, DownloadInfo, PatchSetNum} from '../../../types/common';
 import {GrDownloadCommands} from '../../shared/gr-download-commands/gr-download-commands';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {hasOwnProperty, queryAndAssert} from '../../../utils/common-util';
+import {
+  copyToClipbard,
+  hasOwnProperty,
+  queryAndAssert,
+} from '../../../utils/common-util';
 import {GrOverlayStops} from '../../shared/gr-overlay/gr-overlay';
-import {fireAlert, fireEvent} from '../../../utils/event-util';
+import {fireEvent} from '../../../utils/event-util';
 import {addShortcut} from '../../../utils/dom-util';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -227,14 +231,15 @@ export class GrDownloadDialog extends LitElement {
     return [];
   }
 
-  private handleNumberKey(e: KeyboardEvent) {
+  private async handleNumberKey(e: KeyboardEvent) {
     const index = Number(e.key) - 1;
     const commands = this.computeDownloadCommands();
     if (index > commands.length) return;
-    navigator.clipboard.writeText(commands[index].command).then(() => {
-      fireAlert(this, `${commands[index].title} command copied to clipboard`);
-      fireEvent(this, 'close');
-    });
+    await copyToClipbard(
+      commands[index].command,
+      `${commands[index].title} command`
+    );
+    fireEvent(this, 'close');
   }
 
   override focus() {

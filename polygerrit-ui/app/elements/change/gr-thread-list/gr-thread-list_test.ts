@@ -14,7 +14,6 @@ import {
 } from './gr-thread-list';
 import {queryAll, stubFlags} from '../../../test/test-utils';
 import {getUserId} from '../../../utils/account-util';
-import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 import {
   createAccountDetailWithId,
   createComment,
@@ -408,7 +407,7 @@ suite('gr-thread-list tests', () => {
     assert.equal(element.getDisplayedThreads().length, 9);
 
     const chip = chips.find(chip => chip.account!._account_id === 1000001);
-    tap(chip!);
+    chip!.click();
     await element.updateComplete;
 
     assert.equal(element.threads.length, 9);
@@ -418,7 +417,7 @@ suite('gr-thread-list tests', () => {
       1000001 as AccountId
     );
 
-    tap(chip!);
+    chip!.click();
     await element.updateComplete;
     assert.equal(element.threads.length, 9);
     assert.equal(element.getDisplayedThreads().length, 9);
@@ -437,14 +436,14 @@ suite('gr-thread-list tests', () => {
     assert.equal(element.getDisplayedThreads().length, 1);
 
     const chip = chips.find(chip => chip.account!._account_id === 1);
-    tap(chip!);
+    chip!.click();
     await element.updateComplete;
 
     assert.equal(element.threads.length, 1);
     assert.equal(element.getDisplayedThreads().length, 1);
     assert.isTrue(isDraft(element.getDisplayedThreads()[0].comments[0]));
 
-    tap(chip!);
+    chip!.click();
     await element.updateComplete;
     assert.equal(element.threads.length, 1);
     assert.equal(element.getDisplayedThreads().length, 1);
@@ -457,8 +456,8 @@ suite('gr-thread-list tests', () => {
       queryAll<GrAccountLabel>(element, 'gr-account-label')
     );
 
-    tap(chips.find(chip => chip.account?._account_id === 1000001)!);
-    tap(chips.find(chip => chip.account?._account_id === 1000002)!);
+    chips.find(chip => chip.account?._account_id === 1000001)!.click();
+    chips.find(chip => chip.account?._account_id === 1000002)!.click();
     await element.updateComplete;
 
     assert.equal(element.threads.length, 9);

@@ -22,7 +22,6 @@ import {
   NumericChangeId,
   RepoName,
 } from '../../../api/rest-api.js';
-import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 import {fixture, html, waitUntil, assert} from '@open-wc/testing';
 import {GerritView} from '../../../services/router/router-model.js';
 
@@ -90,7 +89,7 @@ suite('gr-change-list-view tests', () => {
         ),
         '.selection > label > input'
       );
-      tap(checkbox);
+      checkbox.click();
       await waitUntil(() => checkbox.checked);
 
       getChangesStub.restore();

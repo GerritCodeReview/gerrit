@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup-karma';
-import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 import {
   createChange,
   createCommit,
@@ -22,6 +21,7 @@ import {GrDownloadDialog} from './gr-download-dialog';
 import {mockPromise, queryAll, queryAndAssert} from '../../../test/test-utils';
 import {GrDownloadCommands} from '../../shared/gr-download-commands/gr-download-commands';
 import {fixture, html, assert} from '@open-wc/testing';
+import {GrButton} from '../../shared/gr-button/gr-button';
 
 function getChangeObject() {
   return {
@@ -220,11 +220,11 @@ suite('gr-download-dialog', () => {
       element.addEventListener('close', () => {
         closeCalled.resolve();
       });
-      const closeButton = queryAndAssert(
+      const closeButton = queryAndAssert<GrButton>(
         element,
         '.closeButtonContainer gr-button'
       );
-      tap(closeButton);
+      closeButton.click();
       await closeCalled;
     });
   });

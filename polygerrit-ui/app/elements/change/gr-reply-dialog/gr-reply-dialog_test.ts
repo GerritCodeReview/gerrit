@@ -9,6 +9,7 @@ import {
   addListenerForTest,
   isVisible,
   mockPromise,
+  pressKey,
   queryAll,
   queryAndAssert,
   stubFlags,
@@ -32,10 +33,6 @@ import {
   createRevision,
   createServiceUserWithId,
 } from '../../../test/test-data-generators';
-import {
-  pressAndReleaseKeyOn,
-  tap,
-} from '@polymer/iron-test-helpers/mock-interactions';
 import {FocusTarget, GrReplyDialog} from './gr-reply-dialog';
 import {
   AccountId,
@@ -66,6 +63,7 @@ import {accountKey} from '../../../utils/account-util';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrAccountLabel} from '../../shared/gr-account-label/gr-account-label';
 import {KnownExperimentId} from '../../../services/flags/flags';
+import {Key, Modifier} from '../../../utils/dom-util';
 
 function cloneableResponse(status: number, text: string) {
   return {
@@ -355,7 +353,7 @@ suite('gr-reply-dialog tests', () => {
     // This is needed on non-Blink engines most likely due to the ways in
     // which the dom-repeat elements are stamped.
     await element.updateComplete;
-    tap(queryAndAssert(element, '.send'));
+    queryAndAssert<GrButton>(element, '.send').click();
     await element.updateComplete;
 
     const review = await saveReviewPromise;
@@ -390,11 +388,14 @@ suite('gr-reply-dialog tests', () => {
     element.account = {_account_id: 123 as AccountId};
     element.newAttentionSet = new Set([314 as AccountId]);
     const saveReviewPromise = interceptSaveReview();
-    const modifyButton = queryAndAssert(element, '.edit-attention-button');
-    tap(modifyButton);
+    const modifyButton = queryAndAssert<GrButton>(
+      element,
+      '.edit-attention-button'
+    );
+    modifyButton.click();
     await element.updateComplete;
 
-    tap(queryAndAssert(element, '.send'));
+    queryAndAssert<GrButton>(element, '.send').click();
     const review = await saveReviewPromise;
 
     assert.deepEqual(review, {
@@ -417,11 +418,14 @@ suite('gr-reply-dialog tests', () => {
     element.account = {};
     element.newAttentionSet = new Set([314 as AccountId]);
     const saveReviewPromise = interceptSaveReview();
-    const modifyButton = queryAndAssert(element, '.edit-attention-button');
-    tap(modifyButton);
+    const modifyButton = queryAndAssert<GrButton>(
+      element,
+      '.edit-attention-button'
+    );
+    modifyButton.click();
     await element.updateComplete;
 
-    tap(queryAndAssert(element, '.send'));
+    queryAndAssert<GrButton>(element, '.send').click();
     const review = await saveReviewPromise;
 
     assert.deepEqual(review, {
@@ -1073,11 +1077,11 @@ suite('gr-reply-dialog tests', () => {
   });
 
   test('toggle resolved checkbox', async () => {
-    const checkboxEl = queryAndAssert(
+    const checkboxEl = queryAndAssert<HTMLInputElement>(
       element,
       '#resolvedPatchsetLevelCommentCheckbox'
     );
-    tap(checkboxEl);
+    checkboxEl.click();
 
     // Async tick is needed because iron-selector content is distributed and
     // distributed content requires an observer to be set up.
@@ -1090,7 +1094,7 @@ suite('gr-reply-dialog tests', () => {
     // This is needed on non-Blink engines most likely due to the ways in
     // which the dom-repeat elements are stamped.
     await element.updateComplete;
-    tap(queryAndAssert(element, '.send'));
+    queryAndAssert<GrButton>(element, '.send').click();
 
     const review = await saveReviewPromise;
     assert.deepEqual(review, {
@@ -1132,7 +1136,7 @@ suite('gr-reply-dialog tests', () => {
     // This is needed on non-Blink engines most likely due to the ways in
     // which the dom-repeat elements are stamped.
     await element.updateComplete;
-    tap(queryAndAssert(element, '.send'));
+    queryAndAssert<GrButton>(element, '.send').click();
     assert.isTrue(element.disabled);
 
     const review = await saveReviewPromise;
@@ -1169,7 +1173,7 @@ suite('gr-reply-dialog tests', () => {
     element.draftCommentThreads = [createCommentThread([createComment()])];
     await element.updateComplete;
 
-    tap(queryAndAssert(element, '#includeComments'));
+    queryAndAssert<HTMLInputElement>(element, '#includeComments').click();
     assert.equal(element.includeComments, false);
 
     // Async tick is needed because iron-selector content is distributed and
@@ -1182,7 +1186,7 @@ suite('gr-reply-dialog tests', () => {
     // This is needed on non-Blink engines most likely due to the ways in
     // which the dom-repeat elements are stamped.
     await element.updateComplete;
-    tap(queryAndAssert(element, '.send'));
+    queryAndAssert<GrButton>(element, '.send').click();
 
     const review = await saveReviewPromise;
     await element.updateComplete;
@@ -1280,11 +1284,11 @@ suite('gr-reply-dialog tests', () => {
   }
 
   async function testConfirmationDialog(cc?: boolean) {
-    const yesButton = queryAndAssert(
+    const yesButton = queryAndAssert<GrButton>(
       element,
       '.reviewerConfirmationButtons gr-button:first-child'
     );
-    const noButton = queryAndAssert(
+    const noButton = queryAndAssert<GrButton>(
       element,
       '.reviewerConfirmationButtons gr-button:last-child'
     );
@@ -1342,7 +1346,7 @@ suite('gr-reply-dialog tests', () => {
       ).innerText.indexOf(expected),
       -1
     );
-    tap(noButton); // close the overlay
+    noButton.click(); // close the overlay
 
     await observer;
     assert.isFalse(
@@ -1382,7 +1386,7 @@ suite('gr-reply-dialog tests', () => {
       isVisible(queryAndAssert(element, 'reviewerConfirmationOverlay'))
     );
     observer = overlayObserver('closed');
-    tap(yesButton); // Confirm the group.
+    yesButton.click(); // Confirm the group.
 
     await observer;
     assert.isFalse(
@@ -1674,7 +1678,7 @@ suite('gr-reply-dialog tests', () => {
       'gr-label-score-row[name="Verified"]'
     );
     el.setSelectedValue('-1');
-    tap(queryAndAssert(element, '.send'));
+    queryAndAssert<GrButton>(element, '.send').click();
     await promise;
   });
 
@@ -1737,8 +1741,11 @@ suite('gr-reply-dialog tests', () => {
     element._ccs = [makeAccount(), makeAccount()];
     element.draftCommentThreads = [];
 
-    const modifyButton = queryAndAssert(element, '.edit-attention-button');
-    tap(modifyButton);
+    const modifyButton = queryAndAssert<GrButton>(
+      element,
+      '.edit-attention-button'
+    );
+    modifyButton.click();
 
     await element.updateComplete;
 
@@ -1747,7 +1754,7 @@ suite('gr-reply-dialog tests', () => {
     element.draft = 'a test comment';
     await element.updateComplete;
 
-    tap(modifyButton);
+    modifyButton.click();
 
     await element.updateComplete;
 
@@ -1766,7 +1773,7 @@ suite('gr-reply-dialog tests', () => {
     // ccs change.
     assert.isFalse(element.attentionExpanded);
 
-    tap(queryAndAssert(element, '.edit-attention-button'));
+    queryAndAssert<GrButton>(element, '.edit-attention-button').click();
     await element.updateComplete;
 
     assert.isTrue(element.attentionExpanded);
@@ -1784,7 +1791,7 @@ suite('gr-reply-dialog tests', () => {
 
     await element.updateComplete;
 
-    tap(queryAndAssert(element, '.edit-attention-button'));
+    queryAndAssert<GrButton>(element, '.edit-attention-button').click();
 
     await element.updateComplete;
 
@@ -2065,7 +2072,7 @@ suite('gr-reply-dialog tests', () => {
   test('emits cancel on esc key', async () => {
     const cancelHandler = sinon.spy();
     element.addEventListener('cancel', cancelHandler);
-    pressAndReleaseKeyOn(element, 27, null, 'Escape');
+    pressKey(element, Key.ESC);
     await element.updateComplete;
 
     assert.isTrue(cancelHandler.called);
@@ -2074,14 +2081,16 @@ suite('gr-reply-dialog tests', () => {
   test('should not send on enter key', () => {
     stubSaveReview(() => undefined);
     element.addEventListener('send', () => assert.fail('wrongly called'));
-    pressAndReleaseKeyOn(element, 13, null, 'Enter');
+    // pressAndReleaseKeyOn(element, 13, null, 'Enter');
+    pressKey(element, Key.ENTER);
   });
 
   test('emit send on ctrl+enter key', async () => {
     stubSaveReview(() => undefined);
     const promise = mockPromise();
     element.addEventListener('send', () => promise.resolve());
-    pressAndReleaseKeyOn(element, 13, 'ctrl', 'Enter');
+    // pressAndReleaseKeyOn(element, 13, 'ctrl', 'Enter');
+    pressKey(element, Key.ENTER, Modifier.CTRL_KEY);
     await promise;
   });
 
@@ -2164,13 +2173,13 @@ suite('gr-reply-dialog tests', () => {
     });
 
     test('start review sets ready', async () => {
-      tap(queryAndAssert(element, '.send'));
+      queryAndAssert<GrButton>(element, '.send').click();
       await element.updateComplete;
       assert.isTrue(sendStub.calledWith(true, true));
     });
 
     test("save review doesn't set ready", async () => {
-      tap(queryAndAssert(element, '.save'));
+      queryAndAssert<GrButton>(element, '.save').click();
       await element.updateComplete;
       assert.isTrue(sendStub.calledWith(true, false));
     });
@@ -2377,7 +2386,7 @@ suite('gr-reply-dialog tests', () => {
     element.draftCommentThreads = [];
     await element.updateComplete;
 
-    tap(queryAndAssert(element, 'gr-button.send'));
+    queryAndAssert<GrButton>(element, 'gr-button.send').click();
     assert.isFalse(sendStub.called);
 
     element.draftCommentThreads = [
@@ -2394,7 +2403,7 @@ suite('gr-reply-dialog tests', () => {
     ];
     await element.updateComplete;
 
-    tap(queryAndAssert(element, 'gr-button.send'));
+    queryAndAssert<GrButton>(element, 'gr-button.send').click();
     assert.isTrue(sendStub.called);
   });
 

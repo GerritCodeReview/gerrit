@@ -31,7 +31,6 @@ import {
   query,
 } from '../../../test/test-utils';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 import {ProgressStatus} from '../../../constants/constants';
 import {RequestPayload} from '../../../types/common';
 import {ErrorCallback} from '../../../api/rest';
@@ -164,7 +163,7 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
 
     assert.isFalse(queryAndAssert<GrButton>(element, '#abandon').disabled);
 
-    tap(queryAndAssert(query(element, 'gr-dialog'), '#confirm'));
+    queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#confirm').click();
 
     await waitUntil(
       () =>
@@ -204,7 +203,7 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
       queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#cancel').disabled
     );
 
-    tap(queryAndAssert(query(element, 'gr-dialog'), '#confirm'));
+    queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#confirm').click();
     await element.updateComplete;
 
     assert.isTrue(
@@ -278,7 +277,7 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
         })
     );
 
-    tap(queryAndAssert(query(element, 'gr-dialog'), '#confirm'));
+    queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#confirm').click();
     await element.updateComplete;
 
     assert.equal(
@@ -335,7 +334,7 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
     await selectChange(change2);
     await element.updateComplete;
 
-    tap(queryAndAssert(query(element, 'gr-dialog'), '#confirm'));
+    queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#confirm').click();
 
     await waitUntil(
       () => element.progress.get(2 as NumericChangeId) === ProgressStatus.FAILED
@@ -343,7 +342,7 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
 
     assert.isFalse(fireStub.called);
 
-    tap(queryAndAssert(query(element, 'gr-dialog'), '#cancel'));
+    queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#cancel').click();
 
     await waitUntil(() => fireStub.called);
     assert.equal(fireStub.lastCall.args[0].type, 'reload');

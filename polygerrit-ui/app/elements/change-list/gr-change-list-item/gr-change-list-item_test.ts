@@ -46,7 +46,6 @@ import {
   BulkActionsModel,
 } from '../../../models/bulk-actions/bulk-actions-model';
 import {createTestAppContext} from '../../../test/test-app-context-init';
-import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 import {ColumnNames} from '../../../constants/constants';
 
 suite('gr-change-list-item tests', () => {
@@ -122,7 +121,7 @@ suite('gr-change-list-item tests', () => {
         element,
         '.selection > label > input'
       );
-      tap(checkbox);
+      checkbox.click();
       let selectedChangeNums = await waitUntilObserved(
         bulkActionsModel.selectedChangeNums$,
         s => s.length === 1
@@ -130,7 +129,7 @@ suite('gr-change-list-item tests', () => {
 
       assert.deepEqual(selectedChangeNums, [1]);
 
-      tap(checkbox);
+      checkbox.click();
       selectedChangeNums = await waitUntilObserved(
         bulkActionsModel.selectedChangeNums$,
         s => s.length === 0

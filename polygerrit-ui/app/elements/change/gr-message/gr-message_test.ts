@@ -34,7 +34,6 @@ import {
   Timestamp,
   UrlEncodedCommentId,
 } from '../../../types/common';
-import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 import {
   ChangeMessageDeletedEventDetail,
   ReplyEventDetail,
@@ -76,7 +75,7 @@ suite('gr-message tests', () => {
       });
       await flush();
       assert.isOk(query<HTMLElement>(element, '.replyActionContainer'));
-      tap(queryAndAssert(element, '.replyBtn'));
+      queryAndAssert<GrButton>(element, '.replyBtn').click();
       await promise;
     });
 
@@ -128,7 +127,7 @@ suite('gr-message tests', () => {
           promise.resolve();
         }
       );
-      tap(queryAndAssert(element, '.deleteBtn'));
+      queryAndAssert<GrButton>(element, '.deleteBtn').click();
       await element.updateComplete;
       assert.isTrue(queryAndAssert<GrButton>(element, '.deleteBtn').disabled);
       await promise;
@@ -411,9 +410,9 @@ suite('gr-message tests', () => {
 
       const stub = sinon.stub();
       element.addEventListener('message-anchor-tap', stub);
-      const dateEl = queryAndAssert(element, '.date');
+      const dateEl = queryAndAssert<HTMLSpanElement>(element, '.date');
       assert.ok(dateEl);
-      tap(dateEl);
+      dateEl.click();
 
       assert.isTrue(stub.called);
       assert.deepEqual(stub.lastCall.args[0].detail, {id: element.message?.id});

@@ -29,7 +29,7 @@ suite('gr-file-status tests', () => {
         element,
         /* HTML */ `
           <gr-tooltip-content has-tooltip="" title="">
-            <div class="status" aria-label="" tabindex="0"></div>
+            <div class="status" aria-label="" tabindex="0"><span></span></div>
           </gr-tooltip-content>
         `
       );
@@ -41,7 +41,9 @@ suite('gr-file-status tests', () => {
         element,
         /* HTML */ `
           <gr-tooltip-content has-tooltip="" title="Added">
-            <div class="A status" aria-label="Added" tabindex="0">A</div>
+            <div class="A status" aria-label="Added" tabindex="0">
+              <span>A</span>
+            </div>
           </gr-tooltip-content>
         `
       );
@@ -60,7 +62,9 @@ suite('gr-file-status tests', () => {
             ></gr-icon>
           </gr-tooltip-content>
           <gr-tooltip-content has-tooltip="" title="Newly Added">
-            <div class="A status" aria-label="Newly Added" tabindex="0">A</div>
+            <div class="A status" aria-label="Newly Added" tabindex="0">
+              <span>A</span>
+            </div>
           </gr-tooltip-content>
         `
       );

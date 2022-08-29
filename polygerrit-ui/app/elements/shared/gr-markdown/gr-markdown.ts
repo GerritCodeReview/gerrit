@@ -110,12 +110,12 @@ export class GrMarkdown extends LitElement {
     // 4. Rewrite plain text ("text") to apply linking and other config-based
     //    rewrites. Text within code blocks is not passed here.
     function customRenderer(renderer: {[type: string]: Function}) {
-      renderer.image = (href: string, _title: string, text: string) =>
+      renderer['image'] = (href: string, _title: string, text: string) =>
         `![${text}](${href})`;
-      renderer.codespan = (text: string) =>
+      renderer['codespan'] = (text: string) =>
         `<code>${unescapeHTML(text)}</code>`;
-      renderer.code = (text: string) => `<pre><code>${text}</code></pre>`;
-      renderer.text = boundRewriteText;
+      renderer['code'] = (text: string) => `<pre><code>${text}</code></pre>`;
+      renderer['text'] = boundRewriteText;
     }
 
     // The child with slot is optional but allows us control over the styling.

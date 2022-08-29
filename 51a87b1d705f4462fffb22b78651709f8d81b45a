@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a504c051_3490fad5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-markdown/gr-markdown.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-29T11:17:53Z",
+      "side": 1,
+      "message": "maybe I should use \u003cpre\u003e wrapper here too with a class for CSS to differentiate styling instead of unescaping.. it clearly works in the test and manually verified, but the explanation that marked-element handles it is a bit lackluster.",
+      "range": {
+        "startLine": 116,
+        "startChar": 17,
+        "endLine": 116,
+        "endChar": 29
+      },
+      "revId": "51a87b1d705f4462fffb22b78651709f8d81b45a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

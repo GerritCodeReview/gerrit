@@ -22,7 +22,6 @@ import {
 } from '../../../api/rest-api';
 import {createChange, createRevision} from '../../../test/test-data-generators';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog.js';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {ProgressStatus} from '../../../constants/constants';
 import {fixture, html, assert} from '@open-wc/testing';
 
@@ -217,7 +216,7 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
       );
       assert.equal(checkboxes.length, 2);
       assert.isTrue(checkboxes[0].checked);
-      MockInteractions.tap(checkboxes[0]);
+      checkboxes[0].click();
       queryAndAssert<GrDialog>(element, 'gr-dialog').confirmButton!.click();
       await element.updateComplete;
       assert.equal(executeChangeActionStub.callCount, 1);
@@ -235,11 +234,9 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
         'input[type="checkbox"]'
       );
       assert.equal(checkboxes.length, 2);
-      MockInteractions.tap(checkboxes[0]);
-      MockInteractions.tap(checkboxes[1]);
-      MockInteractions.tap(
-        queryAndAssert<GrDialog>(element, 'gr-dialog').confirmButton!
-      );
+      checkboxes[0].click();
+      checkboxes[1].click();
+      queryAndAssert<GrDialog>(element, 'gr-dialog').confirmButton!.click();
       await element.updateComplete;
       assert.equal(executeChangeActionStub.callCount, 0);
       assert.equal(

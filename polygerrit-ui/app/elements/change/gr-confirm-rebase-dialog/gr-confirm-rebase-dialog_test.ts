@@ -6,11 +6,16 @@
 import '../../../test/common-test-setup-karma';
 import './gr-confirm-rebase-dialog';
 import {GrConfirmRebaseDialog, RebaseChange} from './gr-confirm-rebase-dialog';
-import {queryAndAssert, stubRestApi, waitUntil} from '../../../test/test-utils';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+import {
+  pressKey,
+  queryAndAssert,
+  stubRestApi,
+  waitUntil,
+} from '../../../test/test-utils';
 import {NumericChangeId, BranchName} from '../../../types/common';
 import {createChangeViewChange} from '../../../test/test-data-generators';
 import {fixture, html, assert} from '@open-wc/testing';
+import {Key} from '../../../utils/dom-util';
 
 suite('gr-confirm-rebase-dialog tests', () => {
   let element: GrConfirmRebaseDialog;
@@ -287,11 +292,9 @@ suite('gr-confirm-rebase-dialog tests', () => {
     test('input text change triggers function', async () => {
       const recentChangesSpy = sinon.spy(element, 'getRecentChanges');
       element.parentInput.noDebounce = true;
-      MockInteractions.pressAndReleaseKeyOn(
+      pressKey(
         queryAndAssert(queryAndAssert(element, '#parentInput'), '#input'),
-        13,
-        null,
-        'enter'
+        Key.ENTER
       );
       await element.updateComplete;
       element.text = '1';

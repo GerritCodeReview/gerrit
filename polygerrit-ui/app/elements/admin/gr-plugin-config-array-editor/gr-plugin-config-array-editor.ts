@@ -147,8 +147,7 @@ export class GrPluginConfigArrayEditor extends LitElement {
   }
 
   private handleInputKeydown(e: KeyboardEvent) {
-    // Enter.
-    if (e.keyCode === 13) {
+    if (e.key === 'Enter') {
       e.preventDefault();
       this.handleAdd();
     }

@@ -7,8 +7,7 @@ import '../../../test/common-test-setup-karma';
 import './gr-search-bar';
 import {GrSearchBar} from './gr-search-bar';
 import '../../../scripts/util';
-import {mockPromise, waitUntil} from '../../../test/test-utils';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+import {mockPromise, pressKey, waitUntil} from '../../../test/test-utils';
 import {
   createChangeConfig,
   createServerInfo,
@@ -18,6 +17,7 @@ import {queryAndAssert} from '../../../test/test-utils';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {fixture, html, assert} from '@open-wc/testing';
+import {Key} from '../../../utils/dom-util';
 
 suite('gr-search-bar tests', () => {
   let element: GrSearchBar;
@@ -76,11 +76,9 @@ suite('gr-search-bar tests', () => {
     element.value = 'test';
     await element.updateComplete;
     const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
-    MockInteractions.pressAndReleaseKeyOn(
+    pressKey(
       queryAndAssert<HTMLInputElement>(searchInput, '#input'),
-      13,
-      null,
-      'enter'
+      Key.ENTER
     );
     await promise;
   });
@@ -95,14 +93,12 @@ suite('gr-search-bar tests', () => {
     );
     queryAndAssert<GrAutocomplete>(element, '#searchInput').text = 'fate/stay';
     await element.updateComplete;
-    MockInteractions.pressAndReleaseKeyOn(
+    pressKey(
       queryAndAssert<PaperInputElement>(
         queryAndAssert<GrAutocomplete>(element, '#searchInput'),
         '#input'
       ),
-      13,
-      null,
-      'enter'
+      Key.ENTER
     );
     await waitUntil(() => blurSpy.called);
   });
@@ -113,11 +109,9 @@ suite('gr-search-bar tests', () => {
     element.value = '';
     await element.updateComplete;
     const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
-    MockInteractions.pressAndReleaseKeyOn(
+    pressKey(
       queryAndAssert<HTMLInputElement>(searchInput, '#input'),
-      13,
-      null,
-      'enter'
+      Key.ENTER
     );
     assert.isFalse(searchSpy.called);
   });
@@ -128,11 +122,9 @@ suite('gr-search-bar tests', () => {
     element.value = 'added:';
     await element.updateComplete;
     const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
-    MockInteractions.pressAndReleaseKeyOn(
+    pressKey(
       queryAndAssert<HTMLInputElement>(searchInput, '#input'),
-      13,
-      null,
-      'enter'
+      Key.ENTER
     );
     assert.isFalse(searchSpy.called);
   });
@@ -143,11 +135,9 @@ suite('gr-search-bar tests', () => {
     element.value = 'age:1week';
     await element.updateComplete;
     const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
-    MockInteractions.pressAndReleaseKeyOn(
+    pressKey(
       queryAndAssert<HTMLInputElement>(searchInput, '#input'),
-      13,
-      null,
-      'enter'
+      Key.ENTER
     );
     await waitUntil(() => searchSpy.called);
   });
@@ -158,11 +148,9 @@ suite('gr-search-bar tests', () => {
     element.value = 'random:1week';
     await element.updateComplete;
     const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
-    MockInteractions.pressAndReleaseKeyOn(
+    pressKey(
       queryAndAssert<HTMLInputElement>(searchInput, '#input'),
-      13,
-      null,
-      'enter'
+      Key.ENTER
     );
     await waitUntil(() => searchSpy.called);
   });
@@ -173,11 +161,9 @@ suite('gr-search-bar tests', () => {
     element.value = 'random:';
     await element.updateComplete;
     const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
-    MockInteractions.pressAndReleaseKeyOn(
+    pressKey(
       queryAndAssert<HTMLInputElement>(searchInput, '#input'),
-      13,
-      null,
-      'enter'
+      Key.ENTER
     );
     await waitUntil(() => searchSpy.called);
   });
@@ -191,7 +177,7 @@ suite('gr-search-bar tests', () => {
       queryAndAssert<GrAutocomplete>(element, '#searchInput'),
       'selectAll'
     );
-    MockInteractions.pressAndReleaseKeyOn(document.body, 191, null, '/');
+    pressKey(document.body, '/');
     assert.isTrue(focusSpy.called);
     assert.isTrue(selectAllSpy.called);
   });

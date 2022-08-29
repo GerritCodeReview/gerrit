@@ -6,7 +6,6 @@
 import '../../../test/common-test-setup-karma';
 import './gr-menu-editor';
 import {GrMenuEditor} from './gr-menu-editor';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {query, queryAndAssert, waitUntil} from '../../../test/test-utils';
 import {PaperButtonElement} from '@polymer/paper-button';
 import {TopMenuItemInfo} from '../../../types/common';
@@ -38,7 +37,7 @@ suite('gr-menu-editor tests', () => {
       query<HTMLElement>(query<HTMLTableElement>(element, 'tbody'), selector),
       'paper-button'
     );
-    MockInteractions.tap(button!);
+    button!.click();
   }
 
   setup(async () => {
@@ -334,29 +333,25 @@ suite('gr-menu-editor tests', () => {
     assertMenuNamesEqual(element, ['first name', 'second name', 'third name']);
 
     // Tap the delete button for the middle item.
-    MockInteractions.tap(
-      query<PaperButtonElement>(
-        query<HTMLElement>(
-          query<HTMLTableElement>(element, 'tbody'),
-          'tr:nth-child(2) .remove-button'
-        ),
-        'paper-button'
-      )!
-    );
+    query<PaperButtonElement>(
+      query<HTMLElement>(
+        query<HTMLTableElement>(element, 'tbody'),
+        'tr:nth-child(2) .remove-button'
+      ),
+      'paper-button'
+    )!.click();
 
     assertMenuNamesEqual(element, ['first name', 'third name']);
 
     // Delete remaining items.
     for (let i = 0; i < 2; i++) {
-      MockInteractions.tap(
-        query<PaperButtonElement>(
-          query<HTMLElement>(
-            query<HTMLTableElement>(element, 'tbody'),
-            'tr:first-child .remove-button'
-          ),
-          'paper-button'
-        )!
-      );
+      query<PaperButtonElement>(
+        query<HTMLElement>(
+          query<HTMLTableElement>(element, 'tbody'),
+          'tr:first-child .remove-button'
+        ),
+        'paper-button'
+      )!.click();
     }
     assertMenuNamesEqual(element, []);
 

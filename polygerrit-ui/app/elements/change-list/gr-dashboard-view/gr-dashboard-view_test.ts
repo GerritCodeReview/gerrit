@@ -29,7 +29,6 @@ import {
   RepoName,
   Timestamp,
 } from '../../../types/common';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {GrCreateChangeHelp} from '../gr-create-change-help/gr-create-change-help';
@@ -37,6 +36,7 @@ import {PageErrorEvent} from '../../../types/events';
 import {fixture, html, assert} from '@open-wc/testing';
 import {SinonStubbedMember} from 'sinon';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
+import {GrButton} from '../../shared/gr-button/gr-button';
 
 suite('gr-dashboard-view tests', () => {
   let element: GrDashboardView;
@@ -145,7 +145,7 @@ suite('gr-dashboard-view tests', () => {
         ),
         '.selection > label > input'
       );
-      MockInteractions.tap(checkbox);
+      checkbox.click();
       await waitUntil(() => checkbox.checked);
 
       getChangesStub.restore();
@@ -238,7 +238,7 @@ suite('gr-dashboard-view tests', () => {
       element.showDraftsBanner = true;
       await element.updateComplete;
 
-      MockInteractions.tap(queryAndAssert(element, '.banner .delete'));
+      queryAndAssert<GrButton>(element, '.banner .delete').click();
       assert.isTrue(handleOpenDeleteDialogStub.called);
     });
 
@@ -263,9 +263,10 @@ suite('gr-dashboard-view tests', () => {
 
       // Open confirmation dialog and tap confirm button.
       await queryAndAssert<GrOverlay>(element, '#confirmDeleteOverlay').open();
-      MockInteractions.tap(
-        queryAndAssert<GrDialog>(element, '#confirmDeleteDialog').confirmButton!
-      );
+      queryAndAssert<GrDialog>(
+        element,
+        '#confirmDeleteDialog'
+      ).confirmButton!.click();
       await element.updateComplete;
       assert.isTrue(deleteStub.calledWithExactly('-is:open'));
       assert.isTrue(

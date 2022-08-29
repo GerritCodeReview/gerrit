@@ -9,7 +9,6 @@ import {GrEditFileControls} from './gr-edit-file-controls';
 import {GrEditConstants} from '../gr-edit-constants';
 import {queryAndAssert} from '../../../test/test-utils';
 import {GrDropdown} from '../../shared/gr-dropdown/gr-dropdown';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {fixture, html, assert} from '@open-wc/testing';
 
 suite('gr-edit-file-controls tests', () => {
@@ -43,8 +42,8 @@ suite('gr-edit-file-controls tests', () => {
     actions.open();
     await actions.updateComplete;
 
-    const row = queryAndAssert(actions, 'li [data-id="open"]');
-    MockInteractions.tap(row);
+    const row = queryAndAssert<HTMLSpanElement>(actions, 'li [data-id="open"]');
+    row.click();
     assert.isTrue(fileActionHandler.called);
     assert.deepEqual(fileActionHandler.lastCall.args[0].detail, {
       action: GrEditConstants.Actions.OPEN.id,
@@ -58,8 +57,11 @@ suite('gr-edit-file-controls tests', () => {
     actions.open();
     await actions.updateComplete;
 
-    const row = queryAndAssert(actions, 'li [data-id="delete"]');
-    MockInteractions.tap(row);
+    const row = queryAndAssert<HTMLSpanElement>(
+      actions,
+      'li [data-id="delete"]'
+    );
+    row.click();
     assert.isTrue(fileActionHandler.called);
     assert.deepEqual(fileActionHandler.lastCall.args[0].detail, {
       action: GrEditConstants.Actions.DELETE.id,
@@ -73,8 +75,11 @@ suite('gr-edit-file-controls tests', () => {
     actions.open();
     await actions.updateComplete;
 
-    const row = queryAndAssert(actions, 'li [data-id="restore"]');
-    MockInteractions.tap(row);
+    const row = queryAndAssert<HTMLSpanElement>(
+      actions,
+      'li [data-id="restore"]'
+    );
+    row.click();
     assert.isTrue(fileActionHandler.called);
     assert.deepEqual(fileActionHandler.lastCall.args[0].detail, {
       action: GrEditConstants.Actions.RESTORE.id,
@@ -88,8 +93,11 @@ suite('gr-edit-file-controls tests', () => {
     actions.open();
     await actions.updateComplete;
 
-    const row = queryAndAssert(actions, 'li [data-id="rename"]');
-    MockInteractions.tap(row);
+    const row = queryAndAssert<HTMLSpanElement>(
+      actions,
+      'li [data-id="rename"]'
+    );
+    row.click();
     assert.isTrue(fileActionHandler.called);
     assert.deepEqual(fileActionHandler.lastCall.args[0].detail, {
       action: GrEditConstants.Actions.RENAME.id,

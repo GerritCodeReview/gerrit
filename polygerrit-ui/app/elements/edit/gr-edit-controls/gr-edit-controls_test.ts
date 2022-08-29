@@ -18,7 +18,6 @@ import {
 } from '../../../types/common';
 import {RepoName} from '../../../api/rest-api';
 import {queryAndAssert} from '../../../test/test-utils';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {fixture, html, assert} from '@open-wc/testing';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import '../../shared/gr-dialog/gr-dialog';
@@ -217,7 +216,7 @@ suite('gr-edit-controls tests', () => {
 
     test('open', async () => {
       assert.isFalse(hideDialogStub.called);
-      MockInteractions.tap(queryAndAssert(element, '#open'));
+      queryAndAssert<GrButton>(element, '#open').click();
       element.patchNum = 1 as RevisionPatchSetNum;
       await showDialogSpy.lastCall.returnValue;
       assert.isTrue(hideDialogStub.called);
@@ -247,16 +246,14 @@ suite('gr-edit-controls tests', () => {
     });
 
     test('cancel', async () => {
-      MockInteractions.tap(queryAndAssert(element, '#open'));
+      queryAndAssert<GrButton>(element, '#open').click();
       return showDialogSpy.lastCall.returnValue.then(async () => {
         assert.isTrue(element.openDialog!.disabled);
         openAutoComplete.noDebounce = true;
         openAutoComplete.text = 'src/test.cpp';
         await element.updateComplete;
         await waitUntil(() => !element.openDialog!.disabled);
-        MockInteractions.tap(
-          queryAndAssert<GrButton>(element.openDialog, 'gr-button')
-        );
+        queryAndAssert<GrButton>(element.openDialog, 'gr-button').click();
         assert.isFalse(editDiffStub.called);
         assert.isFalse(navStub.called);
         await waitUntil(() => closeDialogSpy.called);
@@ -282,7 +279,7 @@ suite('gr-edit-controls tests', () => {
 
     test('delete', async () => {
       deleteStub.returns(Promise.resolve({ok: true}));
-      MockInteractions.tap(queryAndAssert(element, '#delete'));
+      queryAndAssert<GrButton>(element, '#delete').click();
       await showDialogSpy.lastCall.returnValue;
       assert.isTrue(element.deleteDialog!.disabled);
       assert.isFalse(queryStub.called);
@@ -294,9 +291,10 @@ suite('gr-edit-controls tests', () => {
       await element.updateComplete;
       assert.isTrue(queryStub.called);
       await waitUntil(() => !element.deleteDialog!.disabled);
-      MockInteractions.tap(
-        queryAndAssert(element.deleteDialog, 'gr-button[primary]')
-      );
+      queryAndAssert<GrButton>(
+        element.deleteDialog,
+        'gr-button[primary]'
+      ).click();
       await element.updateComplete;
 
       assert.isTrue(deleteStub.called);
@@ -308,7 +306,7 @@ suite('gr-edit-controls tests', () => {
 
     test('delete fails', async () => {
       deleteStub.returns(Promise.resolve({ok: false}));
-      MockInteractions.tap(queryAndAssert(element, '#delete'));
+      queryAndAssert<GrButton>(element, '#delete').click();
       await showDialogSpy.lastCall.returnValue;
       assert.isTrue(element.deleteDialog!.disabled);
       assert.isFalse(queryStub.called);
@@ -320,9 +318,10 @@ suite('gr-edit-controls tests', () => {
       await element.updateComplete;
       assert.isTrue(queryStub.called);
       await waitUntil(() => !element.deleteDialog!.disabled);
-      MockInteractions.tap(
-        queryAndAssert(element.deleteDialog, 'gr-button[primary]')
-      );
+      queryAndAssert<GrButton>(
+        element.deleteDialog,
+        'gr-button[primary]'
+      ).click();
       await element.updateComplete;
 
       assert.isTrue(deleteStub.called);
@@ -333,7 +332,7 @@ suite('gr-edit-controls tests', () => {
     });
 
     test('cancel', () => {
-      MockInteractions.tap(queryAndAssert(element, '#delete'));
+      queryAndAssert<GrButton>(element, '#delete').click();
       return showDialogSpy.lastCall.returnValue.then(async () => {
         assert.isTrue(element.deleteDialog!.disabled);
         queryAndAssert<GrAutocomplete>(
@@ -342,7 +341,7 @@ suite('gr-edit-controls tests', () => {
         ).text = 'src/test.cpp';
         await element.updateComplete;
         await waitUntil(() => !element.deleteDialog!.disabled);
-        MockInteractions.tap(queryAndAssert(element.deleteDialog, 'gr-button'));
+        queryAndAssert<GrButton>(element.deleteDialog, 'gr-button').click();
         assert.isFalse(eventStub.called);
         assert.isTrue(closeDialogSpy.called);
         await waitUntil(() => element.path === '');
@@ -367,7 +366,7 @@ suite('gr-edit-controls tests', () => {
 
     test('rename', async () => {
       renameStub.returns(Promise.resolve({ok: true}));
-      MockInteractions.tap(queryAndAssert(element, '#rename'));
+      queryAndAssert<GrButton>(element, '#rename').click();
       await showDialogSpy.lastCall.returnValue;
       assert.isTrue(element.renameDialog!.disabled);
       assert.isFalse(queryStub.called);
@@ -384,9 +383,10 @@ suite('gr-edit-controls tests', () => {
       await element.updateComplete;
 
       assert.isFalse(element.renameDialog!.disabled);
-      MockInteractions.tap(
-        queryAndAssert(element.renameDialog, 'gr-button[primary]')
-      );
+      queryAndAssert<GrButton>(
+        element.renameDialog,
+        'gr-button[primary]'
+      ).click();
       await element.updateComplete;
       assert.isTrue(renameStub.called);
 
@@ -398,7 +398,7 @@ suite('gr-edit-controls tests', () => {
 
     test('rename fails', async () => {
       renameStub.returns(Promise.resolve({ok: false}));
-      MockInteractions.tap(queryAndAssert(element, '#rename'));
+      queryAndAssert<GrButton>(element, '#rename').click();
       await showDialogSpy.lastCall.returnValue;
       assert.isTrue(element.renameDialog!.disabled);
       assert.isFalse(queryStub.called);
@@ -415,9 +415,10 @@ suite('gr-edit-controls tests', () => {
       await element.updateComplete;
 
       assert.isFalse(element.renameDialog!.disabled);
-      MockInteractions.tap(
-        queryAndAssert(element.renameDialog, 'gr-button[primary]')
-      );
+      queryAndAssert<GrButton>(
+        element.renameDialog,
+        'gr-button[primary]'
+      ).click();
       await element.updateComplete;
 
       assert.isTrue(renameStub.called);
@@ -428,7 +429,7 @@ suite('gr-edit-controls tests', () => {
     });
 
     test('cancel', () => {
-      MockInteractions.tap(queryAndAssert(element, '#rename'));
+      queryAndAssert<GrButton>(element, '#rename').click();
       return showDialogSpy.lastCall.returnValue.then(async () => {
         assert.isTrue(element.renameDialog!.disabled);
         queryAndAssert<GrAutocomplete>(
@@ -438,7 +439,7 @@ suite('gr-edit-controls tests', () => {
         element.newPathIronInput!.bindValue = 'src/test.newPath';
         await element.updateComplete;
         assert.isFalse(element.renameDialog!.disabled);
-        MockInteractions.tap(queryAndAssert(element.renameDialog, 'gr-button'));
+        queryAndAssert<GrButton>(element.renameDialog, 'gr-button').click();
         assert.isFalse(eventStub.called);
         assert.isTrue(closeDialogSpy.called);
         await waitUntil(() => element.path === '');
@@ -464,11 +465,12 @@ suite('gr-edit-controls tests', () => {
     test('restore', () => {
       restoreStub.returns(Promise.resolve({ok: true}));
       element.path = 'src/test.cpp';
-      MockInteractions.tap(queryAndAssert(element, '#restore'));
+      queryAndAssert<GrButton>(element, '#restore').click();
       return showDialogSpy.lastCall.returnValue.then(async () => {
-        MockInteractions.tap(
-          queryAndAssert(element.restoreDialog, 'gr-button[primary]')
-        );
+        queryAndAssert<GrButton>(
+          element.restoreDialog,
+          'gr-button[primary]'
+        ).click();
         await element.updateComplete;
 
         assert.isTrue(restoreStub.called);
@@ -484,11 +486,12 @@ suite('gr-edit-controls tests', () => {
     test('restore fails', () => {
       restoreStub.returns(Promise.resolve({ok: false}));
       element.path = 'src/test.cpp';
-      MockInteractions.tap(queryAndAssert(element, '#restore'));
+      queryAndAssert<GrButton>(element, '#restore').click();
       return showDialogSpy.lastCall.returnValue.then(async () => {
-        MockInteractions.tap(
-          queryAndAssert(element.restoreDialog, 'gr-button[primary]')
-        );
+        queryAndAssert<GrButton>(
+          element.restoreDialog,
+          'gr-button[primary]'
+        ).click();
         await element.updateComplete;
 
         assert.isTrue(restoreStub.called);
@@ -502,11 +505,9 @@ suite('gr-edit-controls tests', () => {
 
     test('cancel', () => {
       element.path = 'src/test.cpp';
-      MockInteractions.tap(queryAndAssert(element, '#restore'));
+      queryAndAssert<GrButton>(element, '#restore').click();
       return showDialogSpy.lastCall.returnValue.then(() => {
-        MockInteractions.tap(
-          queryAndAssert(element.restoreDialog, 'gr-button')
-        );
+        queryAndAssert<GrButton>(element.restoreDialog, 'gr-button').click();
         assert.isFalse(eventStub.called);
         assert.isTrue(closeDialogSpy.called);
         assert.equal(element.path, '');
@@ -563,21 +564,23 @@ suite('gr-edit-controls tests', () => {
     const spy = sinon.spy(element, 'getDialogFromEvent');
     element.addEventListener('tap', element.getDialogFromEvent);
 
-    MockInteractions.tap(element.openDialog!);
+    element.openDialog!.click();
     await element.updateComplete;
     assert.equal(spy.lastCall.returnValue!.id, 'openDialog');
 
-    MockInteractions.tap(element.deleteDialog!);
+    element.deleteDialog!.click();
     await element.updateComplete;
     assert.equal(spy.lastCall.returnValue!.id, 'deleteDialog');
 
-    MockInteractions.tap(
-      queryAndAssert<GrAutocomplete>(element.deleteDialog, 'gr-autocomplete')
-    );
+    queryAndAssert<GrAutocomplete>(
+      element.deleteDialog,
+      'gr-autocomplete'
+    ).click();
+
     await element.updateComplete;
     assert.equal(spy.lastCall.returnValue!.id, 'deleteDialog');
 
-    MockInteractions.tap(element);
+    element.click();
     await element.updateComplete;
     assert.notOk(spy.lastCall.returnValue);
   });

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {BehaviorSubject} from 'rxjs';
+import '../gr-copy-links/gr-copy-links';
 import '@polymer/paper-tabs/paper-tabs';
 import '../../../styles/gr-a11y-styles';
 import '../../../styles/gr-paper-styles';
@@ -178,6 +179,9 @@ import {FilesExpandedState} from '../gr-file-list-constants';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
 import {filesModelToken} from '../../../models/change/files-model';
+import {getBaseUrl, prependOrigin} from '../../../utils/url-util';
+import {CopyLink, GrCopyLinks} from '../gr-copy-links/gr-copy-links';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -266,6 +270,8 @@ export class GrChangeView extends LitElement {
   @query('gr-messages-list') messagesList?: GrMessagesList;
 
   @query('gr-thread-list') threadList?: GrThreadList;
+
+  @query('gr-copy-links') private copyLinksDropdown?: GrCopyLinks;
 
   /**
    * URL params passed from the router.
@@ -529,6 +535,8 @@ export class GrChangeView extends LitElement {
 
   readonly restApiService = getAppContext().restApiService;
 
+  private readonly flagsService = getAppContext().flagsService;
+
   // Private but used in tests.
   readonly userModel = getAppContext().userModel;
 
@@ -674,6 +682,10 @@ export class GrChangeView extends LitElement {
     );
     this.shortcutsController.addAbstract(Shortcut.TOGGLE_ATTENTION_SET, () =>
       this.handleToggleAttentionSet()
+    );
+    this.shortcutsController.addAbstract(
+      Shortcut.OPEN_COPY_LINKS_DROPDOWN,
+      () => this.copyLinksDropdown?.openDropdown()
     );
   }
 
@@ -890,6 +902,9 @@ export class GrChangeView extends LitElement {
         }
         .changeCopyClipboard {
           margin-left: var(--spacing-s);
+        }
+        .showCopyLinkDialogButton {
+          --gr-button-padding: var(--spacing-m) var(--spacing-xs);
         }
         #replyBtn {
           margin-bottom: var(--spacing-m);
@@ -1256,21 +1271,71 @@ export class GrChangeView extends LitElement {
         ?hidden=${!this.loggedIn}
       ></gr-change-star>
 
-      <a
-        class="changeNumber"
-        aria-label=${`Change ${this.change?._number}`}
-        href=${ifDefined(this.computeChangeUrl(true))}
-        >${this.change?._number}</a
-      >
-      <span class="changeNumberColon">:&nbsp;</span>
-      <span class="headerSubject">${this.change?.subject}</span>
-      <gr-copy-clipboard
-        class="changeCopyClipboard"
-        hideInput=""
-        text=${this.computeCopyTextForTitle()}
-      >
-      </gr-copy-clipboard>
+      ${when(
+        this.flagsService.isEnabled(KnownExperimentId.COPY_LINK_DIALOG),
+        () => html`<a
+            class="changeNumber"
+            aria-label=${`Change ${this.change?._number}`}
+            href=${ifDefined(this.computeChangeUrl(true))}
+            >${this.change?._number}</a
+          ><gr-button
+            flatten
+            down-arrow
+            class="showCopyLinkDialogButton"
+            @click=${() => this.copyLinksDropdown?.toggleDropdown()}
+          ></gr-button>
+          ${this.renderCopyLinksDropdown()}
+          <span class="headerSubject">${this.change?.subject}</span>`,
+        () => html`<a
+            class="changeNumber"
+            aria-label=${`Change ${this.change?._number}`}
+            href=${ifDefined(this.computeChangeUrl(true))}
+            >${this.change?._number}</a
+          >
+          <span class="changeNumberColon">:&nbsp;</span>
+          <span class="headerSubject">${this.change?.subject}</span>
+          <gr-copy-clipboard
+            class="changeCopyClipboard"
+            hideInput=""
+            text=${this.computeCopyTextForTitle()}
+          >
+          </gr-copy-clipboard>`
+      )}
     </div>`;
+  }
+
+  private renderCopyLinksDropdown() {
+    const url = this.computeChangeUrl();
+    if (!url) return;
+    const changeURL = prependOrigin(getBaseUrl() + url);
+    const links: CopyLink[] = [
+      {
+        label: 'Change Number',
+        shortcut: 'n',
+        value: `${this.change?._number}`,
+      },
+      {
+        label: 'Change URL',
+        shortcut: 'u',
+        value: changeURL,
+      },
+      {
+        label: 'Title and URL',
+        shortcut: 't',
+        value: `${this.change?._number}: ${this.change?.subject} | ${changeURL}`,
+      },
+      {
+        label: 'URL and title',
+        shortcut: 'r',
+        value: `${changeURL}: ${this.change?.subject}`,
+      },
+      {
+        label: 'Change-Id',
+        shortcut: 'd',
+        value: `${this.change?.id.split('~').pop()}`,
+      },
+    ];
+    return html`<gr-copy-links .copyLinks=${links}> </gr-copy-links>`;
   }
 
   private renderCommitActions() {

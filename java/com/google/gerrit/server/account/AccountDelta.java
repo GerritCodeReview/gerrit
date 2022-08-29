@@ -88,6 +88,14 @@ public abstract class AccountDelta {
   public abstract Optional<Boolean> getActive();
 
   /**
+   * Returns the new value for the hidden flag.
+   *
+   * @return the new value for the hidden flag, {@code Optional#empty()} if the hidden flag is not
+   *     being updated, the wrapped value is never {@code null}
+   */
+  public abstract Optional<Boolean> getHidden();
+
+  /**
    * Returns the new value for the status.
    *
    * @return the new value for the status, {@code Optional#empty()} if the status is not being
@@ -202,6 +210,16 @@ public abstract class AccountDelta {
      *     account should be set to inactive
      */
     public abstract Builder setActive(boolean active);
+
+    /**
+     * Sets the hidden flag for the account.
+     *
+     * @param hidden {@code true} if the account should be set to hidden, {@code false} if the
+     *     account should be set to non-hidden
+     */
+    public abstract Builder setHidden(boolean hidden);
+
+    public abstract Builder setHidden(Optional<Boolean> hidden);
 
     /**
      * Sets a new status for the account.
@@ -511,6 +529,18 @@ public abstract class AccountDelta {
       @Override
       public Builder setActive(boolean active) {
         delegate.setActive(active);
+        return this;
+      }
+
+      @Override
+      public Builder setHidden(boolean hidden) {
+        delegate.setHidden(hidden);
+        return this;
+      }
+
+      @Override
+      public Builder setHidden(Optional<Boolean> hidden) {
+        delegate.setHidden(hidden);
         return this;
       }
 

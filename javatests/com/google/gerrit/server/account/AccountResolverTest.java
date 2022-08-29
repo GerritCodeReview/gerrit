@@ -369,6 +369,7 @@ public class AccountResolverTest {
   private AccountState newInactiveAccount(int id) {
     Account.Builder a = Account.builder(Account.id(id), TimeUtil.now());
     a.setActive(false);
+    a.setIsHidden(false);
     return AccountState.forAccount(a.build());
   }
 

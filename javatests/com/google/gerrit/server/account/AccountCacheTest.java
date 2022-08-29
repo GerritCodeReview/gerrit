@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.common.truth.Truth8.assertThat;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.truth.Truth;
@@ -44,6 +46,7 @@ public class AccountCacheTest {
             .setFullName("foo bar")
             .setDisplayName("foo")
             .setActive(false)
+            .setIsHidden(true)
             .setMetaId("dead..beef")
             .setStatus("OOO")
             .setPreferredEmail("foo@bar.tld")
@@ -60,6 +63,7 @@ public class AccountCacheTest {
                     .setFullName("foo bar")
                     .setDisplayName("foo")
                     .setInactive(true)
+                    .setIsHidden(true)
                     .setMetaId("dead..beef")
                     .setStatus("OOO")
                     .setPreferredEmail("foo@bar.tld"))
@@ -76,7 +80,9 @@ public class AccountCacheTest {
     Cache.AccountDetailsProto expected =
         Cache.AccountDetailsProto.newBuilder().setAccount(ACCOUNT_PROTO).build();
     ProtoTruth.assertThat(Cache.AccountDetailsProto.parseFrom(serialized)).isEqualTo(expected);
-    Truth.assertThat(SERIALIZER.deserialize(serialized)).isEqualTo(original);
+    CachedAccountDetails deserialized = SERIALIZER.deserialize(serialized);
+    assertThat(deserialized.account().isHidden()).isEmpty();
+    Truth.assertThat(deserialized).isEqualTo(original);
   }
 
   @Test

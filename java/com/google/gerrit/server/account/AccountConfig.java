@@ -86,12 +86,18 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   private StoredPreferences preferences;
   private Optional<AccountDelta> accountDelta = Optional.empty();
   private List<ValidationError> validationErrors;
+  private final Optional<Boolean> defaultNewAccountHidden;
 
-  public AccountConfig(Account.Id accountId, AllUsersName allUsersName, Repository allUsersRepo) {
+  AccountConfig(
+      Account.Id accountId,
+      AllUsersName allUsersName,
+      Repository allUsersRepo,
+      Optional<Boolean> defaultNewAccountHidden) {
     this.accountId = requireNonNull(accountId, "accountId");
     this.allUsersName = requireNonNull(allUsersName, "allUsersName");
     this.repo = requireNonNull(allUsersRepo, "allUsersRepo");
     this.ref = RefNames.refsUsers(accountId);
+    this.defaultNewAccountHidden = defaultNewAccountHidden;
   }
 
   @Override
@@ -162,6 +168,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
         Optional.of(
             AccountDelta.builder()
                 .setActive(account.isActive())
+                .setHidden(account.isHidden())
                 .setFullName(account.fullName())
                 .setDisplayName(account.displayName())
                 .setPreferredEmail(account.preferredEmail())
@@ -191,8 +198,18 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
     if (revision != null) {
       throw new DuplicateKeyException(String.format("account %s already exists", accountId));
     }
+    Config config = new Config();
+    if (defaultNewAccountHidden.isPresent()) {
+      // Only write the property if the setting is set.
+      // Otherwise, the 'hidden' property should not be present in the config.
+      config.setBoolean(
+          AccountProperties.ACCOUNT,
+          null,
+          AccountProperties.KEY_HIDDEN,
+          defaultNewAccountHidden.get());
+    }
     this.loadedAccountProperties =
-        Optional.of(new AccountProperties(accountId, registeredOn, new Config(), null));
+        Optional.of(new AccountProperties(accountId, registeredOn, config, null));
     return loadedAccountProperties.map(AccountProperties::getAccount).get();
   }
 

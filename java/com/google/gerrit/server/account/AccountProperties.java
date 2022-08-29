@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import java.time.Instant;
+import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -51,6 +52,7 @@ public class AccountProperties {
   public static final String ACCOUNT_CONFIG = "account.config";
   public static final String ACCOUNT = "account";
   public static final String KEY_ACTIVE = "active";
+  public static final String KEY_HIDDEN = "hidden";
   public static final String KEY_FULL_NAME = "fullName";
   public static final String KEY_DISPLAY_NAME = "displayName";
   public static final String KEY_PREFERRED_EMAIL = "preferredEmail";
@@ -89,6 +91,13 @@ public class AccountProperties {
   private void parse() {
     Account.Builder accountBuilder = Account.builder(accountId, registeredOn);
     accountBuilder.setActive(accountConfig.getBoolean(ACCOUNT, null, KEY_ACTIVE, true));
+
+    if (accountConfig.getString(ACCOUNT, null, KEY_HIDDEN) != null) {
+      // do not set hidden property if it is not available in the config.
+      accountBuilder.setIsHidden(accountConfig.getBoolean(ACCOUNT, null, KEY_HIDDEN, false));
+    } else {
+      accountBuilder.setIsHidden(Optional.empty());
+    }
     accountBuilder.setFullName(get(accountConfig, KEY_FULL_NAME));
     accountBuilder.setDisplayName(get(accountConfig, KEY_DISPLAY_NAME));
 
@@ -107,6 +116,7 @@ public class AccountProperties {
 
   public static void writeToAccountConfig(AccountDelta accountDelta, Config cfg) {
     accountDelta.getActive().ifPresent(active -> setActive(cfg, active));
+    accountDelta.getHidden().ifPresent(hidden -> cfg.setBoolean(ACCOUNT, null, KEY_HIDDEN, hidden));
     accountDelta.getFullName().ifPresent(fullName -> set(cfg, KEY_FULL_NAME, fullName));
     accountDelta.getDisplayName().ifPresent(displayName -> set(cfg, KEY_DISPLAY_NAME, displayName));
     accountDelta

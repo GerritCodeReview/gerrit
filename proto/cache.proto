@@ -340,6 +340,7 @@ message AccountProto {
   bool inactive = 6;
   string status = 7;
   string meta_id = 8;
+  bool is_hidden = 9;
 }
 
 // Serialized form of com.google.gerrit.server.account.CachedAccountDetails.Key.

@@ -51,13 +51,15 @@ public class Accounts {
   private final AllUsersName allUsersName;
   private final ExternalIds externalIds;
   private final Timer0 readSingleLatency;
+  private final AccountConfigFactory accountConfigFactory;
 
   @Inject
   Accounts(
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
       ExternalIds externalIds,
-      MetricMaker metricMaker) {
+      MetricMaker metricMaker,
+      AccountConfigFactory accountConfigFactory) {
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
     this.externalIds = externalIds;
@@ -67,6 +69,7 @@ public class Accounts {
             new Description("Latency for reading a single account config.")
                 .setCumulative()
                 .setUnit(Description.Units.MILLISECONDS));
+    this.accountConfigFactory = accountConfigFactory;
   }
 
   public Optional<AccountState> get(Account.Id accountId)
@@ -152,7 +155,7 @@ public class Accounts {
     AccountConfig cfg;
     CachedPreferences defaultPreferences;
     try (Timer0.Context ignored = readSingleLatency.start()) {
-      cfg = new AccountConfig(accountId, allUsersName, allUsersRepository).load();
+      cfg = accountConfigFactory.create(accountId, allUsersName, allUsersRepository).load();
       defaultPreferences =
           CachedPreferences.fromConfig(
               VersionedDefaultPreferences.get(allUsersRepository, allUsersName));

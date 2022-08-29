@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountConfig;
+import com.google.gerrit.server.account.AccountConfigFactory;
 import com.google.gerrit.server.account.AccountDelta;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.AllUsersName;
@@ -53,6 +54,7 @@ public class AccountIndexerIT {
   @Inject private GitRepositoryManager repoManager;
   @Inject private AllUsersName allUsersName;
   @Inject @GerritPersonIdent protected Provider<PersonIdent> serverIdent;
+  @Inject private AccountConfigFactory accountConfigFactory;
 
   @Test
   public void indexingUpdatesTheIndex() throws Exception {
@@ -147,8 +149,8 @@ public class AccountIndexerIT {
       PersonIdent ident = serverIdent.get();
       md.getCommitBuilder().setAuthor(ident);
       md.getCommitBuilder().setCommitter(ident);
-
-      AccountConfig accountConfig = new AccountConfig(accountId, allUsersName, allUsersRepo).load();
+      AccountConfig accountConfig =
+          accountConfigFactory.create(accountId, allUsersName, allUsersRepo).load();
       accountConfig.setAccountDelta(accountDelta);
       accountConfig.commit(md);
     }

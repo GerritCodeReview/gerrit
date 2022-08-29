@@ -71,6 +71,7 @@ public class AccountsOnInit {
       AccountProperties.writeToAccountConfig(
           AccountDelta.builder()
               .setActive(!account.inactive())
+              .setHidden(account.isHidden())
               .setFullName(account.fullName())
               .setPreferredEmail(account.preferredEmail())
               .setStatus(account.status())

@@ -31,6 +31,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 
@@ -66,6 +67,8 @@ public class AuthConfig {
   private final boolean allowRegisterNewEmail;
   private final boolean userNameCaseInsensitive;
   private final boolean userNameCaseInsensitiveMigrationMode;
+  private final Optional<Boolean> defaultNewAccountHidden;
+
   private GitBasicAuthPolicy gitBasicAuthPolicy;
 
   @Inject
@@ -100,6 +103,12 @@ public class AuthConfig {
     userNameCaseInsensitive = cfg.getBoolean("auth", "userNameCaseInsensitive", false);
     userNameCaseInsensitiveMigrationMode =
         cfg.getBoolean("auth", "userNameCaseInsensitiveMigrationMode", false);
+    if (cfg.getString("auth", null, "defaultNewAccountHidden") != null) {
+      defaultNewAccountHidden =
+          Optional.of(cfg.getBoolean("auth", "defaultNewAccountHidden", false));
+    } else {
+      defaultNewAccountHidden = Optional.empty();
+    }
 
     if (gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP_LDAP
         && authType != AuthType.LDAP
@@ -245,6 +254,11 @@ public class AuthConfig {
   /** Whether user name should be matched case insenitive */
   public boolean isUserNameCaseInsensitive() {
     return userNameCaseInsensitive;
+  }
+
+  /** Whether users should be hidden by default */
+  public Optional<Boolean> getDefaultNewAccountHidden() {
+    return defaultNewAccountHidden;
   }
 
   /** Whether user name case insensitive migration is in progress */

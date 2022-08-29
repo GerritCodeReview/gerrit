@@ -190,6 +190,7 @@ public class AccountsUpdate {
   private final ExternalIdNotesLoader extIdNotesLoader;
   private final PersonIdent committerIdent;
   private final PersonIdent authorIdent;
+  private final AccountConfigFactory accountConfigFactory;
 
   /** Invoked after reading the account config. */
   private final Runnable afterReadRevision;
@@ -209,6 +210,7 @@ public class AccountsUpdate {
       ExternalIds externalIds,
       Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
       RetryHelper retryHelper,
+      AccountConfigFactory accountConfigFactory,
       @GerritPersonIdent PersonIdent serverIdent,
       @Assisted ExternalIdNotesLoader extIdNotesLoader) {
     this(
@@ -219,6 +221,7 @@ public class AccountsUpdate {
         externalIds,
         metaDataUpdateInternalFactory,
         retryHelper,
+        accountConfigFactory,
         extIdNotesLoader,
         serverIdent,
         createPersonIdent(serverIdent, Optional.empty()),
@@ -235,6 +238,7 @@ public class AccountsUpdate {
       ExternalIds externalIds,
       Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
       RetryHelper retryHelper,
+      AccountConfigFactory accountConfigFactory,
       @GerritPersonIdent PersonIdent serverIdent,
       @Assisted IdentifiedUser currentUser,
       @Assisted ExternalIdNotesLoader extIdNotesLoader) {
@@ -246,6 +250,7 @@ public class AccountsUpdate {
         externalIds,
         metaDataUpdateInternalFactory,
         retryHelper,
+        accountConfigFactory,
         extIdNotesLoader,
         serverIdent,
         createPersonIdent(serverIdent, Optional.of(currentUser)),
@@ -262,6 +267,7 @@ public class AccountsUpdate {
       ExternalIds externalIds,
       Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
       RetryHelper retryHelper,
+      AccountConfigFactory accountConfigFactory,
       ExternalIdNotesLoader extIdNotesLoader,
       PersonIdent committerIdent,
       PersonIdent authorIdent,
@@ -275,6 +281,7 @@ public class AccountsUpdate {
     this.metaDataUpdateInternalFactory =
         requireNonNull(metaDataUpdateInternalFactory, "metaDataUpdateInternalFactory");
     this.retryHelper = requireNonNull(retryHelper, "retryHelper");
+    this.accountConfigFactory = requireNonNull(accountConfigFactory, "accountConfigFactory");
     this.extIdNotesLoader = requireNonNull(extIdNotesLoader, "extIdNotesLoader");
     this.committerIdent = requireNonNull(committerIdent, "committerIdent");
     this.authorIdent = requireNonNull(authorIdent, "authorIdent");
@@ -437,7 +444,8 @@ public class AccountsUpdate {
 
   private AccountConfig read(Repository allUsersRepo, Account.Id accountId)
       throws IOException, ConfigInvalidException {
-    AccountConfig accountConfig = new AccountConfig(accountId, allUsersName, allUsersRepo).load();
+    AccountConfig accountConfig =
+        accountConfigFactory.create(accountId, allUsersName, allUsersRepo).load();
     afterReadRevision.run();
     return accountConfig;
   }

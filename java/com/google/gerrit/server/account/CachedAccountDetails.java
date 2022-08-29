@@ -30,6 +30,7 @@ import com.google.gerrit.server.cache.proto.Cache;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import com.google.gerrit.server.config.CachedPreferences;
+import com.google.protobuf.Descriptors.FieldDescriptor;
 import java.time.Instant;
 import java.util.Map;
 import org.eclipse.jgit.lib.ObjectId;
@@ -97,6 +98,8 @@ public abstract class CachedAccountDetails {
   /** Serializer used to read this entity from and write it to a persistent storage. */
   enum Serializer implements CacheSerializer<CachedAccountDetails> {
     INSTANCE;
+    private static final FieldDescriptor ACCOUNT_IS_HIDDEN_DESCRIPTOR =
+        Cache.AccountProto.getDescriptor().findFieldByNumber(9);
 
     @Override
     public byte[] serialize(CachedAccountDetails cachedAccountDetails) {
@@ -113,7 +116,10 @@ public abstract class CachedAccountDetails {
               .setPreferredEmail(Strings.nullToEmpty(account.preferredEmail()))
               .setStatus(Strings.nullToEmpty(account.status()))
               .setMetaId(Strings.nullToEmpty(account.metaId()));
-      serialized.setAccount(accountProto);
+      if (account.isHidden().isPresent()) {
+        accountProto.setIsHidden(account.isHidden().get());
+      }
+      serialized.setAccount(accountProto.build());
 
       for (Map.Entry<ProjectWatches.ProjectWatchKey, ImmutableSet<NotifyConfig.NotifyType>> watch :
           cachedAccountDetails.projectWatches().entrySet()) {
@@ -139,7 +145,7 @@ public abstract class CachedAccountDetails {
     public CachedAccountDetails deserialize(byte[] in) {
       Cache.AccountDetailsProto proto =
           Protos.parseUnchecked(Cache.AccountDetailsProto.parser(), in);
-      Account account =
+      Account.Builder account =
           Account.builder(
                   Account.id(proto.getAccount().getId()),
                   Instant.ofEpochMilli(proto.getAccount().getRegisteredOn()))
@@ -148,8 +154,10 @@ public abstract class CachedAccountDetails {
               .setPreferredEmail(Strings.emptyToNull(proto.getAccount().getPreferredEmail()))
               .setInactive(proto.getAccount().getInactive())
               .setStatus(Strings.emptyToNull(proto.getAccount().getStatus()))
-              .setMetaId(Strings.emptyToNull(proto.getAccount().getMetaId()))
-              .build();
+              .setMetaId(Strings.emptyToNull(proto.getAccount().getMetaId()));
+      if (proto.getAccount().hasField(ACCOUNT_IS_HIDDEN_DESCRIPTOR)) {
+        account.setIsHidden(proto.getAccount().getIsHidden());
+      }
 
       ImmutableMap.Builder<ProjectWatches.ProjectWatchKey, ImmutableSet<NotifyConfig.NotifyType>>
           projectWatches = ImmutableMap.builder();
@@ -164,7 +172,7 @@ public abstract class CachedAccountDetails {
                           .collect(toImmutableSet())));
 
       return CachedAccountDetails.create(
-          account,
+          account.build(),
           projectWatches.build(),
           CachedPreferences.fromString(proto.getUserPreferences()));
     }

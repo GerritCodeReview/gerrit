@@ -16,6 +16,24 @@
       "message": "Maybe we should re-consider this change, because showing *all* patchset uploads can by quite annoying: https://imgur.com/a/kUR4jCv\n\nOr maybe we just show a max of 3 or 5 patchset uploads? WDYT?",
       "revId": "41dcb2674d695e739689a13b0172c1e038d54176",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee687cb5_04fac3d2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-29T14:28:32Z",
+      "side": 1,
+      "message": "A bit arbitrary but I\u0027m not opposed.\n\nMaybe we could get more signal back from the backend so we wouldn\u0027t have to text-parse.",
+      "parentUuid": "c804c335_57cdb87c",
+      "revId": "41dcb2674d695e739689a13b0172c1e038d54176",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

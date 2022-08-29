@@ -7,6 +7,7 @@ import '../../../test/common-test-setup-karma';
 import './gr-alert';
 import {GrAlert} from './gr-alert';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+import {assert} from '@open-wc/testing';
 
 suite('gr-alert tests', () => {
   let element: GrAlert;

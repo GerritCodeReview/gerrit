@@ -9,7 +9,7 @@ import './gr-external-style';
 import {GrExternalStyle} from './gr-external-style';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {PluginApi} from '../../../api/plugin';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 
 suite('gr-external-style integration tests', () => {
   const TEST_URL = 'http://some.com/plugins/url.js';

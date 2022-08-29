@@ -34,7 +34,7 @@ import {
 } from '../../../test/test-data-generators';
 import {GrSelect} from '../../shared/gr-select/gr-select';
 import {AppElementSettingsParam} from '../../gr-app-types';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 import {EventType} from '../../../types/events';
 
 suite('gr-settings-view tests', () => {

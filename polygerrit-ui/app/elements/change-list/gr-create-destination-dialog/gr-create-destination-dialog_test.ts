@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup-karma';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 import './gr-create-destination-dialog';
 import {GrCreateDestinationDialog} from './gr-create-destination-dialog';
 

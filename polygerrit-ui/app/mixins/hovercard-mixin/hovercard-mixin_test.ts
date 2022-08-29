@@ -9,7 +9,7 @@ import {LitElement} from 'lit';
 import {customElement} from 'lit/decorators.js';
 import {MockPromise, mockPromise, pressKey} from '../../test/test-utils';
 import {findActiveElement, Key} from '../../utils/dom-util';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 
 const base = HovercardMixin(LitElement);
 

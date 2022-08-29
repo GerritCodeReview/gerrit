@@ -16,6 +16,7 @@ import {RetryScheduler} from '../../../../services/scheduler/retry-scheduler';
 import {ParsedJSON} from '../../../../types/common';
 import {HttpMethod} from '../../../../api/rest-api';
 import {SinonFakeTimers} from 'sinon';
+import {assert} from '@open-wc/testing';
 
 function makeParsedJSON<T>(val: T): ParsedJSON {
   return val as unknown as ParsedJSON;

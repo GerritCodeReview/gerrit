@@ -42,7 +42,7 @@ import {DraftInfo} from '../../../utils/comment-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {Modifier} from '../../../utils/dom-util';
 import {SinonStub} from 'sinon';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 
 suite('gr-comment tests', () => {
   let element: GrComment;

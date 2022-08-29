@@ -7,7 +7,7 @@ import '../../../test/common-test-setup-karma';
 import './gr-email-editor';
 import {GrEmailEditor} from './gr-email-editor';
 import {spyRestApi, stubRestApi} from '../../../test/test-utils';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 
 suite('gr-email-editor tests', () => {
   let element: GrEmailEditor;

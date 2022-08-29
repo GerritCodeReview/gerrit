@@ -12,7 +12,7 @@ import {createDefaultDiffPrefs} from '../../../constants/constants';
 import {IronInputElement} from '@polymer/iron-input';
 import {GrSelect} from '../gr-select/gr-select';
 import {ParsedJSON} from '../../../types/common';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 
 suite('gr-diff-preferences tests', () => {
   let element: GrDiffPreferences;

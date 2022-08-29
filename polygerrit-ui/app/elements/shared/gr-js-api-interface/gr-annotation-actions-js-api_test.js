@@ -5,6 +5,7 @@
  */
 import '../../../test/common-test-setup-karma.js';
 import '../../change/gr-change-actions/gr-change-actions.js';
+import {assert} from '@open-wc/testing';
 
 suite('gr-annotation-actions-js-api tests', () => {
   let annotationActions;

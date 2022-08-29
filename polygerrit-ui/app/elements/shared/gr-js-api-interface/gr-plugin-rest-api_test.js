@@ -7,6 +7,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-js-api-interface.js';
 import {GrPluginRestApi} from './gr-plugin-rest-api.js';
 import {stubRestApi} from '../../../test/test-utils.js';
+import {assert} from '@open-wc/testing';
 
 suite('gr-plugin-rest-api tests', () => {
   let instance;

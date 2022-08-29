@@ -14,6 +14,7 @@ import {
   formatDate,
   wasYesterday,
 } from './date-util';
+import {assert} from '@open-wc/testing';
 
 suite('date-util tests', () => {
   suite('parseDate', () => {

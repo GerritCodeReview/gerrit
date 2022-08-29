@@ -29,6 +29,7 @@ import {
   Timestamp,
   UrlEncodedCommentId,
 } from '../types/common';
+import {assert} from '@open-wc/testing';
 
 suite('comment-util', () => {
   test('isUnresolved', () => {

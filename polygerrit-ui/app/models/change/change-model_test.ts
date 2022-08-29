@@ -30,6 +30,7 @@ import {getAppContext} from '../../services/app-context';
 import {GerritView} from '../../services/router/router-model';
 import {ChangeState, LoadingStatus, updateChangeWithEdit} from './change-model';
 import {ChangeModel} from './change-model';
+import {assert} from '@open-wc/testing';
 
 suite('updateChangeWithEdit() tests', () => {
   test('undefined change', async () => {

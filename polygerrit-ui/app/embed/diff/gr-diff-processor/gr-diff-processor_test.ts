@@ -9,6 +9,7 @@ import {GrDiffLineType, FILE, GrDiffLine} from '../gr-diff/gr-diff-line';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {GrDiffProcessor, State} from './gr-diff-processor';
 import {DiffContent} from '../../../types/diff';
+import {assert} from '@open-wc/testing';
 
 suite('gr-diff-processor tests', () => {
   const WHOLE_FILE = -1;

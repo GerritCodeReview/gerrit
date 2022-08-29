@@ -3,6 +3,7 @@
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import {assert} from '@open-wc/testing';
 import {AdminPluginApi} from '../../../api/admin';
 import {PluginApi} from '../../../api/plugin';
 import '../../../test/common-test-setup-karma';

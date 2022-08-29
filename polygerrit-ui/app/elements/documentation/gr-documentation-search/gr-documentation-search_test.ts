@@ -9,7 +9,7 @@ import {GrDocumentationSearch} from './gr-documentation-search';
 import {page} from '../../../utils/page-wrapper-utils';
 import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {DocResult} from '../../../types/common';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 
 function documentationGenerator(counter: number) {
   return {

@@ -14,6 +14,7 @@ import {DiffPreferencesInfo} from '../../../api/diff';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
 import {createDiff} from '../../../test/test-data-generators';
 import {queryAndAssert} from '../../../utils/common-util';
+import {assert} from '@open-wc/testing';
 
 suite('GrDiffBuilderUnified tests', () => {
   let prefs: DiffPreferencesInfo;

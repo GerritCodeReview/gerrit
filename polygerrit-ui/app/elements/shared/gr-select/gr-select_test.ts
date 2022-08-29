@@ -5,7 +5,7 @@
  */
 import '../../../test/common-test-setup-karma';
 import './gr-select';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 import {GrSelect} from './gr-select';
 
 suite('gr-select tests', () => {

@@ -23,7 +23,7 @@ import {
   RepoName,
 } from '../../../api/rest-api.js';
 import {tap} from '@polymer/iron-test-helpers/mock-interactions';
-import {fixture, html, waitUntil} from '@open-wc/testing';
+import {fixture, html, waitUntil, assert} from '@open-wc/testing';
 import {GerritView} from '../../../services/router/router-model.js';
 
 const CHANGE_ID = 'IcA3dAB3edAB9f60B8dcdA6ef71A75980e4B7127';

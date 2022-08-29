@@ -8,7 +8,7 @@ import './gr-linked-chip';
 import {GrLinkedChip} from './gr-linked-chip';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {queryAndAssert} from '../../../test/test-utils';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 
 suite('gr-linked-chip tests', () => {
   let element: GrLinkedChip;

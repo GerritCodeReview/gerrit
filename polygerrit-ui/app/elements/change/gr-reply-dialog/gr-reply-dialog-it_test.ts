@@ -12,7 +12,7 @@ import {
 } from '../../../test/test-utils';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {GrReplyDialog} from './gr-reply-dialog';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 import {
   AccountId,
   NumericChangeId,

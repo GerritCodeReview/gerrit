@@ -3,6 +3,7 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import {assert} from '@open-wc/testing';
 import '../../../test/common-test-setup-karma';
 import './gr-lib-loader';
 import {GrLibLoader} from './gr-lib-loader';

@@ -6,7 +6,7 @@
 import '../../../test/common-test-setup-karma';
 import './gr-tooltip-content';
 import {GrTooltipContent} from './gr-tooltip-content';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 import {GrTooltip} from '../gr-tooltip/gr-tooltip';
 import {query} from '../../../test/test-utils';
 

@@ -21,7 +21,7 @@ import {
 } from '../../../test/test-utils';
 import {ChangeInfo, NumericChangeId, LabelInfo} from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
-import {fixture, waitUntil} from '@open-wc/testing';
+import {fixture, waitUntil, assert} from '@open-wc/testing';
 import {wrapInProvider} from '../../../models/di-provider-element';
 import {html} from 'lit';
 import {SinonStubbedMember} from 'sinon';

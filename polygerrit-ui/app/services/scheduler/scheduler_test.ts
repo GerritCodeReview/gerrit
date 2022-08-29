@@ -3,6 +3,7 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import {assert} from '@open-wc/testing';
 import '../../test/common-test-setup-karma.js';
 import {assertFails} from '../../test/test-utils.js';
 import {BaseScheduler} from './scheduler';

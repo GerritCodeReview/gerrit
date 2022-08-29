@@ -3,6 +3,7 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import {assert} from '@open-wc/testing';
 import {AppContext} from '../services/app-context';
 import '../test/common-test-setup-karma';
 import {createDiffAppContext} from './gr-diff-app-context-init';

@@ -9,7 +9,7 @@ import './gr-change-status';
 import {ChangeStates, GrChangeStatus, WIP_TOOLTIP} from './gr-change-status';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {MERGE_CONFLICT_TOOLTIP} from './gr-change-status';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 import {queryAndAssert} from '../../../test/test-utils';
 
 const PRIVATE_TOOLTIP =

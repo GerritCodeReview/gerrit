@@ -14,7 +14,7 @@ import {
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {AccountId, EmailAddress} from '../../../types/common';
 import './gr-reviewer-list';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 
 suite('gr-reviewer-list tests', () => {
   let element: GrReviewerList;

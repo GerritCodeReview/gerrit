@@ -18,6 +18,7 @@ import {
 } from './url-util';
 import {getAppContext, AppContext} from '../services/app-context';
 import {stubRestApi} from '../test/test-utils';
+import {assert} from '@open-wc/testing';
 
 suite('url-util tests', () => {
   let appContext: AppContext;

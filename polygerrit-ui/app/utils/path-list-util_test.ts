@@ -14,6 +14,7 @@ import {
 } from './path-list-util';
 import {FileInfo} from '../api/rest-api';
 import {hasOwnProperty} from './common-util';
+import {assert} from '@open-wc/testing';
 
 suite('path-list-utl tests', () => {
   test('special sort', () => {

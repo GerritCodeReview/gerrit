@@ -3,6 +3,7 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import {assert} from '@open-wc/testing';
 import {fakeRun1} from '../../models/checks/checks-fakes';
 import {RunResult} from '../../models/checks/checks-model';
 import '../../test/common-test-setup-karma';

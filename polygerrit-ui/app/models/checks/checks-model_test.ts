@@ -19,6 +19,7 @@ import {createParsedChange} from '../../test/test-data-generators';
 import {waitUntil, waitUntilCalled} from '../../test/test-utils';
 import {ParsedChangeInfo} from '../../types/types';
 import {changeModelToken} from '../change/change-model';
+import {assert} from '@open-wc/testing';
 
 const PLUGIN_NAME = 'test-plugin';
 

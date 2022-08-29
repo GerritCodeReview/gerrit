@@ -44,7 +44,7 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrSelect} from '../../shared/gr-select/gr-select';
 import {GrTextarea} from '../../shared/gr-textarea/gr-textarea';
 import {IronInputElement} from '@polymer/iron-input/iron-input';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 
 suite('gr-repo tests', () => {
   let element: GrRepo;

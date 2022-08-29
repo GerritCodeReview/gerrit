@@ -14,7 +14,7 @@ import {
 } from '../../../test/test-data-generators';
 import {CommitId, RepoName} from '../../../types/common';
 import {GrRouter} from '../../core/gr-router/gr-router';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 
 suite('gr-commit-info tests', () => {
   let element: GrCommitInfo;

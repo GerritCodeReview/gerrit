@@ -33,6 +33,7 @@ import {
   createGroupInfo,
   createServerInfo,
 } from '../test/test-data-generators';
+import {assert} from '@open-wc/testing';
 
 const EMPTY = {};
 const ERNIE = {name: 'Ernie'};

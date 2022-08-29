@@ -9,7 +9,7 @@ import {GrDiffSelection} from './gr-diff-selection';
 import {createDiff} from '../../../test/test-data-generators';
 import {DiffInfo, Side} from '../../../api/diff';
 import {GrFormattedText} from '../../../elements/shared/gr-formatted-text/gr-formatted-text';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 import {mouseDown} from '../../../test/test-utils';
 
 const diffTableTemplate = html`

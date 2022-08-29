@@ -6,7 +6,7 @@
 import '../../../test/common-test-setup-karma';
 import './gr-account-entry';
 import {GrAccountEntry} from './gr-account-entry';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 import {queryAndAssert, waitUntil} from '../../../test/test-utils';
 import {GrAutocomplete} from '../gr-autocomplete/gr-autocomplete';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';

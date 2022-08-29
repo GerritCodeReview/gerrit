@@ -10,6 +10,7 @@ import {
   GrDiffGroupType,
   hideInContextControl,
 } from './gr-diff-group';
+import {assert} from '@open-wc/testing';
 
 suite('gr-diff-group tests', () => {
   test('delta line pairs', () => {

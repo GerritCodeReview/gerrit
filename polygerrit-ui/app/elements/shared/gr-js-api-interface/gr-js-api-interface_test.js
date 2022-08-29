@@ -12,6 +12,7 @@ import {getPluginLoader} from './gr-plugin-loader.js';
 import {stubBaseUrl} from '../../../test/test-utils.js';
 import {stubRestApi} from '../../../test/test-utils.js';
 import {getAppContext} from '../../../services/app-context.js';
+import {assert} from '@open-wc/testing';
 
 suite('GrJsApiInterface tests', () => {
   let element;

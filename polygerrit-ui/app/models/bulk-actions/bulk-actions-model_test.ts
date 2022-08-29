@@ -29,6 +29,7 @@ import {mockPromise} from '../../test/test-utils';
 import {SinonStubbedMember} from 'sinon';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {ReviewInput} from '../../types/common';
+import {assert} from '@open-wc/testing';
 
 suite('bulk actions model test', () => {
   let bulkActionsModel: BulkActionsModel;

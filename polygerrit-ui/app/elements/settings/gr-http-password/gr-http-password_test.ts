@@ -15,7 +15,7 @@ import {
 import {AccountDetailInfo, ServerInfo} from '../../../types/common';
 import {queryAndAssert} from '../../../test/test-utils';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 
 suite('gr-http-password tests', () => {
   let element: GrHttpPassword;

@@ -6,7 +6,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-cursor-manager.js';
 // eslint-disable-next-line import/named
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 import {AbortStop, CursorMoveResult} from '../../../api/core.js';
 import {GrCursorManager} from './gr-cursor-manager.js';
 

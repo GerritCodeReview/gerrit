@@ -6,6 +6,7 @@
 import '../../test/common-test-setup-karma.js';
 import {mockPromise} from '../../test/test-utils.js';
 import {EventEmitter} from './gr-event-interface_impl.js';
+import {assert} from '@open-wc/testing';
 
 suite('gr-event-interface tests', () => {
   let gerrit;

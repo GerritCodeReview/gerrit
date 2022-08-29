@@ -9,7 +9,7 @@ import {
   createAccountWithId,
   createServerInfo,
 } from '../../../test/test-data-generators';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 import {stubRestApi} from '../../../test/test-utils';
 import {LitElement} from 'lit';
 

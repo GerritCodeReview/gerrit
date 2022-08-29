@@ -6,7 +6,7 @@
 import '../../../test/common-test-setup-karma';
 import './gr-overlay';
 import {GrOverlay} from './gr-overlay';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 
 suite('gr-overlay tests', () => {
   let element: GrOverlay;

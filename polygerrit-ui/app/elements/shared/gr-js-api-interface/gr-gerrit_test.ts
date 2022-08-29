@@ -15,6 +15,7 @@ import {getAppContext} from '../../../services/app-context';
 import {GrJsApiInterface} from './gr-js-api-interface-element';
 import {SinonFakeTimers} from 'sinon';
 import {Timestamp} from '../../../api/rest-api';
+import {assert} from '@open-wc/testing';
 
 suite('gr-gerrit tests', () => {
   let element: GrJsApiInterface;

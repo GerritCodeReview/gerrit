@@ -3,7 +3,7 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import '../../../test/common-test-setup-karma';
 import {stubFlags} from '../../../test/test-utils';

@@ -11,7 +11,7 @@ import {ConfigParameterInfoType} from '../../../constants/constants';
 import {queryAndAssert} from '../../../test/test-utils';
 import {GrPluginConfigArrayEditor} from '../gr-plugin-config-array-editor/gr-plugin-config-array-editor';
 import {PaperToggleButtonElement} from '@polymer/paper-toggle-button/paper-toggle-button';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 
 suite('gr-repo-plugin-config tests', () => {
   let element: GrRepoPluginConfig;

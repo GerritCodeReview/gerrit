@@ -24,7 +24,7 @@ import {createChange, createRevision} from '../../../test/test-data-generators';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog.js';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {ProgressStatus} from '../../../constants/constants';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 
 const CHERRY_PICK_TYPES = {
   SINGLE_CHANGE: 1,

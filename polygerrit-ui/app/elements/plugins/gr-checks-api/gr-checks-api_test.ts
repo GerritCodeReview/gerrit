@@ -7,6 +7,7 @@ import '../../../test/common-test-setup-karma';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {PluginApi} from '../../../api/plugin';
 import {ChecksPluginApi} from '../../../api/checks';
+import {assert} from '@open-wc/testing';
 
 suite('gr-settings-api tests', () => {
   let checksApi: ChecksPluginApi | undefined;

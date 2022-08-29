@@ -6,7 +6,7 @@
 import '../../../test/common-test-setup-karma';
 import './gr-file-status';
 import {GrFileStatus} from './gr-file-status';
-import {fixture} from '@open-wc/testing';
+import {fixture, assert} from '@open-wc/testing';
 import {FileInfoStatus} from '../../../api/rest-api';
 
 suite('gr-file-status tests', () => {

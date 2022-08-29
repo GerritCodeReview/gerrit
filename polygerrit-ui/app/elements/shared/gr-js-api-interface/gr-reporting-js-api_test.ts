@@ -10,6 +10,7 @@ import {stubRestApi} from '../../../test/test-utils.js';
 import {PluginApi} from '../../../api/plugin.js';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting.js';
 import {ReportingPluginApi} from '../../../api/reporting.js';
+import {assert} from '@open-wc/testing';
 
 suite('gr-reporting-js-api tests', () => {
   let plugin: PluginApi;

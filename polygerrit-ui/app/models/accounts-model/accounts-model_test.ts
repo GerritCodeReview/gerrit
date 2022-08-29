@@ -9,6 +9,7 @@ import {EmailAddress} from '../../api/rest-api';
 import {getAppContext} from '../../services/app-context';
 import {stubRestApi} from '../../test/test-utils';
 import {AccountsModel} from './accounts-model';
+import {assert} from '@open-wc/testing';
 
 suite('accounts-model tests', () => {
   let model: AccountsModel;

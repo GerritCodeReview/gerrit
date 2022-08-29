@@ -49,6 +49,7 @@ export enum Shortcut {
 
   OPEN_REPLY_DIALOG = 'OPEN_REPLY_DIALOG',
   OPEN_DOWNLOAD_DIALOG = 'OPEN_DOWNLOAD_DIALOG',
+  OPEN_COPY_LINKS_DROPDOWN = 'OPEN_COPY_LINKS_DROPDOWN',
   EXPAND_ALL_MESSAGES = 'EXPAND_ALL_MESSAGES',
   COLLAPSE_ALL_MESSAGES = 'COLLAPSE_ALL_MESSAGES',
   UP_TO_DASHBOARD = 'UP_TO_DASHBOARD',
@@ -220,6 +221,12 @@ export function createShortCutConfig(flagsService: FlagsService) {
     ShortcutSection.ACTIONS,
     'Open download overlay',
     {key: 'd'}
+  );
+  describe(
+    Shortcut.OPEN_COPY_LINKS_DROPDOWN,
+    ShortcutSection.ACTIONS,
+    'Open link dialog',
+    {key: 'l'}
   );
   describe(
     Shortcut.EXPAND_ALL_MESSAGES,

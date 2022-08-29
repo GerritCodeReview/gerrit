@@ -11,7 +11,7 @@ import {HookApi, PluginElement} from '../../../api/hook';
 import {queryAndAssert} from '../../../test/test-utils';
 import {LitElement, html} from 'lit';
 import {customElement} from 'lit/decorators.js';
-import {fixture} from '@open-wc/testing';
+import {fixture, assert} from '@open-wc/testing';
 
 @customElement('gr-user-test-popup')
 class GrUserTestPopupElement extends LitElement {

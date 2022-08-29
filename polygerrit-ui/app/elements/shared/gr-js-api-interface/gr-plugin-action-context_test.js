@@ -8,6 +8,7 @@ import './gr-js-api-interface.js';
 import {GrPluginActionContext} from './gr-plugin-action-context.js';
 import {addListenerForTest} from '../../../test/test-utils.js';
 import {EventType} from '../../../types/events.js';
+import {assert} from '@open-wc/testing';
 
 suite('gr-plugin-action-context tests', () => {
   let instance;

@@ -36,6 +36,7 @@ import {
   UrlEncodedCommentId,
 } from '../../../types/common';
 import {stubRestApi} from '../../../test/test-utils';
+import {assert} from '@open-wc/testing';
 
 suite('ChangeComments tests', () => {
   let changeComments: ChangeComments;

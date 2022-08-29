@@ -11,7 +11,7 @@ import {
   setSanitizeDOMValue,
 } from '@polymer/polymer/lib/utils/settings.js';
 // eslint-disable-next-line import/named
-import {fixture, html} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
 
 suite('annotation', () => {
   let str;

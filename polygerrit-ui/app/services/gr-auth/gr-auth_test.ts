@@ -10,6 +10,7 @@ import {stubBaseUrl} from '../../test/test-utils';
 import {EventEmitterService} from '../gr-event-interface/gr-event-interface';
 import {SinonFakeTimers} from 'sinon';
 import {AuthRequestInit, DefaultAuthOptions} from './gr-auth';
+import {assert} from '@open-wc/testing';
 
 suite('gr-auth', () => {
   let auth: Auth;

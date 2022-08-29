@@ -28,9 +28,7 @@ import {
 } from './test-utils';
 import {safeTypesBridge} from '../utils/safe-types-util';
 import {initGlobalVariables} from '../elements/gr-app-global-var-init';
-import 'chai/chai';
-import {chaiDomDiff} from '@open-wc/semantic-dom-diff';
-import {fixtureCleanup} from '@open-wc/testing';
+import {assert, fixtureCleanup} from '@open-wc/testing';
 import {
   _testOnly_defaultResinReportHandler,
   installPolymerResin,
@@ -46,15 +44,10 @@ import {
 
 declare global {
   interface Window {
-    assert: typeof chai.assert;
     sinon: typeof sinon;
-    chai: typeof chai;
   }
-  let assert: typeof chai.assert;
   let sinon: typeof sinon;
 }
-window.assert = chai.assert;
-window.chai.use(chaiDomDiff);
 
 window.sinon = sinon;
 

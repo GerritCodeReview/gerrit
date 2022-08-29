@@ -6,7 +6,7 @@
 import '../../../test/common-test-setup-karma.js';
 import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
 // eslint-disable-next-line import/named
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 
 Polymer({
   is: 'gr-attribute-helper-some-element',

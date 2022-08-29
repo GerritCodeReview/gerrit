@@ -9,7 +9,7 @@ import {GrCreateChangeHelp} from './gr-create-change-help';
 import {mockPromise, queryAndAssert} from '../../../test/test-utils';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 
 suite('gr-create-change-help tests', () => {
   let element: GrCreateChangeHelp;

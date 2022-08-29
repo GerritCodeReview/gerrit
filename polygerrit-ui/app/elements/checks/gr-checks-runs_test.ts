@@ -7,7 +7,7 @@ import '../../test/common-test-setup-karma';
 import './gr-checks-runs';
 import {GrChecksRuns} from './gr-checks-runs';
 import {html} from 'lit';
-import {fixture} from '@open-wc/testing';
+import {fixture, assert} from '@open-wc/testing';
 import {checksModelToken} from '../../models/checks/checks-model';
 import {setAllFakeRuns} from '../../models/checks/checks-fakes';
 import {resolve} from '../../models/dependency';

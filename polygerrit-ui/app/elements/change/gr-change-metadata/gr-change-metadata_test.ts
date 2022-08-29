@@ -57,7 +57,7 @@ import {GrLinkedChip} from '../../shared/gr-linked-chip/gr-linked-chip';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrRouter} from '../../core/gr-router/gr-router';
 import {nothing} from 'lit';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 import {EventType} from '../../../types/events';
 
 suite('gr-change-metadata tests', () => {

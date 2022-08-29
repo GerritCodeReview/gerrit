@@ -14,6 +14,7 @@ import {SinonFakeTimers, SinonSpy} from 'sinon';
 import {Binding, Key, Modifier} from '../../utils/dom-util';
 import {getAppContext} from '../app-context';
 import {pressKey} from '../../test/test-utils';
+import {assert} from '@open-wc/testing';
 
 const KEY_A: Binding = {key: 'a'};
 

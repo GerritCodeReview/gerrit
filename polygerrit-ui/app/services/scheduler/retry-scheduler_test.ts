@@ -9,6 +9,7 @@ import {Scheduler} from './scheduler';
 import {RetryScheduler, RetryError} from './retry-scheduler';
 import {FakeScheduler} from './fake-scheduler';
 import {SinonFakeTimers} from 'sinon';
+import {assert} from '@open-wc/testing';
 
 suite('retry scheduler', () => {
   let clock: SinonFakeTimers;

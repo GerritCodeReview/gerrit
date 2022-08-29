@@ -9,6 +9,7 @@ import './gr-js-api-interface';
 import {GrPluginEndpoints} from './gr-plugin-endpoints';
 import {PluginApi} from '../../../api/plugin';
 import {HookApi, HookCallback, PluginElement} from '../../../api/hook';
+import {assert} from '@open-wc/testing';
 
 export class MockHook<T extends PluginElement> implements HookApi<T> {
   handleInstanceDetached(_: T) {}

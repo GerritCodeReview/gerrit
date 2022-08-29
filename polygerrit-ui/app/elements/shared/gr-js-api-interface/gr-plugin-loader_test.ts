@@ -12,6 +12,7 @@ import {PluginApi} from '../../../api/plugin';
 import {SinonFakeTimers} from 'sinon';
 import {Timestamp} from '../../../api/rest-api';
 import {EventType} from '../../../types/events';
+import {assert} from '@open-wc/testing';
 
 suite('gr-plugin-loader tests', () => {
   let plugin: PluginApi;

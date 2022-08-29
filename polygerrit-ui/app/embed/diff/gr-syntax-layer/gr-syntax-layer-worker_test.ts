@@ -3,6 +3,7 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import {assert} from '@open-wc/testing';
 import {DiffInfo, GrDiffLineType, Side} from '../../../api/diff';
 import '../../../test/common-test-setup-karma';
 import {mockPromise, stubHighlightService} from '../../../test/test-utils';

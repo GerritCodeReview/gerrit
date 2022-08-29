@@ -42,6 +42,7 @@ import {
   GenerateUrlChangeViewParameters,
   RepoDetailView,
 } from '../../../utils/router-util';
+import {assert} from '@open-wc/testing';
 
 suite('gr-router tests', () => {
   let router: GrRouter;

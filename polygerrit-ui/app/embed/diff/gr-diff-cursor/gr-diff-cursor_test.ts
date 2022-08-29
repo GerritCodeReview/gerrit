@@ -6,7 +6,7 @@
 import '../../../test/common-test-setup-karma';
 import '../gr-diff/gr-diff';
 import './gr-diff-cursor';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 import {mockPromise, queryAll, queryAndAssert} from '../../../test/test-utils';
 import {createDiff} from '../../../test/test-data-generators';
 import {createDefaultDiffPrefs} from '../../../constants/constants';

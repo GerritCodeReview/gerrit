@@ -30,7 +30,7 @@ import {
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {assertIsDefined} from '../../../utils/common-util';
 import {html} from 'lit';
-import {fixture} from '@open-wc/testing';
+import {fixture, assert} from '@open-wc/testing';
 
 const author = {
   _account_id: 42 as AccountId,

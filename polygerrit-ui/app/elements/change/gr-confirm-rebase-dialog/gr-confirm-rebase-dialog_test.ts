@@ -10,7 +10,7 @@ import {queryAndAssert, stubRestApi, waitUntil} from '../../../test/test-utils';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {NumericChangeId, BranchName} from '../../../types/common';
 import {createChangeViewChange} from '../../../test/test-data-generators';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 
 suite('gr-confirm-rebase-dialog tests', () => {
   let element: GrConfirmRebaseDialog;

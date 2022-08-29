@@ -10,7 +10,7 @@ import {
   SectionView,
   ShortcutSection,
 } from '../../../services/shortcuts/shortcuts-service';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 
 const x = ['x'];
 const ctrlX = ['Ctrl', 'x'];

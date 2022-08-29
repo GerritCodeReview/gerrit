@@ -15,6 +15,7 @@ import {
 import {getReason, hasAttention} from './attention-set-util';
 import {DefaultDisplayNameConfig} from '../api/rest-api';
 import {AccountsVisibility} from '../constants/constants';
+import {assert} from '@open-wc/testing';
 
 const KERMIT: AccountInfo = {
   email: 'kermit@gmail.com' as EmailAddress,

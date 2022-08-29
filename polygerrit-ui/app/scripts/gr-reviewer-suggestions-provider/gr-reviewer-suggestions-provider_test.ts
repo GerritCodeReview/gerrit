@@ -21,6 +21,7 @@ import {
   createChange,
   createServerInfo,
 } from '../../test/test-data-generators';
+import {assert} from '@open-wc/testing';
 
 const accounts: AccountDetailInfo[] = [
   createAccountDetailWithIdNameAndEmail(1),

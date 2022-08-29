@@ -21,6 +21,7 @@ import {getAppContext} from '../../services/app-context';
 import {GerritView} from '../../services/router/router-model';
 import {PathToCommentsInfoMap} from '../../types/common';
 import {changeModelToken} from '../change/change-model';
+import {assert} from '@open-wc/testing';
 
 suite('comments model tests', () => {
   test('updateStateDeleteDraft', () => {

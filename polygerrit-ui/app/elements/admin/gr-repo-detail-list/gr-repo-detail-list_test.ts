@@ -36,7 +36,7 @@ import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {GrListView} from '../../shared/gr-list-view/gr-list-view';
 import {SHOWN_ITEMS_COUNT} from '../../../constants/constants';
 import {RepoDetailView} from '../../../utils/router-util';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 
 function branchGenerator(counter: number) {
   return {

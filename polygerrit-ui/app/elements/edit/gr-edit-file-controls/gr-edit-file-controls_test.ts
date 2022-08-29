@@ -10,7 +10,7 @@ import {GrEditConstants} from '../gr-edit-constants';
 import {queryAndAssert} from '../../../test/test-utils';
 import {GrDropdown} from '../../shared/gr-dropdown/gr-dropdown';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 
 suite('gr-edit-file-controls tests', () => {
   let element: GrEditFileControls;

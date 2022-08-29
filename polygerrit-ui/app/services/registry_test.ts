@@ -5,6 +5,7 @@
  */
 import {create, Finalizable, Registry} from './registry';
 import '../test/common-test-setup-karma.js';
+import {assert} from '@open-wc/testing';
 
 class Foo implements Finalizable {
   constructor(private readonly final: string[]) {}

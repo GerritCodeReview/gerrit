@@ -19,6 +19,7 @@ import {Key, Modifier} from '../utils/dom-util';
 import {Observable} from 'rxjs';
 import {filter, take, timeout} from 'rxjs/operators';
 import {HighlightService} from '../services/highlight/highlight-service';
+import {assert} from '@open-wc/testing';
 export {query, queryAll, queryAndAssert} from '../utils/common-util';
 
 export interface MockPromise<T> extends Promise<T> {

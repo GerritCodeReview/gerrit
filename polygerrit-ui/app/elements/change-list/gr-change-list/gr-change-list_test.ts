@@ -30,7 +30,7 @@ import {
 import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
 import {GrChangeListSection} from '../gr-change-list-section/gr-change-list-section';
 import {getAppContext} from '../../../services/app-context';
-import {fixture} from '@open-wc/testing';
+import {fixture, assert} from '@open-wc/testing';
 import {wrapInProvider} from '../../../models/di-provider-element';
 import {
   ShortcutsService,

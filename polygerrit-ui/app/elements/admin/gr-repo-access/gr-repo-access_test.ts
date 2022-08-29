@@ -31,7 +31,7 @@ import {
 import {GrAccessSection} from '../gr-access-section/gr-access-section';
 import {GrPermission} from '../gr-permission/gr-permission';
 import {createChange} from '../../../test/test-data-generators';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 
 suite('gr-repo-access tests', () => {
   let element: GrRepoAccess;

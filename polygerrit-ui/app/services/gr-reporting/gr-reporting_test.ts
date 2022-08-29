@@ -12,6 +12,7 @@ import {
 import {getAppContext} from '../app-context';
 import {Deduping} from '../../api/reporting';
 import {SinonFakeTimers} from 'sinon';
+import {assert} from '@open-wc/testing';
 
 suite('gr-reporting tests', () => {
   // We have to type as any because we access

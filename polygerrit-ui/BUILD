@@ -40,7 +40,6 @@ sh_binary(
     srcs = ["@ui_dev_npm//:node_modules/karma/bin/karma"],
     data = [
         "@ui_dev_npm//@open-wc/karma-esm",
-        "@ui_dev_npm//chai",
         "@ui_dev_npm//karma-chrome-launcher",
         "@ui_dev_npm//karma-mocha",
         "@ui_dev_npm//karma-mocha-reporter",

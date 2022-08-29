@@ -5,7 +5,7 @@
  */
 import '../../../test/common-test-setup-karma';
 import './gr-account-dropdown';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 import {GrAccountDropdown} from './gr-account-dropdown';
 import {AccountInfo} from '../../../types/common';
 import {createServerInfo} from '../../../test/test-data-generators';

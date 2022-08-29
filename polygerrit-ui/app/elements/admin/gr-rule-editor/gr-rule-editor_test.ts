@@ -11,7 +11,7 @@ import {query, queryAll, queryAndAssert} from '../../../test/test-utils';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrSelect} from '../../shared/gr-select/gr-select';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 import {EditablePermissionRuleInfo} from '../gr-repo-access/gr-repo-access-interfaces';
 import {PermissionAction} from '../../../constants/constants';
 

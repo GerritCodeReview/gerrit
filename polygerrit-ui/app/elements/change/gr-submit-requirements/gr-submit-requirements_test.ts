@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup-karma';
-import {fixture} from '@open-wc/testing';
+import {fixture, assert} from '@open-wc/testing';
 import {html} from 'lit';
 import './gr-submit-requirements';
 import {GrSubmitRequirements} from './gr-submit-requirements';

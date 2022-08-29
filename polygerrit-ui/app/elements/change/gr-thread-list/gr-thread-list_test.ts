@@ -38,7 +38,7 @@ import {CommentThread, isDraft} from '../../../utils/comment-util';
 import {query, queryAndAssert} from '../../../utils/common-util';
 import {GrAccountLabel} from '../../shared/gr-account-label/gr-account-label';
 import {GrDropdownList} from '../../shared/gr-dropdown-list/gr-dropdown-list';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 
 suite('gr-thread-list tests', () => {
   let element: GrThreadList;

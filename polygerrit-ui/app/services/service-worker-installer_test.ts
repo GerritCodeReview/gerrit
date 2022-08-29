@@ -6,6 +6,7 @@
 import {getAppContext} from './app-context';
 import '../test/common-test-setup-karma';
 import {ServiceWorkerInstaller} from './service-worker-installer';
+import {assert} from '@open-wc/testing';
 
 suite('service woerker installler tests', () => {
   let serviceWorkerInstaller: ServiceWorkerInstaller;

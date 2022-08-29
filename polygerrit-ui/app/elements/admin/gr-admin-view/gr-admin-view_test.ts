@@ -21,7 +21,7 @@ import {GroupId, GroupName, RepoName, Timestamp} from '../../../types/common';
 import {GrDropdownList} from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {GrGroup} from '../gr-group/gr-group';
 import {GroupDetailView, RepoDetailView} from '../../../utils/router-util';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 
 function createAdminCapabilities() {
   return {

@@ -6,6 +6,7 @@
 import '../../../test/common-test-setup-karma';
 import {CoverageRange, CoverageType, Side} from '../../../api/diff';
 import {GrCoverageLayer} from './gr-coverage-layer';
+import {assert} from '@open-wc/testing';
 
 suite('gr-coverage-layer', () => {
   let layer: GrCoverageLayer;

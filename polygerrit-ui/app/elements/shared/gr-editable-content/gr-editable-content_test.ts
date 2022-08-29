@@ -9,7 +9,7 @@ import {GrEditableContent} from './gr-editable-content';
 import {query, queryAndAssert, stubStorage} from '../../../test/test-utils';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {GrButton} from '../gr-button/gr-button';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 import {EventType} from '../../../types/events';
 
 suite('gr-editable-content tests', () => {

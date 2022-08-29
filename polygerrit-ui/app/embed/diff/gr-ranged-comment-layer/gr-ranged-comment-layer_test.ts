@@ -14,6 +14,7 @@ import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
 import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
 import {Side} from '../../../api/diff';
 import {SinonStub} from 'sinon';
+import {assert} from '@open-wc/testing';
 
 const rangeA: CommentRangeLayer = {
   side: Side.LEFT,

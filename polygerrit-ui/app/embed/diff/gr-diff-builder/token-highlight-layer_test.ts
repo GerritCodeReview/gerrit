@@ -12,6 +12,7 @@ import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
 import {html, render} from 'lit';
 import {_testOnly_allTasks} from '../../../utils/async-util';
 import {queryAndAssert} from '../../../test/test-utils';
+import {assert} from '@open-wc/testing';
 
 // MockInteractions.makeMouseEvent always sets buttons to 1.
 function dispatchMouseEvent(

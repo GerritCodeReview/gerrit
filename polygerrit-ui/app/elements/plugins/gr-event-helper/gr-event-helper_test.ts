@@ -5,7 +5,7 @@
  */
 import '../../../test/common-test-setup-karma';
 // eslint-disable-next-line import/named
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 import {PluginApi} from '../../../api/plugin';
 import {EventHelperPluginApi} from '../../../api/event-helper';
 

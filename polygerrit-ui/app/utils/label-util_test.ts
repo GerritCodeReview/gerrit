@@ -47,6 +47,7 @@ import {
   LabelNameToInfoMap,
   SubmitRequirementExpressionInfoStatus,
 } from '../api/rest-api';
+import {assert} from '@open-wc/testing';
 
 const VALUES_0 = {
   '0': 'neutral',

@@ -6,6 +6,7 @@
 import '../../../test/common-test-setup-karma';
 import './gr-js-api-interface';
 import {getPluginNameFromUrl} from './gr-api-utils';
+import {assert} from '@open-wc/testing';
 
 suite('gr-api-utils tests', () => {
   suite('test getPluginNameFromUrl', () => {

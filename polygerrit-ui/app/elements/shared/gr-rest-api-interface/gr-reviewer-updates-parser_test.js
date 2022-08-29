@@ -6,6 +6,7 @@
 import '../../../test/common-test-setup-karma.js';
 import {GrReviewerUpdatesParser} from './gr-reviewer-updates-parser.js';
 import {parseDate} from '../../../utils/date-util.js';
+import {assert} from '@open-wc/testing';
 
 suite('gr-reviewer-updates-parser tests', () => {
   let instance;

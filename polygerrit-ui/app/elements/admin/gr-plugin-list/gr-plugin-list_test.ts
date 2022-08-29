@@ -19,7 +19,7 @@ import {AppElementAdminParams} from '../../gr-app-types';
 import {GerritView} from '../../../services/router/router-model';
 import {PageErrorEvent} from '../../../types/events';
 import {SHOWN_ITEMS_COUNT} from '../../../constants/constants';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 
 function pluginGenerator(counter: number) {
   const plugin: PluginInfo = {

@@ -54,7 +54,7 @@ import {RunResult} from '../../../models/checks/checks-model';
 import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
 import {assertIsDefined} from '../../../utils/common-util';
 import {GrAnnotationActionsInterface} from '../../shared/gr-js-api-interface/gr-annotation-actions-js-api';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 import {EventType} from '../../../types/events';
 
 suite('gr-diff-host tests', () => {

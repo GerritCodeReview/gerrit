@@ -19,7 +19,7 @@ import {GrListView} from '../../shared/gr-list-view/gr-list-view';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {SHOWN_ITEMS_COUNT} from '../../../constants/constants';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 
 function createGroup(name: string, counter: number) {
   return {

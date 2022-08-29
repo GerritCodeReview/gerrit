@@ -23,6 +23,7 @@ import {
   createGroupInfo,
   createServerInfo,
 } from '../test/test-data-generators';
+import {assert} from '@open-wc/testing';
 
 suite('display-name-utils tests', () => {
   const config: ServerInfo = {

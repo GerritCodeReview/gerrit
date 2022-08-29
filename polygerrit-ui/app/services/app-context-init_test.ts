@@ -7,6 +7,7 @@ import '../test/common-test-setup-karma.js';
 import {AppContext} from './app-context.js';
 import {Finalizable} from './registry';
 import {createTestAppContext} from '../test/test-app-context-init.js';
+import {assert} from '@open-wc/testing';
 
 suite('app context initializer tests', () => {
   let appContext: AppContext & Finalizable;

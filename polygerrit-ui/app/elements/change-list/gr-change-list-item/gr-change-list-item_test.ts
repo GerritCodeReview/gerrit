@@ -3,7 +3,7 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {fixture} from '@open-wc/testing';
+import {fixture, assert} from '@open-wc/testing';
 import {html} from 'lit';
 import {
   SubmitRequirementResultInfo,

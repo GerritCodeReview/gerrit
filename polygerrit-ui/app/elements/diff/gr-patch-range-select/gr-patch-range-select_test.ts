@@ -35,7 +35,7 @@ import {
 } from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {queryAndAssert} from '../../../test/test-utils';
 import {fire} from '../../../utils/event-util';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 
 type RevIdToRevisionInfo = {
   [revisionId: string]: RevisionInfo | EditRevisionInfo;

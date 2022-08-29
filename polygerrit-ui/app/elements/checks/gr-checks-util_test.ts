@@ -7,6 +7,7 @@ import '../../test/common-test-setup-karma';
 import {createRunResult} from '../../test/test-data-generators';
 import {matches} from './gr-checks-util';
 import {RunResult} from '../../models/checks/checks-model';
+import {assert} from '@open-wc/testing';
 
 suite('gr-checks-util test', () => {
   test('regexp filter matching results', () => {

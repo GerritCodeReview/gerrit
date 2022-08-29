@@ -8,7 +8,7 @@ import './gr-confirm-abandon-dialog';
 import {GrConfirmAbandonDialog} from './gr-confirm-abandon-dialog';
 import {queryAndAssert} from '../../../test/test-utils';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
-import {fixture, html} from '@open-wc/testing';
+import {fixture, html, assert} from '@open-wc/testing';
 
 suite('gr-confirm-abandon-dialog tests', () => {
   let element: GrConfirmAbandonDialog;

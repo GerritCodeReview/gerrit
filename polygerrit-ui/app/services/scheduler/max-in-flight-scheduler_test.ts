@@ -8,6 +8,7 @@ import {assertFails} from '../../test/test-utils.js';
 import {Scheduler} from './scheduler';
 import {MaxInFlightScheduler} from './max-in-flight-scheduler';
 import {FakeScheduler} from './fake-scheduler';
+import {assert} from '@open-wc/testing';
 
 suite('max-in-flight scheduler', () => {
   let fakeScheduler: FakeScheduler<number>;

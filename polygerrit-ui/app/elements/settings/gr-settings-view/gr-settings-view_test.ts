@@ -26,7 +26,6 @@ import {
   AppTheme,
   TimeFormat,
 } from '../../../constants/constants';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {
   createAccountDetailWithId,
   createPreferences,
@@ -635,9 +634,9 @@ suite('gr-settings-view tests', () => {
     );
 
     const publishOnPush = valueOf('Publish comments on push', 'preferences')!
-      .firstElementChild!;
+      .firstElementChild! as HTMLSpanElement;
 
-    MockInteractions.tap(publishOnPush);
+    publishOnPush.click();
 
     assert.isTrue(element.prefsChanged);
 
@@ -657,8 +656,8 @@ suite('gr-settings-view tests', () => {
     const publishCommentsOnPush = valueOf(
       'Publish comments on push',
       'preferences'
-    )!.firstElementChild!;
-    MockInteractions.tap(publishCommentsOnPush);
+    )!.firstElementChild! as HTMLSpanElement;
+    publishCommentsOnPush.click();
 
     assert.isTrue(element.prefsChanged);
 
@@ -676,8 +675,8 @@ suite('gr-settings-view tests', () => {
     const newChangesWorkInProgress = valueOf(
       'Set new changes to "work in progress" by default',
       'preferences'
-    )!.firstElementChild!;
-    MockInteractions.tap(newChangesWorkInProgress);
+    )!.firstElementChild! as HTMLSpanElement;
+    newChangesWorkInProgress.click();
 
     assert.isTrue(element.prefsChanged);
 

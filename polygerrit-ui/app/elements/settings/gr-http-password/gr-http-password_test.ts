@@ -7,7 +7,6 @@ import '../../../test/common-test-setup-karma';
 import './gr-http-password';
 import {GrHttpPassword} from './gr-http-password';
 import {stubRestApi} from '../../../test/test-utils';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {
   createAccountDetailWithId,
   createServerInfo,
@@ -109,7 +108,7 @@ suite('gr-http-password tests', () => {
 
     assert.isNotOk(element._generatedPassword);
 
-    MockInteractions.tap(button);
+    button.click();
 
     assert.isTrue(generateStub.called);
     assert.equal(element._generatedPassword, 'Generating...');

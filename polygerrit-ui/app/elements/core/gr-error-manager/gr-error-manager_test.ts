@@ -16,7 +16,6 @@ import {
   createAccountDetailWithId,
   createPreferences,
 } from '../../../test/test-data-generators';
-import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 import {AccountId} from '../../../types/common';
 import {waitUntil} from '../../../test/test-utils';
 import {fixture, assert} from '@open-wc/testing';
@@ -362,7 +361,7 @@ suite('gr-error-manager tests', () => {
         ''
       );
       assert.isFalse(windowOpen.called);
-      tap(toast.shadowRoot.querySelector('gr-button.action'));
+      toast.shadowRoot.querySelector('gr-button.action')!.click();
       assert.isTrue(windowOpen.called);
 
       // @see Issue 5822: noopener breaks closeAfterLogin

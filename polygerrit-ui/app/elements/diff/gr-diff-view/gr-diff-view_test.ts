@@ -14,6 +14,7 @@ import {
 } from '../../../constants/constants';
 import {
   isVisible,
+  pressKey,
   query,
   queryAll,
   queryAndAssert,
@@ -60,13 +61,14 @@ import {Files, GrDiffView} from './gr-diff-view';
 import {DropdownItem} from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {SinonFakeTimers, SinonStub, SinonSpy} from 'sinon';
 import {LoadingStatus} from '../../../models/change/change-model';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {CommentMap} from '../../../utils/comment-util';
 import {ParsedChangeInfo} from '../../../types/types';
 import {assertIsDefined} from '../../../utils/common-util';
 import {GrDiffModeSelector} from '../../../embed/diff/gr-diff-mode-selector/gr-diff-mode-selector';
 import {fixture, html, assert} from '@open-wc/testing';
 import {EventType} from '../../../types/events';
+import {Key} from '../../../utils/dom-util';
+import {GrButton} from '../../shared/gr-button/gr-button';
 
 function createComment(
   id: string,
@@ -448,7 +450,7 @@ suite('gr-diff-view tests', () => {
     test('toggle left diff with a hotkey', () => {
       assertIsDefined(element.diffHost);
       const toggleLeftDiffStub = sinon.stub(element.diffHost, 'toggleLeftDiff');
-      MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'A');
+      pressKey(element, 'A');
       assert.isTrue(toggleLeftDiffStub.calledOnce);
     });
 
@@ -652,14 +654,14 @@ suite('gr-diff-view tests', () => {
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       const changeNavStub = sinon.stub(GerritNav, 'navigateToChange');
 
-      MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
+      pressKey(element, 'u');
       assert(
         changeNavStub.lastCall.calledWith(element.change),
         'Should navigate to /c/42/'
       );
       await element.updateComplete;
 
-      MockInteractions.pressAndReleaseKeyOn(element, 221, null, ']');
+      pressKey(element, ']');
       assert(
         diffNavStub.lastCall.calledWith(
           element.change,
@@ -674,7 +676,7 @@ suite('gr-diff-view tests', () => {
 
       assert.isTrue(element.loading);
 
-      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      pressKey(element, '[');
       assert(
         diffNavStub.lastCall.calledWith(
           element.change,
@@ -689,7 +691,7 @@ suite('gr-diff-view tests', () => {
 
       assert.isTrue(element.loading);
 
-      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      pressKey(element, '[');
       assert(
         diffNavStub.lastCall.calledWith(
           element.change,
@@ -704,7 +706,7 @@ suite('gr-diff-view tests', () => {
 
       assert.isTrue(element.loading);
 
-      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      pressKey(element, '[');
       assert(
         changeNavStub.lastCall.calledWith(element.change),
         'Should navigate to /c/42/'
@@ -717,34 +719,34 @@ suite('gr-diff-view tests', () => {
         .stub(element.diffPreferencesDialog, 'open')
         .callsFake(() => Promise.resolve());
 
-      MockInteractions.pressAndReleaseKeyOn(element, 188, null, ',');
+      pressKey(element, ',');
       await element.updateComplete;
       assert(showPrefsStub.calledOnce);
 
       assertIsDefined(element.cursor);
       let scrollStub = sinon.stub(element.cursor, 'moveToNextChunk');
-      MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
+      pressKey(element, 'n');
       await element.updateComplete;
       assert(scrollStub.calledOnce);
 
       scrollStub = sinon.stub(element.cursor, 'moveToPreviousChunk');
-      MockInteractions.pressAndReleaseKeyOn(element, 80, null, 'p');
+      pressKey(element, 'p');
       await element.updateComplete;
       assert(scrollStub.calledOnce);
 
       scrollStub = sinon.stub(element.cursor, 'moveToNextCommentThread');
-      MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'N');
+      pressKey(element, 'N');
       await element.updateComplete;
       assert(scrollStub.calledOnce);
 
       scrollStub = sinon.stub(element.cursor, 'moveToPreviousCommentThread');
-      MockInteractions.pressAndReleaseKeyOn(element, 80, null, 'P');
+      pressKey(element, 'P');
       await element.updateComplete;
       assert(scrollStub.calledOnce);
 
       assertIsDefined(element.diffHost);
       assertIsDefined(element.diffHost.diffElement);
-      MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
+      pressKey(element, 'j');
       await element.updateComplete;
       assert.equal(
         element.diffHost.diffElement.viewMode,
@@ -752,7 +754,7 @@ suite('gr-diff-view tests', () => {
       );
       assert.isTrue(element.diffHost.diffElement.displayLine);
 
-      MockInteractions.pressAndReleaseKeyOn(element, 27, null, 'Escape');
+      pressKey(element, Key.ESC);
       await element.updateComplete;
       assert.equal(
         element.diffHost.diffElement.viewMode,
@@ -769,19 +771,19 @@ suite('gr-diff-view tests', () => {
       assert.isFalse(handleToggleSpy.called);
       assert.isFalse(setReviewedStub.called);
 
-      MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
+      pressKey(element, 'r');
       assert.isTrue(handleToggleSpy.calledOnce);
       assert.isTrue(setReviewedStub.calledOnce);
       assert.equal(setReviewedStub.lastCall.args[0], true);
 
       // Handler is throttled, so another key press within 500 ms is ignored.
       clock.tick(100);
-      MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
+      pressKey(element, 'r');
       assert.isTrue(handleToggleSpy.calledOnce);
       assert.isTrue(setReviewedStub.calledOnce);
 
       clock.tick(1000);
-      MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
+      pressKey(element, 'r');
       assert.isTrue(handleToggleSpy.calledTwice);
       assert.isTrue(setReviewedStub.calledTwice);
       clock.restore();
@@ -816,7 +818,7 @@ suite('gr-diff-view tests', () => {
       element.path = 'glados.txt';
       element.loggedIn = true;
 
-      MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'N');
+      pressKey(element, 'N');
       await element.updateComplete;
       assert.isTrue(
         diffNavStub.calledWithExactly(
@@ -830,7 +832,7 @@ suite('gr-diff-view tests', () => {
 
       element.path = 'wheatley.md'; // navigated to next file
 
-      MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'N');
+      pressKey(element, 'N');
       await element.updateComplete;
 
       assert.isTrue(diffChangeStub.called);
@@ -839,7 +841,7 @@ suite('gr-diff-view tests', () => {
     test('shift+x shortcut toggles all diff context', async () => {
       assertIsDefined(element.diffHost);
       const toggleStub = sinon.stub(element.diffHost, 'toggleAllContext');
-      MockInteractions.pressAndReleaseKeyOn(element, 88, null, 'X');
+      pressKey(element, 'X');
       await element.updateComplete;
       assert.isTrue(toggleStub.called);
     });
@@ -966,7 +968,7 @@ suite('gr-diff-view tests', () => {
       element.loggedIn = false;
       const loggedInErrorSpy = sinon.spy();
       element.addEventListener('show-auth-required', loggedInErrorSpy);
-      MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
+      pressKey(element, 'a');
       await element.updateComplete;
       assert.isTrue(
         changeNavStub.notCalled,
@@ -994,7 +996,7 @@ suite('gr-diff-view tests', () => {
       element.loggedIn = true;
       const loggedInErrorSpy = sinon.spy();
       element.addEventListener('show-auth-required', loggedInErrorSpy);
-      MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
+      pressKey(element, 'a');
       await element.updateComplete;
       assert(
         changeNavStub.lastCall.calledWithExactly(element.change, {
@@ -1025,7 +1027,7 @@ suite('gr-diff-view tests', () => {
       element.loggedIn = true;
       const loggedInErrorSpy = sinon.spy();
       element.addEventListener('show-auth-required', loggedInErrorSpy);
-      MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
+      pressKey(element, 'a');
       await element.updateComplete;
       assert(
         changeNavStub.lastCall.calledWithExactly(element.change, {
@@ -1062,7 +1064,7 @@ suite('gr-diff-view tests', () => {
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       const changeNavStub = sinon.stub(GerritNav, 'navigateToChange');
 
-      MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
+      pressKey(element, 'u');
       assert(
         changeNavStub.lastCall.calledWithExactly(element.change, {
           patchNum: 10 as RevisionPatchSetNum,
@@ -1072,7 +1074,7 @@ suite('gr-diff-view tests', () => {
         'Should navigate to /c/42/5..10'
       );
 
-      MockInteractions.pressAndReleaseKeyOn(element, 221, null, ']');
+      pressKey(element, ']');
       assert.isTrue(element.loading);
       assert(
         diffNavStub.lastCall.calledWithExactly(
@@ -1086,7 +1088,7 @@ suite('gr-diff-view tests', () => {
       );
       element.path = 'wheatley.md';
 
-      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      pressKey(element, '[');
       assert.isTrue(element.loading);
       assert(
         diffNavStub.lastCall.calledWithExactly(
@@ -1100,7 +1102,7 @@ suite('gr-diff-view tests', () => {
       );
       element.path = 'glados.txt';
 
-      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      pressKey(element, '[');
       assert.isTrue(element.loading);
       assert(
         diffNavStub.lastCall.calledWithExactly(
@@ -1114,7 +1116,7 @@ suite('gr-diff-view tests', () => {
       );
       element.path = 'chell.go';
 
-      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      pressKey(element, '[');
       assert.isTrue(element.loading);
       assert(
         changeNavStub.lastCall.calledWithExactly(element.change, {
@@ -1129,7 +1131,7 @@ suite('gr-diff-view tests', () => {
       const downloadOverlayStub = sinon
         .stub(element.downloadOverlay, 'open')
         .returns(Promise.resolve());
-      MockInteractions.pressAndReleaseKeyOn(element, 68, null, 'd');
+      pressKey(element, 'd');
       assert.isTrue(downloadOverlayStub.called);
     });
 
@@ -1157,7 +1159,7 @@ suite('gr-diff-view tests', () => {
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       const changeNavStub = sinon.stub(GerritNav, 'navigateToChange');
 
-      MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
+      pressKey(element, 'u');
       assert(
         changeNavStub.lastCall.calledWithExactly(element.change, {
           patchNum: 1 as RevisionPatchSetNum,
@@ -1167,7 +1169,7 @@ suite('gr-diff-view tests', () => {
         'Should navigate to /c/42/1'
       );
 
-      MockInteractions.pressAndReleaseKeyOn(element, 221, null, ']');
+      pressKey(element, ']');
       assert(
         diffNavStub.lastCall.calledWithExactly(
           element.change,
@@ -1180,7 +1182,7 @@ suite('gr-diff-view tests', () => {
       );
       element.path = 'wheatley.md';
 
-      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      pressKey(element, '[');
       assert(
         diffNavStub.lastCall.calledWithExactly(
           element.change,
@@ -1193,7 +1195,7 @@ suite('gr-diff-view tests', () => {
       );
       element.path = 'glados.txt';
 
-      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      pressKey(element, '[');
       assert(
         diffNavStub.lastCall.calledWithExactly(
           element.change,
@@ -1207,7 +1209,7 @@ suite('gr-diff-view tests', () => {
       element.path = 'chell.go';
 
       changeNavStub.reset();
-      MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
+      pressKey(element, '[');
       assert(
         changeNavStub.lastCall.calledWithExactly(element.change, {
           patchNum: 1 as RevisionPatchSetNum,
@@ -1238,9 +1240,12 @@ suite('gr-diff-view tests', () => {
       };
       const redirectStub = sinon.stub(GerritNav, 'navigateToRelativeUrl');
       await element.updateComplete;
-      const editBtn = queryAndAssert(element, '.editButton gr-button');
+      const editBtn = queryAndAssert<GrButton>(
+        element,
+        '.editButton gr-button'
+      );
       assert.isTrue(!!editBtn);
-      MockInteractions.tap(editBtn);
+      editBtn.click();
       assert.isTrue(redirectStub.called);
       assert.isTrue(
         redirectStub.lastCall.calledWithExactly(
@@ -1277,9 +1282,12 @@ suite('gr-diff-view tests', () => {
         .returns({number: lineNumber, leftSide: false});
       const redirectStub = sinon.stub(GerritNav, 'navigateToRelativeUrl');
       await element.updateComplete;
-      const editBtn = queryAndAssert(element, '.editButton gr-button');
+      const editBtn = queryAndAssert<GrButton>(
+        element,
+        '.editButton gr-button'
+      );
       assert.isTrue(!!editBtn);
-      MockInteractions.tap(editBtn);
+      editBtn.click();
       assert.isTrue(redirectStub.called);
       assert.isTrue(
         redirectStub.lastCall.calledWithExactly(
@@ -1397,8 +1405,8 @@ suite('gr-diff-view tests', () => {
       const handlePrefsTapSpy = sinon.spy(element, 'handlePrefsTap');
       assertIsDefined(element.diffPreferencesDialog);
       const overlayOpenStub = sinon.stub(element.diffPreferencesDialog, 'open');
-      const prefsButton = queryAndAssert(element, '.prefsButton');
-      MockInteractions.tap(prefsButton);
+      const prefsButton = queryAndAssert<GrButton>(element, '.prefsButton');
+      prefsButton.click();
 
       assert.isTrue(handlePrefsTapSpy.called);
       assert.isTrue(overlayOpenStub.called);
@@ -1749,7 +1757,7 @@ suite('gr-diff-view tests', () => {
         true,
       ]);
 
-      MockInteractions.tap(reviewedStatusCheckBox);
+      reviewedStatusCheckBox.click();
       assert.isFalse(reviewedStatusCheckBox.checked);
       assert.deepEqual(saveReviewedStub.lastCall.args, [
         42,
@@ -1761,7 +1769,7 @@ suite('gr-diff-view tests', () => {
       element.getChangeModel().updateStateFileReviewed('/COMMIT_MSG', false);
       await element.updateComplete;
 
-      MockInteractions.tap(reviewedStatusCheckBox);
+      reviewedStatusCheckBox.click();
       assert.isTrue(reviewedStatusCheckBox.checked);
       assert.deepEqual(saveReviewedStub.lastCall.args, [
         42,
@@ -2281,7 +2289,7 @@ suite('gr-diff-view tests', () => {
       assertIsDefined(element.dropdown);
       assertIsDefined(element.dropdown.dropdown);
       assert.isFalse(element.dropdown.dropdown.opened);
-      MockInteractions.pressAndReleaseKeyOn(element, 70, null, 'f');
+      pressKey(element, 'f');
       await element.updateComplete;
       assert.isTrue(element.dropdown.dropdown.opened);
     });
@@ -2292,7 +2300,7 @@ suite('gr-diff-view tests', () => {
         const toggleBlame = sinon
           .stub(element.diffHost, 'loadBlame')
           .callsFake(() => Promise.resolve([]));
-        MockInteractions.tap(queryAndAssert(element, '#toggleBlame'));
+        queryAndAssert<GrButton>(element, '#toggleBlame').click();
         assert.isTrue(toggleBlame.calledOnce);
       });
       test('toggle blame with shortcut', () => {
@@ -2300,7 +2308,7 @@ suite('gr-diff-view tests', () => {
         const toggleBlame = sinon
           .stub(element.diffHost, 'loadBlame')
           .callsFake(() => Promise.resolve([]));
-        MockInteractions.pressAndReleaseKeyOn(element, 66, null, 'b');
+        pressKey(element, 'b');
         assert.isTrue(toggleBlame.calledOnce);
       });
     });
@@ -2352,7 +2360,7 @@ suite('gr-diff-view tests', () => {
         moveToNextChunkStub.returns(CursorMoveResult.CLIPPED);
         isAtEndStub.returns(true);
 
-        MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
+        pressKey(element, 'n');
 
         assert.isTrue(moveToNextChunkStub.called);
         assert.equal(
@@ -2371,9 +2379,9 @@ suite('gr-diff-view tests', () => {
         element.path = 'file1';
 
         nowStub.returns(5);
-        MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
+        pressKey(element, 'n');
         nowStub.returns(10);
-        MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
+        pressKey(element, 'n');
 
         assert.isTrue(navToFileStub.called);
         assert.deepEqual(navToFileStub.lastCall.args, [['file1', 'file3'], 1]);
@@ -2384,9 +2392,9 @@ suite('gr-diff-view tests', () => {
         isAtEndStub.returns(true);
 
         nowStub.returns(5);
-        MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
+        pressKey(element, 'n');
         nowStub.returns(6000);
-        MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
+        pressKey(element, 'n');
 
         assert.isFalse(navToFileStub.called);
       });
@@ -2395,7 +2403,7 @@ suite('gr-diff-view tests', () => {
         moveToPreviousChunkStub.returns(CursorMoveResult.CLIPPED);
         isAtStartStub.returns(true);
 
-        MockInteractions.pressAndReleaseKeyOn(element, 80, null, 'p');
+        pressKey(element, 'p');
 
         assert.isTrue(moveToPreviousChunkStub.called);
         assert.equal(
@@ -2414,9 +2422,9 @@ suite('gr-diff-view tests', () => {
         element.path = 'file3';
 
         nowStub.returns(5);
-        MockInteractions.pressAndReleaseKeyOn(element, 80, null, 'p');
+        pressKey(element, 'p');
         nowStub.returns(10);
-        MockInteractions.pressAndReleaseKeyOn(element, 80, null, 'p');
+        pressKey(element, 'p');
 
         assert.isTrue(navToFileStub.called);
         assert.deepEqual(navToFileStub.lastCall.args, [['file1', 'file3'], -1]);
@@ -2427,9 +2435,9 @@ suite('gr-diff-view tests', () => {
         isAtStartStub.returns(true);
 
         nowStub.returns(5);
-        MockInteractions.pressAndReleaseKeyOn(element, 80, null, 'p');
+        pressKey(element, 'p');
         nowStub.returns(6000);
-        MockInteractions.pressAndReleaseKeyOn(element, 80, null, 'p');
+        pressKey(element, 'p');
 
         assert.isFalse(navToFileStub.called);
       });
@@ -2439,13 +2447,13 @@ suite('gr-diff-view tests', () => {
         isAtEndStub.returns(true);
 
         nowStub.returns(5);
-        MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
+        pressKey(element, 'n');
 
         moveToPreviousChunkStub.returns(CursorMoveResult.CLIPPED);
         isAtStartStub.returns(true);
 
         nowStub.returns(10);
-        MockInteractions.pressAndReleaseKeyOn(element, 80, null, 'p');
+        pressKey(element, 'p');
 
         assert.isFalse(navToFileStub.called);
       });
@@ -2457,7 +2465,7 @@ suite('gr-diff-view tests', () => {
       element.path = 'file1';
       const reviewedStub = sinon.stub(element, 'setReviewed');
       const navStub = sinon.stub(element, 'navToFile');
-      MockInteractions.pressAndReleaseKeyOn(element, 77, null, 'M');
+      pressKey(element, 'M');
       flush();
 
       assert.isTrue(reviewedStub.lastCall.args[0]);

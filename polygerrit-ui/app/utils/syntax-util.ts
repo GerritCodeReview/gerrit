@@ -29,7 +29,7 @@ const closingSpan = new RegExp('</span>');
  * Reverse what HighlightJS does in `escapeHTML()`, see:
  * https://github.com/highlightjs/highlight.js/blob/main/src/lib/utils.js
  */
-function unescapeHTML(value: string) {
+export function unescapeHTML(value: string) {
   return value
     .replace(/&#x27;/g, "'")
     .replace(/&quot;/g, '"')

@@ -143,6 +143,12 @@ public abstract class Account {
    */
   public abstract boolean inactive();
 
+  /**
+   * True if this user is hidden. This can be configured by the user and affect how they are
+   * returned from /accounts Rest API
+   */
+  public abstract boolean isHidden();
+
   /** The user-settable status of this account (e.g. busy, OOO, available) */
   @Nullable
   public abstract String status();
@@ -252,6 +258,8 @@ public abstract class Account {
     public abstract boolean inactive();
 
     public abstract Builder setInactive(boolean inactive);
+
+    public abstract Builder setIsHidden(boolean value);
 
     public Builder setActive(boolean active) {
       return setInactive(!active);

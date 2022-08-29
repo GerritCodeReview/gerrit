@@ -124,6 +124,7 @@ import com.google.gerrit.gpg.testing.TestKey;
 import com.google.gerrit.httpd.CacheBasedWebSession;
 import com.google.gerrit.server.ExceptionHook;
 import com.google.gerrit.server.ServerInitiated;
+import com.google.gerrit.server.account.AccountConfigFactory;
 import com.google.gerrit.server.account.AccountProperties;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
@@ -234,6 +235,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private PluginSetContext<ExceptionHook> exceptionHooks;
   @Inject private ExternalIdKeyFactory externalIdKeyFactory;
   @Inject private ExternalIdFactory externalIdFactory;
+  @Inject private AccountConfigFactory accountConfigFactory;
   @Inject private AuthConfig authConfig;
 
   @Inject protected Emails emails;
@@ -2099,6 +2101,45 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(updatedAccount.metaId()).isEqualTo(getMetaId(accountId));
   }
 
+  @Test
+  public void setHidden() throws Exception {
+    assertThat(accounts.get(admin.id()).get().account().isHidden()).isFalse();
+    Optional<AccountState> accountState =
+        accountsUpdateProvider.get().update("Set hidden", admin.id(), u -> u.setHidden(true));
+    assertThat(accountState).isPresent();
+    Account account = accountState.get().account();
+    assertThat(account.isHidden()).isTrue();
+  }
+
+  @Test
+  @GerritConfig(name = "auth.defaultNewAccountHidden", value = "true")
+  public void unsetHidden() throws Exception {
+    assertThat(accounts.get(admin.id()).get().account().isHidden()).isTrue();
+    Optional<AccountState> accountState =
+        accountsUpdateProvider.get().update("Unset Hidden", admin.id(), u -> u.setHidden(false));
+    assertThat(accountState).isPresent();
+    Account account = accountState.get().account();
+    assertThat(account.isHidden()).isFalse();
+  }
+
+  @Test
+  @GerritConfig(name = "auth.defaultNewAccountHidden", value = "true")
+  public void createNewAccount_withAccountHiddenByDefault() throws Exception {
+
+    AccountsUpdate au = accountsUpdateProvider.get();
+    Account.Id accountId = Account.id(seq.nextAccountId());
+    AccountState accountState = au.insert("Create Test Account", accountId, u -> {});
+    assertThat(accountState.account().isHidden()).isTrue();
+  }
+
+  @Test
+  public void createNewAccount() throws Exception {
+    AccountsUpdate au = accountsUpdateProvider.get();
+    Account.Id accountId = Account.id(seq.nextAccountId());
+    AccountState accountState = au.insert("Create Test Account", accountId, u -> {});
+    assertThat(accountState.account().isHidden()).isFalse();
+  }
+
   private EmailInput newEmailInput(String email, boolean noConfirmation) {
     EmailInput input = new EmailInput();
     input.email = email;
@@ -2218,6 +2259,7 @@ public class AccountIT extends AbstractDaemonTest {
                 null,
                 exceptionHooks,
                 r -> r.withBlockStrategy(noSleepBlockStrategy)),
+            accountConfigFactory,
             extIdNotesFactory,
             ident,
             ident,
@@ -2276,6 +2318,7 @@ public class AccountIT extends AbstractDaemonTest {
                 r ->
                     r.withStopStrategy(StopStrategies.stopAfterAttempt(status.size()))
                         .withBlockStrategy(noSleepBlockStrategy)),
+            accountConfigFactory,
             extIdNotesFactory,
             ident,
             ident,
@@ -2334,6 +2377,7 @@ public class AccountIT extends AbstractDaemonTest {
                 null,
                 exceptionHooks,
                 r -> r.withBlockStrategy(noSleepBlockStrategy)),
+            accountConfigFactory,
             extIdNotesFactory,
             ident,
             ident,
@@ -2409,6 +2453,7 @@ public class AccountIT extends AbstractDaemonTest {
                 null,
                 exceptionHooks,
                 r -> r.withBlockStrategy(noSleepBlockStrategy)),
+            accountConfigFactory,
             extIdNotesFactory,
             ident,
             ident,

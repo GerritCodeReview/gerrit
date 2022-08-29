@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbf3154b_ed963846",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-08-29T21:58:03Z",
+      "side": 1,
+      "message": "Since this is no longer behaving as a limit, call it pageSize?",
+      "range": {
+        "startLine": 118,
+        "startChar": 16,
+        "endLine": 118,
+        "endChar": 22
+      },
+      "revId": "d8794f991f07abc6b02380cab90351c427d18ca7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cba58ff9_860ed909",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-08-29T21:58:03Z",
+      "side": 1,
+      "message": "s/limit/pageSize/?",
+      "range": {
+        "startLine": 213,
+        "startChar": 34,
+        "endLine": 213,
+        "endChar": 39
+      },
+      "revId": "d8794f991f07abc6b02380cab90351c427d18ca7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1335128_b45ed9e9",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-08-29T21:58:03Z",
+      "side": 1,
+      "message": "Should this also be limited by maxLimit?",
+      "revId": "d8794f991f07abc6b02380cab90351c427d18ca7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

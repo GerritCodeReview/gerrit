@@ -103,6 +103,24 @@
       "parentUuid": "a1335128_b45ed9e9",
       "revId": "d8794f991f07abc6b02380cab90351c427d18ca7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34b463b1_8c3512a4",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-29T23:15:15Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "93e61334_0ab982b3",
+      "revId": "d8794f991f07abc6b02380cab90351c427d18ca7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

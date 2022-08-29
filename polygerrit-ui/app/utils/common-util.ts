@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import {fireAlert} from './event-util';
+
 /**
  * @fileoverview Functions in this file contains some widely used
  * code patterns. If you noticed a repeated code and none of the existing util
@@ -159,4 +161,9 @@ export function difference<T>(
   compareBy: (t: T, u: T) => boolean = (t, u) => t === u
 ): T[] {
   return a.filter(aVal => !b.some(bVal => compareBy(aVal, bVal)));
+}
+
+export async function copyToClipbard(text: string, copyTargetName?: string) {
+  await navigator.clipboard.writeText(text);
+  fireAlert(document, `${copyTargetName ?? text} was copied to clipboard`);
 }

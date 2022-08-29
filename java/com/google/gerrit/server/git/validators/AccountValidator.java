@@ -21,6 +21,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountConfig;
+import com.google.gerrit.server.account.AccountConfigFactory;
 import com.google.gerrit.server.account.AccountProperties;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.ValidationError;
@@ -45,15 +46,18 @@ public class AccountValidator {
   private final Provider<IdentifiedUser> self;
   private final AllUsersName allUsersName;
   private final OutgoingEmailValidator emailValidator;
+  private final AccountConfigFactory accountConfigFactory;
 
   @Inject
   public AccountValidator(
       Provider<IdentifiedUser> self,
       AllUsersName allUsersName,
-      OutgoingEmailValidator emailValidator) {
+      OutgoingEmailValidator emailValidator,
+      AccountConfigFactory accountConfigFactory) {
     this.self = self;
     this.allUsersName = allUsersName;
     this.emailValidator = emailValidator;
+    this.accountConfigFactory = accountConfigFactory;
   }
 
   /**
@@ -118,7 +122,8 @@ public class AccountValidator {
       @Nullable ImmutableList.Builder<String> messages)
       throws IOException, ConfigInvalidException {
     rw.reset();
-    AccountConfig accountConfig = new AccountConfig(accountId, allUsersName, allUsersRepo);
+    AccountConfig accountConfig =
+        accountConfigFactory.create(accountId, allUsersName, allUsersRepo);
     accountConfig.load(allUsersName, rw, commit);
     if (messages != null) {
       messages.addAll(

@@ -56,7 +56,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.AccountConfig;
+import com.google.gerrit.server.account.AccountConfigFactory;
 import com.google.gerrit.server.account.AccountDelta;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountState;
@@ -142,6 +142,8 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   @Inject private ExternalIdKeyFactory externalIdKeyFactory;
 
   @Inject protected AuthRequest.Factory authRequestFactory;
+
+  @Inject protected AccountConfigFactory accountConfigFactory;
 
   protected LifecycleManager lifecycle;
   protected Injector injector;
@@ -599,7 +601,8 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
       PersonIdent ident = serverIdent.get();
       md.getCommitBuilder().setAuthor(ident);
       md.getCommitBuilder().setCommitter(ident);
-      new AccountConfig(accountId, allUsers, repo)
+      accountConfigFactory
+          .create(accountId, allUsers, repo)
           .load()
           .setAccountDelta(AccountDelta.builder().setFullName(newName).build())
           .commit(md);

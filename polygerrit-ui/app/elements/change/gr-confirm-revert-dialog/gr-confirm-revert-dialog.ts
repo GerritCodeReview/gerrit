@@ -114,7 +114,7 @@ export class GrConfirmRevertDialog extends LitElement {
   override render() {
     return html`
       <gr-dialog
-        .confirmLabel=${'Revert'}
+        .confirmLabel=${'Create Revert Change'}
         @confirm=${(e: Event) => this.handleConfirmTap(e)}
         @cancel=${(e: Event) => this.handleCancelTap(e)}
       >

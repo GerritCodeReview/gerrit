@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "70e7ced8_04bf96b4",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3261,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2022-08-30T23:26:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "674921d7_306caccd",
+      "range": {
+        "startLine": 3258,
+        "startChar": 0,
+        "endLine": 3261,
+        "endChar": 0
+      },
+      "revId": "6b9c00dd0305c54c5ec1f7c7d19a9eaf12e67e14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "283509c3_61b074bf",
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "586b12a7_43d4b0ec",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesLatestIndexVersionTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2022-08-30T23:26:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "283509c3_61b074bf",
+      "range": {
+        "startLine": 33,
+        "startChar": 37,
+        "endLine": 33,
+        "endChar": 52
+      },
+      "revId": "6b9c00dd0305c54c5ec1f7c7d19a9eaf12e67e14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9aea99aa_b93a52d6",
@@ -77,6 +125,30 @@
       "writtenOn": "2022-08-30T23:10:15Z",
       "side": 1,
       "message": "paginationType",
+      "range": {
+        "startLine": 43,
+        "startChar": 37,
+        "endLine": 43,
+        "endChar": 52
+      },
+      "revId": "6b9c00dd0305c54c5ec1f7c7d19a9eaf12e67e14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a5b3003_ec4224e2",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesPreviousIndexVersionTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2022-08-30T23:26:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9aea99aa_b93a52d6",
       "range": {
         "startLine": 43,
         "startChar": 37,

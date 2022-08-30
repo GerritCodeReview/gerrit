@@ -56,6 +56,24 @@
       "message": "Convert this into a local state and subscribe to the model directly instead of handing this down from the change view.\n\nThen filter the patchset level drafts in the subscription.",
       "revId": "3ba620daec0fd43b4a9bde731f91549e02a9cc27",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ef96e71_4b1d7c88",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-30T16:33:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78d6da2d_c2a2457a",
+      "revId": "3ba620daec0fd43b4a9bde731f91549e02a9cc27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

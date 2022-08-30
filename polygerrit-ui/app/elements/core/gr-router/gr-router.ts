@@ -31,7 +31,6 @@ import {
   RevisionPatchSetNum,
   RepoName,
   ServerInfo,
-  UrlEncodedCommentId,
   PARENT,
 } from '../../../types/common';
 import {
@@ -54,8 +53,6 @@ import {
 import {Execution, LifeCycle, Timing} from '../../../constants/reporting';
 import {
   generateUrl,
-  GenerateUrlChangeViewParameters,
-  GenerateUrlDiffViewParameters,
   GenerateUrlParameters,
   GroupDetailView,
   RepoDetailView,
@@ -164,32 +161,6 @@ const RoutePattern = {
   CHANGE_LEGACY: /^\/c\/(\d+)\/?(.*)$/,
   CHANGE_NUMBER_LEGACY: /^\/(\d+)\/?/,
 
-  // Matches
-  // /c/<project>/+/<changeNum>/[<basePatchNum|edit>..][<patchNum|edit>].
-  // TODO(kaspern): Migrate completely to project based URLs, with backwards
-  // compatibility for change-only.
-  CHANGE: /^\/c\/(.+)\/\+\/(\d+)(\/?((-?\d+|edit)(\.\.(\d+|edit))?))?\/?$/,
-
-  // Matches /c/<project>/+/<changeNum>/[<patchNum|edit>],edit
-  CHANGE_EDIT: /^\/c\/(.+)\/\+\/(\d+)(\/(\d+))?,edit\/?$/,
-
-  // Matches /c/<project>/+/<changeNum>/comment/<commentId>/
-  // Navigates to the diff view
-  // This route is needed to resolve to patchNum vs latestPatchNum used in the
-  // links generated in the emails.
-  COMMENT: /^\/c\/(.+)\/\+\/(\d+)\/comment\/(\w+)\/?$/,
-
-  // Matches /c/<project>/+/<changeNum>/comments/<commentId>/
-  // Navigates to the commentId inside the Comments Tab
-  COMMENTS_TAB: /^\/c\/(.+)\/\+\/(\d+)\/comments(?:\/)?(\w+)?\/?$/,
-
-  // Matches
-  // /c/<project>/+/<changeNum>/[<basePatchNum|edit>..]<patchNum|edit>/<path>.
-  // TODO(kaspern): Migrate completely to project based URLs, with backwards
-  // compatibility for change-only.
-  // eslint-disable-next-line max-len
-  DIFF: /^\/c\/(.+)\/\+\/(\d+)(\/((-?\d+|edit)(\.\.(\d+|edit))?(\/(.+))))\/?$/,
-
   // Matches /c/<project>/+/<changeNum>/[<patchNum|edit>]/<path>,edit[#lineNum]
   DIFF_EDIT: /^\/c\/(.+)\/\+\/(\d+)\/(\d+|edit)\/(.+),edit(#\d+)?$/,
 
@@ -211,16 +182,6 @@ const RoutePattern = {
 };
 
 export const _testOnly_RoutePattern = RoutePattern;
-
-/**
- * Pattern to recognize and parse the diff line locations as they appear in
- * the hash of diff URLs. In this format, a number on its own indicates that
- * line number in the revision of the diff. A number prefixed by either an 'a'
- * or a 'b' indicates that line number of the base of the diff.
- *
- * @type {RegExp}
- */
-const LINE_ADDRESS_PATTERN = /^([ab]?)(\d+)$/;
 
 /**
  * Pattern to recognize '+' in url-encoded strings for replacement with ' '.
@@ -286,13 +247,7 @@ export class GrRouter {
 
   // TODO: Rename to something ...State instead of ...Params.
   setParams(params: AppElementParams | GenerateUrlParameters) {
-    this.routerModel.updateState({
-      view: params.view,
-      changeNum: 'changeNum' in params ? params.changeNum : undefined,
-      patchNum: 'patchNum' in params ? params.patchNum ?? undefined : undefined,
-      basePatchNum:
-        'basePatchNum' in params ? params.basePatchNum ?? undefined : undefined,
-    });
+    if (params.view) this.routerModel.setActiveView(params.view);
     // TODO: Remove this once all components are based on router-model
     // subscriptions.
     this.appElement().params = params;
@@ -475,17 +430,6 @@ export class GrRouter {
     return canonicalPath.split('#').slice(1).join('#');
   }
 
-  parseLineAddress(hash: string) {
-    const match = hash.match(LINE_ADDRESS_PATTERN);
-    if (!match) {
-      return null;
-    }
-    return {
-      leftSide: !!match[1],
-      lineNum: Number(match[2]),
-    };
-  }
-
   /**
    * Check to see if the user is logged in and return a promise that only
    * resolves if the user is logged in. If the user us not logged in, the
@@ -595,7 +539,8 @@ export class GrRouter {
       },
       params => generateUrl(params),
       params => this.generateWeblinks(params),
-      x => x
+      x => x,
+      this.routerModel
     );
 
     page.exit('*', (_, next) => {
@@ -900,28 +845,7 @@ export class GrRouter {
       true
     );
 
-    this.mapRoute(
-      RoutePattern.CHANGE_EDIT,
-      'handleChangeEditRoute',
-      ctx => this.handleChangeEditRoute(ctx),
-      true
-    );
-
-    this.mapRoute(RoutePattern.COMMENT, 'handleCommentRoute', ctx =>
-      this.handleCommentRoute(ctx)
-    );
-
-    this.mapRoute(RoutePattern.COMMENTS_TAB, 'handleCommentsRoute', ctx =>
-      this.handleCommentsRoute(ctx)
-    );
-
-    this.mapRoute(RoutePattern.DIFF, 'handleDiffRoute', ctx =>
-      this.handleDiffRoute(ctx)
-    );
-
-    this.mapRoute(RoutePattern.CHANGE, 'handleChangeRoute', ctx =>
-      this.handleChangeRoute(ctx)
-    );
+    this.initModel(this.routerModel.change);
 
     this.mapRoute(RoutePattern.CHANGE_LEGACY, 'handleChangeLegacyRoute', ctx =>
       this.handleChangeLegacyRoute(ctx)
@@ -1437,102 +1361,6 @@ export class GrRouter {
     this.redirect('/c/' + encodeURIComponent(ctx.params[0]));
   }
 
-  handleChangeRoute(ctx: PageContextWithQueryMap) {
-    // Parameter order is based on the regex group number matched.
-    const changeNum = Number(ctx.params[1]) as NumericChangeId;
-    const params: GenerateUrlChangeViewParameters = {
-      project: ctx.params[0] as RepoName,
-      changeNum,
-      basePatchNum: convertToPatchSetNum(ctx.params[4]) as BasePatchSetNum,
-      patchNum: convertToPatchSetNum(ctx.params[6]) as RevisionPatchSetNum,
-      view: GerritView.CHANGE,
-    };
-
-    if (ctx.queryMap.has('forceReload')) {
-      params.forceReload = true;
-      history.replaceState(
-        null,
-        '',
-        location.href.replace(/[?&]forceReload=true/, '')
-      );
-    }
-
-    if (ctx.queryMap.has('openReplyDialog')) {
-      params.openReplyDialog = true;
-      history.replaceState(
-        null,
-        '',
-        location.href.replace(/[?&]openReplyDialog=true/, '')
-      );
-    }
-
-    const tab = ctx.queryMap.get('tab');
-    if (tab) params.tab = tab;
-    const filter = ctx.queryMap.get('filter');
-    if (filter) params.filter = filter;
-    const select = ctx.queryMap.get('select');
-    if (select) params.select = select;
-    const attempt = ctx.queryMap.get('attempt');
-    if (attempt) {
-      const attemptInt = parseInt(attempt);
-      if (!isNaN(attemptInt) && attemptInt > 0) {
-        params.attempt = attemptInt;
-      }
-    }
-
-    this.reporting.setRepoName(params.project);
-    this.reporting.setChangeId(changeNum);
-    this.redirectOrNavigate(params);
-  }
-
-  handleCommentRoute(ctx: PageContextWithQueryMap) {
-    const changeNum = Number(ctx.params[1]) as NumericChangeId;
-    const params: GenerateUrlDiffViewParameters = {
-      project: ctx.params[0] as RepoName,
-      changeNum,
-      commentId: ctx.params[2] as UrlEncodedCommentId,
-      view: GerritView.DIFF,
-      commentLink: true,
-    };
-    this.reporting.setRepoName(params.project);
-    this.reporting.setChangeId(changeNum);
-    this.redirectOrNavigate(params);
-  }
-
-  handleCommentsRoute(ctx: PageContextWithQueryMap) {
-    const changeNum = Number(ctx.params[1]) as NumericChangeId;
-    const params: GenerateUrlChangeViewParameters = {
-      project: ctx.params[0] as RepoName,
-      changeNum,
-      commentId: ctx.params[2] as UrlEncodedCommentId,
-      view: GerritView.CHANGE,
-    };
-    this.reporting.setRepoName(params.project);
-    this.reporting.setChangeId(changeNum);
-    this.redirectOrNavigate(params);
-  }
-
-  handleDiffRoute(ctx: PageContextWithQueryMap) {
-    const changeNum = Number(ctx.params[1]) as NumericChangeId;
-    // Parameter order is based on the regex group number matched.
-    const params: GenerateUrlDiffViewParameters = {
-      project: ctx.params[0] as RepoName,
-      changeNum,
-      basePatchNum: convertToPatchSetNum(ctx.params[4]) as BasePatchSetNum,
-      patchNum: convertToPatchSetNum(ctx.params[6]) as RevisionPatchSetNum,
-      path: ctx.params[8],
-      view: GerritView.DIFF,
-    };
-    const address = this.parseLineAddress(ctx.hash);
-    if (address) {
-      params.leftSide = address.leftSide;
-      params.lineNum = address.lineNum;
-    }
-    this.reporting.setRepoName(params.project);
-    this.reporting.setChangeId(changeNum);
-    this.redirectOrNavigate(params);
-  }
-
   handleChangeLegacyRoute(ctx: PageContextWithQueryMap) {
     const changeNum = Number(ctx.params[0]) as NumericChangeId;
     if (!changeNum) {
@@ -1567,32 +1395,6 @@ export class GrRouter {
       lineNum: ctx.hash,
       view: GerritView.EDIT,
     });
-    this.reporting.setRepoName(project);
-    this.reporting.setChangeId(changeNum);
-  }
-
-  handleChangeEditRoute(ctx: PageContextWithQueryMap) {
-    // Parameter order is based on the regex group number matched.
-    const project = ctx.params[0] as RepoName;
-    const changeNum = Number(ctx.params[1]) as NumericChangeId;
-    const params: GenerateUrlChangeViewParameters = {
-      project,
-      changeNum,
-      patchNum: convertToPatchSetNum(ctx.params[3]) as RevisionPatchSetNum,
-      view: GerritView.CHANGE,
-      edit: true,
-      tab: ctx.queryMap.get('tab') ?? '',
-    };
-    if (ctx.queryMap.has('forceReload')) {
-      params.forceReload = true;
-      history.replaceState(
-        null,
-        '',
-        location.href.replace(/[?&]forceReload=true/, '')
-      );
-    }
-    this.redirectOrNavigate(params);
-
     this.reporting.setRepoName(project);
     this.reporting.setChangeId(changeNum);
   }

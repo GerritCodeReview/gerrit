@@ -4,52 +4,50 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {Finalizable} from '../registry';
-import {
-  NumericChangeId,
-  RevisionPatchSetNum,
-  BasePatchSetNum,
-} from '../../types/common';
 import {Model} from '../../models/model';
 import {select} from '../../utils/observable-util';
 import {GerritView} from '../../elements/gr-app-types';
 import {SettingsViewModel} from '../../elements/core/gr-router/settings-view-model';
+import {
+  ChangeViewModel,
+  ChangeViewState,
+} from '../../elements/core/gr-router/change-view-model';
+import {getBaseUrl} from '../../utils/url-util';
 
 export {GerritView};
 
+// TODO: Maybe rename to just AppElementState
 export interface RouterState {
   // TODO: Rename to `activeView`.
   view?: GerritView;
-  // TODO: Move into a ChangeViewState.
-  changeNum?: NumericChangeId;
-  // TODO: Move into a ChangeViewState.
-  patchNum?: RevisionPatchSetNum;
-  // TODO: Move into a ChangeViewState.
-  basePatchNum?: BasePatchSetNum;
 }
 
+// TODO: Maybe rename to just AppElementModel
 export class RouterModel extends Model<RouterState> implements Finalizable {
   // TODO: Rename to `activeView`.
   readonly routerView$ = select(this.state$, state => state.view);
 
-  // TODO: Move into a ChangeViewModel.
-  readonly routerChangeNum$ = select(this.state$, state => state.changeNum);
-
-  // TODO: Move into a ChangeViewModel.
-  readonly routerPatchNum$ = select(this.state$, state => state.patchNum);
-
-  // TODO: Move into a ChangeViewModel.
-  readonly routerBasePatchNum$ = select(
-    this.state$,
-    state => state.basePatchNum
-  );
-
+  // TODO: Is this the right place to expose all the view models?
+  // We don't really want to stick all the view models onto the app context
+  // individuall, so there must be some place to look them all up.
   readonly settings = new SettingsViewModel();
+
+  readonly change = new ChangeViewModel();
 
   constructor() {
     super({});
   }
 
   finalize() {}
+
+  settingsUrl() {
+    const state = this.settings.defaultState;
+    return getBaseUrl() + this.settings.stateToUrl(state);
+  }
+
+  changeUrl(state: Partial<ChangeViewState>) {
+    return getBaseUrl() + this.change.stateToUrl(state);
+  }
 
   // Private but used in tests
   setState(state: RouterState) {

@@ -357,7 +357,7 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
       this.changeModel.patchNum$.subscribe(x => (this.patchNum = x))
     );
     this.subscriptions.push(
-      this.routerModel.routerChangeNum$.subscribe(changeNum => {
+      this.routerModel.change.changeNum$.subscribe(changeNum => {
         this.changeNum = changeNum;
         this.setState({...initialState});
         this.reloadAllComments();

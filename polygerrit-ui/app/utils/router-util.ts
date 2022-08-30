@@ -117,51 +117,18 @@ export interface GenerateUrlRootViewParameters {
   view: GerritView.ROOT;
 }
 
-export interface GenerateUrlSettingsViewParameters {
-  view: GerritView.SETTINGS;
-}
-
-export interface GenerateUrlDiffViewParameters {
-  view: GerritView.DIFF;
-  changeNum: NumericChangeId;
-  project: RepoName;
-  path?: string;
-  patchNum?: RevisionPatchSetNum;
-  basePatchNum?: BasePatchSetNum;
-  lineNum?: number | string;
-  leftSide?: boolean;
-  commentId?: UrlEncodedCommentId;
-  // TODO(TS): remove - property is set but never used
-  commentLink?: boolean;
-}
-
 export type GenerateUrlParameters =
   | GenerateUrlSearchViewParameters
-  | GenerateUrlChangeViewParameters
   | GenerateUrlRepoViewParameters
   | GenerateUrlDashboardViewParameters
   | GenerateUrlGroupViewParameters
   | GenerateUrlEditViewParameters
-  | GenerateUrlRootViewParameters
-  | GenerateUrlSettingsViewParameters
-  | GenerateUrlDiffViewParameters;
-
-export function isGenerateUrlChangeViewParameters(
-  x: GenerateUrlParameters
-): x is GenerateUrlChangeViewParameters {
-  return x.view === GerritView.CHANGE;
-}
+  | GenerateUrlRootViewParameters;
 
 export function isGenerateUrlEditViewParameters(
   x: GenerateUrlParameters
 ): x is GenerateUrlEditViewParameters {
   return x.view === GerritView.EDIT;
-}
-
-export function isGenerateUrlDiffViewParameters(
-  x: GenerateUrlParameters
-): x is GenerateUrlDiffViewParameters {
-  return x.view === GerritView.DIFF;
 }
 
 export const TEST_ONLY = {
@@ -174,14 +141,9 @@ export function generateUrl(params: GenerateUrlParameters) {
 
   if (params.view === GerritView.SEARCH) {
     url = generateSearchUrl(params);
-  } else if (params.view === GerritView.CHANGE) {
-    url = generateChangeUrl(params);
   } else if (params.view === GerritView.DASHBOARD) {
     url = generateDashboardUrl(params);
-  } else if (
-    params.view === GerritView.DIFF ||
-    params.view === GerritView.EDIT
-  ) {
+  } else if (params.view === GerritView.EDIT) {
     url = generateDiffOrEditUrl(params);
   } else if (params.view === GerritView.GROUP) {
     url = generateGroupUrl(params);
@@ -189,8 +151,6 @@ export function generateUrl(params: GenerateUrlParameters) {
     url = generateRepoUrl(params);
   } else if (params.view === GerritView.ROOT) {
     url = '/';
-  } else if (params.view === GerritView.SETTINGS) {
-    throw new Error('settings already migrated to new page model');
   } else {
     assertNever(params, "Can't generate");
   }
@@ -203,7 +163,7 @@ export function generateUrl(params: GenerateUrlParameters) {
  * `basePatchNum` or both, return a string representation of that range. If
  * no range is indicated in the params, the empty string is returned.
  */
-function getPatchRangeExpression(params: PatchRangeParams) {
+export function getPatchRangeExpression(params: PatchRangeParams) {
   let range = '';
   if (params.patchNum) {
     range = `${params.patchNum}`;
@@ -212,42 +172,6 @@ function getPatchRangeExpression(params: PatchRangeParams) {
     range = `${params.basePatchNum}..${range}`;
   }
   return range;
-}
-
-function generateChangeUrl(params: GenerateUrlChangeViewParameters) {
-  let range = getPatchRangeExpression(params);
-  if (range.length) {
-    range = '/' + range;
-  }
-  let suffix = `${range}`;
-  const queries = [];
-  if (params.forceReload) {
-    queries.push('forceReload=true');
-  }
-  if (params.openReplyDialog) {
-    queries.push('openReplyDialog=true');
-  }
-  if (params.usp) {
-    queries.push(`usp=${params.usp}`);
-  }
-  if (params.edit) {
-    suffix += ',edit';
-  }
-  if (params.commentId) {
-    suffix = suffix + `/comments/${params.commentId}`;
-  }
-  if (queries.length > 0) {
-    suffix += '?' + queries.join('&');
-  }
-  if (params.messageHash) {
-    suffix += params.messageHash;
-  }
-  if (params.project) {
-    const encodedProject = encodeURL(params.project, true);
-    return `/c/${encodedProject}/+/${params.changeNum}${suffix}`;
-  } else {
-    return `/c/${params.changeNum}${suffix}`;
-  }
 }
 
 const REPO_TOKEN_PATTERN = /\${(project|repo)}/g;
@@ -341,9 +265,7 @@ function generateSearchUrl(params: GenerateUrlSearchViewParameters) {
   return '/q/' + operators.join('+') + offsetExpr;
 }
 
-function generateDiffOrEditUrl(
-  params: GenerateUrlDiffViewParameters | GenerateUrlEditViewParameters
-) {
+function generateDiffOrEditUrl(params: GenerateUrlEditViewParameters) {
   let range = getPatchRangeExpression(params);
   if (range.length) {
     range = '/' + range;
@@ -357,14 +279,7 @@ function generateDiffOrEditUrl(
 
   if (params.lineNum) {
     suffix += '#';
-    if (isGenerateUrlDiffViewParameters(params) && params.leftSide) {
-      suffix += 'b';
-    }
     suffix += params.lineNum;
-  }
-
-  if (isGenerateUrlDiffViewParameters(params) && params.commentId) {
-    suffix = `/comment/${params.commentId}` + suffix;
   }
 
   if (params.project) {

@@ -5,13 +5,11 @@
  */
 // TODO: Rename this file from gr-app-types to router-types.
 import {
-  BasePatchSetNum,
   DashboardId,
   GroupId,
   NumericChangeId,
   RepoName,
   RevisionPatchSetNum,
-  UrlEncodedCommentId,
 } from '../types/common';
 import {PageContextWithQueryMap} from '../utils/page-wrapper-utils';
 import {
@@ -20,6 +18,7 @@ import {
   GroupDetailView,
   RepoDetailView,
 } from '../utils/router-util';
+import {ChangeViewState} from './core/gr-router/change-view-model';
 import {SettingsViewState} from './core/gr-router/settings-view-model';
 
 export enum GerritView {
@@ -27,7 +26,6 @@ export enum GerritView {
   AGREEMENTS = 'agreements',
   CHANGE = 'change',
   DASHBOARD = 'dashboard',
-  DIFF = 'diff',
   DOCUMENTATION_SEARCH = 'documentation-search',
   EDIT = 'edit',
   GROUP = 'group',
@@ -124,19 +122,6 @@ export interface AppElementAgreementParam {
   view: GerritView.AGREEMENTS;
 }
 
-export interface AppElementDiffViewParam {
-  view: GerritView.DIFF;
-  changeNum: NumericChangeId;
-  project?: RepoName;
-  commentId?: UrlEncodedCommentId;
-  path?: string;
-  patchNum?: RevisionPatchSetNum;
-  basePatchNum?: BasePatchSetNum;
-  lineNum?: number;
-  leftSide?: boolean;
-  commentLink?: boolean;
-}
-
 export interface AppElementDiffEditViewParam {
   view: GerritView.EDIT;
   changeNum: NumericChangeId;
@@ -144,25 +129,6 @@ export interface AppElementDiffEditViewParam {
   path: string;
   patchNum: RevisionPatchSetNum;
   lineNum?: number;
-}
-
-export interface AppElementChangeViewParams {
-  view: GerritView.CHANGE;
-  changeNum: NumericChangeId;
-  project: RepoName;
-  edit?: boolean;
-  patchNum?: RevisionPatchSetNum;
-  basePatchNum?: BasePatchSetNum;
-  commentId?: UrlEncodedCommentId;
-  forceReload?: boolean;
-  openReplyDialog?: boolean;
-  tab?: string;
-  /** regular expression for filtering check runs */
-  filter?: string;
-  /** regular expression for selecting check runs */
-  select?: string;
-  /** selected attempt for selected check runs */
-  attempt?: number;
 }
 
 export interface AppElementJustRegisteredParams {
@@ -179,14 +145,13 @@ export type AppElementParams =
   | AppElementDashboardParams
   | AppElementGroupParams
   | AppElementAdminParams
-  | AppElementChangeViewParams
+  | ChangeViewState
   | AppElementRepoParams
   | AppElementDocSearchParams
   | AppElementPluginScreenParams
   | AppElementSearchParam
   | SettingsViewState
   | AppElementAgreementParam
-  | AppElementDiffViewParam
   | AppElementDiffEditViewParam
   | AppElementJustRegisteredParams;
 

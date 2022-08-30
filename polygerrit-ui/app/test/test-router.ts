@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {GerritNav} from '../elements/core/gr-navigation/gr-navigation';
+import {RouterModel} from '../services/router/router-model';
 
 GerritNav.setup(
   () => {
@@ -13,5 +14,6 @@ GerritNav.setup(
   () => [],
   () => {
     return {};
-  }
+  },
+  {} as RouterModel
 );

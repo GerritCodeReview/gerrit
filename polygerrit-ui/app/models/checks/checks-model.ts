@@ -378,7 +378,7 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
         this.checkToPluginMap = map;
       }),
       combineLatest([
-        this.routerModel.routerPatchNum$,
+        this.routerModel.change.patchNum$,
         this.changeModel.latestPatchNum$,
       ]).subscribe(([routerPs, latestPs]) => {
         this.latestPatchNum = latestPs;

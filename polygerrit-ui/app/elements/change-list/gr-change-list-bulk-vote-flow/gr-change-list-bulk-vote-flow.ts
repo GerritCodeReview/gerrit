@@ -36,7 +36,6 @@ import '../../change/gr-label-score-row/gr-label-score-row';
 import {getOverallStatus} from '../../../utils/bulk-flow-util';
 import {allSettled} from '../../../utils/async-util';
 import {pluralize} from '../../../utils/string-util';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {Interaction} from '../../../constants/reporting';
 
@@ -45,6 +44,8 @@ export class GrChangeListBulkVoteFlow extends LitElement {
   private readonly getBulkActionsModel = resolve(this, bulkActionsModelToken);
 
   private readonly userModel = getAppContext().userModel;
+
+  private readonly router = getAppContext().routerModel;
 
   private readonly reportingService = getAppContext().reportingService;
 
@@ -219,7 +220,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
 
   private handleOpenChanges() {
     for (const change of this.selectedChanges) {
-      window.open(GerritNav.getUrlForChange(change));
+      window.open(this.router.changeUrl(change));
     }
   }
 

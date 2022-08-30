@@ -9,7 +9,6 @@ import {GrListView} from './gr-list-view';
 import {page} from '../../../utils/page-wrapper-utils';
 import {queryAndAssert, stubBaseUrl} from '../../../test/test-utils';
 import {GrButton} from '../gr-button/gr-button';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {fixture, html, assert} from '@open-wc/testing';
 
 suite('gr-list-view tests', () => {
@@ -180,7 +179,7 @@ suite('gr-list-view tests', () => {
     element.addEventListener('create-clicked', clickHandler);
     element.createNew = true;
     await element.updateComplete;
-    MockInteractions.tap(queryAndAssert<GrButton>(element, '#createNew'));
+    queryAndAssert<GrButton>(element, '#createNew').click();
     assert.isTrue(clickHandler.called);
   });
 

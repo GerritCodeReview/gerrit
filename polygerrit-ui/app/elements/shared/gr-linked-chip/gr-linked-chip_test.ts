@@ -6,9 +6,9 @@
 import '../../../test/common-test-setup-karma';
 import './gr-linked-chip';
 import {GrLinkedChip} from './gr-linked-chip';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {queryAndAssert} from '../../../test/test-utils';
 import {fixture, html, assert} from '@open-wc/testing';
+import {GrButton} from '../gr-button/gr-button';
 
 suite('gr-linked-chip tests', () => {
   let element: GrLinkedChip;
@@ -41,7 +41,7 @@ suite('gr-linked-chip tests', () => {
     const spy = sinon.spy();
     element.addEventListener('remove', spy);
     await flush();
-    MockInteractions.tap(queryAndAssert(element, '#remove'));
+    queryAndAssert<GrButton>(element, '#remove').click();
     assert.isTrue(spy.called);
   });
 });

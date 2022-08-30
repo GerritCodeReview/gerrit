@@ -415,7 +415,7 @@ export class GrAppElement extends LitElement {
       ></gr-external-style>
       <gr-external-style
         id="externalStyleForTheme"
-        .name=${this.getThemeEndpoint()}
+        name=${this.getThemeEndpoint()}
       ></gr-external-style>
     `;
   }
@@ -846,9 +846,7 @@ export class GrAppElement extends LitElement {
 
   getThemeEndpoint() {
     // For now, we only have dark mode and light mode
-    return window.localStorage.getItem('dark-theme')
-      ? 'app-theme-dark'
-      : 'app-theme-light';
+    return isDarkTheme(this.theme) ? 'app-theme-dark' : 'app-theme-light';
   }
 }
 

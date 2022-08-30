@@ -12,7 +12,7 @@ import {customElement, property, state} from 'lit/decorators.js';
 @customElement('gr-external-style')
 export class GrExternalStyle extends LitElement {
   // This is a required value for this component.
-  @property({type: String})
+  @property({type: String, reflect: true})
   name!: string;
 
   // private but used in test

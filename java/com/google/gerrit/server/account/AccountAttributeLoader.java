@@ -17,6 +17,7 @@ package com.google.gerrit.server.account;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.data.AccountAttribute;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +44,7 @@ public class AccountAttributeLoader {
     return created.computeIfAbsent(id, k -> new AccountAttribute(k.get()));
   }
 
-  public void fill() {
+  public void fill() throws PermissionBackendException {
     directory.fillAccountAttributeInfo(created.values());
   }
 }

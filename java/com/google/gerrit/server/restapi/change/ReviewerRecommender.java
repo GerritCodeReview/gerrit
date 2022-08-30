@@ -233,6 +233,7 @@ public class ReviewerRecommender {
 
   private boolean accountMatchesQuery(Account.Id id, String query) {
     Optional<Account> account = accountCache.get(id).map(AccountState::account);
+    // if does not have view all, has to be hidden accounts have to be filtered out.
     if (account.isPresent() && account.get().isActive()) {
       if (Strings.isNullOrEmpty(query)
           || (account.get().fullName() != null && account.get().fullName().startsWith(query))

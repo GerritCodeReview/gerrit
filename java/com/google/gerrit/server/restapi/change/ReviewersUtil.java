@@ -198,8 +198,9 @@ public class ReviewersUtil {
       return Collections.emptyList();
     }
     AccountControl accountControl = accountControlFactory.get();
+    boolean canViewAll = accountControl.canViewAll();
 
-    if (accountVisibility == AccountVisibility.NONE && !accountControl.canViewAll()) {
+    if (accountVisibility == AccountVisibility.NONE && !canViewAll) {
       logger.atFine().log(
           "Not suggesting reviewers: accountVisibility = %s and the user does not have %s capability",
           AccountVisibility.NONE, GlobalPermission.VIEW_ALL_ACCOUNTS);
@@ -264,6 +265,8 @@ public class ReviewersUtil {
           Predicate.and(
               AccountPredicates.isActive(),
               accountQueryBuilder.defaultQuery(suggestReviewers.getQuery()));
+
+      // Add isHidden=false if does not have viewAllCapability
       logger.atFine().log("accounts index query: %s", pred);
       accountIndexRewriter.validateMaxTermsInQuery(pred);
       boolean useLegacyNumericFields =

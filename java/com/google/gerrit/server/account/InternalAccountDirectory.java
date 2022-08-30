@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.toSet;
 import static java.util.stream.Stream.concat;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -89,61 +90,77 @@ public class InternalAccountDirectory extends AccountDirectory {
     this.accountTagProviders = accountTagProviders;
   }
 
+  @FunctionalInterface
+  private interface FillAccountFromState<A extends AccountAttribute> {
+    void fill(A accountAttribute, AccountState accountState, Set<FillOptions> options);
+  }
+
   @Override
   public void fillAccountInfo(Iterable<? extends AccountInfo> in, Set<FillOptions> options)
+      throws PermissionBackendException {
+    fillAccount(in, options, (a, state, opt) -> fillAccountInfo((AccountInfo) a, state, opt));
+  }
+
+  public void fillAccount(
+      Iterable<? extends AccountAttribute> in,
+      Set<FillOptions> options,
+      FillAccountFromState fillAccountFromState)
       throws PermissionBackendException {
     if (options.equals(ID_ONLY)) {
       return;
     }
 
     boolean canModifyAccount = false;
+    boolean canViewAllAccounts = false;
     Account.Id currentUserId = null;
     if (self.get().isIdentifiedUser()) {
       currentUserId = self.get().getAccountId();
       if (permissionBackend.currentUser().test(GlobalPermission.MODIFY_ACCOUNT)) {
         canModifyAccount = true;
       }
+      if (permissionBackend.currentUser().test(GlobalPermission.VIEW_ALL_ACCOUNTS)) {
+        canViewAllAccounts = true;
+      }
     }
 
     Set<FillOptions> fillOptionsWithoutSecondaryEmails =
         Sets.difference(options, EnumSet.of(FillOptions.SECONDARY_EMAILS));
+    Set<FillOptions> strictOption = options.contains(FillOptions.ID) ? ID_ONLY : ImmutableSet.of();
     Set<Account.Id> ids = stream(in).map(a -> Account.id(a._accountId)).collect(toSet());
     Map<Account.Id, AccountState> accountStates = accountCache.get(ids);
-    for (AccountInfo info : in) {
+    for (AccountAttribute info : in) {
       Account.Id id = Account.id(info._accountId);
       AccountState state = accountStates.get(id);
-      if (state != null) {
-        if (!options.contains(FillOptions.SECONDARY_EMAILS)
-            || Objects.equals(currentUserId, state.account().id())
-            || canModifyAccount) {
-          fill(info, accountStates.get(id), options);
-        } else {
-          // user is not allowed to see secondary emails
-          fill(info, accountStates.get(id), fillOptionsWithoutSecondaryEmails);
-        }
-
-      } else {
+      if (state == null) {
         info._accountId = options.contains(FillOptions.ID) ? id.get() : null;
+        continue;
       }
+      boolean useStrictOptions =
+          state.account().isHidden().orElse(false)
+              && !canViewAllAccounts
+              && !Objects.equals(currentUserId, state.account().id());
+      Set<FillOptions> fillOptions;
+      if (useStrictOptions) {
+        fillOptions = strictOption;
+      } else if (!options.contains(FillOptions.SECONDARY_EMAILS)
+          || Objects.equals(currentUserId, state.account().id())
+          || canModifyAccount) {
+        fillOptions = options;
+      } else {
+        fillOptions = fillOptionsWithoutSecondaryEmails;
+      }
+      fillAccountFromState.fill(info, accountStates.get(id), fillOptions);
     }
   }
 
   @Override
-  public void fillAccountAttributeInfo(Iterable<? extends AccountAttribute> in) {
-    Set<Account.Id> ids = stream(in).map(a -> Account.id(a.accountId)).collect(toSet());
-    Map<Account.Id, AccountState> accountStates = accountCache.get(ids);
-    for (AccountAttribute accountAttribute : in) {
-      Account.Id id = Account.id(accountAttribute.accountId);
-      AccountState accountState = accountStates.get(id);
-      if (accountState != null) {
-        fill(accountAttribute, accountState, ALL_ACCOUNT_ATTRIBUTES);
-      } else {
-        accountAttribute.accountId = null;
-      }
-    }
+  public void fillAccountAttributeInfo(Iterable<? extends AccountAttribute> in)
+      throws PermissionBackendException {
+    fillAccount(
+        in, ALL_ACCOUNT_ATTRIBUTES, (a, state, options) -> fillAccountAttribute(a, state, options));
   }
 
-  private void fill(
+  private void fillAccountAttribute(
       AccountAttribute accountAttribute, AccountState accountState, Set<FillOptions> options) {
     Account account = accountState.account();
     if (options.contains(FillOptions.NAME)) {
@@ -159,35 +176,19 @@ public class InternalAccountDirectory extends AccountDirectory {
       accountAttribute.username = accountState.userName().orElse(null);
     }
     if (options.contains(FillOptions.ID)) {
-      accountAttribute.accountId = account.id().get();
+      accountAttribute._accountId = account.id().get();
     } else {
       // Was previously set to look up account for filling.
-      accountAttribute.accountId = null;
+      accountAttribute._accountId = null;
     }
   }
 
-  private void fill(AccountInfo info, AccountState accountState, Set<FillOptions> options) {
+  private void fillAccountInfo(
+      AccountInfo info, AccountState accountState, Set<FillOptions> options) {
     Account account = accountState.account();
-    if (options.contains(FillOptions.ID)) {
-      info._accountId = account.id().get();
-    } else {
-      // Was previously set to look up account for filling.
-      info._accountId = null;
-    }
-    if (options.contains(FillOptions.NAME)) {
-      info.name = Strings.emptyToNull(account.fullName());
-      if (info.name == null) {
-        info.name = accountState.userName().orElse(null);
-      }
-    }
-    if (options.contains(FillOptions.EMAIL)) {
-      info.email = account.preferredEmail();
-    }
+    fillAccountAttribute(info, accountState, options);
     if (options.contains(FillOptions.SECONDARY_EMAILS)) {
       info.secondaryEmails = getSecondaryEmails(account, accountState.externalIds());
-    }
-    if (options.contains(FillOptions.USERNAME)) {
-      info.username = accountState.userName().orElse(null);
     }
 
     if (options.contains(FillOptions.DISPLAY_NAME)) {

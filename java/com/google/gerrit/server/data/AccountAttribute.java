@@ -15,13 +15,17 @@
 package com.google.gerrit.server.data;
 
 public class AccountAttribute {
+  /** The full name of the user. */
   public String name;
+  /** The preferred email address of the user. */
   public String email;
+  /** The username of the user. */
   public String username;
-  public Integer accountId;
+  /** The numeric ID of the account. */
+  public Integer _accountId;
 
   public AccountAttribute(Integer id) {
-    this.accountId = id;
+    this._accountId = id;
   }
 
   public AccountAttribute() {}

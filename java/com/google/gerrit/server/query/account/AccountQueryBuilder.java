@@ -48,6 +48,8 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState, AccountQuery
 
   public static final String FIELD_ACCOUNT = "account";
   public static final String FIELD_CAN_SEE = "cansee";
+
+  public static final String FIELD_HIDDEN = "hidden";
   public static final String FIELD_EMAIL = "email";
   public static final String FIELD_LIMIT = "limit";
   public static final String FIELD_NAME = "name";
@@ -150,6 +152,9 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState, AccountQuery
     }
     if ("inactive".equalsIgnoreCase(value)) {
       return AccountPredicates.isNotActive();
+    }
+    if (FIELD_HIDDEN.equals(value)) {
+      return new HiddenPredicate(/* hidden= */ true);
     }
     throw error("Invalid query");
   }

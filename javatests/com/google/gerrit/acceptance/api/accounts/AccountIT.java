@@ -937,6 +937,64 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void getOwnDetail_whenHidden() throws Exception {
+    String email = "preferred@example.com";
+    String name = "Foo";
+    String username = name("foo");
+    TestAccount foo = accountCreator.create(username, email, name, null);
+    gApi.accounts().id(foo.id().get()).setIsHidden(true);
+
+    requestScopeOperations.setApiUser(foo.id());
+    AccountDetailInfo detail = gApi.accounts().id(foo.id().get()).detail();
+    assertThat(detail._accountId).isEqualTo(foo.id().get());
+    assertThat(detail.name).isEqualTo(name);
+    assertThat(detail.username).isEqualTo(username);
+    assertThat(detail.email).isEqualTo(email);
+    assertThat(detail.registeredOn.getTime())
+        .isEqualTo(getAccount(foo.id()).registeredOn().toEpochMilli());
+    assertThat(detail.inactive).isNull();
+    assertThat(detail.isHidden).isTrue();
+  }
+
+  @Test
+  public void getDetail_forHidden_withViewAll() throws Exception {
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.VIEW_ALL_ACCOUNTS).group(REGISTERED_USERS))
+        .update();
+    String email = "preferred@example.com";
+    String name = "Foo";
+    String username = name("foo");
+    TestAccount foo = accountCreator.create(username, email, name, null);
+    gApi.accounts().id(foo.id().get()).setIsHidden(true);
+
+    requestScopeOperations.setApiUser(user.id());
+    AccountDetailInfo detail = gApi.accounts().id(foo.id().get()).detail();
+    assertThat(detail._accountId).isEqualTo(foo.id().get());
+    assertThat(detail.name).isEqualTo(name);
+    assertThat(detail.username).isEqualTo(username);
+    assertThat(detail.email).isEqualTo(email);
+    assertThat(detail.registeredOn.getTime())
+        .isEqualTo(getAccount(foo.id()).registeredOn().toEpochMilli());
+    assertThat(detail.inactive).isNull();
+    assertThat(detail.isHidden).isTrue();
+  }
+
+  @Test
+  public void getDetail_forHidden_notAllowed() throws Exception {
+    String email = "preferred@example.com";
+    String name = "Foo";
+    String username = name("foo");
+    TestAccount foo = accountCreator.create(username, email, name, null);
+    gApi.accounts().id(foo.id().get()).setIsHidden(true);
+
+    requestScopeOperations.setApiUser(user.id());
+    AccountDetailInfo detail = gApi.accounts().id(foo.id().get()).detail();
+    assertThat(detail._accountId).isEqualTo(foo.id().get());
+    assertThat(detail.name).isNull();
+  }
+
+  @Test
   public void detailOfOtherAccountDoesntIncludeSecondaryEmailsWithoutModifyAccount()
       throws Exception {
     String email = "preferred@example.com";

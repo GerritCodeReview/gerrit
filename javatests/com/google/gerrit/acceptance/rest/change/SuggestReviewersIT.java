@@ -493,6 +493,63 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void hiddenAccounts_notSuggested() throws Exception {
+    requestScopeOperations.setApiUser(user.id());
+    String changeIdReviewed = createChangeFromApi();
+    String changeId = createChangeFromApi();
+
+    String name = name("foo");
+    TestAccount foo1 = accountCreator.create(name + "-1");
+    reviewChange(changeIdReviewed, foo1);
+    assertThat(gApi.accounts().id(foo1.username()).getActive()).isTrue();
+
+    TestAccount foo2 = accountCreator.create(name + "-2");
+    reviewChange(changeIdReviewed, foo2);
+    assertThat(gApi.accounts().id(foo2.username()).getActive()).isTrue();
+
+    assertReviewers(
+        suggestReviewers(changeId, name), ImmutableList.of(foo1, foo2), ImmutableList.of());
+
+    requestScopeOperations.setApiUser(user.id());
+    gApi.accounts().id(foo2.username()).setIsHidden(true);
+    assertReviewers(suggestReviewers(changeId, name), ImmutableList.of(foo1), ImmutableList.of());
+    assertReviewers(
+        suggestReviewers(changeId, /*query=*/ ""), ImmutableList.of(foo1), ImmutableList.of());
+  }
+
+  @Test
+  public void hiddenAccounts_suggested_withViewAll() throws Exception {
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.VIEW_ALL_ACCOUNTS).group(REGISTERED_USERS))
+        .update();
+    requestScopeOperations.setApiUser(user.id());
+    String changeIdReviewed = createChangeFromApi();
+    String changeId = createChangeFromApi();
+
+    String name = name("foo");
+    TestAccount foo1 = accountCreator.create(name + "-1");
+    reviewChange(changeIdReviewed, foo1);
+    assertThat(gApi.accounts().id(foo1.username()).getActive()).isTrue();
+
+    TestAccount foo2 = accountCreator.create(name + "-2");
+    reviewChange(changeIdReviewed, foo2);
+    assertThat(gApi.accounts().id(foo2.username()).getActive()).isTrue();
+
+    assertReviewers(
+        suggestReviewers(changeId, name), ImmutableList.of(foo1, foo2), ImmutableList.of());
+
+    requestScopeOperations.setApiUser(user.id());
+    gApi.accounts().id(foo2.username()).setIsHidden(true);
+    assertReviewers(
+        suggestReviewers(changeId, name), ImmutableList.of(foo1, foo2), ImmutableList.of());
+    assertReviewers(
+        suggestReviewers(changeId, /*query=*/ ""),
+        ImmutableList.of(foo1, foo2),
+        ImmutableList.of());
+  }
+
+  @Test
   public void suggestNoServiceAccounts() throws Exception {
     requestScopeOperations.setApiUser(user.id());
     String changeIdReviewed = createChangeFromApi();

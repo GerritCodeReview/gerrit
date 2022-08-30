@@ -37,6 +37,7 @@ import com.google.gerrit.server.data.PatchSetAttribute;
 import com.google.gerrit.server.data.QueryStatsAttribute;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -235,7 +236,7 @@ public class OutputStreamQuery {
         stats.moreChanges = results.more();
         stats.runTimeMilliseconds = TimeUtil.nowMs() - stats.runTimeMilliseconds;
         show(stats);
-      } catch (StorageException err) {
+      } catch (StorageException | PermissionBackendException err) {
         logger.atSevere().withCause(err).log("Cannot execute query: %s", queryString);
 
         ErrorMessage m = new ErrorMessage();

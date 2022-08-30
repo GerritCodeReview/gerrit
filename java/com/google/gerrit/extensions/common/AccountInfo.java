@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.common;
 
 import com.google.common.base.MoreObjects;
+import com.google.gerrit.server.data.AccountAttribute;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,7 +27,7 @@ import java.util.Objects;
  * <p>This class defines fields for account properties that are frequently used. Additional fields
  * are defined in {@link AccountDetailInfo}.
  */
-public class AccountInfo {
+public class AccountInfo extends AccountAttribute {
   /**
    * Tags are additional properties of an account. These are just tags known to Gerrit core. Plugins
    * may define their own.
@@ -35,12 +36,6 @@ public class AccountInfo {
     /** Tag indicating that this account is a service user. */
     public static final String SERVICE_USER = "SERVICE_USER";
   }
-
-  /** The numeric ID of the account. */
-  public Integer _accountId;
-
-  /** The full name of the user. */
-  public String name;
 
   /**
    * The display name of the user. This allows users to control how their name is displayed in the
@@ -52,14 +47,8 @@ public class AccountInfo {
    */
   public String displayName;
 
-  /** The preferred email address of the user. */
-  public String email;
-
   /** List of the secondary email addresses of the user. */
   public List<String> secondaryEmails;
-
-  /** The username of the user. */
-  public String username;
 
   /** List of avatars of the user. */
   public List<AvatarInfo> avatars;

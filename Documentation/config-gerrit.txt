@@ -3197,6 +3197,25 @@ advantage of new search features without restarting the server.
 +
 Defaults to true.
 
+[[index.paginationType]]index.paginationType::
++
+The pagination type to use when index queries are repeated to
+obtain the next set of results. Supported values are:
++
+* `OFFSET`
++
+Index queries are repeated with a non-zero offset to obtain the
+next set of results.
++
+* `SEARCH_AFTER`
++
+Index queries are repeated using a search-after object. This type
+is supported for Lucene and ElasticSearch. Other index backends can
+provide their custom implementations for search-after. Note that,
+`SEARCH_AFTER` does not impact using offsets in Gerrit query APIs.
++
+Defaults to `OFFSET`.
+
 [[index.maxLimit]]index.maxLimit::
 +
 Maximum limit to allow for search queries. Requesting results above this
@@ -3212,6 +3231,53 @@ implementations may have to scan through large numbers of skipped
 results when searching with an offset. Requesting results starting past
 this threshold times the requested limit will result in an error. Set to
 0 for no limit.
++
+Defaults to no limit.
+
+[[index.pageSizeMultiplier]]index.pageSizeMultiplier::
++
+When index queries are repeated to obtain more results, this multiplier
+will be used to determine the limit for the next query. Using a page
+multiplier allows queries to start off small and thus provide good
+latency for queries which may end up only having very few results, and
+then scaling up to have better throughput to handle queries with larger
+result sets without incurring the overhead of making as many queries as
+would be required with a smaller limit. This strategy of using a multiplier
+attempts to create a balance between latency and throughput by dynamically
+adjusting the query size to the number of results being returned by each
+query in the pagination.
++
+The larger the multiplier, the better the throughput on large queries, and
+it also improves latency on large queries by scaling up quickly. However, a
+larger multiplier can hurt latencies a bit by making the "last" query in a
+series longer than needed. The impact of this depends on how much the backend
+latency goes up when specifying a large limit and few results are returned.
+Setting link:#index.maxPageSize[index.maxPageSize] that isn't too large, can
+likely help reduce the impacts of this.
++
+A large multiplier with an appropriate link:#index.maxPageSize[index.maxPageSize]
+should benefit external index backends such as Elasticsearch more, which have
+a relatively high query latency.
++
+For example, if the limit of the previous query was 500 and pageSizeMultiplier
+is configured to 5, the next query will have a limit of 2500.
++
+Defaults to 1 which effectively turns this feature off.
+
+[[index.maxPageSize]]index.maxPageSize::
++
+Maximum size to allow when index queries are repeated to obtain more results. Note
+that, link:#index.maxLimit[index.maxLimit] will be used to limit page size if it
+is configured to a value lower than maxPageSize.
++
+For example, if the limit of previous query was 500, pageSizeMultiplier is
+configured to 5 and maxPageSize to 2000, the next query will have a limit of
+2000 (instead of 2500).
++
+When `index.type` is set to `ELASTICSEARCH`, this value should not exceed
+the `index.max_result_window` value configured on the Elasticsearch
+server. If a value is not configured during site initialization, defaults to
+10000, which is the default value of `index.max_result_window` in Elasticsearch.
 +
 Defaults to no limit.
 

@@ -113,7 +113,6 @@ import {
 import {GrEditControls} from '../../edit/gr-edit-controls/gr-edit-controls';
 import {
   CommentThread,
-  isDraftThread,
   isRobot,
   isUnresolved,
   DraftInfo,
@@ -298,12 +297,6 @@ export class GrChangeView extends LitElement {
   @state()
   commentThreads?: CommentThread[];
 
-  // TODO(taoalpha): Consider replacing diffDrafts
-  // with draftCommentThreads everywhere, currently only
-  // replaced in reply-dialog
-  @state()
-  private draftCommentThreads?: CommentThread[];
-
   // Don't use, use serverConfig instead.
   private _serverConfig?: ServerInfo;
 
@@ -340,7 +333,6 @@ export class GrChangeView extends LitElement {
     if (this._changeComments === changeComments) return;
     const oldChangeComments = this._changeComments;
     this._changeComments = changeComments;
-    this.changeCommentsChanged();
     this.requestUpdate('changeComments', oldChangeComments);
   }
 
@@ -746,6 +738,13 @@ export class GrChangeView extends LitElement {
       () => this.getCommentsModel().changeComments$,
       changeComments => {
         this.changeComments = changeComments;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getCommentsModel().threads$,
+      threads => {
+        this.commentThreads = threads;
       }
     );
     subscribe(
@@ -1222,7 +1221,6 @@ export class GrChangeView extends LitElement {
               id="replyDialog"
               .patchNum=${computeLatestPatchNum(this.allPatchSets)}
               .permittedLabels=${this.change?.permitted_labels}
-              .draftCommentThreads=${this.draftCommentThreads}
               .projectConfig=${this.projectConfig}
               .canBeStarted=${this.canStartReview()}
               @send=${this.handleReplySent}
@@ -1866,6 +1864,7 @@ export class GrChangeView extends LitElement {
   private computeTotalCommentCounts() {
     const unresolvedCount = this.change?.unresolved_comment_count ?? 0;
     if (!this.changeComments) return undefined;
+    // TODO(dhruvri): get count from model and remove this.changeComments
     const draftCount = this.changeComments.computeDraftCount();
     const unresolvedString =
       unresolvedCount === 0 ? '' : `${unresolvedCount} unresolved`;
@@ -2799,24 +2798,6 @@ export class GrChangeView extends LitElement {
       .getChangeCommitInfo(this.changeNum, this.patchRange.patchNum)
       .then(commitInfo => {
         this.commitInfo = commitInfo;
-      });
-  }
-
-  private changeCommentsChanged() {
-    if (!this.changeComments) return;
-    this.commentThreads = this.changeComments.getAllThreadsForChange();
-    this.draftCommentThreads = this.commentThreads
-      .filter(isDraftThread)
-      .map(thread => {
-        const copiedThread = {...thread};
-        // Make a hardcopy of all comments and collapse all but last one
-        const commentsInThread = (copiedThread.comments = thread.comments.map(
-          comment => {
-            return {...comment, collapsed: true as boolean};
-          }
-        ));
-        commentsInThread[commentsInThread.length - 1].collapsed = false;
-        return copiedThread;
       });
   }
 

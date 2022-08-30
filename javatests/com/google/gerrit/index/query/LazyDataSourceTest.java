@@ -17,6 +17,7 @@ package com.google.gerrit.index.query;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.OrSource;
@@ -88,11 +89,17 @@ public class LazyDataSourceTest {
     public void close() {
       // No-op
     }
+
+    @Override
+    public Object searchAfter() {
+      return null;
+    }
   }
 
   @Test
   public void andSourceIsLazy() {
-    AndSource<ChangeData> and = new AndSource<>(ImmutableList.of(new LazyPredicate()));
+    AndSource<ChangeData> and =
+        new AndSource<>(ImmutableList.of(new LazyPredicate()), IndexConfig.createDefault());
     ResultSet<ChangeData> resultSet = and.read();
     assertThrows(AssertionError.class, () -> resultSet.toList());
   }

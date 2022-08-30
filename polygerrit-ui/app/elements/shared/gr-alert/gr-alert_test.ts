@@ -6,8 +6,8 @@
 import '../../../test/common-test-setup-karma';
 import './gr-alert';
 import {GrAlert} from './gr-alert';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {assert} from '@open-wc/testing';
+import {GrButton} from '../gr-button/gr-button';
 
 suite('gr-alert tests', () => {
   let element: GrAlert;
@@ -64,7 +64,7 @@ suite('gr-alert tests', () => {
     await flush();
     element._actionCallback = spy;
     assert.isFalse(spy.called);
-    MockInteractions.tap(element.shadowRoot!.querySelector('.action')!);
+    element.shadowRoot!.querySelector<GrButton>('.action')!.click();
     assert.isTrue(spy.called);
   });
 });

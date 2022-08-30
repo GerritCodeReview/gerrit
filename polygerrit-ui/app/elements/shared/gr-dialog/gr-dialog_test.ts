@@ -3,12 +3,12 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import '../../../test/common-test-setup-karma';
 import './gr-dialog';
 import {GrDialog} from './gr-dialog';
-import {isHidden, queryAndAssert} from '../../../test/test-utils';
+import {isHidden, pressKey, queryAndAssert} from '../../../test/test-utils';
 import {fixture, html, assert} from '@open-wc/testing';
+import {GrButton} from '../gr-button/gr-button';
 
 suite('gr-dialog tests', () => {
   let element: GrDialog;
@@ -108,10 +108,10 @@ suite('gr-dialog tests', () => {
     element.addEventListener('confirm', confirm);
     element.addEventListener('cancel', cancel);
 
-    MockInteractions.tap(queryAndAssert(element, 'gr-button[primary]'));
+    queryAndAssert<GrButton>(element, 'gr-button[primary]').click();
     assert.equal(confirm.callCount, 1);
 
-    MockInteractions.tap(queryAndAssert(element, 'gr-button:not([primary])'));
+    queryAndAssert<GrButton>(element, 'gr-button:not([primary])').click();
     assert.equal(cancel.callCount, 1);
   });
 
@@ -120,12 +120,7 @@ suite('gr-dialog tests', () => {
     await element.updateComplete;
     const handleConfirmStub = sinon.stub(element, '_handleConfirm');
     const handleKeydownSpy = sinon.spy(element, '_handleKeydown');
-    MockInteractions.keyDownOn(
-      queryAndAssert(element, 'main'),
-      13,
-      null,
-      'Enter'
-    );
+    pressKey(queryAndAssert(element, 'main'), 'Enter');
     await flush();
 
     assert.isTrue(handleKeydownSpy.called);
@@ -134,12 +129,7 @@ suite('gr-dialog tests', () => {
     element.confirmOnEnter = true;
     await element.updateComplete;
 
-    MockInteractions.keyDownOn(
-      queryAndAssert(element, 'main'),
-      13,
-      null,
-      'Enter'
-    );
+    pressKey(queryAndAssert(element, 'main'), 'Enter');
     await flush();
 
     assert.isTrue(handleConfirmStub.called);

@@ -25,9 +25,9 @@ import {
   createAccountDetailWithId,
   createThread,
 } from '../../../test/test-data-generators';
-import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 import {SinonStub} from 'sinon';
 import {fixture, html, waitUntil, assert} from '@open-wc/testing';
+import {GrButton} from '../gr-button/gr-button';
 
 const c1 = {
   author: {name: 'Kermit'},
@@ -315,7 +315,7 @@ suite('gr-comment-thread tests', () => {
     });
 
     test('handle Ack', async () => {
-      tap(queryAndAssert(element, '#ackBtn'));
+      queryAndAssert<GrButton>(element, '#ackBtn').click();
       waitUntilCalled(stub, 'saveDraft()');
       assert.equal(stub.lastCall.firstArg.message, 'Ack');
       assert.equal(stub.lastCall.firstArg.unresolved, false);
@@ -327,7 +327,7 @@ suite('gr-comment-thread tests', () => {
     });
 
     test('handle Done', async () => {
-      tap(queryAndAssert(element, '#doneBtn'));
+      queryAndAssert<GrButton>(element, '#doneBtn').click();
       waitUntilCalled(stub, 'saveDraft()');
       assert.equal(stub.lastCall.firstArg.message, 'Done');
       assert.equal(stub.lastCall.firstArg.unresolved, false);
@@ -335,13 +335,13 @@ suite('gr-comment-thread tests', () => {
 
     test('handle Reply', async () => {
       assert.isUndefined(element.unsavedComment);
-      tap(queryAndAssert(element, '#replyBtn'));
+      queryAndAssert<GrButton>(element, '#replyBtn').click();
       assert.equal(element.unsavedComment?.message, '');
     });
 
     test('handle Quote', async () => {
       assert.isUndefined(element.unsavedComment);
-      tap(queryAndAssert(element, '#quoteBtn'));
+      queryAndAssert<GrButton>(element, '#quoteBtn').click();
       assert.equal(element.unsavedComment?.message?.trim(), `> ${c2.message}`);
     });
   });
@@ -364,8 +364,8 @@ suite('gr-comment-thread tests', () => {
       await waitUntil(() => threadEl.editing);
 
       const commentEl = queryAndAssert(threadEl, 'gr-comment');
-      const buttonEl = queryAndAssert(commentEl, 'gr-button.cancel');
-      tap(buttonEl);
+      const buttonEl = queryAndAssert<GrButton>(commentEl, 'gr-button.cancel');
+      buttonEl.click();
 
       await waitUntil(() => !threadEl.editing);
       assert.isNotOk(threadEl.parentElement);

@@ -57,6 +57,7 @@ import com.google.gerrit.server.restapi.account.DeleteActive;
 import com.google.gerrit.server.restapi.account.DeleteDraftComments;
 import com.google.gerrit.server.restapi.account.DeleteEmail;
 import com.google.gerrit.server.restapi.account.DeleteExternalIds;
+import com.google.gerrit.server.restapi.account.DeleteIsHidden;
 import com.google.gerrit.server.restapi.account.DeleteSshKey;
 import com.google.gerrit.server.restapi.account.DeleteWatchedProjects;
 import com.google.gerrit.server.restapi.account.GetActive;
@@ -77,6 +78,7 @@ import com.google.gerrit.server.restapi.account.PutActive;
 import com.google.gerrit.server.restapi.account.PutAgreement;
 import com.google.gerrit.server.restapi.account.PutDisplayName;
 import com.google.gerrit.server.restapi.account.PutHttpPassword;
+import com.google.gerrit.server.restapi.account.PutIsHidden;
 import com.google.gerrit.server.restapi.account.PutName;
 import com.google.gerrit.server.restapi.account.PutStatus;
 import com.google.gerrit.server.restapi.account.SetDiffPreferences;
@@ -124,6 +126,9 @@ public class AccountApiImpl implements AccountApi {
   private final GetActive getActive;
   private final PutActive putActive;
   private final DeleteActive deleteActive;
+
+  private final PutIsHidden putIsHidden;
+  private final DeleteIsHidden deleteIsHidden;
   private final Index index;
   private final GetExternalIds getExternalIds;
   private final DeleteExternalIds deleteExternalIds;
@@ -165,6 +170,8 @@ public class AccountApiImpl implements AccountApi {
       GetActive getActive,
       PutActive putActive,
       DeleteActive deleteActive,
+      PutIsHidden putIsHidden,
+      DeleteIsHidden deleteIsHidden,
       Index index,
       GetExternalIds getExternalIds,
       DeleteExternalIds deleteExternalIds,
@@ -205,6 +212,8 @@ public class AccountApiImpl implements AccountApi {
     this.getActive = getActive;
     this.putActive = putActive;
     this.deleteActive = deleteActive;
+    this.putIsHidden = putIsHidden;
+    this.deleteIsHidden = deleteIsHidden;
     this.index = index;
     this.getExternalIds = getExternalIds;
     this.deleteExternalIds = deleteExternalIds;
@@ -255,6 +264,19 @@ public class AccountApiImpl implements AccountApi {
         putActive.apply(account, new Input());
       } else {
         deleteActive.apply(account, new Input());
+      }
+    } catch (Exception e) {
+      throw asRestApiException("Cannot set active", e);
+    }
+  }
+
+  @Override
+  public void setIsHidden(boolean value) throws RestApiException {
+    try {
+      if (value) {
+        putIsHidden.apply(account, new Input());
+      } else {
+        deleteIsHidden.apply(account, new Input());
       }
     } catch (Exception e) {
       throw asRestApiException("Cannot set active", e);

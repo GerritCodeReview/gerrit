@@ -200,6 +200,7 @@ public class InternalAccountDirectory extends AccountDirectory {
 
     if (options.contains(FillOptions.STATE)) {
       info.inactive = account.inactive() ? true : null;
+      info.isHidden = account.isHidden().orElse(false);
     }
 
     if (options.contains(FillOptions.TAGS)) {

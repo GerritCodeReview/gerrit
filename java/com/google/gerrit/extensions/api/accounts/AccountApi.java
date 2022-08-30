@@ -40,6 +40,8 @@ public interface AccountApi {
 
   void setActive(boolean active) throws RestApiException;
 
+  void setIsHidden(boolean value) throws RestApiException;
+
   String getAvatarUrl(int size) throws RestApiException;
 
   GeneralPreferencesInfo getPreferences() throws RestApiException;
@@ -146,6 +148,11 @@ public interface AccountApi {
 
     @Override
     public void setActive(boolean active) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void setIsHidden(boolean value) throws RestApiException {
       throw new NotImplementedException();
     }
 

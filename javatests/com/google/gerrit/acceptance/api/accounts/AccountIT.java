@@ -2096,6 +2096,17 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(accountState.account().isHidden()).isEmpty();
   }
 
+  @Test
+  public void setIsHidden() throws Exception {
+    int id = admin.id().get();
+    assertThat(gApi.accounts().id(id).get().isHidden).isFalse();
+    assertThat(gApi.accounts().id(id).getActive()).isTrue();
+    gApi.accounts().id(id).setIsHidden(true);
+    assertThat(gApi.accounts().id(id).get().isHidden).isTrue();
+    gApi.accounts().id(id).setIsHidden(false);
+    assertThat(gApi.accounts().id(id).get().isHidden).isFalse();
+  }
+
   private EmailInput newEmailInput(String email, boolean noConfirmation) {
     EmailInput input = new EmailInput();
     input.email = email;

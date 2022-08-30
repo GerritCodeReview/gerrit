@@ -43,6 +43,7 @@ import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-m
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
 import {classMap} from 'lit/directives/class-map.js';
+import {changeToState} from '../../core/gr-router/change-view-model';
 
 enum ChangeSize {
   XS = 10,
@@ -112,6 +113,8 @@ export class GrChangeListItem extends LitElement {
   reporting: ReportingService = getAppContext().reportingService;
 
   private readonly flagsService = getAppContext().flagsService;
+
+  private readonly router = getAppContext().routerModel;
 
   private readonly getBulkActionsModel = resolve(this, bulkActionsModelToken);
 
@@ -658,7 +661,8 @@ export class GrChangeListItem extends LitElement {
 
   private computeChangeURL() {
     if (!this.change) return '';
-    return GerritNav.getUrlForChange(this.change, {usp: this.usp});
+    const state = changeToState(this.change);
+    return this.router.changeUrl({...state, usp: this.usp});
   }
 
   private computeRepoUrl() {

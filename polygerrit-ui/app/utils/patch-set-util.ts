@@ -66,7 +66,7 @@ export function convertToPatchSetNum(
 ): PatchSetNum | undefined {
   if (patchset === undefined) return patchset;
   if (!isPatchSetNum(patchset)) {
-    console.error('string is not of type PatchSetNum');
+    console.error(`string is not of type PatchSetNum: '${patchset}'`);
   }
   const value = Number(patchset);
   if (!isNaN(value)) return value as PatchSetNum;

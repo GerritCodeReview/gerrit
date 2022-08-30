@@ -202,9 +202,9 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
   public readonly patchNum$: Observable<RevisionPatchSetNum | undefined> =
     select(
       combineLatest([
-        this.routerModel.state$,
+        this.routerModel.change.changeNum$,
         this.state$,
-        this.routerModel.routerPatchNum$,
+        this.routerModel.change.patchNum$,
         this.latestPatchNum$,
       ]).pipe(
         /**
@@ -212,11 +212,12 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
          * out inconsistent state, e.g. router changeNum already updated, change not
          * yet reset to undefined.
          */
-        filter(([routerState, changeState, _routerPatchN, _latestPatchN]) => {
-          const changeNum = changeState.change?._number;
-          const routerChangeNum = routerState.changeNum;
-          return changeNum === undefined || changeNum === routerChangeNum;
-        })
+        filter(
+          ([routerChangeNum, changeState, _routerPatchN, _latestPatchN]) => {
+            const changeNum = changeState.change?._number;
+            return changeNum === undefined || changeNum === routerChangeNum;
+          }
+        )
       ),
       ([_routerState, _changeState, routerPatchN, latestPatchN]) =>
         routerPatchN || latestPatchN
@@ -234,18 +235,21 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
      * out inconsistent state, e.g. router changeNum already updated, change not
      * yet reset to undefined.
      */
-    combineLatest([this.routerModel.state$, this.state$, this.userModel.state$])
+    combineLatest([
+      this.routerModel.change.changeNum$,
+      this.state$,
+      this.userModel.state$,
+    ])
       .pipe(
-        filter(([routerState, changeState, _]) => {
+        filter(([routerChangeNum, changeState, _]) => {
           const changeNum = changeState.change?._number;
-          const routerChangeNum = routerState.changeNum;
           return changeNum === undefined || changeNum === routerChangeNum;
         }),
         distinctUntilChanged()
       )
       .pipe(
         withLatestFrom(
-          this.routerModel.routerBasePatchNum$,
+          this.routerModel.change.basePatchNum$,
           this.patchNum$,
           this.change$,
           this.userModel.preferences$
@@ -276,7 +280,7 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
   ) {
     super(initialState);
     this.subscriptions = [
-      combineLatest([this.routerModel.routerChangeNum$, this.reload$])
+      combineLatest([this.routerModel.change.changeNum$, this.reload$])
         .pipe(
           map(([changeNum, _]) => changeNum),
           switchMap(changeNum => {
@@ -285,7 +289,7 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
             const edit = from(this.restApiService.getChangeEdit(changeNum));
             return forkJoin([change, edit]);
           }),
-          withLatestFrom(this.routerModel.routerPatchNum$),
+          withLatestFrom(this.routerModel.change.patchNum$),
           map(([[change, edit], patchNum]) =>
             updateChangeWithEdit(change, edit, patchNum)
           )

@@ -1603,6 +1603,10 @@ export class GrFileList extends LitElement {
       this.patchRange.basePatchNum === PARENT &&
       this.patchRange.patchNum !== EDIT
     ) {
+      console.log(
+        `updateCleanlyMergedPaths ${this.changeNum} ${this.patchRange.patchNum}`
+      );
+
       const allFilesByPath = await this.restApiService.getChangeOrEditFiles(
         this.changeNum,
         {

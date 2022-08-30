@@ -71,6 +71,7 @@ import './gr-css-mixins';
 import {isDarkTheme, prefersDarkColorScheme} from '../utils/theme-util';
 import {AppTheme} from '../constants/constants';
 import {subscribe} from './lit/subscription-controller';
+import {ChildView} from './core/gr-router/change-view-model';
 
 interface ErrorInfo {
   text: string;
@@ -110,17 +111,13 @@ export class GrAppElement extends LitElement {
 
   @state() private activeView?: GerritView;
 
+  @state() private changeViewChild?: ChildView;
+
   // TODO: Remove all the boolean show... states in favor of this.activeView.
   @state() private showChangeListView?: boolean;
 
   // TODO: Remove all the boolean show... states in favor of this.activeView.
   @state() private showDashboardView?: boolean;
-
-  // TODO: Remove all the boolean show... states in favor of this.activeView.
-  @state() private showChangeView?: boolean;
-
-  // TODO: Remove all the boolean show... states in favor of this.activeView.
-  @state() private showDiffView?: boolean;
 
   // TODO: Remove all the boolean show... states in favor of this.activeView.
   @state() private showAdminView?: boolean;
@@ -245,6 +242,11 @@ export class GrAppElement extends LitElement {
       this,
       () => this.routerModel.routerView$,
       x => (this.activeView = x)
+    );
+    subscribe(
+      this,
+      () => this.routerModel.change.childView$,
+      x => (this.changeViewChild = x)
     );
   }
 
@@ -480,16 +482,16 @@ export class GrAppElement extends LitElement {
       this.updateComplete.then(() => (this.invalidateChangeViewCache = false));
       return nothing;
     }
-    return cache(this.showChangeView ? this.changeViewTemplate() : nothing);
+    const show =
+      this.activeView === GerritView.CHANGE &&
+      this.changeViewChild === ChildView.CHANGE;
+    return cache(show ? this.changeViewTemplate() : nothing);
   }
 
   // Template as not to create duplicates, for renderChangeView() only.
   private changeViewTemplate() {
     return html`
-      <gr-change-view
-        .params=${this.params}
-        .backPage=${this.lastSearchPage}
-      ></gr-change-view>
+      <gr-change-view .backPage=${this.lastSearchPage}></gr-change-view>
     `;
   }
 
@@ -503,11 +505,14 @@ export class GrAppElement extends LitElement {
       this.updateComplete.then(() => (this.invalidateDiffViewCache = false));
       return nothing;
     }
-    return cache(this.showDiffView ? this.diffViewTemplate() : nothing);
+    const show =
+      this.activeView === GerritView.CHANGE &&
+      this.changeViewChild === ChildView.DIFF;
+    return cache(show ? this.diffViewTemplate() : nothing);
   }
 
   private diffViewTemplate() {
-    return html`<gr-diff-view .params=${this.params}></gr-diff-view>`;
+    return html`<gr-diff-view></gr-diff-view>`;
   }
 
   private renderSettingsView() {
@@ -621,8 +626,6 @@ export class GrAppElement extends LitElement {
     // TODO: Remove all the boolean show... states in favor of this.activeView.
     this.showChangeListView = view === GerritView.SEARCH;
     this.showDashboardView = view === GerritView.DASHBOARD;
-    this.showChangeView = view === GerritView.CHANGE;
-    this.showDiffView = view === GerritView.DIFF;
     // showAdminView must be in sync with the gr-admin-view AdminViewParams type
     this.showAdminView =
       view === GerritView.ADMIN ||

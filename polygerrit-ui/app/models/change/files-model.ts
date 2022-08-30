@@ -187,6 +187,8 @@ export class FilesModel extends Model<FilesState> implements Finalizable {
           if (!changeNum || !patchNum) return of({});
           const range = rangeChooser(basePatchNum, patchNum);
           if (!range) return of({});
+          console.log(`subscribeToFiles ${changeNum} ${range.patchNum}`);
+
           return from(
             this.restApiService.getChangeOrEditFiles(changeNum, range)
           );

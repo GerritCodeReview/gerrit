@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66ead25a_ba3223f3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-30T14:52:51Z",
+      "side": 1,
+      "message": "There\u0027s more docs referring to Ignore, notably the \u0027dev-star.txt\u0027 doc.",
+      "revId": "ff43c2d28d0814488a7a6c92ebe3c9490dfe12ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

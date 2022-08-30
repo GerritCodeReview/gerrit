@@ -386,13 +386,20 @@ suite('gr-reply-dialog tests', () => {
     );
   });
 
-  test('modified attention set', async () => {
+  test.only('modified attention set', async () => {
+    debugger;
     await element.updateComplete;
+<<<<<<< PATCH SET (c4d47d Subscribe to draft threads from model in GrReplyDialog)
+    // set sendButton disabled = false so that click handler is triggered
+    // TODO: Figure out why sendButton is being called in a disabled state
+    element.reviewersMutated = true;
+=======
 
     // required so that "Send" button is enabled
     element.canBeStarted = true;
     await element.updateComplete;
 
+>>>>>>> BASE      (ae9a0b Set draftCommentThreads to empty array in GrReplyDialog test)
     element.account = {_account_id: 123 as AccountId};
     element.newAttentionSet = new Set([314 as AccountId]);
     const saveReviewPromise = interceptSaveReview();

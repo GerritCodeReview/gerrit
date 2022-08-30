@@ -20,6 +20,7 @@ import {
   addPath,
   DraftInfo,
   isDraft,
+  isDraftThread,
   isUnsaved,
   reportingDetails,
   UnsavedInfo,
@@ -305,6 +306,10 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
 
   public readonly threads$ = select(this.changeComments$, changeComments =>
     changeComments.getAllThreadsForChange()
+  );
+
+  public readonly draftThreads$ = select(this.threads$, threads =>
+    threads.filter(isDraftThread)
   );
 
   public readonly commentedPaths$ = select(

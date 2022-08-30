@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "912801b2_a8da6647",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3213,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-30T19:07:40Z",
+      "side": 1,
+      "message": "Not applicable to 3.5, remove.",
+      "range": {
+        "startLine": 3213,
+        "startChar": 24,
+        "endLine": 3213,
+        "endChar": 41
+      },
+      "revId": "1b09a17327fdbf1d9ec489bdebb7ba912e329205",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67aab6bd_def07938",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3280,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-08-30T19:07:40Z",
+      "side": 1,
+      "message": "Not applicable to 3.5, remove.",
+      "range": {
+        "startLine": 3276,
+        "startChar": 0,
+        "endLine": 3280,
+        "endChar": 80
+      },
+      "revId": "1b09a17327fdbf1d9ec489bdebb7ba912e329205",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

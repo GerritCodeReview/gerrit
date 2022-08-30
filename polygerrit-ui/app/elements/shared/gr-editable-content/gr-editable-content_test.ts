@@ -7,7 +7,6 @@ import '../../../test/common-test-setup-karma';
 import './gr-editable-content';
 import {GrEditableContent} from './gr-editable-content';
 import {query, queryAndAssert, stubStorage} from '../../../test/test-utils';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {GrButton} from '../gr-button/gr-button';
 import {fixture, html, assert} from '@open-wc/testing';
 import {EventType} from '../../../types/events';
@@ -112,7 +111,7 @@ suite('gr-editable-content tests', () => {
     await element.updateComplete;
     element.addEventListener('editable-content-cancel', handler);
 
-    MockInteractions.tap(queryAndAssert(element, 'gr-button.cancel-button'));
+    queryAndAssert<GrButton>(element, 'gr-button.cancel-button').click();
 
     assert.isTrue(handler.called);
   });
@@ -224,7 +223,7 @@ suite('gr-editable-content tests', () => {
       element.editing = true;
 
       // Needed because editingChanged resets newContent
-      // We want ediingChanged() to finish before triggering newContentChanged
+      // We want editingChanged() to finish before triggering newContentChanged
       await element.updateComplete;
 
       element.newContent = 'new content';

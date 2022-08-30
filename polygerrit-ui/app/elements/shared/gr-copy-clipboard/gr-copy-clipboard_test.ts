@@ -7,8 +7,8 @@ import '../../../test/common-test-setup-karma';
 import './gr-copy-clipboard';
 import {GrCopyClipboard} from './gr-copy-clipboard';
 import {queryAndAssert} from '../../../test/test-utils';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {fixture, html, assert} from '@open-wc/testing';
+import {GrButton} from '../gr-button/gr-button';
 
 suite('gr-copy-clipboard tests', () => {
   let element: GrCopyClipboard;
@@ -56,8 +56,8 @@ suite('gr-copy-clipboard tests', () => {
 
   test('copy to clipboard', () => {
     const clipboardSpy = sinon.spy(navigator.clipboard, 'writeText');
-    const copyBtn = queryAndAssert(element, '.copyToClipboard');
-    MockInteractions.click(copyBtn);
+    const copyBtn = queryAndAssert<GrButton>(element, '.copyToClipboard');
+    copyBtn.click();
     assert.isTrue(clipboardSpy.called);
   });
 
@@ -75,7 +75,7 @@ suite('gr-copy-clipboard tests', () => {
     assert.notEqual(getComputedStyle(ironInputElement).display, 'none');
 
     const inputElement = queryAndAssert<HTMLInputElement>(element, 'input');
-    MockInteractions.tap(inputElement);
+    inputElement.click();
     assert.equal(inputElement.selectionStart, 0);
     assert.equal(inputElement.selectionEnd, element.text!.length - 1);
   });
@@ -98,8 +98,8 @@ suite('gr-copy-clipboard tests', () => {
     divParent.appendChild(element);
     const clickStub = sinon.stub();
     divParent.addEventListener('click', clickStub);
-    const copyBtn = queryAndAssert(element, '.copyToClipboard');
-    MockInteractions.tap(copyBtn);
+    const copyBtn = queryAndAssert<GrButton>(element, '.copyToClipboard');
+    copyBtn.click();
     assert.isFalse(clickStub.called);
   });
 });

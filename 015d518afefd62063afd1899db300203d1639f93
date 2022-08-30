@@ -16,6 +16,360 @@
       "message": "Nice change and nice feature!",
       "revId": "015d518afefd62063afd1899db300203d1639f93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4d41a23_384143a9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-30T14:26:38Z",
+      "side": 1,
+      "message": "Nice! ❤️",
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7558b55_da1bfb6e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1290,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-30T14:26:38Z",
+      "side": 1,
+      "message": "Why keep the \u003ca\u003e with href, if you wrap a button around it?\n\nI think we have a lot of users that click this link for reloading. I am not one of them, but you might create major annoyance, if you just take this feature away.\n\nMaybe the link can stay as is and instead we create a dropdown button next to it? It could contain a \"copy\" icon next to the down arrow.\n\nI am not sure what the best UX is and what users will like best. I think I would need to test this more. Ideally we can have an experiment? Or do you think that is too much trouble?",
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "832c78d8_aea71c24",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1303,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-30T14:26:38Z",
+      "side": 1,
+      "message": "```suggestion\n    const url \u003d this.computeChangeUrl()\n    if (!url) return;\n    const changeURL \u003d prependOrigin(getBaseUrl() + url);\n```",
+      "range": {
+        "startLine": 1300,
+        "startChar": 4,
+        "endLine": 1303,
+        "endChar": 6
+      },
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9584f12e_b66fca81",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1319,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-30T14:26:38Z",
+      "side": 1,
+      "message": "I think personally I would want these two separately:\n\n* `${this.change?._number}: ${this.change?.subject}`\n* `${changeURL}: ${this.change?.subject}`",
+      "range": {
+        "startLine": 1315,
+        "startChar": 6,
+        "endLine": 1319,
+        "endChar": 8
+      },
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1702ec2b_0feeae95",
+        "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-30T14:26:38Z",
+      "side": 1,
+      "message": "Do you need font styles for anything?",
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "083587cc_f48f08e8",
+        "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-30T14:26:38Z",
+      "side": 1,
+      "message": "Never use `sharedStyles` for new components, if possible.",
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e118cad4_85a29eb7",
+        "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-30T14:26:38Z",
+      "side": 1,
+      "message": "Maybe `width: min(90vw, 520px); `",
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7318be0f_764a0d92",
+        "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-30T14:26:38Z",
+      "side": 1,
+      "message": "```suggestion\n          border-radius: var(--border-radius);\n```",
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24c5725d_87d7414b",
+        "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-30T14:26:38Z",
+      "side": 1,
+      "message": "Maybe return nothing while `copyLinks` is empty?",
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64a6478f_6e77b5aa",
+        "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-30T14:26:38Z",
+      "side": 1,
+      "message": "Does `auto` have a benefit over bottom-right?",
+      "range": {
+        "startLine": 78,
+        "startChar": 1,
+        "endLine": 79,
+        "endChar": 30
+      },
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0423c6b3_40f7d2d5",
+        "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-30T14:26:38Z",
+      "side": 1,
+      "message": "Rename to `onKeydown` or `handleKeydown`.",
+      "range": {
+        "startLine": 81,
+        "startChar": 22,
+        "endLine": 81,
+        "endChar": 35
+      },
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d9a775b_2dbad739",
+        "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-30T14:26:38Z",
+      "side": 1,
+      "message": "`ValueChangedEvent\u003cboolean\u003e`",
+      "range": {
+        "startLine": 82,
+        "startChar": 28,
+        "endLine": 82,
+        "endChar": 39
+      },
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "328b17e6_873bae73",
+        "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-30T14:26:38Z",
+      "side": 1,
+      "message": "Is there much value in doing this only when the dropdown is open? I think the performance penalty is minimal, but you are adding complexity that we have to maintain and migrate (new component lib).",
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee9ad7f6_0e2fef80",
+        "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-30T14:26:38Z",
+      "side": 1,
+      "message": "Why hide the input and then render your own input?\n\nIt might be worthwhile to teach `gr-copy-clipboard` to show the keyboard shortcut as desired.",
+      "range": {
+        "startLine": 102,
+        "startChar": 25,
+        "endLine": 102,
+        "endChar": 34
+      },
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe3bf182_3f69bbc4",
+        "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-30T14:26:38Z",
+      "side": 1,
+      "message": "Move these two lines into a utility. Bonus points for pointing the existing 3 usages of `navigator` to the new utility.",
+      "range": {
+        "startLine": 109,
+        "startChar": 3,
+        "endLine": 110,
+        "endChar": 65
+      },
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8737ecb9_d6a90815",
+        "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-30T14:26:38Z",
+      "side": 1,
+      "message": "Why do you do this here without relying on the `@opened-changed` handler, but in `openDropdown()` you do rely on the handler.",
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d77474f_3395f3c3",
+        "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-30T14:26:38Z",
+      "side": 1,
+      "message": "If you decide that you need this, then maybe do it as gr-dropdown does it:\n```\n  override updated(changedProperties: PropertyValues) {\n    if (changedProperties.has(\u0027isDropdownOpen\u0027) \u0026\u0026 this.isDropdownOpen) {\n      queryAndAssert\u003cHTMLInputElement\u003e(this.dropdown, \u0027input\u0027)?.select();\n    }\n  }\n```",
+      "range": {
+        "startLine": 130,
+        "startChar": 2,
+        "endLine": 147,
+        "endChar": 3
+      },
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d84c08cc_2744c329",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-config.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-30T14:26:38Z",
+      "side": 1,
+      "message": "Maybe\n`Open \"copy link\" dialog`\nor\n`Open link dialog`",
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -14,6 +14,7 @@ export enum LifeCycle {
   PLUGINS_INSTALLED = 'Plugins installed',
   PLUGINS_FAILED = 'Some plugins failed to load',
   USER_REFERRED_FROM = 'User referred from',
+  NOTIFICATION_PERMISSION = 'Notification Permission',
 }
 
 export enum Execution {

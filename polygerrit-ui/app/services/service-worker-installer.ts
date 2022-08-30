@@ -8,10 +8,13 @@ import {FlagsService, KnownExperimentId} from './flags/flags';
 import {registerServiceWorker} from '../utils/worker-util';
 import {UserModel} from '../models/user/user-model';
 import {AccountDetailInfo} from '../api/rest-api';
+import {ReportingService} from './gr-reporting/gr-reporting';
+import {LifeCycle} from '../constants/reporting';
 
 /** Type of incoming messages for ServiceWorker. */
 export enum ServiceWorkerMessageType {
   TRIGGER_NOTIFICATIONS = 'TRIGGER_NOTIFICATIONS',
+  REPORTING = 'REPORTING',
 }
 
 export const TRIGGER_NOTIFICATION_UPDATES_MS = 5 * 60 * 1000;
@@ -23,6 +26,7 @@ export class ServiceWorkerInstaller {
 
   constructor(
     private readonly flagsService: FlagsService,
+    private readonly reportingService: ReportingService,
     private readonly userModel: UserModel
   ) {
     this.userModel.account$.subscribe(acc => (this.account = acc));
@@ -39,9 +43,15 @@ export class ServiceWorkerInstaller {
     }
     await registerServiceWorker('/service-worker.js');
     const permission = await Notification.requestPermission();
+    this.reportingService.reportLifeCycle(LifeCycle.NOTIFICATION_PERMISSION, {
+      permission,
+    });
     if (this.isPermitted(permission)) this.startTriggerTimer();
     this.initialized = true;
   }
+
+  // problem many clients 1 service worker, how to know which client to send.
+  // just one 
 
   /**
    * Every 5 minutes, we trigger service-worker to get

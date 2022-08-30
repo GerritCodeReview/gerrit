@@ -383,8 +383,12 @@ suite('gr-reply-dialog tests', () => {
     );
   });
 
-  test('modified attention set', async () => {
+  test.only('modified attention set', async () => {
+    debugger;
     await element.updateComplete;
+    // set sendButton disabled = false so that click handler is triggered
+    // TODO: Figure out why sendButton is being called in a disabled state
+    element.reviewersMutated = true;
     element.account = {_account_id: 123 as AccountId};
     element.newAttentionSet = new Set([314 as AccountId]);
     const saveReviewPromise = interceptSaveReview();

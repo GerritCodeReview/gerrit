@@ -163,6 +163,8 @@ export class GrAppElement extends LitElement {
 
   @state() private theme = AppTheme.AUTO;
 
+  @state() private themeEndpoint = 'app-theme-light';
+
   readonly router = new GrRouter();
 
   private reporting = getAppContext().reportingService;
@@ -415,7 +417,7 @@ export class GrAppElement extends LitElement {
       ></gr-external-style>
       <gr-external-style
         id="externalStyleForTheme"
-        .name=${this.getThemeEndpoint()}
+        name=${this.themeEndpoint}
       ></gr-external-style>
     `;
   }
@@ -647,8 +649,10 @@ export class GrAppElement extends LitElement {
     document.documentElement.classList.toggle('darkTheme', showDarkTheme);
     document.documentElement.classList.toggle('lightTheme', !showDarkTheme);
     if (showDarkTheme) {
+      this.themeEndpoint = 'app-theme-dark';
       applyDarkTheme();
     } else {
+      this.themeEndpoint = 'app-theme-light';
       removeDarkTheme();
     }
   }
@@ -842,13 +846,6 @@ export class GrAppElement extends LitElement {
 
   private mobileSearchToggle() {
     this.mobileSearch = !this.mobileSearch;
-  }
-
-  getThemeEndpoint() {
-    // For now, we only have dark mode and light mode
-    return window.localStorage.getItem('dark-theme')
-      ? 'app-theme-dark'
-      : 'app-theme-light';
   }
 }
 

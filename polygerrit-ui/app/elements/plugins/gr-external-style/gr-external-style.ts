@@ -6,13 +6,13 @@
 import {updateStyles} from '@polymer/polymer/lib/mixins/element-mixin';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
-import {LitElement, html} from 'lit';
+import {LitElement, html, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 
 @customElement('gr-external-style')
 export class GrExternalStyle extends LitElement {
   // This is a required value for this component.
-  @property({type: String})
+  @property({type: String, reflect: true})
   name!: string;
 
   // private but used in test
@@ -22,22 +22,45 @@ export class GrExternalStyle extends LitElement {
     return html`<slot></slot>`;
   }
 
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('name')) {
+      this.removeStyle(changedProperties.get('name'));
+      this.importAndApply();
+      getPluginLoader()
+        .awaitPluginsLoaded()
+        .then(() => this.importAndApply());
+    }
+  }
+
   // private but used in test
-  applyStyle(name: string) {
-    if (this.stylesApplied.includes(name)) {
+  applyStyle(moduleName: string) {
+    if (this.stylesApplied.includes(moduleName)) {
       return;
     }
-    this.stylesApplied.push(name);
+    this.stylesApplied.push(moduleName);
 
     const s = document.createElement('style');
-    s.setAttribute('include', name);
-    const cs = document.createElement('custom-style');
+    s.setAttribute('include', moduleName);
+    let cs = document.body.querySelector(`custom-style#${this.name}`);
+    if (!cs) {
+      cs = document.createElement('custom-style');
+      cs.setAttribute('id', this.name);
+      // When using Shadow DOM <custom-style> must be added to the <body>.
+      // Within <gr-external-style> itself the styles would have no effect.
+      const topEl = document.getElementsByTagName('body')[0];
+      topEl.insertBefore(cs, topEl.firstChild);
+    }
     cs.appendChild(s);
-    // When using Shadow DOM <custom-style> must be added to the <body>.
-    // Within <gr-external-style> itself the styles would have no effect.
-    const topEl = document.getElementsByTagName('body')[0];
-    topEl.insertBefore(cs, topEl.firstChild);
     updateStyles();
+  }
+
+  removeStyle(name?: string) {
+    if (!name) return;
+    const cs = document.body.querySelector(`custom-style#${name}`);
+    if (cs) {
+      this.stylesApplied = [];
+      cs.remove();
+    }
   }
 
   private importAndApply() {
@@ -45,14 +68,6 @@ export class GrExternalStyle extends LitElement {
     for (const name of moduleNames) {
       this.applyStyle(name);
     }
-  }
-
-  override connectedCallback() {
-    super.connectedCallback();
-    this.importAndApply();
-    getPluginLoader()
-      .awaitPluginsLoaded()
-      .then(() => this.importAndApply());
   }
 }
 

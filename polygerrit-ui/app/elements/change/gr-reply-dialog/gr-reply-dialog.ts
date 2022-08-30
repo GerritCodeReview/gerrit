@@ -120,6 +120,7 @@ import {configModelToken} from '../../../models/config/config-model';
 import {hasHumanReviewer, isOwner} from '../../../utils/change-util';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {commentsModelToken} from '../../../models/comments/comments-model';
+import {GrComment} from '../../shared/gr-comment/gr-comment';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -973,6 +974,7 @@ export class GrReplyDialog extends LitElement {
       this.patchsetLevelComment = this.createDraft();
     return html`
       <gr-comment
+        id="patchsetLevelComment"
         .comment=${this.patchsetLevelComment}
         .comments=${[this.patchsetLevelComment]}
         @comment-unresolved-changed=${(e: CustomEvent) => {
@@ -1485,7 +1487,7 @@ export class GrReplyDialog extends LitElement {
     );
   }
 
-  send(includeComments: boolean, startReview: boolean) {
+  async send(includeComments: boolean, startReview: boolean) {
     this.reporting.time(Timing.SEND_REPLY);
     const labels = this.getLabelScores().getLabelValues();
 
@@ -1521,7 +1523,24 @@ export class GrReplyDialog extends LitElement {
       reviewInput.remove_from_attention_set
     );
 
-    if (this.draft) {
+    if (
+      this.flagsService.isEnabled(
+        KnownExperimentId.PATCHSET_LEVEL_COMMENT_USES_GRCOMMENT
+      )
+    ) {
+      const patchsetLevelComment = queryAndAssert<GrComment>(
+        this,
+        '#patchsetLevelComment'
+      );
+      await patchsetLevelComment.save();
+    }
+
+    if (
+      this.draft &&
+      !this.flagsService.isEnabled(
+        KnownExperimentId.PATCHSET_LEVEL_COMMENT_USES_GRCOMMENT
+      )
+    ) {
       const comment: CommentInput = {
         message: this.draft,
         unresolved: !this.isResolvedPatchsetLevelComment,

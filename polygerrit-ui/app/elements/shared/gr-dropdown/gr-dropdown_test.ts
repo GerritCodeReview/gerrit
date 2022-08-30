@@ -6,8 +6,7 @@
 import '../../../test/common-test-setup-karma';
 import './gr-dropdown';
 import {DropdownLink, GrDropdown} from './gr-dropdown';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
-import {queryAll, queryAndAssert} from '../../../test/test-utils';
+import {pressKey, queryAll, queryAndAssert} from '../../../test/test-utils';
 import {GrTooltipContent} from '../gr-tooltip-content/gr-tooltip-content';
 import {assertIsDefined} from '../../../utils/common-util';
 import {fixture, html, assert} from '@open-wc/testing';
@@ -31,9 +30,9 @@ suite('gr-dropdown tests', () => {
     assertIsDefined(element.dropdown);
     assertIsDefined(element.trigger);
     assert.isFalse(element.dropdown.opened);
-    MockInteractions.tap(element.trigger);
+    element.trigger.click();
     assert.isTrue(element.dropdown.opened);
-    MockInteractions.tap(element.trigger);
+    element.trigger.click();
     assert.isFalse(element.dropdown.opened);
   });
 
@@ -102,9 +101,7 @@ suite('gr-dropdown tests', () => {
     element.addEventListener('tap-item-foo', fooTapped);
     element.addEventListener('tap-item', tapped);
     await element.updateComplete;
-    MockInteractions.tap(
-      queryAndAssert<HTMLSpanElement>(element, '.itemAction')
-    );
+    queryAndAssert<HTMLSpanElement>(element, '.itemAction').click();
     assert.isTrue(fooTapped.called);
     assert.isTrue(tapped.called);
     assert.deepEqual(tapped.lastCall.args[0].detail, item0);
@@ -119,9 +116,7 @@ suite('gr-dropdown tests', () => {
     element.addEventListener('tap-item-foo', stub);
     element.addEventListener('tap-item', tapped);
     await element.updateComplete;
-    MockInteractions.tap(
-      queryAndAssert<HTMLSpanElement>(element, '.itemAction')
-    );
+    queryAndAssert<HTMLSpanElement>(element, '.itemAction').click();
     assert.isFalse(stub.called);
     assert.isFalse(tapped.called);
   });
@@ -237,9 +232,9 @@ suite('gr-dropdown tests', () => {
       const stub = sinon.stub(element.cursor, 'next');
       assertIsDefined(element.dropdown);
       assert.isFalse(element.dropdown.opened);
-      MockInteractions.pressAndReleaseKeyOn(element, 40, null, 'ArrowDown');
+      pressKey(element, 'ArrowDown');
       assert.isTrue(element.dropdown.opened);
-      MockInteractions.pressAndReleaseKeyOn(element, 40, null, 'ArrowDown');
+      pressKey(element, 'ArrowDown');
       assert.isTrue(stub.called);
     });
 
@@ -247,9 +242,9 @@ suite('gr-dropdown tests', () => {
       assertIsDefined(element.dropdown);
       const stub = sinon.stub(element.cursor, 'previous');
       assert.isFalse(element.dropdown.opened);
-      MockInteractions.pressAndReleaseKeyOn(element, 38, null, 'ArrowUp');
+      pressKey(element, 'ArrowUp');
       assert.isTrue(element.dropdown.opened);
-      MockInteractions.pressAndReleaseKeyOn(element, 38, null, 'ArrowUp');
+      pressKey(element, 'ArrowUp');
       assert.isTrue(stub.called);
     });
 
@@ -258,7 +253,7 @@ suite('gr-dropdown tests', () => {
       // Because enter and space are handled by the same fn, we need only to
       // test one.
       assert.isFalse(element.dropdown.opened);
-      MockInteractions.pressAndReleaseKeyOn(element, 32, null, ' ');
+      pressKey(element, ' ');
       await element.updateComplete;
       assert.isTrue(element.dropdown.opened);
 
@@ -267,7 +262,7 @@ suite('gr-dropdown tests', () => {
         ':not([hidden]) a'
       );
       const stub = sinon.stub(el, 'click');
-      MockInteractions.pressAndReleaseKeyOn(element, 32, null, ' ');
+      pressKey(element, ' ');
       assert.isTrue(stub.called);
     });
   });

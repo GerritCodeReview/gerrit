@@ -6,7 +6,6 @@
 import '../../../test/common-test-setup-karma';
 import './gr-dropdown-list';
 import {GrDropdownList} from './gr-dropdown-list';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {query, queryAll, queryAndAssert} from '../../../test/test-utils';
 import {PaperListboxElement} from '@polymer/paper-listbox';
 import {Timestamp} from '../../../types/common';
@@ -163,7 +162,7 @@ suite('gr-dropdown-list tests', () => {
     assertIsDefined(element.dropdown);
     assert.isFalse(element.dropdown.opened);
     assertIsDefined(element.trigger);
-    MockInteractions.tap(element.trigger);
+    element.trigger.click();
     assert.isTrue(element.dropdown.opened);
   });
 
@@ -277,7 +276,7 @@ suite('gr-dropdown-list tests', () => {
     assert.equal(mobileItems[2].text, element.items[2].mobileText);
 
     // Select a new item.
-    MockInteractions.tap(items[0]);
+    items[0].click();
     await element.updateComplete;
     assert.equal(element.value, '1');
     assert.isTrue(items[0].classList.contains('iron-selected'));

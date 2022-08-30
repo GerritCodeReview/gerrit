@@ -499,9 +499,7 @@ suite('gr-textarea tests', () => {
   test('newline receives matching indentation', async () => {
     const indentCommand = sinon.stub(document, 'execCommand');
     element.textarea!.value = '    a';
-    element.handleEnterByKey(
-      new KeyboardEvent('keydown', {key: 'Enter', keyCode: 13})
-    );
+    element.handleEnterByKey(new KeyboardEvent('keydown', {key: 'Enter'}));
     await element.updateComplete;
     assert.deepEqual(indentCommand.args[0], ['insertText', false, '\n    ']);
   });

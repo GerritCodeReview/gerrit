@@ -215,7 +215,7 @@ export class GrDialog extends LitElement {
   }
 
   _handleKeydown(e: KeyboardEvent) {
-    if (this.confirmOnEnter && e.keyCode === 13) {
+    if (this.confirmOnEnter && e.key === 'Enter') {
       this._handleConfirm(e);
     }
   }

@@ -422,7 +422,7 @@ export class GrResultRow extends LitElement {
     if (!this.isExpandable) return;
     if (modifierPressed(e)) return;
     // Only react to `return` and `space`.
-    if (e.keyCode !== 13 && e.keyCode !== 32) return;
+    if (e.key !== 'Enter' && e.key !== ' ') return;
     e.preventDefault();
     e.stopPropagation();
     this.toggleExpanded();

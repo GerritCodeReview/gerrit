@@ -124,7 +124,7 @@ suite('gr-dialog tests', () => {
       queryAndAssert(element, 'main'),
       13,
       null,
-      'enter'
+      'Enter'
     );
     await flush();
 
@@ -138,7 +138,7 @@ suite('gr-dialog tests', () => {
       queryAndAssert(element, 'main'),
       13,
       null,
-      'enter'
+      'Enter'
     );
     await flush();
 

@@ -368,11 +368,11 @@ export class GrAccountList extends LitElement {
     ) {
       return;
     }
-    switch (e.keyCode) {
-      case 8: // Backspace
+    switch (e.key) {
+      case 'Backspace':
         this.removeAccount(this.accounts[this.accounts.length - 1]);
         break;
-      case 37: // Left arrow
+      case 'ArrowLeft':
         if (this.accountChips[this.accountChips.length - 1]) {
           this.accountChips[this.accountChips.length - 1].focus();
         }
@@ -384,11 +384,11 @@ export class GrAccountList extends LitElement {
     const chip = e.target as GrAccountChip;
     const chips = this.accountChips;
     const index = chips.indexOf(chip);
-    switch (e.keyCode) {
-      case 8: // Backspace
-      case 13: // Enter
-      case 32: // Spacebar
-      case 46: // Delete
+    switch (e.key) {
+      case 'Backspace':
+      case 'Enter':
+      case ' ':
+      case 'Delete':
         this.removeAccount(chip.account);
         // Splice from this array to avoid inconsistent ordering of
         // event handling.
@@ -401,13 +401,13 @@ export class GrAccountList extends LitElement {
           this.entry?.focus();
         }
         break;
-      case 37: // Left arrow
+      case 'ArrowLeft':
         if (index > 0) {
           chip.blur();
           chips[index - 1].focus();
         }
         break;
-      case 39: // Right arrow
+      case 'ArrowRight':
         chip.blur();
         if (index < chips.length - 1) {
           chips[index + 1].focus();

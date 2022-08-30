@@ -17,7 +17,7 @@ suite('gr-autocomplete tests', () => {
   let element: GrAutocomplete;
 
   const focusOnInput = () => {
-    MockInteractions.pressAndReleaseKeyOn(inputEl(), 13, null, 'enter');
+    MockInteractions.pressAndReleaseKeyOn(inputEl(), 13, null, 'Enter');
   };
 
   const suggestionsEl = () =>
@@ -176,13 +176,13 @@ suite('gr-autocomplete tests', () => {
       const cancelHandler = sinon.spy();
       element.addEventListener('cancel', cancelHandler);
 
-      MockInteractions.pressAndReleaseKeyOn(inputEl(), 27, null, 'esc');
+      MockInteractions.pressAndReleaseKeyOn(inputEl(), 27, null, 'Escape');
       await waitUntil(() => suggestionsEl().isHidden);
 
       assert.isFalse(cancelHandler.called);
       assert.equal(element.suggestions.length, 0);
 
-      MockInteractions.pressAndReleaseKeyOn(inputEl(), 27, null, 'esc');
+      MockInteractions.pressAndReleaseKeyOn(inputEl(), 27, null, 'Escape');
       await element.updateComplete;
 
       assert.isTrue(cancelHandler.called);
@@ -218,22 +218,22 @@ suite('gr-autocomplete tests', () => {
 
       assert.equal(suggestionsEl().cursor.index, 0);
 
-      MockInteractions.pressAndReleaseKeyOn(inputEl(), 40, null, 'down');
+      MockInteractions.pressAndReleaseKeyOn(inputEl(), 40, null, 'ArrowDown');
       await element.updateComplete;
 
       assert.equal(suggestionsEl().cursor.index, 1);
 
-      MockInteractions.pressAndReleaseKeyOn(inputEl(), 40, null, 'down');
+      MockInteractions.pressAndReleaseKeyOn(inputEl(), 40, null, 'ArrowDown');
       await element.updateComplete;
 
       assert.equal(suggestionsEl().cursor.index, 2);
 
-      MockInteractions.pressAndReleaseKeyOn(inputEl(), 38, null, 'up');
+      MockInteractions.pressAndReleaseKeyOn(inputEl(), 38, null, 'ArrowUp');
       await element.updateComplete;
 
       assert.equal(suggestionsEl().cursor.index, 1);
 
-      MockInteractions.pressAndReleaseKeyOn(inputEl(), 13, null, 'enter');
+      MockInteractions.pressAndReleaseKeyOn(inputEl(), 13, null, 'Enter');
       await element.updateComplete;
 
       assert.equal(element.value, '1');
@@ -262,7 +262,7 @@ suite('gr-autocomplete tests', () => {
       const commitHandler = sinon.spy();
       element.addEventListener('commit', commitHandler);
 
-      MockInteractions.pressAndReleaseKeyOn(inputEl(), 13, null, 'enter');
+      MockInteractions.pressAndReleaseKeyOn(inputEl(), 13, null, 'Enter');
 
       await waitUntil(() => commitHandler.called);
 
@@ -290,7 +290,7 @@ suite('gr-autocomplete tests', () => {
       const commitHandler = sinon.spy();
       element.addEventListener('commit', commitHandler);
 
-      MockInteractions.pressAndReleaseKeyOn(inputEl(), 13, null, 'enter');
+      MockInteractions.pressAndReleaseKeyOn(inputEl(), 13, null, 'Enter');
 
       await waitUntil(() => commitHandler.called);
 
@@ -431,7 +431,7 @@ suite('gr-autocomplete tests', () => {
       element.addEventListener('commit', commitHandler);
       await waitUntil(() => element.suggestionsDropdown?.isHidden === false);
 
-      MockInteractions.pressAndReleaseKeyOn(inputEl(), 13, null, 'enter');
+      MockInteractions.pressAndReleaseKeyOn(inputEl(), 13, null, 'Enter');
 
       await waitUntil(() => commitHandler.called);
       assert.equal(element.text, 'blah 0');
@@ -448,7 +448,7 @@ suite('gr-autocomplete tests', () => {
 
     element.suggestions = [{text: 'tunnel snakes rule!', name: ''}];
     element.tabComplete = false;
-    MockInteractions.pressAndReleaseKeyOn(inputEl(), 9, null, 'tab');
+    MockInteractions.pressAndReleaseKeyOn(inputEl(), 9, null, 'Tab');
     await element.updateComplete;
 
     assert.isFalse(commitHandler.called);
@@ -459,7 +459,7 @@ suite('gr-autocomplete tests', () => {
     await element.updateComplete;
     element.setFocus(true);
     await element.updateComplete;
-    MockInteractions.pressAndReleaseKeyOn(inputEl(), 9, null, 'tab');
+    MockInteractions.pressAndReleaseKeyOn(inputEl(), 9, null, 'Tab');
 
     await waitUntil(() => commitSpy.called);
     assert.isFalse(commitHandler.called);
@@ -574,7 +574,7 @@ suite('gr-autocomplete tests', () => {
 
     assert.isTrue(keydownSpy.calledOnce);
 
-    MockInteractions.pressAndReleaseKeyOn(inputEl(), 13, null, 'enter');
+    MockInteractions.pressAndReleaseKeyOn(inputEl(), 13, null, 'Enter');
     await element.updateComplete;
     assert.isTrue(keydownSpy.calledTwice);
 
@@ -630,7 +630,7 @@ suite('gr-autocomplete tests', () => {
       element.tabComplete = true;
       element.suggestions = [{text: 'tunnel snakes drool'}];
 
-      MockInteractions.pressAndReleaseKeyOn(inputEl(), 9, null, 'tab');
+      MockInteractions.pressAndReleaseKeyOn(inputEl(), 9, null, 'Tab');
 
       await waitUntil(() => commitSpy.called);
 
@@ -642,7 +642,7 @@ suite('gr-autocomplete tests', () => {
     test('tab in input, tabComplete = false', async () => {
       element.suggestions = [{text: 'sugar bombs'}];
       focusSpy = sinon.spy(element, 'focus');
-      MockInteractions.pressAndReleaseKeyOn(inputEl(), 9, null, 'tab');
+      MockInteractions.pressAndReleaseKeyOn(inputEl(), 9, null, 'Tab');
       await element.updateComplete;
 
       assert.isFalse(commitSpy.called);
@@ -738,7 +738,7 @@ suite('gr-autocomplete tests', () => {
   test('input-keydown event fired', async () => {
     const listener = sinon.spy();
     element.addEventListener('input-keydown', listener);
-    MockInteractions.pressAndReleaseKeyOn(inputEl(), 9, null, 'tab');
+    MockInteractions.pressAndReleaseKeyOn(inputEl(), 9, null, 'Tab');
     await element.updateComplete;
     assert.isTrue(listener.called);
   });
@@ -746,17 +746,17 @@ suite('gr-autocomplete tests', () => {
   test('enter with modifier does not complete', async () => {
     const dispatchEventStub = sinon.stub(element, 'dispatchEvent');
     const commitStub = sinon.stub(element, 'handleInputCommit');
-    MockInteractions.pressAndReleaseKeyOn(inputEl(), 13, 'ctrl', 'enter');
+    MockInteractions.pressAndReleaseKeyOn(inputEl(), 13, 'ctrl', 'Enter');
     await element.updateComplete;
 
     assert.equal(dispatchEventStub.lastCall.args[0].type, 'input-keydown');
     assert.equal(
-      (dispatchEventStub.lastCall.args[0] as CustomEvent).detail.keyCode,
-      13
+      (dispatchEventStub.lastCall.args[0] as CustomEvent).detail.key,
+      'Enter'
     );
 
     assert.isFalse(commitStub.called);
-    MockInteractions.pressAndReleaseKeyOn(inputEl(), 13, null, 'enter');
+    MockInteractions.pressAndReleaseKeyOn(inputEl(), 13, null, 'Enter');
     await element.updateComplete;
 
     assert.isTrue(commitStub.called);
@@ -767,7 +767,7 @@ suite('gr-autocomplete tests', () => {
       'keydown',
       13,
       null,
-      'enter'
+      'Enter'
     );
     const stopPropagationStub = sinon.stub(event, 'stopPropagation');
 
@@ -784,7 +784,7 @@ suite('gr-autocomplete tests', () => {
       'keydown',
       13,
       null,
-      'enter'
+      'Enter'
     );
     const stopPropagationStub = sinon.stub(event, 'stopPropagation');
 

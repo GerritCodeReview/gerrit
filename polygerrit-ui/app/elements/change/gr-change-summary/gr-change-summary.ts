@@ -61,7 +61,7 @@ import {combineLatest} from 'rxjs';
 function handleSpaceOrEnter(e: KeyboardEvent, handler: () => void) {
   if (modifierPressed(e)) return;
   // Only react to `return` and `space`.
-  if (e.keyCode !== 13 && e.keyCode !== 32) return;
+  if (e.key !== 'Enter' && e.key !== ' ') return;
   e.preventDefault();
   e.stopPropagation();
   handler();

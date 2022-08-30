@@ -9,10 +9,10 @@ import {GrWatchedProjectsEditor} from './gr-watched-projects-editor';
 import {stubRestApi} from '../../../test/test-utils';
 import {ProjectWatchInfo} from '../../../types/common';
 import {queryAndAssert} from '../../../test/test-utils';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {IronInputElement} from '@polymer/iron-input';
 import {assertIsDefined} from '../../../utils/common-util';
 import {fixture, html, assert} from '@open-wc/testing';
+import {GrButton} from '../../shared/gr-button/gr-button';
 
 suite('gr-watched-projects-editor tests', () => {
   let element: GrWatchedProjectsEditor;
@@ -352,11 +352,11 @@ suite('gr-watched-projects-editor tests', () => {
   test('_handleRemoveProject', async () => {
     assert.deepEqual(element.projectsToRemove, []);
 
-    const button = queryAndAssert(
+    const button = queryAndAssert<GrButton>(
       element,
       'table tbody tr:nth-child(2) gr-button'
     );
-    MockInteractions.tap(button);
+    button.click();
 
     await element.updateComplete;
 

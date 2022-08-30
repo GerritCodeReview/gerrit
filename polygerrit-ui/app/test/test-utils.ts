@@ -289,8 +289,6 @@ export function pressKey(
     bubbles: true,
     cancelable: true,
     composed: true,
-    // keyCode is deprecated but used in GrAutocomplete to detect Enter.
-    keyCode: key === Key.ENTER ? 13 : undefined,
     altKey: modifiers.includes(Modifier.ALT_KEY),
     ctrlKey: modifiers.includes(Modifier.CTRL_KEY),
     metaKey: modifiers.includes(Modifier.META_KEY),

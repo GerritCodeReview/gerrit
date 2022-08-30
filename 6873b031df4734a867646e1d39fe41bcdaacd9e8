@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1aeff2e4_7fc19788",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-30T16:32:43Z",
+      "side": 1,
+      "message": "was there a downside to using `.`? It seems like this would break if theme endpoint becomes an object",
+      "range": {
+        "startLine": 418,
+        "startChar": 0,
+        "endLine": 418,
+        "endChar": 39
+      },
+      "revId": "6873b031df4734a867646e1d39fe41bcdaacd9e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

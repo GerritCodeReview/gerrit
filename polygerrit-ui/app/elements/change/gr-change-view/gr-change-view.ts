@@ -103,7 +103,6 @@ import {FocusTarget, GrReplyDialog} from '../gr-reply-dialog/gr-reply-dialog';
 import {GrIncludedInDialog} from '../gr-included-in-dialog/gr-included-in-dialog';
 import {GrDownloadDialog} from '../gr-download-dialog/gr-download-dialog';
 import {GrChangeMetadata} from '../gr-change-metadata/gr-change-metadata';
-import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {
   assertIsDefined,
   assert,
@@ -321,21 +320,6 @@ export class GrChangeView extends LitElement {
   @state()
   prefs?: PreferencesInfo;
 
-  // Use changeComments getter/setter instead.
-  private _changeComments?: ChangeComments;
-
-  @state()
-  private get changeComments() {
-    return this._changeComments;
-  }
-
-  private set changeComments(changeComments: ChangeComments | undefined) {
-    if (this._changeComments === changeComments) return;
-    const oldChangeComments = this._changeComments;
-    this._changeComments = changeComments;
-    this.requestUpdate('changeComments', oldChangeComments);
-  }
-
   canStartReview() {
     return !!(
       this.change &&
@@ -506,6 +490,9 @@ export class GrChangeView extends LitElement {
 
   @state()
   private showRobotCommentsButton = false;
+
+  @state()
+  private draftCount = 0;
 
   private throttledToggleChangeStar?: (e: KeyboardEvent) => void;
 
@@ -735,9 +722,9 @@ export class GrChangeView extends LitElement {
     );
     subscribe(
       this,
-      () => this.getCommentsModel().changeComments$,
-      changeComments => {
-        this.changeComments = changeComments;
+      () => this.getCommentsModel().draftsCount$,
+      draftCount => {
+        this.draftCount = draftCount;
       }
     );
     subscribe(
@@ -1863,9 +1850,7 @@ export class GrChangeView extends LitElement {
 
   private computeTotalCommentCounts() {
     const unresolvedCount = this.change?.unresolved_comment_count ?? 0;
-    if (!this.changeComments) return undefined;
-    // TODO(dhruvri): get count from model and remove this.changeComments
-    const draftCount = this.changeComments.computeDraftCount();
+    const draftCount = this.draftCount;
     const unresolvedString =
       unresolvedCount === 0 ? '' : `${unresolvedCount} unresolved`;
     const draftString = pluralize(draftCount, 'draft');

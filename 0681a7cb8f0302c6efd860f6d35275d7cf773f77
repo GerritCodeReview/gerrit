@@ -70,6 +70,23 @@
       "parentUuid": "041c3082_65a632aa",
       "revId": "0681a7cb8f0302c6efd860f6d35275d7cf773f77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "297a5f35_6d78078a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1040243
+      },
+      "writtenOn": "2022-08-30T13:49:21Z",
+      "side": 1,
+      "message": "Hi,\nShould I put anyone else as reviewer/maintainer?\nThanks,",
+      "revId": "0681a7cb8f0302c6efd860f6d35275d7cf773f77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

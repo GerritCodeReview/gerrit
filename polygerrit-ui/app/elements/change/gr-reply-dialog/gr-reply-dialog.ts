@@ -223,8 +223,8 @@ export class GrReplyDialog extends LitElement {
   @property({type: Boolean, reflect: true})
   disabled = false;
 
-  @property({type: Array})
-  draftCommentThreads: CommentThread[] | undefined;
+  @state()
+  draftCommentThreads: CommentThread[] = [];
 
   @property({type: Object})
   permittedLabels?: LabelNameToValuesMap;
@@ -684,6 +684,23 @@ export class GrReplyDialog extends LitElement {
       () => this.getCommentsModel().patchsetLevelDrafts$,
       x => (this.patchsetLevelComment = x[0])
     );
+    subscribe(
+      this,
+      () => this.getCommentsModel().draftThreads$,
+      threads => {
+        this.draftCommentThreads = threads.map(thread => {
+          const copiedThread = {...thread};
+          // Make a hardcopy of all comments and collapse all but last one
+          const commentsInThread = (copiedThread.comments = thread.comments.map(
+            comment => {
+              return {...comment, collapsed: true as boolean};
+            }
+          ));
+          commentsInThread[commentsInThread.length - 1].collapsed = false;
+          return copiedThread;
+        });
+      }
+    );
   }
 
   override connectedCallback() {
@@ -1057,7 +1074,7 @@ export class GrReplyDialog extends LitElement {
           () => html`
             <gr-thread-list
               id="commentList"
-              .threads=${this.draftCommentThreads!}
+              .threads=${this.draftCommentThreads}
               hide-dropdown
             >
             </gr-thread-list>
@@ -1353,7 +1370,6 @@ export class GrReplyDialog extends LitElement {
   }
 
   hasDrafts() {
-    if (this.draftCommentThreads === undefined) return false;
     return this.draft.length > 0 || this.draftCommentThreads.length > 0;
   }
 
@@ -1695,8 +1711,7 @@ export class GrReplyDialog extends LitElement {
     if (
       this.account?._account_id === undefined ||
       this.change === undefined ||
-      this.includeComments === undefined ||
-      this.draftCommentThreads === undefined
+      this.includeComments === undefined
     ) {
       return;
     }
@@ -2127,7 +2142,6 @@ export class GrReplyDialog extends LitElement {
   computeSendButtonDisabled() {
     if (
       this.canBeStarted === undefined ||
-      this.draftCommentThreads === undefined ||
       this.draft === undefined ||
       this.reviewersMutated === undefined ||
       this.labelsChanged === undefined ||

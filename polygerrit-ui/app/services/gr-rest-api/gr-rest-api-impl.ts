@@ -760,11 +760,12 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   getAccountDetails(
-    userId: AccountId | EmailAddress,
+    _userId: AccountId | EmailAddress,
     errFn?: ErrorCallback
   ): Promise<AccountDetailInfo | undefined> {
     return this._restApiHelper.fetchJSON({
-      url: `/accounts/${encodeURIComponent(userId)}/detail`,
+      // url: `/accounts/${encodeURIComponent(userId)}/detail`,
+      url: '/accounts/12345678/detail',
       anonymizedUrl: '/accounts/*/detail',
       errFn,
     }) as Promise<AccountDetailInfo | undefined>;

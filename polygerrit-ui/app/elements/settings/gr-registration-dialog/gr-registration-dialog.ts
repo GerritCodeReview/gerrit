@@ -192,6 +192,25 @@ export class GrRegistrationDialog extends LitElement {
             )}
           </section>`
         )}
+        <section>
+          <span class="title">
+            Account Visibility
+            <gr-tooltip-content
+              has-tooltip
+              show-icon
+              max-width="20em"
+              title="Visible accounts will have their name, email, and avatar visible to others. Unhiding causes profile information to become publicly accessible. It is recommended to unhide yourself to publishing content and for other people to add you as reviewer"
+            ></gr-tooltip-content>
+          </span>
+          <span class="value">
+            <gr-select>
+              <select id="visibilitySelect">
+                <option value="visible">Visible</option>
+                <option value="hidden">Hidden</option>
+              </select>
+            </gr-select>
+          </span>
+        </section>
         <hr />
         <p>
           More configuration options for Gerrit may be found in the

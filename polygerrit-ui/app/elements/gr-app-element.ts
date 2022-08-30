@@ -141,7 +141,7 @@ export class GrAppElement extends LitElement {
 
   @state() private loginUrl = '/login';
 
-  @state() private loadRegistrationDialog = false;
+  @state() private loadRegistrationDialog = true;
 
   @state() private loadKeyboardShortcutsDialog = false;
 
@@ -388,6 +388,20 @@ export class GrAppElement extends LitElement {
         </div>
       </main>
       <footer ?aria-hidden=${this.footerHeaderAriaHidden}>
+        <button
+          @click=${async () => {
+            console.log(
+              this.registrationDialog,
+              this.registrationOverlay,
+              this.loadRegistrationDialog
+            );
+            await this.registrationOverlay?.open();
+            await this.registrationDialog?.loadData();
+            this.registrationOverlay?.refit();
+          }}
+        >
+          Open Registration
+        </button>
         <div>
           Powered by
           <a

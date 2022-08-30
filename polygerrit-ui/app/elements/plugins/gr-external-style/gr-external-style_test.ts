@@ -93,4 +93,14 @@ suite('gr-external-style integration tests', () => {
     await element.updateComplete;
     assert.isTrue(applyStyleSpy.calledWith('some-module'));
   });
+
+  test('removes old custom-style if name is changed', async () => {
+    await earlyRegister();
+    await element.updateComplete;
+    assert.isDefined(document.body.querySelector('custom-style#foo'));
+    element.name = 'bar';
+    await element.updateComplete;
+    assert.isNull(document.body.querySelector('custom-style#foo'));
+    assert.isDefined(document.body.querySelector('custom-style#bar'));
+  });
 });

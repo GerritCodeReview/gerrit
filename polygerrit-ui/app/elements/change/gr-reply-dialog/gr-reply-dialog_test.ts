@@ -146,6 +146,7 @@ suite('gr-reply-dialog tests', () => {
       'Code-Review': ['-1', ' 0', '+1'],
       Verified: ['-1', ' 0', '+1'],
     };
+    element.draftCommentThreads = [];
 
     getDraftCommentStub = stubStorage('getDraftComment');
     setDraftCommentStub = stubStorage('setDraftComment');

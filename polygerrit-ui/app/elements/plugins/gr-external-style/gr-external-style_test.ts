@@ -93,4 +93,32 @@ suite('gr-external-style integration tests', () => {
     await element.updateComplete;
     assert.isTrue(applyStyleSpy.calledWith('some-module'));
   });
+
+  test('removes old custom-style if name is changed', async () => {
+    installPlugin();
+    plugin.registerStyleModule('bar', 'some-module');
+    await earlyRegister();
+    await element.updateComplete;
+    let customStyles = document.body.querySelectorAll('custom-style');
+    assert.strictEqual(customStyles.length, 1);
+    element.name = 'bar';
+    await element.updateComplete;
+    customStyles = document.body.querySelectorAll('custom-style');
+    assert.strictEqual(customStyles.length, 1);
+    element.name = 'baz';
+    await element.updateComplete;
+    customStyles = document.body.querySelectorAll('custom-style');
+    assert.strictEqual(customStyles.length, 0);
+  });
+
+  test('can apply more than one style', async () => {
+    await earlyRegister();
+    await element.updateComplete;
+    plugin.registerStyleModule('foo', 'some-module2');
+    pluginsLoaded.resolve();
+    await element.updateComplete;
+    assert.strictEqual(element.stylesApplied.length, 2);
+    const customStyles = document.body.querySelectorAll('custom-style');
+    assert.strictEqual(customStyles.length, 2);
+  });
 });

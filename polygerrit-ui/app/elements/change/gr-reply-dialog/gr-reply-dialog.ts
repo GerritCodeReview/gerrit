@@ -965,6 +965,9 @@ export class GrReplyDialog extends LitElement {
       <gr-comment
         .comment=${this.patchsetLevelComment}
         .comments=${[this.patchsetLevelComment]}
+        @comment-unresolved-changed=${(e: CustomEvent) => {
+          this.isResolvedPatchsetLevelComment = !e.detail;
+        }}
         hide-header
         permanent-editing-mode
       ></gr-comment>

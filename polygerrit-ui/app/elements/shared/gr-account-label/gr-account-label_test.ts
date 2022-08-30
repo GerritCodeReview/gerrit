@@ -20,8 +20,8 @@ import {
   createPluginConfig,
   createServerInfo,
 } from '../../../test/test-data-generators';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {fixture, html, assert} from '@open-wc/testing';
+import {GrButton} from '../gr-button/gr-button';
 
 suite('gr-account-label tests', () => {
   let element: GrAccountLabel;
@@ -185,10 +185,10 @@ suite('gr-account-label tests', () => {
 
     test('tap attention button', async () => {
       const apiSpy = spyRestApi('removeFromAttentionSet');
-      const button = queryAndAssert(element, '#attentionButton');
+      const button = queryAndAssert<GrButton>(element, '#attentionButton');
       assert.ok(button);
       assert.isNull(button.getAttribute('disabled'));
-      MockInteractions.tap(button);
+      button.click();
       assert.isTrue(apiSpy.calledOnce);
       assert.equal(apiSpy.lastCall.args[1], 42);
     });

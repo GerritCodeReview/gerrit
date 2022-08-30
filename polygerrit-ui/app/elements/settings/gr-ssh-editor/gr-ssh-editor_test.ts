@@ -9,7 +9,6 @@ import {mockPromise, query, stubRestApi} from '../../../test/test-utils';
 import {GrSshEditor} from './gr-ssh-editor';
 import {SshKeyInfo} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {fixture, html, assert} from '@open-wc/testing';
 
 suite('gr-ssh-editor tests', () => {
@@ -207,7 +206,7 @@ suite('gr-ssh-editor tests', () => {
       'tbody tr:last-of-type td:nth-child(5) gr-button'
     );
 
-    MockInteractions.tap(button!);
+    button!.click();
 
     assert.equal(element.keys.length, 1);
     assert.equal(element.keysToRemove.length, 1);
@@ -231,7 +230,7 @@ suite('gr-ssh-editor tests', () => {
       'tbody tr:last-of-type td:nth-child(3) gr-button'
     );
 
-    MockInteractions.tap(button!);
+    button!.click();
 
     assert.equal(element.keyToView, keys[1]);
     assert.isTrue(openSpy.called);

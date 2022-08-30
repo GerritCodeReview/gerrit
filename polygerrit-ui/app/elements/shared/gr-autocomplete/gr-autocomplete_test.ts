@@ -751,8 +751,8 @@ suite('gr-autocomplete tests', () => {
 
     assert.equal(dispatchEventStub.lastCall.args[0].type, 'input-keydown');
     assert.equal(
-      (dispatchEventStub.lastCall.args[0] as CustomEvent).detail.keyCode,
-      13
+      (dispatchEventStub.lastCall.args[0] as CustomEvent).detail.key,
+      'Enter'
     );
 
     assert.isFalse(commitStub.called);

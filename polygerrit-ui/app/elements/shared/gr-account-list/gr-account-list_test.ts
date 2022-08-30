@@ -20,9 +20,13 @@ import {
   SuggestedReviewerInfo,
   Suggestion,
 } from '../../../types/common';
-import {queryAll, queryAndAssert, waitUntil} from '../../../test/test-utils';
+import {
+  pressKey,
+  queryAll,
+  queryAndAssert,
+  waitUntil,
+} from '../../../test/test-utils';
 import {ReviewerSuggestionsProvider} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {
   AutocompleteSuggestion,
   GrAutocomplete,
@@ -396,7 +400,7 @@ suite('gr-account-list tests', () => {
       '#input'
     );
     input.text = 'newTest';
-    MockInteractions.focus(input.input!);
+    input.input!.focus();
     input.noDebounce = true;
     await element.updateComplete;
     assert.isTrue(getSuggestionsStub.calledOnce);
@@ -440,20 +444,14 @@ suite('gr-account-list tests', () => {
       // on input field update
       assert.equal(element.getOwnNativeInput(input.input!).selectionStart, 0);
       input.text = 'test';
-      MockInteractions.focus(input.input!);
+      input.input!.focus();
       await element.updateComplete;
       assert.equal(element.accounts.length, 2);
-      MockInteractions.pressAndReleaseKeyOn(
-        element.getOwnNativeInput(input.input!),
-        8
-      ); // Backspace
+      pressKey(element.getOwnNativeInput(input.input!), 'Backspace');
       await waitUntil(() => element.accounts.length === 2);
       input.text = '';
       await input.updateComplete;
-      MockInteractions.pressAndReleaseKeyOn(
-        element.getOwnNativeInput(input.input!),
-        8
-      ); // Backspace
+      pressKey(element.getOwnNativeInput(input.input!), 'Backspace');
       await waitUntil(() => element.accounts.length === 1);
     });
 
@@ -465,18 +463,18 @@ suite('gr-account-list tests', () => {
       input.text = '';
       element.accounts = [makeAccount(), makeAccount()];
       await element.updateComplete;
-      MockInteractions.focus(input.input!);
+      input.input!.focus();
       await element.updateComplete;
       const chips = element.accountChips;
       const chipsOneSpy = sinon.spy(chips[1], 'focus');
-      MockInteractions.pressAndReleaseKeyOn(input.input!, 37); // Left
+      pressKey(input.input!, 'ArrowLeft');
       assert.isTrue(chipsOneSpy.called);
       const chipsZeroSpy = sinon.spy(chips[0], 'focus');
-      MockInteractions.pressAndReleaseKeyOn(chips[1], 37); // Left
+      pressKey(chips[1], 'ArrowLeft');
       assert.isTrue(chipsZeroSpy.called);
-      MockInteractions.pressAndReleaseKeyOn(chips[0], 37); // Left
+      pressKey(chips[0], 'ArrowLeft');
       assert.isTrue(chipsZeroSpy.calledOnce);
-      MockInteractions.pressAndReleaseKeyOn(chips[0], 39); // Right
+      pressKey(chips[0], 'ArrowRight');
       assert.isTrue(chipsOneSpy.calledTwice);
     });
 
@@ -485,11 +483,11 @@ suite('gr-account-list tests', () => {
       await element.updateComplete;
       const focusSpy = sinon.spy(element.accountChips[1], 'focus');
       const removeSpy = sinon.spy(element, 'removeAccount');
-      MockInteractions.pressAndReleaseKeyOn(element.accountChips[0], 8); // Backspace
+      pressKey(element.accountChips[0], 'Backspace');
       assert.isTrue(focusSpy.called);
       assert.isTrue(removeSpy.calledOnce);
 
-      MockInteractions.pressAndReleaseKeyOn(element.accountChips[1], 46); // Delete
+      pressKey(element.accountChips[0], 'Delete');
       assert.isTrue(removeSpy.calledTwice);
     });
   });

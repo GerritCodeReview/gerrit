@@ -442,9 +442,7 @@ export function shouldSuppress(e: KeyboardEvent): boolean {
     // mark-reviewed and then press ] to go to the next file'.
     (tagName === 'INPUT' && type !== 'checkbox') ||
     tagName === 'TEXTAREA' ||
-    // Suppress shortcuts if the key is 'enter'
-    // and target is an anchor or button or paper-tab.
-    (e.keyCode === 13 &&
+    (e.key === 'Enter' &&
       (tagName === 'A' ||
         tagName === 'BUTTON' ||
         tagName === 'GR-BUTTON' ||

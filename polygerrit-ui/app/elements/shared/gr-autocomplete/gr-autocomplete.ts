@@ -499,20 +499,20 @@ export class GrAutocomplete extends LitElement {
    */
   handleKeydown(e: KeyboardEvent) {
     this.setFocus(true);
-    switch (e.keyCode) {
-      case 38: // Up
+    switch (e.key) {
+      case 'ArrowUp':
         e.preventDefault();
         this.suggestionsDropdown?.cursorUp();
         break;
-      case 40: // Down
+      case 'ArrowDown':
         e.preventDefault();
         this.suggestionsDropdown?.cursorDown();
         break;
-      case 27: // Escape
+      case 'Escape':
         e.preventDefault();
         this.cancel();
         break;
-      case 9: // Tab
+      case 'Tab':
         if (this.suggestions.length > 0 && this.tabComplete) {
           e.preventDefault();
           this.focus();
@@ -521,7 +521,7 @@ export class GrAutocomplete extends LitElement {
           this.setFocus(false);
         }
         break;
-      case 13: // Enter
+      case 'Enter':
         if (modifierPressed(e)) {
           break;
         }
@@ -546,7 +546,7 @@ export class GrAutocomplete extends LitElement {
     }
     this.dispatchEvent(
       new CustomEvent('input-keydown', {
-        detail: {keyCode: e.keyCode, input: this.input},
+        detail: {key: e.key, input: this.input},
         composed: true,
         bubbles: true,
       })

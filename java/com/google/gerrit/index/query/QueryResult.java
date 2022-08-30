@@ -23,9 +23,13 @@ import java.util.List;
 @AutoValue
 public abstract class QueryResult<T> {
   public static <T> QueryResult<T> create(
-      @Nullable String query, Predicate<T> predicate, int limit, List<T> entities) {
+      @Nullable String query,
+      Predicate<T> predicate,
+      int limit,
+      List<T> entities,
+      boolean isNoLimit) {
     boolean more;
-    if (entities.size() > limit) {
+    if (!isNoLimit && entities.size() > limit) {
       more = true;
       entities = entities.subList(0, limit);
     } else {

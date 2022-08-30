@@ -158,6 +158,10 @@ public abstract class QueryProcessor<T> {
     return this;
   }
 
+  public boolean getIsNoLimit() {
+    return this.isNoLimit;
+  }
+
   public QueryProcessor<T> setNoLimit(boolean isNoLimit) {
     this.isNoLimit = isNoLimit;
     return this;
@@ -214,7 +218,7 @@ public abstract class QueryProcessor<T> {
       return ImmutableList.of();
     }
     if (isDisabled()) {
-      return disabledResults(queryStrings, queries);
+      return disabledResults(queryStrings, queries, isNoLimit);
     }
 
     logger.atFine().log(
@@ -279,7 +283,8 @@ public abstract class QueryProcessor<T> {
                 queryStrings != null ? queryStrings.get(i) : null,
                 predicates.get(i),
                 limits.get(i),
-                matchesList));
+                matchesList,
+                isNoLimit));
       }
 
       // Only measure successful queries that actually touched the index.
@@ -296,7 +301,7 @@ public abstract class QueryProcessor<T> {
   }
 
   private static <T> ImmutableList<QueryResult<T>> disabledResults(
-      List<String> queryStrings, List<Predicate<T>> queries) {
+      List<String> queryStrings, List<Predicate<T>> queries, boolean isNoLimit) {
     return IntStream.range(0, queries.size())
         .mapToObj(
             i ->
@@ -304,7 +309,8 @@ public abstract class QueryProcessor<T> {
                     queryStrings != null ? queryStrings.get(i) : null,
                     queries.get(i),
                     0,
-                    ImmutableList.of()))
+                    ImmutableList.of(),
+                    isNoLimit))
         .collect(toImmutableList());
   }
 
@@ -356,9 +362,6 @@ public abstract class QueryProcessor<T> {
   }
 
   private int getEffectiveLimit(Predicate<T> p) {
-    if (isNoLimit == true) {
-      return getIndexSize() + MAX_LIMIT_BUFFER_MULTIPLIER * getBatchSize();
-    }
     List<Integer> possibleLimits = new ArrayList<>(4);
     possibleLimits.add(getBackendSupportedLimit());
     possibleLimits.add(getPermittedLimit());

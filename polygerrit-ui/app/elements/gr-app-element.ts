@@ -71,6 +71,7 @@ import './gr-css-mixins';
 import {isDarkTheme, prefersDarkColorScheme} from '../utils/theme-util';
 import {AppTheme} from '../constants/constants';
 import {subscribe} from './lit/subscription-controller';
+import {isThemeFile} from './shared/gr-js-api-interface/gr-api-utils';
 
 interface ErrorInfo {
   text: string;
@@ -415,7 +416,7 @@ export class GrAppElement extends LitElement {
       ></gr-external-style>
       <gr-external-style
         id="externalStyleForTheme"
-        .name=${this.getThemeEndpoint()}
+        name=${this.getThemeEndpoint()}
       ></gr-external-style>
     `;
   }
@@ -846,9 +847,7 @@ export class GrAppElement extends LitElement {
 
   getThemeEndpoint() {
     // For now, we only have dark mode and light mode
-    return window.localStorage.getItem('dark-theme')
-      ? 'app-theme-dark'
-      : 'app-theme-light';
+    return isDarkTheme(this.theme) ? 'app-theme-dark' : 'app-theme-light';
   }
 }
 

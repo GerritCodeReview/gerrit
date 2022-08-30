@@ -46,6 +46,7 @@ public class ProjectQueryProcessor extends QueryProcessor<ProjectData> {
   private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> userProvider;
   private final ProjectCache projectCache;
+  private final IndexConfig indexConfig;
 
   static {
     // It is assumed that basic rewrites do not touch visibleto predicates.
@@ -75,12 +76,16 @@ public class ProjectQueryProcessor extends QueryProcessor<ProjectData> {
     this.permissionBackend = permissionBackend;
     this.userProvider = userProvider;
     this.projectCache = projectCache;
+    this.indexConfig = indexConfig;
   }
 
   @Override
   protected Predicate<ProjectData> enforceVisibility(Predicate<ProjectData> pred) {
     return new AndSource<>(
-        pred, new ProjectIsVisibleToPredicate(permissionBackend, userProvider.get()), start);
+        pred,
+        new ProjectIsVisibleToPredicate(permissionBackend, userProvider.get()),
+        start,
+        indexConfig);
   }
 
   @Override

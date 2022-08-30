@@ -19,6 +19,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Change;
@@ -52,6 +53,9 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -112,14 +116,26 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
   public DataSource<V> getSource(Predicate<V> p, QueryOptions opts) {
     List<V> results;
     synchronized (indexedDocuments) {
-      results =
+      Stream<V> valueStream =
           indexedDocuments.values().stream()
               .map(doc -> valueFor(doc))
               .filter(doc -> p.asMatchable().match(doc))
               .sorted(sortingComparator())
               .skip(opts.start())
-              .limit(opts.limit())
-              .collect(toImmutableList());
+              .limit(opts.limit());
+      if (opts.searchAfter() != null) {
+        ImmutableList<V> valueList = valueStream.collect(toImmutableList());
+        int fromIndex =
+            IntStream.range(0, valueList.size())
+                    .filter(i -> keyFor(valueList.get(i)).equals(opts.searchAfter()))
+                    .findFirst()
+                    .orElse(-1)
+                + 1;
+        int toIndex = Math.min(fromIndex + opts.limit(), valueList.size());
+        results = valueList.subList(fromIndex, toIndex);
+      } else {
+        results = valueStream.skip(opts.start()).limit(opts.limit()).collect(toImmutableList());
+      }
     }
     return new DataSource<V>() {
       @Override
@@ -129,7 +145,13 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
 
       @Override
       public ResultSet<V> read() {
-        return new ListResultSet<>(results);
+        return new ListResultSet<V>(results) {
+          @Override
+          public Object searchAfter() {
+            @Nullable V last = Iterables.getLast(results, null);
+            return last != null ? keyFor(last) : null;
+          }
+        };
       }
 
       @Override

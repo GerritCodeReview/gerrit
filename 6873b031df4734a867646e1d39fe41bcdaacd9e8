@@ -22,6 +22,30 @@
       },
       "revId": "6873b031df4734a867646e1d39fe41bcdaacd9e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c323c85_5c3f4200",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-30T16:38:19Z",
+      "side": 1,
+      "message": "This is needed for fix. It looks that plugin is not applied if name is not as attribute. I am surprised it worked before.\n\nLit linter that is part of Code-style requirement will throw error if name will become object.\n\nI can set attribute. I will do it",
+      "parentUuid": "1aeff2e4_7fc19788",
+      "range": {
+        "startLine": 418,
+        "startChar": 0,
+        "endLine": 418,
+        "endChar": 39
+      },
+      "revId": "6873b031df4734a867646e1d39fe41bcdaacd9e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

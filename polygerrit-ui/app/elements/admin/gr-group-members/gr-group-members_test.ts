@@ -25,7 +25,6 @@ import {
 } from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {EventType, PageErrorEvent} from '../../../types/events.js';
 import {getAccountSuggestions} from '../../../utils/account-util';
 import {getAppContext} from '../../../services/app-context';
@@ -531,16 +530,16 @@ suite('gr-group-members tests', () => {
 
   test('delete member', () => {
     const deleteBtns = queryAll<GrButton>(element, '.deleteMembersButton');
-    MockInteractions.tap(deleteBtns[0]);
+    deleteBtns[0].click();
     assert.equal(element.itemId, 1000097 as AccountId);
     assert.equal(element.itemName, 'jane');
-    MockInteractions.tap(deleteBtns[1]);
+    deleteBtns[1].click();
     assert.equal(element.itemId, 1000096 as AccountId);
     assert.equal(element.itemName, 'Test User');
-    MockInteractions.tap(deleteBtns[2]);
+    deleteBtns[2].click();
     assert.equal(element.itemId, 1000095 as AccountId);
     assert.equal(element.itemName, 'Gerrit');
-    MockInteractions.tap(deleteBtns[3]);
+    deleteBtns[3].click();
     assert.equal(element.itemId, 1000098 as AccountId);
     assert.equal(element.itemName, '1000098');
   });
@@ -550,13 +549,13 @@ suite('gr-group-members tests', () => {
       element,
       '.deleteIncludedGroupButton'
     );
-    MockInteractions.tap(deleteBtns[0]);
+    deleteBtns[0].click();
     assert.equal(element.itemId, 'testId' as GroupId);
     assert.equal(element.itemName, 'testName');
-    MockInteractions.tap(deleteBtns[1]);
+    deleteBtns[1].click();
     assert.equal(element.itemId, 'testId2' as GroupId);
     assert.equal(element.itemName, 'testName2');
-    MockInteractions.tap(deleteBtns[2]);
+    deleteBtns[2].click();
     assert.equal(element.itemId, 'testId3' as GroupId);
     assert.equal(element.itemName, 'testName3');
   });

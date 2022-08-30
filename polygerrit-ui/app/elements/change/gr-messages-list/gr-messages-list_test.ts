@@ -27,10 +27,11 @@ import {
   Timestamp,
   UrlEncodedCommentId,
 } from '../../../types/common';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {assertIsDefined} from '../../../utils/common-util';
 import {html} from 'lit';
 import {fixture, assert} from '@open-wc/testing';
+import {GrButton} from '../../shared/gr-button/gr-button';
+import {PaperToggleButtonElement} from '@polymer/paper-toggle-button';
 
 const author = {
   _account_id: 42 as AccountId,
@@ -171,18 +172,18 @@ suite('gr-messages-list tests', () => {
         message.message = {...message.message, expanded: false};
         await message.updateComplete;
       }
-      MockInteractions.tap(allMessageEls[1]);
+      allMessageEls[1].click();
       await element.updateComplete;
       assert.isTrue(allMessageEls[1].message?.expanded);
 
-      MockInteractions.tap(queryAndAssert(element, '#collapse-messages'));
+      queryAndAssert<GrButton>(element, '#collapse-messages').click();
       await element.updateComplete;
       allMessageEls = getMessages();
       for (const message of allMessageEls) {
         assert.isTrue(message.message?.expanded);
       }
 
-      MockInteractions.tap(queryAndAssert(element, '#collapse-messages'));
+      queryAndAssert<GrButton>(element, '#collapse-messages').click();
       await element.updateComplete;
       allMessageEls = getMessages();
       for (const message of allMessageEls) {
@@ -581,9 +582,12 @@ suite('gr-messages-list tests', () => {
     test('unimportant messages hidden after toggle', async () => {
       element.showAllActivity = true;
       await element.updateComplete;
-      const toggle = queryAndAssert(element, '.showAllActivityToggle');
+      const toggle = queryAndAssert<PaperToggleButtonElement>(
+        element,
+        '.showAllActivityToggle'
+      );
       assert.isOk(toggle);
-      MockInteractions.tap(toggle);
+      toggle.click();
       await element.updateComplete;
       const displayedMsgs = queryAll<GrMessage>(element, 'gr-message');
       assert.equal(displayedMsgs.length, 3);
@@ -592,9 +596,12 @@ suite('gr-messages-list tests', () => {
     test('unimportant messages shown after toggle', async () => {
       element.showAllActivity = false;
       await element.updateComplete;
-      const toggle = queryAndAssert(element, '.showAllActivityToggle');
+      const toggle = queryAndAssert<PaperToggleButtonElement>(
+        element,
+        '.showAllActivityToggle'
+      );
       assert.isOk(toggle);
-      MockInteractions.tap(toggle);
+      toggle.click();
       await element.updateComplete;
       const displayedMsgs = queryAll<GrMessage>(element, 'gr-message');
       assert.equal(displayedMsgs.length, 4);

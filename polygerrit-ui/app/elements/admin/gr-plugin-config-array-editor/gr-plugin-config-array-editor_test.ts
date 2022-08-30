@@ -7,10 +7,10 @@ import {ConfigParameterInfoType} from '../../../constants/constants.js';
 import '../../../test/common-test-setup-karma';
 import './gr-plugin-config-array-editor';
 import {GrPluginConfigArrayEditor} from './gr-plugin-config-array-editor';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
-import {queryAll, queryAndAssert} from '../../../test/test-utils.js';
+import {queryAll, queryAndAssert, pressKey} from '../../../test/test-utils.js';
 import {GrButton} from '../../shared/gr-button/gr-button.js';
 import {fixture, html, assert} from '@open-wc/testing';
+import {Key} from '../../../utils/dom-util.js';
 
 suite('gr-plugin-config-array-editor tests', () => {
   let element: GrPluginConfigArrayEditor;
@@ -64,10 +64,7 @@ suite('gr-plugin-config-array-editor tests', () => {
     test('with enter', async () => {
       element.newValue = '';
       await element.updateComplete;
-      MockInteractions.pressAndReleaseKeyOn(
-        queryAndAssert<HTMLInputElement>(element, '#input'),
-        13
-      ); // Enter
+      pressKey(queryAndAssert<HTMLInputElement>(element, '#input'), Key.ENTER);
       await element.updateComplete;
       assert.isFalse(
         queryAndAssert<HTMLInputElement>(element, '#input').hasAttribute(
@@ -80,10 +77,7 @@ suite('gr-plugin-config-array-editor tests', () => {
       element.newValue = 'test';
       await element.updateComplete;
 
-      MockInteractions.pressAndReleaseKeyOn(
-        queryAndAssert<HTMLInputElement>(element, '#input'),
-        13
-      ); // Enter
+      pressKey(queryAndAssert<HTMLInputElement>(element, '#input'), Key.ENTER);
       await element.updateComplete;
       assert.isFalse(
         queryAndAssert<HTMLInputElement>(element, '#input').hasAttribute(
@@ -129,7 +123,7 @@ suite('gr-plugin-config-array-editor tests', () => {
     assert.equal(rows.length, 2);
     const button = queryAndAssert<GrButton>(rows[0], 'gr-button');
 
-    MockInteractions.tap(button);
+    button.click();
     await element.updateComplete;
 
     assert.isFalse(dispatchStub.called);

@@ -19,9 +19,9 @@ import {
   PatchSetNum,
   Timestamp,
 } from '../../../types/common';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {createChange} from '../../../test/test-data-generators';
 import {GrTextarea} from '../../shared/gr-textarea/gr-textarea';
+import {GrButton} from '../../shared/gr-button/gr-button';
 
 suite('gr-reply-dialog-it tests', () => {
   let element: GrReplyDialog;
@@ -88,13 +88,13 @@ suite('gr-reply-dialog-it tests', () => {
     const sendStub = sinon.stub(element, 'send').returns(Promise.resolve());
 
     element.ccsList!.entry!.setText('test');
-    MockInteractions.tap(queryAndAssert(element, 'gr-button.send'));
+    queryAndAssert<GrButton>(element, 'gr-button.send').click();
     assert.isFalse(element.ccsList!.submitEntryText());
     assert.isFalse(sendStub.called);
     flush();
 
     element.ccsList!.entry!.setText('test@test.test');
-    MockInteractions.tap(queryAndAssert(element, 'gr-button.send'));
+    queryAndAssert<GrButton>(element, 'gr-button.send').click();
     assert.isTrue(sendStub.called);
   });
 

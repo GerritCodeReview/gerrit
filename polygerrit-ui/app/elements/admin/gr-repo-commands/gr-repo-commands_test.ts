@@ -13,7 +13,6 @@ import {
   queryAndAssert,
   stubRestApi,
 } from '../../../test/test-utils';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {EventType, PageErrorEvent} from '../../../types/events';
@@ -163,9 +162,7 @@ suite('gr-repo-commands tests', () => {
     test('successful creation of change', async () => {
       const change = {_number: '1'};
       createChangeStub.returns(Promise.resolve(change));
-      MockInteractions.tap(
-        queryAndAssert<GrButton>(element, '#editRepoConfig')
-      );
+      queryAndAssert<GrButton>(element, '#editRepoConfig').click();
       await element.updateComplete;
       assert.isTrue(
         queryAndAssert<GrButton>(element, '#editRepoConfig').loading
@@ -188,9 +185,7 @@ suite('gr-repo-commands tests', () => {
 
     test('unsuccessful creation of change', async () => {
       createChangeStub.returns(Promise.resolve(null));
-      MockInteractions.tap(
-        queryAndAssert<GrButton>(element, '#editRepoConfig')
-      );
+      queryAndAssert<GrButton>(element, '#editRepoConfig').click();
       await element.updateComplete;
       assert.isTrue(
         queryAndAssert<GrButton>(element, '#editRepoConfig').loading

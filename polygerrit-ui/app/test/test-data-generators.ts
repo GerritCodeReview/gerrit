@@ -91,10 +91,7 @@ import {
 } from '../constants/constants';
 import {formatDate} from '../utils/date-util';
 import {GetDiffCommentsOutput} from '../services/gr-rest-api/gr-rest-api';
-import {
-  AppElementChangeViewParams,
-  AppElementSearchParam,
-} from '../elements/gr-app-types';
+import {AppElementSearchParam} from '../elements/gr-app-types';
 import {CommitInfoWithRequiredCommit} from '../elements/change/gr-change-metadata/gr-change-metadata';
 import {WebLinkInfo} from '../types/diff';
 import {
@@ -119,6 +116,10 @@ import {CheckResult, RunResult} from '../models/checks/checks-model';
 import {Category, RunStatus} from '../api/checks';
 import {DiffInfo} from '../api/diff';
 import {GenerateUrlEditViewParameters} from '../utils/router-util';
+import {
+  ChangeViewState,
+  ChildView,
+} from '../elements/core/gr-router/change-view-model';
 
 const TEST_DEFAULT_EXPRESSION = 'label:Verified=MAX -label:Verified=MIN';
 export const TEST_PROJECT_NAME: RepoName = 'test-project' as RepoName;
@@ -687,9 +688,10 @@ export function createApproval(): ApprovalInfo {
   return createAccountWithId();
 }
 
-export function createAppElementChangeViewParams(): AppElementChangeViewParams {
+export function createAppElementChangeViewParams(): ChangeViewState {
   return {
     view: GerritView.CHANGE,
+    childView: ChildView.CHANGE,
     changeNum: TEST_NUMERIC_CHANGE_ID,
     project: TEST_PROJECT_NAME,
   };

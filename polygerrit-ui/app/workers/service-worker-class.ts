@@ -19,6 +19,7 @@ import {
   getServiceWorkerState,
   putServiceWorkerState,
 } from './service-worker-indexdb';
+import {ChangeViewModel} from '../elements/core/gr-router/change-view-model';
 
 export class ServiceWorker {
   constructor(
@@ -105,7 +106,8 @@ export class ServiceWorker {
     account: AccountDetailInfo
   ) {
     const body = getReason(undefined, account, change);
-    const changeUrl = generateUrl({
+    const urlGenerator = new ChangeViewModel();
+    const changeUrl = urlGenerator.stateToUrl({
       view: GerritView.CHANGE,
       changeNum: change._number,
       project: change.project,

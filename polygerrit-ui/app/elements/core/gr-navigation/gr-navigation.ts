@@ -15,15 +15,12 @@ import {
   GroupId,
   Hashtag,
   NumericChangeId,
-  PARENT,
-  PatchSetNum,
   RepoName,
   RevisionPatchSetNum,
   ServerInfo,
   TopicName,
-  UrlEncodedCommentId,
 } from '../../../types/common';
-import {GerritView} from '../../../services/router/router-model';
+import {GerritView, RouterModel} from '../../../services/router/router-model';
 import {ParsedChangeInfo} from '../../../types/types';
 import {
   DashboardSection,
@@ -31,6 +28,7 @@ import {
   GroupDetailView,
   RepoDetailView,
 } from '../../../utils/router-util';
+import {changeToState, ChildView} from '../gr-router/change-view-model';
 
 // Navigation parameters object format:
 //
@@ -223,13 +221,9 @@ interface NavigateToChangeParams {
   openReplyDialog?: boolean;
 }
 
-interface ChangeUrlParams extends NavigateToChangeParams {
-  messageHash?: string;
-  usp?: string;
-}
-
-// TODO(dmfilippov) Convert to class, extract consts, give better name and
-// expose as a service from appContext
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// TODO: Delete GerritNav in favor of just a router service and a router model.
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 export const GerritNav = {
   _navigate: uninitializedNavigate,
 
@@ -239,11 +233,8 @@ export const GerritNav = {
 
   mapCommentlinks: uninitializedMapCommentLinks,
 
-  _checkPatchRange(patchNum?: PatchSetNum, basePatchNum?: BasePatchSetNum) {
-    if (basePatchNum && !patchNum) {
-      throw new Error('Cannot use base patch number without patch number.');
-    }
-  },
+  // TODO: This is just temporary, see above TODO about deleting GerritNav.
+  routerModel: {} as RouterModel,
 
   /**
    * Setup router implementation.
@@ -274,12 +265,14 @@ export const GerritNav = {
     navigate: NavigateCallback,
     generateUrl: GenerateUrlCallback,
     generateWeblinks: GenerateWebLinksCallback,
-    mapCommentlinks: MapCommentLinksCallback
+    mapCommentlinks: MapCommentLinksCallback,
+    routerModel: RouterModel
   ) {
     this._navigate = navigate;
     this._generateUrl = generateUrl;
     this._generateWeblinks = generateWeblinks;
     this.mapCommentlinks = mapCommentlinks;
+    this.routerModel = routerModel;
   },
 
   destroy() {
@@ -375,56 +368,10 @@ export const GerritNav = {
   },
 
   /**
-   * @param basePatchNum The string PARENT can be used for none.
-   */
-  getUrlForChange(
-    change: Pick<ChangeInfo, '_number' | 'project'>,
-    options: ChangeUrlParams = {}
-  ) {
-    let {
-      patchNum,
-      basePatchNum,
-      isEdit,
-      messageHash,
-      forceReload,
-      openReplyDialog,
-      usp,
-    } = options;
-    if (basePatchNum === PARENT) {
-      basePatchNum = undefined;
-    }
-
-    this._checkPatchRange(patchNum, basePatchNum);
-    return this._getUrlFor({
-      view: GerritView.CHANGE,
-      changeNum: change._number,
-      project: change.project,
-      patchNum,
-      basePatchNum,
-      edit: isEdit,
-      messageHash,
-      forceReload,
-      openReplyDialog,
-      usp,
-    });
-  },
-
-  getUrlForChangeById(
-    changeNum: NumericChangeId,
-    project: RepoName,
-    usp: string,
-    patchNum?: RevisionPatchSetNum
-  ) {
-    return this._getUrlFor({
-      view: GerritView.CHANGE,
-      changeNum,
-      project,
-      usp,
-      patchNum,
-    });
-  },
-
-  /**
+   * TODO: Move this navigate method into the router service, which will
+   * get a signature of just navigate(url, redirect). We have 38 callers of this
+   * method, so let's do this refactoring in a separate change.
+   *
    * @param basePatchNum The string PARENT can be used for none.
    * @param redirect redirect to a change - if true, the current
    *     location (i.e. page which makes redirect) is not added to a history.
@@ -445,16 +392,15 @@ export const GerritNav = {
       redirect,
       openReplyDialog,
     } = options;
-    this._navigate(
-      this.getUrlForChange(change, {
-        patchNum,
-        basePatchNum,
-        isEdit,
-        forceReload,
-        openReplyDialog,
-      }),
-      redirect
-    );
+    const url = this.routerModel.changeUrl({
+      ...changeToState(change),
+      patchNum,
+      basePatchNum,
+      edit: isEdit,
+      forceReload,
+      openReplyDialog,
+    });
+    this._navigate(url, redirect);
   },
 
   /**
@@ -467,39 +413,15 @@ export const GerritNav = {
     basePatchNum?: BasePatchSetNum,
     lineNum?: number
   ) {
-    return this.getUrlForDiffById(
-      change._number,
-      change.project,
-      filePath,
+    return this.routerModel.changeUrl({
+      view: GerritView.CHANGE,
+      childView: ChildView.DIFF,
+      changeNum: change._number,
+      project: change.project,
+      path: filePath,
       patchNum,
       basePatchNum,
-      lineNum
-    );
-  },
-
-  getUrlForComment(
-    changeNum: NumericChangeId,
-    project: RepoName,
-    commentId: UrlEncodedCommentId
-  ) {
-    return this._getUrlFor({
-      view: GerritView.DIFF,
-      changeNum,
-      project,
-      commentId,
-    });
-  },
-
-  getUrlForCommentsTab(
-    changeNum: NumericChangeId,
-    project: RepoName,
-    commentId: UrlEncodedCommentId
-  ) {
-    return this._getUrlFor({
-      view: GerritView.CHANGE,
-      changeNum,
-      project,
-      commentId,
+      lineNum,
     });
   },
 
@@ -515,13 +437,9 @@ export const GerritNav = {
     lineNum?: number,
     leftSide?: boolean
   ) {
-    if (basePatchNum === PARENT) {
-      basePatchNum = undefined;
-    }
-
-    this._checkPatchRange(patchNum, basePatchNum);
-    return this._getUrlFor({
-      view: GerritView.DIFF,
+    return this.routerModel.changeUrl({
+      view: GerritView.CHANGE,
+      childView: ChildView.DIFF,
       changeNum,
       project,
       path: filePath,

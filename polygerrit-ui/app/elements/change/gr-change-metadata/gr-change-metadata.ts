@@ -164,6 +164,8 @@ export class GrChangeMetadata extends LitElement {
 
   private restApiService = getAppContext().restApiService;
 
+  private readonly router = getAppContext().routerModel;
+
   private readonly reporting = getAppContext().reportingService;
 
   constructor() {
@@ -949,14 +951,19 @@ export class GrChangeMetadata extends LitElement {
   }
 
   private computeCherryPickOfUrl(
-    change?: NumericChangeId,
-    patchset?: RevisionPatchSetNum,
+    changeNum?: NumericChangeId,
+    patchNum?: RevisionPatchSetNum,
     project?: RepoName
   ) {
-    if (!change || !project) {
+    if (!changeNum || !project) {
       return '';
     }
-    return GerritNav.getUrlForChangeById(change, project, 'metadata', patchset);
+    return this.router.changeUrl({
+      changeNum,
+      project,
+      patchNum,
+      usp: 'metadata',
+    });
   }
 
   private computeHashtagUrl(hashtag: Hashtag) {

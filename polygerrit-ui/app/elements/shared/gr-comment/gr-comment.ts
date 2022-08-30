@@ -20,7 +20,6 @@ import {getAppContext} from '../../../services/app-context';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {resolve} from '../../../models/dependency';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {GrTextarea} from '../gr-textarea/gr-textarea';
 import {GrOverlay} from '../gr-overlay/gr-overlay';
 import {
@@ -66,6 +65,8 @@ import {changeModelToken} from '../../../models/change/change-model';
 import {Interaction} from '../../../constants/reporting';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {isBase64FileContent} from '../../../api/rest-api';
+import {ChildView} from '../../core/gr-router/change-view-model';
+import {GerritView} from '../../gr-app-types';
 
 const UNSAVED_MESSAGE = 'Unable to save draft';
 
@@ -220,6 +221,8 @@ export class GrComment extends LitElement {
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly reporting = getAppContext().reportingService;
+
+  private readonly router = getAppContext().routerModel;
 
   private readonly flagsService = getAppContext().flagsService;
 
@@ -909,11 +912,13 @@ export class GrComment extends LitElement {
     const comment = this.comment;
     if (!comment || !this.changeNum || !this.repoName) return '';
     if (!comment.id) throw new Error('comment must have an id');
-    return GerritNav.getUrlForComment(
-      this.changeNum,
-      this.repoName,
-      comment.id
-    );
+    return this.router.changeUrl({
+      view: GerritView.CHANGE,
+      childView: ChildView.DIFF,
+      changeNum: this.changeNum,
+      project: this.repoName,
+      commentId: comment.id,
+    });
   }
 
   private firstWillUpdateDone = false;

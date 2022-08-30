@@ -73,6 +73,8 @@ import {changeModelToken} from '../../../models/change/change-model';
 import {whenRendered} from '../../../utils/dom-util';
 import {Interaction} from '../../../constants/reporting';
 import {HtmlPatched} from '../../../utils/lit-util';
+import {ChildView} from '../../core/gr-router/change-view-model';
+import {GerritView} from '../../gr-app-types';
 
 declare global {
   interface HTMLElementEventMap {
@@ -252,6 +254,8 @@ export class GrCommentThread extends LitElement {
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly userModel = getAppContext().userModel;
+
+  private readonly router = getAppContext().routerModel;
 
   private readonly reporting = getAppContext().reportingService;
 
@@ -759,11 +763,13 @@ export class GrCommentThread extends LitElement {
       return undefined;
     }
     assertIsDefined(this.rootId, 'rootId of comment thread');
-    return GerritNav.getUrlForComment(
-      this.changeNum,
-      this.repoName,
-      this.rootId
-    );
+    return this.router.changeUrl({
+      view: GerritView.CHANGE,
+      childView: ChildView.DIFF,
+      changeNum: this.changeNum,
+      project: this.repoName,
+      commentId: this.rootId,
+    });
   }
 
   private handleCopyLink() {
@@ -772,7 +778,11 @@ export class GrCommentThread extends LitElement {
     assertIsDefined(this.changeNum, 'changeNum');
     assertIsDefined(this.repoName, 'repoName');
     const url = generateAbsoluteUrl(
-      GerritNav.getUrlForCommentsTab(this.changeNum, this.repoName, comment.id)
+      this.router.changeUrl({
+        changeNum: this.changeNum,
+        project: this.repoName,
+        commentId: comment.id,
+      })
     );
     assertIsDefined(url, 'url for comment');
     navigator.clipboard.writeText(generateAbsoluteUrl(url)).then(() => {

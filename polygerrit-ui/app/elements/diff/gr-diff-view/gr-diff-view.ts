@@ -82,7 +82,6 @@ import {
   getPatchRangeForCommentUrl,
   isInBaseOfPatchRange,
 } from '../../../utils/comment-util';
-import {AppElementDiffViewParam} from '../../gr-app-types';
 import {
   EventType,
   OpenFixPreviewEvent,
@@ -118,6 +117,11 @@ import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {when} from 'lit/directives/when.js';
+import {
+  changeToState,
+  ChangeViewState,
+  ChildView,
+} from '../../core/gr-router/change-view-model';
 
 const LOADING_BLAME = 'Loading blame...';
 const LOADED_BLAME = 'Blame loaded';
@@ -170,17 +174,21 @@ export class GrDiffView extends LitElement {
   diffPreferencesDialog?: GrOverlay;
 
   /**
+   * TODO: Rename to `state`.
+   * TODO: Subscribe to individual fields of the state instead of the entire
+   * state.
+   *
    * URL params passed from the router.
    * Use params getter/setter.
    */
-  private _params?: AppElementDiffViewParam;
+  private _params?: ChangeViewState;
 
   @property({type: Object})
   get params() {
     return this._params;
   }
 
-  set params(params: AppElementDiffViewParam | undefined) {
+  set params(params: ChangeViewState | undefined) {
     if (this._params === params) return;
     const oldParams = this._params;
     this._params = params;
@@ -387,6 +395,11 @@ export class GrDiffView extends LitElement {
   private setupSubscriptions() {
     subscribe(
       this,
+      () => this.routerModel.change.state$,
+      state => (this.params = state)
+    );
+    subscribe(
+      this,
       () => this.userModel.loggedIn$,
       loggedIn => {
         this.loggedIn = loggedIn;
@@ -470,13 +483,15 @@ export class GrDiffView extends LitElement {
             combineLatest([
               this.getChangeModel().patchNum$,
               this.routerModel.routerView$,
+              this.routerModel.change.childView$,
               this.userModel.diffPreferences$,
               this.getChangeModel().reviewedFiles$,
             ]).pipe(
               filter(
-                ([patchNum, routerView, diffPrefs, reviewedFiles]) =>
+                ([patchNum, routerView, childView, diffPrefs, reviewedFiles]) =>
                   !!patchNum &&
-                  routerView === GerritView.DIFF &&
+                  routerView === GerritView.CHANGE &&
+                  childView === ChildView.DIFF &&
                   !!diffPrefs &&
                   !!reviewedFiles
               ),
@@ -484,7 +499,7 @@ export class GrDiffView extends LitElement {
             )
           )
         ),
-      ([patchNum, _routerView, diffPrefs]) => {
+      ([patchNum, _routerView, _childView, diffPrefs]) => {
         this.setReviewedStatus(patchNum!, diffPrefs);
       }
     );
@@ -1521,7 +1536,8 @@ export class GrDiffView extends LitElement {
   initPatchRange() {
     let leftSide = false;
     if (!this.change) return;
-    if (this.params?.view !== GerritView.DIFF) return;
+    if (this.params?.view !== GerritView.CHANGE) return;
+    if (this.params?.childView !== ChildView.DIFF) return;
     if (this.params?.commentId) {
       const comment = this.changeComments?.findCommentById(
         this.params.commentId
@@ -1574,7 +1590,7 @@ export class GrDiffView extends LitElement {
     );
   }
 
-  private isSameDiffLoaded(value: AppElementDiffViewParam) {
+  private isSameDiffLoaded(value: ChangeViewState) {
     return (
       this.patchRange?.basePatchNum === value.basePatchNum &&
       this.patchRange?.patchNum === value.patchNum &&
@@ -1598,10 +1614,10 @@ export class GrDiffView extends LitElement {
 
   // Private but used in tests.
   paramsChanged() {
-    if (this.params?.view !== GerritView.DIFF) {
-      return;
-    }
+    if (this.params?.view !== GerritView.CHANGE) return;
+    if (this.params?.childView !== ChildView.DIFF) return;
 
+    console.log(`diff-view paramsChanged ${JSON.stringify(this.params)}`);
     const params = this.params;
 
     // The diff view is kept in the background once created. If the user
@@ -1806,7 +1822,8 @@ export class GrDiffView extends LitElement {
       this.patchRange,
       this.change.revisions
     );
-    return GerritNav.getUrlForChange(this.change, {
+    return this.routerModel.changeUrl({
+      ...changeToState(this.change),
       patchNum: range.patchNum,
       basePatchNum: range.basePatchNum,
     });
@@ -2108,7 +2125,7 @@ export class GrDiffView extends LitElement {
       this.path,
       this.patchRange.basePatchNum as RevisionPatchSetNum,
       PARENT,
-      this.params?.view === GerritView.DIFF && this.params?.commentLink
+      this.params?.childView === ChildView.DIFF && this.params?.commentLink
         ? this.focusLineNum
         : undefined
     );

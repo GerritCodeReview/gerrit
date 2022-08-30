@@ -24,7 +24,6 @@ import {
 } from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import {ParsedChangeInfo} from '../../../types/types';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {truncatePath} from '../../../utils/path-list-util';
 import {pluralize} from '../../../utils/string-util';
 import {
@@ -33,6 +32,7 @@ import {
   isChangeInfo,
 } from '../../../utils/change-util';
 import {DEFALT_NUM_CHANGES_WHEN_COLLAPSED} from './gr-related-collapse';
+import {changeToState} from '../../core/gr-router/change-view-model';
 
 export interface ChangeMarkersInList {
   showCurrentChangeArrow: boolean;
@@ -79,6 +79,8 @@ export class GrRelatedChangesList extends LitElement {
   sameTopicChanges: ChangeInfo[] = [];
 
   private readonly restApiService = getAppContext().restApiService;
+
+  private readonly router = getAppContext().routerModel;
 
   static override get styles() {
     return [
@@ -213,12 +215,12 @@ export class GrRelatedChangesList extends LitElement {
                 .change=${change}
                 .connectedRevisions=${connectedRevisions}
                 .href=${change?._change_number
-                  ? GerritNav.getUrlForChangeById(
-                      change._change_number,
-                      change.project,
-                      'related-change',
-                      change._revision_number as RevisionPatchSetNum
-                    )
+                  ? this.router.changeUrl({
+                      changeNum: change._change_number,
+                      project: change.project,
+                      usp: 'related-change',
+                      patchNum: change._revision_number as RevisionPatchSetNum,
+                    })
                   : ''}
                 show-change-status
                 show-submittable-check
@@ -289,11 +291,10 @@ export class GrRelatedChangesList extends LitElement {
       <gr-related-change
         .label=${this.renderChangeTitle(change)}
         .change=${change}
-        .href=${GerritNav.getUrlForChangeById(
-          change._number,
-          change.project,
-          'submitted-together'
-        )}
+        .href=${this.router.changeUrl({
+          ...changeToState(change),
+          usp: 'submitted-together',
+        })}
         ?show-submittable-check=${showSubmittabilityCheck}
         >${change.subject}</gr-related-change
       >
@@ -370,11 +371,10 @@ export class GrRelatedChangesList extends LitElement {
                 mergeConflictsMarkersPredicate(index)
               )}<gr-related-change
                 .change=${change}
-                .href=${GerritNav.getUrlForChangeById(
-                  change._number,
-                  change.project,
-                  'merge-conflict'
-                )}
+                .href=${this.router.changeUrl({
+                  ...changeToState(change),
+                  usp: 'merge-conflict',
+                })}
                 >${change.subject}</gr-related-change
               >
             </div>`
@@ -415,11 +415,10 @@ export class GrRelatedChangesList extends LitElement {
                 cherryPicksMarkersPredicate(index)
               )}<gr-related-change
                 .change=${change}
-                .href=${GerritNav.getUrlForChangeById(
-                  change._number,
-                  change.project,
-                  'cherry-pick'
-                )}
+                .href=${this.router.changeUrl({
+                  ...changeToState(change),
+                  usp: 'cherry-pick',
+                })}
                 >${change.branch}: ${change.subject}</gr-related-change
               >
             </div>`

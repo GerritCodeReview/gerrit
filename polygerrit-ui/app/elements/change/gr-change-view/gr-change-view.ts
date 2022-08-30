@@ -118,7 +118,6 @@ import {
   isUnresolved,
   DraftInfo,
 } from '../../../utils/comment-util';
-import {AppElementChangeViewParams} from '../../gr-app-types';
 import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
 import {GrFileList} from '../gr-file-list/gr-file-list';
 import {EditRevisionInfo, ParsedChangeInfo} from '../../../types/types';
@@ -180,6 +179,10 @@ import {FilesExpandedState} from '../gr-file-list-constants';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
 import {filesModelToken} from '../../../models/change/files-model';
+import {
+  changeToState,
+  ChangeViewState,
+} from '../../core/gr-router/change-view-model';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -270,17 +273,21 @@ export class GrChangeView extends LitElement {
   @query('gr-thread-list') threadList?: GrThreadList;
 
   /**
-   * URL params passed from the router.
+   * TODO: Rename to `state`.
+   * TODO: Subscribe to individual fields of the state instead of the entire
+   * state.
+   *
+   * View state passed from the ChangeViewModel.
    * Use params getter/setter.
    */
-  private _params?: AppElementChangeViewParams;
+  private _params?: ChangeViewState;
 
   @property({type: Object})
   get params() {
     return this._params;
   }
 
-  set params(params: AppElementChangeViewParams | undefined) {
+  set params(params: ChangeViewState | undefined) {
     if (this._params === params) return;
     const oldParams = this._params;
     this._params = params;
@@ -722,7 +729,7 @@ export class GrChangeView extends LitElement {
     );
     subscribe(
       this,
-      () => this.routerModel.routerPatchNum$,
+      () => this.routerModel.change.patchNum$,
       patchNum => {
         this.routerPatchNum = patchNum;
       }
@@ -785,6 +792,11 @@ export class GrChangeView extends LitElement {
       config => {
         this.projectConfig = config;
       }
+    );
+    subscribe(
+      this,
+      () => this.routerModel.change.state$,
+      state => (this.params = state)
     );
   }
 
@@ -2026,14 +2038,14 @@ export class GrChangeView extends LitElement {
   }
 
   // Private but used in tests.
-  hasPatchRangeChanged(value: AppElementChangeViewParams) {
+  hasPatchRangeChanged(value: ChangeViewState) {
     if (!this.patchRange) return false;
     if (this.patchRange.basePatchNum !== value.basePatchNum) return true;
     return this.hasPatchNumChanged(value);
   }
 
   // Private but used in tests.
-  hasPatchNumChanged(value: AppElementChangeViewParams) {
+  hasPatchNumChanged(value: ChangeViewState) {
     if (!this.patchRange) return false;
     if (value.patchNum !== undefined) {
       return this.patchRange.patchNum !== value.patchNum;
@@ -2047,6 +2059,8 @@ export class GrChangeView extends LitElement {
 
   // Private but used in tests.
   paramsChanged() {
+    console.log(`change-view paramsChanged ${JSON.stringify(this.params)}`);
+
     if (this.params?.view !== GerritView.CHANGE) {
       this.initialLoadComplete = false;
       querySelectorAll(this, 'gr-overlay').forEach(overlay =>
@@ -2206,10 +2220,11 @@ export class GrChangeView extends LitElement {
     assertIsDefined(this.change, 'change');
     assertIsDefined(this.patchRange, 'patchRange');
     const hash = PREFIX + e.detail.id;
-    const url = GerritNav.getUrlForChange(this.change, {
+    const url = this.routerModel.changeUrl({
+      ...changeToState(this.change),
       patchNum: this.patchRange.patchNum,
       basePatchNum: this.patchRange.basePatchNum,
-      isEdit: this.getEditMode(),
+      edit: this.getEditMode(),
       messageHash: hash,
     });
     history.replaceState(null, '', url);
@@ -2343,7 +2358,8 @@ export class GrChangeView extends LitElement {
 
   private computeChangeUrl(forceReload?: boolean) {
     if (!this.change) return undefined;
-    return GerritNav.getUrlForChange(this.change, {
+    return this.routerModel.changeUrl({
+      ...changeToState(this.change),
       forceReload: !!forceReload,
     });
   }

@@ -548,13 +548,12 @@ export class GrChangeSummary extends LitElement {
                 countResolvedComments,
                 countUnresolvedComments
               )}
-              ${this.renderMentionChip()}
+              ${this.renderDraftChip()} ${this.renderMentionChip()}
               ${this.renderUnresolvedCommentsChip(
                 countUnresolvedComments,
                 unresolvedAuthors
               )}
               ${this.renderResolvedCommentsChip(countResolvedComments)}
-              ${this.renderDraftChip()}
             </td>
           </tr>
           ${this.renderChecksSummary()}
@@ -593,7 +592,7 @@ export class GrChangeSummary extends LitElement {
   private renderDraftChip() {
     if (!this.draftCount) return nothing;
     return html` <gr-summary-chip
-      styleType=${SummaryChipStyles.CHECK}
+      styleType=${SummaryChipStyles.INFO}
       category=${CommentTabState.DRAFTS}
       icon="rate_review"
       iconFilled
@@ -613,7 +612,12 @@ export class GrChangeSummary extends LitElement {
       ?hidden=${!countUnresolvedComments}
     >
       <gr-avatar-stack .accounts=${unresolvedAuthors} imageSize="32">
-        <gr-icon slot="fallback" icon="feedback" filled class="unresolvedIcon">
+        <gr-icon
+          slot="fallback"
+          icon="chat_bubble"
+          filled
+          class="unresolvedIcon"
+        >
         </gr-icon>
       </gr-avatar-stack>
       ${countUnresolvedComments} unresolved</gr-summary-chip
@@ -626,7 +630,6 @@ export class GrChangeSummary extends LitElement {
       styleType=${SummaryChipStyles.CHECK}
       category=${CommentTabState.SHOW_ALL}
       icon="mark_chat_read"
-      iconFilled
       >${countResolvedComments} resolved</gr-summary-chip
     >`;
   }

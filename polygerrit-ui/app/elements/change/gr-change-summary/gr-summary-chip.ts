@@ -59,6 +59,20 @@ export class GrSummaryChip extends LitElement {
         gr-icon {
           font-size: var(--line-height-small);
         }
+        .summaryChip.info {
+          border-color: var(--info-foreground);
+          background: var(--info-background);
+        }
+        .summaryChip.info:hover {
+          background: var(--info-background-hover);
+          box-shadow: var(--elevation-level-1);
+        }
+        .summaryChip.info:focus-within {
+          background: var(--info-background-focus);
+        }
+        .summaryChip.info gr-icon {
+          color: var(--info-foreground);
+        }
         .summaryChip.warning {
           border-color: var(--warning-foreground);
           background: var(--warning-background);
@@ -95,7 +109,7 @@ export class GrSummaryChip extends LitElement {
     const chipClass = `summaryChip font-small ${this.styleType}`;
     return html`<button class=${chipClass} @click=${this.handleClick}>
       ${this.icon &&
-      html`<gr-icon .filled=${this.iconFilled} icon=${this.icon}></gr-icon>`}
+      html`<gr-icon ?filled=${this.iconFilled} icon=${this.icon}></gr-icon>`}
       <slot></slot>
     </button>`;
   }

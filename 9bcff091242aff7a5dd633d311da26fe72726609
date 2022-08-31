@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71f3d7b9_2906e5df",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-external-style/gr-external-style.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-31T08:11:17Z",
+      "side": 1,
+      "message": "Why this check? We can just always remove all the styles, no?",
+      "revId": "9bcff091242aff7a5dd633d311da26fe72726609",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

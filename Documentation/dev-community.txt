@@ -54,7 +54,6 @@ link:dev-cla.html[contributor's agreement] on file with the project.
 * link:dev-build-plugins.html[Building Gerrit plugins]
 * link:pg-plugin-dev.html[JavaScript Plugin Development and API]
 * link:config-validation.html[Validation Interfaces]
-* link:dev-stars.html[Starring Changes]
 * link:quota.html[Quota Enforcement]
 
 [[maintainer]]

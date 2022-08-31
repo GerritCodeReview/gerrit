@@ -38,7 +38,6 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.git.GitUpdateFailureException;
 import com.google.gerrit.git.LockFailureException;
-import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -160,7 +159,6 @@ public class StarredChangesUtil {
   }
 
   public static final String DEFAULT_LABEL = "star";
-  public static final String IGNORE_LABEL = "ignore";
   public static final ImmutableSortedSet<String> DEFAULT_LABELS =
       ImmutableSortedSet.of(DEFAULT_LABEL);
 
@@ -224,7 +222,6 @@ public class StarredChangesUtil {
       if (labels.isEmpty()) {
         deleteRef(repo, refName, old.objectId());
       } else {
-        checkMutuallyExclusiveLabels(labels);
         updateLabels(repo, refName, old.objectId(), labels);
       }
       if (!experimentFeatures.isFeatureEnabled(
@@ -356,32 +353,6 @@ public class StarredChangesUtil {
     }
   }
 
-  public void ignore(ChangeResource rsrc) throws IllegalLabelException {
-    star(
-        rsrc.getUser().asIdentifiedUser().getAccountId(),
-        rsrc.getProject(),
-        rsrc.getChange().getId(),
-        ImmutableSet.of(IGNORE_LABEL),
-        ImmutableSet.of());
-  }
-
-  public void unignore(ChangeResource rsrc) throws IllegalLabelException {
-    star(
-        rsrc.getUser().asIdentifiedUser().getAccountId(),
-        rsrc.getProject(),
-        rsrc.getChange().getId(),
-        ImmutableSet.of(),
-        ImmutableSet.of(IGNORE_LABEL));
-  }
-
-  public boolean isIgnoredBy(Change.Id changeId, Account.Id accountId) {
-    return getLabels(accountId, changeId).contains(IGNORE_LABEL);
-  }
-
-  public boolean isIgnored(ChangeResource rsrc) {
-    return isIgnoredBy(rsrc.getChange().getId(), rsrc.getUser().asIdentifiedUser().getAccountId());
-  }
-
   public static StarRef readLabels(Repository repo, String refName) throws IOException {
     try (TraceTimer traceTimer =
         TraceContext.newTimer(
@@ -418,13 +389,6 @@ public class StarredChangesUtil {
               labels.stream().sorted().distinct().collect(joining("\n")).getBytes(UTF_8));
       oi.flush();
       return id;
-    }
-  }
-
-  private static void checkMutuallyExclusiveLabels(Set<String> labels)
-      throws MutuallyExclusiveLabelsException {
-    if (labels.containsAll(ImmutableSet.of(DEFAULT_LABEL, IGNORE_LABEL))) {
-      throw new MutuallyExclusiveLabelsException(DEFAULT_LABEL, IGNORE_LABEL);
     }
   }
 

@@ -91,7 +91,8 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
   protected boolean shouldSendMessage() {
     if (!isChangeNoLongerSubmittable() && changeKind.isTrivialRebase()) {
       logger.atFine().log(
-          "skip email because new patch set is a trivial rebase that didn't make the change non-submittable");
+          "skip email because new patch set is a trivial rebase that didn't make the change"
+              + " non-submittable");
       return false;
     }
 
@@ -131,7 +132,6 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
     }
     bccStarredBy();
     includeWatchers(NotifyType.NEW_PATCHSETS, !change.isWorkInProgress() && !change.isPrivate());
-    removeUsersThatIgnoredTheChange();
   }
 
   @Override

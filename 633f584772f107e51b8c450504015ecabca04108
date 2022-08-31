@@ -58,6 +58,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ec0cdf0_ce186156",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-external-style/gr-external-style.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-31T07:53:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90e9a752_c8b95f85",
+      "revId": "633f584772f107e51b8c450504015ecabca04108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "25d8da98_def0a135",
@@ -75,6 +93,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f8a048b_e1d1344e",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-external-style/gr-external-style.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-31T07:53:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25d8da98_def0a135",
+      "revId": "633f584772f107e51b8c450504015ecabca04108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7239e6fd_2aa859e4",
@@ -88,6 +124,24 @@
       "writtenOn": "2022-08-31T07:27:45Z",
       "side": 1,
       "message": "Don\u0027t you have to remove *all* styles instead of just one? Multiple plugins may have registered for this endpoint.\n\nSo maybe just iterate over `this.stylesApplied`?",
+      "revId": "633f584772f107e51b8c450504015ecabca04108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "765ce2e3_7dc946d5",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-external-style/gr-external-style.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-31T07:53:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7239e6fd_2aa859e4",
       "revId": "633f584772f107e51b8c450504015ecabca04108",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

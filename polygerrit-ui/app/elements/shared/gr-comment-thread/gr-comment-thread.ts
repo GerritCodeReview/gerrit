@@ -528,7 +528,7 @@ export class GrCommentThread extends LitElement {
         @reply-to-comment=${this.handleReplyToComment}
         @copy-comment-link=${this.handleCopyLink}
         @comment-editing-changed=${(e: CustomEvent) => {
-          if (isDraftOrUnsaved(comment)) this.editing = e.detail;
+          if (isDraftOrUnsaved(comment)) this.editing = e.detail.editing;
         }}
         @comment-unresolved-changed=${(e: CustomEvent) => {
           if (isDraftOrUnsaved(comment)) this.unresolved = e.detail;

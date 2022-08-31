@@ -11,7 +11,6 @@ import {
   queryAndAssert,
   stubRestApi,
 } from '../../../test/test-utils';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {GrLabelInfo} from './gr-label-info';
 import {GrButton} from '../gr-button/gr-button';
 import {
@@ -123,7 +122,7 @@ suite('gr-label-info tests', () => {
       element.mutable = true;
       const removeButton = queryAndAssert<GrButton>(element, 'gr-button');
 
-      MockInteractions.tap(removeButton);
+      removeButton.click();
       assert.isTrue(removeButton.disabled);
       mock.resolve();
       await deleteResponse;

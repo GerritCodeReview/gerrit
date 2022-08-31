@@ -25,7 +25,6 @@ import {
   Timestamp,
   UrlEncodedCommentId,
 } from '../../../types/common';
-import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 import {
   createComment,
   createDraft,
@@ -43,6 +42,7 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {Modifier} from '../../../utils/dom-util';
 import {SinonStub} from 'sinon';
 import {fixture, html, assert} from '@open-wc/testing';
+import {GrButton} from '../gr-button/gr-button';
 
 suite('gr-comment tests', () => {
   let element: GrComment;
@@ -398,8 +398,8 @@ suite('gr-comment tests', () => {
     element.addEventListener('comment-anchor-tap', stub);
     await element.updateComplete;
 
-    const dateEl = queryAndAssert(element, '.date');
-    tap(dateEl);
+    const dateEl = queryAndAssert<HTMLSpanElement>(element, '.date');
+    dateEl.click();
 
     assert.isTrue(stub.called);
     assert.deepEqual(stub.lastCall.args[0].detail, {
@@ -463,8 +463,8 @@ suite('gr-comment tests', () => {
     element.isAdmin = true;
     await element.updateComplete;
 
-    const deleteButton = queryAndAssert(element, '.action.delete');
-    tap(deleteButton);
+    const deleteButton = queryAndAssert<GrButton>(element, '.action.delete');
+    deleteButton.click();
     await element.updateComplete;
 
     assertIsDefined(element.confirmDeleteOverlay, 'confirmDeleteOverlay');
@@ -619,7 +619,7 @@ suite('gr-comment tests', () => {
       );
       assert.isTrue(checkbox.checked);
 
-      tap(checkbox);
+      checkbox.click();
       await element.updateComplete;
 
       checkbox = queryAndAssert<HTMLInputElement>(element, '#resolvedCheckbox');
@@ -655,7 +655,7 @@ suite('gr-comment tests', () => {
       element.comments = [element.comment];
       await element.updateComplete;
 
-      tap(queryAndAssert(element, '.fix'));
+      queryAndAssert<GrButton>(element, '.fix').click();
 
       const e = await listener;
       assert.equal(e.detail.unresolved, true);
@@ -692,7 +692,7 @@ suite('gr-comment tests', () => {
       };
       await element.updateComplete;
 
-      tap(queryAndAssert(element, '.show-fix'));
+      queryAndAssert<GrButton>(element, '.show-fix').click();
 
       const e = await listener;
       assert.deepEqual(e.detail, await element.createFixPreview());

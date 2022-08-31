@@ -7,7 +7,6 @@ import '../../../test/common-test-setup-karma';
 import {queryAndAssert} from '../../../test/test-utils';
 import {GrChangeStar} from './gr-change-star';
 import './gr-change-star';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {createChange} from '../../../test/test-data-generators';
 import {fixture, html, assert} from '@open-wc/testing';
 
@@ -62,7 +61,7 @@ suite('gr-change-star tests', () => {
     await element.updateComplete;
     assert.equal(element.change!.starred, false);
 
-    MockInteractions.tap(queryAndAssert<HTMLButtonElement>(element, 'button'));
+    queryAndAssert<HTMLButtonElement>(element, 'button').click();
     await element.updateComplete;
     assert.equal(element.change!.starred, true);
   });
@@ -72,7 +71,7 @@ suite('gr-change-star tests', () => {
     await element.updateComplete;
     assert.equal(element.change!.starred, true);
 
-    MockInteractions.tap(queryAndAssert<HTMLButtonElement>(element, 'button'));
+    queryAndAssert<HTMLButtonElement>(element, 'button').click();
     await element.updateComplete;
     assert.equal(element.change!.starred, false);
   });

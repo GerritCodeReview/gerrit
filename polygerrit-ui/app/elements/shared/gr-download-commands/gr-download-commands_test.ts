@@ -13,11 +13,11 @@ import {
   stubRestApi,
 } from '../../../test/test-utils';
 import {createPreferences} from '../../../test/test-data-generators';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {GrShellCommand} from '../gr-shell-command/gr-shell-command';
 import {createDefaultPreferences} from '../../../constants/constants';
 import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
 import {fixture, html, assert} from '@open-wc/testing';
+import {PaperTabElement} from '@polymer/paper-tabs/paper-tab';
 
 suite('gr-download-commands', () => {
   let element: GrDownloadCommands;
@@ -138,7 +138,7 @@ suite('gr-download-commands', () => {
         queryAndAssert<PaperTabsElement>(element, '#downloadTabs').selected,
         '0'
       );
-      MockInteractions.tap(queryAndAssert(element, '[data-scheme="ssh"]'));
+      queryAndAssert<PaperTabElement>(element, '[data-scheme="ssh"]').click();
       await element.updateComplete;
       assert.equal(element.selectedScheme, 'ssh');
       assert.equal(
@@ -155,9 +155,12 @@ suite('gr-download-commands', () => {
 
       await element.updateComplete;
 
-      const repoTab = queryAndAssert(element, 'paper-tab[data-scheme="repo"]');
+      const repoTab = queryAndAssert<PaperTabElement>(
+        element,
+        'paper-tab[data-scheme="repo"]'
+      );
 
-      MockInteractions.tap(repoTab);
+      repoTab.click();
 
       assert.isTrue(savePrefsStub.called);
       assert.equal(

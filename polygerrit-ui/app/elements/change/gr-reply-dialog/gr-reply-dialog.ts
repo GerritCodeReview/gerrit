@@ -971,6 +971,15 @@ export class GrReplyDialog extends LitElement {
         id="patchsetLevelComment"
         .comment=${this.patchsetLevelComment}
         .comments=${[this.patchsetLevelComment]}
+<<<<<<< PATCH SET (19986f Update GrReplyDialog draft text as patchset level text updat)
+        @comment-unresolved-changed=${(e: CustomEvent) => {
+          this.isResolvedPatchsetLevelComment = !e.detail;
+        }}
+        @comment-text-changed${(e: CustomEvent) => {
+          this.draft = e.detail;
+        }}
+=======
+>>>>>>> BASE      (d1e966 Enable send button when patchset level comment is in editing)
         hide-header
         permanent-editing-mode
       ></gr-comment>

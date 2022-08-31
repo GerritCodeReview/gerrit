@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4e4e71a_e29cc7f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-08-31T15:12:18Z",
+      "side": 1,
+      "message": "missing the `Release-Notes` footer",
+      "revId": "b29b08b72cc49f4ee5795bf98b5b5c6af4a57504",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

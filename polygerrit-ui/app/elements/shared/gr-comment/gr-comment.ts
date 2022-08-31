@@ -78,7 +78,7 @@ export const __testOnly_UNSAVED_MESSAGE = UNSAVED_MESSAGE;
 
 declare global {
   interface HTMLElementEventMap {
-    'comment-editing-changed': CustomEvent<boolean>;
+    'comment-editing-changed': CustomEvent<CommentEditingChangedDetail>;
     'comment-unresolved-changed': CustomEvent<boolean>;
     'comment-anchor-tap': CustomEvent<CommentAnchorTapEventDetail>;
   }
@@ -87,6 +87,11 @@ declare global {
 export interface CommentAnchorTapEventDetail {
   number: LineNumber;
   side?: CommentSide;
+}
+
+export interface CommentEditingChangedDetail {
+  editing: boolean;
+  path: string;
 }
 
 @customElement('gr-comment')
@@ -1024,7 +1029,10 @@ export class GrComment extends LitElement {
 
     // Parent components such as the reply dialog might be interested in whether
     // come of their child components are in editing mode.
-    fire(this, 'comment-editing-changed', this.editing);
+    fire(this, 'comment-editing-changed', {
+      editing: this.editing,
+      path: this.comment?.path ?? '',
+    });
   }
 
   // private, but visible for testing

@@ -120,6 +120,7 @@ import {configModelToken} from '../../../models/config/config-model';
 import {hasHumanReviewer, isOwner} from '../../../utils/change-util';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {commentsModelToken} from '../../../models/comments/comments-model';
+import {GrComment} from '../../shared/gr-comment/gr-comment';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -725,7 +726,11 @@ export class GrReplyDialog extends LitElement {
     );
     this.cleanups.push(addShortcut(this, {key: Key.ESC}, _ => this.cancel()));
     this.addEventListener('comment-editing-changed', e => {
-      this.commentEditing = (e as CustomEvent).detail;
+      // Patchset level comment is always in editing mode which means it would
+      // set commentEditing = true and the send button would be permanently
+      // disabled.
+      if (e.detail.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS) return;
+      this.commentEditing = e.detail.editing;
     });
 
     // Plugins on reply-reviewers endpoint can take advantage of these
@@ -973,6 +978,7 @@ export class GrReplyDialog extends LitElement {
       this.patchsetLevelComment = this.createDraft();
     return html`
       <gr-comment
+        id="patchsetLevelComment"
         .comment=${this.patchsetLevelComment}
         .comments=${[this.patchsetLevelComment]}
         hide-header
@@ -2165,8 +2171,18 @@ export class GrReplyDialog extends LitElement {
         isDetailedLabelInfo(label) && getApprovalInfo(label, this.account!)
     );
     const revotingOrNewVote = this.labelsChanged || existingVote;
-    const hasDrafts =
-      this.includeComments && this.draftCommentThreads.length > 0;
+    let hasDrafts = this.includeComments && this.draftCommentThreads.length > 0;
+    if (
+      this.flagsService.isEnabled(
+        KnownExperimentId.PATCHSET_LEVEL_COMMENT_USES_GRCOMMENT
+      )
+    ) {
+      const patchsetLevelComment = queryAndAssert<GrComment>(
+        this,
+        '#patchsetLevelComment'
+      );
+      hasDrafts = hasDrafts || patchsetLevelComment.messageText.length > 0;
+    }
     return (
       !hasDrafts &&
       !this.draft.length &&

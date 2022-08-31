@@ -70,6 +70,30 @@
       },
       "revId": "6873b031df4734a867646e1d39fe41bcdaacd9e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99e36b50_42764c8e",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-31T07:27:45Z",
+      "side": 1,
+      "message": "I don\u0027t understand why this has to be an attribute. Can you elaborate?",
+      "parentUuid": "d28aeb63_76ed620e",
+      "range": {
+        "startLine": 418,
+        "startChar": 0,
+        "endLine": 418,
+        "endChar": 39
+      },
+      "revId": "6873b031df4734a867646e1d39fe41bcdaacd9e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

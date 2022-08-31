@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b0f1c94_cceef5cc",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-external-style/gr-external-style.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-31T07:27:45Z",
+      "side": 1,
+      "message": "FYI: `@state` could just be removed from this field. It does not affected rendering.",
+      "range": {
+        "startLine": 19,
+        "startChar": 3,
+        "endLine": 19,
+        "endChar": 8
+      },
+      "revId": "633f584772f107e51b8c450504015ecabca04108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6668cbb9_ec54f7a6",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-external-style/gr-external-style.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-31T07:27:45Z",
+      "side": 1,
+      "message": "FYI: This could actually just return `nothing`. The slot is not used.",
+      "revId": "633f584772f107e51b8c450504015ecabca04108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90e9a752_c8b95f85",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-external-style/gr-external-style.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-31T07:27:45Z",
+      "side": 1,
+      "message": "Is that required? Isn\u0027t the `if (this.stylesApplied.includes(...` check doing the same?",
+      "revId": "633f584772f107e51b8c450504015ecabca04108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25d8da98_def0a135",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-external-style/gr-external-style.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-31T07:27:45Z",
+      "side": 1,
+      "message": "This should be using `moduleName` as an id. Multiple plugins may have registered with this style endpoint.",
+      "revId": "633f584772f107e51b8c450504015ecabca04108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7239e6fd_2aa859e4",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-external-style/gr-external-style.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-31T07:27:45Z",
+      "side": 1,
+      "message": "Don\u0027t you have to remove *all* styles instead of just one? Multiple plugins may have registered for this endpoint.\n\nSo maybe just iterate over `this.stylesApplied`?",
+      "revId": "633f584772f107e51b8c450504015ecabca04108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

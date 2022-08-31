@@ -10,6 +10,7 @@ import {
   isVisible,
   mockPromise,
   pressKey,
+  query,
   queryAll,
   queryAndAssert,
   stubFlags,
@@ -2415,6 +2416,37 @@ suite('gr-reply-dialog tests', () => {
 
     queryAndAssert<GrButton>(element, 'gr-button.send').click();
     assert.isTrue(sendStub.called);
+  });
+
+  suite.only('patchset level comment using GrComment', () => {
+    setup(async () => {
+      stubFlags('isEnabled')
+        .withArgs(KnownExperimentId.PATCHSET_LEVEL_COMMENT_USES_GRCOMMENT)
+        .returns(true);
+      element.account = createAccountWithId(1);
+      element.requestUpdate();
+      await element.updateComplete;
+    });
+
+    test.only('renders GrComment', () => {
+      debugger;
+      assert.dom.equal(
+        query(element, '.patchsetLevelContainer'),
+        /* HTML */ `
+          <div class="patchsetLevelContainer resolved">
+            <gr-endpoint-decorator name="reply-text">
+              <gr-comment
+                hide-header=""
+                id="patchsetLevelComment"
+                permanent-editing-mode=""
+              >
+              </gr-comment>
+              <gr-endpoint-param name="change"> </gr-endpoint-param>
+            </gr-endpoint-decorator>
+          </div>
+        `
+      );
+    });
   });
 
   suite('mention users', () => {

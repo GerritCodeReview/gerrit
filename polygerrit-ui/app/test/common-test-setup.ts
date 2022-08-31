@@ -41,6 +41,7 @@ import {
   DependencyToken,
   Provider,
 } from '../models/dependency';
+import * as sinon from 'sinon';
 
 declare global {
   interface Window {

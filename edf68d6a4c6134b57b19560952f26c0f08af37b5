@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91722939_2910b2d4",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1535,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-31T09:51:07Z",
+      "side": 1,
+      "message": "`await ...` should go before `this.disabled \u003d true`\n\nMaybe just move `this.disabled \u003d true` up a bit.",
+      "range": {
+        "startLine": 1535,
+        "startChar": 0,
+        "endLine": 1535,
+        "endChar": 40
+      },
+      "revId": "edf68d6a4c6134b57b19560952f26c0f08af37b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

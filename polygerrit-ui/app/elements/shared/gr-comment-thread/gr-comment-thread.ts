@@ -532,8 +532,8 @@ export class GrCommentThread extends LitElement {
         ) => {
           if (isDraftOrUnsaved(comment)) this.editing = e.detail.editing;
         }}
-        @comment-unresolved-changed=${(e: CustomEvent) => {
-          if (isDraftOrUnsaved(comment)) this.unresolved = e.detail;
+        @comment-unresolved-changed=${(e: ValueChangedEvent<boolean>) => {
+          if (isDraftOrUnsaved(comment)) this.unresolved = e.detail.value;
         }}
       ></gr-comment>
     `;

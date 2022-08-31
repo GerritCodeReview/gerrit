@@ -47,7 +47,7 @@ import {
   RepoName,
   UrlEncodedCommentId,
 } from '../../../types/common';
-import {GrComment} from '../gr-comment/gr-comment';
+import {CommentEditingChangedDetail, GrComment} from '../gr-comment/gr-comment';
 import {FILE} from '../../../embed/diff/gr-diff/gr-diff-line';
 import {GrButton} from '../gr-button/gr-button';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
@@ -527,8 +527,10 @@ export class GrCommentThread extends LitElement {
         }
         @reply-to-comment=${this.handleReplyToComment}
         @copy-comment-link=${this.handleCopyLink}
-        @comment-editing-changed=${(e: CustomEvent) => {
-          if (isDraftOrUnsaved(comment)) this.editing = e.detail;
+        @comment-editing-changed=${(
+          e: CustomEvent<CommentEditingChangedDetail>
+        ) => {
+          if (isDraftOrUnsaved(comment)) this.editing = e.detail.editing;
         }}
         @comment-unresolved-changed=${(e: CustomEvent) => {
           if (isDraftOrUnsaved(comment)) this.unresolved = e.detail;

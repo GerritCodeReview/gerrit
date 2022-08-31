@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ff030c4_14b1329d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-31T16:03:18Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "227319473f879be22b5448dc8cf5cff296ae7182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbbb3bff_50eddd57",
+        "filename": "polygerrit-ui/app/test/source-map-support-install.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-31T16:03:18Z",
+      "side": 1,
+      "message": "Maybe update the type spec as well to say it\u0027s optional?",
+      "revId": "227319473f879be22b5448dc8cf5cff296ae7182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6e40232_73e000b6",
+        "filename": "polygerrit-ui/package.json",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-31T16:03:18Z",
+      "side": 1,
+      "message": "test:single?\ntest:debug?",
+      "revId": "227319473f879be22b5448dc8cf5cff296ae7182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

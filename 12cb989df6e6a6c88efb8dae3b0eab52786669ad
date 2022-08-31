@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "301a7b63_062a1463",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-08-31T21:02:44Z",
+      "side": 1,
+      "message": "I believe that for an unpaginated source this query will now be limited to what getEffectiveLimit() returns and thus will not be unlimited when the --no-limit flag is added?",
+      "revId": "12cb989df6e6a6c88efb8dae3b0eab52786669ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

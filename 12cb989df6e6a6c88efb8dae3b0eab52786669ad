@@ -16,6 +16,47 @@
       "message": "I believe that for an unpaginated source this query will now be limited to what getEffectiveLimit() returns and thus will not be unlimited when the --no-limit flag is added?",
       "revId": "12cb989df6e6a6c88efb8dae3b0eab52786669ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5483ec6c_ca5f914a",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-08-31T23:51:07Z",
+      "side": 1,
+      "message": "It turns out that since an unpaginated data source is likely not enforcing a limit anyway, this probably won\u0027t be the case.",
+      "parentUuid": "301a7b63_062a1463",
+      "revId": "12cb989df6e6a6c88efb8dae3b0eab52786669ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ba69e99_2b44b790",
+        "filename": "java/com/google/gerrit/index/query/QueryResult.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-08-31T23:51:07Z",
+      "side": 1,
+      "message": "Unfortunately at this layer it seems wrong to have a limit that isn\u0027t enforced, so maybe this approach isn\u0027t quite right, maybe instead of adding a new isNoLimit() signal, we should be adding a distinct pageSize signal which is separate from limit concepts at more layers, then we can more clearly act on pageSize and limits separately.",
+      "range": {
+        "startLine": 28,
+        "startChar": 10,
+        "endLine": 28,
+        "endChar": 15
+      },
+      "revId": "12cb989df6e6a6c88efb8dae3b0eab52786669ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

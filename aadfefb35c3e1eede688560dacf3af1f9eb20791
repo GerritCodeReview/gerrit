@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64ce8dac_1ca94d36",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-31T09:34:30Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "aadfefb35c3e1eede688560dacf3af1f9eb20791",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e61b275e_84ad6a34",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 701,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-31T09:34:30Z",
+      "side": 1,
+      "message": "I think all this is not required at all.\n\nThe `collapsed` property does exist on `CommentInfo | DraftInfo | RobotCommentInfo` and I have checked the code base that this property is indeed not used anywhere. So setting `collapsed` here is a noop.\n\nAnd if the `collapsed` property is not required, then there is no need at all for copying the comments. The comment-thread and comment widgets treat the comment entities as immutable.\n\nSo can you try to just remove the mapping and just do:\n```\nthreads \u003d\u003e (this.draftCommentThreads \u003d threads)\n```",
+      "range": {
+        "startLine": 691,
+        "startChar": 8,
+        "endLine": 701,
+        "endChar": 11
+      },
+      "revId": "aadfefb35c3e1eede688560dacf3af1f9eb20791",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

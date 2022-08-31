@@ -17,8 +17,12 @@ import {
 import {getAppContext} from '../app-context.js';
 import {createChange} from '../../test/test-data-generators.js';
 import {CURRENT} from '../../utils/patch-set-util.js';
-import {parsePrefixedJSON, readResponsePayload} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.js';
-import {JSON_PREFIX} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.js';
+import {
+  parsePrefixedJSON,
+  readResponsePayload,
+  JSON_PREFIX,
+  // eslint-disable-next-line max-len
+} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.js';
 import {GrRestApiServiceImpl} from './gr-rest-api-impl.js';
 import {CommentSide} from '../../constants/constants.js';
 import {EDIT, PARENT} from '../../types/common.js';
@@ -313,28 +317,34 @@ suite('gr-rest-api-service-impl tests', () => {
   suite('getAccountSuggestions', () => {
     let fetchStub;
     setup(() => {
-      fetchStub = sinon.stub(element._restApiHelper, 'fetch').returns(
-          Promise.resolve(new Response()));
+      fetchStub = sinon
+          .stub(element._restApiHelper, 'fetch')
+          .returns(Promise.resolve(new Response()));
     });
 
     test('url with just email', () => {
       element.getSuggestedAccounts('bro');
       assert.isTrue(fetchStub.calledOnce);
-      assert.equal(fetchStub.firstCall.args[0].url,
-          'test52/accounts/?o=DETAILS&q=bro');
+      assert.equal(
+          fetchStub.firstCall.args[0].url,
+          'test52/accounts/?o=DETAILS&q=bro'
+      );
     });
 
     test('url with email and canSee changeId', () => {
       element.getSuggestedAccounts('bro', undefined, 341682);
       assert.isTrue(fetchStub.calledOnce);
-      assert.equal(fetchStub.firstCall.args[0].url,
-          'test53/accounts/?o=DETAILS&q=bro%20and%20cansee%3A341682');
+      assert.equal(
+          fetchStub.firstCall.args[0].url,
+          'test53/accounts/?o=DETAILS&q=bro%20and%20cansee%3A341682'
+      );
     });
 
     test('url with email and canSee changeId and isActive', () => {
       element.getSuggestedAccounts('bro', undefined, 341682, true);
       assert.isTrue(fetchStub.calledOnce);
-      assert.equal(fetchStub.firstCall.args[0].url,
+      assert.equal(
+          fetchStub.firstCall.args[0].url,
           'test54/accounts/?o=DETAILS&q=bro%20and%20' +
           'cansee%3A341682%20and%20is%3Aactive'
       );
@@ -414,17 +424,16 @@ suite('gr-rest-api-service-impl tests', () => {
     });
   });
 
-  test('getPreferences returns correctly on larger screens not logged in',
-      () => {
-        const testJSON = {diff_view: 'UNIFIED_DIFF'};
-        const loggedIn = false;
+  test('getPreferences returns correctly on larger screens no login', () => {
+    const testJSON = {diff_view: 'UNIFIED_DIFF'};
+    const loggedIn = false;
 
-        preferenceSetup(testJSON, loggedIn);
+    preferenceSetup(testJSON, loggedIn);
 
-        return element.getPreferences().then(obj => {
-          assert.equal(obj.diff_view, 'SIDE_BY_SIDE');
-        });
-      });
+    return element.getPreferences().then(obj => {
+      assert.equal(obj.diff_view, 'SIDE_BY_SIDE');
+    });
+  });
 
   test('savPreferences normalizes download scheme', () => {
     const sendStub = sinon

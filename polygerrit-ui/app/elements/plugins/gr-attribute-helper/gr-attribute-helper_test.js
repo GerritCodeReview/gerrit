@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup-karma.js';
-import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
+import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn';
 // eslint-disable-next-line import/named
 import {fixture, html, assert} from '@open-wc/testing';
 

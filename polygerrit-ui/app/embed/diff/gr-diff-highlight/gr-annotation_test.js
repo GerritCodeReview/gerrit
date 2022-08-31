@@ -9,7 +9,7 @@ import {GrAnnotation} from './gr-annotation.js';
 import {
   sanitizeDOMValue,
   setSanitizeDOMValue,
-} from '@polymer/polymer/lib/utils/settings.js';
+} from '@polymer/polymer/lib/utils/settings';
 // eslint-disable-next-line import/named
 import {assert, fixture, html} from '@open-wc/testing';
 
@@ -178,6 +178,7 @@ suite('annotation', () => {
     let originalSanitizeDOMValue;
 
     setup(() => {
+      setSanitizeDOMValue((p0, p1, p2, node) => p0);
       originalSanitizeDOMValue = sanitizeDOMValue;
       assert.isDefined(originalSanitizeDOMValue);
       mockSanitize = sinon.spy(originalSanitizeDOMValue);

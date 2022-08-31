@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0431d8ff_e23a9eb0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-31T07:16:46Z",
+      "side": 1,
+      "message": "remove these comments as well?\nthe changes make the code a lot more readable now!\nThanks",
+      "range": {
+        "startLine": 63,
+        "startChar": 2,
+        "endLine": 63,
+        "endChar": 40
+      },
+      "revId": "03a11936cb2fe7b7b597b862d3aabb88b3a69036",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b034f2e7_5ff578c8",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1114,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-31T07:16:46Z",
+      "side": 1,
+      "message": "remove this comment as well.",
+      "range": {
+        "startLine": 1114,
+        "startChar": 6,
+        "endLine": 1114,
+        "endChar": 14
+      },
+      "revId": "03a11936cb2fe7b7b597b862d3aabb88b3a69036",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "852e1cf9_2b1837e5",
+        "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-31T07:16:46Z",
+      "side": 1,
+      "message": "fine with this change but just curious, is it part of the original commit message change wrt keyCodes?",
+      "range": {
+        "startLine": 209,
+        "startChar": 4,
+        "endLine": 209,
+        "endChar": 20
+      },
+      "revId": "03a11936cb2fe7b7b597b862d3aabb88b3a69036",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efc396df_911537e9",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-31T07:16:46Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 445,
+        "startChar": 4,
+        "endLine": 445,
+        "endChar": 47
+      },
+      "revId": "03a11936cb2fe7b7b597b862d3aabb88b3a69036",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

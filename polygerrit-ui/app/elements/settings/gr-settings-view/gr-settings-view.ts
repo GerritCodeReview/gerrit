@@ -1110,8 +1110,7 @@ export class GrSettingsView extends LitElement {
 
   // private but used in test
   handleNewEmailKeydown(e: KeyboardEvent) {
-    if (e.keyCode === 13) {
-      // Enter
+    if (e.key === 'Enter') {
       e.stopPropagation();
       this.handleAddEmailButton();
     }

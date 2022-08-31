@@ -348,8 +348,7 @@ export class GrAccountInfo extends LitElement {
   }
 
   private handleKeydown(e: KeyboardEvent) {
-    if (e.keyCode === 13) {
-      // Enter
+    if (e.key === 'Enter') {
       e.stopPropagation();
       this.save();
     }

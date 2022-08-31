@@ -312,7 +312,7 @@ suite('dom-util tests', () => {
         document.createElement('gr-button'),
         e => assert.isTrue(shouldSuppress(e)),
         13,
-        'enter'
+        'Enter'
       );
     });
 
@@ -324,7 +324,7 @@ suite('dom-util tests', () => {
         document.createElement('a'),
         e => assert.isTrue(shouldSuppress(e)),
         13,
-        'enter'
+        'Enter'
       );
     });
   });

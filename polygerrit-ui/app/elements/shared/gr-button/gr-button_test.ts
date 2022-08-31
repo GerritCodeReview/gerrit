@@ -173,7 +173,7 @@ suite('gr-button tests', () => {
     }
 
     for (const key of [Key.ENTER, Key.SPACE]) {
-      test(`stops click event on keycode ${key}`, () => {
+      test(`stops click event on key ${key}`, () => {
         const tapSpy = sinon.spy();
         element.addEventListener('click', tapSpy);
         pressKey(element, key);

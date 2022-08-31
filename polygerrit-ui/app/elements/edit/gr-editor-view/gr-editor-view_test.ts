@@ -10,6 +10,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {HttpMethod} from '../../../constants/constants';
 import {
   mockPromise,
+  pressKey,
   query,
   stubRestApi,
   stubStorage,
@@ -19,12 +20,12 @@ import {
   createChangeViewChange,
   createGenerateUrlEditViewParameters,
 } from '../../../test/test-data-generators';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {GrEndpointDecorator} from '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import {GrDefaultEditor} from '../gr-default-editor/gr-default-editor';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {fixture, html, assert} from '@open-wc/testing';
 import {EventType} from '../../../types/events';
+import {Modifier} from '../../../utils/dom-util';
 
 suite('gr-editor-view tests', () => {
   let element: GrEditorView;
@@ -226,7 +227,7 @@ suite('gr-editor-view tests', () => {
       );
       assert.isFalse(element.saving);
 
-      MockInteractions.tap(query<GrButton>(element, '#save')!);
+      query<GrButton>(element, '#save')!.click();
       assert.isTrue(saveSpy.called);
       assert.equal(alertStub.lastCall.args[0], 'Saving changes...');
       assert.isTrue(element.saving);
@@ -265,7 +266,7 @@ suite('gr-editor-view tests', () => {
         query<GrButton>(element, '#save')!.hasAttribute('disabled')
       );
 
-      MockInteractions.tap(query<GrButton>(element, '#save')!);
+      query<GrButton>(element, '#save')!.click();
       assert.isTrue(saveSpy.called);
       assert.equal(alertStub.lastCall.args[0], 'Saving changes...');
       assert.isTrue(element.saving);
@@ -300,7 +301,7 @@ suite('gr-editor-view tests', () => {
         query<GrButton>(element, '#save')!.hasAttribute('disabled')
       );
 
-      MockInteractions.tap(query<GrButton>(element, '#publish')!);
+      query<GrButton>(element, '#publish')!.click();
       assert.isTrue(saveSpy.called);
       assert.equal(alertStub.getCall(0).args[0], 'Saving changes...');
       assert.isTrue(element.saving);
@@ -339,7 +340,7 @@ suite('gr-editor-view tests', () => {
         query<GrButton>(element, '#save')!.hasAttribute('disabled')
       );
 
-      MockInteractions.tap(query<GrButton>(element, '#close')!);
+      query<GrButton>(element, '#close')!.click();
       assert.isTrue(closeSpy.called);
       assert.isFalse(saveFileStub.called);
       assert.isTrue(navigateStub.called);
@@ -457,13 +458,13 @@ suite('gr-editor-view tests', () => {
       test('save enabled', async () => {
         element.content = '';
         element.newContent = '_test';
-        MockInteractions.pressAndReleaseKeyOn(element, 83, 'ctrl', 's');
+        pressKey(element, 's', Modifier.CTRL_KEY);
         await element.updateComplete;
 
         assert.isTrue(handleSpy.calledOnce);
         assert.isTrue(saveStub.calledOnce);
 
-        MockInteractions.pressAndReleaseKeyOn(element, 83, 'meta', 's');
+        pressKey(element, 's', Modifier.META_KEY);
         await element.updateComplete;
 
         assert.equal(handleSpy.callCount, 2);
@@ -471,13 +472,13 @@ suite('gr-editor-view tests', () => {
       });
 
       test('save disabled', async () => {
-        MockInteractions.pressAndReleaseKeyOn(element, 83, 'ctrl', 's');
+        pressKey(element, 's', Modifier.CTRL_KEY);
         await element.updateComplete;
 
         assert.isTrue(handleSpy.calledOnce);
         assert.isFalse(saveStub.called);
 
-        MockInteractions.pressAndReleaseKeyOn(element, 83, 'meta', 's');
+        pressKey(element, 's', Modifier.META_KEY);
         await element.updateComplete;
 
         assert.equal(handleSpy.callCount, 2);

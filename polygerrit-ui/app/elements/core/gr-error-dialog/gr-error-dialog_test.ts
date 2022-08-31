@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {fixture, html, assert} from '@open-wc/testing';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import '../../../test/common-test-setup-karma';
 import {mockPromise, queryAndAssert} from '../../../test/test-utils';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
@@ -39,9 +38,7 @@ suite('gr-error-dialog tests', () => {
   test('dismiss tap fires event', async () => {
     const dismissCalled = mockPromise();
     element.addEventListener('dismiss', () => dismissCalled.resolve());
-    MockInteractions.tap(
-      queryAndAssert<GrDialog>(element, '#dialog').confirmButton!
-    );
+    queryAndAssert<GrDialog>(element, '#dialog').confirmButton!.click();
     await dismissCalled;
   });
 });

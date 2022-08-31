@@ -228,11 +228,13 @@ public abstract class QueryProcessor<T> {
       List<DataSource<T>> sources = new ArrayList<>(cnt);
       int queryCount = 0;
       for (Predicate<T> q : queries) {
-        int limit = getEffectiveLimit(q);
+        int pageSize = getEffectivePageSize(q);
+        int limit = getEffectiveLimit(pageSize);
         limits.add(limit);
+        int initialPageSize = getInitialPageSize(pageSize);
 
-        if (limit == getBackendSupportedLimit()) {
-          limit--;
+        if (initialPageSize == getBackendSupportedLimit()) {
+          initialPageSize--;
         }
 
         int page = (start / limit) + 1;
@@ -241,16 +243,31 @@ public abstract class QueryProcessor<T> {
               "Cannot go beyond page " + indexConfig.maxPages() + " of results");
         }
 
-        // Always bump limit by 1, even if this results in exceeding the permitted
-        // max for this user. The only way to see if there are more entities is to
-        // ask for one more result from the query.
+        // Always bump initial page size by 1, even if this results in exceeding the
+        // permitted max for this user. The only way to see if there are more entities
+        // is to ask for one more result from the query.
         try {
-          limit = Math.addExact(limit, 1);
+          initialPageSize = Math.addExact(initialPageSize, 1);
         } catch (ArithmeticException e) {
-          limit = Integer.MAX_VALUE;
+          initialPageSize = Integer.MAX_VALUE;
         }
 
-        QueryOptions opts = createOptions(indexConfig, start, limit, getRequestedFields());
+        // If pageSizeMultiplier is set to 1 (default), update it to 10 for no-limit queries as
+        // it helps improve performance and also prevents no-limit queries from severely degrading
+        // when pagination type is OFFSET.
+        int pageSizeMultiplier = indexConfig.pageSizeMultiplier();
+        if (isNoLimit && pageSizeMultiplier == 1) {
+          pageSizeMultiplier = 10;
+        }
+
+        QueryOptions opts =
+            createOptions(
+                indexConfig,
+                start,
+                initialPageSize,
+                pageSizeMultiplier,
+                limit,
+                getRequestedFields());
         logger.atFine().log("Query options: " + opts);
         Predicate<T> pred = rewriter.rewrite(q, opts);
         if (enforceVisibility) {
@@ -315,8 +332,14 @@ public abstract class QueryProcessor<T> {
   }
 
   protected QueryOptions createOptions(
-      IndexConfig indexConfig, int start, int limit, Set<String> requestedFields) {
-    return QueryOptions.create(indexConfig, start, limit, requestedFields);
+      IndexConfig indexConfig,
+      int start,
+      int pageSize,
+      int pageSizeMultiplier,
+      int limit,
+      Set<String> requestedFields) {
+    return QueryOptions.create(
+        indexConfig, start, pageSize, pageSizeMultiplier, limit, requestedFields);
   }
 
   /**
@@ -361,10 +384,7 @@ public abstract class QueryProcessor<T> {
     return indexConfig.maxLimit();
   }
 
-  private int getEffectiveLimit(Predicate<T> p) {
-    if (isNoLimit == true) {
-      return getIndexSize() + MAX_LIMIT_BUFFER_MULTIPLIER * getBatchSize();
-    }
+  public int getEffectivePageSize(Predicate<T> p) {
     List<Integer> possibleLimits = new ArrayList<>(4);
     possibleLimits.add(getBackendSupportedLimit());
     possibleLimits.add(getPermittedLimit());
@@ -379,8 +399,25 @@ public abstract class QueryProcessor<T> {
     }
     int result = Ordering.natural().min(possibleLimits);
     // Should have short-circuited from #query or thrown some other exception before getting here.
-    checkState(result > 0, "effective limit should be positive");
+    checkState(result > 0, "effective page size should be positive");
+
     return result;
+  }
+
+  private int getInitialPageSize(int pageSize) {
+    List<Integer> possiblePageSizes = new ArrayList<>(2);
+    if (indexConfig.maxPageSize() > 0) {
+      possiblePageSizes.add(indexConfig.maxPageSize());
+    }
+    possiblePageSizes.add(pageSize);
+    return Ordering.natural().min(possiblePageSizes);
+  }
+
+  private int getEffectiveLimit(int limit) {
+    if (isNoLimit == true) {
+      return Integer.MAX_VALUE;
+    }
+    return limit;
   }
 
   private static Optional<QueryParseException> findQueryParseException(Throwable t) {

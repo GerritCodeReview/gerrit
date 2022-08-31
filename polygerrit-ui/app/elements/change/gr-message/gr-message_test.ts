@@ -331,15 +331,14 @@ suite('gr-message tests', () => {
             <span class="numberOfComments" title="1 unresolved comment">
               <gr-icon
                 class="commentsIcon unresolved"
-                filled=""
-                icon="feedback"
+                filled
+                icon="chat_bubble"
               >
               </gr-icon>
               1
             </span>
             <span class="numberOfComments" title="1 resolved comment">
-              <gr-icon class="commentsIcon" filled="" icon="mark_chat_read">
-              </gr-icon>
+              <gr-icon class="commentsIcon" icon="mark_chat_read"></gr-icon>
               1
             </span>
           </div>

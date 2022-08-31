@@ -48,12 +48,20 @@ suite('gr-change-summary test', () => {
             <tr>
               <td class="key">Comments</td>
               <td class="value">
+                <gr-summary-chip
+                  category="drafts"
+                  icon="rate_review"
+                  iconFilled
+                  styletype="info"
+                >
+                  3 drafts
+                </gr-summary-chip>
                 <gr-summary-chip category="unresolved" styletype="warning">
                   <gr-avatar-stack imageSize="32">
                     <gr-icon
                       class="unresolvedIcon"
                       filled
-                      icon="feedback"
+                      icon="chat_bubble"
                       slot="fallback"
                     ></gr-icon>
                   </gr-avatar-stack>
@@ -62,18 +70,9 @@ suite('gr-change-summary test', () => {
                 <gr-summary-chip
                   category="show all"
                   icon="mark_chat_read"
-                  iconFilled
                   styletype="check"
                 >
                   1 resolved
-                </gr-summary-chip>
-                <gr-summary-chip
-                  category="drafts"
-                  icon="rate_review"
-                  iconFilled
-                  styletype="check"
-                >
-                  3 drafts
                 </gr-summary-chip>
               </td>
             </tr>

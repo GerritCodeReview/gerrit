@@ -103,7 +103,9 @@ command line parser in the server).
 	Number of changes to skip.
 
 --no-limit::
-	Return all results, overriding the default limit.
+	Return all results, overriding the default limit. Note that,
+	it is recommended to configure index.pageSizeMultiplier to
+	a bigger value (10, for example) for better performance.
 
 limit:<n>::
 	Maximum number of results to return.  This is actually a

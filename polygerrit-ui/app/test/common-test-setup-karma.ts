@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {testResolver as testResolverImpl} from './common-test-setup';
+import {flush} from '@polymer/polymer/lib/utils/flush';
 
 declare global {
   interface Window {
@@ -77,7 +78,7 @@ function flushImpl(callback?: () => void): Promise<void> | void {
   // The type is used only in one place, disable eslint warning instead of
   // creating an interface
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (window as any).Polymer.dom.flush();
+  flush();
   if (callback) {
     nativeSetTimeout(callback, 0);
   } else {

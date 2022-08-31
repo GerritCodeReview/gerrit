@@ -53,7 +53,7 @@ suite('gr-change-summary test', () => {
                     <gr-icon
                       class="unresolvedIcon"
                       filled
-                      icon="feedback"
+                      icon="chat_bubble"
                       slot="fallback"
                     ></gr-icon>
                   </gr-avatar-stack>
@@ -62,7 +62,6 @@ suite('gr-change-summary test', () => {
                 <gr-summary-chip
                   category="show all"
                   icon="mark_chat_read"
-                  iconFilled
                   styletype="check"
                 >
                   1 resolved

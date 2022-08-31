@@ -134,7 +134,7 @@ export class GrChangeListColumnRequirementsSummary extends LitElement {
     if (!this.change?.unresolved_comment_count) return;
     return html`<gr-icon
       class="commentIcon"
-      icon="feedback"
+      icon="chat_bubble"
       filled
       .title=${pluralize(
         this.change?.unresolved_comment_count,

@@ -16,6 +16,24 @@
       "message": "line too long.",
       "revId": "71bc9ee5ac613ff24eec93c1b83b6b1973b74c15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2746a50_0969d5f7",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 2451,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-08-31T16:08:05Z",
+      "side": 1,
+      "message": "Already ran eslintfix.",
+      "parentUuid": "ac1597ec_e309a6ce",
+      "revId": "71bc9ee5ac613ff24eec93c1b83b6b1973b74c15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -10,6 +10,7 @@ import {
   isVisible,
   mockPromise,
   pressKey,
+  query,
   queryAll,
   queryAndAssert,
   stubFlags,
@@ -64,6 +65,7 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrAccountLabel} from '../../shared/gr-account-label/gr-account-label';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {Key, Modifier} from '../../../utils/dom-util';
+import {GrComment} from '../../shared/gr-comment/gr-comment';
 
 function cloneableResponse(status: number, text: string) {
   return {
@@ -2415,6 +2417,91 @@ suite('gr-reply-dialog tests', () => {
 
     queryAndAssert<GrButton>(element, 'gr-button.send').click();
     assert.isTrue(sendStub.called);
+  });
+
+  suite('patchset level comment using GrComment', () => {
+    setup(async () => {
+      stubFlags('isEnabled')
+        .withArgs(KnownExperimentId.PATCHSET_LEVEL_COMMENT_USES_GRCOMMENT)
+        .returns(true);
+      element.account = createAccountWithId(1);
+      element.requestUpdate();
+      await element.updateComplete;
+    });
+
+    test('renders GrComment', () => {
+      assert.dom.equal(
+        query(element, '.patchsetLevelContainer'),
+        /* HTML */ `
+          <div class="patchsetLevelContainer resolved">
+            <gr-endpoint-decorator name="reply-text">
+              <gr-comment
+                hide-header=""
+                id="patchsetLevelComment"
+                permanent-editing-mode=""
+              >
+              </gr-comment>
+              <gr-endpoint-param name="change"> </gr-endpoint-param>
+            </gr-endpoint-decorator>
+          </div>
+        `
+      );
+    });
+
+    test('send button updates state as text is typed in patchset comment', async () => {
+      assert.isTrue(element.computeSendButtonDisabled());
+
+      queryAndAssert<GrComment>(element, '#patchsetLevelComment').messageText =
+        'hello';
+      await waitUntil(() => element.patchsetLevelDraftMessage === 'hello');
+
+      assert.isFalse(element.computeSendButtonDisabled());
+
+      queryAndAssert<GrComment>(element, '#patchsetLevelComment').messageText =
+        '';
+      await waitUntil(() => element.patchsetLevelDraftMessage === '');
+
+      assert.isTrue(element.computeSendButtonDisabled());
+    });
+
+    test('sending patchset level comment', async () => {
+      const patchsetLevelComment = queryAndAssert<GrComment>(
+        element,
+        '#patchsetLevelComment'
+      );
+      const autoSaveStub = sinon
+        .stub(patchsetLevelComment, 'save')
+        .returns(Promise.resolve());
+
+      patchsetLevelComment.messageText = 'hello world';
+      await waitUntil(
+        () => element.patchsetLevelDraftMessage === 'hello world'
+      );
+
+      const saveReviewPromise = interceptSaveReview();
+
+      assert.deepEqual(autoSaveStub.callCount, 0);
+
+      queryAndAssert<GrButton>(element, '.send').click();
+
+      const review = await saveReviewPromise;
+
+      assert.deepEqual(autoSaveStub.callCount, 1);
+
+      assert.deepEqual(review, {
+        drafts: 'PUBLISH_ALL_REVISIONS',
+        labels: {
+          'Code-Review': 0,
+          Verified: 0,
+        },
+        reviewers: [],
+        add_to_attention_set: [
+          {reason: '<GERRIT_ACCOUNT_1> replied on the change', user: 999},
+        ],
+        remove_from_attention_set: [],
+        ignore_automatic_attention_set_rules: true,
+      });
+    });
   });
 
   suite('mention users', () => {

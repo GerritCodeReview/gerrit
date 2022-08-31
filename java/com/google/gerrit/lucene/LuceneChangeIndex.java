@@ -456,8 +456,8 @@ public class LuceneChangeIndex implements ChangeIndex {
       IndexSearcher[] searchers = new IndexSearcher[indexes.size()];
       Map<ChangeSubIndex, ScoreDoc> searchAfterBySubIndex = new HashMap<>();
       try {
-        int realLimit = opts.start() + opts.limit();
-        if (Integer.MAX_VALUE - opts.limit() < opts.start()) {
+        int realLimit = opts.start() + opts.pageSize();
+        if (Integer.MAX_VALUE - opts.pageSize() < opts.start()) {
           realLimit = Integer.MAX_VALUE;
         }
         TopFieldDocs[] hits = new TopFieldDocs[indexes.size()];

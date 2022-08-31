@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71bd59fb_2a7e6b9e",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 978,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-31T11:20:41Z",
+      "side": 1,
+      "message": "The naming of the two variables is not ideal:\n```\nthis.isResolvedPatchsetLevelComment\nthis.draft\n```\n\nMaybe something for consistent with each other?\n```\nthis.isResolvedPatchsetLevelComment\nthis.messagePatchsetLevelComment\n```\n\nOr this?\n```\nthis.patchsetLevelDraftIsResolved\nthis.patchsetLevelDraftMessage\n```",
+      "range": {
+        "startLine": 975,
+        "startChar": 10,
+        "endLine": 978,
+        "endChar": 32
+      },
+      "revId": "c9135bcb7ddaf246570747936a44c7011015cdad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e7435dc_47892ea8",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 2180,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-31T11:20:41Z",
+      "side": 1,
+      "message": "Use `this.draft` here?",
+      "range": {
+        "startLine": 2180,
+        "startChar": 31,
+        "endLine": 2180,
+        "endChar": 64
+      },
+      "revId": "c9135bcb7ddaf246570747936a44c7011015cdad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9b3f511_6188614a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-08-31T11:20:41Z",
+      "side": 1,
+      "message": "Maybe use ValueChangedEvent\u003cstring\u003e and ValueChangedEvent\u003cboolean\u003e.",
+      "range": {
+        "startLine": 83,
+        "startChar": 28,
+        "endLine": 83,
+        "endChar": 39
+      },
+      "revId": "c9135bcb7ddaf246570747936a44c7011015cdad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

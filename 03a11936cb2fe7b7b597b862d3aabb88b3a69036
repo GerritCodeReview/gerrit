@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8fe84f6_f6604830",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-31T08:30:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0431d8ff_e23a9eb0",
+      "range": {
+        "startLine": 63,
+        "startChar": 2,
+        "endLine": 63,
+        "endChar": 40
+      },
+      "revId": "03a11936cb2fe7b7b597b862d3aabb88b3a69036",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b034f2e7_5ff578c8",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-08-31T07:16:46Z",
       "side": 1,
       "message": "remove this comment as well.",
+      "range": {
+        "startLine": 1114,
+        "startChar": 6,
+        "endLine": 1114,
+        "endChar": 14
+      },
+      "revId": "03a11936cb2fe7b7b597b862d3aabb88b3a69036",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01765029_02e52bbc",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1114,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-31T08:30:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b034f2e7_5ff578c8",
       "range": {
         "startLine": 1114,
         "startChar": 6,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "39d0224a_4691e9c2",
+        "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-31T08:30:08Z",
+      "side": 1,
+      "message": "Yeah I was migrating away from MockInteractions and realized this cleanup needed to happen. Our MockInteractions replacement `pressKey` doesn\u0027t do keyCodes so this cleanup was needed. I will mention in commit message",
+      "parentUuid": "852e1cf9_2b1837e5",
+      "range": {
+        "startLine": 209,
+        "startChar": 4,
+        "endLine": 209,
+        "endChar": 20
+      },
+      "revId": "03a11936cb2fe7b7b597b862d3aabb88b3a69036",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "efc396df_911537e9",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-08-31T07:16:46Z",
       "side": 1,
       "message": "remove",
+      "range": {
+        "startLine": 445,
+        "startChar": 4,
+        "endLine": 445,
+        "endChar": 47
+      },
+      "revId": "03a11936cb2fe7b7b597b862d3aabb88b3a69036",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "652d76d6_9d2000be",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-31T08:30:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efc396df_911537e9",
       "range": {
         "startLine": 445,
         "startChar": 4,

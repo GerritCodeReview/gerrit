@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "06a0be3d_9949a693",
+        "filename": "polygerrit-ui/app/test/source-map-support-install.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-31T16:12:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bbbb3bff_50eddd57",
+      "revId": "227319473f879be22b5448dc8cf5cff296ae7182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a6e40232_73e000b6",
@@ -48,6 +66,24 @@
       "writtenOn": "2022-08-31T16:03:18Z",
       "side": 1,
       "message": "test:single?\ntest:debug?",
+      "revId": "227319473f879be22b5448dc8cf5cff296ae7182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e76ae823_a4cdb563",
+        "filename": "polygerrit-ui/package.json",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-31T16:12:30Z",
+      "side": 1,
+      "message": "added test:single, it takes a glob like this:\n```\n\u003e yarn test:single \"**/gr-button_test.ts\"\n```\n\ndebug can be triggered directly during watch mode (single or global), see bottom of this screenshot:\nhttps://imgur.com/a/G17diMT\n\nSo it is not a separate startup mode.",
+      "parentUuid": "a6e40232_73e000b6",
       "revId": "227319473f879be22b5448dc8cf5cff296ae7182",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

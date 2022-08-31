@@ -8,7 +8,6 @@ import './source-map-support-install';
 // TODO(dmfilippov): remove bundled-polymer.js imports when the following issue
 // https://github.com/Polymer/polymer-resin/issues/9 is resolved.
 import '../scripts/bundled-polymer';
-import '@polymer/iron-test-helpers/iron-test-helpers';
 import './test-router';
 import {AppContext, injectAppContext} from '../services/app-context';
 import {Finalizable} from '../services/registry';

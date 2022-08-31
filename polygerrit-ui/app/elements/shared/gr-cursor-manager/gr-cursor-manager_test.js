@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup-karma.js';
-import './gr-cursor-manager.js';
 // eslint-disable-next-line import/named
 import {fixture, html, assert} from '@open-wc/testing';
 import {AbortStop, CursorMoveResult} from '../../../api/core.js';

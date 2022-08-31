@@ -9,8 +9,7 @@ import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interf
 import {EventType} from '../../../api/plugin.js';
 import {PLUGIN_LOADING_TIMEOUT_MS} from './gr-api-utils.js';
 import {getPluginLoader} from './gr-plugin-loader.js';
-import {stubBaseUrl} from '../../../test/test-utils.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import {stubRestApi, stubBaseUrl} from '../../../test/test-utils.js';
 import {getAppContext} from '../../../services/app-context.js';
 import {assert} from '@open-wc/testing';
 

@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 // This should be the first import to install handler before any other code
-import './source-map-support-install';
+// import './source-map-support-install';
 // TODO(dmfilippov): remove bundled-polymer.js imports when the following issue
 // https://github.com/Polymer/polymer-resin/issues/9 is resolved.
-import '../scripts/bundled-polymer';
-import '@polymer/iron-test-helpers/iron-test-helpers';
+// import '../scripts/bundled-polymer';
+// import '@polymer/iron-test-helpers/iron-test-helpers';
 import './test-router';
 import {AppContext, injectAppContext} from '../services/app-context';
 import {Finalizable} from '../services/registry';
@@ -26,13 +26,13 @@ import {
   removeIronOverlayBackdropStyleEl,
   removeThemeStyles,
 } from './test-utils';
-import {safeTypesBridge} from '../utils/safe-types-util';
+// import {safeTypesBridge} from '../utils/safe-types-util';
 import {initGlobalVariables} from '../elements/gr-app-global-var-init';
 import {assert, fixtureCleanup} from '@open-wc/testing';
-import {
-  _testOnly_defaultResinReportHandler,
-  installPolymerResin,
-} from '../scripts/polymer-resin-install';
+// import {
+//   _testOnly_defaultResinReportHandler,
+//   installPolymerResin,
+// } from '../scripts/polymer-resin-install';
 import {_testOnly_allTasks} from '../utils/async-util';
 import {cleanUpStorage} from '../services/storage/gr-storage_mock';
 import {
@@ -41,6 +41,7 @@ import {
   DependencyToken,
   Provider,
 } from '../models/dependency';
+import * as sinon from 'sinon';
 
 declare global {
   interface Window {
@@ -51,15 +52,15 @@ declare global {
 
 window.sinon = sinon;
 
-installPolymerResin(safeTypesBridge, (isViolation, fmt, ...args) => {
-  const log = _testOnly_defaultResinReportHandler;
-  log(isViolation, fmt, ...args);
-  if (isViolation) {
-    // This will cause the test to fail if there is a data binding
-    // violation.
-    throw new Error('polymer-resin violation: ' + fmt + JSON.stringify(args));
-  }
-});
+// installPolymerResin(safeTypesBridge, (isViolation, fmt, ...args) => {
+//   const log = _testOnly_defaultResinReportHandler;
+//   log(isViolation, fmt, ...args);
+//   if (isViolation) {
+//     // This will cause the test to fail if there is a data binding
+//     // violation.
+//     throw new Error('polymer-resin violation: ' + fmt + JSON.stringify(args));
+//   }
+// });
 
 let testSetupTimestampMs = 0;
 let appContext: AppContext & Finalizable;

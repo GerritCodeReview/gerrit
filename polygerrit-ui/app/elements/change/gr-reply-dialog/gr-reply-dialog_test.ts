@@ -146,6 +146,7 @@ suite('gr-reply-dialog tests', () => {
       'Code-Review': ['-1', ' 0', '+1'],
       Verified: ['-1', ' 0', '+1'],
     };
+    element.draftCommentThreads = [];
 
     getDraftCommentStub = stubStorage('getDraftComment');
     setDraftCommentStub = stubStorage('setDraftComment');
@@ -278,7 +279,8 @@ suite('gr-reply-dialog tests', () => {
                       title="Edit attention set changes"
                     >
                       <gr-button
-                        aria-disabled="false"
+                        aria-disabled="true"
+                        disabled=""
                         class="edit-attention-button"
                         data-action-key="edit"
                         data-action-type="change"
@@ -286,7 +288,7 @@ suite('gr-reply-dialog tests', () => {
                         link=""
                         position-below=""
                         role="button"
-                        tabindex="0"
+                        tabindex="-1"
                       >
                         <div>
                           <gr-icon icon="edit" filled small></gr-icon>
@@ -321,12 +323,13 @@ suite('gr-reply-dialog tests', () => {
                   </gr-button>
                   <gr-tooltip-content has-tooltip="" title="Send reply">
                     <gr-button
-                      aria-disabled="false"
+                      aria-disabled="true"
+                      disabled=""
                       class="action send"
                       id="sendButton"
                       primary=""
                       role="button"
-                      tabindex="0"
+                      tabindex="-1"
                     >
                       Send
                     </gr-button>
@@ -385,15 +388,14 @@ suite('gr-reply-dialog tests', () => {
 
   test('modified attention set', async () => {
     await element.updateComplete;
+
+    // required so that "Send" button is enabled
+    element.canBeStarted = true;
+    await element.updateComplete;
+
     element.account = {_account_id: 123 as AccountId};
     element.newAttentionSet = new Set([314 as AccountId]);
     const saveReviewPromise = interceptSaveReview();
-    const modifyButton = queryAndAssert<GrButton>(
-      element,
-      '.edit-attention-button'
-    );
-    modifyButton.click();
-    await element.updateComplete;
 
     queryAndAssert<GrButton>(element, '.send').click();
     const review = await saveReviewPromise;
@@ -408,6 +410,7 @@ suite('gr-reply-dialog tests', () => {
         {reason: '<GERRIT_ACCOUNT_123> replied on the change', user: 314},
       ],
       reviewers: [],
+      ready: true,
       remove_from_attention_set: [],
       ignore_automatic_attention_set_rules: true,
     });
@@ -415,15 +418,14 @@ suite('gr-reply-dialog tests', () => {
 
   test('modified attention set by anonymous', async () => {
     await element.updateComplete;
+
+    // required so that "Send" button is enabled
+    element.canBeStarted = true;
+    await element.updateComplete;
+
     element.account = {};
     element.newAttentionSet = new Set([314 as AccountId]);
     const saveReviewPromise = interceptSaveReview();
-    const modifyButton = queryAndAssert<GrButton>(
-      element,
-      '.edit-attention-button'
-    );
-    modifyButton.click();
-    await element.updateComplete;
 
     queryAndAssert<GrButton>(element, '.send').click();
     const review = await saveReviewPromise;
@@ -439,6 +441,7 @@ suite('gr-reply-dialog tests', () => {
         {reason: 'Name of user not set replied on the change', user: 314},
       ],
       reviewers: [],
+      ready: true,
       remove_from_attention_set: [],
       ignore_automatic_attention_set_rules: true,
     });
@@ -1678,6 +1681,11 @@ suite('gr-reply-dialog tests', () => {
       'gr-label-score-row[name="Verified"]'
     );
     el.setSelectedValue('-1');
+
+    // required so that "Send" button is enabled
+    element.canBeStarted = true;
+    await element.updateComplete;
+
     queryAndAssert<GrButton>(element, '.send').click();
     await promise;
   });
@@ -2085,6 +2093,10 @@ suite('gr-reply-dialog tests', () => {
   });
 
   test('emit send on ctrl+enter key', async () => {
+    // required so that "Send" button is enabled
+    element.canBeStarted = true;
+    await element.updateComplete;
+
     stubSaveReview(() => undefined);
     const promise = mockPromise();
     element.addEventListener('send', () => promise.resolve());

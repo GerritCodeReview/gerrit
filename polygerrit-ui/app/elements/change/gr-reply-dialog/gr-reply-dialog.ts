@@ -687,7 +687,10 @@ export class GrReplyDialog extends LitElement {
     subscribe(
       this,
       () => this.getCommentsModel().draftThreads$,
-      threads => (this.draftCommentThreads = threads)
+      threads =>
+        (this.draftCommentThreads = threads.filter(
+          t => t.path !== SpecialFilePath.PATCHSET_LEVEL_COMMENTS
+        ))
     );
   }
 

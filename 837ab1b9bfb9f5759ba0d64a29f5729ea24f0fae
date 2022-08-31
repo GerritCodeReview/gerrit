@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6df3e5f9_37808f2a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-08-31T14:17:23Z",
+      "side": 1,
+      "message": "Removed Milutin since he is starting his vacation tomorrow and it is already 4pm",
+      "revId": "837ab1b9bfb9f5759ba0d64a29f5729ea24f0fae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

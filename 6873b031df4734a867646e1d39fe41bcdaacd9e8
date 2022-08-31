@@ -94,6 +94,30 @@
       },
       "revId": "6873b031df4734a867646e1d39fe41bcdaacd9e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d13c311a_649e2267",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-31T07:54:41Z",
+      "side": 1,
+      "message": "I can investigate this later, since it\u0027s ok if it is attribute. In my testing, I found this is needed.",
+      "parentUuid": "99e36b50_42764c8e",
+      "range": {
+        "startLine": 418,
+        "startChar": 0,
+        "endLine": 418,
+        "endChar": 39
+      },
+      "revId": "6873b031df4734a867646e1d39fe41bcdaacd9e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

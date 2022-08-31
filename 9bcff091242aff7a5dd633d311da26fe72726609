@@ -16,6 +16,24 @@
       "message": "Why this check? We can just always remove all the styles, no?",
       "revId": "9bcff091242aff7a5dd633d311da26fe72726609",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd34de81_ed43b0a5",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-external-style/gr-external-style.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-08-31T08:12:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71f3d7b9_2906e5df",
+      "revId": "9bcff091242aff7a5dd633d311da26fe72726609",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

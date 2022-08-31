@@ -87,14 +87,14 @@ public class IndexedQuery<I, T> extends Predicate<T> implements DataSource<T>, P
   }
 
   @Override
-  public ResultSet<T> restart(int start, int limit) {
-    opts = opts.withStart(start).withLimit(limit);
+  public ResultSet<T> restart(int start, int pageSize) {
+    opts = opts.withStart(start).withPageSize(pageSize);
     return search();
   }
 
   @Override
-  public ResultSet<T> restart(Object searchAfter, int limit) {
-    opts = opts.withSearchAfter(searchAfter).withLimit(limit);
+  public ResultSet<T> restart(Object searchAfter, int pageSize) {
+    opts = opts.withSearchAfter(searchAfter).withPageSize(pageSize);
     return search();
   }
 

@@ -7,7 +7,6 @@ import '../../../test/common-test-setup-karma';
 import './gr-editable-label';
 import {GrEditableLabel} from './gr-editable-label';
 import {queryAndAssert} from '../../../utils/common-util';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {GrButton} from '../gr-button/gr-button';
 import {fixture, html, assert} from '@open-wc/testing';
@@ -17,7 +16,7 @@ import {
   GrAutocomplete,
 } from '../gr-autocomplete/gr-autocomplete';
 import {Key} from '../../../utils/dom-util';
-import {waitUntil} from '../../../test/test-utils';
+import {pressKey, waitUntil} from '../../../test/test-utils';
 import {IronInputElement} from '@polymer/iron-input';
 
 suite('gr-editable-label tests', () => {
@@ -130,15 +129,14 @@ suite('gr-editable-label tests', () => {
     element.addEventListener('changed', editedSpy);
     assert.isFalse(element.editing);
 
-    MockInteractions.tap(label);
+    label.click();
     await flush();
 
     assert.isTrue(element.editing);
     assert.isFalse(editedSpy.called);
 
     element.inputText = 'new text';
-    // Press enter:
-    MockInteractions.keyDownOn(input, 13, null, 'Enter');
+    pressKey(input, Key.ENTER);
     await flush();
 
     assert.isTrue(editedSpy.called);
@@ -151,20 +149,14 @@ suite('gr-editable-label tests', () => {
     element.addEventListener('changed', editedSpy);
     assert.isFalse(element.editing);
 
-    MockInteractions.tap(label);
+    label.click();
     await flush();
 
     assert.isTrue(element.editing);
     assert.isFalse(editedSpy.called);
 
     element.inputText = 'new text';
-    // Press enter:
-    MockInteractions.pressAndReleaseKeyOn(
-      queryAndAssert<GrButton>(element, '#saveBtn'),
-      13,
-      null,
-      'Enter'
-    );
+    pressKey(queryAndAssert<GrButton>(element, '#saveBtn'), Key.ENTER);
     await flush();
 
     assert.isTrue(editedSpy.called);
@@ -177,15 +169,14 @@ suite('gr-editable-label tests', () => {
     element.addEventListener('changed', editedSpy);
     assert.isFalse(element.editing);
 
-    MockInteractions.tap(label);
+    label.click();
     await flush();
 
     assert.isTrue(element.editing);
     assert.isFalse(editedSpy.called);
 
     element.inputText = 'new text';
-    // Press escape:
-    MockInteractions.keyDownOn(input, 27, null, 'Escape');
+    pressKey(input, Key.ESC);
     await flush();
 
     assert.isFalse(editedSpy.called);
@@ -199,7 +190,7 @@ suite('gr-editable-label tests', () => {
     element.addEventListener('changed', editedSpy);
     assert.isFalse(element.editing);
 
-    MockInteractions.tap(label);
+    label.click();
     await flush();
 
     assert.isTrue(element.editing);
@@ -207,7 +198,7 @@ suite('gr-editable-label tests', () => {
 
     element.inputText = 'new text';
     // Press escape:
-    MockInteractions.tap(queryAndAssert<GrButton>(element, '#cancelBtn'));
+    queryAndAssert<GrButton>(element, '#cancelBtn').click();
     await flush();
 
     assert.isFalse(editedSpy.called);
@@ -278,12 +269,7 @@ suite('gr-editable-label tests', () => {
 
       await waitUntil(() => !autocomplete.suggestionsDropdown!.isHidden);
 
-      MockInteractions.pressAndReleaseKeyOn(
-        autocomplete.input!,
-        27,
-        null,
-        Key.ESC
-      );
+      pressKey(autocomplete.input!, Key.ESC);
 
       await waitUntil(() => autocomplete.suggestionsDropdown!.isHidden);
       assert.isTrue(element.dropdown?.opened);
@@ -294,20 +280,10 @@ suite('gr-editable-label tests', () => {
       await element.open();
       await waitUntil(() => !autocomplete.suggestionsDropdown!.isHidden);
       // Press esc to close suggestions.
-      MockInteractions.pressAndReleaseKeyOn(
-        autocomplete.input!,
-        27,
-        null,
-        Key.ESC
-      );
+      pressKey(autocomplete.input!, Key.ESC);
       await waitUntil(() => autocomplete.suggestionsDropdown!.isHidden);
 
-      MockInteractions.pressAndReleaseKeyOn(
-        autocomplete.input!,
-        27,
-        null,
-        Key.ESC
-      );
+      pressKey(autocomplete.input!, Key.ESC);
 
       await element.updateComplete;
       // Dialogue is closed, save not triggered.
@@ -322,12 +298,7 @@ suite('gr-editable-label tests', () => {
 
       await waitUntil(() => !autocomplete.suggestionsDropdown!.isHidden);
 
-      MockInteractions.pressAndReleaseKeyOn(
-        autocomplete.input!,
-        13,
-        null,
-        Key.ENTER
-      );
+      pressKey(autocomplete.input!, Key.ENTER);
 
       await waitUntil(() => autocomplete.suggestionsDropdown!.isHidden);
       await element.updateComplete;
@@ -344,21 +315,11 @@ suite('gr-editable-label tests', () => {
       await element.open();
       await waitUntil(() => !autocomplete.suggestionsDropdown!.isHidden);
       // Press enter to close suggestions.
-      MockInteractions.pressAndReleaseKeyOn(
-        autocomplete.input!,
-        13,
-        null,
-        Key.ENTER
-      );
+      pressKey(autocomplete.input!, Key.ENTER);
 
       await waitUntil(() => autocomplete.suggestionsDropdown!.isHidden);
 
-      MockInteractions.pressAndReleaseKeyOn(
-        autocomplete.input!,
-        13,
-        null,
-        Key.ENTER
-      );
+      pressKey(autocomplete.input!, Key.ENTER);
 
       await element.updateComplete;
       // Dialogue is closed, save triggered.

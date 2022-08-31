@@ -6,10 +6,10 @@
 import '../../../test/common-test-setup-karma';
 import './gr-autocomplete-dropdown';
 import {GrAutocompleteDropdown} from './gr-autocomplete-dropdown';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
-import {queryAll, queryAndAssert} from '../../../test/test-utils';
+import {pressKey, queryAll, queryAndAssert} from '../../../test/test-utils';
 import {assertIsDefined} from '../../../utils/common-util';
 import {fixture, html, assert} from '@open-wc/testing';
+import {Key} from '../../../utils/dom-util';
 
 suite('gr-autocomplete-dropdown', () => {
   let element: GrAutocompleteDropdown;
@@ -82,7 +82,7 @@ suite('gr-autocomplete-dropdown', () => {
 
   test('escape key', () => {
     const closeSpy = sinon.spy(element, 'close');
-    MockInteractions.pressAndReleaseKeyOn(element, 27, null, 'Escape');
+    pressKey(element, Key.ESC);
     flush();
     assert.isTrue(closeSpy.called);
   });
@@ -91,7 +91,7 @@ suite('gr-autocomplete-dropdown', () => {
     const handleTabSpy = sinon.spy(element, '_handleTab');
     const itemSelectedStub = sinon.stub();
     element.addEventListener('item-selected', itemSelectedStub);
-    MockInteractions.pressAndReleaseKeyOn(element, 9, null, 'Tab');
+    pressKey(element, Key.TAB);
     assert.isTrue(handleTabSpy.called);
     assert.equal(element.cursor.index, 0);
     assert.isTrue(itemSelectedStub.called);
@@ -105,7 +105,7 @@ suite('gr-autocomplete-dropdown', () => {
     const handleEnterSpy = sinon.spy(element, '_handleEnter');
     const itemSelectedStub = sinon.stub();
     element.addEventListener('item-selected', itemSelectedStub);
-    MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'Enter');
+    pressKey(element, Key.ENTER);
     assert.isTrue(handleEnterSpy.called);
     assert.equal(element.cursor.index, 0);
     assert.deepEqual(itemSelectedStub.lastCall.args[0].detail, {
@@ -117,11 +117,11 @@ suite('gr-autocomplete-dropdown', () => {
   test('down key', () => {
     element.isHidden = true;
     const nextSpy = sinon.spy(element.cursor, 'next');
-    MockInteractions.pressAndReleaseKeyOn(element, 40, null, 'ArrowDown');
+    pressKey(element, 'ArrowDown');
     assert.isFalse(nextSpy.called);
     assert.equal(element.cursor.index, 0);
     element.isHidden = false;
-    MockInteractions.pressAndReleaseKeyOn(element, 40, null, 'ArrowDown');
+    pressKey(element, 'ArrowDown');
     assert.isTrue(nextSpy.called);
     assert.equal(element.cursor.index, 1);
   });
@@ -129,13 +129,13 @@ suite('gr-autocomplete-dropdown', () => {
   test('up key', () => {
     element.isHidden = true;
     const prevSpy = sinon.spy(element.cursor, 'previous');
-    MockInteractions.pressAndReleaseKeyOn(element, 38, null, 'ArrowUp');
+    pressKey(element, 'ArrowUp');
     assert.isFalse(prevSpy.called);
     assert.equal(element.cursor.index, 0);
     element.isHidden = false;
     element.cursor.setCursorAtIndex(1);
     assert.equal(element.cursor.index, 1);
-    MockInteractions.pressAndReleaseKeyOn(element, 38, null, 'ArrowUp');
+    pressKey(element, 'ArrowUp');
     assert.isTrue(prevSpy.called);
     assert.equal(element.cursor.index, 0);
   });
@@ -144,7 +144,7 @@ suite('gr-autocomplete-dropdown', () => {
     const itemSelectedStub = sinon.stub();
     element.addEventListener('item-selected', itemSelectedStub);
 
-    MockInteractions.tap(suggestionsEl().querySelectorAll('li')[1]);
+    suggestionsEl().querySelectorAll('li')[1].click();
     flush();
     assert.deepEqual(itemSelectedStub.lastCall.args[0].detail, {
       trigger: 'click',
@@ -155,10 +155,10 @@ suite('gr-autocomplete-dropdown', () => {
   test('tapping child still selects item', () => {
     const itemSelectedStub = sinon.stub();
     element.addEventListener('item-selected', itemSelectedStub);
-    const lastElChild = queryAll<HTMLElement>(suggestionsEl(), 'li')[0]
+    const lastElChild = queryAll<HTMLLIElement>(suggestionsEl(), 'li')[0]
       ?.lastElementChild;
     assertIsDefined(lastElChild);
-    MockInteractions.tap(lastElChild);
+    (lastElChild as HTMLSpanElement).click();
     flush();
     assert.deepEqual(itemSelectedStub.lastCall.args[0].detail, {
       trigger: 'click',

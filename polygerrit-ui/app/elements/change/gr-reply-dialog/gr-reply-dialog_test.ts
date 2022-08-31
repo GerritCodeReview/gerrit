@@ -347,7 +347,7 @@ suite('gr-reply-dialog tests', () => {
     // Async tick is needed because iron-selector content is distributed and
     // distributed content requires an observer to be set up.
     await element.updateComplete;
-    element.draft = 'I wholeheartedly disapprove';
+    element.patchsetLevelDraftMessage = 'I wholeheartedly disapprove';
     element.draftCommentThreads = [createCommentThread([createComment()])];
 
     element.includeComments = true;
@@ -1089,7 +1089,7 @@ suite('gr-reply-dialog tests', () => {
     // Async tick is needed because iron-selector content is distributed and
     // distributed content requires an observer to be set up.
     await element.updateComplete;
-    element.draft = 'I wholeheartedly disapprove';
+    element.patchsetLevelDraftMessage = 'I wholeheartedly disapprove';
     element.draftCommentThreads = [createCommentThread([createComment()])];
 
     const saveReviewPromise = interceptSaveReview();
@@ -1124,7 +1124,7 @@ suite('gr-reply-dialog tests', () => {
   });
 
   test('label picker', async () => {
-    element.draft = 'I wholeheartedly disapprove';
+    element.patchsetLevelDraftMessage = 'I wholeheartedly disapprove';
     element.draftCommentThreads = [createCommentThread([createComment()])];
 
     const saveReviewPromise = interceptSaveReview();
@@ -1148,7 +1148,7 @@ suite('gr-reply-dialog tests', () => {
       element.disabled,
       'Element should be enabled when done sending reply.'
     );
-    assert.equal(element.draft.length, 0);
+    assert.equal(element.patchsetLevelDraftMessage.length, 0);
     assert.deepEqual(review, {
       drafts: 'PUBLISH_ALL_REVISIONS',
       labels: {
@@ -1182,7 +1182,7 @@ suite('gr-reply-dialog tests', () => {
     // Async tick is needed because iron-selector content is distributed and
     // distributed content requires an observer to be set up.
     await element.updateComplete;
-    element.draft = 'I wholeheartedly disapprove';
+    element.patchsetLevelDraftMessage = 'I wholeheartedly disapprove';
 
     const saveReviewPromise = interceptSaveReview();
 
@@ -1457,24 +1457,24 @@ suite('gr-reply-dialog tests', () => {
     getDraftCommentStub.returns({message: storedDraft});
     element.open();
     assert.isTrue(getDraftCommentStub.called);
-    assert.equal(element.draft, storedDraft);
+    assert.equal(element.patchsetLevelDraftMessage, storedDraft);
   });
 
   test('gets draft from storage even when text is already present', () => {
     const storedDraft = 'hello world';
     getDraftCommentStub.returns({message: storedDraft});
-    element.draft = 'foo bar';
+    element.patchsetLevelDraftMessage = 'foo bar';
     element.open();
     assert.isTrue(getDraftCommentStub.called);
-    assert.equal(element.draft, storedDraft);
+    assert.equal(element.patchsetLevelDraftMessage, storedDraft);
   });
 
   test('blank if no stored draft', () => {
     getDraftCommentStub.returns(null);
-    element.draft = 'foo bar';
+    element.patchsetLevelDraftMessage = 'foo bar';
     element.open();
     assert.isTrue(getDraftCommentStub.called);
-    assert.equal(element.draft, '');
+    assert.equal(element.patchsetLevelDraftMessage, '');
   });
 
   test('does not check stored draft when quote is present', () => {
@@ -1483,7 +1483,7 @@ suite('gr-reply-dialog tests', () => {
     getDraftCommentStub.returns({message: storedDraft});
     element.open(FocusTarget.ANY, quote);
     assert.isFalse(getDraftCommentStub.called);
-    assert.equal(element.draft, quote);
+    assert.equal(element.patchsetLevelDraftMessage, quote);
   });
 
   test('updates stored draft on edits', async () => {
@@ -1492,14 +1492,14 @@ suite('gr-reply-dialog tests', () => {
     const firstEdit = 'hello';
     const location = element.getStorageLocation();
 
-    element.draft = firstEdit;
+    element.patchsetLevelDraftMessage = firstEdit;
     clock.tick(1000);
     await element.updateComplete;
     await element.storeTask?.flush();
 
     assert.isTrue(setDraftCommentStub.calledWith(location, firstEdit));
 
-    element.draft = '';
+    element.patchsetLevelDraftMessage = '';
     clock.tick(1000);
     await element.updateComplete;
     await element.storeTask?.flush();
@@ -1759,7 +1759,7 @@ suite('gr-reply-dialog tests', () => {
 
     assert.isFalse(element.attentionExpanded);
 
-    element.draft = 'a test comment';
+    element.patchsetLevelDraftMessage = 'a test comment';
     await element.updateComplete;
 
     modifyButton.click();
@@ -2209,11 +2209,11 @@ suite('gr-reply-dialog tests', () => {
     const expectedError = new Error('test');
 
     setup(() => {
-      element.draft = expectedDraft;
+      element.patchsetLevelDraftMessage = expectedDraft;
     });
 
     function assertDialogOpenAndEnabled() {
-      assert.strictEqual(expectedDraft, element.draft);
+      assert.strictEqual(expectedDraft, element.patchsetLevelDraftMessage);
       assert.isFalse(element.disabled);
     }
 
@@ -2259,7 +2259,7 @@ suite('gr-reply-dialog tests', () => {
     // Mock canBeStarted
     element.canBeStarted = true;
     element.draftCommentThreads = [];
-    element.draft = '';
+    element.patchsetLevelDraftMessage = '';
     element.reviewersMutated = false;
     element.labelsChanged = false;
     element.includeComments = false;
@@ -2273,7 +2273,7 @@ suite('gr-reply-dialog tests', () => {
     // Mock everything false
     element.canBeStarted = false;
     element.draftCommentThreads = [];
-    element.draft = '';
+    element.patchsetLevelDraftMessage = '';
     element.reviewersMutated = false;
     element.labelsChanged = false;
     element.includeComments = false;
@@ -2287,7 +2287,7 @@ suite('gr-reply-dialog tests', () => {
     // Mock nonempty comment draft array; with sending comments.
     element.canBeStarted = false;
     element.draftCommentThreads = [{...createCommentThread([createComment()])}];
-    element.draft = '';
+    element.patchsetLevelDraftMessage = '';
     element.reviewersMutated = false;
     element.labelsChanged = false;
     element.includeComments = true;
@@ -2301,7 +2301,7 @@ suite('gr-reply-dialog tests', () => {
     // Mock nonempty comment draft array; without sending comments.
     element.canBeStarted = false;
     element.draftCommentThreads = [{...createCommentThread([createComment()])}];
-    element.draft = '';
+    element.patchsetLevelDraftMessage = '';
     element.reviewersMutated = false;
     element.labelsChanged = false;
     element.includeComments = false;
@@ -2316,7 +2316,7 @@ suite('gr-reply-dialog tests', () => {
     // Mock nonempty change message.
     element.canBeStarted = false;
     element.draftCommentThreads = [{...createCommentThread([createComment()])}];
-    element.draft = 'test';
+    element.patchsetLevelDraftMessage = 'test';
     element.reviewersMutated = false;
     element.labelsChanged = false;
     element.includeComments = false;
@@ -2331,7 +2331,7 @@ suite('gr-reply-dialog tests', () => {
     // Mock reviewers mutated.
     element.canBeStarted = false;
     element.draftCommentThreads = [{...createCommentThread([createComment()])}];
-    element.draft = '';
+    element.patchsetLevelDraftMessage = '';
     element.reviewersMutated = true;
     element.labelsChanged = false;
     element.includeComments = false;
@@ -2346,7 +2346,7 @@ suite('gr-reply-dialog tests', () => {
     // Mock labels changed.
     element.canBeStarted = false;
     element.draftCommentThreads = [{...createCommentThread([createComment()])}];
-    element.draft = '';
+    element.patchsetLevelDraftMessage = '';
     element.reviewersMutated = false;
     element.labelsChanged = true;
     element.includeComments = false;
@@ -2361,7 +2361,7 @@ suite('gr-reply-dialog tests', () => {
     // Whole dialog is disabled.
     element.canBeStarted = false;
     element.draftCommentThreads = [{...createCommentThread([createComment()])}];
-    element.draft = '';
+    element.patchsetLevelDraftMessage = '';
     element.reviewersMutated = false;
     element.labelsChanged = true;
     element.includeComments = false;
@@ -2379,7 +2379,7 @@ suite('gr-reply-dialog tests', () => {
     ).all = [account];
     element.canBeStarted = false;
     element.draftCommentThreads = [{...createCommentThread([createComment()])}];
-    element.draft = '';
+    element.patchsetLevelDraftMessage = '';
     element.reviewersMutated = false;
     element.labelsChanged = false;
     element.includeComments = false;

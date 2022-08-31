@@ -254,7 +254,7 @@ export class GrReplyDialog extends LitElement {
   @state() serverConfig?: ServerInfo;
 
   @state()
-  draft = '';
+  patchsetLevelDraftMessage = '';
 
   @state()
   filterReviewerSuggestion: (input: Suggestion) => boolean;
@@ -376,7 +376,7 @@ export class GrReplyDialog extends LitElement {
   sendDisabled?: boolean;
 
   @state()
-  isResolvedPatchsetLevelComment = true;
+  patchsetLevelDraftIsResolved = true;
 
   @state()
   patchsetLevelComment?: UnsavedInfo | DraftInfo;
@@ -825,7 +825,7 @@ export class GrReplyDialog extends LitElement {
           () => html`
             <section class="previewContainer">
               <gr-formatted-text
-                .content=${this.draft}
+                .content=${this.patchsetLevelDraftMessage}
                 .config=${this.projectConfig?.commentlinks}
               ></gr-formatted-text>
             </section>
@@ -954,8 +954,8 @@ export class GrReplyDialog extends LitElement {
     return {
       // TODO: provide proper patchset, also check why "current" does not work
       patch_set: 1 as RevisionPatchSetNum,
-      message: this.draft,
-      unresolved: !this.isResolvedPatchsetLevelComment,
+      message: this.patchsetLevelDraftMessage,
+      unresolved: !this.patchsetLevelDraftIsResolved,
       path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS,
       __unsaved: true,
     };
@@ -977,8 +977,11 @@ export class GrReplyDialog extends LitElement {
         id="patchsetLevelComment"
         .comment=${this.patchsetLevelComment}
         .comments=${[this.patchsetLevelComment]}
-        @comment-unresolved-changed=${(e: CustomEvent) => {
-          this.isResolvedPatchsetLevelComment = !e.detail;
+        @comment-unresolved-changed=${(e: ValueChangedEvent<boolean>) => {
+          this.patchsetLevelDraftIsResolved = !e.detail.value;
+        }}
+        @comment-text-changed=${(e: ValueChangedEvent<string>) => {
+          this.patchsetLevelDraftMessage = e.detail.value;
         }}
         hide-header
         permanent-editing-mode
@@ -1001,9 +1004,9 @@ export class GrReplyDialog extends LitElement {
       monospace
       ?disabled=${this.disabled}
       .rows=${4}
-      .text=${this.draft}
+      .text=${this.patchsetLevelDraftMessage}
       @bind-value-changed=${(e: BindValueChangeEvent) => {
-        this.draft = e.detail.value ?? '';
+        this.patchsetLevelDraftMessage = e.detail.value ?? '';
         this.handleHeightChanged();
       }}
     >
@@ -1017,7 +1020,7 @@ export class GrReplyDialog extends LitElement {
         class=${classMap({
           patchsetLevelContainer: true,
           [this.getUnresolvedPatchsetLevelClass(
-            this.isResolvedPatchsetLevelComment
+            this.patchsetLevelDraftIsResolved
           )]: true,
         })}
       >
@@ -1044,7 +1047,7 @@ export class GrReplyDialog extends LitElement {
         <input
           id="resolvedPatchsetLevelCommentCheckbox"
           type="checkbox"
-          ?checked=${this.isResolvedPatchsetLevelComment}
+          ?checked=${this.patchsetLevelDraftIsResolved}
           @change=${this.handleResolvedPatchsetLevelCommentCheckboxChanged}
         />
         Resolved
@@ -1361,10 +1364,10 @@ export class GrReplyDialog extends LitElement {
     this.focusOn(focusTarget);
     if (quote?.length) {
       // If a reply quote has been provided, use it.
-      this.draft = quote;
+      this.patchsetLevelDraftMessage = quote;
     } else {
       // Otherwise, check for an unsaved draft in localstorage.
-      this.draft = this.loadStoredDraft();
+      this.patchsetLevelDraftMessage = this.loadStoredDraft();
     }
     if (this.restApiService.hasPendingDiffDrafts()) {
       this.savingComments = true;
@@ -1376,7 +1379,10 @@ export class GrReplyDialog extends LitElement {
   }
 
   hasDrafts() {
-    return this.draft.length > 0 || this.draftCommentThreads.length > 0;
+    return (
+      this.patchsetLevelDraftMessage.length > 0 ||
+      this.draftCommentThreads.length > 0
+    );
   }
 
   override focus() {
@@ -1394,7 +1400,7 @@ export class GrReplyDialog extends LitElement {
 
   private handleResolvedPatchsetLevelCommentCheckboxChanged(e: Event) {
     if (!(e.target instanceof HTMLInputElement)) return;
-    this.isResolvedPatchsetLevelComment = e.target.checked;
+    this.patchsetLevelDraftIsResolved = e.target.checked;
   }
 
   private handlePreviewFormattingChanged(e: Event) {
@@ -1445,8 +1451,8 @@ export class GrReplyDialog extends LitElement {
     }
   }
 
-  getUnresolvedPatchsetLevelClass(isResolvedPatchsetLevelComment: boolean) {
-    return isResolvedPatchsetLevelComment ? 'resolved' : 'unresolved';
+  getUnresolvedPatchsetLevelClass(patchsetLevelDraftIsResolved: boolean) {
+    return patchsetLevelDraftIsResolved ? 'resolved' : 'unresolved';
   }
 
   computeReviewers() {
@@ -1538,14 +1544,14 @@ export class GrReplyDialog extends LitElement {
     }
 
     if (
-      this.draft &&
+      this.patchsetLevelDraftMessage &&
       !this.flagsService.isEnabled(
         KnownExperimentId.PATCHSET_LEVEL_COMMENT_USES_GRCOMMENT
       )
     ) {
       const comment: CommentInput = {
-        message: this.draft,
-        unresolved: !this.isResolvedPatchsetLevelComment,
+        message: this.patchsetLevelDraftMessage,
+        unresolved: !this.patchsetLevelDraftIsResolved,
       };
       reviewInput.comments = {
         [SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: [comment],
@@ -1568,7 +1574,7 @@ export class GrReplyDialog extends LitElement {
           return;
         }
 
-        this.draft = '';
+        this.patchsetLevelDraftMessage = '';
         this.includeComments = true;
         this.dispatchEvent(
           new CustomEvent('send', {
@@ -2094,12 +2100,15 @@ export class GrReplyDialog extends LitElement {
     this.storeTask = debounce(
       this.storeTask,
       () => {
-        if (!this.draft.length && oldDraft) {
+        if (!this.patchsetLevelDraftMessage.length && oldDraft) {
           // If the draft has been modified to be empty, then erase the storage
           // entry.
           this.storage.eraseDraftComment(this.getStorageLocation());
-        } else if (this.draft.length) {
-          this.storage.setDraftComment(this.getStorageLocation(), this.draft);
+        } else if (this.patchsetLevelDraftMessage.length) {
+          this.storage.setDraftComment(
+            this.getStorageLocation(),
+            this.patchsetLevelDraftMessage
+          );
         }
       },
       STORAGE_DEBOUNCE_INTERVAL_MS
@@ -2166,7 +2175,7 @@ export class GrReplyDialog extends LitElement {
   computeSendButtonDisabled() {
     if (
       this.canBeStarted === undefined ||
-      this.draft === undefined ||
+      this.patchsetLevelDraftMessage === undefined ||
       this.reviewersMutated === undefined ||
       this.labelsChanged === undefined ||
       this.includeComments === undefined ||
@@ -2194,15 +2203,11 @@ export class GrReplyDialog extends LitElement {
         KnownExperimentId.PATCHSET_LEVEL_COMMENT_USES_GRCOMMENT
       )
     ) {
-      const patchsetLevelComment = queryAndAssert<GrComment>(
-        this,
-        '#patchsetLevelComment'
-      );
-      hasDrafts = hasDrafts || patchsetLevelComment.messageText.length > 0;
+      hasDrafts = hasDrafts || this.patchsetLevelDraftMessage.length > 0;
     }
     return (
       !hasDrafts &&
-      !this.draft.length &&
+      !this.patchsetLevelDraftMessage.length &&
       !this.reviewersMutated &&
       !revotingOrNewVote
     );

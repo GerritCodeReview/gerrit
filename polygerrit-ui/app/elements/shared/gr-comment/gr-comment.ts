@@ -79,7 +79,8 @@ export const __testOnly_UNSAVED_MESSAGE = UNSAVED_MESSAGE;
 declare global {
   interface HTMLElementEventMap {
     'comment-editing-changed': CustomEvent<CommentEditingChangedDetail>;
-    'comment-unresolved-changed': CustomEvent<boolean>;
+    'comment-unresolved-changed': ValueChangedEvent<boolean>;
+    'comment-text-changed': ValueChangedEvent<string>;
     'comment-anchor-tap': CustomEvent<CommentAnchorTapEventDetail>;
   }
 }
@@ -950,7 +951,12 @@ export class GrComment extends LitElement {
     if (changed.has('unresolved')) {
       // The <gr-comment-thread> component wants to change its color based on
       // the (dirty) unresolved state, so let's notify it about changes.
-      fire(this, 'comment-unresolved-changed', this.unresolved);
+      fire(this, 'comment-unresolved-changed', {value: this.unresolved});
+    }
+    if (changed.has('messageText')) {
+      // GrReplyDialog updates it's state when text inside patchset level
+      // comment changes.
+      fire(this, 'comment-text-changed', {value: this.messageText});
     }
   }
 

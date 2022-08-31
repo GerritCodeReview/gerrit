@@ -360,7 +360,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
       SearchSourceBuilder searchSource =
           new SearchSourceBuilder(client.adapter())
               .query(qb)
-              .size(opts.limit())
+              .size(opts.pageSize())
               .fields(Lists.newArrayList(opts.fields()));
       searchSource =
           opts.searchAfter() != null

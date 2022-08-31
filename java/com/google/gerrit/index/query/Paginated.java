@@ -19,7 +19,7 @@ import com.google.gerrit.index.QueryOptions;
 public interface Paginated<T> {
   QueryOptions getOptions();
 
-  ResultSet<T> restart(int start, int limit);
+  ResultSet<T> restart(int start, int pageSize);
 
-  ResultSet<T> restart(Object searchAfter, int limit);
+  ResultSet<T> restart(Object searchAfter, int pageSize);
 }

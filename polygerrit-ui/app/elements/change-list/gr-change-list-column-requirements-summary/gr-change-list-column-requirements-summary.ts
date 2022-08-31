@@ -27,33 +27,17 @@ export class GrChangeListColumnRequirementsSummary extends LitElement {
     return [
       submitRequirementsStyles,
       css`
-        gr-icon {
-          font-size: var(--line-height-normal, 20px);
+        :host {
+          display: inline-block;
         }
-        gr-icon.block,
-        gr-icon.check_circle {
-          margin-right: var(--spacing-xs);
+        gr-change-status {
+          display: inline-block;
         }
         gr-icon.commentIcon {
           color: var(--warning-foreground);
-          margin-left: var(--spacing-s);
-        }
-        span {
-          line-height: var(--line-height-normal);
         }
         .unsatisfied {
           color: var(--primary-text-color);
-        }
-        .total {
-          margin-left: var(--spacing-xs);
-          color: var(--deemphasized-text-color);
-        }
-        :host {
-          align-items: center;
-          display: inline-flex;
-        }
-        .comma {
-          padding-right: var(--spacing-xs);
         }
         /* Used to hide the leading separator comma for statuses. */
         .comma:first-of-type {
@@ -73,10 +57,9 @@ export class GrChangeListColumnRequirementsSummary extends LitElement {
     const statuses = changeStatuses(this.change);
     if (statuses.length > 0) {
       return statuses.map(
-        status => html`
-          <div class="comma">,</div>
-          <gr-change-status flat .status=${status}></gr-change-status>
-        `
+        status =>
+          html`<span class="comma">, </span
+            ><gr-change-status flat .status=${status}></gr-change-status>`
       );
     }
     return this.renderActiveStatus();
@@ -121,8 +104,8 @@ export class GrChangeListColumnRequirementsSummary extends LitElement {
         icon=${icon.icon}
         ?filled=${icon.filled}
         role="img"
-      ></gr-icon
-      >${aggregation}</span
+      ></gr-icon>
+      ${aggregation}</span
     >`;
   }
 
@@ -135,6 +118,7 @@ export class GrChangeListColumnRequirementsSummary extends LitElement {
     return html`<gr-icon
       class="commentIcon"
       icon="chat_bubble"
+      small
       filled
       .title=${pluralize(
         this.change?.unresolved_comment_count,

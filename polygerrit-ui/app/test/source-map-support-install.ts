@@ -19,4 +19,4 @@ declare global {
 
 // The karma.conf.js file loads required module before any other modules
 // The source-map-support.js can't be imported with import ... statement
-window.sourceMapSupport.install();
+window.sourceMapSupport?.install();

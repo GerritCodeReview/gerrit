@@ -69,7 +69,7 @@ suite('comment-util', () => {
     );
   });
 
-  test('getPatchRangeForCommentUrl', () => {
+  suite('getPatchRangeForCommentUrl', () => {
     test('comment created with side=PARENT does not navigate to latest ps', () => {
       const comment = {
         ...createComment(),

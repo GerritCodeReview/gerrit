@@ -461,16 +461,16 @@ suite('gr-rule-editor tests', () => {
         added: true,
       };
       assert.deepEqual(element.rule!.value, expectedRuleValue);
-      test('values are set correctly', () => {
-        assert.equal(
-          queryAndAssert<GrSelect>(element, '#action').bindValue,
-          expectedRuleValue.action
-        );
-        assert.equal(
-          queryAndAssert<GrSelect>(element, '#force').bindValue,
-          expectedRuleValue.action
-        );
-      });
+
+      // values are set correctly
+      assert.equal(
+        queryAndAssert<GrSelect>(element, '#action').bindValue,
+        expectedRuleValue.action
+      );
+      assert.equal(
+        queryAndAssert<GrSelect>(element, '#force').bindValue,
+        expectedRuleValue.force
+      );
     });
 
     test('modify value', async () => {
@@ -596,20 +596,20 @@ suite('gr-rule-editor tests', () => {
         added: true,
       };
       assert.deepEqual(element.rule!.value, expectedRuleValue);
-      test('values are set correctly', () => {
-        assert.equal(
-          queryAndAssert<GrSelect>(element, '#action').bindValue,
-          expectedRuleValue.action
-        );
-        assert.equal(
-          queryAndAssert<GrSelect>(element, '#labelMin').bindValue,
-          expectedRuleValue.min
-        );
-        assert.equal(
-          queryAndAssert<GrSelect>(element, '#labelMax').bindValue,
-          expectedRuleValue.max
-        );
-      });
+
+      // values are set correctly
+      assert.equal(
+        queryAndAssert<GrSelect>(element, '#action').bindValue,
+        expectedRuleValue.action
+      );
+      assert.equal(
+        queryAndAssert<GrSelect>(element, '#labelMin').bindValue,
+        expectedRuleValue.min
+      );
+      assert.equal(
+        queryAndAssert<GrSelect>(element, '#labelMax').bindValue,
+        expectedRuleValue.max
+      );
     });
 
     test('modify value', async () => {
@@ -695,16 +695,15 @@ suite('gr-rule-editor tests', () => {
         added: true,
       };
       assert.deepEqual(element.rule!.value, expectedRuleValue);
-      test('values are set correctly', () => {
-        assert.equal(
-          queryAndAssert<GrSelect>(element, '#action').bindValue,
-          expectedRuleValue.action
-        );
-        assert.equal(
-          queryAndAssert<GrSelect>(element, '#force').bindValue,
-          expectedRuleValue.action
-        );
-      });
+      // values are set correctly
+      assert.equal(
+        queryAndAssert<GrSelect>(element, '#action').bindValue,
+        expectedRuleValue.action
+      );
+      assert.equal(
+        queryAndAssert<GrSelect>(element, '#force').bindValue,
+        expectedRuleValue.force
+      );
     });
 
     test('modify value', async () => {

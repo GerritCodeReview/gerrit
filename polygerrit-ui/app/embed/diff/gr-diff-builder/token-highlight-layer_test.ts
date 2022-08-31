@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup-karma';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {Side, TokenHighlightEventDetails} from '../../../api/diff';
 import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line.js';
 import {HOVER_DELAY_MS, TokenHighlightLayer} from './token-highlight-layer';
@@ -14,18 +13,13 @@ import {_testOnly_allTasks} from '../../../utils/async-util';
 import {queryAndAssert} from '../../../test/test-utils';
 import {assert} from '@open-wc/testing';
 
-// MockInteractions.makeMouseEvent always sets buttons to 1.
-function dispatchMouseEvent(
-  type: string,
-  xy: {x: number; y: number},
-  node: Element
-) {
+function dispatchMouseEvent(type: string, node: Element) {
   const props = {
     bubbles: true,
     cancellable: true,
     composed: true,
-    clientX: xy.x,
-    clientY: xy.y,
+    clientX: 100,
+    clientY: 100,
     buttons: 0,
   };
   node.dispatchEvent(new MouseEvent(type, props));
@@ -190,11 +184,7 @@ suite('token-highlight-layer', () => {
       annotate(line2, Side.RIGHT, 2);
       const words1 = queryAndAssert(line1, '.tk-text-words');
       assert.isTrue(words1.classList.contains('token'));
-      dispatchMouseEvent(
-        'mouseover',
-        MockInteractions.middleOfNode(words1),
-        words1
-      );
+      dispatchMouseEvent('mouseover', words1);
 
       assert.equal(listener.pending, 0);
       assert.equal(_testOnly_allTasks.size, 1);
@@ -220,11 +210,7 @@ suite('token-highlight-layer', () => {
       annotate(line2, Side.RIGHT, 1000);
       const words1 = queryAndAssert(line1, '.tk-text-words');
       assert.isTrue(words1.classList.contains('token'));
-      dispatchMouseEvent(
-        'mouseover',
-        MockInteractions.middleOfNode(words1),
-        words1
-      );
+      dispatchMouseEvent('mouseover', words1);
 
       assert.equal(listener.pending, 0);
 
@@ -244,19 +230,11 @@ suite('token-highlight-layer', () => {
       annotate(line2, Side.RIGHT, 2);
       const words1 = queryAndAssert(line1, '.tk-text-words');
       assert.isTrue(words1.classList.contains('token'));
-      dispatchMouseEvent(
-        'mouseover',
-        MockInteractions.middleOfNode(words1),
-        words1
-      );
+      dispatchMouseEvent('mouseover', words1);
       assert.equal(listener.pending, 0);
       clock.tick(100);
       // Mouse out after 100ms but before hover delay.
-      dispatchMouseEvent(
-        'mouseout',
-        MockInteractions.middleOfNode(words1),
-        words1
-      );
+      dispatchMouseEvent('mouseout', words1);
       assert.equal(listener.pending, 0);
       clock.tick(HOVER_DELAY_MS - 100);
       assert.equal(listener.pending, 0);
@@ -271,11 +249,7 @@ suite('token-highlight-layer', () => {
       annotate(line2, Side.RIGHT, 2);
       const words1 = queryAndAssert(line1, '.tk-text-words');
       assert.isTrue(words1.classList.contains('token'));
-      dispatchMouseEvent(
-        'mouseover',
-        MockInteractions.middleOfNode(words1),
-        words1
-      );
+      dispatchMouseEvent('mouseover', words1);
       assert.equal(tokenHighlightingCalls.length, 0);
       clock.tick(HOVER_DELAY_MS);
       assert.equal(tokenHighlightingCalls.length, 1);
@@ -286,7 +260,7 @@ suite('token-highlight-layer', () => {
         range: {start_line: 1, start_column: 5, end_line: 1, end_column: 9},
       });
 
-      MockInteractions.click(container);
+      container.click();
       assert.equal(tokenHighlightingCalls.length, 2);
       assert.deepEqual(tokenHighlightingCalls[1].details, undefined);
     });
@@ -302,11 +276,7 @@ suite('token-highlight-layer', () => {
         '.tk-text-tokenWithSingleOccurence'
       );
       assert.isTrue(tokenNode.classList.contains('token'));
-      dispatchMouseEvent(
-        'mouseover',
-        MockInteractions.middleOfNode(tokenNode),
-        tokenNode
-      );
+      dispatchMouseEvent('mouseover', tokenNode);
       assert.equal(tokenHighlightingCalls.length, 0);
       clock.tick(HOVER_DELAY_MS);
       assert.equal(tokenHighlightingCalls.length, 1);
@@ -317,7 +287,7 @@ suite('token-highlight-layer', () => {
         range: {start_line: 1, start_column: 3, end_line: 1, end_column: 26},
       });
 
-      MockInteractions.click(container);
+      container.click();
       assert.equal(tokenHighlightingCalls.length, 2);
       assert.deepEqual(tokenHighlightingCalls[1].details, undefined);
     });
@@ -330,17 +300,13 @@ suite('token-highlight-layer', () => {
       annotate(line2, Side.RIGHT, 2);
       const words1 = queryAndAssert(line1, '.tk-text-words');
       assert.isTrue(words1.classList.contains('token'));
-      dispatchMouseEvent(
-        'mouseover',
-        MockInteractions.middleOfNode(words1),
-        words1
-      );
+      dispatchMouseEvent('mouseover', words1);
       assert.equal(listener.pending, 0);
       clock.tick(HOVER_DELAY_MS);
       assert.equal(listener.pending, 2);
       listener.flush();
       assert.equal(listener.pending, 0);
-      MockInteractions.click(container);
+      container.click();
       assert.equal(listener.pending, 2);
       assert.deepEqual(listener.shift(), [1, 1, Side.LEFT]);
       assert.deepEqual(listener.shift(), [2, 2, Side.RIGHT]);
@@ -352,19 +318,15 @@ suite('token-highlight-layer', () => {
       annotate(line1);
       const line2 = createLine('three words', 2);
       annotate(line2, Side.RIGHT, 2);
-      const words1 = queryAndAssert(line1, '.tk-text-words');
+      const words1 = queryAndAssert<HTMLDivElement>(line1, '.tk-text-words');
       assert.isTrue(words1.classList.contains('token'));
-      dispatchMouseEvent(
-        'mouseover',
-        MockInteractions.middleOfNode(words1),
-        words1
-      );
+      dispatchMouseEvent('mouseover', words1);
       assert.equal(listener.pending, 0);
       clock.tick(HOVER_DELAY_MS);
       assert.equal(listener.pending, 2);
       listener.flush();
       assert.equal(listener.pending, 0);
-      MockInteractions.click(words1);
+      words1.click();
       assert.equal(listener.pending, 0);
     });
   });

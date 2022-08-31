@@ -397,6 +397,8 @@ export class GrAutocomplete extends LitElement {
   }
 
   onInputFocus() {
+    console.log('focused');
+
     this.setFocus(true);
     this.updateSuggestions();
     this.input?.classList.remove('warnUncommitted');

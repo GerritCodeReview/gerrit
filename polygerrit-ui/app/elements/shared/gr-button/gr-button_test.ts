@@ -3,7 +3,6 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import '../../../test/common-test-setup-karma';
 import './gr-button';
 import {addListener} from '@polymer/polymer/lib/utils/gestures';
@@ -75,7 +74,7 @@ suite('gr-button tests', () => {
       'paper-button'
     );
     assert.isFalse(paperBtn.disabled);
-    MockInteractions.tap(element);
+    element.click();
     await element.updateComplete;
     assert.isTrue(paperBtn.disabled);
     assert.isTrue(element.hasAttribute('loading'));
@@ -123,19 +122,19 @@ suite('gr-button tests', () => {
   // plugins who didn't move to on-click which is faster and well supported.
   test('dispatches click event', () => {
     const spy = addSpyOn('click');
-    MockInteractions.click(element);
+    element.click();
     assert.isTrue(spy.calledOnce);
   });
 
   test('dispatches tap event', () => {
     const spy = addSpyOn('tap');
-    MockInteractions.tap(element);
+    element.click();
     assert.isTrue(spy.calledOnce);
   });
 
   test('dispatches click from tap event', () => {
     const spy = addSpyOn('click');
-    MockInteractions.tap(element);
+    element.click();
     assert.isTrue(spy.calledOnce);
   });
 
@@ -167,7 +166,7 @@ suite('gr-button tests', () => {
     for (const eventName of ['tap', 'click']) {
       test('stops ' + eventName + ' event', () => {
         const spy = addSpyOn(eventName);
-        MockInteractions.tap(element);
+        element.click();
         assert.isFalse(spy.called);
       });
     }
@@ -190,7 +189,7 @@ suite('gr-button tests', () => {
     });
 
     test('report event after click', () => {
-      MockInteractions.click(element);
+      element.click();
       assert.isTrue(reportStub.calledOnce);
       assert.equal(reportStub.lastCall.args[0], 'button-click');
       assert.deepEqual(reportStub.lastCall.args[1], {
@@ -204,7 +203,7 @@ suite('gr-button tests', () => {
           <gr-button class="testBtn"></gr-button>
         </div>
       `);
-      MockInteractions.click(queryAndAssert(nestedElement, 'gr-button'));
+      queryAndAssert<GrButton>(nestedElement, 'gr-button').click();
       assert.isTrue(reportStub.calledOnce);
       assert.equal(reportStub.lastCall.args[0], 'button-click');
       assert.deepEqual(reportStub.lastCall.args[1], {

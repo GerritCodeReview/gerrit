@@ -9,13 +9,13 @@ import {
   eventMatchesShortcut,
   getComputedStyleValue,
   getEventPath,
+  Key,
   Modifier,
   querySelectorAll,
   shouldSuppress,
   strToClassName,
 } from './dom-util';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
-import {mockPromise, queryAndAssert} from '../test/test-utils';
+import {mockPromise, pressKey, queryAndAssert} from '../test/test-utils';
 import {fixture, assert} from '@open-wc/testing';
 import {LitElement, html} from 'lit';
 import {customElement} from 'lit/decorators.js';
@@ -30,7 +30,6 @@ import {customElement} from 'lit/decorators.js';
 function keyEventOn(
   el: HTMLElement,
   callback: (e: KeyboardEvent) => void,
-  keyCode = 75,
   key = 'k'
 ): Promise<KeyboardEvent> {
   const promise = mockPromise<KeyboardEvent>();
@@ -38,7 +37,7 @@ function keyEventOn(
     callback(e);
     promise.resolve(e);
   });
-  MockInteractions.keyDownOn(el, keyCode, null, key);
+  pressKey(el, key);
   return promise;
 }
 
@@ -122,12 +121,12 @@ suite('dom-util tests', () => {
 
     test('event with real click', async () => {
       const element = await createFixture();
-      const aLink = queryAndAssert(element, 'a');
+      const aLink = queryAndAssert<HTMLAnchorElement>(element, 'a');
       let path;
       aLink.addEventListener('click', (e: Event) => {
         path = getEventPath(e as MouseEvent);
       });
-      MockInteractions.click(aLink);
+      aLink.click();
       assert.equal(path, 'html.lightTheme>body>div>div#test.a.b.c>a.testBtn');
     });
   });
@@ -311,8 +310,7 @@ suite('dom-util tests', () => {
       await keyEventOn(
         document.createElement('gr-button'),
         e => assert.isTrue(shouldSuppress(e)),
-        13,
-        'Enter'
+        Key.ENTER
       );
     });
 
@@ -323,8 +321,7 @@ suite('dom-util tests', () => {
       await keyEventOn(
         document.createElement('a'),
         e => assert.isTrue(shouldSuppress(e)),
-        13,
-        'Enter'
+        Key.ENTER
       );
     });
   });

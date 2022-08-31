@@ -86,6 +86,24 @@
       "parentUuid": "a6e40232_73e000b6",
       "revId": "227319473f879be22b5448dc8cf5cff296ae7182",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90866c95_ac3fdad6",
+        "filename": "polygerrit-ui/package.json",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-08-31T16:14:37Z",
+      "side": 1,
+      "message": "Wow, welcome to 2022 I guess :D Fancy!",
+      "parentUuid": "e76ae823_a4cdb563",
+      "revId": "227319473f879be22b5448dc8cf5cff296ae7182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

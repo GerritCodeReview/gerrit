@@ -375,6 +375,7 @@ export class GrMessage extends LitElement {
       )}
     >
       <gr-icon
+        small
         icon=${unresolved ? 'chat_bubble' : 'mark_chat_read'}
         ?filled=${unresolved}
         class="${unresolved ? 'unresolved ' : ''}commentsIcon"

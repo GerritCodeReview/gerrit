@@ -71,7 +71,7 @@ suite('gr-plugin-action-context tests', () => {
     });
 
     test('click', () => {
-      MockInteractions.tap(button);
+      button.click();
       flush();
       assert.isTrue(clickStub.called);
       assert.equal(button.textContent, 'foo');

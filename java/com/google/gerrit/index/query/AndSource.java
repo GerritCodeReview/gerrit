@@ -24,6 +24,7 @@ import com.google.common.collect.Ordering;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.PaginationType;
+import com.google.gerrit.index.QueryOptions;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -107,18 +108,21 @@ public class AndSource<T> extends AndPredicate<T>
           }
 
           if (last != null && source instanceof Paginated) {
-            // If our source is a paginated source and we skipped at
-            // least one of its results, we may not have filled the full
-            // limit the caller wants.  Restart the source and continue.
+            // If our source is paginated, restart the source and continue
+            // when we skip at least one of the results or when page size of
+            // the initial search is less than the limit (which is true in
+            // case of no-limit queries).
             //
             @SuppressWarnings("unchecked")
             Paginated<T> p = (Paginated<T>) source;
-            final int limit = p.getOptions().limit();
+            QueryOptions opts = p.getOptions();
+            final int limit = opts.limit();
+            int pageSize = opts.pageSize();
+            int pageSizeMultiplier = opts.pageSizeMultiplier();
             Object searchAfter = resultSet.searchAfter();
-            int pageSize = limit;
             int nextStart = pageResultSize;
             while (pageResultSize == pageSize && r.size() < limit) {
-              pageSize = getNextPageSize(pageSize);
+              pageSize = getNextPageSize(pageSize, pageSizeMultiplier);
               ResultSet<T> next =
                   indexConfig.paginationType().equals(PaginationType.SEARCH_AFTER)
                       ? p.restart(searchAfter, pageSize)
@@ -209,10 +213,10 @@ public class AndSource<T> extends AndPredicate<T>
     return (DataSource<T>) pred;
   }
 
-  private int getNextPageSize(int pageSize) {
+  private int getNextPageSize(int pageSize, int pageSizeMultiplier) {
     List<Integer> possiblePageSizes = new ArrayList<>(3);
     try {
-      possiblePageSizes.add(Math.multiplyExact(pageSize, indexConfig.pageSizeMultiplier()));
+      possiblePageSizes.add(Math.multiplyExact(pageSize, pageSizeMultiplier));
     } catch (ArithmeticException e) {
       possiblePageSizes.add(Integer.MAX_VALUE);
     }

@@ -52,24 +52,29 @@ import java.util.Set;
 public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
     implements ChangeDataSource, Matchable<ChangeData> {
   public static QueryOptions oneResult() {
-    return createOptions(IndexConfig.createDefault(), 0, 1, ImmutableSet.of());
+    return createOptions(IndexConfig.createDefault(), 0, 1, 1, ImmutableSet.of());
   }
 
   public static QueryOptions createOptions(
       IndexConfig config, int start, int limit, Set<String> fields) {
+    return createOptions(config, start, limit, limit, fields);
+  }
+
+  public static QueryOptions createOptions(
+      IndexConfig config, int start, int pageSize, int limit, Set<String> fields) {
     // Always include project since it is needed to load the change from NoteDb.
     if (!fields.contains(CHANGE.getName()) && !fields.contains(PROJECT.getName())) {
       fields = new HashSet<>(fields);
       fields.add(PROJECT.getName());
     }
-    return QueryOptions.create(config, start, limit, fields);
+    return QueryOptions.create(config, start, pageSize, limit, fields);
   }
 
   @VisibleForTesting
   static QueryOptions convertOptions(QueryOptions opts) {
     opts = opts.convertForBackend();
     return IndexedChangeQuery.createOptions(
-        opts.config(), opts.start(), opts.limit(), opts.fields());
+        opts.config(), opts.start(), opts.pageSize(), opts.limit(), opts.fields());
   }
 
   private final Map<ChangeData, DataSource<ChangeData>> fromSource;

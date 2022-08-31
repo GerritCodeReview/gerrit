@@ -538,7 +538,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
       ScoreDoc scoreDoc = null;
       try {
         searcher = acquire();
-        int realLimit = opts.start() + opts.limit();
+        int realLimit = opts.start() + opts.pageSize();
         TopFieldDocs docs =
             opts.searchAfter() != null
                 ? searcher.searchAfter(

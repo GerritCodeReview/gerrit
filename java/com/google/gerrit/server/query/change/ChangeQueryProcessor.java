@@ -109,8 +109,8 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
 
   @Override
   protected QueryOptions createOptions(
-      IndexConfig indexConfig, int start, int limit, Set<String> requestedFields) {
-    return IndexedChangeQuery.createOptions(indexConfig, start, limit, requestedFields);
+      IndexConfig indexConfig, int start, int pageSize, int limit, Set<String> requestedFields) {
+    return IndexedChangeQuery.createOptions(indexConfig, start, pageSize, limit, requestedFields);
   }
 
   @Override

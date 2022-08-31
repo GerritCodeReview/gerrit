@@ -2417,6 +2417,24 @@ suite('gr-reply-dialog tests', () => {
     assert.isTrue(sendStub.called);
   });
 
+  suite.only('patchset level comment using GrComment', () => {
+    setup(async () => {
+      stubFlags('isEnabled')
+        .withArgs(KnownExperimentId.PATCHSET_LEVEL_COMMENT_USES_GRCOMMENT)
+        .returns(true);
+      element.account = createAccountWithId(1);
+      element.requestUpdate();
+      await element.updateComplete;
+    });
+
+    test.only('renders', () => {
+      debugger;
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ ``)
+    });
+  });
+
   suite('mention users', () => {
     setup(async () => {
       stubFlags('isEnabled')

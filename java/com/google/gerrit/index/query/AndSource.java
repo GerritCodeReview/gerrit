@@ -98,43 +98,40 @@ public class AndSource<T> extends AndPredicate<T>
           List<T> r = new ArrayList<>();
           T last = null;
           int nextStart = 0;
-          boolean skipped = false;
           for (T data : buffer(resultSet)) {
             if (!isMatchable() || match(data)) {
               r.add(data);
-            } else {
-              skipped = true;
             }
             last = data;
             nextStart++;
           }
 
-          if (skipped && last != null && source instanceof Paginated) {
+          if (last != null && source instanceof Paginated) {
             // If our source is a paginated source and we skipped at
             // least one of its results, we may not have filled the full
             // limit the caller wants.  Restart the source and continue.
             //
             @SuppressWarnings("unchecked")
             Paginated<T> p = (Paginated<T>) source;
-            final int limit = p.getOptions().limit();
             Object searchAfter = resultSet.searchAfter();
-            int pageSize = limit;
-            while (skipped && r.size() < limit + start) {
-              skipped = false;
+            int pageSize = p.getOptions().pageSize();
+            boolean moreResults = true;
+            while (moreResults && r.size() < p.getOptions().limit() + start) {
               pageSize = getNextPageSize(pageSize);
               ResultSet<T> next =
                   indexConfig.paginationType().equals(PaginationType.SEARCH_AFTER)
                       ? p.restart(searchAfter, pageSize)
                       : p.restart(nextStart, pageSize);
+              int resultSize = 0;
               for (T data : buffer(next)) {
                 if (match(data)) {
                   r.add(data);
-                } else {
-                  skipped = true;
                 }
-                nextStart++;
+                resultSize++;
               }
+              nextStart += resultSize;
               searchAfter = next.searchAfter();
+              moreResults = pageSize == resultSize;
             }
           }
 

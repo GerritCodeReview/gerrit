@@ -66,7 +66,7 @@ public class StalenessChecker {
     }
 
     Optional<FieldBundle> result =
-        i.getRaw(uuid, IndexedGroupQuery.createOptions(indexConfig, 0, 1, FIELDS));
+        i.getRaw(uuid, IndexedGroupQuery.createOptions(indexConfig, 0, 1, 1, FIELDS));
     if (!result.isPresent()) {
       // The document is missing in the index.
       try (Repository repo = repoManager.openRepository(allUsers)) {

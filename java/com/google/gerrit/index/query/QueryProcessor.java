@@ -235,6 +235,11 @@ public abstract class QueryProcessor<T> {
           limit--;
         }
 
+        int pageSize = getPageSize(q);
+        if (pageSize == getBackendSupportedLimit()) {
+          pageSize--;
+        }
+
         int page = (start / limit) + 1;
         if (page > indexConfig.maxPages()) {
           throw new QueryParseException(
@@ -244,7 +249,8 @@ public abstract class QueryProcessor<T> {
         // Always bump limit by 1, even if this results in exceeding the permitted
         // max for this user. The only way to see if there are more entities is to
         // ask for one more result from the query.
-        QueryOptions opts = createOptions(indexConfig, start, limit + 1, getRequestedFields());
+        QueryOptions opts =
+            createOptions(indexConfig, start, pageSize + 1, limit + 1, getRequestedFields());
         logger.atFine().log("Query options: " + opts);
         Predicate<T> pred = rewriter.rewrite(q, opts);
         if (enforceVisibility) {
@@ -309,8 +315,8 @@ public abstract class QueryProcessor<T> {
   }
 
   protected QueryOptions createOptions(
-      IndexConfig indexConfig, int start, int limit, Set<String> requestedFields) {
-    return QueryOptions.create(indexConfig, start, limit, requestedFields);
+      IndexConfig indexConfig, int start, int pageSize, int limit, Set<String> requestedFields) {
+    return QueryOptions.create(indexConfig, start, pageSize, limit, requestedFields);
   }
 
   /**
@@ -355,10 +361,7 @@ public abstract class QueryProcessor<T> {
     return indexConfig.maxLimit();
   }
 
-  private int getEffectiveLimit(Predicate<T> p) {
-    if (isNoLimit == true) {
-      return getIndexSize() + MAX_LIMIT_BUFFER_MULTIPLIER * getBatchSize();
-    }
+  public int getPageSize(Predicate<T> p) {
     List<Integer> possibleLimits = new ArrayList<>(4);
     possibleLimits.add(getBackendSupportedLimit());
     possibleLimits.add(getPermittedLimit());
@@ -375,6 +378,13 @@ public abstract class QueryProcessor<T> {
     // Should have short-circuited from #query or thrown some other exception before getting here.
     checkState(result > 0, "effective limit should be positive");
     return result;
+  }
+
+  private int getEffectiveLimit(Predicate<T> p) {
+    if (isNoLimit == true) {
+      return getIndexSize() + MAX_LIMIT_BUFFER_MULTIPLIER * getBatchSize();
+    }
+    return getPageSize(p);
   }
 
   private static Optional<QueryParseException> findQueryParseException(Throwable t) {

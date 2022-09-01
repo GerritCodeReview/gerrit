@@ -114,7 +114,7 @@ export class GrWatchedProjectsEditor extends LitElement {
             <th>
               <gr-autocomplete
                 id="newProject"
-                query=${this.query}
+                .query=${this.query}
                 threshold="1"
                 allow-non-suggested-values
                 tab-complete

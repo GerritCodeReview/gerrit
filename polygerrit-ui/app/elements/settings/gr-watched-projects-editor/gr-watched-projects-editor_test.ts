@@ -18,17 +18,24 @@
 import '../../../test/common-test-setup-karma';
 import './gr-watched-projects-editor';
 import {GrWatchedProjectsEditor} from './gr-watched-projects-editor';
-import {stubRestApi} from '../../../test/test-utils';
+import {stubRestApi, waitUntil} from '../../../test/test-utils';
 import {ProjectWatchInfo} from '../../../types/common';
 import {queryAll, queryAndAssert} from '../../../test/test-utils';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {IronInputElement} from '@polymer/iron-input';
 import {assertIsDefined} from '../../../utils/common-util';
+<<<<<<< HEAD   (d69ee4 Merge "Make groups have slightly more room for long group na)
 
 const basicFixture = fixtureFromElement('gr-watched-projects-editor');
+=======
+import {fixture, html, assert} from '@open-wc/testing';
+import {GrButton} from '../../shared/gr-button/gr-button';
+import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
+>>>>>>> CHANGE (1a8dbb Fix autocomplete for notification in settings)
 
 suite('gr-watched-projects-editor tests', () => {
   let element: GrWatchedProjectsEditor;
+  let suggestionStub: sinon.SinonStub;
 
   setup(async () => {
     const projects = [
@@ -55,7 +62,7 @@ suite('gr-watched-projects-editor tests', () => {
     ] as ProjectWatchInfo[];
 
     stubRestApi('getWatchedProjects').returns(Promise.resolve(projects));
-    stubRestApi('getSuggestedProjects').callsFake(input => {
+    suggestionStub = stubRestApi('getSuggestedProjects').callsFake(input => {
       if (input.startsWith('th')) {
         return Promise.resolve({
           'the project': {
@@ -76,6 +83,7 @@ suite('gr-watched-projects-editor tests', () => {
   });
 
   test('renders', () => {
+<<<<<<< HEAD   (d69ee4 Merge "Make groups have slightly more room for long group na)
     const rows = queryAndAssert(element, 'table').querySelectorAll('tbody tr');
     assert.equal(rows.length, 4);
 
@@ -101,6 +109,205 @@ suite('gr-watched-projects-editor tests', () => {
     assert.equal(checkedKeys[0], 'notify_new_changes');
     assert.equal(checkedKeys[1], 'notify_new_patch_sets');
     assert.equal(checkedKeys[2], 'notify_all_comments');
+=======
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="gr-form-styles">
+          <table id="watchedProjects">
+            <thead>
+              <tr>
+                <th>Repo</th>
+                <th class="notifType">Changes</th>
+                <th class="notifType">Patches</th>
+                <th class="notifType">Comments</th>
+                <th class="notifType">Submits</th>
+                <th class="notifType">Abandons</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>project a</td>
+                <td class="notifControl">
+                  <input data-key="notify_new_changes" type="checkbox" />
+                </td>
+                <td class="notifControl">
+                  <input data-key="notify_new_patch_sets" type="checkbox" />
+                </td>
+                <td class="notifControl">
+                  <input data-key="notify_all_comments" type="checkbox" />
+                </td>
+                <td class="notifControl">
+                  <input
+                    checked=""
+                    data-key="notify_submitted_changes"
+                    type="checkbox"
+                  />
+                </td>
+                <td class="notifControl">
+                  <input
+                    checked=""
+                    data-key="notify_abandoned_changes"
+                    type="checkbox"
+                  />
+                </td>
+                <td>
+                  <gr-button
+                    aria-disabled="false"
+                    link=""
+                    role="button"
+                    tabindex="0"
+                  >
+                    Delete
+                  </gr-button>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  project b
+                  <div class="projectFilter">filter 1</div>
+                </td>
+                <td class="notifControl">
+                  <input
+                    checked=""
+                    data-key="notify_new_changes"
+                    type="checkbox"
+                  />
+                </td>
+                <td class="notifControl">
+                  <input data-key="notify_new_patch_sets" type="checkbox" />
+                </td>
+                <td class="notifControl">
+                  <input data-key="notify_all_comments" type="checkbox" />
+                </td>
+                <td class="notifControl">
+                  <input data-key="notify_submitted_changes" type="checkbox" />
+                </td>
+                <td class="notifControl">
+                  <input data-key="notify_abandoned_changes" type="checkbox" />
+                </td>
+                <td>
+                  <gr-button
+                    aria-disabled="false"
+                    link=""
+                    role="button"
+                    tabindex="0"
+                  >
+                    Delete
+                  </gr-button>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  project b
+                  <div class="projectFilter">filter 2</div>
+                </td>
+                <td class="notifControl">
+                  <input data-key="notify_new_changes" type="checkbox" />
+                </td>
+                <td class="notifControl">
+                  <input data-key="notify_new_patch_sets" type="checkbox" />
+                </td>
+                <td class="notifControl">
+                  <input data-key="notify_all_comments" type="checkbox" />
+                </td>
+                <td class="notifControl">
+                  <input data-key="notify_submitted_changes" type="checkbox" />
+                </td>
+                <td class="notifControl">
+                  <input data-key="notify_abandoned_changes" type="checkbox" />
+                </td>
+                <td>
+                  <gr-button
+                    aria-disabled="false"
+                    link=""
+                    role="button"
+                    tabindex="0"
+                  >
+                    Delete
+                  </gr-button>
+                </td>
+              </tr>
+              <tr>
+                <td>project c</td>
+                <td class="notifControl">
+                  <input
+                    checked=""
+                    data-key="notify_new_changes"
+                    type="checkbox"
+                  />
+                </td>
+                <td class="notifControl">
+                  <input
+                    checked=""
+                    data-key="notify_new_patch_sets"
+                    type="checkbox"
+                  />
+                </td>
+                <td class="notifControl">
+                  <input
+                    checked=""
+                    data-key="notify_all_comments"
+                    type="checkbox"
+                  />
+                </td>
+                <td class="notifControl">
+                  <input data-key="notify_submitted_changes" type="checkbox" />
+                </td>
+                <td class="notifControl">
+                  <input data-key="notify_abandoned_changes" type="checkbox" />
+                </td>
+                <td>
+                  <gr-button
+                    aria-disabled="false"
+                    link=""
+                    role="button"
+                    tabindex="0"
+                  >
+                    Delete
+                  </gr-button>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th>
+                  <gr-autocomplete
+                    allow-non-suggested-values=""
+                    id="newProject"
+                    placeholder="Repo"
+                    tab-complete=""
+                    threshold="1"
+                  >
+                  </gr-autocomplete>
+                </th>
+                <th colspan="5">
+                  <iron-input class="newFilterInput" id="newFilterInput">
+                    <input
+                      class="newFilterInput"
+                      id="newFilter"
+                      placeholder="branch:name, or other search expression"
+                    />
+                  </iron-input>
+                </th>
+                <th>
+                  <gr-button
+                    aria-disabled="false"
+                    link=""
+                    role="button"
+                    tabindex="0"
+                  >
+                    Add
+                  </gr-button>
+                </th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      `
+    );
+>>>>>>> CHANGE (1a8dbb Fix autocomplete for notification in settings)
   });
 
   test('getProjectSuggestions empty', async () => {
@@ -118,6 +325,24 @@ suite('gr-watched-projects-editor tests', () => {
     const projects = await element.getProjectSuggestions('th');
     assert.equal(projects.length, 1);
     assert.equal(projects[0].name, 'the project');
+  });
+
+  test('autocompletes repo input', async () => {
+    const repoAutocomplete = queryAndAssert<GrAutocomplete>(
+      element,
+      'gr-autocomplete'
+    );
+    const repoInput = queryAndAssert<HTMLInputElement>(
+      repoAutocomplete,
+      '#input'
+    );
+
+    repoInput.focus();
+    repoAutocomplete.text = 'the';
+    await waitUntil(() => suggestionStub.called);
+    await repoAutocomplete.updateComplete;
+
+    assert.isTrue(suggestionStub.calledWith('the'));
   });
 
   test('_canAddProject', () => {

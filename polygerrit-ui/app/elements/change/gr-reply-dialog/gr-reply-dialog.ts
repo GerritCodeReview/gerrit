@@ -104,11 +104,7 @@ import {addShortcut, Key, Modifier} from '../../../utils/dom-util';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
-import {
-  ConfigInfo,
-  LabelNameToValuesMap,
-  RevisionPatchSetNum,
-} from '../../../api/rest-api';
+import {ConfigInfo, LabelNameToValuesMap} from '../../../api/rest-api';
 import {css, html, PropertyValues, LitElement, nothing} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {when} from 'lit/directives/when.js';
@@ -124,6 +120,10 @@ import {
   CommentEditingChangedDetail,
   GrComment,
 } from '../../shared/gr-comment/gr-comment';
+import {
+  computeAllPatchSets,
+  computeLatestPatchNum,
+} from '../../../utils/patch-set-util';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -950,10 +950,8 @@ export class GrReplyDialog extends LitElement {
 
   // TODO: move to comment-util
   private createDraft(): UnsavedInfo {
-    assertIsDefined(this.patchNum, 'patchNum');
     return {
-      // TODO: provide proper patchset, also check why "current" does not work
-      patch_set: 1 as RevisionPatchSetNum,
+      patch_set: computeLatestPatchNum(computeAllPatchSets(this.change)),
       message: this.draft,
       unresolved: !this.isResolvedPatchsetLevelComment,
       path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS,

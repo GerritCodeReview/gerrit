@@ -745,7 +745,6 @@ export class GrComment extends LitElement {
 
   private renderDraftActions() {
     if (!isDraftOrUnsaved(this.comment)) return;
-    if (this.permanentEditingMode) return;
     return html`
       <div class="rightActions">
         ${this.autoSaving ? html`.&nbsp;&nbsp;` : ''}
@@ -793,7 +792,7 @@ export class GrComment extends LitElement {
   }
 
   private renderDiscardButton() {
-    if (this.editing) return;
+    if (this.editing || this.permanentEditingMode) return;
     return html`<gr-button
       link
       ?disabled=${this.saving}
@@ -815,7 +814,7 @@ export class GrComment extends LitElement {
   }
 
   private renderCancelButton() {
-    if (!this.editing) return;
+    if (!this.editing || this.permanentEditingMode) return;
     return html`
       <gr-button
         link

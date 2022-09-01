@@ -693,7 +693,11 @@ export class GrReplyDialog extends LitElement {
       () => this.getCommentsModel().draftThreads$,
       threads =>
         (this.draftCommentThreads = threads.filter(
-          t => t.path !== SpecialFilePath.PATCHSET_LEVEL_COMMENTS
+          t =>
+            !(
+              t.comments.length === 1 &&
+              t.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS
+            )
         ))
     );
   }

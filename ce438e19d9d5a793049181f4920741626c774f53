@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "162bf0e6_15d176cc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-01T18:38:16Z",
+      "side": 1,
+      "message": "this ensures flag protection since this property is only sent when the experiment is enabled.",
+      "range": {
+        "startLine": 750,
+        "startChar": 14,
+        "endLine": 750,
+        "endChar": 34
+      },
+      "revId": "ce438e19d9d5a793049181f4920741626c774f53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

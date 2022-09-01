@@ -57,7 +57,7 @@ import {
   TitleChangeEventDetail,
 } from '../types/events';
 import {GerritView} from '../services/router/router-model';
-import {Execution, LifeCycle} from '../constants/reporting';
+import {LifeCycle} from '../constants/reporting';
 import {fireIronAnnounce} from '../utils/event-util';
 import {resolve} from '../models/dependency';
 import {browserModelToken} from '../models/browser/browser-model';
@@ -68,9 +68,7 @@ import {Shortcut, ShortcutController} from './lit/shortcut-controller';
 import {cache} from 'lit/directives/cache.js';
 import {assertIsDefined} from '../utils/common-util';
 import './gr-css-mixins';
-import {isDarkTheme, prefersDarkColorScheme} from '../utils/theme-util';
-import {AppTheme} from '../constants/constants';
-import {subscribe} from './lit/subscription-controller';
+import {isDarkTheme} from '../utils/theme-util';
 
 interface ErrorInfo {
   text: string;
@@ -161,8 +159,6 @@ export class GrAppElement extends LitElement {
   // Triggers dom-if unsetting/setting restamp behaviour in lit
   @state() private invalidateDiffViewCache = false;
 
-  @state() private theme = AppTheme.AUTO;
-
   readonly router = new GrRouter();
 
   private reporting = getAppContext().reportingService;
@@ -172,8 +168,6 @@ export class GrAppElement extends LitElement {
   private readonly getBrowserModel = resolve(this, browserModelToken);
 
   private readonly shortcuts = new ShortcutController(this);
-
-  private readonly userModel = getAppContext().userModel;
 
   constructor() {
     super();
@@ -214,21 +208,6 @@ export class GrAppElement extends LitElement {
     this.shortcuts.addAbstract(Shortcut.GO_TO_WATCHED_CHANGES, () =>
       this.goToWatchedChanges()
     );
-
-    subscribe(
-      this,
-      () => this.userModel.preferenceTheme$,
-      theme => {
-        this.theme = theme;
-        this.applyTheme();
-      }
-    );
-
-    prefersDarkColorScheme().addEventListener('change', () => {
-      if (this.theme === AppTheme.AUTO) {
-        this.applyTheme();
-      }
-    });
   }
 
   override connectedCallback() {
@@ -253,23 +232,7 @@ export class GrAppElement extends LitElement {
       this.logWelcome();
     });
 
-    // TODO(milutin): Remove saving preferences after while. This code is
-    // for migration.
-    if (window.localStorage.getItem('dark-theme')) {
-      this.userModel.updatePreferences({theme: AppTheme.DARK});
-      window.localStorage.removeItem('dark-theme');
-      this.reporting.reportExecution(
-        Execution.REACHABLE_CODE,
-        'Dark theme was migrated from localstorage'
-      );
-    } else if (window.localStorage.getItem('light-theme')) {
-      this.userModel.updatePreferences({theme: AppTheme.LIGHT});
-      window.localStorage.removeItem('light-theme');
-      this.reporting.reportExecution(
-        Execution.REACHABLE_CODE,
-        'Light theme was migrated from localstorage'
-      );
-    }
+    this.applyTheme();
 
     // Note: this is evaluated here to ensure that it only happens after the
     // router has been initialized. @see Issue 7837
@@ -359,6 +322,7 @@ export class GrAppElement extends LitElement {
   }
 
   override render() {
+    this.applyTheme();
     return html`
       <gr-css-mixins></gr-css-mixins>
       <gr-endpoint-decorator name="banner"></gr-endpoint-decorator>
@@ -643,7 +607,7 @@ export class GrAppElement extends LitElement {
   }
 
   private applyTheme() {
-    const showDarkTheme = isDarkTheme(this.theme);
+    const showDarkTheme = isDarkTheme();
     document.documentElement.classList.toggle('darkTheme', showDarkTheme);
     document.documentElement.classList.toggle('lightTheme', !showDarkTheme);
     if (showDarkTheme) {

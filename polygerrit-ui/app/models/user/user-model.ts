@@ -19,7 +19,6 @@ import {
   createDefaultPreferences,
   createDefaultDiffPrefs,
   createDefaultEditPrefs,
-  AppTheme,
 } from '../../constants/constants';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {DiffPreferencesInfo} from '../../types/diff';
@@ -76,11 +75,6 @@ export class UserModel extends Model<UserState> implements Finalizable {
   readonly preferenceDiffViewMode$: Observable<DiffViewMode> = select(
     this.preferences$,
     preference => preference.diff_view ?? DiffViewMode.SIDE_BY_SIDE
-  );
-
-  readonly preferenceTheme$: Observable<AppTheme> = select(
-    this.preferences$,
-    preference => preference.theme
   );
 
   private subscriptions: Subscription[] = [];
@@ -148,12 +142,11 @@ export class UserModel extends Model<UserState> implements Finalizable {
   }
 
   updatePreferences(prefs: Partial<PreferencesInfo>) {
-    return this.restApiService
+    this.restApiService
       .savePreferences(prefs)
       .then((newPrefs: PreferencesInfo | undefined) => {
         if (!newPrefs) return;
         this.setPreferences(newPrefs);
-        return newPrefs;
       });
   }
 

@@ -672,7 +672,7 @@ export function createMergeable(): MergeableInfo {
 export function createPreferences(): PreferencesInfo {
   return {
     changes_per_page: 10,
-    theme: AppTheme.AUTO,
+    theme: AppTheme.LIGHT,
     date_format: DateFormat.ISO,
     time_format: TimeFormat.HHMM_24,
     diff_view: DiffViewMode.SIDE_BY_SIDE,

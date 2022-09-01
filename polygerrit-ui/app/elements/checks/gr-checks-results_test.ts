@@ -12,8 +12,9 @@ import {checksModelToken} from '../../models/checks/checks-model';
 import {fakeRun0, setAllFakeRuns} from '../../models/checks/checks-fakes';
 import {resolve} from '../../models/dependency';
 import {createLabelInfo} from '../../test/test-data-generators';
-import {queryAndAssert, query} from '../../utils/common-util';
+import {queryAndAssert, query, assertIsDefined} from '../../utils/common-util';
 import {PatchSetNumber} from '../../api/rest-api';
+import {GrDropdownList} from '../shared/gr-dropdown-list/gr-dropdown-list';
 
 suite('gr-result-row test', () => {
   let element: GrResultRow;
@@ -136,11 +137,39 @@ suite('gr-checks-results test', () => {
       html`<gr-checks-results></gr-checks-results>`
     );
     const getChecksModel = resolve(element, checksModelToken);
+    getChecksModel().allRunsSelectedPatchset$.subscribe(
+      runs => (element.runs = runs)
+    );
     setAllFakeRuns(getChecksModel());
+    await element.updateComplete;
+  });
+
+  test('attempt dropdown items', async () => {
+    const attemptDropdown = queryAndAssert<GrDropdownList>(
+      element,
+      'gr-dropdown-list'
+    );
+    assertIsDefined(attemptDropdown.items);
+    assert.equal(attemptDropdown.items.length, 42);
+    assert.deepEqual(attemptDropdown.items[0], {
+      text: 'Latest Attempt',
+      value: 'latest',
+    });
+    assert.deepEqual(attemptDropdown.items[1], {
+      text: 'All Attempts',
+      value: 'all',
+    });
+    assert.deepEqual(attemptDropdown.items[2], {
+      text: 'Attempt 0',
+      value: 0,
+    });
+    assert.deepEqual(attemptDropdown.items[41], {
+      text: 'Attempt 40',
+      value: 40,
+    });
   });
 
   test('renders', async () => {
-    await element.updateComplete;
     assert.shadowDom.equal(
       element,
       /* HTML */ `
@@ -157,11 +186,20 @@ suite('gr-checks-results test', () => {
               <div class="goToLatest">
                 <gr-button link=""> Go to latest patchset </gr-button>
               </div>
+              <gr-dropdown-list value="latest"> </gr-dropdown-list>
               <gr-dropdown-list value="0"> </gr-dropdown-list>
             </div>
           </div>
           <div class="headerBottomRow">
-            <div class="left"></div>
+            <div class="left">
+              <div class="filterDiv">
+                <input
+                  id="filterInput"
+                  placeholder="Filter results by tag or regular expression"
+                  type="text"
+                />
+              </div>
+            </div>
             <div class="right">
               <a href="https://www.google.com" target="_blank">
                 <gr-icon
@@ -212,36 +250,67 @@ suite('gr-checks-results test', () => {
           </div>
         </div>
         <div class="body">
-          <div class="collapsed">
-            <h3 class="categoryHeader empty error heading-3">
-              <gr-icon icon="expand_more" class="expandIcon"></gr-icon>
+          <div class="expanded">
+            <h3 class="categoryHeader error heading-3">
+              <gr-icon icon="expand_less" class="expandIcon"></gr-icon>
               <div class="statusIconWrapper">
                 <gr-icon icon="error" filled class="error statusIcon"></gr-icon>
                 <span class="title"> error </span>
-                <span class="count"> (0) </span>
+                <span class="count"> (3) </span>
                 <paper-tooltip offset="5"> </paper-tooltip>
               </div>
             </h3>
+            <gr-result-row
+              class="FAKEErrorFinderFinderFinderFinderFinderFinderFinder"
+            >
+            </gr-result-row>
+            <gr-result-row
+              isexpandable
+              class="FAKEErrorFinderFinderFinderFinderFinderFinderFinder"
+            >
+            </gr-result-row>
+            <gr-result-row isexpandable class="FAKESuperCheck"> </gr-result-row>
+            <table class="resultsTable">
+              <thead>
+                <tr class="headerRow">
+                  <th class="longNames nameCol">Run</th>
+                  <th class="summaryCol">Summary</th>
+                  <th class="expanderCol"></th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
           </div>
-          <div class="collapsed">
-            <h3 class="categoryHeader empty heading-3 warning">
-              <gr-icon icon="expand_more" class="expandIcon"></gr-icon>
+          <div class="expanded">
+            <h3 class="categoryHeader heading-3 warning">
+              <gr-icon icon="expand_less" class="expandIcon"></gr-icon>
               <div class="statusIconWrapper">
                 <gr-icon icon="warning" filled class="warning statusIcon">
                 </gr-icon>
                 <span class="title"> warning </span>
-                <span class="count"> (0) </span>
+                <span class="count"> (1) </span>
                 <paper-tooltip offset="5"> </paper-tooltip>
               </div>
             </h3>
+            <gr-result-row class="FAKESuperCheck" isexpandable> </gr-result-row>
+            <table class="resultsTable">
+              <thead>
+                <tr class="headerRow">
+                  <th class="nameCol">Run</th>
+                  <th class="summaryCol">Summary</th>
+                  <th class="expanderCol"></th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
           </div>
           <div class="collapsed">
-            <h3 class="categoryHeader empty heading-3 info">
+            <h3 class="categoryHeader heading-3 info">
               <gr-icon icon="expand_more" class="expandIcon"></gr-icon>
               <div class="statusIconWrapper">
                 <gr-icon icon="info" class="info statusIcon"></gr-icon>
                 <span class="title"> info </span>
-                <span class="count"> (0) </span>
+                <span class="count"> (3) </span>
                 <paper-tooltip offset="5"> </paper-tooltip>
               </div>
             </h3>

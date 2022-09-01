@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cacde775_c63dc72d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-01T10:20:09Z",
+      "side": 1,
+      "message": "I have sent change 344394 for review as a replacement for this change. Maybe abandon this one?",
+      "revId": "f9c9d5b1b9a3ac5338be7e7625239a4b612eba5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

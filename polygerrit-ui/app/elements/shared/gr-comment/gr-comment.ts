@@ -201,6 +201,9 @@ export class GrComment extends LitElement {
   @state()
   unresolved = true;
 
+  @state()
+  previewFormatting = true;
+
   @property({type: Boolean})
   showConfirmDeleteOverlay = false;
 
@@ -741,7 +744,9 @@ export class GrComment extends LitElement {
 
   private renderDraftActions() {
     if (!isDraftOrUnsaved(this.comment)) return;
-    if (this.permanentEditingMode) return;
+    if (this.permanentEditingMode) {
+      return html`${this.renderSaveButton()}`;
+    }
     return html`
       <div class="rightActions">
         ${this.autoSaving ? html`.&nbsp;&nbsp;` : ''}
@@ -824,14 +829,17 @@ export class GrComment extends LitElement {
   }
 
   private renderSaveButton() {
-    if (!this.editing && !this.unableToSave) return;
+    // Save button is hidden in editing mode only if comment is not in permanent
+    // editing mode
+    if (!this.editing && !this.permanentEditingMode && !this.unableToSave)
+      return;
     return html`
       <gr-button
         link
         ?disabled=${this.isSaveDisabled()}
         class="action save"
-        @click=${this.save}
-        >Save</gr-button
+        @click=${this.handleSaveButtonClicked}
+        >${this.getSaveButtonLabel()}</gr-button
       >
     `;
   }
@@ -1056,6 +1064,16 @@ export class GrComment extends LitElement {
       number: this.comment.line || FILE,
       side: this.comment?.side,
     });
+  }
+
+  private getSaveButtonLabel() {
+    if (!this.permanentEditingMode) return 'Save';
+    return this.editing ? 'Preview Formatting' : 'Edit';
+  }
+
+  private handleSaveButtonClicked() {
+    if (!this.permanentEditingMode) this.save();
+    else this.editing = !this.editing;
   }
 
   private handlePleaseFix() {

@@ -80,6 +80,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.approval.PatchSetApprovalUuidGenerator;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.AttentionSetUtil;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.validators.ValidationException;
@@ -140,6 +141,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private final ChangeDraftUpdate.Factory draftUpdateFactory;
   private final RobotCommentUpdate.Factory robotCommentUpdateFactory;
   private final DeleteCommentRewriter.Factory deleteCommentRewriterFactory;
+  @SuppressWarnings("UnusedVariable")
+  private final ChangeData.Factory changeDataFactory;
   private final ServiceUserClassifier serviceUserClassifier;
   private final PatchSetApprovalUuidGenerator patchSetApprovalUuidGenerator;
 
@@ -191,6 +194,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       ChangeDraftUpdate.Factory draftUpdateFactory,
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
       DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
+      ChangeData.Factory changeDataFactory,
       ProjectCache projectCache,
       ServiceUserClassifier serviceUserClassifier,
       PatchSetApprovalUuidGenerator patchSetApprovalUuidGenerator,
@@ -204,6 +208,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         draftUpdateFactory,
         robotCommentUpdateFactory,
         deleteCommentRewriterFactory,
+        changeDataFactory,
         serviceUserClassifier,
         patchSetApprovalUuidGenerator,
         notes,
@@ -229,6 +234,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       ChangeDraftUpdate.Factory draftUpdateFactory,
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
       DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
+      ChangeData.Factory changeDataFactory,
       ServiceUserClassifier serviceUserClassifier,
       PatchSetApprovalUuidGenerator patchSetApprovalUuidGenerator,
       @Assisted ChangeNotes notes,
@@ -241,6 +247,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.draftUpdateFactory = draftUpdateFactory;
     this.robotCommentUpdateFactory = robotCommentUpdateFactory;
     this.deleteCommentRewriterFactory = deleteCommentRewriterFactory;
+    this.changeDataFactory = changeDataFactory;
     this.serviceUserClassifier = serviceUserClassifier;
     this.patchSetApprovalUuidGenerator = patchSetApprovalUuidGenerator;
     this.approvals = approvals(labelNameComparator);

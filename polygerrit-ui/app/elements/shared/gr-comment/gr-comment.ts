@@ -79,7 +79,8 @@ export const __testOnly_UNSAVED_MESSAGE = UNSAVED_MESSAGE;
 declare global {
   interface HTMLElementEventMap {
     'comment-editing-changed': CustomEvent<CommentEditingChangedDetail>;
-    'comment-unresolved-changed': CustomEvent<boolean>;
+    'comment-unresolved-changed': ValueChangedEvent<boolean>;
+    'comment-text-changed': ValueChangedEvent<string>;
     'comment-anchor-tap': CustomEvent<CommentAnchorTapEventDetail>;
   }
 }
@@ -355,10 +356,12 @@ export class GrComment extends LitElement {
           flex: 1;
           overflow: hidden;
         }
-        .draftLabel,
         .draftTooltip {
-          color: var(--deemphasized-text-color);
+          font-weight: var(--font-weight-bold);
           display: inline;
+        }
+        .draftTooltip gr-icon {
+          color: var(--info-foreground);
         }
         .date {
           justify-content: flex-end;
@@ -525,6 +528,7 @@ export class GrComment extends LitElement {
   }
 
   private renderAuthor() {
+    if (isDraftOrUnsaved(this.comment)) return;
     if (isRobot(this.comment)) {
       const id = this.comment.robot_id;
       return html`<span class="robotName">${id}</span>`;
@@ -553,7 +557,7 @@ export class GrComment extends LitElement {
 
   private renderDraftLabel() {
     if (!isDraftOrUnsaved(this.comment)) return;
-    let label = 'DRAFT';
+    let label = 'Draft';
     let tooltip =
       'This draft is only visible to you. ' +
       "To publish drafts, click the 'Reply' or 'Start review' button " +
@@ -568,8 +572,8 @@ export class GrComment extends LitElement {
         has-tooltip
         title=${tooltip}
         max-width="20em"
-        show-icon
       >
+        <gr-icon filled icon="rate_review"></gr-icon>
         <span class="draftLabel">${label}</span>
       </gr-tooltip-content>
     `;
@@ -741,7 +745,6 @@ export class GrComment extends LitElement {
 
   private renderDraftActions() {
     if (!isDraftOrUnsaved(this.comment)) return;
-    if (this.permanentEditingMode) return;
     return html`
       <div class="rightActions">
         ${this.autoSaving ? html`.&nbsp;&nbsp;` : ''}
@@ -789,7 +792,7 @@ export class GrComment extends LitElement {
   }
 
   private renderDiscardButton() {
-    if (this.editing) return;
+    if (this.editing || this.permanentEditingMode) return;
     return html`<gr-button
       link
       ?disabled=${this.saving}
@@ -811,7 +814,7 @@ export class GrComment extends LitElement {
   }
 
   private renderCancelButton() {
-    if (!this.editing) return;
+    if (!this.editing || this.permanentEditingMode) return;
     return html`
       <gr-button
         link
@@ -950,7 +953,12 @@ export class GrComment extends LitElement {
     if (changed.has('unresolved')) {
       // The <gr-comment-thread> component wants to change its color based on
       // the (dirty) unresolved state, so let's notify it about changes.
-      fire(this, 'comment-unresolved-changed', this.unresolved);
+      fire(this, 'comment-unresolved-changed', {value: this.unresolved});
+    }
+    if (changed.has('messageText')) {
+      // GrReplyDialog updates it's state when text inside patchset level
+      // comment changes.
+      fire(this, 'comment-text-changed', {value: this.messageText});
     }
   }
 

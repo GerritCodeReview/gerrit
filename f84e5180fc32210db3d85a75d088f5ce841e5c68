@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b8830dde_2c8d7ebb",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-09-01T23:20:00Z",
+      "side": 0,
+      "message": "If that is true, I suspect it should be possible to consolidate the result handling for the first query with the handling of the remaining queries and to make the whole thing clearer?",
+      "parentUuid": "a1d3fe96_add8c6d1",
+      "range": {
+        "startLine": 112,
+        "startChar": 10,
+        "endLine": 112,
+        "endChar": 13
+      },
+      "revId": "f84e5180fc32210db3d85a75d088f5ce841e5c68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2c4360ee_c6079d45",
         "filename": "java/com/google/gerrit/index/query/AndSource.java",
         "patchSetId": 5

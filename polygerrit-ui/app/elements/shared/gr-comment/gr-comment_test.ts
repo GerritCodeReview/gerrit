@@ -247,18 +247,14 @@ suite('gr-comment tests', () => {
           <div class="container draft" id="container">
             <div class="header" id="header">
               <div class="headerLeft">
-                <gr-account-label
-                  class="draft"
-                  deselected=""
-                ></gr-account-label>
                 <gr-tooltip-content
                   class="draftTooltip"
                   has-tooltip=""
                   max-width="20em"
-                  show-icon=""
                   title="This draft is only visible to you. To publish drafts, click the 'Reply' or 'Start review' button at the top of the change or press the 'a' key."
                 >
-                  <span class="draftLabel">DRAFT</span>
+                  <gr-icon filled icon="rate_review"></gr-icon>
+                  <span class="draftLabel">Draft</span>
                 </gr-tooltip-content>
               </div>
               <div class="headerMiddle"></div>
@@ -321,18 +317,14 @@ suite('gr-comment tests', () => {
           <div class="container draft" id="container">
             <div class="header" id="header">
               <div class="headerLeft">
-                <gr-account-label
-                  class="draft"
-                  deselected=""
-                ></gr-account-label>
                 <gr-tooltip-content
                   class="draftTooltip"
                   has-tooltip=""
                   max-width="20em"
-                  show-icon=""
                   title="This draft is only visible to you. To publish drafts, click the 'Reply' or 'Start review' button at the top of the change or press the 'a' key."
                 >
-                  <span class="draftLabel">DRAFT</span>
+                  <gr-icon filled icon="rate_review"></gr-icon>
+                  <span class="draftLabel">Draft</span>
                 </gr-tooltip-content>
               </div>
               <div class="headerMiddle"></div>

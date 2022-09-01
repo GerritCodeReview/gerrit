@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0098ef36_cfa18ea7",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-01T20:32:58Z",
+      "side": 1,
+      "message": "Yes, the 2nd condition in the while in L119 should avoid doing an extra query in that case. Anyways, I have tried to make it more readable in the next PS.",
+      "parentUuid": "5dc8cdef_0600acb9",
+      "revId": "176b30588a02a47947d451b845afed96dec51afb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b66ed668_2bc79190",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-09-01T14:35:29Z",
       "side": 1,
       "message": "s/resultSize//pageResultSize/",
+      "range": {
+        "startLine": 125,
+        "startChar": 18,
+        "endLine": 125,
+        "endChar": 29
+      },
+      "revId": "176b30588a02a47947d451b845afed96dec51afb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a4ff60e_5d0a9868",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-01T20:32:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b66ed668_2bc79190",
       "range": {
         "startLine": 125,
         "startChar": 18,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "278e3008_331ba6c1",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-01T20:32:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7670bf40_19fd5c2f",
+      "range": {
+        "startLine": 134,
+        "startChar": 14,
+        "endLine": 134,
+        "endChar": 26
+      },
+      "revId": "176b30588a02a47947d451b845afed96dec51afb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c91ae1ec_ce2e3991",
@@ -77,6 +143,30 @@
       "writtenOn": "2022-09-01T15:45:31Z",
       "side": 1,
       "message": "s/limit/pageSize/ ?",
+      "range": {
+        "startLine": 249,
+        "startChar": 23,
+        "endLine": 249,
+        "endChar": 29
+      },
+      "revId": "176b30588a02a47947d451b845afed96dec51afb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e248a567_235641e6",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-01T20:32:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c91ae1ec_ce2e3991",
       "range": {
         "startLine": 249,
         "startChar": 23,
@@ -110,6 +200,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9384b630_d8d051fa",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-01T20:32:58Z",
+      "side": 1,
+      "message": "Yes, done.",
+      "parentUuid": "766aba29_edd90517",
+      "range": {
+        "startLine": 253,
+        "startChar": 66,
+        "endLine": 253,
+        "endChar": 69
+      },
+      "revId": "176b30588a02a47947d451b845afed96dec51afb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b5cda971_9a58cc50",
@@ -123,6 +237,30 @@
       "writtenOn": "2022-09-01T15:45:31Z",
       "side": 1,
       "message": "s/realLimit/pageSize/ ?",
+      "range": {
+        "startLine": 459,
+        "startChar": 12,
+        "endLine": 459,
+        "endChar": 21
+      },
+      "revId": "176b30588a02a47947d451b845afed96dec51afb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3b4a19b_552ee8a2",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-01T20:32:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5cda971_9a58cc50",
       "range": {
         "startLine": 459,
         "startChar": 12,

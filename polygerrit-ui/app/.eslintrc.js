@@ -379,12 +379,6 @@ module.exports = {
         // Global variables from 3rd party test libraries/frameworks.
         // You can extend this list if you want to use other global
         // variables from these libraries and import is not possible
-        MockInteractions: 'readonly',
-        _: 'readonly',
-        axs: 'readonly',
-        a11ySuite: 'readonly',
-        assert: 'readonly',
-        expect: 'readonly',
         flush: 'readonly',
         setup: 'readonly',
         sinon: 'readonly',

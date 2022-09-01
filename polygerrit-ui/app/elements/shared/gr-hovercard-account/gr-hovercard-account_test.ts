@@ -95,6 +95,45 @@ suite('gr-hovercard-account tests', () => {
     );
   });
 
+  test('renders without change data', async () => {
+    const elementWithoutChange = await fixture<GrHovercardAccount>(
+      html`<gr-hovercard-account class="hovered" .account=${ACCOUNT}>
+      </gr-hovercard-account>`
+    );
+    await elementWithoutChange.show({});
+    assert.shadowDom.equal(
+      elementWithoutChange,
+      /* HTML */ `
+        <div id="container" role="tooltip" tabindex="-1">
+          <div class="top">
+            <div class="avatar">
+              <gr-avatar hidden="" imagesize="56"> </gr-avatar>
+            </div>
+            <div class="account">
+              <h3 class="heading-3 name">Kermit The Frog</h3>
+              <div class="email">kermit@gmail.com</div>
+            </div>
+          </div>
+          <gr-endpoint-decorator name="hovercard-status">
+            <gr-endpoint-param name="account"> </gr-endpoint-param>
+          </gr-endpoint-decorator>
+          <div class="status">
+            <span class="title"> About me: </span>
+            <span class="value"> I am a frog </span>
+          </div>
+          <div class="links">
+            <gr-icon class="linkIcon" icon="link"> </gr-icon>
+            <a href=""> Changes </a>
+            ·
+            <a href=""> Dashboard </a>
+          </div>
+        </div>
+      `
+    );
+    elementWithoutChange.mouseHide(new MouseEvent('click'));
+    await elementWithoutChange.updateComplete;
+  });
+
   test('account name is shown', () => {
     const name = queryAndAssert<HTMLHeadingElement>(element, '.name');
     assert.equal(name.innerText, 'Kermit The Frog');

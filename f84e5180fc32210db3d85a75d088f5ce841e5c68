@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a1d3fe96_add8c6d1",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-09-01T23:16:48Z",
+      "side": 0,
+      "message": "Hmm, was there a missed optimization here, should this have add \u0026\u0026 nextStart \u003e\u003d getPageSize()? i.e. couldn\u0027t we deduce that there are no more results to get if nextStart \u003c getPageSize() (or limit in the old code)?",
+      "range": {
+        "startLine": 112,
+        "startChar": 10,
+        "endLine": 112,
+        "endChar": 13
+      },
+      "revId": "f84e5180fc32210db3d85a75d088f5ce841e5c68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2c4360ee_c6079d45",
         "filename": "java/com/google/gerrit/index/query/AndSource.java",
         "patchSetId": 5

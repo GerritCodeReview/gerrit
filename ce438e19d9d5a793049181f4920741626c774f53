@@ -3,6 +3,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e11317a8_a9fcd8e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-01T18:43:34Z",
+      "side": 1,
+      "message": "W",
+      "revId": "ce438e19d9d5a793049181f4920741626c774f53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "162bf0e6_15d176cc",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
         "patchSetId": 4
@@ -20,6 +37,40 @@
         "endLine": 750,
         "endChar": 34
       },
+      "revId": "ce438e19d9d5a793049181f4920741626c774f53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2aafe90f_09876ec9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-01T18:43:34Z",
+      "side": 1,
+      "message": "```suggestion\n    if (!this.permanentEditingMode) return nothing;\n```",
+      "revId": "ce438e19d9d5a793049181f4920741626c774f53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "501eadd2_be17f7ea",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1225,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-01T18:43:34Z",
+      "side": 1,
+      "message": "What happens if you stop editing first and then click previewformatting? Won\u0027t it then set you into editing mode again?",
       "revId": "ce438e19d9d5a793049181f4920741626c774f53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

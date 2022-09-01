@@ -109,6 +109,24 @@
       "parentUuid": "501eadd2_be17f7ea",
       "revId": "ce438e19d9d5a793049181f4920741626c774f53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4e1ba02_62c4add5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1225,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-01T20:02:37Z",
+      "side": 1,
+      "message": "I guess the question I\u0027m really asking is. Why do you need \"previewFormatting\" if you also always flip \"editing\" as well?",
+      "parentUuid": "e3b6fbff_3f17b116",
+      "revId": "ce438e19d9d5a793049181f4920741626c774f53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

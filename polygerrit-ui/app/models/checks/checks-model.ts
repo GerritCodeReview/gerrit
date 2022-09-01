@@ -136,6 +136,11 @@ interface ChecksState {
    * can be picked up from the change model.
    */
   patchsetNumberSelected?: PatchSetNumber;
+  /**
+   * This is the attempt number selected by the user. If this is `undefined`
+   * (default), then for each run the latest attempt is displayed.
+   */
+  attemptNumberSelected?: number;
   /** Checks data for the latest patchset. */
   pluginStateLatest: {
     [name: string]: ChecksProviderState;
@@ -198,6 +203,11 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
   public checksSelectedPatchsetNumber$ = select(
     this.state$,
     state => state.patchsetNumberSelected
+  );
+
+  public checksSelectedAttemptNumber$ = select(
+    this.state$,
+    state => state.attemptNumberSelected
   );
 
   public checksLatest$ = select(this.state$, state => state.pluginStateLatest);
@@ -635,6 +645,12 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
   updateStateSetPatchset(patchsetNumber?: PatchSetNumber) {
     const nextState = {...this.subject$.getValue()};
     nextState.patchsetNumberSelected = patchsetNumber;
+    this.subject$.next(nextState);
+  }
+
+  updateStateSetAttempt(attemptNumber?: number) {
+    const nextState = {...this.subject$.getValue()};
+    nextState.attemptNumberSelected = attemptNumber;
     this.subject$.next(nextState);
   }
 

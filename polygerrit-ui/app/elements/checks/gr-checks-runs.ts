@@ -40,11 +40,7 @@ import {
 } from '../../models/checks/checks-fakes';
 import {assertIsDefined} from '../../utils/common-util';
 import {modifierPressed, whenVisible} from '../../utils/dom-util';
-import {
-  fireAttemptSelected,
-  fireRunSelected,
-  fireRunSelectionReset,
-} from './gr-checks-util';
+import {fireRunSelected, fireRunSelectionReset} from './gr-checks-util';
 import {ChecksTabState} from '../../types/events';
 import {charsOnly} from '../../utils/string-util';
 import {getAppContext} from '../../services/app-context';
@@ -198,7 +194,7 @@ export class GrChecksRun extends LitElement {
   @property({attribute: false})
   selected = false;
 
-  @property({attribute: false})
+  @state()
   selectedAttempt?: number;
 
   @property({attribute: false})
@@ -211,6 +207,17 @@ export class GrChecksRun extends LitElement {
   shouldRender = false;
 
   private readonly reporting = getAppContext().reportingService;
+
+  private getChecksModel = resolve(this, checksModelToken);
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getChecksModel().checksSelectedAttemptNumber$,
+      x => (this.selectedAttempt = x)
+    );
+  }
 
   override firstUpdated() {
     assertIsDefined(this.chipElement, 'chip element');
@@ -285,14 +292,15 @@ export class GrChecksRun extends LitElement {
     `;
   }
 
-  isSelected(detail: AttemptDetail) {
+  isSelected(attempt?: number) {
     // this.selectedAttempt may be undefined, then choose the latest attempt,
     // which is what this.run has.
     const selectedAttempt = this.selectedAttempt ?? this.run.attempt;
-    return detail.attempt === selectedAttempt;
+    return attempt === selectedAttempt;
   }
 
   renderAttempt(detail: AttemptDetail) {
+    const attempt = detail.attempt;
     const checkNameId = charsOnly(this.run.checkName).toLowerCase();
     const id = `attempt-${detail.attempt}`;
     const icon = detail.icon;
@@ -302,9 +310,9 @@ export class GrChecksRun extends LitElement {
         type="radio"
         id=${id}
         name=${`${checkNameId}-attempt-choice`}
-        ?checked=${this.isSelected(detail)}
-        ?disabled=${!this.isSelected(detail) && wasNotRun}
-        @change=${() => this.handleAttemptChange(detail)}
+        ?checked=${this.isSelected(attempt)}
+        ?disabled=${!this.isSelected(attempt) && wasNotRun}
+        @change=${() => this.handleAttemptChange(attempt)}
       />
       <gr-icon
         icon=${icon.name}
@@ -317,10 +325,8 @@ export class GrChecksRun extends LitElement {
     </div>`;
   }
 
-  handleAttemptChange(detail: AttemptDetail) {
-    if (!this.isSelected(detail)) {
-      fireAttemptSelected(this, this.run.checkName, detail.attempt);
-    }
+  handleAttemptChange(attempt?: number) {
+    this.getChecksModel().updateStateSetAttempt(attempt);
   }
 
   renderETA() {
@@ -416,12 +422,8 @@ export class GrChecksRuns extends LitElement {
   @property({attribute: false})
   selectedRuns: string[] = [];
 
-  /** Maps checkName to selected attempt number. `undefined` means `latest`. */
-  @property({attribute: false})
-  selectedAttempts: Map<string, number | undefined> = new Map<
-    string,
-    number | undefined
-  >();
+  @state()
+  selectedAttempt?: number;
 
   @property({attribute: false})
   tabState?: ChecksTabState;
@@ -456,6 +458,11 @@ export class GrChecksRuns extends LitElement {
       this,
       () => this.getChecksModel().loginCallbackLatest$,
       x => (this.loginCallback = x)
+    );
+    subscribe(
+      this,
+      () => this.getChecksModel().checksSelectedAttemptNumber$,
+      x => (this.selectedAttempt = x)
     );
     this.addEventListener('click', () => {
       if (this.collapsed) this.toggleCollapsed();
@@ -839,13 +846,11 @@ export class GrChecksRuns extends LitElement {
 
   renderRun(run: CheckRun) {
     const selectedRun = this.selectedRuns.includes(run.checkName);
-    const selectedAttempt = this.selectedAttempts.get(run.checkName);
     const deselected = !selectedRun && this.selectedRuns.length > 0;
     return html`<gr-checks-run
       .run=${run}
       ?condensed=${this.collapsed}
       .selected=${selectedRun}
-      .selectedAttempt=${selectedAttempt}
       .deselected=${deselected}
     ></gr-checks-run>`;
   }

@@ -5,33 +5,6 @@
  */
 import {CheckRun, RunResult} from '../../models/checks/checks-model';
 
-export interface AttemptSelectedEventDetail {
-  checkName: string;
-  attempt: number | undefined;
-}
-
-export type AttemptSelectedEvent = CustomEvent<AttemptSelectedEventDetail>;
-
-declare global {
-  interface HTMLElementEventMap {
-    'attempt-selected': AttemptSelectedEvent;
-  }
-}
-
-export function fireAttemptSelected(
-  target: EventTarget,
-  checkName: string,
-  attempt: number | undefined
-) {
-  target.dispatchEvent(
-    new CustomEvent('attempt-selected', {
-      detail: {checkName, attempt},
-      composed: true,
-      bubbles: true,
-    })
-  );
-}
-
 export interface RunSelectedEventDetail {
   reset: boolean;
   checkName?: string;
@@ -66,13 +39,11 @@ export function fireRunSelectionReset(target: EventTarget) {
 }
 
 export function isAttemptSelected(
-  selectedAttempts: Map<string, number | undefined>,
+  selectedAttempt: number | undefined,
   run: CheckRun
 ) {
-  const selected = selectedAttempts.get(run.checkName);
-  return (
-    (selected === undefined && run.isLatestAttempt) || selected === run.attempt
-  );
+  if (!selectedAttempt) return run.isLatestAttempt;
+  return selectedAttempt === run.attempt;
 }
 
 export function matches(result: RunResult, regExp: RegExp) {

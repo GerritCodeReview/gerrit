@@ -157,8 +157,7 @@ export class GrHovercardAccount extends base {
   }
 
   private renderContent() {
-    if (!this._isShowing || !this.change) return;
-    const voteableText = computeVoteableText(this.change, this.account);
+    if (!this._isShowing) return;
     return html`
       <div class="top">
         <div class="avatar">
@@ -170,7 +169,16 @@ export class GrHovercardAccount extends base {
         </div>
       </div>
       ${this.renderAccountStatusPlugins()} ${this.renderAccountStatus()}
-      ${this.renderLinks()}
+      ${this.renderLinks()} ${this.renderChangeRelatedInfoAndActions()}
+    `;
+  }
+
+  private renderChangeRelatedInfoAndActions() {
+    if (this.change === undefined) {
+      return;
+    }
+    const voteableText = computeVoteableText(this.change, this.account);
+    return html`
       ${voteableText
         ? html`
             <div class="voteable">

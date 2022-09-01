@@ -203,8 +203,7 @@ public class StarredChangesUtil {
     }
   }
 
-  public NavigableSet<String> star(
-      Account.Id accountId, Project.NameKey project, Change.Id changeId, Operation op)
+  public void star(Account.Id accountId, Project.NameKey project, Change.Id changeId, Operation op)
       throws IllegalLabelException {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       String refName = RefNames.refsStarredChanges(changeId, accountId);
@@ -229,7 +228,6 @@ public class StarredChangesUtil {
           GERRIT_BACKEND_REQUEST_FEATURE_COMPUTE_FROM_ALL_USERS_REPOSITORY)) {
         indexer.index(project, changeId);
       }
-      return Collections.unmodifiableNavigableSet(labels);
     } catch (IOException e) {
       throw new StorageException(
           String.format("Star change %d for account %d failed", changeId.get(), accountId.get()),

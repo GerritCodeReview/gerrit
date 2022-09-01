@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e24370a_97a4202f",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-01T00:36:55Z",
+      "side": 1,
+      "message": "Yup, however there may be an unpaginated data source needing to use the limit, so this approach is probably not the best.",
+      "parentUuid": "5483ec6c_ca5f914a",
+      "revId": "12cb989df6e6a6c88efb8dae3b0eab52786669ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5ba69e99_2b44b790",
@@ -49,6 +67,30 @@
       "writtenOn": "2022-08-31T23:51:07Z",
       "side": 1,
       "message": "Unfortunately at this layer it seems wrong to have a limit that isn\u0027t enforced, so maybe this approach isn\u0027t quite right, maybe instead of adding a new isNoLimit() signal, we should be adding a distinct pageSize signal which is separate from limit concepts at more layers, then we can more clearly act on pageSize and limits separately.",
+      "range": {
+        "startLine": 28,
+        "startChar": 10,
+        "endLine": 28,
+        "endChar": 15
+      },
+      "revId": "12cb989df6e6a6c88efb8dae3b0eab52786669ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae70b13e_d8201ab8",
+        "filename": "java/com/google/gerrit/index/query/QueryResult.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-01T00:36:55Z",
+      "side": 1,
+      "message": "Thanks, I have attempted it in the PS2. It is still a wip though and needs more sanity tests.",
+      "parentUuid": "5ba69e99_2b44b790",
       "range": {
         "startLine": 28,
         "startChar": 10,

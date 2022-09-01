@@ -2502,6 +2502,22 @@ suite('gr-reply-dialog tests', () => {
         ignore_automatic_attention_set_rules: true,
       });
     });
+
+    test('replies to patchset level comments are not filtered out', async () => {
+      const draft = {...createDraft(), in_reply_to: '1' as UrlEncodedCommentId};
+      element.getCommentsModel().setState({
+        drafts: {
+          'abc.txt': [draft],
+        },
+        discardedDrafts: [],
+      });
+      await waitUntil(() => element.draftCommentThreads.length === 1);
+
+      // patchset level draft as a reply is not loaded a
+      assert.equal(element.patchsetLevelDraftMessage, '');
+
+      assert.deepEqual(element.draftCommentThreads[0].comments[0], draft);
+    });
   });
 
   suite('mention users', () => {

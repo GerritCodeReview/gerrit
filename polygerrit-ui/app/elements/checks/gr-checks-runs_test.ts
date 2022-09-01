@@ -5,11 +5,15 @@
  */
 import '../../test/common-test-setup-karma';
 import './gr-checks-runs';
-import {GrChecksRuns} from './gr-checks-runs';
+import {GrChecksRun, GrChecksRuns} from './gr-checks-runs';
 import {html} from 'lit';
 import {fixture, assert} from '@open-wc/testing';
 import {checksModelToken} from '../../models/checks/checks-model';
-import {setAllFakeRuns} from '../../models/checks/checks-fakes';
+import {
+  fakeRun0,
+  fakeRun4_4,
+  setAllFakeRuns,
+} from '../../models/checks/checks-fakes';
 import {resolve} from '../../models/dependency';
 
 suite('gr-checks-runs test', () => {
@@ -92,7 +96,7 @@ suite('gr-checks-runs test', () => {
     );
   });
 
-  test('renders', async () => {
+  test('renders collapsed', async () => {
     element.collapsed = true;
     await element.updateComplete;
     assert.equal(element.runs.length, 44);
@@ -151,6 +155,70 @@ suite('gr-checks-runs test', () => {
         </div>
       `,
       {ignoreAttributes: ['tabindex', 'aria-disabled']}
+    );
+  });
+});
+
+suite('gr-checks-run test', () => {
+  let element: GrChecksRun;
+
+  setup(async () => {
+    element = await fixture<GrChecksRun>(html`<gr-checks-run></gr-checks-run>`);
+    const getChecksModel = resolve(element, checksModelToken);
+    setAllFakeRuns(getChecksModel());
+  });
+
+  test('renders loading', async () => {
+    await element.updateComplete;
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ ' <div class="chip">Loading ...</div> '
+    );
+  });
+
+  test('renders fakeRun0', async () => {
+    element.shouldRender = true;
+    element.run = fakeRun0;
+    await element.updateComplete;
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="chip error" tabindex="0">
+          <div class="left">
+            <gr-hovercard-run> </gr-hovercard-run>
+            <gr-icon class="error" filled="" icon="error"> </gr-icon>
+            <span class="name">
+              FAKE Error Finder Finder Finder Finder Finder Finder Finder
+            </span>
+          </div>
+          <div class="middle">
+            <gr-checks-attempt> </gr-checks-attempt>
+          </div>
+          <div class="right"></div>
+          </div>
+          <div class="attemptDetails" hidden="">
+            <div class="attemptDetail">
+              <input
+                checked=""
+                id="attempt-latest"
+                name="fakeerrorfinderfinderfinderfinderfinderfinderfinder-attempt-choice"
+                type="radio"
+              />
+              <gr-icon icon=""> </gr-icon>
+              <label for="attempt-latest"> Latest Attempt </label>
+            </div>
+            <div class="attemptDetail">
+              <input
+                id="attempt-all"
+                name="fakeerrorfinderfinderfinderfinderfinderfinderfinder-attempt-choice"
+                type="radio"
+              />
+              <gr-icon icon=""> </gr-icon>
+              <label for="attempt-all"> All Attempts </label>
+            </div>
+          </div>
+        </div>
+      `
     );
   });
 });

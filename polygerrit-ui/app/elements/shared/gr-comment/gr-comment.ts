@@ -201,6 +201,9 @@ export class GrComment extends LitElement {
   @state()
   unresolved = true;
 
+  @state()
+  previewFormatting = true;
+
   @property({type: Boolean})
   showConfirmDeleteOverlay = false;
 
@@ -733,9 +736,25 @@ export class GrComment extends LitElement {
             />
             Resolved
           </label>
+          ${this.renderPreviewFormatting()}
         </div>
         ${this.renderDraftActions()}
       </div>
+    `;
+  }
+
+  private renderPreviewFormatting() {
+    if (!this.permanentEditingMode) return;
+    return html`
+      <label>
+        <input
+          type="checkbox"
+          id="previewFormattingCheckbox"
+          ?checked=${!this.previewFormatting}
+          @change=${this.handleTogglePreviewFormatting}
+        />
+        Preview Formatting
+      </label>
     `;
   }
 
@@ -1195,6 +1214,11 @@ export class GrComment extends LitElement {
       this.messageText = this.comment?.message ?? '';
       this.save();
     }
+  }
+
+  private handleTogglePreviewFormatting() {
+    this.previewFormatting = !this.previewFormatting;
+    this.editing = !this.editing;
   }
 
   private async openDeleteCommentOverlay() {

@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f605dd6d_bb4efcdf",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-01T22:24:09Z",
+      "side": 1,
+      "message": "I am using `pageSize \u003e\u003d limit` to determine if the query was a regular one, i.e not with no-limit. For example, a query like `status:open` has `pageSize` \u003d 501 and `limit` \u003d 500. Do you think a variable for it will make the code more readable?\n\nThe `(pageSize \u003e\u003d limit \u0026\u0026 !skipped)` condition is targeted towards determining the query-completeness for queries such as `gerrit query \u0027status:open\u0027 --start 10000 --no-limit`",
+      "parentUuid": "f6183b2a_74e70fb2",
+      "range": {
+        "startLine": 123,
+        "startChar": 17,
+        "endLine": 123,
+        "endChar": 26
+      },
+      "revId": "9c9833e53ee9d86abdafca5ed7dd1db5e327c2a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e1fac4a6_43763857",
         "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
         "patchSetId": 5

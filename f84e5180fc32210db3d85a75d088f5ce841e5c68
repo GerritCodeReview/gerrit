@@ -22,6 +22,30 @@
       },
       "revId": "f84e5180fc32210db3d85a75d088f5ce841e5c68",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5f13284_afbe6319",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-01T22:24:09Z",
+      "side": 0,
+      "message": "With the new `isQueryComplete` boolean I don\u0027t need to track `skipped` anymore in these paginated queries. I need it in the first query as I use it to determine query-completeness of queries like `gerrit query \u0027status:open\u0027 --start 10000 --no-limit`",
+      "parentUuid": "2c4360ee_c6079d45",
+      "range": {
+        "startLine": 133,
+        "startChar": 18,
+        "endLine": 133,
+        "endChar": 33
+      },
+      "revId": "f84e5180fc32210db3d85a75d088f5ce841e5c68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

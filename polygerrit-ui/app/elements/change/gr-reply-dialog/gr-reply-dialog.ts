@@ -76,6 +76,9 @@ import {
 import {
   CommentThread,
   DraftInfo,
+  getFirstComment,
+  isDraft,
+  isPatchsetLevel,
   isUnresolved,
   UnsavedInfo,
 } from '../../../utils/comment-util';
@@ -693,7 +696,7 @@ export class GrReplyDialog extends LitElement {
       () => this.getCommentsModel().draftThreads$,
       threads =>
         (this.draftCommentThreads = threads.filter(
-          t => t.path !== SpecialFilePath.PATCHSET_LEVEL_COMMENTS
+          t => !(isDraft(getFirstComment(t)) && isPatchsetLevel(t))
         ))
     );
   }

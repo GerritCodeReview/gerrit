@@ -264,7 +264,11 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
   public readonly patchsetLevelDrafts$ = select(this.drafts$, drafts =>
     Object.values(drafts ?? {})
       .flat()
-      .filter(draft => draft.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS)
+      .filter(
+        draft =>
+          draft.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS &&
+          !draft.in_reply_to
+      )
   );
 
   public readonly mentionedUsersInDrafts$ = select(this.drafts$, drafts => {

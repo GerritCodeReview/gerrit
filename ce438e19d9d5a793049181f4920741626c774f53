@@ -58,6 +58,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7da7398_ae4a5c92",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-01T18:45:29Z",
+      "side": 1,
+      "message": "I thought of it but #765 has `return;` so I thought I would be consistent.\nI would replace all instances in another change instead of changing this if it\u0027s ok with you.\nFeel free to reopen if you want this instance fixed.",
+      "parentUuid": "2aafe90f_09876ec9",
+      "revId": "ce438e19d9d5a793049181f4920741626c774f53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "501eadd2_be17f7ea",
@@ -71,6 +89,24 @@
       "writtenOn": "2022-09-01T18:43:34Z",
       "side": 1,
       "message": "What happens if you stop editing first and then click previewformatting? Won\u0027t it then set you into editing mode again?",
+      "revId": "ce438e19d9d5a793049181f4920741626c774f53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3b6fbff_3f17b116",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1225,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-01T18:45:29Z",
+      "side": 1,
+      "message": "Top level comment is always in editing mode. There is no concept of \"stop editing this comment\".",
+      "parentUuid": "501eadd2_be17f7ea",
       "revId": "ce438e19d9d5a793049181f4920741626c774f53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -107,7 +107,7 @@ import {changeModelToken} from '../../../models/change/change-model';
 import {
   ConfigInfo,
   LabelNameToValuesMap,
-  RevisionPatchSetNum,
+  PatchSetNumber,
 } from '../../../api/rest-api';
 import {css, html, PropertyValues, LitElement, nothing} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -394,6 +394,8 @@ export class GrReplyDialog extends LitElement {
 
   private mentionedUsersInUnresolvedDrafts: AccountInfo[] = [];
 
+  private latestPatchNum?: PatchSetNumber;
+
   storeTask?: DelayedTask;
 
   private isLoggedIn = false;
@@ -661,6 +663,11 @@ export class GrReplyDialog extends LitElement {
       this,
       () => this.getChangeModel().change$,
       x => (this.change = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().latestPatchNum$,
+      x => (this.latestPatchNum = x)
     );
     subscribe(
       this,
@@ -952,10 +959,8 @@ export class GrReplyDialog extends LitElement {
 
   // TODO: move to comment-util
   private createDraft(): UnsavedInfo {
-    assertIsDefined(this.patchNum, 'patchNum');
     return {
-      // TODO: provide proper patchset, also check why "current" does not work
-      patch_set: 1 as RevisionPatchSetNum,
+      patch_set: this.latestPatchNum,
       message: this.patchsetLevelDraftMessage,
       unresolved: !this.patchsetLevelDraftIsResolved,
       path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS,

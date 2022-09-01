@@ -287,14 +287,8 @@ const darkThemeCss = safeStyleSheet`
 `;
 
 export function applyTheme() {
-  if (document.head.querySelector('#dark-theme')) return;
   const styleEl = document.createElement('style');
   styleEl.setAttribute('id', 'dark-theme');
   safeStyleEl.setTextContent(styleEl, darkThemeCss);
   document.head.appendChild(styleEl);
-}
-
-export function removeTheme() {
-  const styleEl = document.head.querySelector('#dark-theme');
-  styleEl?.remove();
 }

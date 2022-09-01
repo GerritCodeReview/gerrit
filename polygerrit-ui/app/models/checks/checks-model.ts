@@ -108,6 +108,63 @@ export interface CheckRun extends CheckRunApi {
 // properties. So you can just combine them with {...run, ...result}.
 export type RunResult = CheckRun & CheckResult;
 
+export type AttemptChoice = number | 'latest' | 'all';
+export const ALL_ATTEMPTS = 'all' as AttemptChoice;
+export const LATEST_ATTEMPT = 'latest' as AttemptChoice;
+
+export function isAttemptChoice(x: number | string): x is AttemptChoice {
+  if (typeof x === 'string') {
+    return x === ALL_ATTEMPTS || x === LATEST_ATTEMPT;
+  }
+  if (typeof x === 'number') {
+    return x >= 0;
+  }
+  return false;
+}
+
+export function stringToAttemptChoice(s?: string): AttemptChoice | undefined {
+  if (s === undefined) return undefined;
+  if (isAttemptChoice(s)) return s;
+  const n = Number(s);
+  if (isAttemptChoice(n)) return n;
+  return undefined;
+}
+
+export function attemptChoiceLabel(attempt: AttemptChoice): string {
+  if (attempt === LATEST_ATTEMPT) return 'Latest Attempt per run';
+  if (attempt === ALL_ATTEMPTS) return 'All Attempts';
+  return `Attempt ${attempt}`;
+}
+
+export function sortAttemptDetails(a: AttemptDetail, b: AttemptDetail): number {
+  return sortAttemptChoices(a.attempt, b.attempt);
+}
+
+export function sortAttemptChoices(
+  a?: AttemptChoice,
+  b?: AttemptChoice
+): number {
+  if (a === undefined) {
+    if (b === undefined) return 0;
+    return -1;
+  }
+  if (b === undefined) return 1;
+
+  if (a === LATEST_ATTEMPT) {
+    if (b === LATEST_ATTEMPT) return 0;
+    return -1;
+  }
+  if (b === LATEST_ATTEMPT) return 1;
+
+  if (a === ALL_ATTEMPTS) {
+    if (b === ALL_ATTEMPTS) return 0;
+    return -1;
+  }
+  if (b === ALL_ATTEMPTS) return 1;
+
+  return Number(a) - Number(b);
+}
+
 export const checksModelToken = define<ChecksModel>('checks-model');
 
 export interface ChecksProviderState {
@@ -136,6 +193,11 @@ interface ChecksState {
    * can be picked up from the change model.
    */
   patchsetNumberSelected?: PatchSetNumber;
+  /**
+   * This is the attempt number selected by the user. If this is `undefined`
+   * (default), then for each run the latest attempt is displayed.
+   */
+  attemptNumberSelected: AttemptChoice;
   /** Checks data for the latest patchset. */
   pluginStateLatest: {
     [name: string]: ChecksProviderState;
@@ -198,6 +260,11 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
   public checksSelectedPatchsetNumber$ = select(
     this.state$,
     state => state.patchsetNumberSelected
+  );
+
+  public checksSelectedAttemptNumber$ = select(
+    this.state$,
+    state => state.attemptNumberSelected
   );
 
   public checksLatest$ = select(this.state$, state => state.pluginStateLatest);
@@ -362,6 +429,8 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
     readonly pluginsModel: PluginsModel
   ) {
     super({
+      patchsetNumberSelected: undefined,
+      attemptNumberSelected: LATEST_ATTEMPT,
       pluginStateLatest: {},
       pluginStateSelected: {},
     });
@@ -552,11 +621,7 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
   ) {
     const attemptMap = createAttemptMap(runs);
     for (const attemptInfo of attemptMap.values()) {
-      // Per run only one attempt can be undefined, so the '?? -1' is not really
-      // relevant for sorting.
-      attemptInfo.attempts.sort(
-        (a, b) => (a.attempt ?? -1) - (b.attempt ?? -1)
-      );
+      attemptInfo.attempts.sort(sortAttemptDetails);
     }
     const nextState = {...this.subject$.getValue()};
     const pluginState = this.getPluginState(nextState, patchset);
@@ -573,9 +638,10 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
         assertIsDefined(attemptInfo, 'attemptInfo');
         return {
           ...run,
+          attempt: run.attempt ?? 0,
           pluginName,
           internalRunId: runId,
-          isLatestAttempt: attemptInfo.latestAttempt === run.attempt,
+          isLatestAttempt: attemptInfo.latestAttempt === (run.attempt ?? 0),
           isSingleAttempt: attemptInfo.isSingleAttempt,
           attemptDetails: attemptInfo.attempts,
           results: (run.results ?? []).map((result, i) => {
@@ -635,6 +701,12 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
   updateStateSetPatchset(patchsetNumber?: PatchSetNumber) {
     const nextState = {...this.subject$.getValue()};
     nextState.patchsetNumberSelected = patchsetNumber;
+    this.subject$.next(nextState);
+  }
+
+  updateStateSetAttempt(attemptNumber: AttemptChoice) {
+    const nextState = {...this.subject$.getValue()};
+    nextState.attemptNumberSelected = attemptNumber;
     this.subject$.next(nextState);
   }
 

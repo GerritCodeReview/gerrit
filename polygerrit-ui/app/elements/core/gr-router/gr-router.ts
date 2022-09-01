@@ -1468,13 +1468,8 @@ export class GrRouter {
     if (filter) params.filter = filter;
     const select = ctx.queryMap.get('select');
     if (select) params.select = select;
-    const attempt = ctx.queryMap.get('attempt');
-    if (attempt) {
-      const attemptInt = parseInt(attempt);
-      if (!isNaN(attemptInt) && attemptInt > 0) {
-        params.attempt = attemptInt;
-      }
-    }
+    const attempt = Number(ctx.queryMap.get('attempt'));
+    if (attempt > 0) params.attempt = attempt;
 
     this.reporting.setRepoName(params.project);
     this.reporting.setChangeId(changeNum);

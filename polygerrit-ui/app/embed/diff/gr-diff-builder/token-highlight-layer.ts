@@ -3,7 +3,7 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {DiffLayer, DiffLayerListener} from '../../../types/types';
+import {DiffLayer} from '../../../types/types';
 import {GrDiffLine, Side, TokenHighlightListener} from '../../../api/diff';
 import {assertIsDefined} from '../../../utils/common-util';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
@@ -44,12 +44,6 @@ const TOKEN_COUNT_LIMIT = 10000;
 const TOKEN_OCCURRENCES_LIMIT = 1000;
 
 /**
- * Token highlighting is only useful for code on-screen, so we only highlight
- * the nearest set of tokens up to this limit.
- */
-const TOKEN_HIGHLIGHT_LIMIT = 100;
-
-/**
  * When a user hovers over a token in the diff, then this layer makes sure that
  * all occurrences of this token are annotated with the 'token-highlight' css
  * class. And removes that class when the user moves the mouse away from the
@@ -61,10 +55,7 @@ const TOKEN_HIGHLIGHT_LIMIT = 100;
  * And when that re-rendering happens the appropriate css class is added.
  */
 export class TokenHighlightLayer implements DiffLayer {
-  /** The only listener is typically the renderer of gr-diff. */
-  private listeners: DiffLayerListener[] = [];
-
-  /** The currently highlighted token. */
+    /** The currently highlighted token. */
   private currentHighlight?: string;
 
   /** Trigger when a new token starts or stoped being highlighted.*/
@@ -92,9 +83,7 @@ export class TokenHighlightLayer implements DiffLayer {
    * Keeps track of where tokens occur in a file during rendering, so that it is
    * easy to look up when processing mouse events.
    */
-  private tokenToLinesLeft = new Map<string, Set<number>>();
-
-  private tokenToLinesRight = new Map<string, Set<number>>();
+  private tokenToElements = new Map<string, Set<HTMLElement>>();
 
   private hoveredElement?: Element;
 
@@ -112,9 +101,9 @@ export class TokenHighlightLayer implements DiffLayer {
 
   annotate(
     el: HTMLElement,
-    _: HTMLElement,
-    line: GrDiffLine,
-    side: Side
+    _1: HTMLElement,
+    _2: GrDiffLine,
+    _3: Side
   ): void {
     const text = el.textContent;
     if (!text) return;
@@ -132,7 +121,7 @@ export class TokenHighlightLayer implements DiffLayer {
       if (length > TOKEN_LENGTH_LIMIT) continue;
       atLeastOneTokenMatched = true;
       const highlightTypeClass =
-        token === this.currentHighlight ? CSS_HIGHLIGHT : CSS_TOKEN;
+        token === this.currentHighlight ? CSS_HIGHLIGHT : '';
       const textClass = `${TOKEN_TEXT_PREFIX}${token}`;
       const indexClass = `${TOKEN_INDEX_PREFIX}${index}`;
       // We add the TOKEN_TEXT_PREFIX class so that we can look up the token later easily
@@ -142,12 +131,12 @@ export class TokenHighlightLayer implements DiffLayer {
         el,
         index,
         length,
-        `${textClass} ${indexClass} ${highlightTypeClass}`
+        `${textClass} ${indexClass} ${CSS_TOKEN} ${highlightTypeClass}`
       );
       // We could try to detect whether we are re-rendering instead of initially
       // rendering the line. Then we would not have to call storeLineForToken()
       // again. But since the Set swallows the duplicates we don't care.
-      this.storeLineForToken(token, line, side);
+      this.storeElementsForToken(token, el, textClass);
     }
     if (atLeastOneTokenMatched) {
       // These listeners do not have to be cleaned, because listeners are
@@ -162,21 +151,23 @@ export class TokenHighlightLayer implements DiffLayer {
     }
   }
 
-  private storeLineForToken(token: string, line: GrDiffLine, side: Side) {
-    const tokenToLines =
-      side === Side.LEFT ? this.tokenToLinesLeft : this.tokenToLinesRight;
-    // Just to make sure that we don't break down on large files.
-    if (tokenToLines.size > TOKEN_COUNT_LIMIT) return;
-    let numbers = tokenToLines.get(token);
-    if (!numbers) {
-      numbers = new Set<number>();
-      tokenToLines.set(token, numbers);
+  private storeElementsForToken(
+    token: string,
+    lineEl: HTMLElement,
+    cssClass: string
+  ) {
+    for (let el of lineEl.querySelectorAll(`.${cssClass}`)) {
+      let tokenEls = this.tokenToElements.get(token);
+      if (!tokenEls) {
+        // Just to make sure that we don't break down on large files.
+        if (this.tokenToElements.size > TOKEN_COUNT_LIMIT) return;
+        tokenEls = new Set<HTMLElement>();
+        this.tokenToElements.set(token, tokenEls);
+      }
+      // Just to make sure that we don't break down on large files.
+      if (tokenEls.size > TOKEN_OCCURRENCES_LIMIT) return;
+      tokenEls.add(el as HTMLElement);
     }
-    // Just to make sure that we don't break down on large files.
-    if (numbers.size > TOKEN_OCCURRENCES_LIMIT) return;
-    const lineNumber =
-      side === Side.LEFT ? line.beforeNumber : line.afterNumber;
-    numbers.add(Number(lineNumber));
   }
 
   private handleTokenMouseOut(e: MouseEvent) {
@@ -265,8 +256,8 @@ export class TokenHighlightLayer implements DiffLayer {
       this.currentHighlightLineNumber === newLineNumber
     )
       return;
+
     const oldHighlight = this.currentHighlight;
-    const oldLineNumber = this.currentHighlightLineNumber;
     this.currentHighlight = newHighlight;
     this.currentHighlightLineNumber = newLineNumber;
     this.triggerTokenHighlightEvent(
@@ -274,8 +265,24 @@ export class TokenHighlightLayer implements DiffLayer {
       newLineNumber,
       newHoveredElement
     );
-    this.notifyForToken(oldHighlight, oldLineNumber);
-    this.notifyForToken(newHighlight, newLineNumber);
+    this.updateElementClasses(oldHighlight, CSS_HIGHLIGHT);
+    this.updateElementClasses(newHighlight, CSS_HIGHLIGHT);
+  }
+
+  private updateElementClasses(
+    token: string | undefined,
+    cssClass: string
+  ) {
+    if (!token) {
+      return;
+    }
+    let tokenEls = this.tokenToElements.get(token);
+    if (!tokenEls) {
+      return;
+    }
+    for (let el of tokenEls) {
+      el.classList.toggle(cssClass);
+    }
   }
 
   triggerTokenHighlightEvent(
@@ -305,59 +312,5 @@ export class TokenHighlightLayer implements DiffLayer {
       end_column: index + token.length, // 1-based inclusive
     };
     this.tokenHighlightListener({token, element, side, range});
-  }
-
-  getSortedLinesForSide(
-    lineMapping: Map<string, Set<number>>,
-    token: string | undefined,
-    lineNumber: number
-  ): Array<number> {
-    if (!token) return [];
-    const lineSet = lineMapping.get(token);
-    if (!lineSet) return [];
-    const lines = [...lineSet];
-    lines.sort((a, b) => {
-      const da = Math.abs(a - lineNumber);
-      const db = Math.abs(b - lineNumber);
-      // For equal distance, prefer lines later in the file over earlier in the
-      // file. This ensures total ordering.
-      if (da === db) return b - a;
-      // Compare the distance to lineNumber.
-      return da - db;
-    });
-    return lines.slice(0, TOKEN_HIGHLIGHT_LIMIT);
-  }
-
-  notifyForToken(token: string | undefined, lineNumber: number) {
-    const leftLines = this.getSortedLinesForSide(
-      this.tokenToLinesLeft,
-      token,
-      lineNumber
-    );
-    for (const line of leftLines) {
-      this.notifyListeners(line, Side.LEFT);
-    }
-    const rightLines = this.getSortedLinesForSide(
-      this.tokenToLinesRight,
-      token,
-      lineNumber
-    );
-    for (const line of rightLines) {
-      this.notifyListeners(line, Side.RIGHT);
-    }
-  }
-
-  addListener(listener: DiffLayerListener) {
-    this.listeners.push(listener);
-  }
-
-  removeListener(listener: DiffLayerListener) {
-    this.listeners = this.listeners.filter(f => f !== listener);
-  }
-
-  notifyListeners(line: number, side: Side) {
-    for (const listener of this.listeners) {
-      listener(line, line, side);
-    }
   }
 }

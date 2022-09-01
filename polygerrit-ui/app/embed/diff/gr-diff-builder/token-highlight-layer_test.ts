@@ -55,6 +55,7 @@ suite('token-highlight-layer', () => {
     highlightDetails?: TokenHighlightEventDetails
   ) {
     tokenHighlightingCalls.push({details: highlightDetails});
+    listener.notify({highlightDetails});
   }
 
   setup(async () => {
@@ -63,7 +64,6 @@ suite('token-highlight-layer', () => {
     container = document.createElement('div');
     document.body.appendChild(container);
     highlighter = new TokenHighlightLayer(container, tokenHighlightListener);
-    highlighter.addListener((...args) => listener.notify(...args));
   });
 
   teardown(() => {
@@ -126,21 +126,21 @@ suite('token-highlight-layer', () => {
         el,
         0,
         5,
-        'tk-text-these tk-index-0 token'
+        'tk-text-these tk-index-0 token '
       );
       assertAnnotation(
         annotateElementStub.args[1],
         el,
         6,
         3,
-        'tk-text-are tk-index-6 token'
+        'tk-text-are tk-index-6 token '
       );
       assertAnnotation(
         annotateElementStub.args[2],
         el,
         10,
         5,
-        'tk-text-words tk-index-10 token'
+        'tk-text-words tk-index-10 token '
       );
     });
 
@@ -196,10 +196,8 @@ suite('token-highlight-layer', () => {
 
       // After a total of HOVER_DELAY_MS ms the hover behavior should trigger.
       clock.tick(HOVER_DELAY_MS - 100);
-      assert.equal(listener.pending, 2);
+      assert.equal(listener.pending, 1);
       assert.equal(_testOnly_allTasks.size, 0);
-      assert.deepEqual(listener.shift(), [1, 1, Side.LEFT]);
-      assert.deepEqual(listener.shift(), [2, 2, Side.RIGHT]);
     });
 
     test('highlighting spans many lines', async () => {
@@ -216,10 +214,14 @@ suite('token-highlight-layer', () => {
 
       // After a total of HOVER_DELAY_MS ms the hover behavior should trigger.
       clock.tick(HOVER_DELAY_MS);
-      assert.equal(listener.pending, 2);
+      assert.equal(listener.pending, 1);
       assert.equal(_testOnly_allTasks.size, 0);
-      assert.deepEqual(listener.shift(), [1, 1, Side.LEFT]);
-      assert.deepEqual(listener.shift(), [1000, 1000, Side.RIGHT]);
+      assert.deepEqual(tokenHighlightingCalls[0].details, {
+        token: 'words',
+        side: Side.RIGHT,
+        element: words1,
+        range: {start_line: 1, start_column: 5, end_line: 1, end_column: 9},
+      });
     });
 
     test('highlighting mouse out before delay', async () => {
@@ -259,10 +261,12 @@ suite('token-highlight-layer', () => {
         element: words1,
         range: {start_line: 1, start_column: 5, end_line: 1, end_column: 9},
       });
+      assert.isTrue(words1.classList.contains('token-highlight'));
 
       container.click();
       assert.equal(tokenHighlightingCalls.length, 2);
       assert.deepEqual(tokenHighlightingCalls[1].details, undefined);
+      assert.isFalse(words1.classList.contains('token-highlight'));
     });
 
     test('triggers listener on token with single occurrence', async () => {
@@ -303,13 +307,13 @@ suite('token-highlight-layer', () => {
       dispatchMouseEvent('mouseover', words1);
       assert.equal(listener.pending, 0);
       clock.tick(HOVER_DELAY_MS);
-      assert.equal(listener.pending, 2);
+      assert.equal(listener.pending, 1);
       listener.flush();
       assert.equal(listener.pending, 0);
+      assert.isTrue(words1.classList.contains('token-highlight'));
       container.click();
-      assert.equal(listener.pending, 2);
-      assert.deepEqual(listener.shift(), [1, 1, Side.LEFT]);
-      assert.deepEqual(listener.shift(), [2, 2, Side.RIGHT]);
+      assert.equal(listener.pending, 1);
+      assert.isFalse(words1.classList.contains('token-highlight'));
     });
 
     test('clicking on word does not clear highlight', async () => {
@@ -323,11 +327,13 @@ suite('token-highlight-layer', () => {
       dispatchMouseEvent('mouseover', words1);
       assert.equal(listener.pending, 0);
       clock.tick(HOVER_DELAY_MS);
-      assert.equal(listener.pending, 2);
+      assert.equal(listener.pending, 1);
       listener.flush();
       assert.equal(listener.pending, 0);
+      assert.isTrue(words1.classList.contains('token-highlight'));
       words1.click();
       assert.equal(listener.pending, 0);
+      assert.isTrue(words1.classList.contains('token-highlight'));
     });
   });
 });

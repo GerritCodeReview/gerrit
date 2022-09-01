@@ -4,33 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {CheckRun, RunResult} from '../../models/checks/checks-model';
-
-export interface AttemptSelectedEventDetail {
-  checkName: string;
-  attempt: number | undefined;
-}
-
-export type AttemptSelectedEvent = CustomEvent<AttemptSelectedEventDetail>;
-
-declare global {
-  interface HTMLElementEventMap {
-    'attempt-selected': AttemptSelectedEvent;
-  }
-}
-
-export function fireAttemptSelected(
-  target: EventTarget,
-  checkName: string,
-  attempt: number | undefined
-) {
-  target.dispatchEvent(
-    new CustomEvent('attempt-selected', {
-      detail: {checkName, attempt},
-      composed: true,
-      bubbles: true,
-    })
-  );
-}
+import {
+  ALL_ATTEMPTS,
+  AttemptChoice,
+  LATEST_ATTEMPT,
+} from '../../models/checks/checks-util';
 
 export interface RunSelectedEventDetail {
   reset: boolean;
@@ -66,13 +44,12 @@ export function fireRunSelectionReset(target: EventTarget) {
 }
 
 export function isAttemptSelected(
-  selectedAttempts: Map<string, number | undefined>,
+  selectedAttempt: AttemptChoice,
   run: CheckRun
 ) {
-  const selected = selectedAttempts.get(run.checkName);
-  return (
-    (selected === undefined && run.isLatestAttempt) || selected === run.attempt
-  );
+  if (selectedAttempt === LATEST_ATTEMPT) return run.isLatestAttempt;
+  if (selectedAttempt === ALL_ATTEMPTS) return true;
+  return selectedAttempt === (run.attempt ?? 0);
 }
 
 export function matches(result: RunResult, regExp: RegExp) {

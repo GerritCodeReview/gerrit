@@ -7,7 +7,14 @@ import '../shared/gr-icon/gr-icon';
 import {classMap} from 'lit/directives/class-map.js';
 import {repeat} from 'lit/directives/repeat.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
-import {LitElement, css, html, PropertyValues, TemplateResult} from 'lit';
+import {
+  LitElement,
+  css,
+  html,
+  PropertyValues,
+  TemplateResult,
+  nothing,
+} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import './gr-checks-action';
 import './gr-hovercard-run';
@@ -23,6 +30,13 @@ import {
 import {sharedStyles} from '../../styles/shared-styles';
 import {CheckRun, RunResult} from '../../models/checks/checks-model';
 import {
+  ALL_ATTEMPTS,
+  AttemptChoice,
+  attemptChoiceLabel,
+  isAttemptChoice,
+  LATEST_ATTEMPT,
+  sortAttemptChoices,
+  stringToAttemptChoice,
   allResults,
   createFixAction,
   firstPrimaryLink,
@@ -34,7 +48,7 @@ import {
   secondaryLinks,
   tooltipForLink,
 } from '../../models/checks/checks-util';
-import {assertIsDefined, assert} from '../../utils/common-util';
+import {assertIsDefined, assert, unique} from '../../utils/common-util';
 import {modifierPressed, toggleClass, whenVisible} from '../../utils/dom-util';
 import {durationString} from '../../utils/date-util';
 import {charsOnly} from '../../utils/string-util';
@@ -66,6 +80,8 @@ import {getAppContext} from '../../services/app-context';
 import {when} from 'lit/directives/when.js';
 import {KnownExperimentId} from '../../services/flags/flags';
 import {HtmlPatched} from '../../utils/lit-util';
+import {DropdownItem} from '../shared/gr-dropdown-list/gr-dropdown-list';
+import './gr-checks-attempt';
 
 /**
  * Firing this event sets the regular expression of the results filter.
@@ -104,6 +120,9 @@ export class GrResultRow extends LitElement {
   @state()
   latestPatchNum?: PatchSetNumber;
 
+  @state()
+  selectedAttempt: AttemptChoice = LATEST_ATTEMPT;
+
   private getChangeModel = resolve(this, changeModelToken);
 
   private getChecksModel = resolve(this, checksModelToken);
@@ -123,6 +142,11 @@ export class GrResultRow extends LitElement {
       this,
       () => this.getChangeModel().latestPatchNum$,
       x => (this.latestPatchNum = x)
+    );
+    subscribe(
+      this,
+      () => this.getChecksModel().checksSelectedAttemptNumber$,
+      x => (this.selectedAttempt = x)
     );
   }
 
@@ -353,6 +377,7 @@ export class GrResultRow extends LitElement {
             >
               ${this.result.checkName}
             </div>
+            ${this.renderAttempt()}
             <div class="space"></div>
           </div>
         </td>
@@ -392,6 +417,11 @@ export class GrResultRow extends LitElement {
         <td class="expandedCol" colspan="3">${this.renderExpanded()}</td>
       </tr>
     `;
+  }
+
+  private renderAttempt() {
+    if (this.selectedAttempt !== ALL_ATTEMPTS) return nothing;
+    return html`<gr-checks-attempt .run=${this.result}></gr-checks-attempt>`;
   }
 
   private renderExpanded() {
@@ -771,12 +801,8 @@ export class GrChecksResults extends LitElement {
   @state()
   latestPatchsetNumber: PatchSetNumber | undefined = undefined;
 
-  /** Maps checkName to selected attempt number. `undefined` means `latest`. */
-  @property({attribute: false})
-  selectedAttempts: Map<string, number | undefined> = new Map<
-    string,
-    number | undefined
-  >();
+  @state()
+  selectedAttempt: AttemptChoice = LATEST_ATTEMPT;
 
   /** Maintains the state of which result sections should show all results. */
   @state()
@@ -825,6 +851,11 @@ export class GrChecksResults extends LitElement {
       this,
       () => this.getChecksModel().checksSelectedPatchsetNumber$,
       x => (this.checksPatchsetNumber = x)
+    );
+    subscribe(
+      this,
+      () => this.getChecksModel().checksSelectedAttemptNumber$,
+      x => (this.selectedAttempt = x)
     );
     subscribe(
       this,
@@ -899,8 +930,10 @@ export class GrChecksResults extends LitElement {
         .notLatest .headerTopRow .right .goToLatest {
           display: block;
         }
+        .headerTopRow .right > * {
+          margin-left: var(--spacing-m);
+        }
         .headerTopRow .right .goToLatest gr-button {
-          margin-right: var(--spacing-m);
           --gr-button-padding: var(--spacing-s) var(--spacing-m);
         }
         .headerBottomRow gr-icon {
@@ -1071,6 +1104,7 @@ export class GrChecksResults extends LitElement {
       header: true,
       notLatest: !!this.checksPatchsetNumber,
     };
+    const attemptItems = this.createAttemptDropdownItems();
     return html`
       <div class=${classMap(headerClasses)}>
         <div class="headerTopRow">
@@ -1087,6 +1121,14 @@ export class GrChecksResults extends LitElement {
                 >Go to latest patchset</gr-button
               >
             </div>
+            ${when(
+              attemptItems.length > 0,
+              () => html` <gr-dropdown-list
+                value=${this.selectedAttempt ?? 0}
+                .items=${attemptItems}
+                @value-change=${this.onAttemptSelected}
+              ></gr-dropdown-list>`
+            )}
             <gr-dropdown-list
               value=${this.checksPatchsetNumber ??
               this.latestPatchsetNumber ??
@@ -1211,6 +1253,12 @@ export class GrChecksResults extends LitElement {
     ></gr-checks-action>`;
   }
 
+  private onAttemptSelected(e: CustomEvent<{value: string | undefined}>) {
+    const attempt = stringToAttemptChoice(e.detail.value);
+    assertIsDefined(attempt, `unexpected attempt choice ${e.detail.value}`);
+    this.getChecksModel().updateStateSetAttempt(attempt);
+  }
+
   private onPatchsetSelected(e: CustomEvent<{value: string}>) {
     const patchset = Number(e.detail.value);
     assert(!isNaN(patchset), 'selected patchset must be a number');
@@ -1219,6 +1267,23 @@ export class GrChecksResults extends LitElement {
 
   private goToLatestPatchset() {
     this.getChecksModel().setPatchset(undefined);
+  }
+
+  private createAttemptDropdownItems() {
+    if (this.runs.every(run => run.isSingleAttempt)) return [];
+    const attempts: AttemptChoice[] = this.runs
+      .map(run => run.attempt ?? 0)
+      .filter(isAttemptChoice)
+      .filter(unique);
+    attempts.push(LATEST_ATTEMPT);
+    attempts.push(ALL_ATTEMPTS);
+    const items: DropdownItem[] = attempts.sort(sortAttemptChoices).map(a => {
+      return {
+        value: a,
+        text: attemptChoiceLabel(a),
+      };
+    });
+    return items;
   }
 
   private createPatchsetDropdownItems() {
@@ -1244,7 +1309,7 @@ export class GrChecksResults extends LitElement {
   renderFilter() {
     const runs = this.runs.filter(
       run =>
-        this.isRunSelected(run) && isAttemptSelected(this.selectedAttempts, run)
+        this.isRunSelected(run) && isAttemptSelected(this.selectedAttempt, run)
     );
     if (this.selectedRuns.length === 0 && allResults(runs).length <= 3) {
       if (this.filterRegExp.source.length > 0) {
@@ -1279,7 +1344,7 @@ export class GrChecksResults extends LitElement {
     const isWarningOrError =
       category === Category.WARNING || category === Category.ERROR;
     const allRuns = this.runs.filter(run =>
-      isAttemptSelected(this.selectedAttempts, run)
+      isAttemptSelected(this.selectedAttempt, run)
     );
     const all = allRuns.reduce(
       (results: RunResult[], run) => [

@@ -990,7 +990,6 @@ export class GrReplyDialog extends LitElement {
           this.patchsetLevelDraftMessage = e.detail.value;
         }}
         hide-header
-        permanent-editing-mode
       ></gr-comment>
     `;
   }

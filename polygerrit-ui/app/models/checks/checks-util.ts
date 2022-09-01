@@ -17,7 +17,7 @@ import {OpenFixPreviewEventDetail} from '../../types/events';
 import {PROVIDED_FIX_ID} from '../../utils/comment-util';
 import {assertNever} from '../../utils/common-util';
 import {fire} from '../../utils/event-util';
-import {CheckResult, CheckRun, RunResult} from './checks-model';
+import {AttemptChoice, CheckResult, CheckRun, RunResult} from './checks-model';
 
 export interface ChecksIcon {
   name: string;
@@ -328,12 +328,12 @@ function runLevel(status: RunStatus) {
 }
 
 export interface AttemptDetail {
-  attempt: number | undefined;
-  icon: ChecksIcon;
+  attempt?: AttemptChoice;
+  icon?: ChecksIcon;
 }
 
 export interface AttemptInfo {
-  latestAttempt: number | undefined;
+  latestAttempt: AttemptChoice;
   isSingleAttempt: boolean;
   attempts: AttemptDetail[];
 }
@@ -342,13 +342,13 @@ export function createAttemptMap(runs: CheckRunApi[]) {
   const map = new Map<string, AttemptInfo>();
   for (const run of runs) {
     const value = map.get(run.checkName);
-    const detail = {
-      attempt: run.attempt,
+    const detail: AttemptDetail = {
+      attempt: run.attempt ?? 0,
       icon: iconForRun(fromApiToInternalRun(run)),
     };
     if (value === undefined) {
       map.set(run.checkName, {
-        latestAttempt: run.attempt,
+        latestAttempt: run.attempt ?? 0,
         isSingleAttempt: true,
         attempts: [detail],
       });

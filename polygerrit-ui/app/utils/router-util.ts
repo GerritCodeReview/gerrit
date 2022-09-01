@@ -21,6 +21,7 @@ import {encodeURL, getBaseUrl} from './url-util';
 import {assertNever} from './common-util';
 import {GerritView} from '../services/router/router-model';
 import {addQuotesWhen} from './string-util';
+import {AttemptChoice} from '../models/checks/checks-model';
 
 export interface DashboardSection {
   name: string;
@@ -76,7 +77,7 @@ export interface GenerateUrlChangeViewParameters {
   /** regular expression for selecting check runs */
   select?: string;
   /** selected attempt for selected check runs */
-  attempt?: number;
+  attempt?: AttemptChoice;
   usp?: string;
 }
 

@@ -95,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5923e0e2_5ed0fcd7",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-01T23:49:28Z",
+      "side": 1,
+      "message": "With no-limit we no longer set limit to Integer.MAX_VALUE. We intelligently determine the limit based on the index size. It is unlikely that this will overflow as index sizes (usually) are not as big as Integer.MAX_VALUE.\n\nAnyways, adding `limit` and `start` is not something that was introduced in this change, so I think it might be better to tackle it a separate change if we want to.",
+      "parentUuid": "3b095229_42029857",
+      "range": {
+        "startLine": 140,
+        "startChar": 76,
+        "endLine": 140,
+        "endChar": 90
+      },
+      "revId": "9c9833e53ee9d86abdafca5ed7dd1db5e327c2a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e1fac4a6_43763857",

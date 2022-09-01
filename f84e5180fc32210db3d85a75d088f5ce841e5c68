@@ -96,6 +96,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "04592dd7_314474f3",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-01T23:49:28Z",
+      "side": 0,
+      "message": "\u003e \u003e Yes, sort of, if `source` allowed us to get its `limit`. It does not currently.\n\u003e \n\u003e And that\u0027s a limitation of \"! instanceof Paginated\"?\nRight\n\n\u003e I am perhaps starting to understand why you want a completely separate path for that case.\nA condition could have been added after `source` is cast to `Paginated` as the limit will be the same? I don\u0027t know if we can make that assumption though.",
+      "parentUuid": "6e191f8b_423b0dca",
+      "range": {
+        "startLine": 112,
+        "startChar": 10,
+        "endLine": 112,
+        "endChar": 13
+      },
+      "revId": "f84e5180fc32210db3d85a75d088f5ce841e5c68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c4360ee_c6079d45",

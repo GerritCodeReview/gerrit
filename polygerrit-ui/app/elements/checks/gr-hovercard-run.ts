@@ -213,13 +213,18 @@ export class GrHovercardRun extends base {
   }
 
   private renderAttempt(attempt: AttemptDetail) {
+    const attemptNumber = attempt.attempt;
+    const icon = attempt.icon ?? {name: ''};
+    if (attemptNumber !== undefined && typeof attemptNumber !== 'number') {
+      return;
+    }
     return html`
       <div>
         <div class="attemptIcon">
-          <gr-icon icon=${attempt.icon.name} ?filled=${attempt.icon.filled}>
+          <gr-icon class=${icon.name} icon=${icon.name} ?filled=${icon.filled}>
           </gr-icon>
         </div>
-        <div class="attemptNumber">${ordinal(attempt.attempt)}</div>
+        <div class="attemptNumber">${ordinal(attemptNumber)}</div>
       </div>
     `;
   }
@@ -355,8 +360,8 @@ export class GrHovercardRun extends base {
   }
 
   computeAttempts(): AttemptDetail[] {
-    const details = this.run?.attemptDetails ?? [];
-    const more =
+    const details: AttemptDetail[] = this.run?.attemptDetails ?? [];
+    const more: AttemptDetail[] =
       details.length > 7
         ? [{icon: {name: 'more_horiz'}, attempt: undefined}]
         : [];

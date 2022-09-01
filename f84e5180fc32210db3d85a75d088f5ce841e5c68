@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c4360ee_c6079d45",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-09-01T21:18:37Z",
+      "side": 0,
+      "message": "Why are you no longer taking \u0027skipped\u0027 into account, shouldn\u0027t you? If it isn\u0027t needed, can it be removed from the loop in the first query also?",
+      "range": {
+        "startLine": 133,
+        "startChar": 18,
+        "endLine": 133,
+        "endChar": 33
+      },
+      "revId": "f84e5180fc32210db3d85a75d088f5ce841e5c68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

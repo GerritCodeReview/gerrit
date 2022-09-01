@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6183b2a_74e70fb2",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-09-01T21:18:37Z",
+      "side": 1,
+      "message": "It\u0027s not obvious what pageSize \u003e\u003d limit represents, I think you are using pageSize to represent the number or results returned from the query above, would it make more sense, and be safer to use nextStart instead then?",
+      "range": {
+        "startLine": 123,
+        "startChar": 17,
+        "endLine": 123,
+        "endChar": 26
+      },
+      "revId": "9c9833e53ee9d86abdafca5ed7dd1db5e327c2a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1fac4a6_43763857",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-09-01T21:18:37Z",
+      "side": 1,
+      "message": "This feels wrong to put in here. It should be directly tied to where it would be a problem, in fact it probably should have used a Max() to make it more obvious what was happening. Hmm, maybe the setter in the options could do this enforcing?",
+      "revId": "9c9833e53ee9d86abdafca5ed7dd1db5e327c2a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

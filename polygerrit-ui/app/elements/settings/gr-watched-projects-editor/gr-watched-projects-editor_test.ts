@@ -6,16 +6,19 @@
 import '../../../test/common-test-setup-karma';
 import './gr-watched-projects-editor';
 import {GrWatchedProjectsEditor} from './gr-watched-projects-editor';
-import {stubRestApi} from '../../../test/test-utils';
+import {pressKey, stubRestApi, waitUntil} from '../../../test/test-utils';
 import {ProjectWatchInfo} from '../../../types/common';
 import {queryAndAssert} from '../../../test/test-utils';
 import {IronInputElement} from '@polymer/iron-input';
 import {assertIsDefined} from '../../../utils/common-util';
 import {fixture, html, assert} from '@open-wc/testing';
 import {GrButton} from '../../shared/gr-button/gr-button';
+import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
+import {Key} from '../../../utils/dom-util';
 
 suite('gr-watched-projects-editor tests', () => {
   let element: GrWatchedProjectsEditor;
+  let suggestionStub: sinon.SinonStub;
 
   setup(async () => {
     const projects = [
@@ -42,7 +45,7 @@ suite('gr-watched-projects-editor tests', () => {
     ] as ProjectWatchInfo[];
 
     stubRestApi('getWatchedProjects').returns(Promise.resolve(projects));
-    stubRestApi('getSuggestedProjects').callsFake(input => {
+    suggestionStub = stubRestApi('getSuggestedProjects').callsFake(input => {
       if (input.startsWith('th')) {
         return Promise.resolve({
           'the project': {
@@ -232,7 +235,6 @@ suite('gr-watched-projects-editor tests', () => {
                     allow-non-suggested-values=""
                     id="newProject"
                     placeholder="Repo"
-                    query="input => this.getProjectSuggestions(input)"
                     tab-complete=""
                     threshold="1"
                   >
@@ -280,6 +282,24 @@ suite('gr-watched-projects-editor tests', () => {
     const projects = await element.getProjectSuggestions('th');
     assert.equal(projects.length, 1);
     assert.equal(projects[0].name, 'the project');
+  });
+
+  test('autocompletes repo input', async () => {
+    const repoAutocomplete = queryAndAssert<GrAutocomplete>(
+      element,
+      'gr-autocomplete'
+    );
+    const repoInput = queryAndAssert<HTMLInputElement>(
+      repoAutocomplete,
+      '#input'
+    );
+
+    repoInput.focus();
+    repoAutocomplete.text = 'the';
+    await waitUntil(() => suggestionStub.called);
+    await repoAutocomplete.updateComplete;
+
+    assert.isTrue(suggestionStub.calledWith('the'));
   });
 
   test('_canAddProject', () => {

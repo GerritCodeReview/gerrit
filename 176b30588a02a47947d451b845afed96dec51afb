@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5dc8cdef_0600acb9",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-09-01T14:35:29Z",
+      "side": 1,
+      "message": "Isn\u0027t it possible that the first loop could have completed the query?",
+      "revId": "176b30588a02a47947d451b845afed96dec51afb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b66ed668_2bc79190",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-09-01T14:35:29Z",
+      "side": 1,
+      "message": "s/resultSize//pageResultSize/",
+      "range": {
+        "startLine": 125,
+        "startChar": 18,
+        "endLine": 125,
+        "endChar": 29
+      },
+      "revId": "176b30588a02a47947d451b845afed96dec51afb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7670bf40_19fd5c2f",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-09-01T14:35:29Z",
+      "side": 1,
+      "message": "Maybe reverse the naming and meaning of this since this does not necessarily imply that there are more, just that there could be more. So if you use something like hasAllResults, or isQueryComplete, that we can be sure of.",
+      "range": {
+        "startLine": 134,
+        "startChar": 14,
+        "endLine": 134,
+        "endChar": 26
+      },
+      "revId": "176b30588a02a47947d451b845afed96dec51afb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

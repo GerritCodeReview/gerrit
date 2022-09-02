@@ -247,6 +247,24 @@
       "parentUuid": "e1fac4a6_43763857",
       "revId": "9c9833e53ee9d86abdafca5ed7dd1db5e327c2a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76f32ace_ffd50b43",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-02T17:10:30Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "41ee0bfc_5b7f1da7",
+      "revId": "9c9833e53ee9d86abdafca5ed7dd1db5e327c2a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

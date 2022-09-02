@@ -708,9 +708,8 @@ export class GrReplyDialog extends LitElement {
         if (!this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) {
           return;
         }
-        this.mentionedUsersInUnresolvedDrafts = x.filter(
-          v => !this.isAlreadyReviewerOrCC(v)
-        );
+        this.mentionedUsersInUnresolvedDrafts = x
+          .filter(v => !this.isAlreadyReviewerOrCC(v))
       }
     );
     subscribe(

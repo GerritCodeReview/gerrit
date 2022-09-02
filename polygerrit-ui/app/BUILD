@@ -209,3 +209,18 @@ nodejs_test(
         "--rules.no-unknown-attribute error",
     ],
 )
+
+filegroup(
+    name = "app_sources",
+    # srcs = glob(["**/*"]),
+        srcs = glob([
+            "**/*.js",
+            "**/*.ts",
+        ],
+        exclude = [
+            "node_modules/**",
+            "node_modules_licenses/**",
+            "rollup.config.js",
+        ],
+        ),
+)

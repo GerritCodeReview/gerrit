@@ -229,6 +229,24 @@
       "message": "This feels wrong to put in here. It should be directly tied to where it would be a problem, in fact it probably should have used a Max() to make it more obvious what was happening. Hmm, maybe the setter in the options could do this enforcing?",
       "revId": "9c9833e53ee9d86abdafca5ed7dd1db5e327c2a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41ee0bfc_5b7f1da7",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-02T17:10:00Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e1fac4a6_43763857",
+      "revId": "9c9833e53ee9d86abdafca5ed7dd1db5e327c2a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

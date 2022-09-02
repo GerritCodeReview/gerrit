@@ -22,6 +22,30 @@
       },
       "revId": "dc82257a63d0760e27d91eec44d06cdc63137c7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc351bf9_7c7f1943",
+        "filename": "polygerrit-ui/app/elements/settings/gr-watched-projects-editor/gr-watched-projects-editor_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-09-02T03:37:15Z",
+      "side": 1,
+      "message": "Fixed, thanks!",
+      "parentUuid": "4312e488_c52cbf80",
+      "range": {
+        "startLine": 27,
+        "startChar": 3,
+        "endLine": 27,
+        "endChar": 12
+      },
+      "revId": "dc82257a63d0760e27d91eec44d06cdc63137c7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

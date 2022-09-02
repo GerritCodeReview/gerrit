@@ -231,10 +231,6 @@ public abstract class QueryProcessor<T> {
         int limit = getEffectiveLimit(q);
         limits.add(limit);
 
-        if (limit == getBackendSupportedLimit()) {
-          limit--;
-        }
-
         int page = (start / limit) + 1;
         if (page > indexConfig.maxPages()) {
           throw new QueryParseException(
@@ -244,7 +240,14 @@ public abstract class QueryProcessor<T> {
         // Always bump limit by 1, even if this results in exceeding the permitted
         // max for this user. The only way to see if there are more entities is to
         // ask for one more result from the query.
-        QueryOptions opts = createOptions(indexConfig, start, limit + 1, getRequestedFields());
+        int effectiveLimit;
+        try {
+          effectiveLimit = Math.addExact(limit, 1);
+        } catch (ArithmeticException e) {
+          effectiveLimit = Integer.MAX_VALUE;
+        }
+
+        QueryOptions opts = createOptions(indexConfig, start, effectiveLimit, getRequestedFields());
         logger.atFine().log("Query options: " + opts);
         Predicate<T> pred = rewriter.rewrite(q, opts);
         if (enforceVisibility) {

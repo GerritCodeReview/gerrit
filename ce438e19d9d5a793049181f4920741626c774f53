@@ -145,6 +145,24 @@
       "parentUuid": "e4e1ba02_62c4add5",
       "revId": "ce438e19d9d5a793049181f4920741626c774f53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dad82cec_95af4043",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1225,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-02T06:53:20Z",
+      "side": 1,
+      "message": "I agree that we should rather remove the new field and re-use `editing`.\n\nBut thinking about the UX a bit, maybe we should not use a checkbox for \"PREVIEW\". Essentially \"PREVIEW\" does the same as \"SAVE\", it just has a different name. So I would prefer to just show the normal (draft action) buttons on the right.\n\nSo `permanentEditingMode` would become more like `noCancelMode`: You would just hide the \"DISCARD\" and \"CANCEL\" buttons, and rename the \"SAVE\" button to \"PREVIEW\". Do you think that would work?",
+      "parentUuid": "0cc5f67d_fa311fa9",
+      "revId": "ce438e19d9d5a793049181f4920741626c774f53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

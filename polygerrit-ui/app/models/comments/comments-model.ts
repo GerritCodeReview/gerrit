@@ -36,13 +36,13 @@ import {CURRENT} from '../../utils/patch-set-util';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {ChangeModel} from '../change/change-model';
 import {Interaction, Timing} from '../../constants/reporting';
-import {assertIsDefined, unique} from '../../utils/common-util';
+import {assertIsDefined} from '../../utils/common-util';
 import {debounce, DelayedTask} from '../../utils/async-util';
 import {pluralize} from '../../utils/string-util';
 import {ReportingService} from '../../services/gr-reporting/gr-reporting';
 import {Model} from '../model';
 import {Deduping} from '../../api/reporting';
-import {extractMentionedUsers} from '../../utils/account-util';
+import {extractMentionedUsers, getUserId} from '../../utils/account-util';
 import {EventType} from '../../types/events';
 import {SpecialFilePath} from '../../constants/constants';
 
@@ -277,7 +277,10 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
     for (const comment of comments) {
       users.push(...extractMentionedUsers(comment.message));
     }
-    return users.filter(unique);
+    return users.filter(
+      (user, index) =>
+        index === users.findIndex(u => getUserId(u) === getUserId(user))
+    );
   });
 
   public readonly mentionedUsersInUnresolvedDrafts$ = select(
@@ -290,7 +293,10 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
       for (const comment of comments) {
         users.push(...extractMentionedUsers(comment.message));
       }
-      return users.filter(unique);
+      return users.filter(
+        (user, index) =>
+          index === users.findIndex(u => getUserId(u) === getUserId(user))
+      );
     }
   );
 

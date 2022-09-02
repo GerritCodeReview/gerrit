@@ -5,7 +5,11 @@
  */
 import '../../test/common-test-setup-karma';
 import {createDraft} from '../../test/test-data-generators';
-import {UrlEncodedCommentId} from '../../types/common';
+import {
+  AccountInfo,
+  EmailAddress,
+  UrlEncodedCommentId,
+} from '../../types/common';
 import './comments-model';
 import {CommentsModel} from './comments-model';
 import {deleteDraft} from './comments-model';
@@ -114,5 +118,27 @@ suite('change service tests', () => {
     assert.equal(comments['foo.c'][0].id, '12345');
     assert.equal(portedComments['foo.c'].length, 1);
     assert.equal(portedComments['foo.c'][0].id, '12345');
+  });
+
+  test('duplicate mentions are filtered out', async () => {
+    const model = new CommentsModel(
+      getAppContext().routerModel,
+      testResolver(changeModelToken),
+      getAppContext().restApiService,
+      getAppContext().reportingService
+    );
+    let mentionedUsers: AccountInfo[] = [];
+    const draft = {...createDraft(), message: 'hey @abc@def.com'};
+    model.mentionedUsersInDrafts$.subscribe(x => (mentionedUsers = x));
+    model.setState({
+      drafts: {
+        'abc.txt': [draft, draft],
+      },
+      discardedDrafts: [],
+    });
+
+    await waitUntil(() => mentionedUsers.length > 0);
+
+    assert.deepEqual(mentionedUsers, [{email: 'abc@def.com' as EmailAddress}]);
   });
 });

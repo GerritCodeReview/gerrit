@@ -127,6 +127,24 @@
       "parentUuid": "e3b6fbff_3f17b116",
       "revId": "ce438e19d9d5a793049181f4920741626c774f53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cc5f67d_fa311fa9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1225,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-02T06:32:02Z",
+      "side": 1,
+      "message": "I guess to make the code more readable.\n\n```\nid\u003d\"previewFormattingCheckbox\"\n?checked\u003d${!this.editing}\n```\n\nthis could work.\nI prefer to keep the extra variable but fine removing it as well.\n\n @brohlfs@google.com what do you think?",
+      "parentUuid": "e4e1ba02_62c4add5",
+      "revId": "ce438e19d9d5a793049181f4920741626c774f53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

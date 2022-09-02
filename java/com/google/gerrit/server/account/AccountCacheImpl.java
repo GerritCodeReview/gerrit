@@ -45,6 +45,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
@@ -103,6 +104,18 @@ public class AccountCacheImpl implements AccountCache {
   @Override
   public Optional<AccountState> get(Account.Id accountId) {
     return Optional.ofNullable(get(Collections.singleton(accountId)).getOrDefault(accountId, null));
+  }
+
+  @Override
+  public AccountState getFromMetaId(Account.Id id, ObjectId metaId) {
+    try {
+      CachedAccountDetails.Key key = CachedAccountDetails.Key.create(id, metaId);
+
+      CachedAccountDetails accountDetails = accountDetailsCache.get(key);
+      return AccountState.forCachedAccount(accountDetails, CachedPreferences.EMPTY, externalIds);
+    } catch (IOException | ExecutionException e) {
+      throw new StorageException(e);
+    }
   }
 
   @Override

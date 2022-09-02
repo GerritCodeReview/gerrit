@@ -704,13 +704,17 @@ export class GrReplyDialog extends LitElement {
     subscribe(
       this,
       () => this.getCommentsModel().mentionedUsersInUnresolvedDrafts$,
-      x => {
+      async x => {
         if (!this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) {
           return;
         }
-        this.mentionedUsersInUnresolvedDrafts = x.filter(
-          v => !this.isAlreadyReviewerOrCC(v)
-        );
+        this.mentionedUsersInUnresolvedDrafts = (
+          await Promise.all(
+            x
+              .filter(v => !this.isAlreadyReviewerOrCC(v))
+              .map(account => this.getAccountsModel().fillDetails(account))
+          )
+        ).filter(account => !!account) as AccountInfo[];
       }
     );
     subscribe(

@@ -97,19 +97,16 @@ public class AndSource<T> extends AndPredicate<T>
         () -> {
           List<T> r = new ArrayList<>();
           T last = null;
-          int nextStart = 0;
-          boolean skipped = false;
+          int pageResultSize = 0;
           for (T data : buffer(resultSet)) {
             if (!isMatchable() || match(data)) {
               r.add(data);
-            } else {
-              skipped = true;
             }
             last = data;
-            nextStart++;
+            pageResultSize++;
           }
 
-          if (skipped && last != null && source instanceof Paginated) {
+          if (last != null && source instanceof Paginated) {
             // If our source is a paginated source and we skipped at
             // least one of its results, we may not have filled the full
             // limit the caller wants.  Restart the source and continue.
@@ -119,21 +116,21 @@ public class AndSource<T> extends AndPredicate<T>
             final int limit = p.getOptions().limit();
             Object searchAfter = resultSet.searchAfter();
             int pageSize = limit;
-            while (skipped && r.size() < limit) {
-              skipped = false;
+            int nextStart = pageResultSize;
+            while (pageResultSize == pageSize && r.size() < limit) {
               pageSize = getNextPageSize(pageSize);
               ResultSet<T> next =
                   indexConfig.paginationType().equals(PaginationType.SEARCH_AFTER)
                       ? p.restart(searchAfter, pageSize)
                       : p.restart(nextStart, pageSize);
+              pageResultSize = 0;
               for (T data : buffer(next)) {
                 if (match(data)) {
                   r.add(data);
-                } else {
-                  skipped = true;
                 }
-                nextStart++;
+                pageResultSize++;
               }
+              nextStart += pageResultSize;
               searchAfter = next.searchAfter();
             }
           }

@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f0eaa81_52a5ee40",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-02T09:09:46Z",
+      "side": 1,
+      "message": "Maybe add the `\u003cdiv class\u003d\"rightActions\"\u003e` wrapper?",
+      "revId": "7ff15244d5ea3e6d24002ad5607a259915cea494",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f52241cf_3c43eade",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-02T09:09:46Z",
+      "side": 1,
+      "message": "I think it would be cleaner and more consistent, if you also render the edit button here: `${this.renderEditButton()}`.\n\nThe logic below will become simpler.",
+      "revId": "7ff15244d5ea3e6d24002ad5607a259915cea494",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07433461_9cba41e7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 749,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-02T09:09:46Z",
+      "side": 1,
+      "message": "Maybe render this autosaving dot also in `permanentEditingMode`? Then it might be worthwhile to consider that you just add\n```\nif (this.permanentEditingMode) return nothing;\n```\nlines to `renderDiscardButton` and `renderCancelButton` and then leave `renderDraftActions` completely unchanged?",
+      "range": {
+        "startLine": 749,
+        "startChar": 15,
+        "endLine": 749,
+        "endChar": 25
+      },
+      "revId": "7ff15244d5ea3e6d24002ad5607a259915cea494",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

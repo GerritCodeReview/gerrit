@@ -30,7 +30,7 @@ import {select} from '../../utils/observable-util';
 import {RouterModel} from '../../services/router/router-model';
 import {Finalizable} from '../../services/registry';
 import {define} from '../dependency';
-import {combineLatest, Subscription} from 'rxjs';
+import {combineLatest, forkJoin, from, Observable, Subscription} from 'rxjs';
 import {fire, fireAlert, fireEvent} from '../../utils/event-util';
 import {CURRENT} from '../../utils/patch-set-util';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
@@ -46,6 +46,13 @@ import {extractMentionedUsers, getUserId} from '../../utils/account-util';
 import {EventType} from '../../types/events';
 import {SpecialFilePath} from '../../constants/constants';
 import {AccountsModel} from '../accounts-model/accounts-model';
+import {
+  distinctUntilChanged,
+  map,
+  shareReplay,
+  switchMap,
+} from 'rxjs/operators';
+import {notUndefined} from '../../types/types';
 
 export interface CommentState {
   /** undefined means 'still loading' */
@@ -284,22 +291,28 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
     );
   });
 
-  public readonly mentionedUsersInUnresolvedDrafts$ = select(
-    this.drafts$,
-    drafts => {
-      const users: AccountInfo[] = [];
-      const comments = Object.values(drafts ?? {})
-        .flat()
-        .filter(c => c.unresolved);
-      for (const comment of comments) {
-        users.push(...extractMentionedUsers(comment.message));
-      }
-      return users.filter(
-        (user, index) =>
-          index === users.findIndex(u => getUserId(u) === getUserId(user))
-      );
-    }
-  );
+  public readonly mentionedUsersInUnresolvedDrafts$: Observable<AccountInfo[]> =
+    this.drafts$.pipe(
+      switchMap(drafts => {
+        const users: AccountInfo[] = [];
+        const comments = Object.values(drafts ?? {})
+          .flat()
+          .filter(c => c.unresolved);
+        for (const comment of comments) {
+          users.push(...extractMentionedUsers(comment.message));
+        }
+        const uniqueUsers = users.filter(
+          (user, index) =>
+            index === users.findIndex(u => getUserId(u) === getUserId(user))
+        );
+        const filledUsers$: Observable<AccountInfo | undefined>[] =
+          uniqueUsers.map(user => from(this.accountsModel.fillDetails(user)));
+        return forkJoin(filledUsers$);
+      }),
+      map(users => users.filter(notUndefined)),
+      distinctUntilChanged(deepEqual),
+      shareReplay(1)
+    );
 
   // Emits a new value even if only a single draft is changed. Components should
   // aim to subsribe to something more specific.

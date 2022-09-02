@@ -395,6 +395,8 @@ export class GrReplyDialog extends LitElement {
 
   private readonly getConfigModel = resolve(this, configModelToken);
 
+  private readonly accountsModel = getAppContext().accountsModel;
+
   private mentionedUsersInUnresolvedDrafts: AccountInfo[] = [];
 
   private latestPatchNum?: PatchSetNumber;
@@ -684,13 +686,17 @@ export class GrReplyDialog extends LitElement {
     subscribe(
       this,
       () => this.getCommentsModel().mentionedUsersInUnresolvedDrafts$,
-      x => {
+      async x => {
         if (!this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) {
           return;
         }
-        this.mentionedUsersInUnresolvedDrafts = x.filter(
-          v => !this.isAlreadyReviewerOrCC(v)
-        );
+        this.mentionedUsersInUnresolvedDrafts = (
+          await Promise.all(
+            x
+              .filter(v => !this.isAlreadyReviewerOrCC(v))
+              .map(account => this.accountsModel.fillDetails(account))
+          )
+        ).filter(account => !!account) as AccountInfo[];
       }
     );
     subscribe(

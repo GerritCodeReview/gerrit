@@ -49,6 +49,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0b545956_b26c1f73",
+        "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-02T10:47:58Z",
+      "side": 1,
+      "message": "the mixed casing is weird here",
+      "range": {
+        "startLine": 134,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 66
+      },
+      "revId": "573e7daea246067210b2cc55e06b53d2d378720e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4ca89264_905d61af",
         "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
         "patchSetId": 3
@@ -65,6 +88,29 @@
         "startChar": 12,
         "endLine": 153,
         "endChar": 26
+      },
+      "revId": "573e7daea246067210b2cc55e06b53d2d378720e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aeb5391a_87d0a95b",
+        "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-02T10:47:58Z",
+      "side": 1,
+      "message": "```suggestion\n  if (a \u003d\u003d\u003d b) return 0;\n  if (a \u003d\u003d\u003d undefined) return -1;\n  if (b \u003d\u003d\u003d undefined) return 1;\n  if (a \u003d\u003d\u003d LATEST_ATTEMPT) return -1;\n  if (b \u003d\u003d\u003d LATEST_ATTEMPT) return 1;\n  if (a \u003d\u003d\u003d ALL_ATTEMPTS) return -1;\n  if (b \u003d\u003d\u003d ALL_ATTEMPTS) return 1;\n  return Number(a) - Number(b);\n}\n```",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 166,
+        "endChar": 0
       },
       "revId": "573e7daea246067210b2cc55e06b53d2d378720e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

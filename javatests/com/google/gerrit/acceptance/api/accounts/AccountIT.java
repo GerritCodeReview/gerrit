@@ -3002,6 +3002,24 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(gApi.accounts().id("secondary").get()._accountId).isEqualTo(foo.id().get());
   }
 
+  @Test
+  public void getAccountFromMetaId() throws RestApiException {
+    AccountState preUpdateState = accountCache.get(admin.id()).get();
+    requestScopeOperations.setApiUser(admin.id());
+    gApi.accounts().self().setStatus("New status");
+
+    AccountState postUpdateStatus = accountCache.get(admin.id()).get();
+    assertThat(postUpdateStatus).isNotEqualTo(preUpdateState);
+    assertThat(
+            accountCache.getFromMetaId(
+                admin.id(), ObjectId.fromString(preUpdateState.account().metaId())))
+        .isEqualTo(preUpdateState);
+    assertThat(
+            accountCache.getFromMetaId(
+                admin.id(), ObjectId.fromString(postUpdateStatus.account().metaId())))
+        .isEqualTo(postUpdateStatus);
+  }
+
   private void createDraft(PushOneCommit.Result r, String path, String message) throws Exception {
     DraftInput in = new DraftInput();
     in.path = path;

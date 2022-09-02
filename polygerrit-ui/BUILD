@@ -1,6 +1,7 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_binary")
 load("//tools/bzl:genrule2.bzl", "genrule2")
 load("//tools/bzl:js.bzl", "karma_test")
+load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_test")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -52,4 +53,26 @@ karma_test(
     name = "karma_test",
     srcs = ["karma_test.sh"],
     data = ["//polygerrit-ui/app:test-srcs-fg"],
+)
+
+filegroup(
+    name = "web-test-runner_config",
+    srcs = ["web-test-runner.config.mjs"]
+)
+
+# This appears straightforward but hangs forever. My hypothesis is that it is
+# somehow stuck looking for test files in an enormous directory by accident, 
+nodejs_test(
+    name = "web-test-runner",
+    entry_point = "@ui_dev_npm//:node_modules/@web/test-runner/dist/bin.js",
+    chdir = "polygerrit-ui",
+    # This arg is not needed since the binary automatically looks for a config
+    # with this name, but mangling the name below will produce an error that the
+    # config is not found which indicates that it is indeed loading our config.
+    # templated_args = ["--config web-test-runner.config.mjs"],
+    data = [
+        "@ui_dev_npm//@web/test-runner",
+        ":web-test-runner_config",
+        "//polygerrit-ui/app:web-test-runner_sources",
+    ],
 )

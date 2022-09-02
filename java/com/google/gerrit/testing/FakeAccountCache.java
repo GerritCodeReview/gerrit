@@ -20,10 +20,13 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.util.time.TimeUtil;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import org.eclipse.jgit.lib.ObjectId;
 
 /** Fake implementation of {@link AccountCache} for testing. */
 public class FakeAccountCache implements AccountCache {
@@ -58,6 +61,12 @@ public class FakeAccountCache implements AccountCache {
   @Override
   public synchronized Optional<AccountState> getByUsername(String username) {
     throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public AccountState getAccountStateFromMetaId(Account.Id accountId, ObjectId metaId)
+      throws ExecutionException, IOException {
+    return get(accountId).get();
   }
 
   public synchronized void put(Account account) {

@@ -14,10 +14,15 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.common.UsedAt;
+import com.google.gerrit.common.UsedAt.Project;
 import com.google.gerrit.entities.Account;
+import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import org.eclipse.jgit.lib.ObjectId;
 
 /** Caches important (but small) account state to avoid database hits. */
 public interface AccountCache {
@@ -72,4 +77,19 @@ public interface AccountCache {
    *     exists or if loading the external ID fails {@link Optional#empty()} is returned
    */
   Optional<AccountState> getByUsername(String username);
+
+  /**
+   * Returns an {@code AccountState} instance for the given account ID at the given {@code metaId}
+   * of {@link com.google.gerrit.entities.RefNames#refsUsers} ref.
+   *
+   * <p>Since sha1 {@code metaId} must be provided, the account must be already present in cache.
+   * The method does not populate {@link AccountState#defaultPreferences}.
+   *
+   * @param accountId ID of the account that should be retrieved.
+   * @param metaId the sha1 of commit in {@link com.google.gerrit.entities.RefNames#refsUsers} ref.
+   * @return {@code AccountState} instance for the given account ID at specific sha1 {@code metaId}.
+   */
+  @UsedAt(Project.GOOGLE)
+  AccountState getAccountStateFromMetaId(Account.Id accountId, ObjectId metaId)
+      throws ExecutionException, IOException;
 }

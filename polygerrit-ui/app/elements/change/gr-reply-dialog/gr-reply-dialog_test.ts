@@ -50,6 +50,7 @@ import {
   ReviewResult,
   RevisionPatchSetNum,
   Suggestion,
+  Timestamp,
   UrlEncodedCommentId,
   UserId,
 } from '../../../types/common';
@@ -2583,6 +2584,12 @@ suite('gr-reply-dialog tests', () => {
     });
 
     test('mentioned user in unresolved draft is added to CC and AttentionSet', async () => {
+      stubRestApi('getAccountDetails').returns(
+        Promise.resolve({
+          ...createAccountWithEmail('abcd@def.com' as EmailAddress),
+          registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
+        })
+      );
       const draft = {
         ...createDraft(),
         message: 'hey @abcd@def.com take a look at this',
@@ -2599,7 +2606,9 @@ suite('gr-reply-dialog tests', () => {
         discardedDrafts: [],
       });
       element.draftCommentThreads = [createCommentThread([draft])];
-      await waitUntil(() => element.mentionedUsers.length > 0);
+      await waitUntil(
+        () => element.mentionedUsersInUnresolvedDrafts.length > 0
+      );
 
       await element.updateComplete;
 
@@ -2622,6 +2631,12 @@ suite('gr-reply-dialog tests', () => {
     });
 
     test('mention user can be manually removed from attention set', async () => {
+      stubRestApi('getAccountDetails').returns(
+        Promise.resolve({
+          ...createAccountWithEmail('abcd@def.com' as EmailAddress),
+          registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
+        })
+      );
       const draft = {
         ...createDraft(),
         message: 'hey @abcd@def.com take a look at this',

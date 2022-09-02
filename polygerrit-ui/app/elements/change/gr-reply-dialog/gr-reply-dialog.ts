@@ -405,7 +405,7 @@ export class GrReplyDialog extends LitElement {
 
   private readonly accountsModel = getAppContext().accountsModel;
 
-  private mentionedUsersInUnresolvedDrafts: AccountInfo[] = [];
+  mentionedUsersInUnresolvedDrafts: AccountInfo[] = [];
 
   private latestPatchNum?: PatchSetNumber;
 
@@ -711,6 +711,7 @@ export class GrReplyDialog extends LitElement {
         this.mentionedUsersInUnresolvedDrafts = x.filter(
           v => !this.isAlreadyReviewerOrCC(v)
         );
+        this.computeNewAttention();
       }
     );
     subscribe(

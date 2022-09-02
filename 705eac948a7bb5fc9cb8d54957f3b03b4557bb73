@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b5af6c9_a51c7aac",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 1071,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-02T20:16:11Z",
+      "side": 1,
+      "message": "The \u0027Save\u0027 button is not rendered when `this.editing \u003d\u003d\u003d false`, so it will never have the label `Edit`. I would suggest to just inline the `getSaveButtonLabel` method.",
+      "range": {
+        "startLine": 1071,
+        "startChar": 11,
+        "endLine": 1071,
+        "endChar": 24
+      },
+      "revId": "705eac948a7bb5fc9cb8d54957f3b03b4557bb73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

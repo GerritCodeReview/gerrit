@@ -127,6 +127,7 @@ import {
   CommentEditingChangedDetail,
   GrComment,
 } from '../../shared/gr-comment/gr-comment';
+import {accountsModelToken} from '../../../models/accounts-model/accounts-model';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -394,6 +395,8 @@ export class GrReplyDialog extends LitElement {
   private readonly flagsService = getAppContext().flagsService;
 
   private readonly getConfigModel = resolve(this, configModelToken);
+
+  private readonly getAccountsModel = resolve(this, accountsModelToken);
 
   private mentionedUsersInUnresolvedDrafts: AccountInfo[] = [];
 
@@ -684,13 +687,17 @@ export class GrReplyDialog extends LitElement {
     subscribe(
       this,
       () => this.getCommentsModel().mentionedUsersInUnresolvedDrafts$,
-      x => {
+      async x => {
         if (!this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) {
           return;
         }
-        this.mentionedUsersInUnresolvedDrafts = x.filter(
-          v => !this.isAlreadyReviewerOrCC(v)
-        );
+        this.mentionedUsersInUnresolvedDrafts = (
+          await Promise.all(
+            x
+              .filter(v => !this.isAlreadyReviewerOrCC(v))
+              .map(account => this.getAccountsModel().fillDetails(account))
+          )
+        ).filter(account => !!account) as AccountInfo[];
       }
     );
     subscribe(

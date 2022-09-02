@@ -26,6 +26,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3a8f33a5_9d667def",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-02T10:58:48Z",
+      "side": 1,
+      "message": "The code of this change is generally untested",
+      "revId": "573e7daea246067210b2cc55e06b53d2d378720e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "aa7e6ff1_292bf7ce",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
         "patchSetId": 3
@@ -41,6 +58,29 @@
         "startLine": 1471,
         "startChar": 27,
         "endLine": 1471,
+        "endChar": 54
+      },
+      "revId": "573e7daea246067210b2cc55e06b53d2d378720e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e85b5ae7_63411114",
+        "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-02T10:58:48Z",
+      "side": 1,
+      "message": "It\u0027s odd for util.ts to import all the short functions and types from model.ts. Consider moving them over to reverse the dependency, at least the functions",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 111,
         "endChar": 54
       },
       "revId": "573e7daea246067210b2cc55e06b53d2d378720e",

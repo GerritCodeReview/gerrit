@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "de012c06_f4c3971d",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-02T16:59:01Z",
+      "side": 1,
+      "message": "Doing something like that ends up making two queries to index for `gerrit query \u0027status:open\u0027 --start 1000`. For such a query, `limit`\u003d1500 and `start`\u003d1000.",
+      "parentUuid": "b25e096e_615a0dbc",
+      "range": {
+        "startLine": 123,
+        "startChar": 17,
+        "endLine": 123,
+        "endChar": 26
+      },
+      "revId": "9c9833e53ee9d86abdafca5ed7dd1db5e327c2a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3b095229_42029857",
         "filename": "java/com/google/gerrit/index/query/AndSource.java",
         "patchSetId": 5

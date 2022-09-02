@@ -745,7 +745,6 @@ export class GrComment extends LitElement {
 
   private renderDraftActions() {
     if (!isDraftOrUnsaved(this.comment)) return;
-    if (this.permanentEditingMode) return;
     return html`
       <div class="rightActions">
         ${this.autoSaving ? html`.&nbsp;&nbsp;` : ''}
@@ -793,7 +792,7 @@ export class GrComment extends LitElement {
   }
 
   private renderDiscardButton() {
-    if (this.editing) return;
+    if (this.editing || this.permanentEditingMode) return;
     return html`<gr-button
       link
       ?disabled=${this.saving}
@@ -815,7 +814,7 @@ export class GrComment extends LitElement {
   }
 
   private renderCancelButton() {
-    if (!this.editing) return;
+    if (!this.editing || this.permanentEditingMode) return;
     return html`
       <gr-button
         link
@@ -834,8 +833,8 @@ export class GrComment extends LitElement {
         link
         ?disabled=${this.isSaveDisabled()}
         class="action save"
-        @click=${this.save}
-        >Save</gr-button
+        @click=${this.handleSaveButtonClicked}
+        >${this.getSaveButtonLabel()}</gr-button
       >
     `;
   }
@@ -1065,6 +1064,16 @@ export class GrComment extends LitElement {
       number: this.comment.line || FILE,
       side: this.comment?.side,
     });
+  }
+
+  private getSaveButtonLabel() {
+    if (!this.permanentEditingMode) return 'Save';
+    return this.editing ? 'Preview' : 'Edit';
+  }
+
+  private handleSaveButtonClicked() {
+    if (!this.permanentEditingMode) this.save();
+    else this.editing = !this.editing;
   }
 
   private handlePleaseFix() {

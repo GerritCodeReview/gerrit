@@ -35,6 +35,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "471891e8_f99c076c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-02T09:21:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f52241cf_3c43eade",
+      "revId": "7ff15244d5ea3e6d24002ad5607a259915cea494",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4d9b0b1_895cdb23",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-02T09:21:12Z",
+      "side": 1,
+      "message": "Obsolete since `renderDraftActions` is untouched.",
+      "parentUuid": "7f0eaa81_52a5ee40",
+      "revId": "7ff15244d5ea3e6d24002ad5607a259915cea494",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "07433461_9cba41e7",
@@ -48,6 +84,30 @@
       "writtenOn": "2022-09-02T09:09:46Z",
       "side": 1,
       "message": "Maybe render this autosaving dot also in `permanentEditingMode`? Then it might be worthwhile to consider that you just add\n```\nif (this.permanentEditingMode) return nothing;\n```\nlines to `renderDiscardButton` and `renderCancelButton` and then leave `renderDraftActions` completely unchanged?",
+      "range": {
+        "startLine": 749,
+        "startChar": 15,
+        "endLine": 749,
+        "endChar": 25
+      },
+      "revId": "7ff15244d5ea3e6d24002ad5607a259915cea494",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd95a37a_31269a6c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 749,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-02T09:21:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07433461_9cba41e7",
       "range": {
         "startLine": 749,
         "startChar": 15,

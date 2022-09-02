@@ -286,7 +286,7 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
 
   public readonly mentionedUsersInUnresolvedDrafts$ = select(
     this.drafts$,
-    drafts => {
+    async drafts => {
       const users: AccountInfo[] = [];
       const comments = Object.values(drafts ?? {})
         .flat()
@@ -294,9 +294,12 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
       for (const comment of comments) {
         users.push(...extractMentionedUsers(comment.message));
       }
-      return users.filter(
+      const uniqueUsers = users.filter(
         (user, index) =>
           index === users.findIndex(u => getUserId(u) === getUserId(user))
+      );
+      return await Promise.all(
+        uniqueUsers.map(user => this.accountsModel.fillDetails(user))
       );
     }
   );

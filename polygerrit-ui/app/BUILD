@@ -209,3 +209,14 @@ nodejs_test(
         "--rules.no-unknown-attribute error",
     ],
 )
+
+filegroup(
+    name = "web-test-runner_app-sources",
+    srcs = glob([
+        "**/*.ts",
+        "**/*.js",
+        "**/*.json",
+        "**/*.lock",
+        "node_modules/**/*"
+    ]),
+)

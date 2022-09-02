@@ -4,7 +4,8 @@
   "browser": true,
   "dependencies": {
     "@types/mocha": "^9.1.1",
-    "@types/sinon": "^10.0.0"
+    "@types/sinon": "^10.0.0",
+    "@web/dev-server-esbuild": "^0.3.2"
   },
   "devDependencies": {
     "@open-wc/karma-esm": "^3.0.9",

@@ -134,6 +134,41 @@ suite('gr-textarea tests', () => {
       assert.equal(element.specialCharIndex, 0);
     });
 
+    test('mention selector opens when previous char is \n', async () => {
+      stubRestApi('getSuggestedAccounts').returns(
+        Promise.resolve([
+          createAccountWithEmail('abc@google.com'),
+          createAccountWithEmail('abcdef@google.com'),
+        ])
+      );
+      element.textarea!.focus();
+      await waitUntil(() => element.textarea!.focused === true);
+
+      element.textarea!.selectionStart = 1;
+      element.textarea!.selectionEnd = 1;
+      element.text = '\n@';
+
+      await waitUntil(() => element.suggestions.length > 0);
+      await element.updateComplete;
+
+      assert.isTrue(element.emojiSuggestions!.isHidden);
+      assert.isFalse(element.mentionsSuggestions!.isHidden);
+    });
+
+    test('emoji selector does not open when previous char is \n', async () => {
+      element.textarea!.focus();
+      await waitUntil(() => element.textarea!.focused === true);
+
+      element.textarea!.selectionStart = 1;
+      element.textarea!.selectionEnd = 1;
+      element.text = '\n:';
+
+      await element.updateComplete;
+
+      assert.isTrue(element.emojiSuggestions!.isHidden);
+      assert.isTrue(element.mentionsSuggestions!.isHidden);
+    });
+
     test('selecting mentions from dropdown', async () => {
       stubRestApi('getSuggestedAccounts').returns(
         Promise.resolve([

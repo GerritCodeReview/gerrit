@@ -470,10 +470,18 @@ export class GrTextarea extends LitElement {
 
   // When special char is detected, set index. We are interested only on
   // special char after space or in beginning of textarea
+  // In case of mentions we are interested if previous char is '\n' as well
   private getSpecialCharIndex(text: string) {
+    const charAtCursor = text[this.textarea!.selectionStart - 1];
     if (
       this.textarea!.selectionStart < 2 ||
       text[this.textarea!.selectionStart - 2] === ' '
+    ) {
+      return this.textarea!.selectionStart - 1;
+    }
+    if (
+      charAtCursor === '@' &&
+      text[this.textarea!.selectionStart - 2] === '\n'
     ) {
       return this.textarea!.selectionStart - 1;
     }

@@ -60,6 +60,7 @@ import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 /**
  * Creates and updates accounts.
@@ -509,23 +510,31 @@ public class AccountsUpdate {
         updatedAccounts.size() == 1
             ? Iterables.getOnlyElement(updatedAccounts).message
             : "Batch update for " + updatedAccounts.size() + " accounts";
+    ObjectId oldExternalIdsRevision = externalIdNotes.getRevision();
+    // These update the same ref, so they need to be stacked on top of one another using the same
+    // ExternalIdNotes instance.
+    RevCommit revCommit =
+        commitExternalIdUpdates(externalIdUpdateMessage, allUsersRepo, batchRefUpdate);
+    boolean externalIdsUpdated = !Objects.equals(revCommit.getId(), oldExternalIdsRevision);
     for (UpdatedAccount updatedAccount : updatedAccounts) {
+
       // These updates are all for different refs (because batches never update the same account
       // more than once), so there can be multiple commits in the same batch, all with the same base
       // revision in their AccountConfig.
+      // We allow empty commits:
+      // 1) When creating a new account, so that the user branch gets created with an empty commit
+      // when no account properties are set and hence no
+      // 'account.config' file will be created.
+      // 2) When updating "refs/meta/external-ids", so that refs/users/* meta ref is updated too.
+      // This allows to schedule reindexing of account transactionally  on refs/users/* meta
+      // updates.
+      boolean allowEmptyCommit = externalIdsUpdated || updatedAccount.created;
       commitAccountConfig(
           updatedAccount.message,
           allUsersRepo,
           batchRefUpdate,
           updatedAccount.accountConfig,
-          updatedAccount.created /* allowEmptyCommit */);
-      // When creating a new account we must allow empty commits so that the user branch gets
-      // created with an empty commit when no account properties are set and hence no
-      // 'account.config' file will be created.
-
-      // These update the same ref, so they need to be stacked on top of one another using the same
-      // ExternalIdNotes instance.
-      commitExternalIdUpdates(externalIdUpdateMessage, allUsersRepo, batchRefUpdate);
+          allowEmptyCommit);
     }
 
     RefUpdateUtil.executeChecked(batchRefUpdate, allUsersRepo);
@@ -558,10 +567,10 @@ public class AccountsUpdate {
     }
   }
 
-  private void commitExternalIdUpdates(
+  private RevCommit commitExternalIdUpdates(
       String message, Repository allUsersRepo, BatchRefUpdate batchRefUpdate) throws IOException {
     try (MetaDataUpdate md = createMetaDataUpdate(message, allUsersRepo, batchRefUpdate)) {
-      externalIdNotes.commit(md);
+      return externalIdNotes.commit(md);
     }
   }
 

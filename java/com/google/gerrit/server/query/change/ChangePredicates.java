@@ -81,11 +81,7 @@ public class ChangePredicates {
    * Returns a predicate that matches changes where the provided {@link
    * com.google.gerrit.entities.Account.Id} has a pending draft comment.
    */
-  public static Predicate<ChangeData> draftBy(
-      boolean computeFromAllUsersRepository, CommentsUtil commentsUtil, Account.Id id) {
-    if (!computeFromAllUsersRepository) {
-      return new ChangeIndexPredicate(ChangeField.DRAFTBY, id.toString());
-    }
+  public static Predicate<ChangeData> draftBy(CommentsUtil commentsUtil, Account.Id id) {
     Set<Predicate<ChangeData>> changeIdPredicates =
         commentsUtil.getChangesWithDrafts(id).stream()
             .map(ChangePredicates::idStr)
@@ -100,13 +96,7 @@ public class ChangePredicates {
    * com.google.gerrit.entities.Account.Id} has starred changes with {@code label}.
    */
   public static Predicate<ChangeData> starBy(
-      boolean computeFromAllUsersRepository,
-      StarredChangesUtil starredChangesUtil,
-      Account.Id id,
-      String label) {
-    if (!computeFromAllUsersRepository) {
-      return new StarPredicate(id, label);
-    }
+      StarredChangesUtil starredChangesUtil, Account.Id id, String label) {
     Set<Predicate<ChangeData>> starredChanges =
         starredChangesUtil.byAccountId(id, label).stream()
             .map(ChangePredicates::idStr)

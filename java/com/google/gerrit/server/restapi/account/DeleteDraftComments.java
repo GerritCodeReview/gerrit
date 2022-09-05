@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.account;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
-import static com.google.gerrit.server.experiments.ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_COMPUTE_FROM_ALL_USERS_REPOSITORY;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
@@ -40,7 +39,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.change.ChangeJson;
-import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangePredicates;
@@ -77,7 +75,6 @@ public class DeleteDraftComments
   private final Provider<CommentJson> commentJsonProvider;
   private final CommentsUtil commentsUtil;
   private final PatchSetUtil psUtil;
-  private final ExperimentFeatures experimentFeatures;
 
   @Inject
   DeleteDraftComments(
@@ -89,8 +86,7 @@ public class DeleteDraftComments
       ChangeJson.Factory changeJsonFactory,
       Provider<CommentJson> commentJsonProvider,
       CommentsUtil commentsUtil,
-      PatchSetUtil psUtil,
-      ExperimentFeatures experimentFeatures) {
+      PatchSetUtil psUtil) {
     this.userProvider = userProvider;
     this.batchUpdateFactory = batchUpdateFactory;
     this.queryBuilder = queryBuilder;
@@ -100,7 +96,6 @@ public class DeleteDraftComments
     this.commentJsonProvider = commentJsonProvider;
     this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
-    this.experimentFeatures = experimentFeatures;
   }
 
   @Override
@@ -151,12 +146,7 @@ public class DeleteDraftComments
 
   private Predicate<ChangeData> predicate(Account.Id accountId, DeleteDraftCommentsInput input)
       throws BadRequestException {
-    Predicate<ChangeData> hasDraft =
-        ChangePredicates.draftBy(
-            experimentFeatures.isFeatureEnabled(
-                GERRIT_BACKEND_REQUEST_FEATURE_COMPUTE_FROM_ALL_USERS_REPOSITORY),
-            commentsUtil,
-            accountId);
+    Predicate<ChangeData> hasDraft = ChangePredicates.draftBy(commentsUtil, accountId);
     if (CharMatcher.whitespace().trimFrom(Strings.nullToEmpty(input.query)).isEmpty()) {
       return hasDraft;
     }

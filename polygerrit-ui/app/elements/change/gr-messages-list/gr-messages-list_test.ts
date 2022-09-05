@@ -343,6 +343,19 @@ suite('gr-messages-list tests', () => {
       assert.equal(TEST_ONLY.computeTag(m), MessageTag.TAG_NEW_PATCHSET);
     });
 
+    test('updateTag for outdated votes', () => {
+      const m = randomMessage();
+      m.tag = MessageTag.TAG_NEW_PATCHSET as ReviewInputTag;
+      m.message = '\nUploaded patch set 35.\n\nOutdated Votes:\n';
+      assert.equal(
+        TEST_ONLY.computeTag(m),
+        MessageTag.TAG_NEW_PATCHSET_OUTDATED_VOTES
+      );
+
+      m.tag = MessageTag.TAG_NEW_WIP_PATCHSET as ReviewInputTag;
+      assert.equal(TEST_ONLY.computeTag(m), MessageTag.TAG_NEW_PATCHSET);
+    });
+
     test('updateTag remove postfix', () => {
       const m = randomMessage();
       m.tag = 'something~withpostfix' as ReviewInputTag;
@@ -500,35 +513,6 @@ suite('gr-messages-list tests', () => {
       const messageEls = getMessages();
       assert.equal(messageEls.length, 1);
       assert.equal(messageEls[0].message!.message, messages[0].message);
-    });
-  });
-
-  suite('gr-messages-list marks outdated votes as important', () => {
-    setup(async () => {
-      stubRestApi('getLoggedIn').returns(Promise.resolve(false));
-      stubRestApi('getDiffComments').returns(Promise.resolve({}));
-      stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
-      stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
-
-      messages = [
-        randomMessage({
-          ...randomMessage(),
-          tag: MessageTag.TAG_NEW_PATCHSET as ReviewInputTag,
-          message:
-            '\nUploaded patch set 35.\n\nInitial upload\n\nOutdated Votes:\n',
-        }),
-      ];
-
-      element = await fixture<GrMessagesList>(
-        html`<gr-messages-list></gr-messages-list>`
-      );
-      element.messages = messages;
-      await element.updateComplete;
-    });
-
-    test('outdated votes message is shown.', () => {
-      const displayedMsgs = queryAll<GrMessage>(element, 'gr-message');
-      assert.equal(displayedMsgs.length, 1);
     });
   });
 

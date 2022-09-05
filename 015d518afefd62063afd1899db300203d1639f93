@@ -540,6 +540,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e8f8077c_ff4632ab",
+        "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-05T14:27:16Z",
+      "side": 1,
+      "message": "Isn\u0027t it too much on gr-copy-clipboard? I want just button and I want to style input and keyboards. \n\nBut maybe it should be consistent with download dialog. Then maybe design should be different then what delphine specified or this change will change UI of download dialog.",
+      "parentUuid": "ee9ad7f6_0e2fef80",
+      "range": {
+        "startLine": 102,
+        "startChar": 25,
+        "endLine": 102,
+        "endChar": 34
+      },
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fe3bf182_3f69bbc4",
         "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links.ts",
         "patchSetId": 6

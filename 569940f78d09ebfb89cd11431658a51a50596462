@@ -91,6 +91,29 @@
       },
       "revId": "569940f78d09ebfb89cd11431658a51a50596462",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41a5ebe9_959b5d48",
+        "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-05T13:30:30Z",
+      "side": 1,
+      "message": "Consider using RegExp type instead of a string with a var name suffix, same elsewhere. Only the edge of the system needs to do the string -\u003e RegExp conversion from the URL parameter, then the rest of the system does not need to name the string so delicately to avoid confusion.",
+      "range": {
+        "startLine": 153,
+        "startChar": 2,
+        "endLine": 153,
+        "endChar": 25
+      },
+      "revId": "569940f78d09ebfb89cd11431658a51a50596462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

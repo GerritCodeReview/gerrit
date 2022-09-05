@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cadff910_9ae9b80b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-09-05T20:29:52Z",
+      "side": 1,
+      "message": "LGTM but we need to resolve the checks and address comments",
+      "revId": "f68e15e730aa08d659dbfe0270aac5078bec2cac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

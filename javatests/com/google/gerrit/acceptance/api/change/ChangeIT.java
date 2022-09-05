@@ -4654,13 +4654,15 @@ public class ChangeIT extends AbstractDaemonTest {
       ChangeInfo change = info(triplet);
       assertThat(change.starred).isTrue();
       assertThat(change.stars).contains(DEFAULT_LABEL);
-      changeIndexedCounter.assertReindexOf(change);
+      // change was not re-indexed
+      changeIndexedCounter.assertReindexOf(change, 0);
 
       gApi.accounts().self().unstarChange(triplet);
       change = info(triplet);
       assertThat(change.starred).isNull();
       assertThat(change.stars).isNull();
-      changeIndexedCounter.assertReindexOf(change);
+      // change was not re-indexed
+      changeIndexedCounter.assertReindexOf(change, 0);
     }
   }
 

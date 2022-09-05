@@ -52,6 +52,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "08d13106_ad3fd31a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1290,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-05T14:12:56Z",
+      "side": 1,
+      "message": "I agree with experiment. Added.\n\nI agree with copy icon. Changed",
+      "parentUuid": "c7558b55_da1bfb6e",
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "832c78d8_aea71c24",
@@ -65,6 +83,30 @@
       "writtenOn": "2022-08-30T14:26:38Z",
       "side": 1,
       "message": "```suggestion\n    const url \u003d this.computeChangeUrl()\n    if (!url) return;\n    const changeURL \u003d prependOrigin(getBaseUrl() + url);\n```",
+      "range": {
+        "startLine": 1300,
+        "startChar": 4,
+        "endLine": 1303,
+        "endChar": 6
+      },
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8f78549_63fd263f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1303,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-05T14:12:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "832c78d8_aea71c24",
       "range": {
         "startLine": 1300,
         "startChar": 4,
@@ -100,6 +142,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1d7c0810_a392e976",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1319,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-05T14:12:56Z",
+      "side": 1,
+      "message": "I used current format. Are you suggesting one more type of copylink? What kind if shortcut are you proposing? Maybe something for discussion in broader team.",
+      "parentUuid": "9584f12e_b66fca81",
+      "range": {
+        "startLine": 1315,
+        "startChar": 6,
+        "endLine": 1319,
+        "endChar": 8
+      },
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1702ec2b_0feeae95",
         "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links.ts",
         "patchSetId": 6
@@ -111,6 +177,24 @@
       "writtenOn": "2022-08-30T14:26:38Z",
       "side": 1,
       "message": "Do you need font styles for anything?",
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25be53ed_d3f115a9",
+        "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-05T14:12:56Z",
+      "side": 1,
+      "message": "Sorry, left after copy paste. Thanks.",
+      "parentUuid": "1702ec2b_0feeae95",
       "revId": "015d518afefd62063afd1899db300203d1639f93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -134,6 +218,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1373858a_927a5a07",
+        "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-05T14:12:56Z",
+      "side": 1,
+      "message": "Actually sharedStyles have nice css for inputs. This would need to create inputStyles. Maybe I can do it as followup",
+      "parentUuid": "083587cc_f48f08e8",
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e118cad4_85a29eb7",
         "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links.ts",
         "patchSetId": 6
@@ -145,6 +247,24 @@
       "writtenOn": "2022-08-30T14:26:38Z",
       "side": 1,
       "message": "Maybe `width: min(90vw, 520px); `",
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3332340_27ad4f33",
+        "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-05T14:12:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e118cad4_85a29eb7",
       "revId": "015d518afefd62063afd1899db300203d1639f93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -166,6 +286,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3780a49b_ff466f75",
+        "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-05T14:12:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7318be0f_764a0d92",
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "24c5725d_87d7414b",
@@ -183,6 +321,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5bacadc_e84b8d13",
+        "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-05T14:12:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24c5725d_87d7414b",
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "64a6478f_6e77b5aa",
@@ -196,6 +352,30 @@
       "writtenOn": "2022-08-30T14:26:38Z",
       "side": 1,
       "message": "Does `auto` have a benefit over bottom-right?",
+      "range": {
+        "startLine": 78,
+        "startChar": 1,
+        "endLine": 79,
+        "endChar": 30
+      },
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87df8d40_c6841752",
+        "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-05T14:12:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64a6478f_6e77b5aa",
       "range": {
         "startLine": 78,
         "startChar": 1,
@@ -229,6 +409,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c88dd357_01b92bbe",
+        "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-05T14:12:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0423c6b3_40f7d2d5",
+      "range": {
+        "startLine": 81,
+        "startChar": 22,
+        "endLine": 81,
+        "endChar": 35
+      },
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d9a775b_2dbad739",
@@ -252,6 +456,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "882fd59e_2ab0ea04",
+        "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-05T14:12:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d9a775b_2dbad739",
+      "range": {
+        "startLine": 82,
+        "startChar": 28,
+        "endLine": 82,
+        "endChar": 39
+      },
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "328b17e6_873bae73",
@@ -265,6 +493,24 @@
       "writtenOn": "2022-08-30T14:26:38Z",
       "side": 1,
       "message": "Is there much value in doing this only when the dropdown is open? I think the performance penalty is minimal, but you are adding complexity that we have to maintain and migrate (new component lib).",
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d92575e3_60223b40",
+        "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-05T14:12:56Z",
+      "side": 1,
+      "message": "No, I was following change-list-hashtag-flow. But yes, I don\u0027t see much performance impact.",
+      "parentUuid": "328b17e6_873bae73",
       "revId": "015d518afefd62063afd1899db300203d1639f93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -334,6 +580,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3e0883da_ad3e6ba1",
+        "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-05T14:12:56Z",
+      "side": 1,
+      "message": "That\u0027s how it\u0027s done in other places. I will look why.",
+      "parentUuid": "8737ecb9_d6a90815",
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5d77474f_3395f3c3",
         "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links.ts",
         "patchSetId": 6
@@ -357,6 +621,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f0c14957_04f5c5c4",
+        "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-05T14:12:56Z",
+      "side": 1,
+      "message": "This didn\u0027t work in my test. But thanks, I will look for similar solution.",
+      "parentUuid": "5d77474f_3395f3c3",
+      "range": {
+        "startLine": 130,
+        "startChar": 2,
+        "endLine": 147,
+        "endChar": 3
+      },
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d84c08cc_2744c329",
         "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-config.ts",
         "patchSetId": 6
@@ -368,6 +656,24 @@
       "writtenOn": "2022-08-30T14:26:38Z",
       "side": 1,
       "message": "Maybe\n`Open \"copy link\" dialog`\nor\n`Open link dialog`",
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a34c944f_aad37329",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-config.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-05T14:12:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d84c08cc_2744c329",
       "revId": "015d518afefd62063afd1899db300203d1639f93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1128,11 +1128,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   private Predicate<ChangeData> draftBySelf() throws QueryParseException {
-    return ChangePredicates.draftBy(
-        args.experimentFeatures.isFeatureEnabled(
-            GERRIT_BACKEND_REQUEST_FEATURE_COMPUTE_FROM_ALL_USERS_REPOSITORY),
-        args.commentsUtil,
-        self());
+    return ChangePredicates.draftBy(true, args.commentsUtil, self());
   }
 
   @Operator

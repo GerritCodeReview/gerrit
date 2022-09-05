@@ -212,9 +212,13 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.eclipse.jgit.internal.storage.dfs.DfsGarbageCollector;
+import org.eclipse.jgit.internal.storage.dfs.DfsRepository;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.internal.storage.reftable.ReftableConfig;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
@@ -607,6 +611,48 @@ public class ChangeIT extends AbstractDaemonTest {
 
     ChangeInfo info = gApi.changes().id(r.getChangeId()).get();
     assertThat(info.workInProgress).isNull();
+  }
+
+  @Test
+  public void reftablePrefixScan() throws Exception {
+    System.err.println("CREATING ACCOUNTS");
+    for (int i = 0; i < 1000; i++) {
+      accountOperations
+          .newAccount()
+          .fullname("joe " + i)
+          .preferredEmail("joe" + i + "@google.com")
+          .active()
+          .create();
+    }
+    System.err.println("STARTING TEST");
+
+    PushOneCommit.Result r = createChange();
+
+    DraftInput in = new DraftInput();
+    in.line = 1;
+    in.message = "nit: trailing whitespace";
+    in.path = "/COMMIT_MSG";
+
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).createDraft(in);
+
+    System.err.println("COMPACT");
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      DfsGarbageCollector dgc = new DfsGarbageCollector((DfsRepository) repo);
+      ReftableConfig cfg = new ReftableConfig();
+      cfg.setRefBlockSize(512);
+      dgc.setReftableConfig(cfg);
+
+      assertThat(dgc.pack(NullProgressMonitor.INSTANCE)).isTrue();
+
+      // make sure our refdb sees the compaction result.
+      ((DfsRepository) repo).getRefDatabase().refresh();
+
+      System.err.println("DONE COMPACT");
+    }
+    System.err.println("QUERY");
+    List<ChangeInfo> infos = gApi.changes().query("has:draft").get();
+    assertThat(infos.size()).isEqualTo(1);
+    System.err.println("END OF TEST");
   }
 
   @Test

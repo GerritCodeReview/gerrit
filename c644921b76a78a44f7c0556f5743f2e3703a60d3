@@ -22,6 +22,30 @@
       },
       "revId": "c644921b76a78a44f7c0556f5743f2e3703a60d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37aaf894_a4bf5b86",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-05T08:54:18Z",
+      "side": 1,
+      "message": "This is the default behavior for all tags already implemented in `computeIsImportant()`.",
+      "parentUuid": "b40a4532_08c06c42",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 65
+      },
+      "revId": "c644921b76a78a44f7c0556f5743f2e3703a60d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

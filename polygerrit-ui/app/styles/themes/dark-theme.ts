@@ -101,7 +101,7 @@ const darkThemeCss = safeStyleSheet`
     --primary-text-color: var(--gray-200);
     --link-color: var(--gerrit-blue-dark);
     --comment-text-color: var(--primary-text-color);
-    --deemphasized-text-color: var(--gray-500);
+    --deemphasized-text-color: var(--gray-400);
     --default-button-text-color: var(--gerrit-blue-dark);
     --chip-selected-text-color: var(--blue-100);
     --error-text-color: var(--red-200);

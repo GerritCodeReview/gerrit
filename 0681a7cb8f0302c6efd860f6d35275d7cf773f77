@@ -87,6 +87,24 @@
       "message": "Hi,\nShould I put anyone else as reviewer/maintainer?\nThanks,",
       "revId": "0681a7cb8f0302c6efd860f6d35275d7cf773f77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd806831_f565c767",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-09-05T06:52:03Z",
+      "side": 1,
+      "message": "Sorry for the late response. for `apply(AccountResource.SshKey rsrc, Input input)` you could checkout  https://gerrit.googlesource.com/gerrit/+/refs/heads/master/javatests/com/google/gerrit/acceptance/rest/account/EmailIT.java\nThese tests do similar things. This will implicitly also test `apply(IdentifiedUser user, AccountSshKey sshKey)`, but you could also mock the injected components and then call the constructor to create DeleteSshKey and call the method as you would from a plugin to test it further. Gerrit uses Mockito for mocking [1].\n\n[1] https://site.mockito.org/",
+      "parentUuid": "860e4922_b6bf591d",
+      "revId": "0681a7cb8f0302c6efd860f6d35275d7cf773f77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

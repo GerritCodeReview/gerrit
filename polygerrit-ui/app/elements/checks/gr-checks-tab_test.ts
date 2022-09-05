@@ -11,7 +11,6 @@ import {fixture, assert} from '@open-wc/testing';
 import {checksModelToken} from '../../models/checks/checks-model';
 import {setAllFakeRuns} from '../../models/checks/checks-fakes';
 import {resolve} from '../../models/dependency';
-import {Category} from '../../api/checks';
 
 suite('gr-checks-tab test', () => {
   let element: GrChecksTab;
@@ -34,18 +33,5 @@ suite('gr-checks-tab test', () => {
         </div>
       `
     );
-  });
-
-  test('select from tab state', async () => {
-    element.tabState = {
-      checksTab: {
-        statusOrCategory: Category.ERROR,
-        filter: 'elim',
-        select: 'fake',
-        attempt: 3,
-      },
-    };
-    await element.updateComplete;
-    assert.equal(element.selectedRuns.length, 39);
   });
 });

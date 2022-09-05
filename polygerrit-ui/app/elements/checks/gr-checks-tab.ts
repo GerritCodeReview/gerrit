@@ -22,6 +22,7 @@ import {Deduping} from '../../api/reporting';
 import {Interaction} from '../../constants/reporting';
 import {resolve} from '../../models/dependency';
 import {GrChecksRuns} from './gr-checks-runs';
+import {LATEST_ATTEMPT} from '../../models/checks/checks-util';
 
 /**
  * The "Checks" tab on the Gerrit change page. Gets its data from plugins that
@@ -148,41 +149,17 @@ export class GrChecksTab extends LitElement {
 
   protected override updated(changedProperties: PropertyValues) {
     super.updated(changedProperties);
-    if (changedProperties.has('tabState')) this.applyTabState();
-    if (changedProperties.has('runs')) this.applyTabState();
+    if (changedProperties.has('tabState')) this.tabStateUpdated();
   }
 
-  /**
-   * Clearing the tabState means that from now on the user interaction counts,
-   * not the content of the URL (which is where tabState is populated from).
-   */
-  private clearTabState() {
-    this.tabState = {};
-  }
-
-  /**
-   * We want to keep applying the tabState to newly incoming check runs until
-   * the user explicitly interacts with the selection or the attempts, which
-   * will result in clearTabState() being called.
-   */
-  private applyTabState() {
+  private tabStateUpdated() {
     if (!this.tabState?.checksTab) return;
-    // Note that .filter is processed by <gr-checks-runs>.
-    const {select, filter, attempt} = this.tabState.checksTab;
-    const regexpSelect = new RegExp(select ?? '', 'i');
-    // We do not allow selection of runs that are invisible because of the
-    // filter.
-    const regexpFilter = new RegExp(filter ?? '', 'i');
-    const selectedRuns = this.runs.filter(
-      run =>
-        regexpSelect.test(run.checkName) && regexpFilter.test(run.checkName)
-    );
-    this.selectedRuns = selectedRuns.map(run => run.checkName);
-    if (attempt) this.getChecksModel().updateStateSetAttempt(attempt);
+    const {attempt, filter} = this.tabState.checksTab;
+    this.getChecksModel().updateStateSetAttempt(attempt ?? LATEST_ATTEMPT);
+    this.getChecksModel().updateStateSetRunFilter(filter ?? '');
   }
 
   handleRunSelected(e: RunSelectedEvent) {
-    this.clearTabState();
     this.reporting.reportInteraction(Interaction.CHECKS_RUN_SELECTED, {
       checkName: e.detail.checkName,
       reset: e.detail.reset,
@@ -197,7 +174,6 @@ export class GrChecksTab extends LitElement {
   }
 
   toggleSelected(checkName: string) {
-    this.clearTabState();
     if (this.selectedRuns.includes(checkName)) {
       this.selectedRuns = this.selectedRuns.filter(r => r !== checkName);
     } else {

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b475c63a_35cdff28",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-05T12:31:02Z",
+      "side": 1,
+      "message": "not sure I understand this.\nWhat do you mean changed by the user?\n\nExpecting users to type regex in the url is already surprising for me.",
+      "range": {
+        "startLine": 11,
+        "startChar": 2,
+        "endLine": 11,
+        "endChar": 31
+      },
+      "revId": "569940f78d09ebfb89cd11431658a51a50596462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "976df753_65e5436e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-05T12:31:02Z",
+      "side": 1,
+      "message": "this part seems unconnected from the user journey of them changing the regex?",
+      "range": {
+        "startLine": 12,
+        "startChar": 2,
+        "endLine": 12,
+        "endChar": 31
+      },
+      "revId": "569940f78d09ebfb89cd11431658a51a50596462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3260b4cb_70cc6e60",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-05T12:31:02Z",
+      "side": 1,
+      "message": "maybe move this into setup instead of first line of each test?",
+      "range": {
+        "startLine": 28,
+        "startChar": 4,
+        "endLine": 28,
+        "endChar": 33
+      },
+      "revId": "569940f78d09ebfb89cd11431658a51a50596462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6be890a_06dff38f",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-05T12:31:02Z",
+      "side": 1,
+      "message": "maybe assert something about this run?\nI have no idea what made this check run remain and other runs filter out.\n\nBased on a cursory glance at `setAllFakeRuns` I can\u0027t tell what\u0027s matching this regexp.",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 63
+      },
+      "revId": "569940f78d09ebfb89cd11431658a51a50596462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

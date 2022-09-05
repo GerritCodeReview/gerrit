@@ -834,7 +834,7 @@ export class GrComment extends LitElement {
         ?disabled=${this.isSaveDisabled()}
         class="action save"
         @click=${this.handleSaveButtonClicked}
-        >${this.getSaveButtonLabel()}</gr-button
+        >${this.permanentEditingMode ? 'Preview' : 'Save'}</gr-button
       >
     `;
   }
@@ -1064,11 +1064,6 @@ export class GrComment extends LitElement {
       number: this.comment.line || FILE,
       side: this.comment?.side,
     });
-  }
-
-  private getSaveButtonLabel() {
-    if (!this.permanentEditingMode) return 'Save';
-    return this.editing ? 'Preview' : 'Edit';
   }
 
   private handleSaveButtonClicked() {

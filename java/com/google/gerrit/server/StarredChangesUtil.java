@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server;
 
-import static com.google.gerrit.server.experiments.ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_COMPUTE_FROM_ALL_USERS_REPOSITORY;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
@@ -169,9 +168,7 @@ public class StarredChangesUtil {
   private final GitReferenceUpdated gitRefUpdated;
   private final AllUsersName allUsers;
   private final Provider<PersonIdent> serverIdent;
-  private final ChangeIndexer indexer;
   private final Provider<InternalChangeQuery> queryProvider;
-  private final ExperimentFeatures experimentFeatures;
 
   @Inject
   StarredChangesUtil(
@@ -179,16 +176,12 @@ public class StarredChangesUtil {
       GitReferenceUpdated gitRefUpdated,
       AllUsersName allUsers,
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
-      ChangeIndexer indexer,
-      Provider<InternalChangeQuery> queryProvider,
-      ExperimentFeatures experimentFeatures) {
+      Provider<InternalChangeQuery> queryProvider) {
     this.repoManager = repoManager;
     this.gitRefUpdated = gitRefUpdated;
     this.allUsers = allUsers;
     this.serverIdent = serverIdent;
-    this.indexer = indexer;
     this.queryProvider = queryProvider;
-    this.experimentFeatures = experimentFeatures;
   }
 
   public NavigableSet<String> getLabels(Account.Id accountId, Change.Id changeId) {
@@ -223,10 +216,6 @@ public class StarredChangesUtil {
         deleteRef(repo, refName, old.objectId());
       } else {
         updateLabels(repo, refName, old.objectId(), labels);
-      }
-      if (!experimentFeatures.isFeatureEnabled(
-          GERRIT_BACKEND_REQUEST_FEATURE_COMPUTE_FROM_ALL_USERS_REPOSITORY)) {
-        indexer.index(project, changeId);
       }
     } catch (IOException e) {
       throw new StorageException(

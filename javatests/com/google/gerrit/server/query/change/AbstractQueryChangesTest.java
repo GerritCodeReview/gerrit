@@ -115,7 +115,6 @@ import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.testing.TestGroupBackend;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -2522,21 +2521,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
-  public void byHasDraft_draftsComputedFromIndex() throws Exception {
-    byHasDraft();
-  }
-
-  @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value =
-          ExperimentFeaturesConstants
-              .GERRIT_BACKEND_REQUEST_FEATURE_COMPUTE_FROM_ALL_USERS_REPOSITORY)
-  public void byHasDraft_draftsComputedFromAllUsersRepository() throws Exception {
-    byHasDraft();
-  }
-
-  private void byHasDraft() throws Exception {
+  public void byHasDraft() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo));
     Change change2 = insert(repo, newChange(repo));
@@ -2606,20 +2591,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("has:draft");
   }
 
-  public void byHasDraftWithManyDrafts_draftsComputedFromIndex() throws Exception {
-    byHasDraftWithManyDrafts();
-  }
-
-  @GerritConfig(
-      name = "experiments.enabled",
-      value =
-          ExperimentFeaturesConstants
-              .GERRIT_BACKEND_REQUEST_FEATURE_COMPUTE_FROM_ALL_USERS_REPOSITORY)
-  public void byHasDraftWithManyDrafts_draftsComputedFromAllUsersRepository() throws Exception {
-    byHasDraftWithManyDrafts();
-  }
-
-  private void byHasDraftWithManyDrafts() throws Exception {
+  @Test
+  public void byHasDraftWithManyDrafts() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     Change[] changesWithDrafts = new Change[30];
 
@@ -2647,21 +2620,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
-  public void byStarredBy_starsComputedFromIndex() throws Exception {
-    byStarredBy();
-  }
-
-  @GerritConfig(
-      name = "experiments.enabled",
-      value =
-          ExperimentFeaturesConstants
-              .GERRIT_BACKEND_REQUEST_FEATURE_COMPUTE_FROM_ALL_USERS_REPOSITORY)
-  @Test
-  public void byStarredBy_starsComputedFromAllUsersRepository() throws Exception {
-    byStarredBy();
-  }
-
-  private void byStarredBy() throws Exception {
+  public void byStarredBy() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo));
     Change change2 = insert(repo, newChange(repo));
@@ -2680,21 +2639,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
-  public void byStar_starsComputedFromIndex() throws Exception {
-    byStar();
-  }
-
-  @GerritConfig(
-      name = "experiments.enabled",
-      value =
-          ExperimentFeaturesConstants
-              .GERRIT_BACKEND_REQUEST_FEATURE_COMPUTE_FROM_ALL_USERS_REPOSITORY)
-  @Test
-  public void byStar_starsComputedFromAllUsersRepository() throws Exception {
-    byStar();
-  }
-
-  private void byStar() throws Exception {
+  public void byStar() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChangeWithStatus(repo, Change.Status.MERGED));
 
@@ -2709,20 +2654,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("is:starred", change1);
   }
 
-  public void byStarWithManyStars_starsComputedFromIndex() throws Exception {
-    byStarWithManyStars();
-  }
-
-  @GerritConfig(
-      name = "experiments.enabled",
-      value =
-          ExperimentFeaturesConstants
-              .GERRIT_BACKEND_REQUEST_FEATURE_COMPUTE_FROM_ALL_USERS_REPOSITORY)
-  public void byStarWithManyStars_starsComputedFromAllUsersRepository() throws Exception {
-    byStarWithManyStars();
-  }
-
-  private void byStarWithManyStars() throws Exception {
+  @Test
+  public void byStarWithManyStars() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     Change[] changesWithDrafts = new Change[30];
     for (int i = 0; i < changesWithDrafts.length; i++) {

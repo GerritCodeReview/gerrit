@@ -17,7 +17,6 @@ package com.google.gerrit.server.query.change;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.entities.Change.CHANGE_ID_PATTERN;
 import static com.google.gerrit.server.account.AccountResolver.isSelf;
-import static com.google.gerrit.server.experiments.ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_COMPUTE_FROM_ALL_USERS_REPOSITORY;
 import static com.google.gerrit.server.query.change.ChangeData.asChanges;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
@@ -1120,19 +1119,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   private Predicate<ChangeData> starredBySelf() throws QueryParseException {
     return ChangePredicates.starBy(
-        args.experimentFeatures.isFeatureEnabled(
-            GERRIT_BACKEND_REQUEST_FEATURE_COMPUTE_FROM_ALL_USERS_REPOSITORY),
-        args.starredChangesUtil,
-        self(),
-        StarredChangesUtil.DEFAULT_LABEL);
+        args.starredChangesUtil, self(), StarredChangesUtil.DEFAULT_LABEL);
   }
 
   private Predicate<ChangeData> draftBySelf() throws QueryParseException {
-    return ChangePredicates.draftBy(
-        args.experimentFeatures.isFeatureEnabled(
-            GERRIT_BACKEND_REQUEST_FEATURE_COMPUTE_FROM_ALL_USERS_REPOSITORY),
-        args.commentsUtil,
-        self());
+    return ChangePredicates.draftBy(args.commentsUtil, self());
   }
 
   @Operator

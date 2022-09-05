@@ -408,12 +408,8 @@ export class GrChecksRuns extends LitElement {
   @query('#filterInput')
   filterInput?: HTMLInputElement;
 
-  /**
-   * We prefer `undefined` over a RegExp with '', because `.source` yields
-   * a strange '(?:)' for ''.
-   */
   @state()
-  filterRegExp?: RegExp;
+  filterRegExp = '';
 
   @property({attribute: false})
   runs: CheckRun[] = [];
@@ -465,6 +461,11 @@ export class GrChecksRuns extends LitElement {
       this,
       () => this.getChecksModel().checksSelectedAttemptNumber$,
       x => (this.selectedAttempt = x)
+    );
+    subscribe(
+      this,
+      () => this.getChecksModel().runFilterRegexp$,
+      x => (this.filterRegExp = x)
     );
     this.addEventListener('click', () => {
       if (this.collapsed) this.toggleCollapsed();
@@ -592,20 +593,7 @@ export class GrChecksRuns extends LitElement {
 
   protected override updated(changedProperties: PropertyValues) {
     super.updated(changedProperties);
-    // This update is done is response to setting this.filterRegExp below, but
-    // this.filterInput not yet being available at that point.
-    if (this.filterInput && !this.filterInput.value && this.filterRegExp) {
-      this.filterInput.value = this.filterRegExp.source;
-    }
     if (changedProperties.has('tabState') && this.tabState) {
-      // Note that tabState.select and tabState.attempt are processed by
-      // <gr-checks-tab>.
-      if (
-        this.tabState.filter &&
-        this.tabState.filter !== this.filterRegExp?.source
-      ) {
-        this.filterRegExp = new RegExp(this.tabState.filter, 'i');
-      }
       const {statusOrCategory} = this.tabState;
       if (
         statusOrCategory === RunStatus.RUNNING ||
@@ -633,6 +621,7 @@ export class GrChecksRuns extends LitElement {
         type="text"
         placeholder="Filter runs by regular expression"
         ?hidden=${!this.showFilter()}
+        .value=${this.filterRegExp}
         @input=${this.onInput}
       />
       ${this.renderSection(RunStatus.RUNNING)}
@@ -776,11 +765,8 @@ export class GrChecksRuns extends LitElement {
       {},
       {deduping: Deduping.EVENT_ONCE_PER_CHANGE}
     );
-    if (this.filterInput.value) {
-      this.filterRegExp = new RegExp(this.filterInput.value, 'i');
-    } else {
-      this.filterRegExp = undefined;
-    }
+    const value = this.filterInput.value;
+    this.getChecksModel().updateStateSetRunFilter(value ?? '');
   }
 
   toggle(
@@ -802,6 +788,7 @@ export class GrChecksRuns extends LitElement {
   }
 
   renderSection(status: RunStatus) {
+    const regExp = new RegExp(this.filterRegExp, 'i');
     const runs = this.runs
       .filter(r => r.isLatestAttempt)
       .filter(
@@ -809,7 +796,7 @@ export class GrChecksRuns extends LitElement {
           r.status === status ||
           (status === RunStatus.RUNNING && r.status === RunStatus.SCHEDULED)
       )
-      .filter(r => !this.filterRegExp || this.filterRegExp.test(r.checkName))
+      .filter(r => regExp.test(r.checkName))
       .sort(compareByWorstCategory);
     if (runs.length === 0) return;
     const expanded = this.isSectionExpanded.get(status) ?? true;

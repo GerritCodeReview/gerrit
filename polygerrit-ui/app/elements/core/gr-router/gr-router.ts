@@ -1470,8 +1470,6 @@ export class GrRouter {
     if (tab) params.tab = tab;
     const filter = ctx.queryMap.get('filter');
     if (filter) params.filter = filter;
-    const select = ctx.queryMap.get('select');
-    if (select) params.select = select;
     const attempt = stringToAttemptChoice(ctx.queryMap.get('attempt'));
     if (attempt && attempt !== LATEST_ATTEMPT) params.attempt = attempt;
 

@@ -1264,7 +1264,6 @@ suite('gr-router tests', () => {
             patchNum: 7 as RevisionPatchSetNum,
             attempt: 1,
             filter: 'fff',
-            select: 'sss',
             tab: 'checks',
           });
         });

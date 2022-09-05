@@ -123,6 +123,24 @@
       "parentUuid": "fd806831_f565c767",
       "revId": "0681a7cb8f0302c6efd860f6d35275d7cf773f77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75e05283_93974d88",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-09-05T11:27:28Z",
+      "side": 1,
+      "message": "I created a change adding a basic test here: https://gerrit-review.googlesource.com/c/gerrit/+/344794\n\nPlease rebase after my change got Verified +1 and of course feel free to extend with more tests.",
+      "parentUuid": "5722d6cb_33740b3e",
+      "revId": "0681a7cb8f0302c6efd860f6d35275d7cf773f77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -15,7 +15,6 @@ import {
   queryAndAssert,
   stubFlags,
   stubRestApi,
-  stubStorage,
 } from '../../../test/test-utils';
 import {
   ChangeStatus,
@@ -34,7 +33,7 @@ import {
   createRevision,
   createServiceUserWithId,
 } from '../../../test/test-data-generators';
-import {FocusTarget, GrReplyDialog} from './gr-reply-dialog';
+import {GrReplyDialog} from './gr-reply-dialog';
 import {
   AccountId,
   AccountInfo,
@@ -92,10 +91,6 @@ suite('gr-reply-dialog tests', () => {
   let changeNum: NumericChangeId;
   let patchNum: PatchSetNum;
 
-  let getDraftCommentStub: sinon.SinonStub;
-  let setDraftCommentStub: sinon.SinonStub;
-  let eraseDraftCommentStub: sinon.SinonStub;
-
   let lastId = 1;
   const makeAccount = function () {
     return {_account_id: lastId++ as AccountId};
@@ -149,10 +144,6 @@ suite('gr-reply-dialog tests', () => {
       Verified: ['-1', ' 0', '+1'],
     };
     element.draftCommentThreads = [];
-
-    getDraftCommentStub = stubStorage('getDraftComment');
-    setDraftCommentStub = stubStorage('setDraftComment');
-    eraseDraftCommentStub = stubStorage('eraseDraftComment');
 
     await element.updateComplete;
   });
@@ -1435,13 +1426,6 @@ suite('gr-reply-dialog tests', () => {
     testConfirmationDialog(false);
   });
 
-  test('getStorageLocation', () => {
-    const actual = element.getStorageLocation();
-    assert.equal(actual.changeNum, changeNum);
-    assert.equal(actual.patchNum, '@change');
-    assert.equal(actual.path, '@change');
-  });
-
   test('reviewersMutated when account-text-change is fired from ccs', () => {
     assert.isFalse(element.reviewersMutated);
     assert.isTrue(queryAndAssert<GrAccountList>(element, '#ccs').allowAnyInput);
@@ -1452,61 +1436,6 @@ suite('gr-reply-dialog tests', () => {
       new CustomEvent('account-text-changed', {bubbles: true, composed: true})
     );
     assert.isTrue(element.reviewersMutated);
-  });
-
-  test('gets draft from storage on open', () => {
-    const storedDraft = 'hello world';
-    getDraftCommentStub.returns({message: storedDraft});
-    element.open();
-    assert.isTrue(getDraftCommentStub.called);
-    assert.equal(element.patchsetLevelDraftMessage, storedDraft);
-  });
-
-  test('gets draft from storage even when text is already present', () => {
-    const storedDraft = 'hello world';
-    getDraftCommentStub.returns({message: storedDraft});
-    element.patchsetLevelDraftMessage = 'foo bar';
-    element.open();
-    assert.isTrue(getDraftCommentStub.called);
-    assert.equal(element.patchsetLevelDraftMessage, storedDraft);
-  });
-
-  test('blank if no stored draft', () => {
-    getDraftCommentStub.returns(null);
-    element.patchsetLevelDraftMessage = 'foo bar';
-    element.open();
-    assert.isTrue(getDraftCommentStub.called);
-    assert.equal(element.patchsetLevelDraftMessage, '');
-  });
-
-  test('does not check stored draft when quote is present', () => {
-    const storedDraft = 'hello world';
-    const quote = '> foo bar';
-    getDraftCommentStub.returns({message: storedDraft});
-    element.open(FocusTarget.ANY, quote);
-    assert.isFalse(getDraftCommentStub.called);
-    assert.equal(element.patchsetLevelDraftMessage, quote);
-  });
-
-  test('updates stored draft on edits', async () => {
-    const clock = sinon.useFakeTimers();
-
-    const firstEdit = 'hello';
-    const location = element.getStorageLocation();
-
-    element.patchsetLevelDraftMessage = firstEdit;
-    clock.tick(1000);
-    await element.updateComplete;
-    await element.storeTask?.flush();
-
-    assert.isTrue(setDraftCommentStub.calledWith(location, firstEdit));
-
-    element.patchsetLevelDraftMessage = '';
-    clock.tick(1000);
-    await element.updateComplete;
-    await element.storeTask?.flush();
-
-    assert.isTrue(eraseDraftCommentStub.calledWith(location));
   });
 
   test('400 converts to human-readable server-error', async () => {

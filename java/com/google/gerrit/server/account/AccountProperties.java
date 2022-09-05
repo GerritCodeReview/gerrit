@@ -55,6 +55,7 @@ public class AccountProperties {
   public static final String KEY_DISPLAY_NAME = "displayName";
   public static final String KEY_PREFERRED_EMAIL = "preferredEmail";
   public static final String KEY_STATUS = "status";
+  public static final String KEY_VERSION = "version";
 
   private final Account.Id accountId;
   private final Instant registeredOn;
@@ -113,6 +114,9 @@ public class AccountProperties {
         .getPreferredEmail()
         .ifPresent(preferredEmail -> set(cfg, KEY_PREFERRED_EMAIL, preferredEmail));
     accountDelta.getStatus().ifPresent(status -> set(cfg, KEY_STATUS, status));
+    accountDelta
+        .getUpdateVersion()
+        .ifPresent(updateVersion -> set(cfg, KEY_VERSION, updateVersion));
   }
 
   /**

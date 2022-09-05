@@ -201,6 +201,12 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
     return this;
   }
 
+  public AccountConfig updateDelta(String version) {
+    accountDelta =
+        accountDelta.map(delta -> delta.toBuilder().setUpdateVersion(Optional.of(version)).build());
+    return this;
+  }
+
   /**
    * Returns the content of the {@code preferences.config} file wrapped as {@link
    * CachedPreferences}.

@@ -161,6 +161,10 @@ public abstract class AccountDelta {
    */
   public abstract Optional<EditPreferencesInfo> getEditPreferences();
 
+  public abstract Optional<String> getUpdateVersion();
+
+  public abstract Builder toBuilder();
+
   /**
    * Class to build an {@link AccountDelta}.
    *
@@ -250,6 +254,8 @@ public abstract class AccountDelta {
       return this;
     }
 
+    abstract ImmutableSet<ExternalId> getCreatedExternalIds();
+
     /**
      * Returns a builder for the set of updated external IDs.
      *
@@ -289,6 +295,8 @@ public abstract class AccountDelta {
       return this;
     }
 
+    abstract ImmutableSet<ExternalId> getUpdatedExternalIds();
+
     /**
      * Returns a builder for the set of deleted external IDs.
      *
@@ -326,6 +334,8 @@ public abstract class AccountDelta {
       deletedExternalIdsBuilder().addAll(extIds);
       return this;
     }
+
+    abstract ImmutableSet<ExternalId> getDeletedExternalIds();
 
     /**
      * Replaces an external ID.
@@ -447,8 +457,29 @@ public abstract class AccountDelta {
      */
     public abstract Builder setEditPreferences(EditPreferencesInfo editPreferences);
 
+    public abstract Builder setUpdateVersion(Optional<String> value);
+
     /** Builds the instance. */
-    public abstract AccountDelta build();
+    abstract AccountDelta autoBuild();
+
+    public final AccountDelta build() {
+      /*if(!getCreatedExternalIds().isEmpty() || !getUpdatedExternalIds().isEmpty() || !getDeletedExternalIds().isEmpty()){
+        MessageDigest md = Constants.newMessageDigest();
+        md.update(
+            Constants.encode(getCreatedExternalIds().stream().map(x -> x.key().get()).collect(
+                Collectors.joining())));
+        md.update(
+            Constants.encode(getUpdatedExternalIds().stream().map(x -> x.key().get()).collect(
+                Collectors.joining())));
+        md.update(
+            Constants.encode(getDeletedExternalIds().stream().map(x -> x.key().get()).collect(
+                Collectors.joining())));
+        md.update(Constants.encode(String.valueOf(Math.random())));
+        setUpdateVersion(Optional.of(ObjectId.fromRaw(md.digest()).name()));
+      }
+       */
+      return autoBuild();
+    }
 
     /**
      * Wrapper for {@link Builder} that converts {@code null} string arguments to empty strings for
@@ -521,8 +552,8 @@ public abstract class AccountDelta {
       }
 
       @Override
-      public AccountDelta build() {
-        return delegate.build();
+      public AccountDelta autoBuild() {
+        return delegate.autoBuild();
       }
 
       @Override
@@ -537,6 +568,11 @@ public abstract class AccountDelta {
       }
 
       @Override
+      ImmutableSet<ExternalId> getCreatedExternalIds() {
+        return delegate.getCreatedExternalIds();
+      }
+
+      @Override
       ImmutableSet.Builder<ExternalId> updatedExternalIdsBuilder() {
         return delegate.updatedExternalIdsBuilder();
       }
@@ -548,6 +584,11 @@ public abstract class AccountDelta {
       }
 
       @Override
+      ImmutableSet<ExternalId> getUpdatedExternalIds() {
+        return delegate.getUpdatedExternalIds();
+      }
+
+      @Override
       ImmutableSet.Builder<ExternalId> deletedExternalIdsBuilder() {
         return delegate.deletedExternalIdsBuilder();
       }
@@ -556,6 +597,11 @@ public abstract class AccountDelta {
       public Builder deleteExternalIds(Collection<ExternalId> extIds) {
         delegate.deleteExternalIds(extIds);
         return this;
+      }
+
+      @Override
+      ImmutableSet<ExternalId> getDeletedExternalIds() {
+        return delegate.getDeletedExternalIds();
       }
 
       @Override
@@ -596,6 +642,11 @@ public abstract class AccountDelta {
       public Builder setEditPreferences(EditPreferencesInfo editPreferences) {
         delegate.setEditPreferences(editPreferences);
         return this;
+      }
+
+      @Override
+      public Builder setUpdateVersion(Optional<String> value) {
+        return delegate.setUpdateVersion(value);
       }
     }
   }

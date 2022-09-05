@@ -2902,6 +2902,113 @@ public class AccountIT extends AbstractDaemonTest {
     }
   }
 
+  @Test
+  public void updateExternalId_api_updatesAccountMeta() throws RestApiException {
+    AccountState preUpdateState = accountCache.get(admin.id()).get();
+    requestScopeOperations.setApiUser(admin.id());
+
+    gApi.accounts().self().addEmail(newEmailInput("secondary@google.com"));
+    assertThat(
+            gApi.accounts().self().getExternalIds().stream()
+                .map(e -> e.identity)
+                .collect(toImmutableList()))
+        .isEqualTo(
+            ImmutableList.of(
+                "mailto:admin@example.com", "username:admin", "mailto:secondary@google.com"));
+
+    AccountState postAddExternalIdState = accountCache.get(admin.id()).get();
+    assertThat(preUpdateState.account().metaId())
+        .isNotEqualTo(postAddExternalIdState.account().metaId());
+
+    gApi.accounts().self().deleteExternalIds(ImmutableList.of("mailto:secondary@google.com"));
+
+    AccountState postDeleteExternalIdState = accountCache.get(admin.id()).get();
+    assertThat(postAddExternalIdState.account().metaId())
+        .isNotEqualTo(postDeleteExternalIdState.account().metaId());
+  }
+
+  @Test
+  public void updateExternalId_accountUpdate_updatesAccountMeta()
+      throws RestApiException, ConfigInvalidException, IOException {
+    AccountState preUpdateState = accountCache.get(admin.id()).get();
+    requestScopeOperations.setApiUser(admin.id());
+
+    ExternalId externalId = externalIdFactory.create("custom", "value", admin.id());
+    accountsUpdateProvider
+        .get()
+        .update("Add External ID", admin.id(), (a, u) -> u.addExternalId(externalId));
+    assertThat(
+            gApi.accounts().self().getExternalIds().stream()
+                .map(e -> e.identity)
+                .collect(toImmutableList()))
+        .isEqualTo(ImmutableList.of("mailto:admin@example.com", "username:admin", "custom:value"));
+
+    AccountState postAddExternalIdState = accountCache.get(admin.id()).get();
+    assertThat(preUpdateState.account().metaId())
+        .isNotEqualTo(postAddExternalIdState.account().metaId());
+
+    accountsUpdateProvider
+        .get()
+        .update("Remove External ID", admin.id(), (a, u) -> u.deleteExternalId(externalId));
+
+    AccountState postDeleteExternalIdState = accountCache.get(admin.id()).get();
+    assertThat(postAddExternalIdState.account().metaId())
+        .isNotEqualTo(postDeleteExternalIdState.account().metaId());
+  }
+
+  @Test
+  public void updateExternalId_accountUpdate_executeBatch_updatesAccountMeta()
+      throws RestApiException, ConfigInvalidException, IOException {
+    AccountState preUpdateAdminState = accountCache.get(admin.id()).get();
+    AccountState preUpdateUserState = accountCache.get(user.id()).get();
+    requestScopeOperations.setApiUser(admin.id());
+    ExternalId extId1 = externalIdFactory.create("custom", "admin-id", admin.id());
+
+    ExternalId extId2 = externalIdFactory.create("custom", "user-id", user.id());
+
+    AccountsUpdate.UpdateArguments ua1 =
+        new AccountsUpdate.UpdateArguments(
+            "Add External ID", admin.id(), (a, u) -> u.addExternalId(extId1));
+    AccountsUpdate.UpdateArguments ua2 =
+        new AccountsUpdate.UpdateArguments(
+            "Add External ID", user.id(), (a, u) -> u.addExternalId(extId2));
+    accountsUpdateProvider.get().updateBatch(ImmutableList.of(ua1, ua2));
+    assertThat(
+            gApi.accounts().id(admin.id().get()).getExternalIds().stream()
+                .map(e -> e.identity)
+                .collect(toImmutableList()))
+        .isEqualTo(
+            ImmutableList.of("mailto:admin@example.com", "username:admin", "custom:admin-id"));
+    assertThat(
+            gApi.accounts().id(user.id().get()).getExternalIds().stream()
+                .map(e -> e.identity)
+                .collect(toImmutableList()))
+        .isEqualTo(
+            ImmutableList.of("username:user1", "mailto:user1@example.com", "custom:user-id"));
+
+    AccountState updatedAdminState1 = accountCache.get(admin.id()).get();
+    AccountState updatedUserState1 = accountCache.get(user.id()).get();
+    assertThat(preUpdateAdminState.account().metaId())
+        .isNotEqualTo(updatedAdminState1.account().metaId());
+    assertThat(preUpdateUserState.account().metaId())
+        .isNotEqualTo(updatedUserState1.account().metaId());
+    ua1 =
+        new AccountsUpdate.UpdateArguments(
+            "Delete External ID", admin.id(), (a, u) -> u.deleteExternalId(extId1));
+    ua2 =
+        new AccountsUpdate.UpdateArguments(
+            "Delete External ID", user.id(), (a, u) -> u.deleteExternalId(extId2));
+    accountsUpdateProvider.get().updateBatch(ImmutableList.of(ua1, ua2));
+
+    AccountState updatedAdminState2 = accountCache.get(admin.id()).get();
+    AccountState updatedUserState2 = accountCache.get(user.id()).get();
+
+    assertThat(updatedAdminState2.account().metaId())
+        .isNotEqualTo(updatedAdminState1.account().metaId());
+    assertThat(updatedUserState2.account().metaId())
+        .isNotEqualTo(updatedUserState1.account().metaId());
+  }
+
   private static Correspondence<GroupInfo, String> getGroupToNameCorrespondence() {
     return NullAwareCorrespondence.transforming(groupInfo -> groupInfo.name, "has name");
   }

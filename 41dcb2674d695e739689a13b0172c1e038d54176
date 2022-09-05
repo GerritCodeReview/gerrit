@@ -34,6 +34,24 @@
       "parentUuid": "c804c335_57cdb87c",
       "revId": "41dcb2674d695e739689a13b0172c1e038d54176",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b206ad17_525af8b9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-05T08:52:59Z",
+      "side": 1,
+      "message": "Sent for review:\n344756: Refine logic for when to show \"outdated votes\" messages | https://gerrit-review.googlesource.com/c/gerrit/+/344756",
+      "parentUuid": "ee687cb5_04fac3d2",
+      "revId": "41dcb2674d695e739689a13b0172c1e038d54176",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -16,6 +16,29 @@
       "message": "Nice!",
       "revId": "8560e85455aedd9348c58325fca0abbb83c251ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8725e3d_cf01dc19",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 1308,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-05T19:34:27Z",
+      "side": 1,
+      "message": "`renderHeaderTitle()` has grown too much. Break out 1 or 2 render methods.",
+      "range": {
+        "startLine": 1274,
+        "startChar": 1,
+        "endLine": 1308,
+        "endChar": 8
+      },
+      "revId": "8560e85455aedd9348c58325fca0abbb83c251ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

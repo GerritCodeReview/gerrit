@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8673e7b3_029d00d4",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-05T10:18:34Z",
+      "side": 1,
+      "message": "nit: I prefer \u0027!\u0027 instead of \u0027?\u0027 to make it clear it\u0027s not supposed to be undefined",
+      "range": {
+        "startLine": 152,
+        "startChar": 38,
+        "endLine": 152,
+        "endChar": 39
+      },
+      "revId": "9a79cdad7e6b3847beaf67e48641c7206503c671",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0fa462cb_280f2d84",
+        "filename": "polygerrit-ui/app/elements/checks/gr-hovercard-run_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-05T10:18:34Z",
+      "side": 1,
+      "message": "this seems to cover everything that `fakeRun0` does?\nmaybe remove the render test for `fakeRun0` then?",
+      "range": {
+        "startLine": 63,
+        "startChar": 8,
+        "endLine": 63,
+        "endChar": 23
+      },
+      "revId": "9a79cdad7e6b3847beaf67e48641c7206503c671",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

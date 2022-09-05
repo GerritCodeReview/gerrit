@@ -85,6 +85,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1579cd33_59028379",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-05T10:18:34Z",
+      "side": 1,
+      "message": "use queryUtil?",
+      "range": {
+        "startLine": 237,
+        "startChar": 30,
+        "endLine": 237,
+        "endChar": 60
+      },
+      "revId": "573e7daea246067210b2cc55e06b53d2d378720e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "aa7e6ff1_292bf7ce",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
         "patchSetId": 3

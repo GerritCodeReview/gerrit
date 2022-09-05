@@ -24,4 +24,5 @@ export enum KnownExperimentId {
   MENTION_USERS = 'UiFeature__mention_users',
   PATCHSET_LEVEL_COMMENT_USES_GRCOMMENT = 'UiFeature__patchset_level_comment_uses_GrComment',
   RENDER_MARKDOWN = 'UiFeature__render_markdown',
+  AUTO_APP_THEME = 'UiFeature__auto_app_theme',
 }

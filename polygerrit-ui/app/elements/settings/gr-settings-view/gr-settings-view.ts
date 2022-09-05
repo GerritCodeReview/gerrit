@@ -62,6 +62,7 @@ import {when} from 'lit/directives/when.js';
 import {pageNavStyles} from '../../../styles/gr-page-nav-styles';
 import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
 import {formStyles} from '../../../styles/gr-form-styles';
+import { KnownExperimentId } from '../../../services/flags/flags';
 
 const GERRIT_DOCS_BASE_URL =
   'https://gerrit-review.googlesource.com/' + 'Documentation';
@@ -198,6 +199,8 @@ export class GrSettingsView extends LitElement {
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly userModel = getAppContext().userModel;
+
+  private readonly flagsService = getAppContext().flagsService;
 
   override connectedCallback() {
     super.connectedCallback();
@@ -712,20 +715,32 @@ export class GrSettingsView extends LitElement {
     super.disconnectedCallback();
   }
 
+  private mapTheme(theme: AppTheme) {
+    if (this.flagsService.isEnabled(KnownExperimentId.AUTO_APP_THEME)) {
+      return theme;
+    }
+    if (theme === AppTheme.AUTO) return AppTheme.LIGHT;
+    return theme;
+  }
+
   private renderTheme() {
     return html`
       <section>
         <label class="title" for="themeSelect">Theme</label>
         <span class="value">
           <gr-select
-            .bindValue=${this.localPrefs.theme ?? AppTheme.AUTO}
+            .bindValue=${this.mapTheme(this.localPrefs.theme ?? AppTheme.AUTO)}
             @change=${() => {
               this.localPrefs.theme = this.themeSelect.value as AppTheme;
               this.prefsChanged = true;
             }}
           >
             <select id="themeSelect">
-              <option value="AUTO">Auto (based on OS prefs)</option>
+              ${when(
+                this.flagsService.isEnabled(KnownExperimentId.AUTO_APP_THEME),
+                () =>
+                  html`<option value="AUTO">Auto (based on OS prefs)</option>`
+              )}
               <option value="LIGHT">Light</option>
               <option value="DARK">Dark</option>
             </select>

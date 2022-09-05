@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.accounts;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
@@ -32,7 +33,12 @@ import static com.google.gerrit.gpg.testing.TestKeys.validKeyWithExpiration;
 import static com.google.gerrit.gpg.testing.TestKeys.validKeyWithSecondUserId;
 import static com.google.gerrit.gpg.testing.TestKeys.validKeyWithoutExpiration;
 import static com.google.gerrit.server.StarredChangesUtil.DEFAULT_LABEL;
+import static com.google.gerrit.server.account.AccountProperties.ACCOUNT;
+import static com.google.gerrit.server.account.AccountProperties.ACCOUNT_CONFIG;
+import static com.google.gerrit.server.account.AccountProperties.KEY_EXTERNAL_IDS_REVISION;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GPGKEY;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAILTO;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
@@ -101,6 +107,7 @@ import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInput;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInput.CheckAccountsInput;
+import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.common.AccountDetailInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -138,6 +145,7 @@ import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
+import com.google.gerrit.server.git.meta.VersionedMetaData;
 import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.index.account.StalenessChecker;
 import com.google.gerrit.server.notedb.Sequences;
@@ -503,16 +511,16 @@ public class AccountIT extends AbstractDaemonTest {
       assertThat(timestampDiffMs).isAtMost(SECONDS.toMillis(1));
 
       // Check the 'account.config' file.
-      try (TreeWalk tw = TreeWalk.forPath(or, AccountProperties.ACCOUNT_CONFIG, c.getTree())) {
+      try (TreeWalk tw = TreeWalk.forPath(or, ACCOUNT_CONFIG, c.getTree())) {
         if (name != null || status != null) {
           assertThat(tw).isNotNull();
           Config cfg = new Config();
           cfg.fromText(new String(or.open(tw.getObjectId(0), OBJ_BLOB).getBytes(), UTF_8));
           assertThat(cfg)
-              .stringValue(AccountProperties.ACCOUNT, null, AccountProperties.KEY_FULL_NAME)
+              .stringValue(ACCOUNT, null, AccountProperties.KEY_FULL_NAME)
               .isEqualTo(name);
           assertThat(cfg)
-              .stringValue(AccountProperties.ACCOUNT, null, AccountProperties.KEY_STATUS)
+              .stringValue(ACCOUNT, null, AccountProperties.KEY_STATUS)
               .isEqualTo(status);
         } else {
           // No account properties were set, hence an 'account.config' file was not created.
@@ -2900,6 +2908,335 @@ public class AccountIT extends AbstractDaemonTest {
         }
       }
     }
+  }
+
+  @Test
+  public void updateExternalId_externalIdApiUpdate_updatesAccountMeta() throws Exception {
+    AccountState preUpdateState = accountCache.get(admin.id()).get();
+    requestScopeOperations.setApiUser(admin.id());
+
+    gApi.accounts().self().addEmail(newEmailInput("secondary@google.com"));
+    assertExternalIds(
+        admin.id(),
+        ImmutableSet.of(
+            "mailto:admin@example.com", "username:admin", "mailto:secondary@google.com"));
+
+    AccountState updatedState1 = accountCache.get(admin.id()).get();
+    assertThat(preUpdateState.account().metaId()).isNotEqualTo(updatedState1.account().metaId());
+
+    gApi.accounts().self().deleteExternalIds(ImmutableList.of("mailto:secondary@google.com"));
+
+    AccountState updatedState2 = accountCache.get(admin.id()).get();
+    assertThat(updatedState1.account().metaId()).isNotEqualTo(updatedState2.account().metaId());
+  }
+
+  @Test
+  public void updateExternalId_projectWatchesApiUpdate_updatesAccountMeta()
+      throws RestApiException {
+    AccountState preUpdateState = accountCache.get(admin.id()).get();
+    requestScopeOperations.setApiUser(admin.id());
+
+    ProjectWatchInfo projectWatchInfo = new ProjectWatchInfo();
+    projectWatchInfo.project = project.get();
+    projectWatchInfo.notifyAllComments = true;
+    gApi.accounts().self().setWatchedProjects(ImmutableList.of(projectWatchInfo));
+
+    AccountState updatedState1 = accountCache.get(admin.id()).get();
+    assertThat(preUpdateState.account().metaId()).isNotEqualTo(updatedState1.account().metaId());
+
+    gApi.accounts().self().deleteWatchedProjects(ImmutableList.of(projectWatchInfo));
+
+    AccountState updatedState2 = accountCache.get(admin.id()).get();
+    assertThat(updatedState1.account().metaId()).isNotEqualTo(updatedState2.account().metaId());
+  }
+
+  @Test
+  public void accountCreation_setsExternalIdsRevision() throws Exception {
+    // Version was set when the user was created
+    String extIdsTipBeforeUpdate = getExternalIdsTip();
+    Account.Id createdAccount = Account.id(gApi.accounts().create("test-user").get()._accountId);
+    String extIdsTipAfterUpdate = getExternalIdsTip();
+    String configVersion = readExternalIdsRevision(createdAccount);
+    assertThat(configVersion).isEqualTo(extIdsTipAfterUpdate);
+    assertThat(extIdsTipBeforeUpdate).isNotEqualTo(extIdsTipAfterUpdate);
+  }
+
+  @Test
+  public void addExternalId_accountUpdate_setsExternalIdsRevision() throws Exception {
+    AccountState preUpdateState = accountCache.get(admin.id()).get();
+    requestScopeOperations.setApiUser(admin.id());
+    String initialVersion = readExternalIdsRevision(admin.id());
+
+    ExternalId externalId = externalIdFactory.create("custom", "value", admin.id());
+    accountsUpdateProvider
+        .get()
+        .update("Add External ID", admin.id(), (a, u) -> u.addExternalId(externalId));
+    assertExternalIds(
+        admin.id(), ImmutableSet.of("mailto:admin@example.com", "username:admin", "custom:value"));
+
+    AccountState updatedState1 = accountCache.get(admin.id()).get();
+    assertThat(preUpdateState.account().metaId()).isNotEqualTo(updatedState1.account().metaId());
+    String extIdsTipAfterUpdate = getExternalIdsTip();
+    String updatedVersion = readExternalIdsRevision(admin.id());
+    assertThat(updatedVersion).isEqualTo(extIdsTipAfterUpdate);
+    assertThat(updatedVersion).isNotEqualTo(initialVersion);
+  }
+
+  @Test
+  public void deleteExternalId_accountUpdate_setsExternalIdsRevision() throws Exception {
+    AccountState preUpdateState = accountCache.get(admin.id()).get();
+    requestScopeOperations.setApiUser(admin.id());
+    String initialVersion = readExternalIdsRevision(admin.id());
+
+    ExternalId externalId = externalIdFactory.create("mailto", "admin@example.com", admin.id());
+    accountsUpdateProvider
+        .get()
+        .update("Remove External ID", admin.id(), (a, u) -> u.deleteExternalId(externalId));
+    assertExternalIds(admin.id(), ImmutableSet.of("username:admin"));
+
+    AccountState updatedState1 = accountCache.get(admin.id()).get();
+    assertThat(preUpdateState.account().metaId()).isNotEqualTo(updatedState1.account().metaId());
+    String extIdsTipAfterUpdate = getExternalIdsTip();
+    String updatedVersion = readExternalIdsRevision(admin.id());
+    assertThat(updatedVersion).isEqualTo(extIdsTipAfterUpdate);
+    assertThat(updatedVersion).isNotEqualTo(initialVersion);
+  }
+
+  @Test
+  public void updateExternalId_accountUpdate_setsExternalIdsRevision() throws Exception {
+    AccountState preUpdateState = accountCache.get(admin.id()).get();
+    requestScopeOperations.setApiUser(admin.id());
+    String initialVersion = readExternalIdsRevision(admin.id());
+
+    ExternalId externalId =
+        externalIdFactory.createWithEmail(
+            SCHEME_USERNAME, "admin", admin.id(), "secondary@example.com");
+    accountsUpdateProvider
+        .get()
+        .update("Remove External ID", admin.id(), (a, u) -> u.updateExternalId(externalId));
+    assertExternalIds(admin.id(), ImmutableSet.of("mailto:admin@example.com", "username:admin"));
+
+    AccountState updatedState1 = accountCache.get(admin.id()).get();
+    assertThat(preUpdateState.account().metaId()).isNotEqualTo(updatedState1.account().metaId());
+    String extIdsTipAfterUpdate = getExternalIdsTip();
+    String updatedVersion = readExternalIdsRevision(admin.id());
+    assertThat(updatedVersion).isEqualTo(extIdsTipAfterUpdate);
+    assertThat(updatedVersion).isNotEqualTo(initialVersion);
+  }
+
+  @Test
+  public void replaceExternalId_accountUpdate_setsExternalIdsRevision() throws Exception {
+    AccountState preUpdateState = accountCache.get(admin.id()).get();
+    requestScopeOperations.setApiUser(admin.id());
+    String initialVersion = readExternalIdsRevision(admin.id());
+
+    ExternalId externalId =
+        externalIdFactory.createWithEmail(
+            SCHEME_USERNAME, "admin", admin.id(), "secondary@example.com");
+    accountsUpdateProvider
+        .get()
+        .update(
+            "Remove External ID",
+            admin.id(),
+            (a, u) ->
+                u.replaceExternalId(
+                    externalIds.get(externalIdKeyFactory.create(SCHEME_USERNAME, "admin")).get(),
+                    externalId));
+    assertExternalIds(admin.id(), ImmutableSet.of("mailto:admin@example.com", "username:admin"));
+
+    AccountState updatedState1 = accountCache.get(admin.id()).get();
+    assertThat(preUpdateState.account().metaId()).isNotEqualTo(updatedState1.account().metaId());
+    String extIdsTipAfterUpdate = getExternalIdsTip();
+    String updatedVersion = readExternalIdsRevision(admin.id());
+    assertThat(updatedVersion).isEqualTo(extIdsTipAfterUpdate);
+    assertThat(updatedVersion).isNotEqualTo(initialVersion);
+  }
+
+  @Test
+  public void accountUpdate_updateBatch_externalIdsUpdated_versionUpdated() throws Exception {
+    AccountState preUpdateAdminState = accountCache.get(admin.id()).get();
+    AccountState preUpdateUserState = accountCache.get(user.id()).get();
+
+    String usersVersion = readExternalIdsRevision(user.id());
+    String adminsVersion = readExternalIdsRevision(admin.id());
+
+    requestScopeOperations.setApiUser(admin.id());
+    ExternalId extId1 = externalIdFactory.create("custom", "admin-id", admin.id());
+
+    ExternalId extId2 = externalIdFactory.create("custom", "user-id", user.id());
+
+    AccountsUpdate.UpdateArguments ua1 =
+        new AccountsUpdate.UpdateArguments(
+            "Add External ID", admin.id(), (a, u) -> u.addExternalId(extId1));
+    AccountsUpdate.UpdateArguments ua2 =
+        new AccountsUpdate.UpdateArguments(
+            "Add External ID", user.id(), (a, u) -> u.addExternalId(extId2));
+
+    accountsUpdateProvider.get().updateBatch(ImmutableList.of(ua1, ua2));
+
+    assertExternalIds(
+        admin.id(),
+        ImmutableSet.of("mailto:admin@example.com", "username:admin", "custom:admin-id"));
+    assertExternalIds(
+        user.id(), ImmutableSet.of("username:user1", "mailto:user1@example.com", "custom:user-id"));
+
+    AccountState updatedAdminState = accountCache.get(admin.id()).get();
+    AccountState updatedUserState = accountCache.get(user.id()).get();
+    assertThat(preUpdateAdminState.account().metaId())
+        .isNotEqualTo(updatedAdminState.account().metaId());
+    assertThat(preUpdateUserState.account().metaId())
+        .isNotEqualTo(updatedUserState.account().metaId());
+
+    // Version was updated to te same sha1, since updateBatch produces single commit to externalIds
+    // ref.
+    String extIdsTipAfterUpdate = getExternalIdsTip();
+    String updatedUsersVersion = readExternalIdsRevision(user.id());
+    String updatedAdminVersion = readExternalIdsRevision(admin.id());
+    assertThat(adminsVersion).isNotEqualTo(updatedAdminVersion);
+    assertThat(usersVersion).isNotEqualTo(updatedUsersVersion);
+    assertThat(updatedAdminVersion).isEqualTo(extIdsTipAfterUpdate);
+    assertThat(updatedUsersVersion).isEqualTo(extIdsTipAfterUpdate);
+  }
+
+  @Test
+  public void accountUpdate_updateBatch_accountOnly_versionNotUpdated() throws Exception {
+    AccountState preUpdateAdminState = accountCache.get(admin.id()).get();
+    AccountState preUpdateUserState = accountCache.get(user.id()).get();
+    String extIdsTipBeforeUpdate = getExternalIdsTip();
+    String usersVersion = readExternalIdsRevision(user.id());
+    String adminsVersion = readExternalIdsRevision(admin.id());
+
+    requestScopeOperations.setApiUser(admin.id());
+    AccountsUpdate.UpdateArguments ua1 =
+        new AccountsUpdate.UpdateArguments(
+            "Update Display Name", admin.id(), (a, u) -> u.setDisplayName("DN"));
+    AccountsUpdate.UpdateArguments ua2 =
+        new AccountsUpdate.UpdateArguments(
+            "Update Display Name", user.id(), (a, u) -> u.setDisplayName("DN"));
+    accountsUpdateProvider.get().updateBatch(ImmutableList.of(ua1, ua2));
+
+    // Users' meta refs were updated, but external id and version where not changed.
+    AccountState updatedAdminState = accountCache.get(admin.id()).get();
+    AccountState updatedUserState = accountCache.get(user.id()).get();
+    assertThat(preUpdateAdminState.account().metaId())
+        .isNotEqualTo(updatedAdminState.account().metaId());
+    assertThat(preUpdateUserState.account().metaId())
+        .isNotEqualTo(updatedUserState.account().metaId());
+    String extIdsTipAfterUpdate = getExternalIdsTip();
+
+    assertThat(extIdsTipBeforeUpdate).isEqualTo(extIdsTipAfterUpdate);
+
+    assertThat(adminsVersion).isEqualTo(readExternalIdsRevision(admin.id()));
+    assertThat(usersVersion).isEqualTo(readExternalIdsRevision(user.id()));
+  }
+
+  @Test
+  public void accountUpdate_updateBatch_onlyAccountWithExternalIdUpdatesIsUpdated()
+      throws Exception {
+    AccountState preUpdateAdminState = accountCache.get(admin.id()).get();
+    AccountState preUpdateUserState = accountCache.get(user.id()).get();
+    String extIdsTipBeforeUpdate = getExternalIdsTip();
+    String usersVersion = readExternalIdsRevision(user.id());
+    String adminsVersion = readExternalIdsRevision(admin.id());
+
+    requestScopeOperations.setApiUser(admin.id());
+    AccountsUpdate.UpdateArguments ua1 =
+        new AccountsUpdate.UpdateArguments(
+            "Update Display Name", admin.id(), (a, u) -> u.setDisplayName("DN"));
+    AccountsUpdate.UpdateArguments ua2 =
+        new AccountsUpdate.UpdateArguments(
+            "Remove external Id",
+            user.id(),
+            (a, u) ->
+                u.deleteExternalId(
+                    externalIdFactory.createWithEmail(
+                        SCHEME_MAILTO, user.email(), user.id(), user.email())));
+    accountsUpdateProvider.get().updateBatch(ImmutableList.of(ua1, ua2));
+
+    // Only the version in config of the user with external id update was updated.
+    AccountState updatedAdminState = accountCache.get(admin.id()).get();
+    AccountState updatedUserState = accountCache.get(user.id()).get();
+    assertThat(preUpdateAdminState.account().metaId())
+        .isNotEqualTo(updatedAdminState.account().metaId());
+    assertThat(preUpdateUserState.account().metaId())
+        .isNotEqualTo(updatedUserState.account().metaId());
+
+    String extIdsTipAfterUpdate = getExternalIdsTip();
+    String updatedUsersVersion = readExternalIdsRevision(user.id());
+
+    assertThat(extIdsTipBeforeUpdate).isNotEqualTo(extIdsTipAfterUpdate);
+    assertThat(usersVersion).isNotEqualTo(updatedUsersVersion);
+    assertThat(extIdsTipAfterUpdate).isEqualTo(updatedUsersVersion);
+    assertThat(adminsVersion).isEqualTo(readExternalIdsRevision(admin.id()));
+  }
+
+  private String getExternalIdsTip() throws IOException {
+    try (Repository allUsersRepo = repoManager.openRepository(allUsers)) {
+      return allUsersRepo.exactRef(RefNames.REFS_EXTERNAL_IDS).getObjectId().name();
+    }
+  }
+
+  private void assertExternalIds(Account.Id accountId, ImmutableSet<String> extIds)
+      throws Exception {
+    assertThat(
+            gApi.accounts().id(accountId.get()).getExternalIds().stream()
+                .map(e -> e.identity)
+                .collect(toImmutableSet()))
+        .isEqualTo(extIds);
+  }
+
+  private static class ReadVersionedMetaData extends VersionedMetaData {
+
+    private Optional<Config> config;
+    private final Project.NameKey repoName;
+    private final Repository repo;
+    private final String refName;
+    private final String configName;
+
+    public ReadVersionedMetaData(
+        Project.NameKey repoName, Repository repo, String ref, String configName) {
+      this.repoName = repoName;
+      this.repo = repo;
+      this.refName = ref;
+      this.configName = configName;
+    }
+
+    @Override
+    protected String getRefName() {
+      return refName;
+    }
+
+    @Override
+    protected void onLoad() throws IOException, ConfigInvalidException {
+      config = Optional.ofNullable(readConfig(configName));
+    }
+
+    @Override
+    protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
+      throw new UnsupportedOperationException();
+    }
+
+    public Config getConfig() throws ConfigInvalidException, IOException {
+      this.load(repoName, repo);
+
+      return config.orElseThrow(
+          () ->
+              new IllegalStateException(
+                  String.format("Could not load config from ref %s", getRefName())));
+    }
+  }
+
+  private Config readAccountConfig(Account.Id accountId) throws Exception {
+    try (Repository allUsersRepo = repoManager.openRepository(allUsers)) {
+      return new ReadVersionedMetaData(
+              allUsers, allUsersRepo, RefNames.refsUsers(accountId), ACCOUNT_CONFIG)
+          .getConfig();
+    }
+  }
+
+  private String readExternalIdsRevision(Account.Id accountId) throws Exception {
+    Config config = readAccountConfig(accountId);
+    return config.getString(ACCOUNT, null, KEY_EXTERNAL_IDS_REVISION);
   }
 
   private static Correspondence<GroupInfo, String> getGroupToNameCorrespondence() {

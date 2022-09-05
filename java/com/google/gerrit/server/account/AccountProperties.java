@@ -55,6 +55,11 @@ public class AccountProperties {
   public static final String KEY_DISPLAY_NAME = "displayName";
   public static final String KEY_PREFERRED_EMAIL = "preferredEmail";
   public static final String KEY_STATUS = "status";
+  /**
+   * Revision of the last update of this account in {@link
+   * com.google.gerrit.entities.RefNames#REFS_EXTERNAL_IDS}.
+   */
+  public static final String KEY_EXTERNAL_IDS_REVISION = "externalIdsRevision";
 
   private final Account.Id accountId;
   private final Instant registeredOn;
@@ -113,6 +118,9 @@ public class AccountProperties {
         .getPreferredEmail()
         .ifPresent(preferredEmail -> set(cfg, KEY_PREFERRED_EMAIL, preferredEmail));
     accountDelta.getStatus().ifPresent(status -> set(cfg, KEY_STATUS, status));
+    accountDelta
+        .getExternalIdsRevision()
+        .ifPresent(revision -> set(cfg, KEY_EXTERNAL_IDS_REVISION, revision.name()));
   }
 
   /**

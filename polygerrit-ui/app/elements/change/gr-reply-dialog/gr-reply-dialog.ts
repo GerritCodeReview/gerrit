@@ -103,8 +103,7 @@ import {
   fireServerError,
 } from '../../../utils/event-util';
 import {ErrorCallback} from '../../../api/rest';
-import {debounce, DelayedTask} from '../../../utils/async-util';
-import {StorageLocation} from '../../../services/storage/gr-storage';
+import {DelayedTask} from '../../../utils/async-util';
 import {Interaction, Timing} from '../../../constants/reporting';
 import {
   getMentionedReason,
@@ -136,8 +135,6 @@ import {
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {Key, Modifier} from '../../../utils/dom-util';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
-
-const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
 export enum FocusTarget {
   ANY = 'any',
@@ -398,8 +395,6 @@ export class GrReplyDialog extends LitElement {
 
   private readonly restApiService: RestApiService =
     getAppContext().restApiService;
-
-  private readonly storage = getAppContext().storageService;
 
   private readonly jsAPI = getAppContext().jsApiService;
 
@@ -772,11 +767,6 @@ export class GrReplyDialog extends LitElement {
   }
 
   override willUpdate(changedProperties: PropertyValues) {
-    if (changedProperties.has('patchsetLevelDraftMessage')) {
-      this.draftChanged(
-        changedProperties.get('patchsetLevelDraftMessage') as string
-      );
-    }
     if (changedProperties.has('ccPendingConfirmation')) {
       this.pendingConfirmationUpdated(this.ccPendingConfirmation);
     }
@@ -1390,9 +1380,6 @@ export class GrReplyDialog extends LitElement {
     if (quote?.length) {
       // If a reply quote has been provided, use it.
       this.patchsetLevelDraftMessage = quote;
-    } else {
-      // Otherwise, check for an unsaved draft in localstorage.
-      this.patchsetLevelDraftMessage = this.loadStoredDraft();
     }
     if (this.restApiService.hasPendingDiffDrafts()) {
       this.savingComments = true;
@@ -2116,20 +2103,6 @@ export class GrReplyDialog extends LitElement {
     this.focusOn(target);
   }
 
-  getStorageLocation(): StorageLocation {
-    assertIsDefined(this.change, 'change');
-    return {
-      changeNum: this.change._number,
-      patchNum: '@change',
-      path: '@change',
-    };
-  }
-
-  loadStoredDraft() {
-    const draft = this.storage.getDraftComment(this.getStorageLocation());
-    return draft?.message ?? '';
-  }
-
   handleAccountTextEntry() {
     // When either of the account entries has input added to the autocomplete,
     // it should trigger the save button to enable/
@@ -2148,25 +2121,6 @@ export class GrReplyDialog extends LitElement {
     return (
       this.alreadyExists(this.reviewers, user) ||
       this.alreadyExists(this._ccs, user)
-    );
-  }
-
-  draftChanged(oldDraft: string) {
-    this.storeTask = debounce(
-      this.storeTask,
-      () => {
-        if (!this.patchsetLevelDraftMessage.length && oldDraft) {
-          // If the draft has been modified to be empty, then erase the storage
-          // entry.
-          this.storage.eraseDraftComment(this.getStorageLocation());
-        } else if (this.patchsetLevelDraftMessage.length) {
-          this.storage.setDraftComment(
-            this.getStorageLocation(),
-            this.patchsetLevelDraftMessage
-          );
-        }
-      },
-      STORAGE_DEBOUNCE_INTERVAL_MS
     );
   }
 

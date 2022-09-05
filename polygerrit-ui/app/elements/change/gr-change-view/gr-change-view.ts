@@ -2152,7 +2152,6 @@ export class GrChangeView extends LitElement {
       const state: ChecksTabState = {};
       detail.tabState = {checksTab: state};
       if (this.params?.filter) state.filter = this.params.filter;
-      if (this.params?.select) state.select = this.params.select;
       if (this.params?.attempt) state.attempt = this.params.attempt;
     }
 

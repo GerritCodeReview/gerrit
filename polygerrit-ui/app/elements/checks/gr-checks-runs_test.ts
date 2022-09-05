@@ -11,6 +11,7 @@ import {fixture, assert} from '@open-wc/testing';
 import {checksModelToken} from '../../models/checks/checks-model';
 import {fakeRun0, setAllFakeRuns} from '../../models/checks/checks-fakes';
 import {resolve} from '../../models/dependency';
+import {queryAll} from '../../utils/common-util';
 
 suite('gr-checks-runs test', () => {
   let element: GrChecksRuns;
@@ -21,16 +22,20 @@ suite('gr-checks-runs test', () => {
     );
     const getChecksModel = resolve(element, checksModelToken);
     setAllFakeRuns(getChecksModel());
+    await element.updateComplete;
   });
 
-  test('tabState filter', async () => {
-    element.tabState = {filter: 'fff'};
+  test('filterRegExp', async () => {
+    // Without a filter all 6 fake runs (0-5) will be rendered.
+    assert.equal(queryAll(element, 'gr-checks-run').length, 6);
+
+    // This filter will only match fakeRun2 (checkName: 'FAKE Mega Analysis').
+    element.filterRegExp = 'Mega';
     await element.updateComplete;
-    assert.equal(element.filterRegExp?.source, 'fff');
+    assert.equal(queryAll(element, 'gr-checks-run').length, 1);
   });
 
   test('renders', async () => {
-    await element.updateComplete;
     assert.equal(element.runs.length, 44);
     assert.shadowDom.equal(
       element,
@@ -162,10 +167,10 @@ suite('gr-checks-run test', () => {
     element = await fixture<GrChecksRun>(html`<gr-checks-run></gr-checks-run>`);
     const getChecksModel = resolve(element, checksModelToken);
     setAllFakeRuns(getChecksModel());
+    await element.updateComplete;
   });
 
   test('renders loading', async () => {
-    await element.updateComplete;
     assert.shadowDom.equal(
       element,
       /* HTML */ ' <div class="chip">Loading ...</div> '

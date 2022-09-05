@@ -31,6 +31,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import org.eclipse.jgit.lib.ObjectId;
 
 /**
  * Data holder for updates to be applied to an account.
@@ -160,6 +161,17 @@ public abstract class AccountDelta {
    *     preferences are not being updated, the wrapped value is never {@code null}
    */
   public abstract Optional<EditPreferencesInfo> getEditPreferences();
+
+  public abstract Optional<ObjectId> getExternalIdsRevision();
+
+  public abstract Builder toBuilder();
+
+  /** Returns true if this {@link AccountDelta} updates any externalIds, false otherwise. */
+  public boolean hasExternalIdUpdates() {
+    return !getUpdatedExternalIds().isEmpty()
+        || !getCreatedExternalIds().isEmpty()
+        || !getDeletedExternalIds().isEmpty();
+  }
 
   /**
    * Class to build an {@link AccountDelta}.
@@ -447,6 +459,8 @@ public abstract class AccountDelta {
      */
     public abstract Builder setEditPreferences(EditPreferencesInfo editPreferences);
 
+    abstract Builder setExternalIdsRevision(Optional<ObjectId> value);
+
     /** Builds the instance. */
     public abstract AccountDelta build();
 
@@ -596,6 +610,11 @@ public abstract class AccountDelta {
       public Builder setEditPreferences(EditPreferencesInfo editPreferences) {
         delegate.setEditPreferences(editPreferences);
         return this;
+      }
+
+      @Override
+      public Builder setExternalIdsRevision(Optional<ObjectId> value) {
+        return delegate.setExternalIdsRevision(value);
       }
     }
   }

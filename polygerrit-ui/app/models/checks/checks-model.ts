@@ -147,6 +147,10 @@ interface ChecksState {
    * (default), then for each run the latest attempt is displayed.
    */
   attemptNumberSelected: AttemptChoice;
+  /**
+   * Current filter set by the user in the runs panel or via URL.
+   */
+  runFilterRegexp: string;
   /** Checks data for the latest patchset. */
   pluginStateLatest: {
     [name: string]: ChecksProviderState;
@@ -215,6 +219,8 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
     this.state$,
     state => state.attemptNumberSelected
   );
+
+  public runFilterRegexp$ = select(this.state$, state => state.runFilterRegexp);
 
   public checksLatest$ = select(this.state$, state => state.pluginStateLatest);
 
@@ -380,6 +386,7 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
     super({
       patchsetNumberSelected: undefined,
       attemptNumberSelected: LATEST_ATTEMPT,
+      runFilterRegexp: '',
       pluginStateLatest: {},
       pluginStateSelected: {},
     });
@@ -656,6 +663,12 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
   updateStateSetAttempt(attemptNumber: AttemptChoice) {
     const nextState = {...this.subject$.getValue()};
     nextState.attemptNumberSelected = attemptNumber;
+    this.subject$.next(nextState);
+  }
+
+  updateStateSetRunFilter(runFilter: string) {
+    const nextState = {...this.subject$.getValue()};
+    nextState.runFilterRegexp = runFilter;
     this.subject$.next(nextState);
   }
 

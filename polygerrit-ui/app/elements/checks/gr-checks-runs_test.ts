@@ -26,7 +26,7 @@ suite('gr-checks-runs test', () => {
   test('tabState filter', async () => {
     element.tabState = {filter: 'fff'};
     await element.updateComplete;
-    assert.equal(element.filterRegExp?.source, 'fff');
+    assert.equal(element.filterRegExp, 'fff');
   });
 
   test('renders', async () => {

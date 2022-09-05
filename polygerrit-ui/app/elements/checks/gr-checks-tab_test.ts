@@ -41,7 +41,6 @@ suite('gr-checks-tab test', () => {
       checksTab: {
         statusOrCategory: Category.ERROR,
         filter: 'elim',
-        select: 'fake',
         attempt: 3,
       },
     };

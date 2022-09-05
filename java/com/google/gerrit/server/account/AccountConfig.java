@@ -202,6 +202,23 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   }
 
   /**
+   * On {@link AccountsUpdate}, sets the {@link AccountProperties#KEY_EXTERNAL_IDS_VERSION} if any
+   * updates to external ids are executed to this account.
+   *
+   * <p>This makes it so that the {@link RefNames#refsUsers} is updated each time the externalIds
+   * are updated for this account.
+   */
+  public AccountConfig addExternalIdVersionUpdate(ObjectId revision) {
+    if (!accountDelta.map(delta -> delta.hasExternalIdUpdates()).orElse(false)) {
+      return this;
+    }
+    accountDelta =
+        accountDelta.map(
+            delta -> delta.toBuilder().setExternalIdsRevision(Optional.of(revision)).build());
+    return this;
+  }
+
+  /**
    * Returns the content of the {@code preferences.config} file wrapped as {@link
    * CachedPreferences}.
    */

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b51c04e_f7a8b38c",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-05T13:19:50Z",
+      "side": 1,
+      "message": "I believe this is because you are setting the `checked` attribute and not the property. The attribute only affects the default state of the input rather than the current state, so updating the attribute after it is created will do nothing.\n\nhttps://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#attr-checked\n\nIf you switched to setting `checked` by property in `renderAttempt` possibly this code here would not be necessary. This was also encountered when we were working on the dashboard selection checkboxes.",
+      "range": {
+        "startLine": 234,
+        "startChar": 0,
+        "endLine": 237,
+        "endChar": 0
+      },
+      "revId": "d23caf1733de8fcf0fb6d411c684ff53834904fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

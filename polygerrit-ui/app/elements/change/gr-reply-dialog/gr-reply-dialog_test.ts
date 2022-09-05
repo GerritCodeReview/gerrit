@@ -244,20 +244,6 @@ suite('gr-reply-dialog tests', () => {
                 </gr-textarea>
                 <gr-endpoint-param name="change"> </gr-endpoint-param>
               </gr-endpoint-decorator>
-              <div class="labelContainer">
-                <label>
-                  <input
-                    checked=""
-                    id="resolvedPatchsetLevelCommentCheckbox"
-                    type="checkbox"
-                  />
-                  Resolved
-                </label>
-                <label class="preview-formatting">
-                  <input type="checkbox" />
-                  Preview formatting
-                </label>
-              </div>
             </div>
           </section>
           <div class="newReplyDialog stickyBottom">
@@ -1070,50 +1056,6 @@ suite('gr-reply-dialog tests', () => {
     // Account 3 is not included, because the comment is resolved *and* they
     // have given the highest possible vote on the Code-Review label.
     assert.sameMembers(actualAccounts, [1, 2, 4]);
-  });
-
-  test('toggle resolved checkbox', async () => {
-    const checkboxEl = queryAndAssert<HTMLInputElement>(
-      element,
-      '#resolvedPatchsetLevelCommentCheckbox'
-    );
-    checkboxEl.click();
-
-    // Async tick is needed because iron-selector content is distributed and
-    // distributed content requires an observer to be set up.
-    await element.updateComplete;
-    element.patchsetLevelDraftMessage = 'I wholeheartedly disapprove';
-    element.draftCommentThreads = [createCommentThread([createComment()])];
-
-    const saveReviewPromise = interceptSaveReview();
-
-    // This is needed on non-Blink engines most likely due to the ways in
-    // which the dom-repeat elements are stamped.
-    await element.updateComplete;
-    queryAndAssert<GrButton>(element, '.send').click();
-
-    const review = await saveReviewPromise;
-    assert.deepEqual(review, {
-      drafts: 'PUBLISH_ALL_REVISIONS',
-      labels: {
-        'Code-Review': 0,
-        Verified: 0,
-      },
-      comments: {
-        [SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: [
-          {
-            message: 'I wholeheartedly disapprove',
-            unresolved: true,
-          },
-        ],
-      },
-      reviewers: [],
-      add_to_attention_set: [
-        {reason: '<GERRIT_ACCOUNT_1> replied on the change', user: 999},
-      ],
-      remove_from_attention_set: [],
-      ignore_automatic_attention_set_rules: true,
-    });
   });
 
   test('label picker', async () => {

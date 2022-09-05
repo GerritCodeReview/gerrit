@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87237dd1_e006eb30",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-05T09:21:05Z",
+      "side": 1,
+      "message": "The reply dialog should not be responsible for filling the account details.\n\nSubscription logic in components should be super simple and not involve any promises or rest api calls.\n\nSo move this logic into the comments model. The comments model should then make use of the accounts model for filling the account information. So comments model depends on accounts model, not the other way around.",
+      "range": {
+        "startLine": 698,
+        "startChar": 11,
+        "endLine": 698,
+        "endChar": 75
+      },
+      "revId": "20929fc09b026490ef44bb2438e8ebd2af8b76b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

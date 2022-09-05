@@ -233,8 +233,6 @@ export interface ChecksTabState {
   checkName?: string;
   /** regular expression for filtering runs */
   filter?: string;
-  /** regular expression for selecting runs */
-  select?: string;
   /** selected attempt for selected runs */
   attempt?: AttemptChoice;
 }

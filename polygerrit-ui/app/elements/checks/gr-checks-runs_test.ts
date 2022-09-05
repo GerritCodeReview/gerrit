@@ -11,6 +11,7 @@ import {fixture, assert} from '@open-wc/testing';
 import {checksModelToken} from '../../models/checks/checks-model';
 import {fakeRun0, setAllFakeRuns} from '../../models/checks/checks-fakes';
 import {resolve} from '../../models/dependency';
+import {queryAll} from '../../utils/common-util';
 
 suite('gr-checks-runs test', () => {
   let element: GrChecksRuns;
@@ -23,10 +24,13 @@ suite('gr-checks-runs test', () => {
     setAllFakeRuns(getChecksModel());
   });
 
-  test('tabState filter', async () => {
-    element.tabState = {filter: 'fff'};
+  test('filterRegExp', async () => {
     await element.updateComplete;
-    assert.equal(element.filterRegExp?.source, 'fff');
+    assert.equal(queryAll(element, 'gr-checks-run').length, 6);
+
+    element.filterRegExp = 'long';
+    await element.updateComplete;
+    assert.equal(queryAll(element, 'gr-checks-run').length, 1);
   });
 
   test('renders', async () => {

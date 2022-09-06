@@ -62,6 +62,7 @@ import {
   changeIsMerged,
   changeIsOpen,
   changeStatuses,
+  getSha,
   isInvolved,
   roleDetails,
 } from '../../../utils/change-util';
@@ -1335,6 +1336,16 @@ export class GrChangeView extends LitElement {
         value: `${this.change?.id.split('~').pop()}`,
       },
     ];
+    if (this.change?.status === ChangeStatus.MERGED) {
+      const sha = getSha(this.change);
+      if (sha) {
+        links.push({
+          label: 'SHA',
+          shortcut: 's',
+          value: sha,
+        });
+      }
+    }
     return html`<gr-copy-links .copyLinks=${links}> </gr-copy-links>`;
   }
 

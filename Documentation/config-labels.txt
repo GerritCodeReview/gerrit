@@ -455,10 +455,14 @@ link:#group-id[\{group-id\}].
 Matches when the new patch-set has the same list of files as the
 previous patch-set.
 
-Files that are renamed in the new patch set are counted as a deletion
+Votes are not copied in the following cases:
+
+  * Files that are renamed in the new patch set are counted as a deletion
 of the file at the old path and an addition of the file at the new
-path. This means, if there are renames, the list of files did change
-and this predicate doesn't match.
+path. This means the list of files did change in this case.
+  * Files that are reverted to their original content, that is files that become
+  same as in the base revision.
+
 
 This predicate is useful if you don't want to trigger CI or human
 verification again if the list of files didn't change.

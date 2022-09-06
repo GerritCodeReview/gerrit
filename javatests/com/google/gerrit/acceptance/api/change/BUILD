@@ -6,5 +6,8 @@ load("//javatests/com/google/gerrit/acceptance:tests.bzl", "acceptance_tests")
     labels = [
         "api",
     ],
-    deps = ["//java/com/google/gerrit/server/util/time"],
+    deps = [
+        "//java/com/google/gerrit/server/util/time",
+        "//javatests/com/google/gerrit/acceptance/server/change:util",
+    ],
 ) for f in glob(["*IT.java"])]

@@ -58,6 +58,8 @@ export class GrCopyClipboard extends LitElement {
           font-size: var(--font-size-mono);
           line-height: var(--line-height-mono);
           width: 100%;
+          background-color: var(--view-background-color);
+          color: var(--primary-text-color);
         }
         gr-icon {
           color: var(--deemphasized-text-color);

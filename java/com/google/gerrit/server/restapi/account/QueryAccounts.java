@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryResult;
+import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gerrit.server.account.AccountInfoComparator;
 import com.google.gerrit.server.account.AccountLoader;
@@ -64,6 +65,7 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
   private static final int MAX_SUGGEST_RESULTS = 100;
 
   private final PermissionBackend permissionBackend;
+  private final AccountControl.Factory accountControlFactory;
   private final AccountLoader.Factory accountLoaderFactory;
   private final AccountQueryBuilder queryBuilder;
   private final Provider<AccountQueryProcessor> queryProcessorProvider;
@@ -131,11 +133,13 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
   @Inject
   QueryAccounts(
       PermissionBackend permissionBackend,
+      AccountControl.Factory accountControlFactory,
       AccountLoader.Factory accountLoaderFactory,
       AccountQueryBuilder queryBuilder,
       Provider<AccountQueryProcessor> queryProcessorProvider,
       @GerritServerConfig Config cfg) {
     this.permissionBackend = permissionBackend;
+    this.accountControlFactory = accountControlFactory;
     this.accountLoaderFactory = accountLoaderFactory;
     this.queryBuilder = queryBuilder;
     this.queryProcessorProvider = queryProcessorProvider;
@@ -218,6 +222,9 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
         // if neither 'is:active' nor 'is:inactive' appears in the query only
         // active accounts should be queried
         queryPred = AccountPredicates.andActive(queryPred);
+      }
+      if (!accountControlFactory.get().canSeeHiddenAccounts()) {
+        queryPred = queryBuilder.andVisible(queryPred);
       }
       QueryResult<AccountState> result = queryProcessor.query(queryPred);
       for (AccountState accountState : result.entities()) {

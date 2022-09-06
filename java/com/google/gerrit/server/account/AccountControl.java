@@ -101,6 +101,7 @@ public class AccountControl {
   private final AccountVisibility accountVisibility;
 
   private Boolean viewAll;
+  private Boolean canSeeHiddenAccounts;
 
   private AccountControl(
       PermissionBackend permissionBackend,
@@ -267,6 +268,19 @@ public class AccountControl {
       }
     }
     return viewAll;
+  }
+
+  public boolean canSeeHiddenAccounts() {
+    try {
+      canSeeHiddenAccounts =
+          perm.test(GlobalPermission.VIEW_ALL_ACCOUNTS)
+              || perm.test(GlobalPermission.MODIFY_ACCOUNT);
+    } catch (PermissionBackendException e) {
+      logger.atFine().withCause(e).log(
+          "Failed to check  canSeeHiddenAccounts for user %s", user.getLoggableName());
+      canSeeHiddenAccounts = false;
+    }
+    return canSeeHiddenAccounts;
   }
 
   private Set<AccountGroup.UUID> groupsOf(CurrentUser user) {

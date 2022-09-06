@@ -17,6 +17,8 @@ package com.google.gerrit.server.query.account;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.fail;
@@ -24,6 +26,8 @@ import static org.junit.Assert.fail;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.GerritApi;
@@ -145,9 +149,11 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
   @Inject protected AccountConfigFactory accountConfigFactory;
 
+  @Inject protected ProjectOperations projectOperations;
+
   protected LifecycleManager lifecycle;
   protected Injector injector;
-  protected AccountInfo currentUserInfo;
+  protected AccountInfo adminUserInfo;
   protected CurrentUser admin;
 
   protected abstract Injector createInjector();
@@ -177,7 +183,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     Account.Id adminId = createAccount("admin", "Administrator", "admin@example.com", true);
     admin = userFactory.create(adminId);
     requestContext.setContext(newRequestContext(adminId));
-    currentUserInfo = gApi.accounts().id(adminId.get()).get();
+    adminUserInfo = gApi.accounts().id(adminId.get()).get();
   }
 
   protected void initAfterLifecycleStart() throws Exception {}
@@ -204,13 +210,13 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     AccountInfo user = newAccount("user");
 
     assertQuery("9999999");
-    assertQuery(currentUserInfo._accountId, currentUserInfo);
+    assertQuery(adminUserInfo._accountId, adminUserInfo);
     assertQuery(user._accountId, user);
   }
 
   @Test
   public void bySelf() throws Exception {
-    assertQuery("self", currentUserInfo);
+    assertQuery("self", adminUserInfo);
   }
 
   @Test
@@ -228,8 +234,8 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
     assertQuery("notexisting@example.com");
 
-    assertQuery(currentUserInfo.email, currentUserInfo);
-    assertQuery("email:" + currentUserInfo.email, currentUserInfo);
+    assertQuery(adminUserInfo.email, adminUserInfo);
+    assertQuery("email:" + adminUserInfo.email, adminUserInfo);
 
     assertQuery(user1.email, user1);
     assertQuery("email:" + user1.email, user1);
@@ -324,8 +330,8 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     assertQuery("DOE", user1);
     assertQuery("Jo Do", user1);
     assertQuery("jo do", user1);
-    assertQuery("self", currentUserInfo, user3);
-    assertQuery("me", currentUserInfo);
+    assertQuery("self", adminUserInfo, user3);
+    assertQuery("me", adminUserInfo);
     assertQuery("name:John", user1);
     assertQuery("name:john", user1);
     assertQuery("name:Doe", user1);
@@ -370,6 +376,126 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     assertQuery("name:Doe", user1);
     assertQuery("name:doe", user1);
     assertQuery("name:DOE", user1);
+  }
+
+  @Test
+  public void queryAccount_filtersOutHiddenUsers() throws Exception {
+    AccountInfo user1 = newAccount("jdoe", "John Doe", "jdoe@test.com", /*active=*/ true);
+    AccountInfo user2 = newAccount("jandoe", "Jane K. Doe", "jandoe@test.com", /*active=*/ true);
+    AccountInfo user3 = newAccount("user");
+
+    requestContext.setContext(newRequestContext(Account.id(admin.getAccountId().get())));
+
+    requestContext.setContext(newRequestContext(Account.id(user1._accountId)));
+    gApi.accounts().self().setIsHidden(true);
+    requestContext.setContext(newRequestContext(Account.id(user3._accountId)));
+
+    assertQuery("self", user3);
+    assertQuery(quote(user1.name));
+    assertQuery("name:" + quote(user1.name));
+    assertQuery("John");
+    assertQuery("Doe", user2);
+    assertQuery("email:" + user1.email);
+    assertQuery("email:" + user2.email, user2);
+    assertQuery("username:" + user1.username);
+    assertQuery("is:active", adminUserInfo, user2, user3);
+    assertQuery("is:hidden");
+    assertQuery("is:unhidden", adminUserInfo, user2, user3);
+    assertQuery("is:hidden name:" + quote(user1.name));
+    assertQuery("is:hidden name:" + quote(user2.name));
+    assertQuery("is:unhidden name:" + quote(user2.name), user2);
+    assertQuery("is:unhidden name:" + quote(user1.name));
+  }
+
+  @Test
+  public void queryAccount_hiddenUser_canQuerySelf() throws Exception {
+    AccountInfo user1 = newAccount("jdoe", "John Doe", "jdoe@test.com", /*active=*/ true);
+    AccountInfo user2 = newAccount("jandoe", "Jane K. Doe", "jandoe@test.com", /*active=*/ true);
+
+    requestContext.setContext(newRequestContext(Account.id(admin.getAccountId().get())));
+
+    requestContext.setContext(newRequestContext(Account.id(user1._accountId)));
+    gApi.accounts().self().setIsHidden(true);
+
+    assertQuery("self", user1);
+    assertQuery(quote(user1.name), user1);
+    assertQuery("name:" + quote(user1.name), user1);
+    assertQuery("John", user1);
+    assertQuery("Doe", user1, user2);
+    assertQuery("email:" + user1.email, user1);
+    assertQuery("email:" + user2.email, user2);
+    assertQuery("username:" + user1.username, user1);
+    assertQuery("is:active", adminUserInfo, user1, user2);
+    assertQuery("is:unhidden", adminUserInfo, user2);
+    assertQuery("is:hidden name:" + quote(user1.name), user1);
+    assertQuery("is:hidden name:" + quote(user2.name));
+    assertQuery("is:unhidden name:" + quote(user2.name), user2);
+    assertQuery("is:unhidden name:" + quote(user1.name));
+  }
+
+  @Test
+  public void queryAccount_withCanViewAll_canSeeHiddenUsers() throws Exception {
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.VIEW_ALL_ACCOUNTS).group(REGISTERED_USERS))
+        .update();
+    AccountInfo user1 = newAccount("jdoe", "John Doe", "jdoe@test.com", /*active=*/ true);
+    AccountInfo user2 = newAccount("jandoe", "Jane K. Doe", "jandoe@test.com", /*active=*/ true);
+    AccountInfo user3 = newAccount("user");
+
+    requestContext.setContext(newRequestContext(Account.id(admin.getAccountId().get())));
+
+    requestContext.setContext(newRequestContext(Account.id(user1._accountId)));
+    gApi.accounts().self().setIsHidden(true);
+    requestContext.setContext(newRequestContext(Account.id(user3._accountId)));
+
+    assertQuery("self", user3);
+    assertQuery(quote(user1.name), user1);
+    assertQuery("name:" + quote(user1.name), user1);
+    assertQuery("John", user1);
+    assertQuery("Doe", user1, user2);
+    assertQuery("email:" + user1.email, user1);
+    assertQuery("email:" + user2.email, user2);
+    assertQuery("username:" + user1.username, user1);
+    assertQuery("is:active", adminUserInfo, user1, user2, user3);
+    assertQuery("is:unhidden", adminUserInfo, user2, user3);
+    assertQuery("is:hidden name:" + quote(user1.name), user1);
+    assertQuery("is:hidden name:" + quote(user2.name));
+    assertQuery("is:unhidden name:" + quote(user2.name), user2);
+    assertQuery("is:unhidden name:" + quote(user1.name));
+  }
+
+  @Test
+  public void queryAccount_withCanModifyAccount_canSeeHiddenUsers() throws Exception {
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.MODIFY_ACCOUNT).group(REGISTERED_USERS))
+        .update();
+    AccountInfo user1 = newAccount("jdoe", "John Doe", "jdoe@test.com", /*active=*/ true);
+    AccountInfo user2 = newAccount("jandoe", "Jane K. Doe", "jandoe@test.com", /*active=*/ true);
+    AccountInfo user3 = newAccount("user");
+
+    requestContext.setContext(newRequestContext(Account.id(admin.getAccountId().get())));
+
+    requestContext.setContext(newRequestContext(Account.id(user1._accountId)));
+    gApi.accounts().self().setIsHidden(true);
+    requestContext.setContext(newRequestContext(Account.id(user3._accountId)));
+
+    assertQuery("self", user3);
+    assertQuery(quote(user1.name), user1);
+    assertQuery("name:" + quote(user1.name), user1);
+    assertQuery("John", user1);
+    assertQuery("Doe", user1, user2);
+    assertQuery("email:" + user1.email, user1);
+    assertQuery("email:" + user2.email, user2);
+    assertQuery("username:" + user1.username, user1);
+    assertQuery("is:active", adminUserInfo, user1, user2, user3);
+    assertQuery("is:hidden", user1);
+    assertQuery("is:unhidden", adminUserInfo, user2, user3);
+    assertQuery("is:hidden name:" + quote(user1.name), user1);
+    assertQuery("is:hidden name:" + quote(user2.name));
+    assertQuery("is:unhidden name:" + quote(user2.name), user2);
+    assertQuery("is:unhidden name:" + quote(user1.name));
   }
 
   @Test

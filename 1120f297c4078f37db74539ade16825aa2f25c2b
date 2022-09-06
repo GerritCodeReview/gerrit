@@ -16,6 +16,29 @@
       "message": "LGTM but add link show/hide test and util test",
       "revId": "1120f297c4078f37db74539ade16825aa2f25c2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd03ac70_e3be68f6",
+        "filename": "polygerrit-ui/app/utils/change-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-06T14:58:43Z",
+      "side": 1,
+      "message": "Maybe just use `change.current_revision`? Otherwise I think you are looking up the commit by `change.current_revision`, but I think this is always true: `change.revisions[key].commit.commit \u003d\u003d\u003d key`.",
+      "range": {
+        "startLine": 280,
+        "startChar": 12,
+        "endLine": 280,
+        "endChar": 35
+      },
+      "revId": "1120f297c4078f37db74539ade16825aa2f25c2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

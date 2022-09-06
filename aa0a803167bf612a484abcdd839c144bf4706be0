@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb539989_d6396402",
+        "filename": "polygerrit-ui/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-09-06T13:00:46Z",
+      "side": 1,
+      "message": "unlikely; it\u0027s probably waiting for user-input somewhere. Reading from /dev/random in sandbox on linux can also trigger random waits.\n\ncould it be a browser that wants you to click something?",
+      "range": {
+        "startLine": 65,
+        "startChar": 49,
+        "endLine": 65,
+        "endChar": 77
+      },
+      "revId": "aa0a803167bf612a484abcdd839c144bf4706be0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

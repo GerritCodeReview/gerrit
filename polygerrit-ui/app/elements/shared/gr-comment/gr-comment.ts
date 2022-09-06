@@ -165,7 +165,7 @@ export class GrComment extends LitElement {
   robotButtonDisabled = false;
 
   @property({type: String})
-  messagePlaceholder?: string;
+  messagePlaceholder = 'Type @ to mention someone';
 
   /* private, but used in css rules */
   @property({type: Boolean, reflect: true})

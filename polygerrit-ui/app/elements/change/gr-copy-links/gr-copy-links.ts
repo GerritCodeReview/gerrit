@@ -9,7 +9,7 @@ import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import {LitElement, html, css, nothing} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {strToClassName} from '../../../utils/dom-util';
-import {IronDropdownElement} from '@polymer/iron-dropdown';
+import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
 import {copyToClipbard, queryAndAssert} from '../../../utils/common-util';
 import {ValueChangedEvent} from '../../../types/events';
 

@@ -34,6 +34,23 @@
       "parentUuid": "bd1727b6_b52bd35a",
       "revId": "64df5ae23920a42a73e9812e2335194e27912b67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3025922_176cea72",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-09-06T09:33:51Z",
+      "side": 1,
+      "message": "Hi Edwin, would you please approve this change?\n\n@ekempin@google.com",
+      "revId": "64df5ae23920a42a73e9812e2335194e27912b67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

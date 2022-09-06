@@ -51,6 +51,23 @@
       "parentUuid": "ddf2dea5_cf747a2d",
       "revId": "e8f2b22980ef61a57f01888f8f9afbbcd91d0f2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "075e8a7e_273ff5b9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1145421
+      },
+      "writtenOn": "2022-09-06T07:22:12Z",
+      "side": 1,
+      "message": "1. I am selecting lastest builds on \nReviewers-  inculding - Marija and YoussefandGerritCI\n\nCC -  Fernanda Juan",
+      "revId": "e8f2b22980ef61a57f01888f8f9afbbcd91d0f2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

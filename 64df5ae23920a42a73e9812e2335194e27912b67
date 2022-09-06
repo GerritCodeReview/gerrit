@@ -16,6 +16,24 @@
       "message": "Are we confident that we are not going to roll back the experiment (i.e. due to the increased latency)?",
       "revId": "64df5ae23920a42a73e9812e2335194e27912b67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81b2ecca_2b8d089c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-09-06T08:30:13Z",
+      "side": 1,
+      "message": "We know the root cause b/244740368 and it\u0027s a KI in RefDatabase\u0027s prefix scan. With the root cause fixed I expect us back to normal latencies.\nWith the delta slowness, the experiment is live for nearly a month, so yes I\u0027m confident we are OK to proceed.",
+      "parentUuid": "bd1727b6_b52bd35a",
+      "revId": "64df5ae23920a42a73e9812e2335194e27912b67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

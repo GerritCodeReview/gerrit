@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc7f34cf_3ad1221c",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-09-06T17:27:19Z",
+      "side": 1,
+      "message": "\"effectiveLimit\" is no clearer to me than \"limit\", maybe this should be \"pageSize\"?",
+      "range": {
+        "startLine": 243,
+        "startChar": 12,
+        "endLine": 243,
+        "endChar": 26
+      },
+      "revId": "9b7044716f88f45b92ea910aaae87daa934a364c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

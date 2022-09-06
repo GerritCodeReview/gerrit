@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9ecd966f_e6429ebf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-09-06T09:56:41Z",
+      "side": 1,
+      "message": "In this change, we are only writing the new property \"KEY_EXTERNAL_IDS_VERSION\" but we are not reading it back. Could you please explain in the commit message why we do that? (i.e. only enough to write it, vs. we are planning to implement a read path for the new property in a later change)\n\nI\u0027m also very skeptical about compatibility, but as long as we\u0027re only writing the new property we should be fine.",
+      "revId": "16d68132a1c503bfba603cb67d23927d9c5d68d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "526d2d34_5cb23295",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -138,6 +155,30 @@
         "startChar": 5,
         "endLine": 10,
         "endChar": 9
+      },
+      "revId": "16d68132a1c503bfba603cb67d23927d9c5d68d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8e745dc_ff19f289",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-09-06T09:56:41Z",
+      "side": 1,
+      "message": "Do we have a recipe for updating this manually? The only entry point I know to that code is through GerritInternals, but we can modify the logic there as well.",
+      "parentUuid": "2a649ce6_0c80b330",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 23
       },
       "revId": "16d68132a1c503bfba603cb67d23927d9c5d68d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

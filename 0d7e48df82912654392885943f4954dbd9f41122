@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0fad9134_0d35c846",
+        "filename": "java/com/google/gerrit/server/account/AccountProperties.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-09-06T09:56:41Z",
+      "side": 1,
+      "message": "nit: maybe externalIdsRevision is better; we will store a SHA-1 (a.k.a revision) in this field.",
+      "range": {
+        "startLine": 62,
+        "startChar": 57,
+        "endLine": 62,
+        "endChar": 75
+      },
+      "revId": "0d7e48df82912654392885943f4954dbd9f41122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb6356a1_95f95a8f",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-09-06T09:56:41Z",
+      "side": 1,
+      "message": "this line was moved out of the loop (previously executed n times, once per account update). Does this have side effects?",
+      "revId": "0d7e48df82912654392885943f4954dbd9f41122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88164b75_21242f15",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-09-06T09:56:41Z",
+      "side": 1,
+      "message": "[Optional] we can just inline: if(!Object.equals(revCommit.getId(), oldExternalIds)) {...}\n\nand remove the boolean",
+      "revId": "0d7e48df82912654392885943f4954dbd9f41122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

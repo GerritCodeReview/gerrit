@@ -20,4 +20,5 @@ java_library(
         "//java/com/google/gerrit/extensions:api",
         "@guava//jar",
     ],
+    visibility = ["//javatests/com/google/gerrit/acceptance/api/change:__subpackages__"]
 )

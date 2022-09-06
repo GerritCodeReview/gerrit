@@ -121,6 +121,23 @@
       "message": "1. I am not able to do the build i need big help on this - (IndexedField\u003cInternalGroup,Timestamp\u003e.SearchSpec,\nIndexedField\u003cInternalGroup,String\u003e.SearchSpec,\nIndexedField\u003cInternalGroup,Integer\u003e.SearchSpec,\nIndexedField\u003cInternalGroup,String\u003e.SearchSpec,\nIndexedField\u003cInternalGroup,Iterable\u003cInteger\u003e\u003e.SearchSpec,\nIndexedField\u003cInternalGroup,String\u003e.SearchSpec,\nIndexedField\u003cInternalGroup,Iterable\u003cString\u003e\u003e.SearchSpec,\nIndexedField\u003cInternalGroup,String\u003e.SearchSpec,\nIndexedField\u003cInternalGroup,Iterable\u003cString\u003e\u003e.SearchSpec)\nGroupSchemaDefinitions.java\n/gerrit/java/com/google/gerrit/server/index/group\tline 46\tJava\nProblem\n\nThe same fix had already been applied in AccountSchemaDefinitions (see\nchange I7f66af0e3).\n\nSigned-off-by: Edwin Kempin \u003cekempin@google.com\u003e\nRelease-Notes: skip\nChange-Id: I2d255be5f437d1eaf91dec6d3ac4f7eab487448d",
       "revId": "e8f2b22980ef61a57f01888f8f9afbbcd91d0f2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91fe2b59_8c80600e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1145421
+      },
+      "writtenOn": "2022-09-06T07:33:06Z",
+      "side": 1,
+      "message": "I am doing the build about the endpoints. \nEndpoints\n/access/\nAccess Right related REST endpoints\n\n/accounts/\nAccount related REST endpoints\n\n/changes/\nChange related REST endpoints\n\n/config/\nConfig related REST endpoints\n\n/groups/\nGroup related REST endpoints\n\n/plugins/\nPlugin related REST endpoints\n\n/projects/\nProject related REST endpoints\n\n/Documentation/\nDocumentation related REST endpoints\n\nProtocol Details",
+      "revId": "e8f2b22980ef61a57f01888f8f9afbbcd91d0f2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

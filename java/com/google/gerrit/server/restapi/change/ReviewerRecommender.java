@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.FanOutExecutor;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.ReviewerSuggestion;
@@ -72,6 +73,7 @@ public class ReviewerRecommender {
   private final ExecutorService executor;
   private final ApprovalsUtil approvalsUtil;
   private final AccountCache accountCache;
+  private final AccountControl.Factory accountControlFactory;
 
   @Inject
   ReviewerRecommender(
@@ -81,7 +83,8 @@ public class ReviewerRecommender {
       @FanOutExecutor ExecutorService executor,
       ApprovalsUtil approvalsUtil,
       @GerritServerConfig Config config,
-      AccountCache accountCache) {
+      AccountCache accountCache,
+      AccountControl.Factory accountControlFactory) {
     this.changeQueryBuilder = changeQueryBuilder;
     this.config = config;
     this.queryProvider = queryProvider;
@@ -89,6 +92,7 @@ public class ReviewerRecommender {
     this.executor = executor;
     this.approvalsUtil = approvalsUtil;
     this.accountCache = accountCache;
+    this.accountControlFactory = accountControlFactory;
   }
 
   public List<Account.Id> suggestReviewers(
@@ -202,6 +206,7 @@ public class ReviewerRecommender {
       double baseWeight, String query, List<Account.Id> candidateList)
       throws IOException, ConfigInvalidException {
     int numberOfRelevantChanges = config.getInt("suggest", "relevantChanges", 50);
+    boolean canViewAll = accountControlFactory.get().canViewAll();
     // Get the user's last numberOfRelevantChanges changes, check reviewers
     try {
       List<ChangeData> result =
@@ -216,7 +221,7 @@ public class ReviewerRecommender {
 
       for (ChangeData cd : result) {
         for (Account.Id reviewer : cd.reviewers().all()) {
-          if (accountMatchesQuery(reviewer, query)) {
+          if (accountMatchesQuery(reviewer, query, canViewAll)) {
             suggestions
                 .computeIfAbsent(reviewer, (ignored) -> new MutableDouble(0))
                 .add(baseWeight);
@@ -231,9 +236,12 @@ public class ReviewerRecommender {
     }
   }
 
-  private boolean accountMatchesQuery(Account.Id id, String query) {
+  private boolean accountMatchesQuery(Account.Id id, String query, boolean canViewAll) {
     Optional<Account> account = accountCache.get(id).map(AccountState::account);
-    if (account.isPresent() && account.get().isActive()) {
+    // if does not have view all, has to be hidden accounts have to be filtered out.
+    if (account.isPresent()
+        && account.get().isActive()
+        && (canViewAll || !account.get().isHidden().orElse(false))) {
       if (Strings.isNullOrEmpty(query)
           || (account.get().fullName() != null && account.get().fullName().startsWith(query))
           || (account.get().preferredEmail() != null

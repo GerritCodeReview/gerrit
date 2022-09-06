@@ -12,6 +12,10 @@ import './gr-checks-attempt';
 import {Action, Link, RunStatus} from '../../api/checks';
 import {sharedStyles} from '../../styles/shared-styles';
 import {
+  ALL_ATTEMPTS,
+  AttemptChoice,
+  attemptChoiceLabel,
+  LATEST_ATTEMPT,
   AttemptDetail,
   compareByWorstCategory,
   headerForStatus,
@@ -40,11 +44,7 @@ import {
 } from '../../models/checks/checks-fakes';
 import {assertIsDefined} from '../../utils/common-util';
 import {modifierPressed, whenVisible} from '../../utils/dom-util';
-import {
-  fireAttemptSelected,
-  fireRunSelected,
-  fireRunSelectionReset,
-} from './gr-checks-util';
+import {fireRunSelected, fireRunSelectionReset} from './gr-checks-util';
 import {ChecksTabState} from '../../types/events';
 import {charsOnly} from '../../utils/string-util';
 import {getAppContext} from '../../services/app-context';
@@ -198,8 +198,8 @@ export class GrChecksRun extends LitElement {
   @property({attribute: false})
   selected = false;
 
-  @property({attribute: false})
-  selectedAttempt?: number;
+  @state()
+  selectedAttempt: AttemptChoice = LATEST_ATTEMPT;
 
   @property({attribute: false})
   deselected = false;
@@ -212,24 +212,20 @@ export class GrChecksRun extends LitElement {
 
   private readonly reporting = getAppContext().reportingService;
 
+  private getChecksModel = resolve(this, checksModelToken);
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getChecksModel().checksSelectedAttemptNumber$,
+      x => (this.selectedAttempt = x)
+    );
+  }
+
   override firstUpdated() {
     assertIsDefined(this.chipElement, 'chip element');
     whenVisible(this.chipElement, () => (this.shouldRender = true), 200);
-  }
-
-  protected override updated(changedProperties: PropertyValues) {
-    super.updated(changedProperties);
-
-    // For some reason the browser does not pick up the correct `checked` state
-    // that is set in renderAttempt(). So we have to set it programmatically
-    // here.
-    const selectedAttempt = this.selectedAttempt ?? this.run.attempt;
-    const inputToBeSelected = this.shadowRoot?.querySelector(
-      `.attemptDetails input#attempt-${selectedAttempt}`
-    ) as HTMLInputElement | undefined;
-    if (inputToBeSelected) {
-      inputToBeSelected.checked = true;
-    }
   }
 
   override render() {
@@ -280,31 +276,31 @@ export class GrChecksRun extends LitElement {
         class="attemptDetails"
         ?hidden=${this.run.isSingleAttempt || !this.selected}
       >
+        ${this.renderAttempt({attempt: LATEST_ATTEMPT})}
+        ${this.renderAttempt({attempt: ALL_ATTEMPTS})}
         ${this.run.attemptDetails.map(a => this.renderAttempt(a))}
       </div>
     `;
   }
 
-  isSelected(detail: AttemptDetail) {
-    // this.selectedAttempt may be undefined, then choose the latest attempt,
-    // which is what this.run has.
-    const selectedAttempt = this.selectedAttempt ?? this.run.attempt;
-    return detail.attempt === selectedAttempt;
-  }
-
   renderAttempt(detail: AttemptDetail) {
+    const attempt = detail.attempt ?? 0;
     const checkNameId = charsOnly(this.run.checkName).toLowerCase();
     const id = `attempt-${detail.attempt}`;
-    const icon = detail.icon;
-    const wasNotRun = icon?.name === iconFor(RunStatus.RUNNABLE)?.name;
+    const icon = detail.icon ?? {name: ''};
+    const wasNotRun =
+      icon?.name === iconFor(RunStatus.RUNNABLE)?.name &&
+      attempt !== LATEST_ATTEMPT &&
+      attempt !== ALL_ATTEMPTS;
+    const selected = this.selectedAttempt === attempt;
     return html`<div class="attemptDetail">
       <input
         type="radio"
         id=${id}
         name=${`${checkNameId}-attempt-choice`}
-        ?checked=${this.isSelected(detail)}
-        ?disabled=${!this.isSelected(detail) && wasNotRun}
-        @change=${() => this.handleAttemptChange(detail)}
+        .checked=${selected}
+        ?disabled=${!selected && wasNotRun}
+        @change=${() => this.handleAttemptChange(attempt)}
       />
       <gr-icon
         icon=${icon.name}
@@ -312,15 +308,13 @@ export class GrChecksRun extends LitElement {
         ?filled=${icon.filled}
       ></gr-icon>
       <label for=${id}>
-        Attempt ${detail.attempt}${wasNotRun ? ' (not run)' : ''}
+        ${attemptChoiceLabel(attempt)}${wasNotRun ? ' (not run)' : ''}
       </label>
     </div>`;
   }
 
-  handleAttemptChange(detail: AttemptDetail) {
-    if (!this.isSelected(detail)) {
-      fireAttemptSelected(this, this.run.checkName, detail.attempt);
-    }
+  handleAttemptChange(attempt: AttemptChoice) {
+    this.getChecksModel().updateStateSetAttempt(attempt);
   }
 
   renderETA() {
@@ -400,12 +394,8 @@ export class GrChecksRuns extends LitElement {
   @query('#filterInput')
   filterInput?: HTMLInputElement;
 
-  /**
-   * We prefer `undefined` over a RegExp with '', because `.source` yields
-   * a strange '(?:)' for ''.
-   */
   @state()
-  filterRegExp?: RegExp;
+  filterRegExp = '';
 
   @property({attribute: false})
   runs: CheckRun[] = [];
@@ -416,12 +406,8 @@ export class GrChecksRuns extends LitElement {
   @property({attribute: false})
   selectedRuns: string[] = [];
 
-  /** Maps checkName to selected attempt number. `undefined` means `latest`. */
-  @property({attribute: false})
-  selectedAttempts: Map<string, number | undefined> = new Map<
-    string,
-    number | undefined
-  >();
+  @state()
+  selectedAttempt: AttemptChoice = LATEST_ATTEMPT;
 
   @property({attribute: false})
   tabState?: ChecksTabState;
@@ -456,6 +442,16 @@ export class GrChecksRuns extends LitElement {
       this,
       () => this.getChecksModel().loginCallbackLatest$,
       x => (this.loginCallback = x)
+    );
+    subscribe(
+      this,
+      () => this.getChecksModel().checksSelectedAttemptNumber$,
+      x => (this.selectedAttempt = x)
+    );
+    subscribe(
+      this,
+      () => this.getChecksModel().runFilterRegexp$,
+      x => (this.filterRegExp = x)
     );
     this.addEventListener('click', () => {
       if (this.collapsed) this.toggleCollapsed();
@@ -583,20 +579,7 @@ export class GrChecksRuns extends LitElement {
 
   protected override updated(changedProperties: PropertyValues) {
     super.updated(changedProperties);
-    // This update is done is response to setting this.filterRegExp below, but
-    // this.filterInput not yet being available at that point.
-    if (this.filterInput && !this.filterInput.value && this.filterRegExp) {
-      this.filterInput.value = this.filterRegExp.source;
-    }
     if (changedProperties.has('tabState') && this.tabState) {
-      // Note that tabState.select and tabState.attempt are processed by
-      // <gr-checks-tab>.
-      if (
-        this.tabState.filter &&
-        this.tabState.filter !== this.filterRegExp?.source
-      ) {
-        this.filterRegExp = new RegExp(this.tabState.filter, 'i');
-      }
       const {statusOrCategory} = this.tabState;
       if (
         statusOrCategory === RunStatus.RUNNING ||
@@ -624,6 +607,7 @@ export class GrChecksRuns extends LitElement {
         type="text"
         placeholder="Filter runs by regular expression"
         ?hidden=${!this.showFilter()}
+        .value=${this.filterRegExp}
         @input=${this.onInput}
       />
       ${this.renderSection(RunStatus.RUNNING)}
@@ -767,11 +751,8 @@ export class GrChecksRuns extends LitElement {
       {},
       {deduping: Deduping.EVENT_ONCE_PER_CHANGE}
     );
-    if (this.filterInput.value) {
-      this.filterRegExp = new RegExp(this.filterInput.value, 'i');
-    } else {
-      this.filterRegExp = undefined;
-    }
+    const value = this.filterInput.value;
+    this.getChecksModel().updateStateSetRunFilter(value ?? '');
   }
 
   toggle(
@@ -793,6 +774,7 @@ export class GrChecksRuns extends LitElement {
   }
 
   renderSection(status: RunStatus) {
+    const regExp = new RegExp(this.filterRegExp, 'i');
     const runs = this.runs
       .filter(r => r.isLatestAttempt)
       .filter(
@@ -800,7 +782,7 @@ export class GrChecksRuns extends LitElement {
           r.status === status ||
           (status === RunStatus.RUNNING && r.status === RunStatus.SCHEDULED)
       )
-      .filter(r => !this.filterRegExp || this.filterRegExp.test(r.checkName))
+      .filter(r => regExp.test(r.checkName))
       .sort(compareByWorstCategory);
     if (runs.length === 0) return;
     const expanded = this.isSectionExpanded.get(status) ?? true;
@@ -839,13 +821,11 @@ export class GrChecksRuns extends LitElement {
 
   renderRun(run: CheckRun) {
     const selectedRun = this.selectedRuns.includes(run.checkName);
-    const selectedAttempt = this.selectedAttempts.get(run.checkName);
     const deselected = !selectedRun && this.selectedRuns.length > 0;
     return html`<gr-checks-run
       .run=${run}
       ?condensed=${this.collapsed}
       .selected=${selectedRun}
-      .selectedAttempt=${selectedAttempt}
       .deselected=${deselected}
     ></gr-checks-run>`;
   }

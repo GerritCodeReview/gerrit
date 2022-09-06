@@ -5,12 +5,13 @@
  */
 import '../../test/common-test-setup-karma';
 import './gr-checks-runs';
-import {GrChecksRuns} from './gr-checks-runs';
+import {GrChecksRun, GrChecksRuns} from './gr-checks-runs';
 import {html} from 'lit';
 import {fixture, assert} from '@open-wc/testing';
 import {checksModelToken} from '../../models/checks/checks-model';
-import {setAllFakeRuns} from '../../models/checks/checks-fakes';
+import {fakeRun0, setAllFakeRuns} from '../../models/checks/checks-fakes';
 import {resolve} from '../../models/dependency';
+import {queryAll} from '../../utils/common-util';
 
 suite('gr-checks-runs test', () => {
   let element: GrChecksRuns;
@@ -21,16 +22,20 @@ suite('gr-checks-runs test', () => {
     );
     const getChecksModel = resolve(element, checksModelToken);
     setAllFakeRuns(getChecksModel());
+    await element.updateComplete;
   });
 
-  test('tabState filter', async () => {
-    element.tabState = {filter: 'fff'};
+  test('filterRegExp', async () => {
+    // Without a filter all 6 fake runs (0-5) will be rendered.
+    assert.equal(queryAll(element, 'gr-checks-run').length, 6);
+
+    // This filter will only match fakeRun2 (checkName: 'FAKE Mega Analysis').
+    element.filterRegExp = 'Mega';
     await element.updateComplete;
-    assert.equal(element.filterRegExp?.source, 'fff');
+    assert.equal(queryAll(element, 'gr-checks-run').length, 1);
   });
 
   test('renders', async () => {
-    await element.updateComplete;
     assert.equal(element.runs.length, 44);
     assert.shadowDom.equal(
       element,
@@ -92,7 +97,7 @@ suite('gr-checks-runs test', () => {
     );
   });
 
-  test('renders', async () => {
+  test('renders collapsed', async () => {
     element.collapsed = true;
     await element.updateComplete;
     assert.equal(element.runs.length, 44);
@@ -151,6 +156,69 @@ suite('gr-checks-runs test', () => {
         </div>
       `,
       {ignoreAttributes: ['tabindex', 'aria-disabled']}
+    );
+  });
+});
+
+suite('gr-checks-run test', () => {
+  let element: GrChecksRun;
+
+  setup(async () => {
+    element = await fixture<GrChecksRun>(html`<gr-checks-run></gr-checks-run>`);
+    const getChecksModel = resolve(element, checksModelToken);
+    setAllFakeRuns(getChecksModel());
+    await element.updateComplete;
+  });
+
+  test('renders loading', async () => {
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ ' <div class="chip">Loading ...</div> '
+    );
+  });
+
+  test('renders fakeRun0', async () => {
+    element.shouldRender = true;
+    element.run = fakeRun0;
+    await element.updateComplete;
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="chip error" tabindex="0">
+          <div class="left">
+            <gr-hovercard-run> </gr-hovercard-run>
+            <gr-icon class="error" filled="" icon="error"> </gr-icon>
+            <span class="name">
+              FAKE Error Finder Finder Finder Finder Finder Finder Finder
+            </span>
+          </div>
+          <div class="middle">
+            <gr-checks-attempt> </gr-checks-attempt>
+          </div>
+          <div class="right"></div>
+          </div>
+          <div class="attemptDetails" hidden="">
+            <div class="attemptDetail">
+              <input
+                id="attempt-latest"
+                name="fakeerrorfinderfinderfinderfinderfinderfinderfinder-attempt-choice"
+                type="radio"
+              />
+              <gr-icon icon=""> </gr-icon>
+              <label for="attempt-latest"> Latest Attempt </label>
+            </div>
+            <div class="attemptDetail">
+              <input
+                id="attempt-all"
+                name="fakeerrorfinderfinderfinderfinderfinderfinderfinder-attempt-choice"
+                type="radio"
+              />
+              <gr-icon icon=""> </gr-icon>
+              <label for="attempt-all"> All Attempts </label>
+            </div>
+          </div>
+        </div>
+      `
     );
   });
 });

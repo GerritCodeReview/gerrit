@@ -8,6 +8,7 @@ import {ChangeMessage} from '../utils/comment-util';
 import {FetchRequest} from './types';
 import {LineNumberEventDetail, MovedLinkClickedEventDetail} from '../api/diff';
 import {Category, RunStatus} from '../api/checks';
+import {AttemptChoice} from '../models/checks/checks-util';
 
 export enum EventType {
   BIND_VALUE_CHANGED = 'bind-value-changed',
@@ -232,10 +233,8 @@ export interface ChecksTabState {
   checkName?: string;
   /** regular expression for filtering runs */
   filter?: string;
-  /** regular expression for selecting runs */
-  select?: string;
   /** selected attempt for selected runs */
-  attempt?: number;
+  attempt?: AttemptChoice;
 }
 export type SwitchTabEvent = CustomEvent<SwitchTabEventDetail>;
 

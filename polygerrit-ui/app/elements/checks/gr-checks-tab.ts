@@ -14,7 +14,7 @@ import {changeModelToken} from '../../models/change/change-model';
 import './gr-checks-runs';
 import './gr-checks-results';
 import {NumericChangeId, PatchSetNumber} from '../../types/common';
-import {AttemptSelectedEvent, RunSelectedEvent} from './gr-checks-util';
+import {RunSelectedEvent} from './gr-checks-util';
 import {TabState} from '../../types/events';
 import {getAppContext} from '../../services/app-context';
 import {subscribe} from '../lit/subscription-controller';
@@ -22,6 +22,7 @@ import {Deduping} from '../../api/reporting';
 import {Interaction} from '../../constants/reporting';
 import {resolve} from '../../models/dependency';
 import {GrChecksRuns} from './gr-checks-runs';
+import {LATEST_ATTEMPT} from '../../models/checks/checks-util';
 
 /**
  * The "Checks" tab on the Gerrit change page. Gets its data from plugins that
@@ -52,13 +53,6 @@ export class GrChecksTab extends LitElement {
 
   @state()
   selectedRuns: string[] = [];
-
-  /** Maps checkName to selected attempt number. `undefined` means `latest`. */
-  @state()
-  selectedAttempts: Map<string, number | undefined> = new Map<
-    string,
-    number | undefined
-  >();
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
@@ -140,18 +134,14 @@ export class GrChecksTab extends LitElement {
           ?collapsed=${this.offsetWidth < 1000}
           .runs=${this.runs}
           .selectedRuns=${this.selectedRuns}
-          .selectedAttempts=${this.selectedAttempts}
           .tabState=${this.tabState?.checksTab}
           @run-selected=${this.handleRunSelected}
-          @attempt-selected=${this.handleAttemptSelected}
         ></gr-checks-runs>
         <gr-checks-results
           class="results"
           .tabState=${this.tabState?.checksTab}
           .runs=${this.runs}
           .selectedRuns=${this.selectedRuns}
-          .selectedAttempts=${this.selectedAttempts}
-          @run-selected=${this.handleRunSelected}
         ></gr-checks-results>
       </div>
     `;
@@ -159,63 +149,23 @@ export class GrChecksTab extends LitElement {
 
   protected override updated(changedProperties: PropertyValues) {
     super.updated(changedProperties);
-    if (changedProperties.has('tabState')) this.applyTabState();
-    if (changedProperties.has('runs')) this.applyTabState();
+    if (changedProperties.has('tabState')) this.tabStateUpdated();
   }
 
-  /**
-   * Clearing the tabState means that from now on the user interaction counts,
-   * not the content of the URL (which is where tabState is populated from).
-   */
-  private clearTabState() {
-    this.tabState = {};
-  }
-
-  /**
-   * We want to keep applying the tabState to newly incoming check runs until
-   * the user explicitly interacts with the selection or the attempts, which
-   * will result in clearTabState() being called.
-   */
-  private applyTabState() {
+  private tabStateUpdated() {
     if (!this.tabState?.checksTab) return;
-    // Note that .filter is processed by <gr-checks-runs>.
-    const {select, filter, attempt} = this.tabState.checksTab;
-    if (!select) {
-      this.selectedRuns = [];
-      this.selectedAttempts = new Map<string, number>();
-      return;
-    }
-    const regexpSelect = new RegExp(select, 'i');
-    // We do not allow selection of runs that are invisible because of the
-    // filter.
-    const regexpFilter = new RegExp(filter ?? '', 'i');
-    const selectedRuns = this.runs.filter(
-      run =>
-        regexpSelect.test(run.checkName) && regexpFilter.test(run.checkName)
-    );
-    this.selectedRuns = selectedRuns.map(run => run.checkName);
-    const selectedAttempts = new Map<string, number>();
-    if (attempt) {
-      for (const run of selectedRuns) {
-        if (run.isSingleAttempt) continue;
-        const hasAttempt = run.attemptDetails.some(
-          detail => detail.attempt === attempt
-        );
-        if (hasAttempt) selectedAttempts.set(run.checkName, attempt);
-      }
-    }
-    this.selectedAttempts = selectedAttempts;
+    const {attempt, filter} = this.tabState.checksTab;
+    this.getChecksModel().updateStateSetAttempt(attempt ?? LATEST_ATTEMPT);
+    this.getChecksModel().updateStateSetRunFilter(filter ?? '');
   }
 
   handleRunSelected(e: RunSelectedEvent) {
-    this.clearTabState();
     this.reporting.reportInteraction(Interaction.CHECKS_RUN_SELECTED, {
       checkName: e.detail.checkName,
       reset: e.detail.reset,
     });
     if (e.detail.reset) {
       this.selectedRuns = [];
-      this.selectedAttempts = new Map();
       return;
     }
     if (e.detail.checkName) {
@@ -223,24 +173,9 @@ export class GrChecksTab extends LitElement {
     }
   }
 
-  handleAttemptSelected(e: AttemptSelectedEvent) {
-    this.clearTabState();
-    this.reporting.reportInteraction(Interaction.CHECKS_ATTEMPT_SELECTED, {
-      checkName: e.detail.checkName,
-      attempt: e.detail.attempt,
-    });
-    const {checkName, attempt} = e.detail;
-    this.selectedAttempts.set(checkName, attempt);
-    // Force property update.
-    this.selectedAttempts = new Map(this.selectedAttempts);
-  }
-
   toggleSelected(checkName: string) {
-    this.clearTabState();
     if (this.selectedRuns.includes(checkName)) {
       this.selectedRuns = this.selectedRuns.filter(r => r !== checkName);
-      this.selectedAttempts.set(checkName, undefined);
-      this.selectedAttempts = new Map(this.selectedAttempts);
     } else {
       this.selectedRuns = [...this.selectedRuns, checkName];
     }

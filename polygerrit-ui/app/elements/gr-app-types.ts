@@ -19,6 +19,7 @@ import {
   GroupDetailView,
   RepoDetailView,
 } from '../utils/router-util';
+import {AttemptChoice} from '../models/checks/checks-util';
 
 export interface AppElement extends HTMLElement {
   params: AppElementParams | GenerateUrlParameters;
@@ -120,10 +121,8 @@ export interface AppElementChangeViewParams {
   tab?: string;
   /** regular expression for filtering check runs */
   filter?: string;
-  /** regular expression for selecting check runs */
-  select?: string;
   /** selected attempt for selected check runs */
-  attempt?: number;
+  attempt?: AttemptChoice;
 }
 
 export interface AppElementJustRegisteredParams {

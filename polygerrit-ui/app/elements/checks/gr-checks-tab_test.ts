@@ -9,9 +9,8 @@ import './gr-checks-tab';
 import {GrChecksTab} from './gr-checks-tab';
 import {fixture, assert} from '@open-wc/testing';
 import {checksModelToken} from '../../models/checks/checks-model';
-import {fakeRun4_3, setAllFakeRuns} from '../../models/checks/checks-fakes';
+import {setAllFakeRuns} from '../../models/checks/checks-fakes';
 import {resolve} from '../../models/dependency';
-import {Category} from '../../api/checks';
 
 suite('gr-checks-tab test', () => {
   let element: GrChecksTab;
@@ -34,19 +33,5 @@ suite('gr-checks-tab test', () => {
         </div>
       `
     );
-  });
-
-  test('select from tab state', async () => {
-    element.tabState = {
-      checksTab: {
-        statusOrCategory: Category.ERROR,
-        filter: 'elim',
-        select: 'fake',
-        attempt: 3,
-      },
-    };
-    await element.updateComplete;
-    assert.equal(element.selectedRuns.length, 39);
-    assert.equal(element.selectedAttempts.get(fakeRun4_3.checkName), 3);
   });
 });

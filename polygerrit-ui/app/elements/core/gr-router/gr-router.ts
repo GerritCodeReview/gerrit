@@ -57,6 +57,10 @@ import {
   GroupDetailView,
   RepoDetailView,
 } from '../../../utils/router-util';
+import {
+  LATEST_ATTEMPT,
+  stringToAttemptChoice,
+} from '../../../models/checks/checks-util';
 
 const RoutePattern = {
   ROOT: '/',
@@ -1466,15 +1470,8 @@ export class GrRouter {
     if (tab) params.tab = tab;
     const filter = ctx.queryMap.get('filter');
     if (filter) params.filter = filter;
-    const select = ctx.queryMap.get('select');
-    if (select) params.select = select;
-    const attempt = ctx.queryMap.get('attempt');
-    if (attempt) {
-      const attemptInt = parseInt(attempt);
-      if (!isNaN(attemptInt) && attemptInt > 0) {
-        params.attempt = attemptInt;
-      }
-    }
+    const attempt = stringToAttemptChoice(ctx.queryMap.get('attempt'));
+    if (attempt && attempt !== LATEST_ATTEMPT) params.attempt = attempt;
 
     this.reporting.setRepoName(params.project);
     this.reporting.setChangeId(changeNum);

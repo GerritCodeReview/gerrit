@@ -3,7 +3,13 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {AttemptDetail, createAttemptMap} from './checks-util';
+import {
+  AttemptChoice,
+  AttemptDetail,
+  createAttemptMap,
+  LATEST_ATTEMPT,
+  sortAttemptDetails,
+} from './checks-util';
 import {assertIsDefined} from '../../utils/common-util';
 import {select} from '../../utils/observable-util';
 import {Finalizable} from '../../services/registry';
@@ -136,6 +142,15 @@ interface ChecksState {
    * can be picked up from the change model.
    */
   patchsetNumberSelected?: PatchSetNumber;
+  /**
+   * This is the attempt number selected by the user. If this is `undefined`
+   * (default), then for each run the latest attempt is displayed.
+   */
+  attemptNumberSelected: AttemptChoice;
+  /**
+   * Current filter set by the user in the runs panel or via URL.
+   */
+  runFilterRegexp: string;
   /** Checks data for the latest patchset. */
   pluginStateLatest: {
     [name: string]: ChecksProviderState;
@@ -199,6 +214,13 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
     this.state$,
     state => state.patchsetNumberSelected
   );
+
+  public checksSelectedAttemptNumber$ = select(
+    this.state$,
+    state => state.attemptNumberSelected
+  );
+
+  public runFilterRegexp$ = select(this.state$, state => state.runFilterRegexp);
 
   public checksLatest$ = select(this.state$, state => state.pluginStateLatest);
 
@@ -362,6 +384,9 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
     readonly pluginsModel: PluginsModel
   ) {
     super({
+      patchsetNumberSelected: undefined,
+      attemptNumberSelected: LATEST_ATTEMPT,
+      runFilterRegexp: '',
       pluginStateLatest: {},
       pluginStateSelected: {},
     });
@@ -552,11 +577,7 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
   ) {
     const attemptMap = createAttemptMap(runs);
     for (const attemptInfo of attemptMap.values()) {
-      // Per run only one attempt can be undefined, so the '?? -1' is not really
-      // relevant for sorting.
-      attemptInfo.attempts.sort(
-        (a, b) => (a.attempt ?? -1) - (b.attempt ?? -1)
-      );
+      attemptInfo.attempts.sort(sortAttemptDetails);
     }
     const nextState = {...this.subject$.getValue()};
     const pluginState = this.getPluginState(nextState, patchset);
@@ -573,9 +594,10 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
         assertIsDefined(attemptInfo, 'attemptInfo');
         return {
           ...run,
+          attempt: run.attempt ?? 0,
           pluginName,
           internalRunId: runId,
-          isLatestAttempt: attemptInfo.latestAttempt === run.attempt,
+          isLatestAttempt: attemptInfo.latestAttempt === (run.attempt ?? 0),
           isSingleAttempt: attemptInfo.isSingleAttempt,
           attemptDetails: attemptInfo.attempts,
           results: (run.results ?? []).map((result, i) => {
@@ -635,6 +657,18 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
   updateStateSetPatchset(patchsetNumber?: PatchSetNumber) {
     const nextState = {...this.subject$.getValue()};
     nextState.patchsetNumberSelected = patchsetNumber;
+    this.subject$.next(nextState);
+  }
+
+  updateStateSetAttempt(attemptNumber: AttemptChoice) {
+    const nextState = {...this.subject$.getValue()};
+    nextState.attemptNumberSelected = attemptNumber;
+    this.subject$.next(nextState);
+  }
+
+  updateStateSetRunFilter(runFilter: string) {
+    const nextState = {...this.subject$.getValue()};
+    nextState.runFilterRegexp = runFilter;
     this.subject$.next(nextState);
   }
 

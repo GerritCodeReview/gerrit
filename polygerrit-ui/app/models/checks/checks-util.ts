@@ -15,7 +15,7 @@ import {
 import {PatchSetNumber} from '../../api/rest-api';
 import {OpenFixPreviewEventDetail} from '../../types/events';
 import {PROVIDED_FIX_ID} from '../../utils/comment-util';
-import {assertNever} from '../../utils/common-util';
+import {assert, assertNever} from '../../utils/common-util';
 import {fire} from '../../utils/event-util';
 import {CheckResult, CheckRun, RunResult} from './checks-model';
 
@@ -328,27 +328,79 @@ function runLevel(status: RunStatus) {
 }
 
 export interface AttemptDetail {
-  attempt: number | undefined;
-  icon: ChecksIcon;
+  attempt?: AttemptChoice;
+  icon?: ChecksIcon;
 }
 
 export interface AttemptInfo {
-  latestAttempt: number | undefined;
+  latestAttempt: AttemptChoice;
   isSingleAttempt: boolean;
   attempts: AttemptDetail[];
+}
+
+export type AttemptChoice = number | 'latest' | 'all';
+export const ALL_ATTEMPTS = 'all' as AttemptChoice;
+export const LATEST_ATTEMPT = 'latest' as AttemptChoice;
+
+export function isAttemptChoice(x: number | string): x is AttemptChoice {
+  if (typeof x === 'string') {
+    return x === ALL_ATTEMPTS || x === LATEST_ATTEMPT;
+  }
+  if (typeof x === 'number') {
+    return x >= 0;
+  }
+  return false;
+}
+
+export function stringToAttemptChoice(
+  s?: string | null
+): AttemptChoice | undefined {
+  if (s === undefined) return undefined;
+  if (s === null) return undefined;
+  if (s === '') return undefined;
+  if (isAttemptChoice(s)) return s;
+  const n = Number(s);
+  if (isAttemptChoice(n)) return n;
+  return undefined;
+}
+
+export function attemptChoiceLabel(attempt: AttemptChoice): string {
+  if (attempt === LATEST_ATTEMPT) return 'Latest Attempt';
+  if (attempt === ALL_ATTEMPTS) return 'All Attempts';
+  return `Attempt ${attempt}`;
+}
+
+export function sortAttemptDetails(a: AttemptDetail, b: AttemptDetail): number {
+  return sortAttemptChoices(a.attempt, b.attempt);
+}
+
+export function sortAttemptChoices(
+  a?: AttemptChoice,
+  b?: AttemptChoice
+): number {
+  if (a === b) return 0;
+  if (a === undefined) return -1;
+  if (b === undefined) return 1;
+  if (a === LATEST_ATTEMPT) return -1;
+  if (b === LATEST_ATTEMPT) return 1;
+  if (a === ALL_ATTEMPTS) return -1;
+  if (b === ALL_ATTEMPTS) return 1;
+  assert(typeof a === 'number', `unexpected attempt ${a}`);
+  assert(typeof b === 'number', `unexpected attempt ${b}`);
+  return a - b;
 }
 
 export function createAttemptMap(runs: CheckRunApi[]) {
   const map = new Map<string, AttemptInfo>();
   for (const run of runs) {
     const value = map.get(run.checkName);
-    const detail = {
-      attempt: run.attempt,
+    const detail: AttemptDetail = {
+      attempt: run.attempt ?? 0,
       icon: iconForRun(fromApiToInternalRun(run)),
     };
     if (value === undefined) {
       map.set(run.checkName, {
-        latestAttempt: run.attempt,
+        latestAttempt: run.attempt ?? 0,
         isSingleAttempt: true,
         attempts: [detail],
       });

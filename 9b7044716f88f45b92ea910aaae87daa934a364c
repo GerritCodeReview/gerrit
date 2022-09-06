@@ -94,6 +94,30 @@
       },
       "revId": "9b7044716f88f45b92ea910aaae87daa934a364c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0b00266_16f773e2",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-09-06T18:08:19Z",
+      "side": 1,
+      "message": "I don\u0027t know that we can achieve the clarity that I would like, since it may not be clear what \"limit\" the currently represents, so perhaps just keep this as limit (don\u0027t bother introducing another variable if it isn\u0027t going to clarify anything).",
+      "parentUuid": "7a43ee65_9a7212a8",
+      "range": {
+        "startLine": 243,
+        "startChar": 12,
+        "endLine": 243,
+        "endChar": 26
+      },
+      "revId": "9b7044716f88f45b92ea910aaae87daa934a364c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

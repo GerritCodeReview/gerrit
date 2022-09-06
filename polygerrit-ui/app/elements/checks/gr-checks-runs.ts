@@ -247,7 +247,7 @@ export class GrChecksRun extends LitElement {
         class=${classMap(classes)}
         tabindex="0"
       >
-        <div class="left">
+        <div class="left" tabindex="0">
           <gr-hovercard-run .run=${this.run}></gr-hovercard-run>
           ${this.renderFilterIcon()}
           <gr-icon

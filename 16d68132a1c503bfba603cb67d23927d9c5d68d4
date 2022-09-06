@@ -93,6 +93,54 @@
       },
       "revId": "16d68132a1c503bfba603cb67d23927d9c5d68d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "760b2c4f_bf1a99dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-09-06T09:55:28Z",
+      "side": 1,
+      "message": "Updated the description.\n\nThis should not be possible to update refs/meta/external-ids outside of the AccountsUpdate (e.g. through the ExternalIdNotes directly).\n\nSo every update, that goes through the AccountUpdate will update both externalIds and refs/users/*.\n\n(e.g. our internal endpoints, that are meant for manual fix up of external-ids use the same AccountsUpdate).\n\nThe change is needed for the index work: with this change, we will only need to hook indexing logic on updates to refs/users/*.",
+      "parentUuid": "2a649ce6_0c80b330",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "16d68132a1c503bfba603cb67d23927d9c5d68d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "578e4232_a09f1500",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-09-06T09:55:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "526d2d34_5cb23295",
+      "range": {
+        "startLine": 10,
+        "startChar": 5,
+        "endLine": 10,
+        "endChar": 9
+      },
+      "revId": "16d68132a1c503bfba603cb67d23927d9c5d68d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

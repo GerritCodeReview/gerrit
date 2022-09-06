@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cbd8319c_cc56c975",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-06T21:04:32Z",
+      "side": 1,
+      "message": "\u003e We know the root cause b/244740368 and it\u0027s a KI in RefDatabase\u0027s prefix scan. With the root cause fixed I expect us back to normal latencies.\n\nWhat about for non-Google sites? Are you confident they won\u0027t have performance problems due to this change?",
+      "parentUuid": "81b2ecca_2b8d089c",
+      "revId": "64df5ae23920a42a73e9812e2335194e27912b67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0c5890fd_55a4e1eb",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 2

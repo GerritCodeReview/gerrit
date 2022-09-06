@@ -276,3 +276,11 @@ export function isChangeInfo(
 ): x is ChangeInfo | ParsedChangeInfo {
   return (x as ChangeInfo)._number !== undefined;
 }
+
+// Based on computeMergedCommitInfo() in gr-change-metadata
+export function getSha(change: ParsedChangeInfo) {
+  if (!change.current_revision || !change.revisions) return;
+  const rev = change.revisions[change.current_revision];
+  if (!rev || !rev.commit) return change.current_revision;
+  return rev.commit.commit;
+}

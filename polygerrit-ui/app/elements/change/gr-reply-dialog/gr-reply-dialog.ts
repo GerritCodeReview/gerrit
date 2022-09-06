@@ -1540,10 +1540,7 @@ export class GrReplyDialog extends LitElement {
     if (!section || section === FocusTarget.ANY) {
       section = this.chooseFocusTarget();
     }
-    if (section === FocusTarget.BODY) {
-      const textarea = queryAndAssert<GrTextarea>(this, 'gr-textarea');
-      setTimeout(() => textarea.getNativeTextarea().focus());
-    } else if (section === FocusTarget.REVIEWERS) {
+    if (section === FocusTarget.REVIEWERS) {
       const reviewerEntry = this.reviewersList?.focusStart;
       setTimeout(() => reviewerEntry?.focus());
     } else if (section === FocusTarget.CCS) {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf66ef78_52edddfb",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-06T09:48:10Z",
+      "side": 0,
+      "message": "Can the StarPredicate class be deleted now?",
+      "range": {
+        "startLine": 108,
+        "startChar": 17,
+        "endLine": 108,
+        "endChar": 30
+      },
+      "revId": "cb5c36424a3bef3ac8c0ce3e2d7710505868ac4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

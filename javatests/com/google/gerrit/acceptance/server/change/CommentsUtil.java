@@ -34,7 +34,7 @@ import java.util.HashMap;
  * A utility class for creating {@link CommentInput} objects, publishing comments and creating draft
  * comments. Used by tests that require dealing with comments.
  */
-class CommentsUtil {
+public class CommentsUtil {
   static CommentInput addComment(GerritApi gApi, String changeId) throws Exception {
     ReviewInput input = new ReviewInput();
     CommentInput comment = CommentsUtil.newComment(FILE_NAME, Side.REVISION, 0, "a message", false);
@@ -88,7 +88,7 @@ class CommentsUtil {
     return populate(c, path, Side.PARENT, parent, line, message);
   }
 
-  static DraftInput newDraft(String path, Side side, int line, String message) {
+  public static DraftInput newDraft(String path, Side side, int line, String message) {
     DraftInput d = new DraftInput();
     d.unresolved = false;
     return populate(d, path, side, null, line, message);

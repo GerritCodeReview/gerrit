@@ -1335,6 +1335,16 @@ export class GrChangeView extends LitElement {
         value: `${this.change?.id.split('~').pop()}`,
       },
     ];
+    if (
+      this.change?.status === ChangeStatus.MERGED &&
+      this.change?.current_revision
+    ) {
+      links.push({
+        label: 'SHA',
+        shortcut: 's',
+        value: this.change.current_revision,
+      });
+    }
     return html`<gr-copy-links .copyLinks=${links}> </gr-copy-links>`;
   }
 

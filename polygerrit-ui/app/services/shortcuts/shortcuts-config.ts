@@ -101,6 +101,7 @@ export enum Shortcut {
   SEARCH = 'SEARCH',
   SEND_REPLY = 'SEND_REPLY',
   EMOJI_DROPDOWN = 'EMOJI_DROPDOWN',
+  MENTIONS_DROPDOWN = 'MENTIONS_DROPDOWN',
   TOGGLE_BLAME = 'TOGGLE_BLAME',
 
   TOGGLE_CHECKBOX = 'TOGGLE_CHECKBOX',
@@ -529,6 +530,12 @@ export function createShortCutConfig(flagsService: FlagsService) {
     ShortcutSection.REPLY_DIALOG,
     'Emoji dropdown',
     {key: ':', docOnly: true}
+  );
+  describe(
+    Shortcut.MENTIONS_DROPDOWN,
+    ShortcutSection.REPLY_DIALOG,
+    'Mentions dropdown',
+    {key: '@', docOnly: true}
   );
   return config;
 }

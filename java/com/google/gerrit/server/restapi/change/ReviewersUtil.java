@@ -198,8 +198,9 @@ public class ReviewersUtil {
       return Collections.emptyList();
     }
     AccountControl accountControl = accountControlFactory.get();
+    boolean canViewAll = accountControl.canViewAll();
 
-    if (accountVisibility == AccountVisibility.NONE && !accountControl.canViewAll()) {
+    if (accountVisibility == AccountVisibility.NONE && !canViewAll) {
       logger.atFine().log(
           "Not suggesting reviewers: accountVisibility = %s and the user does not have %s capability",
           AccountVisibility.NONE, GlobalPermission.VIEW_ALL_ACCOUNTS);
@@ -208,7 +209,7 @@ public class ReviewersUtil {
 
     List<Account.Id> candidateList = new ArrayList<>();
     if (!Strings.isNullOrEmpty(query)) {
-      candidateList = suggestAccounts(suggestReviewers);
+      candidateList = suggestAccounts(suggestReviewers, canViewAll);
       logger.atFine().log("Candidate list: %s", candidateList);
     }
     List<Account.Id> sortedRecommendations =
@@ -254,7 +255,7 @@ public class ReviewersUtil {
     return Account.id(Integer.valueOf(f.<String>getValue(AccountField.ID_STR_FIELD_SPEC)));
   }
 
-  private List<Account.Id> suggestAccounts(SuggestReviewers suggestReviewers)
+  private List<Account.Id> suggestAccounts(SuggestReviewers suggestReviewers, boolean canViewAll)
       throws BadRequestException {
     try (Timer0.Context ctx = metrics.queryAccountsLatency.start()) {
       // For performance reasons we don't use AccountQueryProvider as it would always load the
@@ -264,6 +265,10 @@ public class ReviewersUtil {
           Predicate.and(
               AccountPredicates.isActive(),
               accountQueryBuilder.defaultQuery(suggestReviewers.getQuery()));
+      if (!canViewAll) {
+        pred = Predicate.and(pred, AccountPredicates.isNotHidden());
+      }
+
       logger.atFine().log("accounts index query: %s", pred);
       accountIndexRewriter.validateMaxTermsInQuery(pred);
       boolean useLegacyNumericFields =

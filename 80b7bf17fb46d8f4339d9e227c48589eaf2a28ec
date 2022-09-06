@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61184880_a7e29c61",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-06T14:03:08Z",
+      "side": 1,
+      "message": "Change is reasonable but I cannot tell the difference in the screenshots even when zooming \u003dP",
+      "revId": "80b7bf17fb46d8f4339d9e227c48589eaf2a28ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

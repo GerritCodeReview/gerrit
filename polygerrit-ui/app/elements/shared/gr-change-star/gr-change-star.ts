@@ -69,7 +69,7 @@ export class GrChangeStar extends LitElement {
         @click=${this.toggleStar}
       >
         <gr-icon
-          icon="star_rate"
+          icon="grade"
           ?filled=${!!this.change?.starred}
           class=${this.change?.starred ? 'active' : ''}
         ></gr-icon>

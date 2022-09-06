@@ -993,6 +993,7 @@ export class GrReplyDialog extends LitElement {
         @comment-text-changed=${(e: ValueChangedEvent<string>) => {
           this.patchsetLevelDraftMessage = e.detail.value;
         }}
+        .messagePlaceholder=${this.messagePlaceholder}
         hide-header
         permanent-editing-mode
       ></gr-comment>

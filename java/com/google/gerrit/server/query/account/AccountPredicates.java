@@ -121,6 +121,14 @@ public class AccountPredicates {
     return new AccountPredicate(AccountField.ACTIVE_FIELD_SPEC, "0");
   }
 
+  public static Predicate<AccountState> isHidden() {
+    return new HiddenPredicate(/* hidden= */ true);
+  }
+
+  public static Predicate<AccountState> isNotHidden() {
+    return new HiddenPredicate(/* hidden= */ false);
+  }
+
   public static Predicate<AccountState> username(String username) {
     return new AccountPredicate(
         AccountField.USERNAME_SPEC, AccountQueryBuilder.FIELD_USERNAME, username.toLowerCase());

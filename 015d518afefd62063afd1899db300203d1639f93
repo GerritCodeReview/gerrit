@@ -188,6 +188,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd474f7b_d7a429bd",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1319,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-06T11:41:07Z",
+      "side": 1,
+      "message": "Added second one and change id. We can discuss more during experiment.",
+      "parentUuid": "520663c4_1c85ac39",
+      "range": {
+        "startLine": 1315,
+        "startChar": 6,
+        "endLine": 1319,
+        "endChar": 8
+      },
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1702ec2b_0feeae95",
@@ -272,6 +296,24 @@
       "side": 1,
       "message": "Adding `sharedStyles` has a high cost, because we want to remove it later. And we will not know why a component uses it. So at least add a comment about which styles you are deliberately depending on here.",
       "parentUuid": "1373858a_927a5a07",
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf3c6307_c9dc2198",
+        "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-06T11:41:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1453e15_95c4eebd",
       "revId": "015d518afefd62063afd1899db300203d1639f93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -628,6 +670,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "daec11d1_baabf8d4",
+        "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-06T11:41:07Z",
+      "side": 1,
+      "message": "I added it as task for followup.",
+      "parentUuid": "ebb48f0e_67f936e5",
+      "range": {
+        "startLine": 102,
+        "startChar": 25,
+        "endLine": 102,
+        "endChar": 34
+      },
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe3bf182_3f69bbc4",
@@ -641,6 +707,30 @@
       "writtenOn": "2022-08-30T14:26:38Z",
       "side": 1,
       "message": "Move these two lines into a utility. Bonus points for pointing the existing 3 usages of `navigator` to the new utility.",
+      "range": {
+        "startLine": 109,
+        "startChar": 3,
+        "endLine": 110,
+        "endChar": 65
+      },
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca7265ed_b9054a6d",
+        "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-06T11:41:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe3bf182_3f69bbc4",
       "range": {
         "startLine": 109,
         "startChar": 3,
@@ -704,6 +794,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b07ea64_8bafe628",
+        "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-06T11:41:07Z",
+      "side": 1,
+      "message": "I haven\u0027t seen reason. Let\u0027s test it without it in this experiment.",
+      "parentUuid": "baec3335_81e19389",
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d77474f_3395f3c3",
@@ -741,6 +849,30 @@
       "side": 1,
       "message": "This didn\u0027t work in my test. But thanks, I will look for similar solution.",
       "parentUuid": "5d77474f_3395f3c3",
+      "range": {
+        "startLine": 130,
+        "startChar": 2,
+        "endLine": 147,
+        "endChar": 3
+      },
+      "revId": "015d518afefd62063afd1899db300203d1639f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "450fc11a_fd705ce0",
+        "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-06T11:41:07Z",
+      "side": 1,
+      "message": "I tested this more, but it doesn\u0027t work. gr-dropdown workers probably because cursor will focus it once rendered. I will maybe look at this later, but I think it\u0027s ok since this is 3rd place where we use this logic.",
+      "parentUuid": "f0c14957_04f5c5c4",
       "range": {
         "startLine": 130,
         "startChar": 2,

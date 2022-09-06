@@ -39,6 +39,30 @@
       },
       "revId": "8560e85455aedd9348c58325fca0abbb83c251ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdf855cb_d908fb01",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 1308,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-06T11:41:07Z",
+      "side": 1,
+      "message": "This is temporary. Once experiment is finished, it will be shorter. I would prefer to leave it as it is since all are connected as header.",
+      "parentUuid": "f8725e3d_cf01dc19",
+      "range": {
+        "startLine": 1274,
+        "startChar": 1,
+        "endLine": 1308,
+        "endChar": 8
+      },
+      "revId": "8560e85455aedd9348c58325fca0abbb83c251ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

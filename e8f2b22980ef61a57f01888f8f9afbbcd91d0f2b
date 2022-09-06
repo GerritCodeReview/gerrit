@@ -68,6 +68,59 @@
       "message": "1. I am selecting lastest builds on \nReviewers-  inculding - Marija and YoussefandGerritCI\n\nCC -  Fernanda Juan",
       "revId": "e8f2b22980ef61a57f01888f8f9afbbcd91d0f2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5155e0d5_18d7ef11",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1145421
+      },
+      "writtenOn": "2022-09-06T07:29:49Z",
+      "side": 1,
+      "message": "Hi \n1. It\u0027s not a big deal nothing to do help on this big deal.",
+      "parentUuid": "e9499952_31f5a0a8",
+      "revId": "e8f2b22980ef61a57f01888f8f9afbbcd91d0f2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac9a2622_39285c1f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1145421
+      },
+      "writtenOn": "2022-09-06T07:29:49Z",
+      "side": 1,
+      "message": "It\u0027s not a big deal no problem nothing to help on this.",
+      "parentUuid": "78c3d899_de07c8ce",
+      "revId": "e8f2b22980ef61a57f01888f8f9afbbcd91d0f2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7634cbd8_8bbdd2c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1145421
+      },
+      "writtenOn": "2022-09-06T07:29:49Z",
+      "side": 1,
+      "message": "1. I am not able to do the build i need big help on this - (IndexedField\u003cInternalGroup,Timestamp\u003e.SearchSpec,\nIndexedField\u003cInternalGroup,String\u003e.SearchSpec,\nIndexedField\u003cInternalGroup,Integer\u003e.SearchSpec,\nIndexedField\u003cInternalGroup,String\u003e.SearchSpec,\nIndexedField\u003cInternalGroup,Iterable\u003cInteger\u003e\u003e.SearchSpec,\nIndexedField\u003cInternalGroup,String\u003e.SearchSpec,\nIndexedField\u003cInternalGroup,Iterable\u003cString\u003e\u003e.SearchSpec,\nIndexedField\u003cInternalGroup,String\u003e.SearchSpec,\nIndexedField\u003cInternalGroup,Iterable\u003cString\u003e\u003e.SearchSpec)\nGroupSchemaDefinitions.java\n/gerrit/java/com/google/gerrit/server/index/group\tline 46\tJava\nProblem\n\nThe same fix had already been applied in AccountSchemaDefinitions (see\nchange I7f66af0e3).\n\nSigned-off-by: Edwin Kempin \u003cekempin@google.com\u003e\nRelease-Notes: skip\nChange-Id: I2d255be5f437d1eaf91dec6d3ac4f7eab487448d",
+      "revId": "e8f2b22980ef61a57f01888f8f9afbbcd91d0f2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -52,6 +52,24 @@
       "parentUuid": "037dbdcc_a3b88cd3",
       "revId": "2629d1afa3d185b717d096bcb0e9726b5c465978",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "009aef92_307c9784",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 782,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-06T12:30:44Z",
+      "side": 1,
+      "message": "Whoops forgot to upload the patchset.\nShould have realised there is no difference when I sent the comment.",
+      "parentUuid": "b524c99c_19c4cc61",
+      "revId": "2629d1afa3d185b717d096bcb0e9726b5c465978",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

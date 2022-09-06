@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4dadf56b_23047376",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-06T06:55:18Z",
+      "side": 1,
+      "message": "That is what I mean. There is no UI input directly associated with this URL parameter. Manipulating the URL parameter manually is not an option for the user.\n\nOriginally this was added for other systems to link into the Gerrit Checks UI. They would create URLs programmatically.",
+      "parentUuid": "b475c63a_35cdff28",
+      "range": {
+        "startLine": 11,
+        "startChar": 2,
+        "endLine": 11,
+        "endChar": 31
+      },
+      "revId": "569940f78d09ebfb89cd11431658a51a50596462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "976df753_65e5436e",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-09-05T12:31:02Z",
       "side": 1,
       "message": "this part seems unconnected from the user journey of them changing the regex?",
+      "range": {
+        "startLine": 12,
+        "startChar": 2,
+        "endLine": 12,
+        "endChar": 31
+      },
+      "revId": "569940f78d09ebfb89cd11431658a51a50596462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63fc99f0_44a187ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-06T06:55:18Z",
+      "side": 1,
+      "message": "Yes, that is a separate concern.",
+      "parentUuid": "976df753_65e5436e",
       "range": {
         "startLine": 12,
         "startChar": 2,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9af0edd6_cd2c6e4a",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-06T06:55:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3260b4cb_70cc6e60",
+      "range": {
+        "startLine": 28,
+        "startChar": 4,
+        "endLine": 28,
+        "endChar": 33
+      },
+      "revId": "569940f78d09ebfb89cd11431658a51a50596462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a6be890a_06dff38f",
@@ -93,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbd0bfe3_69e8da94",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-06T06:55:18Z",
+      "side": 1,
+      "message": "Added comments.",
+      "parentUuid": "a6be890a_06dff38f",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 63
+      },
+      "revId": "569940f78d09ebfb89cd11431658a51a50596462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41a5ebe9_959b5d48",
@@ -106,6 +202,30 @@
       "writtenOn": "2022-09-05T13:30:30Z",
       "side": 1,
       "message": "Consider using RegExp type instead of a string with a var name suffix, same elsewhere. Only the edge of the system needs to do the string -\u003e RegExp conversion from the URL parameter, then the rest of the system does not need to name the string so delicately to avoid confusion.",
+      "range": {
+        "startLine": 153,
+        "startChar": 2,
+        "endLine": 153,
+        "endChar": 25
+      },
+      "revId": "569940f78d09ebfb89cd11431658a51a50596462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "efd33baa_1bdf6167",
+        "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-06T06:55:18Z",
+      "side": 1,
+      "message": "That is a good point, and I agree that the string/regexp conversion should only happen at one edge, but I think in this specific case I would prefer to do it at the other edge.\n\nFor the application state it is nice, if it only contains primitive types, because that makes the state simpler. You can stringify/inspect it and make easy comparisons for change detection.\n\nI was also running into the issue of `.source` of an empty RegExp being `(?:)`.\n\nAnd I wanted something in the model that directly reflects the user input.\n\nThat is why I decided to move the RegExp creation to the other edge and only worry about it when actually using the string.\n\nDoes that make sense?",
+      "parentUuid": "41a5ebe9_959b5d48",
       "range": {
         "startLine": 153,
         "startChar": 2,

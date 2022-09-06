@@ -68,6 +68,24 @@
       "message": "[optional] Should we add a similar test to verify that posting a draft comment no longer triggers indexing the change?",
       "revId": "64df5ae23920a42a73e9812e2335194e27912b67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6086d62_e151c89a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 4657,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-09-06T12:31:39Z",
+      "side": 1,
+      "message": "Update: I wrote a test and it failed (even with the follow up change). It seems like something else is indexing the change when drafts are created.",
+      "parentUuid": "0c5890fd_55a4e1eb",
+      "revId": "64df5ae23920a42a73e9812e2335194e27912b67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

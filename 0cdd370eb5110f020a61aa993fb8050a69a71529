@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ce5007c_a0b839a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-06T16:25:50Z",
+      "side": 1,
+      "message": "I assume ESC returns focus back to this element from hovercard.",
+      "revId": "0cdd370eb5110f020a61aa993fb8050a69a71529",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

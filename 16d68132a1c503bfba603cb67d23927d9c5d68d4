@@ -45,6 +45,54 @@
       },
       "revId": "16d68132a1c503bfba603cb67d23927d9c5d68d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45aa503b_89a46a51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-06T09:51:28Z",
+      "side": 1,
+      "message": "Thanks for adding the explanation.\n\nThis means if the refs/users/ update is forgotten when manually fixing external IDs (direct push to refs/meta/external-ids) all what happens is that the account is not automatically reindexed, but otherwise it\u0027s fine?",
+      "parentUuid": "2a649ce6_0c80b330",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "16d68132a1c503bfba603cb67d23927d9c5d68d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05497d42_1d887ec4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-06T09:51:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "526d2d34_5cb23295",
+      "range": {
+        "startLine": 10,
+        "startChar": 5,
+        "endLine": 10,
+        "endChar": 9
+      },
+      "revId": "16d68132a1c503bfba603cb67d23927d9c5d68d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e94c4e9_dbce8c6a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-06T17:43:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0dc753a_000ab371",
+      "revId": "1120f297c4078f37db74539ade16825aa2f25c2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cd03ac70_e3be68f6",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-09-06T14:58:43Z",
       "side": 1,
       "message": "Maybe just use `change.current_revision`? Otherwise I think you are looking up the commit by `change.current_revision`, but I think this is always true: `change.revisions[key].commit.commit \u003d\u003d\u003d key`.",
+      "range": {
+        "startLine": 280,
+        "startChar": 12,
+        "endLine": 280,
+        "endChar": 35
+      },
+      "revId": "1120f297c4078f37db74539ade16825aa2f25c2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b02c6478_adbf4edd",
+        "filename": "polygerrit-ui/app/utils/change-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-06T17:43:25Z",
+      "side": 1,
+      "message": "Thanks. I didn\u0027t know that\u0027s enough.",
+      "parentUuid": "cd03ac70_e3be68f6",
       "range": {
         "startLine": 280,
         "startChar": 12,

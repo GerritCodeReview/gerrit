@@ -129,8 +129,14 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
       new Schema.Builder<ChangeData>().add(V76).add(ChangeField.COMMIT_MESSAGE_EXACT).build();
 
   // Upgrade Lucene to 7.x requires reindexing.
-  static final Schema<ChangeData> V78 = schema(V77);
+  @Deprecated static final Schema<ChangeData> V78 = schema(V77);
 
+  /** Remove draft and star fields. */
+  static final Schema<ChangeData> V79 =
+      new Schema.Builder<ChangeData>()
+          .add(V78)
+          .remove(ChangeField.DRAFTBY, ChangeField.STAR, ChangeField.STARBY)
+          .build();
   /**
    * Name of the change index to be used when contacting index backends or loading configurations.
    */

@@ -86,6 +86,24 @@
       "parentUuid": "0c5890fd_55a4e1eb",
       "revId": "64df5ae23920a42a73e9812e2335194e27912b67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aaad51ff_5b0aedec",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 4657,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-09-06T13:01:01Z",
+      "side": 1,
+      "message": "[comment for self]\n\nAfter debugging, the call to \"put star\" does not go through the indexing in BatchUpdate:L634 (see [1]). The call to put a draft comment goes through that code.\n\nStars is bound in AccountRestApiModule. \"Put Star\" is implemented in \"StarredChanges.Create\". This calls starredChangesUtil.star() which opens the repo directly and adds the star, and it does not go through BatchUpdate.\n\nIt seems like we **always** reindex changes for all BatchUpdate(s), including updates with draft comments only. Maybe we need to tweak the logic there and exclude reindexing in such case.  \n\n[1] https://gerrit.googlesource.com/gerrit/+/5077d22696b1d1e2e2224ee06aeab897e87c2bbe/java/com/google/gerrit/server/update/BatchUpdate.java#635",
+      "parentUuid": "b6086d62_e151c89a",
+      "revId": "64df5ae23920a42a73e9812e2335194e27912b67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "526d2d34_5cb23295",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-06T09:31:41Z",
+      "side": 1,
+      "message": "nit: meta",
+      "range": {
+        "startLine": 10,
+        "startChar": 5,
+        "endLine": 10,
+        "endChar": 9
+      },
+      "revId": "16d68132a1c503bfba603cb67d23927d9c5d68d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a649ce6_0c80b330",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-06T09:31:41Z",
+      "side": 1,
+      "message": "Can you please explain why this is useful/needed?\n\nI\u0027m concerned that this makes manually fixing external IDs more difficult and error-prone as we now also need to remember to update the corresponding refs/users/ branches when updating refs/meta/external-ids. What happens if the update of the refs/users/ branch is forgotten?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "16d68132a1c503bfba603cb67d23927d9c5d68d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

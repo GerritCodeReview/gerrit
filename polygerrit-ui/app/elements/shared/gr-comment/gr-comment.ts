@@ -164,6 +164,9 @@ export class GrComment extends LitElement {
   @property({type: Boolean, attribute: 'robot-button-disabled'})
   robotButtonDisabled = false;
 
+  @property({type: String})
+  messagePlaceholder?: string;
+
   /* private, but used in css rules */
   @property({type: Boolean, reflect: true})
   saving = false;
@@ -679,6 +682,7 @@ export class GrComment extends LitElement {
         code=""
         ?disabled=${this.saving}
         rows="4"
+        .placeholder=${this.messagePlaceholder}
         text=${this.messageText}
         @text-changed=${(e: ValueChangedEvent) => {
           // TODO: This is causing a re-render of <gr-comment> on every key

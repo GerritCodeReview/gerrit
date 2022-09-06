@@ -779,6 +779,9 @@ export class GrComment extends LitElement {
     if (!this.flagsService.isEnabled(KnownExperimentId.SUGGEST_EDIT)) {
       return nothing;
     }
+    if (this.permanentEditingMode) {
+      return nothing;
+    }
     assertIsDefined(this.comment, 'comment');
     if (hasUserSuggestion(this.comment)) return nothing;
     // TODO(milutin): remove this check once suggesting on commit message is

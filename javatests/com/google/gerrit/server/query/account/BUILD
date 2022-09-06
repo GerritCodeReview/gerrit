@@ -13,6 +13,8 @@ java_library(
         "//prolog:gerrit-prolog-common",
     ],
     deps = [
+        "//java/com/google/gerrit/acceptance/testsuite/project",
+        "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/index",

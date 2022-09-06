@@ -48,6 +48,8 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState, AccountQuery
 
   public static final String FIELD_ACCOUNT = "account";
   public static final String FIELD_CAN_SEE = "cansee";
+
+  public static final String FIELD_HIDDEN = "hidden";
   public static final String FIELD_EMAIL = "email";
   public static final String FIELD_LIMIT = "limit";
   public static final String FIELD_NAME = "name";
@@ -151,6 +153,12 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState, AccountQuery
     if ("inactive".equalsIgnoreCase(value)) {
       return AccountPredicates.isNotActive();
     }
+    if (FIELD_HIDDEN.equals(value)) {
+      return AccountPredicates.isHidden();
+    }
+    if ("unhidden".equals(value)) {
+      return AccountPredicates.isNotHidden();
+    }
     throw error("Invalid query");
   }
 
@@ -186,6 +194,15 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState, AccountQuery
     return Predicate.and(
         Lists.transform(
             Splitter.on(' ').omitEmptyStrings().splitToList(query), this::defaultField));
+  }
+
+  public Predicate<AccountState> andVisible(Predicate<AccountState> p) throws QueryParseException {
+    Predicate<AccountState> visibilityPredicate = AccountPredicates.isNotHidden();
+    if (args.getUser().isIdentifiedUser()) {
+      visibilityPredicate =
+          Predicate.or(visibilityPredicate, AccountPredicates.id(args.schema(), self()));
+    }
+    return Predicate.and(p, visibilityPredicate);
   }
 
   @Override

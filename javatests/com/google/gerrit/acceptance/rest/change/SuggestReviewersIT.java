@@ -493,6 +493,147 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void hiddenAccounts_notSuggested() throws Exception {
+    requestScopeOperations.setApiUser(user.id());
+    String changeIdReviewed = createChangeFromApi();
+    String changeId = createChangeFromApi();
+
+    String name = name("test-user");
+    TestAccount user1 = accountCreator.create(name + "-1");
+    reviewChange(changeIdReviewed, user1);
+
+    TestAccount user2 = accountCreator.create(name + "-2");
+    reviewChange(changeIdReviewed, user2);
+
+    assertReviewers(
+        suggestReviewers(changeId, name), ImmutableList.of(user1, user2), ImmutableList.of());
+
+    requestScopeOperations.setApiUser(user2.id());
+    gApi.accounts().id(user2.username()).setIsHidden(true);
+
+    requestScopeOperations.setApiUser(user.id());
+    assertReviewers(suggestReviewers(changeId, name), ImmutableList.of(user1), ImmutableList.of());
+    assertReviewers(
+        suggestReviewers(changeId, /*query=*/ ""), ImmutableList.of(user1), ImmutableList.of());
+  }
+
+  @Test
+  public void hiddenAccountsWithViewAll_suggested() throws Exception {
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.VIEW_ALL_ACCOUNTS).group(REGISTERED_USERS))
+        .update();
+    requestScopeOperations.setApiUser(user.id());
+    String changeIdReviewed = createChangeFromApi();
+
+    String name = name("test-user");
+    TestAccount user1 = accountCreator.create(name + "-1");
+    reviewChange(changeIdReviewed, user1);
+
+    TestAccount user2 = accountCreator.create(name + "-2");
+    reviewChange(changeIdReviewed, user2);
+
+    test_hiddenAccounts_suggested(name, user1, user2, /* isFirstChange = */ false);
+  }
+
+  @Test
+  public void hiddenAccountsWithModifyAccount_suggested() throws Exception {
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.MODIFY_ACCOUNT).group(REGISTERED_USERS))
+        .update();
+    requestScopeOperations.setApiUser(user.id());
+    String changeIdReviewed = createChangeFromApi();
+
+    String name = name("test-user");
+    TestAccount user1 = accountCreator.create(name + "-1");
+    reviewChange(changeIdReviewed, user1);
+
+    TestAccount user2 = accountCreator.create(name + "-2");
+    reviewChange(changeIdReviewed, user2);
+
+    test_hiddenAccounts_suggested(name, user1, user2, /* isFirstChange = */ false);
+  }
+
+  @Test
+  public void firstChange_hiddenAccounts_notSuggested() throws Exception {
+    requestScopeOperations.setApiUser(user.id());
+
+    String name = name("test-user");
+    TestAccount user1 = accountCreator.create(name + "-1");
+    TestAccount user2 = accountCreator.create(name + "-2");
+
+    requestScopeOperations.setApiUser(user.id());
+
+    String changeId = createChangeFromApi();
+    assertReviewers(
+        suggestReviewers(changeId, name), ImmutableList.of(user1, user2), ImmutableList.of());
+
+    requestScopeOperations.setApiUser(user2.id());
+    gApi.accounts().id(user2.username()).setIsHidden(true);
+
+    requestScopeOperations.setApiUser(user.id());
+    assertReviewers(suggestReviewers(changeId, name), ImmutableList.of(user1), ImmutableList.of());
+    assertReviewers(
+        suggestReviewers(changeId, /*query=*/ ""), ImmutableList.of(), ImmutableList.of());
+  }
+
+  @Test
+  public void firstChange_hiddenAccountsWithViewAll_suggested() throws Exception {
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.VIEW_ALL_ACCOUNTS).group(REGISTERED_USERS))
+        .update();
+    requestScopeOperations.setApiUser(user.id());
+
+    String name = name("test-user");
+    TestAccount user1 = accountCreator.create(name + "-1");
+    TestAccount user2 = accountCreator.create(name + "-2");
+
+    test_hiddenAccounts_suggested(name, user1, user2, /* isFirstChange = */ true);
+  }
+
+  @Test
+  public void firstChange_hiddenAccountsWithModifyAccount_suggested() throws Exception {
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.MODIFY_ACCOUNT).group(REGISTERED_USERS))
+        .update();
+    requestScopeOperations.setApiUser(user.id());
+
+    String name = name("test-user");
+    TestAccount user1 = accountCreator.create(name + "-1");
+    TestAccount user2 = accountCreator.create(name + "-2");
+
+    test_hiddenAccounts_suggested(name, user1, user2, /* isFirstChange = */ true);
+  }
+
+  public void test_hiddenAccounts_suggested(
+      String searchQuery, TestAccount user1, TestAccount user2, boolean isFirstChange)
+      throws Exception {
+
+    requestScopeOperations.setApiUser(user.id());
+    String changeId = createChangeFromApi();
+    assertReviewers(
+        suggestReviewers(changeId, searchQuery),
+        ImmutableList.of(user1, user2),
+        ImmutableList.of());
+
+    requestScopeOperations.setApiUser(user2.id());
+    gApi.accounts().id(user2.username()).setIsHidden(true);
+
+    requestScopeOperations.setApiUser(user.id());
+    assertReviewers(
+        suggestReviewers(changeId, searchQuery),
+        ImmutableList.of(user1, user2),
+        ImmutableList.of());
+    assertReviewers(
+        suggestReviewers(changeId, /* query= */ ""),
+        isFirstChange ? ImmutableList.of() : ImmutableList.of(user1, user2),
+        ImmutableList.of());
+  }
+
+  @Test
   public void suggestNoServiceAccounts() throws Exception {
     requestScopeOperations.setApiUser(user.id());
     String changeIdReviewed = createChangeFromApi();

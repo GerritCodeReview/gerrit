@@ -208,7 +208,7 @@ public class ReviewersUtil {
 
     List<Account.Id> candidateList = new ArrayList<>();
     if (!Strings.isNullOrEmpty(query)) {
-      candidateList = suggestAccounts(suggestReviewers);
+      candidateList = suggestAccounts(suggestReviewers, accountControl.canSeeHiddenAccounts());
       logger.atFine().log("Candidate list: %s", candidateList);
     }
     List<Account.Id> sortedRecommendations =
@@ -254,8 +254,8 @@ public class ReviewersUtil {
     return Account.id(Integer.valueOf(f.<String>getValue(AccountField.ID_STR_FIELD_SPEC)));
   }
 
-  private List<Account.Id> suggestAccounts(SuggestReviewers suggestReviewers)
-      throws BadRequestException {
+  private List<Account.Id> suggestAccounts(
+      SuggestReviewers suggestReviewers, boolean canSeeHiddenAccounts) throws BadRequestException {
     try (Timer0.Context ctx = metrics.queryAccountsLatency.start()) {
       // For performance reasons we don't use AccountQueryProvider as it would always load the
       // complete account from the cache (or worse, from NoteDb) even though we only need the ID
@@ -264,7 +264,11 @@ public class ReviewersUtil {
           Predicate.and(
               AccountPredicates.isActive(),
               accountQueryBuilder.defaultQuery(suggestReviewers.getQuery()));
-      logger.atFine().log("accounts index query: %s", pred);
+      if (!canSeeHiddenAccounts) {
+        pred = accountQueryBuilder.andVisible(pred);
+      }
+
+      logger.atFine().log("accounts index query: %s, %s", canSeeHiddenAccounts, pred);
       accountIndexRewriter.validateMaxTermsInQuery(pred);
       boolean useLegacyNumericFields =
           accountIndexes.getSearchIndex().getSchema().hasField(AccountField.ID_FIELD_SPEC);

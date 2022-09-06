@@ -1193,7 +1193,7 @@ public class ChangeData {
     this.stars = ImmutableListMultimap.copyOf(stars);
   }
 
-  public ImmutableMap<Account.Id, StarRef> starRefs() {
+  private ImmutableMap<Account.Id, StarRef> starRefs() {
     if (starRefs == null) {
       if (!lazyload()) {
         return ImmutableMap.of();
@@ -1274,7 +1274,6 @@ public class ChangeData {
                     edit.getRowKey(), edit.getColumnKey().changeId(), edit.getColumnKey()),
                 edit.getValue()));
       }
-      starRefs().values().forEach(r -> result.put(allUsersName, RefState.of(r.ref())));
 
       // TODO: instantiating the notes is too much. We don't want to parse NoteDb, we just want the
       // refs.
@@ -1282,14 +1281,6 @@ public class ChangeData {
       notes().getRobotComments(); // Force loading robot comments.
       RobotCommentNotes robotNotes = notes().getRobotCommentNotes();
       result.put(project, RefState.create(robotNotes.getRefName(), robotNotes.getMetaId()));
-      draftRefs()
-          .entrySet()
-          .forEach(
-              r ->
-                  result.put(
-                      allUsersName,
-                      RefState.create(
-                          RefNames.refsDraftComments(getId(), r.getKey()), r.getValue())));
 
       refStates = result.build();
     }

@@ -70,6 +70,30 @@
       },
       "revId": "9b7044716f88f45b92ea910aaae87daa934a364c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a43ee65_9a7212a8",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-06T18:03:31Z",
+      "side": 1,
+      "message": "Why not? Don\u0027t we need to add one to the limit to determine value of `moreChanges` shown to the user?",
+      "parentUuid": "fcfb45ee_afa18012",
+      "range": {
+        "startLine": 243,
+        "startChar": 12,
+        "endLine": 243,
+        "endChar": 26
+      },
+      "revId": "9b7044716f88f45b92ea910aaae87daa934a364c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

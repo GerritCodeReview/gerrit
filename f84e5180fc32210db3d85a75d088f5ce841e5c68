@@ -22,6 +22,30 @@
       },
       "revId": "f84e5180fc32210db3d85a75d088f5ce841e5c68",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "000e4604_9f0a6f3c",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-06T18:03:31Z",
+      "side": 0,
+      "message": "I thought, it was not need as it was mainly to avoid int overflows as backend supported limit defaults to Integer.MAX_VALUE. But thinking more about it , we do need to still do that.",
+      "parentUuid": "487f2d6f_935db2d1",
+      "range": {
+        "startLine": 234,
+        "startChar": 21,
+        "endLine": 234,
+        "endChar": 45
+      },
+      "revId": "f84e5180fc32210db3d85a75d088f5ce841e5c68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

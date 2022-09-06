@@ -244,7 +244,13 @@ public abstract class QueryProcessor<T> {
         // Always bump limit by 1, even if this results in exceeding the permitted
         // max for this user. The only way to see if there are more entities is to
         // ask for one more result from the query.
-        QueryOptions opts = createOptions(indexConfig, start, limit + 1, getRequestedFields());
+        try {
+          limit = Math.addExact(limit, 1);
+        } catch (ArithmeticException e) {
+          limit = Integer.MAX_VALUE;
+        }
+
+        QueryOptions opts = createOptions(indexConfig, start, limit, getRequestedFields());
         logger.atFine().log("Query options: " + opts);
         Predicate<T> pred = rewriter.rewrite(q, opts);
         if (enforceVisibility) {

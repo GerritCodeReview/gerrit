@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8aa495b4_934a3060",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-09-07T08:56:48Z",
+      "side": 1,
+      "message": "I don\u0027t expect we ever execute an empty BatchUpdate, are there any cases when it happens?",
+      "range": {
+        "startLine": 152,
+        "startChar": 16,
+        "endLine": 152,
+        "endChar": 35
+      },
+      "revId": "0e30a7447efadd864aabb956888e491144c7d89b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

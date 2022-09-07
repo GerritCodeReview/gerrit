@@ -37,6 +37,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "be987552_644893d6",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-07T23:37:51Z",
+      "side": 1,
+      "message": "nit: Remove \u0027a\u0027",
+      "range": {
+        "startLine": 110,
+        "startChar": 32,
+        "endLine": 110,
+        "endChar": 34
+      },
+      "revId": "6b31ecf62d3f21c4aa24b49a19496806555c902c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9106542a_8ccefaa0",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-07T23:37:51Z",
+      "side": 1,
+      "message": "nit: Remove this comma?",
+      "range": {
+        "startLine": 110,
+        "startChar": 76,
+        "endLine": 110,
+        "endChar": 77
+      },
+      "revId": "6b31ecf62d3f21c4aa24b49a19496806555c902c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "affd2cc2_37ca4c53",
         "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
         "patchSetId": 6
@@ -60,6 +106,53 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9e86662b_8a71a78a",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-07T23:37:51Z",
+      "side": 1,
+      "message": "Agreed that improvement can come later.",
+      "parentUuid": "affd2cc2_37ca4c53",
+      "range": {
+        "startLine": 249,
+        "startChar": 10,
+        "endLine": 249,
+        "endChar": 26
+      },
+      "revId": "6b31ecf62d3f21c4aa24b49a19496806555c902c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50669be1_41793e16",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-07T23:37:51Z",
+      "side": 1,
+      "message": "Should this say \"initial page size\" now?",
+      "range": {
+        "startLine": 381,
+        "startChar": 28,
+        "endLine": 381,
+        "endChar": 43
+      },
+      "revId": "6b31ecf62d3f21c4aa24b49a19496806555c902c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cad6dcdd_c1cd04e2",
         "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
         "patchSetId": 6
@@ -71,6 +164,24 @@
       "writtenOn": "2022-09-07T22:23:57Z",
       "side": 1,
       "message": "Should this just become Integer.MAX_VALUE again?",
+      "revId": "6b31ecf62d3f21c4aa24b49a19496806555c902c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2865a92_7bcf3ee8",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-07T23:37:51Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "cad6dcdd_c1cd04e2",
       "revId": "6b31ecf62d3f21c4aa24b49a19496806555c902c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e045e855_807d9294",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-07T08:40:31Z",
+      "side": 1,
+      "message": "I believe this change may trigger a reindex of all changes (because the ref states in the index mismatch the newly computed ref states now). Could this be a problem?",
+      "revId": "874ce4703b1911107c670868a33503f85ba93fac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

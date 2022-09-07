@@ -231,6 +231,24 @@
       "message": "@rikardal@axis.com just testing user-mentions",
       "revId": "3eac84840345f198c7aeb41cf2d3c7eb6cd97928",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "923e30bd_f364599b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2022-09-07T14:18:21Z",
+      "side": 1,
+      "message": "I have been mentioned!\nThough, with the exception of the \"Comment @ mention\" chip, I got notified the regular way. e.g. \"There\u0027s a comment on this change\".\n\nI don\u0027t know why I expected something on the dashboard.",
+      "parentUuid": "d3a3ce2b_bf078a07",
+      "revId": "3eac84840345f198c7aeb41cf2d3c7eb6cd97928",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

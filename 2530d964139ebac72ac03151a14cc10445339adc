@@ -287,6 +287,42 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eae38b68_7fd31c11",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-09-07T09:55:53Z",
+      "side": 1,
+      "message": "Results in Ben being added as CC but not to AS.",
+      "parentUuid": "3b0a32a6_4ef802b9",
+      "revId": "2530d964139ebac72ac03151a14cc10445339adc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0384c99_5da54c52",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-09-07T09:55:53Z",
+      "side": 1,
+      "message": "The other thread is unresolved with the same behavior, not added to AS.",
+      "parentUuid": "606cee14_c7507b2b",
+      "revId": "2530d964139ebac72ac03151a14cc10445339adc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6dcad010_7c44be4c",
         "filename": "aa",
         "patchSetId": 20

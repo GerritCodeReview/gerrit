@@ -16,6 +16,24 @@
       "message": "Does this need flag protection?",
       "revId": "0dee1aee25f6aca7a3db33a8f3e0be7ac8258372",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31232118_fc13bd83",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-07T07:04:19Z",
+      "side": 1,
+      "message": "Yes. Done.",
+      "parentUuid": "f06e2e26_762c15eb",
+      "revId": "0dee1aee25f6aca7a3db33a8f3e0be7ac8258372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

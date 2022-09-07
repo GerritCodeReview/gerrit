@@ -185,7 +185,7 @@ suite('gr-checks-run test', () => {
       element,
       /* HTML */ `
         <div class="chip error" tabindex="0">
-          <div class="left">
+          <div class="left" tabindex="0">
             <gr-hovercard-run> </gr-hovercard-run>
             <gr-icon class="error" filled="" icon="error"> </gr-icon>
             <span class="name">

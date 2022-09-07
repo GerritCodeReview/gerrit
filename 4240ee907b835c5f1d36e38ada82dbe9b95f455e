@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b22fcff_9c1a49cf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-07T07:09:57Z",
+      "side": 1,
+      "message": "Guidance from the icons team is that we should use star_rate for this purpose.",
+      "revId": "4240ee907b835c5f1d36e38ada82dbe9b95f455e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

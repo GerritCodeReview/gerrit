@@ -114,8 +114,11 @@ suite('change-util tests', () => {
       current_revision: 'rev1' as CommitId,
       status: ChangeStatus.MERGED,
     };
-    const statuses = changeStatuses(change);
-    assert.deepEqual(statuses, [ChangeStates.MERGED]);
+    assert.deepEqual(changeStatuses(change), [ChangeStates.MERGED]);
+    change.is_private = true;
+    assert.deepEqual(changeStatuses(change), [ChangeStates.MERGED]);
+    change.work_in_progress = true;
+    assert.deepEqual(changeStatuses(change), [ChangeStates.MERGED]);
   });
 
   test('Abandoned status', () => {
@@ -126,8 +129,11 @@ suite('change-util tests', () => {
       status: ChangeStatus.ABANDONED,
       mergeable: false,
     };
-    const statuses = changeStatuses(change);
-    assert.deepEqual(statuses, [ChangeStates.ABANDONED]);
+    assert.deepEqual(changeStatuses(change), [ChangeStates.ABANDONED]);
+    change.is_private = true;
+    assert.deepEqual(changeStatuses(change), [ChangeStates.ABANDONED]);
+    change.work_in_progress = true;
+    assert.deepEqual(changeStatuses(change), [ChangeStates.ABANDONED]);
   });
 
   test('Open status with private and wip', () => {

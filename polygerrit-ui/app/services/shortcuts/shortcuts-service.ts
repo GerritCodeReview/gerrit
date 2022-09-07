@@ -163,12 +163,20 @@ export class ShortcutsService implements Finalizable {
     const wrappedListener = (e: KeyboardEvent) => {
       if (e.repeat && !shortcut.allowRepeat) return;
       if (!eventMatchesShortcut(e, shortcut)) return;
+      console.log(`matched shortcut ${JSON.stringify(shortcut)}`);
+
       if (shortcut.combo) {
         if (!this.isInSpecificComboKeyMode(shortcut.combo)) return;
       } else {
         if (this.isInComboKeyMode()) return;
       }
+      console.log(
+        `matched shortcut before suppress ${JSON.stringify(shortcut)}`
+      );
       if (optShouldSuppress && shouldSuppress(e)) return;
+      console.log(
+        `matched shortcut after suppress ${JSON.stringify(shortcut)}`
+      );
       // `shortcutsDisabled` refers to disabling global shortcuts like 'n'. If
       // `shouldSuppress` is false (e.g.for Ctrl - ENTER), then don't disable
       // the shortcut.
@@ -176,6 +184,7 @@ export class ShortcutsService implements Finalizable {
       if (optPreventDefault) e.preventDefault();
       if (optPreventDefault) e.stopPropagation();
       this.reportTriggered(e);
+      console.log(`matched shortcut call listener ${JSON.stringify(shortcut)}`);
       listener(e);
     };
     element.addEventListener('keydown', wrappedListener);

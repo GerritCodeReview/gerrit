@@ -16,7 +16,6 @@ import {BlameInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {Side} from '../../../constants/constants';
 import {DiffLayer} from '../../../types/types';
-import {TokenHighlightLayer} from './token-highlight-layer';
 
 export interface DiffContextExpandedEventDetail
   extends DiffContextExpandedExternalDetail {
@@ -96,12 +95,6 @@ export abstract class GrDiffBuilder implements DiffBuilder {
     side: Side
   ) => void;
 
-  private readonly tkhLayerUpdateListener: (
-    start: LineNumber,
-    end: LineNumber,
-    side: Side
-  ) => void;
-
   constructor(
     diff: DiffInfo,
     prefs: DiffPreferencesInfo,
@@ -134,31 +127,8 @@ export abstract class GrDiffBuilder implements DiffBuilder {
       end: LineNumber,
       side: Side
     ) => this.renderContentByRange(start, end, side);
-    let cnt = 0;
-    this.tkhLayerUpdateListener = (
-      start: LineNumber,
-      end: LineNumber,
-      side: Side
-    ) => {
-      cnt += 1;
-      this.renderContentByRange(start, end, side);
-      requestAnimationFrame(() => {
-        cnt -= 1;
-        if (cnt === 0) {
-          setTimeout(() => {
-            let result = performance.measure(
-              'highlight-update',
-              'token-highlight-update-start');
-            console.log(`Measured ${result.duration}`);
-          });
-        }
-      });
-    };
     for (const layer of this.layers) {
-      if (layer instanceof TokenHighlightLayer) {
-        layer.addListener(this.tkhLayerUpdateListener);
-        console.log("Special listener added");
-      } else if (layer.addListener) {
+      if (layer.addListener) {
         layer.addListener(this.layerUpdateListener);
       }
     }
@@ -166,10 +136,7 @@ export abstract class GrDiffBuilder implements DiffBuilder {
 
   clear() {
     for (const layer of this.layers) {
-      if (layer instanceof TokenHighlightLayer) {
-        layer.removeListener(this.tkhLayerUpdateListener);
-        console.log("Special listener removed");
-      } else if (layer.removeListener) {
+      if (layer.removeListener) {
         layer.removeListener(this.layerUpdateListener);
       }
     }

@@ -96,6 +96,8 @@ export class TokenHighlightLayer implements DiffLayer {
 
   private tokenToLinesRight = new Map<string, Set<number>>();
 
+  private tokenToElements = new Map<string, Set<HTMLElement>>();
+
   private hoveredElement?: Element;
 
   private updateTokenTask?: DelayedTask;
@@ -147,7 +149,7 @@ export class TokenHighlightLayer implements DiffLayer {
       // We could try to detect whether we are re-rendering instead of initially
       // rendering the line. Then we would not have to call storeLineForToken()
       // again. But since the Set swallows the duplicates we don't care.
-      this.storeLineForToken(token, line, side);
+      this.storeElementsForToken(token, el, textClass);
     }
     if (atLeastOneTokenMatched) {
       // These listeners do not have to be cleaned, because listeners are
@@ -162,21 +164,21 @@ export class TokenHighlightLayer implements DiffLayer {
     }
   }
 
-  private storeLineForToken(token: string, line: GrDiffLine, side: Side) {
-    const tokenToLines =
-      side === Side.LEFT ? this.tokenToLinesLeft : this.tokenToLinesRight;
-    // Just to make sure that we don't break down on large files.
-    if (tokenToLines.size > TOKEN_COUNT_LIMIT) return;
-    let numbers = tokenToLines.get(token);
-    if (!numbers) {
-      numbers = new Set<number>();
-      tokenToLines.set(token, numbers);
+  private storeElementsForToken(
+    token: string,
+    lineEl: HTMLElement,
+    cssClass: string
+  ) {
+    for (let el of lineEl.querySelectorAll(`.${cssClass}`)) {
+      let tokenEls = this.tokenToElements.get(token);
+      if (!tokenEls) {
+        tokenEls = new Set<HTMLElement>();
+        this.tokenToElements.set(token, tokenEls);
+      }
+      // Just to make sure that we don't break down on large files.
+      if (tokenEls.size > TOKEN_OCCURRENCES_LIMIT) return;
+      tokenEls.add(el as HTMLElement);
     }
-    // Just to make sure that we don't break down on large files.
-    if (numbers.size > TOKEN_OCCURRENCES_LIMIT) return;
-    const lineNumber =
-      side === Side.LEFT ? line.beforeNumber : line.afterNumber;
-    numbers.add(Number(lineNumber));
   }
 
   private handleTokenMouseOut(e: MouseEvent) {
@@ -271,7 +273,6 @@ export class TokenHighlightLayer implements DiffLayer {
     console.log('Update start');
 
     const oldHighlight = this.currentHighlight;
-    const oldLineNumber = this.currentHighlightLineNumber;
     this.currentHighlight = newHighlight;
     this.currentHighlightLineNumber = newLineNumber;
     this.triggerTokenHighlightEvent(
@@ -279,8 +280,34 @@ export class TokenHighlightLayer implements DiffLayer {
       newLineNumber,
       newHoveredElement
     );
-    this.notifyForToken(oldHighlight, oldLineNumber);
-    this.notifyForToken(newHighlight, newLineNumber);
+    this.updateElementClasses(oldHighlight, CSS_HIGHLIGHT, CSS_TOKEN);
+    this.updateElementClasses(newHighlight, CSS_TOKEN, CSS_HIGHLIGHT);
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        let result = performance.measure(
+          'highlight-update',
+          'token-highlight-update-start');
+        console.log(`Measured ${result.duration}`);
+      });
+    });
+  }
+
+  private updateElementClasses(
+    token: string | undefined,
+    oldClass: string,
+    newClass: string
+  ) {
+    if (!token) {
+      return;
+    }
+    let tokenEls = this.tokenToElements.get(token);
+    if (!tokenEls) {
+      return;
+    }
+    for (let el of tokenEls) {
+      el.classList.toggle(oldClass);
+      el.classList.toggle(newClass);
+    }
   }
 
   triggerTokenHighlightEvent(
@@ -310,46 +337,6 @@ export class TokenHighlightLayer implements DiffLayer {
       end_column: index + token.length, // 1-based inclusive
     };
     this.tokenHighlightListener({token, element, side, range});
-  }
-
-  getSortedLinesForSide(
-    lineMapping: Map<string, Set<number>>,
-    token: string | undefined,
-    lineNumber: number
-  ): Array<number> {
-    if (!token) return [];
-    const lineSet = lineMapping.get(token);
-    if (!lineSet) return [];
-    const lines = [...lineSet];
-    lines.sort((a, b) => {
-      const da = Math.abs(a - lineNumber);
-      const db = Math.abs(b - lineNumber);
-      // For equal distance, prefer lines later in the file over earlier in the
-      // file. This ensures total ordering.
-      if (da === db) return b - a;
-      // Compare the distance to lineNumber.
-      return da - db;
-    });
-    return lines.slice(0, TOKEN_HIGHLIGHT_LIMIT);
-  }
-
-  notifyForToken(token: string | undefined, lineNumber: number) {
-    const leftLines = this.getSortedLinesForSide(
-      this.tokenToLinesLeft,
-      token,
-      lineNumber
-    );
-    for (const line of leftLines) {
-      this.notifyListeners(line, Side.LEFT);
-    }
-    const rightLines = this.getSortedLinesForSide(
-      this.tokenToLinesRight,
-      token,
-      lineNumber
-    );
-    for (const line of rightLines) {
-      this.notifyListeners(line, Side.RIGHT);
-    }
   }
 
   addListener(listener: DiffLayerListener) {

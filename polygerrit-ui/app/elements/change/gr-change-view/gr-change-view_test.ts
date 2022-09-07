@@ -26,6 +26,7 @@ import {
   mockPromise,
   pressKey,
   queryAndAssert,
+  stubFlags,
   stubRestApi,
   stubUsers,
   waitQueryAndAssert,
@@ -96,6 +97,7 @@ import {fixture, html, assert} from '@open-wc/testing';
 import {deepClone} from '../../../utils/deep-util';
 import {Modifier} from '../../../utils/dom-util';
 import {GrButton} from '../../shared/gr-button/gr-button';
+import {GrCopyLinks} from '../gr-copy-links/gr-copy-links';
 
 suite('gr-change-view tests', () => {
   let element: GrChangeView;
@@ -2557,5 +2559,25 @@ suite('gr-change-view tests', () => {
       change_id: '234' as ChangeId,
     });
     assert.equal(element.calculateHasParent(changeId, relatedChanges), true);
+  });
+
+  test('renders sha in copy links', async () => {
+    stubFlags('isEnabled').returns(true);
+    sinon.stub(GerritNav, 'getUrlForChange').returns('/change/123');
+    const sha = '123' as CommitId;
+    element.change = {
+      ...createChangeViewChange(),
+      status: ChangeStatus.MERGED,
+      current_revision: sha,
+    };
+    await element.updateComplete;
+
+    const copyLinksDialog = queryAndAssert<GrCopyLinks>(
+      element,
+      'gr-copy-links'
+    );
+    assert.isTrue(
+      copyLinksDialog.copyLinks.some(copyLink => copyLink.value === sha)
+    );
   });
 });

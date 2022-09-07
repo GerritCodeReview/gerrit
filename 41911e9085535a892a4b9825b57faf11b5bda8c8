@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edd8fe89_ac065b00",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-config.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-07T10:30:22Z",
+      "side": 1,
+      "message": "I think I would actually remove this \"abstract\" shortcut altogether, which means it will not appear in the shortcuts dialog and not be documented.\n\nCtrl+ENTER is such a universal shortcut that I don\u0027t think we need to document it.\n\nAlso note that if you keep as is, then turning off keyboard shortcuts in the settings will also affect this shortcut. But IMO this is similar to ESC, i.e. just standard keyboard interaction, not really a shortcut.",
+      "revId": "41911e9085535a892a4b9825b57faf11b5bda8c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef63954c_6e41dff0",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-config.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-07T10:30:22Z",
+      "side": 1,
+      "message": "If the shortcut is not doc-only anymore, then remove this line:\n\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts;l\u003d628;drc\u003d9a212189ad1ed69a925859fd50e5c2720e5ba1cf",
+      "revId": "41911e9085535a892a4b9825b57faf11b5bda8c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e715ee7b_6084d185",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 806,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-07T15:00:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d29ed58_22528346",
+      "revId": "bbe8222aff8c9dd37ba8d2aad304805358702c8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "79054128_7983e0ff",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-09-07T14:54:22Z",
       "side": 1,
       "message": "I think I would feel better about this when done in `cancel()`, because `disconnectedCallback` feels too late and trying to hack your way back into the action flow.",
+      "revId": "bbe8222aff8c9dd37ba8d2aad304805358702c8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fefa2c8b_94c5ccbe",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-07T15:00:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79054128_7983e0ff",
       "revId": "bbe8222aff8c9dd37ba8d2aad304805358702c8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

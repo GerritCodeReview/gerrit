@@ -263,13 +263,16 @@ export class GrComment extends LitElement {
 
   constructor() {
     super();
-    this.shortcuts.addLocal({key: Key.ESC}, () => this.handleEsc());
-    for (const key of ['s', Key.ENTER]) {
-      for (const modifier of [Modifier.CTRL_KEY, Modifier.META_KEY]) {
-        this.shortcuts.addLocal({key, modifiers: [modifier]}, () => {
-          this.save();
-        });
-      }
+    // If comment is Patchset level then let reply dialog handle these
+    if (this.comment?.path !== SpecialFilePath.PATCHSET_LEVEL_COMMENTS) {
+      this.shortcuts.addLocal({key: Key.ESC}, () => this.handleEsc());
+      for (const key of ['s', Key.ENTER]) {
+        for (const modifier of [Modifier.CTRL_KEY, Modifier.META_KEY]) {
+          this.shortcuts.addLocal({key, modifiers: [modifier]}, () => {
+            this.save();
+          });
+        }
+      }  
     }
     if (this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) {
       this.messagePlaceholder = 'Mention others with @';

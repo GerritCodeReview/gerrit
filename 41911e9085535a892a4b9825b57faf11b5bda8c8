@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e0dfbfa_af935106",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-config.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-07T12:17:09Z",
+      "side": 1,
+      "message": "344916: Move SEND_REPLY from abstract to local shortcut | https://gerrit-review.googlesource.com/c/gerrit/+/344916",
+      "parentUuid": "edd8fe89_ac065b00",
+      "revId": "41911e9085535a892a4b9825b57faf11b5bda8c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ef63954c_6e41dff0",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-09-07T10:30:22Z",
       "side": 1,
       "message": "If the shortcut is not doc-only anymore, then remove this line:\n\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts;l\u003d628;drc\u003d9a212189ad1ed69a925859fd50e5c2720e5ba1cf",
+      "revId": "41911e9085535a892a4b9825b57faf11b5bda8c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "908429c7_99fd4591",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-config.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-07T12:17:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef63954c_6e41dff0",
       "revId": "41911e9085535a892a4b9825b57faf11b5bda8c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

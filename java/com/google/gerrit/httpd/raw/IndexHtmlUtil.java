@@ -98,6 +98,9 @@ public class IndexHtmlUtil {
         data.put(
             "changeRequestsPath",
             IndexPreloadingUtil.computeChangeRequestsPath(requestedPath, page).get());
+        data.put(
+          "changeNum",
+          IndexPreloadingUtil.computeChangeNum(requestedPath, page).get());
         break;
       case DIFF:
         data.put(
@@ -105,6 +108,9 @@ public class IndexHtmlUtil {
         data.put(
             "changeRequestsPath",
             IndexPreloadingUtil.computeChangeRequestsPath(requestedPath, page).get());
+        data.put(
+          "changeNum",
+          IndexPreloadingUtil.computeChangeNum(requestedPath, page).get());
         break;
       case DASHBOARD:
         // Dashboard is preloaded queries are added later when we check user is authenticated.

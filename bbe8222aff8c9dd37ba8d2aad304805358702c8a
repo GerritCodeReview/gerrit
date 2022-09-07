@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d29ed58_22528346",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 806,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-07T14:50:30Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s kosher to change this to async.  The caller of disconnectedCallback doesn\u0027t wait for a promise because the API is not promise based to begin with.",
+      "revId": "bbe8222aff8c9dd37ba8d2aad304805358702c8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -33,6 +33,42 @@
       "message": "What\u0027s the motivation of this change? If in the future they change star_rate to not be the same as grade, we won\u0027t get those updates. I think we should stick to star_rate.",
       "revId": "4240ee907b835c5f1d36e38ada82dbe9b95f455e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ca1923e_39a5b2a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-07T07:38:03Z",
+      "side": 1,
+      "message": "I have just checked and realized that `star` and `grade` are identical.\n\nI am happy to change from `grade` to `star`. Would that be ok?\n\nThe motivation is that `star` looks like stars normally look for marking something as favorite and for starring an item. And `star_rate` looks like a star that is used for 1-5 star ratings. `star_rate` is more pointed and thus more attention grabbing. `star` is calmer and fits more nicely into a context with other text and buttons.",
+      "parentUuid": "d8586f5a_c15d5a35",
+      "revId": "4240ee907b835c5f1d36e38ada82dbe9b95f455e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3eb280fe_9713fba1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-07T07:38:03Z",
+      "side": 1,
+      "message": "Can you point me to the email or issue where this guidance was provided? I would like to read up and maybe engage in a conversation with the icons team then.\n\nFWIW GMail uses `star` and not `star_rate`.",
+      "parentUuid": "8b22fcff_9c1a49cf",
+      "revId": "4240ee907b835c5f1d36e38ada82dbe9b95f455e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

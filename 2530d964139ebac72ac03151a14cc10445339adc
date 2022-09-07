@@ -112,6 +112,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e2d0bab4_a090bdf5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-07T09:29:01Z",
+      "side": 1,
+      "message": "test @sven.selberg@axis.com can you see this comment?",
+      "revId": "2530d964139ebac72ac03151a14cc10445339adc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6dcad010_7c44be4c",
         "filename": "aa",
         "patchSetId": 20

@@ -16,6 +16,24 @@
       "message": "Is there a measurable performance impact of this? Maybe if the permitted limit is large? Maybe with ES?",
       "revId": "31aec2512bfb4ca1384ce69d61ec298ea3b0a374",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8cea89a_c3ffe677",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-07T00:50:47Z",
+      "side": 1,
+      "message": "Done. I did add a stat. It does not show a tremendous improvement, but, the fact that it can now skip unnecessary index searches is a strong justification for this change.",
+      "parentUuid": "8b57b4eb_ebd58cf2",
+      "revId": "31aec2512bfb4ca1384ce69d61ec298ea3b0a374",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

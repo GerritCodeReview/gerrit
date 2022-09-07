@@ -33,6 +33,24 @@
       "message": "What is the motivation of this change here?",
       "revId": "262ed3350f2a74ed9ab3138709290d522010580a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c93d15f7_7fc27f72",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 3026,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-07T07:57:09Z",
+      "side": 1,
+      "message": "When request is preloaded, it\u0027s preloaded without any accept header. If we want to match such request later we need to call it without accept header. This parameter is making sure accept header is not added. I will add /* noAcceptHeader */.\n\nHere is original preload change: https://gerrit-review.googlesource.com/c/gerrit/+/251578 that introduced this.",
+      "parentUuid": "2ca87029_7b62f89c",
+      "revId": "262ed3350f2a74ed9ab3138709290d522010580a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

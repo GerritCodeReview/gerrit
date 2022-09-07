@@ -45,10 +45,12 @@ export class ShortcutController implements ReactiveController {
   // disabled or when the event comes from elements like <input>. So this method
   // is intended for shortcuts like ESC and Ctrl-ENTER.
   // If you need suppressed local shortcuts, then just add an options parameter.
+  // Call method in constructor of the component
   addLocal(binding: Binding, listener: (e: KeyboardEvent) => void) {
     this.listenersLocal.push({binding, listener});
   }
 
+  // Call method in constructor of the component
   addGlobal(binding: Binding, listener: (e: KeyboardEvent) => void) {
     this.listenersGlobal.push({binding, listener});
   }
@@ -60,6 +62,8 @@ export class ShortcutController implements ReactiveController {
    *
    * Use this method when you are migrating from Polymer to Lit. Call it for
    * each entry of keyboardShortcuts().
+   *
+   * Call method in constructor of the component
    */
   addAbstract(
     shortcut: Shortcut,

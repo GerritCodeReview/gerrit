@@ -522,8 +522,8 @@ export function createShortCutConfig(flagsService: FlagsService) {
     Shortcut.SEND_REPLY,
     ShortcutSection.REPLY_DIALOG,
     'Send reply',
-    {key: Key.ENTER, modifiers: [Modifier.CTRL_KEY], docOnly: true},
-    {key: Key.ENTER, modifiers: [Modifier.META_KEY], docOnly: true}
+    {key: Key.ENTER, modifiers: [Modifier.CTRL_KEY]},
+    {key: Key.ENTER, modifiers: [Modifier.META_KEY]}
   );
   describe(
     Shortcut.EMOJI_DROPDOWN,

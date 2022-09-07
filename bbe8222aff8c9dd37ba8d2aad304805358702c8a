@@ -16,6 +16,23 @@
       "message": "I don\u0027t think it\u0027s kosher to change this to async.  The caller of disconnectedCallback doesn\u0027t wait for a promise because the API is not promise based to begin with.",
       "revId": "bbe8222aff8c9dd37ba8d2aad304805358702c8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79054128_7983e0ff",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-07T14:54:22Z",
+      "side": 1,
+      "message": "I think I would feel better about this when done in `cancel()`, because `disconnectedCallback` feels too late and trying to hack your way back into the action flow.",
+      "revId": "bbe8222aff8c9dd37ba8d2aad304805358702c8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

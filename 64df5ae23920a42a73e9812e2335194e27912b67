@@ -71,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6b7ed8b_4d8e3ee5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-09-07T17:51:59Z",
+      "side": 1,
+      "message": "Internally we noticed a very slow performance of RefDatabase#getRefsByPrefix that affected the rollout of this experiment (due to a KI that we should fix).\n\nFor non-google sites, I did run a benchmark on five All-Users repos from our largest hosts and reported the performance of #getRefsByPrefix.\n\nOn average this call runs in 1 milliseconds so this is very acceptable.\n\nSee https://gerrit-review.googlesource.com/c/gerrit/+/344934.",
+      "parentUuid": "cbd8319c_cc56c975",
+      "revId": "64df5ae23920a42a73e9812e2335194e27912b67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c5890fd_55a4e1eb",

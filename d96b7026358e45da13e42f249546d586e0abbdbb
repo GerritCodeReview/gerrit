@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "17ad45c4_0690cacc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-07T17:15:16Z",
+      "side": 1,
+      "message": "Done. Updated the commit-msg with some stats.",
+      "parentUuid": "8c92e45b_1bef824a",
+      "revId": "d96b7026358e45da13e42f249546d586e0abbdbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e9a8b23_0ec8af2f",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-09-06T17:17:28Z",
       "side": 1,
       "message": "Add a test to prevent this from regressing?",
+      "revId": "d96b7026358e45da13e42f249546d586e0abbdbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d9d8331_ca692fe5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-07T17:15:16Z",
+      "side": 1,
+      "message": "I couldn\u0027t figure out a way to add a test for this in 3.4. We can likely add a test in later stable branches as they have a better implementation of a fake-index.",
+      "parentUuid": "7e9a8b23_0ec8af2f",
       "revId": "d96b7026358e45da13e42f249546d586e0abbdbb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

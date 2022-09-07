@@ -52,6 +52,24 @@
       "parentUuid": "4ce0d70f_abd48930",
       "revId": "67efbc5d3771ba8427d392757c6ceab5c299ec8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfa223d1_1a1b4378",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-09-07T13:51:29Z",
+      "side": 1,
+      "message": "See [1]. Previously, the account reindexing for externalIds-only update was requested from externalIdsNotes explicitly.\nNow the reindexing in this line will not be triggered.\n\nThe change is needed for the indexing fallback path in our index implementation. I will send you a link outside of this change.\n\n\n[1]https://gerrit.googlesource.com/gerrit/+/67efbc5d3771ba8427d392757c6ceab5c299ec8f/java/com/google/gerrit/server/account/AccountsUpdate.java#544",
+      "parentUuid": "709ecb05_280b91d5",
+      "revId": "67efbc5d3771ba8427d392757c6ceab5c299ec8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

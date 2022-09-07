@@ -103,7 +103,6 @@ import {debounce, DelayedTask} from '../../../utils/async-util';
 import {StorageLocation} from '../../../services/storage/gr-storage';
 import {Interaction, Timing} from '../../../constants/reporting';
 import {getReplyByReason} from '../../../utils/attention-set-util';
-import {addShortcut, Key, Modifier} from '../../../utils/dom-util';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
@@ -127,6 +126,8 @@ import {
   CommentEditingChangedDetail,
   GrComment,
 } from '../../shared/gr-comment/gr-comment';
+import {ShortcutController} from '../../lit/shortcut-controller';
+import {Key, Modifier} from '../../../utils/dom-util';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -403,8 +404,7 @@ export class GrReplyDialog extends LitElement {
 
   private isLoggedIn = false;
 
-  /** Called in disconnectedCallback. */
-  private cleanups: (() => void)[] = [];
+  private readonly shortcuts = new ShortcutController(this);
 
   static override styles = [
     sharedStyles,
@@ -650,6 +650,17 @@ export class GrReplyDialog extends LitElement {
       this.filterReviewerSuggestionGenerator(false);
     this.filterCCSuggestion = this.filterReviewerSuggestionGenerator(true);
     this.jsAPI.addElement(TargetElement.REPLY_DIALOG, this);
+
+    this.shortcuts.addLocal({key: Key.ESC}, () => this.cancel());
+    this.shortcuts.addLocal(
+      {key: Key.ENTER, modifiers: [Modifier.CTRL_KEY]},
+      () => this.submit()
+    );
+    this.shortcuts.addLocal(
+      {key: Key.ENTER, modifiers: [Modifier.META_KEY]},
+      () => this.submit()
+    );
+
     subscribe(
       this,
       () => getAppContext().userModel.loggedIn$,
@@ -717,17 +728,6 @@ export class GrReplyDialog extends LitElement {
       if (account) this.account = account;
     });
 
-    this.cleanups.push(
-      addShortcut(this, {key: Key.ENTER, modifiers: [Modifier.CTRL_KEY]}, _ =>
-        this.submit()
-      )
-    );
-    this.cleanups.push(
-      addShortcut(this, {key: Key.ENTER, modifiers: [Modifier.META_KEY]}, _ =>
-        this.submit()
-      )
-    );
-    this.cleanups.push(addShortcut(this, {key: Key.ESC}, _ => this.cancel()));
     this.addEventListener(
       'comment-editing-changed',
       (e: CustomEvent<CommentEditingChangedDetail>) => {
@@ -805,8 +805,6 @@ export class GrReplyDialog extends LitElement {
 
   override disconnectedCallback() {
     this.storeTask?.flush();
-    for (const cleanup of this.cleanups) cleanup();
-    this.cleanups = [];
     super.disconnectedCallback();
   }
 

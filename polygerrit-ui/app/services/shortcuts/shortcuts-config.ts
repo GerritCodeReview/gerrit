@@ -99,7 +99,6 @@ export enum Shortcut {
   OPEN_LAST_FILE = 'OPEN_LAST_FILE',
 
   SEARCH = 'SEARCH',
-  SEND_REPLY = 'SEND_REPLY',
   EMOJI_DROPDOWN = 'EMOJI_DROPDOWN',
   MENTIONS_DROPDOWN = 'MENTIONS_DROPDOWN',
   TOGGLE_BLAME = 'TOGGLE_BLAME',
@@ -516,14 +515,6 @@ export function createShortCutConfig(flagsService: FlagsService) {
     ShortcutSection.FILE_LIST,
     'Show/hide selected inline diff',
     {key: 'i'}
-  );
-
-  describe(
-    Shortcut.SEND_REPLY,
-    ShortcutSection.REPLY_DIALOG,
-    'Send reply',
-    {key: Key.ENTER, modifiers: [Modifier.CTRL_KEY], docOnly: true},
-    {key: Key.ENTER, modifiers: [Modifier.META_KEY], docOnly: true}
   );
   describe(
     Shortcut.EMOJI_DROPDOWN,

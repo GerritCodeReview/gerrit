@@ -111,8 +111,8 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   private final Path basePath;
 
   @Inject
-  LocalDiskRepositoryManager(SitePaths site, @GerritServerConfig Config cfg) {
-    basePath = site.resolve(cfg.getString("gerrit", null, "basePath"));
+  public LocalDiskRepositoryManager(SitePaths site, @GerritServerConfig Config cfg) {
+    basePath = Path.of(""); // site.resolve(cfg.getString("gerrit", null, "basePath"));
     if (basePath == null) {
       throw new IllegalStateException("gerrit.basePath must be configured");
     }
@@ -154,6 +154,15 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   @Override
   public Repository openRepository(Project.NameKey name) throws RepositoryNotFoundException {
     return openRepository(getBasePath(name), name);
+  }
+
+  public Repository openRepository(Path path) throws RepositoryNotFoundException {
+    FileKey loc = FileKey.lenient(path.toFile(), FS.DETECTED);
+    try {
+      return RepositoryCache.open(loc);
+    } catch (IOException e) {
+      throw new RepositoryNotFoundException("Cannot open repository", e);
+    }
   }
 
   private Repository openRepository(Path path, Project.NameKey name)

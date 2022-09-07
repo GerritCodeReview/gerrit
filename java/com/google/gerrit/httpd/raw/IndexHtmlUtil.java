@@ -93,18 +93,13 @@ public class IndexHtmlUtil {
     IndexPreloadingUtil.RequestedPage page = IndexPreloadingUtil.parseRequestedPage(requestedPath);
     switch (page) {
       case CHANGE:
-        data.put(
-            "defaultChangeDetailHex", ListOption.toHex(IndexPreloadingUtil.CHANGE_DETAIL_OPTIONS));
-        data.put(
-            "changeRequestsPath",
-            IndexPreloadingUtil.computeChangeRequestsPath(requestedPath, page).get());
-        break;
       case DIFF:
         data.put(
             "defaultChangeDetailHex", ListOption.toHex(IndexPreloadingUtil.CHANGE_DETAIL_OPTIONS));
         data.put(
             "changeRequestsPath",
             IndexPreloadingUtil.computeChangeRequestsPath(requestedPath, page).get());
+        data.put("changeNum", IndexPreloadingUtil.computeChangeNum(requestedPath, page).get());
         break;
       case DASHBOARD:
         // Dashboard is preloaded queries are added later when we check user is authenticated.

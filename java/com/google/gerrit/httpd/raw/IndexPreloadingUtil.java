@@ -167,6 +167,30 @@ public class IndexPreloadingUtil {
     return Optional.empty();
   }
 
+  public static Optional<Integer> computeChangeNum(String requestedURL, RequestedPage page) {
+    Matcher matcher;
+    switch (page) {
+      case CHANGE:
+        matcher = CHANGE_URL_PATTERN.matcher(requestedURL);
+        break;
+      case DIFF:
+        matcher = DIFF_URL_PATTERN.matcher(requestedURL);
+        break;
+      case DASHBOARD:
+      case PAGE_WITHOUT_PRELOADING:
+      default:
+        return Optional.empty();
+    }
+
+    if (matcher.matches()) {
+      Integer changeNum = Ints.tryParse(matcher.group("changeNum"));
+      if (changeNum != null) {
+        return Optional.of(changeNum);
+      }
+    }
+    return Optional.empty();
+  }
+
   public static List<String> computeDashboardQueryList(Server serverApi) throws RestApiException {
     List<String> queryList = new ArrayList<>();
     queryList.add(SELF_DASHBOARD_HAS_UNPUBLISHED_DRAFTS_QUERY);

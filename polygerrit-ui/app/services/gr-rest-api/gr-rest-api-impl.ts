@@ -3017,11 +3017,14 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   ): Promise<ChangeInfo | null> {
     // Cannot use _changeBaseURL, as this function is used by _projectLookup.
     return this._restApiHelper
-      .fetchJSON({
-        url: `/changes/?q=change:${changeNum}`,
-        errFn,
-        anonymizedUrl: '/changes/?q=change:*',
-      })
+      .fetchJSON(
+        {
+          url: `/changes/?q=change:${changeNum}`,
+          errFn,
+          anonymizedUrl: '/changes/?q=change:*',
+        },
+        /* noAcceptHeader */ true
+      )
       .then(res => {
         const changeInfos = res as ChangeInfo[] | undefined;
         if (!changeInfos || !changeInfos.length) {

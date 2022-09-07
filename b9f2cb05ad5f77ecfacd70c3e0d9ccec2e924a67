@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f1b91b0_7c75201d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1040243
+      },
+      "writtenOn": "2022-09-07T18:00:01Z",
+      "side": 1,
+      "message": "I am not sure why it happens, this is a life example, please try to view the content of `cookie.json` in this review session.",
+      "revId": "b9f2cb05ad5f77ecfacd70c3e0d9ccec2e924a67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

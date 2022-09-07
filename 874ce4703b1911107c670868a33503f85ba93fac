@@ -34,6 +34,24 @@
       "parentUuid": "e045e855_807d9294",
       "revId": "874ce4703b1911107c670868a33503f85ba93fac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f0d2db5_635a4a03",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-07T09:16:24Z",
+      "side": 1,
+      "message": "Yeah, likely this will just work. \n\nShould we bump the schema version in ChangeSchemaDefinitions so that also in upstream all changes are reindexed on upgrade?",
+      "parentUuid": "22802ee1_60c7eada",
+      "revId": "874ce4703b1911107c670868a33503f85ba93fac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

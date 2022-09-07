@@ -119,7 +119,7 @@ public class AndSource<T> extends AndPredicate<T>
             final int limit = p.getOptions().limit();
             Object searchAfter = resultSet.searchAfter();
             int pageSize = limit;
-            while (skipped && r.size() < limit + start) {
+            while (skipped && r.size() < limit) {
               skipped = false;
               pageSize = getNextPageSize(pageSize);
               ResultSet<T> next =

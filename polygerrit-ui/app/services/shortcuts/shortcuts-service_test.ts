@@ -32,10 +32,6 @@ suite('shortcuts-service tests', () => {
   test('getShortcut', () => {
     assert.equal(service.getShortcut(Shortcut.NEXT_FILE), ']');
     assert.equal(service.getShortcut(Shortcut.TOGGLE_LEFT_PANE), 'A');
-    assert.equal(
-      service.getShortcut(Shortcut.SEND_REPLY),
-      'Ctrl+Enter,Meta/Cmd+Enter'
-    );
   });
 
   suite('addShortcut()', () => {

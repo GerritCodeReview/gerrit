@@ -126,8 +126,8 @@ import {
   CommentEditingChangedDetail,
   GrComment,
 } from '../../shared/gr-comment/gr-comment';
-import {Shortcut, ShortcutController} from '../../lit/shortcut-controller';
-import {Key} from '../../../utils/dom-util';
+import {ShortcutController} from '../../lit/shortcut-controller';
+import {Key, Modifier} from '../../../utils/dom-util';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -652,7 +652,14 @@ export class GrReplyDialog extends LitElement {
     this.jsAPI.addElement(TargetElement.REPLY_DIALOG, this);
 
     this.shortcuts.addLocal({key: Key.ESC}, () => this.cancel());
-    this.shortcuts.addAbstract(Shortcut.SEND_REPLY, () => this.submit());
+    this.shortcuts.addLocal(
+      {key: Key.ENTER, modifiers: [Modifier.CTRL_KEY]},
+      () => this.submit()
+    );
+    this.shortcuts.addLocal(
+      {key: Key.ENTER, modifiers: [Modifier.META_KEY]},
+      () => this.submit()
+    );
 
     subscribe(
       this,

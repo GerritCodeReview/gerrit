@@ -22,6 +22,30 @@
       },
       "revId": "aa0a803167bf612a484abcdd839c144bf4706be0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ddfd95d_69fc379e",
+        "filename": "polygerrit-ui/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-07T15:06:31Z",
+      "side": 1,
+      "message": "Yeah it was repeatedly trying to load our package.json file. Thanks for your help.",
+      "parentUuid": "eb539989_d6396402",
+      "range": {
+        "startLine": 65,
+        "startChar": 49,
+        "endLine": 65,
+        "endChar": 77
+      },
+      "revId": "aa0a803167bf612a484abcdd839c144bf4706be0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

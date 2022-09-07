@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "399401ff_30d6bff5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-07T07:47:11Z",
+      "side": 1,
+      "message": "Could you provide more context for this change in the commit message. What is this for?",
+      "revId": "262ed3350f2a74ed9ab3138709290d522010580a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ca87029_7b62f89c",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 3026,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-07T07:47:11Z",
+      "side": 1,
+      "message": "What is the motivation of this change here?",
+      "revId": "262ed3350f2a74ed9ab3138709290d522010580a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

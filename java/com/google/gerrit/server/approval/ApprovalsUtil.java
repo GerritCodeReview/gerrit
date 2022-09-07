@@ -68,6 +68,8 @@ import com.google.gerrit.server.query.approval.ApprovalQueryBuilder;
 import com.google.gerrit.server.query.approval.UserInPredicate;
 import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.gerrit.server.util.LabelVote;
+import com.google.gerrit.server.util.ManualRequestContext;
+import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -121,6 +123,7 @@ public class ApprovalsUtil {
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
   private final LabelNormalizer labelNormalizer;
+  private final OneOffRequestContext requestContext;
 
   @VisibleForTesting
   @Inject
@@ -131,7 +134,8 @@ public class ApprovalsUtil {
       Provider<ApprovalQueryBuilder> approvalQueryBuilderProvider,
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
-      LabelNormalizer labelNormalizer) {
+      LabelNormalizer labelNormalizer,
+      OneOffRequestContext requestContext) {
     this.accountCache = accountCache;
     this.anonymousCowardName = anonymousCowardName;
     this.approvalCopier = approvalCopier;
@@ -139,6 +143,7 @@ public class ApprovalsUtil {
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
     this.labelNormalizer = labelNormalizer;
+    this.requestContext = requestContext;
   }
 
   /**
@@ -648,9 +653,15 @@ public class ApprovalsUtil {
   }
 
   private boolean containsUserInPredicate(String copyCondition) throws QueryParseException {
-    return approvalQueryBuilderProvider.get().parse(copyCondition).getFlattenedPredicateList()
-        .stream()
-        .anyMatch(UserInPredicate.class::isInstance);
+    // Use a request context to run checks as an internal user with expanded visibility. This is
+    // so that the output of the copy condition does not depend on who is running the current
+    // request (e.g. a group used in this query might not be visible to the person sending this
+    // request).
+    try (ManualRequestContext ignored = requestContext.open()) {
+      return approvalQueryBuilderProvider.get().parse(copyCondition).getFlattenedPredicateList()
+          .stream()
+          .anyMatch(UserInPredicate.class::isInstance);
+    }
   }
 
   /**

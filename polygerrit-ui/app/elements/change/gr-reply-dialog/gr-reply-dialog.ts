@@ -803,10 +803,21 @@ export class GrReplyDialog extends LitElement {
     }
   }
 
-  override disconnectedCallback() {
+  override async disconnectedCallback() {
     this.storeTask?.flush();
     for (const cleanup of this.cleanups) cleanup();
     this.cleanups = [];
+    if (
+      this.flagsService.isEnabled(
+        KnownExperimentId.PATCHSET_LEVEL_COMMENT_USES_GRCOMMENT
+      )
+    ) {
+      const patchsetLevelComment = queryAndAssert<GrComment>(
+        this,
+        '#patchsetLevelComment'
+      );
+      await patchsetLevelComment.save();
+    }
     super.disconnectedCallback();
   }
 

@@ -1974,7 +1974,7 @@ export class GrReplyDialog extends LitElement {
     this.cancel();
   }
 
-  cancel() {
+  async cancel() {
     assertIsDefined(this.change, 'change');
     if (!this.change?.owner) throw new Error('missing required owner property');
     this.dispatchEvent(
@@ -1984,6 +1984,17 @@ export class GrReplyDialog extends LitElement {
       })
     );
     queryAndAssert<GrTextarea>(this, 'gr-textarea').closeDropdown();
+    if (
+      this.flagsService.isEnabled(
+        KnownExperimentId.PATCHSET_LEVEL_COMMENT_USES_GRCOMMENT
+      )
+    ) {
+      const patchsetLevelComment = queryAndAssert<GrComment>(
+        this,
+        '#patchsetLevelComment'
+      );
+      await patchsetLevelComment.save();
+    }
     this.rebuildReviewerArrays();
   }
 

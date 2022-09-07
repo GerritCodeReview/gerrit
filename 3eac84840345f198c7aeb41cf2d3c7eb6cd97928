@@ -197,6 +197,23 @@
       "message": "@brohlfs@google.com",
       "revId": "3eac84840345f198c7aeb41cf2d3c7eb6cd97928",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "420adcc1_d93e6938",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-09-07T14:09:15Z",
+      "side": 1,
+      "message": "@rikardal@axis.com just testing user-mentions",
+      "revId": "3eac84840345f198c7aeb41cf2d3c7eb6cd97928",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "I believe this change may trigger a reindex of all changes (because the ref states in the index mismatch the newly computed ref states now). Could this be a problem?",
       "revId": "874ce4703b1911107c670868a33503f85ba93fac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22802ee1_60c7eada",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-09-07T08:59:44Z",
+      "side": 1,
+      "message": "True. Though we should be able to handle reindexing all changes (we already use the same mechanism on index upgrades).",
+      "parentUuid": "e045e855_807d9294",
+      "revId": "874ce4703b1911107c670868a33503f85ba93fac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

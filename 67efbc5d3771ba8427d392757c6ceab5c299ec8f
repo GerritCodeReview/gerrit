@@ -34,6 +34,24 @@
       "parentUuid": "2dbc5f7e_f60e1b34",
       "revId": "67efbc5d3771ba8427d392757c6ceab5c299ec8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "709ecb05_280b91d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-07T11:56:05Z",
+      "side": 1,
+      "message": "Basically what I don\u0027t understand is this:\nAccountsUpdate takes care to index the account. Now AccountsUpdate updates refs/users/ when external IDs are updated, so that the account can be indexed by listening to ref update events on refs/users/. Why is this needed if AccountsUpdate already triggers account indexing explicitly?",
+      "parentUuid": "4ce0d70f_abd48930",
+      "revId": "67efbc5d3771ba8427d392757c6ceab5c299ec8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03713e06_91141808",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-09-07T22:23:57Z",
+      "side": 1,
+      "message": "Can you add some numbers for both OFFSET and SEARCH_AFTER?",
+      "revId": "6b31ecf62d3f21c4aa24b49a19496806555c902c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "346f817f_e8593043",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-09-07T22:23:57Z",
+      "side": 1,
+      "message": "I think this is worthy of a release notes entry because it finally makes --no-limit usable.",
+      "revId": "6b31ecf62d3f21c4aa24b49a19496806555c902c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "affd2cc2_37ca4c53",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-09-07T22:23:57Z",
+      "side": 1,
+      "message": "Doing the bump here is fragile. It really would be better if this bump were being done by the Pagination code since it is relying on this bump. But I suspect we don\u0027t want to make that alteration in this change?",
+      "range": {
+        "startLine": 249,
+        "startChar": 10,
+        "endLine": 249,
+        "endChar": 26
+      },
+      "revId": "6b31ecf62d3f21c4aa24b49a19496806555c902c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cad6dcdd_c1cd04e2",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-09-07T22:23:57Z",
+      "side": 1,
+      "message": "Should this just become Integer.MAX_VALUE again?",
+      "revId": "6b31ecf62d3f21c4aa24b49a19496806555c902c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

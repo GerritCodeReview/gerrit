@@ -78,7 +78,7 @@ import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-hig
 import {Timing, Interaction} from '../../../constants/reporting';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api';
 import {Subscription} from 'rxjs';
-import {DisplayLine, RenderPreferences} from '../../../api/diff';
+import {DisplayLine, RenderPreferences, TokenHighlightEventDetails} from '../../../api/diff';
 import {resolve} from '../../../models/dependency';
 import {browserModelToken} from '../../../models/browser/browser-model';
 import {commentsModelToken} from '../../../models/comments/comments-model';
@@ -518,7 +518,7 @@ export class GrDiffHost extends LitElement {
       KnownExperimentId.NEW_IMAGE_DIFF_UI
     );
 
-    return html` <gr-diff
+    return html`<gr-diff
       id="diff"
       ?hidden=${this.hidden}
       .noAutoRender=${this.noAutoRender}
@@ -700,10 +700,27 @@ export class GrDiffHost extends LitElement {
     };
   }
 
+  private updateHighlight(event?: TokenHighlightEventDetails) {
+    console.log('Highlight Update through style');
+    if (event?.token) {
+      this.diffElement!.highlightStyle.innerText = `.tk-text-${event.token} { background-color: var(--token-highlighting-color, #fffd54); }`;
+    } else {
+      this.diffElement!.highlightStyle.innerText = '';
+    }
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        let result = performance.measure(
+          'highlight-update',
+          'token-highlight-update-start');
+        console.log(`Measured ${result.duration}`);
+      });
+    });
+  }
+
   private getLayers(path: string, enableTokenHighlight: boolean): DiffLayer[] {
     const layers = [];
     if (enableTokenHighlight) {
-      layers.push(new TokenHighlightLayer(this));
+      layers.push(new TokenHighlightLayer(this, (...args) => this.updateHighlight(...args)));
     }
     layers.push(this.syntaxLayer);
     // Get layers from plugins (if any).

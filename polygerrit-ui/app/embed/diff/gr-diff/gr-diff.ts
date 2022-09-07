@@ -173,6 +173,9 @@ export class GrDiff extends LitElement implements GrDiffApi {
   @property({type: Object})
   lineOfInterest?: DisplayLine;
 
+  @query('#highlight-style')
+  highlightStyle!: HTMLElement;
+
   /**
    * True when diff is changed, until the content is done rendering.
    * Use getter/setter loading instead of this.
@@ -1041,6 +1044,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
   override render() {
     return html`
+      <style id="highlight-style"></style>
       ${this.renderHeader()} ${this.renderContainer()}
       ${this.renderNewlineWarning()} ${this.renderLoadingError()}
       ${this.renderSizeWarning()}

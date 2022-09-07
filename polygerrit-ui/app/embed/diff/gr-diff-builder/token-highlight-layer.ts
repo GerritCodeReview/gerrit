@@ -270,8 +270,6 @@ export class TokenHighlightLayer implements DiffLayer {
     performance.mark('token-highlight-update-start');
     console.log('Update start');
 
-    const oldHighlight = this.currentHighlight;
-    const oldLineNumber = this.currentHighlightLineNumber;
     this.currentHighlight = newHighlight;
     this.currentHighlightLineNumber = newLineNumber;
     this.triggerTokenHighlightEvent(
@@ -279,8 +277,6 @@ export class TokenHighlightLayer implements DiffLayer {
       newLineNumber,
       newHoveredElement
     );
-    this.notifyForToken(oldHighlight, oldLineNumber);
-    this.notifyForToken(newHighlight, newLineNumber);
   }
 
   triggerTokenHighlightEvent(

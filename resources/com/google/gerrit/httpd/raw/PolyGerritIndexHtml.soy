@@ -27,6 +27,7 @@
   {@param? versionInfo: ?}
   {@param? polyfillCE: ?}
   {@param? useGoogleFonts: ?}
+  {@param? changeNum: ?}
   {@param? changeRequestsPath: ?}
   {@param? defaultChangeDetailHex: ?}
   {@param? defaultDashboardHex: ?}
@@ -97,6 +98,7 @@
     {/if}
     <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/comments?enable-context=true&context-padding=3" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
     <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/robotcomments" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
+    <link rel="preload" href="{$canonicalPath}/changes/?q=change:{$changeNum}" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
     {if $userIsAuthenticated}
       <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/drafts?enable-context=true&context-padding=3" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
     {/if}

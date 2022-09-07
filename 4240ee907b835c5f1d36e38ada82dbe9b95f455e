@@ -16,6 +16,23 @@
       "message": "Guidance from the icons team is that we should use star_rate for this purpose.",
       "revId": "4240ee907b835c5f1d36e38ada82dbe9b95f455e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8586f5a_c15d5a35",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-07T07:10:48Z",
+      "side": 1,
+      "message": "What\u0027s the motivation of this change? If in the future they change star_rate to not be the same as grade, we won\u0027t get those updates. I think we should stick to star_rate.",
+      "revId": "4240ee907b835c5f1d36e38ada82dbe9b95f455e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

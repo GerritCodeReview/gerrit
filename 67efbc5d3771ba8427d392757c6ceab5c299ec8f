@@ -16,6 +16,24 @@
       "message": "Sorry I still have some concerns/questions about this change.\n\nCurrently accounts are indexed when:\n1. the account or its external IDs are updated via AccountsUpdate\n2. the account is updated by push to refs/users/ (via ReindexAfterRefUpdate)\n\nBut not when the external IDs are updated by push to refs/meta/external-ids.\n\nIIUC this change is about indexing accounts in the latter case (push to refs/meta/external-ids)? If yes, please add a test for this (push to refs/meta/external-ids and verify that the account is reindexed) and consider changing the subject line to something like \"Index account when its ext IDs are updated by git push\".\n\nWhat is not clear to me yet, why indexing the affected accounts on push to refs/meta/external-ids is (more) important now? Only admins should have access to refs/meta/external-ids and they should be able to index the affected accounts manually when they do manual updates in refs/meta/external-ids. It\u0027s surely nice to have automatic indexing in this case, but I\u0027m not sure if this change actually improves the situation. Instead of manually indexing the account after updating external IDs by push to refs/meta/external-ids, admins now need to do an artificial update in the refs/users/ refs which is no easier than doing an reindex account call. Actually it\u0027s more difficult since the SHA1 of the refs/meta/external-ids branch needs to be included and if you do the refs/users/ update manually there may be races with updating it. \n\nI\u0027m also not sure that adding the SHA1 in refs/users/ is a good idea if there are is no actual use case for reading it.",
       "revId": "67efbc5d3771ba8427d392757c6ceab5c299ec8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ce0d70f_abd48930",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-07T11:52:07Z",
+      "side": 1,
+      "message": "\u003e IIUC this change is about indexing accounts in the latter case (push to refs/meta/external-ids)?\n\nUps, actually this change doesn\u0027t help with this. The account is only indexed when the refs/users/ ref is updated. So I\u0027m still confused what\u0027s the benefit of this change.",
+      "parentUuid": "2dbc5f7e_f60e1b34",
+      "revId": "67efbc5d3771ba8427d392757c6ceab5c299ec8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

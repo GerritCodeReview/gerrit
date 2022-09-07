@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "55ee3ddc_f9c32d65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-07T11:18:46Z",
+      "side": 1,
+      "message": "Yes, but only when you go to diff page, it\u0027s not needed for expanding diff. https://imgur.com/a/olLYETJ\n\nThis is done for loading change and diff page site first time. This preload is used in first 5 seconds.",
+      "parentUuid": "0bbf35d9_c53b18ca",
+      "range": {
+        "startLine": 9,
+        "startChar": 15,
+        "endLine": 9,
+        "endChar": 19
+      },
+      "revId": "92ddbdb021cf857871104562877a60b7b7c3a022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9271d4b8_8441df2e",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-09-07T08:24:30Z",
       "side": 1,
       "message": "nit: you can merge case CHANGE and case DIFF together:\n\ncase CHANGE:\ncase DIFF:\n  ...",
+      "range": {
+        "startLine": 95,
+        "startChar": 11,
+        "endLine": 95,
+        "endChar": 17
+      },
+      "revId": "92ddbdb021cf857871104562877a60b7b7c3a022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "752cd0b6_f60725e6",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-07T11:18:46Z",
+      "side": 1,
+      "message": "Nice. They were different in past, but now they are same. Thanks",
+      "parentUuid": "9271d4b8_8441df2e",
       "range": {
         "startLine": 95,
         "startChar": 11,

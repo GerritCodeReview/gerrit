@@ -29,6 +29,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.entities.AccountGroup;
@@ -53,6 +54,7 @@ import org.junit.Test;
 public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
   @Inject private ApprovalsUtil approvalsUtil;
   @Inject private ProjectOperations projectOperations;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   @Test
   public void cannotFormatWithNullApprovalCopierResult() throws Exception {
@@ -253,6 +255,72 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(),
             /* outdatedApprovals= */ ImmutableSet.of(patchSetApproval));
+    assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
+        .hasValue(
+            String.format(
+                "Outdated Votes:\n"
+                    + "* Code-Review+1 by %s (copy condition: \"is:MIN OR (is:MAX approverin:%s)\")\n",
+                AccountTemplateUtil.getAccountTemplate(admin.id()), groupUuid));
+  }
+
+  @Test
+  public void formatCopiedApproval_withCopyCondition_withUserInPredicateThatContainNonVisibleGroup()
+      throws Exception {
+    String groupUuid =
+        groupCache.get(AccountGroup.nameKey("Administrators")).get().getGroupUUID().get();
+    LabelTypes labelTypes =
+        new LabelTypes(
+            ImmutableList.of(
+                createLabelType(
+                    /* labelName= */ "Code-Review",
+                    /* copyCondition= */ String.format(
+                        "is:MIN OR (is:MAX approverin:%s)", groupUuid))));
+    PatchSetApproval patchSetApproval = createPatchSetApproval(admin, "Code-Review", 1);
+    ApprovalCopier.Result approvalCopierResult =
+        ApprovalCopier.Result.create(
+            /* copiedApprovals= */ ImmutableSet.of(patchSetApproval),
+            /* outdatedApprovals= */ ImmutableSet.of());
+
+    // Set 'user' as the current user in the request scope.
+    // 'user' cannot see the Administrators group that is used in the copy condition.
+    // Parsing the copy condition should still succeed since ApprovalsUtil should use the internal
+    // user that can see everything when parsing the copy condition.
+    requestScopeOperations.setApiUser(user.id());
+
+    assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
+        .hasValue(
+            String.format(
+                "Copied Votes:\n"
+                    + "* Code-Review+1 by %s"
+                    + " (copy condition: \"is:MIN OR (is:MAX approverin:%s)\")\n",
+                AccountTemplateUtil.getAccountTemplate(admin.id()), groupUuid));
+  }
+
+  @Test
+  public void
+      formatOutdatedpproval_withCopyCondition_withUserInPredicateThatContainNonVisibleGroup()
+          throws Exception {
+    String groupUuid =
+        groupCache.get(AccountGroup.nameKey("Administrators")).get().getGroupUUID().get();
+    LabelTypes labelTypes =
+        new LabelTypes(
+            ImmutableList.of(
+                createLabelType(
+                    /* labelName= */ "Code-Review",
+                    /* copyCondition= */ String.format(
+                        "is:MIN OR (is:MAX approverin:%s)", groupUuid))));
+    PatchSetApproval patchSetApproval = createPatchSetApproval(admin, "Code-Review", 1);
+    ApprovalCopier.Result approvalCopierResult =
+        ApprovalCopier.Result.create(
+            /* copiedApprovals= */ ImmutableSet.of(),
+            /* outdatedApprovals= */ ImmutableSet.of(patchSetApproval));
+
+    // Set 'user' as the current user in the request scope.
+    // 'user' cannot see the Administrators group that is used in the copy condition.
+    // Parsing the copy condition should still succeed since ApprovalsUtil should use the internal
+    // user that can see everything when parsing the copy condition.
+    requestScopeOperations.setApiUser(user.id());
+
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue(
             String.format(

@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "16a009a5_7991689b",
+        "filename": "java/com/google/gerrit/index/QueryOptions.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-07T22:05:45Z",
+      "side": 1,
+      "message": "Renamed `QueryProcessor.getPageSize` to `QueryProcessor.getInitialPageSize`",
+      "parentUuid": "d4e38fa7_a519cb54",
+      "range": {
+        "startLine": 70,
+        "startChar": 22,
+        "endLine": 70,
+        "endChar": 30
+      },
+      "revId": "9c9833e53ee9d86abdafca5ed7dd1db5e327c2a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f6183b2a_74e70fb2",
@@ -133,6 +157,30 @@
       "side": 1,
       "message": "Doing something like that ends up making two queries to index for `gerrit query \u0027status:open\u0027 --start 1000`. For such a query, `limit`\u003d1500 and `start`\u003d1000.",
       "parentUuid": "b25e096e_615a0dbc",
+      "range": {
+        "startLine": 123,
+        "startChar": 17,
+        "endLine": 123,
+        "endChar": 26
+      },
+      "revId": "9c9833e53ee9d86abdafca5ed7dd1db5e327c2a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "622f25ac_22c1585b",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-07T22:05:45Z",
+      "side": 1,
+      "message": "These checks have been improved in predecessor changes.",
+      "parentUuid": "de012c06_f4c3971d",
       "range": {
         "startLine": 123,
         "startChar": 17,
@@ -263,6 +311,24 @@
       "side": 1,
       "message": "Will do.",
       "parentUuid": "41ee0bfc_5b7f1da7",
+      "revId": "9c9833e53ee9d86abdafca5ed7dd1db5e327c2a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec53993e_b1f81dd5",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-07T22:05:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76f32ace_ffd50b43",
       "revId": "9c9833e53ee9d86abdafca5ed7dd1db5e327c2a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

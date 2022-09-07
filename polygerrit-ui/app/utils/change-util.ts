@@ -144,10 +144,12 @@ export function changeStatuses(
 ): ChangeStates[] {
   const states = [];
   if (change.status === ChangeStatus.MERGED) {
-    states.push(ChangeStates.MERGED);
-  } else if (change.status === ChangeStatus.ABANDONED) {
-    states.push(ChangeStates.ABANDONED);
-  } else if (
+    return [ChangeStates.MERGED];
+  }
+  if (change.status === ChangeStatus.ABANDONED) {
+    return [ChangeStates.ABANDONED];
+  }
+  if (
     change.mergeable === false ||
     (opt_options && opt_options.mergeable === false)
   ) {

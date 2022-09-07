@@ -1246,7 +1246,6 @@ suite('gr-change-view tests', () => {
       },
       current_revision: 'rev3' as CommitId,
       status: ChangeStatus.MERGED,
-      work_in_progress: true,
       labels: {
         test: {
           all: [],
@@ -1258,11 +1257,11 @@ suite('gr-change-view tests', () => {
     };
     element.mergeable = true;
     await element.updateComplete;
-    const expectedStatuses = [ChangeStates.MERGED, ChangeStates.WIP];
+    const expectedStatuses = [ChangeStates.MERGED];
     assert.deepEqual(element.changeStatuses, expectedStatuses);
     const statusChips =
       element.shadowRoot!.querySelectorAll('gr-change-status');
-    assert.equal(statusChips.length, 2);
+    assert.equal(statusChips.length, 1);
   });
 
   suite('ChangeStatus revert', () => {

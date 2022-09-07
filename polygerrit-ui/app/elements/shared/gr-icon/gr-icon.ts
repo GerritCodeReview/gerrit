@@ -49,6 +49,8 @@ export class GrIcon extends LitElement {
           white-space: nowrap;
           word-wrap: normal;
           direction: ltr;
+          -webkit-font-feature-settings: 'liga';
+          -webkit-font-smoothing: antialiased;
           font-variation-settings: 'FILL' 0;
           vertical-align: top;
         }

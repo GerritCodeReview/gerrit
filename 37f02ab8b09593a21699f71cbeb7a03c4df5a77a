@@ -16,6 +16,69 @@
       "message": "Hi @thomas,\nThank you for the hint.\nI tried to guess how to write the onbehalf test, I hope it is good.\nRegards,",
       "revId": "37f02ab8b09593a21699f71cbeb7a03c4df5a77a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36f927dc_62ad18d4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-09-07T08:01:47Z",
+      "side": 1,
+      "message": "Looks good. We just should just keep code duplication as small as possible.",
+      "revId": "37f02ab8b09593a21699f71cbeb7a03c4df5a77a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd9b7ed6_f409a2fb",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/DeleteSshKeyIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-09-07T08:01:47Z",
+      "side": 1,
+      "message": "Could you refactor this into a separate method to reduce code duplication?",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 72
+      },
+      "revId": "37f02ab8b09593a21699f71cbeb7a03c4df5a77a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "baaacce0_09de32e3",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/DeleteSshKeyIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-09-07T08:01:47Z",
+      "side": 1,
+      "message": "Could you refactor this into a separate method to reduce code duplication?",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 55
+      },
+      "revId": "37f02ab8b09593a21699f71cbeb7a03c4df5a77a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

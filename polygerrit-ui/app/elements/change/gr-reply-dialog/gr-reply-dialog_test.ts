@@ -2503,6 +2503,30 @@ suite('gr-reply-dialog tests', () => {
       });
     });
 
+    test('comment is auto saved when dialog is canceled', async () => {
+      const patchsetLevelComment = queryAndAssert<GrComment>(
+        element,
+        '#patchsetLevelComment'
+      );
+      const autoSaveStub = sinon
+        .stub(patchsetLevelComment, 'save')
+        .returns(Promise.resolve());
+
+      patchsetLevelComment.messageText = 'hello world';
+
+      await waitUntil(
+        () => element.patchsetLevelDraftMessage === 'hello world'
+      );
+      assert.deepEqual(autoSaveStub.callCount, 0);
+
+      patchsetLevelComment.messageText = '';
+      queryAndAssert<GrButton>(element, '#cancelButton').click();
+
+      await waitUntil(() => autoSaveStub.callCount === 1);
+
+      assert.deepEqual(patchsetLevelComment.messageText, '');
+    });
+
     test('replies to patchset level comments are not filtered out', async () => {
       const draft = {...createDraft(), in_reply_to: '1' as UrlEncodedCommentId};
       element.getCommentsModel().setState({

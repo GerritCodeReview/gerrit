@@ -3,9 +3,9 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../test/common-test-setup-karma.js';
-import {GrReviewerUpdatesParser} from './gr-reviewer-updates-parser.js';
-import {parseDate} from '../../../utils/date-util.js';
+import '../../../test/common-test-setup-karma';
+import {GrReviewerUpdatesParser} from './gr-reviewer-updates-parser';
+import {parseDate} from '../../../utils/date-util';
 import {assert} from '@open-wc/testing';
 
 suite('gr-reviewer-updates-parser tests', () => {

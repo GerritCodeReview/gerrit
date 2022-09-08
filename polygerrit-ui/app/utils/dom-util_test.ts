@@ -127,7 +127,7 @@ suite('dom-util tests', () => {
         path = getEventPath(e as MouseEvent);
       });
       aLink.click();
-      assert.equal(path, 'html.lightTheme>body>div>div#test.a.b.c>a.testBtn');
+      assert.equal(path, 'html>body>div>div#test.a.b.c>a.testBtn');
     });
   });
 

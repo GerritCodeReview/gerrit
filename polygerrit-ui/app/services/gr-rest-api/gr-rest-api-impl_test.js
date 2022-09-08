@@ -3,29 +3,29 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../test/common-test-setup-karma.js';
+import '../../test/common-test-setup-karma';
 import {
   addListenerForTest,
   mockPromise,
   stubAuth,
-} from '../../test/test-utils.js';
-import {GrReviewerUpdatesParser} from '../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js';
+} from '../../test/test-utils';
+import {GrReviewerUpdatesParser} from '../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {
   ListChangesOption,
   listChangesOptionsToHex,
-} from '../../utils/change-util.js';
-import {getAppContext} from '../app-context.js';
-import {createChange} from '../../test/test-data-generators.js';
-import {CURRENT} from '../../utils/patch-set-util.js';
+} from '../../utils/change-util';
+import {getAppContext} from '../app-context';
+import {createChange} from '../../test/test-data-generators';
+import {CURRENT} from '../../utils/patch-set-util';
 import {
   parsePrefixedJSON,
   readResponsePayload,
   JSON_PREFIX,
   // eslint-disable-next-line max-len
-} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.js';
-import {GrRestApiServiceImpl} from './gr-rest-api-impl.js';
-import {CommentSide} from '../../constants/constants.js';
-import {EDIT, PARENT} from '../../types/common.js';
+} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {GrRestApiServiceImpl} from './gr-rest-api-impl';
+import {CommentSide} from '../../constants/constants';
+import {EDIT, PARENT} from '../../types/common';
 import {assert} from '@open-wc/testing';
 
 const EXPECTED_QUERY_OPTIONS = listChangesOptionsToHex(

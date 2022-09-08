@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0d2695e_1f58eda8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-09-08T06:16:01Z",
+      "side": 1,
+      "message": "LGTM. But since the review of the parent change is still open, I nitpick a bit more here.",
+      "revId": "728a866407fe5844c624d5cb1a5f8308562a8369",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2c0d3fb_06dab36c",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/DeleteSshKeyIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-09-08T06:16:01Z",
+      "side": 1,
+      "message": "nit: Why not let setupSshKeys return this list?",
+      "range": {
+        "startLine": 54,
+        "startChar": 24,
+        "endLine": 54,
+        "endChar": 40
+      },
+      "revId": "728a866407fe5844c624d5cb1a5f8308562a8369",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

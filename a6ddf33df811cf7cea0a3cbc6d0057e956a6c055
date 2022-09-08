@@ -33,6 +33,23 @@
       "message": "Needs Library-Compliance",
       "revId": "a6ddf33df811cf7cea0a3cbc6d0057e956a6c055",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3bb9e57_64dd9342",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-08T15:25:54Z",
+      "side": 1,
+      "message": "I moved our CI and local tests from karma to web test runner in change 345019. It works more naturally with esm and should be able to clean up our karma code, plugins, and other deps after WTR is stable a while.",
+      "revId": "a6ddf33df811cf7cea0a3cbc6d0057e956a6c055",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

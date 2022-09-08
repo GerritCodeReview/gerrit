@@ -16,6 +16,23 @@
       "message": "I am not sure why it happens, this is a life example, please try to view the content of `cookie.json` in this review session.",
       "revId": "b9f2cb05ad5f77ecfacd70c3e0d9ccec2e924a67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6f3313b_2df03b32",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-08T07:00:43Z",
+      "side": 1,
+      "message": "Maybe you want to file a bug at\nhttps://bugs.chromium.org/p/gerrit/issues/entry\n\nI don\u0027t understand what this change is supposed to do and why I was added as a reviewer.",
+      "revId": "b9f2cb05ad5f77ecfacd70c3e0d9ccec2e924a67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

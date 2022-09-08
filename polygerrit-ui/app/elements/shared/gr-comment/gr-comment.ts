@@ -263,12 +263,18 @@ export class GrComment extends LitElement {
 
   constructor() {
     super();
-    this.shortcuts.addLocal({key: Key.ESC}, () => this.handleEsc());
+    this.shortcuts.addLocal({key: Key.ESC}, () => this.handleEsc(), {
+      preventDefault: false,
+    });
     for (const key of ['s', Key.ENTER]) {
       for (const modifier of [Modifier.CTRL_KEY, Modifier.META_KEY]) {
-        this.shortcuts.addLocal({key, modifiers: [modifier]}, () => {
-          this.save();
-        });
+        this.shortcuts.addLocal(
+          {key, modifiers: [modifier]},
+          () => {
+            this.save();
+          },
+          {preventDefault: false}
+        );
       }
     }
     if (this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) {

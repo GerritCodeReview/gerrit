@@ -16,6 +16,7 @@ package com.google.gerrit.server.events;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import java.util.Collection;
 import org.junit.Test;
 
 public class EventTypesTest {
@@ -44,8 +45,37 @@ public class EventTypesTest {
   }
 
   @Test
+  public void eventTypeRegistrationWithAlternateType() {
+    EventTypes.register("alternate-type", TestEvent.class);
+    assertThat(EventTypes.getClass("alternate-type")).isEqualTo(TestEvent.class);
+    assertThat(EventTypes.getClass(TestEvent.TYPE)).isEqualTo(TestEvent.class);
+  }
+
+  @Test
   public void getClassForNonExistingType() {
     Class<?> clazz = EventTypes.getClass("does-not-exist-event");
     assertThat(clazz).isNull();
+  }
+
+  @Test
+  public void getRegisteredClassesGetsANewlyRegisteredEvent() {
+    EventTypes.register(TestEvent.TYPE, TestEvent.class);
+    Collection<Class<?>> newlyRegistered = EventTypes.getRegisteredClasses();
+    assertThat(TestEvent.class).isIn(newlyRegistered);
+  }
+
+  @Test
+  public void getRegisteredTypesGetsANewlyRegisteredEventType() {
+    EventTypes.register(TestEvent.TYPE, TestEvent.class);
+    Collection<String> newlyRegisteredTypes = EventTypes.getRegisteredTypes();
+    assertThat(TestEvent.TYPE).isIn(newlyRegisteredTypes);
+  }
+
+  @Test
+  public void getRegisteredTypesGetsTypeGivenAtRegistration() {
+    EventTypes.register("alternate-type", TestEvent.class);
+    Collection<String> newlyRegisteredTypes = EventTypes.getRegisteredTypes();
+    assertThat("alternate-type").isIn(newlyRegisteredTypes);
+    assertThat(TestEvent.TYPE).isIn(newlyRegisteredTypes);
   }
 }

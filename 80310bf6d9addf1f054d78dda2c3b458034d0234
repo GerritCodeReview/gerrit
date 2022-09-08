@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7daf01a_63491d8d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-09-08T11:13:17Z",
+      "side": 1,
+      "message": "+ Martin Fick who introduced the EventTypes class originally, there is not much changes that has happened since then.\n\nMy use case is to retrieve events classes emitted over \"gerrit stream events\" and I could not find out how to do it. Instead I elected to grab any events registered by Gerrit or a plugin. It would be a superset of events emitted by stream events, but it is ok for my use case.\n\nDavid Causse from Wikimedia did the first review which can find at https://gerrit.wikimedia.org/r/c/operations/software/gerrit/plugins/events-wikimedia/+/830654/1/src/main/java/org/wikimedia/gerrit/plugins/eventswikimedia/restapi/ListEvents.java \n\nChecklist:\n- my IDE has ran google-java-format upon saving the files\n- I don\u0027t have Eclipse so I have no idea whether it would complain about some mistakes\n- I ran unit tests with: bazel test --test_output\u003dstreamed //javatests/com/google/gerrit/server/events:events_tests",
+      "revId": "80310bf6d9addf1f054d78dda2c3b458034d0234",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef763941_320cfabe",
+        "filename": "javatests/com/google/gerrit/server/events/EventTypesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-09-08T11:13:17Z",
+      "side": 1,
+      "message": "I have no idea how the TestEvent ends up being registered both with:\n\n- the given type \"alternate-type\" when invoking register()\n\nAND\n\n- under TestEvent.TYPE even though the EventTypes.register() function does not do it.\n\nMaybe there is some extra processing happening. I don\u0027t think it is related to my code, I have added a test covering that behavior when I stepped upon it.",
+      "range": {
+        "startLine": 49,
+        "startChar": 59,
+        "endLine": 51,
+        "endChar": 79
+      },
+      "revId": "80310bf6d9addf1f054d78dda2c3b458034d0234",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a6c5941_5cff0a31",
+        "filename": "javatests/com/google/gerrit/server/events/EventTypesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-09-08T11:13:17Z",
+      "side": 1,
+      "message": "This assertion is most probably already covered with the eventTypeRegistrationWithAlternateType test above. It probably does not hurt to be explicit.",
+      "range": {
+        "startLine": 79,
+        "startChar": 4,
+        "endLine": 79,
+        "endChar": 58
+      },
+      "revId": "80310bf6d9addf1f054d78dda2c3b458034d0234",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       },
       "revId": "db635f9a025c3dda198ed11c3cc42b17e2c0db4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d36e3449_25d87a58",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-08T23:08:48Z",
+      "side": 1,
+      "message": "Yeah, we don\u0027t check in L109 \u0027if condition\u0027 now, however, doesn\u0027t the condition on L121 essentially translate to \u0027check for skipped results\u0027 too? i.e it will be true only if we skipped one or more results in the initial query (and we have more results).",
+      "parentUuid": "4c60c5ff_b7d9b316",
+      "range": {
+        "startLine": 110,
+        "startChar": 58,
+        "endLine": 110,
+        "endChar": 66
+      },
+      "revId": "db635f9a025c3dda198ed11c3cc42b17e2c0db4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

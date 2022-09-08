@@ -3,9 +3,9 @@
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../test/common-test-setup-karma.js';
-import {mockPromise} from '../../test/test-utils.js';
-import {EventEmitter} from './gr-event-interface_impl.js';
+import '../../test/common-test-setup-karma';
+import {mockPromise} from '../../test/test-utils';
+import {EventEmitter} from './gr-event-interface_impl';
 import {assert} from '@open-wc/testing';
 
 suite('gr-event-interface tests', () => {

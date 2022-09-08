@@ -3,8 +3,8 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../test/common-test-setup-karma.js';
-import '../../change/gr-change-actions/gr-change-actions.js';
+import '../../../test/common-test-setup-karma';
+import '../../change/gr-change-actions/gr-change-actions';
 import {assert} from '@open-wc/testing';
 
 suite('gr-annotation-actions-js-api tests', () => {

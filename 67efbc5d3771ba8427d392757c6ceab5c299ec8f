@@ -70,6 +70,24 @@
       "parentUuid": "709ecb05_280b91d5",
       "revId": "67efbc5d3771ba8427d392757c6ceab5c299ec8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f857ec77_043d9647",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-09-08T15:38:38Z",
+      "side": 1,
+      "message": "We iterated on this idea again: the account.config can be updated by the user by the push to refs/users/self, so it is confusing to put revision there.\nSince we don\u0027t really need this information, we decided to just write an empty commit.",
+      "parentUuid": "bfa223d1_1a1b4378",
+      "revId": "67efbc5d3771ba8427d392757c6ceab5c299ec8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

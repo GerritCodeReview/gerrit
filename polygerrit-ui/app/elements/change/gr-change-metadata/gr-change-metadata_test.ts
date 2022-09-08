@@ -908,18 +908,16 @@ suite('gr-change-metadata tests', () => {
       );
       const alertStub = sinon.stub();
       element.addEventListener(EventType.SHOW_ALERT, alertStub);
+
       element.handleTopicChanged(new CustomEvent('test', {detail: newTopic}));
-      const topicChangedSpy = sinon.spy();
-      element.addEventListener('topic-changed', topicChangedSpy);
+
       assert.isTrue(
         setChangeTopicStub.calledWith(42 as NumericChangeId, newTopic)
       );
       await setChangeTopicStub.lastCall.returnValue;
-      assert.equal(element.change!.topic, newTopic);
-      assert.isTrue(topicChangedSpy.called);
       await waitUntilCalled(alertStub, 'alertStub');
       assert.deepEqual(alertStub.lastCall.args[0].detail, {
-        message: '"the new topic" created',
+        message: 'Saving topic and reloading ...',
         showDismiss: true,
       });
     });
@@ -935,18 +933,15 @@ suite('gr-change-metadata tests', () => {
       await element.updateComplete;
       const chip = queryAndAssert<GrLinkedChip>(element, 'gr-linked-chip');
       const remove = queryAndAssert<GrButton>(chip, '#remove');
-      const topicChangedSpy = sinon.spy();
-      element.addEventListener('topic-changed', topicChangedSpy);
+
       remove.click();
+
       assert.isTrue(chip?.disabled);
       assert.isTrue(setChangeTopicStub.calledWith(42 as NumericChangeId));
       await setChangeTopicStub.lastCall.returnValue;
-      assert.isFalse(chip?.disabled);
-      assert.equal(element.change!.topic, '' as TopicName);
-      assert.isTrue(topicChangedSpy.called);
       await waitUntilCalled(alertStub, 'alertStub');
       assert.deepEqual(alertStub.lastCall.args[0].detail, {
-        message: '"the topic" removed from change',
+        message: 'Removing topic and reloading ...',
         showDismiss: true,
       });
     });
@@ -968,10 +963,9 @@ suite('gr-change-metadata tests', () => {
         })
       );
       await setChangeHashtagStub.lastCall.returnValue;
-      assert.equal(element.change!.hashtags, newHashtag);
       await waitUntilCalled(alertStub, 'alertStub');
       assert.deepEqual(alertStub.lastCall.args[0].detail, {
-        message: '"new hashtag" created',
+        message: 'Saving hashtag and reloading ...',
         showDismiss: true,
       });
     });

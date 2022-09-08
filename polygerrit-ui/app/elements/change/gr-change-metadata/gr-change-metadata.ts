@@ -49,9 +49,8 @@ import {
   RepoName,
   RevisionInfo,
   ServerInfo,
-  TopicName,
 } from '../../../types/common';
-import {assertNever, unique} from '../../../utils/common-util';
+import {assertIsDefined, assertNever, unique} from '../../../utils/common-util';
 import {GrEditableLabel} from '../../shared/gr-editable-label/gr-editable-label';
 import {GrLinkedChip} from '../../shared/gr-linked-chip/gr-linked-chip';
 import {getAppContext} from '../../../services/app-context';
@@ -60,7 +59,7 @@ import {
   isSectionSet,
   DisplayRules,
 } from '../../../utils/change-metadata-util';
-import {fireAlert, fireEvent} from '../../../utils/event-util';
+import {fireAlert, fireEvent, fireReload} from '../../../utils/event-util';
 import {
   EditRevisionInfo,
   notUndefined,
@@ -114,11 +113,6 @@ interface PushCertificateValidationInfo {
 
 @customElement('gr-change-metadata')
 export class GrChangeMetadata extends LitElement {
-  /**
-   * Fired when the change topic is changed.
-   *
-   * @event topic-changed
-   */
   @query('#webLinks') webLinks?: HTMLElement;
 
   @property({type: Object}) change?: ParsedChangeInfo;
@@ -762,28 +756,15 @@ export class GrChangeMetadata extends LitElement {
 
   // private but used in test
   handleTopicChanged(e: CustomEvent<string>) {
-    if (!this.change) {
-      throw new Error('change must be set');
-    }
-    const lastTopic = this.change.topic;
+    assertIsDefined(this.change, 'change');
     const topic = e.detail.length ? e.detail : undefined;
     this.settingTopic = true;
-    const topicChangedForChangeNumber = this.change._number;
-    const change = this.change;
-    this.restApiService
-      .setChangeTopic(topicChangedForChangeNumber, topic)
-      .then(newTopic => {
-        if (this.change?._number !== topicChangedForChangeNumber) return;
-        this.settingTopic = false;
-        if (this.change === change) {
-          this.change.topic = newTopic as TopicName;
-          this.requestUpdate();
-        }
-        if (newTopic !== lastTopic) {
-          fireEvent(this, 'topic-changed');
-          fireAlert(this, `"${topic}" created`);
-        }
-      });
+    fireAlert(this, 'Saving topic and reloading ...');
+    this.restApiService.setChangeTopic(this.change._number, topic).then(() => {
+      this.settingTopic = false;
+      fireEvent(this, 'hide-alert');
+      fireReload(this);
+    });
   }
 
   // private but used in test
@@ -808,23 +789,15 @@ export class GrChangeMetadata extends LitElement {
 
   // private but used in test
   handleHashtagChanged(e: CustomEvent<string>) {
-    if (!this.change) {
-      throw new Error('change must be set');
-    }
+    assertIsDefined(this.change, 'change');
     const newHashtag = e.detail.length ? e.detail : undefined;
-    if (!newHashtag?.length) {
-      return;
-    }
-    const change = this.change;
+    if (!newHashtag?.length) return;
+    fireAlert(this, 'Saving hashtag and reloading ...');
     this.restApiService
       .setChangeHashtag(this.change._number, {add: [newHashtag as Hashtag]})
-      .then(newHashtag => {
-        if (this.change === change) {
-          this.change.hashtags = newHashtag;
-          this.requestUpdate();
-          fireEvent(this, 'hashtag-changed');
-          fireAlert(this, `"${newHashtag}" created`);
-        }
+      .then(() => {
+        fireEvent(this, 'hide-alert');
+        fireReload(this);
       });
   }
 
@@ -964,25 +937,20 @@ export class GrChangeMetadata extends LitElement {
   }
 
   private handleTopicRemoved(e: CustomEvent) {
-    if (!this.change) {
-      throw new Error('change must be set');
-    }
+    assertIsDefined(this.change, 'change');
     const target = e.composedPath()[0] as GrLinkedChip;
     target.disabled = true;
-    const change = this.change;
-    const topic = this.change.topic;
+    fireAlert(this, 'Removing topic and reloading ...');
     this.restApiService
       .setChangeTopic(this.change._number)
       .then(() => {
-        target.disabled = false;
-        if (this.change === change) {
-          this.change.topic = '' as TopicName;
-          this.requestUpdate();
-          fireEvent(this, 'topic-changed');
-          fireAlert(this, `"${topic}" removed from change`);
-        }
+        console.log('qwer');
+        fireEvent(this, 'hide-alert');
+        fireReload(this);
       })
-      .catch(() => {
+      .finally(() => {
+        console.log('asdf');
+
         target.disabled = false;
       });
   }
@@ -990,25 +958,17 @@ export class GrChangeMetadata extends LitElement {
   // private but used in test
   handleHashtagRemoved(e: CustomEvent) {
     e.preventDefault();
-    if (!this.change) {
-      throw new Error('change must be set');
-    }
+    assertIsDefined(this.change, 'change');
     const target = e.target as GrLinkedChip;
     target.disabled = true;
-    const change = this.change;
+    fireAlert(this, 'Removing hashtag and reloading ...');
     this.restApiService
-      .setChangeHashtag(change._number, {remove: [target.text as Hashtag]})
-      .then(newHashtags => {
-        target.disabled = false;
-        if (this.change === change) {
-          this.change.hashtags = newHashtags;
-          fireAlert(this, `"${target.text}" removed from change`);
-          this.requestUpdate();
-        }
+      .setChangeHashtag(this.change._number, {remove: [target.text as Hashtag]})
+      .then(() => {
+        fireEvent(this, 'hide-alert');
+        fireReload(this);
       })
-      .catch(() => {
-        target.disabled = false;
-      });
+      .finally(() => (target.disabled = false));
   }
 
   private computeDisplayState(section: Metadata, account?: AccountDetailInfo) {

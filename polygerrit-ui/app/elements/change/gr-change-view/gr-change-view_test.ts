@@ -2040,16 +2040,6 @@ suite('gr-change-view tests', () => {
     assert.equal(scrollStub.lastCall.args[0], 'TEST');
   });
 
-  test('topic update reloads related changes', () => {
-    flush();
-    const relatedChanges = element.shadowRoot!.querySelector(
-      '#relatedChanges'
-    ) as GrRelatedChangesList;
-    const reloadStub = sinon.stub(relatedChanges, 'reload');
-    element.dispatchEvent(new CustomEvent('topic-changed'));
-    assert.isTrue(reloadStub.calledOnce);
-  });
-
   test('computeEditMode', async () => {
     const callCompute = async (params: AppElementChangeViewParams) => {
       element.params = params;

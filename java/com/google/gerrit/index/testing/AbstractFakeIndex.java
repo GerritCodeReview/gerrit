@@ -69,12 +69,14 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
 
   private final String indexName;
   private final Map<K, D> indexedDocuments;
+  private int queryCount;
 
   AbstractFakeIndex(Schema<V> schema, SitePaths sitePaths, String indexName) {
     this.schema = schema;
     this.sitePaths = sitePaths;
     this.indexName = indexName;
     this.indexedDocuments = new HashMap<>();
+    this.queryCount = 0;
   }
 
   @Override
@@ -108,6 +110,10 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
     }
   }
 
+  public int getQueryCount() {
+    return queryCount;
+  }
+
   @Override
   public DataSource<V> getSource(Predicate<V> p, QueryOptions opts) {
     List<V> results;
@@ -120,6 +126,7 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
               .skip(opts.start())
               .limit(opts.limit())
               .collect(toImmutableList());
+      queryCount++;
     }
     return new DataSource<V>() {
       @Override

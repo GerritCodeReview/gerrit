@@ -33,6 +33,24 @@
       "message": "Don\u0027t you want this in a try catch block to make sure this happens?",
       "revId": "86e1d757a7bbc1057695294b3ef349f71bda226f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d8fb66d_387a4ff9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 943,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-08T13:19:06Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/c/gerrit/+/345034.",
+      "parentUuid": "4f461864_39e9382d",
+      "revId": "86e1d757a7bbc1057695294b3ef349f71bda226f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -107,6 +107,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "39ff5bc3_3edb6584",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-09-08T07:33:30Z",
+      "side": 1,
+      "message": "Thanks for running on your repos. Your results sound reasonable given mine (our repos had {6, 4, 11, 1, 27}K drafts respectively). the difference could also be due to the machine running the benchmark, but in general we both got few milliseconds.\n\nFor context: Our p90 of loading dashboards was around 1s. Due to this experiment, the latency increased by a few hundreds of milliseconds (the experiment is now live on our hosts).\n\n\u003e How slow does it need to be in order to cause a problem?\n\nMaybe something in O(tens of milliseconds) is acceptable (e.g. until 20 or 30). I\u0027d be happy if we can bring down our latencies to this number.",
+      "parentUuid": "83d9889e_762c77fc",
+      "revId": "64df5ae23920a42a73e9812e2335194e27912b67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c5890fd_55a4e1eb",

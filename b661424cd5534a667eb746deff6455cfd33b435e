@@ -16,6 +16,24 @@
       "message": "Does ES need a change like this also?",
       "revId": "b661424cd5534a667eb746deff6455cfd33b435e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11882986_2e30b807",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-08T22:39:40Z",
+      "side": 1,
+      "message": "Is my update to AbstractElasticIndex.java not sufficient?",
+      "parentUuid": "9f9b8d5f_195695c4",
+      "revId": "b661424cd5534a667eb746deff6455cfd33b435e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

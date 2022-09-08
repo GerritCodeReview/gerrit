@@ -209,3 +209,16 @@ nodejs_test(
         "--rules.no-unknown-attribute error",
     ],
 )
+
+# app code including tests and tsconfig.json
+filegroup(
+    name = "web-test-runner_app-sources",
+    srcs = glob(
+        [
+            "**/*.ts",
+            "**/*.js",
+            "**/tsconfig.json",
+        ],
+        exclude = ["node_modules/**/*"],
+    ),
+)

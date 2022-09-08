@@ -51,6 +51,23 @@
       "parentUuid": "c6f3313b_2df03b32",
       "revId": "b9f2cb05ad5f77ecfacd70c3e0d9ccec2e924a67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40ae06d6_d614b363",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1040243
+      },
+      "writtenOn": "2022-09-08T07:20:14Z",
+      "side": 1,
+      "message": "Bug: https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d16243\n\nI am sorry but I have no permission to remove from review.",
+      "revId": "b9f2cb05ad5f77ecfacd70c3e0d9ccec2e924a67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

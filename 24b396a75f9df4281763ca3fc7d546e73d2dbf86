@@ -70,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "87251781_35b5e8ab",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 7236,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-09-08T16:49:33Z",
+      "side": 1,
+      "message": "Sorry for the confusion. Yes I should\u0027ve added the extra fields in FileInfo.\n\nDone.",
+      "parentUuid": "c8c9aa20_5a654845",
+      "revId": "24b396a75f9df4281763ca3fc7d546e73d2dbf86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "68a11280_19822d41",
@@ -83,6 +101,30 @@
       "writtenOn": "2022-09-07T09:53:01Z",
       "side": 1,
       "message": "nit: no space needed here",
+      "range": {
+        "startLine": 7266,
+        "startChar": 21,
+        "endLine": 7266,
+        "endChar": 22
+      },
+      "revId": "24b396a75f9df4281763ca3fc7d546e73d2dbf86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a7220bb_d8677a98",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 7266,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-09-08T16:49:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68a11280_19822d41",
       "range": {
         "startLine": 7266,
         "startChar": 21,
@@ -116,6 +158,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4fce5fe_67306fa6",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 7267,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-09-08T16:49:33Z",
+      "side": 1,
+      "message": "Right. Done.",
+      "parentUuid": "7679aa00_3284cb2e",
+      "range": {
+        "startLine": 7266,
+        "startChar": 0,
+        "endLine": 7267,
+        "endChar": 73
+      },
+      "revId": "24b396a75f9df4281763ca3fc7d546e73d2dbf86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "803214e7_775ef848",
@@ -129,6 +195,24 @@
       "writtenOn": "2022-09-07T09:53:01Z",
       "side": 1,
       "message": "Where do these numbers come from?",
+      "revId": "24b396a75f9df4281763ca3fc7d546e73d2dbf86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f6b4635_7d776877",
+        "filename": "java/com/google/gerrit/entities/Patch.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-09-08T16:49:33Z",
+      "side": 1,
+      "message": "File modes in octal are hardcoded in JGit [1]. I copied them.\n\nhttps://gerrit.googlesource.com/jgit/+/refs/heads/master/org.eclipse.jgit/src/org/eclipse/jgit/lib/FileMode.java#38",
+      "parentUuid": "803214e7_775ef848",
       "revId": "24b396a75f9df4281763ca3fc7d546e73d2dbf86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

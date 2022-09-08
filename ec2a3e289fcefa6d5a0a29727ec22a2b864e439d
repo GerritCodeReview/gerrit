@@ -33,6 +33,52 @@
       "message": "@Luca @Sasa Could you give this a quick review to unblock Alon? Thanks!",
       "revId": "ec2a3e289fcefa6d5a0a29727ec22a2b864e439d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87b6c74c_2340d772",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/DeleteSshKeyIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-08T14:05:21Z",
+      "side": 1,
+      "message": "nit: this looks more the setup of the test, consider moving it into a `@Before` section.",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 85
+      },
+      "revId": "ec2a3e289fcefa6d5a0a29727ec22a2b864e439d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee7010af_d03f3a25",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/DeleteSshKeyIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-08T14:05:21Z",
+      "side": 1,
+      "message": "This works, however, it would be best to assert that the keys are the ones before del - the one deleted.",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 55
+      },
+      "revId": "ec2a3e289fcefa6d5a0a29727ec22a2b864e439d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

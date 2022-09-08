@@ -35,6 +35,9 @@ export class GrButton extends LitElement {
   @property({type: Boolean, reflect: true})
   voteChip = false;
 
+  @property({type: Boolean, reflect: true})
+  clNumberChip = false;
+
   // Note: don't assign a value to this, since constructor is called
   // after created, the initial value maybe overridden by this
   private initialTabindex?: string;
@@ -184,6 +187,12 @@ export class GrButton extends LitElement {
         :host([down-arrow]) paper-button:hover .downArrow {
           border-top-color: var(--deemphasized-text-color);
         }
+        .clNumberChip {
+          --background-color: var(--gray-100);
+          box-shadow: none;
+          /* border: 1px solid var(--border-color);
+          box-sizing: border-box; */
+        }
         .newVoteChip {
           border: 1px solid var(--border-color);
           box-shadow: none;
@@ -204,6 +213,7 @@ export class GrButton extends LitElement {
       part="paper-button"
       class=${classMap({
         newVoteChip: this.voteChip,
+        clNumberChip: this.clNumberChip,
       })}
     >
       ${this.loading ? html`<span class="loadingSpin"></span>` : ''}

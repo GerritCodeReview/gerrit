@@ -235,6 +235,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ea2497e0_8e65214e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-08T20:30:17Z",
+      "side": 1,
+      "message": "\u003e I interpret indexConfig as the general configuration, whereas I believe queryOptions is specific to a single query?\nYeah, thinking on those lines, it probably is OK to add multiplier to the config.\n\n\u003e Aren\u0027t the limit and pageSizes also things that are in indexConfig, but vary in QueryOptions?\nlimit is the effective limit and is not a direct representation of any value in indexConfig. Also, pageSize is not an indexConfig entry.",
+      "parentUuid": "b7cfc771_d4ba0f3c",
+      "revId": "a1e79e7a352df42a92af9d3ad1f21dd68b06b963",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b7a25297_d4af1072",
         "filename": "java/com/google/gerrit/index/query/AndSource.java",
         "patchSetId": 7

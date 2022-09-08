@@ -13,6 +13,7 @@ export {Shortcut};
 interface ShortcutListener {
   binding: Binding;
   listener: (e: KeyboardEvent) => void;
+  options?: ShortcutOptions;
 }
 
 interface AbstractListener {
@@ -44,10 +45,13 @@ export class ShortcutController implements ReactiveController {
   // Note that local shortcuts are *not* suppressed when the user has shortcuts
   // disabled or when the event comes from elements like <input>. So this method
   // is intended for shortcuts like ESC and Ctrl-ENTER.
-  // If you need suppressed local shortcuts, then just add an options parameter.
   // Call method in constructor of the component
-  addLocal(binding: Binding, listener: (e: KeyboardEvent) => void) {
-    this.listenersLocal.push({binding, listener});
+  addLocal(
+    binding: Binding,
+    listener: (e: KeyboardEvent) => void,
+    options?: ShortcutOptions
+  ) {
+    this.listenersLocal.push({binding, listener, options});
   }
 
   // Call method in constructor of the component
@@ -75,13 +79,14 @@ export class ShortcutController implements ReactiveController {
 
   hostConnected() {
     const shortcutsService = this.getShortcutsService();
-    for (const {binding, listener} of this.listenersLocal) {
+    for (const {binding, listener, options} of this.listenersLocal) {
       const cleanup = shortcutsService.addShortcut(
         this.host,
         binding,
         listener,
         {
-          shouldSuppress: false,
+          shouldSuppress: options?.shouldSuppress ?? false,
+          preventDefault: options?.preventDefault,
         }
       );
       this.cleanups.push(cleanup);

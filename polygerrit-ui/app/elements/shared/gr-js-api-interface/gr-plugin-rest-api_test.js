@@ -3,10 +3,10 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../test/common-test-setup-karma.js';
-import './gr-js-api-interface.js';
-import {GrPluginRestApi} from './gr-plugin-rest-api.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import '../../../test/common-test-setup-karma';
+import './gr-js-api-interface';
+import {GrPluginRestApi} from './gr-plugin-rest-api';
+import {stubRestApi} from '../../../test/test-utils';
 import {assert} from '@open-wc/testing';
 
 suite('gr-plugin-rest-api tests', () => {

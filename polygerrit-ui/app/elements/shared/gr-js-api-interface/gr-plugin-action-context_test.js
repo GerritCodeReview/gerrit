@@ -3,11 +3,11 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../test/common-test-setup-karma.js';
-import './gr-js-api-interface.js';
-import {GrPluginActionContext} from './gr-plugin-action-context.js';
-import {addListenerForTest} from '../../../test/test-utils.js';
-import {EventType} from '../../../types/events.js';
+import '../../../test/common-test-setup-karma';
+import './gr-js-api-interface';
+import {GrPluginActionContext} from './gr-plugin-action-context';
+import {addListenerForTest} from '../../../test/test-utils';
+import {EventType} from '../../../types/events';
 import {assert} from '@open-wc/testing';
 
 suite('gr-plugin-action-context tests', () => {

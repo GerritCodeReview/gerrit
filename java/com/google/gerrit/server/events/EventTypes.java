@@ -14,8 +14,10 @@
 
 package com.google.gerrit.server.events;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /** Class for registering event types */
 public class EventTypes {
@@ -60,5 +62,26 @@ public class EventTypes {
    */
   public static Class<?> getClass(String type) {
     return typesByString.get(type);
+  }
+
+  /**
+   * Get all classes currently registered
+   *
+   * @return Collection of classes
+   */
+  public static Collection<Class<?>> getRegisteredClasses() {
+    return typesByString.values();
+  }
+
+  /**
+   * Get all types currently registered
+   *
+   * <p>The types are the ones given to the eventType parameter of the {@link #register} method. If
+   * it is different from the Event TYPE, the Event get registered under each type.
+   *
+   * @return Set of events types
+   */
+  public static Set<String> getRegisteredTypes() {
+    return typesByString.keySet();
   }
 }

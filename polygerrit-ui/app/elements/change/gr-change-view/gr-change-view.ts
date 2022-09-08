@@ -903,13 +903,15 @@ export class GrChangeView extends LitElement {
           margin-left: var(--spacing-s);
         }
         .showCopyLinkDialogButton {
-          --gr-button-padding: var(--spacing-m) var(--spacing-xs);
+          --gr-button-padding: 0 var(--spacing-s);
+          margin-left: var(--spacing-m);
+          /* line-height: 18px;
+          font-size: var(--font-size-small); */
         }
         #replyBtn {
           margin-bottom: var(--spacing-m);
         }
         gr-change-star {
-          margin-left: var(--spacing-s);
           --gr-change-star-size: var(--line-height-normal);
         }
         a.changeNumber {
@@ -1262,27 +1264,31 @@ export class GrChangeView extends LitElement {
           ></gr-change-status>`
         )}
       </div>
-      <gr-change-star
-        id="changeStar"
-        .change=${this.change}
-        @toggle-star=${(e: CustomEvent<ChangeStarToggleStarDetail>) =>
-          this.handleToggleStar(e)}
-        ?hidden=${!this.loggedIn}
-      ></gr-change-star>
 
       ${when(
         this.flagsService.isEnabled(KnownExperimentId.COPY_LINK_DIALOG),
-        () => html`<a
-            class="changeNumber"
-            aria-label=${`Change ${this.change?._number}`}
-            href=${ifDefined(this.computeChangeUrl(true))}
-            >${this.change?._number}</a
-          ><gr-button
+        () => html`<gr-button
+            clnumberchip
             flatten
             down-arrow
             class="showCopyLinkDialogButton"
             @click=${() => this.copyLinksDropdown?.toggleDropdown()}
-          ></gr-button>
+          >
+            <gr-change-star
+              id="changeStar"
+              .change=${this.change}
+              @toggle-star=${(e: CustomEvent<ChangeStarToggleStarDetail>) =>
+                this.handleToggleStar(e)}
+              ?hidden=${!this.loggedIn}
+            ></gr-change-star>
+            <a
+              class="changeNumber"
+              aria-label=${`Change ${this.change?._number}`}
+              href=${ifDefined(this.computeChangeUrl(true))}
+              @click=${(e: MouseEvent) => e.stopPropagation()}
+              >${this.change?._number}</a
+            ></gr-button
+          >
           ${this.renderCopyLinksDropdown()}
           <span class="headerSubject">${this.change?.subject}</span>`,
         () => html`<a

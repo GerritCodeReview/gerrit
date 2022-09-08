@@ -145,6 +145,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6fa95f09_20c7b48f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-08T19:18:05Z",
+      "side": 1,
+      "message": "Yeah, we can do that. However, currently we don\u0027t have a neat way of knowing if the query being paginated is a no-limit one. We can do one of the following to determine if its a no-limit query:\n\n1. initialPageSize - 1 \u003d\u003d limit\n2. limit \u003d\u003d Integer.MAX_VALUE\n3. introduce a noLimit boolean like I did in PS1",
+      "parentUuid": "32ecdb40_5dfb9ac0",
+      "revId": "a1e79e7a352df42a92af9d3ad1f21dd68b06b963",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b7a25297_d4af1072",
         "filename": "java/com/google/gerrit/index/query/AndSource.java",
         "patchSetId": 7

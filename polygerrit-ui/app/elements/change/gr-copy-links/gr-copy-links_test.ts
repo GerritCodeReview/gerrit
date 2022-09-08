@@ -49,7 +49,7 @@ suite('gr-copy-links tests', () => {
               type="text"
             >
             <span class="shortcut">l - d</span>
-            <gr-copy-clipboard hideinput="" text="123456">
+            <gr-copy-clipboard hideinput="" text="123456" id="Change_ID-field-copy-clipboard">
             </gr-copy-clipboard>
           </div>
       </iron-dropdown>`,

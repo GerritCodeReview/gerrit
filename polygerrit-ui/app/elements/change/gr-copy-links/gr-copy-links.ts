@@ -107,7 +107,11 @@ export class GrCopyLinks extends LitElement {
       <label for=${id}>${label}</label
       ><input type="text" readonly="" id=${id} class="input" .value=${value} />
       <span class="shortcut">${`l - ${shortcut}`}</span>
-      <gr-copy-clipboard hideInput="" text=${value}></gr-copy-clipboard>
+      <gr-copy-clipboard
+        hideInput=""
+        text=${value}
+        id=${`${id}-copy-clipboard`}
+      ></gr-copy-clipboard>
     </div>`;
   }
 

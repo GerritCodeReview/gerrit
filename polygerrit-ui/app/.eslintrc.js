@@ -269,9 +269,6 @@ module.exports = {
         'jsdoc/require-param-type': 2,
         // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-require-returns-type
         'jsdoc/require-returns-type': 2,
-        // The rule is required for .js files only, because typescript compiler
-        // always checks import.
-        'import/no-unresolved': 2,
         'import/named': 2,
       },
       globals: {

@@ -3,9 +3,9 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../test/common-test-setup-karma.js';
-import '../../change/gr-reply-dialog/gr-reply-dialog.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import '../../../test/common-test-setup-karma';
+import '../../change/gr-reply-dialog/gr-reply-dialog';
+import {stubRestApi} from '../../../test/test-utils';
 // eslint-disable-next-line import/named
 import {fixture, html, assert} from '@open-wc/testing';
 

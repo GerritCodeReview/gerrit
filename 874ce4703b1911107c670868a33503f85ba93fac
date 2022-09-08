@@ -52,6 +52,24 @@
       "parentUuid": "22802ee1_60c7eada",
       "revId": "874ce4703b1911107c670868a33503f85ba93fac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0258014e_5542ad28",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-09-08T09:38:24Z",
+      "side": 1,
+      "message": "Yes. I think we also need to remove fields DRAFT and STAR from the change document (we no longer read them back).\n\nDone.",
+      "parentUuid": "5f0d2db5_635a4a03",
+      "revId": "874ce4703b1911107c670868a33503f85ba93fac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

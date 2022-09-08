@@ -410,6 +410,30 @@
       },
       "revId": "a1e79e7a352df42a92af9d3ad1f21dd68b06b963",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f81da5c9_aae3a9b8",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-09-08T22:39:07Z",
+      "side": 1,
+      "message": "It seems the parent change is not merged yet, so the comment can be fixed in that change?",
+      "parentUuid": "2838797f_2ad3556d",
+      "range": {
+        "startLine": 111,
+        "startChar": 20,
+        "endLine": 111,
+        "endChar": 55
+      },
+      "revId": "a1e79e7a352df42a92af9d3ad1f21dd68b06b963",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

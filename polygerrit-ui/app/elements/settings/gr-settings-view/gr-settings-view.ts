@@ -63,6 +63,7 @@ import {pageNavStyles} from '../../../styles/gr-page-nav-styles';
 import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {KnownExperimentId} from '../../../services/flags/flags';
+import {subscribe} from '../../lit/subscription-controller';
 
 const GERRIT_DOCS_BASE_URL =
   'https://gerrit-review.googlesource.com/' + 'Documentation';
@@ -191,9 +192,6 @@ export class GrSettingsView extends LitElement {
   @state() showNumber?: boolean;
 
   // private but used in test
-  @state() themePreference = AppTheme.AUTO;
-
-  // private but used in test
   public _testOnly_loadingPromise?: Promise<void>;
 
   private readonly restApiService = getAppContext().restApiService;
@@ -201,6 +199,28 @@ export class GrSettingsView extends LitElement {
   private readonly userModel = getAppContext().userModel;
 
   private readonly flagsService = getAppContext().flagsService;
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.userModel.preferences$,
+      prefs => {
+        if (!prefs) {
+          throw new Error('getPreferences returned undefined');
+        }
+        this.prefs = prefs;
+        this.showNumber = !!prefs.legacycid_in_change_table;
+        this.copyPrefs(CopyPrefsDirection.PrefsToLocalPrefs);
+        this.localChangeTableColumns =
+          prefs.change_table.length === 0
+            ? Object.values(ColumnNames)
+            : prefs.change_table.map(column =>
+                column === 'Project' ? 'Repo' : column
+              );
+      }
+    );
+  }
 
   override connectedCallback() {
     super.connectedCallback();
@@ -217,24 +237,6 @@ export class GrSettingsView extends LitElement {
       this.groupList.loadData(),
       this.identities.loadData(),
     ];
-
-    // TODO(dhruvsri): move this to the service
-    promises.push(
-      this.restApiService.getPreferences().then(prefs => {
-        if (!prefs) {
-          throw new Error('getPreferences returned undefined');
-        }
-        this.prefs = prefs;
-        this.showNumber = !!prefs.legacycid_in_change_table;
-        this.copyPrefs(CopyPrefsDirection.PrefsToLocalPrefs);
-        this.localChangeTableColumns =
-          prefs.change_table.length === 0
-            ? Object.values(ColumnNames)
-            : prefs.change_table.map(column =>
-                column === 'Project' ? 'Repo' : column
-              );
-      })
-    );
 
     promises.push(
       this.restApiService.getConfig().then(config => {

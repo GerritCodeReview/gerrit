@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4353731f_4b9a9d65",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-08T14:17:43Z",
+      "side": 1,
+      "message": "Then `this.prefsChanged \u003d false;`?\n\nAnd what happens if `this.prefsChanged \u003d\u003d\u003d true`? Do we just clobber?",
+      "revId": "d18bfe23cbaa992bbc8d62931cb13a19c3226239",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6a44e0b_6ca7b7dd",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1111,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-08T14:17:43Z",
+      "side": 1,
+      "message": "Is this still needed?",
+      "range": {
+        "startLine": 1110,
+        "startChar": 4,
+        "endLine": 1111,
+        "endChar": 32
+      },
+      "revId": "d18bfe23cbaa992bbc8d62931cb13a19c3226239",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

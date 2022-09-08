@@ -138,6 +138,24 @@
       "message": "I am doing the build about the endpoints. \nEndpoints\n/access/\nAccess Right related REST endpoints\n\n/accounts/\nAccount related REST endpoints\n\n/changes/\nChange related REST endpoints\n\n/config/\nConfig related REST endpoints\n\n/groups/\nGroup related REST endpoints\n\n/plugins/\nPlugin related REST endpoints\n\n/projects/\nProject related REST endpoints\n\n/Documentation/\nDocumentation related REST endpoints\n\nProtocol Details",
       "revId": "e8f2b22980ef61a57f01888f8f9afbbcd91d0f2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7745208c_e96d05ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1151270
+      },
+      "writtenOn": "2022-09-08T05:42:42Z",
+      "side": 1,
+      "message": "\u003e Hi \n\u003e 1. It\u0027s not a big deal nothing to do help on this big deal.",
+      "parentUuid": "5155e0d5_18d7ef11",
+      "revId": "e8f2b22980ef61a57f01888f8f9afbbcd91d0f2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

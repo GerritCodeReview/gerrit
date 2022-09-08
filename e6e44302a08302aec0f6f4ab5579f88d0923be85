@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "715bff84_2bcfeb6c",
+        "filename": "polygerrit-ui/app/run_test.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-08T14:19:05Z",
+      "side": 1,
+      "message": "What uses this file? Is this file still necessary?",
+      "revId": "e6e44302a08302aec0f6f4ab5579f88d0923be85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

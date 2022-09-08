@@ -193,7 +193,7 @@ suite('gr-button tests', () => {
       assert.isTrue(reportStub.calledOnce);
       assert.equal(reportStub.lastCall.args[0], 'button-click');
       assert.deepEqual(reportStub.lastCall.args[1], {
-        path: 'html.lightTheme>body>div>gr-button',
+        path: 'html>body>div>gr-button',
       });
     });
 
@@ -207,7 +207,7 @@ suite('gr-button tests', () => {
       assert.isTrue(reportStub.calledOnce);
       assert.equal(reportStub.lastCall.args[0], 'button-click');
       assert.deepEqual(reportStub.lastCall.args[1], {
-        path: 'html.lightTheme>body>div>div#test>gr-button.testBtn',
+        path: 'html>body>div>div#test>gr-button.testBtn',
       });
     });
   });

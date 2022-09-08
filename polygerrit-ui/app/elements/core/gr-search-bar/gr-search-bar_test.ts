@@ -7,7 +7,12 @@ import '../../../test/common-test-setup-karma';
 import './gr-search-bar';
 import {GrSearchBar} from './gr-search-bar';
 import '../../../scripts/util';
-import {mockPromise, pressKey, waitUntil} from '../../../test/test-utils';
+import {
+  mockPromise,
+  pressKey,
+  waitUntil,
+  waitUntilObserved,
+} from '../../../test/test-utils';
 import {
   createChangeConfig,
   createServerInfo,
@@ -18,12 +23,40 @@ import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {fixture, html, assert} from '@open-wc/testing';
 import {Key} from '../../../utils/dom-util';
+import {getAppContext} from '../../../services/app-context';
+import {changeModelToken} from '../../../models/change/change-model';
+import {
+  ConfigModel,
+  configModelToken,
+} from '../../../models/config/config-model';
+import {wrapInProvider} from '../../../models/di-provider-element';
 
 suite('gr-search-bar tests', () => {
   let element: GrSearchBar;
+  let configModel: ConfigModel;
 
   setup(async () => {
-    element = await fixture(html`<gr-search-bar></gr-search-bar>`);
+    configModel = new ConfigModel(
+      testResolver(changeModelToken),
+      getAppContext().restApiService
+    );
+    const serverConfig = createServerInfo();
+    serverConfig.gerrit.doc_url = 'https://mydocumentationurl.google.com/';
+    configModel.updateServerConfig(serverConfig);
+    await waitUntilObserved(
+      configModel.docsBaseUrl$,
+      docsBaseUrl => docsBaseUrl === 'https://mydocumentationurl.google.com/'
+    );
+
+    element = (
+      await fixture(
+        wrapInProvider(
+          html`<gr-search-bar></gr-search-bar>`,
+          configModelToken,
+          configModel
+        )
+      )
+    ).querySelector('gr-search-bar')!;
   });
 
   test('renders', () => {
@@ -40,7 +73,7 @@ suite('gr-search-bar tests', () => {
           >
             <a
               class="help"
-              href="https://gerrit-review.googlesource.com/documentation/user-search.html"
+              href="https://mydocumentationurl.google.com/user-search.html"
               slot="suffix"
               tabindex="-1"
               target="_blank"
@@ -50,6 +83,23 @@ suite('gr-search-bar tests', () => {
           </gr-autocomplete>
         </form>
       `
+    );
+  });
+
+  test('falls back to gerrit docs url', async () => {
+    const configWithoutDocsUrl = createServerInfo();
+    configWithoutDocsUrl.gerrit.doc_url = undefined;
+
+    configModel.updateServerConfig(configWithoutDocsUrl);
+    await waitUntilObserved(
+      configModel.docsBaseUrl$,
+      docsBaseUrl => docsBaseUrl === 'https://mydocumentationurl.google.com/'
+    );
+    await element.updateComplete;
+
+    assert.equal(
+      queryAndAssert<HTMLAnchorElement>(element, 'a')!.href,
+      'https://mydocumentationurl.google.com/user-search.html'
     );
   });
 

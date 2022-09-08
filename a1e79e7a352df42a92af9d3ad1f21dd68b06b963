@@ -43,6 +43,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e4e278fc_c92334d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-08T18:13:49Z",
+      "side": 1,
+      "message": "Changing the default multiplier will also impact pagination happening in other queries (which are not no-limit) and we were concerned about changing the default behaviour for those queries on a stable branch. Do you think we should still change the default multiplier, given that not may folks use no-limit queries? Adding a recommendation to use a bigger multiplier in the no-limit documentation is also a possible option.",
+      "parentUuid": "f9b7eaeb_f36bda15",
+      "revId": "a1e79e7a352df42a92af9d3ad1f21dd68b06b963",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b7a25297_d4af1072",
         "filename": "java/com/google/gerrit/index/query/AndSource.java",
         "patchSetId": 7
@@ -54,6 +72,30 @@
       "writtenOn": "2022-09-08T17:46:50Z",
       "side": 1,
       "message": "Hmm, this comment \"we skip at least one of the results\" should have been removed in the previous change?",
+      "range": {
+        "startLine": 111,
+        "startChar": 20,
+        "endLine": 111,
+        "endChar": 55
+      },
+      "revId": "a1e79e7a352df42a92af9d3ad1f21dd68b06b963",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8dc275a8_95d35da1",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-08T18:13:49Z",
+      "side": 1,
+      "message": "We still paginate when one or more results are skipped. It should probably have been updated to \"when we skip at least one of the results (and have more results)\"",
+      "parentUuid": "b7a25297_d4af1072",
       "range": {
         "startLine": 111,
         "startChar": 20,

@@ -3,14 +3,14 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../test/common-test-setup-karma.js';
-import './gr-js-api-interface.js';
-import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interface.js';
-import {EventType} from '../../../api/plugin.js';
-import {PLUGIN_LOADING_TIMEOUT_MS} from './gr-api-utils.js';
-import {getPluginLoader} from './gr-plugin-loader.js';
-import {stubRestApi, stubBaseUrl} from '../../../test/test-utils.js';
-import {getAppContext} from '../../../services/app-context.js';
+import '../../../test/common-test-setup-karma';
+import './gr-js-api-interface';
+import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interface';
+import {EventType} from '../../../api/plugin';
+import {PLUGIN_LOADING_TIMEOUT_MS} from './gr-api-utils';
+import {getPluginLoader} from './gr-plugin-loader';
+import {stubRestApi, stubBaseUrl} from '../../../test/test-utils';
+import {getAppContext} from '../../../services/app-context';
 import {assert} from '@open-wc/testing';
 
 suite('GrJsApiInterface tests', () => {

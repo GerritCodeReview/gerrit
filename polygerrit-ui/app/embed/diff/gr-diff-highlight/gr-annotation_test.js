@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import '../../../test/common-test-setup-karma.js';
-import {GrAnnotation} from './gr-annotation.js';
+import '../../../test/common-test-setup-karma';
+import {GrAnnotation} from './gr-annotation';
 import {
   sanitizeDOMValue,
   setSanitizeDOMValue,

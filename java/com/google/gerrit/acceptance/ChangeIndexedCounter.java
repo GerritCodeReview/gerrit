@@ -46,6 +46,10 @@ public class ChangeIndexedCounter implements ChangeIndexedListener {
   }
 
   public void assertReindexOf(ChangeInfo info, long expectedCount) {
+    if (expectedCount == 0) {
+      assertThat(countsByChange.asMap()).isEmpty();
+      return;
+    }
     assertThat(countsByChange.asMap()).containsExactly(info._number, expectedCount);
     clear();
   }

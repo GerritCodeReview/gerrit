@@ -85,6 +85,7 @@ import com.google.gerrit.acceptance.UseTimezone;
 import com.google.gerrit.acceptance.VerifyNoPiiInChangeNotes;
 import com.google.gerrit.acceptance.api.change.ChangeIT.TestAttentionSetListenerModule.TestAttentionSetListener;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.acceptance.server.change.CommentsUtil;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.change.IndexOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
@@ -4654,13 +4655,40 @@ public class ChangeIT extends AbstractDaemonTest {
       ChangeInfo change = info(triplet);
       assertThat(change.starred).isTrue();
       assertThat(change.stars).contains(DEFAULT_LABEL);
-      changeIndexedCounter.assertReindexOf(change);
+      // change was not re-indexed
+      changeIndexedCounter.assertReindexOf(change, 0);
 
       gApi.accounts().self().unstarChange(triplet);
       change = info(triplet);
       assertThat(change.starred).isNull();
       assertThat(change.stars).isNull();
-      changeIndexedCounter.assertReindexOf(change);
+      // change was not re-indexed
+      changeIndexedCounter.assertReindexOf(change, 0);
+    }
+  }
+
+  @Test
+  public void createAndDeleteDraftCommentDoesNotTriggerChangeReindex() throws Exception {
+    ChangeIndexedCounter changeIndexedCounter = new ChangeIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(changeIndexedCounter)) {
+      PushOneCommit.Result r = createChange();
+      String changeId = r.getChangeId();
+      String revId = r.getCommit().getName();
+      String triplet = project.get() + "~master~" + r.getChangeId();
+      changeIndexedCounter.clear();
+
+      // Create the draft. Change is not re-indexed
+      DraftInput draftInput =
+          CommentsUtil.newDraft("file1", Side.REVISION, /* line= */ 1, "comment 1");
+      CommentInfo draftInfo =
+          gApi.changes().id(changeId).revision(revId).createDraft(draftInput).get();
+      ChangeInfo change = info(triplet);
+      changeIndexedCounter.assertReindexOf(change, 0);
+
+      // Delete the draft comment. Change is not re-indexed
+      gApi.changes().id(changeId).revision(revId).draft(draftInfo.id).delete();
+      changeIndexedCounter.assertReindexOf(change, 0);
     }
   }
 

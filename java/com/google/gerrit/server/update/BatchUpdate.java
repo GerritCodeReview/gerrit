@@ -38,6 +38,7 @@ import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -148,7 +149,9 @@ public class BatchUpdate implements AutoCloseable {
         }
         for (ChangesHandle h : changesHandles) {
           h.execute();
-          indexFutures.addAll(h.startIndexFutures());
+          if (h.requiresReindex()) {
+            indexFutures.addAll(h.startIndexFutures());
+          }
         }
         notifyAfterUpdateRefs(listeners);
         notifyAfterUpdateChanges(listeners);
@@ -619,6 +622,16 @@ public class BatchUpdate implements AutoCloseable {
     void execute() throws IOException {
       BatchUpdate.this.batchRefUpdate = manager.execute(dryrun);
       BatchUpdate.this.executed = manager.isExecuted();
+    }
+
+    boolean requiresReindex() {
+      // We do not need to reindex changes if there are no ref updates, or if updated refs
+      // are all draft comment refs (since draft fields are not stored in the change index).
+      BatchRefUpdate bru = BatchUpdate.this.batchRefUpdate;
+      return !(bru == null
+          || bru.getCommands().isEmpty()
+          || bru.getCommands().stream()
+              .allMatch(cmd -> RefNames.isRefsDraftsComments(cmd.getRefName())));
     }
 
     ImmutableList<ListenableFuture<ChangeData>> startIndexFutures() {

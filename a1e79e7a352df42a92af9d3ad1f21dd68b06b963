@@ -199,6 +199,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "42f4fac6_f8bc4262",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-08T19:47:58Z",
+      "side": 1,
+      "message": "Yeah, I can do that. However, QueryOptions already contains indexConfig and having a separate option for an indexConfig entry (i.e pageSizeMultiplier) seems weird.",
+      "parentUuid": "c9af19c6_2c045801",
+      "revId": "a1e79e7a352df42a92af9d3ad1f21dd68b06b963",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b7a25297_d4af1072",
         "filename": "java/com/google/gerrit/index/query/AndSource.java",
         "patchSetId": 7

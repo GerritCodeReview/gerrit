@@ -39,6 +39,30 @@
       },
       "revId": "728a866407fe5844c624d5cb1a5f8308562a8369",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b881b9d_99811c77",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/DeleteSshKeyIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1040243
+      },
+      "writtenOn": "2022-09-08T06:25:04Z",
+      "side": 1,
+      "message": "because I wanted it to prepare the environment same as common setup function of tests. but if you prefer it I will change.",
+      "parentUuid": "a2c0d3fb_06dab36c",
+      "range": {
+        "startLine": 54,
+        "startChar": 24,
+        "endLine": 54,
+        "endChar": 40
+      },
+      "revId": "728a866407fe5844c624d5cb1a5f8308562a8369",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

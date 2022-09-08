@@ -46,6 +46,30 @@
       },
       "revId": "db635f9a025c3dda198ed11c3cc42b17e2c0db4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "683d78af_d3cab72a",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-09-08T23:15:46Z",
+      "side": 1,
+      "message": "I\u0027m not sure that\u0027s always true, it seems to be an assumption, and it won\u0027t hold after the next change will it?",
+      "parentUuid": "d36e3449_25d87a58",
+      "range": {
+        "startLine": 110,
+        "startChar": 58,
+        "endLine": 110,
+        "endChar": 66
+      },
+      "revId": "db635f9a025c3dda198ed11c3cc42b17e2c0db4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

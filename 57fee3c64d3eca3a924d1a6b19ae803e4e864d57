@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "deada152_49fe5333",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-08T10:59:05Z",
+      "side": 1,
+      "message": "As soon as the hashtag is added, we end up showing a `There are new messages on this change` reload toast anyway.\nSo the reloading in this case is easily justified I think.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 6
+      },
+      "revId": "57fee3c64d3eca3a924d1a6b19ae803e4e864d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d866a3b6_606f4f15",

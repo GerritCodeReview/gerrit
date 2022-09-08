@@ -590,7 +590,6 @@ export class GrChangeView extends LitElement {
   }
 
   private setupListeners() {
-    this.addEventListener('topic-changed', () => this.handleTopicChanged());
     this.addEventListener(
       // When an overlay is opened in a mobile viewport, the overlay has a full
       // screen view. When it has a full screen view, we do not want the
@@ -3167,10 +3166,6 @@ export class GrChangeView extends LitElement {
       this.startUpdateCheckTimer();
     }
   };
-
-  handleTopicChanged() {
-    this.getRelatedChangesList()?.reload();
-  }
 
   // Private but used in tests.
   computeHeaderClass() {

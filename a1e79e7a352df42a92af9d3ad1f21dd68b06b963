@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "912167c2_59e9e2bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-08T22:03:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db1bd114_6c2329a7",
+      "range": {
+        "startLine": 25,
+        "startChar": 60,
+        "endLine": 25,
+        "endChar": 67
+      },
+      "revId": "a1e79e7a352df42a92af9d3ad1f21dd68b06b963",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f9b7eaeb_f36bda15",
@@ -251,6 +275,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "19048487_ee3faa31",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-08T22:03:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea2497e0_8e65214e",
+      "revId": "a1e79e7a352df42a92af9d3ad1f21dd68b06b963",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7a25297_d4af1072",
@@ -336,6 +378,30 @@
       "side": 1,
       "message": "Yeah, maybe fix in a separate change?",
       "parentUuid": "8dc275a8_95d35da1",
+      "range": {
+        "startLine": 111,
+        "startChar": 20,
+        "endLine": 111,
+        "endChar": 55
+      },
+      "revId": "a1e79e7a352df42a92af9d3ad1f21dd68b06b963",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2838797f_2ad3556d",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-08T22:03:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27251279_62332137",
       "range": {
         "startLine": 111,
         "startChar": 20,

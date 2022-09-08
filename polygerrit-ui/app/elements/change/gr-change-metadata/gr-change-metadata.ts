@@ -759,9 +759,12 @@ export class GrChangeMetadata extends LitElement {
     assertIsDefined(this.change, 'change');
     const topic = e.detail.length ? e.detail : undefined;
     this.settingTopic = true;
-    fireAlert(this, 'Saving topic and reloading ...');
-    await this.restApiService.setChangeTopic(this.change._number, topic);
-    this.settingTopic = false;
+    try {
+      fireAlert(this, 'Saving topic and reloading ...');
+      await this.restApiService.setChangeTopic(this.change._number, topic);
+    } finally {
+      this.settingTopic = false;
+    }
     fireEvent(this, 'hide-alert');
     fireReload(this);
   }
@@ -938,9 +941,12 @@ export class GrChangeMetadata extends LitElement {
     assertIsDefined(this.change, 'change');
     const target = e.composedPath()[0] as GrLinkedChip;
     target.disabled = true;
-    fireAlert(this, 'Removing topic and reloading ...');
-    await this.restApiService.setChangeTopic(this.change._number);
-    target.disabled = false;
+    try {
+      fireAlert(this, 'Removing topic and reloading ...');
+      await this.restApiService.setChangeTopic(this.change._number);
+    } finally {
+      target.disabled = false;
+    }
     fireEvent(this, 'hide-alert');
     fireReload(this);
   }
@@ -951,11 +957,14 @@ export class GrChangeMetadata extends LitElement {
     assertIsDefined(this.change, 'change');
     const target = e.target as GrLinkedChip;
     target.disabled = true;
-    fireAlert(this, 'Removing hashtag and reloading ...');
-    await this.restApiService.setChangeHashtag(this.change._number, {
-      remove: [target.text as Hashtag],
-    });
-    target.disabled = false;
+    try {
+      fireAlert(this, 'Removing hashtag and reloading ...');
+      await this.restApiService.setChangeHashtag(this.change._number, {
+        remove: [target.text as Hashtag],
+      });
+    } finally {
+      target.disabled = false;
+    }
     fireEvent(this, 'hide-alert');
     fireReload(this);
   }

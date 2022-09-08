@@ -33,6 +33,24 @@
       "message": "Maybe you want to file a bug at\nhttps://bugs.chromium.org/p/gerrit/issues/entry\n\nI don\u0027t understand what this change is supposed to do and why I was added as a reviewer.",
       "revId": "b9f2cb05ad5f77ecfacd70c3e0d9ccec2e924a67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4ec20e0_156397fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1040243
+      },
+      "writtenOn": "2022-09-08T07:15:27Z",
+      "side": 1,
+      "message": "This is reproduction of a bug demonstrated online, I thought it may be related to user interface so I CC you to see if it triggers an area of where it might be.\n\nI will also open a bug.",
+      "parentUuid": "c6f3313b_2df03b32",
+      "revId": "b9f2cb05ad5f77ecfacd70c3e0d9ccec2e924a67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

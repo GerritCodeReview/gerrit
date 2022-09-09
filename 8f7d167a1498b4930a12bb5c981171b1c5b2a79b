@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dfbe2fad_f5a53351",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-09T18:27:39Z",
+      "side": 1,
+      "message": "Ideally yes, however current code doesn\u0027t limit `initialPageSize` (coming from QueryProcessor) based on `maxPageSize`. I think we should be updating it to do so. WDYT?",
+      "parentUuid": "17bfcd63_c1a4d23e",
+      "range": {
+        "startLine": 114,
+        "startChar": 40,
+        "endLine": 114,
+        "endChar": 49
+      },
+      "revId": "8f7d167a1498b4930a12bb5c981171b1c5b2a79b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "35513fc4_937199f9",
         "filename": "java/com/google/gerrit/index/query/AndSource.java",
         "patchSetId": 10
@@ -37,6 +61,24 @@
       "writtenOn": "2022-09-09T17:39:01Z",
       "side": 1,
       "message": "I am a little concerned that this paragraph is starting to repeat the code instead of just explaining some of the nonobvious reasons for things.",
+      "revId": "8f7d167a1498b4930a12bb5c981171b1c5b2a79b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c45bdd1a_9549c291",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-09T18:27:39Z",
+      "side": 1,
+      "message": "Yeah, I agree, it is too wordy now and not helpful. Maybe we should simplify it to this?\n\n\u003e If our source is paginated, restart it and continue if we have not filled the full limit the caller wants.",
+      "parentUuid": "35513fc4_937199f9",
       "revId": "8f7d167a1498b4930a12bb5c981171b1c5b2a79b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

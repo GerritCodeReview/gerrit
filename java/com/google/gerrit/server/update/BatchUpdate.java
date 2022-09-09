@@ -68,6 +68,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.multibindings.OptionalBinder;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -118,6 +119,7 @@ public class BatchUpdate implements AutoCloseable {
       @Override
       public void configure() {
         factory(BatchUpdate.Factory.class);
+        OptionalBinder.newOptionalBinder(binder(), BatchChangeUpdateListener.class);
       }
     };
   }
@@ -330,7 +332,9 @@ public class BatchUpdate implements AutoCloseable {
     }
 
     private ChangeUpdate getNewChangeUpdate(PatchSet.Id psId) {
-      ChangeUpdate u = changeUpdateFactory.create(notes, user, when);
+      ChangeUpdate u =
+          changeUpdateFactory.create(
+              notes, user, when, batchPostUpdateListener.getChangeUpdateListener(notes));
       if (newChanges.containsKey(notes.getChangeId())) {
         u.setAllowWriteToNewRef(true);
       }
@@ -401,6 +405,7 @@ public class BatchUpdate implements AutoCloseable {
   private PushCertificate pushCert;
   private String refLogMessage;
   private NotifyResolver.Result notify = NotifyResolver.Result.all();
+  private BatchChangeUpdateListener batchPostUpdateListener;
 
   @Inject
   BatchUpdate(
@@ -412,6 +417,7 @@ public class BatchUpdate implements AutoCloseable {
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeIndexer indexer,
       GitReferenceUpdated gitRefUpdated,
+      Optional<BatchChangeUpdateListener> batchPostUpdateListener,
       @Assisted Project.NameKey project,
       @Assisted CurrentUser user,
       @Assisted Instant when) {
@@ -425,6 +431,7 @@ public class BatchUpdate implements AutoCloseable {
     this.project = project;
     this.user = user;
     this.when = when;
+    this.batchPostUpdateListener = batchPostUpdateListener.orElse(BatchChangeUpdateListener.EMPTY);
     zoneId = serverIdent.getZoneId();
   }
 
@@ -748,6 +755,11 @@ public class BatchUpdate implements AutoCloseable {
           TraceContext.newTimer(op.getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {
         op.postUpdate(ctx);
       }
+    }
+    try (TraceContext.TraceTimer ignored =
+        TraceContext.newTimer(
+            batchPostUpdateListener.getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {
+      batchPostUpdateListener.postUpdate(ctx);
     }
   }
 

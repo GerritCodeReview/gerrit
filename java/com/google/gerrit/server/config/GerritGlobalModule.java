@@ -216,6 +216,8 @@ import com.google.gerrit.server.submit.MergeSuperSetComputation;
 import com.google.gerrit.server.submit.SubmitStrategy;
 import com.google.gerrit.server.submit.SubscriptionGraph;
 import com.google.gerrit.server.tools.ToolsCatalog;
+import com.google.gerrit.server.update.BatchChangeUpdateListener;
+import com.google.gerrit.server.update.BatchChangeUpdateListenerImpl;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -344,6 +346,7 @@ public class GerritGlobalModule extends FactoryModule {
     bind(PatchSetInfoFactory.class);
     bind(IdentifiedUser.GenericFactory.class).in(SINGLETON);
     bind(AccountControl.Factory.class);
+    bind(BatchChangeUpdateListener.class).to(BatchChangeUpdateListenerImpl.class);
     OptionalBinder.newOptionalBinder(binder(), Ticker.class)
         .setDefault()
         .toInstance(Ticker.systemTicker());

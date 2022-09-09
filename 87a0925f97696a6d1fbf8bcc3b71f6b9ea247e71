@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f59e9e68_005047d6",
+        "filename": "polygerrit-ui/app/utils/attention-set-util.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-09T09:59:22Z",
+      "side": 1,
+      "message": "Avoid nesting too much.\n\n```suggestion\n  if (mentionedThreads.length \u003e 0 \u0026\u0026 reason.match(\u0027replied on the change\u0027)) {\n    // In case the reason is the simple reason \"Because X replied on the\n    // change\", overwrite with mention reason.\n    return `${getDisplayName(\n      config,\n      mentionedThreads[0].comments[0].author\n    )} mentioned you in a comment`;\n  }\n```",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 3
+      },
+      "revId": "87a0925f97696a6d1fbf8bcc3b71f6b9ea247e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5567b459_813b7921",
+        "filename": "polygerrit-ui/app/utils/attention-set-util.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-09T09:59:22Z",
+      "side": 1,
+      "message": "This feels rather hacky. Is there a reason (no pun intended) we can\u0027t set the reason properly when sending a review to the backend?\n\nI know there are some technical challenges there, but this feels like we\u0027re just paper-patching over it.",
+      "revId": "87a0925f97696a6d1fbf8bcc3b71f6b9ea247e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

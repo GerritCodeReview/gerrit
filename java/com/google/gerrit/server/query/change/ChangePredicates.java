@@ -71,14 +71,6 @@ public class ChangePredicates {
 
   /**
    * Returns a predicate that matches changes where the provided {@link
-   * com.google.gerrit.entities.Account.Id} has a pending change edit.
-   */
-  public static Predicate<ChangeData> editBy(Account.Id id) {
-    return new ChangeIndexPredicate(ChangeField.EDITBY, id.toString());
-  }
-
-  /**
-   * Returns a predicate that matches changes where the provided {@link
    * com.google.gerrit.entities.Account.Id} has a pending draft comment.
    */
   public static Predicate<ChangeData> draftBy(CommentsUtil commentsUtil, Account.Id id) {

@@ -40,6 +40,7 @@ import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.RawInputUtil;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.Patch;
@@ -55,6 +56,7 @@ import com.google.gerrit.extensions.client.ChangeEditDetailOption;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ListChangesOption;
+import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
@@ -854,6 +856,9 @@ public class ChangeEditIT extends AbstractDaemonTest {
     gApi.changes().id(changeId2).edit().publish(publishInput);
     assertThat(queryEdits()).isEmpty();
 
+    // Add user as CC such they can query the edit. Querying edits only matches with changes where
+    // the caller is a reviewer, uploader, owner or CC.
+    addReviewer(changeId, user.id(), ReviewerState.CC);
     requestScopeOperations.setApiUser(user.id());
     createEmptyEditFor(changeId);
     assertThat(queryEdits()).hasSize(1);
@@ -1096,5 +1101,13 @@ public class ChangeEditIT extends AbstractDaemonTest {
     List<String> actualMessages =
         ci.messages.stream().map(message -> message.message).collect(toList());
     assertThat(actualMessages).containsExactlyElementsIn(expectedMessages).inOrder();
+  }
+
+  private void addReviewer(String changeId, Account.Id userId, ReviewerState reviewerState)
+      throws Exception {
+    ReviewerInput rin = new ReviewerInput();
+    rin.reviewer = userId.toString();
+    rin.state = reviewerState;
+    gApi.changes().id(changeId).addReviewer(rin);
   }
 }

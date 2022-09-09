@@ -24,7 +24,8 @@
   "scripts": {
     "test": "web-test-runner",
     "test:watch": "web-test-runner --watch",
-    "test:single": "web-test-runner --watch --files"
+    "test:single": "web-test-runner --watch --files",
+    "test:coverage": "web-test-runner --coverage"
   },
   "license": "Apache-2.0",
   "private": true

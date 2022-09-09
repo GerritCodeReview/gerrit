@@ -33,6 +33,7 @@ js-to-ts.sh
 /node_modules/
 /package-lock.json
 /plugins/*
+/polygerrit-ui/coverage/
 /polygerrit/app/plugins/*
 !/plugins/.eslintignore
 !/plugins/.eslintrc.js

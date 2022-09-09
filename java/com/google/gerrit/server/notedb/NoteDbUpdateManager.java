@@ -18,14 +18,18 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableListMultimap.flatteningToImmutableListMultimap;
 import static com.google.gerrit.server.logging.TraceContext.newTimer;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.ProjectChangeKey;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.git.RefUpdateUtil;
@@ -351,6 +355,14 @@ public class NoteDbUpdateManager implements AutoCloseable {
     } finally {
       close();
     }
+  }
+
+  public ImmutableListMultimap<ProjectChangeKey, AttentionSetUpdate> attentionSetUpdates() {
+    return this.changeUpdates.values().stream()
+        .collect(
+            flatteningToImmutableListMultimap(
+                cu -> ProjectChangeKey.create(cu.getProjectName(), cu.getId()),
+                cu -> cu.getAttentionSetUpdates().stream()));
   }
 
   private BatchRefUpdate execute(OpenRepo or, boolean dryrun, @Nullable PushCertificate pushCert)

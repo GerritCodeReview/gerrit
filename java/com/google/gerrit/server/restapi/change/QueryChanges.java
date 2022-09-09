@@ -159,7 +159,8 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
     return Response.ok(out.size() == 1 ? out.get(0) : out);
   }
 
-  private List<List<ChangeInfo>> query() throws QueryParseException, PermissionBackendException {
+  private List<List<ChangeInfo>> query()
+      throws BadRequestException, QueryParseException, PermissionBackendException {
     ChangeQueryProcessor queryProcessor = queryProcessorProvider.get();
     if (queryProcessor.isDisabled()) {
       throw new QueryParseException("query disabled");
@@ -169,6 +170,9 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
       queryProcessor.setUserProvidedLimit(limit);
     }
     if (start != null) {
+      if (start < 0) {
+        throw new BadRequestException("'start' parameter cannot be less than zero");
+      }
       queryProcessor.setStart(start);
     }
     if (noLimit != null && !AnonymousUser.class.isAssignableFrom(userProvider.get().getClass())) {

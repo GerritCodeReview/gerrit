@@ -107,6 +107,10 @@ public class QueryGroups implements RestReadView<TopLevelResource> {
       throw new MethodNotAllowedException("query disabled");
     }
 
+    if (start < 0) {
+      throw new BadRequestException("'start' parameter cannot be less than zero");
+    }
+
     if (start != 0) {
       queryProcessor.setStart(start);
     }

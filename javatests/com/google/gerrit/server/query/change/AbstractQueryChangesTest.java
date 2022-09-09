@@ -1477,6 +1477,12 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void startCannotBeLessThanZero() throws Exception {
+    assertFailingQuery(
+        newQuery("owner:self").withStart(-1), "'start' parameter cannot be less than zero");
+  }
+
+  @Test
   public void startWithLimit() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     List<Change> changes = new ArrayList<>();
@@ -4277,6 +4283,15 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   protected void assertFailingQuery(String query) throws Exception {
     assertFailingQuery(query, null);
+  }
+
+  protected void assertFailingQuery(QueryRequest query, String expectedMessage) throws Exception {
+    try {
+      assertQuery(query);
+      fail("expected BadRequestException for query '" + query + "'");
+    } catch (BadRequestException e) {
+      assertThat(e.getMessage()).isEqualTo(expectedMessage);
+    }
   }
 
   protected void assertFailingQuery(String query, @Nullable String expectedMessage)

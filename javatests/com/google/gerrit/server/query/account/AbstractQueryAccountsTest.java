@@ -447,6 +447,12 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   }
 
   @Test
+  public void withStartCannotBeLessThanZero() throws Exception {
+    assertFailingQuery(
+        newQuery("self").withStart(-1), "'start' parameter cannot be less than zero");
+  }
+
+  @Test
   public void sortedByFullname() throws Exception {
     String appendix = name("name");
 
@@ -849,7 +855,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     return accounts.stream().map(a -> a._accountId).collect(toList());
   }
 
-  protected void assertFailingQuery(String query, String expectedMessage) throws Exception {
+  protected void assertFailingQuery(QueryRequest query, String expectedMessage) throws Exception {
     try {
       assertQuery(query);
       fail("expected BadRequestException for query '" + query + "'");

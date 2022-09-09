@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17fdb9c2_f3e4832e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-09T15:16:03Z",
+      "side": 1,
+      "message": "can you describe the change itself ie what you are doing **new** that is.\n\nI am having a hard time understanding this change because I don\u0027t fully understand the existing solution.\n\nCan you describe why the current implementation was made? Looking at the code it\u0027s a bit unclear.\n\nMaybe also describe how this solution is avoiding the re-render issue?\nWhy can `getSortedLinesForSide` be removed now?\n\nWhy is `notifyListeners` not required to be called again?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 22
+      },
+      "revId": "6561bce8dcae803e90c8d06c8fabf3dc4b477158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03769a03_e83eae8a",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-09T15:16:03Z",
+      "side": 1,
+      "message": "it\u0027s unclear why this change was required?\nis this just a refactor or is this necessary for the change?\n\nchanging Lines -\u003e HtmlElement and merging Left/Right ie",
+      "range": {
+        "startLine": 86,
+        "startChar": 10,
+        "endLine": 86,
+        "endChar": 25
+      },
+      "revId": "6561bce8dcae803e90c8d06c8fabf3dc4b477158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

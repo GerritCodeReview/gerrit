@@ -446,7 +446,9 @@ with the default label.
 
 has:edit::
 +
-True if the change has inline edit created by the current user.
+True if the change has inline edit created by the current user. This operator
+only matches with open changes where the current user is an owner, uploader,
+reviewer or CC of the change.
 
 has:unresolved::
 +

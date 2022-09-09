@@ -73,6 +73,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.HasOperandAliasConfig;
 import com.google.gerrit.server.config.OperatorAliasConfig;
 import com.google.gerrit.server.experiments.ExperimentFeatures;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
@@ -609,7 +610,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   @Operator
-  public Predicate<ChangeData> has(String value) throws QueryParseException {
+  public Predicate<ChangeData> has(String value)
+      throws ConfigInvalidException, IOException, QueryParseException {
     value = hasOperandAliases.getOrDefault(value, value);
     if ("star".equalsIgnoreCase(value)) {
       return starredBySelf();
@@ -620,7 +622,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
 
     if ("edit".equalsIgnoreCase(value)) {
-      return ChangePredicates.editBy(self());
+      return editsBySelf(args.experimentFeatures);
     }
 
     if ("attention".equalsIgnoreCase(value)) {
@@ -1124,6 +1126,23 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   private Predicate<ChangeData> draftBySelf() throws QueryParseException {
     return ChangePredicates.draftBy(args.commentsUtil, self());
+  }
+
+  private Predicate<ChangeData> editsBySelf(ExperimentFeatures experimentFeatures)
+      throws ConfigInvalidException, IOException, QueryParseException {
+    if (!experimentFeatures.isFeatureEnabled(
+        ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_SERVE_EDITS_WITHOUT_INDEX)) {
+      return ChangePredicates.editBy(self());
+    }
+    return Predicate.and(
+        statusOpen(),
+        Predicate.or(
+            ChangePredicates.owner(self()),
+            ChangePredicates.uploader(self()),
+            reviewer(self().toString()),
+            cc(self().toString())),
+        new EditPredicate(
+            ChangeQueryBuilder.FIELD_EDITBY, self().toString(), self(), args.repoManager));
   }
 
   @Operator

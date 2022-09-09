@@ -115,6 +115,7 @@ import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.testing.TestGroupBackend;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -3047,6 +3048,165 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_SERVE_EDITS_WITHOUT_INDEX)
+  public void hasEdit_matchesIfTheUserIsOwner() throws Exception {
+    Account.Id user1 = createAccount("user1");
+    TestRepository<Repo> repo = createProject("repo");
+    // Create the changes as user1
+    Change change1 = insert(repo, newChange(repo), user1);
+    String changeId1 = change1.getKey().get();
+    Change change2 = insert(repo, newChange(repo), user1);
+    String changeId2 = change2.getKey().get();
+
+    requestContext.setContext(newRequestContext(user1));
+    assertQuery("has:edit");
+    gApi.changes().id(changeId1).edit().create();
+    gApi.changes().id(changeId2).edit().create();
+    assertQuery("has:edit", change2, change1);
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_SERVE_EDITS_WITHOUT_INDEX)
+  public void hasEdit_matchesIfTheUserIsReviewer() throws Exception {
+    Account.Id user1 = createAccount("user1");
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChange(repo));
+    String changeId1 = change1.getKey().get();
+    Change change2 = insert(repo, newChange(repo));
+    String changeId2 = change2.getKey().get();
+
+    // We need to add both 'user1' and 'user2' as reviewers because the 'has:edit' query only
+    // matches with changes containing edits for the user if that user was an owner or reviewer on
+    // the change.
+    addReviewer(change1.getId(), user1, ReviewerState.REVIEWER);
+    addReviewer(change2.getId(), user1, ReviewerState.REVIEWER);
+
+    requestContext.setContext(newRequestContext(user1));
+    assertQuery("has:edit");
+    gApi.changes().id(changeId1).edit().create();
+    gApi.changes().id(changeId2).edit().create();
+    assertQuery("has:edit", change2, change1);
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_SERVE_EDITS_WITHOUT_INDEX)
+  public void hasEdit_matchesIfTheUserIsInCC() throws Exception {
+    Account.Id user1 = createAccount("user1");
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChange(repo));
+    String changeId1 = change1.getKey().get();
+    Change change2 = insert(repo, newChange(repo));
+    String changeId2 = change2.getKey().get();
+
+    // We need to add both 'user1' and 'user2' as reviewers because the 'has:edit' query only
+    // matches with changes containing edits for the user if that user was an owner, reviewer or CC
+    // on the change.
+    addReviewer(change1.getId(), user1, ReviewerState.CC);
+    addReviewer(change2.getId(), user1, ReviewerState.CC);
+
+    requestContext.setContext(newRequestContext(user1));
+    assertQuery("has:edit");
+    gApi.changes().id(changeId1).edit().create();
+    gApi.changes().id(changeId2).edit().create();
+    assertQuery("has:edit", change2, change1);
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_SERVE_EDITS_WITHOUT_INDEX)
+  public void hasEdit_doesNotMatchIfUserIsNotOwnerReviewerOrCC() throws Exception {
+    Account.Id user1 = createAccount("user1");
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChange(repo));
+    String changeId1 = change1.getKey().get();
+    Change change2 = insert(repo, newChange(repo));
+    String changeId2 = change2.getKey().get();
+
+    requestContext.setContext(newRequestContext(user1));
+    assertQuery("has:edit");
+    gApi.changes().id(changeId1).edit().create();
+    gApi.changes().id(changeId2).edit().create();
+
+    // No matching changes, because the user is not involved (as owner, reviewer, CC) on the
+    // changes.
+    assertQuery("has:edit");
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_SERVE_EDITS_WITHOUT_INDEX)
+  public void hasEdit_doesNotMatchIfTheChangeIsMerged() throws Exception {
+    Account.Id user1 = createAccount("user1");
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChange(repo), user1);
+    String changeId1 = change1.getKey().get();
+    Change change2 = insert(repo, newChange(repo), user1);
+    String changeId2 = change2.getKey().get();
+
+    requestContext.setContext(newRequestContext(user1));
+    assertQuery("has:edit");
+    gApi.changes().id(changeId1).edit().create();
+    gApi.changes().id(changeId2).edit().create();
+    assertQuery("has:edit", change2, change1);
+
+    // Set request context to admin so that we can submit the change
+    requestContext.setContext(newRequestContext(userId));
+    submit(change1);
+
+    // Now change1 is not returned in changes having edits
+    requestContext.setContext(newRequestContext(user1));
+    assertQuery("has:edit", change2);
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value = ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_SERVE_EDITS_WITHOUT_INDEX)
+  public void hasEdit_doesNotMatchForOtherUsers() throws Exception {
+    Account.Id user1 = createAccount("user1");
+    Account.Id user2 = createAccount("user2");
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChange(repo));
+    String changeId1 = change1.getKey().get();
+    Change change2 = insert(repo, newChange(repo));
+    String changeId2 = change2.getKey().get();
+
+    // We need to add both 'user1' and 'user2' as reviewers because the 'has:edit' query only
+    // matches with changes containing edits for the user if that user was an owner or reviewer on
+    // the change.
+    addReviewer(change1.getId(), user1, ReviewerState.REVIEWER);
+    addReviewer(change1.getId(), user2, ReviewerState.REVIEWER);
+    addReviewer(change2.getId(), user1, ReviewerState.REVIEWER);
+    addReviewer(change2.getId(), user2, ReviewerState.REVIEWER);
+
+    requestContext.setContext(newRequestContext(user1));
+    assertQuery("has:edit");
+    gApi.changes().id(changeId1).edit().create();
+    gApi.changes().id(changeId2).edit().create();
+
+    // User 2 cannot see the edits created by user 1.
+    requestContext.setContext(newRequestContext(user2));
+    assertQuery("has:edit");
+    gApi.changes().id(changeId2).edit().create();
+
+    // User 1 can see their own edits.
+    requestContext.setContext(newRequestContext(user1));
+    assertQuery("has:edit", change2, change1);
+
+    // User 2 can see their own edits.
+    requestContext.setContext(newRequestContext(user2));
+    assertQuery("has:edit", change2);
+  }
+
+  @Test
   public void byUnresolved() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo));
@@ -3133,6 +3293,11 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     ChangeNotes notes = notesFactory.create(change.getProject(), change.getId());
     PatchSet ps = psUtil.get(notes, change.currentPatchSetId());
 
+    // We need to add both 'user1' and 'user2' as reviewers because the 'has:edit' query only
+    // matches with changes containing edits for the user if that user was an owner or reviewer on
+    // the change.
+    addReviewer(change.getId(), user, ReviewerState.REVIEWER);
+
     requestContext.setContext(newRequestContext(user));
     gApi.changes().id(changeId).edit().create();
     assertQuery("has:edit", change);
@@ -3143,8 +3308,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     ru.setForceUpdate(true);
     assertThat(ru.delete()).isEqualTo(RefUpdate.Result.FORCED);
 
-    // Index is stale.
-    assertQuery("has:edit", change);
+    // 'has:edit' queries are not served from the index, hence re-indexing does nothing.
     assertThat(indexer.reindexIfStale(project, change.getId()).get()).isTrue();
     assertQuery("has:edit");
   }
@@ -4293,5 +4457,13 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   protected Schema<ChangeData> getSchema() {
     return indexes.getSearchIndex().getSchema();
+  }
+
+  private void addReviewer(Change.Id changeId, Account.Id userId, ReviewerState reviewerState)
+      throws Exception {
+    ReviewerInput rin = new ReviewerInput();
+    rin.reviewer = userId.toString();
+    rin.state = reviewerState;
+    gApi.changes().id(changeId.get()).addReviewer(rin);
   }
 }

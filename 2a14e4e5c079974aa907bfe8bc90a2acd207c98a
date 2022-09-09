@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "59b3750f_d1ee63d7",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 1533,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-09T12:01:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37c4ac09_439ad5fc",
+      "revId": "2a14e4e5c079974aa907bfe8bc90a2acd207c98a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "260aeba2_f760bdb4",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-09-09T11:21:04Z",
       "side": 1,
       "message": "Make these requests in parallel and use a Promise.all.\n\nRoughly:\n1. Extract all the users from newAttentionSet that are not in currentAttentionSet along with their mentioned-account if present. \n2. Promise.all a parallel fetch for the mentioned accounts\n3. go over the users with their filled accounts and compute the reasons and add them to the reviewed input",
+      "revId": "2a14e4e5c079974aa907bfe8bc90a2acd207c98a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "688fd275_fc4cf8d2",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 1539,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-09T12:01:18Z",
+      "side": 1,
+      "message": "Not sure I fully understood.\nPTAL.",
+      "parentUuid": "260aeba2_f760bdb4",
       "revId": "2a14e4e5c079974aa907bfe8bc90a2acd207c98a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

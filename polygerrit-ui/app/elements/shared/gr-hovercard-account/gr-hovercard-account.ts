@@ -40,6 +40,10 @@ import {ifDefined} from 'lit/directives/if-defined.js';
 import {HovercardMixin} from '../../../mixins/hovercard-mixin/hovercard-mixin';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {EventType} from '../../../types/events';
+import { subscribe } from '../../lit/subscription-controller';
+import { resolve } from '../../../models/dependency';
+import { commentsModelToken } from '../../../models/comments/comments-model';
+import { CommentThread } from '../../../utils/comment-util';
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
 const base = HovercardMixin(LitElement);
@@ -71,9 +75,26 @@ export class GrHovercardAccount extends base {
   @property({type: Object})
   _config?: ServerInfo;
 
+  @state()
+  private threads: CommentThread[] = [];
+
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly reporting = getAppContext().reportingService;
+
+  private readonly getCommentsModel = resolve(this, commentsModelToken);
+
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getCommentsModel().threads$,
+      x => {
+        this.threads = x;
+      }
+    );
+  }
 
   override connectedCallback() {
     super.connectedCallback();

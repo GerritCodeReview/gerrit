@@ -106,6 +106,10 @@ public class QueryProjects implements RestReadView<TopLevelResource> {
 
     ProjectQueryProcessor queryProcessor = queryProcessorProvider.get();
 
+    if (start < 0) {
+      throw new BadRequestException("'start' parameter cannot be less than zero");
+    }
+
     if (start != 0) {
       queryProcessor.setStart(start);
     }

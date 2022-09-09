@@ -202,6 +202,9 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
     }
 
     if (start != null) {
+      if (start < 0) {
+        throw new BadRequestException("'start' parameter cannot be less than zero");
+      }
       queryProcessor.setStart(start);
     }
 

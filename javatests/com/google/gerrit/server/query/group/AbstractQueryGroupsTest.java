@@ -20,6 +20,7 @@ import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toList;
+import static org.junit.Assert.fail;
 
 import com.google.common.base.CharMatcher;
 import com.google.gerrit.entities.Account;
@@ -326,6 +327,13 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
   }
 
   @Test
+  public void withStartCannotBeLessThanZero() throws Exception {
+    GroupInfo group1 = createGroup(name("group1"));
+    assertFailingQuery(
+        newQuery("uuid:" + group1.id).withStart(-1), "'start' parameter cannot be less than zero");
+  }
+
+  @Test
   public void sortedByUuid() throws Exception {
     GroupInfo group1 = createGroup(name("group1"));
     GroupInfo group2 = createGroup(name("group2"));
@@ -475,6 +483,15 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
         .containsExactlyElementsIn(uuids(groups))
         .inOrder();
     return result;
+  }
+
+  protected void assertFailingQuery(QueryRequest query, String expectedMessage) throws Exception {
+    try {
+      assertQuery(query);
+      fail("expected BadRequestException for query '" + query + "'");
+    } catch (BadRequestException e) {
+      assertThat(e.getMessage()).isEqualTo(expectedMessage);
+    }
   }
 
   protected QueryRequest newQuery(Object query) {

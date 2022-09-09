@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toList;
+import static org.junit.Assert.fail;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableMap;
@@ -290,6 +291,13 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
   }
 
   @Test
+  public void withStartCannotBeLessThanZero() throws Exception {
+    assertFailingQuery(
+        newQuery("name:" + allProjects.get()).withStart(-1),
+        "'start' parameter cannot be less than zero");
+  }
+
+  @Test
   public void sortedByName() throws Exception {
     ProjectInfo projectFoo = createProject("foo-" + name("project1"));
     ProjectInfo projectBar = createProject("bar-" + name("project2"));
@@ -394,6 +402,15 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
         .containsExactlyElementsIn(names(projects))
         .inOrder();
     return result;
+  }
+
+  protected void assertFailingQuery(QueryRequest query, String expectedMessage) throws Exception {
+    try {
+      assertQuery(query);
+      fail("expected BadRequestException for query '" + query + "'");
+    } catch (BadRequestException e) {
+      assertThat(e.getMessage()).isEqualTo(expectedMessage);
+    }
   }
 
   protected QueryRequest newQuery(Object query) {

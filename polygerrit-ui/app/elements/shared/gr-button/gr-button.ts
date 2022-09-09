@@ -6,7 +6,7 @@
 import '@polymer/paper-button/paper-button';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {votingStyles} from '../../../styles/gr-voting-styles';
-import {css, html, LitElement, PropertyValues} from 'lit';
+import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {addShortcut, getEventPath, Key} from '../../../utils/dom-util';
 import {getAppContext} from '../../../services/app-context';
@@ -168,21 +168,8 @@ export class GrButton extends LitElement {
           --text-color: var(--disabled-foreground);
           cursor: default;
         }
-
-        /* Styles for the optional down arrow */
-        :host(:not([down-arrow])) .downArrow {
-          display: none;
-        }
-        :host([down-arrow]) .downArrow {
-          border-top: 0.36em solid #ccc;
-          border-left: 0.36em solid transparent;
-          border-right: 0.36em solid transparent;
-          margin-bottom: var(--spacing-xxs);
-          margin-left: var(--spacing-m);
-          transition: border-top-color 200ms;
-        }
-        :host([down-arrow]) paper-button:hover .downArrow {
-          border-top-color: var(--deemphasized-text-color);
+        gr-icon.downArrow {
+          color: inherit;
         }
         .newVoteChip {
           border: 1px solid var(--border-color);
@@ -208,8 +195,13 @@ export class GrButton extends LitElement {
     >
       ${this.loading ? html`<span class="loadingSpin"></span>` : ''}
       <slot></slot>
-      <i class="downArrow"></i>
+      ${this.renderArrowIcon()}
     </paper-button>`;
+  }
+
+  renderArrowIcon() {
+    if (!this.downArrow) return nothing;
+    return html`<gr-icon icon="arrow_drop_down" class="downArrow"></gr-icon>`;
   }
 
   constructor() {

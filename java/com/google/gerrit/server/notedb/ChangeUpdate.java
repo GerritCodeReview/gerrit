@@ -129,6 +129,19 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * the attached {@link ChangeRevisionNote}.
  */
 public class ChangeUpdate extends AbstractChangeUpdate {
+  /** Interface for listening during the ChangeUpdate operations */
+  public interface ChangeUpdateListener {
+    ChangeUpdateListener EMPTY = new ChangeUpdateListener() {};
+
+    /**
+     * Called when the attentions set of the change has been changed
+     *
+     * <p>When the method is called, the data is not stored yet. To process updates after the data
+     * is stored you should listen to the BatchPostUpdateListener.postUpdate event.
+     */
+    default void attentionSetUpdate(AttentionSetUpdate attentionSetUpdates) {}
+  }
+
   public interface Factory {
     ChangeUpdate create(ChangeNotes notes, CurrentUser user, Instant when);
 
@@ -182,6 +195,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private DeleteCommentRewriter deleteCommentRewriter;
   private DeleteChangeMessageRewriter deleteChangeMessageRewriter;
   private List<SubmitRequirementResult> submitRequirementResults;
+
+  private ImmutableList.Builder<AttentionSetUpdate> attentionSetUpdatesBuilder =
+      ImmutableList.builder();
 
   @SuppressWarnings("UnusedMethod")
   @AssistedInject
@@ -501,6 +517,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   public void addToPlannedAttentionSetUpdates(AttentionSetUpdate update) {
     addToPlannedAttentionSetUpdates(ImmutableSet.of(update));
+  }
+
+  public ImmutableList<AttentionSetUpdate> getAttentionSetUpdates() {
+    return attentionSetUpdatesBuilder.build();
   }
 
   public void setAssignee(Account.Id assignee) {
@@ -1078,6 +1098,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       }
 
       addFooter(msg, FOOTER_ATTENTION, noteUtil.attentionSetUpdateToJson(attentionSetUpdate));
+      attentionSetUpdatesBuilder.add(attentionSetUpdate);
       hasUpdates = true;
     }
     return hasUpdates;

@@ -63,6 +63,7 @@ suite('gr-button tests', () => {
   });
 
   test('loading set from listener', async () => {
+    const x: string = 5;
     let resolve: Function;
     element.addEventListener('click', e => {
       const target = e.target as HTMLElement;

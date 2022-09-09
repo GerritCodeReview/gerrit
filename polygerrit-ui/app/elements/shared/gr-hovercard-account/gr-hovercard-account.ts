@@ -40,6 +40,9 @@ import {ifDefined} from 'lit/directives/if-defined.js';
 import {HovercardMixin} from '../../../mixins/hovercard-mixin/hovercard-mixin';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {EventType} from '../../../types/events';
+import {subscribe} from '../../lit/subscription-controller';
+import {resolve} from '../../../models/dependency';
+import {configModelToken} from '../../../models/config/config-model';
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
 const base = HovercardMixin(LitElement);
@@ -50,7 +53,7 @@ export class GrHovercardAccount extends base {
   account!: AccountInfo;
 
   @state()
-  _selfAccount?: AccountInfo;
+  selfAccount?: AccountInfo;
 
   /**
    * Optional ChangeInfo object, typically comes from the change page or
@@ -68,21 +71,31 @@ export class GrHovercardAccount extends base {
   @property({type: Boolean})
   highlightAttention = false;
 
-  @property({type: Object})
-  _config?: ServerInfo;
+  @state()
+  serverConfig?: ServerInfo;
 
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly reporting = getAppContext().reportingService;
 
-  override connectedCallback() {
-    super.connectedCallback();
-    this.restApiService.getConfig().then(config => {
-      this._config = config;
-    });
-    this.restApiService.getAccount().then(account => {
-      this._selfAccount = account;
-    });
+  private readonly userModel = getAppContext().userModel;
+
+  private readonly getConfigModel = resolve(this, configModelToken);
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.userModel.account$,
+      x => (this.selfAccount = x)
+    );
+    subscribe(
+      this,
+      () => this.getConfigModel().serverConfig$,
+      config => {
+        this.serverConfig = config;
+      }
+    );
   }
 
   static override get styles() {
@@ -193,7 +206,7 @@ export class GrHovercardAccount extends base {
   }
 
   private renderReviewerOrCcActions() {
-    if (!this._selfAccount || !isRemovableReviewer(this.change, this.account))
+    if (!this.selfAccount || !isRemovableReviewer(this.change, this.account))
       return;
     return html`
       <div class="action">
@@ -293,7 +306,7 @@ export class GrHovercardAccount extends base {
         <div class="reason">
           <span class="title">Reason:</span>
           <span class="value">
-            ${getReason(this._config, this.account, this.change)}
+            ${getReason(this.serverConfig, this.account, this.change)}
           </span>
           ${lastUpdate
             ? html` (<gr-date-formatter
@@ -341,8 +354,8 @@ export class GrHovercardAccount extends base {
 
   // private but used by tests
   computePronoun() {
-    if (!this.account || !this._selfAccount) return '';
-    return isSelf(this.account, this._selfAccount) ? 'Your' : 'Their';
+    if (!this.account || !this.selfAccount) return '';
+    return isSelf(this.account, this.selfAccount) ? 'Your' : 'Their';
   }
 
   computeOwnerChangesLink() {
@@ -455,15 +468,15 @@ export class GrHovercardAccount extends base {
 
   private computeShowActionAddToAttentionSet() {
     const involvedOrSelf =
-      isInvolved(this.change, this._selfAccount) ||
-      isSelf(this.account, this._selfAccount);
+      isInvolved(this.change, this.selfAccount) ||
+      isSelf(this.account, this.selfAccount);
     return involvedOrSelf && this.isAttentionEnabled && !this.hasUserAttention;
   }
 
   private computeShowActionRemoveFromAttentionSet() {
     const involvedOrSelf =
-      isInvolved(this.change, this._selfAccount) ||
-      isSelf(this.account, this._selfAccount);
+      isInvolved(this.change, this.selfAccount) ||
+      isSelf(this.account, this.selfAccount);
     return involvedOrSelf && this.isAttentionEnabled && this.hasUserAttention;
   }
 
@@ -476,13 +489,13 @@ export class GrHovercardAccount extends base {
 
     // We are deliberately updating the UI before making the API call. It is a
     // risk that we are taking to achieve a better UX for 99.9% of the cases.
-    const reason = getAddedByReason(this._selfAccount, this._config);
+    const reason = getAddedByReason(this.selfAccount, this.serverConfig);
 
     if (!this.change.attention_set) this.change.attention_set = {};
     this.change.attention_set[this.account._account_id] = {
       account: this.account,
       reason,
-      reason_account: this._selfAccount,
+      reason_account: this.selfAccount,
     };
     this.dispatchEventThroughTarget('attention-set-updated');
 
@@ -508,7 +521,7 @@ export class GrHovercardAccount extends base {
     // We are deliberately updating the UI before making the API call. It is a
     // risk that we are taking to achieve a better UX for 99.9% of the cases.
 
-    const reason = getRemovedByReason(this._selfAccount, this._config);
+    const reason = getRemovedByReason(this.selfAccount, this.serverConfig);
     if (this.change.attention_set)
       delete this.change.attention_set[this.account._account_id];
     this.dispatchEventThroughTarget('attention-set-updated');
@@ -533,7 +546,7 @@ export class GrHovercardAccount extends base {
     const targetId = this.account._account_id;
     const ownerId =
       (this.change && this.change.owner && this.change.owner._account_id) || -1;
-    const selfId = (this._selfAccount && this._selfAccount._account_id) || -1;
+    const selfId = (this.selfAccount && this.selfAccount._account_id) || -1;
     const reviewers =
       this.change && this.change.reviewers && this.change.reviewers.REVIEWER
         ? [...this.change.reviewers.REVIEWER]

@@ -683,8 +683,8 @@ export function createPreferences(): PreferencesInfo {
   };
 }
 
-export function createApproval(): ApprovalInfo {
-  return createAccountWithId();
+export function createApproval(account?: AccountInfo): ApprovalInfo {
+  return account ?? createAccountWithId();
 }
 
 export function createAppElementChangeViewParams(): AppElementChangeViewParams {

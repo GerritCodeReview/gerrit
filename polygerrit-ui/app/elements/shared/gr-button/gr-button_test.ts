@@ -42,8 +42,20 @@ suite('gr-button tests', () => {
           raised=""
           role="button"
           tabindex="-1"
-          ><slot></slot><i class="downArrow"></i>
+          ><slot></slot>
         </paper-button>
+      `
+    );
+  });
+
+  test('renders arrow icon', async () => {
+    element.downArrow = true;
+    await element.updateComplete;
+    const icon = queryAndAssert(element, 'gr-icon');
+    assert.dom.equal(
+      icon,
+      /* HTML */ `
+        <gr-icon icon="arrow_drop_down" class="downArrow"></gr-icon>
       `
     );
   });

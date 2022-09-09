@@ -311,7 +311,9 @@ export class GrMainHeader extends LitElement {
         .loginButton,
         .registerButton,
         gr-icon,
+        gr-dropdown,
         gr-account-dropdown {
+          --gr-button-text-color: var(--header-text-color);
           color: var(--header-text-color);
         }
         #mobileSearch {

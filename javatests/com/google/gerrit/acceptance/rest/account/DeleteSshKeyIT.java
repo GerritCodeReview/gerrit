@@ -21,6 +21,7 @@ import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.google.gerrit.server.account.AccountSshKey;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
+import com.google.gerrit.server.restapi.account.DeleteSshKey;
 import com.google.inject.Inject;
 import java.security.KeyPair;
 import java.util.List;
@@ -36,6 +37,7 @@ public class DeleteSshKeyIT extends AbstractDaemonTest {
           + "w== john.doe@example.com";
 
   @Inject VersionedAuthorizedKeys.Accessor authorizedKeys;
+  @Inject DeleteSshKey deleteSshKey;
 
   private AccountSshKey userSshKey;
   private AccountSshKey adminSshKey;
@@ -69,6 +71,14 @@ public class DeleteSshKeyIT extends AbstractDaemonTest {
     adminRestSession
         .delete(String.format("/accounts/%s/sshkeys/%d", user.id(), userSshKey.seq()))
         .assertNoContent();
+    List<AccountSshKey> sshKeysAfterDel = authorizedKeys.getKeys(user.id());
+    assertThat(sshKeysAfterDel).containsExactly(AccountSshKey.create(user.id(), 2, KEY1));
+  }
+
+  @Test
+  @UseSsh
+  public void deleteSshKeyOnBehalf() throws Exception {
+    deleteSshKey.apply(identifiedUserFactory.create(user.id()), userSshKey);
     List<AccountSshKey> sshKeysAfterDel = authorizedKeys.getKeys(user.id());
     assertThat(sshKeysAfterDel).containsExactly(AccountSshKey.create(user.id(), 2, KEY1));
   }

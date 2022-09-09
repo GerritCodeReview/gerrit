@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad718aa0_67bc1ca7",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-09-09T13:05:51Z",
+      "side": 1,
+      "message": "I\u0027ve tried it. On a large file (gr-change-view). It\u0027s a difference of \n\n~0.5 ms vs ~15 ms",
+      "parentUuid": "041f23dc_baaf88c1",
+      "revId": "11c3764612e80727d356b4a9e940a37fc64cc0b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1677e7b5_0c562188",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-09-09T12:47:33Z",
       "side": 1,
       "message": "You can simplify this if condition as you always add CSS_TOKEN",
+      "revId": "11c3764612e80727d356b4a9e940a37fc64cc0b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6f2e13f_7bfed777",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-09-09T13:05:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1677e7b5_0c562188",
       "revId": "11c3764612e80727d356b4a9e940a37fc64cc0b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

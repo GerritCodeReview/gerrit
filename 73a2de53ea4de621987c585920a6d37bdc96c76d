@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc14128c_b8a20a03",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-09T12:42:47Z",
+      "side": 1,
+      "message": "Woo, at this pace we soon won\u0027t need a package.json in the root directory.",
+      "revId": "73a2de53ea4de621987c585920a6d37bdc96c76d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -173,16 +173,8 @@ export class GrButton extends LitElement {
         :host(:not([down-arrow])) .downArrow {
           display: none;
         }
-        :host([down-arrow]) .downArrow {
-          border-top: 0.36em solid #ccc;
-          border-left: 0.36em solid transparent;
-          border-right: 0.36em solid transparent;
-          margin-bottom: var(--spacing-xxs);
-          margin-left: var(--spacing-m);
-          transition: border-top-color 200ms;
-        }
-        :host([down-arrow]) paper-button:hover .downArrow {
-          border-top-color: var(--deemphasized-text-color);
+        gr-icon.downArrow {
+          color: inherit;
         }
         .newVoteChip {
           border: 1px solid var(--border-color);
@@ -208,7 +200,7 @@ export class GrButton extends LitElement {
     >
       ${this.loading ? html`<span class="loadingSpin"></span>` : ''}
       <slot></slot>
-      <i class="downArrow"></i>
+      <gr-icon icon="arrow_drop_down" class="downArrow"></gr-icon>
     </paper-button>`;
   }
 

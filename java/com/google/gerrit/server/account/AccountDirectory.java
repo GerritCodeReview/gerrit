@@ -61,5 +61,6 @@ public abstract class AccountDirectory {
   public abstract void fillAccountInfo(Iterable<? extends AccountInfo> in, Set<FillOptions> options)
       throws PermissionBackendException;
 
-  public abstract void fillAccountAttributeInfo(Iterable<? extends AccountAttribute> in);
+  public abstract void fillAccountAttributeInfo(Iterable<? extends AccountAttribute> in)
+      throws PermissionBackendException;
 }

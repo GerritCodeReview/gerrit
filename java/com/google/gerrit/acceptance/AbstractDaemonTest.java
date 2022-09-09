@@ -22,6 +22,7 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.entities.Patch.COMMIT_MSG;
 import static com.google.gerrit.entities.Patch.MERGE_LIST;
@@ -777,8 +778,19 @@ public abstract class AbstractDaemonTest {
     return createChange("refs/for/master");
   }
 
+  protected PushOneCommit.Result createChange(TestAccount testAccount) throws Exception {
+    TestRepository<InMemoryRepository> repo = cloneProject(project, testAccount);
+    return createChange("refs/for/master", testAccount, repo);
+  }
+
   protected PushOneCommit.Result createChange(String ref) throws Exception {
-    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+    return createChange(ref, admin, testRepo);
+  }
+
+  protected PushOneCommit.Result createChange(
+      String ref, TestAccount testAccount, TestRepository<InMemoryRepository> repo)
+      throws Exception {
+    PushOneCommit push = pushFactory.create(testAccount.newIdent(), repo);
     PushOneCommit.Result result = push.to(ref);
     result.assertOkStatus();
     return result;
@@ -1075,6 +1087,13 @@ public abstract class AbstractDaemonTest {
       config.commit(md);
       projectCache.evictAndReindex(config.getProject());
     }
+  }
+
+  protected void allowGlobalCapability(String capability, AccountGroup.UUID group){
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(capability).group(group))
+        .update();
   }
 
   protected void blockAnonymousRead() throws Exception {

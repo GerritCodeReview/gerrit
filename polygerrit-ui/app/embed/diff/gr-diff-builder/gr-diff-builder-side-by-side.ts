@@ -111,8 +111,6 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilderLegacy {
       rightLine.beforeNumber !== 'FILE' &&
       rightLine.beforeNumber !== 'LOST'
     ) {
-      row.setAttribute('role', 'button');
-      row.setAttribute('aria-roledescription', 'Code line');
       row.setAttribute(
         'aria-labelledby',
         [

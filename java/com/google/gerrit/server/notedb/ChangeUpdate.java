@@ -183,6 +183,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private DeleteChangeMessageRewriter deleteChangeMessageRewriter;
   private List<SubmitRequirementResult> submitRequirementResults;
 
+  private ImmutableList.Builder<AttentionSetUpdate> attentionSetUpdatesBuilder =
+      ImmutableList.builder();
+
   @SuppressWarnings("UnusedMethod")
   @AssistedInject
   private ChangeUpdate(
@@ -501,6 +504,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   public void addToPlannedAttentionSetUpdates(AttentionSetUpdate update) {
     addToPlannedAttentionSetUpdates(ImmutableSet.of(update));
+  }
+
+  public ImmutableList<AttentionSetUpdate> getAttentionSetUpdates() {
+    return attentionSetUpdatesBuilder.build();
   }
 
   public void setAssignee(Account.Id assignee) {
@@ -1078,6 +1085,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       }
 
       addFooter(msg, FOOTER_ATTENTION, noteUtil.attentionSetUpdateToJson(attentionSetUpdate));
+      attentionSetUpdatesBuilder.add(attentionSetUpdate);
       hasUpdates = true;
     }
     return hasUpdates;

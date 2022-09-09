@@ -124,8 +124,6 @@ export class GrDiffBuilderUnified extends GrDiffBuilderLegacy {
     // browsers will again compute a11y label even for tr when it is focused.
     // TODO: Remove when Chrome 102 is out of date for 1 year.
     if (line.beforeNumber !== 'FILE' && line.beforeNumber !== 'LOST') {
-      row.setAttribute('role', 'button');
-      row.setAttribute('aria-roledescription', 'Code line');
       row.setAttribute(
         'aria-labelledby',
         [

@@ -1519,7 +1519,11 @@ export class GrReplyDialog extends LitElement {
 
     this.disabled = true;
 
-    const reason = getReplyByReason(this.account, this.serverConfig);
+    const reason = getReplyByReason(
+      this.draftCommentThreads,
+      this.account,
+      this.serverConfig
+    );
 
     reviewInput.ignore_automatic_attention_set_rules = true;
     reviewInput.add_to_attention_set = [];

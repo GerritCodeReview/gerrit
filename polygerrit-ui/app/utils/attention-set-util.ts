@@ -11,7 +11,9 @@ import {
   isServiceUser,
   replaceTemplates,
 } from './account-util';
+import {CommentThread, isMentionedThread, isUnresolved} from './comment-util';
 import {hasOwnProperty} from './common-util';
+import {getDisplayName} from './display-name-util';
 
 export function canHaveAttention(account?: AccountInfo): boolean {
   return !!account?._account_id && !isServiceUser(account);
@@ -48,6 +50,25 @@ export function getReason(
   );
 }
 
+export function getMentionedReason(
+  threads: CommentThread[],
+  config?: ServerInfo,
+  account?: AccountInfo
+) {
+  const mentionedThreads = threads
+    .filter(isUnresolved)
+    .filter(t => isMentionedThread(t, account));
+  if (mentionedThreads.length > 0) {
+    // In case the reason is the simple reason "Because X replied on the
+    // change", overwrite with mention reason.
+    return `${getDisplayName(
+      config,
+      mentionedThreads[0].comments[0].author
+    )} mentioned you in a comment`;
+  }
+  return undefined;
+}
+
 export function getAddedByReason(account?: AccountInfo, config?: ServerInfo) {
   return `Added by ${getAccountTemplate(
     account,
@@ -62,7 +83,13 @@ export function getRemovedByReason(account?: AccountInfo, config?: ServerInfo) {
   )} using the hovercard menu`;
 }
 
-export function getReplyByReason(account?: AccountInfo, config?: ServerInfo) {
+export function getReplyByReason(
+  threads: CommentThread[],
+  account?: AccountInfo,
+  config?: ServerInfo
+) {
+  const mentionedReason = getMentionedReason(threads, config, account);
+  if (mentionedReason) return mentionedReason;
   return `${getAccountTemplate(account, config)} replied on the change`;
 }
 

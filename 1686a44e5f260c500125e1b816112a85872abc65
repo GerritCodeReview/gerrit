@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9f140ec_2486a225",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-09-09T12:00:33Z",
+      "side": 1,
+      "message": "@ekempin@google.com This change addresses your comments in https://gerrit-review.googlesource.com/c/gerrit/+/331239. Could you please validate the idea? (If the idea is valid, I will add more tests, docs and maybe rename some classes)\n\nI can suggest the following review order for files in this change: \n- ChangeUpdate.java\n- BatchUpdate, BatchChangeUpdateListener\n- BatchChangeUpdateListenerImpl\n- other files",
+      "revId": "1686a44e5f260c500125e1b816112a85872abc65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

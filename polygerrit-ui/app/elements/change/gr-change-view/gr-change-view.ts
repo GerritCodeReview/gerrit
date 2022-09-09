@@ -903,14 +903,17 @@ export class GrChangeView extends LitElement {
           margin-left: var(--spacing-s);
         }
         .showCopyLinkDialogButton {
-          --gr-button-padding: 0;
+          --gr-button-padding: 0 0 0 var(--spacing-s);
+          margin-left: var(--spacing-s);
         }
         #replyBtn {
           margin-bottom: var(--spacing-m);
         }
         gr-change-star {
           margin-left: var(--spacing-s);
-          --gr-change-star-size: var(--line-height-normal);
+        }
+        .showCopyLinkDialogButton gr-change-star {
+          margin-left: 0;
         }
         a.changeNumber {
           margin-left: var(--spacing-xs);
@@ -1083,9 +1086,6 @@ export class GrChangeView extends LitElement {
             flex-direction: column;
             flex: 1;
             padding: var(--spacing-s) var(--spacing-l);
-          }
-          gr-change-star {
-            vertical-align: middle;
           }
           .headerTitle {
             flex-wrap: wrap;
@@ -1262,30 +1262,41 @@ export class GrChangeView extends LitElement {
           ></gr-change-status>`
         )}
       </div>
-      <gr-change-star
-        id="changeStar"
-        .change=${this.change}
-        @toggle-star=${(e: CustomEvent<ChangeStarToggleStarDetail>) =>
-          this.handleToggleStar(e)}
-        ?hidden=${!this.loggedIn}
-      ></gr-change-star>
 
       ${when(
         this.flagsService.isEnabled(KnownExperimentId.COPY_LINK_DIALOG),
-        () => html`<a
-            class="changeNumber"
-            aria-label=${`Change ${this.change?._number}`}
-            href=${ifDefined(this.computeChangeUrl(true))}
-            >${this.change?._number}</a
-          ><gr-button
+        () => html`
+          ${this.renderCopyLinksDropdown()}
+          <gr-button
             flatten
             down-arrow
             class="showCopyLinkDialogButton"
             @click=${() => this.copyLinksDropdown?.toggleDropdown()}
-          ></gr-button>
-          ${this.renderCopyLinksDropdown()}
-          <span class="headerSubject">${this.change?.subject}</span>`,
-        () => html`<a
+            ><gr-change-star
+              id="changeStar"
+              .change=${this.change}
+              @toggle-star=${this.handleToggleStar}
+              ?hidden=${!this.loggedIn}
+            ></gr-change-star>
+            <a
+              class="changeNumber"
+              aria-label=${`Change ${this.change?._number}`}
+              href=${ifDefined(this.computeChangeUrl(true))}
+              @click=${(e: MouseEvent) => e.stopPropagation()}
+              >${this.change?._number}</a
+            ></gr-button
+          >
+          <span class="headerSubject">${this.change?.subject}</span>
+        `,
+        () => html`
+          <gr-change-star
+            id="changeStar"
+            .change=${this.change}
+            @toggle-star=${(e: CustomEvent<ChangeStarToggleStarDetail>) =>
+              this.handleToggleStar(e)}
+            ?hidden=${!this.loggedIn}
+          ></gr-change-star
+          ><a
             class="changeNumber"
             aria-label=${`Change ${this.change?._number}`}
             href=${ifDefined(this.computeChangeUrl(true))}
@@ -1298,7 +1309,8 @@ export class GrChangeView extends LitElement {
             hideInput=""
             text=${this.computeCopyTextForTitle()}
           >
-          </gr-copy-clipboard>`
+          </gr-copy-clipboard>
+        `
       )}
     </div>`;
   }
@@ -3284,7 +3296,7 @@ export class GrChangeView extends LitElement {
   }
 
   // Private but used in tests.
-  handleToggleStar(e: CustomEvent<ChangeStarToggleStarDetail>) {
+  async handleToggleStar(e: CustomEvent<ChangeStarToggleStarDetail>) {
     if (e.detail.starred) {
       this.reporting.reportInteraction('change-starred-from-change-view');
       this.lastStarredTimestamp = Date.now();
@@ -3296,10 +3308,15 @@ export class GrChangeView extends LitElement {
         this.reporting.reportInteraction('change-accidentally-starred');
       }
     }
-    this.restApiService.saveChangeStarred(
+    const msg = e.detail.starred
+      ? 'Starring change...'
+      : 'Unstarring change...';
+    fireAlert(this, msg);
+    await this.restApiService.saveChangeStarred(
       e.detail.change._number,
       e.detail.starred
     );
+    fireEvent(this, 'hide-alert');
   }
 
   private getRevisionInfo(): RevisionInfoClass | undefined {

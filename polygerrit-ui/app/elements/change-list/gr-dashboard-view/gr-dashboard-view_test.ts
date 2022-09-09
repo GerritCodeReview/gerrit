@@ -481,7 +481,7 @@ suite('gr-dashboard-view tests', () => {
     assert.isNotOk(element.results![1].emptyStateSlotName);
   });
 
-  test('toggling star will update change everywhere', () => {
+  test('toggling star will update change everywhere', async () => {
     // It is important that the same change is represented by multiple objects
     // and all are updated.
     const change = {...createChange(), id: '5' as ChangeInfoId, starred: false};
@@ -505,7 +505,7 @@ suite('gr-dashboard-view tests', () => {
       },
     ];
 
-    element.handleToggleStar(
+    await element.handleToggleStar(
       new CustomEvent('toggle-star', {
         detail: {
           change,

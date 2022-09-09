@@ -163,8 +163,8 @@ export function initPerformanceReporter(reportingService: ReportingService) {
     if (supportedEntryTypes.includes('longtask')) {
       const catchLongJsTasks = new PerformanceObserver(list => {
         for (const task of list.getEntries()) {
-          // We are interested in longtask longer than 200 ms (default is 50 ms)
-          if (task.duration > 200) {
+          // We are interested in longtask longer than 400 ms (default is 50 ms)
+          if (task.duration > 400) {
             reportingService.reporter(
               TIMING.TYPE,
               TIMING.CATEGORY.UI_LATENCY,

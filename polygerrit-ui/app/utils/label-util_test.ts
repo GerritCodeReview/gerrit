@@ -23,6 +23,9 @@ import {
   mergeLabelInfoMaps,
   getApplicableLabels,
   isBlockingCondition,
+  valueString,
+  hasVotes,
+  hasVoted,
 } from './label-util';
 import {
   AccountId,
@@ -40,6 +43,8 @@ import {
   createNonApplicableSubmitRequirementResultInfo,
   createDetailedLabelInfo,
   createAccountWithId,
+  createQuickLabelInfo,
+  createApproval,
 } from '../test/test-data-generators';
 import {
   SubmitRequirementResultInfo,
@@ -806,6 +811,68 @@ suite('label-util', () => {
         },
       };
       assert.isFalse(isBlockingCondition(requirement));
+    });
+  });
+
+  suite('valueString', () => {
+    const approvalInfo = createApproval();
+    test('0', () => {
+      approvalInfo.value = 0;
+      assert.equal(valueString(approvalInfo.value), ' 0');
+    });
+    test('-1', () => {
+      approvalInfo.value = -1;
+      assert.equal(valueString(approvalInfo.value), '-1');
+    });
+    test('2', () => {
+      approvalInfo.value = 2;
+      assert.equal(valueString(approvalInfo.value), '+2');
+    });
+  });
+
+  suite('hasVotes', () => {
+    const detailedLabelInfo = createDetailedLabelInfo();
+    const quickLabelInfo = createQuickLabelInfo();
+    test('detailedLabelInfo - neutral vote => false', () => {
+      const neutralApproval = createApproval();
+      neutralApproval.value = 0;
+      detailedLabelInfo.all = [neutralApproval];
+      assert.isFalse(hasVotes(detailedLabelInfo));
+    });
+    test('detailedLabelInfo - positive vote => true', () => {
+      const positiveApproval = createApproval();
+      positiveApproval.value = 2;
+      detailedLabelInfo.all = [positiveApproval];
+      assert.isTrue(hasVotes(detailedLabelInfo));
+    });
+    test('quickLabelInfo - neutral => false', () => {
+      assert.isFalse(hasVotes(quickLabelInfo));
+    });
+    test('quickLabelInfo - negative => false', () => {
+      quickLabelInfo.rejected = createAccountWithId();
+      assert.isTrue(hasVotes(quickLabelInfo));
+    });
+  });
+
+  suite('hasVoted', () => {
+    const detailedLabelInfo = createDetailedLabelInfo();
+    const quickLabelInfo = createQuickLabelInfo();
+    const account = createAccountWithId(23);
+    test('detailedLabelInfo - positive vote => true', () => {
+      const positiveApproval = createApproval(account);
+      positiveApproval.value = 2;
+      detailedLabelInfo.all = [positiveApproval];
+      assert.isTrue(hasVoted(detailedLabelInfo, account));
+    });
+    test('detailedLabelInfo - different account vote => true', () => {
+      const differentPositiveApproval = createApproval();
+      differentPositiveApproval.value = 2;
+      detailedLabelInfo.all = [differentPositiveApproval];
+      assert.isFalse(hasVoted(detailedLabelInfo, account));
+    });
+    test('quickLabelInfo - negative => false', () => {
+      quickLabelInfo.rejected = account;
+      assert.isTrue(hasVoted(quickLabelInfo, account));
     });
   });
 });

@@ -397,6 +397,7 @@ suite('gr-reply-dialog tests', () => {
 
     element.account = {_account_id: 123 as AccountId};
     element.newAttentionSet = new Set([314 as AccountId]);
+    element.uploader = createAccountWithId(314);
     const saveReviewPromise = interceptSaveReview();
 
     queryAndAssert<GrButton>(element, '.send').click();
@@ -426,6 +427,7 @@ suite('gr-reply-dialog tests', () => {
     await element.updateComplete;
 
     element.account = {};
+    element.uploader = createAccountWithId(314);
     element.newAttentionSet = new Set([314 as AccountId]);
     const saveReviewPromise = interceptSaveReview();
 
@@ -1146,10 +1148,7 @@ suite('gr-reply-dialog tests', () => {
 
     const review = await saveReviewPromise;
     await element.updateComplete;
-    assert.isFalse(
-      element.disabled,
-      'Element should be enabled when done sending reply.'
-    );
+    await waitUntil(() => element.disabled === false);
     assert.equal(element.patchsetLevelDraftMessage.length, 0);
     assert.deepEqual(review, {
       drafts: 'PUBLISH_ALL_REVISIONS',

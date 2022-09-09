@@ -26,7 +26,7 @@ import {
   canHaveAttention,
   getAddedByReason,
   getLastUpdate,
-  getReason,
+  getMentionedReason,
   getRemovedByReason,
   hasAttention,
 } from '../../../utils/attention-set-util';
@@ -43,6 +43,8 @@ import {EventType} from '../../../types/events';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
+import {commentsModelToken} from '../../../models/comments/comments-model';
+import {CommentThread} from '../../../utils/comment-util';
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
 const base = HovercardMixin(LitElement);
@@ -74,6 +76,9 @@ export class GrHovercardAccount extends base {
   @state()
   serverConfig?: ServerInfo;
 
+  @state()
+  private threads: CommentThread[] = [];
+
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly reporting = getAppContext().reportingService;
@@ -82,6 +87,8 @@ export class GrHovercardAccount extends base {
   readonly userModel = getAppContext().userModel;
 
   private readonly getConfigModel = resolve(this, configModelToken);
+
+  private readonly getCommentsModel = resolve(this, commentsModelToken);
 
   constructor() {
     super();
@@ -95,6 +102,13 @@ export class GrHovercardAccount extends base {
       () => this.getConfigModel().serverConfig$,
       config => {
         this.serverConfig = config;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getCommentsModel().threads$,
+      x => {
+        this.threads = x;
       }
     );
   }
@@ -307,7 +321,12 @@ export class GrHovercardAccount extends base {
         <div class="reason">
           <span class="title">Reason:</span>
           <span class="value">
-            ${getReason(this.serverConfig, this.account, this.change)}
+            ${getMentionedReason(
+              this.threads,
+              this.serverConfig,
+              this.account,
+              this.change
+            )}
           </span>
           ${lastUpdate
             ? html` (<gr-date-formatter

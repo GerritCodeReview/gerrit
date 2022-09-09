@@ -129,11 +129,23 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * the attached {@link ChangeRevisionNote}.
  */
 public class ChangeUpdate extends AbstractChangeUpdate {
+  /** Interface for listening during the ChangeUpdate operations  */
+  public interface ChangeUpdateListener {
+    ChangeUpdateListener EMPTY = new ChangeUpdateListener() {};
+
+    /**
+     * Called when the attentions set of the change has been changed
+     *
+     * When the method is called, the data is not stored yet. To process updates after the data
+     * is stored you should listen to the BatchPostUpdateListener.postUpdate event.
+     */
+    default void attentionSetUpdate(AttentionSetUpdate attentionSetUpdates) {}
+  }
   public interface Factory {
-    ChangeUpdate create(ChangeNotes notes, CurrentUser user, Instant when);
+    ChangeUpdate create(ChangeNotes notes, CurrentUser user, Instant when, ChangeUpdateListener listener);
 
     ChangeUpdate create(
-        ChangeNotes notes, CurrentUser user, Instant when, Comparator<String> labelNameComparator);
+        ChangeNotes notes, CurrentUser user, Instant when, Comparator<String> labelNameComparator, ChangeUpdateListener listener);
   }
 
   private final NoteDbUpdateManager.Factory updateManagerFactory;
@@ -182,6 +194,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private DeleteCommentRewriter deleteCommentRewriter;
   private DeleteChangeMessageRewriter deleteChangeMessageRewriter;
   private List<SubmitRequirementResult> submitRequirementResults;
+  private ChangeUpdateListener listener;
 
   @SuppressWarnings("UnusedMethod")
   @AssistedInject
@@ -197,6 +210,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @Assisted ChangeNotes notes,
       @Assisted CurrentUser user,
       @Assisted Instant when,
+      @Assisted ChangeUpdateListener listener,
       ChangeNoteUtil noteUtil) {
     this(
         serverIdent,
@@ -214,6 +228,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
             .orElseThrow(illegalState(notes.getProjectName()))
             .getLabelTypes()
             .nameComparator(),
+        listener,
         noteUtil);
   }
 
@@ -235,6 +250,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @Assisted CurrentUser user,
       @Assisted Instant when,
       @Assisted Comparator<String> labelNameComparator,
+      @Assisted ChangeUpdateListener listener,
       ChangeNoteUtil noteUtil) {
     super(notes, user, serverIdent, noteUtil, when);
     this.updateManagerFactory = updateManagerFactory;
@@ -244,6 +260,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.serviceUserClassifier = serviceUserClassifier;
     this.patchSetApprovalUuidGenerator = patchSetApprovalUuidGenerator;
     this.approvals = approvals(labelNameComparator);
+    this.listener = listener;
   }
 
   public ObjectId commit() throws IOException {
@@ -1078,7 +1095,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       }
 
       addFooter(msg, FOOTER_ATTENTION, noteUtil.attentionSetUpdateToJson(attentionSetUpdate));
-      hasUpdates = true;
+      listener.attentionSetUpdate(attentionSetUpdate);
     }
     return hasUpdates;
   }

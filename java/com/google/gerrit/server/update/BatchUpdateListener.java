@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.update;
 
+import com.google.gerrit.server.notedb.ChangeUpdate.ChangeUpdateListener;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 
 /**

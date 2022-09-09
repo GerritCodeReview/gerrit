@@ -118,7 +118,10 @@ export function classForLabelStatus(status: LabelStatus) {
   }
 }
 
-export function valueString(value?: number) {
+/**
+ * Returns string representation of QuickLabelInfo value or ApprovalInfo
+ */
+export function valueString(value?: number): string {
   if (!value) return ' 0';
   let s = `${value}`;
   if (value > 0) s = `+${s}`;

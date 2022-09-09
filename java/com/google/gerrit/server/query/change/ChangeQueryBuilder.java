@@ -609,7 +609,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   @Operator
-  public Predicate<ChangeData> has(String value) throws QueryParseException {
+  public Predicate<ChangeData> has(String value)
+      throws ConfigInvalidException, IOException, QueryParseException {
     value = hasOperandAliases.getOrDefault(value, value);
     if ("star".equalsIgnoreCase(value)) {
       return starredBySelf();
@@ -620,7 +621,13 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
 
     if ("edit".equalsIgnoreCase(value)) {
-      return ChangePredicates.editBy(self());
+      return Predicate.and(
+          Predicate.or(
+              ChangePredicates.owner(self()),
+              reviewer(self().toString()),
+              ChangePredicates.uploader(self())),
+          new EditPredicate(
+              ChangeQueryBuilder.FIELD_EDITBY, self().toString(), self(), args.repoManager));
     }
 
     if ("attention".equalsIgnoreCase(value)) {

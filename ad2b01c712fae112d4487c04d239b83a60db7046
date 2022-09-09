@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4ae6c75_6465eb82",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-09T09:43:26Z",
+      "side": 1,
+      "message": "Maybe you can add 1 unit test for dropdown",
+      "range": {
+        "startLine": 45,
+        "startChar": 12,
+        "endLine": 45,
+        "endChar": 24
+      },
+      "revId": "ad2b01c712fae112d4487c04d239b83a60db7046",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

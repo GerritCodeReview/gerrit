@@ -47,6 +47,7 @@ import static java.util.Comparator.naturalOrder;
 import static java.util.Objects.requireNonNull;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
@@ -129,6 +130,34 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * the attached {@link ChangeRevisionNote}.
  */
 public class ChangeUpdate extends AbstractChangeUpdate {
+  @AutoValue
+  public abstract static class AttentionSetUpdateWithChange {
+    public static AttentionSetUpdateWithChange create(
+        Project.NameKey projectName, Change.Id changeId, AttentionSetUpdate attentionSetUpdate) {
+      return new AutoValue_ChangeUpdate_AttentionSetUpdateWithChange(
+          projectName, changeId, attentionSetUpdate);
+    }
+
+    public abstract Project.NameKey projectName();
+
+    public abstract Change.Id changeId();
+
+    public abstract AttentionSetUpdate attentionSetUpdate();
+  }
+
+  /** Interface for listening during the ChangeUpdate operations */
+  public interface ChangeUpdateListener {
+    ChangeUpdateListener EMPTY = new ChangeUpdateListener() {};
+
+    /**
+     * Called when the attentions set of the change has been changed
+     *
+     * <p>When the method is called, the data is not stored yet. To process updates after the data
+     * is stored you should listen to the BatchPostUpdateListener.postUpdate event.
+     */
+    default void attentionSetUpdate(AttentionSetUpdate attentionSetUpdates) {}
+  }
+
   public interface Factory {
     ChangeUpdate create(ChangeNotes notes, CurrentUser user, Instant when);
 
@@ -182,6 +211,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private DeleteCommentRewriter deleteCommentRewriter;
   private DeleteChangeMessageRewriter deleteChangeMessageRewriter;
   private List<SubmitRequirementResult> submitRequirementResults;
+
+  private ImmutableList.Builder<AttentionSetUpdateWithChange> attentionSetUpdatesBuilder =
+      ImmutableList.builder();
 
   @SuppressWarnings("UnusedMethod")
   @AssistedInject
@@ -501,6 +533,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   public void addToPlannedAttentionSetUpdates(AttentionSetUpdate update) {
     addToPlannedAttentionSetUpdates(ImmutableSet.of(update));
+  }
+
+  public ImmutableList<AttentionSetUpdateWithChange> getAttentionSetUpdates() {
+    return attentionSetUpdatesBuilder.build();
   }
 
   public void setAssignee(Account.Id assignee) {
@@ -1078,6 +1114,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       }
 
       addFooter(msg, FOOTER_ATTENTION, noteUtil.attentionSetUpdateToJson(attentionSetUpdate));
+      attentionSetUpdatesBuilder.add(
+          AttentionSetUpdateWithChange.create(getProjectName(), getId(), attentionSetUpdate));
       hasUpdates = true;
     }
     return hasUpdates;

@@ -1071,7 +1071,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
         <table
           id="diffTable"
           class=${this.diffTableClass}
-          role="presentation"
           ?contenteditable=${this.isContentEditable}
         ></table>
         ${when(

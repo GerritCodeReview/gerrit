@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "229ac48a_471cf936",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-09T23:57:31Z",
+      "side": 1,
+      "message": "This is probably not the right thing to do as internal queries will also now run with this pageSize and they won\u0027t paginate?",
+      "range": {
+        "startLine": 410,
+        "startChar": 6,
+        "endLine": 410,
+        "endChar": 55
+      },
+      "revId": "58ae2498c1c17a77eba20a618842c34068780198",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -86,6 +86,24 @@
       "parentUuid": "6ee417b1_73284081",
       "revId": "e3cfe702070163c2453d82adb3ff18218200bc61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcd45168_1d492503",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-09T20:47:00Z",
+      "side": 1,
+      "message": "But does this bug affect the functionality of the 3.5-\u003e3.6 copy-approvals program?",
+      "parentUuid": "fbd290c5_8550ef55",
+      "revId": "e3cfe702070163c2453d82adb3ff18218200bc61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

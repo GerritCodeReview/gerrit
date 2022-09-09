@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f302feb_c8313961",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-09T12:35:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5ba1ded_92aa10ae",
+      "revId": "96965037a44a0945bc09269988e3735535028ce2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "284ea4a3_f2b8b668",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-09-09T12:30:11Z",
       "side": 1,
       "message": "I would like to have --coverage also for single.\n\nmaybe \"test:single:coverage\"",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 53
+      },
+      "revId": "96965037a44a0945bc09269988e3735535028ce2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35a5d5c5_65857ba3",
+        "filename": "polygerrit-ui/package.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-09T12:35:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "284ea4a3_f2b8b668",
       "range": {
         "startLine": 27,
         "startChar": 4,

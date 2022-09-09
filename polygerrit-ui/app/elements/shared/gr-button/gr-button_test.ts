@@ -42,7 +42,7 @@ suite('gr-button tests', () => {
           raised=""
           role="button"
           tabindex="-1"
-          ><slot></slot><i class="downArrow"></i>
+          ><slot></slot>
         </paper-button>
       `
     );

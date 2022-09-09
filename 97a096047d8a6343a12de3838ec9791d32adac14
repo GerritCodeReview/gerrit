@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "281b741b_80fcb166",
+        "filename": "polygerrit-ui/app/test/test-data-generators.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-09-09T11:01:08Z",
+      "side": 1,
+      "message": "Why is returning AccountInfo (base class) from a function that should return ApprovalInfo (child class) not a typescript error?",
+      "range": {
+        "startLine": 686,
+        "startChar": 41,
+        "endLine": 686,
+        "endChar": 52
+      },
+      "revId": "97a096047d8a6343a12de3838ec9791d32adac14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90260618_13f24959",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-09-09T11:01:08Z",
+      "side": 1,
+      "message": "```suggestion\n * Returns string representation of QuickLabelInfo value or ApprovalInfo value\n```",
+      "revId": "97a096047d8a6343a12de3838ec9791d32adac14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

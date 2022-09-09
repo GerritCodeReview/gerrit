@@ -16,6 +16,24 @@
       "message": "This is close to what I was thinking.\n\nThe only challenging you have here is that you\u0027re no longer adding user/reason to the attention set if the user doesn\u0027t exit in allAccounts.",
       "revId": "4a327786907b39466091e70156d2640c34fa0eff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8132ee43_a0d0874d",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 1542,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-09T12:08:47Z",
+      "side": 1,
+      "message": "If the user doesn\u0027t exist in allAccounts then I don\u0027t see how they should be present in the AS?\nUser needs to be a part of the change which would make it a part of `allAccounts` so this shouldn\u0027t introduce any bugs ideally.",
+      "parentUuid": "4632e2df_3634dd82",
+      "revId": "4a327786907b39466091e70156d2640c34fa0eff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

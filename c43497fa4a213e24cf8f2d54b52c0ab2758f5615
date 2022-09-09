@@ -16,6 +16,24 @@
       "message": "Thanks for improvements. I tested it with voiceover on chrome 104 and it works - these changes were introduced to mitigate regression in chrome 102.\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/339723/\n\nDoes this pass test on google CI?",
       "revId": "c43497fa4a213e24cf8f2d54b52c0ab2758f5615",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3c38227_f4174be8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1141600
+      },
+      "writtenOn": "2022-09-09T14:40:14Z",
+      "side": 1,
+      "message": "Yes, passes.",
+      "parentUuid": "08668128_116333ef",
+      "revId": "c43497fa4a213e24cf8f2d54b52c0ab2758f5615",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

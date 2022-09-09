@@ -60,6 +60,7 @@ EXPORTS = [
     "//java/com/google/gerrit/server/cache/mem",
     "//java/com/google/gerrit/server/cache/serialize",
     "//java/com/google/gerrit/server/data",
+    "//java/com/google/gerrit/server/data:account_data",
     "//java/com/google/gerrit/server/git/receive",
     "//java/com/google/gerrit/server/logging",
     "//java/com/google/gerrit/server/schema",

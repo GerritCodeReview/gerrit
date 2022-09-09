@@ -49,7 +49,6 @@ public class GetDetail implements RestReadView<AccountResource> {
     Account a = rsrc.getUser().getAccount();
     AccountDetailInfo info = new AccountDetailInfo(a.id().get());
     info.setRegisteredOn(a.registeredOn());
-    info.inactive = !a.isActive() ? true : null;
     directory.fillAccountInfo(Collections.singleton(info), EnumSet.allOf(FillOptions.class));
     return Response.ok(info);
   }

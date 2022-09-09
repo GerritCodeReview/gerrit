@@ -22,9 +22,13 @@ import static com.google.gerrit.acceptance.GitUtil.deleteRef;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.deny;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.permissionKey;
+import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
+import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_ACCOUNTS;
+import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.gpg.PublicKeyStore.REFS_GPG_KEYS;
 import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
 import static com.google.gerrit.gpg.testing.TestKeys.allValidKeys;
@@ -58,6 +62,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.io.BaseEncoding;
 import com.google.common.truth.Correspondence;
 import com.google.common.util.concurrent.AtomicLongMap;
@@ -97,6 +102,7 @@ import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.api.accounts.DeleteDraftCommentsInput;
 import com.google.gerrit.extensions.api.accounts.DeletedDraftCommentInfo;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
+import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
@@ -104,8 +110,10 @@ import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInput;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInput.CheckAccountsInput;
+import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountDetailInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.EmailInfo;
@@ -938,6 +946,274 @@ public class AccountIT extends AbstractDaemonTest {
         .isEqualTo(getAccount(foo.id()).registeredOn().toEpochMilli());
     assertThat(detail.inactive).isNull();
     assertThat(detail._moreAccounts).isNull();
+  }
+
+  @Test
+  public void accountInfoInChangeDetail_whenAccountHidden_comment_onlyIdsReturned()
+      throws Exception {
+    String email = "preferred@example.com";
+    String name = "Foo";
+    String username = name("foo");
+    TestAccount testUser = accountCreator.create(username, email, name, null);
+    String secondaryEmail = "secondary@example.com";
+    EmailInput input = newEmailInput(secondaryEmail);
+    gApi.accounts().id(testUser.id().get()).addEmail(input);
+
+    requestScopeOperations.setApiUser(testUser.id());
+    gApi.accounts().id(testUser.id().get()).setIsHidden(true);
+
+    String changeId = createChange().getChangeId();
+    ReviewInput.CommentInput c = new ReviewInput.CommentInput();
+    c.message = "Please, rework the change";
+    c.path = PATCHSET_LEVEL;
+    ReviewInput in = new ReviewInput();
+    in.comments = new HashMap<>();
+    in.comments.put(c.path, Lists.newArrayList(c));
+    gApi.changes().id(changeId).current().review(in);
+
+    requestScopeOperations.setApiUser(user.id());
+
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get(DETAILED_LABELS, DETAILED_ACCOUNTS);
+
+    AccountInfo accountInfo =
+        changeInfo.reviewers.get(ReviewerState.CC).stream()
+            .filter(a -> testUser.id().get() == a._accountId)
+            .findFirst()
+            .get();
+    assertAccountHidden(testUser.id(), accountInfo);
+
+    CommentInfo commentInfo =
+        gApi.changes().id(changeId).commentsRequest().get().get(c.path).stream()
+            .filter(comment -> testUser.id().get() == comment.author._accountId)
+            .findFirst()
+            .get();
+    assertAccountHidden(testUser.id(), commentInfo.author);
+  }
+
+  @Test
+  public void accountInfoInChangeDetail_whenAccountHidden_attentionSet_onlyIdsReturned()
+      throws Exception {
+    String email = "preferred@example.com";
+    String name = "Foo";
+    String username = name("foo");
+    TestAccount testUser = accountCreator.create(username, email, name, null);
+    String secondaryEmail = "secondary@example.com";
+    EmailInput input = newEmailInput(secondaryEmail);
+    gApi.accounts().id(testUser.id().get()).addEmail(input);
+    requestScopeOperations.setApiUser(testUser.id());
+    gApi.accounts().id(testUser.id().get()).setIsHidden(true);
+
+    String changeId = createChange().getChangeId();
+
+    requestScopeOperations.setApiUser(user.id());
+
+    gApi.changes().id(changeId).addReviewer(String.valueOf(testUser.id().get()));
+    gApi.changes().id(changeId).attention(String.valueOf(testUser.id().get()));
+
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get(DETAILED_LABELS, DETAILED_ACCOUNTS);
+
+    assertAccountHidden(testUser.id(), changeInfo.attentionSet.get(testUser.id().get()).account);
+
+    AttentionSetInput attentionSetInput = new AttentionSetInput();
+    attentionSetInput.user = String.valueOf(testUser.id().get());
+    attentionSetInput.reason = "Testing";
+    AccountInfo attentionSetInfo = gApi.changes().id(changeId).addToAttentionSet(attentionSetInput);
+    assertAccountHidden(testUser.id(), attentionSetInfo);
+  }
+
+  @Test
+  public void accountInfoInChangeDetail_whenAccountHidden_labels_onlyIdsReturned()
+      throws Exception {
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowLabel("Code-Review").ref("refs/*").group(REGISTERED_USERS).range(-2, 2))
+        .update();
+    String email = "preferred@example.com";
+    String name = "Foo";
+    String username = name("foo");
+    TestAccount testUser = accountCreator.create(username, email, name, null);
+    String secondaryEmail = "secondary@example.com";
+    EmailInput input = newEmailInput(secondaryEmail);
+    gApi.accounts().id(testUser.id().get()).addEmail(input);
+    requestScopeOperations.setApiUser(testUser.id());
+    gApi.accounts().id(testUser.id().get()).setIsHidden(true);
+
+    String changeId = createChange().getChangeId();
+    approve(changeId);
+    requestScopeOperations.setApiUser(user.id());
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get(DETAILED_LABELS, DETAILED_ACCOUNTS);
+
+    AccountInfo accountInfo =
+        changeInfo.reviewers.get(ReviewerState.REVIEWER).stream()
+            .filter(a -> testUser.id().get() == a._accountId)
+            .findFirst()
+            .get();
+    assertAccountHidden(testUser.id(), accountInfo);
+    ApprovalInfo approvalInfo =
+        changeInfo.labels.get("Code-Review").all.stream()
+            .filter(approval -> testUser.id().get() == approval._accountId)
+            .findFirst()
+            .get();
+    assertAccountHidden(testUser.id(), approvalInfo);
+  }
+
+  @Test
+  public void accountInfoInChangeDetail_whenAccountHidden_owner_onlyIdsReturned() throws Exception {
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowLabel("Code-Review").ref("refs/*").group(REGISTERED_USERS).range(-2, 2))
+        .update();
+    String email = "preferred@example.com";
+    String name = "Foo";
+    String username = name("foo");
+    TestAccount testUser = accountCreator.create(username, email, name, null);
+    String secondaryEmail = "secondary@example.com";
+    EmailInput input = newEmailInput(secondaryEmail);
+    gApi.accounts().id(testUser.id().get()).addEmail(input);
+    requestScopeOperations.setApiUser(testUser.id());
+    gApi.accounts().id(testUser.id().get()).setIsHidden(true);
+
+    String changeId = createChange(testUser).getChangeId();
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get(DETAILED_LABELS, DETAILED_ACCOUNTS);
+    assertAccountVisible(testUser, changeInfo.owner, /*isHidden=*/ true);
+
+    requestScopeOperations.setApiUser(user.id());
+    changeInfo = gApi.changes().id(changeId).get(DETAILED_LABELS, DETAILED_ACCOUNTS);
+    assertAccountHidden(testUser.id(), changeInfo.owner);
+  }
+
+  @Test
+  public void getOwnDetail_whenHidden_allowed() throws Exception {
+    String email = "preferred@example.com";
+    String name = "Foo";
+    String username = name("foo");
+    TestAccount testUser = accountCreator.create(username, email, name, null);
+    String secondaryEmail = "secondary@example.com";
+    EmailInput input = newEmailInput(secondaryEmail);
+    gApi.accounts().id(testUser.id().get()).addEmail(input);
+    gApi.accounts().id(testUser.id().get()).setIsHidden(true);
+
+    requestScopeOperations.setApiUser(testUser.id());
+
+    assertAccountVisible(testUser, /*isHidden=*/ true, /*assertGetEndpointsAllowed=*/ true);
+  }
+
+  @Test
+  public void getDetail_forHidden_withViewAll_allowed() throws Exception {
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.VIEW_ALL_ACCOUNTS).group(REGISTERED_USERS))
+        .update();
+    String email = "preferred@example.com";
+    String name = "Foo";
+    String username = name("foo");
+    TestAccount testUser = accountCreator.create(username, email, name, null);
+    String secondaryEmail = "secondary@example.com";
+    EmailInput input = newEmailInput(secondaryEmail);
+    gApi.accounts().id(testUser.id().get()).addEmail(input);
+    gApi.accounts().id(testUser.id().get()).setIsHidden(true);
+
+    requestScopeOperations.setApiUser(user.id());
+    assertAccountVisible(testUser, /*isHidden=*/ true, /*assertGetEndpointsAllowed=*/ false);
+  }
+
+  @Test
+  public void getDetail_forHidden_withModifyAll_allowed() throws Exception {
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.MODIFY_ACCOUNT).group(REGISTERED_USERS))
+        .update();
+    String email = "preferred@example.com";
+    String name = "Foo";
+    String username = name("foo");
+    TestAccount testUser = accountCreator.create(username, email, name, null);
+    String secondaryEmail = "secondary@example.com";
+    EmailInput input = newEmailInput(secondaryEmail);
+    gApi.accounts().id(testUser.id().get()).addEmail(input);
+    gApi.accounts().id(testUser.id().get()).setIsHidden(true);
+
+    requestScopeOperations.setApiUser(user.id());
+    assertAccountVisible(testUser, /*isHidden=*/ true, /*assertGetEndpointsAllowed=*/ true);
+  }
+
+  @Test
+  public void getDetail_forHidden_notAllowed() throws Exception {
+    String email = "preferred@example.com";
+    String name = "Foo";
+    String username = name("foo");
+    TestAccount testAccount = accountCreator.create(username, email, name, null);
+    gApi.accounts().id(testAccount.id().get()).setIsHidden(true);
+
+    requestScopeOperations.setApiUser(user.id());
+    assertAccountHidden(testAccount.id());
+  }
+
+  @Test
+  public void accountQuery_whenHidden_allowed() throws Exception {
+    String email = "preferred@example.com";
+    String name = "Foo";
+    String username = name("foo");
+    TestAccount testUser = accountCreator.create(username, email, name, null);
+    String secondaryEmail = "secondary@example.com";
+    EmailInput input = newEmailInput(secondaryEmail);
+    gApi.accounts().id(testUser.id().get()).addEmail(input);
+    gApi.accounts().id(testUser.id().get()).setIsHidden(true);
+
+    requestScopeOperations.setApiUser(testUser.id());
+
+    assertAccountVisible(testUser, /*isHidden=*/ true, /*assertGetEndpointsAllowed=*/ true);
+  }
+  // Account query
+  // Change Details
+
+  private void assertAccountVisible(
+      TestAccount testAccount, boolean isHidden, boolean assertGetEndpointsAllowed)
+      throws RestApiException {
+    AccountInfo accountInfo = gApi.accounts().id(testAccount.id().get()).get();
+    assertAccountVisible(testAccount, accountInfo, isHidden);
+    AccountDetailInfo detail = gApi.accounts().id(testAccount.id().get()).detail();
+    assertAccountVisible(testAccount, detail, isHidden);
+    assertThat(detail.registeredOn.getTime())
+        .isEqualTo(getAccount(testAccount.id()).registeredOn().toEpochMilli());
+    if (assertGetEndpointsAllowed) {
+      assertThat(gApi.accounts().id(testAccount.id().get()).getEmails()).isNotEmpty();
+      assertThat(gApi.accounts().id(testAccount.id().get()).getExternalIds()).isNotEmpty();
+    } else {
+      assertThrows(
+          AuthException.class, () -> gApi.accounts().id(testAccount.id().get()).getEmails());
+      assertThrows(
+          AuthException.class, () -> gApi.accounts().id(testAccount.id().get()).getExternalIds());
+    }
+  }
+
+  private void assertAccountVisible(TestAccount testAccount, AccountInfo info, boolean isHidden) {
+    assertThat(info._accountId).isEqualTo(testAccount.id().get());
+    assertThat(info.name).isEqualTo(testAccount.fullName());
+    assertThat(info.username).isEqualTo(testAccount.username());
+    assertThat(info.email).isEqualTo(testAccount.email());
+    assertThat(info.isHidden).isEqualTo(isHidden);
+  }
+
+  private void assertAccountHidden(Account.Id testAccount) throws RestApiException {
+    AccountInfo accountInfo = gApi.accounts().id(testAccount.get()).get();
+    assertAccountHidden(testAccount, accountInfo);
+    AccountDetailInfo detail = gApi.accounts().id(testAccount.get()).detail();
+    assertAccountHidden(testAccount, detail);
+    assertThat(detail.registeredOn.getTime())
+        .isEqualTo(getAccount(testAccount).registeredOn().toEpochMilli());
+
+    assertThrows(AuthException.class, () -> gApi.accounts().id(testAccount.get()).getEmails());
+    assertThrows(AuthException.class, () -> gApi.accounts().id(testAccount.get()).getExternalIds());
+  }
+
+  private void assertAccountHidden(Account.Id testAccount, AccountInfo info) {
+    assertThat(info._accountId).isEqualTo(testAccount.get());
+    assertThat(info.name).isNull();
+    assertThat(info.displayName).isNull();
+    assertThat(info.secondaryEmails).isNull();
+    assertThat(info.username).isNull();
+    assertThat(info.email).isNull();
+    assertThat(info.isHidden).isNull();
   }
 
   @Test

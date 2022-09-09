@@ -11,6 +11,7 @@ import {
   isServiceUser,
   replaceTemplates,
 } from './account-util';
+import {CommentThread, isMentionedThread, isUnresolved} from './comment-util';
 import {hasOwnProperty} from './common-util';
 
 export function canHaveAttention(account?: AccountInfo): boolean {
@@ -46,6 +47,21 @@ export function getReason(
     attentionSetInfo?.reason_account ? [attentionSetInfo.reason_account] : [],
     config
   );
+}
+
+export function getMentionedReason(
+  threads: CommentThread[],
+  account?: AccountInfo,
+  mentionedAccount?: AccountInfo,
+  config?: ServerInfo
+) {
+  const mentionedThreads = threads
+    .filter(isUnresolved)
+    .filter(t => isMentionedThread(t, mentionedAccount));
+  if (mentionedThreads.length > 0) {
+    return `${getAccountTemplate(account, config)} mentioned you in a comment`;
+  }
+  return getReplyByReason(account, config);
 }
 
 export function getAddedByReason(account?: AccountInfo, config?: ServerInfo) {

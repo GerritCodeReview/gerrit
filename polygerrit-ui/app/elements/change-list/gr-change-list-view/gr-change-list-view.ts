@@ -18,7 +18,7 @@ import {
   RepoName,
 } from '../../../types/common';
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
-import {fireTitleChange} from '../../../utils/event-util';
+import {fireAlert, fireEvent, fireTitleChange} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {GerritView} from '../../../services/router/router-model';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -370,14 +370,19 @@ export class GrChangeListView extends LitElement {
     return this.offset / this.changesPerPage + 1;
   }
 
-  private handleToggleStar(e: CustomEvent<ChangeStarToggleStarDetail>) {
+  private async handleToggleStar(e: CustomEvent<ChangeStarToggleStarDetail>) {
     if (e.detail.starred) {
       this.reporting.reportInteraction('change-starred-from-change-list');
     }
-    this.restApiService.saveChangeStarred(
+    const msg = e.detail.starred
+      ? 'Starring change...'
+      : 'Unstarring change...';
+    fireAlert(this, msg);
+    await this.restApiService.saveChangeStarred(
       e.detail.change._number,
       e.detail.starred
     );
+    fireEvent(this, 'hide-alert');
   }
 }
 

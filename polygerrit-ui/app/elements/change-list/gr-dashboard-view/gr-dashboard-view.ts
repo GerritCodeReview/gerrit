@@ -36,7 +36,12 @@ import {
 } from '../gr-create-destination-dialog/gr-create-destination-dialog';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
-import {firePageError, fireTitleChange} from '../../../utils/event-util';
+import {
+  fireAlert,
+  fireEvent,
+  firePageError,
+  fireTitleChange,
+} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
 import {RELOAD_DASHBOARD_INTERVAL_MS} from '../../../constants/constants';
 import {ChangeListSection} from '../gr-change-list/gr-change-list';
@@ -502,11 +507,16 @@ export class GrDashboardView extends LitElement {
   }
 
   // private but used in test
-  handleToggleStar(e: CustomEvent<ChangeStarToggleStarDetail>) {
-    this.restApiService.saveChangeStarred(
+  async handleToggleStar(e: CustomEvent<ChangeStarToggleStarDetail>) {
+    const msg = e.detail.starred
+      ? 'Starring change...'
+      : 'Unstarring change...';
+    fireAlert(this, msg);
+    await this.restApiService.saveChangeStarred(
       e.detail.change._number,
       e.detail.starred
     );
+    fireEvent(this, 'hide-alert');
     if (e.detail.starred) {
       this.reporting.reportInteraction('change-starred-from-dashboard');
     }

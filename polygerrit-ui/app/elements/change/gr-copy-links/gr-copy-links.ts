@@ -36,7 +36,7 @@ export class GrCopyLinks extends LitElement {
       css`
         iron-dropdown {
           box-shadow: var(--elevation-level-2);
-          width: min(90vw, 540px);
+          width: min(90vw, 640px);
           background-color: var(--dialog-background-color);
           border-radius: var(--border-radius);
         }
@@ -53,7 +53,7 @@ export class GrCopyLinks extends LitElement {
           color: var(--deemphasized-text-color);
         }
         .copy-link-row input {
-          width: 320px;
+          flex: 1 1 420px;
         }
         .copy-link-row .shortcut {
           width: 25px;
@@ -83,7 +83,7 @@ export class GrCopyLinks extends LitElement {
     return html`<iron-dropdown
       .horizontalAlign=${'left'}
       .verticalAlign=${'top'}
-      .verticalOffset=${24}
+      .verticalOffset=${20}
       @keydown=${this.handleKeydown}
       @opened-changed=${(e: ValueChangedEvent<boolean>) =>
         (this.isDropdownOpen = e.detail.value)}

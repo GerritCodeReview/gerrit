@@ -29,6 +29,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.AbstractChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.ChangeUpdate.ChangeUpdateListener;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Injector;
 import java.time.ZoneId;
@@ -95,7 +96,8 @@ public class TestChanges {
                     .load(),
                 user,
                 TimeUtil.now(),
-                Ordering.natural());
+                Ordering.natural(),
+                ChangeUpdateListener.EMPTY);
 
     ChangeNotes notes = update.getNotes();
     boolean hasPatchSets = notes.getPatchSets() != null && !notes.getPatchSets().isEmpty();

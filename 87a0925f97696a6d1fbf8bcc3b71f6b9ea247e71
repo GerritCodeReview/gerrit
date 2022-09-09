@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5a98223_95672f06",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-09T11:14:12Z",
+      "side": 1,
+      "message": "Updated to set reason when sending the reply.",
+      "parentUuid": "092031c1_3e8aeab9",
+      "revId": "87a0925f97696a6d1fbf8bcc3b71f6b9ea247e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f59e9e68_005047d6",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "73e9b59f_5d7071fe",
+        "filename": "polygerrit-ui/app/utils/attention-set-util.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-09T11:14:12Z",
+      "side": 1,
+      "message": "Obsolete.",
+      "parentUuid": "f59e9e68_005047d6",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 3
+      },
+      "revId": "87a0925f97696a6d1fbf8bcc3b71f6b9ea247e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5567b459_813b7921",
@@ -54,6 +96,24 @@
       "writtenOn": "2022-09-09T09:59:22Z",
       "side": 1,
       "message": "This feels rather hacky. Is there a reason (no pun intended) we can\u0027t set the reason properly when sending a review to the backend?\n\nI know there are some technical challenges there, but this feels like we\u0027re just paper-patching over it.",
+      "revId": "87a0925f97696a6d1fbf8bcc3b71f6b9ea247e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "109986cb_f31a95a2",
+        "filename": "polygerrit-ui/app/utils/attention-set-util.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-09T11:14:12Z",
+      "side": 1,
+      "message": "Updated to set reason when sending the reply.",
+      "parentUuid": "5567b459_813b7921",
       "revId": "87a0925f97696a6d1fbf8bcc3b71f6b9ea247e71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

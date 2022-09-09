@@ -23,8 +23,10 @@
   },
   "scripts": {
     "test": "web-test-runner",
+    "test:coverage": "web-test-runner --coverage",
     "test:watch": "web-test-runner --watch",
-    "test:single": "web-test-runner --watch --files"
+    "test:single": "web-test-runner --watch --files",
+    "test:single:coverage": "web-test-runner --watch --coverage --files"
   },
   "license": "Apache-2.0",
   "private": true

@@ -41,7 +41,7 @@ suite('gr-hovercard-account tests', () => {
   };
 
   setup(async () => {
-    stubRestApi('getAccount').returns(Promise.resolve({...ACCOUNT}));
+    element.userModel.setAccount({...ACCOUNT});
     const change = {
       ...createChange(),
       attention_set: {},
@@ -141,7 +141,7 @@ suite('gr-hovercard-account tests', () => {
 
   test('computePronoun', async () => {
     element.account = createAccountDetailWithId(1);
-    element._selfAccount = createAccountDetailWithId(1);
+    element.selfAccount = createAccountDetailWithId(1);
     await element.updateComplete;
     assert.equal(element.computePronoun(), 'Your');
     element.account = createAccountDetailWithId(2);

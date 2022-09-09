@@ -43,6 +43,9 @@ import {EventType} from '../../../types/events';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
+import {commentsModelToken} from '../../../models/comments/comments-model';
+import {CommentThread, isMentionedThread} from '../../../utils/comment-util';
+import {getDisplayName} from '../../../utils/display-name-util';
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
 const base = HovercardMixin(LitElement);
@@ -74,6 +77,9 @@ export class GrHovercardAccount extends base {
   @state()
   serverConfig?: ServerInfo;
 
+  @state()
+  private threads: CommentThread[] = [];
+
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly reporting = getAppContext().reportingService;
@@ -82,6 +88,8 @@ export class GrHovercardAccount extends base {
   readonly userModel = getAppContext().userModel;
 
   private readonly getConfigModel = resolve(this, configModelToken);
+
+  private readonly getCommentsModel = resolve(this, commentsModelToken);
 
   constructor() {
     super();
@@ -95,6 +103,13 @@ export class GrHovercardAccount extends base {
       () => this.getConfigModel().serverConfig$,
       config => {
         this.serverConfig = config;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getCommentsModel().threads$,
+      x => {
+        this.threads = x;
       }
     );
   }
@@ -287,6 +302,20 @@ export class GrHovercardAccount extends base {
   private renderNeedsAttention() {
     if (!(this.isAttentionEnabled && this.hasUserAttention)) return;
     const lastUpdate = getLastUpdate(this.account, this.change);
+    let reason = getReason(this.serverConfig, this.account, this.change);
+    const mentionedThreads = this.threads.filter(t =>
+      isMentionedThread(t, this.account)
+    );
+    if (mentionedThreads.length > 0) {
+      // In case the reason is the simple reason "Because X replied on the
+      // change", overwrite with mention reason.
+      if (reason.match('replied on the change')) {
+        reason = `${getDisplayName(
+          this.serverConfig,
+          mentionedThreads[0].comments[0].author
+        )} mentioned you in a comment`;
+      }
+    }
     return html`
       <div class="attention">
         <div>
@@ -306,9 +335,7 @@ export class GrHovercardAccount extends base {
         </div>
         <div class="reason">
           <span class="title">Reason:</span>
-          <span class="value">
-            ${getReason(this.serverConfig, this.account, this.change)}
-          </span>
+          <span class="value"> ${reason} </span>
           ${lastUpdate
             ? html` (<gr-date-formatter
                   withTooltip

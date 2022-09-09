@@ -33,7 +33,11 @@ import {
 } from '../../../utils/account-util';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import {TargetElement} from '../../../api/plugin';
-import {FixIronA11yAnnouncer, ParsedChangeInfo} from '../../../types/types';
+import {
+  FixIronA11yAnnouncer,
+  notUndefined,
+  ParsedChangeInfo,
+} from '../../../types/types';
 import {
   AccountInfoInput,
   AccountInput,
@@ -102,7 +106,10 @@ import {ErrorCallback} from '../../../api/rest';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {StorageLocation} from '../../../services/storage/gr-storage';
 import {Interaction, Timing} from '../../../constants/reporting';
-import {getReplyByReason} from '../../../utils/attention-set-util';
+import {
+  getMentionedReason,
+  getReplyByReason,
+} from '../../../utils/attention-set-util';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
@@ -395,6 +402,8 @@ export class GrReplyDialog extends LitElement {
   private readonly flagsService = getAppContext().flagsService;
 
   private readonly getConfigModel = resolve(this, configModelToken);
+
+  private readonly accountsModel = getAppContext().accountsModel;
 
   private mentionedUsersInUnresolvedDrafts: AccountInfo[] = [];
 
@@ -1523,10 +1532,30 @@ export class GrReplyDialog extends LitElement {
 
     reviewInput.ignore_automatic_attention_set_rules = true;
     reviewInput.add_to_attention_set = [];
-    for (const user of this.newAttentionSet) {
-      if (!this.currentAttentionSet.has(user)) {
-        reviewInput.add_to_attention_set.push({user, reason});
-      }
+    const allAccounts = this.allAccounts();
+
+    const newAttentionSetAdditions: AccountInfo[] = Array.from(
+      this.newAttentionSet
+    )
+      .filter(user => !this.currentAttentionSet.has(user))
+      .map(user => allAccounts.find(a => getUserId(a) === user))
+      .filter(notUndefined);
+
+    const newAttentionSetUsers = (
+      await Promise.all(
+        newAttentionSetAdditions.map(a => this.accountsModel.fillDetails(a))
+      )
+    ).filter(notUndefined);
+
+    for (const user of newAttentionSetUsers) {
+      const r =
+        getMentionedReason(
+          this.draftCommentThreads,
+          this.account,
+          user,
+          this.serverConfig
+        ) ?? '';
+      reviewInput.add_to_attention_set.push({user: getUserId(user), reason: r});
     }
     reviewInput.remove_from_attention_set = [];
     for (const user of this.currentAttentionSet) {

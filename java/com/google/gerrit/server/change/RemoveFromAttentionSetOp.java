@@ -21,7 +21,6 @@ import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.AttentionSetUpdate.Operation;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.server.extensions.events.AttentionSetObserver;
 import com.google.gerrit.server.mail.send.RemoveFromAttentionSetSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -42,7 +41,6 @@ public class RemoveFromAttentionSetOp implements BatchUpdateOp {
   private final ChangeData.Factory changeDataFactory;
   private final RemoveFromAttentionSetSender.Factory removeFromAttentionSetSender;
   private final AttentionSetEmail.Factory attentionSetEmailFactory;
-  private final AttentionSetObserver attentionSetObserver;
 
   private final Account.Id attentionUserId;
   private final String reason;
@@ -62,14 +60,12 @@ public class RemoveFromAttentionSetOp implements BatchUpdateOp {
       ChangeData.Factory changeDataFactory,
       RemoveFromAttentionSetSender.Factory removeFromAttentionSetSenderFactory,
       AttentionSetEmail.Factory attentionSetEmailFactory,
-      AttentionSetObserver attentionSetObserver,
       @Assisted Account.Id attentionUserId,
       @Assisted String reason,
       @Assisted boolean notify) {
     this.changeDataFactory = changeDataFactory;
     this.removeFromAttentionSetSender = removeFromAttentionSetSenderFactory;
     this.attentionSetEmailFactory = attentionSetEmailFactory;
-    this.attentionSetObserver = attentionSetObserver;
     this.attentionUserId = requireNonNull(attentionUserId, "user");
     this.reason = requireNonNull(reason, "reason");
     this.notify = notify;
@@ -91,11 +87,8 @@ public class RemoveFromAttentionSetOp implements BatchUpdateOp {
     change = ctx.getChange();
 
     ChangeUpdate changeUpdate = ctx.getUpdate(ctx.getChange().currentPatchSetId());
-    AttentionSetUpdate attentionUpdate =
-        AttentionSetUpdate.createForWrite(attentionUserId, Operation.REMOVE, reason);
-    changeUpdate.addToPlannedAttentionSetUpdates(attentionUpdate);
-    attentionSetObserver.fire(
-        changeDataFactory.create(change), ctx.getAccount(), attentionUpdate, ctx.getWhen());
+    changeUpdate.addToPlannedAttentionSetUpdates(
+        AttentionSetUpdate.createForWrite(attentionUserId, Operation.REMOVE, reason));
     return true;
   }
 

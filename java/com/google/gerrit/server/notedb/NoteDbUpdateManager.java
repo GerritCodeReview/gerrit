@@ -38,6 +38,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.notedb.ChangeUpdate.AttentionSetUpdateWithChange;
 import com.google.gerrit.server.update.BatchUpdateListener;
 import com.google.gerrit.server.update.ChainedReceiveCommands;
 import com.google.inject.Inject;
@@ -351,6 +352,15 @@ public class NoteDbUpdateManager implements AutoCloseable {
     } finally {
       close();
     }
+  }
+
+  public ImmutableList<AttentionSetUpdateWithChange> attentionSetUpdates() {
+    ImmutableList.Builder<AttentionSetUpdateWithChange> attentionSetUpdates =
+        ImmutableList.builder();
+    this.changeUpdates.values().stream()
+        .map(cu -> cu.getAttentionSetUpdates())
+        .forEach(attentionSetUpdates::addAll);
+    return attentionSetUpdates.build();
   }
 
   private BatchRefUpdate execute(OpenRepo or, boolean dryrun, @Nullable PushCertificate pushCert)

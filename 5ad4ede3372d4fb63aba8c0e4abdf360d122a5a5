@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1882f6f_dac23dfc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-09T08:30:17Z",
+      "side": 1,
+      "message": "Good stuff @thomas.draebing@sap.com, just one minor nit.",
+      "revId": "5ad4ede3372d4fb63aba8c0e4abdf360d122a5a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bfbb770_f5d64a3d",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/DeleteSshKeyIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-09T08:30:17Z",
+      "side": 1,
+      "message": "This is 😎 however it will end up being executed in the setup method: if that fails you\u0027ll get a misleading error I believe, saying that it cannot run the suite.\n\nWhy not just moving them in a proper method annotated with @Test and removing them from the setup?",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 94
+      },
+      "revId": "5ad4ede3372d4fb63aba8c0e4abdf360d122a5a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

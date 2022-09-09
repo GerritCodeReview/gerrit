@@ -1,4 +1,5 @@
 import { esbuildPlugin } from "@web/dev-server-esbuild";
+import { defaultReporter, summaryReporter } from "@web/test-runner";
 
 /** @type {import('@web/test-runner').TestRunnerConfig} */
 const config = {
@@ -18,5 +19,6 @@ const config = {
       tsconfig: "app/tsconfig.json",
     }),
   ],
+  reporters: [defaultReporter(), summaryReporter()],
 };
 export default config;

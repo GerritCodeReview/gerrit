@@ -16,6 +16,24 @@
       "message": "Is bash smart enough to know the \u0026\u0026 should keep going until line 13?\n\nMaybe put the comment before and terminate this line with a `\\`?",
       "revId": "2936f86a3c6f6868f4e03b271974c04558bc2720",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eda57d0f_ba509b27",
+        "filename": "polygerrit-ui/app/run_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-09T11:37:37Z",
+      "side": 1,
+      "message": "Done. Yes it\u0027s smart enough when I verified locally but your suggestion is much better.",
+      "parentUuid": "ce8e08a9_6a02d6c2",
+      "revId": "2936f86a3c6f6868f4e03b271974c04558bc2720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -77,9 +77,6 @@ ts_project(
     ),
     allow_js = True,
     incremental = True,
-    # The same outdir also appears in the following files:
-    # wct_test.sh
-    # karma.conf.js
     out_dir = "_pg_with_tests_out",
     tsc = "//tools/node_tools:tsc-bin",
     tsconfig = ":ts_config_bazel_test",

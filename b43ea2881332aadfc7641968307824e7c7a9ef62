@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99e7b8c1_7b499077",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-09T11:09:31Z",
+      "side": 1,
+      "message": "[optional] maybe name this \"oldExternalIdsRevision\" or \"oldExternalIdsSHA1\" to make this more readable",
+      "range": {
+        "startLine": 513,
+        "startChar": 13,
+        "endLine": 513,
+        "endChar": 27
+      },
+      "revId": "b43ea2881332aadfc7641968307824e7c7a9ef62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12604890_ecaff522",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-09T11:09:31Z",
+      "side": 1,
+      "message": "nit: is",
+      "range": {
+        "startLine": 528,
+        "startChar": 82,
+        "endLine": 528,
+        "endChar": 85
+      },
+      "revId": "b43ea2881332aadfc7641968307824e7c7a9ef62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5f1b94e_96ed2247",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 2912,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-09T11:09:31Z",
+      "side": 1,
+      "message": "[optional] better: \"RefsUsersBranch\" or \"_refsUsersUpdated\" as below (l.2952)",
+      "range": {
+        "startLine": 2912,
+        "startChar": 58,
+        "endLine": 2912,
+        "endChar": 69
+      },
+      "revId": "b43ea2881332aadfc7641968307824e7c7a9ef62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e666cbbe_f2fb56cc",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 2932,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-09T11:09:31Z",
+      "side": 1,
+      "message": "This test doesn\u0027t seem to touch external IDs (project watches are stored in watch.config inside the users branch [1])? Do we need this test?\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-accounts.html#project-watches",
+      "range": {
+        "startLine": 2932,
+        "startChar": 14,
+        "endLine": 2932,
+        "endChar": 30
+      },
+      "revId": "b43ea2881332aadfc7641968307824e7c7a9ef62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

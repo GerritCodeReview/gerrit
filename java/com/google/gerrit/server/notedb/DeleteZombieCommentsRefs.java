@@ -36,6 +36,7 @@ import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.notedb.ChangeUpdate.ChangeUpdateListener;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -336,7 +337,8 @@ public class DeleteZombieCommentsRefs {
       return;
     }
     ChangeUpdate changeUpdate =
-        changeUpdateFactory.create(changeNotes, userFactory.create(accountId), TimeUtil.now());
+        changeUpdateFactory.create(
+            changeNotes, userFactory.create(accountId), TimeUtil.now(), ChangeUpdateListener.EMPTY);
     draftsToDelete.forEach(c -> changeUpdate.deleteComment(c));
     changeUpdate.commit();
     logger.atInfo().log(

@@ -102,7 +102,10 @@ import {ErrorCallback} from '../../../api/rest';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {StorageLocation} from '../../../services/storage/gr-storage';
 import {Interaction, Timing} from '../../../constants/reporting';
-import {getReplyByReason} from '../../../utils/attention-set-util';
+import {
+  getMentionedReason,
+  getReplyByReason,
+} from '../../../utils/attention-set-util';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
@@ -395,6 +398,8 @@ export class GrReplyDialog extends LitElement {
   private readonly flagsService = getAppContext().flagsService;
 
   private readonly getConfigModel = resolve(this, configModelToken);
+
+  private readonly accountsModel = getAppContext().accountsModel;
 
   private mentionedUsersInUnresolvedDrafts: AccountInfo[] = [];
 
@@ -1525,7 +1530,21 @@ export class GrReplyDialog extends LitElement {
     reviewInput.add_to_attention_set = [];
     for (const user of this.newAttentionSet) {
       if (!this.currentAttentionSet.has(user)) {
-        reviewInput.add_to_attention_set.push({user, reason});
+        let mentionedAccount = this.allAccounts().find(
+          a => getUserId(a) === user
+        );
+        if (mentionedAccount)
+          mentionedAccount = await this.accountsModel.fillDetails(
+            mentionedAccount
+          );
+        const r =
+          getMentionedReason(
+            this.draftCommentThreads,
+            this.account,
+            mentionedAccount,
+            this.serverConfig
+          ) ?? '';
+        reviewInput.add_to_attention_set.push({user, reason: r});
       }
     }
     reviewInput.remove_from_attention_set = [];

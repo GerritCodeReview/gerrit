@@ -595,7 +595,8 @@ export class GrMessage extends LitElement {
   private isNewPatchsetTag(tag?: ReviewInputTag) {
     return (
       tag === MessageTag.TAG_NEW_PATCHSET ||
-      tag === MessageTag.TAG_NEW_WIP_PATCHSET
+      tag === MessageTag.TAG_NEW_WIP_PATCHSET ||
+      tag === MessageTag.TAG_NEW_PATCHSET_OUTDATED_VOTES
     );
   }
 

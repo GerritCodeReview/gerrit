@@ -3,8 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-// This should be the first import to install handler before any other code
-import './source-map-support-install';
 // TODO(dmfilippov): remove bundled-polymer.js imports when the following issue
 // https://github.com/Polymer/polymer-resin/issues/9 is resolved.
 import '../scripts/bundled-polymer';

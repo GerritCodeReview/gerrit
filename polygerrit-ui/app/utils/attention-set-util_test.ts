@@ -4,7 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../test/common-test-setup-karma';
-import {createChange, createServerInfo} from '../test/test-data-generators';
+import {
+  createAccountDetailWithIdNameAndEmail,
+  createChange,
+  createComment,
+  createCommentThread,
+  createServerInfo,
+} from '../test/test-data-generators';
 import {
   AccountId,
   AccountInfo,
@@ -12,7 +18,11 @@ import {
   EmailAddress,
   ServerInfo,
 } from '../types/common';
-import {getReason, hasAttention} from './attention-set-util';
+import {
+  getMentionedReason,
+  getReason,
+  hasAttention,
+} from './attention-set-util';
 import {DefaultDisplayNameConfig} from '../api/rest-api';
 import {AccountsVisibility} from '../constants/constants';
 import {assert} from '@open-wc/testing';
@@ -31,6 +41,20 @@ const OTHER_ACCOUNT: AccountInfo = {
   _account_id: 31415926536 as AccountId,
 };
 
+const MENTION_ACCOUNT: AccountInfo = {
+  email: 'mention@gmail.com' as EmailAddress,
+  username: 'mention',
+  name: 'Mention User',
+  _account_id: 31415926537 as AccountId,
+};
+
+const MENTION_ACCOUNT_2: AccountInfo = {
+  email: 'mention2@gmail.com' as EmailAddress,
+  username: 'mention2',
+  name: 'Mention2 User',
+  _account_id: 31415926538 as AccountId,
+};
+
 const change: ChangeInfo = {
   ...createChange(),
   attention_set: {
@@ -41,6 +65,16 @@ const change: ChangeInfo = {
     '31415926536': {
       account: OTHER_ACCOUNT,
       reason: 'Added by <GERRIT_ACCOUNT_31415926535>',
+      reason_account: KERMIT,
+    },
+    '31415926537': {
+      account: MENTION_ACCOUNT,
+      reason: '<GERRIT_ACCOUNT_31415926535> replied on the change',
+      reason_account: KERMIT,
+    },
+    '31415926538': {
+      account: MENTION_ACCOUNT_2,
+      reason: 'Bot voted negatively on the change',
       reason_account: KERMIT,
     },
   },
@@ -65,5 +99,55 @@ suite('attention-set-util', () => {
   test('getReason', () => {
     assert.equal(getReason(config, KERMIT, change), 'a good reason');
     assert.equal(getReason(config, OTHER_ACCOUNT, change), 'Added by kermit');
+  });
+
+  test('getMentionReason', () => {
+    let comment = {
+      ...createComment(),
+      message: `hey @${MENTION_ACCOUNT.email} take a look at this`,
+      unresolved: true,
+      author: {
+        ...createAccountDetailWithIdNameAndEmail(1),
+      },
+    };
+
+    assert.equal(
+      getMentionedReason(
+        [createCommentThread([comment])],
+        config,
+        KERMIT,
+        change
+      ),
+      'a good reason'
+    );
+
+    assert.equal(
+      getMentionedReason(
+        [createCommentThread([comment])],
+        config,
+        MENTION_ACCOUNT,
+        change
+      ),
+      'User-1 mentioned you in a comment'
+    );
+
+    comment = {
+      ...createComment(),
+      message: `hey @${MENTION_ACCOUNT_2.email} take a look at this`,
+      unresolved: true,
+      author: {
+        ...createAccountDetailWithIdNameAndEmail(1),
+      },
+    };
+    // Reason isn't "because X replied on change" hence don't override
+    assert.equal(
+      getMentionedReason(
+        [createCommentThread([comment])],
+        config,
+        MENTION_ACCOUNT_2,
+        change
+      ),
+      'Bot voted negatively on the change'
+    );
   });
 });

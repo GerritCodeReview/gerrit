@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37c4ac09_439ad5fc",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 1533,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-09T11:21:04Z",
+      "side": 1,
+      "message": "compute `this.allAccounts()` once instead of recomputing it for each user.",
+      "revId": "2a14e4e5c079974aa907bfe8bc90a2acd207c98a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "260aeba2_f760bdb4",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 1539,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-09T11:21:04Z",
+      "side": 1,
+      "message": "Make these requests in parallel and use a Promise.all.\n\nRoughly:\n1. Extract all the users from newAttentionSet that are not in currentAttentionSet along with their mentioned-account if present. \n2. Promise.all a parallel fetch for the mentioned accounts\n3. go over the users with their filled accounts and compute the reasons and add them to the reviewed input",
+      "revId": "2a14e4e5c079974aa907bfe8bc90a2acd207c98a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

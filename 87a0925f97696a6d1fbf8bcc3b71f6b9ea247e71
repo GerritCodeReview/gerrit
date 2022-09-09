@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "092031c1_3e8aeab9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-09T09:59:53Z",
+      "side": 1,
+      "message": "Why don\u0027t we do this server side?\n\nI don\u0027t like that we are mixing server and frontend logic here. The server sets the reason, but we are changing with logic that the server could also apply",
+      "revId": "87a0925f97696a6d1fbf8bcc3b71f6b9ea247e71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f59e9e68_005047d6",
         "filename": "polygerrit-ui/app/utils/attention-set-util.ts",
         "patchSetId": 7

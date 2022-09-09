@@ -187,6 +187,30 @@
       },
       "revId": "b43ea2881332aadfc7641968307824e7c7a9ef62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d38d4a92_5c33d3e8",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 2932,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-09T12:24:40Z",
+      "side": 1,
+      "message": "Sure, it\u0027s OK to keep, but maybe change the test name to avoid confusion (\"updateExternalId_...\" got me confused since there is no external ID update)?",
+      "parentUuid": "2c0aedc4_f2a5a8b6",
+      "range": {
+        "startLine": 2932,
+        "startChar": 14,
+        "endLine": 2932,
+        "endChar": 30
+      },
+      "revId": "b43ea2881332aadfc7641968307824e7c7a9ef62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

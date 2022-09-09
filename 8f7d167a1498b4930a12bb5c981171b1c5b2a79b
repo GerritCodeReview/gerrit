@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17bfcd63_c1a4d23e",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-09-09T17:39:01Z",
+      "side": 1,
+      "message": "Should this also be true for queries where the limit is greater than maxPageSize?",
+      "range": {
+        "startLine": 114,
+        "startChar": 40,
+        "endLine": 114,
+        "endChar": 49
+      },
+      "revId": "8f7d167a1498b4930a12bb5c981171b1c5b2a79b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35513fc4_937199f9",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-09-09T17:39:01Z",
+      "side": 1,
+      "message": "I am a little concerned that this paragraph is starting to repeat the code instead of just explaining some of the nonobvious reasons for things.",
+      "revId": "8f7d167a1498b4930a12bb5c981171b1c5b2a79b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

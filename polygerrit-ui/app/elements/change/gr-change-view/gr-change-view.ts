@@ -903,7 +903,7 @@ export class GrChangeView extends LitElement {
           margin-left: var(--spacing-s);
         }
         .showCopyLinkDialogButton {
-          --gr-button-padding: var(--spacing-m) var(--spacing-xs);
+          --gr-button-padding: 0;
         }
         #replyBtn {
           margin-bottom: var(--spacing-m);

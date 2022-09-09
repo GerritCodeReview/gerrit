@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "07a81271_95fede5a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-09T12:00:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64c4069a_7e2a60c0",
+      "range": {
+        "startLine": 14,
+        "startChar": 45,
+        "endLine": 14,
+        "endChar": 55
+      },
+      "revId": "90b169111f8bed07290f1262f15f707e75a6c9da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "402a085f_d0d9e6c9",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-09-09T11:42:05Z",
       "side": 1,
       "message": "column",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 5
+      },
+      "revId": "90b169111f8bed07290f1262f15f707e75a6c9da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5522a607_eb3308a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-09T12:00:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "402a085f_d0d9e6c9",
       "range": {
         "startLine": 15,
         "startChar": 0,
@@ -83,6 +131,24 @@
       "writtenOn": "2022-09-09T11:43:43Z",
       "side": 1,
       "message": "```\npolygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts(418,36): error TS2554: Expected 1 arguments, but got 0.\npolygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts(2567,21): error TS2554: Expected 1 arguments, but got 0.\npolygerrit-ui/app/elements/shared/gr-change-star/gr-change-star.ts(7,1): error TS6133: \u0027fireAlert\u0027 is declared but its value is never read.\n```\n\nactually see these ts errors when running locally. I have forgotten to add the type checking to our commands and will do that now. Sorry for trouble. CI-side is change 345134",
+      "revId": "90b169111f8bed07290f1262f15f707e75a6c9da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23fef355_3bc55e84",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-09T12:00:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32a97aaa_05295fee",
       "revId": "90b169111f8bed07290f1262f15f707e75a6c9da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

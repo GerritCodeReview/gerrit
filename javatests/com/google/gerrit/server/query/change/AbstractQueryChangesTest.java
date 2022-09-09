@@ -3036,6 +3036,16 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change2 = insert(repo, newChange(repo));
     String changeId2 = change2.getKey().get();
 
+    ReviewerInput rin1 = new ReviewerInput();
+    ReviewerInput rin2 = new ReviewerInput();
+    rin1.reviewer = user1.toString();
+    rin2.reviewer = user2.toString();
+    rin1.state = rin2.state = ReviewerState.REVIEWER;
+    gApi.changes().id(change1.getId().get()).addReviewer(rin1);
+    gApi.changes().id(change1.getId().get()).addReviewer(rin2);
+    gApi.changes().id(change2.getId().get()).addReviewer(rin1);
+    gApi.changes().id(change2.getId().get()).addReviewer(rin2);
+
     requestContext.setContext(newRequestContext(user1));
     assertQuery("has:edit");
     gApi.changes().id(changeId1).edit().create();
@@ -3139,6 +3149,12 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     ChangeNotes notes = notesFactory.create(change.getProject(), change.getId());
     PatchSet ps = psUtil.get(notes, change.currentPatchSetId());
 
+    // Add user as a reviewer on change. This is required for 'has:edits'.
+    ReviewerInput rin = new ReviewerInput();
+    rin.reviewer = user.toString();
+    rin.state = ReviewerState.REVIEWER;
+    gApi.changes().id(change.getId().get()).addReviewer(rin);
+
     requestContext.setContext(newRequestContext(user));
     gApi.changes().id(changeId).edit().create();
     assertQuery("has:edit", change);
@@ -3149,8 +3165,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     ru.setForceUpdate(true);
     assertThat(ru.delete()).isEqualTo(RefUpdate.Result.FORCED);
 
-    // Index is stale.
-    assertQuery("has:edit", change);
+    // Index is stale - (wrong since edits are now not served from the index)
+    // assertQuery("has:edit", change);
     assertThat(indexer.reindexIfStale(project, change.getId()).get()).isTrue();
     assertQuery("has:edit");
   }

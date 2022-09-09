@@ -22,6 +22,7 @@ import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.CommentRange;
 import com.google.gerrit.entities.HumanComment;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.util.time.TimeUtil;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
@@ -183,10 +184,87 @@ public class ChangeUpdateTest extends AbstractChangeNotesTest {
     assertThat(updateWithVote.bypassMaxUpdates()).isFalse();
   }
 
-  private void addToAttentionSet(ChangeUpdate update) {
+  @Test
+  public void commitChangeUpdateWithoutTouchingAttentionSet() throws Exception {
+    Change c = newChangeWithEmptyAttentionSet();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putApproval("Code-Review", (short) 1);
+    update.commit();
+
+    assertThat(update.getAttentionSetUpdates()).isEmpty();
+  }
+
+  @Test
+  public void nonCommittedChangeUpdateReturnsEmptyAttentionSetUpdates() throws Exception {
+    Change c = newChangeWithEmptyAttentionSet();
+
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    addToAttentionSet(update, otherUser);
+
+    assertThat(update.getAttentionSetUpdates()).isEmpty();
+  }
+
+  @Test
+  public void committedChangeUpdateReturnsAttentionSetUpdates() throws Exception {
+    Change c = newChangeWithEmptyAttentionSet();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    AttentionSetUpdate attentionSetUpdate = addToAttentionSet(update, otherUser);
+    update.commit();
+
+    assertThat(update.getAttentionSetUpdates()).containsExactly(attentionSetUpdate);
+  }
+
+  @Test
+  public void committedChangeUpdateReturnsMultipleAttentionSetUpdates() throws Exception {
+    Change c = newChangeWithEmptyAttentionSet();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    AttentionSetUpdate attentionSetUpdate1 = addToAttentionSet(update, otherUser);
+    AttentionSetUpdate attentionSetUpdate2 = addToAttentionSet(update, changeOwner);
+    update.commit();
+
+    assertThat(update.getAttentionSetUpdates())
+        .containsExactly(attentionSetUpdate1, attentionSetUpdate2);
+  }
+
+  @Test
+  public void changeUpdateDoesntReturnAttentionSetUpdateForUserAlreadyAddedInAttentionSet()
+      throws Exception {
+    Change c = newChangeWithEmptyAttentionSet();
+    ChangeUpdate update1 = newUpdate(c, changeOwner);
+    addToAttentionSet(update1, otherUser);
+    update1.commit();
+
+    ChangeUpdate update2 = newUpdate(c, changeOwner);
+    addToAttentionSet(update2, otherUser);
+    update2.commit();
+
+    assertThat(update2.getAttentionSetUpdates()).isEmpty();
+  }
+
+  /**
+   * Creates a change with an empty attention set
+   *
+   * <p>Method ensures that changeOwner and otherUser can be added to the attention set later. (only
+   * users active on the change can be added to the attention set - see {@link
+   * ChangeUpdate#isActiveOnChange})
+   */
+  private Change newChangeWithEmptyAttentionSet() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putReviewer(otherUser.getAccountId(), ReviewerStateInternal.CC);
+    update.commit();
+    return c;
+  }
+
+  private AttentionSetUpdate addToAttentionSet(ChangeUpdate update) {
+    return addToAttentionSet(update, otherUser);
+  }
+
+  private AttentionSetUpdate addToAttentionSet(ChangeUpdate update, IdentifiedUser user) {
     AttentionSetUpdate attentionSetUpdate =
         AttentionSetUpdate.createForWrite(
-            otherUser.getAccountId(), AttentionSetUpdate.Operation.ADD, "test");
+            user.getAccountId(), AttentionSetUpdate.Operation.ADD, "test");
     update.addToPlannedAttentionSetUpdates(ImmutableSet.of(attentionSetUpdate));
+    return attentionSetUpdate;
   }
 }

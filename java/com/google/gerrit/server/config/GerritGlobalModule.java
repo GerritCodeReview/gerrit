@@ -132,6 +132,7 @@ import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.events.EventListener;
 import com.google.gerrit.server.events.EventsMetrics;
 import com.google.gerrit.server.events.UserScopedEventListener;
+import com.google.gerrit.server.extensions.events.AttentionSetObserver;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.ChangeMessageModifier;
@@ -512,5 +513,7 @@ public class GerritGlobalModule extends FactoryModule {
         .annotatedWith(UniqueAnnotations.create())
         .to(PluginConfigFactory.class);
     DynamicMap.mapOf(binder(), ExternalIdUpsertPreprocessor.class);
+
+    bind(AttentionSetObserver.class);
   }
 }

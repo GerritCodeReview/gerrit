@@ -26,6 +26,7 @@ import static java.util.stream.Collectors.toSet;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
@@ -34,10 +35,12 @@ import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.ProjectChangeKey;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.config.FactoryModule;
@@ -49,6 +52,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.NotifyResolver;
+import com.google.gerrit.server.extensions.events.AttentionSetObserver;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.validators.OnSubmitValidators;
@@ -68,6 +72,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.multibindings.OptionalBinder;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -118,6 +123,7 @@ public class BatchUpdate implements AutoCloseable {
       @Override
       public void configure() {
         factory(BatchUpdate.Factory.class);
+        OptionalBinder.newOptionalBinder(binder(), AttentionSetObserver.class);
       }
     };
   }
@@ -396,11 +402,15 @@ public class BatchUpdate implements AutoCloseable {
 
   private RepoView repoView;
   private BatchRefUpdate batchRefUpdate;
+  private ImmutableListMultimap<ProjectChangeKey, AttentionSetUpdate> attentionSetUpdates;
+
   private boolean executed;
   private OnSubmitValidators onSubmitValidators;
   private PushCertificate pushCert;
   private String refLogMessage;
   private NotifyResolver.Result notify = NotifyResolver.Result.all();
+  // Batch operations doesn't need observer
+  private Optional<AttentionSetObserver> attentionSetObserver;
 
   @Inject
   BatchUpdate(
@@ -412,6 +422,7 @@ public class BatchUpdate implements AutoCloseable {
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeIndexer indexer,
       GitReferenceUpdated gitRefUpdated,
+      Optional<AttentionSetObserver> attentionSetObserver,
       @Assisted Project.NameKey project,
       @Assisted CurrentUser user,
       @Assisted Instant when) {
@@ -425,6 +436,7 @@ public class BatchUpdate implements AutoCloseable {
     this.project = project;
     this.user = user;
     this.when = when;
+    this.attentionSetObserver = attentionSetObserver;
     zoneId = serverIdent.getZoneId();
   }
 
@@ -598,6 +610,19 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
+  private void fireAttentionSetUpdateEvents(PostUpdateContext ctx) {
+    attentionSetObserver.ifPresent(
+        observer -> {
+          for (ProjectChangeKey key : attentionSetUpdates.keySet()) {
+            ChangeData change = ctx.getChangeData(key.projectName(), key.changeId());
+            AccountState account = ctx.getAccount();
+            for (AttentionSetUpdate update : attentionSetUpdates.get(key)) {
+              observer.fire(change, account, update, ctx.getWhen());
+            }
+          }
+        });
+  }
+
   private class ChangesHandle implements AutoCloseable {
     private final NoteDbUpdateManager manager;
     private final boolean dryrun;
@@ -622,6 +647,7 @@ public class BatchUpdate implements AutoCloseable {
     void execute() throws IOException {
       BatchUpdate.this.batchRefUpdate = manager.execute(dryrun);
       BatchUpdate.this.executed = manager.isExecuted();
+      BatchUpdate.this.attentionSetUpdates = manager.attentionSetUpdates();
     }
 
     boolean requiresReindex() {
@@ -748,6 +774,10 @@ public class BatchUpdate implements AutoCloseable {
           TraceContext.newTimer(op.getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {
         op.postUpdate(ctx);
       }
+    }
+    try (TraceContext.TraceTimer ignored =
+        TraceContext.newTimer("fireAttentionSetUpdates#postUpdate", Metadata.empty())) {
+      fireAttentionSetUpdateEvents(ctx);
     }
   }
 

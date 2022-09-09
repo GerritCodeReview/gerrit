@@ -18,18 +18,28 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.entities.SubmitRecord;
+import com.google.gerrit.extensions.client.ReviewerState;
+import com.google.gerrit.extensions.events.AttentionSetListener;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.AccountManager;
+import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.change.AddReviewersOp;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -51,6 +61,11 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
 public class BatchUpdateTest {
   private static final int MAX_UPDATES = 4;
@@ -75,6 +90,15 @@ public class BatchUpdateTest {
   @Inject private PatchSetInserter.Factory patchSetInserterFactory;
   @Inject private Provider<CurrentUser> user;
   @Inject private Sequences sequences;
+  @Inject private AddReviewersOp.Factory addReviewersOpFactory;
+  @Inject private DynamicSet<AttentionSetListener> attentionSetListeners;
+  @Inject private AccountManager accountManager;
+  @Inject private AuthRequest.Factory authRequestFactory;
+
+  @Rule public final MockitoRule mockito = MockitoJUnit.rule();
+
+  @Captor ArgumentCaptor<AttentionSetListener.Event> attentionSetEventCaptor;
+  @Mock private AttentionSetListener attentionSetListener;
 
   @Inject
   private @Named("diff_summary") Cache<DiffSummaryKey, DiffSummary> diffSummaryCache;
@@ -140,6 +164,39 @@ public class BatchUpdateTest {
     }
     assertThat(getUpdateCount(id)).isEqualTo(MAX_UPDATES - 1);
     assertThat(getMetaId(id)).isEqualTo(oldMetaId);
+  }
+
+  @Test
+  public void attentionSetUpdateEventsFiredForSeveralChangesInSingleBatch() throws Exception {
+    Change.Id id1 = createChangeWithUpdates(1);
+    Change.Id id2 = createChangeWithUpdates(1);
+    attentionSetListeners.add("test", attentionSetListener);
+
+    Account.Id reviewer1 =
+        accountManager.authenticate(authRequestFactory.createForUser("user1")).getAccountId();
+    Account.Id reviewer2 =
+        accountManager.authenticate(authRequestFactory.createForUser("user2")).getAccountId();
+
+    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
+      bu.addOp(
+          id1,
+          addReviewersOpFactory.create(
+              ImmutableSet.of(reviewer1), ImmutableList.of(), ReviewerState.REVIEWER, false));
+      bu.addOp(
+          id2,
+          addReviewersOpFactory.create(
+              ImmutableSet.of(reviewer2), ImmutableList.of(), ReviewerState.REVIEWER, false));
+      bu.execute();
+    }
+    verify(attentionSetListener, times(2)).onAttentionSetChanged(attentionSetEventCaptor.capture());
+    AttentionSetListener.Event event1 = attentionSetEventCaptor.getAllValues().get(0);
+    assertThat(event1.getChange()._number).isEqualTo(id1.get());
+    assertThat(event1.usersAdded()).containsExactly(reviewer1.get());
+    assertThat(event1.usersRemoved()).isEmpty();
+
+    AttentionSetListener.Event event2 = attentionSetEventCaptor.getAllValues().get(1);
+    assertThat(event2.getChange()._number).isEqualTo(id2.get());
+    assertThat(event2.usersRemoved()).isEmpty();
   }
 
   @Test

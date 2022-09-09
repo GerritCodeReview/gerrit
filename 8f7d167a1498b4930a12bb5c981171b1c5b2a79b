@@ -120,6 +120,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5be2f0ae_41514cde",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-09T21:09:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc6c2313_cf92dc69",
+      "range": {
+        "startLine": 114,
+        "startChar": 40,
+        "endLine": 114,
+        "endChar": 49
+      },
+      "revId": "8f7d167a1498b4930a12bb5c981171b1c5b2a79b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "35513fc4_937199f9",
@@ -187,6 +211,24 @@
       "side": 1,
       "message": "Ack, will do.",
       "parentUuid": "1918e858_d1c34ea5",
+      "revId": "8f7d167a1498b4930a12bb5c981171b1c5b2a79b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d09245d_bf2537b6",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-09T21:09:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "414ef2a2_2ad18944",
       "revId": "8f7d167a1498b4930a12bb5c981171b1c5b2a79b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "97871b0e_8953ed5d",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-10T01:00:54Z",
+      "side": 1,
+      "message": "Remove (no longer used) ?",
+      "range": {
+        "startLine": 59,
+        "startChar": 2,
+        "endLine": 59,
+        "endChar": 61
+      },
+      "revId": "58ae2498c1c17a77eba20a618842c34068780198",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "229ac48a_471cf936",
         "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
         "patchSetId": 11

@@ -675,7 +675,10 @@ export class GrCommentThread extends LitElement {
       whenRendered(this, () => {
         this.expandCollapseComments(false);
         this.commentBox?.focus();
-        this.scrollIntoView({block: 'center'});
+        // TODO: Find a better solution
+        setTimeout(() => {
+          this.scrollIntoView({block: 'center'});
+        }, 1000);
       });
     }
   }

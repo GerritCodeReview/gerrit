@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3eb9c8b2_3a6fb599",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-09-12T12:12:22Z",
+      "side": 1,
+      "message": "Context on why we implemented it that way: for \u0027has:drafts\u0027 and \u0027has:stars\u0027 their corresponding ref patterns are stored in the All-Users repo. For those, we were able to afford implementing these queries as a ref-prefix scan pre-search, getting the change IDs containing drafts (from the ref names), and sending an OR\u0027ed query of the change IDs to the change index.\n\nFor \u0027has:edit\u0027 we cannot do the same thing because edits are stored in the project repo containing the edit. This means that answering the \u0027has:edit\u0027 query in a similar way means that we need to open all repos on the host, and search in each one for ref-edits for the user.\n\nWe are reworking this idea by only allowing people involved in the change {owner, reviewer, CC} to suggest edits. With that, the query is translated to:\n  is:open AND (caller-is-owner OR caller-is-reviewer OR caller-is-CC) AND post-filter-has-edits",
+      "revId": "41f2db6aa59235acfd6d2b74aefd88e887fa6625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

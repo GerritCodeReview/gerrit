@@ -354,13 +354,11 @@ export class GrComment extends LitElement {
         :host([saving]) .date {
           opacity: 0.5;
         }
-        .body {
-          padding-top: var(--spacing-m);
-        }
         .header {
           align-items: center;
           cursor: pointer;
           display: flex;
+          padding-bottom: var(--spacing-m);
         }
         .headerLeft > span {
           font-weight: var(--font-weight-bold);

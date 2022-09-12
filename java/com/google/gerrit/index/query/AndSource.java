@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class AndSource<T> extends AndPredicate<T>
     implements DataSource<T>, Comparator<Predicate<T>> {
@@ -85,18 +87,14 @@ public class AndSource<T> extends AndPredicate<T>
     return new LazyResultSet<>(
         () -> {
           List<T> r = new ArrayList<>();
-          T last = null;
-          int nextStart = 0;
-          boolean skipped = false;
-          for (T data : buffer(resultSet)) {
-            if (!isMatchable() || match(data)) {
-              r.add(data);
-            } else {
-              skipped = true;
-            }
-            last = data;
-            nextStart++;
-          }
+
+          List<T> resultList = new ArrayList<>();
+          buffer(resultSet).forEach(t -> resultList.add(t));
+          T last = resultList.isEmpty() ? null : Iterables.getLast(resultList);
+          int nextStart = resultList.size();
+          Set<T> matched = matchAll(resultList.stream().collect(Collectors.toSet()));
+          matched.forEach(m -> r.add(m));
+          boolean skipped = matched.size() != resultList.size();
 
           if (skipped && last != null && source instanceof Paginated) {
             // If our source is a paginated source and we skipped at
@@ -109,14 +107,11 @@ public class AndSource<T> extends AndPredicate<T>
               skipped = false;
               ResultSet<T> next = p.restart(nextStart);
 
-              for (T data : buffer(next)) {
-                if (match(data)) {
-                  r.add(data);
-                } else {
-                  skipped = true;
-                }
-                nextStart++;
-              }
+              List<T> rl = new ArrayList<>();
+              buffer(next).forEach(e -> rl.add(e));
+              nextStart += rl.size();
+              matched = matchAll(rl.stream().collect(Collectors.toSet()));
+              matched.forEach(m -> r.add(m));
             }
           }
 
@@ -151,6 +146,16 @@ public class AndSource<T> extends AndPredicate<T>
     }
 
     return true;
+  }
+
+  @Override
+  public Set<T> matchAll(Set<T> in) {
+    Set<T> filtered = in;
+    if (isVisibleToPredicate != null) {
+      filtered =
+          in.stream().filter(data -> isVisibleToPredicate.match(data)).collect(Collectors.toSet());
+    }
+    return super.isMatchable() ? super.matchAll(filtered) : filtered;
   }
 
   private Iterable<T> buffer(ResultSet<T> scanner) {

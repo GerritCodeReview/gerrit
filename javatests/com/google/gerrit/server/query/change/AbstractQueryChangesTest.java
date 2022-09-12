@@ -3050,7 +3050,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     gApi.changes().id(changeId2).edit().create();
 
     requestContext.setContext(newRequestContext(user1));
-    assertQuery("has:edit", change2, change1);
+    assertQuery("has:edit", change1, change2);
 
     requestContext.setContext(newRequestContext(user2));
     assertQuery("has:edit", change2);

@@ -16,11 +16,13 @@ package com.google.gerrit.index.query;
 
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.common.collect.ImmutableSet;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /** Requires one predicate to be true. */
 public class OrPredicate<T> extends Predicate<T> implements Matchable<T> {
@@ -93,6 +95,22 @@ public class OrPredicate<T> extends Predicate<T> implements Matchable<T> {
       }
     }
     return false;
+  }
+
+  @Override
+  public Set<T> matchAll(Set<T> objects) {
+    ImmutableSet.Builder<T> resultSet = ImmutableSet.builder();
+    for (Predicate<T> child : children) {
+      checkState(
+          child.isMatchable(),
+          "match invoked, but child predicate %s doesn't implement %s",
+          child,
+          Matchable.class.getName());
+      // In an "OR" predicate, if one child predicate is true then the "OR" predicate is true,
+      // The object matched, so we can add it to the result set.
+      resultSet.addAll(child.asMatchable().matchAll(objects));
+    }
+    return resultSet.build();
   }
 
   @Override

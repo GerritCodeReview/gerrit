@@ -33,6 +33,41 @@
       "message": "Nice!\n\nYou removed the usage of `karma_test` in `//tools/bzl:js.bzl` or are we still using that somewhere?",
       "revId": "b0c62dc94104bdfa5c5fda9040c63a70985d85a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a58eec9e_2c58aa52",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-12T07:53:41Z",
+      "side": 1,
+      "message": "You should probably remove `karma_test` from `//tools/bzl:js.bzl`",
+      "revId": "b0c62dc94104bdfa5c5fda9040c63a70985d85a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc61f0b9_6952885d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-12T07:53:41Z",
+      "side": 1,
+      "message": "I meant to say, you removed the usage of `karma_test` that is defined in `//tools/bzl:js.bzl`. I thought it could be removed, but it seems plugins still rely on it.",
+      "parentUuid": "b629a306_08331132",
+      "revId": "b0c62dc94104bdfa5c5fda9040c63a70985d85a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

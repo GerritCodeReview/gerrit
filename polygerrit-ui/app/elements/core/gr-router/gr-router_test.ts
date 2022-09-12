@@ -43,6 +43,7 @@ import {
   RepoDetailView,
 } from '../../../utils/router-util';
 import {assert} from '@open-wc/testing';
+import {AdminChildView} from '../../../models/views/admin';
 
 suite('gr-router tests', () => {
   let router: GrRouter;
@@ -819,7 +820,7 @@ suite('gr-router tests', () => {
         const data = createPageContext();
         assertDataToParams(data, 'handleGroupListOffsetRoute', {
           view: GerritView.ADMIN,
-          adminView: 'gr-admin-group-list',
+          adminView: AdminChildView.GROUPS,
           offset: 0,
           filter: null,
           openCreateModal: false,
@@ -828,7 +829,7 @@ suite('gr-router tests', () => {
         data.params[1] = '42';
         assertDataToParams(data, 'handleGroupListOffsetRoute', {
           view: GerritView.ADMIN,
-          adminView: 'gr-admin-group-list',
+          adminView: AdminChildView.GROUPS,
           offset: '42',
           filter: null,
           openCreateModal: false,
@@ -837,7 +838,7 @@ suite('gr-router tests', () => {
         data.hash = 'create';
         assertDataToParams(data, 'handleGroupListOffsetRoute', {
           view: GerritView.ADMIN,
-          adminView: 'gr-admin-group-list',
+          adminView: AdminChildView.GROUPS,
           offset: '42',
           filter: null,
           openCreateModal: true,
@@ -851,7 +852,7 @@ suite('gr-router tests', () => {
         };
         assertDataToParams(data, 'handleGroupListFilterOffsetRoute', {
           view: GerritView.ADMIN,
-          adminView: 'gr-admin-group-list',
+          adminView: AdminChildView.GROUPS,
           offset: '42',
           filter: 'foo',
         });
@@ -861,7 +862,7 @@ suite('gr-router tests', () => {
         const data = {...createPageContext(), params: {filter: 'foo'}};
         assertDataToParams(data, 'handleGroupListFilterRoute', {
           view: GerritView.ADMIN,
-          adminView: 'gr-admin-group-list',
+          adminView: AdminChildView.GROUPS,
           filter: 'foo',
         });
       });
@@ -1042,7 +1043,7 @@ suite('gr-router tests', () => {
           const data = createPageContext();
           assertDataToParams(data, 'handleRepoListOffsetRoute', {
             view: GerritView.ADMIN,
-            adminView: 'gr-repo-list',
+            adminView: AdminChildView.REPOS,
             offset: 0,
             filter: null,
             openCreateModal: false,
@@ -1051,7 +1052,7 @@ suite('gr-router tests', () => {
           data.params[1] = '42';
           assertDataToParams(data, 'handleRepoListOffsetRoute', {
             view: GerritView.ADMIN,
-            adminView: 'gr-repo-list',
+            adminView: AdminChildView.REPOS,
             offset: '42',
             filter: null,
             openCreateModal: false,
@@ -1060,7 +1061,7 @@ suite('gr-router tests', () => {
           data.hash = 'create';
           assertDataToParams(data, 'handleRepoListOffsetRoute', {
             view: GerritView.ADMIN,
-            adminView: 'gr-repo-list',
+            adminView: AdminChildView.REPOS,
             offset: '42',
             filter: null,
             openCreateModal: true,
@@ -1074,7 +1075,7 @@ suite('gr-router tests', () => {
           };
           assertDataToParams(data, 'handleRepoListFilterOffsetRoute', {
             view: GerritView.ADMIN,
-            adminView: 'gr-repo-list',
+            adminView: AdminChildView.REPOS,
             offset: '42',
             filter: 'foo',
           });
@@ -1084,14 +1085,14 @@ suite('gr-router tests', () => {
           const data = createPageContext();
           assertDataToParams(data, 'handleRepoListFilterRoute', {
             view: GerritView.ADMIN,
-            adminView: 'gr-repo-list',
+            adminView: AdminChildView.REPOS,
             filter: null,
           });
 
           data.params.filter = 'foo';
           assertDataToParams(data, 'handleRepoListFilterRoute', {
             view: GerritView.ADMIN,
-            adminView: 'gr-repo-list',
+            adminView: AdminChildView.REPOS,
             filter: 'foo',
           });
         });
@@ -1103,7 +1104,7 @@ suite('gr-router tests', () => {
         const data = createPageContext();
         assertDataToParams(data, 'handlePluginListOffsetRoute', {
           view: GerritView.ADMIN,
-          adminView: 'gr-plugin-list',
+          adminView: AdminChildView.PLUGINS,
           offset: 0,
           filter: null,
         });
@@ -1111,7 +1112,7 @@ suite('gr-router tests', () => {
         data.params[1] = '42';
         assertDataToParams(data, 'handlePluginListOffsetRoute', {
           view: GerritView.ADMIN,
-          adminView: 'gr-plugin-list',
+          adminView: AdminChildView.PLUGINS,
           offset: '42',
           filter: null,
         });
@@ -1124,7 +1125,7 @@ suite('gr-router tests', () => {
         };
         assertDataToParams(data, 'handlePluginListFilterOffsetRoute', {
           view: GerritView.ADMIN,
-          adminView: 'gr-plugin-list',
+          adminView: AdminChildView.PLUGINS,
           offset: '42',
           filter: 'foo',
         });
@@ -1134,14 +1135,14 @@ suite('gr-router tests', () => {
         const data = createPageContext();
         assertDataToParams(data, 'handlePluginListFilterRoute', {
           view: GerritView.ADMIN,
-          adminView: 'gr-plugin-list',
+          adminView: AdminChildView.PLUGINS,
           filter: null,
         });
 
         data.params.filter = 'foo';
         assertDataToParams(data, 'handlePluginListFilterRoute', {
           view: GerritView.ADMIN,
-          adminView: 'gr-plugin-list',
+          adminView: AdminChildView.PLUGINS,
           filter: 'foo',
         });
       });
@@ -1150,7 +1151,7 @@ suite('gr-router tests', () => {
         const data = createPageContext();
         assertDataToParams(data, 'handlePluginListRoute', {
           view: GerritView.ADMIN,
-          adminView: 'gr-plugin-list',
+          adminView: AdminChildView.PLUGINS,
         });
       });
     });

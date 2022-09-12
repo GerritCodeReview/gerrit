@@ -13,13 +13,13 @@ import {
   GroupName,
   GroupNameToGroupInfoMap,
 } from '../../../types/common';
-import {AppElementAdminParams} from '../../gr-app-types';
 import {GerritView} from '../../../services/router/router-model';
 import {GrListView} from '../../shared/gr-list-view/gr-list-view';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {SHOWN_ITEMS_COUNT} from '../../../constants/constants';
 import {fixture, html, assert} from '@open-wc/testing';
+import {AdminChildView, AdminViewState} from '../../../models/views/admin';
 
 function createGroup(name: string, counter: number) {
   return {
@@ -56,7 +56,10 @@ suite('gr-admin-group-list tests', () => {
   let element: GrAdminGroupList;
   let groups: GroupNameToGroupInfoMap;
 
-  const value: AppElementAdminParams = {view: GerritView.ADMIN, adminView: ''};
+  const value: AdminViewState = {
+    view: GerritView.ADMIN,
+    adminView: AdminChildView.GROUPS,
+  };
 
   setup(async () => {
     element = await fixture(html`<gr-admin-group-list></gr-admin-group-list>`);

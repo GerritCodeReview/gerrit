@@ -52,6 +52,7 @@ import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.FieldBundle;
+import com.google.gerrit.index.query.Paginated;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.ResultSet;
@@ -353,7 +354,7 @@ public class LuceneChangeIndex implements ChangeIndex {
         new SortField(idSortFieldName, SortField.Type.LONG, true));
   }
 
-  private class QuerySource implements ChangeDataSource {
+  private class QuerySource implements ChangeDataSource, Paginated {
     private final List<ChangeSubIndex> indexes;
     private final Predicate<ChangeData> predicate;
     private final Query query;
@@ -497,6 +498,30 @@ public class LuceneChangeIndex implements ChangeIndex {
             }
           }
         }
+      }
+    }
+
+    @Override
+    public QueryOptions getOptions() {
+      return opts;
+    }
+
+    @Override
+    public ResultSet restart(int start, int pageSize) {
+      try {
+        return getSource(predicate, opts.withStart(start).withPageSize(pageSize)).read();
+      } catch (QueryParseException e) {
+        throw new StorageException(e);
+      }
+    }
+
+    @Override
+    public ResultSet restart(Object searchAfter, int pageSize) {
+      try {
+        return getSource(predicate, opts.withSearchAfter(searchAfter).withPageSize(pageSize))
+            .read();
+      } catch (QueryParseException e) {
+        throw new StorageException(e);
       }
     }
   }

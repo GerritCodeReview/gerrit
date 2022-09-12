@@ -43,6 +43,7 @@ import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.ListResultSet;
+import com.google.gerrit.index.query.Paginated;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.ResultSet;
@@ -349,12 +350,14 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     }
   }
 
-  protected class ElasticQuerySource implements DataSource<V> {
+  protected class ElasticQuerySource implements DataSource<V>, Paginated<V> {
     private final QueryOptions opts;
+    private final Predicate<V> p;
     private final String search;
 
     ElasticQuerySource(Predicate<V> p, QueryOptions opts, JsonArray sortArray)
         throws QueryParseException {
+      this.p = p;
       this.opts = opts;
       QueryBuilder qb = queryBuilder.toQueryBuilder(p);
       SearchSourceBuilder searchSource =
@@ -422,6 +425,33 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
         }
         return new ListResultSet<>(ImmutableList.of());
       } catch (IOException e) {
+        throw new StorageException(e);
+      }
+    }
+
+    @Override
+    public QueryOptions getOptions() {
+      return opts;
+    }
+
+    @Override
+    public ResultSet<V> restart(int start, int pageSize) {
+      try {
+        return AbstractElasticIndex.this
+            .getSource(p, opts.withStart(start).withPageSize(pageSize))
+            .read();
+      } catch (QueryParseException e) {
+        throw new StorageException(e);
+      }
+    }
+
+    @Override
+    public ResultSet<V> restart(Object searchAfter, int pageSize) {
+      try {
+        return AbstractElasticIndex.this
+            .getSource(p, opts.withSearchAfter(searchAfter).withPageSize(pageSize))
+            .read();
+      } catch (QueryParseException e) {
         throw new StorageException(e);
       }
     }

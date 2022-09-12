@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "15047c2b_6d7fe70c",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-09-12T12:50:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58e3e935_91e8e471",
+      "range": {
+        "startLine": 626,
+        "startChar": 14,
+        "endLine": 626,
+        "endChar": 24
+      },
+      "revId": "41f2db6aa59235acfd6d2b74aefd88e887fa6625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cbe7dee9_83731eed",
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3566ef10_605d5f0b",
+        "filename": "java/com/google/gerrit/server/query/change/EditPredicate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-09-12T12:50:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbe7dee9_83731eed",
+      "range": {
+        "startLine": 29,
+        "startChar": 10,
+        "endLine": 29,
+        "endChar": 20
+      },
+      "revId": "41f2db6aa59235acfd6d2b74aefd88e887fa6625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e8b09101_cbbfd09d",
@@ -77,6 +125,24 @@
       "writtenOn": "2022-09-12T12:13:54Z",
       "side": 1,
       "message": "Please add a test that doesn\u0027t match if the change is merged.",
+      "revId": "41f2db6aa59235acfd6d2b74aefd88e887fa6625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a91bb84_2190010f",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-09-12T12:50:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8b09101_cbbfd09d",
       "revId": "41f2db6aa59235acfd6d2b74aefd88e887fa6625",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

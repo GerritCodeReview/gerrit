@@ -16,7 +16,7 @@ import {
   GrAutocomplete,
 } from '../gr-autocomplete/gr-autocomplete';
 import {Key} from '../../../utils/dom-util';
-import {pressKey, waitUntil} from '../../../test/test-utils';
+import {pressKey, waitEventLoop, waitUntil} from '../../../test/test-utils';
 import {IronInputElement} from '@polymer/iron-input';
 
 suite('gr-editable-label tests', () => {
@@ -120,7 +120,7 @@ suite('gr-editable-label tests', () => {
     assert.equal(elementNoPlaceholder.title, '');
     element.value = 'value text';
 
-    await flush();
+    await waitEventLoop();
     assert.equal(element.title, 'value text');
   });
 
@@ -130,14 +130,14 @@ suite('gr-editable-label tests', () => {
     assert.isFalse(element.editing);
 
     label.click();
-    await flush();
+    await waitEventLoop();
 
     assert.isTrue(element.editing);
     assert.isFalse(editedSpy.called);
 
     element.inputText = 'new text';
     pressKey(input, Key.ENTER);
-    await flush();
+    await waitEventLoop();
 
     assert.isTrue(editedSpy.called);
     assert.equal(input.value, 'new text');
@@ -150,14 +150,14 @@ suite('gr-editable-label tests', () => {
     assert.isFalse(element.editing);
 
     label.click();
-    await flush();
+    await waitEventLoop();
 
     assert.isTrue(element.editing);
     assert.isFalse(editedSpy.called);
 
     element.inputText = 'new text';
     pressKey(queryAndAssert<GrButton>(element, '#saveBtn'), Key.ENTER);
-    await flush();
+    await waitEventLoop();
 
     assert.isTrue(editedSpy.called);
     assert.equal(input.value, 'new text');
@@ -170,14 +170,14 @@ suite('gr-editable-label tests', () => {
     assert.isFalse(element.editing);
 
     label.click();
-    await flush();
+    await waitEventLoop();
 
     assert.isTrue(element.editing);
     assert.isFalse(editedSpy.called);
 
     element.inputText = 'new text';
     pressKey(input, Key.ESC);
-    await flush();
+    await waitEventLoop();
 
     assert.isFalse(editedSpy.called);
     // Text changes should be discarded.
@@ -191,7 +191,7 @@ suite('gr-editable-label tests', () => {
     assert.isFalse(element.editing);
 
     label.click();
-    await flush();
+    await waitEventLoop();
 
     assert.isTrue(element.editing);
     assert.isFalse(editedSpy.called);
@@ -199,7 +199,7 @@ suite('gr-editable-label tests', () => {
     element.inputText = 'new text';
     // Press escape:
     queryAndAssert<GrButton>(element, '#cancelBtn').click();
-    await flush();
+    await waitEventLoop();
 
     assert.isFalse(editedSpy.called);
     // Text changes should be discarded.

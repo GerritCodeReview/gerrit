@@ -3,7 +3,7 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../test/common-test-setup-karma.js';
+import '../../../test/common-test-setup-karma';
 import './gr-change-list-view';
 import {GrChangeListView} from './gr-change-list-view';
 import {page} from '../../../utils/page-wrapper-utils';
@@ -15,15 +15,15 @@ import {
   queryAndAssert,
   stubFlags,
 } from '../../../test/test-utils';
-import {createChange} from '../../../test/test-data-generators.js';
+import {createChange} from '../../../test/test-data-generators';
 import {
   ChangeInfo,
   EmailAddress,
   NumericChangeId,
   RepoName,
-} from '../../../api/rest-api.js';
+} from '../../../api/rest-api';
 import {fixture, html, waitUntil, assert} from '@open-wc/testing';
-import {GerritView} from '../../../services/router/router-model.js';
+import {GerritView} from '../../../services/router/router-model';
 
 const CHANGE_ID = 'IcA3dAB3edAB9f60B8dcdA6ef71A75980e4B7127';
 const COMMIT_HASH = '12345678';

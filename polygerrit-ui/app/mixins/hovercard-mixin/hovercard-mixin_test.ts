@@ -7,7 +7,12 @@ import '../../test/common-test-setup-karma';
 import {HovercardMixin} from './hovercard-mixin';
 import {LitElement} from 'lit';
 import {customElement} from 'lit/decorators.js';
-import {MockPromise, mockPromise, pressKey} from '../../test/test-utils';
+import {
+  MockPromise,
+  mockPromise,
+  pressKey,
+  waitEventLoop,
+} from '../../test/test-utils';
 import {findActiveElement, Key} from '../../utils/dom-util';
 import {fixture, html, assert} from '@open-wc/testing';
 
@@ -132,7 +137,7 @@ suite('gr-hovercard tests', () => {
     button!.dispatchEvent(new CustomEvent('mousemove'));
 
     await enterPromise;
-    await flush();
+    await waitEventLoop();
     assert.isTrue(element.isScheduledToShow);
     element.showTask!.flush();
     assert.isTrue(element._isShowing);
@@ -160,7 +165,7 @@ suite('gr-hovercard tests', () => {
     button!.dispatchEvent(new CustomEvent('mousemove'));
 
     await enterPromise;
-    await flush();
+    await waitEventLoop();
     assert.isTrue(element.isScheduledToShow);
     button!.click();
 

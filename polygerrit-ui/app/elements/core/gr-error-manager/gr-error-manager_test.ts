@@ -10,7 +10,12 @@ import {
   GrErrorManager,
   __testOnly_ErrorType,
 } from './gr-error-manager';
-import {stubAuth, stubReporting, stubRestApi} from '../../../test/test-utils';
+import {
+  stubAuth,
+  stubReporting,
+  stubRestApi,
+  waitEventLoop,
+} from '../../../test/test-utils';
 import {AppContext, getAppContext} from '../../../services/app-context';
 import {
   createAccountDetailWithId,
@@ -101,7 +106,7 @@ suite('gr-error-manager tests', () => {
           bubbles: true,
         })
       );
-      await flush();
+      await waitEventLoop();
       assert.isFalse(showAuthErrorStub.calledOnce);
     });
 
@@ -123,7 +128,7 @@ suite('gr-error-manager tests', () => {
           bubbles: true,
         })
       );
-      await flush();
+      await waitEventLoop();
       assert.isTrue(showAuthErrorStub.calledOnce);
     });
 
@@ -146,7 +151,7 @@ suite('gr-error-manager tests', () => {
           bubbles: true,
         })
       );
-      await flush();
+      await waitEventLoop();
       assert.isTrue(getLoggedInStub.calledOnce);
     });
 
@@ -178,7 +183,7 @@ suite('gr-error-manager tests', () => {
       );
 
       assert.isTrue(textSpy.called);
-      await flush();
+      await waitEventLoop();
       assert.isTrue(showErrorSpy.calledOnce);
       assert.isTrue(showErrorSpy.lastCall.calledWithExactly('Error 500: ZOMG'));
     });
@@ -237,7 +242,7 @@ suite('gr-error-manager tests', () => {
           bubbles: true,
         })
       );
-      await flush();
+      await waitEventLoop();
       assert.equal(element.errorDialog.text, 'Error 500: 500\nTrace Id: xxxx');
     });
 
@@ -255,7 +260,7 @@ suite('gr-error-manager tests', () => {
       );
 
       assert.isTrue(textSpy.called);
-      await flush();
+      await waitEventLoop();
       assert.isFalse(showAlertStub.called);
     });
 
@@ -268,7 +273,7 @@ suite('gr-error-manager tests', () => {
           bubbles: true,
         })
       );
-      await flush();
+      await waitEventLoop();
       assert.isTrue(showAlertStub.calledOnce);
       assert.isTrue(
         showAlertStub.lastCall.calledWithExactly('Server unavailable')
@@ -331,15 +336,15 @@ suite('gr-error-manager tests', () => {
         })
       );
       assert.equal(fetchStub.callCount, 1);
-      await flush();
+      await waitEventLoop();
 
-      // here needs two flush as there are two chained
-      // promises on server-error handler and flush only flushes one
+      // here needs two waitEventLoop() as there are two chained promises on
+      // server-error handler and waitEventLoop() only flushes one
       assert.equal(fetchStub.callCount, 2);
-      await flush();
+      await waitEventLoop();
       // Sometime overlay opens with delay, waiting while open is complete
       clock.tick(1000);
-      await flush();
+      await waitEventLoop();
       // auth-error fired
       assert.isTrue(toastSpy.called);
 
@@ -375,7 +380,7 @@ suite('gr-error-manager tests', () => {
       clock.tick(1000);
       element.knownAccountId = 5 as AccountId;
       element.checkSignedIn();
-      await flush();
+      await waitEventLoop();
 
       assert.isTrue(refreshStub.called);
       assert.isTrue(hideToastSpy.called);
@@ -404,7 +409,7 @@ suite('gr-error-manager tests', () => {
           bubbles: true,
         })
       );
-      await flush();
+      await waitEventLoop();
       let toast = toastSpy.lastCall.returnValue;
       assert.isOk(toast);
       assert.include(toast.shadowRoot.textContent, 'test reload');
@@ -425,15 +430,15 @@ suite('gr-error-manager tests', () => {
           bubbles: true,
         })
       );
-      await flush();
-      await flush();
-      // here needs two flush as there are two chained
-      // promises on server-error handler and flush only flushes one
+      await waitEventLoop();
+      await waitEventLoop();
+      // here needs two waitEventLoop() as there are two chained promises on
+      // server-error handler and waitEventLoop() only flushes one
       assert.equal(fetchStub.callCount, 2);
-      await flush();
+      await waitEventLoop();
       // Sometime overlay opens with delay, waiting while open is complete
       clock.tick(1000);
-      await flush();
+      await waitEventLoop();
       // toast
       toast = toastSpy.lastCall.returnValue;
       assert.include(toast.shadowRoot.textContent, 'Credentials expired.');
@@ -452,7 +457,7 @@ suite('gr-error-manager tests', () => {
           bubbles: true,
         })
       );
-      await flush();
+      await waitEventLoop();
       let toast = toastSpy.lastCall.returnValue;
       assert.isOk(toast);
       assert.include(toast.shadowRoot.textContent, 'test reload');
@@ -465,7 +470,7 @@ suite('gr-error-manager tests', () => {
           bubbles: true,
         })
       );
-      await flush();
+      await waitEventLoop();
       toast = toastSpy.lastCall.returnValue;
       assert.include(toast.shadowRoot.textContent, 'second-test');
     });
@@ -492,12 +497,12 @@ suite('gr-error-manager tests', () => {
         })
       );
       assert.equal(fetchStub.callCount, 1);
-      await flush();
+      await waitEventLoop();
 
-      // here needs two flush as there are two chained
-      // promises on server-error handler and flush only flushes one
+      // here needs two waitEventLoop() as there are two chained promises on
+      // server-error handler and waitEventLoop() only flushes one
       assert.equal(fetchStub.callCount, 2);
-      await flush();
+      await waitEventLoop();
       await waitUntil(() => toastSpy.calledOnce);
       let toast = toastSpy.lastCall.returnValue;
       assert.include(toast.shadowRoot.textContent, 'Credentials expired.');
@@ -515,7 +520,7 @@ suite('gr-error-manager tests', () => {
         })
       );
 
-      await flush();
+      await waitEventLoop();
       assert.isTrue(toastSpy.calledOnce);
       toast = toastSpy.lastCall.returnValue;
       assert.isOk(toast);
@@ -574,7 +579,7 @@ suite('gr-error-manager tests', () => {
       element.refreshingCredentials = true;
       element.checkSignedIn();
 
-      await flush();
+      await waitEventLoop();
       assert.isFalse(requestCheckStub.called);
       assert.isTrue(handleRefreshStub.called);
       assert.isFalse(reloadStub.called);
@@ -600,7 +605,7 @@ suite('gr-error-manager tests', () => {
           bubbles: true,
         })
       );
-      await flush();
+      await waitEventLoop();
 
       assert.isTrue(openStub.called);
       assert.isTrue(reportStub.called);
@@ -612,7 +617,7 @@ suite('gr-error-manager tests', () => {
           bubbles: true,
         })
       );
-      await flush();
+      await waitEventLoop();
 
       assert.isTrue(closeStub.called);
     });
@@ -633,7 +638,7 @@ suite('gr-error-manager tests', () => {
       element.refreshingCredentials = true;
       element.checkSignedIn();
 
-      await flush();
+      await waitEventLoop();
 
       assert.isFalse(requestCheckStub.called);
       assert.isFalse(handleRefreshStub.called);
@@ -669,7 +674,7 @@ suite('gr-error-manager tests', () => {
       element.refreshingCredentials = true;
       element.checkSignedIn();
 
-      await flush();
+      await waitEventLoop();
       assert.isTrue(requestCheckStub.called);
       assert.isFalse(handleRefreshStub.called);
       assert.isFalse(reloadStub.called);

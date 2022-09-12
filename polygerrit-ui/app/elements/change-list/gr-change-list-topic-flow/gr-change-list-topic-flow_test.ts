@@ -23,6 +23,7 @@ import {
   queryAndAssert,
   stubReporting,
   stubRestApi,
+  waitEventLoop,
   waitUntil,
   waitUntilCalled,
   waitUntilObserved,
@@ -218,7 +219,7 @@ suite('gr-change-list-topic-flow tests', () => {
       // open flow
       queryAndAssert<GrButton>(element, 'gr-button#start-flow').click();
       await element.updateComplete;
-      await flush();
+      await waitEventLoop();
     });
 
     test('renders existing-topics flow', () => {
@@ -536,7 +537,7 @@ suite('gr-change-list-topic-flow tests', () => {
       // open flow
       queryAndAssert<GrButton>(element, 'gr-button#start-flow').click();
       await element.updateComplete;
-      await flush();
+      await waitEventLoop();
     });
 
     test('renders no-existing-topics flow', () => {

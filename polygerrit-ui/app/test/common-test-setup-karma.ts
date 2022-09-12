@@ -4,14 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {testResolver as testResolverImpl} from './common-test-setup';
-import {flush} from '@polymer/polymer/lib/utils/flush';
 
 declare global {
   interface Window {
-    flush: typeof flushImpl;
     testResolver: typeof testResolverImpl;
   }
-  let flush: typeof flushImpl;
   let testResolver: typeof testResolverImpl;
 }
 
@@ -59,35 +56,5 @@ suiteTeardown(() => {
     throw unhandledError;
   }
 });
-
-// Tests can use fake timers (sandbox.useFakeTimers)
-// Keep the original one for use in test utils methods.
-const nativeSetTimeout = window.setTimeout;
-
-function flushImpl(): Promise<void>;
-function flushImpl(callback: () => void): void;
-/**
- * Triggers a flush of any pending events, observations, etc and calls you back
- * after they have been processed if callback is passed; otherwise returns
- * promise.
- */
-function flushImpl(callback?: () => void): Promise<void> | void {
-  // Ideally, this function would be a call to Polymer.dom.flush, but that
-  // doesn't support a callback yet
-  // (https://github.com/Polymer/polymer-dev/issues/851)
-  // The type is used only in one place, disable eslint warning instead of
-  // creating an interface
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  flush();
-  if (callback) {
-    nativeSetTimeout(callback, 0);
-  } else {
-    return new Promise(resolve => {
-      nativeSetTimeout(resolve, 0);
-    });
-  }
-}
-
-self.flush = flushImpl;
 
 window.testResolver = testResolverImpl;

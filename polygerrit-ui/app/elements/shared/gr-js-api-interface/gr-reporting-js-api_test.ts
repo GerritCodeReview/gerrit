@@ -3,13 +3,13 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../test/common-test-setup-karma.js';
-import '../../change/gr-reply-dialog/gr-reply-dialog.js';
-import {getAppContext} from '../../../services/app-context.js';
-import {stubRestApi} from '../../../test/test-utils.js';
-import {PluginApi} from '../../../api/plugin.js';
-import {ReportingService} from '../../../services/gr-reporting/gr-reporting.js';
-import {ReportingPluginApi} from '../../../api/reporting.js';
+import '../../../test/common-test-setup-karma';
+import '../../change/gr-reply-dialog/gr-reply-dialog';
+import {getAppContext} from '../../../services/app-context';
+import {stubRestApi} from '../../../test/test-utils';
+import {PluginApi} from '../../../api/plugin';
+import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
+import {ReportingPluginApi} from '../../../api/reporting';
 import {assert} from '@open-wc/testing';
 
 suite('gr-reporting-js-api tests', () => {

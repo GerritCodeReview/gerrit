@@ -222,8 +222,8 @@ suite('gr-edit-controls tests', () => {
       assert.isTrue(hideDialogStub.called);
       assert.isTrue(element.openDialog!.disabled);
       assert.isFalse(queryStub.called);
-      // Setup focused manually - in headless mode Chrome sometimes don't
-      // setup focus. flush and/or flushAsynchronousOperations don't help
+      // Setup focused manually - in headless mode Chrome sometimes doesn't
+      // setup focus. waitEventLoop() doesn't help.
       openAutoComplete.focused = true;
       openAutoComplete.noDebounce = true;
       openAutoComplete.text = 'src/test.cpp';
@@ -283,8 +283,8 @@ suite('gr-edit-controls tests', () => {
       await showDialogSpy.lastCall.returnValue;
       assert.isTrue(element.deleteDialog!.disabled);
       assert.isFalse(queryStub.called);
-      // Setup focused manually - in headless mode Chrome sometimes don't
-      // setup focus. flush and/or flushAsynchronousOperations don't help
+      // Setup focused manually - in headless mode Chrome sometimes doesn't
+      // setup focus. waitEventLoop() doesn't help.
       deleteAutocomplete.focused = true;
       deleteAutocomplete.noDebounce = true;
       deleteAutocomplete.text = 'src/test.cpp';
@@ -310,8 +310,8 @@ suite('gr-edit-controls tests', () => {
       await showDialogSpy.lastCall.returnValue;
       assert.isTrue(element.deleteDialog!.disabled);
       assert.isFalse(queryStub.called);
-      // Setup focused manually - in headless mode Chrome sometimes don't
-      // setup focus. flush and/or flushAsynchronousOperations don't help
+      // Setup focused manually - in headless mode Chrome sometimes doesn't
+      // setup focus. waitEventLoop() doesn't help.
       deleteAutocomplete.focused = true;
       deleteAutocomplete.noDebounce = true;
       deleteAutocomplete.text = 'src/test.cpp';
@@ -370,8 +370,8 @@ suite('gr-edit-controls tests', () => {
       await showDialogSpy.lastCall.returnValue;
       assert.isTrue(element.renameDialog!.disabled);
       assert.isFalse(queryStub.called);
-      // Setup focused manually - in headless mode Chrome sometimes don't
-      // setup focus. flush and/or flushAsynchronousOperations don't help
+      // Setup focused manually - in headless mode Chrome sometimes doesn't
+      // setup focus. waitEventLoop() doesn't help.
       renameAutocomplete.focused = true;
       renameAutocomplete.noDebounce = true;
       renameAutocomplete.text = 'src/test.cpp';
@@ -402,8 +402,8 @@ suite('gr-edit-controls tests', () => {
       await showDialogSpy.lastCall.returnValue;
       assert.isTrue(element.renameDialog!.disabled);
       assert.isFalse(queryStub.called);
-      // Setup focused manually - in headless mode Chrome sometimes don't
-      // setup focus. flush and/or flushAsynchronousOperations don't help
+      // Setup focused manually - in headless mode Chrome sometimes doesn't
+      // setup focus. waitEventLoop() doesn't help.
       renameAutocomplete.focused = true;
       renameAutocomplete.noDebounce = true;
       renameAutocomplete.text = 'src/test.cpp';

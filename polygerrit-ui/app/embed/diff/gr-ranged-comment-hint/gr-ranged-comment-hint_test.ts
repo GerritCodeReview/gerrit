@@ -7,7 +7,7 @@ import '../../../test/common-test-setup-karma';
 import './gr-ranged-comment-hint';
 import {CommentRange} from '../../../types/common';
 import {GrRangedCommentHint} from './gr-ranged-comment-hint';
-import {queryAndAssert} from '../../../test/test-utils';
+import {queryAndAssert, waitEventLoop} from '../../../test/test-utils';
 import {GrRangeHeader} from '../gr-range-header/gr-range-header';
 import {fixture, html, assert} from '@open-wc/testing';
 
@@ -18,7 +18,7 @@ suite('gr-ranged-comment-hint tests', () => {
     element = await fixture(
       html`<gr-ranged-comment-hint></gr-ranged-comment-hint>`
     );
-    await flush();
+    await waitEventLoop();
   });
 
   test('shows line range', async () => {
@@ -28,7 +28,7 @@ suite('gr-ranged-comment-hint tests', () => {
       end_line: 5,
       end_character: 3,
     } as CommentRange;
-    await flush();
+    await waitEventLoop();
     const textDiv = queryAndAssert<GrRangeHeader>(element, 'gr-range-header');
     assert.equal(textDiv?.innerText.trim(), 'Long comment range 2 - 5');
   });

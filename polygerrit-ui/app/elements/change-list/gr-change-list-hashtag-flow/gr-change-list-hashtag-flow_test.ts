@@ -23,6 +23,7 @@ import {
   queryAndAssert,
   stubReporting,
   stubRestApi,
+  waitEventLoop,
   waitUntil,
   waitUntilCalled,
   waitUntilObserved,
@@ -227,7 +228,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
       // open flow
       queryAndAssert<GrButton>(element, 'gr-button#start-flow').click();
       await element.updateComplete;
-      await flush();
+      await waitEventLoop();
     });
 
     test('renders hashtags flow', () => {

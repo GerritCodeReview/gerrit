@@ -20,6 +20,7 @@ import {
   query,
   queryAndAssert,
   stubRestApi,
+  waitEventLoop,
 } from '../../../test/test-utils';
 import {GrMessage} from './gr-message';
 import {
@@ -73,7 +74,7 @@ suite('gr-message tests', () => {
         assert.deepEqual(e.detail.message, element.message);
         promise.resolve();
       });
-      await flush();
+      await waitEventLoop();
       assert.isOk(query<HTMLElement>(element, '.replyActionContainer'));
       queryAndAssert<GrButton>(element, '.replyBtn').click();
       await promise;

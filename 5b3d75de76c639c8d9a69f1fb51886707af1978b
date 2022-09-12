@@ -16,6 +16,24 @@
       "message": "I think this broke internal Google tests.",
       "revId": "5b3d75de76c639c8d9a69f1fb51886707af1978b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ea33244_4ad6a04f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-09-12T15:58:57Z",
+      "side": 1,
+      "message": "Looks like there was a bug with reindexing multiple accounts, when updating a batch. This was possible even before this change.\nhttps://gerrit-review.googlesource.com/c/gerrit/+/345230 to fix.",
+      "parentUuid": "94d5d29f_1cb2d8b9",
+      "revId": "5b3d75de76c639c8d9a69f1fb51886707af1978b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

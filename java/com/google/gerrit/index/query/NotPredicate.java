@@ -19,6 +19,8 @@ import static com.google.common.base.Preconditions.checkState;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /** Negates the result of another predicate. */
 public final class NotPredicate<T> extends Predicate<T> implements Matchable<T> {
@@ -70,6 +72,17 @@ public final class NotPredicate<T> extends Predicate<T> implements Matchable<T> 
         that,
         Matchable.class.getName());
     return !that.asMatchable().match(object);
+  }
+
+  @Override
+  public List<T> matchAll(List<T> objects) {
+    checkState(
+        that.isMatchable(),
+        "match invoked, but child predicate %s doesn't implement %s",
+        that,
+        Matchable.class.getName());
+    Set<T> matched = that.asMatchable().matchAll(objects).stream().collect(Collectors.toSet());
+    return objects.stream().filter(o -> !matched.contains(o)).collect(Collectors.toList());
   }
 
   @Override

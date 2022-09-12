@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ef19394_f3061199",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-09-12T08:31:49Z",
+      "side": 1,
+      "message": "Updated the change description. PTAL.",
+      "parentUuid": "17fdb9c2_f3e4832e",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 22
+      },
+      "revId": "6561bce8dcae803e90c8d06c8fabf3dc4b477158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "03769a03_e83eae8a",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-09-09T15:16:03Z",
       "side": 1,
       "message": "it\u0027s unclear why this change was required?\nis this just a refactor or is this necessary for the change?\n\nchanging Lines -\u003e HtmlElement and merging Left/Right ie",
+      "range": {
+        "startLine": 86,
+        "startChar": 10,
+        "endLine": 86,
+        "endChar": 25
+      },
+      "revId": "6561bce8dcae803e90c8d06c8fabf3dc4b477158",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b220a40_fec4fe55",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-09-12T08:31:49Z",
+      "side": 1,
+      "message": "The approach is different. The names are similar. The right side should really be read as a pure green code where this map is concerned.",
+      "parentUuid": "03769a03_e83eae8a",
       "range": {
         "startLine": 86,
         "startChar": 10,

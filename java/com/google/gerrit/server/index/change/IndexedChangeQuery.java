@@ -22,22 +22,27 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Ordering;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.index.IndexConfig;
+import com.google.gerrit.index.PaginationType;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.IndexedQuery;
 import com.google.gerrit.index.query.Matchable;
+import com.google.gerrit.index.query.Paginated;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.ResultSet;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.ChangeIndexPostFilterPredicate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -89,11 +94,13 @@ public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
   }
 
   private final Map<ChangeData, DataSource<ChangeData>> fromSource;
+  private QueryOptions opts;
 
   public IndexedChangeQuery(ChangeIndex index, Predicate<ChangeData> pred, QueryOptions opts)
       throws QueryParseException {
     super(index, pred, convertOptions(opts));
     this.fromSource = new HashMap<>();
+    this.opts = opts;
   }
 
   @Override
@@ -115,11 +122,40 @@ public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
 
       @Override
       public ImmutableList<ChangeData> toList() {
-        ImmutableList<ChangeData> r = rs.toList();
-        for (ChangeData cd : r) {
+        List<ChangeData> r = new ArrayList<>();
+        ChangeData last = null;
+        int pageResultSize = 0;
+        for (ChangeData cd : rs) {
           fromSource.put(cd, currSource);
+          r.add(cd);
+          pageResultSize++;
+          last = cd;
         }
-        return r;
+        if (last != null && source instanceof Paginated) {
+          @SuppressWarnings("unchecked")
+          Paginated<ChangeData> p = (Paginated<ChangeData>) source;
+          int nextStart = pageResultSize;
+          int limit = opts.limit();
+          int pageSize = opts.pageSize();
+          Object searchAfter = rs.searchAfter();
+          int pageSizeMultiplier = opts.pageSizeMultiplier();
+          while (pageResultSize == pageSize && r.size() < limit) {
+            pageSize = getNextPageSize(pageSize, pageSizeMultiplier);
+            pageResultSize = 0;
+            ResultSet<ChangeData> next =
+                opts.config().paginationType().equals(PaginationType.SEARCH_AFTER)
+                    ? p.restart(searchAfter, pageSize)
+                    : p.restart(nextStart, pageSize);
+            for (ChangeData cd : next) {
+              fromSource.put(cd, currSource);
+              r.add(cd);
+              pageResultSize++;
+            }
+            nextStart += pageResultSize;
+            searchAfter = next.searchAfter();
+          }
+        }
+        return ImmutableList.copyOf(r);
       }
 
       @Override
@@ -130,6 +166,22 @@ public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
       @Override
       public Object searchAfter() {
         return rs.searchAfter();
+      }
+
+      private int getNextPageSize(int pageSize, int pageSizeMultiplier) {
+        List<Integer> possiblePageSizes = new ArrayList<>(3);
+        try {
+          possiblePageSizes.add(Math.multiplyExact(pageSize, pageSizeMultiplier));
+        } catch (ArithmeticException e) {
+          possiblePageSizes.add(Integer.MAX_VALUE);
+        }
+        if (opts.config().maxPageSize() > 0) {
+          possiblePageSizes.add(opts.config().maxPageSize());
+        }
+        if (opts.config().maxLimit() > 0) {
+          possiblePageSizes.add(opts.config().maxLimit());
+        }
+        return Ordering.natural().min(possiblePageSizes);
       }
     };
   }

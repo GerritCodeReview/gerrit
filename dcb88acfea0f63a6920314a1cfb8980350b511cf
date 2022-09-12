@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7906aecd_de45b98c",
+        "filename": "polygerrit-ui/app/models/views/admin.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-12T12:51:54Z",
+      "side": 1,
+      "message": "Discussed offline and decided to stick to View for now.",
+      "parentUuid": "4edac66a_1ca28528",
+      "revId": "dcb88acfea0f63a6920314a1cfb8980350b511cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "45cb9596_5f517389",

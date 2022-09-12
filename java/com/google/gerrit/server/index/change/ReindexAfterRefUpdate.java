@@ -90,10 +90,12 @@ public class ReindexAfterRefUpdate implements GitBatchRefUpdateListener {
     if (allUsersName.get().equals(event.getProjectName())) {
       for (UpdatedRef ref : event.getUpdatedRefs()) {
         if (!RefNames.REFS_CONFIG.equals(ref.getRefName())) {
-          Account.Id accountId = Account.Id.fromRef(ref.getRefName());
-          if (accountId != null && !ref.getRefName().startsWith(RefNames.REFS_STARRED_CHANGES)) {
-            indexer.get().index(accountId);
+          if (ref.getRefName().startsWith(RefNames.REFS_STARRED_CHANGES)) {
             break;
+          }
+          Account.Id accountId = Account.Id.fromRef(ref.getRefName());
+          if (accountId != null) {
+            indexer.get().index(accountId);
           }
         }
       }

@@ -3,7 +3,7 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../test/common-test-setup-karma';
+import '../../../test/common-test-setup';
 import {mockPromise, MockPromise, resetPlugins} from '../../../test/test-utils';
 import './gr-external-style';
 import {GrExternalStyle} from './gr-external-style';

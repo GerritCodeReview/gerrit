@@ -3,7 +3,7 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../test/common-test-setup-karma';
+import '../../../test/common-test-setup';
 import '../gr-diff/gr-diff-group';
 import './gr-context-controls';
 import {GrContextControls} from './gr-context-controls';

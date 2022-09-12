@@ -3,7 +3,7 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../test/common-test-setup-karma';
+import '../../../test/common-test-setup';
 import './gr-diff-preferences-dialog';
 import {GrDiffPreferencesDialog} from './gr-diff-preferences-dialog';
 import {createDefaultDiffPrefs} from '../../../constants/constants';

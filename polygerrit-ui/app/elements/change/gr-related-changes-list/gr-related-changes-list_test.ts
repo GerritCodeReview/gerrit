@@ -8,7 +8,7 @@ import {SinonStubbedMember} from 'sinon';
 import {PluginApi} from '../../../api/plugin';
 import {ChangeStatus} from '../../../constants/constants';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
-import '../../../test/common-test-setup-karma';
+import '../../../test/common-test-setup';
 import {
   createChange,
   createCommitInfoWithRequiredCommit,

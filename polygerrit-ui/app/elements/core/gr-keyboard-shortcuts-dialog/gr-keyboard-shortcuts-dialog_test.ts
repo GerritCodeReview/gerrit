@@ -3,7 +3,7 @@
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../test/common-test-setup-karma';
+import '../../../test/common-test-setup';
 import './gr-keyboard-shortcuts-dialog';
 import {GrKeyboardShortcutsDialog} from './gr-keyboard-shortcuts-dialog';
 import {

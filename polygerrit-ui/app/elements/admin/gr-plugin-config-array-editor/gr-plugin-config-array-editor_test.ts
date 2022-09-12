@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {ConfigParameterInfoType} from '../../../constants/constants';
-import '../../../test/common-test-setup-karma';
+import '../../../test/common-test-setup';
 import './gr-plugin-config-array-editor';
 import {GrPluginConfigArrayEditor} from './gr-plugin-config-array-editor';
 import {queryAll, queryAndAssert, pressKey} from '../../../test/test-utils';

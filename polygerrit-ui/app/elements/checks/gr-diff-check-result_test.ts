@@ -6,7 +6,7 @@
 import {assert} from '@open-wc/testing';
 import {fakeRun1} from '../../models/checks/checks-fakes';
 import {RunResult} from '../../models/checks/checks-model';
-import '../../test/common-test-setup-karma';
+import '../../test/common-test-setup';
 import './gr-diff-check-result';
 import {GrDiffCheckResult} from './gr-diff-check-result';
 

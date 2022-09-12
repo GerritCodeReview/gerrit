@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {ServerInfo} from '../api/rest-api';
-import '../test/common-test-setup-karma';
+import '../test/common-test-setup';
 import {createGerritInfo, createServerInfo} from '../test/test-data-generators';
 import {
   getBaseUrl,

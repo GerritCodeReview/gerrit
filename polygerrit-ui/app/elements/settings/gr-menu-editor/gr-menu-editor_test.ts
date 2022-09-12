@@ -3,7 +3,7 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../test/common-test-setup-karma';
+import '../../../test/common-test-setup';
 import './gr-menu-editor';
 import {GrMenuEditor} from './gr-menu-editor';
 import {query, queryAndAssert, waitUntil} from '../../../test/test-utils';

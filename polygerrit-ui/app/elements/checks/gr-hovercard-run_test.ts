@@ -3,7 +3,7 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../test/common-test-setup-karma';
+import '../../test/common-test-setup';
 import './gr-hovercard-run';
 import {fixture, html, assert} from '@open-wc/testing';
 import {GrHovercardRun} from './gr-hovercard-run';

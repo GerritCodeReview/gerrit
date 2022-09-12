@@ -5,7 +5,7 @@
  */
 import {assert} from '@open-wc/testing';
 import {DiffInfo, GrDiffLineType, Side} from '../../../api/diff';
-import '../../../test/common-test-setup-karma';
+import '../../../test/common-test-setup';
 import {mockPromise, stubHighlightService} from '../../../test/test-utils';
 import {SyntaxLayerLine} from '../../../types/syntax-worker-api';
 import {GrDiffLine} from '../gr-diff/gr-diff-line';

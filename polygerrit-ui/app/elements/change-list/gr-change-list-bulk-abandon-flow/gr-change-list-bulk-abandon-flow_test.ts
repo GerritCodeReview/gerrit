@@ -12,7 +12,7 @@ import {
   PatchSetNum,
 } from '../../../api/rest-api';
 import {GrChangeListBulkAbandonFlow} from './gr-change-list-bulk-abandon-flow';
-import '../../../test/common-test-setup-karma';
+import '../../../test/common-test-setup';
 import {
   BulkActionsModel,
   bulkActionsModelToken,

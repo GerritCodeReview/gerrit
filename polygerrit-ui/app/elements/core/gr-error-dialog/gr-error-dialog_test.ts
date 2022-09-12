@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {fixture, html, assert} from '@open-wc/testing';
-import '../../../test/common-test-setup-karma';
+import '../../../test/common-test-setup';
 import {mockPromise, queryAndAssert} from '../../../test/test-utils';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {GrErrorDialog} from './gr-error-dialog';

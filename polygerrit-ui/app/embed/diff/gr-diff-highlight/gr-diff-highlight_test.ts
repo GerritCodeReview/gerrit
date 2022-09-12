@@ -3,7 +3,7 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../test/common-test-setup-karma';
+import '../../../test/common-test-setup';
 import './gr-diff-highlight';
 import {_getTextOffset} from './gr-range-normalizer';
 import {fixture, fixtureCleanup, html, assert} from '@open-wc/testing';

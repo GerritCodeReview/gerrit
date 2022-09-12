@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {create, Finalizable, Registry} from './registry';
-import '../test/common-test-setup-karma';
+import '../test/common-test-setup';
 import {assert} from '@open-wc/testing';
 
 class Foo implements Finalizable {

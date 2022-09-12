@@ -26,7 +26,6 @@ import {
   NavLink,
   SubsectionInterface,
 } from '../../../utils/admin-nav-util';
-import {AppElementGroupParams, AppElementRepoParams} from '../../gr-app-types';
 import {
   AccountDetailInfo,
   GroupId,
@@ -45,6 +44,8 @@ import {ifDefined} from 'lit/directives/if-defined.js';
 import {ValueChangedEvent} from '../../../types/events';
 import {GroupDetailView, RepoDetailView} from '../../../utils/router-util';
 import {AdminChildView, AdminViewState} from '../../../models/views/admin';
+import {GroupViewState} from '../../../models/views/group';
+import {RepoViewState} from '../../../models/views/repo';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
 
@@ -58,10 +59,7 @@ export interface AdminSubsectionLink {
 }
 
 // The type is matched to the _showAdminView function from the gr-app-element
-type AdminViewParams =
-  | AdminViewState
-  | AppElementGroupParams
-  | AppElementRepoParams;
+type AdminViewParams = AdminViewState | GroupViewState | RepoViewState;
 
 function getAdminViewParamsDetail(
   params: AdminViewParams
@@ -299,7 +297,7 @@ export class GrAdminView extends LitElement {
   }
 
   private renderRepoMain() {
-    const params = this.params as AppElementRepoParams;
+    const params = this.params as RepoViewState;
     if (
       !(
         params?.view === GerritView.REPO &&
@@ -316,7 +314,7 @@ export class GrAdminView extends LitElement {
   }
 
   private renderGroup() {
-    const params = this.params as AppElementGroupParams;
+    const params = this.params as GroupViewState;
     if (!(params?.view === GerritView.GROUP && !params?.detail)) return;
 
     return html`
@@ -332,7 +330,7 @@ export class GrAdminView extends LitElement {
   }
 
   private renderGroupMembers() {
-    const params = this.params as AppElementGroupParams;
+    const params = this.params as GroupViewState;
     if (
       !(
         params?.view === GerritView.GROUP &&
@@ -349,7 +347,7 @@ export class GrAdminView extends LitElement {
   }
 
   private renderGroupAuditLog() {
-    const params = this.params as AppElementGroupParams;
+    const params = this.params as GroupViewState;
     if (
       !(
         params?.view === GerritView.GROUP &&
@@ -369,7 +367,7 @@ export class GrAdminView extends LitElement {
   }
 
   private renderRepoDetailList() {
-    const params = this.params as AppElementRepoParams;
+    const params = this.params as RepoViewState;
     if (
       !(
         params?.view === GerritView.REPO &&
@@ -390,7 +388,7 @@ export class GrAdminView extends LitElement {
   }
 
   private renderRepoCommands() {
-    const params = this.params as AppElementRepoParams;
+    const params = this.params as RepoViewState;
     if (
       !(
         params?.view === GerritView.REPO &&
@@ -407,7 +405,7 @@ export class GrAdminView extends LitElement {
   }
 
   private renderRepoAccess() {
-    const params = this.params as AppElementRepoParams;
+    const params = this.params as RepoViewState;
     if (
       !(
         params?.view === GerritView.REPO &&
@@ -427,7 +425,7 @@ export class GrAdminView extends LitElement {
   }
 
   private renderRepoDashboards() {
-    const params = this.params as AppElementRepoParams;
+    const params = this.params as RepoViewState;
     if (
       !(
         params?.view === GerritView.REPO &&

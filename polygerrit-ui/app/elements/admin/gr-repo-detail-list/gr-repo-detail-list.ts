@@ -24,7 +24,6 @@ import {
   TagInfo,
   WebLinkInfo,
 } from '../../../types/common';
-import {AppElementRepoParams} from '../../gr-app-types';
 import {firePageError} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
@@ -38,6 +37,7 @@ import {BindValueChangeEvent} from '../../../types/events';
 import {assertIsDefined} from '../../../utils/common-util';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {RepoDetailView} from '../../../utils/router-util';
+import {RepoViewState} from '../../../models/views/repo';
 
 const PGP_START = '-----BEGIN PGP SIGNATURE-----';
 
@@ -51,7 +51,7 @@ export class GrRepoDetailList extends LitElement {
   private readonly createNewModal?: GrCreatePointerDialog;
 
   @property({type: Object})
-  params?: AppElementRepoParams;
+  params?: RepoViewState;
 
   // private but used in test
   @state() detailType?: RepoDetailView.BRANCHES | RepoDetailView.TAGS;

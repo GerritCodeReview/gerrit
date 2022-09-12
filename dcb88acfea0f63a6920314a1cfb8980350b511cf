@@ -16,6 +16,29 @@
       "message": "I know that we called it View because of page.js.  But really these are pages, not views.  As part of this could we rename this?\n\nView makes me think of a view in MVC.",
       "revId": "dcb88acfea0f63a6920314a1cfb8980350b511cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45cb9596_5f517389",
+        "filename": "polygerrit-ui/app/models/views/admin.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-12T12:22:49Z",
+      "side": 1,
+      "message": "I would prefer these files named admin-view-model.ts etc to match our other model file naming convention.",
+      "range": {
+        "startLine": 28,
+        "startChar": 13,
+        "endLine": 28,
+        "endChar": 27
+      },
+      "revId": "dcb88acfea0f63a6920314a1cfb8980350b511cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

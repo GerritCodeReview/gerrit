@@ -18,8 +18,4 @@ export class SettingsViewModel extends Model<SettingsViewState> {
   constructor() {
     super(DEFAULT_STATE);
   }
-
-  updateState(state: SettingsViewState) {
-    this.subject$.next({...state});
-  }
 }

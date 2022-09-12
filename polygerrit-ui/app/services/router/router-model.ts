@@ -71,11 +71,4 @@ export class RouterModel extends Model<RouterState> implements Finalizable {
   setState(state: RouterState) {
     this.subject$.next(state);
   }
-
-  updateState(partial: Partial<RouterState>) {
-    this.subject$.next({
-      ...this.subject$.getValue(),
-      ...partial,
-    });
-  }
 }

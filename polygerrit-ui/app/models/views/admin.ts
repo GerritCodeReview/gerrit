@@ -29,8 +29,4 @@ export class AdminViewModel extends Model<AdminViewState> {
   constructor() {
     super(DEFAULT_STATE);
   }
-
-  updateState(state: AdminViewState) {
-    this.subject$.next({...state});
-  }
 }

@@ -17,8 +17,4 @@ export class AgreementViewModel extends Model<AgreementViewState> {
   constructor() {
     super(DEFAULT_STATE);
   }
-
-  updateState(state: AgreementViewState) {
-    this.subject$.next({...state});
-  }
 }

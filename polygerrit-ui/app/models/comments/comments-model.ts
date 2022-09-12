@@ -423,7 +423,7 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
   }
 
   // visible for testing
-  updateState(reducer: (state: CommentState) => CommentState) {
+  modifyState(reducer: (state: CommentState) => CommentState) {
     const current = this.subject$.getValue();
     this.setState(reducer({...current}));
   }
@@ -435,7 +435,7 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
 
   async reloadComments(changeNum: NumericChangeId): Promise<void> {
     const comments = await this.restApiService.getDiffComments(changeNum);
-    this.updateState(s => setComments(s, comments));
+    this.modifyState(s => setComments(s, comments));
   }
 
   async reloadRobotComments(changeNum: NumericChangeId): Promise<void> {
@@ -443,7 +443,7 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
       changeNum
     );
     this.reportRobotCommentStats(robotComments);
-    this.updateState(s => setRobotComments(s, robotComments));
+    this.modifyState(s => setRobotComments(s, robotComments));
   }
 
   private reportRobotCommentStats(obj?: PathToRobotCommentsInfoMap) {
@@ -476,7 +476,7 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
 
   async reloadDrafts(changeNum: NumericChangeId): Promise<void> {
     const drafts = await this.restApiService.getDiffDrafts(changeNum);
-    this.updateState(s => setDrafts(s, drafts));
+    this.modifyState(s => setDrafts(s, drafts));
   }
 
   async reloadPortedComments(
@@ -487,7 +487,7 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
       changeNum,
       patchNum
     );
-    this.updateState(s => setPortedComments(s, portedComments));
+    this.modifyState(s => setPortedComments(s, portedComments));
   }
 
   async reloadPortedDrafts(
@@ -498,7 +498,7 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
       changeNum,
       patchNum
     );
-    this.updateState(s => setPortedDrafts(s, portedDrafts));
+    this.modifyState(s => setPortedDrafts(s, portedDrafts));
   }
 
   async restoreDraft(id: UrlEncodedCommentId) {
@@ -512,7 +512,7 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
       __unsaved: true,
     };
     await this.saveDraft(newDraft);
-    this.updateState(s => deleteDiscardedDraft(s, id));
+    this.modifyState(s => deleteDiscardedDraft(s, id));
   }
 
   /**
@@ -557,7 +557,7 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
     };
     timer.end({id: updatedDraft.id});
     if (showToast) this.showEndRequest();
-    this.updateState(s => setDraft(s, updatedDraft));
+    this.modifyState(s => setDraft(s, updatedDraft));
     this.report(Interaction.COMMENT_SAVED, updatedDraft);
     return updatedDraft;
   }
@@ -589,7 +589,7 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
       );
     }
     this.showEndRequest();
-    this.updateState(s => deleteDraft(s, draft));
+    this.modifyState(s => deleteDraft(s, draft));
     // We don't store empty discarded drafts and don't need an UNDO then.
     if (draft.message?.trim()) {
       fire(document, EventType.SHOW_ALERT, {

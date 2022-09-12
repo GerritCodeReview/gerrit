@@ -33,8 +33,4 @@ export class RepoViewModel extends Model<RepoViewState> {
   constructor() {
     super(DEFAULT_STATE);
   }
-
-  updateState(state: RepoViewState) {
-    this.subject$.next({...state});
-  }
 }

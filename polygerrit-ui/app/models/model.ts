@@ -27,4 +27,9 @@ export abstract class Model<T> {
     this.subject$ = new BehaviorSubject(initialState);
     this.state$ = this.subject$.asObservable();
   }
+
+  updateState(newState: Partial<T>) {
+    const currentState = this.subject$.getValue();
+    this.subject$.next({...currentState, ...newState});
+  }
 }

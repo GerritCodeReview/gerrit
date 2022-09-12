@@ -27,8 +27,4 @@ export class GroupViewModel extends Model<GroupViewState> {
   constructor() {
     super(DEFAULT_STATE);
   }
-
-  updateState(state: GroupViewState) {
-    this.subject$.next({...state});
-  }
 }

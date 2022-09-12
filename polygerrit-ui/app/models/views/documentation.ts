@@ -20,8 +20,4 @@ export class DocumentationViewModel extends Model<DocumentationViewState> {
   constructor() {
     super(DEFAULT_STATE);
   }
-
-  updateState(state: DocumentationViewState) {
-    this.subject$.next({...state});
-  }
 }

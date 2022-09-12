@@ -456,9 +456,9 @@ public class LuceneChangeIndex implements ChangeIndex {
       IndexSearcher[] searchers = new IndexSearcher[indexes.size()];
       Map<ChangeSubIndex, ScoreDoc> searchAfterBySubIndex = new HashMap<>();
       try {
-        int realLimit = opts.start() + opts.limit();
-        if (Integer.MAX_VALUE - opts.limit() < opts.start()) {
-          realLimit = Integer.MAX_VALUE;
+        int realPageSize = opts.start() + opts.pageSize();
+        if (Integer.MAX_VALUE - opts.pageSize() < opts.start()) {
+          realPageSize = Integer.MAX_VALUE;
         }
         TopFieldDocs[] hits = new TopFieldDocs[indexes.size()];
         for (int i = 0; i < indexes.size(); i++) {
@@ -469,17 +469,17 @@ public class LuceneChangeIndex implements ChangeIndex {
                 searchers[i].searchAfter(
                     ((HashMap<ChangeSubIndex, ScoreDoc>) opts.searchAfter()).get(subIndex),
                     query,
-                    realLimit,
+                    realPageSize,
                     sort,
                     /* doDocScores= */ false,
                     /* doMaxScore= */ false);
           } else {
-            hits[i] = searchers[i].search(query, realLimit, sort);
+            hits[i] = searchers[i].search(query, realPageSize, sort);
           }
           searchAfterBySubIndex.put(
               subIndex, Iterables.getLast(Arrays.asList(hits[i].scoreDocs), null));
         }
-        TopDocs docs = TopDocs.merge(sort, realLimit, hits);
+        TopDocs docs = TopDocs.merge(sort, realPageSize, hits);
 
         List<Document> result = new ArrayList<>(docs.scoreDocs.length);
         for (int i = opts.start(); i < docs.scoreDocs.length; i++) {

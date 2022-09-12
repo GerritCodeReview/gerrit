@@ -48,6 +48,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.IntSupplier;
 
 /**
  * Query processor for the change index.
@@ -64,6 +65,8 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
       changePluginDefinedInfoFactoriesByPlugin = new ArrayList<>();
   private final Sequences sequences;
   private final IndexConfig indexConfig;
+
+  private final IntSupplier permittedLimit;
 
   static {
     // It is assumed that basic rewrites do not touch visibleto predicates.
@@ -95,6 +98,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
     this.changeIsVisibleToPredicateFactory = changeIsVisibleToPredicateFactory;
     this.sequences = sequences;
     this.indexConfig = indexConfig;
+    this.permittedLimit = () -> limitsFactory.create(userProvider.get()).getQueryLimit();
 
     changePluginDefinedInfoFactories
         .entries()
@@ -159,5 +163,10 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
   @Override
   protected int getBatchSize() {
     return sequences.changeBatchSize();
+  }
+
+  @Override
+  protected int getInitialPageSize(int queryLimit) {
+    return Math.min(this.permittedLimit.getAsInt(), queryLimit);
   }
 }

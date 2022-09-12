@@ -229,8 +229,8 @@ public abstract class QueryProcessor<T> {
       for (Predicate<T> q : queries) {
         int limit = getEffectiveLimit(q);
         limits.add(limit);
-        int initialPageSize = getInitialPageSize(q);
 
+        int initialPageSize = getInitialPageSize(limit);
         if (initialPageSize == getBackendSupportedLimit()) {
           initialPageSize--;
         }
@@ -382,7 +382,10 @@ public abstract class QueryProcessor<T> {
     return indexConfig.maxLimit();
   }
 
-  public int getInitialPageSize(Predicate<T> p) {
+  private int getEffectiveLimit(Predicate<T> p) {
+    if (isNoLimit == true) {
+      return Integer.MAX_VALUE;
+    }
     List<Integer> possibleLimits = new ArrayList<>(4);
     possibleLimits.add(getBackendSupportedLimit());
     possibleLimits.add(getPermittedLimit());
@@ -402,18 +405,15 @@ public abstract class QueryProcessor<T> {
     return result;
   }
 
-  private int getEffectiveLimit(Predicate<T> p) {
-    if (isNoLimit == true) {
-      return Integer.MAX_VALUE;
-    }
-    return getInitialPageSize(p);
-  }
-
   private static Optional<QueryParseException> findQueryParseException(Throwable t) {
     return Throwables.getCausalChain(t).stream()
         .filter(c -> c instanceof QueryParseException)
         .map(QueryParseException.class::cast)
         .findFirst();
+  }
+
+  protected int getInitialPageSize(int queryLimit) {
+    return queryLimit;
   }
 
   protected abstract String formatForLogging(T t);

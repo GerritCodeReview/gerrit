@@ -5,14 +5,13 @@
  */
 import {
   BasePatchSetNum,
-  DashboardId,
   NumericChangeId,
   RepoName,
   RevisionPatchSetNum,
   UrlEncodedCommentId,
 } from '../types/common';
 import {GerritView} from '../services/router/router-model';
-import {GenerateUrlParameters, DashboardSection} from '../utils/router-util';
+import {GenerateUrlParameters} from '../utils/router-util';
 import {AttemptChoice} from '../models/checks/checks-util';
 import {SettingsViewState} from '../models/views/settings';
 import {AdminViewState} from '../models/views/admin';
@@ -21,27 +20,11 @@ import {RepoViewState} from '../models/views/repo';
 import {AgreementViewState} from '../models/views/agreement';
 import {DocumentationViewState} from '../models/views/documentation';
 import {PluginViewState} from '../models/views/plugin';
+import {SearchViewState} from '../models/views/search';
+import {DashboardViewState} from '../models/views/dashboard';
 
 export interface AppElement extends HTMLElement {
   params: AppElementParams | GenerateUrlParameters;
-}
-
-// TODO(TS): Remove unify AppElementParams with GenerateUrlParameters
-// Seems we can use GenerateUrlParameters instead of AppElementParams,
-// but it require some refactoring
-export interface AppElementDashboardParams {
-  view: GerritView.DASHBOARD;
-  project?: RepoName;
-  dashboard: DashboardId;
-  user?: string;
-  sections?: DashboardSection[];
-  title?: string;
-}
-
-export interface AppElementSearchParam {
-  view: GerritView.SEARCH;
-  query: string;
-  offset: string;
 }
 
 export interface AppElementDiffViewParam {
@@ -94,14 +77,14 @@ export interface AppElementJustRegisteredParams {
 }
 
 export type AppElementParams =
-  | AppElementDashboardParams
+  | DashboardViewState
   | GroupViewState
   | AdminViewState
   | AppElementChangeViewParams
   | RepoViewState
   | DocumentationViewState
   | PluginViewState
-  | AppElementSearchParam
+  | SearchViewState
   | SettingsViewState
   | AgreementViewState
   | AppElementDiffViewParam

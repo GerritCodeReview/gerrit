@@ -42,7 +42,6 @@ import {GrRegistrationDialog} from './settings/gr-registration-dialog/gr-registr
 import {
   AppElementJustRegisteredParams,
   AppElementParams,
-  AppElementSearchParam,
   isAppElementJustRegisteredParams,
 } from './gr-app-types';
 import {GrMainHeader} from './core/gr-main-header/gr-main-header';
@@ -72,6 +71,7 @@ import {AppTheme} from '../constants/constants';
 import {subscribe} from './lit/subscription-controller';
 import {KnownExperimentId} from '../services/flags/flags';
 import {PluginViewState} from '../models/views/plugin';
+import {SearchViewState} from '../models/views/search';
 
 interface ErrorInfo {
   text: string;
@@ -369,7 +369,7 @@ export class GrAppElement extends LitElement {
       <gr-endpoint-decorator name="banner"></gr-endpoint-decorator>
       <gr-main-header
         id="mainHeader"
-        .searchQuery=${(this.params as AppElementSearchParam)?.query}
+        .searchQuery=${(this.params as SearchViewState)?.query}
         @mobile-search=${this.mobileSearchToggle}
         @show-keyboard-shortcuts=${this.showKeyboardShortcuts}
         .mobileSearchHidden=${!this.mobileSearch}
@@ -431,7 +431,7 @@ export class GrAppElement extends LitElement {
       <gr-smart-search
         id="search"
         label="Search for changes"
-        .searchQuery=${(this.params as AppElementSearchParam)?.query}
+        .searchQuery=${(this.params as SearchViewState)?.query}
       >
       </gr-smart-search>
     `;

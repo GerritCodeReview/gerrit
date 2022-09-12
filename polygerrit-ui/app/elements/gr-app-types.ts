@@ -20,6 +20,8 @@ import {
   RepoDetailView,
 } from '../utils/router-util';
 import {AttemptChoice} from '../models/checks/checks-util';
+import {SettingsViewState} from '../models/views/settings';
+import {AdminViewState} from '../models/views/admin';
 
 export interface AppElement extends HTMLElement {
   params: AppElementParams | GenerateUrlParameters;
@@ -48,12 +50,6 @@ export interface ListViewParams {
   offset?: number | string;
 }
 
-export interface AppElementAdminParams extends ListViewParams {
-  view: GerritView.ADMIN;
-  adminView: string;
-  openCreateModal?: boolean;
-}
-
 export interface AppElementRepoParams extends ListViewParams {
   view: GerritView.REPO;
   detail?: RepoDetailView;
@@ -75,11 +71,6 @@ export interface AppElementSearchParam {
   view: GerritView.SEARCH;
   query: string;
   offset: string;
-}
-
-export interface AppElementSettingsParam {
-  view: GerritView.SETTINGS;
-  emailToken?: string;
 }
 
 export interface AppElementAgreementParam {
@@ -138,13 +129,13 @@ export interface AppElementJustRegisteredParams {
 export type AppElementParams =
   | AppElementDashboardParams
   | AppElementGroupParams
-  | AppElementAdminParams
+  | AdminViewState
   | AppElementChangeViewParams
   | AppElementRepoParams
   | AppElementDocSearchParams
   | AppElementPluginScreenParams
   | AppElementSearchParam
-  | AppElementSettingsParam
+  | SettingsViewState
   | AppElementAgreementParam
   | AppElementDiffViewParam
   | AppElementDiffEditViewParam

@@ -22,6 +22,7 @@ import {GrDropdownList} from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {GrGroup} from '../gr-group/gr-group';
 import {GroupDetailView, RepoDetailView} from '../../../utils/router-util';
 import {fixture, html, assert} from '@open-wc/testing';
+import {AdminChildView} from '../../../models/views/admin';
 
 function createAdminCapabilities() {
   return {
@@ -81,7 +82,7 @@ suite('gr-admin-view tests', () => {
 
     element.params = {
       view: GerritView.ADMIN,
-      adminView: 'gr-repo-list',
+      adminView: AdminChildView.REPOS,
     };
 
     await element.updateComplete;
@@ -563,7 +564,7 @@ suite('gr-admin-view tests', () => {
       test('repo list', async () => {
         element.params = {
           view: GerritView.ADMIN,
-          adminView: 'gr-repo-list',
+          adminView: AdminChildView.REPOS,
           openCreateModal: false,
         };
         await element.updateComplete;
@@ -637,7 +638,7 @@ suite('gr-admin-view tests', () => {
       test('group list', async () => {
         element.params = {
           view: GerritView.ADMIN,
-          adminView: 'gr-admin-group-list',
+          adminView: AdminChildView.GROUPS,
           openCreateModal: false,
         };
         await element.updateComplete;

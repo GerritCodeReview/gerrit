@@ -3,7 +3,7 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../test/common-test-setup-karma';
+import '../../test/common-test-setup';
 import './checks-model';
 import {ChecksModel, ChecksPatchset, ChecksProviderState} from './checks-model';
 import {
@@ -20,6 +20,7 @@ import {waitUntil, waitUntilCalled} from '../../test/test-utils';
 import {ParsedChangeInfo} from '../../types/types';
 import {changeModelToken} from '../change/change-model';
 import {assert} from '@open-wc/testing';
+import {testResolver} from '../../test/common-test-setup';
 
 const PLUGIN_NAME = 'test-plugin';
 

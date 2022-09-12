@@ -6,7 +6,7 @@
 
 import {assert} from '@open-wc/testing';
 import {SubmitRequirementExpressionInfo} from '../api/rest-api';
-import '../test/common-test-setup-karma';
+import '../test/common-test-setup';
 import {
   atomizeExpression,
   SubmitRequirementExpressionAtomStatus,

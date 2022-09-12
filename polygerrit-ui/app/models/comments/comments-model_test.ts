@@ -3,7 +3,7 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../test/common-test-setup-karma';
+import '../../test/common-test-setup';
 import {createDraft} from '../../test/test-data-generators';
 import {
   AccountInfo,
@@ -14,7 +14,7 @@ import './comments-model';
 import {CommentsModel} from './comments-model';
 import {deleteDraft} from './comments-model';
 import {Subscription} from 'rxjs';
-import '../../test/common-test-setup-karma';
+import '../../test/common-test-setup';
 import {
   createComment,
   createParsedChange,
@@ -26,6 +26,7 @@ import {GerritView} from '../../services/router/router-model';
 import {PathToCommentsInfoMap} from '../../types/common';
 import {changeModelToken} from '../change/change-model';
 import {assert} from '@open-wc/testing';
+import {testResolver} from '../../test/common-test-setup';
 
 suite('comments model tests', () => {
   test('updateStateDeleteDraft', () => {

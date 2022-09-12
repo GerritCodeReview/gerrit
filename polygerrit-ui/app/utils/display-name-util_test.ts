@@ -10,7 +10,7 @@ import {
   GroupName,
   ServerInfo,
 } from '../api/rest-api';
-import '../test/common-test-setup-karma';
+import '../test/common-test-setup';
 import {
   getDisplayName,
   getUserName,

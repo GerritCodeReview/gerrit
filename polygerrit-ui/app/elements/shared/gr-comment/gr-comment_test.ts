@@ -3,7 +3,7 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../test/common-test-setup-karma';
+import '../../../test/common-test-setup';
 import './gr-comment';
 import {AUTO_SAVE_DEBOUNCE_DELAY_MS, GrComment} from './gr-comment';
 import {

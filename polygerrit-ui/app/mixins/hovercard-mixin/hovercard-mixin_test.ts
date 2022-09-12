@@ -3,7 +3,7 @@
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../test/common-test-setup-karma';
+import '../../test/common-test-setup';
 import {HovercardMixin} from './hovercard-mixin';
 import {LitElement} from 'lit';
 import {customElement} from 'lit/decorators.js';

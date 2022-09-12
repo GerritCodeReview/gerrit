@@ -3,7 +3,7 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../test/common-test-setup-karma';
+import '../../../test/common-test-setup';
 import './gr-confirm-cherrypick-dialog';
 import {queryAll, queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {GrConfirmCherrypickDialog} from './gr-confirm-cherrypick-dialog';

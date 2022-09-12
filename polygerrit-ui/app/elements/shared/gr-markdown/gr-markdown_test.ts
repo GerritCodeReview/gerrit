@@ -3,7 +3,7 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../test/common-test-setup-karma';
+import '../../../test/common-test-setup';
 import {assert, fixture, html} from '@open-wc/testing';
 import {changeModelToken} from '../../../models/change/change-model';
 import {
@@ -17,6 +17,7 @@ import {GrMarkdown} from './gr-markdown';
 import {createConfig} from '../../../test/test-data-generators';
 import {waitUntilObserved} from '../../../test/test-utils';
 import {CommentLinks} from '../../../api/rest-api';
+import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-markdown tests', () => {
   let element: GrMarkdown;

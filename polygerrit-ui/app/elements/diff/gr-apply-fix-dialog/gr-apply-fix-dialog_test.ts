@@ -3,7 +3,7 @@
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../test/common-test-setup-karma';
+import '../../../test/common-test-setup';
 import './gr-apply-fix-dialog';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {queryAndAssert, stubRestApi} from '../../../test/test-utils';

@@ -3,7 +3,7 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../test/common-test-setup-karma';
+import '../test/common-test-setup';
 import {getFocusableElements, getFocusableElementsReverse} from './focusable';
 import {html, render} from 'lit';
 import {fixture, assert} from '@open-wc/testing';

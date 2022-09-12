@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {Timestamp} from '../types/common';
-import '../test/common-test-setup-karma';
+import '../test/common-test-setup';
 import {
   isValidDate,
   parseDate,

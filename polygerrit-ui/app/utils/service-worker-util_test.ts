@@ -5,7 +5,7 @@
  */
 import {assert} from '@open-wc/testing';
 import {Timestamp} from '../api/rest-api';
-import '../test/common-test-setup-karma';
+import '../test/common-test-setup';
 import {
   createAccountDetailWithId,
   createParsedChange,

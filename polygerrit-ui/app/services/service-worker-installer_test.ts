@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {getAppContext} from './app-context';
-import '../test/common-test-setup-karma';
+import '../test/common-test-setup';
 import {ServiceWorkerInstaller} from './service-worker-installer';
 import {assert} from '@open-wc/testing';
 

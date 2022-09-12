@@ -3,7 +3,7 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../test/common-test-setup-karma';
+import '../../../test/common-test-setup';
 import {createDiff} from '../../../test/test-data-generators';
 import './gr-diff';
 import {GrDiffBuilderImage} from '../gr-diff-builder/gr-diff-builder-image';

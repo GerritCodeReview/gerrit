@@ -3,7 +3,7 @@
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../test/common-test-setup-karma';
+import '../../../test/common-test-setup';
 import './gr-shell-command';
 import {GrShellCommand} from './gr-shell-command';
 import {GrCopyClipboard} from '../gr-copy-clipboard/gr-copy-clipboard';

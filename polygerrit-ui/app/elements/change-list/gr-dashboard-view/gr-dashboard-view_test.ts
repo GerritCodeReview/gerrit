@@ -3,7 +3,7 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../test/common-test-setup-karma';
+import '../../../test/common-test-setup';
 import './gr-dashboard-view';
 import {GrDashboardView} from './gr-dashboard-view';
 import {GerritView} from '../../../services/router/router-model';

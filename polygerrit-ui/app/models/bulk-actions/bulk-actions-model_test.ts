@@ -23,7 +23,7 @@ import {
 } from '../../api/rest-api';
 import {BulkActionsModel, LoadingState} from './bulk-actions-model';
 import {getAppContext} from '../../services/app-context';
-import '../../test/common-test-setup-karma';
+import '../../test/common-test-setup';
 import {
   stubRestApi,
   waitEventLoop,

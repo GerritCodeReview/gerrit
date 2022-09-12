@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "abff39d5_dd757a8f",
+        "filename": "polygerrit-ui/app/models/comments/comments-model_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-12T14:37:16Z",
+      "side": 1,
+      "message": "Done. Verified no other files were not doing this",
+      "parentUuid": "dec20524_e63598f0",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 38
+      },
+      "revId": "e224ec5ce9bad640b63d9ead34766c30dcd134ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "600f3adc_f7cc8cd4",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-09-12T13:52:45Z",
       "side": 1,
       "message": "is this import required?",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 58
+      },
+      "revId": "e224ec5ce9bad640b63d9ead34766c30dcd134ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "817c092c_fa5e61cb",
+        "filename": "polygerrit-ui/app/models/comments/comments-model_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-12T14:37:16Z",
+      "side": 1,
+      "message": "yes `import \u0027../../test/common-test-setup\u0027;` indicates it is relying on the side effects of the file (global setups, etc). `\nimport {testResolver} from \u0027../../test/common-test-setup\u0027;` is importing a specific export for use (testResolver function)",
+      "parentUuid": "600f3adc_f7cc8cd4",
       "range": {
         "startLine": 29,
         "startChar": 0,

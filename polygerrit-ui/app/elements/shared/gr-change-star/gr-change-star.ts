@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {ChangeInfo} from '../../../types/common';
-import {fireAlert} from '../../../utils/event-util';
 import {
   Shortcut,
   ShortcutSection,
@@ -14,6 +13,7 @@ import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {resolve} from '../../../models/dependency';
 import {shortcutsServiceToken} from '../../../services/shortcuts/shortcuts-service';
+import {assertIsDefined} from '../../../utils/common-util';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -66,10 +66,11 @@ export class GrChangeStar extends LitElement {
         aria-label=${this.change?.starred
           ? 'Unstar this change'
           : 'Star this change'}
-        @click=${this.toggleStar}
+        @click=${this.handleClick}
       >
         <gr-icon
           icon="star"
+          small
           ?filled=${!!this.change?.starred}
           class=${this.change?.starred ? 'active' : ''}
         ></gr-icon>
@@ -77,11 +78,13 @@ export class GrChangeStar extends LitElement {
     `;
   }
 
+  handleClick(e: Event) {
+    e.stopPropagation();
+    this.toggleStar();
+  }
+
   toggleStar() {
-    // Note: change should always be defined when use gr-change-star
-    // but since we don't have a good way to enforce usage to always
-    // set the change, we still check it here.
-    if (!this.change) return;
+    assertIsDefined(this.change, 'change');
 
     const newVal = !this.change.starred;
     this.change.starred = newVal;
@@ -90,7 +93,6 @@ export class GrChangeStar extends LitElement {
       change: this.change,
       starred: newVal,
     };
-    if (newVal) fireAlert(this, 'Starring change...');
     this.dispatchEvent(
       new CustomEvent('toggle-star', {
         bubbles: true,

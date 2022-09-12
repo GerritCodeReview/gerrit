@@ -24,8 +24,8 @@ export const changeListStyles = css`
   .cell {
     vertical-align: middle;
   }
-  .groupTitle td:not(.label):not(.endpoint),
-  .cell:not(.label):not(.endpoint) {
+  .groupTitle td:not(.label):not(.endpoint):not(.star),
+  .cell:not(.label):not(.endpoint):not(.star) {
     padding-right: 8px;
   }
   .groupTitle td {
@@ -57,10 +57,7 @@ export const changeListStyles = css`
     padding-top: var(--spacing-l);
   }
   .star {
-    padding: 0;
-  }
-  gr-change-star {
-    vertical-align: middle;
+    padding: 0 var(--spacing-s) 0 0;
   }
   .owner {
     --account-max-length: 100px;
@@ -78,14 +75,8 @@ export const changeListStyles = css`
   .repo {
     white-space: nowrap;
   }
-  .star {
-    vertical-align: middle;
-  }
   .leftPadding {
     width: var(--spacing-l);
-  }
-  .star {
-    width: 30px;
   }
   .reviewers div {
     overflow: hidden;

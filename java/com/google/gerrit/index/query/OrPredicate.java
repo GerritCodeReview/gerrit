@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /** Requires one predicate to be true. */
 public class OrPredicate<T> extends Predicate<T> implements Matchable<T> {
@@ -93,6 +94,25 @@ public class OrPredicate<T> extends Predicate<T> implements Matchable<T> {
       }
     }
     return false;
+  }
+
+  @Override
+  public List<T> matchAll(List<T> objects) {
+    // Start with an empty result set. Add matching objects incrementally while evaluating each
+    // child predicate.
+    List<T> resultSet = new ArrayList<>();
+    List<T> inputSet = objects.stream().collect(Collectors.toList());
+    for (Predicate<T> child : children) {
+      checkState(
+          child.isMatchable(),
+          "match invoked, but child predicate %s doesn't implement %s",
+          child,
+          Matchable.class.getName());
+      List<T> matched = child.asMatchable().matchAll(inputSet);
+      resultSet.addAll(matched);
+      inputSet.removeAll(matched);
+    }
+    return resultSet;
   }
 
   @Override

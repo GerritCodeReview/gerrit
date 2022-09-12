@@ -10,7 +10,7 @@ import {fixture, html, assert} from '@open-wc/testing';
 import {queryAndAssert, stubElement, stubRestApi} from '../test/test-utils';
 import {GrApp} from './gr-app';
 import {
-  createAppElementChangeViewParams,
+  createChangeViewState,
   createAppElementSearchViewParams,
   createPreferences,
   createServerInfo,
@@ -50,7 +50,7 @@ suite('gr-app tests', () => {
   test('_paramsChanged sets search page', () => {
     const grAppElement = queryAndAssert<GrAppElement>(grApp, '#app-element');
 
-    grAppElement.params = createAppElementChangeViewParams();
+    grAppElement.params = createChangeViewState();
     grAppElement.paramsChanged();
     assert.notOk(grAppElement.lastSearchPage);
 

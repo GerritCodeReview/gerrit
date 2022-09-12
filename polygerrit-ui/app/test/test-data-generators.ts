@@ -91,7 +91,6 @@ import {
 } from '../constants/constants';
 import {formatDate} from '../utils/date-util';
 import {GetDiffCommentsOutput} from '../services/gr-rest-api/gr-rest-api';
-import {AppElementChangeViewParams} from '../elements/gr-app-types';
 import {CommitInfoWithRequiredCommit} from '../elements/change/gr-change-metadata/gr-change-metadata';
 import {WebLinkInfo} from '../types/diff';
 import {
@@ -117,6 +116,7 @@ import {Category, RunStatus} from '../api/checks';
 import {DiffInfo} from '../api/diff';
 import {GenerateUrlEditViewParameters} from '../utils/router-util';
 import {SearchViewState} from '../models/views/search';
+import {ChangeViewState} from '../models/views/change';
 
 const TEST_DEFAULT_EXPRESSION = 'label:Verified=MAX -label:Verified=MIN';
 export const TEST_PROJECT_NAME: RepoName = 'test-project' as RepoName;
@@ -685,7 +685,7 @@ export function createApproval(account?: AccountInfo): ApprovalInfo {
   return account ?? createAccountWithId();
 }
 
-export function createAppElementChangeViewParams(): AppElementChangeViewParams {
+export function createChangeViewState(): ChangeViewState {
   return {
     view: GerritView.CHANGE,
     changeNum: TEST_NUMERIC_CHANGE_ID,

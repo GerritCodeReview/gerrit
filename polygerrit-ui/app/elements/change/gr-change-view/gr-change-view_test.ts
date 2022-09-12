@@ -34,7 +34,7 @@ import {
   waitUntil,
 } from '../../../test/test-utils';
 import {
-  createAppElementChangeViewParams,
+  createChangeViewState,
   createApproval,
   createChange,
   createChangeMessages,
@@ -79,7 +79,6 @@ import {
   QuickLabelInfo,
 } from '../../../types/common';
 import {GrEditControls} from '../../edit/gr-edit-controls/gr-edit-controls';
-import {AppElementChangeViewParams} from '../../gr-app-types';
 import {SinonFakeTimers, SinonStubbedMember} from 'sinon';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {CommentThread} from '../../../utils/comment-util';
@@ -99,6 +98,7 @@ import {deepClone} from '../../../utils/deep-util';
 import {Modifier} from '../../../utils/dom-util';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrCopyLinks} from '../gr-copy-links/gr-copy-links';
+import {ChangeViewState} from '../../../models/views/change';
 
 suite('gr-change-view tests', () => {
   let element: GrChangeView;
@@ -732,7 +732,7 @@ suite('gr-change-view tests', () => {
       // view is required
       element.changeNum = undefined;
       element.params = {
-        ...createAppElementChangeViewParams(),
+        ...createChangeViewState(),
         ...element.params,
         tab: Tab.COMMENT_THREADS,
       };
@@ -744,7 +744,7 @@ suite('gr-change-view tests', () => {
       assert.equal(element.activeTab, Tab.FILES);
       // view is required
       element.params = {
-        ...createAppElementChangeViewParams(),
+        ...createChangeViewState(),
         ...element.params,
         tab: 'random',
       };
@@ -1058,7 +1058,7 @@ suite('gr-change-view tests', () => {
       sinon.stub(relatedChanges, 'reload');
       sinon.stub(element, 'loadData').returns(Promise.resolve());
       sinon.spy(element, 'paramsChanged');
-      element.params = createAppElementChangeViewParams();
+      element.params = createChangeViewState();
     });
   });
 
@@ -1553,7 +1553,7 @@ suite('gr-change-view tests', () => {
 
     element.changeNum = 2 as NumericChangeId;
     element.params = {
-      ...createAppElementChangeViewParams(),
+      ...createChangeViewState(),
       changeNum: 2 as NumericChangeId,
     };
     await element.updateComplete;
@@ -1571,8 +1571,8 @@ suite('gr-change-view tests', () => {
     assertIsDefined(element.fileList);
     await element.fileList.updateComplete;
     const collapseStub = sinon.stub(element.fileList, 'collapseAllDiffs');
-    const value: AppElementChangeViewParams = {
-      ...createAppElementChangeViewParams(),
+    const value: ChangeViewState = {
+      ...createChangeViewState(),
       view: GerritView.CHANGE,
       patchNum: 1 as RevisionPatchSetNum,
     };
@@ -1617,8 +1617,8 @@ suite('gr-change-view tests', () => {
     );
     sinon.stub(element.fileList, 'collapseAllDiffs');
 
-    const value: AppElementChangeViewParams = {
-      ...createAppElementChangeViewParams(),
+    const value: ChangeViewState = {
+      ...createChangeViewState(),
       view: GerritView.CHANGE,
       patchNum: 1 as RevisionPatchSetNum,
     };
@@ -1648,8 +1648,7 @@ suite('gr-change-view tests', () => {
       .stub(element, 'loadData')
       .callsFake(() => Promise.resolve());
     const collapseStub = sinon.stub(element.fileList, 'collapseAllDiffs');
-    const value: AppElementChangeViewParams =
-      createAppElementChangeViewParams();
+    const value: ChangeViewState = createChangeViewState();
     element.params = value;
     // change already loaded
     assert.isOk(element.changeNum);
@@ -1671,7 +1670,7 @@ suite('gr-change-view tests', () => {
       .stub(element, 'loadData')
       .callsFake(() => Promise.resolve());
     const collapseStub = sinon.stub(element.fileList, 'collapseAllDiffs');
-    element.params = {...createAppElementChangeViewParams(), forceReload: true};
+    element.params = {...createChangeViewState(), forceReload: true};
     await element.updateComplete;
     assert.isTrue(getChangeStub.called);
     assert.isTrue(loadDataStub.called);
@@ -1684,8 +1683,7 @@ suite('gr-change-view tests', () => {
     const recreateSpy = sinon.spy();
     element.addEventListener('recreate-change-view', recreateSpy);
 
-    const value: AppElementChangeViewParams =
-      createAppElementChangeViewParams();
+    const value: ChangeViewState = createChangeViewState();
     element.params = value;
     await element.updateComplete;
     assert.isFalse(recreateSpy.calledOnce);
@@ -1706,7 +1704,7 @@ suite('gr-change-view tests', () => {
       Promise.resolve({...createMergeable(), mergeable: true})
     );
 
-    element.params = createAppElementChangeViewParams();
+    element.params = createChangeViewState();
     element.getChangeModel().setState({
       loadingStatus: LoadingStatus.LOADED,
       change: {
@@ -2044,14 +2042,14 @@ suite('gr-change-view tests', () => {
   });
 
   test('computeEditMode', async () => {
-    const callCompute = async (params: AppElementChangeViewParams) => {
+    const callCompute = async (params: ChangeViewState) => {
       element.params = params;
       await element.updateComplete;
       return element.getEditMode();
     };
     assert.isTrue(
       await callCompute({
-        ...createAppElementChangeViewParams(),
+        ...createChangeViewState(),
         edit: true,
         basePatchNum: PARENT,
         patchNum: 1 as RevisionPatchSetNum,
@@ -2059,14 +2057,14 @@ suite('gr-change-view tests', () => {
     );
     assert.isFalse(
       await callCompute({
-        ...createAppElementChangeViewParams(),
+        ...createChangeViewState(),
         basePatchNum: PARENT,
         patchNum: 1 as RevisionPatchSetNum,
       })
     );
     assert.isTrue(
       await callCompute({
-        ...createAppElementChangeViewParams(),
+        ...createChangeViewState(),
         basePatchNum: 1 as BasePatchSetNum,
         patchNum: EDIT,
       })
@@ -2269,7 +2267,7 @@ suite('gr-change-view tests', () => {
     element.change.current_revision = '1' as CommitId;
     element.change = {...element.change};
 
-    const params = createAppElementChangeViewParams();
+    const params = createChangeViewState();
 
     assert.isFalse(element.hasPatchRangeChanged(params));
     assert.isFalse(element.hasPatchNumChanged(params));
@@ -2513,7 +2511,7 @@ suite('gr-change-view tests', () => {
       // reset so reload is triggered
       element.changeNum = undefined;
       element.params = {
-        ...createAppElementChangeViewParams(),
+        ...createChangeViewState(),
         changeNum: TEST_NUMERIC_CHANGE_ID,
         project: TEST_PROJECT_NAME,
       };

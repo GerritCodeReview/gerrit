@@ -14,13 +14,19 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.PostFilterPredicate;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
@@ -49,6 +55,29 @@ public class EditPredicate extends PostFilterPredicate<ChangeData> {
     } catch (IOException e) {
       throw new StorageException(e);
     }
+  }
+
+  @Override
+  public List<ChangeData> matchMany(List<ChangeData> in) {
+    ImmutableList.Builder<ChangeData> result = ImmutableList.builder();
+    Map<Project.NameKey, List<ChangeData>> byProject =
+        in.stream().collect(Collectors.groupingBy(ChangeData::project));
+    for (Project.NameKey project : byProject.keySet()) {
+      List<ChangeData> cds = byProject.get(project);
+      try (Repository repo = repoManager.openRepository(project)) {
+        List<Ref> editRefs =
+            repo.getRefDatabase().getRefsByPrefix(RefNames.refsEditPrefix(accountId));
+        Set<Change.Id> changeIdsWithEdits =
+            editRefs.stream()
+                .map(Ref::getName)
+                .map(Change.Id::fromEditRefPart)
+                .collect(Collectors.toSet());
+        cds.stream().filter(cd -> changeIdsWithEdits.contains(cd.getId())).forEach(result::add);
+      } catch (IOException e) {
+        throw new StorageException(e);
+      }
+    }
+    return result.build();
   }
 
   @Override

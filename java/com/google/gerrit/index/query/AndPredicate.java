@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /** Requires all predicates to be true. */
 public class AndPredicate<T> extends Predicate<T> implements Matchable<T> {
@@ -93,6 +94,24 @@ public class AndPredicate<T> extends Predicate<T> implements Matchable<T> {
       }
     }
     return true;
+  }
+
+  @Override
+  public List<T> matchMany(List<T> objects) {
+    List<T> result = objects.stream().collect(Collectors.toList());
+    for (Predicate<T> c : children) {
+      checkState(
+          c.isMatchable(),
+          "match invoked, but child predicate %s doesn't implement %s",
+          c,
+          Matchable.class.getName());
+      List<T> matched = c.asMatchable().matchMany(result);
+      // non matched = result - matched
+      List<T> nonMatched =
+          result.stream().filter(elem -> !matched.contains(elem)).collect(Collectors.toList());
+      result.removeAll(nonMatched);
+    }
+    return result;
   }
 
   @Override

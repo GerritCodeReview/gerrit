@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AndSource<T> extends AndPredicate<T>
     implements DataSource<T>, Comparator<Predicate<T>> {
@@ -85,18 +86,27 @@ public class AndSource<T> extends AndPredicate<T>
     return new LazyResultSet<>(
         () -> {
           List<T> r = new ArrayList<>();
-          T last = null;
-          int nextStart = 0;
-          boolean skipped = false;
-          for (T data : buffer(resultSet)) {
-            if (!isMatchable() || match(data)) {
-              r.add(data);
-            } else {
-              skipped = true;
-            }
-            last = data;
-            nextStart++;
-          }
+
+          int nextStart;
+          boolean skipped;
+          Iterable<T> iterable = buffer(resultSet);
+          List<T> es = new ArrayList<>();
+          List<T> finalEs1 = es;
+          iterable.forEach(e -> finalEs1.add(e));
+          T last = finalEs1.isEmpty() ? null : Iterables.getLast(finalEs1);
+          nextStart = finalEs1.size();
+          List<T> matched = matchMany(es);
+          matched.forEach(m -> r.add(m));
+          skipped = matched.size() != finalEs1.size();
+          // for (T data : buffer(resultSet)) {
+          //   if (!isMatchable() || match(data)) {
+          //     r.add(data);
+          //   } else {
+          //     skipped = true;
+          //   }
+          //   last = data;
+          //   nextStart++;
+          // }
 
           if (skipped && last != null && source instanceof Paginated) {
             // If our source is a paginated source and we skipped at
@@ -109,14 +119,22 @@ public class AndSource<T> extends AndPredicate<T>
               skipped = false;
               ResultSet<T> next = p.restart(nextStart);
 
-              for (T data : buffer(next)) {
-                if (match(data)) {
-                  r.add(data);
-                } else {
-                  skipped = true;
-                }
-                nextStart++;
-              }
+              iterable = buffer(next);
+              es = new ArrayList<>();
+              List<T> finalEs = es;
+              iterable.forEach(e -> finalEs.add(e));
+              nextStart += finalEs.size();
+              matched = matchMany(es);
+              matched.forEach(m -> r.add(m));
+
+              // for (T data : buffer(next)) {
+              //   if (match(data)) {
+              //     r.add(data);
+              //   } else {
+              //     skipped = true;
+              //   }
+              //   nextStart++;
+              // }
             }
           }
 
@@ -151,6 +169,22 @@ public class AndSource<T> extends AndPredicate<T>
     }
 
     return true;
+  }
+
+  @Override
+  public List<T> matchMany(List<T> in) {
+    List<T> filtered = in;
+    if (isVisibleToPredicate != null) {
+      filtered =
+          in.stream().filter(data -> isVisibleToPredicate.match(data)).collect(Collectors.toList());
+    }
+    List<T> matching;
+    if (super.isMatchable()) {
+      matching = super.matchMany(filtered);
+    } else {
+      matching = filtered;
+    }
+    return matching;
   }
 
   private Iterable<T> buffer(ResultSet<T> scanner) {

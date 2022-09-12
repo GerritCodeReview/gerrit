@@ -14,9 +14,16 @@
 
 package com.google.gerrit.index.query;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public interface Matchable<T> {
   /** Does this predicate match this object? */
   boolean match(T object);
+
+  default List<T> matchMany(List<T> objects) {
+    return objects.stream().filter(input -> match(input)).collect(Collectors.toList());
+  }
 
   /** Returns a cost estimate to run this predicate, higher figures cost more. */
   int getCost();

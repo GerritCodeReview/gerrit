@@ -26,11 +26,7 @@ import {
   NavLink,
   SubsectionInterface,
 } from '../../../utils/admin-nav-util';
-import {
-  AppElementAdminParams,
-  AppElementGroupParams,
-  AppElementRepoParams,
-} from '../../gr-app-types';
+import {AppElementGroupParams, AppElementRepoParams} from '../../gr-app-types';
 import {
   AccountDetailInfo,
   GroupId,
@@ -48,6 +44,7 @@ import {customElement, property, state} from 'lit/decorators.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {ValueChangedEvent} from '../../../types/events';
 import {GroupDetailView, RepoDetailView} from '../../../utils/router-util';
+import {AdminChildView, AdminViewState} from '../../../models/views/admin';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
 
@@ -62,7 +59,7 @@ export interface AdminSubsectionLink {
 
 // The type is matched to the _showAdminView function from the gr-app-element
 type AdminViewParams =
-  | AppElementAdminParams
+  | AdminViewState
   | AppElementGroupParams
   | AppElementRepoParams;
 
@@ -250,11 +247,11 @@ export class GrAdminView extends LitElement {
   }
 
   private renderRepoList() {
-    const params = this.params as AppElementAdminParams;
+    const params = this.params as AdminViewState;
     if (
       !(
         params?.view === GerritView.ADMIN &&
-        params?.adminView === 'gr-repo-list'
+        params?.adminView === AdminChildView.REPOS
       )
     )
       return;
@@ -267,11 +264,11 @@ export class GrAdminView extends LitElement {
   }
 
   private renderGroupList() {
-    const params = this.params as AppElementAdminParams;
+    const params = this.params as AdminViewState;
     if (
       !(
         params?.view === GerritView.ADMIN &&
-        params?.adminView === 'gr-admin-group-list'
+        params?.adminView === AdminChildView.GROUPS
       )
     )
       return;
@@ -285,11 +282,11 @@ export class GrAdminView extends LitElement {
   }
 
   private renderPluginList() {
-    const params = this.params as AppElementAdminParams;
+    const params = this.params as AdminViewState;
     if (
       !(
         params?.view === GerritView.ADMIN &&
-        params?.adminView === 'gr-plugin-list'
+        params?.adminView === AdminChildView.PLUGINS
       )
     )
       return;
@@ -598,7 +595,7 @@ export class GrAdminView extends LitElement {
   }
 
   private computeSelectedClass(
-    itemView?: GerritView,
+    itemView?: GerritView | AdminChildView,
     detailType?: GroupDetailView | RepoDetailView
   ) {
     const params = this.params;

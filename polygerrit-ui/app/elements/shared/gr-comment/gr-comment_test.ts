@@ -552,6 +552,23 @@ suite('gr-comment tests', () => {
       assert.isFalse(element.saving);
     });
 
+    test('previewing formatting triggers save', async () => {
+      element.permanentEditingMode = true;
+
+      const saveStub = sinon.stub(element, 'save').returns(Promise.resolve());
+
+      element.comment = createDraft();
+      element.editing = true;
+      element.messageText = 'something, not important';
+      await element.updateComplete;
+
+      assert.isFalse(saveStub.called);
+
+      queryAndAssert<GrButton>(element, '.save').click();
+
+      assert.isTrue(saveStub.called);
+    });
+
     test('save failed', async () => {
       sinon
         .stub(element.getCommentsModel(), 'saveDraft')

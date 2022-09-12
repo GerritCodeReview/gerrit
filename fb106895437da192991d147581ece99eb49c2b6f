@@ -20,6 +20,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "a98bea91_238d2b0b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-09-12T16:23:31Z",
+      "side": 1,
+      "message": "Thomas, is this a bug? \n\nI believe all accounts should be updated if the BatchRefUpdate is called for multiple refs/users/*\n?",
+      "revId": "fb106895437da192991d147581ece99eb49c2b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "8c175cca_d66ce183",
         "filename": "java/com/google/gerrit/server/index/change/ReindexAfterRefUpdate.java",
         "patchSetId": 2

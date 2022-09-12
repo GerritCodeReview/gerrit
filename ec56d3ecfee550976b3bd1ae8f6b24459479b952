@@ -16,6 +16,24 @@
       "message": "Any reason this can not be in the superclass?\n\n\nupdateState(state: Partial\u003cT\u003e) {\n  this.subject$.next({...this.subject$.getValue(), state})\n}",
       "revId": "ec56d3ecfee550976b3bd1ae8f6b24459479b952",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "659477cd_0e65dddf",
+        "filename": "polygerrit-ui/app/models/views/repo.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-12T17:24:35Z",
+      "side": 1,
+      "message": "Sure, will do in follow-up.",
+      "parentUuid": "a5149d02_d3a928f3",
+      "revId": "ec56d3ecfee550976b3bd1ae8f6b24459479b952",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

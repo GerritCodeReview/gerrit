@@ -81,7 +81,7 @@ yarn remove @bazel/...
 ## Setup typescript support in the IDE
 
 Modern IDE should automatically handle typescript settings from the
-`pollygerrit-ui/app/tsconfig.json` files. IDE places compiled files in the
+`polygerrit-ui/app/tsconfig.json` files. IDE places compiled files in the
 `.ts-out/pg` directory at the root of gerrit workspace and you can configure IDE
 to exclude the whole .ts-out directory. To do it in the IntelliJ IDEA click on
 this directory and select "Mark Directory As > Excluded" in the context menu.
@@ -109,14 +109,7 @@ If any issues occured, please refer to the Troubleshooting section at the bottom
 
 ## Running locally against production data
 
-### Local website
-
-Start [Go server](#go-server) and then visit http://localhost:8081
-
-The biggest draw back of this method is that you cannot log in, so cannot test
-scenarios that require it.
-
-#### Chrome extension: Gerrit FE Dev Helper
+### Chrome extension: Gerrit FE Dev Helper
 
 To be able to bypass the auth and also help improve the productivity of Gerrit FE developers,
 we created this chrome extension: [Gerrit FE Dev Helper](https://chrome.google.com/webstore/detail/gerrit-fe-dev-helper/jimgomcnodkialnpmienbomamgomglkd).
@@ -139,7 +132,7 @@ For running a locally built Gerrit war against your test instance use
 [this command](https://gerrit-review.googlesource.com/Documentation/dev-readme.html#run_daemon).
 
 If you want to serve the Polymer frontend directly from the sources in `polygerrit_ui/app/` instead of from the war:
-1. Start [Go server](#go-server)
+1. Start [Web Dev Server](#web-dev-server)
 2. Add the `--dev-cdn` option:
 
 ```sh

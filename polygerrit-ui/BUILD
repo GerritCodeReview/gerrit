@@ -1,4 +1,3 @@
-load("@io_bazel_rules_go//go:def.bzl", "go_binary")
 load("//tools/bzl:genrule2.bzl", "genrule2")
 load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_test")
 
@@ -19,20 +18,6 @@ genrule2(
         "zip -qr $$ROOT/$@ fonts",
     ]),
     output_to_bindir = 1,
-)
-
-go_binary(
-    name = "devserver",
-    srcs = ["server.go"],
-    data = [
-        ":fonts.zip",
-        "@ui_dev_npm//:node_modules",
-        "@ui_npm//:node_modules",
-    ],
-    deps = [
-        "@org_golang_x_tools//godoc/vfs/httpfs:go_default_library",
-        "@org_golang_x_tools//godoc/vfs/zipfs:go_default_library",
-    ],
 )
 
 filegroup(

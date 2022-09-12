@@ -144,6 +144,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0c4e5a6_21aa87da",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-12T17:07:07Z",
+      "side": 1,
+      "message": "\u003eIdeally yes, however current code doesn\u0027t limit  initialPageSize  (coming from QueryProcessor) based on  maxPageSize . I think we should be updating it to do so. WDYT?\n\n`maxPageSize` as intended only for queries which are restarted (based on its docs). So, we probably shouldn\u0027t be limiting  initialPageSize based on it.",
+      "parentUuid": "5be2f0ae_41514cde",
+      "range": {
+        "startLine": 114,
+        "startChar": 40,
+        "endLine": 114,
+        "endChar": 49
+      },
+      "revId": "8f7d167a1498b4930a12bb5c981171b1c5b2a79b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "35513fc4_937199f9",

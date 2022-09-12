@@ -6,10 +6,9 @@
 // @ts-ignore: Bazel is not yet configured to download the types
 import pagejs from 'page';
 
-// Reexport page.js. To make it work, karma, server.go and rollup patch
-// page.js and replace "this" to "window". Otherwise, it can't assign global
-// property. We can't import page.mjs because typescript doesn't support mjs
-// extensions
+// Reexport page.js. To make it work rollup patches page.js and replace "this"
+// to "window". Otherwise, it can't assign global property. We can't import
+// page.mjs because typescript doesn't support mjs extensions
 export interface Page {
   (pattern: string | RegExp, ...pageCallback: PageCallback[]): void;
   (pageCallback: PageCallback): void;
@@ -42,5 +41,5 @@ export type PageCallback = (
 ) => void;
 
 // TODO: Convert page usages to the real types and remove this file of wrapper
-// types. Also remove workarounds in karma and rollup configs.
+// types. Also remove workarounds in rollup config.
 export const page = pagejs as unknown as Page;

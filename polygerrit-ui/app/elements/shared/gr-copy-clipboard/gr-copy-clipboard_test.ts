@@ -12,12 +12,17 @@ import {GrButton} from '../gr-button/gr-button';
 
 suite('gr-copy-clipboard tests', () => {
   let element: GrCopyClipboard;
+  let clipboardSpy: sinon.SinonStub;
 
   setup(async () => {
+    clipboardSpy = sinon
+      .stub(navigator.clipboard, 'writeText')
+      .returns(Promise.resolve());
+    sinon.spy(document, 'dispatchEvent');
     element = await fixture(html`<gr-copy-clipboard></gr-copy-clipboard>`);
     element.text = `git fetch http://gerrit@localhost:8080/a/test-project
         refs/changes/05/5/1 && git checkout FETCH_HEAD`;
-    await flush();
+    await element.updateComplete;
   });
 
   test('render', () => {
@@ -55,7 +60,6 @@ suite('gr-copy-clipboard tests', () => {
   });
 
   test('copy to clipboard', () => {
-    const clipboardSpy = sinon.spy(navigator.clipboard, 'writeText');
     queryAndAssert<GrButton>(element, '.copyToClipboard').click();
     assert.isTrue(clipboardSpy.called);
   });
@@ -88,7 +92,7 @@ suite('gr-copy-clipboard tests', () => {
     const input = queryAndAssert(element, 'input');
     assert.notEqual(getComputedStyle(input).display, 'none');
     element.hideInput = true;
-    await flush();
+    await element.updateComplete;
     assert.equal(getComputedStyle(input).display, 'none');
   });
 

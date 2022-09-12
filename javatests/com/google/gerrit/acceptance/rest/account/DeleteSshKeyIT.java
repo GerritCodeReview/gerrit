@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.server.account.AccountSshKey;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.restapi.account.DeleteSshKey;
@@ -78,7 +79,8 @@ public class DeleteSshKeyIT extends AbstractDaemonTest {
   @Test
   @UseSsh
   public void deleteSshKeyOnBehalf() throws Exception {
-    deleteSshKey.apply(identifiedUserFactory.create(user.id()), userSshKey);
+    assertThat(deleteSshKey.apply(identifiedUserFactory.create(user.id()), userSshKey))
+        .isEqualTo(Response.none());
     List<AccountSshKey> sshKeysAfterDel = authorizedKeys.getKeys(user.id());
     assertThat(sshKeysAfterDel).containsExactly(AccountSshKey.create(user.id(), 2, KEY1));
   }

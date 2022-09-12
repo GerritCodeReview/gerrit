@@ -229,8 +229,8 @@ public abstract class QueryProcessor<T> {
       for (Predicate<T> q : queries) {
         int limit = getEffectiveLimit(q);
         limits.add(limit);
-        int initialPageSize = getInitialPageSize(q);
 
+        int initialPageSize = Math.min(permittedLimit.getAsInt(), limit);
         if (initialPageSize == getBackendSupportedLimit()) {
           initialPageSize--;
         }

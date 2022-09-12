@@ -18,6 +18,9 @@ import {SettingsViewState} from '../models/views/settings';
 import {AdminViewState} from '../models/views/admin';
 import {GroupViewState} from '../models/views/group';
 import {RepoViewState} from '../models/views/repo';
+import {AgreementViewState} from '../models/views/agreement';
+import {DocumentationViewState} from '../models/views/documentation';
+import {PluginViewState} from '../models/views/plugin';
 
 export interface AppElement extends HTMLElement {
   params: AppElementParams | GenerateUrlParameters;
@@ -35,25 +38,10 @@ export interface AppElementDashboardParams {
   title?: string;
 }
 
-export interface AppElementDocSearchParams {
-  view: GerritView.DOCUMENTATION_SEARCH;
-  filter?: string | null;
-}
-
-export interface AppElementPluginScreenParams {
-  view: GerritView.PLUGIN_SCREEN;
-  plugin?: string;
-  screen?: string;
-}
-
 export interface AppElementSearchParam {
   view: GerritView.SEARCH;
   query: string;
   offset: string;
-}
-
-export interface AppElementAgreementParam {
-  view: GerritView.AGREEMENTS;
 }
 
 export interface AppElementDiffViewParam {
@@ -111,11 +99,11 @@ export type AppElementParams =
   | AdminViewState
   | AppElementChangeViewParams
   | RepoViewState
-  | AppElementDocSearchParams
-  | AppElementPluginScreenParams
+  | DocumentationViewState
+  | PluginViewState
   | AppElementSearchParam
   | SettingsViewState
-  | AppElementAgreementParam
+  | AgreementViewState
   | AppElementDiffViewParam
   | AppElementDiffEditViewParam
   | AppElementJustRegisteredParams;

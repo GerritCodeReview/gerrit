@@ -12,7 +12,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {tableStyles} from '../../../styles/gr-table-styles';
 import {LitElement, PropertyValues, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
-import {AppElementDocSearchParams} from '../../gr-app-types';
+import {DocumentationViewState} from '../../../models/views/documentation';
 
 @customElement('gr-documentation-search')
 export class GrDocumentationSearch extends LitElement {
@@ -20,7 +20,7 @@ export class GrDocumentationSearch extends LitElement {
    * URL params passed from the router.
    */
   @property({type: Object})
-  params?: AppElementDocSearchParams;
+  params?: DocumentationViewState;
 
   // private but used in test
   @state() documentationSearches?: DocResult[];

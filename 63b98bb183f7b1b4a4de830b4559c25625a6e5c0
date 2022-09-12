@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c568d1f_7632d629",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-09-12T12:12:52Z",
+      "side": 1,
+      "message": "Can you elaborate the issue with the approach for posterity.",
+      "range": {
+        "startLine": 678,
+        "startChar": 17,
+        "endLine": 678,
+        "endChar": 39
+      },
+      "revId": "63b98bb183f7b1b4a4de830b4559c25625a6e5c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

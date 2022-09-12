@@ -6,7 +6,6 @@
 
 /** Enum for all special shortcuts */
 import {ComboKey, Key, Modifier, Binding} from '../../utils/dom-util';
-import {FlagsService, KnownExperimentId} from '../flags/flags';
 
 export enum SPECIAL_SHORTCUT {
   DOC_ONLY = 'DOC_ONLY',
@@ -112,7 +111,7 @@ export interface ShortcutHelpItem {
   bindings: Binding[];
 }
 
-export function createShortCutConfig(flagsService: FlagsService) {
+export function createShortcutConfig() {
   const config = new Map<ShortcutSection, ShortcutHelpItem[]>();
   function describe(
     shortcut: Shortcut,
@@ -167,17 +166,14 @@ export function createShortCutConfig(flagsService: FlagsService) {
     'Go to Watched Changes',
     {key: 'w', combo: ComboKey.G}
   );
-
-  if (flagsService.isEnabled(KnownExperimentId.BULK_ACTIONS)) {
-    describe(
-      Shortcut.TOGGLE_CHECKBOX,
-      ShortcutSection.ACTIONS,
-      'Toggle checkbox',
-      {
-        key: 'x',
-      }
-    );
-  }
+  describe(
+    Shortcut.TOGGLE_CHECKBOX,
+    ShortcutSection.ACTIONS,
+    'Toggle checkbox',
+    {
+      key: 'x',
+    }
+  );
   describe(
     Shortcut.CURSOR_NEXT_CHANGE,
     ShortcutSection.ACTIONS,

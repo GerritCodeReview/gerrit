@@ -37,7 +37,6 @@ import {LitElement, css, html, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
 import {ifDefined} from 'lit/directives/if-defined.js';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {ChangeStatus, ColumnNames, WAITING} from '../../../constants/constants';
 import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
 import {resolve} from '../../../models/dependency';
@@ -110,8 +109,6 @@ export class GrChangeListItem extends LitElement {
   @state() private dynamicCellEndpoints?: string[];
 
   reporting: ReportingService = getAppContext().reportingService;
-
-  private readonly flagsService = getAppContext().flagsService;
 
   private readonly getBulkActionsModel = resolve(this, bulkActionsModelToken);
 
@@ -307,7 +304,6 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellSelectionBox() {
-    if (!this.flagsService.isEnabled(KnownExperimentId.BULK_ACTIONS)) return;
     return html`
       <td class="cell selection">
         <!--

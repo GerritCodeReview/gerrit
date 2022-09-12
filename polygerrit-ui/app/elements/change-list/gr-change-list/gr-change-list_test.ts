@@ -286,7 +286,7 @@ suite('gr-change-list basic tests', () => {
         wrapInProvider(
           html`<gr-change-list></gr-change-list>`,
           shortcutsServiceToken,
-          new ShortcutsService(getAppContext().userModel, flagsService)
+          new ShortcutsService(getAppContext().userModel)
         )
       )
     ).querySelector('gr-change-list')!;

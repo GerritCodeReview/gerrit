@@ -290,7 +290,9 @@ export class GrChangeList extends LitElement {
   }
 
   private toggleCheckbox() {
-    assertIsDefined(this.selectedIndex, 'selectedIndex');
+    if (this.selectedIndex === undefined || this.selectedIndex < 0) {
+      return;
+    }
     let selectedIndex = this.selectedIndex;
     assertIsDefined(this.sections, 'sections');
     const changeSections = queryAll<GrChangeListSection>(

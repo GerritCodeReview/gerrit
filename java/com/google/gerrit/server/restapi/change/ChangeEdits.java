@@ -21,6 +21,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.io.ByteStreams;
 import com.google.gerrit.common.RawInputUtil;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
@@ -46,6 +47,7 @@ import com.google.gerrit.extensions.restapi.RestCollectionModifyView;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.change.ChangeEditResource;
 import com.google.gerrit.server.change.ChangeResource;
@@ -242,17 +244,23 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
 
     private final ChangeEditModifier editModifier;
     private final GitRepositoryManager repositoryManager;
+    private final Provider<CurrentUser> userProvider;
 
     @Inject
-    Post(ChangeEditModifier editModifier, GitRepositoryManager repositoryManager) {
+    Post(
+        ChangeEditModifier editModifier,
+        GitRepositoryManager repositoryManager,
+        Provider<CurrentUser> userProvider) {
       this.editModifier = editModifier;
       this.repositoryManager = repositoryManager;
+      this.userProvider = userProvider;
     }
 
     @Override
     public Response<Object> apply(ChangeResource resource, Post.Input postInput)
         throws AuthException, BadRequestException, IOException, ResourceConflictException,
             PermissionBackendException {
+      checkCallingUser(userProvider, resource);
       Project.NameKey project = resource.getProject();
       try (Repository repository = repositoryManager.openRepository(project)) {
         if (isRestoreFile(postInput)) {
@@ -290,15 +298,18 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     private final ChangeEditModifier editModifier;
     private final GitRepositoryManager repositoryManager;
     private final EditMessage editMessage;
+    private final Provider<CurrentUser> userProvider;
 
     @Inject
     Put(
         ChangeEditModifier editModifier,
         GitRepositoryManager repositoryManager,
-        EditMessage editMessage) {
+        EditMessage editMessage,
+        Provider<CurrentUser> userProvider) {
       this.editModifier = editModifier;
       this.repositoryManager = repositoryManager;
       this.editMessage = editMessage;
+      this.userProvider = userProvider;
     }
 
     @Override
@@ -312,7 +323,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
         ChangeResource rsrc, String path, FileContentInput fileContentInput)
         throws AuthException, BadRequestException, ResourceConflictException, IOException,
             PermissionBackendException {
-
+      checkCallingUser(userProvider, rsrc);
       if (fileContentInput.content == null && fileContentInput.binary_content == null) {
         throw new BadRequestException("either content or binary_content is required");
       }
@@ -360,11 +371,13 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
 
     private final ChangeEditModifier editModifier;
     private final GitRepositoryManager repositoryManager;
+    private final Provider<CurrentUser> userProvider;
 
     @Inject
-    DeleteContent(ChangeEditModifier editModifier, GitRepositoryManager repositoryManager) {
+    DeleteContent(ChangeEditModifier editModifier, GitRepositoryManager repositoryManager, Provider<CurrentUser> userProvider) {
       this.editModifier = editModifier;
       this.repositoryManager = repositoryManager;
+      this.userProvider = userProvider;
     }
 
     @Override
@@ -377,6 +390,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     public Response<Object> apply(ChangeResource rsrc, String filePath)
         throws AuthException, BadRequestException, IOException, ResourceConflictException,
             PermissionBackendException {
+      checkCallingUser(userProvider, rsrc);
       try (Repository repository = repositoryManager.openRepository(rsrc.getProject())) {
         editModifier.deleteFile(repository, rsrc.getNotes(), filePath);
       } catch (InvalidChangeOperationException e) {
@@ -530,6 +544,21 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
                 .base64());
       }
       throw new ResourceNotFoundException();
+    }
+  }
+
+  private static void checkCallingUser(Provider<CurrentUser> userProvider, ChangeResource rsrc)
+      throws BadRequestException {
+    CurrentUser currentUser = userProvider.get();
+    if (currentUser.isIdentifiedUser()) {
+      throw new BadRequestException("Cannot create edit as anonymous user");
+    }
+
+    Account.Id accountId = currentUser.asIdentifiedUser().getAccountId();
+    if (!(rsrc.getChange().getOwner() == accountId
+        || rsrc.getChangeData().reviewers().all().contains(accountId))) {
+      throw new BadRequestException(
+          "Cannot create edits. Only owners, reviewers are CC are allowed to create edits");
     }
   }
 }

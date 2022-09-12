@@ -43,6 +43,7 @@ import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.ListResultSet;
+import com.google.gerrit.index.query.Paginated;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.ResultSet;
@@ -349,8 +350,8 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     }
   }
 
-  protected class ElasticQuerySource implements DataSource<V> {
-    private final QueryOptions opts;
+  protected class ElasticQuerySource implements DataSource<V>, Paginated<V> {
+    private QueryOptions opts;
     private final String search;
 
     ElasticQuerySource(Predicate<V> p, QueryOptions opts, JsonArray sortArray)
@@ -424,6 +425,23 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
       } catch (IOException e) {
         throw new StorageException(e);
       }
+    }
+
+    @Override
+    public QueryOptions getOptions() {
+      return opts;
+    }
+
+    @Override
+    public ResultSet<V> restart(int start, int pageSize) {
+      opts = opts.withStart(start).withPageSize(pageSize);
+      return read();
+    }
+
+    @Override
+    public ResultSet<V> restart(Object searchAfter, int pageSize) {
+      opts = opts.withSearchAfter(searchAfter).withPageSize(pageSize);
+      return read();
     }
   }
 }

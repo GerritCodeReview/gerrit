@@ -98,11 +98,59 @@ suite('service worker class tests', () => {
       serviceWorker.ctx.registration,
       'showNotification'
     );
+
     await serviceWorker.showLatestAttentionChangeNotification(account);
+
     assert.isTrue(showNotificationMock.calledOnce);
     assert.isTrue(
       showNotificationMock.calledWithMatch(
         'You are in the attention set for 2 changes.'
+      )
+    );
+  });
+
+  test('show notification for 1 change', async () => {
+    const t1 = parseDate('2016-01-12 20:20:00' as Timestamp).getTime();
+    const t2 = '2016-01-12 20:30:00' as Timestamp;
+    serviceWorker.latestUpdateTimestampMs = t1;
+    const account = createAccountDetailWithId();
+    const subject = 'New change';
+    const reason = 'Reason';
+    const change = {
+      ...createParsedChange(),
+      subject,
+      attention_set: {
+        [`${account._account_id}`]: {
+          account,
+          last_update: t2,
+          reason,
+        },
+      },
+    };
+    const showNotificationMock = sinon.stub(
+      serviceWorker.ctx.registration,
+      'showNotification'
+    );
+    sinon
+      .stub(serviceWorker, 'getLatestAttentionSetChanges')
+      .returns(Promise.resolve([change]));
+    sinon.stub(serviceWorker, 'saveState').returns(Promise.resolve());
+
+    await serviceWorker.showLatestAttentionChangeNotification(account);
+
+    assert.isTrue(showNotificationMock.calledOnce);
+    assert.isTrue(
+      showNotificationMock.calledWithMatch(subject, {
+        body: reason,
+        data: {
+          url: 'http://localhost:9876/c/test-project/+/42?usp=service-worker-notification',
+        },
+      })
+    );
+    assert.equal(showNotificationMock.firstCall.args?.[1]?.['body'], reason);
+    assert.isTrue(
+      showNotificationMock.firstCall.args?.[1]?.['data']?.['url'].endsWith(
+        'c/test-project/+/42?usp=service-worker-notification'
       )
     );
   });

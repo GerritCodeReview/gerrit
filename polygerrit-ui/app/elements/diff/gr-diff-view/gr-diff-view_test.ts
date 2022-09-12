@@ -21,6 +21,7 @@ import {
   stubReporting,
   stubRestApi,
   stubUsers,
+  waitEventLoop,
   waitUntil,
 } from '../../../test/test-utils';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api';
@@ -1301,34 +1302,31 @@ suite('gr-diff-view tests', () => {
       );
     });
 
-    function isEditVisibile({
+    async function isEditVisibile({
       loggedIn,
       changeStatus,
     }: {
       loggedIn: boolean;
       changeStatus: ChangeStatus;
-    }) {
-      return new Promise(resolve => {
-        element.loggedIn = loggedIn;
-        element.path = 't.txt';
-        element.patchRange = {
-          basePatchNum: PARENT,
-          patchNum: 1 as RevisionPatchSetNum,
-        };
-        element.change = {
-          ...createParsedChange(),
-          _number: 42 as NumericChangeId,
-          status: changeStatus,
-          revisions: {
-            a: createRevision(1),
-            b: createRevision(2),
-          },
-        };
-        flush(() => {
-          const editBtn = query(element, '.editButton gr-button');
-          resolve(!!editBtn);
-        });
-      });
+    }): Promise<boolean> {
+      element.loggedIn = loggedIn;
+      element.path = 't.txt';
+      element.patchRange = {
+        basePatchNum: PARENT,
+        patchNum: 1 as RevisionPatchSetNum,
+      };
+      element.change = {
+        ...createParsedChange(),
+        _number: 42 as NumericChangeId,
+        status: changeStatus,
+        revisions: {
+          a: createRevision(1),
+          b: createRevision(2),
+        },
+      };
+      await element.updateComplete;
+      const editBtn = query(element, '.editButton gr-button');
+      return !!editBtn;
     }
 
     test('edit visible only when logged and status NEW', async () => {
@@ -1792,7 +1790,7 @@ suite('gr-diff-view tests', () => {
       assert.equal(saveReviewedStub.callCount, callCount);
     });
 
-    test('file review status with edit loaded', () => {
+    test('file review status with edit loaded', async () => {
       const saveReviewedStub = sinon.stub(
         element.getChangeModel(),
         'setReviewedFilesStatus'
@@ -1802,7 +1800,7 @@ suite('gr-diff-view tests', () => {
         basePatchNum: 1 as BasePatchSetNum,
         patchNum: EDIT,
       };
-      flush();
+      await waitEventLoop();
 
       assert.isTrue(element.computeEditMode());
       element.setReviewed(true);
@@ -1824,7 +1822,7 @@ suite('gr-diff-view tests', () => {
       };
 
       await element.updateComplete;
-      await flush();
+      await waitEventLoop();
       assert.isTrue(initLineStub.calledOnce);
     });
 
@@ -1912,7 +1910,7 @@ suite('gr-diff-view tests', () => {
         };
         element.change = change;
         await element.updateComplete;
-        await flush();
+        await waitEventLoop();
         assert.deepEqual(element.commitRange, {
           baseCommit: 'commit-sha-2' as CommitId,
           commit: 'commit-sha-4' as CommitId,
@@ -1928,7 +1926,7 @@ suite('gr-diff-view tests', () => {
         };
         element.change = change;
         await element.updateComplete;
-        await flush();
+        await waitEventLoop();
         assert.deepEqual(element.commitRange, {
           commit: 'commit-sha-5' as CommitId,
           baseCommit: 'sha-5-parent' as CommitId,
@@ -2459,14 +2457,14 @@ suite('gr-diff-view tests', () => {
       });
     });
 
-    test('shift+m navigates to next unreviewed file', () => {
+    test('shift+m navigates to next unreviewed file', async () => {
       element.files = getFilesFromFileList(['file1', 'file2', 'file3']);
       element.reviewedFiles = new Set(['file1', 'file2']);
       element.path = 'file1';
       const reviewedStub = sinon.stub(element, 'setReviewed');
       const navStub = sinon.stub(element, 'navToFile');
       pressKey(element, 'M');
-      flush();
+      await waitEventLoop();
 
       assert.isTrue(reviewedStub.lastCall.args[0]);
       assert.deepEqual(navStub.lastCall.args, [['file1', 'file3'], 1]);

@@ -5,7 +5,12 @@
  */
 import '../../../test/common-test-setup-karma';
 import './gr-ssh-editor';
-import {mockPromise, query, stubRestApi} from '../../../test/test-utils';
+import {
+  mockPromise,
+  query,
+  stubRestApi,
+  waitEventLoop,
+} from '../../../test/test-utils';
 import {GrSshEditor} from './gr-ssh-editor';
 import {SshKeyInfo} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
@@ -40,7 +45,7 @@ suite('gr-ssh-editor tests', () => {
     element = await fixture(html`<gr-ssh-editor></gr-ssh-editor>`);
 
     await element.loadData();
-    await flush();
+    await waitEventLoop();
   });
 
   test('renders', () => {

@@ -7,7 +7,7 @@ import '../../../test/common-test-setup-karma';
 import {fixture, html, assert} from '@open-wc/testing';
 import './gr-user-header';
 import {GrUserHeader} from './gr-user-header';
-import {stubRestApi} from '../../../test/test-utils';
+import {stubRestApi, waitEventLoop} from '../../../test/test-utils';
 import {AccountId, EmailAddress, Timestamp} from '../../../types/common';
 
 suite('gr-user-header tests', () => {
@@ -61,13 +61,13 @@ suite('gr-user-header tests', () => {
     );
 
     element.userId = 10 as AccountId;
-    await flush();
+    await waitEventLoop();
 
     assert.isOk(element._accountDetails);
     assert.isOk(element._status);
 
     element.userId = undefined;
-    await flush();
+    await waitEventLoop();
 
     assert.isUndefined(element._accountDetails);
     assert.equal(element._status, '');

@@ -6,7 +6,7 @@
 import '../../../test/common-test-setup-karma';
 import './gr-permission';
 import {GrPermission} from './gr-permission';
-import {query, stubRestApi} from '../../../test/test-utils';
+import {query, stubRestApi, waitEventLoop} from '../../../test/test-utils';
 import {GitRef, GroupId, GroupName} from '../../../types/common';
 import {PermissionAction} from '../../../constants/constants';
 import {
@@ -313,7 +313,7 @@ suite('gr-permission tests', () => {
       };
       element.setupValues();
       await element.updateComplete;
-      flush();
+      await waitEventLoop();
     });
 
     test('render', () => {
@@ -432,7 +432,7 @@ suite('gr-permission tests', () => {
           bubbles: true,
         })
       );
-      await flush();
+      await waitEventLoop();
       assert.equal(element.rules!.length, 1);
     });
 

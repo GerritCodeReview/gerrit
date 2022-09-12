@@ -5,7 +5,7 @@
  */
 import '../../../test/common-test-setup-karma';
 import './gr-agreements-list';
-import {stubRestApi} from '../../../test/test-utils';
+import {stubRestApi, waitEventLoop} from '../../../test/test-utils';
 import {GrAgreementsList} from './gr-agreements-list';
 import {ContributorAgreementInfo} from '../../../types/common';
 import {fixture, html, assert} from '@open-wc/testing';
@@ -27,7 +27,7 @@ suite('gr-agreements-list tests', () => {
     element = await fixture(html`<gr-agreements-list></gr-agreements-list>`);
 
     await element.loadData();
-    await flush();
+    await waitEventLoop();
   });
 
   test('renders', () => {

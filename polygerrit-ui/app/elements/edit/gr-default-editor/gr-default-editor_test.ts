@@ -6,7 +6,11 @@
 import '../../../test/common-test-setup-karma';
 import './gr-default-editor';
 import {GrDefaultEditor} from './gr-default-editor';
-import {mockPromise, queryAndAssert} from '../../../test/test-utils';
+import {
+  mockPromise,
+  queryAndAssert,
+  waitEventLoop,
+} from '../../../test/test-utils';
 import {fixture, html, assert} from '@open-wc/testing';
 
 suite('gr-default-editor tests', () => {
@@ -15,7 +19,7 @@ suite('gr-default-editor tests', () => {
   setup(async () => {
     element = await fixture(html`<gr-default-editor></gr-default-editor>`);
     element.fileContent = '';
-    await flush();
+    await waitEventLoop();
   });
 
   test('render', () => {

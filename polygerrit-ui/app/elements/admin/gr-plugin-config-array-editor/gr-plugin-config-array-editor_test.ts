@@ -3,14 +3,14 @@
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {ConfigParameterInfoType} from '../../../constants/constants.js';
+import {ConfigParameterInfoType} from '../../../constants/constants';
 import '../../../test/common-test-setup-karma';
 import './gr-plugin-config-array-editor';
 import {GrPluginConfigArrayEditor} from './gr-plugin-config-array-editor';
-import {queryAll, queryAndAssert, pressKey} from '../../../test/test-utils.js';
-import {GrButton} from '../../shared/gr-button/gr-button.js';
+import {queryAll, queryAndAssert, pressKey} from '../../../test/test-utils';
+import {GrButton} from '../../shared/gr-button/gr-button';
 import {fixture, html, assert} from '@open-wc/testing';
-import {Key} from '../../../utils/dom-util.js';
+import {Key} from '../../../utils/dom-util';
 
 suite('gr-plugin-config-array-editor tests', () => {
   let element: GrPluginConfigArrayEditor;

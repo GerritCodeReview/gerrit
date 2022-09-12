@@ -227,9 +227,6 @@ module.exports = {
     'import/no-unused-modules': 2,
     // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-default-export.md
     'import/no-default-export': 2,
-    // Prevents certain identifiers being used.
-    // Prefer flush() over flushAsynchronousOperations().
-    'id-blacklist': ['error', 'flushAsynchronousOperations'],
     'regex/invalid': [
       'error', [{
         // eslint-disable-next-line regex/invalid

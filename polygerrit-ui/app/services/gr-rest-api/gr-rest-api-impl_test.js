@@ -8,7 +8,8 @@ import {
   addListenerForTest,
   mockPromise,
   stubAuth,
-} from '../../test/test-utils';
+  waitEventLoop,
+} from "../../test/test-utils";
 import {GrReviewerUpdatesParser} from '../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {
   ListChangesOption,
@@ -1432,7 +1433,9 @@ suite('gr-rest-api-service-impl tests', () => {
     return element
         .getFileContent('1', 'tst/path', '1')
         .then(() => {
-          flush();
+          return waitEventLoop();
+        })
+        .then(() => {
           assert.isFalse(spy.called);
 
           res.status = 500;
@@ -1479,7 +1482,7 @@ suite('gr-rest-api-service-impl tests', () => {
     });
   });
 
-  test('_logCall only reports requests with anonymized URLss', () => {
+  test('_logCall only reports requests with anonymized URLss', async () => {
     sinon.stub(Date, 'now').returns(200);
     const handler = sinon.stub();
     addListenerForTest(document, 'gr-rpc-log', handler);
@@ -1492,7 +1495,7 @@ suite('gr-rest-api-service-impl tests', () => {
         100,
         200
     );
-    flush();
+    await waitEventLoop();
     assert.isTrue(handler.calledOnce);
   });
 

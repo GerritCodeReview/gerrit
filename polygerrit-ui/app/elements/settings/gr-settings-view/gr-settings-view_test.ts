@@ -7,7 +7,7 @@ import '../../../test/common-test-setup-karma';
 import './gr-settings-view';
 import {GrSettingsView} from './gr-settings-view';
 import {GerritView} from '../../../services/router/router-model';
-import {queryAll, stubRestApi} from '../../../test/test-utils';
+import {queryAll, stubRestApi, waitEventLoop} from '../../../test/test-utils';
 import {
   AuthInfo,
   AccountDetailInfo,
@@ -522,7 +522,7 @@ suite('gr-settings-view tests', () => {
     const div = await fixture(html`<div></div>`);
     div.appendChild(newElement);
 
-    flush();
+    await waitEventLoop();
 
     assert.isTrue(titleChangedStub.called);
     assert.equal(titleChangedStub.getCall(0).args[0].detail.title, 'Settings');

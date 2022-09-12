@@ -13,7 +13,7 @@ import {
   stubRestApi,
   waitUntil,
 } from '../../../test/test-utils';
-import {createGroupInfo} from '../../../test/test-data-generators.js';
+import {createGroupInfo} from '../../../test/test-data-generators';
 import {GroupId, GroupInfo, GroupName} from '../../../types/common';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {GrButton} from '../../shared/gr-button/gr-button';

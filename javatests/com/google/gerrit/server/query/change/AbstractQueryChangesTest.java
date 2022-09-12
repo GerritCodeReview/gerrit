@@ -3154,7 +3154,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     // User 1 can see their own edits.
     requestContext.setContext(newRequestContext(user1));
-    assertQuery("has:edit", change2, change1);
+    assertQuery("has:edit", change1, change2);
 
     // User 2 can see their own edits.
     requestContext.setContext(newRequestContext(user2));

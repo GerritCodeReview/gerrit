@@ -23,19 +23,14 @@ suite('gr-vote-chip tests', () => {
   });
 
   suite('with QuickLabelInfo', () => {
-    let element: GrVoteChip;
-
-    setup(async () => {
+    test('renders positive', async () => {
       const labelInfo = {
         ...createQuickLabelInfo(),
         approved: createAccountWithIdNameAndEmail(),
       };
-      element = await fixture<GrVoteChip>(
+      const element = await fixture<GrVoteChip>(
         html`<gr-vote-chip .label=${labelInfo}></gr-vote-chip>`
       );
-    });
-
-    test('renders', () => {
       assert.shadowDom.equal(
         element,
         /* HTML */ ` <gr-tooltip-content
@@ -44,6 +39,26 @@ suite('gr-vote-chip tests', () => {
           title=""
         >
           <div class="max vote-chip">&#x2713;</div>
+        </gr-tooltip-content>`
+      );
+    });
+
+    test('renders negative', async () => {
+      const labelInfo = {
+        ...createQuickLabelInfo(),
+        rejected: createAccountWithIdNameAndEmail(),
+      };
+      const element = await fixture<GrVoteChip>(
+        html`<gr-vote-chip .label=${labelInfo}></gr-vote-chip>`
+      );
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ ` <gr-tooltip-content
+          class="container"
+          has-tooltip=""
+          title=""
+        >
+          <div class="min vote-chip">&#x2717;</div>
         </gr-tooltip-content>`
       );
     });
@@ -113,6 +128,51 @@ suite('gr-vote-chip tests', () => {
         >
           <div class="positive vote-chip">+2</div>
           <div class="chip-angle positive">+2</div>
+        </gr-tooltip-content>`
+      );
+    });
+
+    test('renders with tooltip who voted', async () => {
+      vote.name = 'Tester';
+      const labelInfo = {
+        all: [{value: 2}, {value: 1}],
+        values: {'+2': 'Great'},
+      };
+      element = await fixture<GrVoteChip>(
+        html`<gr-vote-chip
+          .label=${labelInfo}
+          .vote=${vote}
+          tooltip-with-who-voted
+        ></gr-vote-chip>`
+      );
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ ` <gr-tooltip-content
+          class="container"
+          has-tooltip=""
+          title="Tester: Great"
+        >
+          <div class="max vote-chip">+2</div>
+        </gr-tooltip-content>`
+      );
+    });
+
+    test('renders with display value instead of latest vote', async () => {
+      element = await fixture<GrVoteChip>(
+        html`<gr-vote-chip
+          .displayValue=${-1}
+          .label=${labelInfo}
+          .vote=${vote}
+        ></gr-vote-chip>`
+      );
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ ` <gr-tooltip-content
+          class="container"
+          has-tooltip=""
+          title=""
+        >
+          <div class="min vote-chip">-1</div>
         </gr-tooltip-content>`
       );
     });

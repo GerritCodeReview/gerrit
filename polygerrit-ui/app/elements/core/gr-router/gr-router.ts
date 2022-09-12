@@ -54,13 +54,14 @@ import {
   GenerateUrlChangeViewParameters,
   GenerateUrlDiffViewParameters,
   GenerateUrlParameters,
-  GroupDetailView,
-  RepoDetailView,
+  GroupChildPage,
+  RepoChildPage,
 } from '../../../utils/router-util';
 import {
   LATEST_ATTEMPT,
   stringToAttemptChoice,
 } from '../../../models/checks/checks-util';
+import {AdminChildPage} from '../../../models/pages/admin';
 
 const RoutePattern = {
   ROOT: '/',
@@ -1185,7 +1186,7 @@ export class GrRouter {
   handleGroupAuditLogRoute(data: PageContextWithQueryMap) {
     this.setParams({
       view: GerritView.GROUP,
-      detail: GroupDetailView.LOG,
+      detail: GroupChildPage.LOG,
       groupId: data.params[0] as GroupId,
     });
   }
@@ -1193,7 +1194,7 @@ export class GrRouter {
   handleGroupMembersRoute(data: PageContextWithQueryMap) {
     this.setParams({
       view: GerritView.GROUP,
-      detail: GroupDetailView.MEMBERS,
+      detail: GroupChildPage.MEMBERS,
       groupId: data.params[0] as GroupId,
     });
   }
@@ -1201,7 +1202,7 @@ export class GrRouter {
   handleGroupListOffsetRoute(data: PageContextWithQueryMap) {
     this.setParams({
       view: GerritView.ADMIN,
-      adminView: 'gr-admin-group-list',
+      adminView: AdminChildPage.GROUPS,
       offset: data.params[1] || 0,
       filter: null,
       openCreateModal: data.hash === 'create',
@@ -1211,7 +1212,7 @@ export class GrRouter {
   handleGroupListFilterOffsetRoute(data: PageContextWithQueryMap) {
     this.setParams({
       view: GerritView.ADMIN,
-      adminView: 'gr-admin-group-list',
+      adminView: AdminChildPage.GROUPS,
       offset: data.params['offset'],
       filter: data.params['filter'],
     });
@@ -1220,7 +1221,7 @@ export class GrRouter {
   handleGroupListFilterRoute(data: PageContextWithQueryMap) {
     this.setParams({
       view: GerritView.ADMIN,
-      adminView: 'gr-admin-group-list',
+      adminView: AdminChildPage.GROUPS,
       filter: data.params['filter'] || null,
     });
   }
@@ -1241,7 +1242,7 @@ export class GrRouter {
     const repo = data.params[0] as RepoName;
     this.setParams({
       view: GerritView.REPO,
-      detail: RepoDetailView.COMMANDS,
+      childPage: RepoChildPage.COMMANDS,
       repo,
     });
     this.reporting.setRepoName(repo);
@@ -1251,7 +1252,7 @@ export class GrRouter {
     const repo = data.params[0] as RepoName;
     this.setParams({
       view: GerritView.REPO,
-      detail: RepoDetailView.GENERAL,
+      childPage: RepoChildPage.GENERAL,
       repo,
     });
     this.reporting.setRepoName(repo);
@@ -1261,7 +1262,7 @@ export class GrRouter {
     const repo = data.params[0] as RepoName;
     this.setParams({
       view: GerritView.REPO,
-      detail: RepoDetailView.ACCESS,
+      childPage: RepoChildPage.ACCESS,
       repo,
     });
     this.reporting.setRepoName(repo);
@@ -1271,7 +1272,7 @@ export class GrRouter {
     const repo = data.params[0] as RepoName;
     this.setParams({
       view: GerritView.REPO,
-      detail: RepoDetailView.DASHBOARDS,
+      childPage: RepoChildPage.DASHBOARDS,
       repo,
     });
     this.reporting.setRepoName(repo);
@@ -1280,7 +1281,7 @@ export class GrRouter {
   handleBranchListOffsetRoute(data: PageContextWithQueryMap) {
     this.setParams({
       view: GerritView.REPO,
-      detail: RepoDetailView.BRANCHES,
+      childPage: RepoChildPage.BRANCHES,
       repo: data.params[0] as RepoName,
       offset: data.params[2] || 0,
       filter: null,
@@ -1290,7 +1291,7 @@ export class GrRouter {
   handleBranchListFilterOffsetRoute(data: PageContextWithQueryMap) {
     this.setParams({
       view: GerritView.REPO,
-      detail: RepoDetailView.BRANCHES,
+      childPage: RepoChildPage.BRANCHES,
       repo: data.params['repo'] as RepoName,
       offset: data.params['offset'],
       filter: data.params['filter'],
@@ -1300,7 +1301,7 @@ export class GrRouter {
   handleBranchListFilterRoute(data: PageContextWithQueryMap) {
     this.setParams({
       view: GerritView.REPO,
-      detail: RepoDetailView.BRANCHES,
+      childPage: RepoChildPage.BRANCHES,
       repo: data.params['repo'] as RepoName,
       filter: data.params['filter'] || null,
     });
@@ -1309,7 +1310,7 @@ export class GrRouter {
   handleTagListOffsetRoute(data: PageContextWithQueryMap) {
     this.setParams({
       view: GerritView.REPO,
-      detail: RepoDetailView.TAGS,
+      childPage: RepoChildPage.TAGS,
       repo: data.params[0] as RepoName,
       offset: data.params[2] || 0,
       filter: null,
@@ -1319,7 +1320,7 @@ export class GrRouter {
   handleTagListFilterOffsetRoute(data: PageContextWithQueryMap) {
     this.setParams({
       view: GerritView.REPO,
-      detail: RepoDetailView.TAGS,
+      childPage: RepoChildPage.TAGS,
       repo: data.params['repo'] as RepoName,
       offset: data.params['offset'],
       filter: data.params['filter'],
@@ -1329,7 +1330,7 @@ export class GrRouter {
   handleTagListFilterRoute(data: PageContextWithQueryMap) {
     this.setParams({
       view: GerritView.REPO,
-      detail: RepoDetailView.TAGS,
+      childPage: RepoChildPage.TAGS,
       repo: data.params['repo'] as RepoName,
       filter: data.params['filter'] || null,
     });
@@ -1338,7 +1339,7 @@ export class GrRouter {
   handleRepoListOffsetRoute(data: PageContextWithQueryMap) {
     this.setParams({
       view: GerritView.ADMIN,
-      adminView: 'gr-repo-list',
+      adminView: AdminChildPage.REPOS,
       offset: data.params[1] || 0,
       filter: null,
       openCreateModal: data.hash === 'create',
@@ -1348,7 +1349,7 @@ export class GrRouter {
   handleRepoListFilterOffsetRoute(data: PageContextWithQueryMap) {
     this.setParams({
       view: GerritView.ADMIN,
-      adminView: 'gr-repo-list',
+      adminView: AdminChildPage.REPOS,
       offset: data.params['offset'],
       filter: data.params['filter'],
     });
@@ -1357,7 +1358,7 @@ export class GrRouter {
   handleRepoListFilterRoute(data: PageContextWithQueryMap) {
     this.setParams({
       view: GerritView.ADMIN,
-      adminView: 'gr-repo-list',
+      adminView: AdminChildPage.REPOS,
       filter: data.params['filter'] || null,
     });
   }
@@ -1381,7 +1382,7 @@ export class GrRouter {
   handlePluginListOffsetRoute(data: PageContextWithQueryMap) {
     this.setParams({
       view: GerritView.ADMIN,
-      adminView: 'gr-plugin-list',
+      adminView: AdminChildPage.PLUGINS,
       offset: data.params[1] || 0,
       filter: null,
     });
@@ -1390,7 +1391,7 @@ export class GrRouter {
   handlePluginListFilterOffsetRoute(data: PageContextWithQueryMap) {
     this.setParams({
       view: GerritView.ADMIN,
-      adminView: 'gr-plugin-list',
+      adminView: AdminChildPage.PLUGINS,
       offset: data.params['offset'],
       filter: data.params['filter'],
     });
@@ -1399,7 +1400,7 @@ export class GrRouter {
   handlePluginListFilterRoute(data: PageContextWithQueryMap) {
     this.setParams({
       view: GerritView.ADMIN,
-      adminView: 'gr-plugin-list',
+      adminView: AdminChildPage.PLUGINS,
       filter: data.params['filter'] || null,
     });
   }
@@ -1407,7 +1408,7 @@ export class GrRouter {
   handlePluginListRoute(_: PageContextWithQueryMap) {
     this.setParams({
       view: GerritView.ADMIN,
-      adminView: 'gr-plugin-list',
+      adminView: AdminChildPage.PLUGINS,
     });
   }
 

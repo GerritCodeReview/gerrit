@@ -28,8 +28,8 @@ import {ParsedChangeInfo} from '../../../types/types';
 import {
   DashboardSection,
   GenerateUrlParameters,
-  GroupDetailView,
-  RepoDetailView,
+  GroupChildPage,
+  RepoChildPage,
 } from '../../../utils/router-util';
 
 // Navigation parameters object format:
@@ -635,7 +635,7 @@ export const GerritNav = {
   getUrlForRepo(repoName: RepoName) {
     return this._getUrlFor({
       view: GerritView.REPO,
-      detail: RepoDetailView.GENERAL,
+      childPage: RepoChildPage.GENERAL,
       repoName,
     });
   },
@@ -651,7 +651,7 @@ export const GerritNav = {
     return this._getUrlFor({
       view: GerritView.REPO,
       repoName,
-      detail: RepoDetailView.TAGS,
+      childPage: RepoChildPage.TAGS,
     });
   },
 
@@ -659,7 +659,7 @@ export const GerritNav = {
     return this._getUrlFor({
       view: GerritView.REPO,
       repoName,
-      detail: RepoDetailView.BRANCHES,
+      childPage: RepoChildPage.BRANCHES,
     });
   },
 
@@ -667,7 +667,7 @@ export const GerritNav = {
     return this._getUrlFor({
       view: GerritView.REPO,
       repoName,
-      detail: RepoDetailView.ACCESS,
+      childPage: RepoChildPage.ACCESS,
     });
   },
 
@@ -675,7 +675,7 @@ export const GerritNav = {
     return this._getUrlFor({
       view: GerritView.REPO,
       repoName,
-      detail: RepoDetailView.COMMANDS,
+      childPage: RepoChildPage.COMMANDS,
     });
   },
 
@@ -683,7 +683,7 @@ export const GerritNav = {
     return this._getUrlFor({
       view: GerritView.REPO,
       repoName,
-      detail: RepoDetailView.DASHBOARDS,
+      childPage: RepoChildPage.DASHBOARDS,
     });
   },
 
@@ -698,7 +698,7 @@ export const GerritNav = {
     return this._getUrlFor({
       view: GerritView.GROUP,
       groupId,
-      detail: GroupDetailView.LOG,
+      detail: GroupChildPage.LOG,
     });
   },
 
@@ -706,7 +706,7 @@ export const GerritNav = {
     return this._getUrlFor({
       view: GerritView.GROUP,
       groupId,
-      detail: GroupDetailView.MEMBERS,
+      detail: GroupChildPage.MEMBERS,
     });
   },
 

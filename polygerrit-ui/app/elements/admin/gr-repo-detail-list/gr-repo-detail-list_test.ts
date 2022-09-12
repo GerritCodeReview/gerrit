@@ -34,7 +34,7 @@ import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {GrListView} from '../../shared/gr-list-view/gr-list-view';
 import {SHOWN_ITEMS_COUNT} from '../../../constants/constants';
-import {RepoDetailView} from '../../../utils/router-util';
+import {RepoChildPage} from '../../../utils/router-util';
 import {fixture, html, assert} from '@open-wc/testing';
 
 function branchGenerator(counter: number) {
@@ -96,7 +96,7 @@ suite('gr-repo-detail-list', () => {
       element = await fixture(
         html`<gr-repo-detail-list></gr-repo-detail-list>`
       );
-      element.detailType = RepoDetailView.BRANCHES;
+      element.detailType = RepoChildPage.BRANCHES;
       sinon.stub(page, 'show');
     });
 
@@ -113,7 +113,7 @@ suite('gr-repo-detail-list', () => {
         element.params = {
           view: GerritView.REPO,
           repo: 'test' as RepoName,
-          detail: RepoDetailView.BRANCHES,
+          childPage: RepoChildPage.BRANCHES,
         };
         await element.paramsChanged();
         await element.updateComplete;
@@ -2265,10 +2265,10 @@ suite('gr-repo-detail-list', () => {
 
       test('test computeItemName', () => {
         assert.deepEqual(
-          element.computeItemName(RepoDetailView.BRANCHES),
+          element.computeItemName(RepoChildPage.BRANCHES),
           'Branch'
         );
-        assert.deepEqual(element.computeItemName(RepoDetailView.TAGS), 'Tag');
+        assert.deepEqual(element.computeItemName(RepoChildPage.TAGS), 'Tag');
       });
     });
 
@@ -2280,7 +2280,7 @@ suite('gr-repo-detail-list', () => {
         element.params = {
           view: GerritView.REPO,
           repo: 'test' as RepoName,
-          detail: RepoDetailView.BRANCHES,
+          childPage: RepoChildPage.BRANCHES,
         };
 
         await element.paramsChanged();
@@ -2300,7 +2300,7 @@ suite('gr-repo-detail-list', () => {
         element.params = {
           view: GerritView.REPO,
           repo: 'test' as RepoName,
-          detail: RepoDetailView.BRANCHES,
+          childPage: RepoChildPage.BRANCHES,
           filter: 'test',
           offset: 25,
         };
@@ -2333,7 +2333,7 @@ suite('gr-repo-detail-list', () => {
         element.params = {
           view: GerritView.REPO,
           repo: 'test' as RepoName,
-          detail: RepoDetailView.BRANCHES,
+          childPage: RepoChildPage.BRANCHES,
           filter: 'test',
           offset: 25,
         };
@@ -2351,7 +2351,7 @@ suite('gr-repo-detail-list', () => {
       element = await fixture(
         html`<gr-repo-detail-list></gr-repo-detail-list>`
       );
-      element.detailType = RepoDetailView.TAGS;
+      element.detailType = RepoChildPage.TAGS;
       sinon.stub(page, 'show');
     });
 
@@ -2363,7 +2363,7 @@ suite('gr-repo-detail-list', () => {
         element.params = {
           view: GerritView.REPO,
           repo: 'test' as RepoName,
-          detail: RepoDetailView.TAGS,
+          childPage: RepoChildPage.TAGS,
         };
 
         await element.paramsChanged();
@@ -2416,7 +2416,7 @@ suite('gr-repo-detail-list', () => {
         element.params = {
           view: GerritView.REPO,
           repo: 'test' as RepoName,
-          detail: RepoDetailView.TAGS,
+          childPage: RepoChildPage.TAGS,
         };
 
         await element.paramsChanged();
@@ -2434,7 +2434,7 @@ suite('gr-repo-detail-list', () => {
         element.params = {
           view: GerritView.REPO,
           repo: 'test' as RepoName,
-          detail: RepoDetailView.TAGS,
+          childPage: RepoChildPage.TAGS,
           filter: 'test',
           offset: 25,
         };
@@ -2515,7 +2515,7 @@ suite('gr-repo-detail-list', () => {
         element.params = {
           view: GerritView.REPO,
           repo: 'test' as RepoName,
-          detail: RepoDetailView.TAGS,
+          childPage: RepoChildPage.TAGS,
           filter: 'test',
           offset: 25,
         };
@@ -2525,8 +2525,8 @@ suite('gr-repo-detail-list', () => {
     });
 
     test('computeItemName', () => {
-      assert.equal(element.computeItemName(RepoDetailView.BRANCHES), 'Branch');
-      assert.equal(element.computeItemName(RepoDetailView.TAGS), 'Tag');
+      assert.equal(element.computeItemName(RepoChildPage.BRANCHES), 'Branch');
+      assert.equal(element.computeItemName(RepoChildPage.TAGS), 'Tag');
     });
   });
 });

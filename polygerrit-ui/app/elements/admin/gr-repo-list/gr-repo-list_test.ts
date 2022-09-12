@@ -17,13 +17,13 @@ import {
   ProjectInfoWithName,
   RepoName,
 } from '../../../types/common';
-import {AppElementAdminParams} from '../../gr-app-types';
 import {ProjectState, SHOWN_ITEMS_COUNT} from '../../../constants/constants';
 import {GerritView} from '../../../services/router/router-model';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {GrListView} from '../../shared/gr-list-view/gr-list-view';
 import {fixture, html, assert} from '@open-wc/testing';
+import {AdminChildPage, AdminPageState} from '../../../models/pages/admin';
 
 function createRepo(name: string, counter: number) {
   return {
@@ -633,9 +633,9 @@ suite('gr-repo-list tests', () => {
       assert.isFalse(overlayOpen.called);
       element.maybeOpenCreateOverlay(undefined);
       assert.isFalse(overlayOpen.called);
-      const params: AppElementAdminParams = {
+      const params: AdminPageState = {
         view: GerritView.ADMIN,
-        adminView: '',
+        adminView: AdminChildPage.REPOS,
         openCreateModal: true,
       };
       element.maybeOpenCreateOverlay(params);
@@ -669,10 +669,10 @@ suite('gr-repo-list tests', () => {
       repoStub.returns(Promise.resolve(repos));
       element.params = {
         view: GerritView.ADMIN,
-        adminView: '',
+        adminView: AdminChildPage.REPOS,
         filter: 'test',
         offset: 25,
-      } as AppElementAdminParams;
+      } as AdminPageState;
       await element._paramsChanged();
       assert.isTrue(repoStub.lastCall.calledWithExactly('test', 25, 25));
     });

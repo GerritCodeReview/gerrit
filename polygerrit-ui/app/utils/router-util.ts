@@ -32,12 +32,12 @@ export interface DashboardSection {
   results?: ChangeInfo[];
 }
 
-export enum GroupDetailView {
+export enum GroupChildPage {
   MEMBERS = 'members',
   LOG = 'log',
 }
 
-export enum RepoDetailView {
+export enum RepoChildPage {
   GENERAL = 'general',
   ACCESS = 'access',
   BRANCHES = 'branches',
@@ -82,7 +82,7 @@ export interface GenerateUrlChangeViewParameters {
 export interface GenerateUrlRepoViewParameters {
   view: GerritView.REPO;
   repoName: RepoName;
-  detail?: RepoDetailView;
+  childPage?: RepoChildPage;
 }
 
 export interface GenerateUrlDashboardViewParameters {
@@ -100,7 +100,7 @@ export interface GenerateUrlDashboardViewParameters {
 export interface GenerateUrlGroupViewParameters {
   view: GerritView.GROUP;
   groupId: GroupId;
-  detail?: GroupDetailView;
+  detail?: GroupChildPage;
 }
 
 export interface GenerateUrlEditViewParameters {
@@ -376,9 +376,9 @@ function generateDiffOrEditUrl(
 
 function generateGroupUrl(params: GenerateUrlGroupViewParameters) {
   let url = `/admin/groups/${encodeURL(`${params.groupId}`, true)}`;
-  if (params.detail === GroupDetailView.MEMBERS) {
+  if (params.detail === GroupChildPage.MEMBERS) {
     url += ',members';
-  } else if (params.detail === GroupDetailView.LOG) {
+  } else if (params.detail === GroupChildPage.LOG) {
     url += ',audit-log';
   }
   return url;
@@ -386,17 +386,17 @@ function generateGroupUrl(params: GenerateUrlGroupViewParameters) {
 
 function generateRepoUrl(params: GenerateUrlRepoViewParameters) {
   let url = `/admin/repos/${encodeURL(`${params.repoName}`, true)}`;
-  if (params.detail === RepoDetailView.GENERAL) {
+  if (params.childPage === RepoChildPage.GENERAL) {
     url += ',general';
-  } else if (params.detail === RepoDetailView.ACCESS) {
+  } else if (params.childPage === RepoChildPage.ACCESS) {
     url += ',access';
-  } else if (params.detail === RepoDetailView.BRANCHES) {
+  } else if (params.childPage === RepoChildPage.BRANCHES) {
     url += ',branches';
-  } else if (params.detail === RepoDetailView.TAGS) {
+  } else if (params.childPage === RepoChildPage.TAGS) {
     url += ',tags';
-  } else if (params.detail === RepoDetailView.COMMANDS) {
+  } else if (params.childPage === RepoChildPage.COMMANDS) {
     url += ',commands';
-  } else if (params.detail === RepoDetailView.DASHBOARDS) {
+  } else if (params.childPage === RepoChildPage.DASHBOARDS) {
     url += ',dashboards';
   }
   return url;

@@ -16,7 +16,7 @@ import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
 import {fireEvent} from '../../../utils/event-util';
-import {RepoDetailView} from '../../../utils/router-util';
+import {RepoChildPage} from '../../../utils/router-util';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -33,7 +33,7 @@ export class GrCreatePointerDialog extends LitElement {
   repoName?: RepoName;
 
   @property({type: String})
-  itemDetail?: RepoDetailView.BRANCHES | RepoDetailView.TAGS;
+  itemDetail?: RepoChildPage.BRANCHES | RepoChildPage.TAGS;
 
   /* private but used in test */
   @state() itemName?: BranchName;
@@ -91,7 +91,7 @@ export class GrCreatePointerDialog extends LitElement {
           </section>
           <section
             id="itemAnnotationSection"
-            class=${this.itemDetail === RepoDetailView.BRANCHES
+            class=${this.itemDetail === RepoChildPage.BRANCHES
               ? 'hideItem'
               : ''}
           >
@@ -127,7 +127,7 @@ export class GrCreatePointerDialog extends LitElement {
     }
     const USE_HEAD = this.itemRevision ? this.itemRevision : 'HEAD';
     const url = `${getBaseUrl()}/admin/repos/${encodeURL(this.repoName, true)}`;
-    if (this.itemDetail === RepoDetailView.BRANCHES) {
+    if (this.itemDetail === RepoChildPage.BRANCHES) {
       return this.restApiService
         .createRepoBranch(this.repoName, this.itemName, {revision: USE_HEAD})
         .then(itemRegistered => {
@@ -135,7 +135,7 @@ export class GrCreatePointerDialog extends LitElement {
             page.show(`${url},branches`);
           }
         });
-    } else if (this.itemDetail === RepoDetailView.TAGS) {
+    } else if (this.itemDetail === RepoChildPage.TAGS) {
       return this.restApiService
         .createRepoTag(this.repoName, this.itemName, {
           revision: USE_HEAD,

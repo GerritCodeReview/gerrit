@@ -32,9 +32,9 @@ import {
   createServerInfo,
 } from '../../../test/test-data-generators';
 import {GrSelect} from '../../shared/gr-select/gr-select';
-import {AppElementSettingsParam} from '../../gr-app-types';
 import {fixture, html, assert} from '@open-wc/testing';
 import {EventType} from '../../../types/events';
+import {SettingsPageState} from '../../../models/pages/settings';
 
 suite('gr-settings-view tests', () => {
   let element: GrSettingsView;
@@ -757,7 +757,7 @@ suite('gr-settings-view tests', () => {
     const emailEditorLoadDataStub = sinon.stub(element.emailEditor, 'loadData');
     element.params = {
       view: GerritView.SETTINGS,
-    } as AppElementSettingsParam;
+    } as SettingsPageState;
     element.firstUpdated();
     assert.isTrue(emailEditorLoadDataStub.calledOnce);
   });

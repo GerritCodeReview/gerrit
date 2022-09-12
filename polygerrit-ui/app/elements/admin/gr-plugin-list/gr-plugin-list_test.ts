@@ -15,11 +15,11 @@ import {
   stubRestApi,
 } from '../../../test/test-utils';
 import {PluginInfo} from '../../../types/common';
-import {AppElementAdminParams} from '../../gr-app-types';
 import {GerritView} from '../../../services/router/router-model';
 import {PageErrorEvent} from '../../../types/events';
 import {SHOWN_ITEMS_COUNT} from '../../../constants/constants';
 import {fixture, html, assert} from '@open-wc/testing';
+import {AdminChildPage, AdminPageState} from '../../../models/pages/admin';
 
 function pluginGenerator(counter: number) {
   const plugin: PluginInfo = {
@@ -59,7 +59,10 @@ suite('gr-plugin-list tests', () => {
   let element: GrPluginList;
   let plugins: {[pluginName: string]: PluginInfo} | undefined;
 
-  const value: AppElementAdminParams = {view: GerritView.ADMIN, adminView: ''};
+  const value: AdminPageState = {
+    view: GerritView.ADMIN,
+    adminView: AdminChildPage.PLUGINS,
+  };
 
   setup(async () => {
     element = await fixture(html`<gr-plugin-list></gr-plugin-list>`);

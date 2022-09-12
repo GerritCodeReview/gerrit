@@ -10,11 +10,11 @@ import {getAppContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {SHOWN_ITEMS_COUNT} from '../../../constants/constants';
-import {AppElementAdminParams} from '../../gr-app-types';
 import {tableStyles} from '../../../styles/gr-table-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
+import {AdminPageState} from '../../../models/pages/admin';
 
 // Exported for tests
 export interface PluginInfoWithName extends PluginInfo {
@@ -29,7 +29,7 @@ export class GrPluginList extends LitElement {
    * URL params passed from the router.
    */
   @property({type: Object})
-  params?: AppElementAdminParams;
+  params?: AdminPageState;
 
   /**
    * Offset of currently visible query results.

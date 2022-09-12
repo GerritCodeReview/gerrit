@@ -24,7 +24,6 @@ import {
   TagInfo,
   WebLinkInfo,
 } from '../../../types/common';
-import {AppElementRepoParams} from '../../gr-app-types';
 import {firePageError} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
@@ -37,7 +36,8 @@ import {customElement, query, property, state} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
 import {assertIsDefined} from '../../../utils/common-util';
 import {ifDefined} from 'lit/directives/if-defined.js';
-import {RepoDetailView} from '../../../utils/router-util';
+import {RepoChildPage} from '../../../utils/router-util';
+import {RepoPageState} from '../../../models/pages/repo';
 
 const PGP_START = '-----BEGIN PGP SIGNATURE-----';
 
@@ -51,10 +51,10 @@ export class GrRepoDetailList extends LitElement {
   private readonly createNewModal?: GrCreatePointerDialog;
 
   @property({type: Object})
-  params?: AppElementRepoParams;
+  params?: RepoPageState;
 
   // private but used in test
-  @state() detailType?: RepoDetailView.BRANCHES | RepoDetailView.TAGS;
+  @state() detailType?: RepoChildPage.BRANCHES | RepoChildPage.TAGS;
 
   // private but used in test
   @state() isOwner = false;
@@ -160,7 +160,7 @@ export class GrRepoDetailList extends LitElement {
               <th class="revision topHeader">Revision</th>
               <th
                 class="message topHeader ${this.detailType ===
-                RepoDetailView.BRANCHES
+                RepoChildPage.BRANCHES
                   ? 'hideItem'
                   : ''}"
               >
@@ -168,7 +168,7 @@ export class GrRepoDetailList extends LitElement {
               </th>
               <th
                 class="tagger topHeader ${this.detailType ===
-                RepoDetailView.BRANCHES
+                RepoChildPage.BRANCHES
                   ? 'hideItem'
                   : ''}"
               >
@@ -291,7 +291,7 @@ export class GrRepoDetailList extends LitElement {
           </span>
         </td>
         <td
-          class="message ${this.detailType === RepoDetailView.BRANCHES
+          class="message ${this.detailType === RepoChildPage.BRANCHES
             ? 'hideItem'
             : ''}"
         >
@@ -300,7 +300,7 @@ export class GrRepoDetailList extends LitElement {
             : ''}
         </td>
         <td
-          class="tagger ${this.detailType === RepoDetailView.BRANCHES
+          class="tagger ${this.detailType === RepoChildPage.BRANCHES
             ? 'hideItem'
             : ''}"
         >
@@ -369,8 +369,8 @@ export class GrRepoDetailList extends LitElement {
     // to false and polymer removes this component, hence check for params
     if (
       !(
-        this.params?.detail === RepoDetailView.BRANCHES ||
-        this.params?.detail === RepoDetailView.TAGS
+        this.params?.childPage === RepoChildPage.BRANCHES ||
+        this.params?.childPage === RepoChildPage.TAGS
       )
     ) {
       return;
@@ -385,7 +385,7 @@ export class GrRepoDetailList extends LitElement {
       }
     });
 
-    this.detailType = this.params.detail;
+    this.detailType = this.params.childPage;
 
     this.filter = this.params?.filter ?? '';
     this.offset = Number(this.params?.offset ?? 0);
@@ -419,7 +419,7 @@ export class GrRepoDetailList extends LitElement {
       firePageError(response);
     };
 
-    if (detailType === RepoDetailView.BRANCHES) {
+    if (detailType === RepoChildPage.BRANCHES) {
       return this.restApiService
         .getRepoBranches(filter, repo, itemsPerPage, offset, errFn)
         .then(items => {
@@ -429,7 +429,7 @@ export class GrRepoDetailList extends LitElement {
         .finally(() => {
           this.loading = false;
         });
-    } else if (detailType === RepoDetailView.TAGS) {
+    } else if (detailType === RepoChildPage.TAGS) {
       return this.restApiService
         .getRepoTags(filter, repo, itemsPerPage, offset, errFn)
         .then(items => {
@@ -442,7 +442,7 @@ export class GrRepoDetailList extends LitElement {
     return Promise.reject(new Error('unknown detail type'));
   }
 
-  private getPath(repo?: RepoName, detailType?: RepoDetailView) {
+  private getPath(repo?: RepoName, detailType?: RepoChildPage) {
     return `/admin/repos/${encodeURL(repo ?? '', false)},${detailType}`;
   }
 
@@ -458,10 +458,10 @@ export class GrRepoDetailList extends LitElement {
   }
 
   // private but used in test
-  stripRefs(item: GitRef, detailType?: RepoDetailView) {
-    if (detailType === RepoDetailView.BRANCHES) {
+  stripRefs(item: GitRef, detailType?: RepoChildPage) {
+    if (detailType === RepoChildPage.BRANCHES) {
       return item.replace('refs/heads/', '');
-    } else if (detailType === RepoDetailView.TAGS) {
+    } else if (detailType === RepoChildPage.TAGS) {
       return item.replace('refs/tags/', '');
     }
     throw new Error('unknown detailType');
@@ -474,7 +474,7 @@ export class GrRepoDetailList extends LitElement {
 
   private computeCanEditClass(
     ref?: GitRef,
-    detailType?: RepoDetailView,
+    detailType?: RepoChildPage,
     isOwner?: boolean
   ) {
     if (ref === undefined || detailType === undefined) return '';
@@ -521,11 +521,11 @@ export class GrRepoDetailList extends LitElement {
   }
 
   // private but used in test
-  computeItemName(detailType?: RepoDetailView) {
+  computeItemName(detailType?: RepoChildPage) {
     if (detailType === undefined) return '';
-    if (detailType === RepoDetailView.BRANCHES) {
+    if (detailType === RepoChildPage.BRANCHES) {
       return 'Branch';
-    } else if (detailType === RepoDetailView.TAGS) {
+    } else if (detailType === RepoChildPage.TAGS) {
       return 'Tag';
     }
     throw new Error('unknown detailType');
@@ -537,7 +537,7 @@ export class GrRepoDetailList extends LitElement {
     if (!this.repo || !this.refName) {
       return Promise.reject(new Error('undefined repo or refName'));
     }
-    if (this.detailType === RepoDetailView.BRANCHES) {
+    if (this.detailType === RepoChildPage.BRANCHES) {
       return this.restApiService
         .deleteRepoBranches(this.repo, this.refName)
         .then(itemDeleted => {
@@ -551,7 +551,7 @@ export class GrRepoDetailList extends LitElement {
             );
           }
         });
-    } else if (this.detailType === RepoDetailView.TAGS) {
+    } else if (this.detailType === RepoChildPage.TAGS) {
       return this.restApiService
         .deleteRepoTags(this.repo, this.refName)
         .then(itemDeleted => {

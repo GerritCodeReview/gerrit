@@ -13,6 +13,7 @@ import {
 } from '../../types/common';
 import {Model} from '../../models/model';
 
+// TODO: Rename to `GerritPage`.
 export enum GerritView {
   ADMIN = 'admin',
   AGREEMENTS = 'agreements',

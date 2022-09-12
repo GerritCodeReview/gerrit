@@ -20,8 +20,9 @@ import {GrRepoList} from '../gr-repo-list/gr-repo-list';
 import {GroupId, GroupName, RepoName, Timestamp} from '../../../types/common';
 import {GrDropdownList} from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {GrGroup} from '../gr-group/gr-group';
-import {GroupDetailView, RepoDetailView} from '../../../utils/router-util';
+import {GroupChildPage, RepoChildPage} from '../../../utils/router-util';
 import {fixture, html, assert} from '@open-wc/testing';
+import {AdminChildPage} from '../../../models/pages/admin';
 
 function createAdminCapabilities() {
   return {
@@ -81,7 +82,7 @@ suite('gr-admin-view tests', () => {
 
     element.params = {
       view: GerritView.ADMIN,
-      adminView: 'gr-repo-list',
+      adminView: AdminChildPage.REPOS,
     };
 
     await element.updateComplete;
@@ -318,7 +319,7 @@ suite('gr-admin-view tests', () => {
     element.params = {
       repo: 'my-repo' as RepoName,
       view: GerritView.REPO,
-      detail: RepoDetailView.ACCESS,
+      childPage: RepoChildPage.ACCESS,
     };
     stubRestApi('getAccountCapabilities').returns(
       Promise.resolve(createAdminCapabilities())
@@ -346,36 +347,36 @@ suite('gr-admin-view tests', () => {
               name: 'General',
               view: GerritView.REPO,
               url: '',
-              detailType: RepoDetailView.GENERAL,
+              detailType: RepoChildPage.GENERAL,
             },
             {
               name: 'Access',
               view: GerritView.REPO,
-              detailType: RepoDetailView.ACCESS,
+              detailType: RepoChildPage.ACCESS,
               url: '',
             },
             {
               name: 'Commands',
               view: GerritView.REPO,
-              detailType: RepoDetailView.COMMANDS,
+              detailType: RepoChildPage.COMMANDS,
               url: '',
             },
             {
               name: 'Branches',
               view: GerritView.REPO,
-              detailType: RepoDetailView.BRANCHES,
+              detailType: RepoChildPage.BRANCHES,
               url: '',
             },
             {
               name: 'Tags',
               view: GerritView.REPO,
-              detailType: RepoDetailView.TAGS,
+              detailType: RepoChildPage.TAGS,
               url: '',
             },
             {
               name: 'Dashboards',
               view: GerritView.REPO,
-              detailType: RepoDetailView.DASHBOARDS,
+              detailType: RepoChildPage.DASHBOARDS,
               url: '',
             },
           ],
@@ -411,7 +412,7 @@ suite('gr-admin-view tests', () => {
         value: 'repogeneral',
         view: GerritView.REPO,
         url: '',
-        detailType: RepoDetailView.GENERAL,
+        detailType: RepoChildPage.GENERAL,
         parent: 'my-repo' as RepoName,
       },
       {
@@ -419,7 +420,7 @@ suite('gr-admin-view tests', () => {
         value: 'repoaccess',
         view: GerritView.REPO,
         url: '',
-        detailType: RepoDetailView.ACCESS,
+        detailType: RepoChildPage.ACCESS,
         parent: 'my-repo' as RepoName,
       },
       {
@@ -427,7 +428,7 @@ suite('gr-admin-view tests', () => {
         value: 'repocommands',
         view: GerritView.REPO,
         url: '',
-        detailType: RepoDetailView.COMMANDS,
+        detailType: RepoChildPage.COMMANDS,
         parent: 'my-repo' as RepoName,
       },
       {
@@ -435,7 +436,7 @@ suite('gr-admin-view tests', () => {
         value: 'repobranches',
         view: GerritView.REPO,
         url: '',
-        detailType: RepoDetailView.BRANCHES,
+        detailType: RepoChildPage.BRANCHES,
         parent: 'my-repo' as RepoName,
       },
       {
@@ -443,7 +444,7 @@ suite('gr-admin-view tests', () => {
         value: 'repotags',
         view: GerritView.REPO,
         url: '',
-        detailType: RepoDetailView.TAGS,
+        detailType: RepoChildPage.TAGS,
         parent: 'my-repo' as RepoName,
       },
       {
@@ -451,7 +452,7 @@ suite('gr-admin-view tests', () => {
         value: 'repodashboards',
         view: GerritView.REPO,
         url: '',
-        detailType: RepoDetailView.DASHBOARDS,
+        detailType: RepoChildPage.DASHBOARDS,
         parent: 'my-repo' as RepoName,
       },
     ];
@@ -496,7 +497,7 @@ suite('gr-admin-view tests', () => {
     assert.isTrue(element.selectedIsCurrentPage(selected));
     selected.parent = 'my-second-repo' as RepoName;
     assert.isFalse(element.selectedIsCurrentPage(selected));
-    selected.detailType = RepoDetailView.GENERAL;
+    selected.detailType = RepoChildPage.GENERAL;
     assert.isFalse(element.selectedIsCurrentPage(selected));
   });
 
@@ -563,7 +564,7 @@ suite('gr-admin-view tests', () => {
       test('repo list', async () => {
         element.params = {
           view: GerritView.ADMIN,
-          adminView: 'gr-repo-list',
+          adminView: AdminChildPage.REPOS,
           openCreateModal: false,
         };
         await element.updateComplete;
@@ -588,7 +589,7 @@ suite('gr-admin-view tests', () => {
       test('repo access', async () => {
         element.params = {
           view: GerritView.REPO,
-          detail: RepoDetailView.ACCESS,
+          childPage: RepoChildPage.ACCESS,
           repo: 'foo' as RepoName,
         };
         element.repoName = 'foo' as RepoName;
@@ -602,7 +603,7 @@ suite('gr-admin-view tests', () => {
       test('repo dashboards', async () => {
         element.params = {
           view: GerritView.REPO,
-          detail: RepoDetailView.DASHBOARDS,
+          childPage: RepoChildPage.DASHBOARDS,
           repo: 'foo' as RepoName,
         };
         element.repoName = 'foo' as RepoName;
@@ -637,7 +638,7 @@ suite('gr-admin-view tests', () => {
       test('group list', async () => {
         element.params = {
           view: GerritView.ADMIN,
-          adminView: 'gr-admin-group-list',
+          adminView: AdminChildPage.GROUPS,
           openCreateModal: false,
         };
         await element.updateComplete;
@@ -693,7 +694,7 @@ suite('gr-admin-view tests', () => {
       test('group members', async () => {
         element.params = {
           view: GerritView.GROUP,
-          detail: GroupDetailView.MEMBERS,
+          childPage: GroupChildPage.MEMBERS,
           groupId: '1234' as GroupId,
         };
         element.groupName = 'foo' as GroupName;

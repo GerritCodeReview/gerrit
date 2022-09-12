@@ -13,7 +13,7 @@ import {
 } from '../../../test/test-utils';
 import {BranchName} from '../../../types/common';
 import {IronInputElement} from '@polymer/iron-input';
-import {RepoDetailView} from '../../../utils/router-util';
+import {RepoChildPage} from '../../../utils/router-util';
 import {fixture, html, assert} from '@open-wc/testing';
 
 suite('gr-create-pointer-dialog tests', () => {
@@ -67,7 +67,7 @@ suite('gr-create-pointer-dialog tests', () => {
     });
 
     element.itemName = 'test-branch' as BranchName;
-    element.itemDetail = 'branches' as RepoDetailView.BRANCHES;
+    element.itemDetail = 'branches' as RepoChildPage.BRANCHES;
 
     ironInput(queryAndAssert(element, '#itemNameSection')).bindValue =
       'test-branch2';
@@ -89,7 +89,7 @@ suite('gr-create-pointer-dialog tests', () => {
     });
 
     element.itemName = 'test-tag' as BranchName;
-    element.itemDetail = 'tags' as RepoDetailView.TAGS;
+    element.itemDetail = 'tags' as RepoChildPage.TAGS;
 
     ironInput(queryAndAssert(element, '#itemNameSection')).bindValue =
       'test-tag2';
@@ -112,7 +112,7 @@ suite('gr-create-pointer-dialog tests', () => {
 
     element.itemName = 'test-tag' as BranchName;
     element.itemAnnotation = 'test-message';
-    element.itemDetail = 'tags' as RepoDetailView.TAGS;
+    element.itemDetail = 'tags' as RepoChildPage.TAGS;
 
     ironInput(queryAndAssert(element, '#itemNameSection')).bindValue =
       'test-tag2';

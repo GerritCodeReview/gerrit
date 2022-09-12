@@ -13,7 +13,8 @@ import {
 import {hasOwnProperty} from './common-util';
 import {GerritView} from '../services/router/router-model';
 import {MenuLink} from '../api/admin';
-import {GroupDetailView, RepoDetailView} from './router-util';
+import {GroupChildPage, RepoChildPage} from './router-util';
+import {AdminChildPage} from '../models/pages/admin';
 
 const ADMIN_LINKS: NavLink[] = [
   {
@@ -156,7 +157,7 @@ export function getGroupSubsections(
   if (groupIsInternal) {
     children.push({
       name: 'Members',
-      detailType: GroupDetailView.MEMBERS,
+      detailType: GroupChildPage.MEMBERS,
       view: GerritView.GROUP,
       url: GerritNav.getUrlForGroupMembers(groupId),
     });
@@ -164,7 +165,7 @@ export function getGroupSubsections(
   if (groupIsInternal && (isAdmin || groupOwner)) {
     children.push({
       name: 'Audit Log',
-      detailType: GroupDetailView.LOG,
+      detailType: GroupChildPage.LOG,
       view: GerritView.GROUP,
       url: GerritNav.getUrlForGroupLog(groupId),
     });
@@ -180,37 +181,37 @@ export function getRepoSubsections(repoName: RepoName) {
       {
         name: 'General',
         view: GerritView.REPO,
-        detailType: RepoDetailView.GENERAL,
+        detailType: RepoChildPage.GENERAL,
         url: GerritNav.getUrlForRepo(repoName),
       },
       {
         name: 'Access',
         view: GerritView.REPO,
-        detailType: RepoDetailView.ACCESS,
+        detailType: RepoChildPage.ACCESS,
         url: GerritNav.getUrlForRepoAccess(repoName),
       },
       {
         name: 'Commands',
         view: GerritView.REPO,
-        detailType: RepoDetailView.COMMANDS,
+        detailType: RepoChildPage.COMMANDS,
         url: GerritNav.getUrlForRepoCommands(repoName),
       },
       {
         name: 'Branches',
         view: GerritView.REPO,
-        detailType: RepoDetailView.BRANCHES,
+        detailType: RepoChildPage.BRANCHES,
         url: GerritNav.getUrlForRepoBranches(repoName),
       },
       {
         name: 'Tags',
         view: GerritView.REPO,
-        detailType: RepoDetailView.TAGS,
+        detailType: RepoChildPage.TAGS,
         url: GerritNav.getUrlForRepoTags(repoName),
       },
       {
         name: 'Dashboards',
         view: GerritView.REPO,
-        detailType: RepoDetailView.DASHBOARDS,
+        detailType: RepoChildPage.DASHBOARDS,
         url: GerritNav.getUrlForRepoDashboards(repoName),
       },
     ],
@@ -220,7 +221,7 @@ export function getRepoSubsections(repoName: RepoName) {
 export interface SubsectionInterface {
   name: string;
   view: GerritView;
-  detailType?: RepoDetailView | GroupDetailView;
+  detailType?: RepoChildPage | GroupChildPage;
   url?: string;
   children?: SubsectionInterface[];
 }
@@ -238,7 +239,7 @@ export interface NavLink {
   name: string;
   noBaseUrl: boolean;
   url: string;
-  view?: GerritView;
+  view?: GerritView | AdminChildPage;
   viewableToAll?: boolean;
   section?: string;
   capability?: string;

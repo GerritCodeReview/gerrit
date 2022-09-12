@@ -6,20 +6,18 @@
 import {
   BasePatchSetNum,
   DashboardId,
-  GroupId,
   NumericChangeId,
   RepoName,
   RevisionPatchSetNum,
   UrlEncodedCommentId,
 } from '../types/common';
 import {GerritView} from '../services/router/router-model';
-import {
-  GenerateUrlParameters,
-  DashboardSection,
-  GroupDetailView,
-  RepoDetailView,
-} from '../utils/router-util';
+import {GenerateUrlParameters, DashboardSection} from '../utils/router-util';
 import {AttemptChoice} from '../models/checks/checks-util';
+import {SettingsPageState} from '../models/pages/settings';
+import {AdminPageState} from '../models/pages/admin';
+import {GroupPageState} from '../models/pages/group';
+import {RepoPageState} from '../models/pages/repo';
 
 export interface AppElement extends HTMLElement {
   params: AppElementParams | GenerateUrlParameters;
@@ -37,32 +35,9 @@ export interface AppElementDashboardParams {
   title?: string;
 }
 
-export interface AppElementGroupParams {
-  view: GerritView.GROUP;
-  detail?: GroupDetailView;
-  groupId: GroupId;
-}
-
-export interface ListViewParams {
-  filter?: string | null;
-  offset?: number | string;
-}
-
-export interface AppElementAdminParams extends ListViewParams {
-  view: GerritView.ADMIN;
-  adminView: string;
-  openCreateModal?: boolean;
-}
-
-export interface AppElementRepoParams extends ListViewParams {
-  view: GerritView.REPO;
-  detail?: RepoDetailView;
-  repo: RepoName;
-}
-
 export interface AppElementDocSearchParams {
   view: GerritView.DOCUMENTATION_SEARCH;
-  filter: string | null;
+  filter?: string | null;
 }
 
 export interface AppElementPluginScreenParams {
@@ -75,11 +50,6 @@ export interface AppElementSearchParam {
   view: GerritView.SEARCH;
   query: string;
   offset: string;
-}
-
-export interface AppElementSettingsParam {
-  view: GerritView.SETTINGS;
-  emailToken?: string;
 }
 
 export interface AppElementAgreementParam {
@@ -137,14 +107,14 @@ export interface AppElementJustRegisteredParams {
 
 export type AppElementParams =
   | AppElementDashboardParams
-  | AppElementGroupParams
-  | AppElementAdminParams
+  | AdminPageState
+  | GroupPageState
   | AppElementChangeViewParams
-  | AppElementRepoParams
+  | RepoPageState
   | AppElementDocSearchParams
   | AppElementPluginScreenParams
   | AppElementSearchParam
-  | AppElementSettingsParam
+  | SettingsPageState
   | AppElementAgreementParam
   | AppElementDiffViewParam
   | AppElementDiffEditViewParam

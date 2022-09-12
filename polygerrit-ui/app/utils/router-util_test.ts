@@ -26,7 +26,7 @@ import {
   GenerateUrlEditViewParameters,
   GenerateUrlGroupViewParameters,
   GenerateUrlSearchViewParameters,
-  GroupDetailView,
+  GroupChildPage,
   TEST_ONLY,
 } from './router-util';
 
@@ -288,7 +288,7 @@ suite('router-util tests', () => {
         const params: GenerateUrlGroupViewParameters = {
           view: GerritView.GROUP,
           groupId: '1234' as GroupId,
-          detail: 'members' as GroupDetailView,
+          detail: 'members' as GroupChildPage,
         };
         assert.equal(generateUrl(params), '/admin/groups/1234,members');
       });
@@ -297,7 +297,7 @@ suite('router-util tests', () => {
         const params: GenerateUrlGroupViewParameters = {
           view: GerritView.GROUP,
           groupId: '1234' as GroupId,
-          detail: 'log' as GroupDetailView,
+          detail: 'log' as GroupChildPage,
         };
         assert.equal(generateUrl(params), '/admin/groups/1234,audit-log');
       });

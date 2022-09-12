@@ -8,11 +8,11 @@ import {getBaseUrl} from '../../../utils/url-util';
 import {DocResult} from '../../../types/common';
 import {fireTitleChange} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
-import {ListViewParams} from '../../gr-app-types';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {tableStyles} from '../../../styles/gr-table-styles';
 import {LitElement, PropertyValues, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
+import {AppElementDocSearchParams} from '../../gr-app-types';
 
 @customElement('gr-documentation-search')
 export class GrDocumentationSearch extends LitElement {
@@ -20,7 +20,7 @@ export class GrDocumentationSearch extends LitElement {
    * URL params passed from the router.
    */
   @property({type: Object})
-  params?: ListViewParams;
+  params?: AppElementDocSearchParams;
 
   // private but used in test
   @state() documentationSearches?: DocResult[];

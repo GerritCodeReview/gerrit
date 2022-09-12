@@ -8,7 +8,6 @@ import '../../shared/gr-list-view/gr-list-view';
 import '../../shared/gr-overlay/gr-overlay';
 import '../gr-create-repo-dialog/gr-create-repo-dialog';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {AppElementAdminParams} from '../../gr-app-types';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {
   RepoName,
@@ -24,6 +23,7 @@ import {tableStyles} from '../../../styles/gr-table-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
+import {AdminPageState} from '../../../models/pages/admin';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -40,7 +40,7 @@ export class GrRepoList extends LitElement {
   @query('#createNewModal') private createNewModal?: GrCreateRepoDialog;
 
   @property({type: Object})
-  params?: AppElementAdminParams;
+  params?: AdminPageState;
 
   // private but used in test
   @state() offset = 0;
@@ -204,7 +204,7 @@ export class GrRepoList extends LitElement {
    *
    * private but used in test
    */
-  maybeOpenCreateOverlay(params?: AppElementAdminParams) {
+  maybeOpenCreateOverlay(params?: AdminPageState) {
     if (params?.openCreateModal) {
       this.createOverlay?.open();
     }

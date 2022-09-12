@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup-karma';
-import './gr-repo-detail-list.js';
+import './gr-repo-detail-list';
 import {GrRepoDetailList} from './gr-repo-detail-list';
 import {page} from '../../../utils/page-wrapper-utils';
 import {

@@ -8,7 +8,7 @@ import './gr-group-list';
 import {GrGroupList} from './gr-group-list';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {GroupId, GroupInfo, GroupName} from '../../../types/common';
-import {stubRestApi} from '../../../test/test-utils';
+import {stubRestApi, waitEventLoop} from '../../../test/test-utils';
 import {fixture, html, assert} from '@open-wc/testing';
 
 suite('gr-group-list tests', () => {
@@ -46,7 +46,7 @@ suite('gr-group-list tests', () => {
     element = await fixture(html`<gr-group-list></gr-group-list>`);
 
     await element.loadData();
-    await flush();
+    await waitEventLoop();
   });
 
   test('renders', () => {

@@ -25,7 +25,7 @@ import {
 } from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
-import {EventType, PageErrorEvent} from '../../../types/events.js';
+import {EventType, PageErrorEvent} from '../../../types/events';
 import {getAccountSuggestions} from '../../../utils/account-util';
 import {getAppContext} from '../../../services/app-context';
 import {fixture, html, assert} from '@open-wc/testing';

@@ -10,7 +10,7 @@ import {
   GrRestApiHelper,
 } from './gr-rest-api-helper';
 import {getAppContext} from '../../../../services/app-context';
-import {stubAuth} from '../../../../test/test-utils';
+import {stubAuth, waitEventLoop} from '../../../../test/test-utils';
 import {FakeScheduler} from '../../../../services/scheduler/fake-scheduler';
 import {RetryScheduler} from '../../../../services/scheduler/retry-scheduler';
 import {ParsedJSON} from '../../../../types/common';
@@ -71,13 +71,13 @@ suite('gr-rest-api-helper tests', () => {
   async function assertReadRequest() {
     assert.equal(readScheduler.scheduled.length, 1);
     await readScheduler.resolve();
-    await flush();
+    await waitEventLoop();
   }
 
   async function assertWriteRequest() {
     assert.equal(writeScheduler.scheduled.length, 1);
     await writeScheduler.resolve();
-    await flush();
+    await waitEventLoop();
   }
 
   suite('send()', () => {
@@ -292,7 +292,7 @@ suite('gr-rest-api-helper tests', () => {
       );
       // Flush the retry scheduler
       clock.tick(50);
-      await flush();
+      await waitEventLoop();
       // We expect a retry.
       await assertReadRequest();
       const res: Response = await promise;

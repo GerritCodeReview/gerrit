@@ -6,7 +6,12 @@
 import '../../../test/common-test-setup-karma';
 import './gr-autocomplete-dropdown';
 import {GrAutocompleteDropdown} from './gr-autocomplete-dropdown';
-import {pressKey, queryAll, queryAndAssert} from '../../../test/test-utils';
+import {
+  pressKey,
+  queryAll,
+  queryAndAssert,
+  waitEventLoop,
+} from '../../../test/test-utils';
 import {assertIsDefined} from '../../../utils/common-util';
 import {fixture, html, assert} from '@open-wc/testing';
 import {Key} from '../../../utils/dom-util';
@@ -25,7 +30,7 @@ suite('gr-autocomplete-dropdown', () => {
       {dataValue: 'test value 1', name: 'test name 1', text: '1', label: 'hi'},
       {dataValue: 'test value 2', name: 'test name 2', text: '2'},
     ];
-    await flush();
+    await waitEventLoop();
   });
 
   teardown(() => {
@@ -80,10 +85,10 @@ suite('gr-autocomplete-dropdown', () => {
     assert.equal(els[1].innerText.trim(), '2');
   });
 
-  test('escape key', () => {
+  test('escape key', async () => {
     const closeSpy = sinon.spy(element, 'close');
     pressKey(element, Key.ESC);
-    flush();
+    await waitEventLoop();
     assert.isTrue(closeSpy.called);
   });
 
@@ -140,26 +145,26 @@ suite('gr-autocomplete-dropdown', () => {
     assert.equal(element.cursor.index, 0);
   });
 
-  test('tapping selects item', () => {
+  test('tapping selects item', async () => {
     const itemSelectedStub = sinon.stub();
     element.addEventListener('item-selected', itemSelectedStub);
 
     suggestionsEl().querySelectorAll('li')[1].click();
-    flush();
+    await waitEventLoop();
     assert.deepEqual(itemSelectedStub.lastCall.args[0].detail, {
       trigger: 'click',
       selected: suggestionsEl().querySelectorAll('li')[1],
     });
   });
 
-  test('tapping child still selects item', () => {
+  test('tapping child still selects item', async () => {
     const itemSelectedStub = sinon.stub();
     element.addEventListener('item-selected', itemSelectedStub);
     const lastElChild = queryAll<HTMLLIElement>(suggestionsEl(), 'li')[0]
       ?.lastElementChild;
     assertIsDefined(lastElChild);
     (lastElChild as HTMLSpanElement).click();
-    flush();
+    await waitEventLoop();
     assert.deepEqual(itemSelectedStub.lastCall.args[0].detail, {
       trigger: 'click',
       selected: queryAll<HTMLElement>(suggestionsEl(), 'li')[0],

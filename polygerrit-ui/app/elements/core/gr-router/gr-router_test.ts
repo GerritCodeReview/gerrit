@@ -11,6 +11,7 @@ import {
   stubBaseUrl,
   stubRestApi,
   addListenerForTest,
+  waitEventLoop,
 } from '../../../test/test-utils';
 import {
   GrRouter,
@@ -1173,7 +1174,7 @@ suite('gr-router tests', () => {
           params: {0: '1234', 1: 'comment/6789'},
         };
         router.handleChangeLegacyRoute(ctx);
-        await flush();
+        await waitEventLoop();
         assert.isTrue(
           redirectStub.calledWithExactly('/c/project/+/1234' + '/comment/6789')
         );

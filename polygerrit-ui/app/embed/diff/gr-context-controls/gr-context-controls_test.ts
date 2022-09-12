@@ -12,6 +12,7 @@ import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {DiffFileMetaInfo, DiffInfo, SyntaxBlock} from '../../../api/diff';
 import {fixture, html, assert} from '@open-wc/testing';
+import {waitEventLoop} from '../../../test/test-utils';
 
 suite('gr-context-control tests', () => {
   let element: GrContextControls;
@@ -22,7 +23,7 @@ suite('gr-context-control tests', () => {
     element.renderPreferences = {};
     const div = await fixture(html`<div></div>`);
     div.appendChild(element);
-    await flush();
+    await waitEventLoop();
   });
 
   function createContextGroup(options: {offset?: number; count?: number}) {
@@ -45,7 +46,7 @@ suite('gr-context-control tests', () => {
   test('no +10 buttons for 10 or less lines', async () => {
     element.group = createContextGroup({count: 10});
 
-    await flush();
+    await waitEventLoop();
 
     const buttons = element.shadowRoot!.querySelectorAll(
       'paper-button.showContext'
@@ -58,7 +59,7 @@ suite('gr-context-control tests', () => {
     element.group = createContextGroup({offset: 0, count: 20});
     element.showConfig = 'below';
 
-    await flush();
+    await waitEventLoop();
 
     const buttons = element.shadowRoot!.querySelectorAll(
       'paper-button.showContext'
@@ -76,7 +77,7 @@ suite('gr-context-control tests', () => {
     element.group = createContextGroup({offset: 10, count: 20});
     element.showConfig = 'both';
 
-    await flush();
+    await waitEventLoop();
 
     const buttons = element.shadowRoot!.querySelectorAll(
       'paper-button.showContext'
@@ -96,7 +97,7 @@ suite('gr-context-control tests', () => {
     element.group = createContextGroup({offset: 30, count: 20});
     element.showConfig = 'above';
 
-    await flush();
+    await waitEventLoop();
 
     const buttons = element.shadowRoot!.querySelectorAll(
       'paper-button.showContext'
@@ -122,7 +123,7 @@ suite('gr-context-control tests', () => {
     element.group = createContextGroup({offset: 0, count: 20});
     element.showConfig = 'below';
 
-    await flush();
+    await waitEventLoop();
 
     const fullExpansionButtons = element.shadowRoot!.querySelectorAll(
       '.fullExpansion paper-button'
@@ -151,7 +152,7 @@ suite('gr-context-control tests', () => {
     element.group = createContextGroup({offset: 10, count: 20});
     element.showConfig = 'both';
 
-    await flush();
+    await waitEventLoop();
 
     const fullExpansionButtons = element.shadowRoot!.querySelectorAll(
       '.fullExpansion paper-button'
@@ -188,7 +189,7 @@ suite('gr-context-control tests', () => {
     element.group = createContextGroup({offset: 30, count: 20});
     element.showConfig = 'above';
 
-    await flush();
+    await waitEventLoop();
 
     const fullExpansionButtons = element.shadowRoot!.querySelectorAll(
       '.fullExpansion paper-button'
@@ -228,7 +229,7 @@ suite('gr-context-control tests', () => {
     element.group = createContextGroup({offset: 10, count: 20});
     element.showConfig = 'both';
 
-    await flush();
+    await waitEventLoop();
 
     const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
       '.blockExpansion paper-button'
@@ -280,7 +281,7 @@ suite('gr-context-control tests', () => {
     element.group = createContextGroup({offset: 10, count: 20});
     element.showConfig = 'both';
 
-    await flush();
+    await waitEventLoop();
 
     const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
       '.blockExpansion paper-button'
@@ -325,7 +326,7 @@ suite('gr-context-control tests', () => {
     ]);
     element.group = createContextGroup({offset: 10, count: 20});
     element.showConfig = 'both';
-    await flush();
+    await waitEventLoop();
 
     const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
       '.blockExpansion paper-button'
@@ -343,7 +344,7 @@ suite('gr-context-control tests', () => {
 
     element.group = createContextGroup({offset: 10, count: 20});
     element.showConfig = 'both';
-    await flush();
+    await waitEventLoop();
 
     const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
       '.blockExpansion paper-button'

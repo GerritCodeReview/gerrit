@@ -19,13 +19,13 @@ import {
   AccountId,
   EmailAddress,
   ReviewerState,
-} from '../../../api/rest-api.js';
+} from '../../../api/rest-api';
 import {
   createAccountDetailWithId,
   createChange,
   createDetailedLabelInfo,
-} from '../../../test/test-data-generators.js';
-import {GrButton} from '../gr-button/gr-button.js';
+} from '../../../test/test-data-generators';
+import {GrButton} from '../gr-button/gr-button';
 import {EventType} from '../../../types/events';
 
 suite('gr-hovercard-account tests', () => {

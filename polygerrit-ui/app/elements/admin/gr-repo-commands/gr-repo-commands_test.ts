@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup-karma';
-import './gr-repo-commands.js';
+import './gr-repo-commands';
 import {GrRepoCommands} from './gr-repo-commands';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {

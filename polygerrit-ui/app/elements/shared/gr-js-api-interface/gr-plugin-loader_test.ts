@@ -6,7 +6,11 @@
 import '../../../test/common-test-setup-karma';
 import {PLUGIN_LOADING_TIMEOUT_MS} from './gr-api-utils';
 import {PluginLoader, _testOnly_resetPluginLoader} from './gr-plugin-loader';
-import {resetPlugins, stubBaseUrl} from '../../../test/test-utils';
+import {
+  resetPlugins,
+  stubBaseUrl,
+  waitEventLoop,
+} from '../../../test/test-utils';
 import {addListenerForTest, stubRestApi} from '../../../test/test-utils';
 import {PluginApi} from '../../../api/plugin';
 import {SinonFakeTimers} from 'sinon';
@@ -74,11 +78,11 @@ suite('gr-plugin-loader tests', () => {
     );
     pluginsLoadedStub.reset();
     (window.Gerrit as any)._loadPlugins([]);
-    await flush();
+    await waitEventLoop();
     assert.isTrue(pluginsLoadedStub.called);
   });
 
-  test('arePluginsLoaded', () => {
+  test('arePluginsLoaded', async () => {
     assert.isFalse(pluginLoader.arePluginsLoaded());
     const plugins = [
       'http://test.com/plugins/foo/static/test.js',
@@ -90,7 +94,7 @@ suite('gr-plugin-loader tests', () => {
     // Timeout on loading plugins
     clock.tick(PLUGIN_LOADING_TIMEOUT_MS * 2);
 
-    flush();
+    await waitEventLoop();
     assert.isTrue(pluginLoader.arePluginsLoaded());
   });
 
@@ -109,12 +113,12 @@ suite('gr-plugin-loader tests', () => {
     ];
     pluginLoader.loadPlugins(plugins);
 
-    await flush();
+    await waitEventLoop();
     assert.isTrue(pluginsLoadedStub.calledWithExactly(['foo', 'bar']));
     assert.isTrue(pluginLoader.arePluginsLoaded());
   });
 
-  test('isPluginEnabled and isPluginLoaded', () => {
+  test('isPluginEnabled and isPluginLoaded', async () => {
     sinon.stub(pluginLoader, '_loadJsPlugin').callsFake(url => {
       window.Gerrit.install(() => void 0, undefined, url);
     });
@@ -129,7 +133,7 @@ suite('gr-plugin-loader tests', () => {
       plugins.every(plugin => pluginLoader.isPluginEnabled(plugin))
     );
 
-    flush();
+    await waitEventLoop();
     assert.isTrue(pluginLoader.arePluginsLoaded());
     assert.isTrue(plugins.every(plugin => pluginLoader.isPluginLoaded(plugin)));
   });
@@ -162,7 +166,7 @@ suite('gr-plugin-loader tests', () => {
 
     pluginLoader.loadPlugins(plugins);
 
-    await flush();
+    await waitEventLoop();
     assert.isTrue(pluginsLoadedStub.calledWithExactly(['bar']));
     assert.isTrue(pluginLoader.arePluginsLoaded());
     assert.isTrue(alertStub.calledOnce);
@@ -199,7 +203,7 @@ suite('gr-plugin-loader tests', () => {
       plugins.every(plugin => pluginLoader.isPluginEnabled(plugin))
     );
 
-    await flush();
+    await waitEventLoop();
     assert.isTrue(pluginsLoadedStub.calledWithExactly(['bar']));
     assert.isTrue(pluginLoader.arePluginsLoaded());
     assert.isTrue(alertStub.calledOnce);
@@ -233,7 +237,7 @@ suite('gr-plugin-loader tests', () => {
 
     pluginLoader.loadPlugins(plugins);
 
-    await flush();
+    await waitEventLoop();
     assert.isTrue(pluginsLoadedStub.calledWithExactly([]));
     assert.isTrue(pluginLoader.arePluginsLoaded());
     assert.isTrue(alertStub.calledTwice);
@@ -259,7 +263,7 @@ suite('gr-plugin-loader tests', () => {
 
     pluginLoader.loadPlugins(plugins);
 
-    await flush();
+    await waitEventLoop();
     assert.isTrue(pluginsLoadedStub.calledWithExactly(['foo']));
     assert.isTrue(pluginLoader.arePluginsLoaded());
     assert.isTrue(alertStub.calledOnce);
@@ -281,7 +285,7 @@ suite('gr-plugin-loader tests', () => {
     ];
     pluginLoader.loadPlugins(plugins);
 
-    await flush();
+    await waitEventLoop();
     assert.isTrue(pluginsLoadedStub.calledWithExactly(['foo', 'bar']));
     assert.isTrue(pluginLoader.arePluginsLoaded());
   });

@@ -23,6 +23,7 @@ import {
   queryAndAssert,
   resetPlugins,
   stubRestApi,
+  waitEventLoop,
 } from '../../../test/test-utils';
 import {
   ChangeId,
@@ -675,7 +676,7 @@ suite('gr-related-changes-list', () => {
         'http://some/plugins/url1.js'
       );
       getPluginLoader().loadPlugins([]);
-      await flush();
+      await waitEventLoop();
       assert.strictEqual(hookEl!.plugin, plugin!);
       assert.strictEqual(hookEl!.change, element.change);
     });

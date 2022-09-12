@@ -6,7 +6,12 @@
 import '../../../test/common-test-setup-karma';
 import './gr-dialog';
 import {GrDialog} from './gr-dialog';
-import {isHidden, pressKey, queryAndAssert} from '../../../test/test-utils';
+import {
+  isHidden,
+  pressKey,
+  queryAndAssert,
+  waitEventLoop,
+} from '../../../test/test-utils';
 import {fixture, html, assert} from '@open-wc/testing';
 import {GrButton} from '../gr-button/gr-button';
 
@@ -121,7 +126,7 @@ suite('gr-dialog tests', () => {
     const handleConfirmStub = sinon.stub(element, '_handleConfirm');
     const handleKeydownSpy = sinon.spy(element, '_handleKeydown');
     pressKey(queryAndAssert(element, 'main'), 'Enter');
-    await flush();
+    await waitEventLoop();
 
     assert.isTrue(handleKeydownSpy.called);
     assert.isFalse(handleConfirmStub.called);
@@ -130,7 +135,7 @@ suite('gr-dialog tests', () => {
     await element.updateComplete;
 
     pressKey(queryAndAssert(element, 'main'), 'Enter');
-    await flush();
+    await waitEventLoop();
 
     assert.isTrue(handleConfirmStub.called);
   });

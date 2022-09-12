@@ -6,7 +6,7 @@
 import '../../../test/common-test-setup-karma';
 import './gr-http-password';
 import {GrHttpPassword} from './gr-http-password';
-import {stubRestApi} from '../../../test/test-utils';
+import {stubRestApi, waitEventLoop} from '../../../test/test-utils';
 import {
   createAccountDetailWithId,
   createServerInfo,
@@ -30,7 +30,7 @@ suite('gr-http-password tests', () => {
 
     element = await fixture(html`<gr-http-password></gr-http-password>`);
     await element.loadData();
-    await flush();
+    await waitEventLoop();
   });
 
   test('renders', () => {

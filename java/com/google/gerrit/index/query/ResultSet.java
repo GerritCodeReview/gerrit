@@ -49,4 +49,6 @@ public interface ResultSet<T> extends Iterable<T> {
    * the iterator has finished.
    */
   void close();
+
+  Object searchAfter();
 }

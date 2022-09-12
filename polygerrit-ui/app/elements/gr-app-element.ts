@@ -42,7 +42,6 @@ import {GrRegistrationDialog} from './settings/gr-registration-dialog/gr-registr
 import {
   AppElementJustRegisteredParams,
   AppElementParams,
-  AppElementPluginScreenParams,
   AppElementSearchParam,
   isAppElementJustRegisteredParams,
 } from './gr-app-types';
@@ -72,6 +71,7 @@ import {isDarkTheme, prefersDarkColorScheme} from '../utils/theme-util';
 import {AppTheme} from '../constants/constants';
 import {subscribe} from './lit/subscription-controller';
 import {KnownExperimentId} from '../services/flags/flags';
+import {PluginViewState} from '../models/views/plugin';
 
 interface ErrorInfo {
   text: string;
@@ -523,7 +523,7 @@ export class GrAppElement extends LitElement {
       <gr-endpoint-decorator .name=${this.computePluginScreenName()}>
         <gr-endpoint-param
           name="token"
-          .value=${(this.params as AppElementPluginScreenParams).screen}
+          .value=${(this.params as PluginViewState).screen}
         ></gr-endpoint-param>
       </gr-endpoint-decorator>
     `;

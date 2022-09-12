@@ -33,11 +33,7 @@ import {
   UrlEncodedCommentId,
   PARENT,
 } from '../../../types/common';
-import {
-  AppElement,
-  AppElementAgreementParam,
-  AppElementParams,
-} from '../../gr-app-types';
+import {AppElement, AppElementParams} from '../../gr-app-types';
 import {LocationChangeEventDetail} from '../../../types/events';
 import {GerritView} from '../../../services/router/router-model';
 import {firePageError} from '../../../utils/event-util';
@@ -62,6 +58,7 @@ import {
   stringToAttemptChoice,
 } from '../../../models/checks/checks-util';
 import {AdminChildView} from '../../../models/views/admin';
+import {AgreementViewState} from '../../../models/views/agreement';
 
 const RoutePattern = {
   ROOT: '/',
@@ -1611,7 +1608,7 @@ export class GrRouter {
   handleNewAgreementsRoute(data: PageContextWithQueryMap) {
     data.params['view'] = GerritView.AGREEMENTS;
     // TODO(TS): create valid object
-    this.setParams(data.params as unknown as AppElementAgreementParam);
+    this.setParams(data.params as unknown as AgreementViewState);
   }
 
   handleSettingsLegacyRoute(data: PageContextWithQueryMap) {

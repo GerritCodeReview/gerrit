@@ -1087,9 +1087,11 @@ export class GrComment extends LitElement {
     });
   }
 
-  private handleSaveButtonClicked() {
-    if (!this.permanentEditingMode) this.save();
-    else this.editing = !this.editing;
+  private async handleSaveButtonClicked() {
+    await this.save();
+    if (this.permanentEditingMode) {
+      this.editing = !this.editing;
+    }
   }
 
   private handlePleaseFix() {

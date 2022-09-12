@@ -9,7 +9,11 @@ import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interf
 import {EventType} from '../../../api/plugin';
 import {PLUGIN_LOADING_TIMEOUT_MS} from './gr-api-utils';
 import {getPluginLoader} from './gr-plugin-loader';
-import {stubRestApi, stubBaseUrl} from '../../../test/test-utils';
+import {
+  stubRestApi,
+  stubBaseUrl,
+  waitEventLoop,
+} from '../../../test/test-utils';
 import {getAppContext} from '../../../services/app-context';
 import {assert} from '@open-wc/testing';
 
@@ -133,7 +137,7 @@ suite('GrJsApiInterface tests', () => {
     // Timeout on loading plugins
     clock.tick(PLUGIN_LOADING_TIMEOUT_MS * 2);
 
-    await flush();
+    await waitEventLoop();
     assert.isTrue(spy.called);
   });
 

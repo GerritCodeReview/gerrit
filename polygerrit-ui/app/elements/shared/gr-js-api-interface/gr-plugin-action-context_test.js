@@ -6,7 +6,7 @@
 import '../../../test/common-test-setup-karma';
 import './gr-js-api-interface';
 import {GrPluginActionContext} from './gr-plugin-action-context';
-import {addListenerForTest} from '../../../test/test-utils';
+import {addListenerForTest, waitEventLoop} from '../../../test/test-utils';
 import {EventType} from '../../../types/events';
 import {assert} from '@open-wc/testing';
 
@@ -29,7 +29,7 @@ suite('gr-plugin-action-context tests', () => {
     sinon.stub(plugin, 'popup').returns(Promise.resolve(popupApiStub));
     const el = document.createElement('span');
     instance.popup(el);
-    await flush();
+    await waitEventLoop();
     assert.isTrue(popupApiStub._getElement.called);
     instance.hide();
     assert.isTrue(popupApiStub.close.called);
@@ -70,9 +70,9 @@ suite('gr-plugin-action-context tests', () => {
       document.body.appendChild(button);
     });
 
-    test('click', () => {
+    test('click', async () => {
       button.click();
-      flush();
+      await waitEventLoop();
       assert.isTrue(clickStub.called);
       assert.equal(button.textContent, 'foo');
     });
@@ -127,7 +127,7 @@ suite('gr-plugin-action-context tests', () => {
     const errorStub = sinon.stub();
     addListenerForTest(document, EventType.SHOW_ALERT, errorStub);
     instance.call();
-    await flush();
+    await waitEventLoop();
     assert.isTrue(errorStub.calledOnce);
     assert.equal(errorStub.args[0][0].detail.message,
         'Plugin network error: Error: boom');

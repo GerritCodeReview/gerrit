@@ -1673,10 +1673,9 @@ suite('gr-reply-dialog tests', () => {
     element.addEventListener('send', () => {
       promise.resolve();
     });
-    // Without wrapping this test in flush(), the below two calls to
-    // tap() cause a race in some situations in shadow DOM.
-    // The send button can be tapped before the others, causing the test to
-    // fail.
+    // Without wrapping this test in await element.updateComplete, the below two
+    // calls to tap() cause a race in some situations in shadow DOM. The send
+    // button can be tapped before the others, causing the test to fail.
     const el = queryAndAssert<GrLabelScoreRow>(
       queryAndAssert(element, 'gr-label-scores'),
       'gr-label-score-row[name="Verified"]'

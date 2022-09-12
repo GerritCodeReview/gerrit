@@ -10,6 +10,7 @@ import {
   queryAndAssert,
   spyRestApi,
   stubRestApi,
+  waitEventLoop,
 } from '../../../test/test-utils';
 import {GrAccountLabel} from './gr-account-label';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
@@ -174,7 +175,7 @@ suite('gr-account-label tests', () => {
         owner: kermit,
         reviewers: {},
       };
-      await flush();
+      await waitEventLoop();
     });
 
     test('show attention button', () => {

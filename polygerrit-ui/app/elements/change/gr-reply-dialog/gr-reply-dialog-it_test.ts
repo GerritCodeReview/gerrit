@@ -9,6 +9,7 @@ import {
   queryAndAssert,
   resetPlugins,
   stubRestApi,
+  waitEventLoop,
 } from '../../../test/test-utils';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {GrReplyDialog} from './gr-reply-dialog';
@@ -84,14 +85,14 @@ suite('gr-reply-dialog-it tests', () => {
     resetPlugins();
   });
 
-  test('submit blocked when invalid email is supplied to ccs', () => {
+  test('submit blocked when invalid email is supplied to ccs', async () => {
     const sendStub = sinon.stub(element, 'send').returns(Promise.resolve());
 
     element.ccsList!.entry!.setText('test');
     queryAndAssert<GrButton>(element, 'gr-button.send').click();
     assert.isFalse(element.ccsList!.submitEntryText());
     assert.isFalse(sendStub.called);
-    flush();
+    await waitEventLoop();
 
     element.ccsList!.entry!.setText('test@test.test');
     queryAndAssert<GrButton>(element, 'gr-button.send').click();
@@ -118,7 +119,7 @@ suite('gr-reply-dialog-it tests', () => {
     setupElement(element);
     getPluginLoader().loadPlugins([]);
     await getPluginLoader().awaitPluginsLoaded();
-    await flush();
+    await waitEventLoop();
     const textarea = queryAndAssert<GrTextarea>(
       element,
       'gr-textarea'
@@ -127,7 +128,7 @@ suite('gr-reply-dialog-it tests', () => {
     textarea.dispatchEvent(
       new CustomEvent('input', {bubbles: true, composed: true})
     );
-    await flush();
+    await waitEventLoop();
     const labelScoreRows = queryAndAssert(
       element.getLabelScores(),
       'gr-label-score-row[name="Code-Review"]'

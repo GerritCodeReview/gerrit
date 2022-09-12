@@ -3,10 +3,10 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../test/common-test-setup-karma.js';
-import {AppContext} from './app-context.js';
+import '../test/common-test-setup-karma';
+import {AppContext} from './app-context';
 import {Finalizable} from './registry';
-import {createTestAppContext} from '../test/test-app-context-init.js';
+import {createTestAppContext} from '../test/test-app-context-init';
 import {assert} from '@open-wc/testing';
 
 suite('app context initializer tests', () => {

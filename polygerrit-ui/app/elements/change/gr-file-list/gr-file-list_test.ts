@@ -15,6 +15,7 @@ import {
   waitUntil,
   pressKey,
   stubElement,
+  waitEventLoop,
 } from '../../../test/test-utils';
 import {
   BasePatchSetNum,
@@ -111,7 +112,7 @@ suite('gr-file-list tests', () => {
         .callsFake(() => Promise.resolve());
       await element.updateComplete;
       // Wait for expandedFilesChanged to complete.
-      await flush();
+      await waitEventLoop();
     });
 
     test('renders', () => {
@@ -343,7 +344,7 @@ suite('gr-file-list tests', () => {
       element.fileListIncrement = 300;
       element.files = createFiles(500);
       await element.updateComplete;
-      await flush();
+      await waitEventLoop();
 
       assert.equal(
         queryAll<HTMLDivElement>(element, '.file-row').length,
@@ -365,7 +366,7 @@ suite('gr-file-list tests', () => {
 
       queryAndAssert<GrButton>(element, '#showAllButton').click();
       await element.updateComplete;
-      await flush();
+      await waitEventLoop();
 
       assert.equal(element.numFilesShown, 500);
       assert.equal(element.shownFiles.length, 500);
@@ -930,7 +931,7 @@ suite('gr-file-list tests', () => {
         element.change = {_number: 42 as NumericChangeId} as ParsedChangeInfo;
         element.fileCursor.setCursorAtIndex(0);
         await element.updateComplete;
-        await flush();
+        await waitEventLoop();
       });
 
       test('toggle left diff via shortcut', () => {
@@ -1363,7 +1364,7 @@ suite('gr-file-list tests', () => {
       element.files = [normalize({}, path)];
       await element.updateComplete;
       // Wait for expandedFilesChanged to finish.
-      await flush();
+      await waitEventLoop();
 
       const renderSpy = sinon.spy(element, 'renderInOrder');
       const collapseStub = sinon.stub(element, 'clearCollapsedDiffs');
@@ -1376,7 +1377,7 @@ suite('gr-file-list tests', () => {
       element.toggleFileExpanded({path});
       await element.updateComplete;
       // Wait for expandedFilesChanged to finish.
-      await flush();
+      await waitEventLoop();
 
       assert.equal(collapseStub.lastCall.args[0].length, 0);
       assert.equal(
@@ -1389,7 +1390,7 @@ suite('gr-file-list tests', () => {
       element.toggleFileExpanded({path});
       await element.updateComplete;
       // Wait for expandedFilesChanged to finish.
-      await flush();
+      await waitEventLoop();
 
       assert.equal(
         queryAndAssert<GrIcon>(element, 'gr-icon').icon,
@@ -1409,11 +1410,11 @@ suite('gr-file-list tests', () => {
       element.files = [normalize({}, path)];
       // Wait for diffs to be computed.
       await element.updateComplete;
-      await flush();
+      await waitEventLoop();
       element.expandAllDiffs();
       await element.updateComplete;
       // Wait for expandedFilesChanged to finish.
-      await flush();
+      await waitEventLoop();
       assert.equal(element.filesExpanded, FilesExpandedState.ALL);
       assert.isTrue(reInitStub.calledTwice);
       assert.equal(collapseStub.lastCall.args[0].length, 0);
@@ -1421,7 +1422,7 @@ suite('gr-file-list tests', () => {
       element.collapseAllDiffs();
       await element.updateComplete;
       // Wait for expandedFilesChanged to finish.
-      await flush();
+      await waitEventLoop();
       assert.equal(element.expandedFiles.length, 0);
       assert.equal(element.filesExpanded, FilesExpandedState.NONE);
       assert.equal(collapseStub.lastCall.args[0].length, 1);
@@ -1456,7 +1457,7 @@ suite('gr-file-list tests', () => {
       sinon.stub(element, 'diffs').get(() => diffs);
       element.expandedFiles = element.expandedFiles.concat([{path}]);
       await element.updateComplete;
-      await flush();
+      await waitEventLoop();
       await promise;
     });
 
@@ -1593,7 +1594,7 @@ suite('gr-file-list tests', () => {
       element.renderInOrder([{path: 'p'}], diffs);
       await element.updateComplete;
       // Wait for renderInOrder to finish
-      await flush();
+      await waitEventLoop();
       assert.isTrue(reviewStub.called);
       assert.isTrue(reviewStub.calledWithExactly('p', true));
     });
@@ -1635,7 +1636,7 @@ suite('gr-file-list tests', () => {
           patchNum: 1 as RevisionPatchSetNum,
         };
         await element.updateComplete;
-        await flush();
+        await waitEventLoop();
       });
 
       test('displays cleanly merged file count', async () => {

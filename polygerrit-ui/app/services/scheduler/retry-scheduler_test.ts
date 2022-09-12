@@ -3,8 +3,8 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../test/common-test-setup-karma.js';
-import {assertFails} from '../../test/test-utils.js';
+import '../../test/common-test-setup-karma';
+import {assertFails, waitEventLoop} from '../../test/test-utils';
 import {Scheduler} from './scheduler';
 import {RetryScheduler, RetryError} from './retry-scheduler';
 import {FakeScheduler} from './fake-scheduler';
@@ -23,11 +23,11 @@ suite('retry scheduler', () => {
 
   async function waitForRetry(ms: number) {
     // Flush the promise so that we can reach untilTimeout
-    await flush();
+    await waitEventLoop();
     // Advance the clock.
     clock.tick(ms);
     // Flush the promise that waits for the clock.
-    await flush();
+    await waitEventLoop();
   }
 
   test('executes tasks', async () => {

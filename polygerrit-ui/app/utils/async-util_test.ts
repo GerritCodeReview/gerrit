@@ -6,6 +6,7 @@
 import {assert} from '@open-wc/testing';
 import {SinonFakeTimers} from 'sinon';
 import '../test/common-test-setup-karma';
+import {waitEventLoop} from '../test/test-utils';
 import {asyncForeach, debounceP} from './async-util';
 
 suite('async-util tests', () => {
@@ -56,18 +57,18 @@ suite('async-util tests', () => {
       promise.catch((_reason?: any) => {
         assert.fail();
       });
-      await flush();
+      await waitEventLoop();
       assert.isFalse(hasResolved);
       clock.tick(99);
-      await flush();
+      await waitEventLoop();
       assert.isFalse(hasResolved);
       clock.tick(1);
-      await flush();
+      await waitEventLoop();
       assert.isTrue(hasResolved);
       await promise;
       // Shouldn't do anything.
       promise.cancel();
-      await flush();
+      await waitEventLoop();
     });
 
     test('It resolves immediately on flush and finalizes', async () => {
@@ -85,11 +86,11 @@ suite('async-util tests', () => {
         assert.fail();
       });
       promise.flush();
-      await flush();
+      await waitEventLoop();
       assert.isTrue(hasResolved);
       // Shouldn't do anything.
       promise.cancel();
-      await flush();
+      await waitEventLoop();
     });
 
     test('It rejects on cancel', async () => {
@@ -106,14 +107,14 @@ suite('async-util tests', () => {
         hasCanceled = true;
         assert.strictEqual(reason, 'because');
       });
-      await flush();
+      await waitEventLoop();
       assert.isFalse(hasCanceled);
       promise.cancel('because');
-      await flush();
+      await waitEventLoop();
       assert.isTrue(hasCanceled);
       // Shouldn't do anything.
       promise.flush();
-      await flush();
+      await waitEventLoop();
     });
 
     test('It delegates correctly', async () => {
@@ -130,10 +131,10 @@ suite('async-util tests', () => {
       promise1.catch((_reason?: any) => {
         assert.fail();
       });
-      await flush();
+      await waitEventLoop();
       assert.isFalse(hasResolved1);
       clock.tick(99);
-      await flush();
+      await waitEventLoop();
       const promise2 = debounceP<number>(
         promise1,
         () => Promise.resolve(6),
@@ -148,16 +149,16 @@ suite('async-util tests', () => {
         assert.fail();
       });
       clock.tick(99);
-      await flush();
+      await waitEventLoop();
       assert.isFalse(hasResolved1);
       assert.isFalse(hasResolved2);
       clock.tick(2);
-      await flush();
+      await waitEventLoop();
       assert.isTrue(hasResolved1);
       assert.isTrue(hasResolved2);
       // Shouldn't do anything.
       promise1.cancel();
-      await flush();
+      await waitEventLoop();
     });
 
     test('It does not delegate after timeout', async () => {
@@ -174,10 +175,10 @@ suite('async-util tests', () => {
       promise1.catch((_reason?: any) => {
         assert.fail();
       });
-      await flush();
+      await waitEventLoop();
       assert.isFalse(hasResolved1);
       clock.tick(100);
-      await flush();
+      await waitEventLoop();
       assert.isTrue(hasResolved1);
 
       const promise2 = debounceP<number>(
@@ -194,14 +195,14 @@ suite('async-util tests', () => {
         assert.fail();
       });
       clock.tick(99);
-      await flush();
+      await waitEventLoop();
       assert.isFalse(hasResolved2);
       clock.tick(1);
-      await flush();
+      await waitEventLoop();
       assert.isTrue(hasResolved2);
       // Shouldn't do anything.
       promise1.cancel();
-      await flush();
+      await waitEventLoop();
     });
   });
 });

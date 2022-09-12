@@ -21,7 +21,7 @@ import {
   TopicName,
 } from '../../../api/rest-api';
 import {createChange, createRevision} from '../../../test/test-data-generators';
-import {GrDialog} from '../../shared/gr-dialog/gr-dialog.js';
+import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {ProgressStatus} from '../../../constants/constants';
 import {fixture, html, assert} from '@open-wc/testing';
 

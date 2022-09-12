@@ -9,6 +9,7 @@ import {GrLabelScoreRow} from './gr-label-score-row';
 import {AccountId} from '../../../api/rest-api';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {fixture, html, assert} from '@open-wc/testing';
+import {waitEventLoop} from '../../../test/test-utils';
 
 suite('gr-label-row-score tests', () => {
   let element: GrLabelScoreRow;
@@ -66,7 +67,7 @@ suite('gr-label-row-score tests', () => {
     };
 
     await element.updateComplete;
-    await flush();
+    await waitEventLoop();
   });
 
   function checkAriaCheckedValid() {
@@ -225,7 +226,7 @@ suite('gr-label-row-score tests', () => {
     element.label = {name: 'Verified', value: ' 0'};
     await element.updateComplete;
     // Wait for @selected-item-changed to fire
-    await flush();
+    await waitEventLoop();
 
     const selector = element.labelSelector;
     assert.strictEqual(selector!.selected, ' 0');

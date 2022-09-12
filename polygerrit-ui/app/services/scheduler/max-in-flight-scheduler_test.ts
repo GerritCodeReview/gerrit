@@ -3,8 +3,8 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../test/common-test-setup-karma.js';
-import {assertFails} from '../../test/test-utils.js';
+import '../../test/common-test-setup-karma';
+import {assertFails, waitEventLoop} from '../../test/test-utils';
 import {Scheduler} from './scheduler';
 import {MaxInFlightScheduler} from './max-in-flight-scheduler';
 import {FakeScheduler} from './fake-scheduler';
@@ -67,7 +67,7 @@ suite('max-in-flight scheduler', () => {
     assert.equal(fakeScheduler.scheduled.length, 2);
     fakeScheduler.resolve();
     assert.equal(fakeScheduler.scheduled.length, 1);
-    await flush();
+    await waitEventLoop();
     assert.equal(fakeScheduler.scheduled.length, 2);
   });
 
@@ -78,7 +78,7 @@ suite('max-in-flight scheduler', () => {
     assert.equal(fakeScheduler.scheduled.length, 2);
     fakeScheduler.reject(new Error('Fake Error'));
     assert.equal(fakeScheduler.scheduled.length, 1);
-    await flush();
+    await waitEventLoop();
     assert.equal(fakeScheduler.scheduled.length, 2);
   });
 
@@ -89,7 +89,7 @@ suite('max-in-flight scheduler', () => {
     }
     for (let i = 0; i < 3; ++i) {
       fakeScheduler.resolve();
-      await flush();
+      await waitEventLoop();
     }
     const res = await Promise.all(promises);
     assert.deepEqual(res, [0, 1, 2]);

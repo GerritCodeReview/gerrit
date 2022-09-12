@@ -18,6 +18,7 @@ import {
   mockPromise,
   queryAll,
   stubReporting,
+  waitEventLoop,
 } from '../../../test/test-utils';
 import {ChangeInfo, NumericChangeId, LabelInfo} from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
@@ -305,7 +306,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     );
     await selectChange(change1);
     await element.updateComplete;
-    await flush();
+    await waitEventLoop();
 
     assert.isNotOk(
       queryAndAssert<GrButton>(element, '#voteFlowButton').disabled

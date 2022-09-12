@@ -5,6 +5,7 @@
  */
 import {assert} from '@open-wc/testing';
 import '../../../test/common-test-setup-karma';
+import {waitEventLoop} from '../../../test/test-utils';
 import './gr-lib-loader';
 import {GrLibLoader} from './gr-lib-loader';
 
@@ -36,12 +37,12 @@ suite('gr-lib-loader tests', () => {
     grLibLoader.getLibrary(libraryConfig).then(loaded2);
 
     resolveLoad();
-    await flush();
+    await waitEventLoop();
 
     const lateLoaded = sinon.stub();
     grLibLoader.getLibrary(libraryConfig).then(lateLoaded);
 
-    await flush();
+    await waitEventLoop();
 
     assert.isTrue(loaded1.calledOnce);
     assert.isTrue(loaded2.calledOnce);
@@ -58,12 +59,12 @@ suite('gr-lib-loader tests', () => {
     grLibLoader.getLibrary(libraryConfig).catch(failed2);
 
     rejectLoad();
-    await flush();
+    await waitEventLoop();
 
     const lateFailed = sinon.stub();
     grLibLoader.getLibrary(libraryConfig).catch(lateFailed);
 
-    await flush();
+    await waitEventLoop();
 
     assert.isTrue(failed1.calledOnce);
     assert.isTrue(failed2.calledOnce);
@@ -84,12 +85,12 @@ suite('gr-lib-loader tests', () => {
     grLibLoader.getLibrary(libraryConfig).then(loaded2);
 
     resolveLoad();
-    await flush();
+    await waitEventLoop();
 
     const lateLoaded = sinon.stub();
     grLibLoader.getLibrary(libraryConfig).then(lateLoaded);
 
-    await flush();
+    await waitEventLoop();
 
     assert.isTrue(configureCallback.calledOnce);
   });
@@ -110,7 +111,7 @@ suite('gr-lib-loader tests', () => {
 
     (window as any).library = library;
     resolveLoad();
-    await flush();
+    await waitEventLoop();
 
     assert.isTrue(loaded1.calledWith(library));
     assert.isTrue(loaded2.calledWith(library));
@@ -118,7 +119,7 @@ suite('gr-lib-loader tests', () => {
     const lateLoaded = sinon.stub();
     grLibLoader.getLibrary(libraryConfig).then(lateLoaded);
 
-    await flush();
+    await waitEventLoop();
 
     assert.isTrue(lateLoaded.calledWith(library));
   });
@@ -147,12 +148,12 @@ suite('gr-lib-loader tests', () => {
       grLibLoader.getLibrary(libraryConfig).then(loaded2);
 
       resolveLoad();
-      await flush();
+      await waitEventLoop();
 
       const lateLoaded = sinon.stub();
       grLibLoader.getLibrary(libraryConfig).then(lateLoaded);
 
-      await flush();
+      await waitEventLoop();
 
       assert.isFalse(loadStub.called);
       assert.isTrue(loaded1.called);
@@ -170,7 +171,7 @@ suite('gr-lib-loader tests', () => {
       grLibLoader.getLibrary(libraryConfig);
 
       resolveLoad();
-      await flush();
+      await waitEventLoop();
 
       assert.isTrue((window as any).library.initialize.calledOnce);
     });
@@ -185,7 +186,7 @@ suite('gr-lib-loader tests', () => {
       grLibLoader.getLibrary(libraryConfig);
 
       resolveLoad();
-      await flush();
+      await waitEventLoop();
 
       assert.isTrue(loadStub.called);
     });

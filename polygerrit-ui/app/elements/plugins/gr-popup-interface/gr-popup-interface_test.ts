@@ -8,7 +8,7 @@ import '../../shared/gr-js-api-interface/gr-js-api-interface';
 import {GrPopupInterface} from './gr-popup-interface';
 import {PluginApi} from '../../../api/plugin';
 import {HookApi, PluginElement} from '../../../api/hook';
-import {queryAndAssert} from '../../../test/test-utils';
+import {queryAndAssert, waitEventLoop} from '../../../test/test-utils';
 import {LitElement, html} from 'lit';
 import {customElement} from 'lit/decorators.js';
 import {fixture, assert} from '@open-wc/testing';
@@ -59,7 +59,7 @@ suite('gr-popup-interface tests', () => {
       const popup = instance._getElement();
       assert.isOk(popup);
       popup!.appendChild(manual);
-      await flush();
+      await waitEventLoop();
       assert.equal(
         queryAndAssert(container, '#foobar').textContent,
         'manual content'

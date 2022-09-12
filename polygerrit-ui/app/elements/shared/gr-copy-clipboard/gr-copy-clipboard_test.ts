@@ -6,7 +6,7 @@
 import '../../../test/common-test-setup-karma';
 import './gr-copy-clipboard';
 import {GrCopyClipboard} from './gr-copy-clipboard';
-import {queryAndAssert} from '../../../test/test-utils';
+import {queryAndAssert, waitEventLoop} from '../../../test/test-utils';
 import {fixture, html, assert} from '@open-wc/testing';
 import {GrButton} from '../gr-button/gr-button';
 
@@ -17,7 +17,7 @@ suite('gr-copy-clipboard tests', () => {
     element = await fixture(html`<gr-copy-clipboard></gr-copy-clipboard>`);
     element.text = `git fetch http://gerrit@localhost:8080/a/test-project
         refs/changes/05/5/1 && git checkout FETCH_HEAD`;
-    await flush();
+    await waitEventLoop();
   });
 
   test('render', () => {
@@ -88,7 +88,7 @@ suite('gr-copy-clipboard tests', () => {
     const input = queryAndAssert(element, 'input');
     assert.notEqual(getComputedStyle(input).display, 'none');
     element.hideInput = true;
-    await flush();
+    await waitEventLoop();
     assert.equal(getComputedStyle(input).display, 'none');
   });
 

@@ -15,6 +15,7 @@ import {
 import {CommitId, RepoName} from '../../../types/common';
 import {GrRouter} from '../../core/gr-router/gr-router';
 import {fixture, html, assert} from '@open-wc/testing';
+import {waitEventLoop} from '../../../test/test-utils';
 
 suite('gr-commit-info tests', () => {
   let element: GrCommitInfo;
@@ -47,7 +48,7 @@ suite('gr-commit-info tests', () => {
     element.change = createChange();
     element.commitInfo = createCommit();
     element.serverConfig = createServerInfo();
-    await flush();
+    await waitEventLoop();
     assert.isTrue(weblinksStub.called);
   });
 

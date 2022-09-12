@@ -6,7 +6,12 @@
 import '../../../test/common-test-setup-karma';
 import './gr-dropdown-list';
 import {GrDropdownList} from './gr-dropdown-list';
-import {query, queryAll, queryAndAssert} from '../../../test/test-utils';
+import {
+  query,
+  queryAll,
+  queryAndAssert,
+  waitEventLoop,
+} from '../../../test/test-utils';
 import {PaperListboxElement} from '@polymer/paper-listbox';
 import {Timestamp} from '../../../types/common';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -201,7 +206,7 @@ suite('gr-dropdown-list tests', () => {
       },
     ];
     await element.updateComplete;
-    await flush();
+    await waitEventLoop();
 
     assert.equal(
       queryAndAssert<PaperListboxElement>(element, 'paper-listbox').selected,

@@ -5,7 +5,7 @@
  */
 import '../../../test/common-test-setup-karma';
 import {Side, TokenHighlightEventDetails} from '../../../api/diff';
-import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line.js';
+import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
 import {HOVER_DELAY_MS, TokenHighlightLayer} from './token-highlight-layer';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
 import {html, render} from 'lit';

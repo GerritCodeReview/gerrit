@@ -24,7 +24,11 @@ import {
 import {BulkActionsModel, LoadingState} from './bulk-actions-model';
 import {getAppContext} from '../../services/app-context';
 import '../../test/common-test-setup-karma';
-import {stubRestApi, waitUntilObserved} from '../../test/test-utils';
+import {
+  stubRestApi,
+  waitEventLoop,
+  waitUntilObserved,
+} from '../../test/test-utils';
 import {mockPromise} from '../../test/test-utils';
 import {SinonStubbedMember} from 'sinon';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
@@ -587,7 +591,7 @@ suite('bulk actions model test', () => {
       {...createChange(), _number: 1, subject: 'Subject 1-old'},
       {...createChange(), _number: 2, subject: 'Subject 2-old'},
     ] as ChangeInfo[]);
-    await flush();
+    await waitEventLoop();
     const model2 = bulkActionsModel.getState();
 
     // No change should happen.

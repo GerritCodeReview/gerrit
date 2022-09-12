@@ -39,7 +39,7 @@ import {
   createConfig,
   createDownloadSchemes,
 } from '../../../test/test-data-generators';
-import {PageErrorEvent} from '../../../types/events.js';
+import {PageErrorEvent} from '../../../types/events';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrSelect} from '../../shared/gr-select/gr-select';
 import {GrTextarea} from '../../shared/gr-textarea/gr-textarea';

@@ -24,6 +24,7 @@ import {
   query,
   queryAll,
   queryAndAssert,
+  waitEventLoop,
   waitQueryAndAssert,
   waitUntil,
 } from '../../../test/test-utils';
@@ -1121,7 +1122,7 @@ suite('gr-diff tests', () => {
         },
       ];
       await setupSampleDiff({content});
-      flush();
+      await waitEventLoop();
 
       const diffLine = queryAll<HTMLElement>(element, '.contentText')[2];
       assert.equal(getComputedStyle(diffLine).userSelect, 'none');

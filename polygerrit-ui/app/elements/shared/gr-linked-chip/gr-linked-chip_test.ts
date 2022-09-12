@@ -6,7 +6,7 @@
 import '../../../test/common-test-setup-karma';
 import './gr-linked-chip';
 import {GrLinkedChip} from './gr-linked-chip';
-import {queryAndAssert} from '../../../test/test-utils';
+import {queryAndAssert, waitEventLoop} from '../../../test/test-utils';
 import {fixture, html, assert} from '@open-wc/testing';
 import {GrButton} from '../gr-button/gr-button';
 
@@ -40,7 +40,7 @@ suite('gr-linked-chip tests', () => {
   test('remove fired', async () => {
     const spy = sinon.spy();
     element.addEventListener('remove', spy);
-    await flush();
+    await waitEventLoop();
     queryAndAssert<GrButton>(element, '#remove').click();
     assert.isTrue(spy.called);
   });

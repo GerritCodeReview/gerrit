@@ -12,9 +12,10 @@ import {
   mockPromise,
   queryAndAssert,
   stubRestApi,
+  waitEventLoop,
 } from '../../../test/test-utils';
 import {DashboardId, DashboardInfo, RepoName} from '../../../types/common';
-import {PageErrorEvent} from '../../../types/events.js';
+import {PageErrorEvent} from '../../../types/events';
 import {fixture, html, assert} from '@open-wc/testing';
 
 suite('gr-repo-dashboards tests', () => {
@@ -113,7 +114,7 @@ suite('gr-repo-dashboards tests', () => {
         'none'
       );
       element.repo = 'test' as RepoName;
-      await flush();
+      await waitEventLoop();
       assert.equal(
         getComputedStyle(queryAndAssert(element, '#loadingContainer')).display,
         'none'

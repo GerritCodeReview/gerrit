@@ -5,7 +5,12 @@
  */
 import '../../../test/common-test-setup-karma';
 import './gr-label-scores';
-import {isHidden, queryAndAssert, stubRestApi} from '../../../test/test-utils';
+import {
+  isHidden,
+  queryAndAssert,
+  stubRestApi,
+  waitEventLoop,
+} from '../../../test/test-utils';
 import {GrLabelScores} from './gr-label-scores';
 import {AccountId} from '../../../types/common';
 import {GrLabelScoreRow} from '../gr-label-score-row/gr-label-score-row';
@@ -137,7 +142,7 @@ suite('gr-label-scores tests', () => {
         ...createChange(),
         status: ChangeStatus.ABANDONED,
       };
-      await flush();
+      await waitEventLoop();
       assert.isFalse(isHidden(queryAndAssert(element, '.abandonedMessage')));
       assert.isTrue(isHidden(queryAndAssert(element, '.mergedMessage')));
     });
@@ -146,7 +151,7 @@ suite('gr-label-scores tests', () => {
         ...createChange(),
         status: ChangeStatus.MERGED,
       };
-      await flush();
+      await waitEventLoop();
       assert.isFalse(isHidden(queryAndAssert(element, '.mergedMessage')));
       assert.isTrue(isHidden(queryAndAssert(element, '.abandonedMessage')));
     });
@@ -155,7 +160,7 @@ suite('gr-label-scores tests', () => {
         ...createChange(),
         status: ChangeStatus.NEW,
       };
-      await flush();
+      await waitEventLoop();
       assert.isTrue(isHidden(queryAndAssert(element, '.mergedMessage')));
       assert.isTrue(isHidden(queryAndAssert(element, '.abandonedMessage')));
     });

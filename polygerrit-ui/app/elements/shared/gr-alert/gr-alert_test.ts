@@ -8,6 +8,7 @@ import './gr-alert';
 import {GrAlert} from './gr-alert';
 import {assert} from '@open-wc/testing';
 import {GrButton} from '../gr-button/gr-button';
+import {waitEventLoop} from '../../../test/test-utils';
 
 suite('gr-alert tests', () => {
   let element: GrAlert;
@@ -51,7 +52,7 @@ suite('gr-alert tests', () => {
     assert.isNull(element.parentNode);
     element.show('Alert text');
     // wait for element to be rendered after being attached to DOM
-    await flush();
+    await waitEventLoop();
     assert.equal(element.parentNode, document.body);
     element.style.setProperty('--gr-alert-transition-duration', '0ms');
     element.hide();
@@ -61,7 +62,7 @@ suite('gr-alert tests', () => {
   test('action event', async () => {
     const spy = sinon.spy();
     element.show('Alert text');
-    await flush();
+    await waitEventLoop();
     element._actionCallback = spy;
     assert.isFalse(spy.called);
     element.shadowRoot!.querySelector<GrButton>('.action')!.click();

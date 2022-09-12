@@ -29,6 +29,7 @@ import {
   stubFlags,
   stubRestApi,
   stubUsers,
+  waitEventLoop,
   waitQueryAndAssert,
   waitUntil,
 } from '../../../test/test-utils';
@@ -1366,7 +1367,7 @@ suite('gr-change-view tests', () => {
       await element.updateComplete;
       element.computeRevertSubmitted(element.change);
       // Wait for promises to settle.
-      await flush();
+      await waitEventLoop();
       await element.updateComplete;
       assert.isFalse(
         element.changeStatuses?.includes(ChangeStates.REVERT_SUBMITTED)
@@ -1402,7 +1403,7 @@ suite('gr-change-view tests', () => {
       await element.updateComplete;
       element.computeRevertSubmitted(element.change);
       // Wait for promises to settle.
-      await flush();
+      await waitEventLoop();
       await element.updateComplete;
       assert.isFalse(
         element.changeStatuses?.includes(ChangeStates.REVERT_CREATED)
@@ -1594,7 +1595,7 @@ suite('gr-change-view tests', () => {
     value.patchNum = 2 as RevisionPatchSetNum;
     element.params = {...value};
     await element.updateComplete;
-    await flush();
+    await waitEventLoop();
     assert.equal(element.fileList.selectedIndex, 0);
     assert.isFalse(reloadStub.calledTwice);
     assert.isTrue(reloadPatchDependentStub.calledOnce);
@@ -2526,7 +2527,7 @@ suite('gr-change-view tests', () => {
         },
       });
       await element.updateComplete;
-      await flush();
+      await waitEventLoop();
       assert.isTrue(changeDisplayStub.called);
       assert.isTrue(changeFullyLoadedStub.called);
     });

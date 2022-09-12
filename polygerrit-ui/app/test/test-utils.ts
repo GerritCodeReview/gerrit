@@ -246,6 +246,20 @@ export async function waitUntilObserved<T>(
 }
 
 /**
+ * sinon.useFakeTimers() overwrites window.setTimeout with a controlled,
+ * synchronous version for tests to use. Keep the original one for use in
+ * waitEventLoop
+ */
+const nativeSetTimeout = window.setTimeout;
+/**
+ * Wait for the current event loop's tasks to complete by scheduling a promise
+ * to resolve during the next loop. Prefer other wait methods over this one to
+ * wait for specific work to be done or for specific states to exist.
+ */
+export function waitEventLoop(): Promise<void> {
+  return new Promise(resolve => nativeSetTimeout(resolve, 0));
+}
+/**
  * Promisify an event callback to simplify async...await tests.
  *
  * Use like this:

@@ -132,11 +132,17 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   @Deprecated static final Schema<ChangeData> V78 = schema(V77);
 
   /** Remove draft and star fields. */
+  @Deprecated
   static final Schema<ChangeData> V79 =
       new Schema.Builder<ChangeData>()
           .add(V78)
           .remove(ChangeField.DRAFTBY, ChangeField.STAR, ChangeField.STARBY)
           .build();
+
+  /** Remove field EditBy. */
+  static final Schema<ChangeData> V80 =
+      new Schema.Builder<ChangeData>().add(V79).remove(ChangeField.EDITBY).build();
+
   /**
    * Name of the change index to be used when contacting index backends or loading configurations.
    */

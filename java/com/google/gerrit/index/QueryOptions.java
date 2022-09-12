@@ -26,18 +26,45 @@ import java.util.function.Function;
 @AutoValue
 public abstract class QueryOptions {
   public static QueryOptions create(IndexConfig config, int start, int limit, Set<String> fields) {
-    return create(config, start, null, limit, fields);
+    return create(config, start, null, limit, config.pageSizeMultiplier(), limit, fields);
   }
 
   public static QueryOptions create(
-      IndexConfig config, int start, Object searchAfter, int limit, Set<String> fields) {
+      IndexConfig config, int start, int pageSize, int limit, Set<String> fields) {
+    return create(config, start, null, pageSize, config.pageSizeMultiplier(), limit, fields);
+  }
+
+  public static QueryOptions create(
+      IndexConfig config,
+      int start,
+      int pageSize,
+      int pageSizeMultiplier,
+      int limit,
+      Set<String> fields) {
+    return create(config, start, null, pageSize, pageSizeMultiplier, limit, fields);
+  }
+
+  public static QueryOptions create(
+      IndexConfig config,
+      int start,
+      Object searchAfter,
+      int pageSize,
+      int pageSizeMultiplier,
+      int limit,
+      Set<String> fields) {
     checkArgument(start >= 0, "start must be nonnegative: %s", start);
     checkArgument(limit > 0, "limit must be positive: %s", limit);
     if (searchAfter != null) {
       checkArgument(start == 0, "start must be 0 when searchAfter is specified: %s", start);
     }
     return new AutoValue_QueryOptions(
-        config, start, searchAfter, limit, ImmutableSet.copyOf(fields));
+        config,
+        start,
+        searchAfter,
+        pageSize,
+        pageSizeMultiplier,
+        limit,
+        ImmutableSet.copyOf(fields));
   }
 
   public QueryOptions convertForBackend() {
@@ -46,7 +73,8 @@ public abstract class QueryOptions {
     int backendLimit = config().maxLimit();
     int limit = Ints.saturatedCast((long) limit() + start());
     limit = Math.min(limit, backendLimit);
-    return create(config(), 0, null, limit, fields());
+    int pageSize = Math.min(Ints.saturatedCast((long) pageSize() + start()), backendLimit);
+    return create(config(), 0, null, pageSize, pageSizeMultiplier(), limit, fields());
   }
 
   public abstract IndexConfig config();
@@ -56,25 +84,45 @@ public abstract class QueryOptions {
   @Nullable
   public abstract Object searchAfter();
 
+  public abstract int pageSize();
+
+  public abstract int pageSizeMultiplier();
+
   public abstract int limit();
 
   public abstract ImmutableSet<String> fields();
 
+  public QueryOptions withPageSize(int pageSize) {
+    return create(
+        config(), start(), searchAfter(), pageSize, pageSizeMultiplier(), limit(), fields());
+  }
+
   public QueryOptions withLimit(int newLimit) {
-    return create(config(), start(), searchAfter(), newLimit, fields());
+    return create(
+        config(), start(), searchAfter(), pageSize(), pageSizeMultiplier(), newLimit, fields());
   }
 
   public QueryOptions withStart(int newStart) {
-    return create(config(), newStart, searchAfter(), limit(), fields());
+    return create(
+        config(), newStart, searchAfter(), pageSize(), pageSizeMultiplier(), limit(), fields());
   }
 
   public QueryOptions withSearchAfter(Object newSearchAfter) {
     // Index search-after APIs don't use 'start', so set it to 0 to be safe. ElasticSearch for
     // example, expects it to be 0 when using search-after APIs.
-    return create(config(), start(), newSearchAfter, limit(), fields()).withStart(0);
+    return create(
+            config(), start(), newSearchAfter, pageSize(), pageSizeMultiplier(), limit(), fields())
+        .withStart(0);
   }
 
   public QueryOptions filterFields(Function<QueryOptions, Set<String>> filter) {
-    return create(config(), start(), searchAfter(), limit(), filter.apply(this));
+    return create(
+        config(),
+        start(),
+        searchAfter(),
+        pageSize(),
+        pageSizeMultiplier(),
+        limit(),
+        filter.apply(this));
   }
 }

@@ -30,6 +30,16 @@ suite('gr-button tests', () => {
     await element.updateComplete;
   });
 
+  function funcThatThrows() {
+    throw new Error(
+      'I am throwing inside a sub-function, can you see my stack trace?'
+    );
+  }
+
+  test('testCallsSomeFunctionThatThrows', () => {
+    funcThatThrows();
+  });
+
   test('renders', () => {
     assert.shadowDom.equal(
       element,

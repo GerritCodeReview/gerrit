@@ -61,6 +61,7 @@ import {
   LATEST_ATTEMPT,
   stringToAttemptChoice,
 } from '../../../models/checks/checks-util';
+import {AdminChildView} from '../../../models/views/admin';
 
 const RoutePattern = {
   ROOT: '/',
@@ -1201,7 +1202,7 @@ export class GrRouter {
   handleGroupListOffsetRoute(data: PageContextWithQueryMap) {
     this.setParams({
       view: GerritView.ADMIN,
-      adminView: 'gr-admin-group-list',
+      adminView: AdminChildView.GROUPS,
       offset: data.params[1] || 0,
       filter: null,
       openCreateModal: data.hash === 'create',
@@ -1211,7 +1212,7 @@ export class GrRouter {
   handleGroupListFilterOffsetRoute(data: PageContextWithQueryMap) {
     this.setParams({
       view: GerritView.ADMIN,
-      adminView: 'gr-admin-group-list',
+      adminView: AdminChildView.GROUPS,
       offset: data.params['offset'],
       filter: data.params['filter'],
     });
@@ -1220,7 +1221,7 @@ export class GrRouter {
   handleGroupListFilterRoute(data: PageContextWithQueryMap) {
     this.setParams({
       view: GerritView.ADMIN,
-      adminView: 'gr-admin-group-list',
+      adminView: AdminChildView.GROUPS,
       filter: data.params['filter'] || null,
     });
   }
@@ -1338,7 +1339,7 @@ export class GrRouter {
   handleRepoListOffsetRoute(data: PageContextWithQueryMap) {
     this.setParams({
       view: GerritView.ADMIN,
-      adminView: 'gr-repo-list',
+      adminView: AdminChildView.REPOS,
       offset: data.params[1] || 0,
       filter: null,
       openCreateModal: data.hash === 'create',
@@ -1348,7 +1349,7 @@ export class GrRouter {
   handleRepoListFilterOffsetRoute(data: PageContextWithQueryMap) {
     this.setParams({
       view: GerritView.ADMIN,
-      adminView: 'gr-repo-list',
+      adminView: AdminChildView.REPOS,
       offset: data.params['offset'],
       filter: data.params['filter'],
     });
@@ -1357,7 +1358,7 @@ export class GrRouter {
   handleRepoListFilterRoute(data: PageContextWithQueryMap) {
     this.setParams({
       view: GerritView.ADMIN,
-      adminView: 'gr-repo-list',
+      adminView: AdminChildView.REPOS,
       filter: data.params['filter'] || null,
     });
   }
@@ -1381,7 +1382,7 @@ export class GrRouter {
   handlePluginListOffsetRoute(data: PageContextWithQueryMap) {
     this.setParams({
       view: GerritView.ADMIN,
-      adminView: 'gr-plugin-list',
+      adminView: AdminChildView.PLUGINS,
       offset: data.params[1] || 0,
       filter: null,
     });
@@ -1390,7 +1391,7 @@ export class GrRouter {
   handlePluginListFilterOffsetRoute(data: PageContextWithQueryMap) {
     this.setParams({
       view: GerritView.ADMIN,
-      adminView: 'gr-plugin-list',
+      adminView: AdminChildView.PLUGINS,
       offset: data.params['offset'],
       filter: data.params['filter'],
     });
@@ -1399,7 +1400,7 @@ export class GrRouter {
   handlePluginListFilterRoute(data: PageContextWithQueryMap) {
     this.setParams({
       view: GerritView.ADMIN,
-      adminView: 'gr-plugin-list',
+      adminView: AdminChildView.PLUGINS,
       filter: data.params['filter'] || null,
     });
   }
@@ -1407,7 +1408,7 @@ export class GrRouter {
   handlePluginListRoute(_: PageContextWithQueryMap) {
     this.setParams({
       view: GerritView.ADMIN,
-      adminView: 'gr-plugin-list',
+      adminView: AdminChildView.PLUGINS,
     });
   }
 

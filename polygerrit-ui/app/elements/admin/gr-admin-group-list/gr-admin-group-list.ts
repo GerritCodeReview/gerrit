@@ -8,7 +8,6 @@ import '../../shared/gr-list-view/gr-list-view';
 import '../../shared/gr-overlay/gr-overlay';
 import '../gr-create-group-dialog/gr-create-group-dialog';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {AppElementAdminParams} from '../../gr-app-types';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GroupId, GroupInfo, GroupName} from '../../../types/common';
 import {GrCreateGroupDialog} from '../gr-create-group-dialog/gr-create-group-dialog';
@@ -20,6 +19,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, query, property, state} from 'lit/decorators.js';
 import {assertIsDefined} from '../../../utils/common-util';
+import {AdminViewState} from '../../../models/views/admin';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -36,7 +36,7 @@ export class GrAdminGroupList extends LitElement {
   @query('#createNewModal') private createNewModal?: GrCreateGroupDialog;
 
   @property({type: Object})
-  params?: AppElementAdminParams;
+  params?: AdminViewState;
 
   /**
    * Offset of currently visible query results.
@@ -166,7 +166,7 @@ export class GrAdminGroupList extends LitElement {
    *
    * private but used in test
    */
-  maybeOpenCreateOverlay(params?: AppElementAdminParams) {
+  maybeOpenCreateOverlay(params?: AdminViewState) {
     if (params?.openCreateModal) {
       assertIsDefined(this.createOverlay, 'createOverlay');
       this.createOverlay.open();

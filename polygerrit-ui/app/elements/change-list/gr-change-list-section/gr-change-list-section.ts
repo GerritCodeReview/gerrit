@@ -12,7 +12,6 @@ import {
   YOUR_TURN,
   GerritNav,
 } from '../../core/gr-navigation/gr-navigation';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {getAppContext} from '../../../services/app-context';
 import {ChangeInfo, ServerInfo, AccountInfo} from '../../../api/rest-api';
 import {changeListStyles} from '../../../styles/gr-change-list-styles';
@@ -28,7 +27,7 @@ import {
 import {subscribe} from '../../lit/subscription-controller';
 import {classMap} from 'lit/directives/class-map.js';
 
-const NUMBER_FIXED_COLUMNS = 3;
+const NUMBER_FIXED_COLUMNS = 4;
 const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';
 const MAX_SHORTCUT_CHARS = 5;
 const INVALID_TOKENS = ['limit:', 'age:', '-age:'];
@@ -96,8 +95,6 @@ export class GrChangeListSection extends LitElement {
   @state()
   private totalChangeCount = 0;
 
-  private readonly flagsService = getAppContext().flagsService;
-
   bulkActionsModel: BulkActionsModel = new BulkActionsModel(
     getAppContext().restApiService
   );
@@ -161,9 +158,7 @@ export class GrChangeListSection extends LitElement {
       // In case the list of changes is updated due to auto reloading, we want
       // to ensure the model removes any stale change that is not a part of the
       // new section changes.
-      if (this.flagsService.isEnabled(KnownExperimentId.BULK_ACTIONS)) {
-        this.bulkActionsModel.sync(this.changeSection.results);
-      }
+      this.bulkActionsModel.sync(this.changeSection.results);
     }
   }
 
@@ -233,9 +228,7 @@ export class GrChangeListSection extends LitElement {
   }
 
   private renderColumnHeaders(columns: string[]) {
-    const showBulkActionsHeader =
-      this.numSelected > 0 &&
-      this.flagsService.isEnabled(KnownExperimentId.BULK_ACTIONS);
+    const showBulkActionsHeader = this.numSelected > 0;
     return html`
       <tr
         class=${classMap({
@@ -265,7 +258,6 @@ export class GrChangeListSection extends LitElement {
   }
 
   private renderSelectionHeader() {
-    if (!this.flagsService.isEnabled(KnownExperimentId.BULK_ACTIONS)) return;
     const checked = this.numSelected > 0;
     const indeterminate =
       this.numSelected > 0 && this.numSelected !== this.totalChangeCount;

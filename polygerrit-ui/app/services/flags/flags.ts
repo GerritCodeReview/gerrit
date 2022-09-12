@@ -16,7 +16,6 @@ export interface FlagsService extends Finalizable {
 export enum KnownExperimentId {
   NEW_IMAGE_DIFF_UI = 'UiFeature__new_image_diff_ui',
   CHECKS_DEVELOPER = 'UiFeature__checks_developer',
-  BULK_ACTIONS = 'UiFeature__bulk_actions_dashboard',
   DIFF_RENDERING_LIT = 'UiFeature__diff_rendering_lit',
   PUSH_NOTIFICATIONS = 'UiFeature__push_notifications',
   SUGGEST_EDIT = 'UiFeature__suggest_edit',

@@ -167,17 +167,14 @@ export function createShortCutConfig(flagsService: FlagsService) {
     'Go to Watched Changes',
     {key: 'w', combo: ComboKey.G}
   );
-
-  if (flagsService.isEnabled(KnownExperimentId.BULK_ACTIONS)) {
-    describe(
-      Shortcut.TOGGLE_CHECKBOX,
-      ShortcutSection.ACTIONS,
-      'Toggle checkbox',
-      {
-        key: 'x',
-      }
-    );
-  }
+  describe(
+    Shortcut.TOGGLE_CHECKBOX,
+    ShortcutSection.ACTIONS,
+    'Toggle checkbox',
+    {
+      key: 'x',
+    }
+  );
   describe(
     Shortcut.CURSOR_NEXT_CHANGE,
     ShortcutSection.ACTIONS,

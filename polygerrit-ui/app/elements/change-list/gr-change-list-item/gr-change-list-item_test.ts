@@ -9,7 +9,6 @@ import {
   SubmitRequirementResultInfo,
   NumericChangeId,
 } from '../../../api/rest-api';
-import {getAppContext} from '../../../services/app-context';
 import '../../../test/common-test-setup-karma';
 import {
   createAccountWithId,
@@ -23,7 +22,6 @@ import {
   query,
   queryAndAssert,
   stubRestApi,
-  stubFlags,
   waitUntilObserved,
 } from '../../../test/test-utils';
 import {
@@ -103,16 +101,7 @@ suite('gr-change-list-item tests', () => {
   });
 
   suite('checkbox', () => {
-    test('selection checkbox is only shown if experiment is enabled', async () => {
-      assert.isNotOk(query(element, '.selection'));
-      stubFlags('isEnabled').returns(true);
-      element.requestUpdate();
-      await element.updateComplete;
-      assert.isOk(query(element, '.selection'));
-    });
-
     test('bulk actions checkboxes', async () => {
-      stubFlags('isEnabled').returns(true);
       element.change = {...createChange(), _number: 1 as NumericChangeId};
       bulkActionsModel.sync([element.change]);
       await element.updateComplete;
@@ -139,7 +128,6 @@ suite('gr-change-list-item tests', () => {
     });
 
     test('checkbox state updates with model updates', async () => {
-      stubFlags('isEnabled').returns(true);
       element.requestUpdate();
       await element.updateComplete;
 
@@ -370,6 +358,9 @@ suite('gr-change-list-item tests', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
+        <label class="selectionLabel">
+          <input type="checkbox" />
+        </label>
         <gr-change-star></gr-change-star>
         <a href="">42</a>
         <a href="" title="Test subject">
@@ -408,7 +399,6 @@ suite('gr-change-list-item tests', () => {
   });
 
   test('renders requirement with new submit requirements', async () => {
-    sinon.stub(getAppContext().flagsService, 'isEnabled').returns(true);
     const submitRequirement: SubmitRequirementResultInfo = {
       ...createSubmitRequirementResultInfo(),
       name: StandardLabels.CODE_REVIEW,

@@ -14,9 +14,23 @@
 
 package com.google.gerrit.index.query;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 public interface Matchable<T> {
   /** Does this predicate match this object? */
   boolean match(T object);
+
+  /**
+   * Similar to {@link #match(Object)} but does the matching on a set of objects. Implementations of
+   * this interface can override this method if their implementation can make benefit of an
+   * optimization while processing many entities at once.
+   *
+   * @return A set containing a subset of the input objects that are matching.
+   */
+  default Set<T> matchAll(Set<T> objects) {
+    return objects.stream().filter(input -> match(input)).collect(Collectors.toSet());
+  }
 
   /** Returns a cost estimate to run this predicate, higher figures cost more. */
   int getCost();

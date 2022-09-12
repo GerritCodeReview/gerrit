@@ -59,13 +59,16 @@ suite('gr-change-list section', () => {
     );
   });
 
-  test('render', () => {
+  test('renders headers when no changes are selected', () => {
     // TODO: Check table elements. The shadowDom helper does not understand
     // tables interacting with display: contents, even wrapping the element in a
     // table, does not help.
     assert.shadowDom.equal(
       element,
       /* prettier-ignore */ /* HTML */ `
+      <td class="selection">
+        <input class="selection-checkbox" type="checkbox"/>
+      </td>
       #
               SubjectStatusOwnerReviewersCommentsRepoBranchUpdatedSize Status
       <gr-change-list-item
@@ -84,17 +87,8 @@ suite('gr-change-list section', () => {
     );
   });
 
-  test('selection checkbox is only shown if experiment is enabled', async () => {
-    assert.isNotOk(query(element, '.selection'));
-
-    stubFlags('isEnabled').returns(true);
-    element.requestUpdate();
-    await element.updateComplete;
-
-    assert.isOk(query(element, '.selection'));
-  });
-
-  test('selection header is only shown if experiment is enabled', async () => {
+  test('renders action bar when some changes are selected', async () => {
+    assert.isNotOk(query(element, 'gr-change-list-action-bar'));
     element.bulkActionsModel.setState({
       ...element.bulkActionsModel.getState(),
       selectedChangeNums: [1 as NumericChangeId],
@@ -104,11 +98,30 @@ suite('gr-change-list section', () => {
       s => s.length === 1
     );
 
-    assert.isNotOk(query(element, 'gr-change-list-action-bar'));
-    stubFlags('isEnabled').returns(true);
     element.requestUpdate();
     await element.updateComplete;
-    queryAndAssert(element, 'gr-change-list-action-bar');
+    assert.shadowDom.equal(
+      element,
+      /* prettier-ignore */ /* HTML */ `
+        <td class="selection">
+          <input class="selection-checkbox" type="checkbox" />
+        </td>
+        <gr-change-list-action-bar></gr-change-list-action-bar>
+        <gr-change-list-item
+          aria-label="Test subject, section: test"
+          role="button"
+          tabindex="0"
+        >
+        </gr-change-list-item>
+        <gr-change-list-item
+          aria-label="Test subject, section: test"
+          checked=""
+          role="button"
+          tabindex="0"
+        >
+        </gr-change-list-item>
+      `
+    );
   });
 
   suite('bulk actions selection', () => {
@@ -138,27 +151,6 @@ suite('gr-change-list section', () => {
       await element.updateComplete;
 
       assert.isTrue(syncStub.called);
-    });
-
-    test('changing section does on trigger model sync when flag is disabled', async () => {
-      isEnabled.returns(false);
-      const syncStub = sinon.stub(element.bulkActionsModel, 'sync');
-      assert.isFalse(syncStub.called);
-      element.changeSection = {
-        name: 'test',
-        query: 'test',
-        results: [
-          {
-            ...createChange(),
-            _number: 1 as NumericChangeId,
-            id: '1' as ChangeInfoId,
-          },
-        ],
-        emptyStateSlotName: 'test',
-      };
-      await element.updateComplete;
-
-      assert.isFalse(syncStub.called);
     });
 
     test('actions header is enabled/disabled based on selected changes', async () => {

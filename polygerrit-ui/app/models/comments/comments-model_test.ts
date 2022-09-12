@@ -26,6 +26,7 @@ import {GerritView} from '../../services/router/router-model';
 import {PathToCommentsInfoMap} from '../../types/common';
 import {changeModelToken} from '../change/change-model';
 import {assert} from '@open-wc/testing';
+import {accountsModelToken} from '../accounts-model/accounts-model';
 
 suite('comments model tests', () => {
   test('updateStateDeleteDraft', () => {
@@ -69,6 +70,7 @@ suite('change service tests', () => {
     const model = new CommentsModel(
       getAppContext().routerModel,
       testResolver(changeModelToken),
+      testResolver(accountsModelToken),
       getAppContext().restApiService,
       getAppContext().reportingService
     );
@@ -124,6 +126,7 @@ suite('change service tests', () => {
     const model = new CommentsModel(
       getAppContext().routerModel,
       testResolver(changeModelToken),
+      testResolver(accountsModelToken),
       getAppContext().restApiService,
       getAppContext().reportingService
     );

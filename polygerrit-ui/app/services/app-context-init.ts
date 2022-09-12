@@ -121,7 +121,6 @@ export function createAppDependencies(
 
   const shortcutsService = new ShortcutsService(
     appContext.userModel,
-    appContext.flagsService,
     appContext.reportingService
   );
   dependencies.set(shortcutsServiceToken, shortcutsService);

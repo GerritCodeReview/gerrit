@@ -6,7 +6,7 @@
 import {Subscription} from 'rxjs';
 import {map, distinctUntilChanged} from 'rxjs/operators';
 import {
-  createShortCutConfig,
+  createShortcutConfig,
   Shortcut,
   ShortcutHelpItem,
   ShortcutSection,
@@ -24,7 +24,6 @@ import {
 import {ReportingService} from '../gr-reporting/gr-reporting';
 import {Finalizable} from '../registry';
 import {UserModel} from '../../models/user/user-model';
-import {FlagsService} from '../flags/flags';
 import {define} from '../../models/dependency';
 
 export {Shortcut, ShortcutSection};
@@ -95,10 +94,9 @@ export class ShortcutsService implements Finalizable {
 
   constructor(
     readonly userModel: UserModel,
-    readonly flagsService: FlagsService,
     readonly reporting?: ReportingService
   ) {
-    this.config = createShortCutConfig(flagsService);
+    this.config = createShortcutConfig();
     for (const section of this.config.keys()) {
       const items = this.config.get(section) ?? [];
       for (const item of items) {

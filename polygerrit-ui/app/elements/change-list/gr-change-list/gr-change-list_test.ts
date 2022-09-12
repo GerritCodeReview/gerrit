@@ -29,13 +29,7 @@ import {
 } from '../../../test/test-data-generators';
 import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
 import {GrChangeListSection} from '../gr-change-list-section/gr-change-list-section';
-import {getAppContext} from '../../../services/app-context';
 import {fixture, assert} from '@open-wc/testing';
-import {wrapInProvider} from '../../../models/di-provider-element';
-import {
-  ShortcutsService,
-  shortcutsServiceToken,
-} from '../../../services/shortcuts/shortcuts-service';
 import {html} from 'lit';
 
 suite('gr-change-list basic tests', () => {
@@ -70,54 +64,39 @@ suite('gr-change-list basic tests', () => {
     );
   });
 
-  suite('test show change number not logged in', () => {
-    setup(async () => {
-      element = await fixture(html`<gr-change-list></gr-change-list>`);
-      element.account = undefined;
-      element.preferences = undefined;
-      element.config = createServerInfo();
-      await element.updateComplete;
-    });
+  test('show change number disabled when not logged in', async () => {
+    element.account = undefined;
+    element.preferences = undefined;
+    element.config = createServerInfo();
+    await element.updateComplete;
 
-    test('show number disabled', () => {
-      assert.isFalse(element.showNumber);
-    });
+    assert.isFalse(element.showNumber);
   });
 
-  suite('test show change number preference enabled', () => {
-    setup(async () => {
-      element = await fixture(html`<gr-change-list></gr-change-list>`);
-      element.preferences = {
-        legacycid_in_change_table: true,
-        time_format: TimeFormat.HHMM_12,
-        change_table: [],
-      };
-      element.account = {_account_id: 1001 as AccountId};
-      element.config = createServerInfo();
-      await element.updateComplete;
-    });
+  test('show legacy change num when legacycid preference enabled', async () => {
+    element.preferences = {
+      legacycid_in_change_table: true,
+      time_format: TimeFormat.HHMM_12,
+      change_table: [],
+    };
+    element.account = {_account_id: 1001 as AccountId};
+    element.config = createServerInfo();
+    await element.updateComplete;
 
-    test('show number enabled', () => {
-      assert.isTrue(element.showNumber);
-    });
+    assert.isTrue(element.showNumber);
   });
 
-  suite('test show change number preference disabled', () => {
-    setup(async () => {
-      element = await fixture(html`<gr-change-list></gr-change-list>`);
-      // legacycid_in_change_table is not set when false.
-      element.preferences = {
-        time_format: TimeFormat.HHMM_12,
-        change_table: [],
-      };
-      element.account = {_account_id: 1001 as AccountId};
-      element.config = createServerInfo();
-      await element.updateComplete;
-    });
+  test('hide legacy change num if legacycid preference disabled', async () => {
+    // legacycid_in_change_table is not set when false.
+    element.preferences = {
+      time_format: TimeFormat.HHMM_12,
+      change_table: [],
+    };
+    element.account = {_account_id: 1001 as AccountId};
+    element.config = createServerInfo();
+    await element.updateComplete;
 
-    test('show number disabled', () => {
-      assert.isFalse(element.showNumber);
-    });
+    assert.isFalse(element.showNumber);
   });
 
   test('computeRelativeIndex', () => {
@@ -279,19 +258,6 @@ suite('gr-change-list basic tests', () => {
   });
 
   test('toggle checkbox keyboard shortcut', async () => {
-    const flagsService = getAppContext().flagsService;
-    sinon.stub(flagsService, 'isEnabled').returns(true);
-    element = (
-      await fixture(
-        wrapInProvider(
-          html`<gr-change-list></gr-change-list>`,
-          shortcutsServiceToken,
-          new ShortcutsService(getAppContext().userModel, flagsService)
-        )
-      )
-    ).querySelector('gr-change-list')!;
-    await element.updateComplete;
-
     const getCheckbox = (item: GrChangeListItem) =>
       queryAndAssert<HTMLInputElement>(query(item, '.selection'), 'input');
 
@@ -524,7 +490,6 @@ suite('gr-change-list basic tests', () => {
   });
 
   test('showStar and showNumber', async () => {
-    element = await fixture(html`<gr-change-list></gr-change-list>`);
     element.sections = [{results: [{...createChange()}], name: 'a'}];
     element.account = {_account_id: 1001 as AccountId};
     element.preferences = {
@@ -569,30 +534,24 @@ suite('gr-change-list basic tests', () => {
     assert.isOk(query(query(section, 'gr-change-list-item'), '.number'));
   });
 
-  suite('random column does not exist', () => {
-    let element: GrChangeList;
+  test('garbage columns in preference are not shown', async () => {
+    // This would only exist if somebody manually updated the config file.
+    element.account = {_account_id: 1001 as AccountId};
+    element.preferences = {
+      legacycid_in_change_table: true,
+      time_format: TimeFormat.HHMM_12,
+      change_table: ['Bad'],
+    };
+    await element.updateComplete;
 
-    /* This would only exist if somebody manually updated the config
-    file. */
-    setup(async () => {
-      element = await fixture(html`<gr-change-list></gr-change-list>`);
-      element.account = {_account_id: 1001 as AccountId};
-      element.preferences = {
-        legacycid_in_change_table: true,
-        time_format: TimeFormat.HHMM_12,
-        change_table: ['Bad'],
-      };
-      await element.updateComplete;
-    });
-
-    test('bad column does not exist', () => {
-      assert.isNotOk(query<HTMLElement>(element, '.bad'));
-    });
+    assert.isNotOk(query<HTMLElement>(element, '.bad'));
   });
 
   test('Show new status with feature flag', async () => {
     stubFlags('isEnabled').returns(true);
-    element = await fixture(html`<gr-change-list></gr-change-list>`);
+    const element: GrChangeList = await fixture(
+      html`<gr-change-list></gr-change-list>`
+    );
     element.sections = [{results: [{...createChange()}]}];
     element.account = {_account_id: 1001 as AccountId};
     element.preferences = {

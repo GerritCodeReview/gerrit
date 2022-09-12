@@ -64,11 +64,7 @@ export function createTestAppContext(): AppContext & Finalizable {
       assertIsDefined(ctx.userModel, 'userModel');
       assertIsDefined(ctx.flagsService, 'flagsService');
       assertIsDefined(ctx.reportingService, 'reportingService');
-      return new ShortcutsService(
-        ctx.userModel,
-        ctx.flagsService,
-        ctx.reportingService
-      );
+      return new ShortcutsService(ctx.userModel, ctx.reportingService);
     },
     pluginsModel: (_ctx: Partial<AppContext>) => new PluginsModel(),
     highlightService: (ctx: Partial<AppContext>) => {
@@ -133,11 +129,7 @@ export function createTestDependencies(
   dependencies.set(checksModelToken, checksModelCreator);
 
   const shortcutServiceCreator = () =>
-    new ShortcutsService(
-      appContext.userModel,
-      appContext.flagsService,
-      appContext.reportingService
-    );
+    new ShortcutsService(appContext.userModel, appContext.reportingService);
   dependencies.set(shortcutsServiceToken, shortcutServiceCreator);
 
   return dependencies;

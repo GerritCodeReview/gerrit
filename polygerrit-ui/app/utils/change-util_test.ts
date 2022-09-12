@@ -22,6 +22,8 @@ import {
   changePath,
   changeStatuses,
   isRemovableReviewer,
+  ListChangesOption,
+  listChangesOptionsToHex,
 } from './change-util';
 
 suite('change-util tests', () => {
@@ -231,5 +233,19 @@ suite('change-util tests', () => {
     assert.isTrue(changeIsAbandoned(change));
     change.status = ChangeStatus.NEW;
     assert.isFalse(changeIsAbandoned(change));
+  });
+
+  test('listChangesOptionsToHex', () => {
+    const changeActionsHex = listChangesOptionsToHex(
+      ListChangesOption.MESSAGES,
+      ListChangesOption.ALL_REVISIONS
+    );
+    assert.equal(changeActionsHex, '204');
+    const dashboardHex = listChangesOptionsToHex(
+      ListChangesOption.LABELS,
+      ListChangesOption.DETAILED_ACCOUNTS,
+      ListChangesOption.SUBMIT_REQUIREMENTS
+    );
+    assert.equal(dashboardHex, '1000081');
   });
 });

@@ -11,12 +11,13 @@ import '@polymer/marked-element';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
-import {CommentLinks} from '../../../api/rest-api';
+import {AccountInfo, CommentLinks, EmailAddress} from '../../../api/rest-api';
 import {
   applyHtmlRewritesFromConfig,
   applyLinkRewritesFromConfig,
   linkifyNormalUrls,
 } from '../../../utils/link-util';
+import { MENTIONS_REGEX } from '../../../utils/account-util';
 
 /**
  * This element renders markdown and also applies some regex replacements to
@@ -99,8 +100,9 @@ export class GrMarkdown extends LitElement {
     // <marked-element> internals will be in charge of calling our custom
     // renderer so we wrap 'this.rewriteText' so that 'this' is preserved via
     // closure.
-    const boundRewriteText = (text: string) =>
-      this.rewriteText(text, this.repoCommentLinks);
+    const boundRewriteText = (text: string) => {
+      return this.rewriteText(text, this.repoCommentLinks);
+    }
 
     // We are overriding some marked-element renderers for a few reasons:
     // 1. Disable inline images as a design/policy choice.
@@ -120,13 +122,19 @@ export class GrMarkdown extends LitElement {
       renderer['codespan'] = (text: string) =>
         `<code>${unescapeHTML(text)}</code>`;
       renderer['code'] = (text: string) => `<pre><code>${text}</code></pre>`;
+      renderer['mention'] = (text: string) => {
+        const account = {email: text as EmailAddress} as AccountInfo;
+        return html `<gr-account-label .account=${account}></gr-account-label>`;
+      }
       renderer['text'] = boundRewriteText;
     }
+
+    this.markdown = (this.markdown ?? '').replace(MENTIONS_REGEX, '<mention>$1</mention>');
 
     // The child with slot is optional but allows us control over the styling.
     return html`
       <marked-element
-        .markdown=${this.escapeAllButBlockQuotes(this.markdown ?? '')}
+        .markdown=${this.escapeAllButBlockQuotes(this.markdown)}
         .breaks=${true}
         .renderer=${customRenderer}
       >

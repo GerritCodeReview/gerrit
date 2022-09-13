@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8e26c2f_3b10b83c",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-13T15:33:07Z",
+      "side": 1,
+      "message": "Nit: I think this selector will never match anything. `.textareaContainer` is never a child of `.newReplyDialog`.",
+      "range": {
+        "startLine": 510,
+        "startChar": 6,
+        "endLine": 510,
+        "endChar": 41
+      },
+      "revId": "0cb9bba397cc3edc189dec068c4ab49d3381c969",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

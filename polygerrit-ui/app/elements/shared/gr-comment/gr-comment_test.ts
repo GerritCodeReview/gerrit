@@ -16,6 +16,7 @@ import {
   waitUntilCalled,
   dispatch,
   MockPromise,
+  stubFlags,
 } from '../../../test/test-utils';
 import {
   AccountId,
@@ -37,7 +38,10 @@ import {
   OpenFixPreviewEventDetail,
 } from '../../../types/events';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
-import {DraftInfo} from '../../../utils/comment-util';
+import {
+  DraftInfo,
+  USER_SUGGESTION_START_PATTERN,
+} from '../../../utils/comment-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {Modifier} from '../../../utils/dom-util';
 import {SinonStub} from 'sinon';
@@ -772,6 +776,74 @@ suite('gr-comment tests', () => {
       assert.isTrue(saveStub.called);
       assert.equal(saveStub.firstCall.firstArg.message, 'actual save text');
       assert.equal(saveStub.firstCall.firstArg.id, 'exp123');
+    });
+  });
+
+  suite('suggest edit', () => {
+    let element: GrComment;
+    setup(async () => {
+      stubFlags('isEnabled').returns(true);
+      const comment = {
+        ...createComment(),
+        author: {
+          name: 'Mr. Peanutbutter',
+          email: 'tenn1sballchaser@aol.com' as EmailAddress,
+        },
+        line: 5,
+        path: 'test',
+        __draft: true,
+        message: 'hello world',
+      };
+      element = await fixture(
+        html`<gr-comment
+          .account=${account}
+          .showPatchset=${true}
+          .comment=${comment}
+        ></gr-comment>`
+      );
+      element.initiallyCollapsed = false;
+    });
+    test('renders suggest fix button', () => {
+      assert.dom.equal(
+        queryAndAssert(element, 'gr-button.suggestEdit'),
+        /* HTML */ `<gr-button
+          aria-disabled="false"
+          class="action suggestEdit"
+          link=""
+          role="button"
+          tabindex="0"
+        >
+          Suggest Fix
+        </gr-button> `
+      );
+    });
+
+    test('renders preview suggest fix', async () => {
+      element.comment = {
+        ...createComment(),
+        author: {
+          name: 'Mr. Peanutbutter',
+          email: 'tenn1sballchaser@aol.com' as EmailAddress,
+        },
+        line: 5,
+        path: 'test',
+        message: `${USER_SUGGESTION_START_PATTERN}afterSuggestion${'\n```'}`,
+      };
+      await element.updateComplete;
+
+      assert.dom.equal(
+        queryAndAssert(element, 'gr-button.show-fix'),
+        /* HTML */ `<gr-button
+          aria-disabled="false"
+          class="action show-fix"
+          link=""
+          role="button"
+          secondary
+          tabindex="0"
+        >
+          Preview Fix
+        </gr-button> `
+      );
     });
   });
 });

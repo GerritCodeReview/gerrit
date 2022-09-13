@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d130d172_42c5b73d",
+        "filename": "polygerrit-ui/app/workers/service-worker-class_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-09-13T08:02:20Z",
+      "side": 1,
+      "message": "nit: Can we separate Setup, Act, Assert with empty lines?",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 110,
+        "endChar": 54
+      },
+      "revId": "411dc79db3432e40a806bf24c1fb621a47a40a7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -39,6 +39,7 @@
     "start": "run-p -rl compile:watch start:server",
     "start:server": "web-dev-server",
     "test": "yarn --cwd=polygerrit-ui test",
+    "test:browsers": "yarn --cwd=polygerrit-ui test:browsers",
     "test:coverage": "yarn --cwd=polygerrit-ui test:coverage",
     "test:watch": "yarn --cwd=polygerrit-ui test:watch",
     "test:single": "yarn --cwd=polygerrit-ui test:single",

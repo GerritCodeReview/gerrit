@@ -10,11 +10,13 @@
     "@open-wc/testing": "^3.1.6",
     "@web/dev-server-esbuild": "^0.3.2",
     "@web/test-runner": "^0.14.0",
+    "@web/test-runner-playwright": "^0.8.10",
     "accessibility-developer-tools": "^2.12.0",
     "sinon": "^13.0.0"
   },
   "scripts": {
     "test": "web-test-runner",
+    "test:browsers": "web-test-runner --playwright --browsers webkit firefox chromium",
     "test:coverage": "web-test-runner --coverage",
     "test:watch": "web-test-runner --watch",
     "test:single": "web-test-runner --watch --files",

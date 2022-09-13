@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72cc883c_c9d197e9",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-13T12:22:26Z",
+      "side": 0,
+      "message": "there was a test-setup bug where key presses were being handled by both elements (the one created in the top level setup() method, and this one here created within the test). The top level element was throwing assertion errors because we are triggering actions on unselected items (the test is only manipulating the local element).\n\nThis was previously not an issue because the toggle shortcut was behind a feature flag and not added to the top level element.\n\nAs a fix I am removing the local element from tests and re-using the top level one, they are no different now that the flag is removed.",
+      "range": {
+        "startLine": 285,
+        "startChar": 12,
+        "endLine": 285,
+        "endChar": 19
+      },
+      "revId": "e8b1a824e8d84461743dae84e5323d2374e8b7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cadf5c1_8a4a3b27",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-13T16:22:11Z",
+      "side": 1,
+      "message": "FYI, there are some changes to AndSource on stable-3.4 that will conflict with this. We\u0027re working to merge them up [1] now so that you\u0027re not blocked here and the merge doesn\u0027t end up messier than necessary.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/344234",
+      "revId": "2f23edf9d54bcf79b3401daa1726f76678e8bc6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

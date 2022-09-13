@@ -12,6 +12,7 @@ import {IronOverlayBehavior} from '@polymer/iron-overlay-behavior/iron-overlay-b
 import {findActiveElement} from '../../../utils/dom-util';
 import {fireEvent} from '../../../utils/event-util';
 import {getHovercardContainer} from '../../../mixins/hovercard-mixin/hovercard-mixin';
+import {getFocusableElements} from '../../../utils/focusable';
 
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
@@ -79,7 +80,13 @@ export class GrOverlay extends base {
     // once the type contains the exported member,
     // should replace with:
     // import {IronFocusablesHelper} from '@polymer/iron-overlay-behavior/iron-focusables-helper';
-    return window.Polymer.IronFocusablesHelper.getTabbableNodes(this);
+    const tabbableNodes =
+      window.Polymer.IronFocusablesHelper.getTabbableNodes(this);
+    if (!tabbableNodes.length) {
+      return Array.from(getFocusableElements(this));
+    } else {
+      return tabbableNodes;
+    }
   }
 
   constructor() {

@@ -16,6 +16,69 @@
       "message": "@ekempin@google.com comments are resolved. Could you please check the change?",
       "revId": "0498d203d8e06400b13486d27ef80f032efe36e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "846a7c20_936ec16e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 7389,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-13T08:44:24Z",
+      "side": 1,
+      "message": "Is there some JGit documentation we can link to where it\u0027s explained how to interpret these octal file modes?\n\nShould we maybe add a sentence saying when these fields are not set (e.g. for new/deleted files)?\n\nMaybe also include when FileMode.TYPE_MISSING is returned?",
+      "range": {
+        "startLine": 7388,
+        "startChar": 0,
+        "endLine": 7389,
+        "endChar": 80
+      },
+      "revId": "0498d203d8e06400b13486d27ef80f032efe36e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df7f8b3a_b9a71c7a",
+        "filename": "java/com/google/gerrit/server/change/FileInfoJsonImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-13T08:44:24Z",
+      "side": 1,
+      "message": "It seems this doesn\u0027t match the documentation which says oldMode/newMode may be unset for new/deleted files?",
+      "range": {
+        "startLine": 109,
+        "startChar": 16,
+        "endLine": 109,
+        "endChar": 37
+      },
+      "revId": "0498d203d8e06400b13486d27ef80f032efe36e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d070ee2_d2dd5514",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-13T08:44:24Z",
+      "side": 1,
+      "message": "Can we also add tests for cases with new/deleted files where oldMode/newMode are not set?",
+      "revId": "0498d203d8e06400b13486d27ef80f032efe36e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

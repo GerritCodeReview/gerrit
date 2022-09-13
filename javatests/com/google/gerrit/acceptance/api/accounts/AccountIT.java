@@ -3043,9 +3043,11 @@ public class AccountIT extends AbstractDaemonTest {
     AccountState preUpdateUserState = accountCache.get(user.id()).get();
 
     requestScopeOperations.setApiUser(admin.id());
-    ExternalId extId1 = externalIdFactory.create("custom", "admin-id", admin.id());
+    ExternalId extId1 =
+        externalIdFactory.createWithEmail("custom", "admin-id", admin.id(), "admin-id@test.com");
 
-    ExternalId extId2 = externalIdFactory.create("custom", "user-id", user.id());
+    ExternalId extId2 =
+        externalIdFactory.createWithEmail("custom", "user-id", user.id(), "user-id@test.com");
 
     AccountsUpdate.UpdateArguments ua1 =
         new AccountsUpdate.UpdateArguments(
@@ -3053,15 +3055,25 @@ public class AccountIT extends AbstractDaemonTest {
     AccountsUpdate.UpdateArguments ua2 =
         new AccountsUpdate.UpdateArguments(
             "Add External ID", user.id(), (a, u) -> u.addExternalId(extId2));
-
-    accountsUpdateProvider.get().updateBatch(ImmutableList.of(ua1, ua2));
+    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(accountIndexedCounter)) {
+      accountsUpdateProvider.get().updateBatch(ImmutableList.of(ua1, ua2));
+    }
+    accountIndexedCounter.assertReindexOf(admin.id(), 1);
+    accountIndexedCounter.assertReindexOf(user.id(), 1);
 
     assertExternalIds(
         admin.id(),
         ImmutableSet.of("mailto:admin@example.com", "username:admin", "custom:admin-id"));
     assertExternalIds(
         user.id(), ImmutableSet.of("username:user1", "mailto:user1@example.com", "custom:user-id"));
-
+    // Assert reindexing has worked on the updated accounts.
+    assertThat(
+            Iterables.getOnlyElement(gApi.accounts().query("admin-id@test.com").get())._accountId)
+        .isEqualTo(admin.id().get());
+    assertThat(Iterables.getOnlyElement(gApi.accounts().query("user-id@test.com").get())._accountId)
+        .isEqualTo(user.id().get());
     AccountState updatedAdminState = accountCache.get(admin.id()).get();
     AccountState updatedUserState = accountCache.get(user.id()).get();
     assertThat(preUpdateAdminState.account().metaId())
@@ -3088,7 +3100,13 @@ public class AccountIT extends AbstractDaemonTest {
                 u.deleteExternalId(
                     externalIdFactory.createWithEmail(
                         SCHEME_MAILTO, user.email(), user.id(), user.email())));
-    accountsUpdateProvider.get().updateBatch(ImmutableList.of(ua1, ua2));
+    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(accountIndexedCounter)) {
+      accountsUpdateProvider.get().updateBatch(ImmutableList.of(ua1, ua2));
+    }
+    accountIndexedCounter.assertReindexOf(admin.id(), 1);
+    accountIndexedCounter.assertReindexOf(user.id(), 1);
 
     // Only the version in config of the user with external id update was updated.
     AccountState updatedAdminState = accountCache.get(admin.id()).get();

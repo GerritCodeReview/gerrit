@@ -535,20 +535,31 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
 
     private <T> ResultSet<T> readImpl(Function<Document, T> mapper) {
       IndexSearcher searcher = null;
+      ScoreDoc scoreDoc = null;
       try {
         searcher = acquire();
-        int realLimit = opts.start() + opts.limit();
-        TopFieldDocs docs = searcher.search(query, realLimit, sort);
+        int realLimit = opts.start() + opts.pageSize();
+        TopFieldDocs docs =
+            opts.searchAfter() != null
+                ? searcher.searchAfter(
+                    (ScoreDoc) opts.searchAfter(), query, realLimit, sort, false, false)
+                : searcher.search(query, realLimit, sort);
         ImmutableList.Builder<T> b = ImmutableList.builderWithExpectedSize(docs.scoreDocs.length);
         for (int i = opts.start(); i < docs.scoreDocs.length; i++) {
-          ScoreDoc sd = docs.scoreDocs[i];
-          Document doc = searcher.doc(sd.doc, opts.fields());
+          scoreDoc = docs.scoreDocs[i];
+          Document doc = searcher.doc(scoreDoc.doc, opts.fields());
           T mapperResult = mapper.apply(doc);
           if (mapperResult != null) {
             b.add(mapperResult);
           }
         }
-        return new ListResultSet<>(b.build());
+        ScoreDoc searchAfter = scoreDoc;
+        return new ListResultSet<T>(b.build()) {
+          @Override
+          public Object searchAfter() {
+            return searchAfter;
+          }
+        };
       } catch (IOException e) {
         throw new StorageException(e);
       } finally {

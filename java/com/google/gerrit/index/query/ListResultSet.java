@@ -54,4 +54,9 @@ public class ListResultSet<T> implements ResultSet<T> {
   public void close() {
     results = null;
   }
+
+  @Override
+  public Object searchAfter() {
+    return null;
+  }
 }

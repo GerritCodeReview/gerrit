@@ -16,6 +16,24 @@
       "message": "Any reason to not always use getFocusableElements?",
       "revId": "f3bbff0f74192cfa5202aa0e828da5045825c6dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6329f13_90bcdfcd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-13T17:33:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3801c739_3d7b7038",
+      "revId": "f3bbff0f74192cfa5202aa0e828da5045825c6dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

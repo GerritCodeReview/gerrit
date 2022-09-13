@@ -3,7 +3,7 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../test/common-test-setup-karma';
+import '../../../test/common-test-setup';
 import './gr-smart-search';
 import {GrSmartSearch} from './gr-smart-search';
 import {stubRestApi} from '../../../test/test-utils';

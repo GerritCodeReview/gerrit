@@ -16,7 +16,7 @@ import {
 } from '../api/rest-api';
 import {PatchRangeParams} from '../elements/core/gr-router/gr-router';
 import {GerritView} from '../services/router/router-model';
-import '../test/common-test-setup-karma';
+import '../test/common-test-setup';
 import {DashboardId} from '../types/common';
 import {
   generateUrl,

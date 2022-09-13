@@ -3,7 +3,7 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../test/common-test-setup-karma';
+import '../../../test/common-test-setup';
 import './gr-diff-processor';
 import {GrDiffLineType, FILE, GrDiffLine} from '../gr-diff/gr-diff-line';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
@@ -502,7 +502,7 @@ suite('gr-diff-processor tests', () => {
             ' * Copyright 2015 Google LLC',
             ' * SPDX-License-Identifier: Apache-2.0',
             ' */',
-            "import '../../../test/common-test-setup-karma';",
+            "import '../../../test/common-test-setup';",
           ],
         },
       ];

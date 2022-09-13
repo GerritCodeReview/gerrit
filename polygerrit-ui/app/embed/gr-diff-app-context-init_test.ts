@@ -5,7 +5,7 @@
  */
 import {assert} from '@open-wc/testing';
 import {AppContext} from '../services/app-context';
-import '../test/common-test-setup-karma';
+import '../test/common-test-setup';
 import {createDiffAppContext} from './gr-diff-app-context-init';
 
 suite('gr diff app context initializer tests', () => {

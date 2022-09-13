@@ -7,7 +7,7 @@ import {
   GrChangeListSection,
   computeLabelShortcut,
 } from './gr-change-list-section';
-import '../../../test/common-test-setup-karma';
+import '../../../test/common-test-setup';
 import './gr-change-list-section';
 import '../gr-change-list-item/gr-change-list-item';
 import {

@@ -3,7 +3,7 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../test/common-test-setup-karma';
+import '../../../test/common-test-setup';
 import './gr-search-bar';
 import {GrSearchBar} from './gr-search-bar';
 import '../../../scripts/util';
@@ -30,6 +30,7 @@ import {
   configModelToken,
 } from '../../../models/config/config-model';
 import {wrapInProvider} from '../../../models/di-provider-element';
+import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-search-bar tests', () => {
   let element: GrSearchBar;

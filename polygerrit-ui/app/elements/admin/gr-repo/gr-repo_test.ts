@@ -3,7 +3,7 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../test/common-test-setup-karma';
+import '../../../test/common-test-setup';
 import './gr-repo';
 import {GrRepo} from './gr-repo';
 import {mockPromise} from '../../../test/test-utils';

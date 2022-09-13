@@ -3,7 +3,7 @@
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../test/common-test-setup-karma';
+import '../../../test/common-test-setup';
 import './gr-edit-preferences';
 import {queryAll, stubRestApi} from '../../../test/test-utils';
 import {GrEditPreferences} from './gr-edit-preferences';

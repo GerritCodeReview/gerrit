@@ -5,7 +5,7 @@
  */
 import {fixture, html, assert} from '@open-wc/testing';
 import {KnownExperimentId} from '../../../services/flags/flags';
-import '../../../test/common-test-setup-karma';
+import '../../../test/common-test-setup';
 import {stubFlags} from '../../../test/test-utils';
 import './gr-formatted-text';
 import {

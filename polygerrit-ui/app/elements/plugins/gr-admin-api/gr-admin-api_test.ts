@@ -6,7 +6,7 @@
 import {assert} from '@open-wc/testing';
 import {AdminPluginApi} from '../../../api/admin';
 import {PluginApi} from '../../../api/plugin';
-import '../../../test/common-test-setup-karma';
+import '../../../test/common-test-setup';
 import '../../shared/gr-js-api-interface/gr-js-api-interface';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 

@@ -10,7 +10,7 @@ import {
 } from '../../../models/bulk-actions/bulk-actions-model';
 import {wrapInProvider} from '../../../models/di-provider-element';
 import {getAppContext} from '../../../services/app-context';
-import '../../../test/common-test-setup-karma';
+import '../../../test/common-test-setup';
 import {createChange} from '../../../test/test-data-generators';
 import {
   query,

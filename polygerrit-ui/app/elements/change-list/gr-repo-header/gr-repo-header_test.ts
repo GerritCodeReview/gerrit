@@ -3,7 +3,7 @@
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../test/common-test-setup-karma';
+import '../../../test/common-test-setup';
 import {fixture, html, assert} from '@open-wc/testing';
 import './gr-repo-header';
 import {GrRepoHeader} from './gr-repo-header';

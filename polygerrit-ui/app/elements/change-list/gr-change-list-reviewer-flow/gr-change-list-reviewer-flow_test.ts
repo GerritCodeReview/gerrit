@@ -19,7 +19,7 @@ import {
 import {wrapInProvider} from '../../../models/di-provider-element';
 import {getAppContext} from '../../../services/app-context';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
-import '../../../test/common-test-setup-karma';
+import '../../../test/common-test-setup';
 import {
   createAccountWithIdNameAndEmail,
   createChange,

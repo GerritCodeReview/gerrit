@@ -5,7 +5,7 @@
  */
 import {assert} from '@open-wc/testing';
 import {AccountDetailInfo, GroupId, RepoName, Timestamp} from '../api/rest-api';
-import '../test/common-test-setup-karma';
+import '../test/common-test-setup';
 import {AdminNavLinksOption, getAdminLinks} from './admin-nav-util';
 
 suite('gr-admin-nav-behavior tests', () => {

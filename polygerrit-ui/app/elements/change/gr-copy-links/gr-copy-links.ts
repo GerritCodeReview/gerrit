@@ -56,7 +56,7 @@ export class GrCopyLinks extends LitElement {
           flex: 1 1 420px;
         }
         .copy-link-row .shortcut {
-          width: 25px;
+          width: 27px;
           margin: 0 var(--spacing-m);
           color: var(--deemphasized-text-color);
         }

@@ -1341,6 +1341,11 @@ export class GrChangeView extends LitElement {
         value: `${changeURL}: ${this.change?.subject}`,
       },
       {
+        label: 'Markdown',
+        shortcut: 'm',
+        value: `[${this.change?.subject}](${changeURL})`,
+      },
+      {
         label: 'Change-Id',
         shortcut: 'd',
         value: `${this.change?.id.split('~').pop()}`,

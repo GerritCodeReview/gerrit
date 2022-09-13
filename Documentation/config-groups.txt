@@ -34,7 +34,7 @@ link:config-accounts.html#all-users[`All-Users` repository]. For each
 group, there is a ref, stored as a sharded UUID, e.g.
 
 ----
-  refs/groups/ef/deafbeefdeafbeefdeafbeefdeafbeefdeafbeef
+  refs/groups/de/deafbeefdeafbeefdeafbeefdeafbeefdeafbeef
 ----
 
 The ref points to commits holding files. The files are

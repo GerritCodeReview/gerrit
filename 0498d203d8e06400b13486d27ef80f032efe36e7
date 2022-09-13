@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "51a3e917_8f272c40",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 7389,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-09-13T09:22:53Z",
+      "side": 1,
+      "message": "Best I could find was https://git-scm.com/docs/git-diff, it has mentions of the modes but it\u0027s not ideal to be linked from our docs.\n\nthe 3 first digits indicate the file type, the last 3 digits are the unix file permissions.\n\n\"File modes are printed as 6-digit octal numbers including the file type and file permission bits.\"\n\nI enhanced our description.",
+      "parentUuid": "846a7c20_936ec16e",
+      "range": {
+        "startLine": 7388,
+        "startChar": 0,
+        "endLine": 7389,
+        "endChar": 80
+      },
+      "revId": "0498d203d8e06400b13486d27ef80f032efe36e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "df7f8b3a_b9a71c7a",
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fefb7805_ca62e4fc",
+        "filename": "java/com/google/gerrit/server/change/FileInfoJsonImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-09-13T09:22:53Z",
+      "side": 1,
+      "message": "Ah, thanks for catching. I updated the docs: this field is no longer optional and old mode \u003d MISSING for added files, and new mode \u003d MISSING for deleted files.",
+      "parentUuid": "df7f8b3a_b9a71c7a",
+      "range": {
+        "startLine": 109,
+        "startChar": 16,
+        "endLine": 109,
+        "endChar": 37
+      },
+      "revId": "0498d203d8e06400b13486d27ef80f032efe36e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8d070ee2_d2dd5514",
@@ -77,6 +125,24 @@
       "writtenOn": "2022-09-13T08:44:24Z",
       "side": 1,
       "message": "Can we also add tests for cases with new/deleted files where oldMode/newMode are not set?",
+      "revId": "0498d203d8e06400b13486d27ef80f032efe36e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec143334_341d1edf",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-09-13T09:22:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d070ee2_d2dd5514",
       "revId": "0498d203d8e06400b13486d27ef80f032efe36e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

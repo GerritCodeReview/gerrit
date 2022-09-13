@@ -410,7 +410,7 @@ export class GrComment extends LitElement {
         }
         .editMessage {
           display: block;
-          margin: var(--spacing-m) 0;
+          margin-bottom: var(--spacing-m);
           width: 100%;
         }
         .show-hide {

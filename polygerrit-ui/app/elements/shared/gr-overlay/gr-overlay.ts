@@ -12,6 +12,7 @@ import {IronOverlayBehavior} from '@polymer/iron-overlay-behavior/iron-overlay-b
 import {findActiveElement} from '../../../utils/dom-util';
 import {fireEvent} from '../../../utils/event-util';
 import {getHovercardContainer} from '../../../mixins/hovercard-mixin/hovercard-mixin';
+import {getFocusableElements} from '../../../utils/focusable';
 
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
@@ -68,18 +69,7 @@ export class GrOverlay extends base {
     if (this.focusableNodes) {
       return this.focusableNodes;
     }
-    // TODO(TS): to avoid ts error for:
-    // Only public and protected methods of the base class are accessible
-    // via the 'super' keyword.
-    // we call IronFocusablesHelper directly here
-    // Currently IronFocusablesHelper is not exported from iron-focusables-helper
-    // as it should so we use Polymer.IronFocusablesHelper here instead
-    // (can not use the IronFocusablesHelperClass
-    // in case different behavior due to singleton)
-    // once the type contains the exported member,
-    // should replace with:
-    // import {IronFocusablesHelper} from '@polymer/iron-overlay-behavior/iron-focusables-helper';
-    return window.Polymer.IronFocusablesHelper.getTabbableNodes(this);
+    return Array.from(getFocusableElements(this));
   }
 
   constructor() {

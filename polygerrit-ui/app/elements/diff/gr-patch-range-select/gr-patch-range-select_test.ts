@@ -69,6 +69,22 @@ suite('gr-patch-range-select tests', () => {
     await element.updateComplete;
   });
 
+  test('render', () => {
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <h3 class="assistive-tech-only">Patchset Range Selection</h3>
+        <span aria-label="patch range starts with" class="patchRange">
+          <gr-dropdown-list id="basePatchDropdown"> </gr-dropdown-list>
+        </span>
+        <span aria-hidden="true" class="arrow"> → </span>
+        <span aria-label="patch range ends with" class="patchRange">
+          <gr-dropdown-list id="patchNumDropdown"> </gr-dropdown-list>
+        </span>
+      `
+    );
+  });
+
   test('enabled/disabled options', async () => {
     element.revisions = [
       createRevision(3),

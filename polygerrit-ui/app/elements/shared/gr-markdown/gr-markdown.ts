@@ -120,6 +120,7 @@ export class GrMarkdown extends LitElement {
       renderer['codespan'] = (text: string) =>
         `<code>${unescapeHTML(text)}</code>`;
       renderer['code'] = (text: string) => `<pre><code>${text}</code></pre>`;
+      renderer['mention'] = (text: string) => `<gr-account-label>${text}</gr-account-label>`;
       renderer['text'] = boundRewriteText;
     }
 

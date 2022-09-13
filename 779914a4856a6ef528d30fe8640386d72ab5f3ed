@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c8b3527_7a61dd11",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1145775
+      },
+      "writtenOn": "2022-09-13T18:33:18Z",
+      "side": 1,
+      "message": "This seems more intuitive behavior than pinning it to the server operations.",
+      "revId": "779914a4856a6ef528d30fe8640386d72ab5f3ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "076f5df8_3e623d88",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 7474,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-09-13T09:24:08Z",
+      "side": 1,
+      "message": "This space is skipped in the html file.",
+      "range": {
+        "startLine": 7474,
+        "startChar": 19,
+        "endLine": 7474,
+        "endChar": 20
+      },
+      "revId": "613b815fcde6a73a40a1d4a8247eafacba031b94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

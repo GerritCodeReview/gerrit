@@ -72,6 +72,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7dc037b0_83a3f58d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-14T17:46:36Z",
+      "side": 1,
+      "message": "Thanks for explanation. I didn\u0027t know so much about it. I changed children to inline-block.",
+      "parentUuid": "75ef2ea3_e5b6741c",
+      "revId": "ee9e4712d7087549016c5e8fb8cc0a07e2cfcc40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dfcad4fe_7c453485",

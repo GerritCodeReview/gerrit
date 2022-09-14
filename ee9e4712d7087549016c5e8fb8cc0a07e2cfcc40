@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1a4af417_8ec7a58f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-14T14:08:47Z",
+      "side": 1,
+      "message": "Can you provide a source for that? My understanding is that parent flex controls this for its children.",
+      "parentUuid": "373f6748_42ec792f",
+      "revId": "ee9e4712d7087549016c5e8fb8cc0a07e2cfcc40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dfcad4fe_7c453485",
         "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
         "patchSetId": 1

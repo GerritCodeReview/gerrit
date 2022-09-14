@@ -11,6 +11,7 @@ import {GrButton} from './gr-button';
 import {pressKey, queryAndAssert} from '../../../test/test-utils';
 import {PaperButtonElement} from '@polymer/paper-button';
 import {Key, Modifier} from '../../../utils/dom-util';
+import {visualDiff} from '@web/test-runner-visual-regression';
 
 suite('gr-button tests', () => {
   let element: GrButton;
@@ -28,6 +29,14 @@ suite('gr-button tests', () => {
   setup(async () => {
     element = await fixture<GrButton>('<gr-button></gr-button>');
     await element.updateComplete;
+  });
+
+  test.only('screenshot', async () => {
+    element.textContent = 'AYCDEFGHIJKLMNOPQRSTUVWXBZ';
+    // element.style.color = 'blue';
+    element.downArrow = true;
+    await element.updateComplete;
+    await visualDiff(document.body, 'gr-button-screenshot-example');
   });
 
   test('renders', () => {

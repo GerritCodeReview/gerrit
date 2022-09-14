@@ -1,5 +1,6 @@
 import { esbuildPlugin } from "@web/dev-server-esbuild";
 import { defaultReporter, summaryReporter } from "@web/test-runner";
+import { visualRegressionPlugin } from "@web/test-runner-visual-regression/plugin";
 
 /** @type {import('@web/test-runner').TestRunnerConfig} */
 const config = {
@@ -17,6 +18,9 @@ const config = {
       ts: true,
       target: "es2020",
       tsconfig: "app/tsconfig.json",
+    }),
+    visualRegressionPlugin({
+      update: process.argv.includes("--update-visual-baseline"),
     }),
   ],
   reporters: [defaultReporter(), summaryReporter()],

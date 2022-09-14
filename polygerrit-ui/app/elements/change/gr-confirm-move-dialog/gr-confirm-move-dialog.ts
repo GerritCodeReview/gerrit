@@ -11,8 +11,9 @@ import {getAppContext} from '../../../services/app-context';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-dialog/gr-dialog';
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
-import {addShortcut, Key, Modifier} from '../../../utils/dom-util';
+import {Key, Modifier} from '../../../utils/dom-util';
 import {ValueChangedEvent} from '../../../types/events';
+import {ShortcutController} from '../../lit/shortcut-controller';
 
 const SUGGESTIONS_LIMIT = 15;
 
@@ -39,27 +40,26 @@ export class GrConfirmMoveDialog extends LitElement {
   @property({type: String})
   project?: RepoName;
 
-  /** Called in disconnectedCallback. */
-  private cleanups: (() => void)[] = [];
+  private readonly shortcuts = new ShortcutController(this);
+
+  constructor() {
+    super();
+    this.shortcuts.addLocal(
+      {key: Key.ENTER, modifiers: [Modifier.CTRL_KEY]},
+      e => this.handleConfirmTap(e)
+    );
+    this.shortcuts.addLocal(
+      {key: Key.ENTER, modifiers: [Modifier.META_KEY]},
+      e => this.handleConfirmTap(e)
+    );
+  }
 
   override disconnectedCallback() {
     super.disconnectedCallback();
-    for (const cleanup of this.cleanups) cleanup();
-    this.cleanups = [];
   }
 
   override connectedCallback() {
     super.connectedCallback();
-    this.cleanups.push(
-      addShortcut(this, {key: Key.ENTER, modifiers: [Modifier.CTRL_KEY]}, e =>
-        this.handleConfirmTap(e)
-      )
-    );
-    this.cleanups.push(
-      addShortcut(this, {key: Key.ENTER, modifiers: [Modifier.META_KEY]}, e =>
-        this.handleConfirmTap(e)
-      )
-    );
   }
 
   private readonly restApiService = getAppContext().restApiService;

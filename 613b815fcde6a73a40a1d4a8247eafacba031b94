@@ -22,6 +22,29 @@
       },
       "revId": "613b815fcde6a73a40a1d4a8247eafacba031b94",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb9b1d98_c74a33f8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 7477,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-14T13:10:29Z",
+      "side": 1,
+      "message": "What\u0027s the benefit of returning \u0027000000\u0027 over just not setting this field?",
+      "range": {
+        "startLine": 7477,
+        "startChar": 22,
+        "endLine": 7477,
+        "endChar": 70
+      },
+      "revId": "613b815fcde6a73a40a1d4a8247eafacba031b94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

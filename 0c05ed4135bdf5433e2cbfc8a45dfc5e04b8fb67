@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4ee93f44_77fd02ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-14T22:55:28Z",
+      "side": 1,
+      "message": "Yes, good idea to have them aligned.",
+      "parentUuid": "f0263886_93d6040c",
+      "range": {
+        "startLine": 64,
+        "startChar": 48,
+        "endLine": 64,
+        "endChar": 68
+      },
+      "revId": "0c05ed4135bdf5433e2cbfc8a45dfc5e04b8fb67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "29f0bf6d_493d9f8a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -37,6 +61,24 @@
       "writtenOn": "2022-09-14T22:47:22Z",
       "side": 1,
       "message": "Anything significant that you would expect to impact Gerrit users/admins that you want to specifically highlight?",
+      "revId": "0c05ed4135bdf5433e2cbfc8a45dfc5e04b8fb67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97f0db59_d6f4acb2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-14T22:55:28Z",
+      "side": 1,
+      "message": "@Matthias?",
+      "parentUuid": "29f0bf6d_493d9f8a",
       "revId": "0c05ed4135bdf5433e2cbfc8a45dfc5e04b8fb67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -23,6 +23,7 @@ import {AttemptChoice} from '../models/checks/checks-util';
 import {GroupDetailView, GroupViewState} from '../models/views/group';
 import {DashboardViewState} from '../models/views/dashboard';
 import {RepoDetailView, RepoViewState} from '../models/views/repo';
+import {SettingsViewState} from '../models/views/settings';
 
 export interface DashboardSection {
   name: string;
@@ -75,10 +76,6 @@ export interface GenerateUrlEditViewParameters {
   lineNum?: number | string;
 }
 
-export interface GenerateUrlSettingsViewParameters {
-  view: GerritView.SETTINGS;
-}
-
 export interface GenerateUrlDiffViewParameters {
   view: GerritView.DIFF;
   changeNum: NumericChangeId;
@@ -100,7 +97,7 @@ export type GenerateUrlParameters =
   | DashboardViewState
   | GroupViewState
   | GenerateUrlEditViewParameters
-  | GenerateUrlSettingsViewParameters
+  | SettingsViewState
   | GenerateUrlDiffViewParameters;
 
 export function isGenerateUrlChangeViewParameters(

@@ -50,6 +50,12 @@ export class GrMarkdown extends LitElement {
         margin: 0 0 var(--spacing-m) 0;
         max-width: var(--gr-formatted-text-prose-max-width, none);
       }
+      p:last-child,
+      ul:last-child,
+      blockquote:last-child,
+      pre:last-child {
+        margin: 0;
+      }
       blockquote {
         border-left: var(--spacing-xxs) solid var(--comment-quote-marker-color);
         padding: 0 var(--spacing-m);

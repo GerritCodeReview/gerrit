@@ -20,7 +20,11 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Ordering;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.index.IndexConfig;
+import com.google.gerrit.index.PaginationType;
+import com.google.gerrit.index.QueryOptions;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -33,23 +37,30 @@ public class AndSource<T> extends AndPredicate<T>
   private final IsVisibleToPredicate<T> isVisibleToPredicate;
   private final int start;
   private final int cardinality;
+  private final IndexConfig indexConfig;
 
-  public AndSource(Collection<? extends Predicate<T>> that) {
-    this(that, null, 0);
+  public AndSource(Collection<? extends Predicate<T>> that, IndexConfig indexConfig) {
+    this(that, null, 0, indexConfig);
   }
 
-  public AndSource(Predicate<T> that, IsVisibleToPredicate<T> isVisibleToPredicate) {
-    this(that, isVisibleToPredicate, 0);
+  public AndSource(
+      Predicate<T> that, IsVisibleToPredicate<T> isVisibleToPredicate, IndexConfig indexConfig) {
+    this(that, isVisibleToPredicate, 0, indexConfig);
   }
 
-  public AndSource(Predicate<T> that, IsVisibleToPredicate<T> isVisibleToPredicate, int start) {
-    this(ImmutableList.of(that), isVisibleToPredicate, start);
+  public AndSource(
+      Predicate<T> that,
+      IsVisibleToPredicate<T> isVisibleToPredicate,
+      int start,
+      IndexConfig indexConfig) {
+    this(ImmutableList.of(that), isVisibleToPredicate, start, indexConfig);
   }
 
   public AndSource(
       Collection<? extends Predicate<T>> that,
       IsVisibleToPredicate<T> isVisibleToPredicate,
-      int start) {
+      int start,
+      IndexConfig indexConfig) {
     super(that);
     checkArgument(start >= 0, "negative start: %s", start);
     this.isVisibleToPredicate = isVisibleToPredicate;
@@ -71,6 +82,7 @@ public class AndSource<T> extends AndPredicate<T>
     }
     this.source = s;
     this.cardinality = c;
+    this.indexConfig = indexConfig;
   }
 
   @Override
@@ -86,37 +98,42 @@ public class AndSource<T> extends AndPredicate<T>
         () -> {
           List<T> r = new ArrayList<>();
           T last = null;
-          int nextStart = 0;
-          boolean skipped = false;
+          int pageResultSize = 0;
           for (T data : buffer(resultSet)) {
             if (!isMatchable() || match(data)) {
               r.add(data);
-            } else {
-              skipped = true;
             }
             last = data;
-            nextStart++;
+            pageResultSize++;
           }
 
-          if (skipped && last != null && source instanceof Paginated) {
-            // If our source is a paginated source and we skipped at
-            // least one of its results, we may not have filled the full
-            // limit the caller wants.  Restart the source and continue.
+          if (last != null && source instanceof Paginated) {
+            // Restart source and continue if we have not filled the
+            // full limit the caller wants.
             //
             @SuppressWarnings("unchecked")
             Paginated<T> p = (Paginated<T>) source;
-            while (skipped && r.size() < p.getOptions().limit() + start) {
-              skipped = false;
-              ResultSet<T> next = p.restart(nextStart);
-
+            QueryOptions opts = p.getOptions();
+            final int limit = opts.limit();
+            int pageSize = opts.pageSize();
+            int pageSizeMultiplier = opts.pageSizeMultiplier();
+            Object searchAfter = resultSet.searchAfter();
+            int nextStart = pageResultSize;
+            while (pageResultSize == pageSize && r.size() < limit) {
+              pageSize = getNextPageSize(pageSize, pageSizeMultiplier);
+              ResultSet<T> next =
+                  indexConfig.paginationType().equals(PaginationType.SEARCH_AFTER)
+                      ? p.restart(searchAfter, pageSize)
+                      : p.restart(nextStart, pageSize);
+              pageResultSize = 0;
               for (T data : buffer(next)) {
                 if (match(data)) {
                   r.add(data);
-                } else {
-                  skipped = true;
                 }
-                nextStart++;
+                pageResultSize++;
               }
+              nextStart += pageResultSize;
+              searchAfter = next.searchAfter();
             }
           }
 
@@ -192,5 +209,21 @@ public class AndSource<T> extends AndPredicate<T>
   @SuppressWarnings("unchecked")
   private DataSource<T> toDataSource(Predicate<T> pred) {
     return (DataSource<T>) pred;
+  }
+
+  private int getNextPageSize(int pageSize, int pageSizeMultiplier) {
+    List<Integer> possiblePageSizes = new ArrayList<>(3);
+    try {
+      possiblePageSizes.add(Math.multiplyExact(pageSize, pageSizeMultiplier));
+    } catch (ArithmeticException e) {
+      possiblePageSizes.add(Integer.MAX_VALUE);
+    }
+    if (indexConfig.maxPageSize() > 0) {
+      possiblePageSizes.add(indexConfig.maxPageSize());
+    }
+    if (indexConfig.maxLimit() > 0) {
+      possiblePageSizes.add(indexConfig.maxLimit());
+    }
+    return Ordering.natural().min(possiblePageSizes);
   }
 }

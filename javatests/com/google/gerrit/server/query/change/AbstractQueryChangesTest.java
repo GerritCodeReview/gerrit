@@ -203,9 +203,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected IdentifiedUser.GenericFactory identifiedUserFactory;
   @Inject protected AuthRequest.Factory authRequestFactory;
   @Inject protected ExternalIdFactory externalIdFactory;
+  @Inject protected ProjectOperations projectOperations;
 
   @Inject private ProjectConfig.Factory projectConfigFactory;
-  @Inject private ProjectOperations projectOperations;
 
   protected Injector injector;
   protected LifecycleManager lifecycle;
@@ -731,7 +731,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertThat(thrown).hasMessageThat().contains("invalid value");
   }
 
-  private Change createChange(TestRepository<Repo> repo, PersonIdent person) throws Exception {
+  protected Change createChange(TestRepository<Repo> repo, PersonIdent person) throws Exception {
     RevCommit commit =
         repo.parseBody(repo.commit().message("message").author(person).committer(person).create());
     return insert(repo, newChangeForCommit(repo, commit), null);

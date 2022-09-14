@@ -19,6 +19,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Change;
@@ -52,6 +53,9 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -69,12 +73,14 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
 
   private final String indexName;
   private final Map<K, D> indexedDocuments;
+  private int queryCount;
 
   AbstractFakeIndex(Schema<V> schema, SitePaths sitePaths, String indexName) {
     this.schema = schema;
     this.sitePaths = sitePaths;
     this.indexName = indexName;
     this.indexedDocuments = new HashMap<>();
+    this.queryCount = 0;
   }
 
   @Override
@@ -108,18 +114,33 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
     }
   }
 
+  public int getQueryCount() {
+    return queryCount;
+  }
+
   @Override
   public DataSource<V> getSource(Predicate<V> p, QueryOptions opts) {
     List<V> results;
     synchronized (indexedDocuments) {
-      results =
+      Stream<V> valueStream =
           indexedDocuments.values().stream()
               .map(doc -> valueFor(doc))
               .filter(doc -> p.asMatchable().match(doc))
-              .sorted(sortingComparator())
-              .skip(opts.start())
-              .limit(opts.limit())
-              .collect(toImmutableList());
+              .sorted(sortingComparator());
+      if (opts.searchAfter() != null) {
+        ImmutableList<V> valueList = valueStream.collect(toImmutableList());
+        int fromIndex =
+            IntStream.range(0, valueList.size())
+                    .filter(i -> keyFor(valueList.get(i)).equals(opts.searchAfter()))
+                    .findFirst()
+                    .orElse(-1)
+                + 1;
+        int toIndex = Math.min(fromIndex + opts.pageSize(), valueList.size());
+        results = valueList.subList(fromIndex, toIndex);
+      } else {
+        results = valueStream.skip(opts.start()).limit(opts.pageSize()).collect(toImmutableList());
+      }
+      queryCount++;
     }
     return new DataSource<>() {
       @Override
@@ -129,12 +150,19 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
 
       @Override
       public ResultSet<V> read() {
-        return new ListResultSet<>(results);
+        return new ListResultSet<>(results) {
+          @Override
+          public Object searchAfter() {
+            @Nullable V last = Iterables.getLast(results, null);
+            return last != null ? keyFor(last) : null;
+          }
+        };
       }
 
       @Override
       public ResultSet<FieldBundle> readRaw() {
         ImmutableList.Builder<FieldBundle> fieldBundles = ImmutableList.builder();
+        K searchAfter = null;
         for (V result : results) {
           ImmutableListMultimap.Builder<String, Object> fields = ImmutableListMultimap.builder();
           for (FieldDef<V, ?> field : getSchema().getFields().values()) {
@@ -148,8 +176,16 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
             }
           }
           fieldBundles.add(new FieldBundle(fields.build()));
+          searchAfter = keyFor(result);
         }
-        return new ListResultSet<>(fieldBundles.build());
+        ImmutableList<FieldBundle> resultSet = fieldBundles.build();
+        K finalSearchAfter = searchAfter;
+        return new ListResultSet<>(resultSet) {
+          @Override
+          public Object searchAfter() {
+            return finalSearchAfter;
+          }
+        };
       }
     };
   }

@@ -85,6 +85,24 @@
       "message": "I will undo this because some plugins were relying on this infra",
       "revId": "b0c62dc94104bdfa5c5fda9040c63a70985d85a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72d65ae5_ecc4a5f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-14T11:32:17Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/345515 is merged, this wasn\u0027t reverted due to conflicts",
+      "parentUuid": "48576c25_0b51fddc",
+      "revId": "b0c62dc94104bdfa5c5fda9040c63a70985d85a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

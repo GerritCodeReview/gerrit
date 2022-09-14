@@ -43,3 +43,18 @@ nodejs_test(
         "manual",
     ],
 )
+
+# This is a dependency for karma_test rule in js.bzl that is only used by
+# plugins.
+sh_binary(
+    name = "karma_bin",
+    srcs = ["@ui_dev_npm//:node_modules/karma/bin/karma"],
+    data = [
+        "@ui_dev_npm//@open-wc/karma-esm",
+        "@ui_dev_npm//karma-chrome-launcher",
+        "@ui_dev_npm//karma-mocha",
+        "@ui_dev_npm//karma-mocha-reporter",
+        "@ui_dev_npm//karma/bin:karma",
+        "@ui_dev_npm//mocha",
+    ],
+)

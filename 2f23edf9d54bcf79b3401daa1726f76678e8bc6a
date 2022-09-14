@@ -16,6 +16,69 @@
       "message": "FYI, there are some changes to AndSource on stable-3.4 that will conflict with this. We\u0027re working to merge them up [1] now so that you\u0027re not blocked here and the merge doesn\u0027t end up messier than necessary.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/344234",
       "revId": "2f23edf9d54bcf79b3401daa1726f76678e8bc6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90185d25_c80ddecb",
+        "filename": "java/com/google/gerrit/index/query/OrPredicate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-09-14T02:06:14Z",
+      "side": 1,
+      "message": "This would be a lot cheaper if inputSet were a LinkedHashSet.",
+      "revId": "2f23edf9d54bcf79b3401daa1726f76678e8bc6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d73f3485_5c9cdef5",
+        "filename": "java/com/google/gerrit/index/query/OrPredicate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-09-14T02:06:14Z",
+      "side": 1,
+      "message": "I don\u0027t think order will be maintained if you return this. Probably better to make resultSet a HashSet, and then iterate over objects and return those in resultSet?",
+      "range": {
+        "startLine": 115,
+        "startChar": 11,
+        "endLine": 115,
+        "endChar": 20
+      },
+      "revId": "2f23edf9d54bcf79b3401daa1726f76678e8bc6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc8b6976_6407b84c",
+        "filename": "java/com/google/gerrit/server/query/change/EditPredicate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-09-14T02:06:14Z",
+      "side": 1,
+      "message": "Here also order is not maintained?",
+      "range": {
+        "startLine": 74,
+        "startChar": 11,
+        "endLine": 74,
+        "endChar": 17
+      },
+      "revId": "2f23edf9d54bcf79b3401daa1726f76678e8bc6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

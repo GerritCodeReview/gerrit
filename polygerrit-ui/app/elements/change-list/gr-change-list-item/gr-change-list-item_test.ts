@@ -308,28 +308,6 @@ suite('gr-change-list-item tests', () => {
     assert.equal(element.computeChangeSize(), 'XL');
   });
 
-  test('change params passed to gr-navigation', async () => {
-    const navStub = sinon.stub(GerritNav);
-    element.change = change;
-    element.usp = 'dashboard';
-    await element.updateComplete;
-
-    assert.deepEqual(navStub.getUrlForChange.lastCall.args, [
-      change,
-      {usp: 'dashboard'},
-    ]);
-    assert.deepEqual(navStub.getUrlForProjectChanges.lastCall.args, [
-      change.project,
-      true,
-    ]);
-    assert.deepEqual(navStub.getUrlForBranch.lastCall.args, [
-      change.branch,
-      change.project,
-      undefined,
-    ]);
-    assert.deepEqual(navStub.getUrlForTopic.lastCall.args, [change.topic!]);
-  });
-
   test('clicking item navigates to change', async () => {
     const navStub = sinon.stub(GerritNav);
 
@@ -378,9 +356,17 @@ suite('gr-change-list-item tests', () => {
         ></gr-account-label>
         <div></div>
         <span></span>
-        <a class="fullRepo" href=""> test-project </a>
-        <a class="truncatedRepo" href="" title="test-project"> test-project </a>
-        <a href=""> test-branch </a>
+        <a class="fullRepo" href="/q/project:test-project+status:open">
+          test-project
+        </a>
+        <a
+          class="truncatedRepo"
+          href="/q/project:test-project+status:open"
+          title="test-project"
+        >
+          test-project
+        </a>
+        <a href="/q/project:test-project+branch:test-branch"> test-branch </a>
         <gr-date-formatter withtooltip=""></gr-date-formatter>
         <gr-date-formatter withtooltip=""></gr-date-formatter>
         <gr-date-formatter

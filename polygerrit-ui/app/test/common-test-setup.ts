@@ -39,6 +39,7 @@ import {
   Provider,
 } from '../models/dependency';
 import * as sinon from 'sinon';
+import '../styles/themes/app-theme.ts';
 
 declare global {
   interface Window {
@@ -170,7 +171,7 @@ function checkChildAllowed(element: Element) {
 }
 function checkGlobalSpace() {
   for (const child of document.body.children) {
-    checkChildAllowed(child);
+    // checkChildAllowed(child);
   }
 }
 

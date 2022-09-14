@@ -11,7 +11,6 @@ import '../../shared/gr-download-commands/gr-download-commands';
 import '../../shared/gr-select/gr-select';
 import '../../shared/gr-textarea/gr-textarea';
 import '../gr-repo-plugin-config/gr-repo-plugin-config';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {
   ConfigInfo,
   RepoName,
@@ -40,6 +39,7 @@ import {deepClone} from '../../../utils/deep-util';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
+import {createSearchUrl} from '../../../models/views/search';
 
 const STATES = {
   active: {value: ProjectState.ACTIVE, label: 'Active'},
@@ -1098,7 +1098,7 @@ export class GrRepo extends LitElement {
 
   private computeChangesUrl(name?: RepoName) {
     if (!name) return '';
-    return GerritNav.getUrlForProjectChanges(name);
+    return createSearchUrl({project: name});
   }
 
   // private but used in test

@@ -52,6 +52,7 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {Shortcut} from '../../../services/shortcuts/shortcuts-config';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {DashboardViewState} from '../../../models/views/dashboard';
+import {createSearchUrl} from '../../../models/views/search';
 
 const PROJECT_PLACEHOLDER_PATTERN = /\${project}/g;
 
@@ -590,7 +591,7 @@ export class GrDashboardView extends LitElement {
   }
 
   private computeDraftsLink() {
-    return GerritNav.getUrlForSearchQuery('has:draft -is:open');
+    return createSearchUrl({query: 'has:draft -is:open'});
   }
 
   private handleCreateChangeTap() {

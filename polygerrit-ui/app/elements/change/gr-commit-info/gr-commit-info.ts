@@ -12,6 +12,7 @@ import {customElement, property, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
+import {createSearchUrl} from '../../../models/views/search';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -129,7 +130,7 @@ export class GrCommitInfo extends LitElement {
     if (webLink) return webLink;
     const hash = this._computeShortHash(change, commitInfo, serverConfig);
     if (hash === undefined) return '';
-    return GerritNav.getUrlForSearchQuery(hash);
+    return createSearchUrl({query: hash});
   }
 
   _computeShortHash(

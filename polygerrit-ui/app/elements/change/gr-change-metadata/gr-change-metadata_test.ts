@@ -169,11 +169,11 @@ suite('gr-change-metadata tests', () => {
             Repo | Branch
           </span>
           <span class="value">
-            <a href="">
+            <a href="/q/project:test-project">
               test-project
             </a>
             |
-            <a href="">
+            <a href="/q/project:test-project+branch:test-branch+status:open">
               test-branch
             </a>
           </span>
@@ -787,7 +787,6 @@ suite('gr-change-metadata tests', () => {
     test('topic read only hides delete button', async () => {
       element.account = createAccountDetailWithId();
       element.change = change;
-      sinon.stub(GerritNav, 'getUrlForTopic').returns('/q/topic:test');
       await element.updateComplete;
       const chip = queryAndAssert<GrLinkedChip>(element, 'gr-linked-chip');
       const button = queryAndAssert<GrButton>(chip, 'gr-button');
@@ -798,7 +797,6 @@ suite('gr-change-metadata tests', () => {
       element.account = createAccountDetailWithId();
       change.actions!.topic!.enabled = true;
       element.change = change;
-      sinon.stub(GerritNav, 'getUrlForTopic').returns('/q/topic:test');
       await element.updateComplete;
       const chip = queryAndAssert<GrLinkedChip>(element, 'gr-linked-chip');
       const button = queryAndAssert<GrButton>(chip, 'gr-button');
@@ -853,9 +851,6 @@ suite('gr-change-metadata tests', () => {
     test('hashtag read only hides delete button', async () => {
       element.account = createAccountDetailWithId();
       element.change = change;
-      sinon
-        .stub(GerritNav, 'getUrlForHashtag')
-        .returns('/q/hashtag:test+(status:open%20OR%20status:merged)');
       await element.updateComplete;
       assert.isTrue(element.mutable, 'Mutable');
       assert.isFalse(
@@ -873,9 +868,6 @@ suite('gr-change-metadata tests', () => {
       element.account = createAccountDetailWithId();
       change.actions!.hashtags!.enabled = true;
       element.change = change;
-      sinon
-        .stub(GerritNav, 'getUrlForHashtag')
-        .returns('/q/hashtag:test+(status:open%20OR%20status:merged)');
       await element.updateComplete;
       const chip = queryAndAssert<GrLinkedChip>(element, 'gr-linked-chip');
       const button = queryAndAssert<GrButton>(chip, 'gr-button');
@@ -929,7 +921,6 @@ suite('gr-change-metadata tests', () => {
       );
       const alertStub = sinon.stub();
       element.addEventListener(EventType.SHOW_ALERT, alertStub);
-      sinon.stub(GerritNav, 'getUrlForTopic').returns('/q/topic:the+new+topic');
       await element.updateComplete;
       const chip = queryAndAssert<GrLinkedChip>(element, 'gr-linked-chip');
       const remove = queryAndAssert<GrButton>(chip, '#remove');

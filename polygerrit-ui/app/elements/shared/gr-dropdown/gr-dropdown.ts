@@ -13,13 +13,14 @@ import {getBaseUrl} from '../../../utils/url-util';
 import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
 import {GrCursorManager} from '../gr-cursor-manager/gr-cursor-manager';
 import {property, customElement, query, state} from 'lit/decorators.js';
-import {addShortcut, Key} from '../../../utils/dom-util';
+import {Key} from '../../../utils/dom-util';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {fire} from '../../../utils/event-util';
 import {ValueChangedEvent} from '../../../types/events';
 import {assertIsDefined} from '../../../utils/common-util';
+import {ShortcutController} from '../../lit/shortcut-controller';
 
 const REL_NOOPENER = 'noopener';
 const REL_EXTERNAL = 'external';
@@ -183,36 +184,27 @@ export class GrDropdown extends LitElement {
   @property({type: Array})
   disabledIds: string[] = [];
 
-  /** Called in disconnectedCallback. */
-  private cleanups: (() => void)[] = [];
-
   // Used within the tests so needs to be non-private.
   cursor = new GrCursorManager();
+
+  private readonly shortcuts = new ShortcutController(this);
 
   constructor() {
     super();
     this.cursor.cursorTargetClass = 'selected';
     this.cursor.focusOnMove = true;
+    this.shortcuts.addLocal({key: Key.UP}, () => this.handleUp());
+    this.shortcuts.addLocal({key: Key.DOWN}, () => this.handleDown());
+    this.shortcuts.addLocal({key: Key.ENTER}, () => this.handleEnter());
+    this.shortcuts.addLocal({key: Key.SPACE}, () => this.handleEnter());
   }
 
   override connectedCallback() {
     super.connectedCallback();
-    this.cleanups.push(addShortcut(this, {key: Key.UP}, () => this.handleUp()));
-    this.cleanups.push(
-      addShortcut(this, {key: Key.DOWN}, () => this.handleDown())
-    );
-    this.cleanups.push(
-      addShortcut(this, {key: Key.ENTER}, () => this.handleEnter())
-    );
-    this.cleanups.push(
-      addShortcut(this, {key: Key.SPACE}, () => this.handleEnter())
-    );
   }
 
   override disconnectedCallback() {
     this.cursor.unsetCursor();
-    for (const cleanup of this.cleanups) cleanup();
-    this.cleanups = [];
     super.disconnectedCallback();
   }
 

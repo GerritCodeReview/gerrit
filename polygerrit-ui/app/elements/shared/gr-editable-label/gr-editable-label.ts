@@ -115,12 +115,7 @@ export class GrEditableLabel extends LitElement {
         .inputContainer {
           background-color: var(--dialog-background-color);
           padding: var(--spacing-m);
-        }
-        .buttons {
-          display: flex;
-          justify-content: flex-end;
-          padding-top: var(--spacing-l);
-          width: 100%;
+          display: inline-flex;
         }
         .buttons gr-button {
           margin-left: var(--spacing-m);
@@ -163,11 +158,11 @@ export class GrEditableLabel extends LitElement {
           <div class="inputContainer" part="input-container">
             ${this.renderInputBox()}
             <div class="buttons">
-              <gr-button link="" id="cancelBtn" @click=${this.cancel}
-                >cancel</gr-button
-              >
               <gr-button link="" id="saveBtn" @click=${this.save}
                 >${this.confirmLabel}</gr-button
+              >
+              <gr-button link="" id="cancelBtn" @click=${this.cancel}
+                >cancel</gr-button
               >
             </div>
           </div>

@@ -45,6 +45,30 @@
       },
       "revId": "613b815fcde6a73a40a1d4a8247eafacba031b94",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe277817_660d93ce",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 7477,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-09-14T13:24:26Z",
+      "side": 1,
+      "message": "There\u0027s no specific benefit and I don\u0027t have a strong opinion. Maybe the decider is the consistency with other APIs, but still I think it\u0027s fine both ways.\n\nPlease LMK if you prefer to make this optional.",
+      "parentUuid": "bb9b1d98_c74a33f8",
+      "range": {
+        "startLine": 7477,
+        "startChar": 22,
+        "endLine": 7477,
+        "endChar": 70
+      },
+      "revId": "613b815fcde6a73a40a1d4a8247eafacba031b94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

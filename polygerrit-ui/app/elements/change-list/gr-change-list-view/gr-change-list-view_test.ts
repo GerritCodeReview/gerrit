@@ -59,7 +59,7 @@ suite('gr-change-list-view tests', () => {
           <gr-change-list> </gr-change-list>
           <nav>
             Page
-            <a href="" id="prevArrow">
+            <a href="/q/" id="prevArrow">
               <gr-icon icon="chevron_left" aria-label="Older"></gr-icon>
             </a>
           </nav>
@@ -127,25 +127,19 @@ suite('gr-change-list-view tests', () => {
   });
 
   test('computeNavLink', () => {
-    const getUrlStub = sinon
-      .stub(GerritNav, 'getUrlForSearchQuery')
-      .returns('');
     element.query = 'status:open';
     element.offset = 0;
     element.changesPerPage = 5;
     let direction = 1;
 
-    element.computeNavLink(direction);
-    assert.equal(getUrlStub.lastCall.args[1], 5);
+    assert.equal(element.computeNavLink(direction), '/q/status:open,5');
 
     direction = -1;
-    element.computeNavLink(direction);
-    assert.equal(getUrlStub.lastCall.args[1], 0);
+    assert.equal(element.computeNavLink(direction), '/q/status:open');
 
     element.offset = 5;
     direction = 1;
-    element.computeNavLink(direction);
-    assert.equal(getUrlStub.lastCall.args[1], 10);
+    assert.equal(element.computeNavLink(direction), '/q/status:open,10');
   });
 
   test('prevArrow', async () => {

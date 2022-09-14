@@ -5,20 +5,17 @@
  */
 import {
   BasePatchSetNum,
-  BranchName,
   ChangeInfo,
   NumericChangeId,
   PARENT,
   RepoName,
   RevisionPatchSetNum,
-  TopicName,
   UrlEncodedCommentId,
 } from '../types/common';
 import {PatchRangeParams} from '../elements/core/gr-router/gr-router';
 import {encodeURL, getBaseUrl} from './url-util';
 import {assertNever} from './common-util';
 import {GerritView} from '../services/router/router-model';
-import {addQuotesWhen} from './string-util';
 import {AttemptChoice} from '../models/checks/checks-util';
 import {GroupDetailView, GroupViewState} from '../models/views/group';
 import {DashboardViewState} from '../models/views/dashboard';
@@ -32,19 +29,6 @@ export interface DashboardSection {
   selfOnly?: boolean;
   hideIfEmpty?: boolean;
   results?: ChangeInfo[];
-}
-
-export interface GenerateUrlSearchViewParameters {
-  view: GerritView.SEARCH;
-  query?: string;
-  offset?: number;
-  project?: RepoName;
-  branch?: BranchName;
-  topic?: TopicName;
-  // TODO(TS): Define more precise type (enum?)
-  statuses?: string[];
-  hashtag?: string;
-  owner?: string;
 }
 
 export interface GenerateUrlChangeViewParameters {
@@ -91,7 +75,6 @@ export interface GenerateUrlDiffViewParameters {
 }
 
 export type GenerateUrlParameters =
-  | GenerateUrlSearchViewParameters
   | GenerateUrlChangeViewParameters
   | RepoViewState
   | DashboardViewState
@@ -130,9 +113,7 @@ export function generateUrl(params: GenerateUrlParameters) {
   const base = getBaseUrl();
   let url = '';
 
-  if (params.view === GerritView.SEARCH) {
-    url = generateSearchUrl(params);
-  } else if (params.view === GerritView.CHANGE) {
+  if (params.view === GerritView.CHANGE) {
     url = generateChangeUrl(params);
   } else if (params.view === GerritView.DASHBOARD) {
     url = generateDashboardUrl(params);
@@ -240,61 +221,6 @@ function generateDashboardUrl(params: DashboardViewState) {
     // User dashboard.
     return `/dashboard/${params.user || 'self'}`;
   }
-}
-
-function generateSearchUrl(params: GenerateUrlSearchViewParameters) {
-  let offsetExpr = '';
-  if (params.offset && params.offset > 0) {
-    offsetExpr = `,${params.offset}`;
-  }
-
-  if (params.query) {
-    return '/q/' + encodeURL(params.query, true) + offsetExpr;
-  }
-
-  const operators: string[] = [];
-  if (params.owner) {
-    operators.push('owner:' + encodeURL(params.owner, false));
-  }
-  if (params.project) {
-    operators.push('project:' + encodeURL(params.project, false));
-  }
-  if (params.branch) {
-    operators.push('branch:' + encodeURL(params.branch, false));
-  }
-  if (params.topic) {
-    operators.push(
-      'topic:' +
-        addQuotesWhen(
-          encodeURL(params.topic, false),
-          /[\s:]/.test(params.topic)
-        )
-    );
-  }
-  if (params.hashtag) {
-    operators.push(
-      'hashtag:' +
-        addQuotesWhen(
-          encodeURL(params.hashtag.toLowerCase(), false),
-          /[\s:]/.test(params.hashtag)
-        )
-    );
-  }
-  if (params.statuses) {
-    if (params.statuses.length === 1) {
-      operators.push('status:' + encodeURL(params.statuses[0], false));
-    } else if (params.statuses.length > 1) {
-      operators.push(
-        '(' +
-          params.statuses
-            .map(s => `status:${encodeURL(s, false)}`)
-            .join(' OR ') +
-          ')'
-      );
-    }
-  }
-
-  return '/q/' + operators.join('+') + offsetExpr;
 }
 
 function generateDiffOrEditUrl(

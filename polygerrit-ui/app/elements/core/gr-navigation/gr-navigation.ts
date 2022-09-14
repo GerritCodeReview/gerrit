@@ -5,7 +5,6 @@
  */
 import {
   BasePatchSetNum,
-  BranchName,
   ChangeConfigInfo,
   ChangeInfo,
   CommentLinks,
@@ -13,14 +12,12 @@ import {
   DashboardId,
   EDIT,
   GroupId,
-  Hashtag,
   NumericChangeId,
   PARENT,
   PatchSetNum,
   RepoName,
   RevisionPatchSetNum,
   ServerInfo,
-  TopicName,
   UrlEncodedCommentId,
 } from '../../../types/common';
 import {GerritView} from '../../../services/router/router-model';
@@ -31,6 +28,7 @@ import {
 } from '../../../utils/router-util';
 import {RepoDetailView} from '../../../models/views/repo';
 import {GroupDetailView} from '../../../models/views/group';
+import {createSearchUrl} from '../../../models/views/search';
 
 // Navigation parameters object format:
 //
@@ -296,75 +294,18 @@ export const GerritNav = {
     return this._generateUrl(params);
   },
 
-  getUrlForSearchQuery(query: string, offset?: number) {
-    return this._getUrlFor({
-      view: GerritView.SEARCH,
-      query,
-      offset,
-    });
-  },
-
-  /**
-   * @param openOnly When true, only search open changes in the project.
-   */
-  getUrlForProjectChanges(project: RepoName, openOnly?: boolean) {
-    return this._getUrlFor({
-      view: GerritView.SEARCH,
-      project,
-      statuses: openOnly ? ['open'] : [],
-    });
-  },
-
-  /**
-   * @param status The status to search.
-   */
-  getUrlForBranch(branch: BranchName, project: RepoName, status?: string) {
-    return this._getUrlFor({
-      view: GerritView.SEARCH,
-      branch,
-      project,
-      statuses: status ? [status] : undefined,
-    });
-  },
-
-  /**
-   * @param topic The name of the topic.
-   */
-  getUrlForTopic(topic: TopicName) {
-    return this._getUrlFor({
-      view: GerritView.SEARCH,
-      topic,
-    });
-  },
-
-  /**
-   * @param hashtag The name of the hashtag.
-   */
-  getUrlForHashtag(hashtag: Hashtag) {
-    return this._getUrlFor({
-      view: GerritView.SEARCH,
-      hashtag,
-      statuses: ['open', 'merged'],
-    });
-  },
-
   /**
    * Navigate to a search for changes with the given status.
    */
   navigateToStatusSearch(status: string) {
-    this._navigate(
-      this._getUrlFor({
-        view: GerritView.SEARCH,
-        statuses: [status],
-      })
-    );
+    this._navigate(createSearchUrl({statuses: [status]}));
   },
 
   /**
    * Navigate to a search query
    */
   navigateToSearchQuery(query: string, offset?: number) {
-    this._navigate(this.getUrlForSearchQuery(query, offset));
+    this._navigate(createSearchUrl({query, offset}));
   },
 
   /**
@@ -582,16 +523,6 @@ export const GerritNav = {
     this._navigate(
       this.getUrlForDiff(change, filePath, patchNum, basePatchNum, lineNum)
     );
-  },
-
-  /**
-   * @param owner The name of the owner.
-   */
-  getUrlForOwner(owner: string) {
-    return this._getUrlFor({
-      view: GerritView.SEARCH,
-      owner,
-    });
   },
 
   /**

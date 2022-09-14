@@ -88,7 +88,9 @@ suite('gr-hovercard-account tests', () => {
           </div>
           <div class="links">
             <gr-icon icon="link" class="linkIcon"></gr-icon>
-            <a href="">Changes</a>·<a href="">Dashboard</a>
+            <a href="/q/owner:kermit%2540gmail.com">Changes</a>·<a href=""
+              >Dashboard</a
+            >
           </div>
         </div>
       `
@@ -123,7 +125,7 @@ suite('gr-hovercard-account tests', () => {
           </div>
           <div class="links">
             <gr-icon class="linkIcon" icon="link"> </gr-icon>
-            <a href=""> Changes </a>
+            <a href="/q/owner:kermit%2540gmail.com"> Changes </a>
             ·
             <a href=""> Dashboard </a>
           </div>

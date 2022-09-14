@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ae5b5a0_74b8a40c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-markdown/gr-markdown.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-14T13:02:03Z",
+      "side": 1,
+      "message": "this was in gr-formatted-text but accidentally not applied here",
+      "range": {
+        "startLine": 53,
+        "startChar": 5,
+        "endLine": 58,
+        "endChar": 7
+      },
+      "revId": "e46be31a7997c19f417f2964e02ae69cc95adc88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

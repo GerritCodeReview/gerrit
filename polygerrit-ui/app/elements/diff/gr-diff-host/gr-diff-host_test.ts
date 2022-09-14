@@ -154,6 +154,19 @@ suite('gr-diff-host tests', () => {
     });
   });
 
+  test('render', () => {
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <gr-diff
+          id="diff"
+          style="--line-limit-marker:-1px; --content-width:100ch; --diff-max-width:none; --font-size:12px;"
+        >
+        </gr-diff>
+      `
+    );
+  });
+
   test('reload() cancels before network resolves', async () => {
     assertIsDefined(element.diffElement);
     const cancelStub = sinon.stub(element.diffElement, 'cancel');

@@ -32,6 +32,50 @@ suite('gr-diff-preferences-dialog', () => {
     `);
   });
 
+  test('render', () => {
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <gr-overlay
+          aria-hidden="true"
+          id="diffPrefsOverlay"
+          style="outline: none; display: none;"
+          tabindex="-1"
+          with-backdrop=""
+        >
+          <div aria-labelledby="diffPreferencesTitle" role="dialog">
+            <h3 class="diffHeader heading-3" id="diffPreferencesTitle">
+              Diff Preferences
+            </h3>
+            <gr-diff-preferences id="diffPreferences"> </gr-diff-preferences>
+            <div class="diffActions">
+              <gr-button
+                aria-disabled="false"
+                id="cancelButton"
+                link=""
+                role="button"
+                tabindex="0"
+              >
+                Cancel
+              </gr-button>
+              <gr-button
+                aria-disabled="true"
+                disabled=""
+                id="saveButton"
+                link=""
+                primary=""
+                role="button"
+                tabindex="-1"
+              >
+                Save
+              </gr-button>
+            </div>
+          </div>
+        </gr-overlay>
+      `
+    );
+  });
+
   test('changes applies only on save', async () => {
     element.open();
     await element.updateComplete;

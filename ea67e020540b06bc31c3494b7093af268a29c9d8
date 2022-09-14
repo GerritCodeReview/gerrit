@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29763f43_7322eca1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1287,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-14T07:38:19Z",
+      "side": 1,
+      "message": "Ben improved visuals by creating button with star and change number inside. 345137: Update the visuals of stars and copy-links dropdown | https://gerrit-review.googlesource.com/c/gerrit/+/345137",
+      "parentUuid": "717b5316_1a742a74",
+      "revId": "ea67e020540b06bc31c3494b7093af268a29c9d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d064b6b_1834f1d8",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-09-14T07:20:05Z",
       "side": 1,
       "message": "Why can\u0027t all this be common logic rather than in the else case?",
+      "revId": "ea67e020540b06bc31c3494b7093af268a29c9d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cec18e80_37cbee46",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1303,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-14T07:38:19Z",
+      "side": 1,
+      "message": "This is temporary until we release fully. It was easier to have separate part for experiment and without experiment. Once experiment is cleaned up, we just remove this part.",
+      "parentUuid": "2d064b6b_1834f1d8",
       "revId": "ea67e020540b06bc31c3494b7093af268a29c9d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

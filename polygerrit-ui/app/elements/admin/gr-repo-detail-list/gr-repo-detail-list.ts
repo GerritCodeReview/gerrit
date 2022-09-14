@@ -36,8 +36,7 @@ import {customElement, query, property, state} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
 import {assertIsDefined} from '../../../utils/common-util';
 import {ifDefined} from 'lit/directives/if-defined.js';
-import {RepoDetailView} from '../../../utils/router-util';
-import {RepoViewState} from '../../../models/views/repo';
+import {RepoDetailView, RepoViewState} from '../../../models/views/repo';
 
 const PGP_START = '-----BEGIN PGP SIGNATURE-----';
 
@@ -407,7 +406,7 @@ export class GrRepoDetailList extends LitElement {
     repo: RepoName | undefined,
     itemsPerPage: number,
     offset: number | undefined,
-    detailType: string
+    detailType?: string
   ) {
     if (filter === undefined || !repo || offset === undefined) {
       return Promise.reject(new Error('filter or repo or offset undefined'));
@@ -514,7 +513,7 @@ export class GrRepoDetailList extends LitElement {
           this.repo,
           this.itemsPerPage,
           this.offset,
-          this.detailType!
+          this.detailType
         );
       }
     });
@@ -547,7 +546,7 @@ export class GrRepoDetailList extends LitElement {
               this.repo,
               this.itemsPerPage,
               this.offset,
-              this.detailType!
+              this.detailType
             );
           }
         });
@@ -561,7 +560,7 @@ export class GrRepoDetailList extends LitElement {
               this.repo,
               this.itemsPerPage,
               this.offset,
-              this.detailType!
+              this.detailType
             );
           }
         });

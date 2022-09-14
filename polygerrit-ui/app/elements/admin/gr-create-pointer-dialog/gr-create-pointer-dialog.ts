@@ -16,7 +16,7 @@ import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
 import {fireEvent} from '../../../utils/event-util';
-import {RepoDetailView} from '../../../utils/router-util';
+import {RepoDetailView} from '../../../models/views/repo';
 
 declare global {
   interface HTMLElementTagNameMap {

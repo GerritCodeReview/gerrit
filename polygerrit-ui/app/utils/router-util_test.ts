@@ -15,18 +15,17 @@ import {
   GroupId,
 } from '../api/rest-api';
 import {PatchRangeParams} from '../elements/core/gr-router/gr-router';
+import {DashboardViewState} from '../models/views/dashboard';
+import {GroupDetailView, GroupViewState} from '../models/views/group';
 import {GerritView} from '../services/router/router-model';
 import '../test/common-test-setup';
 import {DashboardId} from '../types/common';
 import {
   generateUrl,
   GenerateUrlChangeViewParameters,
-  GenerateUrlDashboardViewParameters,
   GenerateUrlDiffViewParameters,
   GenerateUrlEditViewParameters,
-  GenerateUrlGroupViewParameters,
   GenerateUrlSearchViewParameters,
-  GroupDetailView,
   TEST_ONLY,
 } from './router-util';
 
@@ -193,14 +192,14 @@ suite('router-util tests', () => {
 
     suite('dashboard', () => {
       test('self dashboard', () => {
-        const params: GenerateUrlDashboardViewParameters = {
+        const params: DashboardViewState = {
           view: GerritView.DASHBOARD,
         };
         assert.equal(generateUrl(params), '/dashboard/self');
       });
 
       test('user dashboard', () => {
-        const params: GenerateUrlDashboardViewParameters = {
+        const params: DashboardViewState = {
           view: GerritView.DASHBOARD,
           user: 'user',
         };
@@ -208,7 +207,7 @@ suite('router-util tests', () => {
       });
 
       test('custom self dashboard, no title', () => {
-        const params: GenerateUrlDashboardViewParameters = {
+        const params: DashboardViewState = {
           view: GerritView.DASHBOARD,
           sections: [
             {name: 'section 1', query: 'query 1'},
@@ -222,13 +221,13 @@ suite('router-util tests', () => {
       });
 
       test('custom repo dashboard', () => {
-        const params: GenerateUrlDashboardViewParameters = {
+        const params: DashboardViewState = {
           view: GerritView.DASHBOARD,
           sections: [
             {name: 'section 1', query: 'query 1 ${project}'},
             {name: 'section 2', query: 'query 2 ${repo}'},
           ],
-          repo: 'repo-name' as RepoName,
+          project: 'repo-name' as RepoName,
         };
         assert.equal(
           generateUrl(params),
@@ -238,7 +237,7 @@ suite('router-util tests', () => {
       });
 
       test('custom user dashboard, with title', () => {
-        const params: GenerateUrlDashboardViewParameters = {
+        const params: DashboardViewState = {
           view: GerritView.DASHBOARD,
           user: 'user',
           sections: [{name: 'name', query: 'query'}],
@@ -251,9 +250,9 @@ suite('router-util tests', () => {
       });
 
       test('repo dashboard', () => {
-        const params: GenerateUrlDashboardViewParameters = {
+        const params: DashboardViewState = {
           view: GerritView.DASHBOARD,
-          repo: 'gerrit/repo' as RepoName,
+          project: 'gerrit/repo' as RepoName,
           dashboard: 'default:main' as DashboardId,
         };
         assert.equal(
@@ -263,7 +262,7 @@ suite('router-util tests', () => {
       });
 
       test('project dashboard (legacy)', () => {
-        const params: GenerateUrlDashboardViewParameters = {
+        const params: DashboardViewState = {
           view: GerritView.DASHBOARD,
           project: 'gerrit/project' as RepoName,
           dashboard: 'default:main' as DashboardId,
@@ -277,7 +276,7 @@ suite('router-util tests', () => {
 
     suite('groups', () => {
       test('group info', () => {
-        const params: GenerateUrlGroupViewParameters = {
+        const params: GroupViewState = {
           view: GerritView.GROUP,
           groupId: '1234' as GroupId,
         };
@@ -285,7 +284,7 @@ suite('router-util tests', () => {
       });
 
       test('group members', () => {
-        const params: GenerateUrlGroupViewParameters = {
+        const params: GroupViewState = {
           view: GerritView.GROUP,
           groupId: '1234' as GroupId,
           detail: 'members' as GroupDetailView,
@@ -294,7 +293,7 @@ suite('router-util tests', () => {
       });
 
       test('group audit log', () => {
-        const params: GenerateUrlGroupViewParameters = {
+        const params: GroupViewState = {
           view: GerritView.GROUP,
           groupId: '1234' as GroupId,
           detail: 'log' as GroupDetailView,

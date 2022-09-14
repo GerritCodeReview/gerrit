@@ -13,8 +13,9 @@ import {
 import {hasOwnProperty} from './common-util';
 import {GerritView} from '../services/router/router-model';
 import {MenuLink} from '../api/admin';
-import {GroupDetailView, RepoDetailView} from './router-util';
 import {AdminChildView} from '../models/views/admin';
+import {GroupDetailView} from '../models/views/group';
+import {RepoDetailView} from '../models/views/repo';
 
 const ADMIN_LINKS: NavLink[] = [
   {

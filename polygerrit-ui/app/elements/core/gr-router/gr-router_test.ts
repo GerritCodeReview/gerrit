@@ -38,13 +38,13 @@ import {
 import {AppElementParams} from '../../gr-app-types';
 import {
   GenerateUrlParameters,
-  GroupDetailView,
   GenerateUrlEditViewParameters,
   GenerateUrlChangeViewParameters,
-  RepoDetailView,
 } from '../../../utils/router-util';
 import {assert} from '@open-wc/testing';
 import {AdminChildView} from '../../../models/views/admin';
+import {RepoDetailView} from '../../../models/views/repo';
+import {GroupDetailView} from '../../../models/views/group';
 
 suite('gr-router tests', () => {
   let router: GrRouter;

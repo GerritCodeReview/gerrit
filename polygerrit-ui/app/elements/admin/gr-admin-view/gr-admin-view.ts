@@ -42,10 +42,9 @@ import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {ValueChangedEvent} from '../../../types/events';
-import {GroupDetailView, RepoDetailView} from '../../../utils/router-util';
 import {AdminChildView, AdminViewState} from '../../../models/views/admin';
-import {GroupViewState} from '../../../models/views/group';
-import {RepoViewState} from '../../../models/views/repo';
+import {GroupDetailView, GroupViewState} from '../../../models/views/group';
+import {RepoDetailView, RepoViewState} from '../../../models/views/repo';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
 

@@ -206,7 +206,6 @@ export class GrEditableLabel extends LitElement {
         id="autocomplete"
         .text=${this.inputText}
         .query=${this.query}
-        @commit=${this.handleCommit}
         @cancel=${this.cancel}
         @text-changed=${(e: CustomEvent) => {
           this.inputText = e.detail.value;
@@ -363,10 +362,6 @@ export class GrEditableLabel extends LitElement {
     if (isEventFromInput) {
       this.cancel();
     }
-  }
-
-  private handleCommit() {
-    this.nativeInput?.focus();
   }
 
   private computeLabelClass() {

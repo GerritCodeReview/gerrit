@@ -677,7 +677,7 @@ suite('gr-autocomplete tests', () => {
       assert.isTrue(element.focused);
     });
 
-    test('tap on suggestion commits, does not call focus', async () => {
+    test('tap on suggestion commits, calls focus', async () => {
       focusSpy = sinon.spy(element, 'focus');
       element.setFocus(true);
       element.suggestions = [{name: 'first suggestion'}];
@@ -688,7 +688,7 @@ suite('gr-autocomplete tests', () => {
       queryAndAssert<HTMLLIElement>(suggestionsEl(), 'li:first-child').click();
 
       await waitUntil(() => suggestionsEl().isHidden);
-      assert.isFalse(focusSpy.called);
+      assert.isTrue(focusSpy.called);
       assert.isTrue(commitSpy.called);
     });
 

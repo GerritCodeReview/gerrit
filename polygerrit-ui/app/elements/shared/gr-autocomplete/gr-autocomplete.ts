@@ -368,6 +368,7 @@ export class GrAutocomplete extends LitElement {
       this._commit();
       e.stopPropagation();
       e.preventDefault();
+      this.focusWithoutDisplayingSuggestions();
     } else if (e.detail.trigger === 'enter') {
       this.handleItemSelectEnter(e);
     } else if (e.detail.trigger === 'tab') {

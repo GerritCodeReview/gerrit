@@ -16,6 +16,24 @@
       "message": "Why is it project here and repo everywhere else?",
       "revId": "ade94cbcb91370f2c8d60fecdc6028d327c9d4d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98ce9fc5_d696ec11",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 620,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-14T21:04:59Z",
+      "side": 1,
+      "message": "What this change is trying to do is merging these two types:\n```\nGenerateUrlDashboardViewParameters\n  repo?: RepoName;\n```\n```\nDashboardViewState\n  project?: RepoName;\n```\n\nSo we have to decide for one. :-)\n\nHistorically Gerrit has at some point seen a huge rename effort: `Project` was renamed to `Repo` everywhere that was user facing. But there are some left-overs. We should really try to get rid of `project` as much as possible, but I did not want to pollute my refactorings with these kinds of separate clean-ups. Also note that in some places `project` will just stick, for example the file name `project.config` is unlikely to change ever, although it should be `repo.config` in an ideal world.\n\nFrom a logical perspective `repo` and `project` are just synonyms.",
+      "parentUuid": "5756656b_58bbf6cc",
+      "revId": "ade94cbcb91370f2c8d60fecdc6028d327c9d4d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

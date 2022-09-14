@@ -52,6 +52,24 @@
       "parentUuid": "9048bd7f_80698a4f",
       "revId": "2472532a8d78ead3fd5c8be5875c69d022109049",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3263c3f_001ee3c9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-14T08:57:26Z",
+      "side": 1,
+      "message": "We can ignore certain attributes like style FWIW, but sometimes it is important like when it can contain \"display: none\" for example. I will leave it for now but if it is annoying we can ignore that attr",
+      "parentUuid": "9cde2bb1_0411fb68",
+      "revId": "2472532a8d78ead3fd5c8be5875c69d022109049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

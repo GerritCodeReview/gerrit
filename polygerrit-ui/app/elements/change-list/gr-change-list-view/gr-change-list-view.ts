@@ -25,6 +25,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, state, query} from 'lit/decorators.js';
 import {ValueChangedEvent} from '../../../types/events';
+import {createSearchUrl} from '../../../models/views/search';
 
 const LOOKUP_QUERY_PATTERNS: RegExp[] = [
   /^\s*i?[0-9a-f]{7,40}\s*$/i, // CHANGE_ID
@@ -329,7 +330,7 @@ export class GrChangeListView extends LitElement {
     const offset = this.offset ?? 0;
     const limit = this.limitFor(this.query, this.changesPerPage);
     const newOffset = Math.max(0, offset + limit * direction);
-    return GerritNav.getUrlForSearchQuery(this.query, newOffset);
+    return createSearchUrl({query: this.query, offset: newOffset});
   }
 
   // private but used in test

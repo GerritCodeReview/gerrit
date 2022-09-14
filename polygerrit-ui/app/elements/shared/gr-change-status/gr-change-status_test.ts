@@ -4,10 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup';
-import {createChange} from '../../../test/test-data-generators';
+import {
+  createChange,
+  TEST_NUMERIC_CHANGE_ID,
+} from '../../../test/test-data-generators';
 import './gr-change-status';
 import {ChangeStates, GrChangeStatus, WIP_TOOLTIP} from './gr-change-status';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {MERGE_CONFLICT_TOOLTIP} from './gr-change-status';
 import {fixture, html, assert} from '@open-wc/testing';
 import {queryAndAssert} from '../../../test/test-utils';
@@ -125,16 +127,14 @@ suite('gr-change-status tests', () => {
   });
 
   test('reverted change', () => {
-    const url = 'http://google.com';
     const status = ChangeStates.REVERT_SUBMITTED;
     const revertedChange = createChange();
-    sinon.stub(GerritNav, 'getUrlForSearchQuery').returns(url);
 
     element.revertedChange = revertedChange;
     element.resolveWeblinks = [];
     element.status = status;
     assert.isTrue(element.hasStatusLink());
-    assert.equal(element.getStatusLink(), url);
+    assert.equal(element.getStatusLink(), `/q/${TEST_NUMERIC_CHANGE_ID}`);
   });
 
   test('private', async () => {

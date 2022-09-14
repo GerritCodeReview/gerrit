@@ -36,4 +36,11 @@ public class FakeQueryChangesPreviousIndexVersionTest extends FakeQueryChangesTe
                 IndexConfig.createForFake())
             .values());
   }
+
+  @ConfigSuite.Config
+  public static Config searchAfterPaginationType() {
+    Config config = againstPreviousIndexVersion();
+    config.setString("index", null, "paginationType", "SEARCH_AFTER");
+    return config;
+  }
 }

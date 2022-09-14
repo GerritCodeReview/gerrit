@@ -257,7 +257,7 @@ public class ChangeIndexRewriterTest {
 
   @SafeVarargs
   private static AndChangeSource andSource(Predicate<ChangeData>... preds) {
-    return new AndChangeSource(Arrays.asList(preds));
+    return new AndChangeSource(Arrays.asList(preds), IndexConfig.createDefault());
   }
 
   private Predicate<ChangeData> rewrite(Predicate<ChangeData> in) throws QueryParseException {

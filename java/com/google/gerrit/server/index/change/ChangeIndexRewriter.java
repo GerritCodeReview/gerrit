@@ -285,7 +285,7 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
 
   private Predicate<ChangeData> copy(Predicate<ChangeData> in, List<Predicate<ChangeData>> all) {
     if (in instanceof AndPredicate) {
-      return new AndChangeSource(all);
+      return new AndChangeSource(all, config);
     } else if (in instanceof OrPredicate) {
       return new OrSource(all);
     }

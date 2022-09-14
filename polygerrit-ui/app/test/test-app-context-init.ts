@@ -85,7 +85,7 @@ export function createTestDependencies(
   appContext: AppContext,
   resolver: <T>(token: DependencyToken<T>) => T
 ): Map<DependencyToken<unknown>, Creator<unknown>> {
-  const dependencies = new Map();
+  const dependencies = new Map<DependencyToken<unknown>, Creator<unknown>>();
   const browserModel = () => new BrowserModel(appContext.userModel);
   dependencies.set(browserModelToken, browserModel);
 

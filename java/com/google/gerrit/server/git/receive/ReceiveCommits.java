@@ -3208,6 +3208,7 @@ class ReceiveCommits {
       }
     }
 
+    @Nullable
     String getRejectMessage() {
       return replaceOp != null ? replaceOp.getRejectMessage() : null;
     }

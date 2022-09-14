@@ -46,6 +46,29 @@
       },
       "revId": "944063a9b7bd9e9df23b8b11b54f528527a666d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e88dbae_0ae278e7",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-14T13:22:51Z",
+      "side": 1,
+      "message": "FYI: You can also do `[...nodeList]`.",
+      "range": {
+        "startLine": 750,
+        "startChar": 30,
+        "endLine": 750,
+        "endChar": 41
+      },
+      "revId": "944063a9b7bd9e9df23b8b11b54f528527a666d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

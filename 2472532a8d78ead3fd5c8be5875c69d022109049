@@ -34,6 +34,24 @@
       "parentUuid": "2b24af83_31236108",
       "revId": "2472532a8d78ead3fd5c8be5875c69d022109049",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9cde2bb1_0411fb68",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-14T08:54:24Z",
+      "side": 1,
+      "message": "Fair enough, I don\u0027t think the location matters. It\u0027s just that the style aspect felt like a change-detector.",
+      "parentUuid": "9048bd7f_80698a4f",
+      "revId": "2472532a8d78ead3fd5c8be5875c69d022109049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -659,14 +659,18 @@ export class GrReplyDialog extends LitElement {
     this.jsAPI.addElement(TargetElement.REPLY_DIALOG, this);
 
     this.shortcuts.addLocal({key: Key.ESC}, () => this.cancel());
-    this.shortcuts.addLocal(
-      {key: Key.ENTER, modifiers: [Modifier.CTRL_KEY]},
-      () => this.submit()
-    );
-    this.shortcuts.addLocal(
-      {key: Key.ENTER, modifiers: [Modifier.META_KEY]},
-      () => this.submit()
-    );
+
+    for (const key of ['s', Key.ENTER]) {
+      for (const modifier of [Modifier.CTRL_KEY, Modifier.META_KEY]) {
+        this.shortcuts.addLocal(
+          {key, modifiers: [modifier]},
+          (e) => {
+            this.submit(e);
+          },
+          {preventDefault: false}
+        );
+      }
+    }
 
     subscribe(
       this,
@@ -2046,12 +2050,13 @@ export class GrReplyDialog extends LitElement {
     this.submit();
   }
 
-  submit() {
+  submit(e?: KeyboardEvent) {
     if (!this.ccsList?.submitEntryText()) {
       // Do not proceed with the send if there is an invalid email entry in
       // the text field of the CC entry.
       return;
     }
+    e?.preventDefault();
     if (this.sendDisabled) {
       fireAlert(this, EMPTY_REPLY_MESSAGE);
       return;

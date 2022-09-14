@@ -39,6 +39,7 @@ import {
   Provider,
 } from '../models/dependency';
 import * as sinon from 'sinon';
+import '../styles/themes/app-theme.ts';
 
 declare global {
   interface Window {
@@ -53,8 +54,7 @@ installPolymerResin(safeTypesBridge, (isViolation, fmt, ...args) => {
   const log = _testOnly_defaultResinReportHandler;
   log(isViolation, fmt, ...args);
   if (isViolation) {
-    // This will cause the test to fail if there is a data binding
-    // violation.
+    // This will cause the test to fail if there is a data binding violation.
     throw new Error('polymer-resin violation: ' + fmt + JSON.stringify(args));
   }
 });
@@ -133,7 +133,7 @@ setup(() => {
 // Very simple function to catch unexpected elements in documents body.
 // It can't catch everything, but in most cases it is enough.
 function checkChildAllowed(element: Element) {
-  const allowedTags = ['SCRIPT', 'IRON-A11Y-ANNOUNCER'];
+  const allowedTags = ['SCRIPT', 'IRON-A11Y-ANNOUNCER', 'LINK'];
   if (allowedTags.includes(element.tagName)) {
     return;
   }

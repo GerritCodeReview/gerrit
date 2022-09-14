@@ -58,3 +58,6 @@ sh_binary(
         "@ui_dev_npm//mocha",
     ],
 )
+
+# This is used by plugins.
+exports_files(["karma.conf.js"])

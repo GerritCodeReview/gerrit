@@ -79,6 +79,7 @@ import {fontStyles} from '../../../styles/gr-font-styles';
 import {changeMetadataStyles} from '../../../styles/gr-change-metadata-shared-styles';
 import {when} from 'lit/directives/when.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
+import {createSearchUrl} from '../../../models/views/search';
 
 const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
 
@@ -572,7 +573,7 @@ export class GrChangeMetadata extends LitElement {
           () => html` <gr-linked-chip
             .text=${this.change?.topic}
             limit="40"
-            href=${GerritNav.getUrlForTopic(this.change!.topic!)}
+            href=${createSearchUrl({topic: this.change!.topic!})}
             ?removable=${!this.topicReadOnly}
             @remove=${this.handleTopicRemoved}
           ></gr-linked-chip>`
@@ -908,18 +909,19 @@ export class GrChangeMetadata extends LitElement {
 
   private computeProjectUrl(project?: RepoName) {
     if (!project) return '';
-    return GerritNav.getUrlForProjectChanges(project);
+    return createSearchUrl({project});
   }
 
   private computeBranchUrl(project?: RepoName, branch?: BranchName) {
     if (!project || !branch || !this.change || !this.change.status) return '';
-    return GerritNav.getUrlForBranch(
+    return createSearchUrl({
       branch,
       project,
-      this.change.status === ChangeStatus.NEW
-        ? 'open'
-        : this.change.status.toLowerCase()
-    );
+      statuses:
+        this.change.status === ChangeStatus.NEW
+          ? ['open']
+          : [this.change.status.toLowerCase()],
+    });
   }
 
   private computeCherryPickOfUrl(
@@ -934,7 +936,7 @@ export class GrChangeMetadata extends LitElement {
   }
 
   private computeHashtagUrl(hashtag: Hashtag) {
-    return GerritNav.getUrlForHashtag(hashtag);
+    return createSearchUrl({hashtag, statuses: ['open', 'merged']});
   }
 
   private async handleTopicRemoved(e: CustomEvent) {

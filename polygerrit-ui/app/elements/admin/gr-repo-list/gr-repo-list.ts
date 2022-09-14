@@ -7,7 +7,6 @@ import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-list-view/gr-list-view';
 import '../../shared/gr-overlay/gr-overlay';
 import '../gr-create-repo-dialog/gr-create-repo-dialog';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {
   RepoName,
@@ -24,6 +23,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {AdminViewState} from '../../../models/views/admin';
+import {createSearchUrl} from '../../../models/views/search';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -215,7 +215,7 @@ export class GrRepoList extends LitElement {
   }
 
   private computeChangesLink(name: string) {
-    return GerritNav.getUrlForProjectChanges(name as RepoName);
+    return createSearchUrl({project: name as RepoName});
   }
 
   private async getCreateRepoCapability() {

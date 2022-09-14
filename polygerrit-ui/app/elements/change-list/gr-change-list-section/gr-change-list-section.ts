@@ -7,11 +7,7 @@ import {LitElement, html, css, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {ChangeListSection} from '../gr-change-list/gr-change-list';
 import '../gr-change-list-action-bar/gr-change-list-action-bar';
-import {
-  CLOSED,
-  YOUR_TURN,
-  GerritNav,
-} from '../../core/gr-navigation/gr-navigation';
+import {CLOSED, YOUR_TURN} from '../../core/gr-navigation/gr-navigation';
 import {getAppContext} from '../../../services/app-context';
 import {ChangeInfo, ServerInfo, AccountInfo} from '../../../api/rest-api';
 import {changeListStyles} from '../../../styles/gr-change-list-styles';
@@ -26,6 +22,7 @@ import {
 } from '../../../models/bulk-actions/bulk-actions-model';
 import {subscribe} from '../../lit/subscription-controller';
 import {classMap} from 'lit/directives/class-map.js';
+import {createSearchUrl} from '../../../models/views/search';
 
 const NUMBER_FIXED_COLUMNS = 4;
 const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';
@@ -381,8 +378,8 @@ export class GrChangeListSection extends LitElement {
   }
 
   private sectionHref(query?: string) {
-    if (!query) return;
-    return GerritNav.getUrlForSearchQuery(this.processQuery(query));
+    if (!query) return '';
+    return createSearchUrl({query: this.processQuery(query)});
   }
 
   // private but used in test

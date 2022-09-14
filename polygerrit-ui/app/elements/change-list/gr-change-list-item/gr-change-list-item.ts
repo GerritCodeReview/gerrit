@@ -42,6 +42,7 @@ import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-m
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
 import {classMap} from 'lit/directives/class-map.js';
+import {createSearchUrl} from '../../../models/views/search';
 
 enum ChangeSize {
   XS = 10,
@@ -659,21 +660,20 @@ export class GrChangeListItem extends LitElement {
 
   private computeRepoUrl() {
     if (!this.change) return '';
-    return GerritNav.getUrlForProjectChanges(this.change.project, true);
+    return createSearchUrl({project: this.change.project, statuses: ['open']});
   }
 
   private computeRepoBranchURL() {
     if (!this.change) return '';
-    return GerritNav.getUrlForBranch(
-      this.change.branch,
-      this.change.project,
-      undefined
-    );
+    return createSearchUrl({
+      branch: this.change.branch,
+      project: this.change.project,
+    });
   }
 
   private computeTopicURL() {
     if (!this.change?.topic) return '';
-    return GerritNav.getUrlForTopic(this.change.topic);
+    return createSearchUrl({topic: this.change.topic});
   }
 
   private toggleCheckbox() {

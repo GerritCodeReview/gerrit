@@ -6,8 +6,6 @@
 import {assert} from '@open-wc/testing';
 import {
   RepoName,
-  BranchName,
-  TopicName,
   NumericChangeId,
   RevisionPatchSetNum,
   BasePatchSetNum,
@@ -25,68 +23,11 @@ import {
   GenerateUrlChangeViewParameters,
   GenerateUrlDiffViewParameters,
   GenerateUrlEditViewParameters,
-  GenerateUrlSearchViewParameters,
   TEST_ONLY,
 } from './router-util';
 
 suite('router-util tests', () => {
   suite('generateUrl', () => {
-    test('search', () => {
-      let params: GenerateUrlSearchViewParameters = {
-        view: GerritView.SEARCH,
-        owner: 'a%b',
-        project: 'c%d' as RepoName,
-        branch: 'e%f' as BranchName,
-        topic: 'g%h' as TopicName,
-        statuses: ['op%en'],
-      };
-      assert.equal(
-        generateUrl(params),
-        '/q/owner:a%2525b+project:c%2525d+branch:e%2525f+' +
-          'topic:g%2525h+status:op%2525en'
-      );
-
-      params.offset = 100;
-      assert.equal(
-        generateUrl(params),
-        '/q/owner:a%2525b+project:c%2525d+branch:e%2525f+' +
-          'topic:g%2525h+status:op%2525en,100'
-      );
-      delete params.offset;
-
-      // The presence of the query param overrides other params.
-      params.query = 'foo$bar';
-      assert.equal(generateUrl(params), '/q/foo%2524bar');
-
-      params.offset = 100;
-      assert.equal(generateUrl(params), '/q/foo%2524bar,100');
-
-      params = {
-        view: GerritView.SEARCH,
-        statuses: ['a', 'b', 'c'],
-      };
-      assert.equal(
-        generateUrl(params),
-        '/q/(status:a OR status:b OR status:c)'
-      );
-
-      params = {
-        view: GerritView.SEARCH,
-        topic: 'test' as TopicName,
-      };
-      assert.equal(generateUrl(params), '/q/topic:test');
-      params = {
-        view: GerritView.SEARCH,
-        topic: 'test test' as TopicName,
-      };
-      assert.equal(generateUrl(params), '/q/topic:"test+test"');
-      params = {
-        view: GerritView.SEARCH,
-        topic: 'test:test' as TopicName,
-      };
-      assert.equal(generateUrl(params), '/q/topic:"test:test"');
-    });
-
     test('change', () => {
       const params: GenerateUrlChangeViewParameters = {
         view: GerritView.CHANGE,

@@ -16,6 +16,24 @@
       "message": "Maybe rename params to state?\nCan be done in follow up change",
       "revId": "65c2f2b5426d12c1d24970c8d38283a5106d885f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f5fa674_479ddda2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-14T13:03:24Z",
+      "side": 1,
+      "message": "Oh yes, I was planning that already. One step at a time. 👍",
+      "parentUuid": "7d98c908_b459b268",
+      "revId": "65c2f2b5426d12c1d24970c8d38283a5106d885f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

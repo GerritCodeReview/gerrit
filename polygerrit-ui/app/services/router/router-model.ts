@@ -24,7 +24,6 @@ export enum GerritView {
   GROUP = 'group',
   PLUGIN_SCREEN = 'plugin-screen',
   REPO = 'repo',
-  ROOT = 'root',
   SEARCH = 'search',
   SETTINGS = 'settings',
 }

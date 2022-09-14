@@ -604,12 +604,6 @@ export const GerritNav = {
     });
   },
 
-  getUrlForRoot() {
-    return this._getUrlFor({
-      view: GerritView.ROOT,
-    });
-  },
-
   /**
    * @param repo The name of the repo.
    * @param dashboard The ID of the dashboard, in the form of '<ref>:<path>'.

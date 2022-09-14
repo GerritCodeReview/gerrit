@@ -75,10 +75,6 @@ export interface GenerateUrlEditViewParameters {
   lineNum?: number | string;
 }
 
-export interface GenerateUrlRootViewParameters {
-  view: GerritView.ROOT;
-}
-
 export interface GenerateUrlSettingsViewParameters {
   view: GerritView.SETTINGS;
 }
@@ -104,7 +100,6 @@ export type GenerateUrlParameters =
   | DashboardViewState
   | GroupViewState
   | GenerateUrlEditViewParameters
-  | GenerateUrlRootViewParameters
   | GenerateUrlSettingsViewParameters
   | GenerateUrlDiffViewParameters;
 
@@ -130,6 +125,10 @@ export const TEST_ONLY = {
   getPatchRangeExpression,
 };
 
+export function rootUrl() {
+  return `${getBaseUrl()}/`;
+}
+
 export function generateUrl(params: GenerateUrlParameters) {
   const base = getBaseUrl();
   let url = '';
@@ -149,8 +148,6 @@ export function generateUrl(params: GenerateUrlParameters) {
     url = generateGroupUrl(params);
   } else if (params.view === GerritView.REPO) {
     url = generateRepoUrl(params);
-  } else if (params.view === GerritView.ROOT) {
-    url = '/';
   } else if (params.view === GerritView.SETTINGS) {
     url = generateSettingsUrl();
   } else {

@@ -1286,7 +1286,6 @@ export class GrChangeView extends LitElement {
               >${this.change?._number}</a
             ></gr-button
           >
-          <span class="headerSubject">${this.change?.subject}</span>
         `,
         () => html`
           <gr-change-star
@@ -1303,15 +1302,15 @@ export class GrChangeView extends LitElement {
             >${this.change?._number}</a
           >
           <span class="changeNumberColon">:&nbsp;</span>
-          <span class="headerSubject">${this.change?.subject}</span>
-          <gr-copy-clipboard
-            class="changeCopyClipboard"
-            hideInput=""
-            text=${this.computeCopyTextForTitle()}
-          >
-          </gr-copy-clipboard>
         `
       )}
+      <span class="headerSubject">${this.change?.subject}</span>
+      <gr-copy-clipboard
+        class="changeCopyClipboard"
+        hideInput=""
+        text=${this.computeCopyTextForTitle()}
+      >
+      </gr-copy-clipboard>
     </div>`;
   }
 

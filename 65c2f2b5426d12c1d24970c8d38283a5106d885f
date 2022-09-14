@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d98c908_b459b268",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-14T07:24:50Z",
+      "side": 1,
+      "message": "Maybe rename params to state?\nCan be done in follow up change",
+      "revId": "65c2f2b5426d12c1d24970c8d38283a5106d885f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

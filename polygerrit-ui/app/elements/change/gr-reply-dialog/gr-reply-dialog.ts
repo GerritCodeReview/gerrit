@@ -135,6 +135,7 @@ import {
 } from '../../shared/gr-comment/gr-comment';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {Key, Modifier} from '../../../utils/dom-util';
+import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -742,7 +743,13 @@ export class GrReplyDialog extends LitElement {
         // set commentEditing = true and the send button would be permanently
         // disabled.
         if (e.detail.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS) return;
-        this.commentEditing = e.detail.editing;
+        const commentList = queryAndAssert<GrThreadList>(this, '#commentList');
+        // It can be one or more comments were in editing mode. Wwitching one
+        // thread in editing, we need to check if there are still other threads
+        // in editing.
+        this.commentEditing = Array.from(commentList.threadElements ?? []).some(
+          thread => thread.editing
+        );
       }
     );
 

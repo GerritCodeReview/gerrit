@@ -130,7 +130,7 @@ export function compareThreads(
 @customElement('gr-thread-list')
 export class GrThreadList extends LitElement {
   @queryAll('gr-comment-thread')
-  threadElements?: NodeList;
+  threadElements?: NodeListOf<GrCommentThread>;
 
   /**
    * Raw list of threads for the component to show.

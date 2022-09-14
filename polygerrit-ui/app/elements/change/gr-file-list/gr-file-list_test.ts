@@ -55,6 +55,7 @@ import {GrEditFileControls} from '../../edit/gr-edit-file-controls/gr-edit-file-
 import {GrIcon} from '../../shared/gr-icon/gr-icon';
 import {fixture, html, assert} from '@open-wc/testing';
 import {Modifier} from '../../../utils/dom-util';
+import {visualDiff} from '@web/test-runner-visual-regression';
 
 suite('gr-diff a11y test', () => {
   test('audit', async () => {
@@ -114,6 +115,15 @@ suite('gr-file-list tests', () => {
       // Wait for expandedFilesChanged to complete.
       await waitEventLoop();
     });
+
+    // test('screenshot', async () => {
+    //   element.files = [
+    //     ...createFiles(3, {lines_inserted: 9}),
+    //     ...createFiles(2, {lines_deleted: 14}),
+    //   ];
+    //   await element.updateComplete;
+    //   await visualDiff(document.body, 'gr-file-list');
+    // });
 
     test('renders', () => {
       assert.shadowDom.equal(

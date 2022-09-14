@@ -373,7 +373,13 @@ suite('gr-permission tests', () => {
               </gr-button>
             </div>
           </section>
-        `
+        `,
+        // touch-action varies on paper-toggle-button between local and CI
+        {
+          ignoreAttributes: [
+            {tags: ['paper-toggle-button'], attributes: ['style']},
+          ],
+        }
       );
     });
 

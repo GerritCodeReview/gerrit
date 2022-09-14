@@ -1526,6 +1526,13 @@
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.5.tgz#1001cc5e6a3704b83c236027e77f2f58ea010f40"
   integrity sha512-Klz949h02Gz2uZCMGwDUSDS1YBlTdDDgbWHi+81l29tQALUtvz4rAYi5uoVhE5Lagoq6DeqAUlbrHvW/mXDgdQ==
 
+"@types/mkdirp@^1.0.1":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@types/mkdirp/-/mkdirp-1.0.2.tgz#8d0bad7aa793abe551860be1f7ae7f3198c16666"
+  integrity sha512-o0K1tSO0Dx5X6xlU5F1D6625FawhC3dU3iqr25lluNv/+/QIVH8RLNEiVokgIZo+mz+87w/3Mkg/VvQS+J51fQ==
+  dependencies:
+    "@types/node" "*"
+
 "@types/mocha@^8.2.0":
   version "8.2.3"
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-8.2.3.tgz#bbeb55fbc73f28ea6de601fbfa4613f58d785323"
@@ -1550,6 +1557,20 @@
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@types/path-is-inside/-/path-is-inside-1.0.0.tgz#02d6ff38975d684bdec96204494baf9f29f0e17f"
   integrity sha512-hfnXRGugz+McgX2jxyy5qz9sB21LRzlGn24zlwN2KEgoPtEvjzNRrLtUkOOebPDPZl3Rq7ywKxYvylVcEZDnEw==
+
+"@types/pixelmatch@^5.2.2":
+  version "5.2.4"
+  resolved "https://registry.yarnpkg.com/@types/pixelmatch/-/pixelmatch-5.2.4.tgz#ca145cc5ede1388c71c68edf2d1f5190e5ddd0f6"
+  integrity sha512-HDaSHIAv9kwpMN7zlmwfTv6gax0PiporJOipcrGsVNF3Ba+kryOZc0Pio5pn6NhisgWr7TaajlPEKTbTAypIBQ==
+  dependencies:
+    "@types/node" "*"
+
+"@types/pngjs@^6.0.0":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@types/pngjs/-/pngjs-6.0.1.tgz#c711ec3fbbf077fed274ecccaf85dd4673130072"
+  integrity sha512-J39njbdW1U/6YyVXvC9+1iflZghP8jgRf2ndYghdJb5xL49LYDB+1EuAxfbuJ2IBbWIL3AjHPQhgaTxT3YaYeg==
+  dependencies:
+    "@types/node" "*"
 
 "@types/qs@*":
   version "6.9.7"
@@ -1780,6 +1801,14 @@
     "@web/test-runner-core" "^0.10.27"
     mkdirp "^1.0.4"
 
+"@web/test-runner-commands@^0.6.4":
+  version "0.6.5"
+  resolved "https://registry.yarnpkg.com/@web/test-runner-commands/-/test-runner-commands-0.6.5.tgz#69a2a06b52fd9d329f9cf1e172cd8fb1d5ffc521"
+  integrity sha512-W+wLg10jEAJY9N6tNWqG1daKmAzxGmTbO/H9fFfcgOgdxdn+hHiR4r2/x1iylKbFLujHUQlnjNQeu2d6eDPFqg==
+  dependencies:
+    "@web/test-runner-core" "^0.10.27"
+    mkdirp "^1.0.4"
+
 "@web/test-runner-core@^0.10.20":
   version "0.10.22"
   resolved "https://registry.yarnpkg.com/@web/test-runner-core/-/test-runner-core-0.10.22.tgz#34bb67d12a79b01dc79c816f3d76f3419ef50eaf"
@@ -1861,6 +1890,20 @@
   dependencies:
     "@types/mocha" "^8.2.0"
     "@web/test-runner-core" "^0.10.20"
+
+"@web/test-runner-visual-regression@^0.6.6":
+  version "0.6.6"
+  resolved "https://registry.yarnpkg.com/@web/test-runner-visual-regression/-/test-runner-visual-regression-0.6.6.tgz#4a4dc734f360cba66a005e07b4a1c0a9ef956444"
+  integrity sha512-010J3zE6z2v7eLLey/l5cYa9/WhPsgzZb3Z6K5nn4Mn5W5LGPs/f+XG3N6+Tx8Q1/RvDqLdFvRs/T6c4ul4dgQ==
+  dependencies:
+    "@types/mkdirp" "^1.0.1"
+    "@types/pixelmatch" "^5.2.2"
+    "@types/pngjs" "^6.0.0"
+    "@web/test-runner-commands" "^0.6.4"
+    "@web/test-runner-core" "^0.10.20"
+    mkdirp "^1.0.4"
+    pixelmatch "^5.2.1"
+    pngjs "^6.0.0"
 
 "@web/test-runner@^0.14.0":
   version "0.14.0"
@@ -4569,12 +4612,24 @@ pify@^3.0.0:
   resolved "https://registry.yarnpkg.com/pify/-/pify-3.0.0.tgz#e5a4acd2c101fdf3d9a4d07f0dbc4db49dd28176"
   integrity sha512-C3FsVNH1udSEX48gGX1xfvwTWfsYWj5U+8/uK15BGzIGrKoUpghX8hWZwa/OFnakBiiVNmBvemTJR5mcy7iPcg==
 
+pixelmatch@^5.2.1:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/pixelmatch/-/pixelmatch-5.3.0.tgz#5e5321a7abedfb7962d60dbf345deda87cb9560a"
+  integrity sha512-o8mkY4E/+LNUf6LzX96ht6k6CEDi65k9G2rjMtBe9Oo+VPKSvl+0GKHuH/AlG+GA5LPG/i5hrekkxUc3s2HU+Q==
+  dependencies:
+    pngjs "^6.0.0"
+
 pkg-dir@4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/pkg-dir/-/pkg-dir-4.2.0.tgz#f099133df7ede422e81d1d8448270eeb3e4261f3"
   integrity sha512-HRDzbaKjC+AOWVXxAU/x54COGeIv9eb+6CkDSQoNTt4XyWoIJvuPsXizxu/Fr23EiekbtZwmh1IcIG/l/a10GQ==
   dependencies:
     find-up "^4.0.0"
+
+pngjs@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/pngjs/-/pngjs-6.0.0.tgz#ca9e5d2aa48db0228a52c419c3308e87720da821"
+  integrity sha512-TRzzuFRRmEoSW/p1KVAmiOgPco2Irlah+bGFCeNfJXxxYGwSw7YwAOAcd7X28K/m5bjBWKsC29KyoMfHbypayg==
 
 polyfills-loader@^1.7.4:
   version "1.7.6"

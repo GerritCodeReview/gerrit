@@ -99,6 +99,7 @@ import {Modifier} from '../../../utils/dom-util';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrCopyLinks} from '../gr-copy-links/gr-copy-links';
 import {ChangeViewState} from '../../../models/views/change';
+import { rootUrl } from '../../../utils/router-util';
 
 suite('gr-change-view tests', () => {
   let element: GrChangeView;
@@ -811,9 +812,7 @@ suite('gr-change-view tests', () => {
       const relativeNavStub = sinon.stub(GerritNav, 'navigateToRelativeUrl');
       pressKey(element, 'u');
       assert.isTrue(relativeNavStub.called);
-      assert.isTrue(
-        relativeNavStub.lastCall.calledWithExactly(GerritNav.getUrlForRoot())
-      );
+      assert.isTrue(relativeNavStub.lastCall.calledWithExactly(rootUrl()));
     });
 
     test('U should navigate to backPage if set', () => {

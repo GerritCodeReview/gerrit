@@ -112,6 +112,13 @@ export class GrRelatedChangesList extends LitElement {
         .branch {
           color: var(--primary-text-color);
         }
+        @media screen and (max-width: 1400px) {
+          .repo,
+          .branch {
+            display: none;
+          }
+        }
+
         gr-related-collapse[collapsed] .marker.arrow {
           visibility: visible;
           min-width: auto;

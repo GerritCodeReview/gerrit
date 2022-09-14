@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1424b912_7984246c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-09-14T14:03:09Z",
+      "side": 1,
+      "message": "In change Iba2284a75, the main rationale was to avoid expensive reindexing on the draft updates.\n\nEdit updates are not that common, so this should not be a problem.\n\nCould you, please, explain the rationale in more details?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 61
+      },
+      "revId": "41d44894a11532be581b74716b52eed9c6cee1e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77650736_ee5b495b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-09-14T14:03:09Z",
+      "side": 1,
+      "message": "nit:ideal",
+      "range": {
+        "startLine": 21,
+        "startChar": 7,
+        "endLine": 21,
+        "endChar": 11
+      },
+      "revId": "41d44894a11532be581b74716b52eed9c6cee1e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0899ba2_1e69fde5",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-09-14T14:03:09Z",
+      "side": 1,
+      "message": "This is a change of behaviour. \nCurrently, it is allowed to have edits on a change that I am not added to.\nIs the a justification for this behaviour change?",
+      "range": {
+        "startLine": 449,
+        "startChar": 64,
+        "endLine": 451,
+        "endChar": 29
+      },
+      "revId": "41d44894a11532be581b74716b52eed9c6cee1e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89f60f0a_1322b2af",
+        "filename": "java/com/google/gerrit/server/query/change/EditPredicate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-09-14T14:03:09Z",
+      "side": 1,
+      "message": "Should this be a subject to experiment?",
+      "range": {
+        "startLine": 44,
+        "startChar": 3,
+        "endLine": 45,
+        "endChar": 97
+      },
+      "revId": "41d44894a11532be581b74716b52eed9c6cee1e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83790b58_c1c7425d",
+        "filename": "javatests/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 861,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-09-14T14:03:09Z",
+      "side": 1,
+      "message": "I am not sure I understand this.\n\nI just created an edit of a change, that I am not uploader/reviewer/owner of. I see it on my Your-\u003e Edits dashboard. \n\nWith this change, it looks like I won\u0027t be able to see it, unless I am a reviewer/owner of the change?",
+      "range": {
+        "startLine": 859,
+        "startChar": 0,
+        "endLine": 861,
+        "endChar": 55
+      },
+      "revId": "41d44894a11532be581b74716b52eed9c6cee1e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "16c7fb18_1c1a2f1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-09-14T16:35:05Z",
+      "side": 1,
+      "message": "Yes, this might be less desirable than avoiding re-indexing when drafts are created, but the other reason was to remove all the caller-dependent fields from the change document.\n\nThe other reason was making the change state only depend on the change-meta-ref and reducing the ref names contributing to this.\n\nI added the above points to the commit message.",
+      "parentUuid": "1424b912_7984246c",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 61
+      },
+      "revId": "41d44894a11532be581b74716b52eed9c6cee1e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "77650736_ee5b495b",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-09-14T14:03:09Z",
       "side": 1,
       "message": "nit:ideal",
+      "range": {
+        "startLine": 21,
+        "startChar": 7,
+        "endLine": 21,
+        "endChar": 11
+      },
+      "revId": "41d44894a11532be581b74716b52eed9c6cee1e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84c3c217_f493c55d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-09-14T16:35:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77650736_ee5b495b",
       "range": {
         "startLine": 21,
         "startChar": 7,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "790d38bf_421f8d63",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-09-14T16:35:05Z",
+      "side": 1,
+      "message": "Yes. I amended the explanation in commit message.",
+      "parentUuid": "b0899ba2_1e69fde5",
+      "range": {
+        "startLine": 449,
+        "startChar": 64,
+        "endLine": 451,
+        "endChar": 29
+      },
+      "revId": "41d44894a11532be581b74716b52eed9c6cee1e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "89f60f0a_1322b2af",
@@ -93,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db2792e3_d446406c",
+        "filename": "java/com/google/gerrit/server/query/change/EditPredicate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-09-14T16:35:05Z",
+      "side": 1,
+      "message": "I actually preferred to skip an experiment to accelerate the rollout. But maybe it\u0027s safer to have an experiment.\n\nDone.",
+      "parentUuid": "89f60f0a_1322b2af",
+      "range": {
+        "startLine": 44,
+        "startChar": 3,
+        "endLine": 45,
+        "endChar": 97
+      },
+      "revId": "41d44894a11532be581b74716b52eed9c6cee1e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "83790b58_c1c7425d",
@@ -106,6 +202,30 @@
       "writtenOn": "2022-09-14T14:03:09Z",
       "side": 1,
       "message": "I am not sure I understand this.\n\nI just created an edit of a change, that I am not uploader/reviewer/owner of. I see it on my Your-\u003e Edits dashboard. \n\nWith this change, it looks like I won\u0027t be able to see it, unless I am a reviewer/owner of the change?",
+      "range": {
+        "startLine": 859,
+        "startChar": 0,
+        "endLine": 861,
+        "endChar": 55
+      },
+      "revId": "41d44894a11532be581b74716b52eed9c6cee1e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a16cb59e_2b16d645",
+        "filename": "javatests/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 861,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-09-14T16:35:05Z",
+      "side": 1,
+      "message": "Yes, this is true. This change is a change in behaviour for has:edit; such that it only matches with changes where you\u0027re a {owner, reviewer, CC}. I added the explanation in the commit message.\n\nThe reason is that it\u0027ll be computationally very expensive (infeasible) to implement has:edit predicate using current constraints, and the assumption that edits only belong to parties involved in the change {owner, reviewer, cc} should be reasonnable.\n\nI also added a follow up to prevent creating edits as a random visiting user https://gerrit-review.googlesource.com/c/gerrit/+/345228/2",
+      "parentUuid": "83790b58_c1c7425d",
       "range": {
         "startLine": 859,
         "startChar": 0,

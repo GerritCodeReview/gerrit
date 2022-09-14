@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11d8241f_e425d68a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-14T22:05:54Z",
+      "side": 1,
+      "message": "Picked to 3.6 now: 345694: Fix syntax-highlighting. | https://gerrit-review.googlesource.com/c/gerrit/+/345694",
+      "parentUuid": "cb42c82b_c63f452f",
+      "range": {
+        "startLine": 9,
+        "startChar": 34,
+        "endLine": 9,
+        "endChar": 47
+      },
+      "revId": "0c4e102d365a83eff2acda37600b958a072ff35f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6138095c_67b5d567",

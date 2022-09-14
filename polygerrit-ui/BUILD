@@ -25,6 +25,7 @@ filegroup(
     srcs = glob([
         "package.json",
         "web-test-runner.config.mjs",
+        "screenshots/**/*.png",
     ]),
 )
 

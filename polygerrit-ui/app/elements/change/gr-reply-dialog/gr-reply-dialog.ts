@@ -507,9 +507,7 @@ export class GrReplyDialog extends LitElement {
         display: flex;
         width: 100%;
       }
-      .newReplyDialog .textareaContainer,
-      #textarea,
-      gr-endpoint-decorator[name='reply-text'] {
+      #textarea {
         display: block;
         width: unset;
         font-family: var(--monospace-font-family);

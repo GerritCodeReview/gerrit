@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "717b5316_1a742a74",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1287,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-14T07:20:05Z",
+      "side": 1,
+      "message": "Why is the change-star inside of the copy-link button?",
+      "revId": "ea67e020540b06bc31c3494b7093af268a29c9d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d064b6b_1834f1d8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1303,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-14T07:20:05Z",
+      "side": 1,
+      "message": "Why can\u0027t all this be common logic rather than in the else case?",
+      "revId": "ea67e020540b06bc31c3494b7093af268a29c9d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -103,6 +103,24 @@
       "message": "Do we want the `:` in the experiment?",
       "revId": "ea67e020540b06bc31c3494b7093af268a29c9d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13d66843_7c42dbb9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1306,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-14T07:48:56Z",
+      "side": 1,
+      "message": "Thanks you are right. It created large gap.",
+      "parentUuid": "1a5da3a5_a174289c",
+      "revId": "ea67e020540b06bc31c3494b7093af268a29c9d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

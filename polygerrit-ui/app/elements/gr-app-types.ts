@@ -3,17 +3,7 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {
-  BasePatchSetNum,
-  DashboardId,
-  NumericChangeId,
-  RepoName,
-  RevisionPatchSetNum,
-  UrlEncodedCommentId,
-} from '../types/common';
-import {GerritView} from '../services/router/router-model';
-import {GenerateUrlParameters, DashboardSection} from '../utils/router-util';
-import {AttemptChoice} from '../models/checks/checks-util';
+import {GenerateUrlParameters} from '../utils/router-util';
 import {SettingsViewState} from '../models/views/settings';
 import {AdminViewState} from '../models/views/admin';
 import {GroupViewState} from '../models/views/group';
@@ -21,66 +11,14 @@ import {RepoViewState} from '../models/views/repo';
 import {AgreementViewState} from '../models/views/agreement';
 import {DocumentationViewState} from '../models/views/documentation';
 import {PluginViewState} from '../models/views/plugin';
+import {SearchViewState} from '../models/views/search';
+import {DashboardViewState} from '../models/views/dashboard';
+import {ChangeViewState} from '../models/views/change';
+import {DiffViewState} from '../models/views/diff';
+import {EditViewState} from '../models/views/edit';
 
 export interface AppElement extends HTMLElement {
   params: AppElementParams | GenerateUrlParameters;
-}
-
-// TODO(TS): Remove unify AppElementParams with GenerateUrlParameters
-// Seems we can use GenerateUrlParameters instead of AppElementParams,
-// but it require some refactoring
-export interface AppElementDashboardParams {
-  view: GerritView.DASHBOARD;
-  project?: RepoName;
-  dashboard: DashboardId;
-  user?: string;
-  sections?: DashboardSection[];
-  title?: string;
-}
-
-export interface AppElementSearchParam {
-  view: GerritView.SEARCH;
-  query: string;
-  offset: string;
-}
-
-export interface AppElementDiffViewParam {
-  view: GerritView.DIFF;
-  changeNum: NumericChangeId;
-  project?: RepoName;
-  commentId?: UrlEncodedCommentId;
-  path?: string;
-  patchNum?: RevisionPatchSetNum;
-  basePatchNum?: BasePatchSetNum;
-  lineNum?: number;
-  leftSide?: boolean;
-  commentLink?: boolean;
-}
-
-export interface AppElementDiffEditViewParam {
-  view: GerritView.EDIT;
-  changeNum: NumericChangeId;
-  project: RepoName;
-  path: string;
-  patchNum: RevisionPatchSetNum;
-  lineNum?: number;
-}
-
-export interface AppElementChangeViewParams {
-  view: GerritView.CHANGE;
-  changeNum: NumericChangeId;
-  project: RepoName;
-  edit?: boolean;
-  patchNum?: RevisionPatchSetNum;
-  basePatchNum?: BasePatchSetNum;
-  commentId?: UrlEncodedCommentId;
-  forceReload?: boolean;
-  openReplyDialog?: boolean;
-  tab?: string;
-  /** regular expression for filtering check runs */
-  filter?: string;
-  /** selected attempt for selected check runs */
-  attempt?: AttemptChoice;
 }
 
 export interface AppElementJustRegisteredParams {
@@ -94,18 +32,18 @@ export interface AppElementJustRegisteredParams {
 }
 
 export type AppElementParams =
-  | AppElementDashboardParams
+  | DashboardViewState
   | GroupViewState
   | AdminViewState
-  | AppElementChangeViewParams
+  | ChangeViewState
   | RepoViewState
   | DocumentationViewState
   | PluginViewState
-  | AppElementSearchParam
+  | SearchViewState
   | SettingsViewState
   | AgreementViewState
-  | AppElementDiffViewParam
-  | AppElementDiffEditViewParam
+  | DiffViewState
+  | EditViewState
   | AppElementJustRegisteredParams;
 
 export function isAppElementJustRegisteredParams(

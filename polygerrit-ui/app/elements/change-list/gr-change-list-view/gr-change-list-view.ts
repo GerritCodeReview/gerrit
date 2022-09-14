@@ -253,12 +253,12 @@ export class GrChangeListView extends LitElement {
     if (!value || value.view !== GerritView.SEARCH) return;
     const offset = isNaN(Number(value.offset)) ? 0 : Number(value.offset);
 
-    if (this.query !== value.query) {
+    if (this.query !== (value.query ?? '')) {
       this.selectedIndex = 0;
     }
 
     this.loading = true;
-    this.query = value.query;
+    this.query = value.query ?? '';
     this.offset = offset;
 
     // NOTE: This method may be called before attachment. Fire title-change

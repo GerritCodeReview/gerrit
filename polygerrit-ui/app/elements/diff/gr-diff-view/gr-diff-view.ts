@@ -82,7 +82,7 @@ import {
   getPatchRangeForCommentUrl,
   isInBaseOfPatchRange,
 } from '../../../utils/comment-util';
-import {AppElementDiffViewParam, AppElementParams} from '../../gr-app-types';
+import {AppElementParams} from '../../gr-app-types';
 import {
   EventType,
   OpenFixPreviewEvent,
@@ -118,6 +118,7 @@ import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {when} from 'lit/directives/when.js';
+import {DiffViewState} from '../../../models/views/diff';
 
 const LOADING_BLAME = 'Loading blame...';
 const LOADED_BLAME = 'Blame loaded';
@@ -1574,7 +1575,7 @@ export class GrDiffView extends LitElement {
     );
   }
 
-  private isSameDiffLoaded(value: AppElementDiffViewParam) {
+  private isSameDiffLoaded(value: DiffViewState) {
     return (
       this.patchRange?.basePatchNum === value.basePatchNum &&
       this.patchRange?.patchNum === value.patchNum &&

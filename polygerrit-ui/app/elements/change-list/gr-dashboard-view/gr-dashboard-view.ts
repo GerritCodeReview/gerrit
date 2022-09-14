@@ -27,7 +27,6 @@ import {
   PreferencesInput,
   RepoName,
 } from '../../../types/common';
-import {AppElementDashboardParams} from '../../gr-app-types';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {GrCreateCommandsDialog} from '../gr-create-commands-dialog/gr-create-commands-dialog';
 import {
@@ -52,6 +51,7 @@ import {customElement, property, state, query} from 'lit/decorators.js';
 import {assertIsDefined} from '../../../utils/common-util';
 import {Shortcut} from '../../../services/shortcuts/shortcuts-config';
 import {ShortcutController} from '../../lit/shortcut-controller';
+import {DashboardViewState} from '../../../models/views/dashboard';
 
 const PROJECT_PLACEHOLDER_PATTERN = /\${project}/g;
 
@@ -84,7 +84,7 @@ export class GrDashboardView extends LitElement {
   preferences?: PreferencesInput;
 
   @property({type: Object})
-  params?: AppElementDashboardParams;
+  params?: DashboardViewState;
 
   // private but used in test
   @state() results?: ChangeListSection[];
@@ -317,11 +317,12 @@ export class GrDashboardView extends LitElement {
   // private but used in test
   getProjectDashboard(
     project: RepoName,
-    dashboard: DashboardId
+    dashboard?: DashboardId
   ): Promise<UserDashboard | undefined> {
     const errFn = (response?: Response | null) => {
       firePageError(response);
     };
+    assertIsDefined(dashboard, 'project dashboard must have id');
     return this.restApiService
       .getDashboard(project, dashboard, errFn)
       .then(response => {
@@ -352,7 +353,7 @@ export class GrDashboardView extends LitElement {
     return 'Dashboard for ' + user;
   }
 
-  private isViewActive(params: AppElementDashboardParams) {
+  private isViewActive(params: DashboardViewState) {
     return params.view === GerritView.DASHBOARD;
   }
 

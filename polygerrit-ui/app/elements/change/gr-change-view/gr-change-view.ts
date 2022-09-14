@@ -117,7 +117,6 @@ import {
   isUnresolved,
   DraftInfo,
 } from '../../../utils/comment-util';
-import {AppElementChangeViewParams} from '../../gr-app-types';
 import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
 import {GrFileList} from '../gr-file-list/gr-file-list';
 import {EditRevisionInfo, ParsedChangeInfo} from '../../../types/types';
@@ -182,6 +181,7 @@ import {filesModelToken} from '../../../models/change/files-model';
 import {getBaseUrl, prependOrigin} from '../../../utils/url-util';
 import {CopyLink, GrCopyLinks} from '../gr-copy-links/gr-copy-links';
 import {KnownExperimentId} from '../../../services/flags/flags';
+import {ChangeViewState} from '../../../models/views/change';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -277,14 +277,14 @@ export class GrChangeView extends LitElement {
    * URL params passed from the router.
    * Use params getter/setter.
    */
-  private _params?: AppElementChangeViewParams;
+  private _params?: ChangeViewState;
 
   @property({type: Object})
   get params() {
     return this._params;
   }
 
-  set params(params: AppElementChangeViewParams | undefined) {
+  set params(params: ChangeViewState | undefined) {
     if (this._params === params) return;
     const oldParams = this._params;
     this._params = params;
@@ -2100,14 +2100,14 @@ export class GrChangeView extends LitElement {
   }
 
   // Private but used in tests.
-  hasPatchRangeChanged(value: AppElementChangeViewParams) {
+  hasPatchRangeChanged(value: ChangeViewState) {
     if (!this.patchRange) return false;
     if (this.patchRange.basePatchNum !== value.basePatchNum) return true;
     return this.hasPatchNumChanged(value);
   }
 
   // Private but used in tests.
-  hasPatchNumChanged(value: AppElementChangeViewParams) {
+  hasPatchNumChanged(value: ChangeViewState) {
     if (!this.patchRange) return false;
     if (value.patchNum !== undefined) {
       return this.patchRange.patchNum !== value.patchNum;

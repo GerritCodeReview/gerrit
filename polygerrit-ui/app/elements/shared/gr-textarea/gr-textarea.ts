@@ -15,7 +15,7 @@ import {
   Item,
   ItemSelectedEvent,
 } from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
-import {addShortcut, Key} from '../../../utils/dom-util';
+import {Key} from '../../../utils/dom-util';
 import {ValueChangedEvent} from '../../../types/events';
 import {fire} from '../../../utils/event-util';
 import {LitElement, css, html, nothing} from 'lit';
@@ -29,6 +29,7 @@ import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {assert} from '../../../utils/common-util';
+import {ShortcutController} from '../../lit/shortcut-controller';
 
 const MAX_ITEMS_DROPDOWN = 10;
 
@@ -125,8 +126,7 @@ export class GrTextarea extends LitElement {
   // private but used in tests
   currentSearchString?: string;
 
-  /** Called in disconnectedCallback. */
-  private cleanups: (() => void)[] = [];
+  private readonly shortcuts = new ShortcutController(this);
 
   constructor() {
     super();
@@ -135,12 +135,25 @@ export class GrTextarea extends LitElement {
       () => this.getChangeModel().changeNum$,
       x => (this.changeNum = x)
     );
+    this.shortcuts.addLocal({key: Key.UP}, e => this.handleUpKey(e), {
+      preventDefault: false,
+    });
+    this.shortcuts.addLocal({key: Key.DOWN}, e => this.handleDownKey(e), {
+      preventDefault: false,
+    });
+    this.shortcuts.addLocal({key: Key.TAB}, e => this.handleTabKey(e), {
+      preventDefault: false,
+    });
+    this.shortcuts.addLocal({key: Key.ENTER}, e => this.handleEnterByKey(e), {
+      preventDefault: false,
+    });
+    this.shortcuts.addLocal({key: Key.ESC}, e => this.handleEscKey(e), {
+      preventDefault: false,
+    });
   }
 
   override disconnectedCallback() {
     super.disconnectedCallback();
-    for (const cleanup of this.cleanups) cleanup();
-    this.cleanups = [];
   }
 
   override connectedCallback() {
@@ -151,31 +164,6 @@ export class GrTextarea extends LitElement {
     if (this.code) {
       this.classList.add('code');
     }
-    this.cleanups.push(
-      addShortcut(this, {key: Key.UP}, e => this.handleUpKey(e), {
-        preventDefault: false,
-      })
-    );
-    this.cleanups.push(
-      addShortcut(this, {key: Key.DOWN}, e => this.handleDownKey(e), {
-        preventDefault: false,
-      })
-    );
-    this.cleanups.push(
-      addShortcut(this, {key: Key.TAB}, e => this.handleTabKey(e), {
-        preventDefault: false,
-      })
-    );
-    this.cleanups.push(
-      addShortcut(this, {key: Key.ENTER}, e => this.handleEnterByKey(e), {
-        preventDefault: false,
-      })
-    );
-    this.cleanups.push(
-      addShortcut(this, {key: Key.ESC}, e => this.handleEscKey(e), {
-        preventDefault: false,
-      })
-    );
   }
 
   static override styles = [

@@ -6,12 +6,13 @@
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import '../../shared/gr-dialog/gr-dialog';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
-import {addShortcut, Key, Modifier} from '../../../utils/dom-util';
+import {Key, Modifier} from '../../../utils/dom-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, html, css} from 'lit';
 import {customElement, property, query} from 'lit/decorators.js';
 import {assertIsDefined} from '../../../utils/common-util';
 import {BindValueChangeEvent} from '../../../types/events';
+import {ShortcutController} from '../../lit/shortcut-controller';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -38,26 +39,18 @@ export class GrConfirmAbandonDialog extends LitElement {
   @property({type: String})
   message = '';
 
-  /** Called in disconnectedCallback. */
-  private cleanups: (() => void)[] = [];
+  private readonly shortcuts = new ShortcutController(this);
 
-  override disconnectedCallback() {
-    super.disconnectedCallback();
-    for (const cleanup of this.cleanups) cleanup();
-    this.cleanups = [];
-  }
-
-  override connectedCallback() {
-    super.connectedCallback();
-    this.cleanups.push(
-      addShortcut(this, {key: Key.ENTER, modifiers: [Modifier.CTRL_KEY]}, _ =>
-        this.confirm()
-      )
+  constructor() {
+    super();
+    this.shortcuts.addLocal(
+      {key: Key.ENTER, modifiers: [Modifier.CTRL_KEY]},
+      () => this.confirm()
     );
-    this.cleanups.push(
-      addShortcut(this, {key: Key.ENTER, modifiers: [Modifier.META_KEY]}, _ =>
-        this.confirm()
-      )
+
+    this.shortcuts.addLocal(
+      {key: Key.ENTER, modifiers: [Modifier.META_KEY]},
+      _ => this.confirm()
     );
   }
 

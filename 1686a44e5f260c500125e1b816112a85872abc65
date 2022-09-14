@@ -16,6 +16,24 @@
       "message": "@ekempin@google.com This change addresses your comments in https://gerrit-review.googlesource.com/c/gerrit/+/331239. Could you please validate the idea? (If the idea is valid, I will add more tests, docs and maybe rename some classes)\n\nI can suggest the following review order for files in this change: \n- ChangeUpdate.java\n- BatchUpdate, BatchChangeUpdateListener\n- BatchChangeUpdateListenerImpl\n- other files",
       "revId": "1686a44e5f260c500125e1b816112a85872abc65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa47da0c_c187dee8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-14T15:49:36Z",
+      "side": 1,
+      "message": "Thanks a lot Dmitrii for picking this up. \n\nI think this change goes in the right direction, but if possible I would like to avoid adding a ChangeUpdateListener to ChangeUpdate that is invoked while the modifications are not submitted yet. Also having the indirection via a new BatchChangeUpdateListener is not easy to grasp when reading the code.\n\nI didn\u0027t think this through to the end yet (so it\u0027s entirely possible that there is something that makes this not work), but I would try the following:\n\n1. Extend the existing BatchUpdateListener:\nAdd and afterIndexingChanges(Map\u003cChange.Id, ChangeData\u003e changeDatas) method.\n\n2. Change ChangeNotesParser so that it stores attention set updates that happened in the last commit in a new field, provide this info the ChangeNotes which can expose this via a getter, so that you can get it from changeData.notes().getLastAttentionSetUpdates()\n\n3. Implement a BatchUpdateListener that fires the attention set updates from the new afterIndexingChanges(Map\u003cChange.Id, ChangeData\u003e changeDatas) method.\n\n4. Somehow register this BatchUpdateListener for all change updates (maybe BatchUpdate can instantiate and add it?)",
+      "parentUuid": "b9f140ec_2486a225",
+      "revId": "1686a44e5f260c500125e1b816112a85872abc65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

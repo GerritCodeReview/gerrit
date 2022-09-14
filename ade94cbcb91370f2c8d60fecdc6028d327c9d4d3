@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5756656b_58bbf6cc",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 620,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-14T19:56:08Z",
+      "side": 1,
+      "message": "Why is it project here and repo everywhere else?",
+      "revId": "ade94cbcb91370f2c8d60fecdc6028d327c9d4d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

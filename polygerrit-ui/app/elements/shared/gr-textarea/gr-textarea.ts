@@ -201,9 +201,6 @@ export class GrTextarea extends LitElement {
       #emojiSuggestions {
         font-family: var(--font-family);
       }
-      gr-autocomplete {
-        display: inline-block;
-      }
       #textarea {
         background-color: var(--view-background-color);
         width: 100%;

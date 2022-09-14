@@ -58,3 +58,5 @@ sh_binary(
         "@ui_dev_npm//mocha",
     ],
 )
+
+exports_files(["karma.conf.js"])

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8ebe43f_4402b6c8",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-14T12:44:43Z",
+      "side": 1,
+      "message": "doesn\u0027t GrReplyDialog have `draftCommentThreads` as a property already?\n\nDo we need to query here?",
+      "range": {
+        "startLine": 746,
+        "startChar": 8,
+        "endLine": 746,
+        "endChar": 79
+      },
+      "revId": "944063a9b7bd9e9df23b8b11b54f528527a666d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

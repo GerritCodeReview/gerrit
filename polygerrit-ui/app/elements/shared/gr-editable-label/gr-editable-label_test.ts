@@ -69,23 +69,22 @@ suite('gr-editable-label tests', () => {
             tabindex="0"
           ></paper-input>
           <div class="buttons">
-            <gr-button
-              aria-disabled="false"
-              id="cancelBtn"
-              link=""
-              role="button"
-              tabindex="0"
-            >
-              cancel
-            </gr-button>
-            <gr-button
+          <gr-button
               aria-disabled="false"
               id="saveBtn"
-              link=""
+              primary
               role="button"
               tabindex="0"
             >
               Save
+            </gr-button>
+            <gr-button
+              aria-disabled="false"
+              id="cancelBtn"
+              role="button"
+              tabindex="0"
+            >
+              cancel
             </gr-button>
           </div>
         </div>

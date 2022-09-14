@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "75ef2ea3_e5b6741c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-14T17:36:23Z",
+      "side": 1,
+      "message": "What I mean is that components like \u003cgr-button\u003e, \u003cgr-icon\u003e and a lot of others are `display:inline-block` by default. And the default for web components is `display:inline`. You cannot expect them all to \"just work\" when using `display:block` on them. So you have to be careful of that.\n\nBut using such components as direct children of a `display:flex` parent makes the situation even worse, because the browser will force the outer display type for direct children to be `block`, no matter what the css rule says. Here is an example: https://imgur.com/a/QJXXEhG. The `Style` of `\u003cgr-button\u003e` is clearly `display:inline-block`, but `Computed` is `display:block`.\n\nThis can result in issues with vertical positioning, which become extremely hard to debug.\n\nBut of course, `display:block` might not be a problem at all. My recommendation is just to be explicit about it and make sure you understand what you are doing. So instead of letting the browser making a forced display conversion, write down the `display:block` css yourself. Or (I think I prefer that) wrap the component in a `\u003cdiv\u003e`.\n\nAlso, when you want to position elements next to each other, then you can also just use `display:inline*` for all children. The major difference is that vertical alignment and wrapping works differently.",
+      "parentUuid": "2088110f_84f3e181",
+      "revId": "ee9e4712d7087549016c5e8fb8cc0a07e2cfcc40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dfcad4fe_7c453485",
         "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
         "patchSetId": 1

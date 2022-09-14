@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cb42c82b_c63f452f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-14T21:25:33Z",
+      "side": 1,
+      "message": "It looks like @poucet@google.com effectively reverted that change when he introduced 339140: Fix syntax-highlighting. | https://gerrit-review.googlesource.com/c/gerrit/+/339140\n\nShould 339140 be applied on 3.6 on top of this?",
+      "range": {
+        "startLine": 9,
+        "startChar": 34,
+        "endLine": 9,
+        "endChar": 47
+      },
+      "revId": "0c4e102d365a83eff2acda37600b958a072ff35f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6138095c_67b5d567",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

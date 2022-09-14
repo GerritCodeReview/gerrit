@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "373f6748_42ec792f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-14T13:20:48Z",
+      "side": 1,
+      "message": "Why flex?\n\nBe aware that you have to carefully check that children of flex are block and not inline. So if you want to keep flex, then \u003cgr-autocomplete\u003e has to become `block` or needs a \u003cdiv\u003e wrapper.",
+      "revId": "ee9e4712d7087549016c5e8fb8cc0a07e2cfcc40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfcad4fe_7c453485",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-14T13:20:48Z",
+      "side": 1,
+      "message": "I am not sure I like the swapped buttons, but don\u0027t feel strongly about it. Maybe we could actually make \"SET TOPIC\" primary?",
+      "revId": "ee9e4712d7087549016c5e8fb8cc0a07e2cfcc40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

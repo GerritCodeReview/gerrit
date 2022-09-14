@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2088110f_84f3e181",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-14T14:45:06Z",
+      "side": 1,
+      "message": "It was easiest how to put it to one line. Whole host is already inline-flex. Do you have idea for different approach? Should I make gr-buttons inline box?\n\nYes, Gr-autocomplete become inline-block. Do you think there can be issue with that?",
+      "parentUuid": "1a4af417_8ec7a58f",
+      "revId": "ee9e4712d7087549016c5e8fb8cc0a07e2cfcc40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dfcad4fe_7c453485",
         "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
         "patchSetId": 1
@@ -49,6 +67,24 @@
       "writtenOn": "2022-09-14T13:20:48Z",
       "side": 1,
       "message": "I am not sure I like the swapped buttons, but don\u0027t feel strongly about it. Maybe we could actually make \"SET TOPIC\" primary?",
+      "revId": "ee9e4712d7087549016c5e8fb8cc0a07e2cfcc40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1d72572_2fcaedcd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-14T14:45:06Z",
+      "side": 1,
+      "message": "Good idea!",
+      "parentUuid": "dfcad4fe_7c453485",
       "revId": "ee9e4712d7087549016c5e8fb8cc0a07e2cfcc40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

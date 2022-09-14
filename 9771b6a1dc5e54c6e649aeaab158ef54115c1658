@@ -16,6 +16,24 @@
       "message": "Nit: I think gr-autocomplete is inline-block by default, as well as gr-button. So maybe removing this rule and removing the `.buttons` div would also work. But this is really just FYI. Feel free to submit as is. :-)",
       "revId": "9771b6a1dc5e54c6e649aeaab158ef54115c1658",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c647e9e_d27b3a8f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-14T20:01:14Z",
+      "side": 1,
+      "message": "Yes, gr-autocomplete is inline-block, but I added css to make sure it is inline-block in future. Yes, removing divs would work, but since there is already this structure, I am using it. So I submit it as is. Feel free to change it anytime in future 😊",
+      "parentUuid": "61f4053c_c081c652",
+      "revId": "9771b6a1dc5e54c6e649aeaab158ef54115c1658",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

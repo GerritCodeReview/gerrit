@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c8dfaf8_757818a9",
+        "filename": "polygerrit-ui/app/models/views/dashboard.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-14T07:26:46Z",
+      "side": 1,
+      "message": "It might be useful to have a function that takes an AppElementParams and asserts the type of a state based on the view-value.",
+      "revId": "a58c5968d4179c8db8386d2ff68e81ada6ac413d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

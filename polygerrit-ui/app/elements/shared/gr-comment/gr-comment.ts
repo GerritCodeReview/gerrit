@@ -268,16 +268,21 @@ export class GrComment extends LitElement {
     this.shortcuts.addLocal({key: Key.ESC}, () => this.handleEsc(), {
       preventDefault: false,
     });
-    for (const key of ['s', Key.ENTER]) {
-      for (const modifier of [Modifier.CTRL_KEY, Modifier.META_KEY]) {
-        this.shortcuts.addLocal(
-          {key, modifiers: [modifier]},
-          () => {
-            this.save();
-          },
-          {preventDefault: false}
-        );
-      }
+    for (const modifier of [Modifier.CTRL_KEY, Modifier.META_KEY]) {
+      this.shortcuts.addLocal(
+        {key: Key.ENTER, modifiers: [modifier]},
+        () => {
+          this.save();
+        },
+        {preventDefault: false}
+      );
+    }
+    // For Ctrl+s add shorctut with preventDefault so that it does
+    // not bubble up to the browser
+    for (const modifier of [Modifier.CTRL_KEY, Modifier.META_KEY]) {
+      this.shortcuts.addLocal({key: 's', modifiers: [modifier]}, () => {
+        this.save();
+      });
     }
     if (this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) {
       this.messagePlaceholder = 'Mention others with @';

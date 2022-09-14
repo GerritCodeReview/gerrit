@@ -234,6 +234,30 @@
       },
       "revId": "41d44894a11532be581b74716b52eed9c6cee1e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3d33e46_c152f1c3",
+        "filename": "javatests/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 861,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-09-14T17:19:03Z",
+      "side": 1,
+      "message": "I proposed this idea, so I\u0027m obviously in favor of it :-)\n\nhowever, it might be a good idea to double check with a couple of repos (eg. chromium/src) that most edits are made by people involved in the review.",
+      "parentUuid": "a16cb59e_2b16d645",
+      "range": {
+        "startLine": 859,
+        "startChar": 0,
+        "endLine": 861,
+        "endChar": 55
+      },
+      "revId": "41d44894a11532be581b74716b52eed9c6cee1e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

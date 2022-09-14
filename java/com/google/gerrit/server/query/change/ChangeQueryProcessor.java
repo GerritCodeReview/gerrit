@@ -63,6 +63,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
   private final List<Extension<ChangePluginDefinedInfoFactory>>
       changePluginDefinedInfoFactoriesByPlugin = new ArrayList<>();
   private final Sequences sequences;
+  private final IndexConfig indexConfig;
 
   static {
     // It is assumed that basic rewrites do not touch visibleto predicates.
@@ -93,6 +94,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
     this.userProvider = userProvider;
     this.changeIsVisibleToPredicateFactory = changeIsVisibleToPredicateFactory;
     this.sequences = sequences;
+    this.indexConfig = indexConfig;
 
     changePluginDefinedInfoFactories
         .entries()
@@ -107,8 +109,14 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
 
   @Override
   protected QueryOptions createOptions(
-      IndexConfig indexConfig, int start, int limit, Set<String> requestedFields) {
-    return IndexedChangeQuery.createOptions(indexConfig, start, limit, requestedFields);
+      IndexConfig indexConfig,
+      int start,
+      int pageSize,
+      int pageSizeMultiplier,
+      int limit,
+      Set<String> requestedFields) {
+    return IndexedChangeQuery.createOptions(
+        indexConfig, start, pageSize, pageSizeMultiplier, limit, requestedFields);
   }
 
   @Override
@@ -135,7 +143,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
   @Override
   protected Predicate<ChangeData> enforceVisibility(Predicate<ChangeData> pred) {
     return new AndChangeSource(
-        pred, changeIsVisibleToPredicateFactory.forUser(userProvider.get()), start);
+        pred, changeIsVisibleToPredicateFactory.forUser(userProvider.get()), start, indexConfig);
   }
 
   @Override

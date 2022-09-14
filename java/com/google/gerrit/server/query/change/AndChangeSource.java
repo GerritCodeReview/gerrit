@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.query.AndSource;
 import com.google.gerrit.index.query.IsVisibleToPredicate;
 import com.google.gerrit.index.query.Predicate;
@@ -22,15 +23,16 @@ import java.util.List;
 
 public class AndChangeSource extends AndSource<ChangeData> implements ChangeDataSource {
 
-  public AndChangeSource(Collection<Predicate<ChangeData>> that) {
-    super(that);
+  public AndChangeSource(Collection<Predicate<ChangeData>> that, IndexConfig indexConfig) {
+    super(that, indexConfig);
   }
 
   public AndChangeSource(
       Predicate<ChangeData> that,
       IsVisibleToPredicate<ChangeData> isVisibleToPredicate,
-      int start) {
-    super(that, isVisibleToPredicate, start);
+      int start,
+      IndexConfig indexConfig) {
+    super(that, isVisibleToPredicate, start, indexConfig);
   }
 
   @Override

@@ -18,12 +18,6 @@ declare global {
       options: {callback: (text: string, href?: string) => void}
     ): void;
     ASSETS_PATH?: string;
-    // TODO(TS): define polymer type
-    Polymer: {
-      IronFocusablesHelper: {
-        getTabbableNodes: (el: Element) => Node[];
-      };
-    };
     // TODO(TS): remove page when better workaround is found
     // page shouldn't be exposed in window and it shouldn't be used
     // it's defined because of limitations from typescript, which don't import .mjs

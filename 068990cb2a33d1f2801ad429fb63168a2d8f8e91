@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3891400a_7a2a5a71",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-14T18:24:50Z",
+      "side": 1,
+      "message": "As follow ups, it would be great to add more tests for the SEARCH_AFTER and increasing pagination size improvements from 3.4 as well so that we could test things like what the size of this second index search is.",
+      "revId": "068990cb2a33d1f2801ad429fb63168a2d8f8e91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

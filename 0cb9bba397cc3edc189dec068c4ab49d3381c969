@@ -22,6 +22,30 @@
       },
       "revId": "0cb9bba397cc3edc189dec068c4ab49d3381c969",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b439c445_62a5cb2f",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-14T07:16:22Z",
+      "side": 1,
+      "message": "Yeah I\u0027m guessing it was supposed to be without spaces.\nRemoved.",
+      "parentUuid": "c8e26c2f_3b10b83c",
+      "range": {
+        "startLine": 510,
+        "startChar": 6,
+        "endLine": 510,
+        "endChar": 41
+      },
+      "revId": "0cb9bba397cc3edc189dec068c4ab49d3381c969",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

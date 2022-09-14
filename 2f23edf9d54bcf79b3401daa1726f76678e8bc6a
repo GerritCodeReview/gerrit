@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2746e9e4_1b02bd21",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-09-14T09:34:13Z",
+      "side": 1,
+      "message": "OK, thanks for the FYI. I can wait a bit. Do you have an estimate when this can be merged in master?",
+      "parentUuid": "0cadf5c1_8a4a3b27",
+      "revId": "2f23edf9d54bcf79b3401daa1726f76678e8bc6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90185d25_c80ddecb",

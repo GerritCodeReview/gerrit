@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7b9172e_936a17a3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-commands/gr-repo-commands.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-15T15:21:09Z",
+      "side": 0,
+      "message": "should other places with this migrate to createEditUrl as well and getEditUrlForDiff be deleted? It seems this fn is still generating edit urls for those places",
+      "range": {
+        "startLine": 287,
+        "startChar": 20,
+        "endLine": 287,
+        "endChar": 37
+      },
+      "revId": "39aa0574368a86f2e3303f62d2531659b76c9f98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

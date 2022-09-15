@@ -55,6 +55,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ef2fb8ac_61775e2f",
+        "filename": "polygerrit-ui/app/models/views/edit.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-15T15:21:09Z",
+      "side": 1,
+      "message": "would be nice to have some tests on these simple cases now that the logic is all in one spot",
+      "range": {
+        "startLine": 30,
+        "startChar": 16,
+        "endLine": 30,
+        "endChar": 29
+      },
+      "revId": "6a0033a35f86f4d003aca084c0480e1b54f4e7b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a5f8362a_02de0150",
         "filename": "polygerrit-ui/app/utils/router-util.ts",
         "patchSetId": 3

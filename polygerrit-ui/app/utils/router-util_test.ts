@@ -14,6 +14,7 @@ import {
 } from '../api/rest-api';
 import {PatchRangeParams} from '../elements/core/gr-router/gr-router';
 import {DashboardViewState} from '../models/views/dashboard';
+import {EditViewState} from '../models/views/edit';
 import {GroupDetailView, GroupViewState} from '../models/views/group';
 import {GerritView} from '../services/router/router-model';
 import '../test/common-test-setup';
@@ -22,7 +23,6 @@ import {
   generateUrl,
   GenerateUrlChangeViewParameters,
   GenerateUrlDiffViewParameters,
-  GenerateUrlEditViewParameters,
   TEST_ONLY,
 } from './router-util';
 
@@ -100,7 +100,7 @@ suite('router-util tests', () => {
     });
 
     test(EDIT, () => {
-      const params: GenerateUrlEditViewParameters = {
+      const params: EditViewState = {
         view: GerritView.EDIT,
         changeNum: 42 as NumericChangeId,
         project: 'test' as RepoName,

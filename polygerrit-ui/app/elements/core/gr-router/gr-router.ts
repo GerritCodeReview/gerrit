@@ -1555,7 +1555,7 @@ export class GrRouter {
       // for edit view params, patchNum cannot be undefined
       patchNum: convertToPatchSetNum(ctx.params[2]) as RevisionPatchSetNum,
       path: ctx.params[3],
-      lineNum: ctx.hash,
+      lineNum: Number(ctx.hash),
       view: GerritView.EDIT,
     });
     this.reporting.setRepoName(project);

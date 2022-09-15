@@ -145,13 +145,11 @@ suite('gr-repo-commands tests', () => {
 
   suite('edit repo config', () => {
     let createChangeStub: sinon.SinonStub;
-    let urlStub: sinon.SinonStub;
     let handleSpy: sinon.SinonSpy;
     let alertStub: sinon.SinonStub;
 
     setup(() => {
       createChangeStub = stubRestApi('createChange');
-      urlStub = sinon.stub(GerritNav, 'getEditUrlForDiff');
       sinon.stub(GerritNav, 'navigateToRelativeUrl');
       handleSpy = sinon.spy(element, 'handleEditRepoConfig');
       alertStub = sinon.stub();
@@ -176,8 +174,6 @@ suite('gr-repo-commands tests', () => {
         alertStub.lastCall.args[0].detail.message,
         'Navigating to change'
       );
-      assert.isTrue(urlStub.called);
-      assert.deepEqual(urlStub.lastCall.args, [change, 'project.config', 1]);
       assert.isFalse(
         queryAndAssert<GrButton>(element, '#editRepoConfig').loading
       );
@@ -199,7 +195,6 @@ suite('gr-repo-commands tests', () => {
         alertStub.lastCall.args[0].detail.message,
         'Failed to create change.'
       );
-      assert.isFalse(urlStub.called);
       assert.isFalse(
         queryAndAssert<GrButton>(element, '#editRepoConfig').loading
       );

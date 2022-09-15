@@ -30,6 +30,9 @@ export interface ChangeViewState extends ViewState {
   filter?: string;
   /** selected attempt for selected check runs */
   attempt?: AttemptChoice;
+
+  messageHash?: string;
+  usp?: string;
 }
 
 const DEFAULT_STATE: ChangeViewState = {

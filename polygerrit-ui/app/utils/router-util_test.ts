@@ -13,22 +13,19 @@ import {
   GroupId,
 } from '../api/rest-api';
 import {PatchRangeParams} from '../elements/core/gr-router/gr-router';
+import {ChangeViewState} from '../models/views/change';
 import {DashboardViewState} from '../models/views/dashboard';
 import {EditViewState} from '../models/views/edit';
 import {GroupDetailView, GroupViewState} from '../models/views/group';
 import {GerritView} from '../services/router/router-model';
 import '../test/common-test-setup';
 import {DashboardId} from '../types/common';
-import {
-  generateUrl,
-  GenerateUrlChangeViewParameters,
-  TEST_ONLY,
-} from './router-util';
+import {generateUrl, TEST_ONLY} from './router-util';
 
 suite('router-util tests', () => {
   suite('generateUrl', () => {
     test('change', () => {
-      const params: GenerateUrlChangeViewParameters = {
+      const params: ChangeViewState = {
         view: GerritView.CHANGE,
         changeNum: 1234 as NumericChangeId,
         project: 'test' as RepoName,
@@ -47,7 +44,7 @@ suite('router-util tests', () => {
     });
 
     test('change with repo name encoding', () => {
-      const params: GenerateUrlChangeViewParameters = {
+      const params: ChangeViewState = {
         view: GerritView.CHANGE,
         changeNum: 1234 as NumericChangeId,
         project: 'x+/y+/z+/w' as RepoName,

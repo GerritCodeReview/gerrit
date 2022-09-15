@@ -52,6 +52,24 @@
       "parentUuid": "aa47da0c_c187dee8",
       "revId": "1686a44e5f260c500125e1b816112a85872abc65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e84d6a8_637ac5ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-15T13:18:28Z",
+      "side": 1,
+      "message": "Awesome, this looks great now!\nMuch easier :)",
+      "parentUuid": "db9cdce8_74f77952",
+      "revId": "1686a44e5f260c500125e1b816112a85872abc65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

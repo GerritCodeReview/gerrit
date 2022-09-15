@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0f6b849_5aab0fc8",
+        "filename": "java/com/google/gerrit/entities/ProjectChangeKey.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-15T13:18:28Z",
+      "side": 1,
+      "message": "nit: missing license header",
+      "revId": "5f552d53d1dc7002c6fb6c4b3ff5ee2d8907e72a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

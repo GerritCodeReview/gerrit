@@ -1,6 +1,52 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cdee61b_092e44de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-15T13:23:18Z",
+      "side": 1,
+      "message": "Interesting: how do you do that? What type of Json Schema are you generating? How do you discover the classes of plugins that you\u0027re not already aware of?",
+      "range": {
+        "startLine": 10,
+        "startChar": 42,
+        "endLine": 11,
+        "endChar": 13
+      },
+      "revId": "80310bf6d9addf1f054d78dda2c3b458034d0234",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5c0d4cf_cc50cf9b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-15T13:23:18Z",
+      "side": 1,
+      "message": "Whilst this information is useful to understand the context, it looks like more a record of a review session with David. Why don\u0027t you just point to that review instead of copying it here?\n\nAlso, commits should use the imperative form and explain the context of the change and the reason behind it: this could be rephrased in that form.\n\nExample:\n\n_Before this change, the only way to access the registered types was abusing the Java reflection to access private fields. Allow instead to expose the registered types as a public supported method and associated JavaDocs and tests_",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 37
+      },
+      "revId": "80310bf6d9addf1f054d78dda2c3b458034d0234",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "a7daf01a_63491d8d",
@@ -14,6 +60,23 @@
       "writtenOn": "2022-09-08T11:13:17Z",
       "side": 1,
       "message": "+ Martin Fick who introduced the EventTypes class originally, there is not much changes that has happened since then.\n\nMy use case is to retrieve events classes emitted over \"gerrit stream events\" and I could not find out how to do it. Instead I elected to grab any events registered by Gerrit or a plugin. It would be a superset of events emitted by stream events, but it is ok for my use case.\n\nDavid Causse from Wikimedia did the first review which can find at https://gerrit.wikimedia.org/r/c/operations/software/gerrit/plugins/events-wikimedia/+/830654/1/src/main/java/org/wikimedia/gerrit/plugins/eventswikimedia/restapi/ListEvents.java \n\nChecklist:\n- my IDE has ran google-java-format upon saving the files\n- I don\u0027t have Eclipse so I have no idea whether it would complain about some mistakes\n- I ran unit tests with: bazel test --test_output\u003dstreamed //javatests/com/google/gerrit/server/events:events_tests",
+      "revId": "80310bf6d9addf1f054d78dda2c3b458034d0234",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e4f29e4_30410349",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-15T13:23:18Z",
+      "side": 1,
+      "message": "I\u0027m curious about the Json schema detection for events provided by plugins.",
       "revId": "80310bf6d9addf1f054d78dda2c3b458034d0234",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

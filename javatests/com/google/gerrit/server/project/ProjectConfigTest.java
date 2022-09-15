@@ -702,15 +702,21 @@ public class ProjectConfigTest {
             .add(
                 "project.config",
                 "[commentlink \"bugzilla\"]\n"
-                    + "\tmatch = \"(bug\\\\s+#?)(\\\\d+)\"\n"
-                    + "\tlink = http://bugs.example.com/show_bug.cgi?id=$2")
+                    + "\tmatch = \"(^|\\\\s)(bug\\\\s+#?)(\\\\d+)($|\\\\s)\"\n"
+                    + "\tlink = http://bugs.example.com/show_bug.cgi?id=$3\n"
+                    + "\tprefix = $1\n"
+                    + "\ttext = $2$3\n"
+                    + "\tsuffix = $4\n")
             .create();
     ProjectConfig cfg = read(rev);
     assertThat(cfg.getCommentLinkSections())
         .containsExactly(
             StoredCommentLinkInfo.builder("bugzilla")
-                .setMatch("(bug\\s+#?)(\\d+)")
-                .setLink("http://bugs.example.com/show_bug.cgi?id=$2")
+                .setMatch("(^|\\s)(bug\\s+#?)(\\d+)($|\\s)")
+                .setLink("http://bugs.example.com/show_bug.cgi?id=$3")
+                .setPrefix("$1")
+                .setSuffix("$4")
+                .setText("$2$3")
                 .setOverrideOnly(false)
                 .build());
   }

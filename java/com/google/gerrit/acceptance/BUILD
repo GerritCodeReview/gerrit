@@ -53,6 +53,7 @@ DEPLOY_ENV = [
     "//lib/bouncycastle:bcpg",
     "//lib/bouncycastle:bcpkix",
     "//lib/bouncycastle:bcprov",
+    "//lib/bouncycastle:bcutil",
     "//prolog:gerrit-prolog-common",
 ]
 

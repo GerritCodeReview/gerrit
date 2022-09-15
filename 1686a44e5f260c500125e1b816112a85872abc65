@@ -34,6 +34,24 @@
       "parentUuid": "b9f140ec_2486a225",
       "revId": "1686a44e5f260c500125e1b816112a85872abc65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db9cdce8_74f77952",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-09-15T11:25:04Z",
+      "side": 1,
+      "message": "As discussed f2f, I stored attention set updates in ChangeUpdate and directly fire AttentionSetUpdate notification from the BatchUpdate.\n\nAs for other parts - I implemented them similarly to batchRefUpdate.\nPlease take a look again before I add more tests",
+      "parentUuid": "aa47da0c_c187dee8",
+      "revId": "1686a44e5f260c500125e1b816112a85872abc65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

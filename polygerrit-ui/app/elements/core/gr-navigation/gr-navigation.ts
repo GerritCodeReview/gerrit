@@ -29,6 +29,7 @@ import {
 import {RepoDetailView} from '../../../models/views/repo';
 import {GroupDetailView} from '../../../models/views/group';
 import {createSearchUrl} from '../../../models/views/search';
+import {createDiffUrl} from '../../../models/views/diff';
 
 // Navigation parameters object format:
 //
@@ -398,39 +399,6 @@ export const GerritNav = {
     );
   },
 
-  /**
-   * @param basePatchNum The string PARENT can be used for none.
-   */
-  getUrlForDiff(
-    change: ChangeInfo | ParsedChangeInfo,
-    filePath: string,
-    patchNum?: RevisionPatchSetNum,
-    basePatchNum?: BasePatchSetNum,
-    lineNum?: number
-  ) {
-    return this.getUrlForDiffById(
-      change._number,
-      change.project,
-      filePath,
-      patchNum,
-      basePatchNum,
-      lineNum
-    );
-  },
-
-  getUrlForComment(
-    changeNum: NumericChangeId,
-    project: RepoName,
-    commentId: UrlEncodedCommentId
-  ) {
-    return this._getUrlFor({
-      view: GerritView.DIFF,
-      changeNum,
-      project,
-      commentId,
-    });
-  },
-
   getUrlForCommentsTab(
     changeNum: NumericChangeId,
     project: RepoName,
@@ -441,35 +409,6 @@ export const GerritNav = {
       changeNum,
       project,
       commentId,
-    });
-  },
-
-  /**
-   * @param basePatchNum The string PARENT can be used for none.
-   */
-  getUrlForDiffById(
-    changeNum: NumericChangeId,
-    project: RepoName,
-    filePath: string,
-    patchNum?: RevisionPatchSetNum,
-    basePatchNum?: BasePatchSetNum,
-    lineNum?: number,
-    leftSide?: boolean
-  ) {
-    if (basePatchNum === PARENT) {
-      basePatchNum = undefined;
-    }
-
-    this._checkPatchRange(patchNum, basePatchNum);
-    return this._getUrlFor({
-      view: GerritView.DIFF,
-      changeNum,
-      project,
-      path: filePath,
-      patchNum,
-      basePatchNum,
-      lineNum,
-      leftSide,
     });
   },
 
@@ -521,7 +460,14 @@ export const GerritNav = {
     lineNum?: number
   ) {
     this._navigate(
-      this.getUrlForDiff(change, filePath, patchNum, basePatchNum, lineNum)
+      createDiffUrl({
+        changeNum: change._number,
+        project: change.project,
+        path: filePath,
+        patchNum,
+        basePatchNum,
+        lineNum,
+      })
     );
   },
 

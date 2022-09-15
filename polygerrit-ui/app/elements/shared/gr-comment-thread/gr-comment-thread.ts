@@ -33,7 +33,6 @@ import {
   NEWLINE_PATTERN,
 } from '../../../utils/comment-util';
 import {ChangeMessageId} from '../../../api/rest-api';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getAppContext} from '../../../services/app-context';
 import {
   createDefaultDiffPrefs,
@@ -73,6 +72,7 @@ import {changeModelToken} from '../../../models/change/change-model';
 import {whenRendered} from '../../../utils/dom-util';
 import {Interaction} from '../../../constants/reporting';
 import {HtmlPatched} from '../../../utils/lit-util';
+import {createDiffUrl} from '../../../models/views/diff';
 
 declare global {
   interface HTMLElementEventMap {
@@ -604,7 +604,7 @@ export class GrCommentThread extends LitElement {
   renderContextualDiff() {
     if (!this.changeNum || !this.showCommentContext || !this.diff) return;
     if (!this.thread?.path) return;
-    const href = this.getUrlForFileComment();
+    const href = this.getUrlForFileComment() ?? '';
     return html`
       <div class="diff-container">
         <gr-diff
@@ -738,12 +738,12 @@ export class GrCommentThread extends LitElement {
       return undefined;
     }
     if (this.isNewThread()) return undefined;
-    return GerritNav.getUrlForDiffById(
-      this.changeNum,
-      this.repoName,
-      this.thread.path,
-      this.thread.patchNum
-    );
+    return createDiffUrl({
+      changeNum: this.changeNum,
+      project: this.repoName,
+      path: this.thread.path,
+      patchNum: this.thread.patchNum,
+    });
   }
 
   private computeHighlightRange() {
@@ -767,11 +767,11 @@ export class GrCommentThread extends LitElement {
       return undefined;
     }
     assertIsDefined(this.rootId, 'rootId of comment thread');
-    return GerritNav.getUrlForComment(
-      this.changeNum,
-      this.repoName,
-      this.rootId
-    );
+    return createDiffUrl({
+      changeNum: this.changeNum,
+      project: this.repoName,
+      commentId: this.rootId,
+    });
   }
 
   private handleCopyLink() {
@@ -780,7 +780,11 @@ export class GrCommentThread extends LitElement {
     assertIsDefined(this.changeNum, 'changeNum');
     assertIsDefined(this.repoName, 'repoName');
     const url = generateAbsoluteUrl(
-      GerritNav.getUrlForCommentsTab(this.changeNum, this.repoName, comment.id)
+      createDiffUrl({
+        changeNum: this.changeNum,
+        project: this.repoName,
+        commentId: comment.id,
+      })
     );
     assertIsDefined(url, 'url for comment');
     copyToClipbard(generateAbsoluteUrl(url), 'Link');

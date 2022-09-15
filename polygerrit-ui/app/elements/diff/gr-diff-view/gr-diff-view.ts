@@ -118,7 +118,7 @@ import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {when} from 'lit/directives/when.js';
-import {DiffViewState} from '../../../models/views/diff';
+import {createDiffUrl, DiffViewState} from '../../../models/views/diff';
 
 const LOADING_BLAME = 'Loading blame...';
 const LOADED_BLAME = 'Blame loaded';
@@ -1506,15 +1506,15 @@ export class GrDiffView extends LitElement {
     if (!this.patchRange) return;
     if (!this.changeNum) return;
     if (!this.path) return;
-    const url = GerritNav.getUrlForDiffById(
-      this.changeNum,
-      this.change.project,
-      this.path,
-      this.patchRange.patchNum,
-      this.patchRange.basePatchNum,
+    const url = createDiffUrl({
+      changeNum: this.changeNum,
+      project: this.change.project,
+      path: this.path,
+      patchNum: this.patchRange.patchNum,
+      basePatchNum: this.patchRange.basePatchNum,
       lineNum,
-      leftSide
-    );
+      leftSide,
+    });
     history.replaceState(null, '', url);
   }
 
@@ -1763,12 +1763,13 @@ export class GrDiffView extends LitElement {
     path?: string
   ) {
     if (!change || !patchRange || !path) return '';
-    return GerritNav.getUrlForDiff(
-      change,
+    return createDiffUrl({
+      changeNum: change._number,
+      project: change.project,
       path,
-      patchRange.patchNum,
-      patchRange.basePatchNum
-    );
+      patchNum: patchRange.patchNum,
+      basePatchNum: patchRange.basePatchNum,
+    });
   }
 
   /**

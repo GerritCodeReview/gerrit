@@ -74,6 +74,7 @@ import {classMap} from 'lit/directives/class-map.js';
 import {incrementalRepeat} from '../../lit/incremental-repeat';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {HtmlPatched} from '../../../utils/lit-util';
+import {createDiffUrl} from '../../../models/views/diff';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -2095,12 +2096,13 @@ export class GrFileList extends LitElement {
         this.patchRange.patchNum
       );
     }
-    return GerritNav.getUrlForDiff(
-      this.change,
+    return createDiffUrl({
+      changeNum: this.change._number,
+      project: this.change.project,
       path,
-      this.patchRange.patchNum,
-      this.patchRange.basePatchNum
-    );
+      patchNum: this.patchRange.patchNum,
+      basePatchNum: this.patchRange.basePatchNum,
+    });
   }
 
   // Private but used in tests.

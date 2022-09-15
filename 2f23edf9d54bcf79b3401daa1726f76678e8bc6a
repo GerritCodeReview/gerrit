@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "718a2575_17cb60a8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-15T04:16:25Z",
+      "side": 1,
+      "message": "Actually got it all done today, master merge was https://gerrit-review.googlesource.com/c/gerrit/+/345695",
+      "parentUuid": "12d26da5_a3b5b8eb",
+      "revId": "2f23edf9d54bcf79b3401daa1726f76678e8bc6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90185d25_c80ddecb",

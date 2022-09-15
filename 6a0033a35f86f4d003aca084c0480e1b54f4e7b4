@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e4ec4c2_533fc69c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-15T16:41:19Z",
+      "side": 1,
+      "message": "I am ok with your followup changes to address comments given your large stack, but it is clearly a failure of Gerrit that it is a much easier path than addressing them in the relevant change.",
+      "revId": "6a0033a35f86f4d003aca084c0480e1b54f4e7b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ce1512fb_dc6e5dc4",

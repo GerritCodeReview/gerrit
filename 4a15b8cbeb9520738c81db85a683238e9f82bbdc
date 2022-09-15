@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af7b6911_a51944ac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-09-15T10:03:12Z",
+      "side": 1,
+      "message": "For completeness, we discussed in the team meeting and here are the important points / concerns:\n  1) do we really need to move edits out of the index? What\u0027s the benefit? consensus: no clear benefit compared to e.g. drafts, nice to have. We can roll this out with an experiment and proceed if everything is fine. Otherwise, it\u0027s OK to leave edits in the index. This is no blocker for st-spanner.\n  2) concern: are we OK with the new restriction (has:query will return changes where user is in {owner, reviewer, cc})? consensus: look at existing data and verify that this assumption is OK.\n  3) concern: what if I have an edit, and I\u0027m e.g. in CC, then someone removed me from CC. Should the edit be automatically removed? should removing from CC be disallowed? consensus: we didn\u0027t reach an agreement here. one suggestion is to do just nothing and the change will not be returned in has:edit queries. claim: user needs to re-add themselves as CC, reply: but user can\u0027t know these change IDs because has:edit will no longer match with the change ... ¯\\_(ツ)_/¯\n  \nPoint 2 is an AI for myself, I\u0027ll get back here with an answer. Point 3 might overcomplicate this FR than needed hence might not justify the extra effort.",
+      "revId": "4a15b8cbeb9520738c81db85a683238e9f82bbdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

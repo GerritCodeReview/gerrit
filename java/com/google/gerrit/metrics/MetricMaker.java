@@ -16,6 +16,7 @@ package com.google.gerrit.metrics;
 
 import com.google.common.base.Supplier;
 import com.google.common.collect.ImmutableSet;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import java.util.Set;
 
@@ -80,6 +81,7 @@ public abstract class MetricMaker {
    * @param desc description of the metric.
    * @return registration handle
    */
+  @CanIgnoreReturnValue
   public <V> RegistrationHandle newConstantMetric(String name, V value, Description desc) {
     desc.setConstant();
 
@@ -110,6 +112,7 @@ public abstract class MetricMaker {
    * @param trigger function to compute the value of the metric.
    * @return registration handle
    */
+  @CanIgnoreReturnValue
   public <V> RegistrationHandle newCallbackMetric(
       String name, Class<V> valueClass, Description desc, Supplier<V> trigger) {
     CallbackMetric0<V> metric = newCallbackMetric(name, valueClass, desc);

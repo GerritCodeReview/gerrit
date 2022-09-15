@@ -7,7 +7,6 @@ import '../../../test/common-test-setup';
 import {fixture, html, assert} from '@open-wc/testing';
 import './gr-repo-header';
 import {GrRepoHeader} from './gr-repo-header';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {stubRestApi} from '../../../test/test-utils';
 import {RepoName, UrlEncodedRepoName} from '../../../types/common';
 
@@ -42,10 +41,6 @@ suite('gr-repo-header tests', () => {
   test('repoUrl reset once repo changed', async () => {
     element.repo = undefined;
     await element.updateComplete;
-    sinon
-      .stub(GerritNav, 'getUrlForRepo')
-      .callsFake(repoName => `http://test.com/${repoName},general`);
-
     assert.equal(element._repoUrl, undefined);
 
     element.repo = 'test' as RepoName;

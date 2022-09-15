@@ -16,6 +16,24 @@
       "message": "Needs the Release-Notes footer. Also there are no frontend changes for me to review (when you use parent 1).\n\nOtherwise looks good to me (tests pass).",
       "revId": "44371af1f0ea19a1bc0f09afcd0875fd779b7a0e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cf7f6f6_d1385e2d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-15T04:15:30Z",
+      "side": 1,
+      "message": "I wanted to check that taking the master version of all the frontend changes was correct. It seemed like everything was a backport, but thanks for checking!",
+      "parentUuid": "d03e7cc8_59730c37",
+      "revId": "44371af1f0ea19a1bc0f09afcd0875fd779b7a0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce1512fb_dc6e5dc4",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1391,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-15T11:26:12Z",
+      "side": 1,
+      "message": "I\u0027m assuming this will get renamed to \u0027repo\u0027 in a future change?",
+      "revId": "6a0033a35f86f4d003aca084c0480e1b54f4e7b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5f8362a_02de0150",
+        "filename": "polygerrit-ui/app/utils/router-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-15T11:26:12Z",
+      "side": 1,
+      "message": "```\n} else if (isEditViewState(params)) {\n```",
+      "revId": "6a0033a35f86f4d003aca084c0480e1b54f4e7b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -5,6 +5,7 @@
  */
 import {GerritView} from '../../services/router/router-model';
 import {RepoName} from '../../types/common';
+import {encodeURL, getBaseUrl} from '../../utils/url-util';
 import {Model} from '../model';
 import {ViewState} from './base';
 
@@ -28,6 +29,24 @@ export interface RepoViewState extends ViewState {
 const DEFAULT_STATE: RepoViewState = {
   view: GerritView.REPO,
 };
+
+export function createRepoUrl(state: Omit<RepoViewState, 'view'>) {
+  let url = `/admin/repos/${encodeURL(`${state.repo}`, true)}`;
+  if (state.detail === RepoDetailView.GENERAL) {
+    url += ',general';
+  } else if (state.detail === RepoDetailView.ACCESS) {
+    url += ',access';
+  } else if (state.detail === RepoDetailView.BRANCHES) {
+    url += ',branches';
+  } else if (state.detail === RepoDetailView.TAGS) {
+    url += ',tags';
+  } else if (state.detail === RepoDetailView.COMMANDS) {
+    url += ',commands';
+  } else if (state.detail === RepoDetailView.DASHBOARDS) {
+    url += ',dashboards';
+  }
+  return getBaseUrl() + url;
+}
 
 export class RepoViewModel extends Model<RepoViewState> {
   constructor() {

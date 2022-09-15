@@ -351,21 +351,6 @@ export const GerritNav = {
     });
   },
 
-  getUrlForChangeById(
-    changeNum: NumericChangeId,
-    project: RepoName,
-    usp: string,
-    patchNum?: RevisionPatchSetNum
-  ) {
-    return this._getUrlFor({
-      view: GerritView.CHANGE,
-      changeNum,
-      project,
-      usp,
-      patchNum,
-    });
-  },
-
   /**
    * @param basePatchNum The string PARENT can be used for none.
    * @param redirect redirect to a change - if true, the current

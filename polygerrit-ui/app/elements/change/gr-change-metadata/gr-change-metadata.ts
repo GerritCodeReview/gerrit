@@ -80,6 +80,7 @@ import {changeMetadataStyles} from '../../../styles/gr-change-metadata-shared-st
 import {when} from 'lit/directives/when.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {createSearchUrl} from '../../../models/views/search';
+import {createChangeUrl} from '../../../models/views/change';
 
 const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
 
@@ -932,7 +933,12 @@ export class GrChangeMetadata extends LitElement {
     if (!change || !project) {
       return '';
     }
-    return GerritNav.getUrlForChangeById(change, project, 'metadata', patchset);
+    return createChangeUrl({
+      changeNum: change,
+      project,
+      usp: 'metadata',
+      patchNum: patchset,
+    });
   }
 
   private computeHashtagUrl(hashtag: Hashtag) {

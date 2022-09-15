@@ -181,7 +181,7 @@ import {filesModelToken} from '../../../models/change/files-model';
 import {getBaseUrl, prependOrigin} from '../../../utils/url-util';
 import {CopyLink, GrCopyLinks} from '../gr-copy-links/gr-copy-links';
 import {KnownExperimentId} from '../../../services/flags/flags';
-import {ChangeViewState} from '../../../models/views/change';
+import {ChangeViewState, createChangeUrl} from '../../../models/views/change';
 import {rootUrl} from '../../../utils/router-util';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
@@ -2280,10 +2280,12 @@ export class GrChangeView extends LitElement {
     assertIsDefined(this.change, 'change');
     assertIsDefined(this.patchRange, 'patchRange');
     const hash = PREFIX + e.detail.id;
-    const url = GerritNav.getUrlForChange(this.change, {
+    const url = createChangeUrl({
+      changeNum: this.change._number,
+      project: this.change.project,
       patchNum: this.patchRange.patchNum,
       basePatchNum: this.patchRange.basePatchNum,
-      isEdit: this.getEditMode(),
+      edit: this.getEditMode(),
       messageHash: hash,
     });
     history.replaceState(null, '', url);
@@ -2417,7 +2419,9 @@ export class GrChangeView extends LitElement {
 
   private computeChangeUrl(forceReload?: boolean) {
     if (!this.change) return undefined;
-    return GerritNav.getUrlForChange(this.change, {
+    return createChangeUrl({
+      changeNum: this.change._number,
+      project: this.change.project,
       forceReload: !!forceReload,
     });
   }

@@ -33,6 +33,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, query, property, state} from 'lit/decorators.js';
 import {assertIsDefined} from '../../../utils/common-util';
+import {createEditUrl} from '../../../models/views/edit';
 
 const GC_MESSAGE = 'Garbage collection completed successfully.';
 const CONFIG_BRANCH = 'refs/meta/config' as BranchName;
@@ -284,7 +285,12 @@ export class GrRepoCommands extends LitElement {
         }
 
         GerritNav.navigateToRelativeUrl(
-          GerritNav.getEditUrlForDiff(change, CONFIG_PATH, INITIAL_PATCHSET)
+          createEditUrl({
+            changeNum: change._number,
+            project: change.project,
+            path: CONFIG_PATH,
+            patchNum: INITIAL_PATCHSET,
+          })
         );
       })
       .finally(() => {

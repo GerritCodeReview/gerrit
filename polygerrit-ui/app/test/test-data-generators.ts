@@ -114,9 +114,9 @@ import {
 import {CheckResult, RunResult} from '../models/checks/checks-model';
 import {Category, RunStatus} from '../api/checks';
 import {DiffInfo} from '../api/diff';
-import {GenerateUrlEditViewParameters} from '../utils/router-util';
 import {SearchViewState} from '../models/views/search';
 import {ChangeViewState} from '../models/views/change';
+import {EditViewState} from '../models/views/edit';
 
 const TEST_DEFAULT_EXPRESSION = 'label:Verified=MAX -label:Verified=MIN';
 export const TEST_PROJECT_NAME: RepoName = 'test-project' as RepoName;
@@ -701,7 +701,7 @@ export function createAppElementSearchViewParams(): SearchViewState {
   };
 }
 
-export function createGenerateUrlEditViewParameters(): GenerateUrlEditViewParameters {
+export function createEditViewState(): EditViewState {
   return {
     view: GerritView.EDIT,
     changeNum: TEST_NUMERIC_CHANGE_ID,

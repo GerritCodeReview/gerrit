@@ -340,8 +340,8 @@ suite('gr-change-list-item tests', () => {
           <input type="checkbox" />
         </label>
         <gr-change-star></gr-change-star>
-        <a href="">42</a>
-        <a href="" title="Test subject">
+        <a href="/c/test-project/+/42">42</a>
+        <a href="/c/test-project/+/42" title="Test subject">
           <div class="container">
             <div class="content">Test subject</div>
             <div class="spacer">Test subject</div>

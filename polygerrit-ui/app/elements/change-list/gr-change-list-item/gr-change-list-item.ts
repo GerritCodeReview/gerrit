@@ -43,6 +43,7 @@ import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
 import {classMap} from 'lit/directives/class-map.js';
 import {createSearchUrl} from '../../../models/views/search';
+import {createChangeUrl} from '../../../models/views/change';
 
 enum ChangeSize {
   XS = 10,
@@ -655,7 +656,11 @@ export class GrChangeListItem extends LitElement {
 
   private computeChangeURL() {
     if (!this.change) return '';
-    return GerritNav.getUrlForChange(this.change, {usp: this.usp});
+    return createChangeUrl({
+      changeNum: this.change._number,
+      project: this.change.project,
+      usp: this.usp,
+    });
   }
 
   private computeRepoUrl() {

@@ -472,7 +472,7 @@ suite('gr-diff-view tests', () => {
             <h1 class="assistive-tech-only">Diff of glados.txt</h1>
             <header>
               <div>
-                <a href=""> 42 </a>
+                <a href="/c/test-project/+/42"> 42 </a>
                 <span class="changeNumberColon"> : </span>
                 <span class="headerSubject"> Test subject </span>
                 <input
@@ -500,7 +500,11 @@ suite('gr-diff-view tests', () => {
                   Prev
                 </a>
                 <span class="separator"> </span>
-                <a class="navLink" href="" title="Up to change (shortcut: u)">
+                <a
+                  class="navLink"
+                  href="/c/test-project/+/42"
+                  title="Up to change (shortcut: u)"
+                >
                   Up
                 </a>
                 <span class="separator"> </span>
@@ -1518,7 +1522,7 @@ suite('gr-diff-view tests', () => {
           linkEls[0].getAttribute('href'),
           '/c/test-project/+/42/10/chell.go'
         );
-        assert.equal(linkEls[1].getAttribute('href'), '42-undefined-undefined');
+        assert.equal(linkEls[1].getAttribute('href'), '/c/test-project/+/42');
         assert.equal(
           linkEls[2].getAttribute('href'),
           '/c/test-project/+/42/10/wheatley.md'
@@ -1529,12 +1533,12 @@ suite('gr-diff-view tests', () => {
           linkEls[0].getAttribute('href'),
           '/c/test-project/+/42/10/glados.txt'
         );
-        assert.equal(linkEls[1].getAttribute('href'), '42-undefined-undefined');
-        assert.equal(linkEls[2].getAttribute('href'), '42-undefined-undefined');
+        assert.equal(linkEls[1].getAttribute('href'), '/c/test-project/+/42');
+        assert.equal(linkEls[2].getAttribute('href'), '/c/test-project/+/42');
         element.path = 'chell.go';
         await element.updateComplete;
-        assert.equal(linkEls[0].getAttribute('href'), '42-undefined-undefined');
-        assert.equal(linkEls[1].getAttribute('href'), '42-undefined-undefined');
+        assert.equal(linkEls[0].getAttribute('href'), '/c/test-project/+/42');
+        assert.equal(linkEls[1].getAttribute('href'), '/c/test-project/+/42');
         assert.equal(
           linkEls[2].getAttribute('href'),
           '/c/test-project/+/42/10/glados.txt'
@@ -1545,7 +1549,7 @@ suite('gr-diff-view tests', () => {
           linkEls[0].getAttribute('href'),
           '/c/test-project/+/42/10/wheatley.md'
         );
-        assert.equal(linkEls[1].getAttribute('href'), '42-undefined-undefined');
+        assert.equal(linkEls[1].getAttribute('href'), '/c/test-project/+/42');
         assert.equal(
           linkEls[2].getAttribute('href'),
           '/c/test-project/+/42/10/chell.go'
@@ -1579,7 +1583,10 @@ suite('gr-diff-view tests', () => {
           linkEls[0].getAttribute('href'),
           '/c/test-project/+/42/5..10/chell.go'
         );
-        assert.equal(linkEls[1].getAttribute('href'), '42-10-5');
+        assert.equal(
+          linkEls[1].getAttribute('href'),
+          '/c/test-project/+/42/5..10'
+        );
         assert.equal(
           linkEls[2].getAttribute('href'),
           '/c/test-project/+/42/5..10/wheatley.md'
@@ -1590,12 +1597,24 @@ suite('gr-diff-view tests', () => {
           linkEls[0].getAttribute('href'),
           '/c/test-project/+/42/5..10/glados.txt'
         );
-        assert.equal(linkEls[1].getAttribute('href'), '42-10-5');
-        assert.equal(linkEls[2].getAttribute('href'), '42-10-5');
+        assert.equal(
+          linkEls[1].getAttribute('href'),
+          '/c/test-project/+/42/5..10'
+        );
+        assert.equal(
+          linkEls[2].getAttribute('href'),
+          '/c/test-project/+/42/5..10'
+        );
         element.path = 'chell.go';
         await element.updateComplete;
-        assert.equal(linkEls[0].getAttribute('href'), '42-10-5');
-        assert.equal(linkEls[1].getAttribute('href'), '42-10-5');
+        assert.equal(
+          linkEls[0].getAttribute('href'),
+          '/c/test-project/+/42/5..10'
+        );
+        assert.equal(
+          linkEls[1].getAttribute('href'),
+          '/c/test-project/+/42/5..10'
+        );
         assert.equal(
           linkEls[2].getAttribute('href'),
           '/c/test-project/+/42/5..10/glados.txt'

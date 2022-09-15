@@ -3,26 +3,18 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {
-  BasePatchSetNum,
-  ChangeInfo,
-  NumericChangeId,
-  PARENT,
-  RepoName,
-  RevisionPatchSetNum,
-  UrlEncodedCommentId,
-} from '../types/common';
+import {ChangeInfo, PARENT, RepoName} from '../types/common';
 import {PatchRangeParams} from '../elements/core/gr-router/gr-router';
 import {encodeURL, getBaseUrl} from './url-util';
 import {assertNever} from './common-util';
 import {GerritView} from '../services/router/router-model';
-import {AttemptChoice} from '../models/checks/checks-util';
 import {GroupDetailView, GroupViewState} from '../models/views/group';
 import {DashboardViewState} from '../models/views/dashboard';
 import {RepoDetailView, RepoViewState} from '../models/views/repo';
 import {SettingsViewState} from '../models/views/settings';
 import {createEditUrl, EditViewState} from '../models/views/edit';
 import {createDiffUrl, DiffViewState} from '../models/views/diff';
+import {ChangeViewState, createChangeUrl} from '../models/views/change';
 
 export interface DashboardSection {
   name: string;
@@ -33,28 +25,8 @@ export interface DashboardSection {
   results?: ChangeInfo[];
 }
 
-export interface GenerateUrlChangeViewParameters {
-  view: GerritView.CHANGE;
-  // TODO(TS): NumericChangeId - not sure about it, may be it can be removed
-  changeNum: NumericChangeId;
-  project: RepoName;
-  patchNum?: RevisionPatchSetNum;
-  basePatchNum?: BasePatchSetNum;
-  edit?: boolean;
-  messageHash?: string;
-  commentId?: UrlEncodedCommentId;
-  forceReload?: boolean;
-  openReplyDialog?: boolean;
-  tab?: string;
-  /** regular expression for filtering check runs */
-  filter?: string;
-  /** selected attempt for selected check runs */
-  attempt?: AttemptChoice;
-  usp?: string;
-}
-
 export type GenerateUrlParameters =
-  | GenerateUrlChangeViewParameters
+  | ChangeViewState
   | RepoViewState
   | DashboardViewState
   | GroupViewState
@@ -62,9 +34,9 @@ export type GenerateUrlParameters =
   | SettingsViewState
   | DiffViewState;
 
-export function isGenerateUrlChangeViewParameters(
+export function isChangeViewState(
   x: GenerateUrlParameters
-): x is GenerateUrlChangeViewParameters {
+): x is ChangeViewState {
   return x.view === GerritView.CHANGE;
 }
 
@@ -89,7 +61,7 @@ export function generateUrl(params: GenerateUrlParameters) {
   let url = '';
 
   if (params.view === GerritView.CHANGE) {
-    url = generateChangeUrl(params);
+    url = createChangeUrl(params);
   } else if (params.view === GerritView.DASHBOARD) {
     url = generateDashboardUrl(params);
   } else if (params.view === GerritView.DIFF) {
@@ -123,42 +95,6 @@ export function getPatchRangeExpression(params: PatchRangeParams) {
     range = `${params.basePatchNum}..${range}`;
   }
   return range;
-}
-
-function generateChangeUrl(params: GenerateUrlChangeViewParameters) {
-  let range = getPatchRangeExpression(params);
-  if (range.length) {
-    range = '/' + range;
-  }
-  let suffix = `${range}`;
-  const queries = [];
-  if (params.forceReload) {
-    queries.push('forceReload=true');
-  }
-  if (params.openReplyDialog) {
-    queries.push('openReplyDialog=true');
-  }
-  if (params.usp) {
-    queries.push(`usp=${params.usp}`);
-  }
-  if (params.edit) {
-    suffix += ',edit';
-  }
-  if (params.commentId) {
-    suffix = suffix + `/comments/${params.commentId}`;
-  }
-  if (queries.length > 0) {
-    suffix += '?' + queries.join('&');
-  }
-  if (params.messageHash) {
-    suffix += params.messageHash;
-  }
-  if (params.project) {
-    const encodedProject = encodeURL(params.project, true);
-    return `/c/${encodedProject}/+/${params.changeNum}${suffix}`;
-  } else {
-    return `/c/${params.changeNum}${suffix}`;
-  }
 }
 
 const REPO_TOKEN_PATTERN = /\${(project|repo)}/g;

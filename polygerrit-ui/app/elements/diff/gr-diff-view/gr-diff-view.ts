@@ -119,6 +119,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {when} from 'lit/directives/when.js';
 import {createDiffUrl, DiffViewState} from '../../../models/views/diff';
+import {createChangeUrl} from '../../../models/views/change';
 
 const LOADING_BLAME = 'Loading blame...';
 const LOADED_BLAME = 'Blame loaded';
@@ -1808,7 +1809,9 @@ export class GrDiffView extends LitElement {
       this.patchRange,
       this.change.revisions
     );
-    return GerritNav.getUrlForChange(this.change, {
+    return createChangeUrl({
+      changeNum: this.change._number,
+      project: this.change.project,
       patchNum: range.patchNum,
       basePatchNum: range.basePatchNum,
     });

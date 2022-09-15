@@ -48,7 +48,6 @@ import {Execution, LifeCycle, Timing} from '../../../constants/reporting';
 import {
   generateUrl,
   GenerateUrlChangeViewParameters,
-  GenerateUrlDiffViewParameters,
   GenerateUrlParameters,
 } from '../../../utils/router-util';
 import {
@@ -59,6 +58,7 @@ import {AdminChildView} from '../../../models/views/admin';
 import {AgreementViewState} from '../../../models/views/agreement';
 import {RepoDetailView} from '../../../models/views/repo';
 import {GroupDetailView} from '../../../models/views/group';
+import {DiffViewState} from '../../../models/views/diff';
 
 const RoutePattern = {
   ROOT: '/',
@@ -1478,14 +1478,14 @@ export class GrRouter {
 
   handleCommentRoute(ctx: PageContextWithQueryMap) {
     const changeNum = Number(ctx.params[1]) as NumericChangeId;
-    const params: GenerateUrlDiffViewParameters = {
+    const params: DiffViewState = {
       project: ctx.params[0] as RepoName,
       changeNum,
       commentId: ctx.params[2] as UrlEncodedCommentId,
       view: GerritView.DIFF,
       commentLink: true,
     };
-    this.reporting.setRepoName(params.project);
+    this.reporting.setRepoName(params.project ?? '');
     this.reporting.setChangeId(changeNum);
     this.redirectOrNavigate(params);
   }
@@ -1506,7 +1506,7 @@ export class GrRouter {
   handleDiffRoute(ctx: PageContextWithQueryMap) {
     const changeNum = Number(ctx.params[1]) as NumericChangeId;
     // Parameter order is based on the regex group number matched.
-    const params: GenerateUrlDiffViewParameters = {
+    const params: DiffViewState = {
       project: ctx.params[0] as RepoName,
       changeNum,
       basePatchNum: convertToPatchSetNum(ctx.params[4]) as BasePatchSetNum,
@@ -1519,7 +1519,7 @@ export class GrRouter {
       params.leftSide = address.leftSide;
       params.lineNum = address.lineNum;
     }
-    this.reporting.setRepoName(params.project);
+    this.reporting.setRepoName(params.project ?? '');
     this.reporting.setChangeId(changeNum);
     this.redirectOrNavigate(params);
   }

@@ -22,6 +22,7 @@ import {DashboardViewState} from '../models/views/dashboard';
 import {RepoDetailView, RepoViewState} from '../models/views/repo';
 import {SettingsViewState} from '../models/views/settings';
 import {createEditUrl, EditViewState} from '../models/views/edit';
+import {createDiffUrl, DiffViewState} from '../models/views/diff';
 
 export interface DashboardSection {
   name: string;
@@ -52,20 +53,6 @@ export interface GenerateUrlChangeViewParameters {
   usp?: string;
 }
 
-export interface GenerateUrlDiffViewParameters {
-  view: GerritView.DIFF;
-  changeNum: NumericChangeId;
-  project: RepoName;
-  path?: string;
-  patchNum?: RevisionPatchSetNum;
-  basePatchNum?: BasePatchSetNum;
-  lineNum?: number | string;
-  leftSide?: boolean;
-  commentId?: UrlEncodedCommentId;
-  // TODO(TS): remove - property is set but never used
-  commentLink?: boolean;
-}
-
 export type GenerateUrlParameters =
   | GenerateUrlChangeViewParameters
   | RepoViewState
@@ -73,7 +60,7 @@ export type GenerateUrlParameters =
   | GroupViewState
   | EditViewState
   | SettingsViewState
-  | GenerateUrlDiffViewParameters;
+  | DiffViewState;
 
 export function isGenerateUrlChangeViewParameters(
   x: GenerateUrlParameters
@@ -85,9 +72,7 @@ export function isEditViewState(x: GenerateUrlParameters): x is EditViewState {
   return x.view === GerritView.EDIT;
 }
 
-export function isGenerateUrlDiffViewParameters(
-  x: GenerateUrlParameters
-): x is GenerateUrlDiffViewParameters {
+export function isDiffViewState(x: GenerateUrlParameters): x is DiffViewState {
   return x.view === GerritView.DIFF;
 }
 
@@ -108,7 +93,7 @@ export function generateUrl(params: GenerateUrlParameters) {
   } else if (params.view === GerritView.DASHBOARD) {
     url = generateDashboardUrl(params);
   } else if (params.view === GerritView.DIFF) {
-    url = generateDiffOrEditUrl(params);
+    url = createDiffUrl(params);
   } else if (params.view === GerritView.EDIT) {
     url = createEditUrl(params);
   } else if (params.view === GerritView.GROUP) {
@@ -209,40 +194,6 @@ function generateDashboardUrl(params: DashboardViewState) {
   } else {
     // User dashboard.
     return `/dashboard/${params.user || 'self'}`;
-  }
-}
-
-function generateDiffOrEditUrl(
-  params: GenerateUrlDiffViewParameters | EditViewState
-) {
-  let range = getPatchRangeExpression(params);
-  if (range.length) {
-    range = '/' + range;
-  }
-
-  let suffix = `${range}/${encodeURL(params.path || '', true)}`;
-
-  if (params.view === GerritView.EDIT) {
-    suffix += ',edit';
-  }
-
-  if (params.lineNum) {
-    suffix += '#';
-    if (isGenerateUrlDiffViewParameters(params) && params.leftSide) {
-      suffix += 'b';
-    }
-    suffix += params.lineNum;
-  }
-
-  if (isGenerateUrlDiffViewParameters(params) && params.commentId) {
-    suffix = `/comment/${params.commentId}` + suffix;
-  }
-
-  if (params.project) {
-    const encodedProject = encodeURL(params.project, true);
-    return `/c/${encodedProject}/+/${params.changeNum}${suffix}`;
-  } else {
-    return `/c/${params.changeNum}${suffix}`;
   }
 }
 

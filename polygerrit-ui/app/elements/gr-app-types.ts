@@ -3,7 +3,6 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {GenerateUrlParameters} from '../utils/router-util';
 import {SettingsViewState} from '../models/views/settings';
 import {AdminViewState} from '../models/views/admin';
 import {GroupViewState} from '../models/views/group';
@@ -18,7 +17,7 @@ import {DiffViewState} from '../models/views/diff';
 import {EditViewState} from '../models/views/edit';
 
 export interface AppElement extends HTMLElement {
-  params: AppElementParams | GenerateUrlParameters;
+  params: AppElementParams;
 }
 
 export interface AppElementJustRegisteredParams {

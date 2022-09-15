@@ -1722,9 +1722,6 @@ suite('gr-file-list tests', () => {
 
   suite('diff url file list', () => {
     test('diff url', () => {
-      const diffStub = sinon
-        .stub(GerritNav, 'getUrlForDiff')
-        .returns('/c/gerrit/+/1/1/index.php');
       element.change = {
         ...createParsedChange(),
         _number: 1 as NumericChangeId,
@@ -1737,13 +1734,9 @@ suite('gr-file-list tests', () => {
       const path = 'index.php';
       element.editMode = false;
       assert.equal(element.computeDiffURL(path), '/c/gerrit/+/1/1/index.php');
-      diffStub.restore();
     });
 
     test('diff url commit msg', () => {
-      const diffStub = sinon
-        .stub(GerritNav, 'getUrlForDiff')
-        .returns('/c/gerrit/+/1/1//COMMIT_MSG');
       element.change = {
         ...createParsedChange(),
         _number: 1 as NumericChangeId,
@@ -1756,7 +1749,6 @@ suite('gr-file-list tests', () => {
       element.editMode = false;
       const path = '/COMMIT_MSG';
       assert.equal(element.computeDiffURL(path), '/c/gerrit/+/1/1//COMMIT_MSG');
-      diffStub.restore();
     });
 
     test('edit url', () => {

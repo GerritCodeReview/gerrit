@@ -5,28 +5,9 @@
  */
 import {assert} from '@open-wc/testing';
 import '../../../test/common-test-setup';
-import {createChange} from '../../../test/test-data-generators';
-import {BasePatchSetNum, NumericChangeId} from '../../../types/common';
 import {GerritNav} from './gr-navigation';
 
 suite('gr-navigation tests', () => {
-  test('invalid patch ranges throw exceptions', () => {
-    assert.throw(() =>
-      GerritNav.getUrlForChange(
-        {...createChange(), _number: 123 as NumericChangeId},
-        {basePatchNum: 12 as BasePatchSetNum}
-      )
-    );
-    assert.throw(() =>
-      GerritNav.getUrlForDiff(
-        {...createChange(), _number: 123 as NumericChangeId},
-        'x.c',
-        undefined,
-        12 as BasePatchSetNum
-      )
-    );
-  });
-
   suite('_getUserDashboard', () => {
     const sections = [
       {name: 'section 1', query: 'query 1'},

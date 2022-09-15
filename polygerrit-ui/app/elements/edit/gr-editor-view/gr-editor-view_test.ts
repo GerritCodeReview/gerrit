@@ -18,7 +18,7 @@ import {
 import {EDIT, NumericChangeId, PatchSetNum} from '../../../types/common';
 import {
   createChangeViewChange,
-  createGenerateUrlEditViewParameters,
+  createEditViewState,
 } from '../../../test/test-data-generators';
 import {GrEndpointDecorator} from '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import {GrDefaultEditor} from '../gr-default-editor/gr-default-editor';
@@ -122,7 +122,7 @@ suite('gr-editor-view tests', () => {
         return Promise.resolve();
       });
 
-      element.params = {...createGenerateUrlEditViewParameters()};
+      element.params = {...createEditViewState()};
       const promises = element.paramsChanged();
 
       await element.updateComplete;

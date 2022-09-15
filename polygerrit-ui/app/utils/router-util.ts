@@ -21,6 +21,7 @@ import {GroupDetailView, GroupViewState} from '../models/views/group';
 import {DashboardViewState} from '../models/views/dashboard';
 import {RepoDetailView, RepoViewState} from '../models/views/repo';
 import {SettingsViewState} from '../models/views/settings';
+import {createEditUrl, EditViewState} from '../models/views/edit';
 
 export interface DashboardSection {
   name: string;
@@ -51,15 +52,6 @@ export interface GenerateUrlChangeViewParameters {
   usp?: string;
 }
 
-export interface GenerateUrlEditViewParameters {
-  view: GerritView.EDIT;
-  changeNum: NumericChangeId;
-  project: RepoName;
-  path: string;
-  patchNum: RevisionPatchSetNum;
-  lineNum?: number | string;
-}
-
 export interface GenerateUrlDiffViewParameters {
   view: GerritView.DIFF;
   changeNum: NumericChangeId;
@@ -79,7 +71,7 @@ export type GenerateUrlParameters =
   | RepoViewState
   | DashboardViewState
   | GroupViewState
-  | GenerateUrlEditViewParameters
+  | EditViewState
   | SettingsViewState
   | GenerateUrlDiffViewParameters;
 
@@ -89,9 +81,7 @@ export function isGenerateUrlChangeViewParameters(
   return x.view === GerritView.CHANGE;
 }
 
-export function isGenerateUrlEditViewParameters(
-  x: GenerateUrlParameters
-): x is GenerateUrlEditViewParameters {
+export function isEditViewState(x: GenerateUrlParameters): x is EditViewState {
   return x.view === GerritView.EDIT;
 }
 
@@ -117,11 +107,10 @@ export function generateUrl(params: GenerateUrlParameters) {
     url = generateChangeUrl(params);
   } else if (params.view === GerritView.DASHBOARD) {
     url = generateDashboardUrl(params);
-  } else if (
-    params.view === GerritView.DIFF ||
-    params.view === GerritView.EDIT
-  ) {
+  } else if (params.view === GerritView.DIFF) {
     url = generateDiffOrEditUrl(params);
+  } else if (params.view === GerritView.EDIT) {
+    url = createEditUrl(params);
   } else if (params.view === GerritView.GROUP) {
     url = generateGroupUrl(params);
   } else if (params.view === GerritView.REPO) {
@@ -140,7 +129,7 @@ export function generateUrl(params: GenerateUrlParameters) {
  * `basePatchNum` or both, return a string representation of that range. If
  * no range is indicated in the params, the empty string is returned.
  */
-function getPatchRangeExpression(params: PatchRangeParams) {
+export function getPatchRangeExpression(params: PatchRangeParams) {
   let range = '';
   if (params.patchNum) {
     range = `${params.patchNum}`;
@@ -224,7 +213,7 @@ function generateDashboardUrl(params: DashboardViewState) {
 }
 
 function generateDiffOrEditUrl(
-  params: GenerateUrlDiffViewParameters | GenerateUrlEditViewParameters
+  params: GenerateUrlDiffViewParameters | EditViewState
 ) {
   let range = getPatchRangeExpression(params);
   if (range.length) {

@@ -1713,8 +1713,11 @@ commentlinks to be immediately available in the UI.
   link = "#/q/$1"
 
 [commentlink "bugzilla"]
-  match = "(bug\\s+#?)(\\d+)"
-  link = http://bugs.example.com/show_bug.cgi?id=$2
+  match = "(^|\\s)(bug\\s+#?)(\\d+)($|\\s)"
+  link = http://bugs.example.com/show_bug.cgi?id=$3
+  prefix = $1
+  suffix = $4
+  text = $2$3
 
 [commentlink "tracker"]
   match = ([Bb]ug:\\s+)(\\d+)
@@ -1749,11 +1752,36 @@ supported. Comment link patterns that are written in this style should
 be updated to match text formats.
 +
 A common pattern to match is `bug\\s+(\\d+)`.
++
+In order to better control the visual presentation of the link `prefix`,
+`suffix` and `text` is used. With the generated link html looking like:
+`prefix<a ...>text</a>suffix`.
 
 [[commentlink.name.link]]commentlink.<name>.link::
 +
 The URL to direct the user to whenever the regular expression is
 matched.  Groups in the match expression may be accessed as `$'n'`.
++
+The link property is used only when the html property is not present.
+
+[[commentlink.name.prefix]]commentlink.<name>.prefix::
++
+The text inserted before the link. Groups in the match expression may be
+accessed as `$'n'`.
++
+The link property is used only when the html property is not present.
+
+[[commentlink.name.suffix]]commentlink.<name>.suffix::
++
+The text inserted after the link. Groups in the match expression may be
+accessed as `$'n'`.
++
+The link property is used only when the html property is not present.
+
+[[commentlink.name.text]]commentlink.<name>.text::
++
+The text content of the link. Groups in the match expression may be
+accessed as `$'n'`.
 +
 The link property is used only when the html property is not present.
 

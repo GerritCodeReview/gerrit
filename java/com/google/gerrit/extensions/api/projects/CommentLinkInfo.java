@@ -17,9 +17,13 @@ package com.google.gerrit.extensions.api.projects;
 import com.google.common.base.MoreObjects;
 import java.util.Objects;
 
+/** See {@link com.google.gerrit.entities.StoredCommentLinkInfo} for field documentation. */
 public class CommentLinkInfo {
   public String match;
   public String link;
+  public String prefix;
+  public String suffix;
+  public String text;
   public String html;
   public Boolean enabled; // null means true
 
@@ -34,6 +38,9 @@ public class CommentLinkInfo {
       CommentLinkInfo that = (CommentLinkInfo) o;
       return Objects.equals(this.match, that.match)
           && Objects.equals(this.link, that.link)
+          && Objects.equals(this.prefix, that.prefix)
+          && Objects.equals(this.suffix, that.suffix)
+          && Objects.equals(this.text, that.text)
           && Objects.equals(this.html, that.html)
           && Objects.equals(this.enabled, that.enabled);
     }
@@ -51,6 +58,9 @@ public class CommentLinkInfo {
         .add("name", name)
         .add("match", match)
         .add("link", link)
+        .add("prefix", prefix)
+        .add("suffix", suffix)
+        .add("text", text)
         .add("html", html)
         .add("enabled", enabled)
         .toString();

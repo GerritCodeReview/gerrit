@@ -533,14 +533,17 @@ message SubscribeSectionProto {
 }
 
 // Serialized form of com.google.gerrit.entities.StoredCommentLinkInfo.
-// Next ID: 7
+// Next ID: 10
 message StoredCommentLinkInfoProto {
   string name = 1;
   string match = 2;
-  string link = 3;
   string html = 4;
   bool enabled = 5;
   bool override_only = 6;
+  string link = 3;
+  string prefix = 7;
+  string suffix = 8;
+  string text = 9;
 }
 
 // Serialized form of com.google.gerrit.entities.CachedProjectConfigProto.

@@ -11,7 +11,6 @@ import {GerritView} from '../services/router/router-model';
 import {GroupDetailView, GroupViewState} from '../models/views/group';
 import {DashboardViewState} from '../models/views/dashboard';
 import {RepoDetailView, RepoViewState} from '../models/views/repo';
-import {SettingsViewState} from '../models/views/settings';
 import {createEditUrl, EditViewState} from '../models/views/edit';
 import {createDiffUrl, DiffViewState} from '../models/views/diff';
 import {ChangeViewState, createChangeUrl} from '../models/views/change';
@@ -31,7 +30,6 @@ export type GenerateUrlParameters =
   | DashboardViewState
   | GroupViewState
   | EditViewState
-  | SettingsViewState
   | DiffViewState;
 
 export function isChangeViewState(
@@ -72,8 +70,6 @@ export function generateUrl(params: GenerateUrlParameters) {
     url = generateGroupUrl(params);
   } else if (params.view === GerritView.REPO) {
     url = generateRepoUrl(params);
-  } else if (params.view === GerritView.SETTINGS) {
-    url = generateSettingsUrl();
   } else {
     assertNever(params, "Can't generate");
   }
@@ -159,8 +155,4 @@ function generateRepoUrl(params: RepoViewState) {
     url += ',dashboards';
   }
   return url;
-}
-
-function generateSettingsUrl() {
-  return '/settings';
 }

@@ -72,6 +72,7 @@ import {subscribe} from './lit/subscription-controller';
 import {KnownExperimentId} from '../services/flags/flags';
 import {PluginViewState} from '../models/views/plugin';
 import {SearchViewState} from '../models/views/search';
+import {createSettingsUrl} from '../models/views/settings';
 
 interface ErrorInfo {
   text: string;
@@ -278,7 +279,7 @@ export class GrAppElement extends LitElement {
 
     // Note: this is evaluated here to ensure that it only happens after the
     // router has been initialized. @see Issue 7837
-    this.settingsUrl = GerritNav.getUrlForSettings();
+    this.settingsUrl = createSettingsUrl();
   }
 
   static override get styles() {

@@ -267,16 +267,6 @@ limitations under the License.
       </section>
       <section class="actions">
         <div class="left">
-          <template is="dom-if" if="[[canBeStarted]]">
-            <gr-button
-                link
-                secondary
-                disabled="[[_isState(knownLatestState, 'not-latest')]]"
-                class="action save"
-                has-tooltip
-                title="[[_saveTooltip]]"
-                on-tap="_saveTapHandler">Save</gr-button>
-          </template>
           <span
               id="checkingStatusLabel"
               hidden$="[[!_isState(knownLatestState, 'checking')]]">
@@ -295,6 +285,16 @@ limitations under the License.
               id="cancelButton"
               class="action cancel"
               on-tap="_cancelTapHandler">Cancel</gr-button>
+          <template is="dom-if" if="[[canBeStarted]]">
+            <gr-button
+                link
+                secondary
+                disabled="[[_isState(knownLatestState, 'not-latest')]]"
+                class="action save"
+                has-tooltip
+                title="[[_saveTooltip]]"
+                on-tap="_saveTapHandler">Save</gr-button>
+          </template>
           <gr-button
               id="sendButton"
               link

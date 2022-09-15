@@ -92,9 +92,12 @@ export function createAppDependencies(
   );
   dependencies.set(changeModelToken, changeModel);
 
+  const accountsModel = new AccountsModel(appContext.restApiService);
+
   const commentsModel = new CommentsModel(
     appContext.routerModel,
     changeModel,
+    accountsModel,
     appContext.restApiService,
     appContext.reportingService
   );

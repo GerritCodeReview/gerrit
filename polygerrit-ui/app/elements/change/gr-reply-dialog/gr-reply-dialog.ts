@@ -324,6 +324,9 @@ export class GrReplyDialog extends LitElement {
   mentionedUsers: AccountInput[] = [];
 
   @state()
+  mentionedUsersInUnresolvedDrafts: AccountInfo[] = [];
+
+  @state()
   attentionCcsCount = 0;
 
   @state()
@@ -405,8 +408,6 @@ export class GrReplyDialog extends LitElement {
   private readonly getConfigModel = resolve(this, configModelToken);
 
   private readonly accountsModel = getAppContext().accountsModel;
-
-  private mentionedUsersInUnresolvedDrafts: AccountInfo[] = [];
 
   private latestPatchNum?: PatchSetNumber;
 
@@ -808,6 +809,7 @@ export class GrReplyDialog extends LitElement {
       changedProperties.has('ccs') ||
       changedProperties.has('change') ||
       changedProperties.has('draftCommentThreads') ||
+      changedProperties.has('mentionedUsersInUnresolvedDrafts') ||
       changedProperties.has('includeComments') ||
       changedProperties.has('labelsChanged') ||
       changedProperties.has('patchsetLevelDraftMessage') ||

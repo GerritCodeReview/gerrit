@@ -45,6 +45,7 @@ import {Deduping} from '../../api/reporting';
 import {extractMentionedUsers, getUserId} from '../../utils/account-util';
 import {EventType} from '../../types/events';
 import {SpecialFilePath} from '../../constants/constants';
+import {AccountsModel} from '../accounts-model/accounts-model';
 
 export interface CommentState {
   /** undefined means 'still loading' */
@@ -358,6 +359,7 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
   constructor(
     readonly routerModel: RouterModel,
     readonly changeModel: ChangeModel,
+    readonly accountsModel: AccountsModel,
     readonly restApiService: RestApiService,
     readonly reporting: ReportingService
   ) {

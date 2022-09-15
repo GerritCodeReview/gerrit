@@ -67,6 +67,7 @@ suite('change service tests', () => {
     const model = new CommentsModel(
       getAppContext().routerModel,
       testResolver(changeModelToken),
+      getAppContext().accountsModel,
       getAppContext().restApiService,
       getAppContext().reportingService
     );
@@ -122,6 +123,7 @@ suite('change service tests', () => {
     const model = new CommentsModel(
       getAppContext().routerModel,
       testResolver(changeModelToken),
+      getAppContext().accountsModel,
       getAppContext().restApiService,
       getAppContext().reportingService
     );

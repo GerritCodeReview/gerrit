@@ -33,7 +33,10 @@ import {ConfigModel, configModelToken} from '../models/config/config-model';
 import {BrowserModel, browserModelToken} from '../models/browser/browser-model';
 import {PluginsModel} from '../models/plugins/plugins-model';
 import {MockHighlightService} from '../services/highlight/highlight-service-mock';
-import {AccountsModel} from '../models/accounts-model/accounts-model';
+import {
+  AccountsModel,
+  accountsModelToken,
+} from '../models/accounts-model/accounts-model';
 
 export function createTestAppContext(): AppContext & Finalizable {
   const appRegistry: Registry<AppContext> = {
@@ -97,10 +100,15 @@ export function createTestDependencies(
     );
   dependencies.set(changeModelToken, changeModelCreator);
 
+  const accountsModelCreator = () =>
+    new AccountsModel(appContext.restApiService);
+  dependencies.set(accountsModelToken, accountsModelCreator);
+
   const commentsModelCreator = () =>
     new CommentsModel(
       appContext.routerModel,
       resolver(changeModelToken),
+      resolver(accountsModelToken),
       appContext.restApiService,
       appContext.reportingService
     );

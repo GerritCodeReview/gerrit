@@ -22,6 +22,13 @@ java_library(
 )
 
 java_library(
+    name = "bcutil",
+    data = ["//lib:LICENSE-bouncycastle"],
+    visibility = ["//visibility:public"],
+    exports = ["@bcutil//jar"],
+)
+
+java_library(
     name = "bcprov-neverlink",
     data = ["//lib:LICENSE-bouncycastle"],
     neverlink = 1,
@@ -43,4 +50,12 @@ java_library(
     neverlink = 1,
     visibility = ["//visibility:public"],
     exports = ["@bcpkix//jar"],
+)
+
+java_library(
+    name = "bcutil-neverlink",
+    data = ["//lib:LICENSE-bouncycastle"],
+    neverlink = 1,
+    visibility = ["//visibility:public"],
+    exports = ["@bcutil//jar"],
 )

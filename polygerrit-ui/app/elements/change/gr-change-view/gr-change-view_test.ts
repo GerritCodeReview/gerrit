@@ -2124,7 +2124,6 @@ suite('gr-change-view tests', () => {
     const openDeleteDialogStub = sinon.stub(controls, 'openDeleteDialog');
     const openRenameDialogStub = sinon.stub(controls, 'openRenameDialog');
     const openRestoreDialogStub = sinon.stub(controls, 'openRestoreDialog');
-    const getEditUrlForDiffStub = sinon.stub(GerritNav, 'getEditUrlForDiff');
     const navigateToRelativeUrlStub = sinon.stub(
       GerritNav,
       'navigateToRelativeUrl'
@@ -2179,12 +2178,6 @@ suite('gr-change-view tests', () => {
     );
     await element.updateComplete;
 
-    assert.isTrue(getEditUrlForDiffStub.called);
-    assert.equal(getEditUrlForDiffStub.lastCall.args[1], 'foo');
-    assert.equal(
-      getEditUrlForDiffStub.lastCall.args[2],
-      1 as RevisionPatchSetNum
-    );
     assert.isTrue(navigateToRelativeUrlStub.called);
   });
 

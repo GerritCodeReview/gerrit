@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a1a8630_2c4f9999",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1391,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-15T13:58:13Z",
+      "side": 1,
+      "message": "Yes!",
+      "parentUuid": "ce1512fb_dc6e5dc4",
+      "revId": "6a0033a35f86f4d003aca084c0480e1b54f4e7b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a5f8362a_02de0150",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-09-15T11:26:12Z",
       "side": 1,
       "message": "```\n} else if (isEditViewState(params)) {\n```",
+      "revId": "6a0033a35f86f4d003aca084c0480e1b54f4e7b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f632ce73_132ff882",
+        "filename": "polygerrit-ui/app/utils/router-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-15T13:58:13Z",
+      "side": 1,
+      "message": "The entire `generateUrl()` method will disappear in a few changes down the road, so I don\u0027t want to make it fancier at the moment. I do keep the idea of `isEditViewState()` function in mind.",
+      "parentUuid": "a5f8362a_02de0150",
       "revId": "6a0033a35f86f4d003aca084c0480e1b54f4e7b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

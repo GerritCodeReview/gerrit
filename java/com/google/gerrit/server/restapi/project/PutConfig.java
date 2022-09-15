@@ -17,6 +17,9 @@ package com.google.gerrit.server.restapi.project;
 import static com.google.gerrit.server.project.ProjectConfig.COMMENTLINK;
 import static com.google.gerrit.server.project.ProjectConfig.KEY_ENABLED;
 import static com.google.gerrit.server.project.ProjectConfig.KEY_LINK;
+import static com.google.gerrit.server.project.ProjectConfig.KEY_SUFFIX;
+import static com.google.gerrit.server.project.ProjectConfig.KEY_PREFIX;
+import static com.google.gerrit.server.project.ProjectConfig.KEY_TEXT;
 import static com.google.gerrit.server.project.ProjectConfig.KEY_MATCH;
 
 import com.google.common.base.Joiner;
@@ -300,6 +303,9 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
         Config cfg = new Config();
         cfg.setString(COMMENTLINK, name, KEY_MATCH, value.match);
         cfg.setString(COMMENTLINK, name, KEY_LINK, value.link);
+        cfg.setString(COMMENTLINK, name, KEY_PREFIX, value.prefix);
+        cfg.setString(COMMENTLINK, name, KEY_SUFFIX, value.suffix);
+        cfg.setString(COMMENTLINK, name, KEY_TEXT, value.text);
         cfg.setBoolean(COMMENTLINK, name, KEY_ENABLED, value.enabled == null || value.enabled);
         projectConfig.addCommentLinkSection(ProjectConfig.buildCommentLink(cfg, name, false));
       } else {

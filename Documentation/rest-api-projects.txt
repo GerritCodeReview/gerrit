@@ -3798,6 +3798,9 @@ link:config-gerrit.html#commentlink.name.match[commentlink.name.match].
 |`link`     |        |The URL to direct the user to whenever the
 regular expression is matched, as documented in
 link:config-gerrit.html#commentlink.name.link[commentlink.name.link].
+| `   |optional|Text inserted before the link.
+|`suffix`   |optional|Text inserted after the link.
+|`text`     |optional|Text of the link.
 |`enabled`  |optional|Whether the commentlink is enabled, as documented
 in link:config-gerrit.html#commentlink.name.enabled[
 commentlink.name.enabled]. If not set the commentlink is enabled.
@@ -3817,6 +3820,9 @@ link:config-gerrit.html#commentlink.name.match[commentlink.name.match].
 |`link`     |        |The URL to direct the user to whenever the
 regular expression is matched, as documented in
 link:config-gerrit.html#commentlink.name.link[commentlink.name.link].
+|`prefix`   |optional|Text inserted before the link.
+|`suffix`   |optional|Text inserted after the link.
+|`text`     |optional|Text of the link.
 |`enabled`  |optional|Whether the commentlink is enabled, as documented
 in link:config-gerrit.html#commentlink.name.enabled[
 commentlink.name.enabled]. If not set the commentlink is enabled.

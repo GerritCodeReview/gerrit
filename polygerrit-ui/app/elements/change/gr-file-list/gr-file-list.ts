@@ -75,6 +75,7 @@ import {incrementalRepeat} from '../../lit/incremental-repeat';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {HtmlPatched} from '../../../utils/lit-util';
 import {createDiffUrl} from '../../../models/views/diff';
+import {createEditUrl} from '../../../models/views/edit';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -2090,11 +2091,12 @@ export class GrFileList extends LitElement {
       return;
     }
     if (this.editMode && path !== SpecialFilePath.MERGE_LIST) {
-      return GerritNav.getEditUrlForDiff(
-        this.change,
+      return createEditUrl({
+        changeNum: this.change._number,
+        project: this.change.project,
         path,
-        this.patchRange.patchNum
-      );
+        patchNum: this.patchRange.patchNum,
+      });
     }
     return createDiffUrl({
       changeNum: this.change._number,

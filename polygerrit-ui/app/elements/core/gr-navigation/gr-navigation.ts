@@ -10,7 +10,6 @@ import {
   CommentLinks,
   CommitId,
   DashboardId,
-  EDIT,
   GroupId,
   NumericChangeId,
   PARENT,
@@ -394,43 +393,6 @@ export const GerritNav = {
       changeNum,
       project,
       commentId,
-    });
-  },
-
-  getEditUrlForDiff(
-    change: ChangeInfo | ParsedChangeInfo,
-    filePath: string,
-    patchNum?: RevisionPatchSetNum,
-    lineNum?: number
-  ) {
-    return this.getEditUrlForDiffById(
-      change._number,
-      change.project,
-      filePath,
-      patchNum,
-      lineNum
-    );
-  },
-
-  /**
-   * @param patchNum The patchNum the file content should be based on, or
-   *   ${EDIT} if left undefined.
-   * @param lineNum The line number to pass to the inline editor.
-   */
-  getEditUrlForDiffById(
-    changeNum: NumericChangeId,
-    project: RepoName,
-    filePath: string,
-    patchNum?: RevisionPatchSetNum,
-    lineNum?: number
-  ) {
-    return this._getUrlFor({
-      view: GerritView.EDIT,
-      changeNum,
-      project,
-      path: filePath,
-      patchNum: patchNum || EDIT,
-      lineNum,
     });
   },
 

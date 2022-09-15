@@ -120,6 +120,7 @@ import {ifDefined} from 'lit/directives/if-defined.js';
 import {when} from 'lit/directives/when.js';
 import {createDiffUrl, DiffViewState} from '../../../models/views/diff';
 import {createChangeUrl} from '../../../models/views/change';
+import {createEditUrl} from '../../../models/views/edit';
 
 const LOADING_BLAME = 'Loading blame...';
 const LOADED_BLAME = 'Blame loaded';
@@ -1390,12 +1391,13 @@ export class GrDiffView extends LitElement {
 
     // TODO(taoalpha): add a shortcut for editing
     const cursorAddress = this.cursor?.getAddress();
-    const editUrl = GerritNav.getEditUrlForDiff(
-      this.change,
-      this.path,
-      this.patchRange.patchNum,
-      cursorAddress?.number
-    );
+    const editUrl = createEditUrl({
+      changeNum: this.change._number,
+      project: this.change.project,
+      path: this.path,
+      patchNum: this.patchRange.patchNum,
+      lineNum: cursorAddress?.number,
+    });
     GerritNav.navigateToRelativeUrl(editUrl);
   }
 

@@ -70,6 +70,24 @@
       "parentUuid": "db9cdce8_74f77952",
       "revId": "1686a44e5f260c500125e1b816112a85872abc65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a79916a_bf804e6d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-09-15T23:17:56Z",
+      "side": 1,
+      "message": "Tests were added. I think it is ready for review.",
+      "parentUuid": "5e84d6a8_637ac5ed",
+      "revId": "1686a44e5f260c500125e1b816112a85872abc65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

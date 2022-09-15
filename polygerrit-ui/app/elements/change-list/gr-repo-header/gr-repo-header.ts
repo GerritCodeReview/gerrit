@@ -3,7 +3,6 @@
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {RepoName} from '../../../types/common';
 import {WebLinkInfo} from '../../../types/diff';
 import {getAppContext} from '../../../services/app-context';
@@ -12,6 +11,7 @@ import {fontStyles} from '../../../styles/gr-font-styles';
 import {dashboardHeaderStyles} from '../../../styles/dashboard-header-styles';
 import {LitElement, css, html, PropertyValues} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
+import {createRepoUrl} from '../../../models/views/repo';
 
 @customElement('gr-repo-header')
 export class GrRepoHeader extends LitElement {
@@ -73,15 +73,15 @@ export class GrRepoHeader extends LitElement {
   }
 
   _repoChanged() {
-    const repoName = this.repo;
-    if (!repoName) {
+    const repo = this.repo;
+    if (!repo) {
       this._repoUrl = null;
       return;
     }
 
-    this._repoUrl = GerritNav.getUrlForRepo(repoName);
+    this._repoUrl = createRepoUrl({repo});
 
-    this.restApiService.getRepo(repoName).then(repo => {
+    this.restApiService.getRepo(repo).then(repo => {
       if (!repo?.web_links) return;
       this._webLinks = repo.web_links;
     });

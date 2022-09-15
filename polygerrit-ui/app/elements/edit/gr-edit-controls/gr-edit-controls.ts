@@ -31,6 +31,7 @@ import {customElement, property, query, state} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {IronInputElement} from '@polymer/iron-input/iron-input';
+import {createEditUrl} from '../../../models/views/edit';
 
 @customElement('gr-edit-controls')
 export class GrEditControls extends LitElement {
@@ -422,11 +423,13 @@ export class GrEditControls extends LitElement {
       this.closeDialog(this.openDialog);
       return;
     }
-    const url = GerritNav.getEditUrlForDiff(
-      this.change,
-      this.path,
-      this.patchNum
-    );
+    const url = createEditUrl({
+      changeNum: this.change._number,
+      project: this.change.project,
+      path: this.path,
+      patchNum: this.patchNum,
+    });
+
     GerritNav.navigateToRelativeUrl(url);
     this.closeDialog(this.getDialogFromEvent(e));
   };

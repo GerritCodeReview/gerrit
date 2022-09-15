@@ -70,6 +70,7 @@ import {fixture, html, assert} from '@open-wc/testing';
 import {EventType} from '../../../types/events';
 import {Key} from '../../../utils/dom-util';
 import {GrButton} from '../../shared/gr-button/gr-button';
+import {createEditUrl} from '../../../models/views/edit';
 
 function createComment(
   id: string,
@@ -1248,11 +1249,12 @@ suite('gr-diff-view tests', () => {
       assert.isTrue(redirectStub.called);
       assert.isTrue(
         redirectStub.lastCall.calledWithExactly(
-          GerritNav.getEditUrlForDiff(
-            element.change,
-            element.path,
-            element.patchRange.patchNum
-          )
+          createEditUrl({
+            changeNum: element.change._number,
+            project: element.change.project,
+            path: element.path,
+            patchNum: element.patchRange.patchNum,
+          })
         )
       );
     });
@@ -1290,12 +1292,13 @@ suite('gr-diff-view tests', () => {
       assert.isTrue(redirectStub.called);
       assert.isTrue(
         redirectStub.lastCall.calledWithExactly(
-          GerritNav.getEditUrlForDiff(
-            element.change,
-            element.path,
-            element.patchRange.patchNum,
-            lineNumber
-          )
+          createEditUrl({
+            changeNum: element.change._number,
+            project: element.change.project,
+            path: element.path,
+            patchNum: element.patchRange.patchNum,
+            lineNum: lineNumber,
+          })
         )
       );
     });

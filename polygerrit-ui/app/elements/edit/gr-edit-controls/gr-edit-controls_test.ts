@@ -193,12 +193,10 @@ suite('gr-edit-controls tests', () => {
   });
 
   suite('edit button CUJ', () => {
-    let editDiffStub: sinon.SinonStub;
     let navStub: sinon.SinonStub;
     let openAutoComplete: GrAutocomplete;
 
     setup(() => {
-      editDiffStub = sinon.stub(GerritNav, 'getEditUrlForDiff');
       navStub = sinon.stub(GerritNav, 'navigateToRelativeUrl');
       openAutoComplete = queryAndAssert<GrAutocomplete>(
         element.openDialog,
@@ -234,14 +232,8 @@ suite('gr-edit-controls tests', () => {
         element.openDialog,
         'gr-button[primary]'
       ).click();
-      await waitUntil(() => editDiffStub.called);
 
       assert.isTrue(navStub.called);
-      assert.deepEqual(editDiffStub.lastCall.args, [
-        element.change,
-        'src/test.cpp',
-        element.patchNum,
-      ]);
       assert.isTrue(closeDialogSpy.called);
     });
 
@@ -254,7 +246,6 @@ suite('gr-edit-controls tests', () => {
         await element.updateComplete;
         await waitUntil(() => !element.openDialog!.disabled);
         queryAndAssert<GrButton>(element.openDialog, 'gr-button').click();
-        assert.isFalse(editDiffStub.called);
         assert.isFalse(navStub.called);
         await waitUntil(() => closeDialogSpy.called);
         assert.equal(element.path, '');

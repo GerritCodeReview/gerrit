@@ -193,7 +193,7 @@ export class GrChecksRun extends LitElement {
   chipElement?: HTMLElement;
 
   @property({attribute: false})
-  run!: CheckRun;
+  run?: CheckRun;
 
   @property({attribute: false})
   selected = false;
@@ -256,7 +256,7 @@ export class GrChecksRun extends LitElement {
             ?filled=${icon.filled}
           ></gr-icon>
           ${this.renderAdditionalIcon()}
-          <span class="name">${this.run.checkName}</span>
+          <span class="name">${this.run?.checkName}</span>
           ${this.renderETA()}
         </div>
         <div class="middle">
@@ -274,18 +274,18 @@ export class GrChecksRun extends LitElement {
       </div>
       <div
         class="attemptDetails"
-        ?hidden=${this.run.isSingleAttempt || !this.selected}
+        ?hidden=${this.run?.isSingleAttempt || !this.selected}
       >
         ${this.renderAttempt({attempt: LATEST_ATTEMPT})}
         ${this.renderAttempt({attempt: ALL_ATTEMPTS})}
-        ${this.run.attemptDetails.map(a => this.renderAttempt(a))}
+        ${this.run?.attemptDetails.map(a => this.renderAttempt(a))}
       </div>
     `;
   }
 
   renderAttempt(detail: AttemptDetail) {
     const attempt = detail.attempt ?? 0;
-    const checkNameId = charsOnly(this.run.checkName).toLowerCase();
+    const checkNameId = charsOnly(this.run?.checkName ?? '').toLowerCase();
     const id = `attempt-${detail.attempt}`;
     const icon = detail.icon ?? {name: ''};
     const wasNotRun =

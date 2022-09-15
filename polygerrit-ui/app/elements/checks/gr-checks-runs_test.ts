@@ -18,7 +18,8 @@ suite('gr-checks-runs test', () => {
 
   setup(async () => {
     element = await fixture<GrChecksRuns>(
-      html`<gr-checks-runs></gr-checks-runs>`
+      html`<gr-checks-runs>
+      </gr-checks-runs>`
     );
     const getChecksModel = resolve(element, checksModelToken);
     setAllFakeRuns(getChecksModel());

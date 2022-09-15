@@ -236,8 +236,10 @@ export function runActions(run?: CheckRun): Action[] {
   return run.actions.map(action => toCanonicalAction(action, run.status));
 }
 
-export function iconForRun(run: CheckRun) {
-  if (run.status !== RunStatus.COMPLETED) {
+export function iconForRun(run?: CheckRun) {
+  if (!run) {
+    return iconFor(Category.ERROR);
+  } else if (run.status !== RunStatus.COMPLETED) {
     return iconFor(run.status);
   } else {
     const category = worstCategory(run);

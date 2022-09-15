@@ -7,8 +7,6 @@ import {
   BasePatchSetNum,
   BranchName,
   ChangeInfo,
-  DashboardId,
-  GroupId,
   NumericChangeId,
   PARENT,
   RepoName,
@@ -22,6 +20,10 @@ import {assertNever} from './common-util';
 import {GerritView} from '../services/router/router-model';
 import {addQuotesWhen} from './string-util';
 import {AttemptChoice} from '../models/checks/checks-util';
+import {GroupDetailView, GroupViewState} from '../models/views/group';
+import {DashboardViewState} from '../models/views/dashboard';
+import {RepoDetailView, RepoViewState} from '../models/views/repo';
+import {SettingsViewState} from '../models/views/settings';
 
 export interface DashboardSection {
   name: string;
@@ -30,20 +32,6 @@ export interface DashboardSection {
   selfOnly?: boolean;
   hideIfEmpty?: boolean;
   results?: ChangeInfo[];
-}
-
-export enum GroupDetailView {
-  MEMBERS = 'members',
-  LOG = 'log',
-}
-
-export enum RepoDetailView {
-  GENERAL = 'general',
-  ACCESS = 'access',
-  BRANCHES = 'branches',
-  COMMANDS = 'commands',
-  DASHBOARDS = 'dashboards',
-  TAGS = 'tags',
 }
 
 export interface GenerateUrlSearchViewParameters {
@@ -79,30 +67,6 @@ export interface GenerateUrlChangeViewParameters {
   usp?: string;
 }
 
-export interface GenerateUrlRepoViewParameters {
-  view: GerritView.REPO;
-  repoName: RepoName;
-  detail?: RepoDetailView;
-}
-
-export interface GenerateUrlDashboardViewParameters {
-  view: GerritView.DASHBOARD;
-  user?: string;
-  repo?: RepoName;
-  dashboard?: DashboardId;
-
-  // TODO(TS): properties bellow aren't set anywhere, try to remove
-  project?: RepoName;
-  sections?: DashboardSection[];
-  title?: string;
-}
-
-export interface GenerateUrlGroupViewParameters {
-  view: GerritView.GROUP;
-  groupId: GroupId;
-  detail?: GroupDetailView;
-}
-
 export interface GenerateUrlEditViewParameters {
   view: GerritView.EDIT;
   changeNum: NumericChangeId;
@@ -110,14 +74,6 @@ export interface GenerateUrlEditViewParameters {
   path: string;
   patchNum: RevisionPatchSetNum;
   lineNum?: number | string;
-}
-
-export interface GenerateUrlRootViewParameters {
-  view: GerritView.ROOT;
-}
-
-export interface GenerateUrlSettingsViewParameters {
-  view: GerritView.SETTINGS;
 }
 
 export interface GenerateUrlDiffViewParameters {
@@ -137,12 +93,11 @@ export interface GenerateUrlDiffViewParameters {
 export type GenerateUrlParameters =
   | GenerateUrlSearchViewParameters
   | GenerateUrlChangeViewParameters
-  | GenerateUrlRepoViewParameters
-  | GenerateUrlDashboardViewParameters
-  | GenerateUrlGroupViewParameters
+  | RepoViewState
+  | DashboardViewState
+  | GroupViewState
   | GenerateUrlEditViewParameters
-  | GenerateUrlRootViewParameters
-  | GenerateUrlSettingsViewParameters
+  | SettingsViewState
   | GenerateUrlDiffViewParameters;
 
 export function isGenerateUrlChangeViewParameters(
@@ -167,6 +122,10 @@ export const TEST_ONLY = {
   getPatchRangeExpression,
 };
 
+export function rootUrl() {
+  return `${getBaseUrl()}/`;
+}
+
 export function generateUrl(params: GenerateUrlParameters) {
   const base = getBaseUrl();
   let url = '';
@@ -186,8 +145,6 @@ export function generateUrl(params: GenerateUrlParameters) {
     url = generateGroupUrl(params);
   } else if (params.view === GerritView.REPO) {
     url = generateRepoUrl(params);
-  } else if (params.view === GerritView.ROOT) {
-    url = '/';
   } else if (params.view === GerritView.SETTINGS) {
     url = generateSettingsUrl();
   } else {
@@ -265,8 +222,8 @@ function sectionsToEncodedParams(
   });
 }
 
-function generateDashboardUrl(params: GenerateUrlDashboardViewParameters) {
-  const repoName = params.repo || params.project || undefined;
+function generateDashboardUrl(params: DashboardViewState) {
+  const repoName = params.project || undefined;
   if (params.sections) {
     // Custom dashboard.
     const queryParams = sectionsToEncodedParams(params.sections, repoName);
@@ -374,7 +331,7 @@ function generateDiffOrEditUrl(
   }
 }
 
-function generateGroupUrl(params: GenerateUrlGroupViewParameters) {
+function generateGroupUrl(params: GroupViewState) {
   let url = `/admin/groups/${encodeURL(`${params.groupId}`, true)}`;
   if (params.detail === GroupDetailView.MEMBERS) {
     url += ',members';
@@ -384,8 +341,8 @@ function generateGroupUrl(params: GenerateUrlGroupViewParameters) {
   return url;
 }
 
-function generateRepoUrl(params: GenerateUrlRepoViewParameters) {
-  let url = `/admin/repos/${encodeURL(`${params.repoName}`, true)}`;
+function generateRepoUrl(params: RepoViewState) {
+  let url = `/admin/repos/${encodeURL(`${params.repo}`, true)}`;
   if (params.detail === RepoDetailView.GENERAL) {
     url += ',general';
   } else if (params.detail === RepoDetailView.ACCESS) {

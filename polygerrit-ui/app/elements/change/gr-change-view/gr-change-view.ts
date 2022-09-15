@@ -182,6 +182,7 @@ import {getBaseUrl, prependOrigin} from '../../../utils/url-util';
 import {CopyLink, GrCopyLinks} from '../gr-copy-links/gr-copy-links';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {ChangeViewState} from '../../../models/views/change';
+import {rootUrl} from '../../../utils/router-util';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -2592,7 +2593,7 @@ export class GrChangeView extends LitElement {
   private determinePageBack() {
     // Default backPage to root if user came to change view page
     // via an email link, etc.
-    GerritNav.navigateToRelativeUrl(this.backPage || GerritNav.getUrlForRoot());
+    GerritNav.navigateToRelativeUrl(this.backPage || rootUrl());
   }
 
   private handleLabelRemoved(

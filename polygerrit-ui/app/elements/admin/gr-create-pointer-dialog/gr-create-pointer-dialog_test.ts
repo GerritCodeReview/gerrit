@@ -13,8 +13,8 @@ import {
 } from '../../../test/test-utils';
 import {BranchName} from '../../../types/common';
 import {IronInputElement} from '@polymer/iron-input';
-import {RepoDetailView} from '../../../utils/router-util';
 import {fixture, html, assert} from '@open-wc/testing';
+import {RepoDetailView} from '../../../models/views/repo';
 
 suite('gr-create-pointer-dialog tests', () => {
   let element: GrCreatePointerDialog;

@@ -50,8 +50,6 @@ import {
   GenerateUrlChangeViewParameters,
   GenerateUrlDiffViewParameters,
   GenerateUrlParameters,
-  GroupDetailView,
-  RepoDetailView,
 } from '../../../utils/router-util';
 import {
   LATEST_ATTEMPT,
@@ -59,6 +57,8 @@ import {
 } from '../../../models/checks/checks-util';
 import {AdminChildView} from '../../../models/views/admin';
 import {AgreementViewState} from '../../../models/views/agreement';
+import {RepoDetailView} from '../../../models/views/repo';
+import {GroupDetailView} from '../../../models/views/group';
 
 const RoutePattern = {
   ROOT: '/',

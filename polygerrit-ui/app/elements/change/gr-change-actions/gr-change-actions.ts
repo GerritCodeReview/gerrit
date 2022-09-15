@@ -104,6 +104,7 @@ import {LitElement, PropertyValues, css, html, nothing} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {assertIsDefined, queryAll} from '../../../utils/common-util';
+import {rootUrl} from '../../../utils/router-util';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -1844,7 +1845,7 @@ export class GrChangeActions
         }
         case ChangeActions.DELETE:
           if (action.__type === ActionType.CHANGE) {
-            GerritNav.navigateToRelativeUrl(GerritNav.getUrlForRoot());
+            GerritNav.navigateToRelativeUrl(rootUrl());
           }
           break;
         case ChangeActions.WIP:

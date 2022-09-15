@@ -28,9 +28,9 @@ import {ParsedChangeInfo} from '../../../types/types';
 import {
   DashboardSection,
   GenerateUrlParameters,
-  GroupDetailView,
-  RepoDetailView,
 } from '../../../utils/router-util';
+import {RepoDetailView} from '../../../models/views/repo';
+import {GroupDetailView} from '../../../models/views/group';
 
 // Navigation parameters object format:
 //
@@ -604,12 +604,6 @@ export const GerritNav = {
     });
   },
 
-  getUrlForRoot() {
-    return this._getUrlFor({
-      view: GerritView.ROOT,
-    });
-  },
-
   /**
    * @param repo The name of the repo.
    * @param dashboard The ID of the dashboard, in the form of '<ref>:<path>'.
@@ -617,7 +611,7 @@ export const GerritNav = {
   getUrlForRepoDashboard(repo: RepoName, dashboard: DashboardId) {
     return this._getUrlFor({
       view: GerritView.DASHBOARD,
-      repo,
+      project: repo,
       dashboard,
     });
   },
@@ -632,11 +626,11 @@ export const GerritNav = {
     this._navigate(relativeUrl);
   },
 
-  getUrlForRepo(repoName: RepoName) {
+  getUrlForRepo(repo: RepoName) {
     return this._getUrlFor({
       view: GerritView.REPO,
       detail: RepoDetailView.GENERAL,
-      repoName,
+      repo,
     });
   },
 
@@ -647,42 +641,42 @@ export const GerritNav = {
     this._navigate(this.getUrlForRepo(repoName));
   },
 
-  getUrlForRepoTags(repoName: RepoName) {
+  getUrlForRepoTags(repo: RepoName) {
     return this._getUrlFor({
       view: GerritView.REPO,
-      repoName,
+      repo,
       detail: RepoDetailView.TAGS,
     });
   },
 
-  getUrlForRepoBranches(repoName: RepoName) {
+  getUrlForRepoBranches(repo: RepoName) {
     return this._getUrlFor({
       view: GerritView.REPO,
-      repoName,
+      repo,
       detail: RepoDetailView.BRANCHES,
     });
   },
 
-  getUrlForRepoAccess(repoName: RepoName) {
+  getUrlForRepoAccess(repo: RepoName) {
     return this._getUrlFor({
       view: GerritView.REPO,
-      repoName,
+      repo,
       detail: RepoDetailView.ACCESS,
     });
   },
 
-  getUrlForRepoCommands(repoName: RepoName) {
+  getUrlForRepoCommands(repo: RepoName) {
     return this._getUrlFor({
       view: GerritView.REPO,
-      repoName,
+      repo,
       detail: RepoDetailView.COMMANDS,
     });
   },
 
-  getUrlForRepoDashboards(repoName: RepoName) {
+  getUrlForRepoDashboards(repo: RepoName) {
     return this._getUrlFor({
       view: GerritView.REPO,
-      repoName,
+      repo,
       detail: RepoDetailView.DASHBOARDS,
     });
   },

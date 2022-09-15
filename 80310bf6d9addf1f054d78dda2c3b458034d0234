@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "80c1cf28_0f8d88d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-09-15T13:41:40Z",
+      "side": 1,
+      "message": "I have used https://github.com/victools/jsonschema-generator/ , it lets one inspect a java class and generate the Json schema.  It works almost out of the box with the Gerrit events classes.\n\nI wrote a Gerrit plugin which retrieve EventTypes.typesByString by turning it public using reflect which is surely terrible. Then it is all about iterating the classes, pass them through the jsonschema-generator lib and tadam we got schema for any events currently registered.\n\nA first draft of the schema is at https://people.wikimedia.org/~hashar/T304947/schemas-3.4.4-draft-07/\n\nIf we install plugin registered event and load it with Gerrit we then requests all schemas over a REST API or ssh command provided by the Gerrit plugin.\n\nThe series of change is on our Gerrit https://gerrit.wikimedia.org/r/q/project:operations/software/gerrit/plugins/events-wikimedia , which is an exercise for me to learn Java. Once we get it a bit more polished, I will certainly consider upstreaming the json schema generation part.",
+      "parentUuid": "4cdee61b_092e44de",
+      "range": {
+        "startLine": 10,
+        "startChar": 42,
+        "endLine": 11,
+        "endChar": 13
+      },
+      "revId": "80310bf6d9addf1f054d78dda2c3b458034d0234",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f5c0d4cf_cc50cf9b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2022-09-15T13:23:18Z",
       "side": 1,
       "message": "Whilst this information is useful to understand the context, it looks like more a record of a review session with David. Why don\u0027t you just point to that review instead of copying it here?\n\nAlso, commits should use the imperative form and explain the context of the change and the reason behind it: this could be rephrased in that form.\n\nExample:\n\n_Before this change, the only way to access the registered types was abusing the Java reflection to access private fields. Allow instead to expose the registered types as a public supported method and associated JavaDocs and tests_",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 37
+      },
+      "revId": "80310bf6d9addf1f054d78dda2c3b458034d0234",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ef0f778_694f8152",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-09-15T13:41:40Z",
+      "side": 1,
+      "message": "I guess the rationale for introducing the change could have been done as a review message rather than in the commit message. I will shrink it a bit and switch to imperative form.  Thank you!",
+      "parentUuid": "f5c0d4cf_cc50cf9b",
       "range": {
         "startLine": 12,
         "startChar": 0,

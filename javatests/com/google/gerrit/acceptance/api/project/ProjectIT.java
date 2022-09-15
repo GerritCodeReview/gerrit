@@ -788,6 +788,39 @@ public class ProjectIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void projectConfigUsesLocallySetCommentlinksWithOptionalFields() throws Exception {
+    ConfigInput input = new ConfigInput();
+    CommentLinkInput bugzillaInput = new CommentLinkInput();
+    String match = "(^|\\\\s)(bug\\\\s+#?)(\\\\d+)($|\\\\s)";
+    String link = "http://bugzilla.example.com/?id=$3";
+    String prefix = "$1";
+    String suffix = "$4";
+    String text = "$2$3";
+    bugzillaInput.match = match;
+    bugzillaInput.link = link;
+    bugzillaInput.prefix = prefix;
+    bugzillaInput.suffix = suffix;
+    bugzillaInput.text = text;
+    addCommentLink(input, BUGZILLA, bugzillaInput);
+    addCommentLink(input, JIRA, JIRA_MATCH, JIRA_LINK);
+
+    ConfigInfo info = setConfig(project, input);
+
+    Map<String, CommentLinkInfo> expected = new HashMap<>();
+    CommentLinkInfo bugzillaInfo = new CommentLinkInfo();
+    bugzillaInfo.name = BUGZILLA;
+    bugzillaInfo.match = match;
+    bugzillaInfo.link = link;
+    bugzillaInfo.prefix = prefix;
+    bugzillaInfo.suffix = suffix;
+    bugzillaInfo.text = text;
+    expected.put(BUGZILLA, bugzillaInfo);
+    expected.put(JIRA, commentLinkInfo(JIRA, JIRA_MATCH, JIRA_LINK));
+    assertCommentLinks(info, expected);
+    assertCommentLinks(getConfig(), expected);
+  }
+
+  @Test
   @GerritConfig(name = "commentlink.bugzilla.match", value = BUGZILLA_MATCH)
   @GerritConfig(name = "commentlink.bugzilla.link", value = BUGZILLA_LINK)
   public void projectConfigUsesCommentLinksFromGlobalAndLocal() throws Exception {

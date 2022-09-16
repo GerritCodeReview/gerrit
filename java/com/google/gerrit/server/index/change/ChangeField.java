@@ -30,6 +30,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
+import static org.apache.lucene.index.IndexWriter.MAX_TERM_LENGTH;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
@@ -113,12 +114,6 @@ public class ChangeField {
   public static final int NO_ASSIGNEE = -1;
 
   private static final Gson GSON = OutputFormat.JSON_COMPACT.newGson();
-
-  /**
-   * Since We cannot depend here on org.apache.lucene.index.IndexWriter.MAX_TERM_LENGTH might be
-   * subject of change, we should not rely on it.
-   */
-  public static final int MAX_TERM_LENGTH = (1 << 15) - 2;
 
   // TODO: Rename LEGACY_ID to NUMERIC_ID
   /** Legacy change ID. */

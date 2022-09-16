@@ -1549,20 +1549,19 @@ public class ChangeIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(attentionSetListener)) {
 
       gApi.changes().id(r1.getChangeId()).addReviewer(user.email());
-      gApi.changes().id(r1.getChangeId()).addToAttentionSet(addUser);
-
-      assertThat(attentionSetListener.fired).isTrue();
+      assertThat(attentionSetListener.firedCount).isEqualTo(1);
       assertThat(attentionSetListener.lastEvent.usersAdded().size()).isEqualTo(1);
       attentionSetListener
           .lastEvent
           .usersAdded()
           .forEach(u -> assertThat(u).isEqualTo(user.id().get()));
-      assertThat(attentionSetListener.lastEvent.usersRemoved()).isEmpty();
 
-      attentionSetListener.fired = false;
+      gApi.changes().id(r1.getChangeId()).addToAttentionSet(addUser);
+      assertThat(attentionSetListener.firedCount).isEqualTo(1);
+
       gApi.changes().id(r1.getChangeId()).attention(user.username()).remove(addUser);
 
-      assertThat(attentionSetListener.fired).isTrue();
+      assertThat(attentionSetListener.firedCount).isEqualTo(2);
       assertThat(attentionSetListener.lastEvent.usersAdded()).isEmpty();
       assertThat(attentionSetListener.lastEvent.usersRemoved().size()).isEqualTo(1);
       attentionSetListener
@@ -4902,14 +4901,14 @@ public class ChangeIT extends AbstractDaemonTest {
 
     public static class TestAttentionSetListener implements AttentionSetListener {
       AttentionSetListener.Event lastEvent;
-      boolean fired;
+      int firedCount;
 
       @Inject
       public TestAttentionSetListener() {}
 
       @Override
       public void onAttentionSetChanged(AttentionSetListener.Event event) {
-        fired = true;
+        firedCount++;
         lastEvent = event;
       }
     }

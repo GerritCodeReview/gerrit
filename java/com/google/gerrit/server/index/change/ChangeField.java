@@ -30,6 +30,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
+import static org.apache.lucene.index.IndexWriter.MAX_TERM_LENGTH;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
@@ -873,7 +874,7 @@ public class ChangeField {
 
   /** Commit message of the current patch set. */
   public static final FieldDef<ChangeData, String> COMMIT_MESSAGE_EXACT =
-      exact(ChangeQueryBuilder.FIELD_MESSAGE_EXACT).build(ChangeData::commitMessage);
+      exact(ChangeQueryBuilder.FIELD_MESSAGE_EXACT).build(cd -> clipCommitMsg(cd.commitMessage()));
 
   /** Summary or inline comment. */
   public static final FieldDef<ChangeData, Iterable<String>> COMMENT =
@@ -1393,5 +1394,12 @@ public class ChangeField {
 
   private static AllUsersName allUsers(ChangeData cd) {
     return cd.getAllUsersNameForIndexing();
+  }
+
+  private static String clipCommitMsg(String commitMsg) {
+    if (commitMsg.length() > MAX_TERM_LENGTH) {
+      return commitMsg.substring(0, MAX_TERM_LENGTH);
+    }
+    return commitMsg;
   }
 }

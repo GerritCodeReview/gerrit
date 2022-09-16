@@ -328,16 +328,14 @@ suite('gr-router tests', () => {
           basePatchNum: 4 as BasePatchSetNum,
           patchNum: 4 as RevisionPatchSetNum,
         };
-        const needsRedirect = router.normalizePatchRangeParams(params);
-        assert.isTrue(needsRedirect);
+        router.normalizePatchRangeParams(params);
         assert.equal(params.basePatchNum, PARENT);
         assert.equal(params.patchNum, 4 as RevisionPatchSetNum);
       });
 
       test('range n.. normalizes to n', () => {
         const params: PatchRangeParams = {basePatchNum: 4 as BasePatchSetNum};
-        const needsRedirect = router.normalizePatchRangeParams(params);
-        assert.isFalse(needsRedirect);
+        router.normalizePatchRangeParams(params);
         assert.equal(params.basePatchNum, PARENT);
         assert.equal(params.patchNum, 4 as RevisionPatchSetNum);
       });
@@ -1197,8 +1195,6 @@ suite('gr-router tests', () => {
       });
 
       suite('handleChangeRoute', () => {
-        let normalizeRangeStub: sinon.SinonStub;
-
         function makeParams(
           _path: string,
           _hash: string
@@ -1218,23 +1214,10 @@ suite('gr-router tests', () => {
         }
 
         setup(() => {
-          normalizeRangeStub = sinon.stub(router, 'normalizePatchRangeParams');
           stubRestApi('setInProjectLookup');
         });
 
-        test('needs redirect', () => {
-          normalizeRangeStub.returns(true);
-          sinon.stub(router, 'generateUrl').returns('foo');
-          const ctx = makeParams('', '');
-          router.handleChangeRoute(ctx);
-          assert.isTrue(normalizeRangeStub.called);
-          assert.isFalse(setParamsStub.called);
-          assert.isTrue(redirectStub.calledOnce);
-          assert.isTrue(redirectStub.calledWithExactly('foo'));
-        });
-
         test('change view', () => {
-          normalizeRangeStub.returns(false);
           sinon.stub(router, 'generateUrl').returns('foo');
           const ctx = makeParams('', '');
           assertDataToParams(ctx, 'handleChangeRoute', {
@@ -1245,11 +1228,9 @@ suite('gr-router tests', () => {
             patchNum: 7 as RevisionPatchSetNum,
           });
           assert.isFalse(redirectStub.called);
-          assert.isTrue(normalizeRangeStub.called);
         });
 
         test('params', () => {
-          normalizeRangeStub.returns(false);
           sinon.stub(router, 'generateUrl').returns('foo');
           const ctx = makeParams('', '');
           ctx.queryMap.set('tab', 'checks');
@@ -1270,8 +1251,6 @@ suite('gr-router tests', () => {
       });
 
       suite('handleDiffRoute', () => {
-        let normalizeRangeStub: sinon.SinonStub;
-
         function makeParams(
           path: string,
           hash: string
@@ -1294,23 +1273,10 @@ suite('gr-router tests', () => {
         }
 
         setup(() => {
-          normalizeRangeStub = sinon.stub(router, 'normalizePatchRangeParams');
           stubRestApi('setInProjectLookup');
         });
 
-        test('needs redirect', () => {
-          normalizeRangeStub.returns(true);
-          sinon.stub(router, 'generateUrl').returns('foo');
-          const ctx = makeParams('', '');
-          router.handleDiffRoute(ctx);
-          assert.isTrue(normalizeRangeStub.called);
-          assert.isFalse(setParamsStub.called);
-          assert.isTrue(redirectStub.calledOnce);
-          assert.isTrue(redirectStub.calledWithExactly('foo'));
-        });
-
         test('diff view', () => {
-          normalizeRangeStub.returns(false);
           sinon.stub(router, 'generateUrl').returns('foo');
           const ctx = makeParams('foo/bar/baz', 'b44');
           assertDataToParams(ctx, 'handleDiffRoute', {
@@ -1324,7 +1290,6 @@ suite('gr-router tests', () => {
             lineNum: 44,
           });
           assert.isFalse(redirectStub.called);
-          assert.isTrue(normalizeRangeStub.called);
         });
 
         test('comment route', () => {
@@ -1370,10 +1335,6 @@ suite('gr-router tests', () => {
       });
 
       test('handleDiffEditRoute', () => {
-        const normalizeRangeSpy = sinon.spy(
-          router,
-          'normalizePatchRangeParams'
-        );
         stubRestApi('setInProjectLookup');
         const ctx = {
           ...createPageContext(),
@@ -1396,17 +1357,10 @@ suite('gr-router tests', () => {
 
         router.handleDiffEditRoute(ctx);
         assert.isFalse(redirectStub.called);
-        assert.isTrue(normalizeRangeSpy.calledOnce);
-        assert.deepEqual(normalizeRangeSpy.lastCall.args[0], appParams);
-        assert.isFalse(normalizeRangeSpy.lastCall.returnValue);
         assert.deepEqual(setParamsStub.lastCall.args[0], appParams);
       });
 
       test('handleDiffEditRoute with lineNum', () => {
-        const normalizeRangeSpy = sinon.spy(
-          router,
-          'normalizePatchRangeParams'
-        );
         stubRestApi('setInProjectLookup');
         const ctx = {
           ...createPageContext(),
@@ -1429,17 +1383,10 @@ suite('gr-router tests', () => {
 
         router.handleDiffEditRoute(ctx);
         assert.isFalse(redirectStub.called);
-        assert.isTrue(normalizeRangeSpy.calledOnce);
-        assert.deepEqual(normalizeRangeSpy.lastCall.args[0], appParams);
-        assert.isFalse(normalizeRangeSpy.lastCall.returnValue);
         assert.deepEqual(setParamsStub.lastCall.args[0], appParams);
       });
 
       test('handleChangeEditRoute', () => {
-        const normalizeRangeSpy = sinon.spy(
-          router,
-          'normalizePatchRangeParams'
-        );
         stubRestApi('setInProjectLookup');
         const ctx = {
           ...createPageContext(),
@@ -1461,9 +1408,6 @@ suite('gr-router tests', () => {
 
         router.handleChangeEditRoute(ctx);
         assert.isFalse(redirectStub.called);
-        assert.isTrue(normalizeRangeSpy.calledOnce);
-        assert.deepEqual(normalizeRangeSpy.lastCall.args[0], appParams);
-        assert.isFalse(normalizeRangeSpy.lastCall.returnValue);
         assert.deepEqual(setParamsStub.lastCall.args[0], appParams);
       });
     });

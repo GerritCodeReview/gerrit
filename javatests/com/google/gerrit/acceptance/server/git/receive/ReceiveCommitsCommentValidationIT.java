@@ -67,6 +67,9 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
           COMMENT_TEXT,
           COMMENT_TEXT.length());
 
+  private static final String SMALL_SUBJECT = "Small Subject";
+  private static final String LONG_SUBJECT = "A longer Subject";
+
   @Captor private ArgumentCaptor<ImmutableList<CommentForValidation>> capture;
   @Captor private ArgumentCaptor<CommentValidationContext> captureCtx;
 
@@ -307,5 +310,25 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
     Result amendResult = amendChange(changeId, "refs/for/master%publish-comments", admin, testRepo);
     assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).hasSize(1);
     amendResult.assertMessage("exceeding maximum cumulative size of comments");
+  }
+
+  @Test
+  @GerritConfig(name = "change.maxCommitMsgLength", value = "0")
+  public void maxCommitMsgLength_noLimit() throws Exception {
+    PushOneCommit.Result result_short = createChange(SMALL_SUBJECT, "test.txt", "test");
+    result_short.assertOkStatus();
+    PushOneCommit.Result result_long = createChange(LONG_SUBJECT, "test.txt", "test");
+    result_long.assertOkStatus();
+  }
+
+  /** 68 is the length of SMALL_SUBJECT + two line breaks + the change id footer */
+  @Test
+  @GerritConfig(name = "change.maxCommitMsgLength", value = "68")
+  public void maxCommitMsgLength_withLimit() throws Exception {
+    PushOneCommit.Result result_short = createChange(SMALL_SUBJECT, "test.txt", "test");
+    result_short.assertOkStatus();
+    PushOneCommit.Result result_long = createChange(LONG_SUBJECT, "test.txt", "test");
+    result_long.assertErrorStatus();
+    result_long.assertErrorStatus("commit message too long (> 68 characters)");
   }
 }

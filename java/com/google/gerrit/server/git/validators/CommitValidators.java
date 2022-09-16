@@ -162,7 +162,8 @@ public class CommitValidators {
           .add(new PluginCommitValidationListener(pluginValidators, skipValidation))
           .add(new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker))
           .add(new AccountCommitValidator(repoManager, allUsers, accountValidator))
-          .add(new GroupCommitValidator(allUsers));
+          .add(new GroupCommitValidator(allUsers))
+          .add(new CommitMsgLengthValidator(config));
       return new CommitValidators(validators.build());
     }
 
@@ -191,7 +192,8 @@ public class CommitValidators {
           .add(new PluginCommitValidationListener(pluginValidators))
           .add(new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker))
           .add(new AccountCommitValidator(repoManager, allUsers, accountValidator))
-          .add(new GroupCommitValidator(allUsers));
+          .add(new GroupCommitValidator(allUsers))
+          .add(new CommitMsgLengthValidator(config));
       return new CommitValidators(validators.build());
     }
 
@@ -933,6 +935,27 @@ public class CommitValidators {
         return Collections.emptyList();
       }
       throw new CommitValidationException("project state does not permit write");
+    }
+  }
+
+  public static class CommitMsgLengthValidator implements CommitValidationListener {
+    private final int maxCommitMsgLength;
+
+    public CommitMsgLengthValidator(Config config) {
+      this.maxCommitMsgLength = config.getInt("change", "maxCommitMsgLength", 32766);
+    }
+
+    @Override
+    public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
+        throws CommitValidationException {
+      if (this.maxCommitMsgLength <= 0) {
+        return Collections.emptyList();
+      }
+      if (receiveEvent.commit.getFullMessage().length() > this.maxCommitMsgLength) {
+        throw new CommitValidationException(
+            String.format("commit message too long (> %d characters)", this.maxCommitMsgLength));
+      }
+      return Collections.emptyList();
     }
   }
 

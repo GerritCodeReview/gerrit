@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f564fbbc_bcac7e2e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-16T08:14:22Z",
+      "side": 1,
+      "message": "This change is missing a why",
+      "revId": "7206e20e1d4eaa1a3577b501f2ba191f27c12510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3789f96f_6219f800",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-16T08:14:22Z",
+      "side": 1,
+      "message": "Rather than adding this extra class.\n\nWhy not:\n```\n.body {\n   padding-top: var(--spacing-m);\n}\n\n:host([collapsed]) .body {\n   padding-top: 0px;\n}\n```\n\nIt makes the intention clearer.",
+      "revId": "7206e20e1d4eaa1a3577b501f2ba191f27c12510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

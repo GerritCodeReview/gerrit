@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {GerritView} from '../../services/router/router-model';
+import {getBaseUrl} from '../../utils/url-util';
 import {Model} from '../model';
 import {ViewState} from './base';
 
@@ -13,6 +14,10 @@ export interface SettingsViewState extends ViewState {
 }
 
 const DEFAULT_STATE: SettingsViewState = {view: GerritView.SETTINGS};
+
+export function createSettingsUrl() {
+  return getBaseUrl() + '/settings';
+}
 
 export class SettingsViewModel extends Model<SettingsViewState> {
   constructor() {

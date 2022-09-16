@@ -183,6 +183,7 @@ import {CopyLink, GrCopyLinks} from '../gr-copy-links/gr-copy-links';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {ChangeViewState, createChangeUrl} from '../../../models/views/change';
 import {rootUrl} from '../../../utils/router-util';
+import {createEditUrl} from '../../../models/views/edit';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -3224,11 +3225,12 @@ export class GrChangeView extends LitElement {
         break;
       case GrEditConstants.Actions.OPEN.id:
         GerritNav.navigateToRelativeUrl(
-          GerritNav.getEditUrlForDiff(
-            this.change,
+          createEditUrl({
+            changeNum: this.change._number,
+            project: this.change.project,
             path,
-            this.patchRange.patchNum
-          )
+            patchNum: this.patchRange.patchNum,
+          })
         );
         break;
       case GrEditConstants.Actions.RENAME.id:

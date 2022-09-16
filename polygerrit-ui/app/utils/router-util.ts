@@ -10,8 +10,6 @@ import {assertNever} from './common-util';
 import {GerritView} from '../services/router/router-model';
 import {GroupDetailView, GroupViewState} from '../models/views/group';
 import {DashboardViewState} from '../models/views/dashboard';
-import {RepoDetailView, RepoViewState} from '../models/views/repo';
-import {SettingsViewState} from '../models/views/settings';
 import {createEditUrl, EditViewState} from '../models/views/edit';
 import {createDiffUrl, DiffViewState} from '../models/views/diff';
 import {ChangeViewState, createChangeUrl} from '../models/views/change';
@@ -27,11 +25,9 @@ export interface DashboardSection {
 
 export type GenerateUrlParameters =
   | ChangeViewState
-  | RepoViewState
   | DashboardViewState
   | GroupViewState
   | EditViewState
-  | SettingsViewState
   | DiffViewState;
 
 export function isChangeViewState(
@@ -70,10 +66,6 @@ export function generateUrl(params: GenerateUrlParameters) {
     url = createEditUrl(params);
   } else if (params.view === GerritView.GROUP) {
     url = generateGroupUrl(params);
-  } else if (params.view === GerritView.REPO) {
-    url = generateRepoUrl(params);
-  } else if (params.view === GerritView.SETTINGS) {
-    url = generateSettingsUrl();
   } else {
     assertNever(params, "Can't generate");
   }
@@ -141,26 +133,4 @@ function generateGroupUrl(params: GroupViewState) {
     url += ',audit-log';
   }
   return url;
-}
-
-function generateRepoUrl(params: RepoViewState) {
-  let url = `/admin/repos/${encodeURL(`${params.repo}`, true)}`;
-  if (params.detail === RepoDetailView.GENERAL) {
-    url += ',general';
-  } else if (params.detail === RepoDetailView.ACCESS) {
-    url += ',access';
-  } else if (params.detail === RepoDetailView.BRANCHES) {
-    url += ',branches';
-  } else if (params.detail === RepoDetailView.TAGS) {
-    url += ',tags';
-  } else if (params.detail === RepoDetailView.COMMANDS) {
-    url += ',commands';
-  } else if (params.detail === RepoDetailView.DASHBOARDS) {
-    url += ',dashboards';
-  }
-  return url;
-}
-
-function generateSettingsUrl() {
-  return '/settings';
 }

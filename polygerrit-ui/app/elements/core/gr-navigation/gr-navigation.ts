@@ -10,7 +10,6 @@ import {
   CommentLinks,
   CommitId,
   DashboardId,
-  EDIT,
   GroupId,
   NumericChangeId,
   PARENT,
@@ -26,7 +25,7 @@ import {
   DashboardSection,
   GenerateUrlParameters,
 } from '../../../utils/router-util';
-import {RepoDetailView} from '../../../models/views/repo';
+import {createRepoUrl} from '../../../models/views/repo';
 import {GroupDetailView} from '../../../models/views/group';
 import {createSearchUrl} from '../../../models/views/search';
 import {createDiffUrl} from '../../../models/views/diff';
@@ -397,43 +396,6 @@ export const GerritNav = {
     });
   },
 
-  getEditUrlForDiff(
-    change: ChangeInfo | ParsedChangeInfo,
-    filePath: string,
-    patchNum?: RevisionPatchSetNum,
-    lineNum?: number
-  ) {
-    return this.getEditUrlForDiffById(
-      change._number,
-      change.project,
-      filePath,
-      patchNum,
-      lineNum
-    );
-  },
-
-  /**
-   * @param patchNum The patchNum the file content should be based on, or
-   *   ${EDIT} if left undefined.
-   * @param lineNum The line number to pass to the inline editor.
-   */
-  getEditUrlForDiffById(
-    changeNum: NumericChangeId,
-    project: RepoName,
-    filePath: string,
-    patchNum?: RevisionPatchSetNum,
-    lineNum?: number
-  ) {
-    return this._getUrlFor({
-      view: GerritView.EDIT,
-      changeNum,
-      project,
-      path: filePath,
-      patchNum: patchNum || EDIT,
-      lineNum,
-    });
-  },
-
   /**
    * @param basePatchNum The string PARENT can be used for none.
    */
@@ -488,59 +450,11 @@ export const GerritNav = {
     this._navigate(relativeUrl);
   },
 
-  getUrlForRepo(repo: RepoName) {
-    return this._getUrlFor({
-      view: GerritView.REPO,
-      detail: RepoDetailView.GENERAL,
-      repo,
-    });
-  },
-
   /**
    * Navigate to a repo settings page.
    */
-  navigateToRepo(repoName: RepoName) {
-    this._navigate(this.getUrlForRepo(repoName));
-  },
-
-  getUrlForRepoTags(repo: RepoName) {
-    return this._getUrlFor({
-      view: GerritView.REPO,
-      repo,
-      detail: RepoDetailView.TAGS,
-    });
-  },
-
-  getUrlForRepoBranches(repo: RepoName) {
-    return this._getUrlFor({
-      view: GerritView.REPO,
-      repo,
-      detail: RepoDetailView.BRANCHES,
-    });
-  },
-
-  getUrlForRepoAccess(repo: RepoName) {
-    return this._getUrlFor({
-      view: GerritView.REPO,
-      repo,
-      detail: RepoDetailView.ACCESS,
-    });
-  },
-
-  getUrlForRepoCommands(repo: RepoName) {
-    return this._getUrlFor({
-      view: GerritView.REPO,
-      repo,
-      detail: RepoDetailView.COMMANDS,
-    });
-  },
-
-  getUrlForRepoDashboards(repo: RepoName) {
-    return this._getUrlFor({
-      view: GerritView.REPO,
-      repo,
-      detail: RepoDetailView.DASHBOARDS,
-    });
+  navigateToRepo(repo: RepoName) {
+    this._navigate(createRepoUrl({repo}));
   },
 
   getUrlForGroup(groupId: GroupId) {
@@ -564,10 +478,6 @@ export const GerritNav = {
       groupId,
       detail: GroupDetailView.MEMBERS,
     });
-  },
-
-  getUrlForSettings() {
-    return this._getUrlFor({view: GerritView.SETTINGS});
   },
 
   getEditWebLinks(

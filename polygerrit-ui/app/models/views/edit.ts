@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {
+  EDIT,
   NumericChangeId,
   RepoName,
   RevisionPatchSetNum,
@@ -28,6 +29,9 @@ const DEFAULT_STATE: EditViewState = {
 };
 
 export function createEditUrl(state: Omit<EditViewState, 'view'>): string {
+  if (state.patchNum === undefined) {
+    state = {...state, patchNum: EDIT};
+  }
   let range = getPatchRangeExpression(state);
   if (range.length) range = '/' + range;
 

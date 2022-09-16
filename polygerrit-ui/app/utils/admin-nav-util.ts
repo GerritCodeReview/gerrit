@@ -15,7 +15,7 @@ import {GerritView} from '../services/router/router-model';
 import {MenuLink} from '../api/admin';
 import {AdminChildView} from '../models/views/admin';
 import {GroupDetailView} from '../models/views/group';
-import {RepoDetailView} from '../models/views/repo';
+import {createRepoUrl, RepoDetailView} from '../models/views/repo';
 
 const ADMIN_LINKS: NavLink[] = [
   {
@@ -174,46 +174,46 @@ export function getGroupSubsections(
   return subsection;
 }
 
-export function getRepoSubsections(repoName: RepoName) {
+export function getRepoSubsections(repo: RepoName) {
   return {
-    name: repoName,
+    name: repo,
     view: GerritView.REPO,
     children: [
       {
         name: 'General',
         view: GerritView.REPO,
         detailType: RepoDetailView.GENERAL,
-        url: GerritNav.getUrlForRepo(repoName),
+        url: createRepoUrl({repo, detail: RepoDetailView.GENERAL}),
       },
       {
         name: 'Access',
         view: GerritView.REPO,
         detailType: RepoDetailView.ACCESS,
-        url: GerritNav.getUrlForRepoAccess(repoName),
+        url: createRepoUrl({repo, detail: RepoDetailView.ACCESS}),
       },
       {
         name: 'Commands',
         view: GerritView.REPO,
         detailType: RepoDetailView.COMMANDS,
-        url: GerritNav.getUrlForRepoCommands(repoName),
+        url: createRepoUrl({repo, detail: RepoDetailView.COMMANDS}),
       },
       {
         name: 'Branches',
         view: GerritView.REPO,
         detailType: RepoDetailView.BRANCHES,
-        url: GerritNav.getUrlForRepoBranches(repoName),
+        url: createRepoUrl({repo, detail: RepoDetailView.BRANCHES}),
       },
       {
         name: 'Tags',
         view: GerritView.REPO,
         detailType: RepoDetailView.TAGS,
-        url: GerritNav.getUrlForRepoTags(repoName),
+        url: createRepoUrl({repo, detail: RepoDetailView.TAGS}),
       },
       {
         name: 'Dashboards',
         view: GerritView.REPO,
         detailType: RepoDetailView.DASHBOARDS,
-        url: GerritNav.getUrlForRepoDashboards(repoName),
+        url: createRepoUrl({repo, detail: RepoDetailView.DASHBOARDS}),
       },
     ],
   };

@@ -30,6 +30,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
+import static org.apache.lucene.index.IndexWriter.MAX_TERM_LENGTH;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
@@ -83,6 +84,7 @@ import com.google.protobuf.MessageLite;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -873,7 +875,7 @@ public class ChangeField {
 
   /** Commit message of the current patch set. */
   public static final FieldDef<ChangeData, String> COMMIT_MESSAGE_EXACT =
-      exact(ChangeQueryBuilder.FIELD_MESSAGE_EXACT).build(ChangeData::commitMessage);
+      exact(ChangeQueryBuilder.FIELD_MESSAGE_EXACT).build(cd -> clipCommitMsg(cd.commitMessage()));
 
   /** Summary or inline comment. */
   public static final FieldDef<ChangeData, Iterable<String>> COMMENT =
@@ -1393,5 +1395,13 @@ public class ChangeField {
 
   private static AllUsersName allUsers(ChangeData cd) {
     return cd.getAllUsersNameForIndexing();
+  }
+
+  private static String clipCommitMsg(String commitMsg) {
+    byte[] commitMsgBytes = commitMsg.getBytes(UTF_8);
+    if (commitMsgBytes.length > MAX_TERM_LENGTH) {
+      return new String(Arrays.copyOfRange(commitMsgBytes, 0, MAX_TERM_LENGTH), UTF_8);
+    }
+    return commitMsg;
   }
 }

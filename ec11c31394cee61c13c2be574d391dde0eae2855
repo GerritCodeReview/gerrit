@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ec438fe_6cbba594",
+        "filename": "java/com/google/gerrit/server/events/EventTypes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-09-16T12:29:28Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be more useful to return an immutable copy of typesByString instead, so that you don\u0027t loose the mapping?\n\n    public static Map\u003cString, Class\u003e getTypesByString() {\n      ...\n    }",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 86,
+        "endChar": 3
+      },
+      "revId": "ec11c31394cee61c13c2be574d391dde0eae2855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

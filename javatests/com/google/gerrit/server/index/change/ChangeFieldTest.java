@@ -168,6 +168,44 @@ public class ChangeFieldTest {
     assertThat(ChangeField.DELETED.setIfPossible(cd, new FakeStoredValue(null))).isTrue();
   }
 
+  @Test
+  public void shortStringIsNotTruncated() {
+    assertThat(ChangeField.truncateStringValue("short string", 20)).isEqualTo("short string");
+    assertThat(ChangeField.truncateStringValue("short string µ", 20)).isEqualTo("short string µ");
+    assertThat(ChangeField.truncateStringValue("short string ࠋ", 20)).isEqualTo("short string ࠋ");
+    assertThat(ChangeField.truncateStringValue("short string 𒀁", 20)).isEqualTo("short string 𒀁");
+    assertThat(ChangeField.truncateStringValue("", 6)).isEqualTo("");
+    assertThat(ChangeField.truncateStringValue("", 0)).isEqualTo("");
+  }
+
+  @Test
+  public void longStringIsTruncated() {
+    assertThat(ChangeField.truncateStringValue("longer string", 6)).isEqualTo("longer");
+    assertThat(ChangeField.truncateStringValue("longer string", 0)).isEqualTo("");
+    assertThat(ChangeField.truncateStringValue("multibytechars µµµ present", 16))
+        .isEqualTo("multibytechars ");
+    assertThat(ChangeField.truncateStringValue("multibytechars µµµ present", 17))
+        .isEqualTo("multibytechars µ");
+    assertThat(ChangeField.truncateStringValue("multibytechars µµµ present", 18))
+        .isEqualTo("multibytechars µ");
+    assertThat(ChangeField.truncateStringValue("multibytechars ࠋࠋࠋ present", 17))
+        .isEqualTo("multibytechars ");
+    assertThat(ChangeField.truncateStringValue("multibytechars ࠋࠋࠋ present", 18))
+        .isEqualTo("multibytechars ࠋ");
+    assertThat(ChangeField.truncateStringValue("multibytechars ࠋࠋࠋ present", 21))
+        .isEqualTo("multibytechars ࠋࠋ");
+    assertThat(ChangeField.truncateStringValue("multibytechars 𒀁𒀁𒀁𒀁 present", 16))
+        .isEqualTo("multibytechars ");
+    assertThat(ChangeField.truncateStringValue("multibytechars 𒀁𒀁𒀁𒀁 present", 17))
+        .isEqualTo("multibytechars ");
+    assertThat(ChangeField.truncateStringValue("multibytechars 𒀁𒀁𒀁𒀁 present", 18))
+        .isEqualTo("multibytechars ");
+    assertThat(ChangeField.truncateStringValue("multibytechars 𒀁𒀁𒀁𒀁 present", 19))
+        .isEqualTo("multibytechars 𒀁");
+    assertThat(ChangeField.truncateStringValue("multibytechars 𒀁𒀁𒀁𒀁 present", 23))
+        .isEqualTo("multibytechars 𒀁𒀁");
+  }
+
   private static SubmitRecord record(SubmitRecord.Status status, SubmitRecord.Label... labels) {
     SubmitRecord r = new SubmitRecord();
     r.status = status;

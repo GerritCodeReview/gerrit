@@ -12,10 +12,9 @@ import {
   specialFilePathCompare,
   truncatePath,
 } from './path-list-util';
-import {BasePatchSetNum, FileInfo, RevisionPatchSetNum} from '../api/rest-api';
+import {FileInfo} from '../api/rest-api';
 import {hasOwnProperty} from './common-util';
 import {assert} from '@open-wc/testing';
-import {getPatchRangeExpression, PatchRangeParams} from './patch-set-util';
 
 suite('path-list-utl tests', () => {
   test('special sort', () => {
@@ -162,23 +161,5 @@ suite('path-list-utl tests', () => {
     const expectedPath = 'file.js';
     const shortenedPath = truncatePath(path);
     assert.equal(shortenedPath, expectedPath);
-  });
-
-  test('getPatchRangeExpression', () => {
-    const params: PatchRangeParams = {};
-    let actual = getPatchRangeExpression(params);
-    assert.equal(actual, '');
-
-    params.patchNum = 4 as RevisionPatchSetNum;
-    actual = getPatchRangeExpression(params);
-    assert.equal(actual, '4');
-
-    params.basePatchNum = 2 as BasePatchSetNum;
-    actual = getPatchRangeExpression(params);
-    assert.equal(actual, '2..4');
-
-    delete params.patchNum;
-    actual = getPatchRangeExpression(params);
-    assert.equal(actual, '2..');
   });
 });

@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {ServerInfo} from '../types/common';
+import {
+  BasePatchSetNum,
+  PARENT,
+  RevisionPatchSetNum,
+  ServerInfo,
+} from '../types/common';
 import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
 
 const PROBE_PATH = '/Documentation/index.html';
@@ -14,6 +19,27 @@ export function getBaseUrl(): string {
   // window is not defined in service worker, therefore no CANONICAL_PATH
   if (typeof window === 'undefined') return '';
   return self.CANONICAL_PATH || '';
+}
+
+export interface PatchRangeParams {
+  patchNum?: RevisionPatchSetNum;
+  basePatchNum?: BasePatchSetNum;
+}
+
+/**
+ * Given an object of parameters, potentially including a `patchNum` or a
+ * `basePatchNum` or both, return a string representation of that range. If
+ * no range is indicated in the params, the empty string is returned.
+ */
+export function getPatchRangeExpression(params: PatchRangeParams) {
+  let range = '';
+  if (params.patchNum) {
+    range = `${params.patchNum}`;
+  }
+  if (params.basePatchNum && params.basePatchNum !== PARENT) {
+    range = `${params.basePatchNum}..${range}`;
+  }
+  return range;
 }
 
 export function prependOrigin(path: string): string {

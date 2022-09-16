@@ -20,10 +20,7 @@ import {
   WeblinkType,
 } from '../gr-navigation/gr-navigation';
 import {getAppContext} from '../../../services/app-context';
-import {
-  convertToPatchSetNum,
-  PatchRangeParams,
-} from '../../../utils/patch-set-util';
+import {convertToPatchSetNum} from '../../../utils/patch-set-util';
 import {assertIsDefined, assertNever} from '../../../utils/common-util';
 import {
   BasePatchSetNum,
@@ -43,6 +40,7 @@ import {firePageError} from '../../../utils/event-util';
 import {windowLocationReload} from '../../../utils/dom-util';
 import {
   getBaseUrl,
+  PatchRangeParams,
   toPath,
   toPathname,
   toSearchParams,

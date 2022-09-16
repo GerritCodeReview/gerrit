@@ -7,7 +7,6 @@ import {ChangeInfo, RepoName} from '../types/common';
 import {encodeURL, getBaseUrl} from './url-util';
 import {assertNever} from './common-util';
 import {GerritView} from '../services/router/router-model';
-import {GroupDetailView, GroupViewState} from '../models/views/group';
 import {DashboardViewState} from '../models/views/dashboard';
 import {createEditUrl, EditViewState} from '../models/views/edit';
 import {createDiffUrl, DiffViewState} from '../models/views/diff';
@@ -25,7 +24,6 @@ export interface DashboardSection {
 export type GenerateUrlParameters =
   | ChangeViewState
   | DashboardViewState
-  | GroupViewState
   | EditViewState
   | DiffViewState;
 
@@ -59,8 +57,6 @@ export function generateUrl(params: GenerateUrlParameters) {
     url = createDiffUrl(params);
   } else if (params.view === GerritView.EDIT) {
     url = createEditUrl(params);
-  } else if (params.view === GerritView.GROUP) {
-    url = generateGroupUrl(params);
   } else {
     assertNever(params, "Can't generate");
   }
@@ -102,14 +98,4 @@ function generateDashboardUrl(params: DashboardViewState) {
     // User dashboard.
     return `/dashboard/${params.user || 'self'}`;
   }
-}
-
-function generateGroupUrl(params: GroupViewState) {
-  let url = `/admin/groups/${encodeURL(`${params.groupId}`, true)}`;
-  if (params.detail === GroupDetailView.MEMBERS) {
-    url += ',members';
-  } else if (params.detail === GroupDetailView.LOG) {
-    url += ',audit-log';
-  }
-  return url;
 }

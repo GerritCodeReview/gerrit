@@ -12,6 +12,7 @@ import {
 import {GerritView} from '../../services/router/router-model';
 import {UrlEncodedCommentId} from '../../types/common';
 import {encodeURL, getPatchRangeExpression} from '../../utils/url-util';
+import {define} from '../dependency';
 import {Model} from '../model';
 import {ViewState} from './base';
 
@@ -58,8 +59,12 @@ export function createDiffUrl(state: Omit<DiffViewState, 'view'>): string {
   }
 }
 
+export const diffViewModelToken = define<DiffViewModel>('diff-view-model');
+
 export class DiffViewModel extends Model<DiffViewState> {
   constructor() {
     super(DEFAULT_STATE);
   }
+
+  finalize() {}
 }

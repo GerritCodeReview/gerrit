@@ -12,11 +12,9 @@ import {
   EDIT,
 } from '../api/rest-api';
 import {ChangeViewState} from '../models/views/change';
-import {DashboardViewState} from '../models/views/dashboard';
 import {EditViewState} from '../models/views/edit';
 import {GerritView} from '../services/router/router-model';
 import '../test/common-test-setup';
-import {DashboardId} from '../types/common';
 import {generateUrl} from './router-util';
 
 suite('router-util tests', () => {
@@ -61,90 +59,6 @@ suite('router-util tests', () => {
         generateUrl(params),
         '/c/test/+/42/edit/x%252By/path.cpp,edit'
       );
-    });
-
-    suite('dashboard', () => {
-      test('self dashboard', () => {
-        const params: DashboardViewState = {
-          view: GerritView.DASHBOARD,
-        };
-        assert.equal(generateUrl(params), '/dashboard/self');
-      });
-
-      test('user dashboard', () => {
-        const params: DashboardViewState = {
-          view: GerritView.DASHBOARD,
-          user: 'user',
-        };
-        assert.equal(generateUrl(params), '/dashboard/user');
-      });
-
-      test('custom self dashboard, no title', () => {
-        const params: DashboardViewState = {
-          view: GerritView.DASHBOARD,
-          sections: [
-            {name: 'section 1', query: 'query 1'},
-            {name: 'section 2', query: 'query 2'},
-          ],
-        };
-        assert.equal(
-          generateUrl(params),
-          '/dashboard/?section%201=query%201&section%202=query%202'
-        );
-      });
-
-      test('custom repo dashboard', () => {
-        const params: DashboardViewState = {
-          view: GerritView.DASHBOARD,
-          sections: [
-            {name: 'section 1', query: 'query 1 ${project}'},
-            {name: 'section 2', query: 'query 2 ${repo}'},
-          ],
-          project: 'repo-name' as RepoName,
-        };
-        assert.equal(
-          generateUrl(params),
-          '/dashboard/?section%201=query%201%20repo-name&' +
-            'section%202=query%202%20repo-name'
-        );
-      });
-
-      test('custom user dashboard, with title', () => {
-        const params: DashboardViewState = {
-          view: GerritView.DASHBOARD,
-          user: 'user',
-          sections: [{name: 'name', query: 'query'}],
-          title: 'custom dashboard',
-        };
-        assert.equal(
-          generateUrl(params),
-          '/dashboard/user?name=query&title=custom%20dashboard'
-        );
-      });
-
-      test('repo dashboard', () => {
-        const params: DashboardViewState = {
-          view: GerritView.DASHBOARD,
-          project: 'gerrit/repo' as RepoName,
-          dashboard: 'default:main' as DashboardId,
-        };
-        assert.equal(
-          generateUrl(params),
-          '/p/gerrit/repo/+/dashboard/default:main'
-        );
-      });
-
-      test('project dashboard (legacy)', () => {
-        const params: DashboardViewState = {
-          view: GerritView.DASHBOARD,
-          project: 'gerrit/project' as RepoName,
-          dashboard: 'default:main' as DashboardId,
-        };
-        assert.equal(
-          generateUrl(params),
-          '/p/gerrit/project/+/dashboard/default:main'
-        );
-      });
     });
   });
 });

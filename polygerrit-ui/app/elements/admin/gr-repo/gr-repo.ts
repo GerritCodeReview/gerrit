@@ -261,7 +261,7 @@ export class GrRepo extends LitElement {
           rows="4"
           monospace
           ?disabled=${this.readOnly}
-          .text=${this.repoConfig?.description}
+          .text=${this.repoConfig?.description ?? ''}
           @text-changed=${this.handleDescriptionTextChanged}
         ></gr-textarea>
       </fieldset>

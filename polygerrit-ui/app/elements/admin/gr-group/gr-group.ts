@@ -230,7 +230,7 @@ export class GrGroup extends LitElement {
             rows="4"
             monospace
             ?disabled=${this.computeGroupDisabled()}
-            .text=${this.groupConfig?.description}
+            .text=${this.groupConfig?.description ?? ''}
             @text-changed=${this.handleDescriptionTextChanged}
           ></gr-textarea>
         </div>

@@ -11,7 +11,7 @@ import {
 } from '../../api/rest-api';
 import {GerritView} from '../../services/router/router-model';
 import {UrlEncodedCommentId} from '../../types/common';
-import {getPatchRangeExpression} from '../../utils/router-util';
+import {getPatchRangeExpression} from '../../utils/patch-set-util';
 import {encodeURL} from '../../utils/url-util';
 import {AttemptChoice} from '../checks/checks-util';
 import {Model} from '../model';

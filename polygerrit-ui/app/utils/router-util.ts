@@ -3,8 +3,7 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {ChangeInfo, PARENT, RepoName} from '../types/common';
-import {PatchRangeParams} from '../elements/core/gr-router/gr-router';
+import {ChangeInfo, RepoName} from '../types/common';
 import {encodeURL, getBaseUrl} from './url-util';
 import {assertNever} from './common-util';
 import {GerritView} from '../services/router/router-model';
@@ -44,10 +43,6 @@ export function isDiffViewState(x: GenerateUrlParameters): x is DiffViewState {
   return x.view === GerritView.DIFF;
 }
 
-export const TEST_ONLY = {
-  getPatchRangeExpression,
-};
-
 export function rootUrl() {
   return `${getBaseUrl()}/`;
 }
@@ -71,22 +66,6 @@ export function generateUrl(params: GenerateUrlParameters) {
   }
 
   return base + url;
-}
-
-/**
- * Given an object of parameters, potentially including a `patchNum` or a
- * `basePatchNum` or both, return a string representation of that range. If
- * no range is indicated in the params, the empty string is returned.
- */
-export function getPatchRangeExpression(params: PatchRangeParams) {
-  let range = '';
-  if (params.patchNum) {
-    range = `${params.patchNum}`;
-  }
-  if (params.basePatchNum && params.basePatchNum !== PARENT) {
-    range = `${params.basePatchNum}..${range}`;
-  }
-  return range;
 }
 
 const REPO_TOKEN_PATTERN = /\${(project|repo)}/g;

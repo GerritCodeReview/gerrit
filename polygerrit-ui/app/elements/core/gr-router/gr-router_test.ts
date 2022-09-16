@@ -16,7 +16,6 @@ import {
 import {
   GrRouter,
   PageContextWithQueryMap,
-  PatchRangeParams,
   _testOnly_RoutePattern,
 } from './gr-router';
 import {GerritView} from '../../../services/router/router-model';
@@ -43,6 +42,7 @@ import {RepoDetailView} from '../../../models/views/repo';
 import {GroupDetailView} from '../../../models/views/group';
 import {EditViewState} from '../../../models/views/edit';
 import {ChangeViewState} from '../../../models/views/change';
+import {PatchRangeParams} from '../../../utils/patch-set-util';
 
 suite('gr-router tests', () => {
   let router: GrRouter;

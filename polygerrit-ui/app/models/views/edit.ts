@@ -10,7 +10,7 @@ import {
   RevisionPatchSetNum,
 } from '../../api/rest-api';
 import {GerritView} from '../../services/router/router-model';
-import {getPatchRangeExpression} from '../../utils/router-util';
+import {getPatchRangeExpression} from '../../utils/patch-set-util';
 import {encodeURL} from '../../utils/url-util';
 import {Model} from '../model';
 import {ViewState} from './base';

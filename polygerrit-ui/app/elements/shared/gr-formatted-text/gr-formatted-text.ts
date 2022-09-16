@@ -142,7 +142,10 @@ export class GrFormattedText extends LitElement {
     if (!this.content) return;
 
     if (this.flagsService.isEnabled(KnownExperimentId.RENDER_MARKDOWN)) {
-      return html`<gr-markdown .markdown=${this.content}></gr-markdown>`;
+      return html`<gr-markdown
+        .asMarkdown=${true}
+        .content=${this.content}
+      ></gr-markdown>`;
     } else {
       const blocks = this._computeBlocks(this.content);
       return html`${blocks.map(block => this.renderBlock(block))}`;

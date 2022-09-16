@@ -58,7 +58,7 @@ suite('gr-markdown tests', () => {
   });
 
   test('renders plain text with links and rewrites', async () => {
-    element.markdown = `text
+    element.content = `text
     \ntext with plain link: google.com
     \ntext with config link: LinkRewriteMe
     \ntext with config html: HTMLRewriteMe`;
@@ -96,7 +96,7 @@ suite('gr-markdown tests', () => {
   });
 
   test('renders headings with links and rewrites', async () => {
-    element.markdown = `# h1-heading
+    element.content = `# h1-heading
     \n## h2-heading
     \n### h3-heading
     \n#### h4-heading
@@ -145,7 +145,7 @@ suite('gr-markdown tests', () => {
   });
 
   test('renders inline-code without linking or rewriting', async () => {
-    element.markdown = `\`inline code\`
+    element.content = `\`inline code\`
     \n\`inline code with plain link: google.com\`
     \n\`inline code with config link: LinkRewriteMe\`
     \n\`inline code with config html: HTMLRewriteMe\``;
@@ -174,7 +174,7 @@ suite('gr-markdown tests', () => {
     );
   });
   test('renders multiline-code without linking or rewriting', async () => {
-    element.markdown = `\`\`\`\nmultiline code\n\`\`\`
+    element.content = `\`\`\`\nmultiline code\n\`\`\`
     \n\`\`\`\nmultiline code with plain link: google.com\n\`\`\`
     \n\`\`\`\nmultiline code with config link: LinkRewriteMe\n\`\`\`
     \n\`\`\`\nmultiline code with config html: HTMLRewriteMe\n\`\`\``;
@@ -204,7 +204,7 @@ suite('gr-markdown tests', () => {
   });
 
   test('does not render inline images into <img> tags', async () => {
-    element.markdown = '![img](google.com/img.png)';
+    element.content = '![img](google.com/img.png)';
     await element.updateComplete;
 
     assert.shadowDom.equal(
@@ -220,7 +220,7 @@ suite('gr-markdown tests', () => {
   });
 
   test('renders inline links into <a> tags', async () => {
-    element.markdown = '[myLink](https://www.google.com)';
+    element.content = '[myLink](https://www.google.com)';
     await element.updateComplete;
 
     assert.shadowDom.equal(
@@ -238,7 +238,7 @@ suite('gr-markdown tests', () => {
   });
 
   test('renders block quotes with links and rewrites', async () => {
-    element.markdown = `> block quote
+    element.content = `> block quote
     \n> block quote with plain link: google.com
     \n> block quote with config link: LinkRewriteMe
     \n> block quote with config html: HTMLRewriteMe`;
@@ -284,7 +284,7 @@ suite('gr-markdown tests', () => {
   });
 
   test('never renders typed html', async () => {
-    element.markdown = `plain text <div>foo</div>
+    element.content = `plain text <div>foo</div>
     \n\`inline code <div>foo</div>\`
     \n\`\`\`\nmultiline code <div>foo</div>\`\`\`
     \n> block quote <div>foo</div>

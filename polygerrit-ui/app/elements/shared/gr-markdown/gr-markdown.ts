@@ -5,6 +5,7 @@
  */
 import {css, html, LitElement} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
+import {unsafeHTML} from 'lit/directives/unsafe-html.js';
 import {htmlEscape} from '../../../utils/inner-html-util';
 import {unescapeHTML} from '../../../utils/syntax-util';
 import '@polymer/marked-element';
@@ -27,7 +28,10 @@ import {
 @customElement('gr-markdown')
 export class GrMarkdown extends LitElement {
   @property({type: String})
-  markdown?: string;
+  content = '';
+
+  @property({type: Boolean})
+  asMarkdown = false;
 
   @state()
   private repoCommentLinks: CommentLinks = {};
@@ -86,6 +90,11 @@ export class GrMarkdown extends LitElement {
       li {
         margin-left: var(--spacing-xl);
       }
+      .plaintext {
+        font: inherit;
+        white-space: var(--linked-text-white-space, pre-wrap);
+        word-wrap: var(--linked-text-word-wrap, break-word);
+      }
     `,
   ];
 
@@ -99,6 +108,22 @@ export class GrMarkdown extends LitElement {
   }
 
   override render() {
+    if (this.asMarkdown) {
+      return this.renderAsMarkdown();
+    } else {
+      return this.renderAsPlaintext();
+    }
+  }
+
+  private renderAsPlaintext() {
+    const linkedText = this.rewriteText(
+      htmlEscape(this.content).toString(),
+      this.repoCommentLinks
+    );
+    return html`<span class="plaintext">${unsafeHTML(linkedText)}</span>`;
+  }
+
+  private renderAsMarkdown() {
     // Note: Handling \u200B added in gr-change-view.ts is not needed here
     // because the commit message is not markdown formatted.
 
@@ -132,7 +157,7 @@ export class GrMarkdown extends LitElement {
     // The child with slot is optional but allows us control over the styling.
     return html`
       <marked-element
-        .markdown=${this.escapeAllButBlockQuotes(this.markdown ?? '')}
+        .markdown=${this.escapeAllButBlockQuotes(this.content)}
         .breaks=${true}
         .renderer=${customRenderer}
       >

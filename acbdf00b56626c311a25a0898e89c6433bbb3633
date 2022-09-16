@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7ca8546_220831e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-16T09:05:40Z",
+      "side": 1,
+      "message": "Is it safe to show always display name. If an attacker will pretend that their name is someone else name - would user be able to find name? \n\nI don\u0027t know much about name, display name. I am just wondering if we shouldn\u0027t be careful with display name since it can be changed anytime.",
+      "range": {
+        "startLine": 10,
+        "startChar": 19,
+        "endLine": 10,
+        "endChar": 42
+      },
+      "revId": "acbdf00b56626c311a25a0898e89c6433bbb3633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

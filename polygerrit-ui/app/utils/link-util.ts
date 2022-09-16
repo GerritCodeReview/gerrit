@@ -8,10 +8,20 @@ import {CommentLinks} from '../types/common';
 import {getBaseUrl} from './url-util';
 
 export function linkifyNormalUrls(base: string): string {
+  // Some tools are known to look for reviewers/CCs by finding lines such as
+  // "R=foo@gmail.com, bar@gmail.com". However, "=" is technically a valid email
+  // character, so ba-linkify interprets the entire string "R=foo@gmail.com" as
+  // an email address. To fix this, we insert a zero width space character
+  // \u200B before linking that prevents ba-linkify from associating the prefix
+  // with the email. After linking we remove the zero width space.
+  const baseWithZeroWidthSpace = base.replace(/^(R=|CC=)/g, '$&\u200B');
   const parts: string[] = [];
-  window.linkify(base, {
-    callback: (text, href) =>
-      parts.push(href ? createLinkTemplate(text, href) : text),
+  window.linkify(baseWithZeroWidthSpace, {
+    callback: (text, href) => {
+      const result = href ? createLinkTemplate(text, href) : text;
+      const resultWithoutZeroWidthSpace = result.replace(/\u200B/g, '');
+      parts.push(resultWithoutZeroWidthSpace);
+    },
   });
   return parts.join('');
 }

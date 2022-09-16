@@ -21,7 +21,7 @@ import {
 } from '../gr-navigation/gr-navigation';
 import {getAppContext} from '../../../services/app-context';
 import {convertToPatchSetNum} from '../../../utils/patch-set-util';
-import {assertNever} from '../../../utils/common-util';
+import {assertIsDefined, assertNever} from '../../../utils/common-util';
 import {
   BasePatchSetNum,
   DashboardId,
@@ -45,12 +45,7 @@ import {
   toSearchParams,
 } from '../../../utils/url-util';
 import {Execution, LifeCycle, Timing} from '../../../constants/reporting';
-import {
-  generateUrl,
-  GenerateUrlChangeViewParameters,
-  GenerateUrlDiffViewParameters,
-  GenerateUrlParameters,
-} from '../../../utils/router-util';
+import {generateUrl, GenerateUrlParameters} from '../../../utils/router-util';
 import {
   LATEST_ATTEMPT,
   stringToAttemptChoice,
@@ -59,6 +54,8 @@ import {AdminChildView} from '../../../models/views/admin';
 import {AgreementViewState} from '../../../models/views/agreement';
 import {RepoDetailView} from '../../../models/views/repo';
 import {GroupDetailView} from '../../../models/views/group';
+import {DiffViewState} from '../../../models/views/diff';
+import {ChangeViewState} from '../../../models/views/change';
 
 const RoutePattern = {
   ROOT: '/',
@@ -1438,7 +1435,7 @@ export class GrRouter {
   handleChangeRoute(ctx: PageContextWithQueryMap) {
     // Parameter order is based on the regex group number matched.
     const changeNum = Number(ctx.params[1]) as NumericChangeId;
-    const params: GenerateUrlChangeViewParameters = {
+    const params: ChangeViewState = {
       project: ctx.params[0] as RepoName,
       changeNum,
       basePatchNum: convertToPatchSetNum(ctx.params[4]) as BasePatchSetNum,
@@ -1471,6 +1468,7 @@ export class GrRouter {
     const attempt = stringToAttemptChoice(ctx.queryMap.get('attempt'));
     if (attempt && attempt !== LATEST_ATTEMPT) params.attempt = attempt;
 
+    assertIsDefined(params.project, 'project');
     this.reporting.setRepoName(params.project);
     this.reporting.setChangeId(changeNum);
     this.redirectOrNavigate(params);
@@ -1478,26 +1476,27 @@ export class GrRouter {
 
   handleCommentRoute(ctx: PageContextWithQueryMap) {
     const changeNum = Number(ctx.params[1]) as NumericChangeId;
-    const params: GenerateUrlDiffViewParameters = {
+    const params: DiffViewState = {
       project: ctx.params[0] as RepoName,
       changeNum,
       commentId: ctx.params[2] as UrlEncodedCommentId,
       view: GerritView.DIFF,
       commentLink: true,
     };
-    this.reporting.setRepoName(params.project);
+    this.reporting.setRepoName(params.project ?? '');
     this.reporting.setChangeId(changeNum);
     this.redirectOrNavigate(params);
   }
 
   handleCommentsRoute(ctx: PageContextWithQueryMap) {
     const changeNum = Number(ctx.params[1]) as NumericChangeId;
-    const params: GenerateUrlChangeViewParameters = {
+    const params: ChangeViewState = {
       project: ctx.params[0] as RepoName,
       changeNum,
       commentId: ctx.params[2] as UrlEncodedCommentId,
       view: GerritView.CHANGE,
     };
+    assertIsDefined(params.project);
     this.reporting.setRepoName(params.project);
     this.reporting.setChangeId(changeNum);
     this.redirectOrNavigate(params);
@@ -1506,7 +1505,7 @@ export class GrRouter {
   handleDiffRoute(ctx: PageContextWithQueryMap) {
     const changeNum = Number(ctx.params[1]) as NumericChangeId;
     // Parameter order is based on the regex group number matched.
-    const params: GenerateUrlDiffViewParameters = {
+    const params: DiffViewState = {
       project: ctx.params[0] as RepoName,
       changeNum,
       basePatchNum: convertToPatchSetNum(ctx.params[4]) as BasePatchSetNum,
@@ -1519,7 +1518,7 @@ export class GrRouter {
       params.leftSide = address.leftSide;
       params.lineNum = address.lineNum;
     }
-    this.reporting.setRepoName(params.project);
+    this.reporting.setRepoName(params.project ?? '');
     this.reporting.setChangeId(changeNum);
     this.redirectOrNavigate(params);
   }
@@ -1555,7 +1554,7 @@ export class GrRouter {
       // for edit view params, patchNum cannot be undefined
       patchNum: convertToPatchSetNum(ctx.params[2]) as RevisionPatchSetNum,
       path: ctx.params[3],
-      lineNum: ctx.hash,
+      lineNum: Number(ctx.hash),
       view: GerritView.EDIT,
     });
     this.reporting.setRepoName(project);
@@ -1566,7 +1565,7 @@ export class GrRouter {
     // Parameter order is based on the regex group number matched.
     const project = ctx.params[0] as RepoName;
     const changeNum = Number(ctx.params[1]) as NumericChangeId;
-    const params: GenerateUrlChangeViewParameters = {
+    const params: ChangeViewState = {
       project,
       changeNum,
       patchNum: convertToPatchSetNum(ctx.params[3]) as RevisionPatchSetNum,

@@ -567,13 +567,11 @@ suite('gr-change-view tests', () => {
     };
     element.change = createChangeViewChange();
     await element.updateComplete;
-    const getUrlStub = sinon.stub(GerritNav, 'getUrlForChange');
     const replaceStateStub = sinon.stub(history, 'replaceState');
     element.handleMessageAnchorTap(
       new CustomEvent('message-anchor-tap', {detail: {id: 'a12345'}})
     );
 
-    assert.equal(getUrlStub.lastCall.args[1]!.messageHash, '#message-a12345');
     assert.isTrue(replaceStateStub.called);
   });
 
@@ -1727,10 +1725,9 @@ suite('gr-change-view tests', () => {
       },
       current_revision: 'rev3' as CommitId,
     };
-    sinon.stub(GerritNav, 'getUrlForChange').returns('/change/123');
     assert.equal(
       element.computeCopyTextForTitle(),
-      `123: test subject | http://${location.host}/change/123`
+      `123: test subject | http://${location.host}/c/test-project/+/123`
     );
   });
 
@@ -2551,7 +2548,6 @@ suite('gr-change-view tests', () => {
 
   test('renders sha in copy links', async () => {
     stubFlags('isEnabled').returns(true);
-    sinon.stub(GerritNav, 'getUrlForChange').returns('/change/123');
     const sha = '123' as CommitId;
     element.change = {
       ...createChangeViewChange(),

@@ -65,7 +65,6 @@ import {
   getRepresentativeValue,
   valueString,
 } from '../../utils/label-util';
-import {GerritNav} from '../core/gr-navigation/gr-navigation';
 import {DropdownLink} from '../shared/gr-dropdown/gr-dropdown';
 import {subscribe} from '../lit/subscription-controller';
 import {fontStyles} from '../../styles/gr-font-styles';
@@ -82,6 +81,7 @@ import {KnownExperimentId} from '../../services/flags/flags';
 import {HtmlPatched} from '../../utils/lit-util';
 import {DropdownItem} from '../shared/gr-dropdown-list/gr-dropdown-list';
 import './gr-checks-attempt';
+import {createDiffUrl} from '../../models/views/diff';
 
 /**
  * Firing this event sets the regular expression of the results filter.
@@ -728,7 +728,13 @@ class GrResultExpanded extends LitElement {
       return {
         icon: LinkIcon.CODE,
         tooltip: `${path}${rangeText}`,
-        url: GerritNav.getUrlForDiff(change, path, patchset, undefined, line),
+        url: createDiffUrl({
+          changeNum: change._number,
+          project: change.project,
+          path,
+          patchNum: patchset,
+          lineNum: line,
+        }),
         primary: true,
       };
     });

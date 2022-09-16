@@ -100,7 +100,7 @@ suite('gr-repo-list tests', () => {
                     </a>
                   </td>
                   <td class="changesLink">
-                    <a href=""> view all </a>
+                    <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
                   <td class="description"></td>
@@ -120,7 +120,7 @@ suite('gr-repo-list tests', () => {
                     </a>
                   </td>
                   <td class="changesLink">
-                    <a href=""> view all </a>
+                    <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
                   <td class="description"></td>
@@ -140,7 +140,7 @@ suite('gr-repo-list tests', () => {
                     </a>
                   </td>
                   <td class="changesLink">
-                    <a href=""> view all </a>
+                    <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
                   <td class="description"></td>
@@ -160,7 +160,7 @@ suite('gr-repo-list tests', () => {
                     </a>
                   </td>
                   <td class="changesLink">
-                    <a href=""> view all </a>
+                    <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
                   <td class="description"></td>
@@ -180,7 +180,7 @@ suite('gr-repo-list tests', () => {
                     </a>
                   </td>
                   <td class="changesLink">
-                    <a href=""> view all </a>
+                    <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
                   <td class="description"></td>
@@ -200,7 +200,7 @@ suite('gr-repo-list tests', () => {
                     </a>
                   </td>
                   <td class="changesLink">
-                    <a href=""> view all </a>
+                    <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
                   <td class="description"></td>
@@ -220,7 +220,7 @@ suite('gr-repo-list tests', () => {
                     </a>
                   </td>
                   <td class="changesLink">
-                    <a href=""> view all </a>
+                    <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
                   <td class="description"></td>
@@ -240,7 +240,7 @@ suite('gr-repo-list tests', () => {
                     </a>
                   </td>
                   <td class="changesLink">
-                    <a href=""> view all </a>
+                    <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
                   <td class="description"></td>
@@ -260,7 +260,7 @@ suite('gr-repo-list tests', () => {
                     </a>
                   </td>
                   <td class="changesLink">
-                    <a href=""> view all </a>
+                    <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
                   <td class="description"></td>
@@ -280,7 +280,7 @@ suite('gr-repo-list tests', () => {
                     </a>
                   </td>
                   <td class="changesLink">
-                    <a href=""> view all </a>
+                    <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
                   <td class="description"></td>
@@ -300,7 +300,7 @@ suite('gr-repo-list tests', () => {
                     </a>
                   </td>
                   <td class="changesLink">
-                    <a href=""> view all </a>
+                    <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
                   <td class="description"></td>
@@ -320,7 +320,7 @@ suite('gr-repo-list tests', () => {
                     </a>
                   </td>
                   <td class="changesLink">
-                    <a href=""> view all </a>
+                    <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
                   <td class="description"></td>
@@ -340,7 +340,7 @@ suite('gr-repo-list tests', () => {
                     </a>
                   </td>
                   <td class="changesLink">
-                    <a href=""> view all </a>
+                    <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
                   <td class="description"></td>
@@ -360,7 +360,7 @@ suite('gr-repo-list tests', () => {
                     </a>
                   </td>
                   <td class="changesLink">
-                    <a href=""> view all </a>
+                    <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
                   <td class="description"></td>
@@ -380,7 +380,7 @@ suite('gr-repo-list tests', () => {
                     </a>
                   </td>
                   <td class="changesLink">
-                    <a href=""> view all </a>
+                    <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
                   <td class="description"></td>
@@ -400,7 +400,7 @@ suite('gr-repo-list tests', () => {
                     </a>
                   </td>
                   <td class="changesLink">
-                    <a href=""> view all </a>
+                    <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
                   <td class="description"></td>
@@ -420,7 +420,7 @@ suite('gr-repo-list tests', () => {
                     </a>
                   </td>
                   <td class="changesLink">
-                    <a href=""> view all </a>
+                    <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
                   <td class="description"></td>
@@ -440,7 +440,7 @@ suite('gr-repo-list tests', () => {
                     </a>
                   </td>
                   <td class="changesLink">
-                    <a href=""> view all </a>
+                    <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
                   <td class="description"></td>
@@ -460,7 +460,7 @@ suite('gr-repo-list tests', () => {
                     </a>
                   </td>
                   <td class="changesLink">
-                    <a href=""> view all </a>
+                    <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
                   <td class="description"></td>
@@ -480,7 +480,7 @@ suite('gr-repo-list tests', () => {
                     </a>
                   </td>
                   <td class="changesLink">
-                    <a href=""> view all </a>
+                    <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
                   <td class="description"></td>
@@ -500,7 +500,7 @@ suite('gr-repo-list tests', () => {
                     </a>
                   </td>
                   <td class="changesLink">
-                    <a href=""> view all </a>
+                    <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
                   <td class="description"></td>
@@ -520,7 +520,7 @@ suite('gr-repo-list tests', () => {
                     </a>
                   </td>
                   <td class="changesLink">
-                    <a href=""> view all </a>
+                    <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
                   <td class="description"></td>
@@ -540,7 +540,7 @@ suite('gr-repo-list tests', () => {
                     </a>
                   </td>
                   <td class="changesLink">
-                    <a href=""> view all </a>
+                    <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
                   <td class="description"></td>
@@ -560,7 +560,7 @@ suite('gr-repo-list tests', () => {
                     </a>
                   </td>
                   <td class="changesLink">
-                    <a href=""> view all </a>
+                    <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
                   <td class="description"></td>
@@ -580,7 +580,7 @@ suite('gr-repo-list tests', () => {
                     </a>
                   </td>
                   <td class="changesLink">
-                    <a href=""> view all </a>
+                    <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
                   <td class="description"></td>

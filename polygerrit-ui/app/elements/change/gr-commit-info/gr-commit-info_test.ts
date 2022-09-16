@@ -34,7 +34,7 @@ suite('gr-commit-info tests', () => {
       element,
       /* HTML */ `
         <div class="container">
-          <a href="" rel="noopener" target="_blank"> </a>
+          <a href="/q/" rel="noopener" target="_blank"> </a>
           <gr-copy-clipboard hastooltip="" hideinput=""> </gr-copy-clipboard>
         </div>
       `

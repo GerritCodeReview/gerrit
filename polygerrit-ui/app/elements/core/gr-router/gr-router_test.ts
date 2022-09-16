@@ -36,15 +36,13 @@ import {
   createServerInfo,
 } from '../../../test/test-data-generators';
 import {AppElementParams} from '../../gr-app-types';
-import {
-  GenerateUrlParameters,
-  GenerateUrlEditViewParameters,
-  GenerateUrlChangeViewParameters,
-} from '../../../utils/router-util';
+import {GenerateUrlParameters} from '../../../utils/router-util';
 import {assert} from '@open-wc/testing';
 import {AdminChildView} from '../../../models/views/admin';
 import {RepoDetailView} from '../../../models/views/repo';
 import {GroupDetailView} from '../../../models/views/group';
+import {EditViewState} from '../../../models/views/edit';
+import {ChangeViewState} from '../../../models/views/change';
 
 suite('gr-router tests', () => {
   let router: GrRouter;
@@ -1387,13 +1385,13 @@ suite('gr-router tests', () => {
             3: 'foo/bar/baz', // 3 File path
           },
         };
-        const appParams: GenerateUrlEditViewParameters = {
+        const appParams: EditViewState = {
           project: 'foo/bar' as RepoName,
           changeNum: 1234 as NumericChangeId,
           view: GerritView.EDIT,
           path: 'foo/bar/baz',
           patchNum: 3 as RevisionPatchSetNum,
-          lineNum: '',
+          lineNum: 0,
         };
 
         router.handleDiffEditRoute(ctx);
@@ -1420,13 +1418,13 @@ suite('gr-router tests', () => {
             3: 'foo/bar/baz', // 3 File path
           },
         };
-        const appParams: GenerateUrlEditViewParameters = {
+        const appParams: EditViewState = {
           project: 'foo/bar' as RepoName,
           changeNum: 1234 as NumericChangeId,
           view: GerritView.EDIT,
           path: 'foo/bar/baz',
           patchNum: 3 as RevisionPatchSetNum,
-          lineNum: '4',
+          lineNum: 4,
         };
 
         router.handleDiffEditRoute(ctx);
@@ -1452,7 +1450,7 @@ suite('gr-router tests', () => {
             3: '3', // 3 Patch num
           },
         };
-        const appParams: GenerateUrlChangeViewParameters = {
+        const appParams: ChangeViewState = {
           project: 'foo/bar' as RepoName,
           changeNum: 1234 as NumericChangeId,
           view: GerritView.CHANGE,

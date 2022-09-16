@@ -21,7 +21,7 @@ import {customElement, property, state} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {getRemovedByIconClickReason} from '../../../utils/attention-set-util';
 import {ifDefined} from 'lit/directives/if-defined.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {createSearchUrl} from '../../../models/views/search';
 
 @customElement('gr-account-label')
 export class GrAccountLabel extends LitElement {
@@ -299,12 +299,13 @@ export class GrAccountLabel extends LitElement {
 
   private maybeRenderLink(span: TemplateResult) {
     if (!this.clickable || !this.account) return span;
-    const url = GerritNav.getUrlForOwner(
-      this.account.email ||
+    const url = createSearchUrl({
+      owner:
+        this.account.email ||
         this.account.username ||
         this.account.name ||
-        `${this.account._account_id}`
-    );
+        `${this.account._account_id}`,
+    });
     if (!url) return span;
     return html`<a class="ownerLink" href=${url} tabindex="-1">${span}</a>`;
   }

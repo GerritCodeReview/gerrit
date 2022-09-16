@@ -20,7 +20,6 @@ import {getAppContext} from '../../../services/app-context';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {resolve} from '../../../models/dependency';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {GrTextarea} from '../gr-textarea/gr-textarea';
 import {GrOverlay} from '../gr-overlay/gr-overlay';
 import {
@@ -66,6 +65,7 @@ import {changeModelToken} from '../../../models/change/change-model';
 import {Interaction} from '../../../constants/reporting';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {isBase64FileContent} from '../../../api/rest-api';
+import {createDiffUrl} from '../../../models/views/diff';
 
 const UNSAVED_MESSAGE = 'Unable to save draft';
 
@@ -947,11 +947,11 @@ export class GrComment extends LitElement {
     const comment = this.comment;
     if (!comment || !this.changeNum || !this.repoName) return '';
     if (!comment.id) throw new Error('comment must have an id');
-    return GerritNav.getUrlForComment(
-      this.changeNum,
-      this.repoName,
-      comment.id
-    );
+    return createDiffUrl({
+      changeNum: this.changeNum,
+      project: this.repoName,
+      commentId: comment.id,
+    });
   }
 
   private firstWillUpdateDone = false;

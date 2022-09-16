@@ -87,11 +87,13 @@ suite('gr-comment-thread tests', () => {
       element,
       /* HTML */ `
         <div class="fileName">
-          <span>test-path-comment-thread</span>
+          <a href="/c/test-repo-name/+/1/1/test-path-comment-thread">
+            test-path-comment-thread
+          </a>
           <gr-copy-clipboard hideinput=""></gr-copy-clipboard>
         </div>
         <div class="pathInfo">
-          <span>#314</span>
+          <a href="/c/test-repo-name/+/1/comment/the-root/"> #314 </a>
         </div>
         <div id="container">
           <h3 class="assistive-tech-only">Draft Comment thread by Kermit</h3>
@@ -283,7 +285,7 @@ suite('gr-comment-thread tests', () => {
           >
           </gr-diff>
           <div class="view-diff-container">
-            <a href="">
+            <a href="/c/test-repo-name/+/1/comment/the-draft/">
               <gr-button
                 aria-disabled="false"
                 class="view-diff-button"

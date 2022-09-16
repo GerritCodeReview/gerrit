@@ -6,15 +6,13 @@
 import '../gr-icon/gr-icon';
 import '../gr-tooltip-content/gr-tooltip-content';
 import '../../../styles/shared-styles';
-import {
-  GeneratedWebLink,
-  GerritNav,
-} from '../../core/gr-navigation/gr-navigation';
+import {GeneratedWebLink} from '../../core/gr-navigation/gr-navigation';
 import {ChangeInfo} from '../../../types/common';
 import {ParsedChangeInfo} from '../../../types/types';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
+import {createSearchUrl} from '../../../models/views/search';
 
 export enum ChangeStates {
   ABANDONED = 'Abandoned',
@@ -203,7 +201,7 @@ export class GrChangeStatus extends LitElement {
   // private but used in test
   getStatusLink(): string {
     if (this.revertedChange) {
-      return GerritNav.getUrlForSearchQuery(`${this.revertedChange._number}`);
+      return createSearchUrl({query: `${this.revertedChange._number}`});
     }
     if (
       this.status === ChangeStates.MERGE_CONFLICT &&

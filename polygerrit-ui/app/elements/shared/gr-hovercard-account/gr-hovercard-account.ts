@@ -43,6 +43,7 @@ import {EventType} from '../../../types/events';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
+import {createSearchUrl} from '../../../models/views/search';
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
 const base = HovercardMixin(LitElement);
@@ -361,12 +362,13 @@ export class GrHovercardAccount extends base {
 
   computeOwnerChangesLink() {
     if (!this.account) return undefined;
-    return GerritNav.getUrlForOwner(
-      this.account.email ||
+    return createSearchUrl({
+      owner:
+        this.account.email ||
         this.account.username ||
         this.account.name ||
-        `${this.account._account_id}`
-    );
+        `${this.account._account_id}`,
+    });
   }
 
   computeOwnerDashboardLink() {

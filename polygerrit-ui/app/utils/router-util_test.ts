@@ -6,8 +6,6 @@
 import {assert} from '@open-wc/testing';
 import {
   RepoName,
-  BranchName,
-  TopicName,
   NumericChangeId,
   RevisionPatchSetNum,
   BasePatchSetNum,
@@ -15,80 +13,19 @@ import {
   GroupId,
 } from '../api/rest-api';
 import {PatchRangeParams} from '../elements/core/gr-router/gr-router';
+import {ChangeViewState} from '../models/views/change';
 import {DashboardViewState} from '../models/views/dashboard';
+import {EditViewState} from '../models/views/edit';
 import {GroupDetailView, GroupViewState} from '../models/views/group';
 import {GerritView} from '../services/router/router-model';
 import '../test/common-test-setup';
 import {DashboardId} from '../types/common';
-import {
-  generateUrl,
-  GenerateUrlChangeViewParameters,
-  GenerateUrlDiffViewParameters,
-  GenerateUrlEditViewParameters,
-  GenerateUrlSearchViewParameters,
-  TEST_ONLY,
-} from './router-util';
+import {generateUrl, TEST_ONLY} from './router-util';
 
 suite('router-util tests', () => {
   suite('generateUrl', () => {
-    test('search', () => {
-      let params: GenerateUrlSearchViewParameters = {
-        view: GerritView.SEARCH,
-        owner: 'a%b',
-        project: 'c%d' as RepoName,
-        branch: 'e%f' as BranchName,
-        topic: 'g%h' as TopicName,
-        statuses: ['op%en'],
-      };
-      assert.equal(
-        generateUrl(params),
-        '/q/owner:a%2525b+project:c%2525d+branch:e%2525f+' +
-          'topic:g%2525h+status:op%2525en'
-      );
-
-      params.offset = 100;
-      assert.equal(
-        generateUrl(params),
-        '/q/owner:a%2525b+project:c%2525d+branch:e%2525f+' +
-          'topic:g%2525h+status:op%2525en,100'
-      );
-      delete params.offset;
-
-      // The presence of the query param overrides other params.
-      params.query = 'foo$bar';
-      assert.equal(generateUrl(params), '/q/foo%2524bar');
-
-      params.offset = 100;
-      assert.equal(generateUrl(params), '/q/foo%2524bar,100');
-
-      params = {
-        view: GerritView.SEARCH,
-        statuses: ['a', 'b', 'c'],
-      };
-      assert.equal(
-        generateUrl(params),
-        '/q/(status:a OR status:b OR status:c)'
-      );
-
-      params = {
-        view: GerritView.SEARCH,
-        topic: 'test' as TopicName,
-      };
-      assert.equal(generateUrl(params), '/q/topic:test');
-      params = {
-        view: GerritView.SEARCH,
-        topic: 'test test' as TopicName,
-      };
-      assert.equal(generateUrl(params), '/q/topic:"test+test"');
-      params = {
-        view: GerritView.SEARCH,
-        topic: 'test:test' as TopicName,
-      };
-      assert.equal(generateUrl(params), '/q/topic:"test:test"');
-    });
-
     test('change', () => {
-      const params: GenerateUrlChangeViewParameters = {
+      const params: ChangeViewState = {
         view: GerritView.CHANGE,
         changeNum: 1234 as NumericChangeId,
         project: 'test' as RepoName,
@@ -107,7 +44,7 @@ suite('router-util tests', () => {
     });
 
     test('change with repo name encoding', () => {
-      const params: GenerateUrlChangeViewParameters = {
+      const params: ChangeViewState = {
         view: GerritView.CHANGE,
         changeNum: 1234 as NumericChangeId,
         project: 'x+/y+/z+/w' as RepoName,
@@ -115,51 +52,8 @@ suite('router-util tests', () => {
       assert.equal(generateUrl(params), '/c/x%252B/y%252B/z%252B/w/+/1234');
     });
 
-    test('diff', () => {
-      const params: GenerateUrlDiffViewParameters = {
-        view: GerritView.DIFF,
-        changeNum: 42 as NumericChangeId,
-        path: 'x+y/path.cpp' as RepoName,
-        patchNum: 12 as RevisionPatchSetNum,
-        project: '' as RepoName,
-      };
-      assert.equal(generateUrl(params), '/c/42/12/x%252By/path.cpp');
-
-      params.project = 'test' as RepoName;
-      assert.equal(generateUrl(params), '/c/test/+/42/12/x%252By/path.cpp');
-
-      params.basePatchNum = 6 as BasePatchSetNum;
-      assert.equal(generateUrl(params), '/c/test/+/42/6..12/x%252By/path.cpp');
-
-      params.path = 'foo bar/my+file.txt%';
-      params.patchNum = 2 as RevisionPatchSetNum;
-      delete params.basePatchNum;
-      assert.equal(
-        generateUrl(params),
-        '/c/test/+/42/2/foo+bar/my%252Bfile.txt%2525'
-      );
-
-      params.path = 'file.cpp';
-      params.lineNum = 123;
-      assert.equal(generateUrl(params), '/c/test/+/42/2/file.cpp#123');
-
-      params.leftSide = true;
-      assert.equal(generateUrl(params), '/c/test/+/42/2/file.cpp#b123');
-    });
-
-    test('diff with repo name encoding', () => {
-      const params: GenerateUrlDiffViewParameters = {
-        view: GerritView.DIFF,
-        changeNum: 42 as NumericChangeId,
-        path: 'x+y/path.cpp',
-        patchNum: 12 as RevisionPatchSetNum,
-        project: 'x+/y' as RepoName,
-      };
-      assert.equal(generateUrl(params), '/c/x%252B/y/+/42/12/x%252By/path.cpp');
-    });
-
     test(EDIT, () => {
-      const params: GenerateUrlEditViewParameters = {
+      const params: EditViewState = {
         view: GerritView.EDIT,
         changeNum: 42 as NumericChangeId,
         project: 'test' as RepoName,

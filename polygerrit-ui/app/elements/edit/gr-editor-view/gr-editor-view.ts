@@ -31,11 +31,11 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css, nothing} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
-import {GenerateUrlEditViewParameters} from '../../../utils/router-util';
 import {GerritView} from '../../../services/router/router-model';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {ShortcutController} from '../../lit/shortcut-controller';
+import {EditViewState} from '../../../models/views/edit';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const SAVING_MESSAGE = 'Saving changes...';
@@ -61,7 +61,7 @@ export class GrEditorView extends LitElement {
    */
 
   @property({type: Object})
-  params?: GenerateUrlEditViewParameters;
+  params?: EditViewState;
 
   // private but used in test
   @state() change?: ParsedChangeInfo;
@@ -333,6 +333,8 @@ export class GrEditorView extends LitElement {
 
     const promises = [];
 
+    assertIsDefined(this.changeNum, 'change number');
+    assertIsDefined(this.path, 'path');
     promises.push(this.getChangeDetail(this.changeNum));
     promises.push(this.getFileData(this.changeNum, this.path, this.patchNum));
     return Promise.all(promises);

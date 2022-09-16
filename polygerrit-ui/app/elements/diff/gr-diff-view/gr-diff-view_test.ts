@@ -177,7 +177,6 @@ suite('gr-diff-view tests', () => {
 
     suite('comment route', () => {
       let initLineOfInterestAndCursorStub: SinonStub;
-      let getUrlStub: SinonStub;
       let replaceStateStub: SinonStub;
       let paramsChangedSpy: SinonSpy;
       setup(() => {
@@ -185,7 +184,6 @@ suite('gr-diff-view tests', () => {
           element,
           'initLineOfInterestAndCursor'
         );
-        getUrlStub = sinon.stub(GerritNav, 'getUrlForDiffById');
         replaceStateStub = sinon.stub(history, 'replaceState');
         sinon.stub(element, 'fetchFiles');
         stubReporting('diffViewDisplayed');
@@ -235,17 +233,6 @@ suite('gr-diff-view tests', () => {
           assert.equal(element.patchRange?.patchNum, 11 as RevisionPatchSetNum);
           assert.equal(element.patchRange?.basePatchNum, 2 as BasePatchSetNum);
           assert.isTrue(replaceStateStub.called);
-          assert.isTrue(
-            getUrlStub.calledWithExactly(
-              42,
-              'test-project',
-              '/COMMIT_MSG',
-              11,
-              2,
-              10,
-              true
-            )
-          );
         });
       });
     });
@@ -485,7 +472,7 @@ suite('gr-diff-view tests', () => {
             <h1 class="assistive-tech-only">Diff of glados.txt</h1>
             <header>
               <div>
-                <a href=""> 42 </a>
+                <a href="/c/test-project/+/42"> 42 </a>
                 <span class="changeNumberColon"> : </span>
                 <span class="headerSubject"> Test subject </span>
                 <input
@@ -507,19 +494,23 @@ suite('gr-diff-view tests', () => {
                 </span>
                 <a
                   class="navLink"
-                  href=""
+                  href="/c/test-project/+/42/10/chell.go"
                   title="Go to previous file (shortcut: [)"
                 >
                   Prev
                 </a>
                 <span class="separator"> </span>
-                <a class="navLink" href="" title="Up to change (shortcut: u)">
+                <a
+                  class="navLink"
+                  href="/c/test-project/+/42"
+                  title="Up to change (shortcut: u)"
+                >
                   Up
                 </a>
                 <span class="separator"> </span>
                 <a
                   class="navLink"
-                  href=""
+                  href="/c/test-project/+/42/10/wheatley.md"
                   title="Go to next file (shortcut: ])"
                 >
                   Next
@@ -605,9 +596,16 @@ suite('gr-diff-view tests', () => {
               </div>
             </div>
             <div class="fileNav mobile">
-              <a class="mobileNavLink" href=""> < </a>
+              <a class="mobileNavLink" href="/c/test-project/+/42/10/chell.go">
+                <
+              </a>
               <div class="fullFileName mobile">glados.txt</div>
-              <a class="mobileNavLink" href=""> > </a>
+              <a
+                class="mobileNavLink"
+                href="/c/test-project/+/42/10/wheatley.md"
+              >
+                >
+              </a>
             </div>
           </div>
           <div class="loading">Loading...</div>
@@ -1414,9 +1412,6 @@ suite('gr-diff-view tests', () => {
       setup(() => {
         sinon.stub(element, 'fetchFiles');
         sinon
-          .stub(GerritNav, 'getUrlForDiff')
-          .callsFake((c, p, pn, bpn) => `${c._number}-${p}-${pn}-${bpn}`);
-        sinon
           .stub(GerritNav, 'getUrlForChange')
           .callsFake(
             (c, ops) => `${c._number}-${ops?.patchNum}-${ops?.basePatchNum}`
@@ -1523,36 +1518,42 @@ suite('gr-diff-view tests', () => {
 
         const linkEls = queryAll(element, '.navLink');
         assert.equal(linkEls.length, 3);
-        assert.equal(linkEls[0].getAttribute('href'), '42-chell.go-10-PARENT');
-        assert.equal(linkEls[1].getAttribute('href'), '42-undefined-undefined');
+        assert.equal(
+          linkEls[0].getAttribute('href'),
+          '/c/test-project/+/42/10/chell.go'
+        );
+        assert.equal(linkEls[1].getAttribute('href'), '/c/test-project/+/42');
         assert.equal(
           linkEls[2].getAttribute('href'),
-          '42-wheatley.md-10-PARENT'
+          '/c/test-project/+/42/10/wheatley.md'
         );
         element.path = 'wheatley.md';
         await element.updateComplete;
         assert.equal(
           linkEls[0].getAttribute('href'),
-          '42-glados.txt-10-PARENT'
+          '/c/test-project/+/42/10/glados.txt'
         );
-        assert.equal(linkEls[1].getAttribute('href'), '42-undefined-undefined');
-        assert.equal(linkEls[2].getAttribute('href'), '42-undefined-undefined');
+        assert.equal(linkEls[1].getAttribute('href'), '/c/test-project/+/42');
+        assert.equal(linkEls[2].getAttribute('href'), '/c/test-project/+/42');
         element.path = 'chell.go';
         await element.updateComplete;
-        assert.equal(linkEls[0].getAttribute('href'), '42-undefined-undefined');
-        assert.equal(linkEls[1].getAttribute('href'), '42-undefined-undefined');
+        assert.equal(linkEls[0].getAttribute('href'), '/c/test-project/+/42');
+        assert.equal(linkEls[1].getAttribute('href'), '/c/test-project/+/42');
         assert.equal(
           linkEls[2].getAttribute('href'),
-          '42-glados.txt-10-PARENT'
+          '/c/test-project/+/42/10/glados.txt'
         );
         element.path = 'not_a_real_file';
         await element.updateComplete;
         assert.equal(
           linkEls[0].getAttribute('href'),
-          '42-wheatley.md-10-PARENT'
+          '/c/test-project/+/42/10/wheatley.md'
         );
-        assert.equal(linkEls[1].getAttribute('href'), '42-undefined-undefined');
-        assert.equal(linkEls[2].getAttribute('href'), '42-chell.go-10-PARENT');
+        assert.equal(linkEls[1].getAttribute('href'), '/c/test-project/+/42');
+        assert.equal(
+          linkEls[2].getAttribute('href'),
+          '/c/test-project/+/42/10/chell.go'
+        );
       });
 
       test('prev/up/next links with patch range', async () => {
@@ -1578,19 +1579,46 @@ suite('gr-diff-view tests', () => {
         await element.updateComplete;
         const linkEls = queryAll(element, '.navLink');
         assert.equal(linkEls.length, 3);
-        assert.equal(linkEls[0].getAttribute('href'), '42-chell.go-10-5');
-        assert.equal(linkEls[1].getAttribute('href'), '42-10-5');
-        assert.equal(linkEls[2].getAttribute('href'), '42-wheatley.md-10-5');
+        assert.equal(
+          linkEls[0].getAttribute('href'),
+          '/c/test-project/+/42/5..10/chell.go'
+        );
+        assert.equal(
+          linkEls[1].getAttribute('href'),
+          '/c/test-project/+/42/5..10'
+        );
+        assert.equal(
+          linkEls[2].getAttribute('href'),
+          '/c/test-project/+/42/5..10/wheatley.md'
+        );
         element.path = 'wheatley.md';
         await element.updateComplete;
-        assert.equal(linkEls[0].getAttribute('href'), '42-glados.txt-10-5');
-        assert.equal(linkEls[1].getAttribute('href'), '42-10-5');
-        assert.equal(linkEls[2].getAttribute('href'), '42-10-5');
+        assert.equal(
+          linkEls[0].getAttribute('href'),
+          '/c/test-project/+/42/5..10/glados.txt'
+        );
+        assert.equal(
+          linkEls[1].getAttribute('href'),
+          '/c/test-project/+/42/5..10'
+        );
+        assert.equal(
+          linkEls[2].getAttribute('href'),
+          '/c/test-project/+/42/5..10'
+        );
         element.path = 'chell.go';
         await element.updateComplete;
-        assert.equal(linkEls[0].getAttribute('href'), '42-10-5');
-        assert.equal(linkEls[1].getAttribute('href'), '42-10-5');
-        assert.equal(linkEls[2].getAttribute('href'), '42-glados.txt-10-5');
+        assert.equal(
+          linkEls[0].getAttribute('href'),
+          '/c/test-project/+/42/5..10'
+        );
+        assert.equal(
+          linkEls[1].getAttribute('href'),
+          '/c/test-project/+/42/5..10'
+        );
+        assert.equal(
+          linkEls[2].getAttribute('href'),
+          '/c/test-project/+/42/5..10/glados.txt'
+        );
       });
     });
 
@@ -1982,7 +2010,6 @@ suite('gr-diff-view tests', () => {
     });
 
     test('onLineSelected', () => {
-      const getUrlStub = sinon.stub(GerritNav, 'getUrlForDiffById');
       const replaceStateStub = sinon.stub(history, 'replaceState');
       assertIsDefined(element.cursor);
       sinon
@@ -2004,12 +2031,9 @@ suite('gr-diff-view tests', () => {
       element.onLineSelected(e);
 
       assert.isTrue(replaceStateStub.called);
-      assert.isTrue(getUrlStub.called);
-      assert.isFalse(getUrlStub.lastCall.args[6]);
     });
 
     test('line selected on left side', () => {
-      const getUrlStub = sinon.stub(GerritNav, 'getUrlForDiffById');
       const replaceStateStub = sinon.stub(history, 'replaceState');
       assertIsDefined(element.cursor);
       sinon
@@ -2031,8 +2055,6 @@ suite('gr-diff-view tests', () => {
       element.onLineSelected(e);
 
       assert.isTrue(replaceStateStub.called);
-      assert.isTrue(getUrlStub.called);
-      assert.isTrue(getUrlStub.lastCall.args[6]);
     });
 
     test('handleToggleDiffMode', () => {

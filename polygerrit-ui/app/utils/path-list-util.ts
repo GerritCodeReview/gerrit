@@ -100,7 +100,7 @@ export function isMagicPath(path?: string) {
   );
 }
 
-export function computeTruncatedPath(path: string) {
+export function computeTruncatedPath(path?: string) {
   return truncatePath(computeDisplayPath(path));
 }
 

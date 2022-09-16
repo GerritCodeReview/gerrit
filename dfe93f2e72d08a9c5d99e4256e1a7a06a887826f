@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c7c5ed9_b1c37e4c",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 882,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2022-09-16T11:14:37Z",
+      "side": 1,
+      "message": "Is this enough to solve the problem or could there be a corner-case we are missing? \nI ask because we created a change internally that do the same thing as this, we ran the indexing and it worked for all changes expect one. \nFor that change it complained that it was 1 byte too long. Maybe one extra byte is appended later before it arrives to Lucene?",
+      "range": {
+        "startLine": 882,
+        "startChar": 6,
+        "endLine": 882,
+        "endChar": 99
+      },
+      "revId": "dfe93f2e72d08a9c5d99e4256e1a7a06a887826f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

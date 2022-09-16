@@ -22,6 +22,30 @@
       },
       "revId": "acbdf00b56626c311a25a0898e89c6433bbb3633",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fe91bb8_790fadf0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-16T09:14:26Z",
+      "side": 1,
+      "message": "The context within which this gets shown also shows the email address.",
+      "parentUuid": "d7ca8546_220831e1",
+      "range": {
+        "startLine": 10,
+        "startChar": 19,
+        "endLine": 10,
+        "endChar": 42
+      },
+      "revId": "acbdf00b56626c311a25a0898e89c6433bbb3633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -5,6 +5,7 @@
  */
 import {GerritView} from '../../services/router/router-model';
 import {getBaseUrl} from '../../utils/url-util';
+import {define} from '../dependency';
 import {Model} from '../model';
 import {ViewState} from './base';
 
@@ -19,8 +20,14 @@ export function createSettingsUrl() {
   return getBaseUrl() + '/settings';
 }
 
+export const settingsViewModelToken = define<SettingsViewModel>(
+  'settings-view-model'
+);
+
 export class SettingsViewModel extends Model<SettingsViewState> {
   constructor() {
     super(DEFAULT_STATE);
   }
+
+  finalize() {}
 }

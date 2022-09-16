@@ -17,6 +17,7 @@ import {
   getPatchRangeExpression,
 } from '../../utils/url-util';
 import {AttemptChoice} from '../checks/checks-util';
+import {define} from '../dependency';
 import {Model} from '../model';
 import {ViewState} from './base';
 
@@ -80,8 +81,13 @@ export function createChangeUrl(state: Omit<ChangeViewState, 'view'>) {
   }
 }
 
+export const changeViewModelToken =
+  define<ChangeViewModel>('change-view-model');
+
 export class ChangeViewModel extends Model<ChangeViewState> {
   constructor() {
     super(DEFAULT_STATE);
   }
+
+  finalize() {}
 }

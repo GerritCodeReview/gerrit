@@ -3,7 +3,11 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {ServerInfo} from '../api/rest-api';
+import {
+  BasePatchSetNum,
+  RevisionPatchSetNum,
+  ServerInfo,
+} from '../api/rest-api';
 import '../test/common-test-setup';
 import {createGerritInfo, createServerInfo} from '../test/test-data-generators';
 import {
@@ -15,6 +19,8 @@ import {
   toPath,
   toPathname,
   toSearchParams,
+  getPatchRangeExpression,
+  PatchRangeParams,
 } from './url-util';
 import {getAppContext, AppContext} from '../services/app-context';
 import {stubRestApi} from '../test/test-utils';
@@ -150,5 +156,23 @@ suite('url-util tests', () => {
       toPath(toPathname('asdf?qwer=zxcv'), toSearchParams('asdf?qwer=zxcv')),
       'asdf?qwer=zxcv'
     );
+  });
+
+  test('getPatchRangeExpression', () => {
+    const params: PatchRangeParams = {};
+    let actual = getPatchRangeExpression(params);
+    assert.equal(actual, '');
+
+    params.patchNum = 4 as RevisionPatchSetNum;
+    actual = getPatchRangeExpression(params);
+    assert.equal(actual, '4');
+
+    params.basePatchNum = 2 as BasePatchSetNum;
+    actual = getPatchRangeExpression(params);
+    assert.equal(actual, '2..4');
+
+    delete params.patchNum;
+    actual = getPatchRangeExpression(params);
+    assert.equal(actual, '2..');
   });
 });

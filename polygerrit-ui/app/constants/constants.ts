@@ -264,7 +264,7 @@ export function createDefaultPreferences(): PreferencesInfo {
     diff_view: DiffViewMode.SIDE_BY_SIDE,
     size_bar_in_change_table: true,
     my: [],
-    theme: AppTheme.LIGHT,
+    theme: AppTheme.AUTO,
     date_format: DateFormat.EURO,
     time_format: TimeFormat.HHMM_24,
     change_table: [],

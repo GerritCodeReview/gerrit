@@ -37,6 +37,31 @@ import {
   AccountsModel,
   accountsModelToken,
 } from '../models/accounts-model/accounts-model';
+import {
+  DashboardViewModel,
+  dashboardViewModelToken,
+} from '../models/views/dashboard';
+import {
+  SettingsViewModel,
+  settingsViewModelToken,
+} from '../models/views/settings';
+import {GrRouter, routerToken} from '../elements/core/gr-router/gr-router';
+import {AdminViewModel, adminViewModelToken} from '../models/views/admin';
+import {
+  AgreementViewModel,
+  agreementViewModelToken,
+} from '../models/views/agreement';
+import {ChangeViewModel, changeViewModelToken} from '../models/views/change';
+import {DiffViewModel, diffViewModelToken} from '../models/views/diff';
+import {
+  DocumentationViewModel,
+  documentationViewModelToken,
+} from '../models/views/documentation';
+import {EditViewModel, editViewModelToken} from '../models/views/edit';
+import {GroupViewModel, groupViewModelToken} from '../models/views/group';
+import {PluginViewModel, pluginViewModelToken} from '../models/views/plugin';
+import {RepoViewModel, repoViewModelToken} from '../models/views/repo';
+import {SearchViewModel, searchViewModelToken} from '../models/views/search';
 
 export function createTestAppContext(): AppContext & Finalizable {
   const appRegistry: Registry<AppContext> = {
@@ -92,6 +117,51 @@ export function createTestDependencies(
   const browserModel = () => new BrowserModel(appContext.userModel);
   dependencies.set(browserModelToken, browserModel);
 
+  const adminViewModelCreator = () => new AdminViewModel();
+  dependencies.set(adminViewModelToken, adminViewModelCreator);
+  const agreementViewModelCreator = () => new AgreementViewModel();
+  dependencies.set(agreementViewModelToken, agreementViewModelCreator);
+  const changeViewModelCreator = () => new ChangeViewModel();
+  dependencies.set(changeViewModelToken, changeViewModelCreator);
+  const dashboardViewModelCreator = () => new DashboardViewModel();
+  dependencies.set(dashboardViewModelToken, dashboardViewModelCreator);
+  const diffViewModelCreator = () => new DiffViewModel();
+  dependencies.set(diffViewModelToken, diffViewModelCreator);
+  const documentationViewModelCreator = () => new DocumentationViewModel();
+  dependencies.set(documentationViewModelToken, documentationViewModelCreator);
+  const editViewModelCreator = () => new EditViewModel();
+  dependencies.set(editViewModelToken, editViewModelCreator);
+  const groupViewModelCreator = () => new GroupViewModel();
+  dependencies.set(groupViewModelToken, groupViewModelCreator);
+  const pluginViewModelCreator = () => new PluginViewModel();
+  dependencies.set(pluginViewModelToken, pluginViewModelCreator);
+  const repoViewModelCreator = () => new RepoViewModel();
+  dependencies.set(repoViewModelToken, repoViewModelCreator);
+  const searchViewModelCreator = () => new SearchViewModel();
+  dependencies.set(searchViewModelToken, searchViewModelCreator);
+  const settingsViewModelCreator = () => new SettingsViewModel();
+  dependencies.set(settingsViewModelToken, settingsViewModelCreator);
+
+  const routerCreator = () =>
+    new GrRouter(
+      appContext.reportingService,
+      appContext.routerModel,
+      appContext.restApiService,
+      resolver(adminViewModelToken),
+      resolver(agreementViewModelToken),
+      resolver(changeViewModelToken),
+      resolver(dashboardViewModelToken),
+      resolver(diffViewModelToken),
+      resolver(documentationViewModelToken),
+      resolver(editViewModelToken),
+      resolver(groupViewModelToken),
+      resolver(pluginViewModelToken),
+      resolver(repoViewModelToken),
+      resolver(searchViewModelToken),
+      resolver(settingsViewModelToken)
+    );
+  dependencies.set(routerToken, routerCreator);
+
   const changeModelCreator = () =>
     new ChangeModel(
       appContext.routerModel,
@@ -139,6 +209,9 @@ export function createTestDependencies(
   const shortcutServiceCreator = () =>
     new ShortcutsService(appContext.userModel, appContext.reportingService);
   dependencies.set(shortcutsServiceToken, shortcutServiceCreator);
+
+  dependencies.set(dashboardViewModelToken, () => new DashboardViewModel());
+  dependencies.set(settingsViewModelToken, () => new SettingsViewModel());
 
   return dependencies;
 }

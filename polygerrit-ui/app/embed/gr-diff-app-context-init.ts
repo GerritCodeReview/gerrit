@@ -87,6 +87,12 @@ export function createDiffAppContext(): AppContext & Finalizable {
     highlightService: (_ctx: Partial<AppContext>) => {
       throw new Error('highlightService is not implemented');
     },
+    dashboardViewModel: (_ctx: Partial<AppContext>) => {
+      throw new Error('dashboardViewModel is not implemented');
+    },
+    settingsViewModel: (_ctx: Partial<AppContext>) => {
+      throw new Error('settingsViewModel is not implemented');
+    },
   };
   return create<AppContext>(appRegistry);
 }

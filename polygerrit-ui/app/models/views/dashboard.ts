@@ -7,6 +7,7 @@ import {ChangeInfo, RepoName} from '../../api/rest-api';
 import {GerritView} from '../../services/router/router-model';
 import {DashboardId} from '../../types/common';
 import {encodeURL} from '../../utils/url-util';
+import {define} from '../dependency';
 import {Model} from '../model';
 import {ViewState} from './base';
 
@@ -68,8 +69,14 @@ export function createDashboardUrl(state: Omit<DashboardViewState, 'view'>) {
   }
 }
 
+export const dashboardViewModelToken = define<DashboardViewModel>(
+  'dashboard-view-model'
+);
+
 export class DashboardViewModel extends Model<DashboardViewState> {
   constructor() {
     super(DEFAULT_STATE);
   }
+
+  finalize() {}
 }

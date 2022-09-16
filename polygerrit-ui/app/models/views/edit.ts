@@ -11,6 +11,7 @@ import {
 } from '../../api/rest-api';
 import {GerritView} from '../../services/router/router-model';
 import {encodeURL, getPatchRangeExpression} from '../../utils/url-util';
+import {define} from '../dependency';
 import {Model} from '../model';
 import {ViewState} from './base';
 
@@ -50,8 +51,12 @@ export function createEditUrl(state: Omit<EditViewState, 'view'>): string {
   }
 }
 
+export const editViewModelToken = define<EditViewModel>('edit-view-model');
+
 export class EditViewModel extends Model<EditViewState> {
   constructor() {
     super(DEFAULT_STATE);
   }
+
+  finalize() {}
 }

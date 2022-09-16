@@ -32,6 +32,31 @@ import {BrowserModel, browserModelToken} from '../models/browser/browser-model';
 import {PluginsModel} from '../models/plugins/plugins-model';
 import {HighlightService} from './highlight/highlight-service';
 import {AccountsModel} from '../models/accounts-model/accounts-model';
+import {
+  DashboardViewModel,
+  dashboardViewModelToken,
+} from '../models/views/dashboard';
+import {
+  SettingsViewModel,
+  settingsViewModelToken,
+} from '../models/views/settings';
+import {GrRouter, routerToken} from '../elements/core/gr-router/gr-router';
+import {AdminViewModel, adminViewModelToken} from '../models/views/admin';
+import {
+  AgreementViewModel,
+  agreementViewModelToken,
+} from '../models/views/agreement';
+import {ChangeViewModel, changeViewModelToken} from '../models/views/change';
+import {DiffViewModel, diffViewModelToken} from '../models/views/diff';
+import {
+  DocumentationViewModel,
+  documentationViewModelToken,
+} from '../models/views/documentation';
+import {EditViewModel, editViewModelToken} from '../models/views/edit';
+import {GroupViewModel, groupViewModelToken} from '../models/views/group';
+import {PluginViewModel, pluginViewModelToken} from '../models/views/plugin';
+import {RepoViewModel, repoViewModelToken} from '../models/views/repo';
+import {SearchViewModel, searchViewModelToken} from '../models/views/search';
 
 /**
  * The AppContext lazy initializator for all services
@@ -84,6 +109,50 @@ export function createAppDependencies(
   const dependencies = new Map<DependencyToken<unknown>, Finalizable>();
   const browserModel = new BrowserModel(appContext.userModel);
   dependencies.set(browserModelToken, browserModel);
+
+  const adminViewModel = new AdminViewModel();
+  dependencies.set(adminViewModelToken, adminViewModel);
+  const agreementViewModel = new AgreementViewModel();
+  dependencies.set(agreementViewModelToken, agreementViewModel);
+  const changeViewModel = new ChangeViewModel();
+  dependencies.set(changeViewModelToken, changeViewModel);
+  const dashboardViewModel = new DashboardViewModel();
+  dependencies.set(dashboardViewModelToken, dashboardViewModel);
+  const diffViewModel = new DiffViewModel();
+  dependencies.set(diffViewModelToken, diffViewModel);
+  const documentationViewModel = new DocumentationViewModel();
+  dependencies.set(documentationViewModelToken, documentationViewModel);
+  const editViewModel = new EditViewModel();
+  dependencies.set(editViewModelToken, editViewModel);
+  const groupViewModel = new GroupViewModel();
+  dependencies.set(groupViewModelToken, groupViewModel);
+  const pluginViewModel = new PluginViewModel();
+  dependencies.set(pluginViewModelToken, pluginViewModel);
+  const repoViewModel = new RepoViewModel();
+  dependencies.set(repoViewModelToken, repoViewModel);
+  const searchViewModel = new SearchViewModel();
+  dependencies.set(searchViewModelToken, searchViewModel);
+  const settingsViewModel = new SettingsViewModel();
+  dependencies.set(settingsViewModelToken, settingsViewModel);
+
+  const router = new GrRouter(
+    appContext.reportingService,
+    appContext.routerModel,
+    appContext.restApiService,
+    adminViewModel,
+    agreementViewModel,
+    changeViewModel,
+    dashboardViewModel,
+    diffViewModel,
+    documentationViewModel,
+    editViewModel,
+    groupViewModel,
+    pluginViewModel,
+    repoViewModel,
+    searchViewModel,
+    settingsViewModel
+  );
+  dependencies.set(routerToken, router);
 
   const changeModel = new ChangeModel(
     appContext.routerModel,

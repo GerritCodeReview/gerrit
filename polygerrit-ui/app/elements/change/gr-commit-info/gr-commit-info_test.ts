@@ -13,7 +13,6 @@ import {
   createServerInfo,
 } from '../../../test/test-data-generators';
 import {CommitId, RepoName} from '../../../types/common';
-import {GrRouter} from '../../core/gr-router/gr-router';
 import {fixture, html, assert} from '@open-wc/testing';
 import {waitEventLoop} from '../../../test/test-utils';
 
@@ -61,10 +60,9 @@ suite('gr-commit-info tests', () => {
   });
 
   test('use web link when available', () => {
-    const router = new GrRouter();
-    sinon
-      .stub(GerritNav, '_generateWeblinks')
-      .callsFake(router.generateWeblinks.bind(router));
+    sinon.stub(GerritNav, 'getPatchSetWeblink').callsFake(() => {
+      return {name: 'test-name', url: 'test-url'};
+    });
 
     element.change = {...createChange(), labels: {}, project: '' as RepoName};
     element.commitInfo = {
@@ -75,65 +73,6 @@ suite('gr-commit-info tests', () => {
     element.serverConfig = createServerInfo();
 
     assert.isOk(element._showWebLink);
-    assert.equal(element._webLink, 'link-url');
-  });
-
-  test('does not relativize web links that begin with scheme', () => {
-    const router = new GrRouter();
-    sinon
-      .stub(GerritNav, '_generateWeblinks')
-      .callsFake(router.generateWeblinks.bind(router));
-
-    element.change = {...createChange(), labels: {}, project: '' as RepoName};
-    element.commitInfo = {
-      ...createCommit(),
-      commit: 'commitsha' as CommitId,
-      web_links: [{name: 'gitweb', url: 'https://link-url'}],
-    };
-    element.serverConfig = createServerInfo();
-
-    assert.isOk(element._showWebLink);
-    assert.equal(element._webLink, 'https://link-url');
-  });
-
-  test('ignore web links that are neither gitweb nor gitiles', () => {
-    const router = new GrRouter();
-    sinon
-      .stub(GerritNav, '_generateWeblinks')
-      .callsFake(router.generateWeblinks.bind(router));
-
-    element.change = {...createChange(), project: 'project-name' as RepoName};
-    element.commitInfo = {
-      ...createCommit(),
-      commit: 'commit-sha' as CommitId,
-      web_links: [
-        {
-          name: 'ignore',
-          url: 'ignore',
-        },
-        {
-          name: 'gitiles',
-          url: 'https://link-url',
-        },
-      ],
-    };
-    element.serverConfig = createServerInfo();
-
-    assert.isOk(element._showWebLink);
-    assert.equal(element._webLink, 'https://link-url');
-
-    // Remove gitiles link.
-    element.commitInfo = {
-      ...createCommit(),
-      commit: 'commit-sha' as CommitId,
-      web_links: [
-        {
-          name: 'ignore',
-          url: 'ignore',
-        },
-      ],
-    };
-    assert.isNotOk(element._showWebLink);
-    assert.isNotOk(element._webLink);
+    assert.equal(element._webLink, 'test-url');
   });
 });

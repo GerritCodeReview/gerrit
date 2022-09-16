@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {GerritView} from '../../services/router/router-model';
+import {define} from '../dependency';
 import {Model} from '../model';
 import {ViewState} from './base';
 
@@ -25,8 +26,12 @@ const DEFAULT_STATE: AdminViewState = {
   adminView: AdminChildView.REPOS,
 };
 
+export const adminViewModelToken = define<AdminViewModel>('admin-view-model');
+
 export class AdminViewModel extends Model<AdminViewState> {
   constructor() {
     super(DEFAULT_STATE);
   }
+
+  finalize() {}
 }

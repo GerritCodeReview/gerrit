@@ -16,6 +16,7 @@ import {
 import {
   GrRouter,
   PageContextWithQueryMap,
+  routerToken,
   _testOnly_RoutePattern,
 } from './gr-router';
 import {GerritView} from '../../../services/router/router-model';
@@ -42,12 +43,15 @@ import {GroupDetailView} from '../../../models/views/group';
 import {EditViewState} from '../../../models/views/edit';
 import {ChangeViewState} from '../../../models/views/change';
 import {PatchRangeParams} from '../../../utils/url-util';
+import {DependencyRequestEvent} from '../../../models/dependency';
 
 suite('gr-router tests', () => {
   let router: GrRouter;
 
   setup(() => {
-    router = new GrRouter();
+    document.dispatchEvent(
+      new DependencyRequestEvent(routerToken, x => (router = x))
+    );
   });
 
   test('firstCodeBrowserWeblink', () => {
@@ -343,7 +347,7 @@ suite('gr-router tests', () => {
 
   suite('route handlers', () => {
     let redirectStub: sinon.SinonStub;
-    let setParamsStub: sinon.SinonStub;
+    let setStateStub: sinon.SinonStub;
     let handlePassThroughRoute: sinon.SinonStub;
 
     // Simple route handlers are direct mappings from parsed route data to a
@@ -355,7 +359,7 @@ suite('gr-router tests', () => {
       params: AppElementParams
     ) {
       (router as any)[methodName](data);
-      assert.deepEqual(setParamsStub.lastCall.args[0], params);
+      assert.deepEqual(setStateStub.lastCall.args[0], params);
     }
 
     function createPageContext(): PageContextWithQueryMap {
@@ -376,7 +380,7 @@ suite('gr-router tests', () => {
 
     setup(() => {
       redirectStub = sinon.stub(router, 'redirect');
-      setParamsStub = sinon.stub(router, 'setParams');
+      setStateStub = sinon.stub(router, 'setState');
       handlePassThroughRoute = sinon.stub(router, 'handlePassThroughRoute');
     });
 
@@ -400,10 +404,9 @@ suite('gr-router tests', () => {
     });
 
     test('handleNewAgreementsRoute', () => {
-      const params = createPageContext();
-      router.handleNewAgreementsRoute(params);
-      assert.isTrue(setParamsStub.calledOnce);
-      assert.equal(setParamsStub.lastCall.args[0].view, GerritView.AGREEMENTS);
+      router.handleNewAgreementsRoute();
+      assert.isTrue(setStateStub.calledOnce);
+      assert.equal(setStateStub.lastCall.args[0].view, GerritView.AGREEMENTS);
     });
 
     test('handleSettingsLegacyRoute', () => {
@@ -518,24 +521,24 @@ suite('gr-router tests', () => {
         const ctx = {...createPageContext(), params: {0: '/foo/bar'}};
         router.handleRegisterRoute(ctx);
         assert.isTrue(redirectStub.calledWithExactly('/foo/bar'));
-        assert.isTrue(setParamsStub.calledOnce);
-        assert.isTrue(setParamsStub.lastCall.args[0].justRegistered);
+        assert.isTrue(setStateStub.calledOnce);
+        assert.isTrue(setStateStub.lastCall.args[0].justRegistered);
       });
 
       test('no param', () => {
         const ctx = createPageContext();
         router.handleRegisterRoute(ctx);
         assert.isTrue(redirectStub.calledWithExactly('/'));
-        assert.isTrue(setParamsStub.calledOnce);
-        assert.isTrue(setParamsStub.lastCall.args[0].justRegistered);
+        assert.isTrue(setStateStub.calledOnce);
+        assert.isTrue(setStateStub.lastCall.args[0].justRegistered);
       });
 
       test('prevent redirect', () => {
         const ctx = {...createPageContext(), params: {0: '/register'}};
         router.handleRegisterRoute(ctx);
         assert.isTrue(redirectStub.calledWithExactly('/'));
-        assert.isTrue(setParamsStub.calledOnce);
-        assert.isTrue(setParamsStub.lastCall.args[0].justRegistered);
+        assert.isTrue(setStateStub.calledOnce);
+        assert.isTrue(setStateStub.lastCall.args[0].justRegistered);
       });
     });
 
@@ -663,7 +666,7 @@ suite('gr-router tests', () => {
         return router.handleDashboardRoute(data).then(() => {
           assert.isTrue(redirectToLoginStub.calledOnce);
           assert.isFalse(redirectStub.called);
-          assert.isFalse(setParamsStub.called);
+          assert.isFalse(setStateStub.called);
         });
       });
 
@@ -676,7 +679,7 @@ suite('gr-router tests', () => {
         };
         return router.handleDashboardRoute(data).then(() => {
           assert.isFalse(redirectToLoginStub.called);
-          assert.isFalse(setParamsStub.called);
+          assert.isFalse(setStateStub.called);
           assert.isTrue(redirectStub.calledOnce);
           assert.equal(redirectStub.lastCall.args[0], '/q/owner:foo');
         });
@@ -691,8 +694,8 @@ suite('gr-router tests', () => {
         return router.handleDashboardRoute(data).then(() => {
           assert.isFalse(redirectToLoginStub.called);
           assert.isFalse(redirectStub.called);
-          assert.isTrue(setParamsStub.calledOnce);
-          assert.deepEqual(setParamsStub.lastCall.args[0], {
+          assert.isTrue(setStateStub.calledOnce);
+          assert.deepEqual(setStateStub.lastCall.args[0], {
             view: GerritView.DASHBOARD,
             user: 'foo',
           });
@@ -714,7 +717,7 @@ suite('gr-router tests', () => {
           params: {0: ''},
         };
         return router.handleCustomDashboardRoute(data, '').then(() => {
-          assert.isFalse(setParamsStub.called);
+          assert.isFalse(setStateStub.called);
           assert.isTrue(redirectStub.called);
           assert.equal(redirectStub.lastCall.args[0], '/dashboard/self');
         });
@@ -730,8 +733,8 @@ suite('gr-router tests', () => {
           .handleCustomDashboardRoute(data, '?a=b&c&d=e')
           .then(() => {
             assert.isFalse(redirectStub.called);
-            assert.isTrue(setParamsStub.calledOnce);
-            assert.deepEqual(setParamsStub.lastCall.args[0], {
+            assert.isTrue(setStateStub.calledOnce);
+            assert.deepEqual(setStateStub.lastCall.args[0], {
               view: GerritView.DASHBOARD,
               user: 'self',
               sections: [
@@ -754,8 +757,8 @@ suite('gr-router tests', () => {
           .then(() => {
             assert.isFalse(redirectToLoginStub.called);
             assert.isFalse(redirectStub.called);
-            assert.isTrue(setParamsStub.calledOnce);
-            assert.deepEqual(setParamsStub.lastCall.args[0], {
+            assert.isTrue(setStateStub.calledOnce);
+            assert.deepEqual(setStateStub.lastCall.args[0], {
               view: GerritView.DASHBOARD,
               user: 'self',
               sections: [{name: 'a', query: 'b'}],
@@ -775,8 +778,8 @@ suite('gr-router tests', () => {
           .then(() => {
             assert.isFalse(redirectToLoginStub.called);
             assert.isFalse(redirectStub.called);
-            assert.isTrue(setParamsStub.calledOnce);
-            assert.deepEqual(setParamsStub.lastCall.args[0], {
+            assert.isTrue(setStateStub.calledOnce);
+            assert.deepEqual(setStateStub.lastCall.args[0], {
               view: GerritView.DASHBOARD,
               user: 'self',
               sections: [{name: 'a', query: 'is:open b'}],
@@ -1353,7 +1356,7 @@ suite('gr-router tests', () => {
 
         router.handleDiffEditRoute(ctx);
         assert.isFalse(redirectStub.called);
-        assert.deepEqual(setParamsStub.lastCall.args[0], appParams);
+        assert.deepEqual(setStateStub.lastCall.args[0], appParams);
       });
 
       test('handleDiffEditRoute with lineNum', () => {
@@ -1379,7 +1382,7 @@ suite('gr-router tests', () => {
 
         router.handleDiffEditRoute(ctx);
         assert.isFalse(redirectStub.called);
-        assert.deepEqual(setParamsStub.lastCall.args[0], appParams);
+        assert.deepEqual(setStateStub.lastCall.args[0], appParams);
       });
 
       test('handleChangeEditRoute', () => {
@@ -1404,7 +1407,7 @@ suite('gr-router tests', () => {
 
         router.handleChangeEditRoute(ctx);
         assert.isFalse(redirectStub.called);
-        assert.deepEqual(setParamsStub.lastCall.args[0], appParams);
+        assert.deepEqual(setStateStub.lastCall.args[0], appParams);
       });
     });
 

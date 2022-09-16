@@ -123,7 +123,7 @@ suite('gr-comment tests', () => {
         element,
         /* HTML */ `
           <div class="container" id="container">
-            <div class="header" id="header">
+            <div class="header headerSpacing" id="header">
               <div class="headerLeft">
                 <gr-account-label deselected=""></gr-account-label>
               </div>
@@ -159,7 +159,7 @@ suite('gr-comment tests', () => {
         element,
         /* HTML */ `
           <div class="container" id="container">
-            <div class="header" id="header">
+            <div class="header headerSpacing" id="header">
               <div class="headerLeft">
                 <span class="robotName">robot-id-123</span>
               </div>
@@ -249,7 +249,7 @@ suite('gr-comment tests', () => {
         element,
         /* HTML */ `
           <div class="container draft" id="container">
-            <div class="header" id="header">
+            <div class="header headerSpacing" id="header">
               <div class="headerLeft">
                 <gr-tooltip-content
                   class="draftTooltip"
@@ -319,7 +319,7 @@ suite('gr-comment tests', () => {
         element,
         /* HTML */ `
           <div class="container draft" id="container">
-            <div class="header" id="header">
+            <div class="header headerSpacing" id="header">
               <div class="headerLeft">
                 <gr-tooltip-content
                   class="draftTooltip"

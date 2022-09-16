@@ -7,7 +7,6 @@ import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-list-view/gr-list-view';
 import '../../shared/gr-overlay/gr-overlay';
 import '../gr-create-group-dialog/gr-create-group-dialog';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GroupId, GroupInfo, GroupName} from '../../../types/common';
 import {GrCreateGroupDialog} from '../gr-create-group-dialog/gr-create-group-dialog';
@@ -20,6 +19,7 @@ import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, query, property, state} from 'lit/decorators.js';
 import {assertIsDefined} from '../../../utils/common-util';
 import {AdminViewState} from '../../../models/views/admin';
+import {createGroupUrl} from '../../../models/views/group';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -179,7 +179,8 @@ export class GrAdminGroupList extends LitElement {
    * private but used in test
    */
   computeGroupUrl(id: string) {
-    return GerritNav.getUrlForGroup(decodeURIComponent(id) as GroupId);
+    const decodedId = decodeURIComponent(id) as GroupId;
+    return createGroupUrl({groupId: decodedId});
   }
 
   private getCreateGroupCapability() {

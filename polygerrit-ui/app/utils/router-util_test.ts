@@ -10,17 +10,14 @@ import {
   RevisionPatchSetNum,
   BasePatchSetNum,
   EDIT,
-  GroupId,
 } from '../api/rest-api';
-import {PatchRangeParams} from '../elements/core/gr-router/gr-router';
 import {ChangeViewState} from '../models/views/change';
 import {DashboardViewState} from '../models/views/dashboard';
 import {EditViewState} from '../models/views/edit';
-import {GroupDetailView, GroupViewState} from '../models/views/group';
 import {GerritView} from '../services/router/router-model';
 import '../test/common-test-setup';
 import {DashboardId} from '../types/common';
-import {generateUrl, TEST_ONLY} from './router-util';
+import {generateUrl} from './router-util';
 
 suite('router-util tests', () => {
   suite('generateUrl', () => {
@@ -64,24 +61,6 @@ suite('router-util tests', () => {
         generateUrl(params),
         '/c/test/+/42/edit/x%252By/path.cpp,edit'
       );
-    });
-
-    test('getPatchRangeExpression', () => {
-      const params: PatchRangeParams = {};
-      let actual = TEST_ONLY.getPatchRangeExpression(params);
-      assert.equal(actual, '');
-
-      params.patchNum = 4 as RevisionPatchSetNum;
-      actual = TEST_ONLY.getPatchRangeExpression(params);
-      assert.equal(actual, '4');
-
-      params.basePatchNum = 2 as BasePatchSetNum;
-      actual = TEST_ONLY.getPatchRangeExpression(params);
-      assert.equal(actual, '2..4');
-
-      delete params.patchNum;
-      actual = TEST_ONLY.getPatchRangeExpression(params);
-      assert.equal(actual, '2..');
     });
 
     suite('dashboard', () => {
@@ -165,34 +144,6 @@ suite('router-util tests', () => {
           generateUrl(params),
           '/p/gerrit/project/+/dashboard/default:main'
         );
-      });
-    });
-
-    suite('groups', () => {
-      test('group info', () => {
-        const params: GroupViewState = {
-          view: GerritView.GROUP,
-          groupId: '1234' as GroupId,
-        };
-        assert.equal(generateUrl(params), '/admin/groups/1234');
-      });
-
-      test('group members', () => {
-        const params: GroupViewState = {
-          view: GerritView.GROUP,
-          groupId: '1234' as GroupId,
-          detail: 'members' as GroupDetailView,
-        };
-        assert.equal(generateUrl(params), '/admin/groups/1234,members');
-      });
-
-      test('group audit log', () => {
-        const params: GroupViewState = {
-          view: GerritView.GROUP,
-          groupId: '1234' as GroupId,
-          detail: 'log' as GroupDetailView,
-        };
-        assert.equal(generateUrl(params), '/admin/groups/1234,audit-log');
       });
     });
   });

@@ -6,7 +6,6 @@
 import '../../../test/common-test-setup';
 import './gr-group-list';
 import {GrGroupList} from './gr-group-list';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {GroupId, GroupInfo, GroupName} from '../../../types/common';
 import {stubRestApi, waitEventLoop} from '../../../test/test-utils';
 import {fixture, html, assert} from '@open-wc/testing';
@@ -65,21 +64,21 @@ suite('gr-group-list tests', () => {
             <tbody>
               <tr>
                 <td class="nameColumn">
-                  <a href=""> Group 1 </a>
+                  <a href="/admin/groups/abc"> Group 1 </a>
                 </td>
                 <td>Group 1 description</td>
                 <td class="visibleCell">No</td>
               </tr>
               <tr>
                 <td class="nameColumn">
-                  <a href=""> Group 2 </a>
+                  <a href="/admin/groups/456"> Group 2 </a>
                 </td>
                 <td></td>
                 <td class="visibleCell">Yes</td>
               </tr>
               <tr>
                 <td class="nameColumn">
-                  <a href=""> Group 3 </a>
+                  <a href="/admin/groups/789"> Group 3 </a>
                 </td>
                 <td></td>
                 <td class="visibleCell">No</td>
@@ -89,32 +88,5 @@ suite('gr-group-list tests', () => {
         </div>
       `
     );
-  });
-
-  test('_computeGroupPath', () => {
-    let urlStub = sinon
-      .stub(GerritNav, 'getUrlForGroup')
-      .callsFake(
-        () => '/admin/groups/e2cd66f88a2db4d391ac068a92d987effbe872f5'
-      );
-
-    let group = {
-      id: 'e2cd66f88a2db4d391ac068a92d987effbe872f5' as GroupId,
-    };
-    assert.equal(
-      element._computeGroupPath(group),
-      '/admin/groups/e2cd66f88a2db4d391ac068a92d987effbe872f5'
-    );
-
-    urlStub.restore();
-
-    urlStub = sinon
-      .stub(GerritNav, 'getUrlForGroup')
-      .callsFake(() => '/admin/groups/user/test');
-
-    group = {
-      id: 'user%2Ftest' as GroupId,
-    };
-    assert.equal(element._computeGroupPath(group), '/admin/groups/user/test');
   });
 });

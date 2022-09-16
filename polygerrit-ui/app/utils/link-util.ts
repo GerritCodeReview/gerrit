@@ -7,11 +7,37 @@ import 'ba-linkify/ba-linkify';
 import {CommentLinks} from '../types/common';
 import {getBaseUrl} from './url-util';
 
+const REVIEWER_CC_LIST_START = /\b(CC=|R=)([^\b]+)/;
+
 export function linkifyNormalUrls(base: string): string {
   const parts: string[] = [];
   window.linkify(base, {
-    callback: (text, href) =>
-      parts.push(href ? createLinkTemplate(text, href) : text),
+    callback: (text, href) => {
+      if (href !== undefined) {
+        // Some tools are known to check commit message for reviewers/CC emails
+        // by looking for lines with R= or CC=. However "=" is technically a
+        // valid email part, so we remove these from emails if they are prefixes
+        // only.
+        const match = text.match(REVIEWER_CC_LIST_START);
+        if (match !== null) {
+          // An example match will be: ["R=foo@gmail.com","R=", "foo@gmail.com"]
+          // We should output:
+          //   R=<a href="mailto:foo@gmail.com">foo@gmail.com</a>
+          // rather than:
+          //   <a href="mailto:R=foo@gmail.com">R=foo@gmail.com</a>
+          parts.push(
+            `${match[1]}${createLinkTemplate(
+              match[2],
+              href.replace(match[0], match[2])
+            )}`
+          );
+        } else {
+          parts.push(createLinkTemplate(text, href));
+        }
+      } else {
+        parts.push(text);
+      }
+    },
   });
   return parts.join('');
 }

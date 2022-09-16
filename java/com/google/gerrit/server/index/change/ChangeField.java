@@ -114,6 +114,12 @@ public class ChangeField {
 
   private static final Gson GSON = OutputFormat.JSON_COMPACT.newGson();
 
+  /**
+   * Since We cannot depend here on org.apache.lucene.index.IndexWriter.MAX_TERM_LENGTH might be
+   * subject of change, we should not rely on it.
+   */
+  public static final int MAX_TERM_LENGTH = (1 << 15) - 2;
+
   // TODO: Rename LEGACY_ID to NUMERIC_ID
   /** Legacy change ID. */
   public static final FieldDef<ChangeData, Integer> LEGACY_ID =
@@ -873,7 +879,7 @@ public class ChangeField {
 
   /** Commit message of the current patch set. */
   public static final FieldDef<ChangeData, String> COMMIT_MESSAGE_EXACT =
-      exact(ChangeQueryBuilder.FIELD_MESSAGE_EXACT).build(ChangeData::commitMessage);
+      exact(ChangeQueryBuilder.FIELD_MESSAGE_EXACT).build(cd -> clipCommitMsg(cd.commitMessage()));
 
   /** Summary or inline comment. */
   public static final FieldDef<ChangeData, Iterable<String>> COMMENT =
@@ -1393,5 +1399,12 @@ public class ChangeField {
 
   private static AllUsersName allUsers(ChangeData cd) {
     return cd.getAllUsersNameForIndexing();
+  }
+
+  private static String clipCommitMsg(String commitMsg) {
+    if (commitMsg.length() > MAX_TERM_LENGTH) {
+      return commitMsg.substring(0, MAX_TERM_LENGTH);
+    }
+    return commitMsg;
   }
 }

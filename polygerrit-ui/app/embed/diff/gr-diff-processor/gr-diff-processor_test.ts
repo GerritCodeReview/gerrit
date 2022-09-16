@@ -637,8 +637,8 @@ suite('gr-diff-processor tests', () => {
       // REST API.
       let content = [
         '      <section class="summary">',
-        '        <gr-linked-text content="' +
-          '[[_computeCurrentRevisionMessage(change)]]"></gr-linked-text>',
+        '        <gr-markdown content="' +
+          '[[_computeCurrentRevisionMessage(change)]]"></gr-markdown>',
         '      </section>',
       ];
       let highlights = [
@@ -664,7 +664,7 @@ suite('gr-diff-processor tests', () => {
         {
           contentIndex: 2,
           startIndex: 0,
-          endIndex: 6,
+          endIndex: 12,
         },
       ]);
       const lines = element.linesFromRows(

@@ -5,7 +5,11 @@
  */
 import {css, html, LitElement} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
-import {htmlEscape} from '../../../utils/inner-html-util';
+import {
+  htmlEscape,
+  sanitizeHtml,
+  sanitizeHtmlToFragment,
+} from '../../../utils/inner-html-util';
 import {unescapeHTML} from '../../../utils/syntax-util';
 import '@polymer/marked-element';
 import {resolve} from '../../../models/dependency';
@@ -22,12 +26,15 @@ import {
  * This element renders markdown and also applies some regex replacements to
  * linkify key parts of the text defined by the host's config.
  *
- * TODO: Remove gr-formatted-text once this is rolled out.
+ * TODO: Replace gr-formatted-text with this once markdown flag is rolled out.
  */
 @customElement('gr-markdown')
 export class GrMarkdown extends LitElement {
   @property({type: String})
-  markdown?: string;
+  content = '';
+
+  @property({type: Boolean})
+  markdown = false;
 
   @state()
   private repoCommentLinks: CommentLinks = {};
@@ -86,6 +93,11 @@ export class GrMarkdown extends LitElement {
       li {
         margin-left: var(--spacing-xl);
       }
+      .plaintext {
+        font: inherit;
+        white-space: var(--linked-text-white-space, pre-wrap);
+        word-wrap: var(--linked-text-word-wrap, break-word);
+      }
     `,
   ];
 
@@ -99,9 +111,25 @@ export class GrMarkdown extends LitElement {
   }
 
   override render() {
-    // Note: Handling \u200B added in gr-change-view.ts is not needed here
-    // because the commit message is not markdown formatted.
+    if (this.markdown) {
+      return this.renderAsMarkdown();
+    } else {
+      return this.renderAsPlaintext();
+    }
+  }
 
+  private renderAsPlaintext() {
+    const linkedText = this.rewriteText(
+      htmlEscape(this.content).toString(),
+      this.repoCommentLinks
+    );
+
+    return html`
+      <pre class="plaintext">${sanitizeHtmlToFragment(linkedText)}</pre>
+    `;
+  }
+
+  private renderAsMarkdown() {
     // <marked-element> internals will be in charge of calling our custom
     // renderer so we wrap 'this.rewriteText' so that 'this' is preserved via
     // closure.
@@ -130,11 +158,16 @@ export class GrMarkdown extends LitElement {
     }
 
     // The child with slot is optional but allows us control over the styling.
+    // The `callback` property lets us do a final sanitization of the output
+    // HTML string before it is rendered by `<marked-element>` in case any
+    // rewrites have been abused to attempt an XSS attack.
     return html`
       <marked-element
-        .markdown=${this.escapeAllButBlockQuotes(this.markdown ?? '')}
+        .markdown=${this.escapeAllButBlockQuotes(this.content)}
         .breaks=${true}
         .renderer=${customRenderer}
+        .callback=${(_error: string | null, contents: string) =>
+          sanitizeHtml(contents)}
       >
         <div slot="markdown-html"></div>
       </marked-element>

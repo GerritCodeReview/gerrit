@@ -30,6 +30,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
+import static org.apache.lucene.index.IndexWriter.MAX_TERM_LENGTH;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
@@ -83,6 +84,7 @@ import com.google.protobuf.MessageLite;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -873,7 +875,8 @@ public class ChangeField {
 
   /** Commit message of the current patch set. */
   public static final FieldDef<ChangeData, String> COMMIT_MESSAGE_EXACT =
-      exact(ChangeQueryBuilder.FIELD_MESSAGE_EXACT).build(ChangeData::commitMessage);
+      exact(ChangeQueryBuilder.FIELD_MESSAGE_EXACT)
+          .build(cd -> clipStringValueToMaxTermLength(cd.commitMessage()));
 
   /** Summary or inline comment. */
   public static final FieldDef<ChangeData, Iterable<String>> COMMENT =
@@ -1393,5 +1396,32 @@ public class ChangeField {
 
   private static AllUsersName allUsers(ChangeData cd) {
     return cd.getAllUsersNameForIndexing();
+  }
+
+  private static String clipStringValueToMaxTermLength(String str) {
+    return clipStringValue(str, MAX_TERM_LENGTH);
+  }
+
+  @VisibleForTesting
+  static String clipStringValue(String str, int maxBytes) {
+    byte[] strBytes = str.getBytes(UTF_8);
+    if (strBytes.length > maxBytes) {
+      while (maxBytes > 0 && (strBytes[maxBytes] & 0xC0) == 0x80) {
+        maxBytes -= 1;
+      }
+      if (maxBytes > 0) {
+        if (strBytes.length >= maxBytes && (strBytes[maxBytes - 1] & 0xE0) == 0xC0) {
+          maxBytes -= 1;
+        }
+        if (strBytes.length >= maxBytes && (strBytes[maxBytes - 1] & 0xF0) == 0xE0) {
+          maxBytes -= 1;
+        }
+        if (strBytes.length >= maxBytes && (strBytes[maxBytes - 1] & 0xF8) == 0xF0) {
+          maxBytes -= 1;
+        }
+      }
+      return new String(Arrays.copyOfRange(strBytes, 0, maxBytes), UTF_8);
+    }
+    return str;
   }
 }

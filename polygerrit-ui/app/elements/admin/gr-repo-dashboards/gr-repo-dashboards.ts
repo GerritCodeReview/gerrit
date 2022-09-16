@@ -3,7 +3,6 @@
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {RepoName, DashboardId, DashboardInfo} from '../../../types/common';
 import {firePageError} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
@@ -12,6 +11,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {tableStyles} from '../../../styles/gr-table-styles';
 import {LitElement, css, html, PropertyValues} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
+import {createDashboardUrl} from '../../../models/views/dashboard';
 
 interface DashboardRef {
   section: string;
@@ -153,12 +153,10 @@ export class GrRepoDashboards extends LitElement {
       });
   }
 
-  _getUrl(project?: RepoName, id?: DashboardId) {
-    if (!project || !id) {
-      return '';
-    }
+  _getUrl(project?: RepoName, dashboard?: DashboardId) {
+    if (!project || !dashboard) return '';
 
-    return GerritNav.getUrlForRepoDashboard(project, id);
+    return createDashboardUrl({project, dashboard});
   }
 
   _computeLoadingClass(loading: boolean) {

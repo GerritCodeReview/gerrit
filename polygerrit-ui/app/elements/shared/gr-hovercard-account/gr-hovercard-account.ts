@@ -38,12 +38,12 @@ import {fontStyles} from '../../../styles/gr-font-styles';
 import {css, html, LitElement, nothing} from 'lit';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {HovercardMixin} from '../../../mixins/hovercard-mixin/hovercard-mixin';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {EventType} from '../../../types/events';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {createSearchUrl} from '../../../models/views/search';
+import {createDashboardUrl} from '../../../models/views/dashboard';
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
 const base = HovercardMixin(LitElement);
@@ -374,9 +374,9 @@ export class GrHovercardAccount extends base {
   computeOwnerDashboardLink() {
     if (!this.account) return undefined;
     if (this.account._account_id)
-      return GerritNav.getUrlForUserDashboard(`${this.account._account_id}`);
+      return createDashboardUrl({user: `${this.account._account_id}`});
     if (this.account.email)
-      return GerritNav.getUrlForUserDashboard(this.account.email);
+      return createDashboardUrl({user: this.account.email});
     return undefined;
   }
 

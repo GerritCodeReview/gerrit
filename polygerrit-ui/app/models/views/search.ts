@@ -7,6 +7,7 @@ import {RepoName, BranchName, TopicName} from '../../api/rest-api';
 import {GerritView} from '../../services/router/router-model';
 import {addQuotesWhen} from '../../utils/string-util';
 import {encodeURL} from '../../utils/url-util';
+import {define} from '../dependency';
 import {Model} from '../model';
 import {ViewState} from './base';
 
@@ -86,8 +87,13 @@ const DEFAULT_STATE: SearchViewState = {
   view: GerritView.SEARCH,
 };
 
+export const searchViewModelToken =
+  define<SearchViewModel>('search-view-model');
+
 export class SearchViewModel extends Model<SearchViewState> {
   constructor() {
     super(DEFAULT_STATE);
   }
+
+  finalize() {}
 }

@@ -6,6 +6,7 @@
 import {GerritView} from '../../services/router/router-model';
 import {GroupId} from '../../types/common';
 import {encodeURL, getBaseUrl} from '../../utils/url-util';
+import {define} from '../dependency';
 import {Model} from '../model';
 import {ViewState} from './base';
 
@@ -30,8 +31,12 @@ export function createGroupUrl(state: Omit<GroupViewState, 'view'>) {
   return getBaseUrl() + url;
 }
 
+export const groupViewModelToken = define<GroupViewModel>('group-view-model');
+
 export class GroupViewModel extends Model<GroupViewState | undefined> {
   constructor() {
     super(undefined);
   }
+
+  finalize() {}
 }

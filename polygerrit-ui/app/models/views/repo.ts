@@ -6,6 +6,7 @@
 import {GerritView} from '../../services/router/router-model';
 import {RepoName} from '../../types/common';
 import {encodeURL, getBaseUrl} from '../../utils/url-util';
+import {define} from '../dependency';
 import {Model} from '../model';
 import {ViewState} from './base';
 
@@ -48,8 +49,12 @@ export function createRepoUrl(state: Omit<RepoViewState, 'view'>) {
   return getBaseUrl() + url;
 }
 
+export const repoViewModelToken = define<RepoViewModel>('repo-view-model');
+
 export class RepoViewModel extends Model<RepoViewState> {
   constructor() {
     super(DEFAULT_STATE);
   }
+
+  finalize() {}
 }

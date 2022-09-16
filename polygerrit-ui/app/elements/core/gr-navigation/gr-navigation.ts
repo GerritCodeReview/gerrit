@@ -10,7 +10,6 @@ import {
   CommentLinks,
   CommitId,
   DashboardId,
-  GroupId,
   NumericChangeId,
   PARENT,
   PatchSetNum,
@@ -26,7 +25,6 @@ import {
   GenerateUrlParameters,
 } from '../../../utils/router-util';
 import {createRepoUrl} from '../../../models/views/repo';
-import {GroupDetailView} from '../../../models/views/group';
 import {createSearchUrl} from '../../../models/views/search';
 import {createDiffUrl} from '../../../models/views/diff';
 
@@ -455,29 +453,6 @@ export const GerritNav = {
    */
   navigateToRepo(repo: RepoName) {
     this._navigate(createRepoUrl({repo}));
-  },
-
-  getUrlForGroup(groupId: GroupId) {
-    return this._getUrlFor({
-      view: GerritView.GROUP,
-      groupId,
-    });
-  },
-
-  getUrlForGroupLog(groupId: GroupId) {
-    return this._getUrlFor({
-      view: GerritView.GROUP,
-      groupId,
-      detail: GroupDetailView.LOG,
-    });
-  },
-
-  getUrlForGroupMembers(groupId: GroupId) {
-    return this._getUrlFor({
-      view: GerritView.GROUP,
-      groupId,
-      detail: GroupDetailView.MEMBERS,
-    });
   },
 
   getEditWebLinks(

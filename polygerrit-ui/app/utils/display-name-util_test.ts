@@ -194,6 +194,18 @@ suite('display-name-utils tests', () => {
     );
   });
 
+  test('getAccountDisplayName - account with display name', () => {
+    assert.equal(
+      getAccountDisplayName(config, {
+        display_name: 'Display Name',
+        name: 'Some name',
+        email: 'my@example.com' as EmailAddress,
+        status: 'OOO',
+      }),
+      'Display Name <my@example.com> (OOO)'
+    );
+  });
+
   test('getGroupDisplayName', () => {
     assert.equal(
       getGroupDisplayName({

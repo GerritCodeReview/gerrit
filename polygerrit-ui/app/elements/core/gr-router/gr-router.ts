@@ -46,7 +46,6 @@ import {
   toSearchParams,
 } from '../../../utils/url-util';
 import {Execution, LifeCycle, Timing} from '../../../constants/reporting';
-import {generateUrl, GenerateUrlParameters} from '../../../utils/router-util';
 import {
   LATEST_ATTEMPT,
   stringToAttemptChoice,
@@ -315,10 +314,6 @@ export class GrRouter {
     page.redirect(url);
   }
 
-  generateUrl(params: GenerateUrlParameters) {
-    return generateUrl(params);
-  }
-
   generateWeblinks(
     params: GenerateWebLinksParameters
   ): GeneratedWebLink[] | GeneratedWebLink {
@@ -567,7 +562,6 @@ export class GrRouter {
           page.show(url);
         }
       },
-      params => generateUrl(params),
       params => this.generateWeblinks(params),
       x => x
     );

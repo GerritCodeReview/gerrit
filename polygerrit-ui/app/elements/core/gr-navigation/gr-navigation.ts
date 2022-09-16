@@ -9,15 +9,11 @@ import {
   ChangeInfo,
   CommentLinks,
   CommitId,
-  NumericChangeId,
-  PARENT,
   PatchSetNum,
   RepoName,
   RevisionPatchSetNum,
   ServerInfo,
-  UrlEncodedCommentId,
 } from '../../../types/common';
-import {GerritView} from '../../../services/router/router-model';
 import {ParsedChangeInfo} from '../../../types/types';
 import {GenerateUrlParameters} from '../../../utils/router-util';
 import {createRepoUrl} from '../../../models/views/repo';
@@ -27,6 +23,7 @@ import {
   createDashboardUrl,
   DashboardSection,
 } from '../../../models/views/dashboard';
+import {createChangeUrl} from '../../../models/views/change';
 
 // Navigation parameters object format:
 //
@@ -219,11 +216,6 @@ interface NavigateToChangeParams {
   openReplyDialog?: boolean;
 }
 
-interface ChangeUrlParams extends NavigateToChangeParams {
-  messageHash?: string;
-  usp?: string;
-}
-
 // TODO(dmfilippov) Convert to class, extract consts, give better name and
 // expose as a service from appContext
 export const GerritNav = {
@@ -286,13 +278,6 @@ export const GerritNav = {
   },
 
   /**
-   * Generate a URL for the given route parameters.
-   */
-  _getUrlFor(params: GenerateUrlParameters) {
-    return this._generateUrl(params);
-  },
-
-  /**
    * Navigate to a search for changes with the given status.
    */
   navigateToStatusSearch(status: string) {
@@ -311,41 +296,6 @@ export const GerritNav = {
    */
   navigateToUserDashboard() {
     this._navigate(createDashboardUrl({user: 'self'}));
-  },
-
-  /**
-   * @param basePatchNum The string PARENT can be used for none.
-   */
-  getUrlForChange(
-    change: Pick<ChangeInfo, '_number' | 'project'>,
-    options: ChangeUrlParams = {}
-  ) {
-    let {
-      patchNum,
-      basePatchNum,
-      isEdit,
-      messageHash,
-      forceReload,
-      openReplyDialog,
-      usp,
-    } = options;
-    if (basePatchNum === PARENT) {
-      basePatchNum = undefined;
-    }
-
-    this._checkPatchRange(patchNum, basePatchNum);
-    return this._getUrlFor({
-      view: GerritView.CHANGE,
-      changeNum: change._number,
-      project: change.project,
-      patchNum,
-      basePatchNum,
-      edit: isEdit,
-      messageHash,
-      forceReload,
-      openReplyDialog,
-      usp,
-    });
   },
 
   /**
@@ -370,28 +320,17 @@ export const GerritNav = {
       openReplyDialog,
     } = options;
     this._navigate(
-      this.getUrlForChange(change, {
+      createChangeUrl({
+        changeNum: change._number,
+        project: change.project,
         patchNum,
         basePatchNum,
-        isEdit,
+        edit: isEdit,
         forceReload,
         openReplyDialog,
       }),
       redirect
     );
-  },
-
-  getUrlForCommentsTab(
-    changeNum: NumericChangeId,
-    project: RepoName,
-    commentId: UrlEncodedCommentId
-  ) {
-    return this._getUrlFor({
-      view: GerritView.CHANGE,
-      changeNum,
-      project,
-      commentId,
-    });
   },
 
   /**

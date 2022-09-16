@@ -15,7 +15,7 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-change-star/gr-change-star';
 import '../../shared/gr-change-status/gr-change-status';
 import '../../shared/gr-editable-content/gr-editable-content';
-import '../../shared/gr-linked-text/gr-linked-text';
+import '../../shared/gr-markdown/gr-markdown';
 import '../../shared/gr-overlay/gr-overlay';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../gr-change-actions/gr-change-actions';
@@ -187,7 +187,6 @@ import {createEditUrl} from '../../../models/views/edit';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
-const REVIEWERS_REGEX = /^(R|CC)=/gm;
 const MIN_CHECK_INTERVAL_SECS = 0;
 
 const REPLY_REFIT_DEBOUNCE_INTERVAL_MS = 500;
@@ -950,7 +949,7 @@ export class GrChangeView extends LitElement {
           /* Account for border and padding and rounding errors. */
           max-width: calc(72ch + 2px + 2 * var(--spacing-m) + 0.4px);
         }
-        .commitMessage gr-linked-text {
+        .commitMessage gr-markdown {
           word-break: break-word;
         }
         #commitMessageEditor {
@@ -1451,12 +1450,9 @@ export class GrChangeView extends LitElement {
                 .commitCollapsible=${this.computeCommitCollapsible()}
                 remove-zero-width-space=""
               >
-                <gr-linked-text
-                  pre=""
-                  .content=${this.latestCommitMessage}
-                  .config=${this.projectConfig?.commentlinks}
-                  remove-zero-width-space=""
-                ></gr-linked-text>
+                <gr-markdown
+                  .content=${this.latestCommitMessage ?? ''}
+                ></gr-markdown>
               </gr-editable-content>
             </div>
             <h3 class="assistive-tech-only">Comments and Checks Summary</h3>
@@ -1815,7 +1811,7 @@ export class GrChangeView extends LitElement {
           return;
         }
 
-        this.latestCommitMessage = this.prepareCommitMsgForLinkify(message);
+        this.latestCommitMessage = message;
         this.editingCommitMessage = false;
         this.reloadWindow();
       })
@@ -2656,14 +2652,6 @@ export class GrChangeView extends LitElement {
     this.changeViewAriaHidden = true;
   }
 
-  // Private but used in tests.
-  prepareCommitMsgForLinkify(msg: string) {
-    // TODO(wyatta) switch linkify sequence, see issue 5526.
-    // This is a zero-with space. It is added to prevent the linkify library
-    // from including R= or CC= as part of the email address.
-    return msg.replace(REVIEWERS_REGEX, '$1=\u200B');
-  }
-
   /**
    * Utility function to make the necessary modifications to a change in the
    * case an edit exists.
@@ -2793,9 +2781,7 @@ export class GrChangeView extends LitElement {
       throw new Error('Could not find latest Revision Sha');
     const currentRevision = this.change.revisions[latestRevisionSha];
     if (currentRevision.commit && currentRevision.commit.message) {
-      this.latestCommitMessage = this.prepareCommitMsgForLinkify(
-        currentRevision.commit.message
-      );
+      this.latestCommitMessage = currentRevision.commit.message;
     } else {
       this.latestCommitMessage = null;
     }
@@ -2848,9 +2834,7 @@ export class GrChangeView extends LitElement {
       .getChangeCommitInfo(this.changeNum, lastpatchNum)
       .then(commitInfo => {
         if (!commitInfo) return;
-        this.latestCommitMessage = this.prepareCommitMsgForLinkify(
-          commitInfo.message
-        );
+        this.latestCommitMessage = commitInfo.message;
       });
   }
 

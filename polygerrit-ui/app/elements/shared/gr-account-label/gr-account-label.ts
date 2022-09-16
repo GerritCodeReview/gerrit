@@ -447,8 +447,11 @@ export class GrAccountLabel extends LitElement {
       selected,
       selfAccount
     );
+    const removeFromASTooltip = `Click to remove ${
+      account._account_id === selfAccount?._account_id ? 'yourself' : 'the user'
+    } from the attention set`;
     return enabled
-      ? 'Click to remove the user from the attention set'
+      ? removeFromASTooltip
       : force
       ? 'Disabled. Use "Modify" to make changes.'
       : 'Disabled. Only involved users can change.';

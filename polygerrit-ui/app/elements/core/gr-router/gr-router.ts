@@ -57,6 +57,7 @@ import {RepoDetailView} from '../../../models/views/repo';
 import {GroupDetailView} from '../../../models/views/group';
 import {DiffViewState} from '../../../models/views/diff';
 import {ChangeViewState} from '../../../models/views/change';
+import {EditViewState} from '../../../models/views/edit';
 
 const RoutePattern = {
   ROOT: '/',
@@ -283,7 +284,7 @@ export class GrRouter {
     this.startRouter();
   }
 
-  setParams(params: AppElementParams | GenerateUrlParameters) {
+  setParams(params: AppElementParams) {
     this.routerModel.updateState({
       view: params.view,
       changeNum: 'changeNum' in params ? params.changeNum : undefined,
@@ -420,29 +421,23 @@ export class GrRouter {
   }
 
   /**
-   * Normalizes the params object, and determines if the URL needs to be
-   * modified to fit the proper schema.
-   *
+   * Normalizes the patchset numbers of the params object.
    */
   normalizePatchRangeParams(params: PatchRangeParams) {
-    if (params.basePatchNum === undefined) {
-      return false;
-    }
-    const hasPatchNum = params.patchNum !== undefined;
-    let needsRedirect = false;
+    if (params.basePatchNum === undefined) return;
 
     // Diffing a patch against itself is invalid, so if the base and revision
     // patches are equal clear the base.
     if (params.patchNum && params.basePatchNum === params.patchNum) {
-      needsRedirect = true;
       params.basePatchNum = PARENT;
-    } else if (!hasPatchNum) {
-      // Regexes set basePatchNum instead of patchNum when only one is
-      // specified. Redirect is not needed in this case.
+      return;
+    }
+    // Regexes set basePatchNum instead of patchNum when only one is
+    // specified.
+    if (params.patchNum === undefined) {
       params.patchNum = params.basePatchNum as RevisionPatchSetNum;
       params.basePatchNum = PARENT;
     }
-    return needsRedirect;
   }
 
   /**
@@ -1467,7 +1462,8 @@ export class GrRouter {
     assertIsDefined(params.project, 'project');
     this.reporting.setRepoName(params.project);
     this.reporting.setChangeId(changeNum);
-    this.redirectOrNavigate(params);
+    this.normalizePatchRangeParams(params);
+    this.setParams(params);
   }
 
   handleCommentRoute(ctx: PageContextWithQueryMap) {
@@ -1481,7 +1477,8 @@ export class GrRouter {
     };
     this.reporting.setRepoName(params.project ?? '');
     this.reporting.setChangeId(changeNum);
-    this.redirectOrNavigate(params);
+    this.normalizePatchRangeParams(params);
+    this.setParams(params);
   }
 
   handleCommentsRoute(ctx: PageContextWithQueryMap) {
@@ -1495,7 +1492,8 @@ export class GrRouter {
     assertIsDefined(params.project);
     this.reporting.setRepoName(params.project);
     this.reporting.setChangeId(changeNum);
-    this.redirectOrNavigate(params);
+    this.normalizePatchRangeParams(params);
+    this.setParams(params);
   }
 
   handleDiffRoute(ctx: PageContextWithQueryMap) {
@@ -1516,7 +1514,8 @@ export class GrRouter {
     }
     this.reporting.setRepoName(params.project ?? '');
     this.reporting.setChangeId(changeNum);
-    this.redirectOrNavigate(params);
+    this.normalizePatchRangeParams(params);
+    this.setParams(params);
   }
 
   handleChangeLegacyRoute(ctx: PageContextWithQueryMap) {
@@ -1544,7 +1543,7 @@ export class GrRouter {
     // Parameter order is based on the regex group number matched.
     const project = ctx.params[0] as RepoName;
     const changeNum = Number(ctx.params[1]) as NumericChangeId;
-    this.redirectOrNavigate({
+    const params: EditViewState = {
       project,
       changeNum,
       // for edit view params, patchNum cannot be undefined
@@ -1552,7 +1551,9 @@ export class GrRouter {
       path: ctx.params[3],
       lineNum: Number(ctx.hash),
       view: GerritView.EDIT,
-    });
+    };
+    this.normalizePatchRangeParams(params);
+    this.setParams(params);
     this.reporting.setRepoName(project);
     this.reporting.setChangeId(changeNum);
   }
@@ -1577,23 +1578,11 @@ export class GrRouter {
         location.href.replace(/[?&]forceReload=true/, '')
       );
     }
-    this.redirectOrNavigate(params);
+    this.normalizePatchRangeParams(params);
+    this.setParams(params);
 
     this.reporting.setRepoName(project);
     this.reporting.setChangeId(changeNum);
-  }
-
-  /**
-   * Normalize the patch range params for a the change or diff view and
-   * redirect if URL upgrade is needed.
-   */
-  private redirectOrNavigate(params: GenerateUrlParameters & PatchRangeParams) {
-    const needsRedirect = this.normalizePatchRangeParams(params);
-    if (needsRedirect) {
-      this.redirect(this.generateUrl(params));
-    } else {
-      this.setParams(params);
-    }
   }
 
   handleAgreementsRoute() {

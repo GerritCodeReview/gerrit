@@ -3,7 +3,6 @@
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {GerritNav} from '../elements/core/gr-navigation/gr-navigation';
 import {
   RepoName,
   GroupId,
@@ -14,7 +13,7 @@ import {hasOwnProperty} from './common-util';
 import {GerritView} from '../services/router/router-model';
 import {MenuLink} from '../api/admin';
 import {AdminChildView} from '../models/views/admin';
-import {GroupDetailView} from '../models/views/group';
+import {createGroupUrl, GroupDetailView} from '../models/views/group';
 import {createRepoUrl, RepoDetailView} from '../models/views/repo';
 
 const ADMIN_LINKS: NavLink[] = [
@@ -152,7 +151,7 @@ export function getGroupSubsections(
   const subsection: SubsectionInterface = {
     name: groupName,
     view: GerritView.GROUP,
-    url: GerritNav.getUrlForGroup(groupId),
+    url: createGroupUrl({groupId}),
     children,
   };
   if (groupIsInternal) {
@@ -160,7 +159,7 @@ export function getGroupSubsections(
       name: 'Members',
       detailType: GroupDetailView.MEMBERS,
       view: GerritView.GROUP,
-      url: GerritNav.getUrlForGroupMembers(groupId),
+      url: createGroupUrl({groupId, detail: GroupDetailView.MEMBERS}),
     });
   }
   if (groupIsInternal && (isAdmin || groupOwner)) {
@@ -168,7 +167,7 @@ export function getGroupSubsections(
       name: 'Audit Log',
       detailType: GroupDetailView.LOG,
       view: GerritView.GROUP,
-      url: GerritNav.getUrlForGroupLog(groupId),
+      url: createGroupUrl({groupId, detail: GroupDetailView.LOG}),
     });
   }
   return subsection;

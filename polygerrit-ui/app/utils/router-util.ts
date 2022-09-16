@@ -3,12 +3,10 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {ChangeInfo, PARENT, RepoName} from '../types/common';
-import {PatchRangeParams} from '../elements/core/gr-router/gr-router';
+import {ChangeInfo, RepoName} from '../types/common';
 import {encodeURL, getBaseUrl} from './url-util';
 import {assertNever} from './common-util';
 import {GerritView} from '../services/router/router-model';
-import {GroupDetailView, GroupViewState} from '../models/views/group';
 import {DashboardViewState} from '../models/views/dashboard';
 import {createEditUrl, EditViewState} from '../models/views/edit';
 import {createDiffUrl, DiffViewState} from '../models/views/diff';
@@ -26,7 +24,6 @@ export interface DashboardSection {
 export type GenerateUrlParameters =
   | ChangeViewState
   | DashboardViewState
-  | GroupViewState
   | EditViewState
   | DiffViewState;
 
@@ -44,10 +41,6 @@ export function isDiffViewState(x: GenerateUrlParameters): x is DiffViewState {
   return x.view === GerritView.DIFF;
 }
 
-export const TEST_ONLY = {
-  getPatchRangeExpression,
-};
-
 export function rootUrl() {
   return `${getBaseUrl()}/`;
 }
@@ -64,29 +57,11 @@ export function generateUrl(params: GenerateUrlParameters) {
     url = createDiffUrl(params);
   } else if (params.view === GerritView.EDIT) {
     url = createEditUrl(params);
-  } else if (params.view === GerritView.GROUP) {
-    url = generateGroupUrl(params);
   } else {
     assertNever(params, "Can't generate");
   }
 
   return base + url;
-}
-
-/**
- * Given an object of parameters, potentially including a `patchNum` or a
- * `basePatchNum` or both, return a string representation of that range. If
- * no range is indicated in the params, the empty string is returned.
- */
-export function getPatchRangeExpression(params: PatchRangeParams) {
-  let range = '';
-  if (params.patchNum) {
-    range = `${params.patchNum}`;
-  }
-  if (params.basePatchNum && params.basePatchNum !== PARENT) {
-    range = `${params.basePatchNum}..${range}`;
-  }
-  return range;
 }
 
 const REPO_TOKEN_PATTERN = /\${(project|repo)}/g;
@@ -123,14 +98,4 @@ function generateDashboardUrl(params: DashboardViewState) {
     // User dashboard.
     return `/dashboard/${params.user || 'self'}`;
   }
-}
-
-function generateGroupUrl(params: GroupViewState) {
-  let url = `/admin/groups/${encodeURL(`${params.groupId}`, true)}`;
-  if (params.detail === GroupDetailView.MEMBERS) {
-    url += ',members';
-  } else if (params.detail === GroupDetailView.LOG) {
-    url += ',audit-log';
-  }
-  return url;
 }

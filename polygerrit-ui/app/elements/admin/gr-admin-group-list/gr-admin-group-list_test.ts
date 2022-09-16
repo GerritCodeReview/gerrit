@@ -6,7 +6,6 @@
 import '../../../test/common-test-setup';
 import './gr-admin-group-list';
 import {GrAdminGroupList} from './gr-admin-group-list';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {
   GroupId,
@@ -108,31 +107,6 @@ suite('gr-admin-group-list tests', () => {
         </gr-overlay>
       `
     );
-  });
-
-  test('computeGroupUrl', () => {
-    let urlStub = sinon
-      .stub(GerritNav, 'getUrlForGroup')
-      .callsFake(
-        () => '/admin/groups/e2cd66f88a2db4d391ac068a92d987effbe872f5'
-      );
-
-    let group = 'e2cd66f88a2db4d391ac068a92d987effbe872f5';
-    assert.equal(
-      element.computeGroupUrl(group),
-      '/admin/groups/e2cd66f88a2db4d391ac068a92d987effbe872f5'
-    );
-
-    urlStub.restore();
-
-    urlStub = sinon
-      .stub(GerritNav, 'getUrlForGroup')
-      .callsFake(() => '/admin/groups/user/test');
-
-    group = 'user%2Ftest';
-    assert.equal(element.computeGroupUrl(group), '/admin/groups/user/test');
-
-    urlStub.restore();
   });
 
   suite('list with groups', () => {

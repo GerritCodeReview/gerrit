@@ -55,7 +55,7 @@ export function getAccountDisplayName(
   config: ServerInfo | undefined,
   account: AccountInfo
 ) {
-  const reviewerName = getUserName(config, account);
+  const reviewerName = getDisplayName(config, account);
   const reviewerEmail = _accountEmail(account.email);
   const reviewerStatus = account.status ? '(' + account.status + ')' : '';
   return [reviewerName, reviewerEmail, reviewerStatus]

@@ -16,6 +16,7 @@ import {
 import {
   GrRouter,
   PageContextWithQueryMap,
+  routerToken,
   _testOnly_RoutePattern,
 } from './gr-router';
 import {GerritView} from '../../../services/router/router-model';
@@ -42,12 +43,15 @@ import {GroupDetailView} from '../../../models/views/group';
 import {EditViewState} from '../../../models/views/edit';
 import {ChangeViewState} from '../../../models/views/change';
 import {PatchRangeParams} from '../../../utils/url-util';
+import {DependencyRequestEvent} from '../../../models/dependency';
 
 suite('gr-router tests', () => {
   let router: GrRouter;
 
   setup(() => {
-    router = new GrRouter();
+    document.dispatchEvent(
+      new DependencyRequestEvent(routerToken, x => (router = x))
+    );
   });
 
   test('firstCodeBrowserWeblink', () => {

@@ -35,7 +35,7 @@ import {
 } from '../../../types/common';
 import {AppElement, AppElementParams} from '../../gr-app-types';
 import {LocationChangeEventDetail} from '../../../types/events';
-import {GerritView} from '../../../services/router/router-model';
+import {GerritView, RouterModel} from '../../../services/router/router-model';
 import {firePageError} from '../../../utils/event-util';
 import {windowLocationReload} from '../../../utils/dom-util';
 import {
@@ -57,6 +57,18 @@ import {GroupDetailView} from '../../../models/views/group';
 import {DiffViewState} from '../../../models/views/diff';
 import {ChangeViewState} from '../../../models/views/change';
 import {EditViewState} from '../../../models/views/edit';
+import {
+  DashboardViewModel,
+  DashboardViewState,
+} from '../../../models/views/dashboard';
+import {
+  SettingsViewModel,
+  SettingsViewState,
+} from '../../../models/views/settings';
+import {define} from '../../../models/dependency';
+import {Finalizable} from '../../../services/registry';
+import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
+import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 
 const RoutePattern = {
   ROOT: '/',
@@ -261,7 +273,9 @@ export interface PageContextWithQueryMap extends PageContext {
 
 type QueryStringItem = [string, string]; // [key, value]
 
-export class GrRouter {
+export const routerToken = define<GrRouter>('router');
+
+export class GrRouter implements Finalizable {
   readonly _app = app;
 
   _isRedirecting?: boolean;
@@ -270,11 +284,15 @@ export class GrRouter {
   // and for first navigation in app after loaded from server (true).
   _isInitialLoad = true;
 
-  private readonly reporting = getAppContext().reportingService;
+  constructor(
+    private readonly reporting: ReportingService,
+    private readonly routerModel: RouterModel,
+    private readonly restApiService: RestApiService,
+    private readonly dashboardViewModel: DashboardViewModel,
+    private readonly settingsViewModel: SettingsViewModel
+  ) {}
 
-  private readonly routerModel = getAppContext().routerModel;
-
-  private readonly restApiService = getAppContext().restApiService;
+  finalize(): void {}
 
   start() {
     if (!this._app) {
@@ -1067,10 +1085,12 @@ export class GrRouter {
           this.redirect('/q/owner:' + encodeURIComponent(data.params[0]));
         }
       } else {
-        this.setParams({
+        const state: DashboardViewState = {
           view: GerritView.DASHBOARD,
           user: data.params[0],
-        });
+        };
+        this.setParams(state);
+        this.dashboardViewModel.updateState(state);
       }
     });
   }
@@ -1594,14 +1614,18 @@ export class GrRouter {
     // The parameter parsing replaces all '+' with a space,
     // undo that to have valid tokens.
     const token = data.params[0].replace(/ /g, '+');
-    this.setParams({
+    const state: SettingsViewState = {
       view: GerritView.SETTINGS,
       emailToken: token,
-    });
+    };
+    this.setParams(state);
+    this.settingsViewModel.updateState(state);
   }
 
   handleSettingsRoute(_: PageContextWithQueryMap) {
-    this.setParams({view: GerritView.SETTINGS});
+    const state: SettingsViewState = {view: GerritView.SETTINGS};
+    this.setParams(state);
+    this.settingsViewModel.updateState(state);
   }
 
   handleRegisterRoute(ctx: PageContextWithQueryMap) {

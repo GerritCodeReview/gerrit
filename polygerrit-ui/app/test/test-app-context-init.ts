@@ -37,6 +37,15 @@ import {
   AccountsModel,
   accountsModelToken,
 } from '../models/accounts-model/accounts-model';
+import {
+  DashboardViewModel,
+  dashboardViewModelToken,
+} from '../models/views/dashboard';
+import {
+  SettingsViewModel,
+  settingsViewModelToken,
+} from '../models/views/settings';
+import {GrRouter, routerToken} from '../elements/core/gr-router/gr-router';
 
 export function createTestAppContext(): AppContext & Finalizable {
   const appRegistry: Registry<AppContext> = {
@@ -92,6 +101,21 @@ export function createTestDependencies(
   const browserModel = () => new BrowserModel(appContext.userModel);
   dependencies.set(browserModelToken, browserModel);
 
+  const dashboardViewModelCreator = () => new DashboardViewModel();
+  dependencies.set(dashboardViewModelToken, dashboardViewModelCreator);
+  const settingsViewModelCreator = () => new SettingsViewModel();
+  dependencies.set(settingsViewModelToken, settingsViewModelCreator);
+
+  const routerCreator = () =>
+    new GrRouter(
+      appContext.reportingService,
+      appContext.routerModel,
+      appContext.restApiService,
+      resolver(dashboardViewModelToken),
+      resolver(settingsViewModelToken)
+    );
+  dependencies.set(routerToken, routerCreator);
+
   const changeModelCreator = () =>
     new ChangeModel(
       appContext.routerModel,
@@ -139,6 +163,9 @@ export function createTestDependencies(
   const shortcutServiceCreator = () =>
     new ShortcutsService(appContext.userModel, appContext.reportingService);
   dependencies.set(shortcutsServiceToken, shortcutServiceCreator);
+
+  dependencies.set(dashboardViewModelToken, () => new DashboardViewModel());
+  dependencies.set(settingsViewModelToken, () => new SettingsViewModel());
 
   return dependencies;
 }

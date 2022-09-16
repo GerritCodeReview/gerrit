@@ -32,6 +32,15 @@ import {BrowserModel, browserModelToken} from '../models/browser/browser-model';
 import {PluginsModel} from '../models/plugins/plugins-model';
 import {HighlightService} from './highlight/highlight-service';
 import {AccountsModel} from '../models/accounts-model/accounts-model';
+import {
+  DashboardViewModel,
+  dashboardViewModelToken,
+} from '../models/views/dashboard';
+import {
+  SettingsViewModel,
+  settingsViewModelToken,
+} from '../models/views/settings';
+import {GrRouter, routerToken} from '../elements/core/gr-router/gr-router';
 
 /**
  * The AppContext lazy initializator for all services
@@ -84,6 +93,20 @@ export function createAppDependencies(
   const dependencies = new Map<DependencyToken<unknown>, Finalizable>();
   const browserModel = new BrowserModel(appContext.userModel);
   dependencies.set(browserModelToken, browserModel);
+
+  const dashboardViewModel = new DashboardViewModel();
+  dependencies.set(dashboardViewModelToken, dashboardViewModel);
+  const settingsViewModel = new SettingsViewModel();
+  dependencies.set(settingsViewModelToken, settingsViewModel);
+
+  const router = new GrRouter(
+    appContext.reportingService,
+    appContext.routerModel,
+    appContext.restApiService,
+    dashboardViewModel,
+    settingsViewModel
+  );
+  dependencies.set(routerToken, router);
 
   const changeModel = new ChangeModel(
     appContext.routerModel,

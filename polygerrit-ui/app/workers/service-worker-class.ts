@@ -3,7 +3,6 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {ParsedChangeInfo} from '../types/types';
 import {getReason} from '../utils/attention-set-util';
 import {readResponsePayload} from '../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
@@ -13,13 +12,12 @@ import {
   ServiceWorkerMessageType,
   TRIGGER_NOTIFICATION_UPDATES_MS,
 } from '../services/service-worker-installer';
-import {GerritView} from '../services/router/router-model';
-import {generateUrl} from '../utils/router-util';
 import {
   getServiceWorkerState,
   putServiceWorkerState,
 } from './service-worker-indexdb';
 import {createDashboardUrl} from '../models/views/dashboard';
+import {createChangeUrl} from '../models/views/change';
 
 export class ServiceWorker {
   constructor(
@@ -106,8 +104,7 @@ export class ServiceWorker {
     account: AccountDetailInfo
   ) {
     const body = getReason(undefined, account, change);
-    const changeUrl = generateUrl({
-      view: GerritView.CHANGE,
+    const changeUrl = createChangeUrl({
       changeNum: change._number,
       project: change.project,
       usp: 'service-worker-notification',

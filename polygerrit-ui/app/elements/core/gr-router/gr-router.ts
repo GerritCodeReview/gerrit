@@ -20,7 +20,10 @@ import {
   WeblinkType,
 } from '../gr-navigation/gr-navigation';
 import {getAppContext} from '../../../services/app-context';
-import {convertToPatchSetNum} from '../../../utils/patch-set-util';
+import {
+  convertToPatchSetNum,
+  PatchRangeParams,
+} from '../../../utils/patch-set-util';
 import {assertIsDefined, assertNever} from '../../../utils/common-util';
 import {
   BasePatchSetNum,
@@ -259,11 +262,6 @@ export interface PageContextWithQueryMap extends PageContext {
 }
 
 type QueryStringItem = [string, string]; // [key, value]
-
-export interface PatchRangeParams {
-  patchNum?: RevisionPatchSetNum;
-  basePatchNum?: BasePatchSetNum;
-}
 
 export class GrRouter {
   readonly _app = app;

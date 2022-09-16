@@ -312,3 +312,24 @@ export function findSortedIndex(
 export function getParentIndex(rangeBase: PatchSetNum) {
   return -Number(`${rangeBase}`);
 }
+
+export interface PatchRangeParams {
+  patchNum?: RevisionPatchSetNum;
+  basePatchNum?: BasePatchSetNum;
+}
+
+/**
+ * Given an object of parameters, potentially including a `patchNum` or a
+ * `basePatchNum` or both, return a string representation of that range. If
+ * no range is indicated in the params, the empty string is returned.
+ */
+export function getPatchRangeExpression(params: PatchRangeParams): string {
+  let range = '';
+  if (params.patchNum) {
+    range = `${params.patchNum}`;
+  }
+  if (params.basePatchNum && params.basePatchNum !== PARENT) {
+    range = `${params.basePatchNum}..${range}`;
+  }
+  return range;
+}

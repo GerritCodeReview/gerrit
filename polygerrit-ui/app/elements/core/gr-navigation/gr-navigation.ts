@@ -9,7 +9,6 @@ import {
   ChangeInfo,
   CommentLinks,
   CommitId,
-  DashboardId,
   NumericChangeId,
   PARENT,
   PatchSetNum,
@@ -20,13 +19,14 @@ import {
 } from '../../../types/common';
 import {GerritView} from '../../../services/router/router-model';
 import {ParsedChangeInfo} from '../../../types/types';
-import {
-  DashboardSection,
-  GenerateUrlParameters,
-} from '../../../utils/router-util';
+import {GenerateUrlParameters} from '../../../utils/router-util';
 import {createRepoUrl} from '../../../models/views/repo';
 import {createSearchUrl} from '../../../models/views/search';
 import {createDiffUrl} from '../../../models/views/diff';
+import {
+  createDashboardUrl,
+  DashboardSection,
+} from '../../../models/views/dashboard';
 
 // Navigation parameters object format:
 //
@@ -310,7 +310,7 @@ export const GerritNav = {
    * Navigate to the user's dashboard
    */
   navigateToUserDashboard() {
-    this._navigate(this.getUrlForUserDashboard('self'));
+    this._navigate(createDashboardUrl({user: 'self'}));
   },
 
   /**
@@ -414,28 +414,6 @@ export const GerritNav = {
         lineNum,
       })
     );
-  },
-
-  /**
-   * @param user The name of the user.
-   */
-  getUrlForUserDashboard(user: string) {
-    return this._getUrlFor({
-      view: GerritView.DASHBOARD,
-      user,
-    });
-  },
-
-  /**
-   * @param repo The name of the repo.
-   * @param dashboard The ID of the dashboard, in the form of '<ref>:<path>'.
-   */
-  getUrlForRepoDashboard(repo: RepoName, dashboard: DashboardId) {
-    return this._getUrlFor({
-      view: GerritView.DASHBOARD,
-      project: repo,
-      dashboard,
-    });
   },
 
   /**

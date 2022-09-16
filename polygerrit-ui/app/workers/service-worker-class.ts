@@ -19,6 +19,7 @@ import {
   getServiceWorkerState,
   putServiceWorkerState,
 } from './service-worker-indexdb';
+import {createDashboardUrl} from '../models/views/dashboard';
 
 export class ServiceWorker {
   constructor(
@@ -122,9 +123,7 @@ export class ServiceWorker {
 
   private showNotificationForDashboard(numOfChangesToNotifyAbout: number) {
     const title = `You are in the attention set for ${numOfChangesToNotifyAbout} changes.`;
-    const dashboardUrl = generateUrl({
-      view: GerritView.DASHBOARD,
-    });
+    const dashboardUrl = createDashboardUrl({});
     const data = {url: `${self.location.origin}${dashboardUrl}`};
     this.ctx.registration.showNotification(title, {data});
   }

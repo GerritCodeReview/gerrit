@@ -1414,11 +1414,6 @@ suite('gr-diff-view tests', () => {
     suite('url params', () => {
       setup(() => {
         sinon.stub(element, 'fetchFiles');
-        sinon
-          .stub(GerritNav, 'getUrlForChange')
-          .callsFake(
-            (c, ops) => `${c._number}-${ops?.patchNum}-${ops?.basePatchNum}`
-          );
       });
 
       test('_formattedFiles', () => {

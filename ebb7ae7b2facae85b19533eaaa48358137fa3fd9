@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c954eede_5e196702",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-16T07:19:56Z",
+      "side": 1,
+      "message": "Note: I didn\u0027t review the new tests yet.",
+      "revId": "ebb7ae7b2facae85b19533eaaa48358137fa3fd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c1a6965_96085876",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-16T07:19:56Z",
+      "side": 1,
+      "message": "Is this correct?\n\nBatchUpdate.module() is installed in GerritGlobalModule, but then in addition we have\n\n```\nbind(AttentionSetObserver.class);\n```\n  \nin GerritGlobalModule too.\n\nCould we instead bind a DISABLED version of AttentionSetObserver in BatchProgramModule, similar to how we bind DISABLED for RevisionCreated [1]?\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/pgm/util/BatchProgramModule.java#217",
+      "revId": "ebb7ae7b2facae85b19533eaaa48358137fa3fd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

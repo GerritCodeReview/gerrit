@@ -7,7 +7,6 @@ import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../shared/gr-avatar/gr-avatar';
 import '../../shared/gr-date-formatter/gr-date-formatter';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {AccountDetailInfo, AccountId} from '../../../types/common';
 import {getDisplayName} from '../../../utils/display-name-util';
 import {getAppContext} from '../../../services/app-context';
@@ -16,6 +15,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {LitElement, css, html, PropertyValues} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
+import {createDashboardUrl} from '../../../models/views/dashboard';
 
 @customElement('gr-user-header')
 export class GrUserHeader extends LitElement {
@@ -140,17 +140,14 @@ export class GrUserHeader extends LitElement {
   }
 
   _computeDashboardUrl(accountDetails: AccountDetailInfo | undefined) {
-    if (!accountDetails) {
-      return undefined;
-    }
+    if (!accountDetails) return undefined;
+
     const id = accountDetails._account_id;
-    if (id) {
-      return GerritNav.getUrlForUserDashboard(String(id));
-    }
+    if (id) return createDashboardUrl({user: String(id)});
+
     const email = accountDetails.email;
-    if (email) {
-      return GerritNav.getUrlForUserDashboard(email);
-    }
+    if (email) return createDashboardUrl({user: email});
+
     return undefined;
   }
 

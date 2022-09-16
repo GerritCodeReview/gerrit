@@ -3,12 +3,11 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {ChangeInfo, PARENT, RepoName} from '../types/common';
+import {ChangeInfo, PARENT} from '../types/common';
 import {PatchRangeParams} from '../elements/core/gr-router/gr-router';
-import {encodeURL, getBaseUrl} from './url-util';
+import {getBaseUrl} from './url-util';
 import {assertNever} from './common-util';
 import {GerritView} from '../services/router/router-model';
-import {DashboardViewState} from '../models/views/dashboard';
 import {createEditUrl, EditViewState} from '../models/views/edit';
 import {createDiffUrl, DiffViewState} from '../models/views/diff';
 import {ChangeViewState, createChangeUrl} from '../models/views/change';
@@ -24,7 +23,6 @@ export interface DashboardSection {
 
 export type GenerateUrlParameters =
   | ChangeViewState
-  | DashboardViewState
   | EditViewState
   | DiffViewState;
 
@@ -56,8 +54,6 @@ export function generateUrl(params: GenerateUrlParameters) {
 
   if (params.view === GerritView.CHANGE) {
     url = createChangeUrl(params);
-  } else if (params.view === GerritView.DASHBOARD) {
-    url = generateDashboardUrl(params);
   } else if (params.view === GerritView.DIFF) {
     url = createDiffUrl(params);
   } else if (params.view === GerritView.EDIT) {
@@ -83,40 +79,4 @@ export function getPatchRangeExpression(params: PatchRangeParams) {
     range = `${params.basePatchNum}..${range}`;
   }
   return range;
-}
-
-const REPO_TOKEN_PATTERN = /\${(project|repo)}/g;
-
-function sectionsToEncodedParams(
-  sections: DashboardSection[],
-  repoName?: RepoName
-) {
-  return sections.map(section => {
-    // If there is a repo name provided, make sure to substitute it into the
-    // ${repo} (or legacy ${project}) query tokens.
-    const query = repoName
-      ? section.query.replace(REPO_TOKEN_PATTERN, repoName)
-      : section.query;
-    return encodeURIComponent(section.name) + '=' + encodeURIComponent(query);
-  });
-}
-
-function generateDashboardUrl(params: DashboardViewState) {
-  const repoName = params.project || undefined;
-  if (params.sections) {
-    // Custom dashboard.
-    const queryParams = sectionsToEncodedParams(params.sections, repoName);
-    if (params.title) {
-      queryParams.push('title=' + encodeURIComponent(params.title));
-    }
-    const user = params.user ? params.user : '';
-    return `/dashboard/${user}?${queryParams.join('&')}`;
-  } else if (repoName) {
-    // Project dashboard.
-    const encodedRepo = encodeURL(repoName, true);
-    return `/p/${encodedRepo}/+/dashboard/${params.dashboard}`;
-  } else {
-    // User dashboard.
-    return `/dashboard/${params.user || 'self'}`;
-  }
 }

@@ -168,6 +168,18 @@ public class ChangeFieldTest {
     assertThat(ChangeField.DELETED.setIfPossible(cd, new FakeStoredValue(null))).isTrue();
   }
 
+  @Test
+  public void shortStringIsNotClipped() {
+    assertThat(ChangeField.clipStringValue("short string", 15)).isEqualTo("short string");
+  }
+
+  @Test
+  public void longStringIsClipped() {
+    assertThat(ChangeField.clipStringValue("longer string", 6)).isEqualTo("longer");
+    assertThat(ChangeField.clipStringValue("multibytechars µµµ present", 16))
+        .isEqualTo("multibytechars µ");
+  }
+
   private static SubmitRecord record(SubmitRecord.Status status, SubmitRecord.Label... labels) {
     SubmitRecord r = new SubmitRecord();
     r.status = status;

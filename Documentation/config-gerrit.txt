@@ -1414,6 +1414,14 @@ comments are rejected.
 +
 By default 5,000.
 
+[[change.maxCommitMsgLength]]change.maxCommitMsgLength::
++
+Maximum number of characters allowed in the commit message. To disable the limit,
+set this option to 0.
++
+By default 32,766 (Maximum size of the commit message that can be stored in the
+index)
+
 [[change.maxFiles]]change.maxFiles::
 +
 Maximum number of files allowed per change. Larger changes are rejected and must

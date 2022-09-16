@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4678c2b_ef3415a5",
+        "filename": "modules/jgit",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-16T15:43:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "043794af_4ded9372",
+      "revId": "9be64cd9a9f1c5c627ea686e4e8ec9e2172e9d93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "20a7cc5c_7d8e5d50",

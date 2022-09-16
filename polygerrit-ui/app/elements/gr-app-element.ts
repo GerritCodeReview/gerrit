@@ -31,7 +31,7 @@ import './settings/gr-settings-view/gr-settings-view';
 import {getBaseUrl} from '../utils/url-util';
 import {GerritNav} from './core/gr-navigation/gr-navigation';
 import {getAppContext} from '../services/app-context';
-import {GrRouter} from './core/gr-router/gr-router';
+import {routerToken} from './core/gr-router/gr-router';
 import {AccountDetailInfo} from '../types/common';
 import {
   constructServerErrorMsg,
@@ -167,7 +167,7 @@ export class GrAppElement extends LitElement {
 
   @state() private themeEndpoint = 'app-theme-light';
 
-  readonly router = new GrRouter();
+  readonly getRouter = resolve(this, routerToken);
 
   private reporting = getAppContext().reportingService;
 
@@ -183,6 +183,7 @@ export class GrAppElement extends LitElement {
 
   constructor() {
     super();
+
     document.addEventListener(EventType.PAGE_ERROR, e => {
       this.handlePageError(e);
     });
@@ -244,7 +245,7 @@ export class GrAppElement extends LitElement {
 
     this.updateLoginUrl();
     this.reporting.appStarted();
-    this.router.start();
+    this.getRouter().start();
 
     this.restApiService.getAccount().then(account => {
       this.account = account;

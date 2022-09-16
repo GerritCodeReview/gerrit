@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "44bf68e3_6029b10d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-09-16T12:08:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80c1cf28_0f8d88d7",
+      "range": {
+        "startLine": 10,
+        "startChar": 42,
+        "endLine": 11,
+        "endChar": 13
+      },
+      "revId": "80310bf6d9addf1f054d78dda2c3b458034d0234",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5c0d4cf_cc50cf9b",
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "I guess the rationale for introducing the change could have been done as a review message rather than in the commit message. I will shrink it a bit and switch to imperative form.  Thank you!",
       "parentUuid": "f5c0d4cf_cc50cf9b",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 37
+      },
+      "revId": "80310bf6d9addf1f054d78dda2c3b458034d0234",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e4f51f4_2bb186ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-09-16T12:08:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ef0f778_694f8152",
       "range": {
         "startLine": 12,
         "startChar": 0,

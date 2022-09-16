@@ -99,7 +99,7 @@ import {Modifier} from '../../../utils/dom-util';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrCopyLinks} from '../gr-copy-links/gr-copy-links';
 import {ChangeViewState} from '../../../models/views/change';
-import {rootUrl} from '../../../utils/router-util';
+import {rootUrl} from '../../../utils/url-util';
 
 suite('gr-change-view tests', () => {
   let element: GrChangeView;

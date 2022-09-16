@@ -9,7 +9,6 @@ GerritNav.setup(
   () => {
     /* noop */
   },
-  () => '',
   () => [],
   () => {
     return {};

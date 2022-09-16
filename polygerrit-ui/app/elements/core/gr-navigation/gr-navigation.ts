@@ -15,7 +15,6 @@ import {
   ServerInfo,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../types/types';
-import {GenerateUrlParameters} from '../../../utils/router-util';
 import {createRepoUrl} from '../../../models/views/repo';
 import {createSearchUrl} from '../../../models/views/search';
 import {createDiffUrl} from '../../../models/views/diff';
@@ -25,22 +24,11 @@ import {
 } from '../../../models/views/dashboard';
 import {createChangeUrl} from '../../../models/views/change';
 
-// Navigation parameters object format:
-//
-// Each object has a `view` property with a value from GerritView. The
-// remaining properties depend on the value used for view.
-// GenerateUrlParameters lists all the possible view parameters.
-
 const uninitialized = () => {
   console.warn('Use of uninitialized routing');
 };
 
 const uninitializedNavigate: NavigateCallback = () => {
-  uninitialized();
-  return '';
-};
-
-const uninitializedGenerateUrl: GenerateUrlCallback = () => {
   uninitialized();
   return '';
 };
@@ -179,7 +167,6 @@ export type GenerateWebLinksParameters =
   | GenerateWebLinksChangeParameters;
 
 export type NavigateCallback = (target: string, redirect?: boolean) => void;
-export type GenerateUrlCallback = (params: GenerateUrlParameters) => string;
 // TODO: Refactor to return only GeneratedWebLink[]
 export type GenerateWebLinksCallback = (
   params: GenerateWebLinksParameters
@@ -221,8 +208,6 @@ interface NavigateToChangeParams {
 export const GerritNav = {
   _navigate: uninitializedNavigate,
 
-  _generateUrl: uninitializedGenerateUrl,
-
   _generateWeblinks: uninitializedGenerateWebLinks,
 
   mapCommentlinks: uninitializedMapCommentLinks,
@@ -260,19 +245,16 @@ export const GerritNav = {
    */
   setup(
     navigate: NavigateCallback,
-    generateUrl: GenerateUrlCallback,
     generateWeblinks: GenerateWebLinksCallback,
     mapCommentlinks: MapCommentLinksCallback
   ) {
     this._navigate = navigate;
-    this._generateUrl = generateUrl;
     this._generateWeblinks = generateWeblinks;
     this.mapCommentlinks = mapCommentlinks;
   },
 
   destroy() {
     this._navigate = uninitializedNavigate;
-    this._generateUrl = uninitializedGenerateUrl;
     this._generateWeblinks = uninitializedGenerateWebLinks;
     this.mapCommentlinks = uninitializedMapCommentLinks;
   },

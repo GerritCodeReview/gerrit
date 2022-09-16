@@ -3,13 +3,13 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {GroupInfo, GroupId} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
 import {customElement, state} from 'lit/decorators.js';
+import {createGroupUrl} from '../../../models/views/group';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -64,7 +64,7 @@ export class GrGroupList extends LitElement {
         </thead>
         <tbody>
           ${(this._groups ?? []).map(group => {
-            const href = this._computeGroupPath(group);
+            const href = this._computeGroupPath(group) ?? '';
             return html`
               <tr>
                 <td class="nameColumn">
@@ -82,13 +82,12 @@ export class GrGroupList extends LitElement {
     </div>`;
   }
 
-  _computeGroupPath(group: GroupInfo) {
-    if (!group || !group.id) {
-      return;
-    }
+  _computeGroupPath(group?: GroupInfo) {
+    if (!group?.id) return;
 
     // Group ID is already encoded from the API
     // Decode it here to match with our router encoding behavior
-    return GerritNav.getUrlForGroup(decodeURIComponent(group.id) as GroupId);
+    const decodedGroupId = decodeURIComponent(group.id) as GroupId;
+    return createGroupUrl({groupId: decodedGroupId});
   }
 }

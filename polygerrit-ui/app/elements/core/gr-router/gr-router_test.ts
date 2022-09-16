@@ -42,7 +42,7 @@ import {RepoDetailView} from '../../../models/views/repo';
 import {GroupDetailView} from '../../../models/views/group';
 import {EditViewState} from '../../../models/views/edit';
 import {ChangeViewState} from '../../../models/views/change';
-import {PatchRangeParams} from '../../../utils/patch-set-util';
+import {PatchRangeParams} from '../../../utils/url-util';
 
 suite('gr-router tests', () => {
   let router: GrRouter;

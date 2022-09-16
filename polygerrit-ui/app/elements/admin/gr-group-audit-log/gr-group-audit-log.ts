@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../shared/gr-account-label/gr-account-label';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {
   GroupInfo,
   AccountInfo,
@@ -20,6 +19,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {tableStyles} from '../../../styles/gr-table-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
+import {createGroupUrl} from '../../../models/views/group';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -168,12 +168,9 @@ export class GrGroupAuditLog extends LitElement {
     return isGroupAuditGroupEventInfo(event);
   }
 
-  private computeGroupUrl(group: GroupInfo) {
-    if (group && group.url && group.id) {
-      return GerritNav.getUrlForGroup(group.id);
-    }
-
-    return '';
+  private computeGroupUrl(group?: GroupInfo) {
+    if (!group?.id) return '';
+    return createGroupUrl({groupId: group.id});
   }
 
   // private but used in test

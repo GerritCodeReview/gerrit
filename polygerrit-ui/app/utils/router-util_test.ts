@@ -10,12 +10,10 @@ import {
   RevisionPatchSetNum,
   BasePatchSetNum,
   EDIT,
-  GroupId,
 } from '../api/rest-api';
 import {ChangeViewState} from '../models/views/change';
 import {DashboardViewState} from '../models/views/dashboard';
 import {EditViewState} from '../models/views/edit';
-import {GroupDetailView, GroupViewState} from '../models/views/group';
 import {GerritView} from '../services/router/router-model';
 import '../test/common-test-setup';
 import {DashboardId} from '../types/common';
@@ -146,34 +144,6 @@ suite('router-util tests', () => {
           generateUrl(params),
           '/p/gerrit/project/+/dashboard/default:main'
         );
-      });
-    });
-
-    suite('groups', () => {
-      test('group info', () => {
-        const params: GroupViewState = {
-          view: GerritView.GROUP,
-          groupId: '1234' as GroupId,
-        };
-        assert.equal(generateUrl(params), '/admin/groups/1234');
-      });
-
-      test('group members', () => {
-        const params: GroupViewState = {
-          view: GerritView.GROUP,
-          groupId: '1234' as GroupId,
-          detail: 'members' as GroupDetailView,
-        };
-        assert.equal(generateUrl(params), '/admin/groups/1234,members');
-      });
-
-      test('group audit log', () => {
-        const params: GroupViewState = {
-          view: GerritView.GROUP,
-          groupId: '1234' as GroupId,
-          detail: 'log' as GroupDetailView,
-        };
-        assert.equal(generateUrl(params), '/admin/groups/1234,audit-log');
       });
     });
   });

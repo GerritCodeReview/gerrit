@@ -16,6 +16,24 @@
       "message": "No tests need fixing?\nSurprising.\nMaybe add one for this scenario?",
       "revId": "0b9771350860b4a0ae7c5e118089d5e178394150",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70c26c70_2fd3b225",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-16T09:01:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "056ca1db_17148a12",
+      "revId": "0b9771350860b4a0ae7c5e118089d5e178394150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

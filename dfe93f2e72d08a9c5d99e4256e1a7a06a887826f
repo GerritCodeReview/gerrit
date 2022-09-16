@@ -3,6 +3,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f78ff99e_5bb66923",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-16T21:19:22Z",
+      "side": 1,
+      "message": "nit: Lucene",
+      "range": {
+        "startLine": 346,
+        "startChar": 37,
+        "endLine": 346,
+        "endChar": 38
+      },
+      "revId": "dfe93f2e72d08a9c5d99e4256e1a7a06a887826f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03ccfd50_2669f469",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-16T21:19:22Z",
+      "side": 1,
+      "message": "This doesn\u0027t make sense to me (both as an idea and the grammar). I think it\u0027s saying that if Lucene changed their max term length and we used this constant, it would affect us. But if Lucene changed, wouldn\u0027t we also want to change ours?\n\nAdditionally, this should probably come from a config (that each index backend can provide a default for) since it\u0027s probably an index backend specific value?",
+      "revId": "dfe93f2e72d08a9c5d99e4256e1a7a06a887826f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3c7c5ed9_b1c37e4c",
         "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 2

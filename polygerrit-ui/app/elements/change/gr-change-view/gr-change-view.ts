@@ -182,7 +182,7 @@ import {getBaseUrl, prependOrigin} from '../../../utils/url-util';
 import {CopyLink, GrCopyLinks} from '../gr-copy-links/gr-copy-links';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {ChangeViewState, createChangeUrl} from '../../../models/views/change';
-import {rootUrl} from '../../../utils/router-util';
+import {rootUrl} from '../../../utils/url-util';
 import {createEditUrl} from '../../../models/views/edit';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;

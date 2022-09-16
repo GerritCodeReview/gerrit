@@ -103,9 +103,7 @@ suite('gr-formatted-text tests', () => {
       element,
       /* HTML */ `
         <p>
-          <gr-linked-text content="text " inline="" pre="">
-            <span id="output" slot="insert"> text </span>
-          </gr-linked-text>
+          <gr-markdown></gr-markdown>
           <span class="inline-code"> code </span>
         </p>
       `

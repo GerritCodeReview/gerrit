@@ -5,6 +5,7 @@
  */
 import {css, html, LitElement} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
+import {unsafeHTML} from 'lit/directives/unsafe-html.js';
 import {htmlEscape} from '../../../utils/inner-html-util';
 import {unescapeHTML} from '../../../utils/syntax-util';
 import '@polymer/marked-element';
@@ -22,12 +23,15 @@ import {
  * This element renders markdown and also applies some regex replacements to
  * linkify key parts of the text defined by the host's config.
  *
- * TODO: Remove gr-formatted-text once this is rolled out.
+ * TODO: Replace gr-formatted-text with this once markdown flag is rolled out.
  */
 @customElement('gr-markdown')
 export class GrMarkdown extends LitElement {
   @property({type: String})
-  markdown?: string;
+  content = '';
+
+  @property({type: Boolean})
+  asMarkdown = false;
 
   @state()
   private repoCommentLinks: CommentLinks = {};
@@ -86,6 +90,11 @@ export class GrMarkdown extends LitElement {
       li {
         margin-left: var(--spacing-xl);
       }
+      .plaintext {
+        font: inherit;
+        white-space: var(--linked-text-white-space, pre-wrap);
+        word-wrap: var(--linked-text-word-wrap, break-word);
+      }
     `,
   ];
 
@@ -99,6 +108,23 @@ export class GrMarkdown extends LitElement {
   }
 
   override render() {
+    if (this.asMarkdown) {
+      return this.renderAsMarkdown();
+    } else {
+      return this.renderAsPlaintext();
+    }
+  }
+
+  private renderAsPlaintext() {
+    const linkedText = this.rewriteText(
+      htmlEscape(this.content).toString(),
+      this.repoCommentLinks
+    );
+
+    return html`<pre class="plaintext">${unsafeHTML(linkedText)}</pre>`;
+  }
+
+  private renderAsMarkdown() {
     // Note: Handling \u200B added in gr-change-view.ts is not needed here
     // because the commit message is not markdown formatted.
 
@@ -132,7 +158,7 @@ export class GrMarkdown extends LitElement {
     // The child with slot is optional but allows us control over the styling.
     return html`
       <marked-element
-        .markdown=${this.escapeAllButBlockQuotes(this.markdown ?? '')}
+        .markdown=${this.escapeAllButBlockQuotes(this.content)}
         .breaks=${true}
         .renderer=${customRenderer}
       >
@@ -157,6 +183,11 @@ export class GrMarkdown extends LitElement {
     // markdown library inside marked-element does this too, but is more
     // conservative and misses some URLs like "google.com" without "www" prefix.
     text = linkifyNormalUrls(text);
+
+    // After linking normal URLs and emails, remove the zero-width space added
+    // in gr-change-view. The purpose of this character is to prevent the CC= or
+    // R= prefix from being email-ified by the linking library.
+    text = text.replace(/^(CC|R)=\u200B/gm, '$1=');
 
     // Apply the host's config-specific regex replacements to create links. Ex:
     // link "Bug 12345" to "google.com/bug/12345"

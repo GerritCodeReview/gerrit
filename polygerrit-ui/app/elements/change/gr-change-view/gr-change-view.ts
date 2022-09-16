@@ -15,7 +15,7 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-change-star/gr-change-star';
 import '../../shared/gr-change-status/gr-change-status';
 import '../../shared/gr-editable-content/gr-editable-content';
-import '../../shared/gr-linked-text/gr-linked-text';
+import '../../shared/gr-markdown/gr-markdown';
 import '../../shared/gr-overlay/gr-overlay';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../gr-change-actions/gr-change-actions';
@@ -950,7 +950,7 @@ export class GrChangeView extends LitElement {
           /* Account for border and padding and rounding errors. */
           max-width: calc(72ch + 2px + 2 * var(--spacing-m) + 0.4px);
         }
-        .commitMessage gr-linked-text {
+        .commitMessage gr-markdown {
           word-break: break-word;
         }
         #commitMessageEditor {
@@ -1451,12 +1451,9 @@ export class GrChangeView extends LitElement {
                 .commitCollapsible=${this.computeCommitCollapsible()}
                 remove-zero-width-space=""
               >
-                <gr-linked-text
-                  pre=""
-                  .content=${this.latestCommitMessage}
-                  .config=${this.projectConfig?.commentlinks}
-                  remove-zero-width-space=""
-                ></gr-linked-text>
+                <gr-markdown
+                  .content=${this.latestCommitMessage ?? ''}
+                ></gr-markdown>
               </gr-editable-content>
             </div>
             <h3 class="assistive-tech-only">Comments and Checks Summary</h3>

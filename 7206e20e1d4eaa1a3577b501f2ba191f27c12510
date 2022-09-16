@@ -33,6 +33,24 @@
       "message": "Rather than adding this extra class.\n\nWhy not:\n```\n.body {\n   padding-top: var(--spacing-m);\n}\n\n:host([collapsed]) .body {\n   padding-top: 0px;\n}\n```\n\nIt makes the intention clearer.",
       "revId": "7206e20e1d4eaa1a3577b501f2ba191f27c12510",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48c5c303_1c4a49d5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-16T08:19:52Z",
+      "side": 1,
+      "message": "This won\u0027t work because it doesn\u0027t cover the scenario in Change 345223.\n\n.body {\n   padding-top: var(--spacing-m);\n}\n\nthis should not happen in hideHeader mode which this does not cover.",
+      "parentUuid": "3789f96f_6219f800",
+      "revId": "7206e20e1d4eaa1a3577b501f2ba191f27c12510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

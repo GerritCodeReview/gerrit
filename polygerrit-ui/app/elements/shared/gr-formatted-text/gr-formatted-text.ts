@@ -3,7 +3,6 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../gr-linked-text/gr-linked-text';
 import '../gr-markdown/gr-markdown';
 import {CommentLinks} from '../../../types/common';
 import {LitElement, css, html, TemplateResult} from 'lit';
@@ -91,7 +90,7 @@ export class GrFormattedText extends LitElement {
         ul,
         code,
         blockquote,
-        gr-linked-text.pre {
+        gr-markdown.pre {
           margin: 0 0 var(--spacing-m) 0;
         }
         p,
@@ -103,7 +102,7 @@ export class GrFormattedText extends LitElement {
         :host([noTrailingMargin]) p:last-child,
         :host([noTrailingMargin]) ul:last-child,
         :host([noTrailingMargin]) blockquote:last-child,
-        :host([noTrailingMargin]) gr-linked-text.pre:last-child {
+        :host([noTrailingMargin]) gr-markdown.pre:last-child {
           margin: 0;
         }
         blockquote {
@@ -142,7 +141,10 @@ export class GrFormattedText extends LitElement {
     if (!this.content) return;
 
     if (this.flagsService.isEnabled(KnownExperimentId.RENDER_MARKDOWN)) {
-      return html`<gr-markdown .markdown=${this.content}></gr-markdown>`;
+      return html`<gr-markdown
+        .asMarkdown=${true}
+        .content=${this.content}
+      ></gr-markdown>`;
     } else {
       const blocks = this._computeBlocks(this.content);
       return html`${blocks.map(block => this.renderBlock(block))}`;
@@ -354,14 +356,7 @@ export class GrFormattedText extends LitElement {
   }
 
   private renderInlineText(content: string): TemplateResult {
-    return html`
-      <gr-linked-text
-        .config=${this.config}
-        content=${content}
-        pre
-        inline
-      ></gr-linked-text>
-    `;
+    return html`<gr-markdown .content=${content}></gr-markdown>`;
   }
 
   private renderLink(text: string, url: string): TemplateResult {

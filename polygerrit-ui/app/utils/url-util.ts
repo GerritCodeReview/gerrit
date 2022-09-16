@@ -3,7 +3,6 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {PARENT, ServerInfo} from '../types/common';
 import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
 import {PatchRangeParams} from '../elements/core/gr-router/gr-router';
@@ -15,6 +14,10 @@ export function getBaseUrl(): string {
   // window is not defined in service worker, therefore no CANONICAL_PATH
   if (typeof window === 'undefined') return '';
   return self.CANONICAL_PATH || '';
+}
+
+export function rootUrl() {
+  return `${getBaseUrl()}/`;
 }
 
 /**

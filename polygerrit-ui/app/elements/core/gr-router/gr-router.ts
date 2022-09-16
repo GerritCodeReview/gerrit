@@ -35,7 +35,7 @@ import {
 } from '../../../types/common';
 import {AppElement, AppElementParams} from '../../gr-app-types';
 import {LocationChangeEventDetail} from '../../../types/events';
-import {GerritView} from '../../../services/router/router-model';
+import {GerritView, RouterModel} from '../../../services/router/router-model';
 import {firePageError} from '../../../utils/event-util';
 import {windowLocationReload} from '../../../utils/dom-util';
 import {
@@ -50,13 +50,46 @@ import {
   LATEST_ATTEMPT,
   stringToAttemptChoice,
 } from '../../../models/checks/checks-util';
-import {AdminChildView} from '../../../models/views/admin';
-import {AgreementViewState} from '../../../models/views/agreement';
-import {RepoDetailView} from '../../../models/views/repo';
-import {GroupDetailView} from '../../../models/views/group';
-import {DiffViewState} from '../../../models/views/diff';
-import {ChangeViewState} from '../../../models/views/change';
-import {EditViewState} from '../../../models/views/edit';
+import {
+  AdminChildView,
+  AdminViewModel,
+  AdminViewState,
+} from '../../../models/views/admin';
+import {
+  AgreementViewModel,
+  AgreementViewState,
+} from '../../../models/views/agreement';
+import {
+  RepoDetailView,
+  RepoViewModel,
+  RepoViewState,
+} from '../../../models/views/repo';
+import {
+  GroupDetailView,
+  GroupViewModel,
+  GroupViewState,
+} from '../../../models/views/group';
+import {DiffViewModel, DiffViewState} from '../../../models/views/diff';
+import {ChangeViewModel, ChangeViewState} from '../../../models/views/change';
+import {EditViewModel, EditViewState} from '../../../models/views/edit';
+import {
+  DashboardViewModel,
+  DashboardViewState,
+} from '../../../models/views/dashboard';
+import {
+  SettingsViewModel,
+  SettingsViewState,
+} from '../../../models/views/settings';
+import {define} from '../../../models/dependency';
+import {Finalizable} from '../../../services/registry';
+import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
+import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
+import {
+  DocumentationViewModel,
+  DocumentationViewState,
+} from '../../../models/views/documentation';
+import {PluginViewModel, PluginViewState} from '../../../models/views/plugin';
+import {SearchViewModel, SearchViewState} from '../../../models/views/search';
 
 const RoutePattern = {
   ROOT: '/',
@@ -261,7 +294,9 @@ export interface PageContextWithQueryMap extends PageContext {
 
 type QueryStringItem = [string, string]; // [key, value]
 
-export class GrRouter {
+export const routerToken = define<GrRouter>('router');
+
+export class GrRouter implements Finalizable {
   readonly _app = app;
 
   _isRedirecting?: boolean;
@@ -270,11 +305,25 @@ export class GrRouter {
   // and for first navigation in app after loaded from server (true).
   _isInitialLoad = true;
 
-  private readonly reporting = getAppContext().reportingService;
+  constructor(
+    private readonly reporting: ReportingService,
+    private readonly routerModel: RouterModel,
+    private readonly restApiService: RestApiService,
+    private readonly adminViewModel: AdminViewModel,
+    private readonly agreementViewModel: AgreementViewModel,
+    private readonly changeViewModel: ChangeViewModel,
+    private readonly dashboardViewModel: DashboardViewModel,
+    private readonly diffViewModel: DiffViewModel,
+    private readonly documentationViewModel: DocumentationViewModel,
+    private readonly editViewModel: EditViewModel,
+    private readonly groupViewModel: GroupViewModel,
+    private readonly pluginViewModel: PluginViewModel,
+    private readonly repoViewModel: RepoViewModel,
+    private readonly searchViewModel: SearchViewModel,
+    private readonly settingsViewModel: SettingsViewModel
+  ) {}
 
-  private readonly routerModel = getAppContext().routerModel;
-
-  private readonly restApiService = getAppContext().restApiService;
+  finalize(): void {}
 
   start() {
     if (!this._app) {
@@ -283,15 +332,15 @@ export class GrRouter {
     this.startRouter();
   }
 
-  setParams(params: AppElementParams) {
+  setState(state: AppElementParams) {
     this.routerModel.updateState({
-      view: params.view,
-      changeNum: 'changeNum' in params ? params.changeNum : undefined,
-      patchNum: 'patchNum' in params ? params.patchNum ?? undefined : undefined,
+      view: state.view,
+      changeNum: 'changeNum' in state ? state.changeNum : undefined,
+      patchNum: 'patchNum' in state ? state.patchNum ?? undefined : undefined,
       basePatchNum:
-        'basePatchNum' in params ? params.basePatchNum ?? undefined : undefined,
+        'basePatchNum' in state ? state.basePatchNum ?? undefined : undefined,
     });
-    this.appElement().params = params;
+    this.appElement().params = state;
   }
 
   private appElement(): AppElement {
@@ -905,7 +954,7 @@ export class GrRouter {
     this.mapRoute(
       RoutePattern.NEW_AGREEMENTS,
       'handleNewAgreementsRoute',
-      ctx => this.handleNewAgreementsRoute(ctx),
+      () => this.handleNewAgreementsRoute(),
       true
     );
 
@@ -1067,10 +1116,12 @@ export class GrRouter {
           this.redirect('/q/owner:' + encodeURIComponent(data.params[0]));
         }
       } else {
-        this.setParams({
+        const state: DashboardViewState = {
           view: GerritView.DASHBOARD,
           user: data.params[0],
-        });
+        };
+        this.setState(state);
+        this.dashboardViewModel.updateState(state);
       }
     });
   }
@@ -1118,13 +1169,14 @@ export class GrRouter {
     });
 
     if (sections.length > 0) {
-      // Custom dashboard view.
-      this.setParams({
+      const state: DashboardViewState = {
         view: GerritView.DASHBOARD,
         user: 'self',
         sections,
         title,
-      });
+      };
+      this.setState(state);
+      this.dashboardViewModel.updateState(state);
       return Promise.resolve();
     }
 
@@ -1135,11 +1187,13 @@ export class GrRouter {
 
   handleProjectDashboardRoute(data: PageContextWithQueryMap) {
     const project = data.params[0] as RepoName;
-    this.setParams({
+    const state: DashboardViewState = {
       view: GerritView.DASHBOARD,
       project,
       dashboard: decodeURIComponent(data.params[1]) as DashboardId,
-    });
+    };
+    this.setState(state);
+    this.dashboardViewModel.updateState(state);
     this.reporting.setRepoName(project);
   }
 
@@ -1156,53 +1210,65 @@ export class GrRouter {
   }
 
   handleGroupRoute(data: PageContextWithQueryMap) {
-    this.setParams({
+    const state: GroupViewState = {
       view: GerritView.GROUP,
       groupId: data.params[0] as GroupId,
-    });
+    };
+    this.setState(state);
+    this.groupViewModel.updateState(state);
   }
 
   handleGroupAuditLogRoute(data: PageContextWithQueryMap) {
-    this.setParams({
+    const state: GroupViewState = {
       view: GerritView.GROUP,
       detail: GroupDetailView.LOG,
       groupId: data.params[0] as GroupId,
-    });
+    };
+    this.setState(state);
+    this.groupViewModel.updateState(state);
   }
 
   handleGroupMembersRoute(data: PageContextWithQueryMap) {
-    this.setParams({
+    const state: GroupViewState = {
       view: GerritView.GROUP,
       detail: GroupDetailView.MEMBERS,
       groupId: data.params[0] as GroupId,
-    });
+    };
+    this.setState(state);
+    this.groupViewModel.updateState(state);
   }
 
   handleGroupListOffsetRoute(data: PageContextWithQueryMap) {
-    this.setParams({
+    const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.GROUPS,
       offset: data.params[1] || 0,
       filter: null,
       openCreateModal: data.hash === 'create',
-    });
+    };
+    this.setState(state);
+    this.adminViewModel.updateState(state);
   }
 
   handleGroupListFilterOffsetRoute(data: PageContextWithQueryMap) {
-    this.setParams({
+    const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.GROUPS,
       offset: data.params['offset'],
       filter: data.params['filter'],
-    });
+    };
+    this.setState(state);
+    this.adminViewModel.updateState(state);
   }
 
   handleGroupListFilterRoute(data: PageContextWithQueryMap) {
-    this.setParams({
+    const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.GROUPS,
       filter: data.params['filter'] || null,
-    });
+    };
+    this.setState(state);
+    this.adminViewModel.updateState(state);
   }
 
   handleProjectsOldRoute(data: PageContextWithQueryMap) {
@@ -1219,127 +1285,153 @@ export class GrRouter {
 
   handleRepoCommandsRoute(data: PageContextWithQueryMap) {
     const repo = data.params[0] as RepoName;
-    this.setParams({
+    const state: RepoViewState = {
       view: GerritView.REPO,
       detail: RepoDetailView.COMMANDS,
       repo,
-    });
+    };
+    this.setState(state);
+    this.repoViewModel.updateState(state);
     this.reporting.setRepoName(repo);
   }
 
   handleRepoGeneralRoute(data: PageContextWithQueryMap) {
     const repo = data.params[0] as RepoName;
-    this.setParams({
+    const state: RepoViewState = {
       view: GerritView.REPO,
       detail: RepoDetailView.GENERAL,
       repo,
-    });
+    };
+    this.setState(state);
+    this.repoViewModel.updateState(state);
     this.reporting.setRepoName(repo);
   }
 
   handleRepoAccessRoute(data: PageContextWithQueryMap) {
     const repo = data.params[0] as RepoName;
-    this.setParams({
+    const state: RepoViewState = {
       view: GerritView.REPO,
       detail: RepoDetailView.ACCESS,
       repo,
-    });
+    };
+    this.setState(state);
+    this.repoViewModel.updateState(state);
     this.reporting.setRepoName(repo);
   }
 
   handleRepoDashboardsRoute(data: PageContextWithQueryMap) {
     const repo = data.params[0] as RepoName;
-    this.setParams({
+    const state: RepoViewState = {
       view: GerritView.REPO,
       detail: RepoDetailView.DASHBOARDS,
       repo,
-    });
+    };
+    this.setState(state);
+    this.repoViewModel.updateState(state);
     this.reporting.setRepoName(repo);
   }
 
   handleBranchListOffsetRoute(data: PageContextWithQueryMap) {
-    this.setParams({
+    const state: RepoViewState = {
       view: GerritView.REPO,
       detail: RepoDetailView.BRANCHES,
       repo: data.params[0] as RepoName,
       offset: data.params[2] || 0,
       filter: null,
-    });
+    };
+    this.setState(state);
+    this.repoViewModel.updateState(state);
   }
 
   handleBranchListFilterOffsetRoute(data: PageContextWithQueryMap) {
-    this.setParams({
+    const state: RepoViewState = {
       view: GerritView.REPO,
       detail: RepoDetailView.BRANCHES,
       repo: data.params['repo'] as RepoName,
       offset: data.params['offset'],
       filter: data.params['filter'],
-    });
+    };
+    this.setState(state);
+    this.repoViewModel.updateState(state);
   }
 
   handleBranchListFilterRoute(data: PageContextWithQueryMap) {
-    this.setParams({
+    const state: RepoViewState = {
       view: GerritView.REPO,
       detail: RepoDetailView.BRANCHES,
       repo: data.params['repo'] as RepoName,
       filter: data.params['filter'] || null,
-    });
+    };
+    this.setState(state);
+    this.repoViewModel.updateState(state);
   }
 
   handleTagListOffsetRoute(data: PageContextWithQueryMap) {
-    this.setParams({
+    const state: RepoViewState = {
       view: GerritView.REPO,
       detail: RepoDetailView.TAGS,
       repo: data.params[0] as RepoName,
       offset: data.params[2] || 0,
       filter: null,
-    });
+    };
+    this.setState(state);
+    this.repoViewModel.updateState(state);
   }
 
   handleTagListFilterOffsetRoute(data: PageContextWithQueryMap) {
-    this.setParams({
+    const state: RepoViewState = {
       view: GerritView.REPO,
       detail: RepoDetailView.TAGS,
       repo: data.params['repo'] as RepoName,
       offset: data.params['offset'],
       filter: data.params['filter'],
-    });
+    };
+    this.setState(state);
+    this.repoViewModel.updateState(state);
   }
 
   handleTagListFilterRoute(data: PageContextWithQueryMap) {
-    this.setParams({
+    const state: RepoViewState = {
       view: GerritView.REPO,
       detail: RepoDetailView.TAGS,
       repo: data.params['repo'] as RepoName,
       filter: data.params['filter'] || null,
-    });
+    };
+    this.setState(state);
+    this.repoViewModel.updateState(state);
   }
 
   handleRepoListOffsetRoute(data: PageContextWithQueryMap) {
-    this.setParams({
+    const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.REPOS,
       offset: data.params[1] || 0,
       filter: null,
       openCreateModal: data.hash === 'create',
-    });
+    };
+    this.setState(state);
+    this.adminViewModel.updateState(state);
   }
 
   handleRepoListFilterOffsetRoute(data: PageContextWithQueryMap) {
-    this.setParams({
+    const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.REPOS,
       offset: data.params['offset'],
       filter: data.params['filter'],
-    });
+    };
+    this.setState(state);
+    this.adminViewModel.updateState(state);
   }
 
   handleRepoListFilterRoute(data: PageContextWithQueryMap) {
-    this.setParams({
+    const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.REPOS,
       filter: data.params['filter'] || null,
-    });
+    };
+    this.setState(state);
+    this.adminViewModel.updateState(state);
   }
 
   handleCreateProjectRoute(_: PageContextWithQueryMap) {
@@ -1359,54 +1451,66 @@ export class GrRouter {
   }
 
   handlePluginListOffsetRoute(data: PageContextWithQueryMap) {
-    this.setParams({
+    const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.PLUGINS,
       offset: data.params[1] || 0,
       filter: null,
-    });
+    };
+    this.setState(state);
+    this.adminViewModel.updateState(state);
   }
 
   handlePluginListFilterOffsetRoute(data: PageContextWithQueryMap) {
-    this.setParams({
+    const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.PLUGINS,
       offset: data.params['offset'],
       filter: data.params['filter'],
-    });
+    };
+    this.setState(state);
+    this.adminViewModel.updateState(state);
   }
 
   handlePluginListFilterRoute(data: PageContextWithQueryMap) {
-    this.setParams({
+    const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.PLUGINS,
       filter: data.params['filter'] || null,
-    });
+    };
+    this.setState(state);
+    this.adminViewModel.updateState(state);
   }
 
   handlePluginListRoute(_: PageContextWithQueryMap) {
-    this.setParams({
+    const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.PLUGINS,
-    });
+    };
+    this.setState(state);
+    this.adminViewModel.updateState(state);
   }
 
   handleQueryRoute(data: PageContextWithQueryMap) {
-    this.setParams({
+    const state: SearchViewState = {
       view: GerritView.SEARCH,
       query: data.params[0],
       offset: data.params[2],
-    });
+    };
+    this.setState(state);
+    this.searchViewModel.updateState(state);
   }
 
   handleChangeIdQueryRoute(data: PageContextWithQueryMap) {
     // TODO(pcc): This will need to indicate that this was a change ID query if
     // standard queries gain the ability to search places like commit messages
     // for change IDs.
-    this.setParams({
+    const state: SearchViewState = {
       view: GerritView.SEARCH,
       query: data.params[0],
-    });
+    };
+    this.setState(state);
+    this.searchViewModel.updateState(state);
   }
 
   handleQueryLegacySuffixRoute(ctx: PageContextWithQueryMap) {
@@ -1420,7 +1524,7 @@ export class GrRouter {
   handleChangeRoute(ctx: PageContextWithQueryMap) {
     // Parameter order is based on the regex group number matched.
     const changeNum = Number(ctx.params[1]) as NumericChangeId;
-    const params: ChangeViewState = {
+    const state: ChangeViewState = {
       project: ctx.params[0] as RepoName,
       changeNum,
       basePatchNum: convertToPatchSetNum(ctx.params[4]) as BasePatchSetNum,
@@ -1429,7 +1533,7 @@ export class GrRouter {
     };
 
     if (ctx.queryMap.has('forceReload')) {
-      params.forceReload = true;
+      state.forceReload = true;
       history.replaceState(
         null,
         '',
@@ -1438,7 +1542,7 @@ export class GrRouter {
     }
 
     if (ctx.queryMap.has('openReplyDialog')) {
-      params.openReplyDialog = true;
+      state.openReplyDialog = true;
       history.replaceState(
         null,
         '',
@@ -1447,53 +1551,56 @@ export class GrRouter {
     }
 
     const tab = ctx.queryMap.get('tab');
-    if (tab) params.tab = tab;
+    if (tab) state.tab = tab;
     const filter = ctx.queryMap.get('filter');
-    if (filter) params.filter = filter;
+    if (filter) state.filter = filter;
     const attempt = stringToAttemptChoice(ctx.queryMap.get('attempt'));
-    if (attempt && attempt !== LATEST_ATTEMPT) params.attempt = attempt;
+    if (attempt && attempt !== LATEST_ATTEMPT) state.attempt = attempt;
 
-    assertIsDefined(params.project, 'project');
-    this.reporting.setRepoName(params.project);
+    assertIsDefined(state.project, 'project');
+    this.reporting.setRepoName(state.project);
     this.reporting.setChangeId(changeNum);
-    this.normalizePatchRangeParams(params);
-    this.setParams(params);
+    this.normalizePatchRangeParams(state);
+    this.setState(state);
+    this.changeViewModel.updateState(state);
   }
 
   handleCommentRoute(ctx: PageContextWithQueryMap) {
     const changeNum = Number(ctx.params[1]) as NumericChangeId;
-    const params: DiffViewState = {
+    const state: DiffViewState = {
       project: ctx.params[0] as RepoName,
       changeNum,
       commentId: ctx.params[2] as UrlEncodedCommentId,
       view: GerritView.DIFF,
       commentLink: true,
     };
-    this.reporting.setRepoName(params.project ?? '');
+    this.reporting.setRepoName(state.project ?? '');
     this.reporting.setChangeId(changeNum);
-    this.normalizePatchRangeParams(params);
-    this.setParams(params);
+    this.normalizePatchRangeParams(state);
+    this.setState(state);
+    this.diffViewModel.updateState(state);
   }
 
   handleCommentsRoute(ctx: PageContextWithQueryMap) {
     const changeNum = Number(ctx.params[1]) as NumericChangeId;
-    const params: ChangeViewState = {
+    const state: ChangeViewState = {
       project: ctx.params[0] as RepoName,
       changeNum,
       commentId: ctx.params[2] as UrlEncodedCommentId,
       view: GerritView.CHANGE,
     };
-    assertIsDefined(params.project);
-    this.reporting.setRepoName(params.project);
+    assertIsDefined(state.project);
+    this.reporting.setRepoName(state.project);
     this.reporting.setChangeId(changeNum);
-    this.normalizePatchRangeParams(params);
-    this.setParams(params);
+    this.normalizePatchRangeParams(state);
+    this.setState(state);
+    this.changeViewModel.updateState(state);
   }
 
   handleDiffRoute(ctx: PageContextWithQueryMap) {
     const changeNum = Number(ctx.params[1]) as NumericChangeId;
     // Parameter order is based on the regex group number matched.
-    const params: DiffViewState = {
+    const state: DiffViewState = {
       project: ctx.params[0] as RepoName,
       changeNum,
       basePatchNum: convertToPatchSetNum(ctx.params[4]) as BasePatchSetNum,
@@ -1503,13 +1610,14 @@ export class GrRouter {
     };
     const address = this.parseLineAddress(ctx.hash);
     if (address) {
-      params.leftSide = address.leftSide;
-      params.lineNum = address.lineNum;
+      state.leftSide = address.leftSide;
+      state.lineNum = address.lineNum;
     }
-    this.reporting.setRepoName(params.project ?? '');
+    this.reporting.setRepoName(state.project ?? '');
     this.reporting.setChangeId(changeNum);
-    this.normalizePatchRangeParams(params);
-    this.setParams(params);
+    this.normalizePatchRangeParams(state);
+    this.setState(state);
+    this.diffViewModel.updateState(state);
   }
 
   handleChangeLegacyRoute(ctx: PageContextWithQueryMap) {
@@ -1537,7 +1645,7 @@ export class GrRouter {
     // Parameter order is based on the regex group number matched.
     const project = ctx.params[0] as RepoName;
     const changeNum = Number(ctx.params[1]) as NumericChangeId;
-    const params: EditViewState = {
+    const state: EditViewState = {
       project,
       changeNum,
       // for edit view params, patchNum cannot be undefined
@@ -1546,8 +1654,9 @@ export class GrRouter {
       lineNum: Number(ctx.hash),
       view: GerritView.EDIT,
     };
-    this.normalizePatchRangeParams(params);
-    this.setParams(params);
+    this.normalizePatchRangeParams(state);
+    this.setState(state);
+    this.editViewModel.updateState(state);
     this.reporting.setRepoName(project);
     this.reporting.setChangeId(changeNum);
   }
@@ -1556,7 +1665,7 @@ export class GrRouter {
     // Parameter order is based on the regex group number matched.
     const project = ctx.params[0] as RepoName;
     const changeNum = Number(ctx.params[1]) as NumericChangeId;
-    const params: ChangeViewState = {
+    const state: ChangeViewState = {
       project,
       changeNum,
       patchNum: convertToPatchSetNum(ctx.params[3]) as RevisionPatchSetNum,
@@ -1565,16 +1674,16 @@ export class GrRouter {
       tab: ctx.queryMap.get('tab') ?? '',
     };
     if (ctx.queryMap.has('forceReload')) {
-      params.forceReload = true;
+      state.forceReload = true;
       history.replaceState(
         null,
         '',
         location.href.replace(/[?&]forceReload=true/, '')
       );
     }
-    this.normalizePatchRangeParams(params);
-    this.setParams(params);
-
+    this.normalizePatchRangeParams(state);
+    this.setState(state);
+    this.changeViewModel.updateState(state);
     this.reporting.setRepoName(project);
     this.reporting.setChangeId(changeNum);
   }
@@ -1583,10 +1692,12 @@ export class GrRouter {
     this.redirect('/settings/#Agreements');
   }
 
-  handleNewAgreementsRoute(data: PageContextWithQueryMap) {
-    data.params['view'] = GerritView.AGREEMENTS;
-    // TODO(TS): create valid object
-    this.setParams(data.params as unknown as AgreementViewState);
+  handleNewAgreementsRoute() {
+    const state: AgreementViewState = {
+      view: GerritView.AGREEMENTS,
+    };
+    this.setState(state);
+    this.agreementViewModel.updateState(state);
   }
 
   handleSettingsLegacyRoute(data: PageContextWithQueryMap) {
@@ -1594,18 +1705,22 @@ export class GrRouter {
     // The parameter parsing replaces all '+' with a space,
     // undo that to have valid tokens.
     const token = data.params[0].replace(/ /g, '+');
-    this.setParams({
+    const state: SettingsViewState = {
       view: GerritView.SETTINGS,
       emailToken: token,
-    });
+    };
+    this.setState(state);
+    this.settingsViewModel.updateState(state);
   }
 
   handleSettingsRoute(_: PageContextWithQueryMap) {
-    this.setParams({view: GerritView.SETTINGS});
+    const state: SettingsViewState = {view: GerritView.SETTINGS};
+    this.setState(state);
+    this.settingsViewModel.updateState(state);
   }
 
   handleRegisterRoute(ctx: PageContextWithQueryMap) {
-    this.setParams({justRegistered: true});
+    this.setState({justRegistered: true});
     let path = ctx.params[0] || '/';
 
     // Prevent redirect looping.
@@ -1640,17 +1755,22 @@ export class GrRouter {
   }
 
   handlePluginScreen(ctx: PageContextWithQueryMap) {
-    const view = GerritView.PLUGIN_SCREEN;
-    const plugin = ctx.params[0];
-    const screen = ctx.params[1];
-    this.setParams({view, plugin, screen});
+    const state: PluginViewState = {
+      view: GerritView.PLUGIN_SCREEN,
+      plugin: ctx.params[0],
+      screen: ctx.params[1],
+    };
+    this.setState(state);
+    this.pluginViewModel.updateState(state);
   }
 
   handleDocumentationSearchRoute(data: PageContextWithQueryMap) {
-    this.setParams({
+    const state: DocumentationViewState = {
       view: GerritView.DOCUMENTATION_SEARCH,
       filter: data.params['filter'] || null,
-    });
+    };
+    this.setState(state);
+    this.documentationViewModel.updateState(state);
   }
 
   handleDocumentationSearchRedirectRoute(data: PageContextWithQueryMap) {

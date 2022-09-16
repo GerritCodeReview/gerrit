@@ -54,7 +54,6 @@ import {
 import {ParsedChangeInfo} from '../../../types/types';
 import {GrLinkedChip} from '../../shared/gr-linked-chip/gr-linked-chip';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {GrRouter} from '../../core/gr-router/gr-router';
 import {nothing} from 'lit';
 import {fixture, html, assert} from '@open-wc/testing';
 import {EventType} from '../../../types/events';
@@ -296,10 +295,9 @@ suite('gr-change-metadata tests', () => {
   });
 
   test('weblinks are visible when other weblinks', async () => {
-    const router = new GrRouter();
     sinon
       .stub(GerritNav, '_generateWeblinks')
-      .callsFake(router.generateWeblinks.bind(router));
+      .callsFake(() => [{name: 'test-name'}]);
 
     element.commitInfo = {
       ...createCommitInfoWithRequiredCommit(),
@@ -309,22 +307,12 @@ suite('gr-change-metadata tests', () => {
     const webLinks = element.webLinks!;
     assert.isFalse(webLinks.hasAttribute('hidden'));
     assert.equal(element.computeWebLinks().length, 1);
-    // With two non-gitiles weblinks, there are two returned.
-    element.commitInfo = {
-      ...createCommitInfoWithRequiredCommit(),
-      web_links: [
-        {...createWebLinkInfo(), name: 'test', url: '#'},
-        {...createWebLinkInfo(), name: 'test2', url: '#'},
-      ],
-    };
-    assert.equal(element.computeWebLinks().length, 2);
   });
 
   test('weblinks are visible when gitiles and other weblinks', async () => {
-    const router = new GrRouter();
     sinon
       .stub(GerritNav, '_generateWeblinks')
-      .callsFake(router.generateWeblinks.bind(router));
+      .callsFake(() => [{name: 'test-name'}]);
 
     element.commitInfo = {
       ...createCommitInfoWithRequiredCommit(),

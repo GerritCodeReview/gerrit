@@ -147,4 +147,5 @@ export enum Interaction {
   // The following interaction is logged for reporting and counting a suspected
   // Chrome bug that leads to html`` misbehavior.
   AUTOCLOSE_HTML_PATCHED = 'autoclose-html-patched',
+  CHANGE_ACTION_FIRED = 'change-action-fired',
 }

@@ -5,6 +5,7 @@
  */
 import {GerritView} from '../../services/router/router-model';
 import {GroupId} from '../../types/common';
+import {encodeURL, getBaseUrl} from '../../utils/url-util';
 import {Model} from '../model';
 import {ViewState} from './base';
 
@@ -15,16 +16,22 @@ export enum GroupDetailView {
 
 export interface GroupViewState extends ViewState {
   view: GerritView.GROUP;
+  groupId: GroupId;
   detail?: GroupDetailView;
-  groupId?: GroupId;
 }
 
-const DEFAULT_STATE: GroupViewState = {
-  view: GerritView.GROUP,
-};
+export function createGroupUrl(state: Omit<GroupViewState, 'view'>) {
+  let url = `/admin/groups/${encodeURL(`${state.groupId}`, true)}`;
+  if (state.detail === GroupDetailView.MEMBERS) {
+    url += ',members';
+  } else if (state.detail === GroupDetailView.LOG) {
+    url += ',audit-log';
+  }
+  return getBaseUrl() + url;
+}
 
-export class GroupViewModel extends Model<GroupViewState> {
+export class GroupViewModel extends Model<GroupViewState | undefined> {
   constructor() {
-    super(DEFAULT_STATE);
+    super(undefined);
   }
 }

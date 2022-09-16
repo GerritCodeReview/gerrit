@@ -105,6 +105,7 @@ import {customElement, property, query, state} from 'lit/decorators.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {assertIsDefined, queryAll} from '../../../utils/common-util';
 import {rootUrl} from '../../../utils/router-util';
+import {Interaction} from '../../../constants/reporting';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -1577,7 +1578,8 @@ export class GrChangeActions
       '/rebase',
       assertUIActionInfo(this.revisionActions.rebase),
       true,
-      payload
+      payload,
+      {allow_conflicts: payload.allow_conflicts}
     );
   }
 
@@ -1779,12 +1781,17 @@ export class GrChangeActions
     endpoint: string,
     action: UIActionInfo,
     revAction: boolean,
-    payload?: RequestPayload
+    payload?: RequestPayload,
+    toReport?: Object
   ) {
     const cleanupFn = this.setLoadingOnButtonWithKey(
       action.__type,
       action.__key
     );
+    this.reporting.reportInteraction(Interaction.CHANGE_ACTION_FIRED, {
+      endpoint,
+      toReport,
+    });
 
     this.send(
       action.method,

@@ -645,6 +645,7 @@ suite('gr-change-actions tests', () => {
         assertUIActionInfo(rebaseAction),
         true,
         {base: '1234', allow_conflicts: false},
+        {allow_conflicts: false},
       ]);
     });
 

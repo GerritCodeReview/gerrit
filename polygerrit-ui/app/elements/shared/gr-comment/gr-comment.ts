@@ -354,13 +354,13 @@ export class GrComment extends LitElement {
         :host([saving]) .date {
           opacity: 0.5;
         }
-        .body {
-          padding-top: var(--spacing-m);
-        }
         .header {
           align-items: center;
           cursor: pointer;
           display: flex;
+        }
+        .headerSpacing {
+          padding-bottom: var(--spacing-m);
         }
         .headerLeft > span {
           font-weight: var(--font-weight-bold);
@@ -526,8 +526,8 @@ export class GrComment extends LitElement {
     if (this.hideHeader) return nothing;
     return html`
       <div
-        class="header"
         id="header"
+        class=${classMap({headerSpacing: !this.collapsed, header: true})}
         @click=${() => (this.collapsed = !this.collapsed)}
       >
         <div class="headerLeft">

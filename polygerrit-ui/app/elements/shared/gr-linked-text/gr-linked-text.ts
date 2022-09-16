@@ -54,7 +54,8 @@ export class GrLinkedText extends LitElement {
   }
 
   override render() {
-    return html`<slot name="insert"></slot>`;
+    return html`<gr-markdown .content=${this.content}></gr-markdown>`
+    // return html`<slot name="insert"></slot>`;
   }
 
   // NOTE: LinkTextParser dynamically creates HTML fragments based on backend

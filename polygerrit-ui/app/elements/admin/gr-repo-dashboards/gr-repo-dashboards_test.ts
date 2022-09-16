@@ -6,7 +6,6 @@
 import '../../../test/common-test-setup';
 import './gr-repo-dashboards';
 import {GrRepoDashboards} from './gr-repo-dashboards';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {
   addListenerForTest,
   mockPromise,
@@ -14,7 +13,7 @@ import {
   stubRestApi,
   waitEventLoop,
 } from '../../../test/test-utils';
-import {DashboardId, DashboardInfo, RepoName} from '../../../types/common';
+import {DashboardInfo, RepoName} from '../../../types/common';
 import {PageErrorEvent} from '../../../types/events';
 import {fixture, html, assert} from '@open-wc/testing';
 
@@ -133,24 +132,6 @@ suite('gr-repo-dashboards tests', () => {
       assert.equal(dashboards.length, 2);
       assert.equal(dashboards[0].id, 'custom:custom1');
       assert.equal(dashboards[1].id, 'custom:custom2');
-    });
-  });
-
-  suite('test url', () => {
-    test('_getUrl', () => {
-      sinon
-        .stub(GerritNav, 'getUrlForRepoDashboard')
-        .callsFake(() => '/r/p/test/+/dashboard/default:contributor');
-
-      assert.equal(
-        element._getUrl(
-          'test' as RepoName,
-          'default:contributor' as DashboardId
-        ),
-        '/r/p/test/+/dashboard/default:contributor'
-      );
-
-      assert.equal(element._getUrl(undefined, undefined), '');
     });
   });
 

@@ -51,6 +51,24 @@
       "parentUuid": "7c1a6965_96085876",
       "revId": "ebb7ae7b2facae85b19533eaaa48358137fa3fd9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18da0c15_fa0eda01",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-16T08:18:05Z",
+      "side": 1,
+      "message": "\u003e Yes, this is correct.\n\nGood to know and thanks for explaining!\n\n\u003e Don\u0027t you mind if I do it in a separate change, after submitting this one?\n\nYes, I think then it\u0027s fine to submit this one, and look into changing this as a follow-up. If this also works I think I would still do this to be consistent with what we have now (but I would be also fine if we come to the conclusion it\u0027s better to keep as it is now).\n\nI\u0027ll have a look at the new tests now, and approve if they look fine.",
+      "parentUuid": "b98ecea3_5d29c37e",
+      "revId": "ebb7ae7b2facae85b19533eaaa48358137fa3fd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

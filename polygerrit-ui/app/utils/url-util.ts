@@ -3,7 +3,6 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {
   BasePatchSetNum,
   PARENT,
@@ -24,6 +23,10 @@ export function getBaseUrl(): string {
 export interface PatchRangeParams {
   patchNum?: RevisionPatchSetNum;
   basePatchNum?: BasePatchSetNum;
+}
+
+export function rootUrl() {
+  return `${getBaseUrl()}/`;
 }
 
 /**

@@ -35,7 +35,6 @@ import {
   createServerInfo,
 } from '../../../test/test-data-generators';
 import {AppElementParams} from '../../gr-app-types';
-import {GenerateUrlParameters} from '../../../utils/router-util';
 import {assert} from '@open-wc/testing';
 import {AdminChildView} from '../../../models/views/admin';
 import {RepoDetailView} from '../../../models/views/repo';
@@ -353,7 +352,7 @@ suite('gr-router tests', () => {
     function assertDataToParams(
       data: PageContextWithQueryMap,
       methodName: string,
-      params: AppElementParams | GenerateUrlParameters
+      params: AppElementParams
     ) {
       (router as any)[methodName](data);
       assert.deepEqual(setParamsStub.lastCall.args[0], params);
@@ -1218,7 +1217,6 @@ suite('gr-router tests', () => {
         });
 
         test('change view', () => {
-          sinon.stub(router, 'generateUrl').returns('foo');
           const ctx = makeParams('', '');
           assertDataToParams(ctx, 'handleChangeRoute', {
             view: GerritView.CHANGE,
@@ -1231,7 +1229,6 @@ suite('gr-router tests', () => {
         });
 
         test('params', () => {
-          sinon.stub(router, 'generateUrl').returns('foo');
           const ctx = makeParams('', '');
           ctx.queryMap.set('tab', 'checks');
           ctx.queryMap.set('filter', 'fff');
@@ -1277,7 +1274,6 @@ suite('gr-router tests', () => {
         });
 
         test('diff view', () => {
-          sinon.stub(router, 'generateUrl').returns('foo');
           const ctx = makeParams('foo/bar/baz', 'b44');
           assertDataToParams(ctx, 'handleDiffRoute', {
             view: GerritView.DIFF,

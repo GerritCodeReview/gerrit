@@ -96,7 +96,7 @@ export class GrTextarea extends LitElement {
 
   @property({type: String}) placeholder?: string;
 
-  @property({type: String}) text = '';
+  @property({type: String}) text: string | undefined = '';
 
   @property({type: Boolean, attribute: 'hide-border'}) hideBorder = false;
 
@@ -486,6 +486,7 @@ export class GrTextarea extends LitElement {
   }
 
   private openOrResetDropdown() {
+    if (!this.text) return;
     let activeDropdown: GrAutocompleteDropdown;
     let activate: () => void;
     if (this.isEmojiDropdownActive()) {
@@ -521,17 +522,18 @@ export class GrTextarea extends LitElement {
     if (!this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS))
       return false;
     return (
-      this.specialCharIndex !== -1 && this.text[this.specialCharIndex] === '@'
+      this.specialCharIndex !== -1 && this.text?.[this.specialCharIndex] === '@'
     );
   }
 
   private isEmojiDropdownActive() {
     return (
-      this.specialCharIndex !== -1 && this.text[this.specialCharIndex] === ':'
+      this.specialCharIndex !== -1 && this.text?.[this.specialCharIndex] === ':'
     );
   }
 
   private computeSpecialCharIndex() {
+    if (!this.text) return;
     const charAtCursor = this.text[this.textarea!.selectionStart - 1];
 
     if (this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) {
@@ -545,7 +547,7 @@ export class GrTextarea extends LitElement {
   }
 
   private computeCurrentSearchString() {
-    if (this.specialCharIndex === -1) {
+    if (this.specialCharIndex === -1 || !this.text) {
       this.currentSearchString = undefined;
       return;
     }
@@ -632,8 +634,8 @@ export class GrTextarea extends LitElement {
     // This is a bit redundant, because the `text` property has `notify:true`,
     // so whenever the `text` changes the component fires two identical events
     // `text-changed` and `value-changed`.
-    fire(this, 'value-changed', {value: this.text});
-    fire(this, 'text-changed', {value: this.text});
+    fire(this, 'value-changed', {value: this.text ?? ''});
+    fire(this, 'text-changed', {value: this.text ?? ''});
     // Relay the event.
     fire(this, 'bind-value-changed', {value: this.text});
   }

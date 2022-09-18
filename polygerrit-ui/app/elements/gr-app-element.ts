@@ -447,12 +447,7 @@ export class GrAppElement extends LitElement {
   private renderDashboardView() {
     return cache(
       this.view === GerritView.DASHBOARD
-        ? html`
-            <gr-dashboard-view
-              .account=${this.account}
-              .params=${this.params}
-            ></gr-dashboard-view>
-          `
+        ? html`<gr-dashboard-view></gr-dashboard-view>`
         : nothing
     );
   }

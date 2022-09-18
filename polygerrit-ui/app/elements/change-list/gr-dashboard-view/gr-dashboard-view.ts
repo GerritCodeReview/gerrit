@@ -41,18 +41,22 @@ import {
   firePageError,
   fireTitleChange,
 } from '../../../utils/event-util';
-import {GerritView} from '../../../services/router/router-model';
 import {RELOAD_DASHBOARD_INTERVAL_MS} from '../../../constants/constants';
 import {ChangeListSection} from '../gr-change-list/gr-change-list';
 import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {LitElement, PropertyValues, html, css} from 'lit';
+import {LitElement, html, css} from 'lit';
 import {customElement, property, state, query} from 'lit/decorators.js';
 import {assertIsDefined} from '../../../utils/common-util';
 import {Shortcut} from '../../../services/shortcuts/shortcuts-config';
 import {ShortcutController} from '../../lit/shortcut-controller';
-import {DashboardViewState} from '../../../models/views/dashboard';
+import {
+  dashboardViewModelToken,
+  DashboardViewState,
+} from '../../../models/views/dashboard';
 import {createSearchUrl} from '../../../models/views/search';
+import {subscribe} from '../../lit/subscription-controller';
+import {resolve} from '../../../models/dependency';
 
 const PROJECT_PLACEHOLDER_PATTERN = /\${project}/g;
 
@@ -79,13 +83,13 @@ export class GrDashboardView extends LitElement {
   @query('#confirmDeleteOverlay') protected confirmDeleteOverlay?: GrOverlay;
 
   @property({type: Object})
-  account: AccountDetailInfo | null = null;
+  account?: AccountDetailInfo;
 
   @property({type: Object})
   preferences?: PreferencesInput;
 
-  @property({type: Object})
-  params?: DashboardViewState;
+  @state()
+  viewState?: DashboardViewState;
 
   // private but used in test
   @state() results?: ChangeListSection[];
@@ -103,12 +107,29 @@ export class GrDashboardView extends LitElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
+  private readonly userModel = getAppContext().userModel;
+
+  private readonly getViewModel = resolve(this, dashboardViewModelToken);
+
   private lastVisibleTimestampMs = 0;
 
   private readonly shortcuts = new ShortcutController(this);
 
   constructor() {
     super();
+    subscribe(
+      this,
+      () => this.userModel.account$,
+      x => (this.account = x)
+    );
+    subscribe(
+      this,
+      () => this.getViewModel().state$,
+      x => {
+        this.viewState = x;
+        this.reload();
+      }
+    );
     this.addEventListener('reload', () => this.reload());
     this.shortcuts.addAbstract(Shortcut.UP_TO_DASHBOARD, () => this.reload());
   }
@@ -184,6 +205,7 @@ export class GrDashboardView extends LitElement {
   }
 
   override render() {
+    if (!this.viewState) return;
     return html`
       ${this.renderBanner()} ${this.renderContent()}
       <gr-overlay id="confirmDeleteOverlay" with-backdrop>
@@ -271,17 +293,15 @@ export class GrDashboardView extends LitElement {
 
   private renderUserHeader() {
     if (
-      !this.params ||
-      this.params.view !== GerritView.DASHBOARD ||
-      !!this.params.project ||
-      !this.params.user ||
-      this.params.user === 'self'
+      !!this.viewState?.project ||
+      !this.viewState?.user ||
+      this.viewState?.user === 'self'
     ) {
       return;
     }
 
     return html`
-      <gr-user-header .userId=${this.params?.user}></gr-user-header>
+      <gr-user-header .userId=${this.viewState?.user}></gr-user-header>
     `;
   }
 
@@ -295,12 +315,6 @@ export class GrDashboardView extends LitElement {
         }}
       ></gr-create-change-help>
     `;
-  }
-
-  override updated(changedProperties: PropertyValues) {
-    if (changedProperties.has('params')) {
-      this.paramsChanged();
-    }
   }
 
   private loadPreferences() {
@@ -354,26 +368,15 @@ export class GrDashboardView extends LitElement {
     return 'Dashboard for ' + user;
   }
 
-  private isViewActive(params: DashboardViewState) {
-    return params.view === GerritView.DASHBOARD;
-  }
-
-  // private but used in test
-  paramsChanged() {
-    return this.reload();
-  }
-
   /**
    * Reloads the element.
    *
    * private but used in test
    */
   reload() {
-    if (!this.params || !this.isViewActive(this.params)) {
-      return Promise.resolve();
-    }
+    if (!this.viewState) return Promise.resolve();
     this.loading = true;
-    const {project, dashboard, title, user, sections} = this.params;
+    const {project, dashboard, title, user, sections} = this.viewState;
     const dashboardPromise: Promise<UserDashboard | undefined> = project
       ? this.getProjectDashboard(project, dashboard)
       : Promise.resolve(
@@ -476,7 +479,7 @@ export class GrDashboardView extends LitElement {
    * And then we want to emphasize the changes where the waiting time is larger.
    */
   private maybeSortResults(name: string, results: ChangeInfo[]) {
-    const userId = this.account && this.account._account_id;
+    const userId = this.account?._account_id;
     const sortedResults = [...results];
     if (name === YOUR_TURN.name && userId) {
       sortedResults.sort((c1, c2) => {
@@ -544,9 +547,7 @@ export class GrDashboardView extends LitElement {
    */
   maybeShowDraftsBanner() {
     this.showDraftsBanner = false;
-    if (!(this.params?.user === 'self')) {
-      return;
-    }
+    if (!(this.viewState?.user === 'self')) return;
 
     if (!this.results) {
       throw new Error('this.results must be set. restAPI returned undefined');
@@ -555,16 +556,12 @@ export class GrDashboardView extends LitElement {
     const draftSection = this.results.find(
       section => section.query === 'has:draft'
     );
-    if (!draftSection || !draftSection.results.length) {
-      return;
-    }
+    if (!draftSection || !draftSection.results.length) return;
 
     const closedChanges = draftSection.results.filter(
       change => !changeIsOpen(change)
     );
-    if (!closedChanges.length) {
-      return;
-    }
+    if (!closedChanges.length) return;
 
     this.showDraftsBanner = true;
   }

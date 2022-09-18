@@ -41,7 +41,6 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 suite('gr-dashboard-view tests', () => {
   let element: GrDashboardView;
 
-  let paramsChangedPromise: Promise<any>;
   let getChangesStub: SinonStubbedMember<
     RestApiService['getChangesForMultipleQueries']
   >;
@@ -54,30 +53,25 @@ suite('gr-dashboard-view tests', () => {
         registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
       })
     );
-    stubRestApi('getAccountStatus').returns(Promise.resolve(undefined));
 
     element = await fixture<GrDashboardView>(html`
       <gr-dashboard-view></gr-dashboard-view>
     `);
 
     await element.updateComplete;
-    let resolver: (value?: any) => void;
-    paramsChangedPromise = new Promise(resolve => {
-      resolver = resolve;
-    });
-    const paramsChanged = element.paramsChanged.bind(element);
-    sinon
-      .stub(element, 'paramsChanged')
-      .callsFake(() => paramsChanged().then(() => resolver()));
   });
 
   test('render', async () => {
-    const sections = [
-      {name: 'test1', query: 'test1', hideIfEmpty: true},
-      {name: 'test2', query: 'test2', hideIfEmpty: true},
-    ];
+    element.viewState = {
+      view: GerritView.DASHBOARD,
+      user: 'self',
+      sections: [
+        {name: 'test1', query: 'test1', hideIfEmpty: true},
+        {name: 'test2', query: 'test2', hideIfEmpty: true},
+      ],
+    };
     getChangesStub.returns(Promise.resolve([[createChange()]]));
-    await element.fetchDashboardChanges({sections}, false);
+    await element.reload();
     element.loading = false;
     stubFlags('isEnabled').returns(true);
     element.requestUpdate();
@@ -125,14 +119,18 @@ suite('gr-dashboard-view tests', () => {
 
   suite('bulk actions', () => {
     setup(async () => {
-      const sections = [
-        {name: 'test1', query: 'test1', hideIfEmpty: true},
-        {name: 'test2', query: 'test2', hideIfEmpty: true},
-      ];
+      element.viewState = {
+        view: GerritView.DASHBOARD,
+        user: 'user',
+        sections: [
+          {name: 'test1', query: 'test1', hideIfEmpty: true},
+          {name: 'test2', query: 'test2', hideIfEmpty: true},
+        ],
+      };
       getChangesStub.returns(Promise.resolve([[createChange()]]));
-      await element.fetchDashboardChanges({sections}, false);
-      element.loading = false;
       stubFlags('isEnabled').returns(true);
+      await element.reload();
+      element.loading = false;
       element.requestUpdate();
       await element.updateComplete;
     });
@@ -151,11 +149,6 @@ suite('gr-dashboard-view tests', () => {
       getChangesStub.restore();
       getChangesStub.returns(Promise.resolve([[createChange()]]));
 
-      element.params = {
-        view: GerritView.DASHBOARD,
-        user: 'notself',
-        dashboard: '' as DashboardId,
-      };
       await element.reload();
       await element.updateComplete;
       assert.isTrue(checkbox.checked);
@@ -163,9 +156,20 @@ suite('gr-dashboard-view tests', () => {
   });
 
   suite('drafts banner functionality', () => {
+    setup(async () => {
+      element.viewState = {
+        view: GerritView.DASHBOARD,
+        user: 'self',
+        sections: [
+          {name: 'test1', query: 'test1', hideIfEmpty: true},
+          {name: 'test2', query: 'test2', hideIfEmpty: true},
+        ],
+      };
+    });
+
     suite('maybeShowDraftsBanner', () => {
       test('not dashboard/self', () => {
-        element.params = {
+        element.viewState = {
           view: GerritView.DASHBOARD,
           user: 'notself',
           dashboard: '' as DashboardId,
@@ -176,7 +180,7 @@ suite('gr-dashboard-view tests', () => {
 
       test('no drafts at all', () => {
         element.results = [];
-        element.params = {
+        element.viewState = {
           view: GerritView.DASHBOARD,
           user: 'self',
           dashboard: '' as DashboardId,
@@ -190,7 +194,7 @@ suite('gr-dashboard-view tests', () => {
         element.results = [
           {countLabel: '', name: '', query: 'has:draft', results: [openChange]},
         ];
-        element.params = {
+        element.viewState = {
           view: GerritView.DASHBOARD,
           user: 'self',
           dashboard: '' as DashboardId,
@@ -210,7 +214,7 @@ suite('gr-dashboard-view tests', () => {
           },
         ];
         assert.isFalse(changeIsOpen(element.results[0].results[0]));
-        element.params = {
+        element.viewState = {
           view: GerritView.DASHBOARD,
           user: 'self',
           dashboard: '' as DashboardId,
@@ -314,27 +318,10 @@ suite('gr-dashboard-view tests', () => {
     });
   });
 
-  suite('_isViewActive', () => {
-    test('nothing happens when user param is falsy', async () => {
-      element.params = undefined;
-      await element.updateComplete;
-      assert.equal(getChangesStub.callCount, 0);
-    });
-
-    test('content is refreshed when user param is updated', async () => {
-      element.params = {
-        view: GerritView.DASHBOARD,
-        user: 'self',
-        dashboard: '' as DashboardId,
-      };
-      await paramsChangedPromise;
-      assert.isTrue(getChangesStub.called);
-    });
-  });
-
   suite('selfOnly sections', () => {
     test('viewing self dashboard includes selfOnly sections', async () => {
-      element.params = {
+      element.account = undefined;
+      element.viewState = {
         view: GerritView.DASHBOARD,
         user: 'self',
         dashboard: '' as DashboardId,
@@ -343,13 +330,13 @@ suite('gr-dashboard-view tests', () => {
           {name: '', query: '2', selfOnly: true},
         ],
       };
-      await paramsChangedPromise;
+      await element.reload();
       assert.isTrue(getChangesStub.calledWith(undefined, ['1', '2']));
     });
 
     test('viewing dashboard when logged in includes owner:self query', async () => {
       element.account = createAccountDetailWithId(1);
-      element.params = {
+      element.viewState = {
         view: GerritView.DASHBOARD,
         user: 'self',
         dashboard: '' as DashboardId,
@@ -358,14 +345,14 @@ suite('gr-dashboard-view tests', () => {
           {name: '', query: '2', selfOnly: true},
         ],
       };
-      await paramsChangedPromise;
+      await element.reload();
       assert.isTrue(
         getChangesStub.calledWith(undefined, ['1', '2', 'owner:self limit:1'])
       );
     });
 
     test("viewing another user's dashboard omits selfOnly sections", async () => {
-      element.params = {
+      element.viewState = {
         view: GerritView.DASHBOARD,
         user: 'user',
         dashboard: '' as DashboardId,
@@ -374,13 +361,13 @@ suite('gr-dashboard-view tests', () => {
           {name: '', query: '2', selfOnly: true},
         ],
       };
-      await paramsChangedPromise;
+      await element.reload();
       assert.isTrue(getChangesStub.calledWith(undefined, ['1']));
     });
   });
 
   test('suffixForDashboard is included in getChanges query', async () => {
-    element.params = {
+    element.viewState = {
       view: GerritView.DASHBOARD,
       dashboard: '' as DashboardId,
       sections: [
@@ -388,7 +375,7 @@ suite('gr-dashboard-view tests', () => {
         {name: '', query: '2', suffixForDashboard: 'suffix'},
       ],
     };
-    await paramsChangedPromise;
+    await element.reload();
     assert.isTrue(getChangesStub.calledWith(undefined, ['1', '2 suffix']));
   });
 
@@ -520,6 +507,9 @@ suite('gr-dashboard-view tests', () => {
   });
 
   test('showNewUserHelp', async () => {
+    element.viewState = {
+      view: GerritView.DASHBOARD,
+    };
     element.loading = false;
     element.showNewUserHelp = false;
     await element.updateComplete;
@@ -547,11 +537,11 @@ suite('gr-dashboard-view tests', () => {
   });
 
   test('gr-user-header', async () => {
-    element.params = undefined;
+    element.viewState = undefined;
     await element.updateComplete;
     assert.isNotOk(query(element, 'gr-user-header'));
 
-    element.params = {
+    element.viewState = {
       view: GerritView.DASHBOARD,
       dashboard: '' as DashboardId,
       user: 'self',
@@ -560,7 +550,7 @@ suite('gr-dashboard-view tests', () => {
     assert.isNotOk(query(element, 'gr-user-header'));
 
     element.loading = false;
-    element.params = {
+    element.viewState = {
       view: GerritView.DASHBOARD,
       dashboard: '' as DashboardId,
       user: 'user',
@@ -568,7 +558,7 @@ suite('gr-dashboard-view tests', () => {
     await element.updateComplete;
     assert.isOk(query(element, 'gr-user-header'));
 
-    element.params = {
+    element.viewState = {
       view: GerritView.DASHBOARD,
       dashboard: '' as DashboardId,
       project: 'p' as RepoName,
@@ -593,16 +583,16 @@ suite('gr-dashboard-view tests', () => {
       assert.strictEqual((e as PageErrorEvent).detail.response, response);
       promise.resolve();
     });
-    element.params = {
+    element.viewState = {
       view: GerritView.DASHBOARD,
       dashboard: 'dashboard' as DashboardId,
       project: 'project' as RepoName,
       user: '',
     };
-    await Promise.all([paramsChangedPromise, promise]);
+    await Promise.all([element.reload(), promise]);
   });
 
-  test('params change triggers dashboardDisplayed()', async () => {
+  test('viewState change triggers dashboardDisplayed()', async () => {
     stubRestApi('getDashboard').returns(
       Promise.resolve({
         id: '' as DashboardId,
@@ -618,13 +608,13 @@ suite('gr-dashboard-view tests', () => {
     );
     getChangesStub.returns(Promise.resolve([]));
     const dashboardDisplayedStub = stubReporting('dashboardDisplayed');
-    element.params = {
+    element.viewState = {
       view: GerritView.DASHBOARD,
       dashboard: 'dashboard' as DashboardId,
       project: 'project' as RepoName,
       user: '',
     };
-    await paramsChangedPromise;
+    await element.reload();
     assert.isTrue(dashboardDisplayedStub.calledOnce);
   });
 });

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {GerritView} from '../../services/router/router-model';
+import {select} from '../../utils/observable-util';
 import {getBaseUrl} from '../../utils/url-util';
 import {define} from '../dependency';
 import {Model} from '../model';
@@ -14,8 +15,6 @@ export interface SettingsViewState extends ViewState {
   emailToken?: string;
 }
 
-const DEFAULT_STATE: SettingsViewState = {view: GerritView.SETTINGS};
-
 export function createSettingsUrl() {
   return getBaseUrl() + '/settings';
 }
@@ -24,10 +23,16 @@ export const settingsViewModelToken = define<SettingsViewModel>(
   'settings-view-model'
 );
 
-export class SettingsViewModel extends Model<SettingsViewState> {
+export class SettingsViewModel extends Model<SettingsViewState | undefined> {
   constructor() {
-    super(DEFAULT_STATE);
+    super(undefined);
   }
 
   finalize() {}
+
+  public emailToken$ = select(this.state$, state => state?.emailToken);
+
+  clearToken() {
+    this.updateState({emailToken: undefined});
+  }
 }

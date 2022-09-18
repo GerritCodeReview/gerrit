@@ -6,7 +6,6 @@
 import '../../../test/common-test-setup';
 import './gr-settings-view';
 import {GrSettingsView} from './gr-settings-view';
-import {GerritView} from '../../../services/router/router-model';
 import {queryAll, stubRestApi, waitEventLoop} from '../../../test/test-utils';
 import {
   AuthInfo,
@@ -34,7 +33,6 @@ import {
 import {GrSelect} from '../../shared/gr-select/gr-select';
 import {fixture, html, assert} from '@open-wc/testing';
 import {EventType} from '../../../types/events';
-import {SettingsViewState} from '../../../models/views/settings';
 
 suite('gr-settings-view tests', () => {
   let element: GrSettingsView;
@@ -755,9 +753,6 @@ suite('gr-settings-view tests', () => {
 
   test('emails are loaded without emailToken', () => {
     const emailEditorLoadDataStub = sinon.stub(element.emailEditor, 'loadData');
-    element.params = {
-      view: GerritView.SETTINGS,
-    } as SettingsViewState;
     element.firstUpdated();
     assert.isTrue(emailEditorLoadDataStub.calledOnce);
   });
@@ -861,8 +856,8 @@ suite('gr-settings-view tests', () => {
         })
       );
 
-      element.params = {view: GerritView.SETTINGS, emailToken: 'foo'};
-      element.firstUpdated();
+      element.emailToken = 'foo';
+      element.confirmEmail();
     });
 
     test('it is used to confirm email via rest API', () => {

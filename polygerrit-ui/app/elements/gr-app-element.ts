@@ -500,7 +500,6 @@ export class GrAppElement extends LitElement {
     if (this.view !== GerritView.SETTINGS) return nothing;
     return html`
       <gr-settings-view
-        .params=${this.params}
         @account-detail-update=${this.handleAccountDetailUpdate}
       >
       </gr-settings-view>

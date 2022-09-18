@@ -23,7 +23,6 @@ import '../gr-menu-editor/gr-menu-editor';
 import '../gr-ssh-editor/gr-ssh-editor';
 import '../gr-watched-projects-editor/gr-watched-projects-editor';
 import {getDocsBaseUrl} from '../../../utils/url-util';
-import {AppElementParams} from '../../gr-app-types';
 import {GrAccountInfo} from '../gr-account-info/gr-account-info';
 import {GrWatchedProjectsEditor} from '../gr-watched-projects-editor/gr-watched-projects-editor';
 import {GrGroupList} from '../gr-group-list/gr-group-list';
@@ -35,7 +34,6 @@ import {GrGpgEditor} from '../gr-gpg-editor/gr-gpg-editor';
 import {GrEmailEditor} from '../gr-email-editor/gr-email-editor';
 import {fireAlert, fireTitleChange} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
-import {GerritView} from '../../../services/router/router-model';
 import {
   ColumnNames,
   DateFormat,
@@ -48,13 +46,7 @@ import {
 } from '../../../constants/constants';
 import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 import {LitElement, css, html, nothing} from 'lit';
-import {
-  customElement,
-  property,
-  query,
-  queryAsync,
-  state,
-} from 'lit/decorators.js';
+import {customElement, query, queryAsync, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {paperStyles} from '../../../styles/gr-paper-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';
@@ -64,6 +56,8 @@ import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {subscribe} from '../../lit/subscription-controller';
+import {resolve} from '../../../models/dependency';
+import {settingsViewModelToken} from '../../../models/views/settings';
 
 const GERRIT_DOCS_BASE_URL =
   'https://gerrit-review.googlesource.com/' + 'Documentation';
@@ -146,8 +140,6 @@ export class GrSettingsView extends LitElement {
 
   @state() prefs: PreferencesInput = {};
 
-  @property({type: Object}) params?: AppElementParams;
-
   @state() private accountInfoChanged = false;
 
   // private but used in test
@@ -189,6 +181,9 @@ export class GrSettingsView extends LitElement {
   @state() private emailsChanged = false;
 
   // private but used in test
+  @state() emailToken?: string;
+
+  // private but used in test
   @state() showNumber?: boolean;
 
   // private but used in test
@@ -200,8 +195,18 @@ export class GrSettingsView extends LitElement {
 
   private readonly flagsService = getAppContext().flagsService;
 
+  private readonly getViewModel = resolve(this, settingsViewModelToken);
+
   constructor() {
     super();
+    subscribe(
+      this,
+      () => this.getViewModel().emailToken$,
+      x => {
+        this.emailToken = x;
+        this.confirmEmail();
+      }
+    );
     subscribe(
       this,
       () => this.userModel.preferences$,
@@ -221,6 +226,15 @@ export class GrSettingsView extends LitElement {
               );
       }
     );
+  }
+
+  // private, but used in tests
+  async confirmEmail() {
+    if (!this.emailToken) return;
+    const message = await this.restApiService.confirmEmail(this.emailToken);
+    if (message) fireAlert(this, message);
+    this.getViewModel().clearToken();
+    this.emailEditor.loadData();
   }
 
   override connectedCallback() {
@@ -266,24 +280,7 @@ export class GrSettingsView extends LitElement {
       })
     );
 
-    if (
-      this.params &&
-      this.params.view === GerritView.SETTINGS &&
-      this.params.emailToken
-    ) {
-      promises.push(
-        this.restApiService
-          .confirmEmail(this.params.emailToken)
-          .then(message => {
-            if (message) {
-              fireAlert(this, message);
-            }
-            this.emailEditor.loadData();
-          })
-      );
-    } else {
-      promises.push(this.emailEditor.loadData());
-    }
+    promises.push(this.emailEditor.loadData());
 
     this._testOnly_loadingPromise = Promise.all(promises).then(() => {
       this.loading = false;

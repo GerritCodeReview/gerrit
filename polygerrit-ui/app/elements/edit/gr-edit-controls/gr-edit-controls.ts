@@ -423,6 +423,7 @@ export class GrEditControls extends LitElement {
       this.closeDialog(this.openDialog);
       return;
     }
+    assertIsDefined(this.patchNum, 'patchset number');
     const url = createEditUrl({
       changeNum: this.change._number,
       project: this.change.project,

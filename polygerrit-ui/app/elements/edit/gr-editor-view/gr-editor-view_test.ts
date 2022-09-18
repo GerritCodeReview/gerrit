@@ -15,7 +15,12 @@ import {
   stubRestApi,
   stubStorage,
 } from '../../../test/test-utils';
-import {EDIT, NumericChangeId, PatchSetNum} from '../../../types/common';
+import {
+  EDIT,
+  NumericChangeId,
+  PatchSetNumber,
+  RevisionPatchSetNum,
+} from '../../../types/common';
 import {
   createChangeViewChange,
   createEditViewState,
@@ -41,6 +46,11 @@ suite('gr-editor-view tests', () => {
     saveFileStub = stubRestApi('saveChangeEdit');
     changeDetailStub = stubRestApi('getChangeDetail');
     navigateStub = sinon.stub(element, 'viewEditInChangeView');
+    element.viewState = {
+      ...createEditViewState(),
+      patchNum: 1 as PatchSetNumber,
+    };
+    element.latestPatchsetNumber = 1 as PatchSetNumber;
     await element.updateComplete;
   });
 
@@ -58,7 +68,7 @@ suite('gr-editor-view tests', () => {
                 labeltext="File path"
                 placeholder="File path..."
                 tabindex="0"
-                title="File path..."
+                title="${element.viewState?.path}"
               >
               </gr-editable-label>
             </span>
@@ -112,8 +122,8 @@ suite('gr-editor-view tests', () => {
     );
   });
 
-  suite('paramsChanged', () => {
-    test('good params proceed', async () => {
+  suite('viewStateChanged', () => {
+    test('good view state proceed', async () => {
       changeDetailStub.returns(Promise.resolve({}));
       const fileStub = sinon.stub(element, 'getFileData').callsFake(() => {
         element.content = 'text';
@@ -122,20 +132,14 @@ suite('gr-editor-view tests', () => {
         return Promise.resolve();
       });
 
-      element.params = {...createEditViewState()};
-      const promises = element.paramsChanged();
+      element.viewState = {...createEditViewState()};
+      const promises = element.viewStateChanged();
 
       await element.updateComplete;
 
       const changeNum = 42 as NumericChangeId;
-      assert.equal(element.changeNum, changeNum);
-      assert.equal(element.path, 'foo/bar.baz');
       assert.deepEqual(changeDetailStub.lastCall.args[0], changeNum);
-      assert.deepEqual(fileStub.lastCall.args, [
-        changeNum,
-        'foo/bar.baz',
-        EDIT as PatchSetNum,
-      ]);
+      assert.isTrue(fileStub.called);
 
       return promises?.then(() => {
         assert.equal(element.content, 'text');
@@ -146,8 +150,7 @@ suite('gr-editor-view tests', () => {
   });
 
   test('edit file path', () => {
-    element.changeNum = 42 as NumericChangeId;
-    element.path = 'foo/bar.baz';
+    element.viewState = {...createEditViewState()};
     savePathStub.onFirstCall().returns(Promise.resolve({}));
     savePathStub.onSecondCall().returns(Promise.resolve({ok: true}));
 
@@ -197,8 +200,7 @@ suite('gr-editor-view tests', () => {
     const newText = 'file text changed';
 
     setup(async () => {
-      element.changeNum = 42 as NumericChangeId;
-      element.path = 'foo/bar.baz';
+      element.viewState = {...createEditViewState()};
       element.content = originalText;
       element.newContent = originalText;
       await element.updateComplete;
@@ -363,30 +365,38 @@ suite('gr-editor-view tests', () => {
           content: 'new content',
         })
       );
+      element.viewState = {
+        ...createEditViewState(),
+        changeNum: 1 as NumericChangeId,
+        patchNum: EDIT,
+        path: 'test/path',
+      };
 
       // Ensure no data is set with a bad response.
-      return element
-        .getFileData(1 as NumericChangeId, 'test/path', EDIT as PatchSetNum)
-        .then(() => {
-          assert.equal(element.newContent, 'new content');
-          assert.equal(element.content, 'new content');
-          assert.equal(element.type, 'text/javascript');
-        });
+      return element.getFileData().then(() => {
+        assert.equal(element.newContent, 'new content');
+        assert.equal(element.content, 'new content');
+        assert.equal(element.type, 'text/javascript');
+      });
     });
 
     test('!res.ok', () => {
       stubRestApi('getFileContent').returns(
         Promise.resolve(new Response(null, {status: 500}))
       );
+      element.viewState = {
+        ...createEditViewState(),
+        changeNum: 1 as NumericChangeId,
+        patchNum: EDIT,
+        path: 'test/path',
+      };
 
       // Ensure no data is set with a bad response.
-      return element
-        .getFileData(1 as NumericChangeId, 'test/path', EDIT as PatchSetNum)
-        .then(() => {
-          assert.equal(element.newContent, '');
-          assert.equal(element.content, '');
-          assert.equal(element.type, '');
-        });
+      return element.getFileData().then(() => {
+        assert.equal(element.newContent, '');
+        assert.equal(element.content, '');
+        assert.equal(element.type, '');
+      });
     });
 
     test('content is undefined', () => {
@@ -397,28 +407,36 @@ suite('gr-editor-view tests', () => {
           type: 'text/javascript' as ResponseType,
         })
       );
+      element.viewState = {
+        ...createEditViewState(),
+        changeNum: 1 as NumericChangeId,
+        patchNum: EDIT,
+        path: 'test/path',
+      };
 
-      return element
-        .getFileData(1 as NumericChangeId, 'test/path', EDIT as PatchSetNum)
-        .then(() => {
-          assert.equal(element.newContent, '');
-          assert.equal(element.content, '');
-          assert.equal(element.type, 'text/javascript');
-        });
+      return element.getFileData().then(() => {
+        assert.equal(element.newContent, '');
+        assert.equal(element.content, '');
+        assert.equal(element.type, 'text/javascript');
+      });
     });
 
     test('content and type is undefined', () => {
       stubRestApi('getFileContent').returns(
         Promise.resolve({...new Response(), ok: true})
       );
+      element.viewState = {
+        ...createEditViewState(),
+        changeNum: 1 as NumericChangeId,
+        patchNum: EDIT,
+        path: 'test/path',
+      };
 
-      return element
-        .getFileData(1 as NumericChangeId, 'test/path', EDIT as PatchSetNum)
-        .then(() => {
-          assert.equal(element.newContent, '');
-          assert.equal(element.content, '');
-          assert.equal(element.type, '');
-        });
+      return element.getFileData().then(() => {
+        assert.equal(element.newContent, '');
+        assert.equal(element.content, '');
+        assert.equal(element.type, '');
+      });
     });
   });
 
@@ -438,7 +456,6 @@ suite('gr-editor-view tests', () => {
     element.change = createChangeViewChange();
     navigateStub.restore();
     const navStub = sinon.stub(GerritNav, 'navigateToChange');
-    element.patchNum = EDIT;
     element.viewEditInChangeView();
     assert.equal(navStub.lastCall.args[1]!.patchNum, undefined);
     assert.equal(navStub.lastCall.args[1]!.isEdit, true);
@@ -500,20 +517,24 @@ suite('gr-editor-view tests', () => {
           content: 'old content',
         })
       );
+      element.viewState = {
+        ...createEditViewState(),
+        changeNum: 1 as NumericChangeId,
+        patchNum: 1 as RevisionPatchSetNum,
+        path: 'test',
+      };
 
       const alertStub = sinon.stub();
       element.addEventListener(EventType.SHOW_ALERT, alertStub);
 
-      return element
-        .getFileData(1 as NumericChangeId, 'test', 1 as PatchSetNum)
-        .then(async () => {
-          await element.updateComplete;
+      return element.getFileData().then(async () => {
+        await element.updateComplete;
 
-          assert.isTrue(alertStub.called);
-          assert.equal(element.newContent, 'pending edit');
-          assert.equal(element.content, 'old content');
-          assert.equal(element.type, 'text/javascript');
-        });
+        assert.isTrue(alertStub.called);
+        assert.equal(element.newContent, 'pending edit');
+        assert.equal(element.content, 'old content');
+        assert.equal(element.type, 'text/javascript');
+      });
     });
 
     test('local edit exists, is same as remote edit', () => {
@@ -528,26 +549,33 @@ suite('gr-editor-view tests', () => {
           content: 'pending edit',
         })
       );
+      element.viewState = {
+        ...createEditViewState(),
+        changeNum: 1 as NumericChangeId,
+        patchNum: 1 as RevisionPatchSetNum,
+        path: 'test',
+      };
 
       const alertStub = sinon.stub();
       element.addEventListener(EventType.SHOW_ALERT, alertStub);
 
-      return element
-        .getFileData(1 as NumericChangeId, 'test', 1 as PatchSetNum)
-        .then(async () => {
-          await element.updateComplete;
+      return element.getFileData().then(async () => {
+        await element.updateComplete;
 
-          assert.isFalse(alertStub.called);
-          assert.equal(element.newContent, 'pending edit');
-          assert.equal(element.content, 'pending edit');
-          assert.equal(element.type, 'text/javascript');
-        });
+        assert.isFalse(alertStub.called);
+        assert.equal(element.newContent, 'pending edit');
+        assert.equal(element.content, 'pending edit');
+        assert.equal(element.type, 'text/javascript');
+      });
     });
 
     test('storage key computation', () => {
-      element.changeNum = 1 as NumericChangeId;
-      element.patchNum = 1 as PatchSetNum;
-      element.path = 'test';
+      element.viewState = {
+        ...createEditViewState(),
+        changeNum: 1 as NumericChangeId,
+        patchNum: 1 as RevisionPatchSetNum,
+        path: 'test',
+      };
       assert.equal(element.storageKey, 'c1_ps1_test');
     });
   });

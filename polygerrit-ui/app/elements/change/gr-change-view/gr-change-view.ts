@@ -3224,6 +3224,7 @@ export class GrChangeView extends LitElement {
         controls.openDeleteDialog(path);
         break;
       case GrEditConstants.Actions.OPEN.id:
+        assertIsDefined(this.patchRange.patchNum, 'patchset number');
         GerritNav.navigateToRelativeUrl(
           createEditUrl({
             changeNum: this.change._number,

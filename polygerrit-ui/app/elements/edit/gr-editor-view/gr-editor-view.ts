@@ -31,11 +31,10 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css, nothing} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
-import {GerritView} from '../../../services/router/router-model';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {ShortcutController} from '../../lit/shortcut-controller';
-import {EditViewState} from '../../../models/views/edit';
+import {editViewModelToken, EditViewState} from '../../../models/views/edit';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const SAVING_MESSAGE = 'Saving changes...';
@@ -61,7 +60,7 @@ export class GrEditorView extends LitElement {
    */
 
   @property({type: Object})
-  params?: EditViewState;
+  viewState?: EditViewState;
 
   // private but used in test
   @state() change?: ParsedChangeInfo;
@@ -106,6 +105,8 @@ export class GrEditorView extends LitElement {
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
+  private readonly getEditViewModel = resolve(this, editViewModelToken);
+
   private readonly shortcuts = new ShortcutController(this);
 
   // Tests use this so needs to be non private
@@ -119,8 +120,14 @@ export class GrEditorView extends LitElement {
     subscribe(
       this,
       () => this.userModel.editPreferences$,
-      editPreferences => {
-        this.editPrefs = editPreferences;
+      editPreferences => (this.editPrefs = editPreferences)
+    );
+    subscribe(
+      this,
+      () => this.getEditViewModel().state$,
+      state => {
+        this.viewState = state;
+        this.viewStateChanged();
       }
     );
     subscribe(
@@ -254,7 +261,7 @@ export class GrEditorView extends LitElement {
   }
 
   private renderEditingOldPatchsetWarning() {
-    const patchset = this.params?.patchNum;
+    const patchset = this.viewState?.patchNum;
     if (patchset === this.latestPatchsetNumber) return nothing;
     return html`<span class="warning">&nbsp;(Old Patchset)</span>`;
   }
@@ -289,14 +296,9 @@ export class GrEditorView extends LitElement {
   }
 
   override willUpdate(changedProperties: PropertyValues) {
-    if (changedProperties.has('params')) {
-      this.paramsChanged();
-    }
-
     if (changedProperties.has('change')) {
       this.navigateToChangeIfEdit();
     }
-
     if (changedProperties.has('change') || changedProperties.has('type')) {
       this.navigateToChangeIfEditType();
     }
@@ -307,27 +309,23 @@ export class GrEditorView extends LitElement {
   }
 
   // private but used in test
-  paramsChanged() {
-    if (!this.params) return;
+  viewStateChanged() {
+    if (!this.viewState) return;
 
-    if (this.params.view !== GerritView.EDIT) {
-      return;
-    }
-
-    this.changeNum = this.params.changeNum;
-    this.path = this.params.path;
-    this.patchNum = this.params.patchNum || (EDIT as PatchSetNum);
+    this.changeNum = this.viewState.changeNum;
+    this.path = this.viewState.path;
+    this.patchNum = this.viewState.patchNum || (EDIT as PatchSetNum);
     this.lineNum =
-      typeof this.params.lineNum === 'string'
-        ? Number(this.params.lineNum)
-        : this.params.lineNum;
+      typeof this.viewState.lineNum === 'string'
+        ? Number(this.viewState.lineNum)
+        : this.viewState.lineNum;
 
     // NOTE: This may be called before attachment (e.g. while parentElement is
     // null). Fire title-change in an async so that, if attachment to the DOM
     // has been queued, the event can bubble up to the handler in gr-app.
     setTimeout(() => {
-      if (!this.params) return;
-      const title = `Editing ${computeTruncatedPath(this.params.path)}`;
+      if (!this.viewState) return;
+      const title = `Editing ${computeTruncatedPath(this.viewState.path)}`;
       fireTitleChange(this, title);
     });
 

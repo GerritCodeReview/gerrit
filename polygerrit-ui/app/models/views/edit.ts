@@ -17,16 +17,12 @@ import {ViewState} from './base';
 
 export interface EditViewState extends ViewState {
   view: GerritView.EDIT;
-  changeNum?: NumericChangeId;
-  project?: RepoName;
-  path?: string;
-  patchNum?: RevisionPatchSetNum;
+  changeNum: NumericChangeId;
+  project: RepoName;
+  path: string;
+  patchNum: RevisionPatchSetNum;
   lineNum?: number;
 }
-
-const DEFAULT_STATE: EditViewState = {
-  view: GerritView.EDIT,
-};
 
 export function createEditUrl(state: Omit<EditViewState, 'view'>): string {
   if (state.patchNum === undefined) {
@@ -53,9 +49,9 @@ export function createEditUrl(state: Omit<EditViewState, 'view'>): string {
 
 export const editViewModelToken = define<EditViewModel>('edit-view-model');
 
-export class EditViewModel extends Model<EditViewState> {
+export class EditViewModel extends Model<EditViewState | undefined> {
   constructor() {
-    super(DEFAULT_STATE);
+    super(undefined);
   }
 
   finalize() {}

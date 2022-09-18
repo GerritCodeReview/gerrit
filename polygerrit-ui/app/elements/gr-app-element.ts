@@ -479,7 +479,7 @@ export class GrAppElement extends LitElement {
 
   private renderEditorView() {
     if (this.view !== GerritView.EDIT) return nothing;
-    return html`<gr-editor-view .params=${this.params}></gr-editor-view>`;
+    return html`<gr-editor-view></gr-editor-view>`;
   }
 
   private renderDiffView() {

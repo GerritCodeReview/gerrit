@@ -112,8 +112,8 @@ suite('gr-editor-view tests', () => {
     );
   });
 
-  suite('paramsChanged', () => {
-    test('good params proceed', async () => {
+  suite('viewStateChanged', () => {
+    test('good view state proceed', async () => {
       changeDetailStub.returns(Promise.resolve({}));
       const fileStub = sinon.stub(element, 'getFileData').callsFake(() => {
         element.content = 'text';
@@ -122,8 +122,8 @@ suite('gr-editor-view tests', () => {
         return Promise.resolve();
       });
 
-      element.params = {...createEditViewState()};
-      const promises = element.paramsChanged();
+      element.viewState = {...createEditViewState()};
+      const promises = element.viewStateChanged();
 
       await element.updateComplete;
 

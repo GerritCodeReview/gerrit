@@ -101,7 +101,7 @@ export class GrAppElement extends LitElement {
 
   @query('#keyboardShortcuts') keyboardShortcuts?: GrOverlay;
 
-  @query('gr-settings-view') settingdView?: GrSettingsView;
+  @query('gr-settings-view') settingsView?: GrSettingsView;
 
   @property({type: Object})
   params?: AppElementParams;
@@ -110,25 +110,7 @@ export class GrAppElement extends LitElement {
 
   @state() private version?: string;
 
-  @state() private showChangeListView?: boolean;
-
-  @state() private showDashboardView?: boolean;
-
-  @state() private showChangeView?: boolean;
-
-  @state() private showDiffView?: boolean;
-
-  @state() private showSettingsView?: boolean;
-
-  @state() private showAdminView?: boolean;
-
-  @state() private showCLAView?: boolean;
-
-  @state() private showEditorView?: boolean;
-
-  @state() private showPluginScreen?: boolean;
-
-  @state() private showDocumentationSearch?: boolean;
+  @state() private view?: GerritView;
 
   @state() private lastError?: ErrorInfo;
 
@@ -181,6 +163,8 @@ export class GrAppElement extends LitElement {
 
   private readonly userModel = getAppContext().userModel;
 
+  private readonly routerModel = getAppContext().routerModel;
+
   constructor() {
     super();
 
@@ -228,6 +212,14 @@ export class GrAppElement extends LitElement {
       theme => {
         this.theme = theme;
         this.applyTheme();
+      }
+    );
+    subscribe(
+      this,
+      () => this.routerModel.routerView$,
+      view => {
+        this.view = view;
+        if (view) this.errorView?.classList.remove('show');
       }
     );
 
@@ -441,7 +433,7 @@ export class GrAppElement extends LitElement {
 
   private renderChangeListView() {
     return cache(
-      this.showChangeListView
+      this.view === GerritView.SEARCH
         ? html`
             <gr-change-list-view
               .params=${this.params}
@@ -454,7 +446,7 @@ export class GrAppElement extends LitElement {
 
   private renderDashboardView() {
     return cache(
-      this.showDashboardView
+      this.view === GerritView.DASHBOARD
         ? html`
             <gr-dashboard-view
               .account=${this.account}
@@ -470,7 +462,9 @@ export class GrAppElement extends LitElement {
       this.updateComplete.then(() => (this.invalidateChangeViewCache = false));
       return nothing;
     }
-    return cache(this.showChangeView ? this.changeViewTemplate() : nothing);
+    return cache(
+      this.view === GerritView.CHANGE ? this.changeViewTemplate() : nothing
+    );
   }
 
   // Template as not to create duplicates, for renderChangeView() only.
@@ -484,7 +478,7 @@ export class GrAppElement extends LitElement {
   }
 
   private renderEditorView() {
-    if (!this.showEditorView) return nothing;
+    if (this.view !== GerritView.EDIT) return nothing;
     return html`<gr-editor-view .params=${this.params}></gr-editor-view>`;
   }
 
@@ -493,7 +487,9 @@ export class GrAppElement extends LitElement {
       this.updateComplete.then(() => (this.invalidateDiffViewCache = false));
       return nothing;
     }
-    return cache(this.showDiffView ? this.diffViewTemplate() : nothing);
+    return cache(
+      this.view === GerritView.DIFF ? this.diffViewTemplate() : nothing
+    );
   }
 
   private diffViewTemplate() {
@@ -501,7 +497,7 @@ export class GrAppElement extends LitElement {
   }
 
   private renderSettingsView() {
-    if (!this.showSettingsView) return nothing;
+    if (this.view !== GerritView.SETTINGS) return nothing;
     return html`
       <gr-settings-view
         .params=${this.params}
@@ -512,7 +508,12 @@ export class GrAppElement extends LitElement {
   }
 
   private renderAdminView() {
-    if (!this.showAdminView) return nothing;
+    if (
+      this.view !== GerritView.ADMIN &&
+      this.view !== GerritView.GROUP &&
+      this.view !== GerritView.REPO
+    )
+      return nothing;
     return html`<gr-admin-view
       .path=${this.path}
       .params=${this.params}
@@ -520,24 +521,25 @@ export class GrAppElement extends LitElement {
   }
 
   private renderPluginScreen() {
-    if (!this.showPluginScreen) return nothing;
+    if (this.view !== GerritView.PLUGIN_SCREEN) return nothing;
+    const pluginViewState = this.params as PluginViewState;
     return html`
       <gr-endpoint-decorator .name=${this.computePluginScreenName()}>
         <gr-endpoint-param
           name="token"
-          .value=${(this.params as PluginViewState).screen}
+          .value=${pluginViewState.screen}
         ></gr-endpoint-param>
       </gr-endpoint-decorator>
     `;
   }
 
   private renderCLAView() {
-    if (!this.showCLAView) return nothing;
+    if (this.view !== GerritView.AGREEMENTS) return nothing;
     return html`<gr-cla-view></gr-cla-view>`;
   }
 
   private renderDocumentationSearch() {
-    if (!this.showDocumentationSearch) return nothing;
+    if (this.view !== GerritView.DOCUMENTATION_SEARCH) return nothing;
     return html`
       <gr-documentation-search .params=${this.params}></gr-documentation-search>
     `;
@@ -580,7 +582,6 @@ export class GrAppElement extends LitElement {
 
     if (changedProperties.has('params')) {
       this.viewChanged();
-
       this.paramsChanged();
     }
   }
@@ -607,29 +608,6 @@ export class GrAppElement extends LitElement {
   }
 
   private async viewChanged() {
-    const view = this.params?.view;
-    this.errorView?.classList.remove('show');
-    this.showChangeListView = view === GerritView.SEARCH;
-    this.showDashboardView = view === GerritView.DASHBOARD;
-    this.showChangeView = view === GerritView.CHANGE;
-    this.showDiffView = view === GerritView.DIFF;
-    this.showSettingsView = view === GerritView.SETTINGS;
-    // showAdminView must be in sync with the gr-admin-view AdminViewParams type
-    this.showAdminView =
-      view === GerritView.ADMIN ||
-      view === GerritView.GROUP ||
-      view === GerritView.REPO;
-    this.showCLAView = view === GerritView.AGREEMENTS;
-    this.showEditorView = view === GerritView.EDIT;
-    const isPluginScreen = view === GerritView.PLUGIN_SCREEN;
-    this.showPluginScreen = false;
-    // Navigation within plugin screens does not restamp gr-endpoint-decorator
-    // because showPluginScreen value does not change. To force restamp,
-    // change showPluginScreen value between true and false.
-    if (isPluginScreen) {
-      setTimeout(() => (this.showPluginScreen = true), 1);
-    }
-    this.showDocumentationSearch = view === GerritView.DOCUMENTATION_SEARCH;
     if (
       this.params &&
       isAppElementJustRegisteredParams(this.params) &&
@@ -666,19 +644,7 @@ export class GrAppElement extends LitElement {
   }
 
   private handlePageError(e: CustomEvent<PageErrorEventDetail>) {
-    const props = [
-      'showChangeListView',
-      'showDashboardView',
-      'showChangeView',
-      'showDiffView',
-      'showSettingsView',
-      'showAdminView',
-    ];
-    for (const showProp of props) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (this as any)[showProp as any] = false;
-    }
-
+    this.view = undefined;
     this.errorView?.classList.add('show');
     const response = e.detail.response;
     const err: ErrorInfo = {
@@ -792,10 +758,7 @@ export class GrAppElement extends LitElement {
 
   private handleAccountDetailUpdate() {
     this.mainHeader?.reload();
-    if (this.params?.view === GerritView.SETTINGS) {
-      assertIsDefined(this.settingdView, 'settingdView');
-      this.settingdView.reloadAccountDetail();
-    }
+    this.settingsView?.reloadAccountDetail();
   }
 
   private handleRegistrationDialogClose() {
@@ -828,9 +791,11 @@ export class GrAppElement extends LitElement {
   }
 
   private computePluginScreenName() {
-    if (this.params?.view !== GerritView.PLUGIN_SCREEN) return '';
-    if (!this.params.plugin || !this.params.screen) return '';
-    return `${this.params.plugin}-screen-${this.params.screen}`;
+    if (this.view !== GerritView.PLUGIN_SCREEN) return '';
+    if (this.params === undefined) return '';
+    const pluginViewState = this.params as PluginViewState;
+    if (!pluginViewState.plugin || !pluginViewState.screen) return '';
+    return `${pluginViewState.plugin}-screen-${pluginViewState.screen}`;
   }
 
   private logWelcome() {

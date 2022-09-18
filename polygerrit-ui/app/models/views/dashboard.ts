@@ -29,10 +29,6 @@ export interface DashboardViewState extends ViewState {
   title?: string;
 }
 
-const DEFAULT_STATE: DashboardViewState = {
-  view: GerritView.DASHBOARD,
-};
-
 const REPO_TOKEN_PATTERN = /\${(project|repo)}/g;
 
 function sectionsToEncodedParams(
@@ -73,9 +69,9 @@ export const dashboardViewModelToken = define<DashboardViewModel>(
   'dashboard-view-model'
 );
 
-export class DashboardViewModel extends Model<DashboardViewState> {
+export class DashboardViewModel extends Model<DashboardViewState | undefined> {
   constructor() {
-    super(DEFAULT_STATE);
+    super(undefined);
   }
 
   finalize() {}

@@ -612,7 +612,7 @@ export class GrTextarea extends LitElement {
       .filter(account => account.email)
       .map(account => {
         return {
-          text: account.email,
+          text: `${account.name} <${account.email}>`,
           dataValue: account.email,
         };
       });

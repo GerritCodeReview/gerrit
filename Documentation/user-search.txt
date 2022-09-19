@@ -10,12 +10,13 @@ query, execute it, and present the results.
 [options="header"]
 |=================================================
 |Description          | Default Query
-|All > Open           | status:open '(or is:open)'
-|All > Merged         | status:merged
-|All > Abandoned      | status:abandoned
+|Changes > Open       | status:open '(or is:open)'
+|Changes > Merged     | status:merged
+|Changes > Abandoned  | status:abandoned
 |My > Watched Changes | is:watched is:open
 |My > Starred Changes | is:starred
 |My > Draft Comments  | has:draft
+|My > Edits           | has:edit
 |Open changes in Foo  | status:open project:Foo
 |=================================================
 

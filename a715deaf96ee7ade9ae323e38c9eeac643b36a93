@@ -16,6 +16,24 @@
       "message": "Should we have one model instead of 3?",
       "revId": "a715deaf96ee7ade9ae323e38c9eeac643b36a93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7dfcb8a0_88db5174",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-19T13:29:14Z",
+      "side": 1,
+      "message": "Resolving to get this fix in.",
+      "parentUuid": "64f3459b_bc4a5598",
+      "revId": "a715deaf96ee7ade9ae323e38c9eeac643b36a93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

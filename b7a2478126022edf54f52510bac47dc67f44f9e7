@@ -34,6 +34,24 @@
       "parentUuid": "ab3ac68b_e2fcfe81",
       "revId": "b7a2478126022edf54f52510bac47dc67f44f9e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "881b7b84_0d2d7e57",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-19T08:56:43Z",
+      "side": 1,
+      "message": "Ok, I agree that it is better to resolved the deps via the target, not via document.\n\nBut can we somehow move the code into hovercard-mixin.ts? Wait, that already has a listener for `reuest-dependency`. Why is that not working?",
+      "parentUuid": "8e093311_53a5edc2",
+      "revId": "b7a2478126022edf54f52510bac47dc67f44f9e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

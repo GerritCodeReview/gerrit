@@ -34,7 +34,7 @@ export const WIP_TOOLTIP =
 
 export const MERGE_CONFLICT_TOOLTIP =
   'This change has merge conflicts. ' +
-  'Download the patch and run "git rebase". ' +
+  'Rebase on the upstream branch (e.g. "git pull --rebase"). ' +
   'Upload a new patchset after resolving all merge conflicts.';
 
 export const GIT_CONFLICT_TOOLTIP =

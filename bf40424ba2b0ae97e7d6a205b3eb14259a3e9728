@@ -33,6 +33,24 @@
       "message": "we\u0027re still on 1.64. \n\nIs this particularly important?",
       "revId": "bf40424ba2b0ae97e7d6a205b3eb14259a3e9728",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e57516b5_32d3e1f4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-09-19T19:33:37Z",
+      "side": 1,
+      "message": "- nothing particular I am aware of\n- jgit is now built against 1.71\n- 1.64 was released in Oct 2019, that\u0027s quite old considering it\u0027s a security library and there are quite a number of fixes in the versions 1.65-1.71, see https://www.bouncycastle.org/releasenotes.html",
+      "parentUuid": "c389b30a_938f0a35",
+      "revId": "bf40424ba2b0ae97e7d6a205b3eb14259a3e9728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

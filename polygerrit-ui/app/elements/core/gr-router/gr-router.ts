@@ -491,16 +491,13 @@ export class GrRouter implements Finalizable {
       page.base(base);
     }
 
-    GerritNav.setup(
-      (url, redirect?) => {
-        if (redirect) {
-          page.redirect(url);
-        } else {
-          page.show(url);
-        }
-      },
-      x => x
-    );
+    GerritNav.setup((url, redirect?) => {
+      if (redirect) {
+        page.redirect(url);
+      } else {
+        page.show(url);
+      }
+    });
 
     page.exit('*', (_, next) => {
       if (!this._isRedirecting) {

@@ -5,7 +5,6 @@
  */
 import '../../../styles/shared-styles';
 import {GrLinkTextParser, LinkTextParserConfig} from './link-text-parser';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {LitElement, css, html, PropertyValues} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -98,11 +97,10 @@ export class GrLinkedText extends LitElement {
       return;
     }
 
-    const config = GerritNav.mapCommentlinks(this.config);
     assertIsDefined(this.outputElement);
     this.outputElement.textContent = '';
     const parser = new GrLinkTextParser(
-      config,
+      this.config,
       (text: string | null, href: string | null, fragment?: DocumentFragment) =>
         this.handleParseResult(text, href, fragment),
       this.removeZeroWidthSpace

@@ -5,10 +5,8 @@
  */
 import '../../../test/common-test-setup';
 import './gr-linked-text';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {fixture, html, assert} from '@open-wc/testing';
 import {GrLinkedText} from './gr-linked-text';
-import {CommentLinks} from '../../../types/common';
 import {queryAndAssert} from '../../../test/test-utils';
 
 suite('gr-linked-text tests', () => {
@@ -24,7 +22,6 @@ suite('gr-linked-text tests', () => {
       </gr-linked-text>
     `);
 
-    sinon.stub(GerritNav, 'mapCommentlinks').value((x: CommentLinks) => x);
     element.config = {
       ph: {
         match: '([Bb]ug|[Ii]ssue)\\s*#?(\\d+)',

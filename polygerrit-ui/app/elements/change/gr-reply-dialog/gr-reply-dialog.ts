@@ -1813,7 +1813,7 @@ export class GrReplyDialog extends LitElement {
     const newAttention = new Set(this.currentAttentionSet);
 
     for (const user of this.mentionedUsersInUnresolvedDrafts) {
-      newAttention.add(user.email!);
+      newAttention.add(getUserId(user)!);
     }
 
     if (this.change.status === ChangeStatus.NEW) {

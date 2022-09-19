@@ -51,6 +51,24 @@
       "message": "Nit: If you call this `groupId` your next line becomes simpler.",
       "revId": "9be64cd9a9f1c5c627ea686e4e8ec9e2172e9d93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87f5c758_65ff3bbd",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-group-list/gr-admin-group-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-19T07:33:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20a7cc5c_7d8e5d50",
+      "revId": "9be64cd9a9f1c5c627ea686e4e8ec9e2172e9d93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

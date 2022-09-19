@@ -73,6 +73,4 @@ export class DashboardViewModel extends Model<DashboardViewState | undefined> {
   constructor() {
     super(undefined);
   }
-
-  finalize() {}
 }

@@ -28,8 +28,6 @@ export class SettingsViewModel extends Model<SettingsViewState | undefined> {
     super(undefined);
   }
 
-  finalize() {}
-
   public emailToken$ = select(this.state$, state => state?.emailToken);
 
   clearToken() {

@@ -25,6 +25,4 @@ export class DocumentationViewModel extends Model<DocumentationViewState> {
   constructor() {
     super(DEFAULT_STATE);
   }
-
-  finalize() {}
 }

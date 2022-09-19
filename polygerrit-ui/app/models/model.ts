@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {BehaviorSubject, Observable} from 'rxjs';
+import {Finalizable} from '../services/registry';
 
 /**
  * A Model stores a value <T> and controls changes to that value via `subject$`
@@ -18,7 +19,7 @@ import {BehaviorSubject, Observable} from 'rxjs';
  *
  *  Any new subscriber will immediately receive the current value.
  */
-export abstract class Model<T> {
+export abstract class Model<T> implements Finalizable {
   protected subject$: BehaviorSubject<T>;
 
   public state$: Observable<T>;
@@ -32,4 +33,6 @@ export abstract class Model<T> {
     const currentState = this.subject$.getValue();
     this.subject$.next({...currentState, ...newState});
   }
+
+  finalize() {}
 }

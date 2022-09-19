@@ -35,13 +35,16 @@ import com.google.gerrit.extensions.client.MenuItem;
 import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.inject.Inject;
+
 import java.util.ArrayList;
+
 import org.junit.Before;
 import org.junit.Test;
 
 @NoHttpd
 public class GeneralPreferencesIT extends AbstractDaemonTest {
-  @Inject private ExtensionRegistry extensionRegistry;
+  @Inject
+  private ExtensionRegistry extensionRegistry;
 
   private TestAccount user42;
 
@@ -62,6 +65,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
             new MenuItem("Edits", "#/q/has:edit", null),
             new MenuItem("Watched Changes", "#/q/is:watched+is:open", null),
             new MenuItem("Starred Changes", "#/q/is:starred", null),
+            new MenuItem("All Visible Changes", "#/q/is:visible", null),
             new MenuItem("Groups", "#/settings/#Groups", null));
     assertThat(o.changeTable).isEmpty();
 
@@ -203,7 +207,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
   public void setDownloadScheme() throws Exception {
     String schemeName = "foo";
     try (Registration registration =
-        extensionRegistry.newRegistration().add(new TestDownloadScheme(), schemeName)) {
+             extensionRegistry.newRegistration().add(new TestDownloadScheme(), schemeName)) {
       GeneralPreferencesInfo i = GeneralPreferencesInfo.defaults();
       i.downloadScheme = schemeName;
 

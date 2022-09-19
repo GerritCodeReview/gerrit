@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddeb686d_fb9f606f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-19T13:57:56Z",
+      "side": 0,
+      "message": "do we still need this property then?",
+      "range": {
+        "startLine": 726,
+        "startChar": 9,
+        "endLine": 726,
+        "endChar": 25
+      },
+      "revId": "5c32869e0e6d4e4f6e6ff6f264c547468170b657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

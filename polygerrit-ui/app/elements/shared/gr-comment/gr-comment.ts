@@ -501,6 +501,9 @@ export class GrComment extends LitElement {
         .draft gr-account-label {
           width: unset;
         }
+        .draft gr-formatted-text.message {
+          margin-bottom: var(--spacing-m);
+        }
         .portedMessage {
           margin: 0 var(--spacing-m);
         }
@@ -723,7 +726,6 @@ export class GrComment extends LitElement {
         class="message"
         .content=${this.comment?.message}
         .config=${this.commentLinks}
-        ?noTrailingMargin=${!isDraftOrUnsaved(this.comment)}
       ></gr-formatted-text>
     `;
   }

@@ -37,6 +37,4 @@ export class GroupViewModel extends Model<GroupViewState | undefined> {
   constructor() {
     super(undefined);
   }
-
-  finalize() {}
 }

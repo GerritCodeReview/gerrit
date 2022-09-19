@@ -27,6 +27,4 @@ export class AdminViewModel extends Model<AdminViewState | undefined> {
   constructor() {
     super(undefined);
   }
-
-  finalize() {}
 }

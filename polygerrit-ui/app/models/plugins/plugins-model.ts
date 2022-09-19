@@ -60,7 +60,7 @@ export class PluginsModel extends Model<PluginsState> implements Finalizable {
     });
   }
 
-  finalize() {
+  override finalize() {
     this.subject$.complete();
   }
 

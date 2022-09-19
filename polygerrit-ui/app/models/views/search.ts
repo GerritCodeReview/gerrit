@@ -94,6 +94,4 @@ export class SearchViewModel extends Model<SearchViewState> {
   constructor() {
     super(DEFAULT_STATE);
   }
-
-  finalize() {}
 }

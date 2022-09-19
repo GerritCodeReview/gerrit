@@ -55,6 +55,4 @@ export class RepoViewModel extends Model<RepoViewState> {
   constructor() {
     super(DEFAULT_STATE);
   }
-
-  finalize() {}
 }

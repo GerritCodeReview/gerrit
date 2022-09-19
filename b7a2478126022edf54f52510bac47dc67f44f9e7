@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab3ac68b_e2fcfe81",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-19T08:45:41Z",
+      "side": 1,
+      "message": "It would be nice to have a universal solution for all hovercards. Can we either re-route events in the `gr-hovercard-container` or let gr-app listen on `document`?",
+      "revId": "b7a2478126022edf54f52510bac47dc67f44f9e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

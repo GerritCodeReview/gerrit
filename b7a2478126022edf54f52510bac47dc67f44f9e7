@@ -16,6 +16,24 @@
       "message": "It would be nice to have a universal solution for all hovercards. Can we either re-route events in the `gr-hovercard-container` or let gr-app listen on `document`?",
       "revId": "b7a2478126022edf54f52510bac47dc67f44f9e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e093311_53a5edc2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-19T08:48:50Z",
+      "side": 1,
+      "message": "I\u0027m not sure I agree with a generic solution.\n\nIf I introduce a hovercard way deep in the dom-tree, then I expect to be able to resolve all tokens from there that have bee nregistered up my entire chain, even if the hovercard gets added to document.\n\nAdding listeners on document only works for the top-level registered services.  I feel this approach is more correct and less of a hack",
+      "parentUuid": "ab3ac68b_e2fcfe81",
+      "revId": "b7a2478126022edf54f52510bac47dc67f44f9e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

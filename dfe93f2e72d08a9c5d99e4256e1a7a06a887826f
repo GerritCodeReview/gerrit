@@ -128,6 +128,30 @@
       },
       "revId": "dfe93f2e72d08a9c5d99e4256e1a7a06a887826f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ec30d01_86dcf222",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 882,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-09-19T07:28:15Z",
+      "side": 1,
+      "message": "Done.\n\n@david.akerman@axis.com Would you be able to test this change on the change that failed to reindex for you?",
+      "parentUuid": "bc8904ac_be1249c1",
+      "range": {
+        "startLine": 882,
+        "startChar": 6,
+        "endLine": 882,
+        "endChar": 99
+      },
+      "revId": "dfe93f2e72d08a9c5d99e4256e1a7a06a887826f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

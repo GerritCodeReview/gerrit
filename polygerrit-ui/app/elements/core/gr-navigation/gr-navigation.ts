@@ -7,7 +7,6 @@ import {
   BasePatchSetNum,
   ChangeConfigInfo,
   ChangeInfo,
-  CommentLinks,
   PatchSetNum,
   RepoName,
   RevisionPatchSetNum,
@@ -29,11 +28,6 @@ const uninitialized = () => {
 const uninitializedNavigate: NavigateCallback = () => {
   uninitialized();
   return '';
-};
-
-const uninitializedMapCommentLinks: MapCommentLinksCallback = () => {
-  uninitialized();
-  return {};
 };
 
 const USER_PLACEHOLDER_PATTERN = /\${user}/g;
@@ -116,8 +110,6 @@ const DEFAULT_SECTIONS: DashboardSection[] = [
 
 export type NavigateCallback = (target: string, redirect?: boolean) => void;
 
-export type MapCommentLinksCallback = (patterns: CommentLinks) => CommentLinks;
-
 interface NavigateToChangeParams {
   patchNum?: RevisionPatchSetNum;
   basePatchNum?: BasePatchSetNum;
@@ -132,8 +124,6 @@ interface NavigateToChangeParams {
 export const GerritNav = {
   _navigate: uninitializedNavigate,
 
-  mapCommentlinks: uninitializedMapCommentLinks,
-
   _checkPatchRange(patchNum?: PatchSetNum, basePatchNum?: BasePatchSetNum) {
     if (basePatchNum && !patchNum) {
       throw new Error('Cannot use base patch number without patch number.');
@@ -147,18 +137,13 @@ export const GerritNav = {
    *     `window.location.href = ...` or window.location.replace(...). The
    *     string is a new location and boolean defines is it redirect or not
    *     (true means redirect, i.e. equivalent of window.location.replace).
-   * @param mapCommentlinks provides an escape
-   *     hatch to modify the commentlinks object, e.g. if it contains any
-   *     relative URLs.
    */
-  setup(navigate: NavigateCallback, mapCommentlinks: MapCommentLinksCallback) {
+  setup(navigate: NavigateCallback) {
     this._navigate = navigate;
-    this.mapCommentlinks = mapCommentlinks;
   },
 
   destroy() {
     this._navigate = uninitializedNavigate;
-    this.mapCommentlinks = uninitializedMapCommentLinks;
   },
 
   /**

@@ -8,20 +8,10 @@ import {
   PageContext,
   PageNextCallback,
 } from '../../../utils/page-wrapper-utils';
-import {
-  GeneratedWebLink,
-  GenerateWebLinksChangeParameters,
-  GenerateWebLinksEditParameters,
-  GenerateWebLinksFileParameters,
-  GenerateWebLinksParameters,
-  GenerateWebLinksPatchsetParameters,
-  GenerateWebLinksResolveConflictsParameters,
-  GerritNav,
-  WeblinkType,
-} from '../gr-navigation/gr-navigation';
+import {GerritNav} from '../gr-navigation/gr-navigation';
 import {getAppContext} from '../../../services/app-context';
 import {convertToPatchSetNum} from '../../../utils/patch-set-util';
-import {assertIsDefined, assertNever} from '../../../utils/common-util';
+import {assertIsDefined} from '../../../utils/common-util';
 import {
   BasePatchSetNum,
   DashboardId,
@@ -29,7 +19,6 @@ import {
   NumericChangeId,
   RevisionPatchSetNum,
   RepoName,
-  ServerInfo,
   UrlEncodedCommentId,
   PARENT,
 } from '../../../types/common';
@@ -363,107 +352,6 @@ export class GrRouter implements Finalizable {
     page.redirect(url);
   }
 
-  generateWeblinks(
-    params: GenerateWebLinksParameters
-  ): GeneratedWebLink[] | GeneratedWebLink {
-    switch (params.type) {
-      case WeblinkType.EDIT:
-        return this.getEditWebLinks(params);
-      case WeblinkType.FILE:
-        return this.getFileWebLinks(params);
-      case WeblinkType.CHANGE:
-        return this.getChangeWeblinks(params);
-      case WeblinkType.PATCHSET:
-        return this.getPatchSetWeblink(params);
-      case WeblinkType.RESOLVE_CONFLICTS:
-        return this.getResolveConflictsWeblinks(params);
-      default:
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        assertNever(params, `Unsupported weblink ${(params as any).type}!`);
-    }
-  }
-
-  private getPatchSetWeblink(
-    params: GenerateWebLinksPatchsetParameters
-  ): GeneratedWebLink {
-    const {commit, options} = params;
-    const {weblinks, config} = options || {};
-    const name = commit && commit.slice(0, 7);
-    const weblink = this.getBrowseCommitWeblink(weblinks, config);
-    if (!weblink || !weblink.url) {
-      return {name};
-    } else {
-      return {name, url: weblink.url};
-    }
-  }
-
-  private getResolveConflictsWeblinks(
-    params: GenerateWebLinksResolveConflictsParameters
-  ): GeneratedWebLink[] {
-    return params.options?.weblinks ?? [];
-  }
-
-  firstCodeBrowserWeblink(weblinks: GeneratedWebLink[]) {
-    // This is an ordered allowed list of web link types that provide direct
-    // links to the commit in the url property.
-    const codeBrowserLinks = ['gitiles', 'browse', 'gitweb'];
-    for (let i = 0; i < codeBrowserLinks.length; i++) {
-      const weblink = weblinks.find(
-        weblink => weblink.name === codeBrowserLinks[i]
-      );
-      if (weblink) {
-        return weblink;
-      }
-    }
-    return null;
-  }
-
-  getBrowseCommitWeblink(weblinks?: GeneratedWebLink[], config?: ServerInfo) {
-    if (!weblinks) {
-      return null;
-    }
-    let weblink;
-    // Use primary weblink if configured and exists.
-    if (config?.gerrit?.primary_weblink_name) {
-      const primaryWeblinkName = config.gerrit.primary_weblink_name;
-      weblink = weblinks.find(weblink => weblink.name === primaryWeblinkName);
-    }
-    if (!weblink) {
-      weblink = this.firstCodeBrowserWeblink(weblinks);
-    }
-    if (!weblink) {
-      return null;
-    }
-    return weblink;
-  }
-
-  getChangeWeblinks(
-    params: GenerateWebLinksChangeParameters
-  ): GeneratedWebLink[] {
-    const weblinks = params.options?.weblinks;
-    const config = params.options?.config;
-    if (!weblinks || !weblinks.length) return [];
-    const commitWeblink = this.getBrowseCommitWeblink(weblinks, config);
-    return weblinks.filter(
-      weblink =>
-        !commitWeblink ||
-        !commitWeblink.name ||
-        weblink.name !== commitWeblink.name
-    );
-  }
-
-  private getEditWebLinks(
-    params: GenerateWebLinksEditParameters
-  ): GeneratedWebLink[] {
-    return params.options?.weblinks ?? [];
-  }
-
-  private getFileWebLinks(
-    params: GenerateWebLinksFileParameters
-  ): GeneratedWebLink[] {
-    return params.options?.weblinks ?? [];
-  }
-
   /**
    * Normalizes the patchset numbers of the params object.
    */
@@ -611,7 +499,6 @@ export class GrRouter implements Finalizable {
           page.show(url);
         }
       },
-      params => this.generateWeblinks(params),
       x => x
     );
 

@@ -5,7 +5,6 @@
  */
 import '../../../test/common-test-setup';
 import './gr-change-metadata';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {ChangeRole, GrChangeMetadata} from './gr-change-metadata';
 import {
@@ -246,19 +245,6 @@ suite('gr-change-metadata tests', () => {
     assert.isNull(element.shadowRoot?.querySelector('.strategy'));
   });
 
-  test('weblinks use GerritNav interface', async () => {
-    const weblinksStub = sinon
-      .stub(GerritNav, '_generateWeblinks')
-      .returns([{name: 'stubb', url: '#s'}]);
-    element.commitInfo = createCommitInfoWithRequiredCommit();
-    element.serverConfig = createServerInfo();
-    await element.updateComplete;
-    const webLinks = element.webLinks!;
-    assert.isTrue(weblinksStub.called);
-    assert.isNotNull(webLinks);
-    assert.equal(element.computeWebLinks().length, 1);
-  });
-
   test('weblinks hidden when no weblinks', async () => {
     element.commitInfo = createCommitInfoWithRequiredCommit();
     element.serverConfig = createServerInfo();
@@ -295,10 +281,6 @@ suite('gr-change-metadata tests', () => {
   });
 
   test('weblinks are visible when other weblinks', async () => {
-    sinon
-      .stub(GerritNav, '_generateWeblinks')
-      .callsFake(() => [{name: 'test-name'}]);
-
     element.commitInfo = {
       ...createCommitInfoWithRequiredCommit(),
       web_links: [{...createWebLinkInfo(), name: 'test', url: '#'}],
@@ -310,10 +292,6 @@ suite('gr-change-metadata tests', () => {
   });
 
   test('weblinks are visible when gitiles and other weblinks', async () => {
-    sinon
-      .stub(GerritNav, '_generateWeblinks')
-      .callsFake(() => [{name: 'test-name'}]);
-
     element.commitInfo = {
       ...createCommitInfoWithRequiredCommit(),
       web_links: [

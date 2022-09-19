@@ -21,10 +21,7 @@ import '../gr-diff-preferences-dialog/gr-diff-preferences-dialog';
 import '../gr-patch-range-select/gr-patch-range-select';
 import '../../change/gr-download-dialog/gr-download-dialog';
 import '../../shared/gr-overlay/gr-overlay';
-import {
-  GeneratedWebLink,
-  GerritNav,
-} from '../../core/gr-navigation/gr-navigation';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getAppContext} from '../../../services/app-context';
 import {
   computeAllPatchSets,
@@ -124,6 +121,7 @@ import {
 } from '../../../models/views/diff';
 import {createChangeUrl} from '../../../models/views/change';
 import {createEditUrl} from '../../../models/views/edit';
+import {GeneratedWebLink} from '../../../utils/weblink-util';
 
 const LOADING_BLAME = 'Loading blame...';
 const LOADED_BLAME = 'Blame loaded';

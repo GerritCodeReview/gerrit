@@ -16,6 +16,24 @@
       "message": "Why do we ened all this properties directly on gr-editor-view?\n\nWhy not simply refer to viewState properties?",
       "revId": "4160ba5eabecf7d3cbb51beb140ba951ddb55031",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "087f08fe_b67f3b1a",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-19T09:37:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "080a45dc_952fa8a3",
+      "revId": "4160ba5eabecf7d3cbb51beb140ba951ddb55031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

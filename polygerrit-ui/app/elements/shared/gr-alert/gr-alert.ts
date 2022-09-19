@@ -10,6 +10,7 @@ import {ErrorType} from '../../../types/types';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
+import {DependencyRequestEvent} from '../../../models/dependency';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -19,6 +20,7 @@ declare global {
 
 @customElement('gr-alert')
 export class GrAlert extends LitElement {
+
   static override get styles() {
     return [
       sharedStyles,
@@ -124,6 +126,9 @@ export class GrAlert extends LitElement {
   @property({type: Boolean})
   showDismiss = false;
 
+  @property({type: Object})
+  owner: HTMLElement | null = null;
+
   @property()
   _boundTransitionEndHandler?: (
     this: HTMLElement,
@@ -137,9 +142,11 @@ export class GrAlert extends LitElement {
     super.connectedCallback();
     this._boundTransitionEndHandler = () => this._handleTransitionEnd();
     this.addEventListener('transitionend', this._boundTransitionEndHandler);
+    this.addEventListener('request-dependency', this.resolveDep);
   }
 
   override disconnectedCallback() {
+    this.removeEventListener('request-dependency', this.resolveDep);
     if (this._boundTransitionEndHandler) {
       this.removeEventListener(
         'transitionend',
@@ -148,6 +155,16 @@ export class GrAlert extends LitElement {
     }
     super.disconnectedCallback();
   }
+
+  /**
+   * Hovercards aren't children of <gr-app>. Dependencies must be resolved via
+   * their targets, so re-route 'request-dependency' events.
+   */
+  readonly resolveDep = (e: DependencyRequestEvent<unknown>) => {
+    this.owner?.dispatchEvent(
+      new DependencyRequestEvent<unknown>(e.dependency, e.callback)
+    );
+  };
 
   show(text: string, actionText?: string, actionCallback?: () => void) {
     this.text = text;

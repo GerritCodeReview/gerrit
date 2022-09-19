@@ -45,6 +45,54 @@
       },
       "revId": "cb04fc1ce90ad87cc3140034ec0cc591dd28f105",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22d4061c_002c4fe1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-19T15:53:17Z",
+      "side": 1,
+      "message": "I saw the formatting already here so I used the same one.\n\nFixed both instances.",
+      "parentUuid": "5778668e_eba6a749",
+      "range": {
+        "startLine": 615,
+        "startChar": 27,
+        "endLine": 615,
+        "endChar": 31
+      },
+      "revId": "cb04fc1ce90ad87cc3140034ec0cc591dd28f105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "adce4865_e06fdad7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-19T15:53:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "864fb0df_fbb662dc",
+      "range": {
+        "startLine": 615,
+        "startChar": 10,
+        "endLine": 615,
+        "endChar": 14
+      },
+      "revId": "cb04fc1ce90ad87cc3140034ec0cc591dd28f105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

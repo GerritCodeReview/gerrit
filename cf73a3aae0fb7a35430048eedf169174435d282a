@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad860c47_609fc538",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-19T07:20:04Z",
+      "side": 1,
+      "message": "I think this change is worth to be mentioned in the release notes since supporting prefix, suffix and text for commentLinks is a new feature. Can you please add a sentence here?",
+      "revId": "cf73a3aae0fb7a35430048eedf169174435d282a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a462c80_5a098b3f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1754,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-19T07:20:04Z",
+      "side": 1,
+      "message": "Should this be updated so that it matches prefix and suffix?",
+      "range": {
+        "startLine": 1754,
+        "startChar": 30,
+        "endLine": 1754,
+        "endChar": 43
+      },
+      "revId": "cf73a3aae0fb7a35430048eedf169174435d282a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23fe59b1_3f9a32f3",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3803,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-19T07:20:04Z",
+      "side": 1,
+      "message": "Should these fields be marked as optional? From the code it seems they are not always present (e.g. for pre-existing comment links).",
+      "range": {
+        "startLine": 3801,
+        "startChar": 0,
+        "endLine": 3803,
+        "endChar": 39
+      },
+      "revId": "cf73a3aae0fb7a35430048eedf169174435d282a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b396d79_42b162ce",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3825,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-19T07:20:04Z",
+      "side": 1,
+      "message": "Should these be optional? IIUC setting these fields is not mandatory for new commentlinks, is it?",
+      "range": {
+        "startLine": 3823,
+        "startChar": 0,
+        "endLine": 3825,
+        "endChar": 39
+      },
+      "revId": "cf73a3aae0fb7a35430048eedf169174435d282a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7074f6e_c64f25cd",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-19T07:20:04Z",
+      "side": 1,
+      "message": "Does this work if value.prefix, value.suffix or value.text is null? Do we have this case covered by a test?",
+      "range": {
+        "startLine": 306,
+        "startChar": 8,
+        "endLine": 308,
+        "endChar": 63
+      },
+      "revId": "cf73a3aae0fb7a35430048eedf169174435d282a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

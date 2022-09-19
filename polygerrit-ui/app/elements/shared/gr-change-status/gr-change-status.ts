@@ -6,13 +6,13 @@
 import '../gr-icon/gr-icon';
 import '../gr-tooltip-content/gr-tooltip-content';
 import '../../../styles/shared-styles';
-import {GeneratedWebLink} from '../../core/gr-navigation/gr-navigation';
 import {ChangeInfo} from '../../../types/common';
 import {ParsedChangeInfo} from '../../../types/types';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {createSearchUrl} from '../../../models/views/search';
+import {GeneratedWebLink} from '../../../utils/weblink-util';
 
 export enum ChangeStates {
   ABANDONED = 'Abandoned',

@@ -70,6 +70,23 @@
       "parentUuid": "881b7b84_0d2d7e57",
       "revId": "b7a2478126022edf54f52510bac47dc67f44f9e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11da5976_741d4739",
+        "filename": "polygerrit-ui/app/elements/shared/gr-alert/gr-alert.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-19T16:33:11Z",
+      "side": 1,
+      "message": "Optional nit: Could be a util method in `dependency.ts`.",
+      "revId": "b7a2478126022edf54f52510bac47dc67f44f9e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

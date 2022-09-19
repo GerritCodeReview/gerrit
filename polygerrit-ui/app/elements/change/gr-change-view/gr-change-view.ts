@@ -1258,7 +1258,7 @@ export class GrChangeView extends LitElement {
   }
 
   private renderHeaderTitle() {
-    const resolveWeblinks = this.computeResolveWeblinks();
+    const resolveWeblinks = this.commitInfo?.resolve_conflicts_web_links ?? [];
     return html` <div class="headerTitle">
       <div class="changeStatuses">
         ${this.changeStatuses.map(
@@ -3066,20 +3066,6 @@ export class GrChangeView extends LitElement {
           this.mergeable = mergableInfo.mergeable;
         }
       });
-  }
-
-  private computeResolveWeblinks() {
-    if (!this.change || !this.commitInfo || !this.serverConfig) {
-      return [];
-    }
-    return GerritNav.getResolveConflictsWeblinks(
-      this.change.project,
-      this.commitInfo.commit,
-      {
-        weblinks: this.commitInfo.resolve_conflicts_web_links,
-        config: this.serverConfig,
-      }
-    );
   }
 
   /**

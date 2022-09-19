@@ -13,14 +13,13 @@ import {
   AutocompleteQuery,
   GrAutocomplete,
 } from '../gr-autocomplete/gr-autocomplete';
-import {Key} from '../../../utils/dom-util';
+import {addShortcut, Key} from '../../../utils/dom-util';
 import {queryAndAssert} from '../../../utils/common-util';
 import {LitElement, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {IronInputElement} from '@polymer/iron-input';
-import {ShortcutController} from '../../lit/shortcut-controller';
 
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
@@ -83,8 +82,6 @@ export class GrEditableLabel extends LitElement {
 
   @query('#autocomplete')
   grAutocomplete?: GrAutocomplete;
-
-  private readonly shortcuts = new ShortcutController(this);
 
   static override get styles() {
     return [
@@ -226,14 +223,13 @@ export class GrEditableLabel extends LitElement {
     }
   }
 
-  constructor() {
-    super();
-    this.shortcuts.addLocal({key: Key.ENTER}, e => this.handleEnter(e));
-    this.shortcuts.addLocal({key: Key.ESC}, e => this.handleEsc(e));
-  }
+  /** Called in disconnectedCallback. */
+  private cleanups: (() => void)[] = [];
 
   override disconnectedCallback() {
     super.disconnectedCallback();
+    for (const cleanup of this.cleanups) cleanup();
+    this.cleanups = [];
   }
 
   override connectedCallback() {
@@ -244,6 +240,12 @@ export class GrEditableLabel extends LitElement {
     if (!this.getAttribute('id')) {
       this.setAttribute('id', 'global');
     }
+    this.cleanups.push(
+      addShortcut(this, {key: Key.ENTER}, e => this.handleEnter(e))
+    );
+    this.cleanups.push(
+      addShortcut(this, {key: Key.ESC}, e => this.handleEsc(e))
+    );
   }
 
   private usePlaceholder(value?: string, placeholder?: string) {

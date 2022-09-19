@@ -9,14 +9,15 @@ query, execute it, and present the results.
 
 [options="header"]
 |=================================================
-|Description          | Default Query
-|All > Open           | status:open '(or is:open)'
-|All > Merged         | status:merged
-|All > Abandoned      | status:abandoned
-|My > Watched Changes | is:watched is:open
-|My > Starred Changes | is:starred
-|My > Draft Comments  | has:draft
-|Open changes in Foo  | status:open project:Foo
+|Description            | Default Query
+|Changes > Open         | status:open '(or is:open)'
+|Changes > Merged       | status:merged
+|Changes > Abandoned    | status:abandoned
+|Your > Watched Changes | is:watched is:open
+|Your > Starred Changes | is:starred
+|Your > Draft Comments  | has:draft
+|Your > Edits           | has:edit
+|Open changes in Foo    | status:open project:Foo
 |=================================================
 
 

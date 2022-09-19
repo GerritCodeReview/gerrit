@@ -7,7 +7,7 @@ import {LitElement, html, css, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {ChangeListSection} from '../gr-change-list/gr-change-list';
 import '../gr-change-list-action-bar/gr-change-list-action-bar';
-import {CLOSED, YOUR_TURN} from '../../core/gr-navigation/gr-navigation';
+import {CLOSED, YOUR_TURN} from '../../../utils/dashboard-util';
 import {getAppContext} from '../../../services/app-context';
 import {ChangeInfo, ServerInfo, AccountInfo} from '../../../api/rest-api';
 import {changeListStyles} from '../../../styles/gr-change-list-styles';

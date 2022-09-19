@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d9aec8e_3fb79469",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-19T08:31:14Z",
+      "side": 1,
+      "message": "Yes, eventually the router should not pass anything directly to the app element. The appElement() method will also go away.",
+      "parentUuid": "0c75a543_83f8ac7f",
+      "revId": "2586e57f5c0388cf2d362bb3fa4f321dc9b3287c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a251b94c_b8e55db2",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-09-19T06:57:41Z",
       "side": 1,
       "message": "It\u0027s very error-prone to have to call setState and then specificModel.updateState.\n\nWhy not have setState dispatch on the view and do the updateState?",
+      "revId": "2586e57f5c0388cf2d362bb3fa4f321dc9b3287c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcb61a81_9373b81a",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 1218,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-19T08:31:14Z",
+      "side": 1,
+      "message": "+1\n\nThe plan is to only have *one* generic `handleRoute` method in GrRouter, which would interact with view models in a generic way. So this redundancy and source of errors will go away further down the refactoring road.",
+      "parentUuid": "a251b94c_b8e55db2",
       "revId": "2586e57f5c0388cf2d362bb3fa4f321dc9b3287c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a71705d_483b634b",
+        "filename": "polygerrit-ui/app/models/views/edit.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-19T08:31:14Z",
+      "side": 1,
+      "message": "Done in change 345888: Move finalize() method into abstract `Model` class | https://gerrit-review.googlesource.com/c/gerrit/+/345888.",
+      "parentUuid": "dd7f6c26_cf9e34cf",
+      "revId": "2586e57f5c0388cf2d362bb3fa4f321dc9b3287c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d626ca74_84336e75",
@@ -69,6 +123,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d2abd87_b7616d6f",
+        "filename": "polygerrit-ui/app/services/app-context-init.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-19T08:31:14Z",
+      "side": 1,
+      "message": "Not yet. Will do so later.",
+      "parentUuid": "d626ca74_84336e75",
+      "revId": "2586e57f5c0388cf2d362bb3fa4f321dc9b3287c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c10f0743_08a5b513",
@@ -82,6 +154,24 @@
       "writtenOn": "2022-09-19T06:57:41Z",
       "side": 1,
       "message": "Can this be removed?",
+      "revId": "2586e57f5c0388cf2d362bb3fa4f321dc9b3287c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea6bb03e_01ff0e33",
+        "filename": "polygerrit-ui/app/test/test-app-context-init.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-19T08:31:14Z",
+      "side": 1,
+      "message": "Not yet. Will do so later.",
+      "parentUuid": "c10f0743_08a5b513",
       "revId": "2586e57f5c0388cf2d362bb3fa4f321dc9b3287c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

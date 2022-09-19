@@ -199,7 +199,7 @@ export class FilesModel extends Model<FilesState> implements Finalizable {
       });
   }
 
-  finalize() {
+  override finalize() {
     for (const s of this.subscriptions) {
       s.unsubscribe();
     }

@@ -309,6 +309,4 @@ export class BulkActionsModel
         }) ?? []
     );
   }
-
-  finalize() {}
 }

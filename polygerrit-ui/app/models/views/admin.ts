@@ -21,17 +21,10 @@ export interface AdminViewState extends ViewState {
   offset?: number | string;
 }
 
-const DEFAULT_STATE: AdminViewState = {
-  view: GerritView.ADMIN,
-  adminView: AdminChildView.REPOS,
-};
-
 export const adminViewModelToken = define<AdminViewModel>('admin-view-model');
 
-export class AdminViewModel extends Model<AdminViewState> {
+export class AdminViewModel extends Model<AdminViewState | undefined> {
   constructor() {
-    super(DEFAULT_STATE);
+    super(undefined);
   }
-
-  finalize() {}
 }

@@ -64,8 +64,6 @@ export class RouterModel extends Model<RouterState> implements Finalizable {
     );
   }
 
-  finalize() {}
-
   // Private but used in tests
   setState(state: RouterState) {
     this.subject$.next(state);

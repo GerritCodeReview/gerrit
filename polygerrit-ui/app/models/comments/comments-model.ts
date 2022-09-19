@@ -410,7 +410,7 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
     document.addEventListener('reload', this.reloadListener);
   }
 
-  finalize() {
+  override finalize() {
     document.removeEventListener('reload', this.reloadListener);
     for (const s of this.subscriptions) {
       s.unsubscribe();

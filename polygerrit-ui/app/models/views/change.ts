@@ -88,6 +88,4 @@ export class ChangeViewModel extends Model<ChangeViewState> {
   constructor() {
     super(DEFAULT_STATE);
   }
-
-  finalize() {}
 }

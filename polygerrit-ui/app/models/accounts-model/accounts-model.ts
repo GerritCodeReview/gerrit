@@ -25,8 +25,6 @@ export class AccountsModel extends Model<AccountsState> implements Finalizable {
     });
   }
 
-  finalize() {}
-
   private updateStateAccount(id: UserId, account?: AccountDetailInfo) {
     const current = {...this.subject$.getValue()};
     if (!account) return;

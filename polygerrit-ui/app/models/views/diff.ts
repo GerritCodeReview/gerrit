@@ -65,6 +65,4 @@ export class DiffViewModel extends Model<DiffViewState> {
   constructor() {
     super(DEFAULT_STATE);
   }
-
-  finalize() {}
 }

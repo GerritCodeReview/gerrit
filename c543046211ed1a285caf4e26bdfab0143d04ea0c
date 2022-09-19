@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d512fab_3cc9764f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-19T09:15:43Z",
+      "side": 1,
+      "message": "return nothing;",
+      "revId": "c543046211ed1a285caf4e26bdfab0143d04ea0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

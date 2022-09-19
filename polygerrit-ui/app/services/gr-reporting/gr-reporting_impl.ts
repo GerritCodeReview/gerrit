@@ -16,8 +16,7 @@ import {
   LifeCycle,
   Timing,
 } from '../../constants/reporting';
-import {getCLS, getFID, getLCP} from 'web-vitals';
-import {Metric} from 'web-vitals/src/types';
+import {getCLS, getFID, getLCP, Metric} from 'web-vitals';
 
 // Latency reporting constants.
 

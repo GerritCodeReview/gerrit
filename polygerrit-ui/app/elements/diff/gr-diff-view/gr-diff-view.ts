@@ -82,7 +82,6 @@ import {
   getPatchRangeForCommentUrl,
   isInBaseOfPatchRange,
 } from '../../../utils/comment-util';
-import {AppElementParams} from '../../gr-app-types';
 import {
   EventType,
   OpenFixPreviewEvent,
@@ -118,7 +117,11 @@ import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {when} from 'lit/directives/when.js';
-import {createDiffUrl, DiffViewState} from '../../../models/views/diff';
+import {
+  createDiffUrl,
+  diffViewModelToken,
+  DiffViewState,
+} from '../../../models/views/diff';
 import {createChangeUrl} from '../../../models/views/change';
 import {createEditUrl} from '../../../models/views/edit';
 
@@ -172,23 +175,19 @@ export class GrDiffView extends LitElement {
   @query('#diffPreferencesDialog')
   diffPreferencesDialog?: GrOverlay;
 
-  /**
-   * URL params passed from the router.
-   * Use params getter/setter.
-   */
-  private _params?: AppElementParams;
+  private _viewState: DiffViewState | undefined;
 
-  @property({type: Object})
-  get params() {
-    return this._params;
+  @state()
+  get viewState(): DiffViewState | undefined {
+    return this._viewState;
   }
 
-  set params(params: AppElementParams | undefined) {
-    if (this._params === params) return;
-    const oldParams = this._params;
-    this._params = params;
-    this.paramsChanged();
-    this.requestUpdate('params', oldParams);
+  set viewState(viewState: DiffViewState | undefined) {
+    if (this._viewState === viewState) return;
+    const oldViewState = this._viewState;
+    this._viewState = viewState;
+    this.viewStateChanged();
+    this.requestUpdate('viewState', oldViewState);
   }
 
   // Private but used in tests.
@@ -310,6 +309,8 @@ export class GrDiffView extends LitElement {
 
   private readonly getConfigModel = resolve(this, configModelToken);
 
+  private readonly getViewModel = resolve(this, diffViewModelToken);
+
   private throttledToggleFileReviewed?: (e: KeyboardEvent) => void;
 
   @state()
@@ -323,6 +324,11 @@ export class GrDiffView extends LitElement {
     super();
     this.setupKeyboardShortcuts();
     this.setupSubscriptions();
+    subscribe(
+      this,
+      () => this.getViewModel().state$,
+      x => (this.viewState = x)
+    );
   }
 
   private setupKeyboardShortcuts() {
@@ -1525,10 +1531,10 @@ export class GrDiffView extends LitElement {
   initPatchRange() {
     let leftSide = false;
     if (!this.change) return;
-    if (this.params?.view !== GerritView.DIFF) return;
-    if (this.params?.commentId) {
+    if (this.viewState?.view !== GerritView.DIFF) return;
+    if (this.viewState?.commentId) {
       const comment = this.changeComments?.findCommentById(
-        this.params.commentId
+        this.viewState.commentId
       );
       if (!comment) {
         fireAlert(this, 'comment not found');
@@ -1544,24 +1550,24 @@ export class GrDiffView extends LitElement {
 
       this.focusLineNum = comment.line;
     } else {
-      if (this.params.path) {
-        this.getChangeModel().updatePath(this.params.path);
+      if (this.viewState.path) {
+        this.getChangeModel().updatePath(this.viewState.path);
       }
-      if (this.params.patchNum) {
+      if (this.viewState.patchNum) {
         this.patchRange = {
-          patchNum: this.params.patchNum,
-          basePatchNum: this.params.basePatchNum || PARENT,
+          patchNum: this.viewState.patchNum,
+          basePatchNum: this.viewState.basePatchNum || PARENT,
         };
       }
-      if (this.params.lineNum) {
-        this.focusLineNum = this.params.lineNum;
-        leftSide = !!this.params.leftSide;
+      if (this.viewState.lineNum) {
+        this.focusLineNum = this.viewState.lineNum;
+        leftSide = !!this.viewState.leftSide;
       }
     }
     assertIsDefined(this.patchRange, 'patchRange');
     this.initLineOfInterestAndCursor(leftSide);
 
-    if (this.params?.commentId) {
+    if (this.viewState?.commentId) {
       // url is of type /comment/{commentId} which isn't meaningful
       this.updateUrlToDiffUrl(this.focusLineNum, leftSide);
     }
@@ -1601,12 +1607,9 @@ export class GrDiffView extends LitElement {
   }
 
   // Private but used in tests.
-  paramsChanged() {
-    if (this.params?.view !== GerritView.DIFF) {
-      return;
-    }
-
-    const params = this.params;
+  viewStateChanged() {
+    if (this.viewState === undefined) return;
+    const viewState = this.viewState;
 
     // The diff view is kept in the background once created. If the user
     // scrolls in the change page, the scrolling is reflected in the diff view
@@ -1617,11 +1620,14 @@ export class GrDiffView extends LitElement {
 
     // Everything in the diff view is tied to the change. It seems better to
     // force the re-creation of the diff view when the change number changes.
-    const changeChanged = this.changeNum !== params.changeNum;
+    const changeChanged = this.changeNum !== viewState.changeNum;
     if (this.changeNum !== undefined && changeChanged) {
       fireEvent(this, EventType.RECREATE_DIFF_VIEW);
       return;
-    } else if (this.changeNum !== undefined && this.isSameDiffLoaded(params)) {
+    } else if (
+      this.changeNum !== undefined &&
+      this.isSameDiffLoaded(viewState)
+    ) {
       // changeNum has not changed, so check if there are changes in patchRange
       // path. If no changes then we can simply render the view as is.
       this.reporting.reportInteraction('diff-view-re-rendered');
@@ -1641,20 +1647,23 @@ export class GrDiffView extends LitElement {
     this.commitRange = undefined;
     this.focusLineNum = undefined;
 
-    if (params.changeNum && params.project) {
-      this.restApiService.setInProjectLookup(params.changeNum, params.project);
+    if (viewState.changeNum && viewState.project) {
+      this.restApiService.setInProjectLookup(
+        viewState.changeNum,
+        viewState.project
+      );
     }
 
-    this.changeNum = params.changeNum;
+    this.changeNum = viewState.changeNum;
     this.classList.remove('hideComments');
 
     // When navigating away from the page, there is a possibility that the
     // patch number is no longer a part of the URL (say when navigating to
     // the top-level change info view) and therefore undefined in `params`.
     // If route is of type /comment/<commentId>/ then no patchNum is present
-    if (!params.patchNum && !params.commentLink) {
+    if (!viewState.patchNum && !viewState.commentLink) {
       this.reporting.error(
-        new Error(`Invalid diff view URL, no patchNum found: ${this.params}`)
+        new Error(`Invalid diff view URL, no patchNum found: ${this.viewState}`)
       );
       return;
     }
@@ -1682,7 +1691,7 @@ export class GrDiffView extends LitElement {
       })
       .then(() => {
         const fileUnchanged = this.isFileUnchanged(this.diff);
-        if (fileUnchanged && params.commentLink) {
+        if (fileUnchanged && viewState.commentLink) {
           assertIsDefined(this.change, 'change');
           assertIsDefined(this.path, 'path');
           assertIsDefined(this.patchRange, 'patchRange');
@@ -1709,7 +1718,7 @@ export class GrDiffView extends LitElement {
           );
           return;
         }
-        if (params.commentLink) {
+        if (viewState.commentLink) {
           this.displayToasts();
         }
         // If the blame was loaded for a previous file and user navigates to
@@ -2106,7 +2115,10 @@ export class GrDiffView extends LitElement {
     if (!this.path) return;
     if (!this.patchRange) return;
 
+    console.log('handleDiffBaseAgainstLeft logged');
     if (this.patchRange.basePatchNum === PARENT) {
+      console.log('left already');
+
       fireAlert(this, 'Left is already base.');
       return;
     }
@@ -2115,7 +2127,7 @@ export class GrDiffView extends LitElement {
       this.path,
       this.patchRange.basePatchNum as RevisionPatchSetNum,
       PARENT,
-      this.params?.view === GerritView.DIFF && this.params?.commentLink
+      this.viewState?.view === GerritView.DIFF && this.viewState?.commentLink
         ? this.focusLineNum
         : undefined
     );

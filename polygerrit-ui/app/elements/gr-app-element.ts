@@ -480,7 +480,7 @@ export class GrAppElement extends LitElement {
   }
 
   private diffViewTemplate() {
-    return html`<gr-diff-view .params=${this.params}></gr-diff-view>`;
+    return html`<gr-diff-view></gr-diff-view>`;
   }
 
   private renderSettingsView() {

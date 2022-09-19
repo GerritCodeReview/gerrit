@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "772e9568_bd6f073d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-19T08:38:34Z",
+      "side": 1,
+      "message": "I think gr-button is being used in the embedded gr-diff, so I think it should not depend on any service or model.",
+      "revId": "9c1d5225d712ddcf2c466b712e6f183bb92697b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9079f74b_bd03f35f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-markdown/gr-markdown.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-19T14:14:49Z",
+      "side": 1,
+      "message": "why not simply \u0027markdown\u0027?",
+      "revId": "dc16a253367bbdbb21d7b7144efb5bfd24231a82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0f66158_30a1a517",
+        "filename": "polygerrit-ui/app/utils/link-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-19T14:14:49Z",
+      "side": 1,
+      "message": "Nit:\n\nInvert this condition and terminate early to have less indentation in your code.",
+      "revId": "dc16a253367bbdbb21d7b7144efb5bfd24231a82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

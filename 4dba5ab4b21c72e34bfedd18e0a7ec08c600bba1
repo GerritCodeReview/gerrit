@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0e0cdd9_cd39aec2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 2665,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-19T14:14:49Z",
+      "side": 0,
+      "message": "Why did you not choose to take this approach?",
+      "revId": "4dba5ab4b21c72e34bfedd18e0a7ec08c600bba1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

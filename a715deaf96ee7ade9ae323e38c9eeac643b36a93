@@ -34,6 +34,24 @@
       "parentUuid": "64f3459b_bc4a5598",
       "revId": "a715deaf96ee7ade9ae323e38c9eeac643b36a93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b066e2d_851124d8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-19T16:16:07Z",
+      "side": 1,
+      "message": "Yeah, this is a bit like change/diff/edit view. They should also be unified into one model. I am just not sure whether I am have enough stamina/time to also tackle this during my refactoring effort. There are just so many other things that also want to be cleaned up ...",
+      "parentUuid": "7dfcb8a0_88db5174",
+      "revId": "a715deaf96ee7ade9ae323e38c9eeac643b36a93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

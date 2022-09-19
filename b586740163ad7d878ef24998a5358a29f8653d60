@@ -16,6 +16,24 @@
       "message": "Why not adding this to the commit-message-length-validator plugin instead? It looks like the natural place to me.\n\n[1] https://gerrit.googlesource.com/plugins/commit-message-length-validator/+/refs/heads/master/src/main/resources/Documentation/config.md",
       "revId": "b586740163ad7d878ef24998a5358a29f8653d60",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c76a87ab_75d0804b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-09-19T08:17:27Z",
+      "side": 1,
+      "message": "🤦 It didn\u0027t even occur to me. Just completely forgot that the plugin exists. Will add it there.",
+      "parentUuid": "badd2375_6fddde9c",
+      "revId": "b586740163ad7d878ef24998a5358a29f8653d60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

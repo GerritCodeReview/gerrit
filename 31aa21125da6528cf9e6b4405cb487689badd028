@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e644425_97281aee",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-19T09:51:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d6cb384_d56dd790",
+      "revId": "31aa21125da6528cf9e6b4405cb487689badd028",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5c9aeae6_c289ff7e",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-09-19T09:25:27Z",
       "side": 1,
       "message": "Why do you care about detail being undefined?",
+      "revId": "31aa21125da6528cf9e6b4405cb487689badd028",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4747f0d5_5299a8e3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-19T09:51:17Z",
+      "side": 1,
+      "message": "For groups there are 3 views: main, members, log: https://imgur.com/a/3X6JcQj.\n\nUnfortunately showing the \"main\" view is tied to the detail being undefined. :-/",
+      "parentUuid": "5c9aeae6_c289ff7e",
       "revId": "31aa21125da6528cf9e6b4405cb487689badd028",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -31,7 +31,12 @@ import {
   ScrollMode,
   SpecialFilePath,
 } from '../../../constants/constants';
-import {descendedFromClass, Key, toggleClass} from '../../../utils/dom-util';
+import {
+  addShortcut,
+  descendedFromClass,
+  Key,
+  toggleClass,
+} from '../../../utils/dom-util';
 import {
   computeDisplayPath,
   computeTruncatedPath,
@@ -299,6 +304,9 @@ export class GrFileList extends LitElement {
       key: key.substring(0, 300),
     });
   });
+
+  /** Called in disconnectedCallback. */
+  private cleanups: (() => void)[] = [];
 
   shortcutsController = new ShortcutController(this);
 
@@ -718,13 +726,6 @@ export class GrFileList extends LitElement {
       Shortcut.COLLAPSE_ALL_COMMENT_THREADS,
       _ => {}
     ); // docOnly
-    this.shortcutsController.addLocal(
-      {key: Key.ENTER},
-      _ => this.handleOpenFile(),
-      {
-        shouldSuppress: true,
-      }
-    );
     subscribe(
       this,
       () => this.getCommentsModel().changeComments$,
@@ -858,6 +859,11 @@ export class GrFileList extends LitElement {
           this.reporting.error(new Error('dynamic header/content mismatch'));
         }
       });
+    this.cleanups.push(
+      addShortcut(this, {key: Key.ENTER}, _ => this.handleOpenFile(), {
+        shouldSuppress: true,
+      })
+    );
     this.diffCursor = new GrDiffCursor();
     this.diffCursor.replaceDiffs(this.diffs);
   }
@@ -866,6 +872,8 @@ export class GrFileList extends LitElement {
     this.diffCursor?.dispose();
     this.fileCursor.unsetCursor();
     this.cancelDiffs();
+    for (const cleanup of this.cleanups) cleanup();
+    this.cleanups = [];
     super.disconnectedCallback();
   }
 

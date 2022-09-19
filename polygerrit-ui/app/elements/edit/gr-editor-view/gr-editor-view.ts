@@ -26,7 +26,7 @@ import {ErrorCallback} from '../../../api/rest';
 import {assertIsDefined} from '../../../utils/common-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {changeIsMerged, changeIsAbandoned} from '../../../utils/change-util';
-import {Modifier} from '../../../utils/dom-util';
+import {addShortcut, Modifier} from '../../../utils/dom-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css, nothing} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
@@ -35,7 +35,6 @@ import {GenerateUrlEditViewParameters} from '../../../utils/router-util';
 import {GerritView} from '../../../services/router/router-model';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
-import {ShortcutController} from '../../lit/shortcut-controller';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const SAVING_MESSAGE = 'Saving changes...';
@@ -106,10 +105,11 @@ export class GrEditorView extends LitElement {
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
-  private readonly shortcuts = new ShortcutController(this);
-
   // Tests use this so needs to be non private
   storeTask?: DelayedTask;
+
+  /** Called in disconnectedCallback. */
+  private cleanups: (() => void)[] = [];
 
   constructor() {
     super();
@@ -128,20 +128,26 @@ export class GrEditorView extends LitElement {
       () => this.getChangeModel().latestPatchNum$,
       x => (this.latestPatchsetNumber = x)
     );
-    this.shortcuts.addLocal({key: 's', modifiers: [Modifier.CTRL_KEY]}, () =>
-      this.handleSaveShortcut()
-    );
-    this.shortcuts.addLocal({key: 's', modifiers: [Modifier.META_KEY]}, () =>
-      this.handleSaveShortcut()
-    );
   }
 
   override connectedCallback() {
     super.connectedCallback();
+    this.cleanups.push(
+      addShortcut(this, {key: 's', modifiers: [Modifier.CTRL_KEY]}, () =>
+        this.handleSaveShortcut()
+      )
+    );
+    this.cleanups.push(
+      addShortcut(this, {key: 's', modifiers: [Modifier.META_KEY]}, () =>
+        this.handleSaveShortcut()
+      )
+    );
   }
 
   override disconnectedCallback() {
     this.storeTask?.flush();
+    for (const cleanup of this.cleanups) cleanup();
+    this.cleanups = [];
     super.disconnectedCallback();
   }
 

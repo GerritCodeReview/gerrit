@@ -15,6 +15,7 @@ import {
 } from '../../../utils/common-util';
 import {GrOverlayStops} from '../../shared/gr-overlay/gr-overlay';
 import {fireEvent} from '../../../utils/event-util';
+import {addShortcut} from '../../../utils/dom-util';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
@@ -22,7 +23,6 @@ import {customElement, property, state, query} from 'lit/decorators.js';
 import {assertIsDefined} from '../../../utils/common-util';
 import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
 import {BindValueChangeEvent} from '../../../types/events';
-import {ShortcutController} from '../../lit/shortcut-controller';
 
 @customElement('gr-download-dialog')
 export class GrDownloadDialog extends LitElement {
@@ -49,12 +49,21 @@ export class GrDownloadDialog extends LitElement {
 
   @state() private selectedScheme?: string;
 
-  private readonly shortcuts = new ShortcutController(this);
+  /** Called in disconnectedCallback. */
+  private cleanups: (() => void)[] = [];
 
-  constructor() {
-    super();
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+    for (const cleanup of this.cleanups) cleanup();
+    this.cleanups = [];
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
     for (const key of ['1', '2', '3', '4', '5']) {
-      this.shortcuts.addLocal({key}, e => this.handleNumberKey(e));
+      this.cleanups.push(
+        addShortcut(this, {key}, e => this.handleNumberKey(e))
+      );
     }
   }
 

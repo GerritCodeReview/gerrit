@@ -93,6 +93,30 @@
       },
       "revId": "cb04fc1ce90ad87cc3140034ec0cc591dd28f105",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "444d7f63_74c6956d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-19T15:56:59Z",
+      "side": 1,
+      "message": "both should use one from display-name-util since name may be absent and we want to prefer display name over name.",
+      "parentUuid": "22d4061c_002c4fe1",
+      "range": {
+        "startLine": 615,
+        "startChar": 27,
+        "endLine": 615,
+        "endChar": 31
+      },
+      "revId": "cb04fc1ce90ad87cc3140034ec0cc591dd28f105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

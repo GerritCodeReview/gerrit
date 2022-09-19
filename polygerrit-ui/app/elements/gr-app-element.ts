@@ -447,12 +447,7 @@ export class GrAppElement extends LitElement {
   private renderDashboardView() {
     return cache(
       this.view === GerritView.DASHBOARD
-        ? html`
-            <gr-dashboard-view
-              .account=${this.account}
-              .params=${this.params}
-            ></gr-dashboard-view>
-          `
+        ? html`<gr-dashboard-view></gr-dashboard-view>`
         : nothing
     );
   }
@@ -479,7 +474,7 @@ export class GrAppElement extends LitElement {
 
   private renderEditorView() {
     if (this.view !== GerritView.EDIT) return nothing;
-    return html`<gr-editor-view .params=${this.params}></gr-editor-view>`;
+    return html`<gr-editor-view></gr-editor-view>`;
   }
 
   private renderDiffView() {
@@ -500,7 +495,6 @@ export class GrAppElement extends LitElement {
     if (this.view !== GerritView.SETTINGS) return nothing;
     return html`
       <gr-settings-view
-        .params=${this.params}
         @account-detail-update=${this.handleAccountDetailUpdate}
       >
       </gr-settings-view>

@@ -279,17 +279,26 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
       )
   );
 
-  public readonly mentionedUsersInDrafts$ = select(this.drafts$, drafts => {
-    const users: AccountInfo[] = [];
-    const comments = Object.values(drafts ?? {}).flat();
-    for (const comment of comments) {
-      users.push(...extractMentionedUsers(comment.message));
-    }
-    return users.filter(
-      (user, index) =>
-        index === users.findIndex(u => getUserId(u) === getUserId(user))
+  public readonly mentionedUsersInDrafts$: Observable<AccountInfo[]> =
+    this.drafts$.pipe(
+      switchMap(drafts => {
+        const users: AccountInfo[] = [];
+        const comments = Object.values(drafts ?? {}).flat();
+        for (const comment of comments) {
+          users.push(...extractMentionedUsers(comment.message));
+        }
+        const uniqueUsers = users.filter(
+          (user, index) =>
+            index === users.findIndex(u => getUserId(u) === getUserId(user))
+        );
+        const filledUsers$: Observable<AccountInfo | undefined>[] =
+          uniqueUsers.map(user => from(this.accountsModel.fillDetails(user)));
+        return forkJoin(filledUsers$);
+      }),
+      map(users => users.filter(notUndefined)),
+      distinctUntilChanged(deepEqual),
+      shareReplay(1)
     );
-  });
 
   public readonly mentionedUsersInUnresolvedDrafts$: Observable<AccountInfo[]> =
     this.drafts$.pipe(

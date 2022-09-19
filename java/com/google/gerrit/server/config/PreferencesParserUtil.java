@@ -183,6 +183,7 @@ public class PreferencesParserUtil {
       my.add(new MenuItem("Watched Changes", "#/q/is:watched+is:open", null));
       my.add(new MenuItem("Starred Changes", "#/q/is:starred", null));
       my.add(new MenuItem("Groups", "#/settings/#Groups", null));
+      my.add(new MenuItem("All visible", "#/q/is:visible", null));
     }
     return my;
   }

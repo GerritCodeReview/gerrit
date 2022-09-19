@@ -33,18 +33,15 @@ import {
   BasePatchSetNum,
   BlameInfo,
   CommentRange,
-  CommitId,
   EDIT,
   ImageInfo,
   NumericChangeId,
   PARENT,
   PatchSetNum,
-  RepoName,
   RevisionPatchSetNum,
   UrlEncodedCommentId,
 } from '../../../types/common';
 import {CoverageType} from '../../../types/types';
-import {GerritNav, WeblinkType} from '../../core/gr-navigation/gr-navigation';
 import {GrDiffBuilderImage} from '../../../embed/diff/gr-diff-builder/gr-diff-builder-image';
 import {GrDiffHost, LineInfo} from './gr-diff-host';
 import {DiffInfo, DiffViewMode, IgnoreWhitespaceType} from '../../../api/diff';
@@ -183,62 +180,6 @@ suite('gr-diff-host tests', () => {
 
     element.reload();
     assert.isTrue(cancelStub.called);
-  });
-
-  test('reload() loads files weblinks', async () => {
-    element.change = createChange();
-    const weblinksStub = sinon
-      .stub(GerritNav, '_generateWeblinks')
-      .returns({name: 'stubb', url: '#s'});
-    getDiffRestApiStub.returns(Promise.resolve(createDiff()));
-    element.projectName = 'test-project' as RepoName;
-    element.path = 'test-path';
-    element.commitRange = {
-      baseCommit: 'test-base' as CommitId,
-      commit: 'test-commit' as CommitId,
-    };
-    element.patchRange = createPatchRange();
-
-    await element.reload();
-
-    assert.equal(weblinksStub.callCount, 3);
-    assert.deepEqual(weblinksStub.firstCall.args[0], {
-      commit: 'test-base' as CommitId,
-      file: 'test-path',
-      options: {
-        weblinks: undefined,
-      },
-      repo: 'test-project' as RepoName,
-      type: WeblinkType.EDIT,
-    });
-    assert.deepEqual(element.editWeblinks, [
-      {
-        name: 'stubb',
-        url: '#s',
-      },
-    ]);
-    assert.deepEqual(weblinksStub.secondCall.args[0], {
-      commit: 'test-base' as CommitId,
-      file: 'test-path',
-      options: {
-        weblinks: undefined,
-      },
-      repo: 'test-project' as RepoName,
-      type: WeblinkType.FILE,
-    });
-    assert.deepEqual(weblinksStub.thirdCall.args[0], {
-      commit: 'test-commit' as CommitId,
-      file: 'test-path',
-      options: {
-        weblinks: undefined,
-      },
-      repo: 'test-project' as RepoName,
-      type: WeblinkType.FILE,
-    });
-    assert.deepEqual(element.filesWeblinks, {
-      meta_a: [{name: 'stubb', url: '#s'}],
-      meta_b: [{name: 'stubb', url: '#s'}],
-    });
   });
 
   test('prefetch getDiff', async () => {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc655089_b58fb0b9",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-19T11:35:08Z",
+      "side": 1,
+      "message": "You forgot viewStateChanged().\n\nIf you made `viewState` a setter/getter pair you could ensure this always happens.",
+      "revId": "cd43f2379fb184364fe6dcbf6e65c3944fef0a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

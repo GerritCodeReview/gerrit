@@ -457,10 +457,7 @@ export class GrAppElement extends LitElement {
   // Template as not to create duplicates, for renderChangeView() only.
   private changeViewTemplate() {
     return html`
-      <gr-change-view
-        .params=${this.params}
-        .backPage=${this.lastSearchPage}
-      ></gr-change-view>
+      <gr-change-view .backPage=${this.lastSearchPage}></gr-change-view>
     `;
   }
 

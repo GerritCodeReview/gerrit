@@ -32,11 +32,14 @@ suite('gr-change-list-view tests', () => {
   let element: GrChangeListView;
 
   setup(async () => {
-    stubRestApi('getLoggedIn').returns(Promise.resolve(false));
     stubRestApi('getChanges').returns(Promise.resolve([]));
-    stubRestApi('getAccountDetails').returns(Promise.resolve(undefined));
-    stubRestApi('getAccountStatus').returns(Promise.resolve(undefined));
     element = await fixture(html`<gr-change-list-view></gr-change-list-view>`);
+    element.viewState = {
+      view: GerritView.SEARCH,
+      query: 'test-query',
+      offset: '0',
+    };
+    await element.updateComplete;
   });
 
   teardown(async () => {
@@ -57,12 +60,7 @@ suite('gr-change-list-view tests', () => {
         <div class="loading" hidden="">Loading...</div>
         <div>
           <gr-change-list> </gr-change-list>
-          <nav>
-            Page
-            <a href="/q/" id="prevArrow">
-              <gr-icon icon="chevron_left" aria-label="Older"></gr-icon>
-            </a>
-          </nav>
+          <nav>Page 1</nav>
         </div>
       `
     );
@@ -295,11 +293,12 @@ suite('gr-change-list-view tests', () => {
         promise.resolve();
       });
 
-      element.params = {
+      element.viewState = {
         view: GerritView.SEARCH,
         query: CHANGE_ID,
         offset: '',
       };
+      await element.viewStateChanged();
       await promise;
     });
 
@@ -314,7 +313,8 @@ suite('gr-change-list-view tests', () => {
         promise.resolve();
       });
 
-      element.params = {view: GerritView.SEARCH, query: '1', offset: ''};
+      element.viewState = {view: GerritView.SEARCH, query: '1', offset: ''};
+      await element.viewStateChanged();
       await promise;
     });
 
@@ -329,11 +329,12 @@ suite('gr-change-list-view tests', () => {
         promise.resolve();
       });
 
-      element.params = {
+      element.viewState = {
         view: GerritView.SEARCH,
         query: COMMIT_HASH,
         offset: '',
       };
+      await element.viewStateChanged();
       await promise;
     });
 
@@ -341,7 +342,7 @@ suite('gr-change-list-view tests', () => {
       sinon.stub(element, 'getChanges').returns(Promise.resolve([]));
       const stub = sinon.stub(GerritNav, 'navigateToChange');
 
-      element.params = {
+      element.viewState = {
         view: GerritView.SEARCH,
         query: CHANGE_ID,
         offset: '',
@@ -355,7 +356,7 @@ suite('gr-change-list-view tests', () => {
       sinon.stub(element, 'getChanges').returns(Promise.resolve(undefined));
       const stub = sinon.stub(GerritNav, 'navigateToChange');
 
-      element.params = {
+      element.viewState = {
         view: GerritView.SEARCH,
         query: CHANGE_ID,
         offset: '',

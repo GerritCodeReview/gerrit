@@ -432,10 +432,7 @@ export class GrAppElement extends LitElement {
     return cache(
       this.view === GerritView.SEARCH
         ? html`
-            <gr-change-list-view
-              .params=${this.params}
-              .account=${this.account}
-            ></gr-change-list-view>
+            <gr-change-list-view .account=${this.account}></gr-change-list-view>
           `
         : nothing
     );

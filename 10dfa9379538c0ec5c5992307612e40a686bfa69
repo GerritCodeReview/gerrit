@@ -16,6 +16,24 @@
       "message": "This seems to be becoming the norm.\n\nShould models automatically be `T | undefined`?",
       "revId": "10dfa9379538c0ec5c5992307612e40a686bfa69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d625d27_3ba5702e",
+        "filename": "polygerrit-ui/app/models/views/change.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-19T13:01:49Z",
+      "side": 1,
+      "message": "I think this does not hold for all models, but probably for all view models. But I am not sure whether I want to implement an abstract superclass for all view models. That creates a complex class hierarchy. WDYT?",
+      "parentUuid": "00d8c6a5_e1a6cdab",
+      "revId": "10dfa9379538c0ec5c5992307612e40a686bfa69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

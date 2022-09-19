@@ -18,7 +18,7 @@ import {ViewState} from './base';
 
 export interface DiffViewState extends ViewState {
   view: GerritView.DIFF;
-  changeNum?: NumericChangeId;
+  changeNum: NumericChangeId;
   project?: RepoName;
   commentId?: UrlEncodedCommentId;
   path?: string;
@@ -28,10 +28,6 @@ export interface DiffViewState extends ViewState {
   leftSide?: boolean;
   commentLink?: boolean;
 }
-
-const DEFAULT_STATE: DiffViewState = {
-  view: GerritView.DIFF,
-};
 
 export function createDiffUrl(state: Omit<DiffViewState, 'view'>): string {
   let range = getPatchRangeExpression(state);
@@ -61,8 +57,8 @@ export function createDiffUrl(state: Omit<DiffViewState, 'view'>): string {
 
 export const diffViewModelToken = define<DiffViewModel>('diff-view-model');
 
-export class DiffViewModel extends Model<DiffViewState> {
+export class DiffViewModel extends Model<DiffViewState | undefined> {
   constructor() {
-    super(DEFAULT_STATE);
+    super(undefined);
   }
 }

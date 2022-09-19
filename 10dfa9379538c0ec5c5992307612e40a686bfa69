@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00d8c6a5_e1a6cdab",
+        "filename": "polygerrit-ui/app/models/views/change.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-19T12:21:15Z",
+      "side": 1,
+      "message": "This seems to be becoming the norm.\n\nShould models automatically be `T | undefined`?",
+      "revId": "10dfa9379538c0ec5c5992307612e40a686bfa69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

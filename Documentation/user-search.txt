@@ -8,17 +8,18 @@ menu bar.  The link will prefill the search box with a common search
 query, execute it, and present the results.
 
 [options="header"]
-|=================================================
-|Description            | Default Query
-|Changes > Open         | status:open '(or is:open)'
-|Changes > Merged       | status:merged
-|Changes > Abandoned    | status:abandoned
-|Your > Watched Changes | is:watched is:open
-|Your > Starred Changes | is:starred
-|Your > Draft Comments  | has:draft
-|Your > Edits           | has:edit
-|Open changes in Foo    | status:open project:Foo
-|=================================================
+|=======================================================
+|Description                | Default Query
+|Changes > Open             | status:open '(or is:open)'
+|Changes > Merged           | status:merged
+|Changes > Abandoned        | status:abandoned
+|Your > Watched Changes     | is:watched is:open
+|Your > Starred Changes     | is:starred
+|Your > Draft Comments      | has:draft
+|Your > Edits               | has:edit
+|Your > All Visible Changes | is:visible
+|Open changes in Foo        | status:open project:Foo
+|=======================================================
 
 
 == Basic Change Search

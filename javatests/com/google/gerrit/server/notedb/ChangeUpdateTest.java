@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
@@ -256,10 +257,12 @@ public class ChangeUpdateTest extends AbstractChangeNotesTest {
     return c;
   }
 
+  @CanIgnoreReturnValue
   private AttentionSetUpdate addToAttentionSet(ChangeUpdate update) {
     return addToAttentionSet(update, otherUser);
   }
 
+  @CanIgnoreReturnValue
   private AttentionSetUpdate addToAttentionSet(ChangeUpdate update, IdentifiedUser user) {
     AttentionSetUpdate attentionSetUpdate =
         AttentionSetUpdate.createForWrite(

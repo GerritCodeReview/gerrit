@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c75a543_83f8ac7f",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-19T06:57:41Z",
+      "side": 1,
+      "message": "Will this go away?",
+      "revId": "2586e57f5c0388cf2d362bb3fa4f321dc9b3287c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a251b94c_b8e55db2",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 1218,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-19T06:57:41Z",
+      "side": 1,
+      "message": "It\u0027s very error-prone to have to call setState and then specificModel.updateState.\n\nWhy not have setState dispatch on the view and do the updateState?",
+      "revId": "2586e57f5c0388cf2d362bb3fa4f321dc9b3287c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd7f6c26_cf9e34cf",
+        "filename": "polygerrit-ui/app/models/views/edit.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-19T06:57:41Z",
+      "side": 1,
+      "message": "Move to Model?",
+      "revId": "2586e57f5c0388cf2d362bb3fa4f321dc9b3287c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d626ca74_84336e75",
+        "filename": "polygerrit-ui/app/services/app-context-init.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-19T06:57:41Z",
+      "side": 1,
+      "message": "Can this be removed now?",
+      "revId": "2586e57f5c0388cf2d362bb3fa4f321dc9b3287c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c10f0743_08a5b513",
+        "filename": "polygerrit-ui/app/test/test-app-context-init.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-19T06:57:41Z",
+      "side": 1,
+      "message": "Can this be removed?",
+      "revId": "2586e57f5c0388cf2d362bb3fa4f321dc9b3287c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

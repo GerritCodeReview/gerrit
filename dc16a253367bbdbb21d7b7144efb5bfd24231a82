@@ -41,6 +41,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "802bbd60_bba227a7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-markdown/gr-markdown.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-19T15:38:28Z",
+      "side": 1,
+      "message": "In general, \"why not simply\" is a bit off-putting for a comment because it frames whatever proposal as the default that needs a strong motivation to deviate from, rather than a suggestion that should be justified by the comment-leaver.\n\nIn this case, asMarkdown is almost the same but has more indication that it is a boolean. However, since you prefer `markdown` I have changed it.",
+      "parentUuid": "9079f74b_bd03f35f",
+      "revId": "dc16a253367bbdbb21d7b7144efb5bfd24231a82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c51a800d_65577ccc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-markdown/gr-markdown.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-19T15:38:28Z",
+      "side": 1,
+      "message": "See commit message, after rename to gr-formatted-text the markdown will be opt-in, so the default false will make more sense.",
+      "parentUuid": "038adf4b_2adaf8f4",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 20
+      },
+      "revId": "dc16a253367bbdbb21d7b7144efb5bfd24231a82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d5945b9f_d999626b",
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d26447e2_cab87037",
+        "filename": "polygerrit-ui/app/elements/shared/gr-markdown/gr-markdown_test.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-19T15:38:28Z",
+      "side": 1,
+      "message": "I would not like the tests to depend on the default value",
+      "parentUuid": "d5945b9f_d999626b",
+      "range": {
+        "startLine": 62,
+        "startChar": 6,
+        "endLine": 62,
+        "endChar": 33
+      },
+      "revId": "dc16a253367bbdbb21d7b7144efb5bfd24231a82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c0f66158_30a1a517",
@@ -77,6 +143,24 @@
       "writtenOn": "2022-09-19T14:14:49Z",
       "side": 1,
       "message": "Nit:\n\nInvert this condition and terminate early to have less indentation in your code.",
+      "revId": "dc16a253367bbdbb21d7b7144efb5bfd24231a82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36fcb116_dbbc36f6",
+        "filename": "polygerrit-ui/app/utils/link-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-19T15:38:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0f66158_30a1a517",
       "revId": "dc16a253367bbdbb21d7b7144efb5bfd24231a82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

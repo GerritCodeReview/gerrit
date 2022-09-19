@@ -17,6 +17,7 @@ query, execute it, and present the results.
 |Your > Starred Changes | is:starred
 |Your > Draft Comments  | has:draft
 |Your > Edits           | has:edit
+|Your > All visible     | is:visible
 |Open changes in Foo    | status:open project:Foo
 |=================================================
 

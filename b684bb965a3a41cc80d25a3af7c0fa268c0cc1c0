@@ -33,6 +33,23 @@
       "message": "One consideration is whether to put it in \"Changes\" vs. \"Your\"",
       "revId": "b684bb965a3a41cc80d25a3af7c0fa268c0cc1c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a2283de_8775aeee",
+        "filename": "java/com/google/gerrit/server/config/PreferencesParserUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-19T12:41:36Z",
+      "side": 1,
+      "message": "\"All Visible Changes\" to be consistent.\n\nAdditionally, would it make sense to put this with the other queries that look for changes, rather than after the. groups setting one?",
+      "revId": "b684bb965a3a41cc80d25a3af7c0fa268c0cc1c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

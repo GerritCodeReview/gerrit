@@ -49,7 +49,6 @@ import {GrSettingsView} from './settings/gr-settings-view/gr-settings-view';
 import {
   DialogChangeEventDetail,
   EventType,
-  LocationChangeEvent,
   PageErrorEventDetail,
   RpcLogEvent,
   TitleChangeEventDetail,
@@ -117,8 +116,6 @@ export class GrAppElement extends LitElement {
   // private but used in test
   @state() lastSearchPage?: string;
 
-  @state() private path?: string;
-
   @state() private settingsUrl?: string;
 
   @state() private mobileSearch = false;
@@ -177,8 +174,8 @@ export class GrAppElement extends LitElement {
     this.addEventListener(EventType.DIALOG_CHANGE, e => {
       this.handleDialogChange(e as CustomEvent<DialogChangeEventDetail>);
     });
-    this.addEventListener(EventType.LOCATION_CHANGE, e =>
-      this.handleLocationChange(e)
+    this.addEventListener(EventType.LOCATION_CHANGE, () =>
+      this.handleLocationChange()
     );
     this.addEventListener(EventType.RECREATE_CHANGE_VIEW, () =>
       this.handleRecreateView()
@@ -508,10 +505,7 @@ export class GrAppElement extends LitElement {
       this.view !== GerritView.REPO
     )
       return nothing;
-    return html`<gr-admin-view
-      .path=${this.path}
-      .params=${this.params}
-    ></gr-admin-view>`;
+    return html`<gr-admin-view></gr-admin-view>`;
   }
 
   private renderPluginScreen() {
@@ -666,15 +660,8 @@ export class GrAppElement extends LitElement {
     }
   }
 
-  private handleLocationChange(e: LocationChangeEvent) {
+  private handleLocationChange() {
     this.updateLoginUrl();
-
-    const hash = e.detail.hash.substring(1);
-    let pathname = e.detail.pathname;
-    if (pathname.startsWith('/c/') && Number(hash) > 0) {
-      pathname += '@' + hash;
-    }
-    this.path = pathname;
   }
 
   private updateLoginUrl() {

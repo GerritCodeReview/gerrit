@@ -8,12 +8,7 @@ import './gr-admin-view';
 import {AdminSubsectionLink, GrAdminView} from './gr-admin-view';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
-import {
-  mockPromise,
-  stubBaseUrl,
-  stubElement,
-  stubRestApi,
-} from '../../../test/test-utils';
+import {stubBaseUrl, stubElement, stubRestApi} from '../../../test/test-utils';
 import {GerritView} from '../../../services/router/router-model';
 import {query, queryAll, queryAndAssert} from '../../../test/test-utils';
 import {GrRepoList} from '../gr-repo-list/gr-repo-list';
@@ -81,7 +76,7 @@ suite('gr-admin-view tests', () => {
       },
     ];
 
-    element.params = {
+    element.viewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.REPOS,
     };
@@ -215,7 +210,7 @@ suite('gr-admin-view tests', () => {
     assert.isNotOk(element.filteredLinks![2].subsection);
   });
 
-  test('Nav is reloaded when repo changes', async () => {
+  test('Needs reload when repo changes', async () => {
     stubRestApi('getAccountCapabilities').returns(
       Promise.resolve(createAdminCapabilities())
     );
@@ -225,16 +220,18 @@ suite('gr-admin-view tests', () => {
         registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
       })
     );
-    const reloadStub = sinon.stub(element, 'reload');
-    element.params = {repo: 'Test Repo' as RepoName, view: GerritView.REPO};
+
+    element.viewState = {repo: 'Repo 1' as RepoName, view: GerritView.REPO};
+    assert.isTrue(element.needsReload());
+    await element.reload();
     await element.updateComplete;
-    assert.equal(reloadStub.callCount, 1);
-    element.params = {repo: 'Test Repo 2' as RepoName, view: GerritView.REPO};
+
+    element.viewState = {repo: 'Repo 2' as RepoName, view: GerritView.REPO};
+    assert.isTrue(element.needsReload());
     await element.updateComplete;
-    assert.equal(reloadStub.callCount, 2);
   });
 
-  test('Nav is reloaded when group changes', async () => {
+  test('Needs reload when group changes', async () => {
     sinon.stub(element, 'computeGroupName');
     stubRestApi('getAccountCapabilities').returns(
       Promise.resolve(createAdminCapabilities())
@@ -245,13 +242,11 @@ suite('gr-admin-view tests', () => {
         registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
       })
     );
-    const reloadStub = sinon.stub(element, 'reload');
-    element.params = {groupId: '1' as GroupId, view: GerritView.GROUP};
-    await element.updateComplete;
-    assert.equal(reloadStub.callCount, 1);
+    element.viewState = {groupId: '1' as GroupId, view: GerritView.GROUP};
+    assert.isTrue(element.needsReload());
   });
 
-  test('Nav is reloaded when changing from repo to group', async () => {
+  test('Needs reload when changing from repo to group', async () => {
     element.repoName = 'Test Repo' as RepoName;
     stubRestApi('getAccount').returns(
       Promise.resolve({
@@ -266,26 +261,23 @@ suite('gr-admin-view tests', () => {
     await element.updateComplete;
 
     sinon.stub(element, 'computeGroupName');
-    const reloadStub = sinon.stub(element, 'reload');
     const groupId = '1' as GroupId;
-    element.params = {groupId, view: GerritView.GROUP};
+    element.viewState = {groupId, view: GerritView.GROUP};
     await element.updateComplete;
 
-    assert.equal(reloadStub.callCount, 1);
+    assert.isTrue(element.needsReload());
     assert.equal(element.groupId, groupId);
   });
 
-  test('Nav is reloaded when group name changes', async () => {
+  test('Needs reload when group name changes', async () => {
     const newName = 'newName' as GroupName;
-    const reloadCalled = mockPromise();
     sinon.stub(element, 'computeGroupName');
-    sinon.stub(element, 'reload').callsFake(() => {
-      reloadCalled.resolve();
-      return Promise.resolve();
-    });
-    element.params = {groupId: '1' as GroupId, view: GerritView.GROUP};
+    element.viewState = {groupId: '1' as GroupId, view: GerritView.GROUP};
     element.groupName = 'oldName' as GroupName;
+    assert.isTrue(element.needsReload());
+    await element.reload();
     await element.updateComplete;
+
     queryAndAssert<GrGroup>(element, 'gr-group').dispatchEvent(
       new CustomEvent('name-changed', {
         detail: {name: newName},
@@ -293,7 +285,6 @@ suite('gr-admin-view tests', () => {
         bubbles: true,
       })
     );
-    await reloadCalled;
     assert.equal(element.groupName, newName);
   });
 
@@ -317,7 +308,7 @@ suite('gr-admin-view tests', () => {
 
   test('Dropdown only triggers navigation on explicit select', async () => {
     element.repoName = 'my-repo' as RepoName;
-    element.params = {
+    element.viewState = {
       repo: 'my-repo' as RepoName,
       view: GerritView.REPO,
       detail: RepoDetailView.ACCESS,
@@ -488,7 +479,7 @@ suite('gr-admin-view tests', () => {
 
   test('selectedIsCurrentPage', () => {
     element.repoName = 'my-repo' as RepoName;
-    element.params = {view: GerritView.REPO, repo: 'my-repo' as RepoName};
+    element.viewState = {view: GerritView.REPO, repo: 'my-repo' as RepoName};
     const selected = {
       view: GerritView.REPO,
       parent: 'my-repo' as RepoName,
@@ -563,7 +554,7 @@ suite('gr-admin-view tests', () => {
       });
 
       test('repo list', async () => {
-        element.params = {
+        element.viewState = {
           view: GerritView.ADMIN,
           adminView: AdminChildView.REPOS,
           openCreateModal: false,
@@ -575,7 +566,7 @@ suite('gr-admin-view tests', () => {
       });
 
       test('repo', async () => {
-        element.params = {
+        element.viewState = {
           view: GerritView.REPO,
           repo: 'foo' as RepoName,
         };
@@ -588,7 +579,7 @@ suite('gr-admin-view tests', () => {
       });
 
       test('repo access', async () => {
-        element.params = {
+        element.viewState = {
           view: GerritView.REPO,
           detail: RepoDetailView.ACCESS,
           repo: 'foo' as RepoName,
@@ -602,7 +593,7 @@ suite('gr-admin-view tests', () => {
       });
 
       test('repo dashboards', async () => {
-        element.params = {
+        element.viewState = {
           view: GerritView.REPO,
           detail: RepoDetailView.DASHBOARDS,
           repo: 'foo' as RepoName,
@@ -637,7 +628,7 @@ suite('gr-admin-view tests', () => {
       });
 
       test('group list', async () => {
-        element.params = {
+        element.viewState = {
           view: GerritView.ADMIN,
           adminView: AdminChildView.GROUPS,
           openCreateModal: false,
@@ -649,12 +640,12 @@ suite('gr-admin-view tests', () => {
       });
 
       test('internal group', async () => {
-        element.params = {
+        element.viewState = {
           view: GerritView.GROUP,
           groupId: '1234' as GroupId,
         };
         element.groupName = 'foo' as GroupName;
-        await element.reload();
+        if (element.needsReload()) await element.reload();
         await element.updateComplete;
         const subsectionItems = queryAll<HTMLLIElement>(
           element,
@@ -674,12 +665,12 @@ suite('gr-admin-view tests', () => {
             id: 'external-id',
           })
         );
-        element.params = {
+        element.viewState = {
           view: GerritView.GROUP,
           groupId: '1234' as GroupId,
         };
         element.groupName = 'foo' as GroupName;
-        await element.reload();
+        if (element.needsReload()) await element.reload();
         await element.updateComplete;
         const subsectionItems = queryAll<HTMLLIElement>(
           element,
@@ -693,13 +684,13 @@ suite('gr-admin-view tests', () => {
       });
 
       test('group members', async () => {
-        element.params = {
+        element.viewState = {
           view: GerritView.GROUP,
           detail: GroupDetailView.MEMBERS,
           groupId: '1234' as GroupId,
         };
         element.groupName = 'foo' as GroupName;
-        await element.reload();
+        if (element.needsReload()) await element.reload();
         await element.updateComplete;
         const selected = queryAndAssert(element, 'gr-page-nav .selected');
         assert.isOk(selected);

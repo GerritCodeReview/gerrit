@@ -64,9 +64,6 @@ export class GrRepoAccess extends LitElement {
   @property({type: String})
   repo?: RepoName;
 
-  @property({type: String})
-  path?: string;
-
   // private but used in test
   @state() canUpload?: boolean = false; // restAPI can return undefined
 

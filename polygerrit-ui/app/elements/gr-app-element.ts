@@ -431,12 +431,7 @@ export class GrAppElement extends LitElement {
   private renderChangeListView() {
     return cache(
       this.view === GerritView.SEARCH
-        ? html`
-            <gr-change-list-view
-              .params=${this.params}
-              .account=${this.account}
-            ></gr-change-list-view>
-          `
+        ? html` <gr-change-list-view></gr-change-list-view> `
         : nothing
     );
   }
@@ -485,7 +480,7 @@ export class GrAppElement extends LitElement {
   }
 
   private diffViewTemplate() {
-    return html`<gr-diff-view .params=${this.params}></gr-diff-view>`;
+    return html`<gr-diff-view></gr-diff-view>`;
   }
 
   private renderSettingsView() {
@@ -528,9 +523,7 @@ export class GrAppElement extends LitElement {
 
   private renderDocumentationSearch() {
     if (this.view !== GerritView.DOCUMENTATION_SEARCH) return nothing;
-    return html`
-      <gr-documentation-search .params=${this.params}></gr-documentation-search>
-    `;
+    return html`<gr-documentation-search></gr-documentation-search>`;
   }
 
   private renderKeyboardShortcutsDialog() {

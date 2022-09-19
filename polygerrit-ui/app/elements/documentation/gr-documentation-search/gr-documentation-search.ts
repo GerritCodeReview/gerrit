@@ -10,27 +10,38 @@ import {fireTitleChange} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {tableStyles} from '../../../styles/gr-table-styles';
-import {LitElement, PropertyValues, html} from 'lit';
-import {customElement, property, state} from 'lit/decorators.js';
-import {DocumentationViewState} from '../../../models/views/documentation';
+import {LitElement, html} from 'lit';
+import {customElement, state} from 'lit/decorators.js';
+import {resolve} from '../../../models/dependency';
+import {subscribe} from '../../lit/subscription-controller';
+import {documentationViewModelToken} from '../../../models/views/documentation';
 
 @customElement('gr-documentation-search')
 export class GrDocumentationSearch extends LitElement {
-  /**
-   * URL params passed from the router.
-   */
-  @property({type: Object})
-  params?: DocumentationViewState;
-
   // private but used in test
   @state() documentationSearches?: DocResult[];
 
   // private but used in test
   @state() loading = true;
 
-  @state() private filter = '';
+  // private but used in test
+  @state() filter = '';
 
   private readonly restApiService = getAppContext().restApiService;
+
+  private readonly getViewModel = resolve(this, documentationViewModelToken);
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getViewModel().state$,
+      x => {
+        this.filter = x?.filter ?? '';
+        if (x !== undefined) this.getDocumentationSearches();
+      }
+    );
+  }
 
   override connectedCallback() {
     super.connectedCallback();
@@ -80,21 +91,9 @@ export class GrDocumentationSearch extends LitElement {
     `;
   }
 
-  override willUpdate(changedProperties: PropertyValues) {
-    if (changedProperties.has('params')) {
-      this.paramsChanged();
-    }
-  }
-
-  // private but used in test
-  paramsChanged() {
+  getDocumentationSearches() {
+    const filter = this.filter;
     this.loading = true;
-    this.filter = this.params?.filter ?? '';
-
-    return this.getDocumentationSearches(this.filter);
-  }
-
-  private getDocumentationSearches(filter: string) {
     this.documentationSearches = [];
     return this.restApiService
       .getDocumentationSearches(filter)

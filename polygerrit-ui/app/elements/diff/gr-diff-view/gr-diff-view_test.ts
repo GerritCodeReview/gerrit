@@ -43,7 +43,6 @@ import {
   BasePatchSetNum,
   CommentInfo,
   CommitId,
-  DashboardId,
   EDIT,
   FileInfo,
   NumericChangeId,
@@ -155,14 +154,14 @@ suite('gr-diff-view tests', () => {
       sinon.restore();
     });
 
-    test('params change triggers diffViewDisplayed()', () => {
+    test('viewState change triggers diffViewDisplayed()', () => {
       const diffViewDisplayedStub = stubReporting('diffViewDisplayed');
       assertIsDefined(element.diffHost);
       sinon.stub(element.diffHost, 'reload').returns(Promise.resolve());
       sinon.stub(element, 'initPatchRange');
       sinon.stub(element, 'fetchFiles');
-      const paramsChangedSpy = sinon.spy(element, 'paramsChanged');
-      element.params = {
+      const viewStateChangedSpy = sinon.spy(element, 'viewStateChanged');
+      element.viewState = {
         view: GerritView.DIFF,
         changeNum: 42 as NumericChangeId,
         patchNum: 2 as RevisionPatchSetNum,
@@ -171,7 +170,7 @@ suite('gr-diff-view tests', () => {
       };
       element.path = '/COMMIT_MSG';
       element.patchRange = createPatchRange();
-      return paramsChangedSpy.returnValues[0]?.then(() => {
+      return viewStateChangedSpy.returnValues[0]?.then(() => {
         assert.isTrue(diffViewDisplayedStub.calledOnce);
       });
     });
@@ -179,7 +178,7 @@ suite('gr-diff-view tests', () => {
     suite('comment route', () => {
       let initLineOfInterestAndCursorStub: SinonStub;
       let replaceStateStub: SinonStub;
-      let paramsChangedSpy: SinonSpy;
+      let viewStateChangedSpy: SinonSpy;
       setup(() => {
         initLineOfInterestAndCursorStub = sinon.stub(
           element,
@@ -190,7 +189,7 @@ suite('gr-diff-view tests', () => {
         stubReporting('diffViewDisplayed');
         assertIsDefined(element.diffHost);
         sinon.stub(element.diffHost, 'reload').returns(Promise.resolve());
-        paramsChangedSpy = sinon.spy(element, 'paramsChanged');
+        viewStateChangedSpy = sinon.spy(element, 'viewStateChanged');
         element.getChangeModel().setState({
           change: {
             ...createParsedChange(),
@@ -214,7 +213,7 @@ suite('gr-diff-view tests', () => {
           portedDrafts: {},
           discardedDrafts: [],
         });
-        element.params = {
+        element.viewState = {
           view: GerritView.DIFF,
           changeNum: 42 as NumericChangeId,
           commentLink: true,
@@ -226,7 +225,7 @@ suite('gr-diff-view tests', () => {
           ...createParsedChange(),
           revisions: createRevisions(11),
         };
-        return paramsChangedSpy.returnValues[0].then(() => {
+        return viewStateChangedSpy.returnValues[0].then(() => {
           assert.isTrue(
             initLineOfInterestAndCursorStub.calledWithExactly(true)
           );
@@ -238,17 +237,17 @@ suite('gr-diff-view tests', () => {
       });
     });
 
-    test('params change causes blame to load if it was set to true', () => {
+    test('viewState change causes blame to load if it was set to true', () => {
       // Blame loads for subsequent files if it was loaded for one file
       element.isBlameLoaded = true;
       stubReporting('diffViewDisplayed');
       const loadBlameStub = sinon.stub(element, 'loadBlame');
       assertIsDefined(element.diffHost);
       sinon.stub(element.diffHost, 'reload').returns(Promise.resolve());
-      const paramsChangedSpy = sinon.spy(element, 'paramsChanged');
+      const viewStateChangedSpy = sinon.spy(element, 'viewStateChanged');
       sinon.stub(element, 'initPatchRange');
       sinon.stub(element, 'fetchFiles');
-      element.params = {
+      element.viewState = {
         view: GerritView.DIFF,
         changeNum: 42 as NumericChangeId,
         patchNum: 2 as RevisionPatchSetNum,
@@ -257,7 +256,7 @@ suite('gr-diff-view tests', () => {
       };
       element.path = '/COMMIT_MSG';
       element.patchRange = createPatchRange();
-      return paramsChangedSpy.returnValues[0]!.then(() => {
+      return viewStateChangedSpy.returnValues[0]!.then(() => {
         assert.isTrue(element.isBlameLoaded);
         assert.isTrue(loadBlameStub.calledOnce);
       });
@@ -283,7 +282,7 @@ suite('gr-diff-view tests', () => {
       assertIsDefined(element.diffHost);
       sinon.stub(element.diffHost, 'reload').returns(Promise.resolve());
       sinon.stub(element, 'isFileUnchanged').returns(true);
-      const paramsChangedSpy = sinon.spy(element, 'paramsChanged');
+      const viewStateChangedSpy = sinon.spy(element, 'viewStateChanged');
       element.getChangeModel().setState({
         change: {
           ...createParsedChange(),
@@ -291,7 +290,7 @@ suite('gr-diff-view tests', () => {
         },
         loadingStatus: LoadingStatus.LOADED,
       });
-      element.params = {
+      element.viewState = {
         view: GerritView.DIFF,
         changeNum: 42 as NumericChangeId,
         path: '/COMMIT_MSG',
@@ -302,7 +301,7 @@ suite('gr-diff-view tests', () => {
         ...createParsedChange(),
         revisions: createRevisions(11),
       };
-      return paramsChangedSpy.returnValues[0]?.then(() => {
+      return viewStateChangedSpy.returnValues[0]?.then(() => {
         assert.isTrue(
           diffNavStub.lastCall.calledWithExactly(
             element.change!,
@@ -335,7 +334,7 @@ suite('gr-diff-view tests', () => {
       assertIsDefined(element.diffHost);
       sinon.stub(element.diffHost, 'reload').returns(Promise.resolve());
       sinon.stub(element, 'isFileUnchanged').returns(true);
-      const paramsChangedSpy = sinon.spy(element, 'paramsChanged');
+      const viewStateChangedSpy = sinon.spy(element, 'viewStateChanged');
       element.getChangeModel().setState({
         change: {
           ...createParsedChange(),
@@ -343,7 +342,7 @@ suite('gr-diff-view tests', () => {
         },
         loadingStatus: LoadingStatus.LOADED,
       });
-      element.params = {
+      element.viewState = {
         view: GerritView.DIFF,
         changeNum: 42 as NumericChangeId,
         path: '/COMMIT_MSG',
@@ -354,7 +353,7 @@ suite('gr-diff-view tests', () => {
         ...createParsedChange(),
         revisions: createRevisions(11),
       };
-      return paramsChangedSpy.returnValues[0]!.then(() => {
+      return viewStateChangedSpy.returnValues[0]!.then(() => {
         assert.isFalse(diffNavStub.called);
       });
     });
@@ -410,7 +409,7 @@ suite('gr-diff-view tests', () => {
       sinon.stub(element, 'loadBlame');
       assertIsDefined(element.diffHost);
       sinon.stub(element.diffHost, 'reload').returns(Promise.resolve());
-      const paramsChangedSpy = sinon.spy(element, 'paramsChanged');
+      const viewStateChangedSpy = sinon.spy(element, 'viewStateChanged');
       element.change = undefined;
       element.getChangeModel().setState({
         change: {
@@ -425,14 +424,14 @@ suite('gr-diff-view tests', () => {
       };
       sinon.stub(element, 'isFileUnchanged').returns(false);
       const toastStub = sinon.stub(element, 'displayDiffBaseAgainstLeftToast');
-      element.params = {
+      element.viewState = {
         view: GerritView.DIFF,
         changeNum: 42 as NumericChangeId,
         project: 'p' as RepoName,
         commentId: 'c1' as UrlEncodedCommentId,
         commentLink: true,
       };
-      await paramsChangedSpy.returnValues[0];
+      await viewStateChangedSpy.returnValues[0];
       assert.isTrue(toastStub.called);
     });
 
@@ -887,9 +886,12 @@ suite('gr-diff-view tests', () => {
         patchNum: 3 as RevisionPatchSetNum,
         basePatchNum: 1 as BasePatchSetNum,
       };
-      element.params = {
-        view: GerritView.DASHBOARD,
-        dashboard: 'id' as DashboardId,
+      element.viewState = {
+        view: GerritView.DIFF,
+        changeNum: 42 as NumericChangeId,
+        patchNum: 3 as RevisionPatchSetNum,
+        basePatchNum: 1 as BasePatchSetNum,
+        path: 'foo',
       };
       await element.updateComplete;
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
@@ -910,8 +912,8 @@ suite('gr-diff-view tests', () => {
         patchNum: 3 as RevisionPatchSetNum,
         basePatchNum: 1 as BasePatchSetNum,
       };
-      sinon.stub(element, 'paramsChanged');
-      element.params = {
+      sinon.stub(element, 'viewStateChanged');
+      element.viewState = {
         commentLink: true,
         view: GerritView.DIFF,
         changeNum: 42 as NumericChangeId,
@@ -1411,7 +1413,7 @@ suite('gr-diff-view tests', () => {
       assert.isTrue(overlayOpenStub.called);
     });
 
-    suite('url params', () => {
+    suite('url parameters', () => {
       setup(() => {
         sinon.stub(element, 'fetchFiles');
       });
@@ -1804,14 +1806,14 @@ suite('gr-diff-view tests', () => {
 
       const callCount = saveReviewedStub.callCount;
 
-      element.params = {
-        view: GerritView.CHANGE,
+      element.viewState = {
+        view: GerritView.DIFF,
         changeNum: 42 as NumericChangeId,
         project: 'test' as RepoName,
       };
       await element.updateComplete;
 
-      // saveReviewedState observer observes params, but should not fire when
+      // saveReviewedState observer observes viewState, but should not fire when
       // view !== GerritView.DIFF.
       assert.equal(saveReviewedStub.callCount, callCount);
     });
@@ -1833,13 +1835,13 @@ suite('gr-diff-view tests', () => {
       assert.isFalse(saveReviewedStub.called);
     });
 
-    test('hash is determined from params', async () => {
+    test('hash is determined from viewState', async () => {
       assertIsDefined(element.diffHost);
       sinon.stub(element.diffHost, 'reload');
       const initLineStub = sinon.stub(element, 'initLineOfInterestAndCursor');
 
       element.loggedIn = true;
-      element.params = {
+      element.viewState = {
         view: GerritView.DIFF,
         changeNum: 42 as NumericChangeId,
         patchNum: 2 as RevisionPatchSetNum,
@@ -1927,7 +1929,7 @@ suite('gr-diff-view tests', () => {
       });
 
       test('uses the patchNum and basePatchNum ', async () => {
-        element.params = {
+        element.viewState = {
           view: GerritView.DIFF,
           changeNum: 42 as NumericChangeId,
           patchNum: 4 as RevisionPatchSetNum,
@@ -1944,7 +1946,7 @@ suite('gr-diff-view tests', () => {
       });
 
       test('uses the parent when there is no base patch num ', async () => {
-        element.params = {
+        element.viewState = {
           view: GerritView.DIFF,
           changeNum: 42 as NumericChangeId,
           patchNum: 5 as RevisionPatchSetNum,
@@ -1964,11 +1966,11 @@ suite('gr-diff-view tests', () => {
       assertIsDefined(element.cursor);
       assert.isNotOk(element.cursor.initialLineNumber);
 
-      // Does nothing when params specify no cursor address:
+      // Does nothing when viewState specify no cursor address:
       element.initCursor(false);
       assert.isNotOk(element.cursor.initialLineNumber);
 
-      // Does nothing when params specify side but no number:
+      // Does nothing when viewState specify side but no number:
       element.initCursor(true);
       assert.isNotOk(element.cursor.initialLineNumber);
 
@@ -2081,7 +2083,7 @@ suite('gr-diff-view tests', () => {
     suite('initPatchRange', () => {
       setup(async () => {
         getDiffRestApiStub.returns(Promise.resolve(createDiff()));
-        element.params = {
+        element.viewState = {
           view: GerritView.DIFF,
           changeNum: 42 as NumericChangeId,
           patchNum: 3 as RevisionPatchSetNum,
@@ -2496,7 +2498,7 @@ suite('gr-diff-view tests', () => {
       const navigateToDiffStub = sinon.stub(GerritNav, 'navigateToDiff');
 
       // Load file1
-      element.params = {
+      element.viewState = {
         view: GerritView.DIFF,
         patchNum: 1 as RevisionPatchSetNum,
         changeNum: 101 as NumericChangeId,
@@ -2521,7 +2523,7 @@ suite('gr-diff-view tests', () => {
       assert.isTrue(navigateToDiffStub.calledOnce);
 
       // This is to mock the param change triggered by above navigate
-      element.params = {
+      element.viewState = {
         view: GerritView.DIFF,
         patchNum: 1 as RevisionPatchSetNum,
         changeNum: 101 as NumericChangeId,

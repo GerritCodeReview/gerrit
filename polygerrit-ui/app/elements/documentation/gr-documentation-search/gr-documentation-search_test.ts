@@ -10,7 +10,6 @@ import {page} from '../../../utils/page-wrapper-utils';
 import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {DocResult} from '../../../types/common';
 import {fixture, html, assert} from '@open-wc/testing';
-import {GerritView} from '../../../services/router/router-model';
 
 function documentationGenerator(counter: number) {
   return {
@@ -44,7 +43,7 @@ suite('gr-documentation-search tests', () => {
       stubRestApi('getDocumentationSearches').returns(
         Promise.resolve(documentationSearches)
       );
-      await element.paramsChanged();
+      await element.getDocumentationSearches();
       await element.updateComplete;
     });
 
@@ -327,8 +326,8 @@ suite('gr-documentation-search tests', () => {
       const stub = stubRestApi('getDocumentationSearches').returns(
         Promise.resolve(documentationSearches)
       );
-      element.params = {view: GerritView.DOCUMENTATION_SEARCH, filter: 'test'};
-      await element.paramsChanged();
+      element.filter = 'test';
+      await element.getDocumentationSearches();
       assert.isTrue(stub.lastCall.calledWithExactly('test'));
     });
   });

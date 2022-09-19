@@ -13,16 +13,14 @@ export interface DocumentationViewState extends ViewState {
   filter?: string | null;
 }
 
-const DEFAULT_STATE: DocumentationViewState = {
-  view: GerritView.DOCUMENTATION_SEARCH,
-};
-
 export const documentationViewModelToken = define<DocumentationViewModel>(
   'documentation-view-model'
 );
 
-export class DocumentationViewModel extends Model<DocumentationViewState> {
+export class DocumentationViewModel extends Model<
+  DocumentationViewState | undefined
+> {
   constructor() {
-    super(DEFAULT_STATE);
+    super(undefined);
   }
 }

@@ -27,10 +27,6 @@ export interface RepoViewState extends ViewState {
   offset?: number | string;
 }
 
-const DEFAULT_STATE: RepoViewState = {
-  view: GerritView.REPO,
-};
-
 export function createRepoUrl(state: Omit<RepoViewState, 'view'>) {
   let url = `/admin/repos/${encodeURL(`${state.repo}`, true)}`;
   if (state.detail === RepoDetailView.GENERAL) {
@@ -51,8 +47,8 @@ export function createRepoUrl(state: Omit<RepoViewState, 'view'>) {
 
 export const repoViewModelToken = define<RepoViewModel>('repo-view-model');
 
-export class RepoViewModel extends Model<RepoViewState> {
+export class RepoViewModel extends Model<RepoViewState | undefined> {
   constructor() {
-    super(DEFAULT_STATE);
+    super(undefined);
   }
 }

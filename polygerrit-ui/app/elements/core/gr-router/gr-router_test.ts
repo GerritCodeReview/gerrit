@@ -6,7 +6,7 @@
 import '../../../test/common-test-setup';
 import './gr-router';
 import {page} from '../../../utils/page-wrapper-utils';
-import {GerritNav, WeblinkType} from '../gr-navigation/gr-navigation';
+import {GerritNav} from '../gr-navigation/gr-navigation';
 import {
   stubBaseUrl,
   stubRestApi,
@@ -22,19 +22,13 @@ import {
 import {GerritView} from '../../../services/router/router-model';
 import {
   BasePatchSetNum,
-  CommitId,
   GroupId,
   NumericChangeId,
   PARENT,
   RepoName,
   RevisionPatchSetNum,
   UrlEncodedCommentId,
-  WebLinkInfo,
 } from '../../../types/common';
-import {
-  createGerritInfo,
-  createServerInfo,
-} from '../../../test/test-data-generators';
 import {AppElementParams} from '../../gr-app-types';
 import {assert} from '@open-wc/testing';
 import {AdminChildView} from '../../../models/views/admin';
@@ -52,71 +46,6 @@ suite('gr-router tests', () => {
     document.dispatchEvent(
       new DependencyRequestEvent(routerToken, x => (router = x))
     );
-  });
-
-  test('firstCodeBrowserWeblink', () => {
-    assert.deepEqual(
-      router.firstCodeBrowserWeblink([
-        {name: 'gitweb'},
-        {name: 'gitiles'},
-        {name: 'browse'},
-        {name: 'test'},
-      ]),
-      {name: 'gitiles'}
-    );
-
-    assert.deepEqual(
-      router.firstCodeBrowserWeblink([{name: 'gitweb'}, {name: 'test'}]),
-      {name: 'gitweb'}
-    );
-  });
-
-  test('getBrowseCommitWeblink', () => {
-    const browserLink = {name: 'browser', url: 'browser/url'};
-    const link = {name: 'test', url: 'test/url'};
-    const weblinks = [browserLink, link];
-    const config = {
-      ...createServerInfo(),
-      gerrit: {...createGerritInfo(), primary_weblink_name: browserLink.name},
-    };
-    sinon.stub(router, 'firstCodeBrowserWeblink').returns(link);
-
-    assert.deepEqual(
-      router.getBrowseCommitWeblink(weblinks, config),
-      browserLink
-    );
-
-    assert.deepEqual(router.getBrowseCommitWeblink(weblinks), link);
-  });
-
-  test('getChangeWeblinks', () => {
-    const link = {name: 'test', url: 'test/url'};
-    const browserLink = {name: 'browser', url: 'browser/url'};
-    const mapLinksToConfig = (weblinks: WebLinkInfo[]) => {
-      return {
-        type: 'change' as WeblinkType.CHANGE,
-        repo: 'test' as RepoName,
-        commit: '111' as CommitId,
-        options: {weblinks},
-      };
-    };
-    sinon.stub(router, 'getBrowseCommitWeblink').returns(browserLink);
-
-    assert.deepEqual(
-      router.getChangeWeblinks(mapLinksToConfig([link, browserLink]))[0],
-      {name: 'test', url: 'test/url'}
-    );
-
-    assert.deepEqual(router.getChangeWeblinks(mapLinksToConfig([link]))[0], {
-      name: 'test',
-      url: 'test/url',
-    });
-
-    link.url = `https://${link.url}`;
-    assert.deepEqual(router.getChangeWeblinks(mapLinksToConfig([link]))[0], {
-      name: 'test',
-      url: 'https://test/url',
-    });
   });
 
   test('getHashFromCanonicalPath', () => {

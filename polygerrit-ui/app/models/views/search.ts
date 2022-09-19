@@ -83,15 +83,11 @@ export function createSearchUrl(params: SearchUrlOptions): string {
   return '/q/' + operators.join('+') + offsetExpr;
 }
 
-const DEFAULT_STATE: SearchViewState = {
-  view: GerritView.SEARCH,
-};
-
 export const searchViewModelToken =
   define<SearchViewModel>('search-view-model');
 
-export class SearchViewModel extends Model<SearchViewState> {
+export class SearchViewModel extends Model<SearchViewState | undefined> {
   constructor() {
-    super(DEFAULT_STATE);
+    super(undefined);
   }
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94428bf2_d883e608",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 2118,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-19T11:37:55Z",
+      "side": 1,
+      "message": "console.log should be removed.",
+      "revId": "469bc2ac72ff703c83b89980f7a592050f742af5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

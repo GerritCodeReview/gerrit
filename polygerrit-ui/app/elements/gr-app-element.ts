@@ -523,9 +523,7 @@ export class GrAppElement extends LitElement {
 
   private renderDocumentationSearch() {
     if (this.view !== GerritView.DOCUMENTATION_SEARCH) return nothing;
-    return html`
-      <gr-documentation-search .params=${this.params}></gr-documentation-search>
-    `;
+    return html`<gr-documentation-search></gr-documentation-search>`;
   }
 
   private renderKeyboardShortcutsDialog() {

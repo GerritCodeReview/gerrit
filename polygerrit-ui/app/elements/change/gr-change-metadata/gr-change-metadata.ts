@@ -20,7 +20,6 @@ import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../gr-submit-requirements/gr-submit-requirements';
 import '../gr-commit-info/gr-commit-info';
 import '../gr-reviewer-list/gr-reviewer-list';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {
   ChangeStatus,
   GpgKeyInfoStatus,
@@ -81,6 +80,7 @@ import {when} from 'lit/directives/when.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {createSearchUrl} from '../../../models/views/search';
 import {createChangeUrl} from '../../../models/views/change';
+import {GeneratedWebLink, getChangeWeblinks} from '../../../utils/weblink-util';
 
 const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
 
@@ -510,10 +510,7 @@ export class GrChangeMetadata extends LitElement {
         <ol class=${this.computeParentListClass()}>
           ${this.currentParents.map(
             parent => html` <li>
-              <gr-commit-info
-                .change=${this.change}
-                .commitInfo=${parent}
-              ></gr-commit-info>
+              <gr-commit-info .commitInfo=${parent}></gr-commit-info>
               <gr-tooltip-content
                 id="parentNotCurrentMessage"
                 has-tooltip
@@ -534,7 +531,6 @@ export class GrChangeMetadata extends LitElement {
       <span class="title">Merged As</span>
       <span class="value">
         <gr-commit-info
-          .change=${this.change}
           .commitInfo=${this.computeMergedCommitInfo(
             this.change?.current_revision,
             this.change?.revisions
@@ -553,7 +549,6 @@ export class GrChangeMetadata extends LitElement {
       <span class="title">${this.getRevertSectionTitle()}</span>
       <span class="value">
         <gr-commit-info
-          .change=${this.change}
           .commitInfo=${this.computeRevertCommit()}
         ></gr-commit-info>
       </span>
@@ -724,23 +719,9 @@ export class GrChangeMetadata extends LitElement {
     }
   }
 
-  /**
-   * @return If array is empty, returns undefined instead so
-   * an existential check can be used to hide or show the webLinks
-   * section.
-   * private but used in test
-   */
-  computeWebLinks() {
-    if (!this.commitInfo) return [];
-    const weblinks = GerritNav.getChangeWeblinks(
-      this.change ? this.change.project : ('' as RepoName),
-      this.commitInfo.commit,
-      {
-        weblinks: this.commitInfo.web_links,
-        config: this.serverConfig,
-      }
-    );
-    return weblinks.length ? weblinks : [];
+  // private but used in test
+  computeWebLinks(): GeneratedWebLink[] {
+    return getChangeWeblinks(this.commitInfo?.web_links, this.serverConfig);
   }
 
   private computeStrategy() {

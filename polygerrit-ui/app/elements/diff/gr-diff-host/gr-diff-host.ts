@@ -7,10 +7,6 @@ import '../../shared/gr-comment-thread/gr-comment-thread';
 import '../../checks/gr-diff-check-result';
 import '../../../embed/diff/gr-diff/gr-diff';
 import {
-  GerritNav,
-  GeneratedWebLink,
-} from '../../core/gr-navigation/gr-navigation';
-import {
   anyLineTooLong,
   getDiffLength,
   getLine,
@@ -98,6 +94,7 @@ import {
   DELAYED_CANCELLATION,
 } from '../../../utils/async-util';
 import {subscribe} from '../../lit/subscription-controller';
+import {GeneratedWebLink} from '../../../utils/weblink-util';
 
 const EMPTY_BLAME = 'No blame information for this diff.';
 
@@ -906,30 +903,13 @@ export class GrDiffHost extends LitElement {
   }
 
   private getEditWeblinks(diff: DiffInfo) {
-    if (!this.projectName || !this.commitRange || !this.path) return undefined;
-    return GerritNav.getEditWebLinks(
-      this.projectName,
-      this.commitRange.baseCommit,
-      this.path,
-      {weblinks: diff?.edit_web_links}
-    );
+    return diff?.edit_web_links ?? [];
   }
 
   private getFilesWeblinks(diff: DiffInfo) {
-    if (!this.projectName || !this.commitRange || !this.path) return undefined;
     return {
-      meta_a: GerritNav.getFileWebLinks(
-        this.projectName,
-        this.commitRange.baseCommit,
-        this.path,
-        {weblinks: diff?.meta_a?.web_links}
-      ),
-      meta_b: GerritNav.getFileWebLinks(
-        this.projectName,
-        this.commitRange.commit,
-        this.path,
-        {weblinks: diff?.meta_b?.web_links}
-      ),
+      meta_a: diff?.meta_a?.web_links ?? [],
+      meta_b: diff?.meta_b?.web_links ?? [],
     };
   }
 

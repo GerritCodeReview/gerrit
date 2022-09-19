@@ -6,73 +6,61 @@
 import '../../../test/common-test-setup';
 import './gr-commit-info';
 import {GrCommitInfo} from './gr-commit-info';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {
-  createChange,
   createCommit,
   createServerInfo,
 } from '../../../test/test-data-generators';
-import {CommitId, RepoName} from '../../../types/common';
+import {CommitId} from '../../../types/common';
 import {fixture, html, assert} from '@open-wc/testing';
-import {waitEventLoop} from '../../../test/test-utils';
+import {queryAndAssert} from '../../../utils/common-util';
 
 suite('gr-commit-info tests', () => {
   let element: GrCommitInfo;
 
   setup(async () => {
     element = await fixture(html`<gr-commit-info></gr-commit-info>`);
+    element.serverConfig = createServerInfo();
   });
 
-  test('render', async () => {
-    element.change = createChange();
+  test('render no weblink', async () => {
     element.commitInfo = createCommit();
-    element.serverConfig = createServerInfo();
     await element.updateComplete;
 
     assert.shadowDom.equal(
       element,
       /* HTML */ `
         <div class="container">
-          <a href="/q/" rel="noopener" target="_blank"> </a>
+          <a href="" rel="noopener" target="_blank"> </a>
           <gr-copy-clipboard hastooltip="" hideinput=""> </gr-copy-clipboard>
         </div>
       `
     );
   });
 
-  test('weblinks use GerritNav interface', async () => {
-    const weblinksStub = sinon
-      .stub(GerritNav, '_generateWeblinks')
-      .returns([{name: 'stubb', url: '#s'}]);
-    element.change = createChange();
-    element.commitInfo = createCommit();
-    element.serverConfig = createServerInfo();
-    await waitEventLoop();
-    assert.isTrue(weblinksStub.called);
-  });
-
-  test('no web link when unavailable', () => {
-    element.commitInfo = createCommit();
-    element.serverConfig = createServerInfo();
-    element.change = {...createChange(), labels: {}, project: '' as RepoName};
-
-    assert.isNotOk(element._showWebLink);
-  });
-
-  test('use web link when available', () => {
-    sinon.stub(GerritNav, 'getPatchSetWeblink').callsFake(() => {
-      return {name: 'test-name', url: 'test-url'};
-    });
-
-    element.change = {...createChange(), labels: {}, project: '' as RepoName};
+  test('web link from commit info', async () => {
     element.commitInfo = {
       ...createCommit(),
-      commit: 'commitsha' as CommitId,
+      commit: 'sha45678901234567890' as CommitId,
       web_links: [{name: 'gitweb', url: 'link-url'}],
     };
-    element.serverConfig = createServerInfo();
+    await element.updateComplete;
 
-    assert.isOk(element._showWebLink);
-    assert.equal(element._webLink, 'test-url');
+    assert.dom.equal(
+      queryAndAssert(element, 'a'),
+      /* HTML */ '<a href="link-url" rel="noopener" target="_blank">sha4567</a>'
+    );
+  });
+
+  test('web link fall back to search query', async () => {
+    element.commitInfo = {
+      ...createCommit(),
+      commit: 'sha45678901234567890' as CommitId,
+    };
+    await element.updateComplete;
+
+    assert.dom.equal(
+      queryAndAssert(element, 'a'),
+      /* HTML */ '<a href="/q/sha4567" rel="noopener" target="_blank">sha4567</a>'
+    );
   });
 });

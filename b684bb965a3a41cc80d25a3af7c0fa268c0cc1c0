@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd1851fc_681ff67a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-19T12:38:54Z",
+      "side": 1,
+      "message": "Fine with me, but I prefer someone from the frontend team to approve this.",
+      "revId": "b684bb965a3a41cc80d25a3af7c0fa268c0cc1c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

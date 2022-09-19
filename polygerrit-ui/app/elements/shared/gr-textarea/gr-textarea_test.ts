@@ -137,8 +137,8 @@ suite('gr-textarea tests', () => {
     test('mention selector opens when previous char is \n', async () => {
       stubRestApi('getSuggestedAccounts').returns(
         Promise.resolve([
-          createAccountWithEmail('abc@google.com'),
-          createAccountWithEmail('abcdef@google.com'),
+          {...createAccountWithEmail('abc@google.com'), name: 'A'},
+          {...createAccountWithEmail('abcdef@google.com'), name: 'B'},
         ])
       );
       element.textarea!.focus();
@@ -150,6 +150,17 @@ suite('gr-textarea tests', () => {
 
       await waitUntil(() => element.suggestions.length > 0);
       await element.updateComplete;
+
+      assert.deepEqual(element.suggestions, [
+        {
+          dataValue: 'abc@google.com',
+          text: 'A <abc@google.com>',
+        },
+        {
+          dataValue: 'abcdef@google.com',
+          text: 'B <abcdef@google.com>',
+        },
+      ]);
 
       assert.isTrue(element.emojiSuggestions!.isHidden);
       assert.isFalse(element.mentionsSuggestions!.isHidden);

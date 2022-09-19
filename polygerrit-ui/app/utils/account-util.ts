@@ -185,11 +185,11 @@ export function getAccountSuggestions(
       if (!accounts) return [];
       const accountSuggestions = [];
       for (const account of accounts) {
-        let nameAndEmail;
+        let nameAndEmail: string;
         if (account.email !== undefined) {
-          nameAndEmail = `${account.name} <${account.email}>`;
+          nameAndEmail = `${account.name ?? ''} <${account.email}>`;
         } else {
-          nameAndEmail = account.name;
+          nameAndEmail = account.name ?? '';
         }
         accountSuggestions.push({
           name: nameAndEmail,

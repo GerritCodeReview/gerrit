@@ -39,12 +39,29 @@ public class AttentionSetObserver {
   private final EventUtil util;
   private final AccountCache accountCache;
 
+  public static final AttentionSetObserver DISABLED =
+      new AttentionSetObserver() {
+        @Override
+        public void fire(
+            ChangeData changeData,
+            AccountState accountState,
+            AttentionSetUpdate update,
+            Instant when) {}
+      };
+
   @Inject
   AttentionSetObserver(
       PluginSetContext<AttentionSetListener> listeners, EventUtil util, AccountCache accountCache) {
     this.listeners = listeners;
     this.util = util;
     this.accountCache = accountCache;
+  }
+
+  /** Constructor only for DISABLED version of the AttentionSetObserver. */
+  private AttentionSetObserver() {
+    this.listeners = null;
+    this.util = null;
+    this.accountCache = null;
   }
 
   /**

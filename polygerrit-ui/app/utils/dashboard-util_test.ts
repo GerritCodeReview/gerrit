@@ -1,11 +1,11 @@
 /**
  * @license
- * Copyright 2017 Google LLC
+ * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
 import {assert} from '@open-wc/testing';
-import '../../../test/common-test-setup';
-import {GerritNav} from './gr-navigation';
+import '../test/common-test-setup';
+import {getUserDashboard} from './dashboard-util';
 
 suite('gr-navigation tests', () => {
   suite('_getUserDashboard', () => {
@@ -17,7 +17,7 @@ suite('gr-navigation tests', () => {
     ];
 
     test('dashboard for self', () => {
-      const dashboard = GerritNav.getUserDashboard('self', sections, 'title');
+      const dashboard = getUserDashboard('self', sections, 'title');
       assert.deepEqual(dashboard, {
         title: 'title',
         sections: [
@@ -38,7 +38,7 @@ suite('gr-navigation tests', () => {
     });
 
     test('dashboard for other user', () => {
-      const dashboard = GerritNav.getUserDashboard('user', sections, 'title');
+      const dashboard = getUserDashboard('user', sections, 'title');
       assert.deepEqual(dashboard, {
         title: 'title',
         sections: [

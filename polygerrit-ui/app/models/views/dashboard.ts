@@ -3,22 +3,14 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {ChangeInfo, RepoName} from '../../api/rest-api';
+import {RepoName} from '../../api/rest-api';
 import {GerritView} from '../../services/router/router-model';
 import {DashboardId} from '../../types/common';
+import {DashboardSection} from '../../utils/dashboard-util';
 import {encodeURL} from '../../utils/url-util';
 import {define} from '../dependency';
 import {Model} from '../model';
 import {ViewState} from './base';
-
-export interface DashboardSection {
-  name: string;
-  query: string;
-  suffixForDashboard?: string;
-  selfOnly?: boolean;
-  hideIfEmpty?: boolean;
-  results?: ChangeInfo[];
-}
 
 export interface DashboardViewState extends ViewState {
   view: GerritView.DASHBOARD;

@@ -53,6 +53,4 @@ export class EditViewModel extends Model<EditViewState | undefined> {
   constructor() {
     super(undefined);
   }
-
-  finalize() {}
 }

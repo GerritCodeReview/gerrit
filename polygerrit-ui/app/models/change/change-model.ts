@@ -316,7 +316,7 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
     ];
   }
 
-  finalize() {
+  override finalize() {
     for (const s of this.subscriptions) {
       s.unsubscribe();
     }

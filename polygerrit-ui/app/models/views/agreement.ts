@@ -22,6 +22,4 @@ export class AgreementViewModel extends Model<AgreementViewState> {
   constructor() {
     super(DEFAULT_STATE);
   }
-
-  finalize() {}
 }

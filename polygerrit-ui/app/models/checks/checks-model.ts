@@ -477,7 +477,7 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
     this.reporting.reportInteraction(Interaction.CHECKS_STATS, stats);
   }
 
-  finalize() {
+  override finalize() {
     document.removeEventListener('reload', this.reloadListener);
     document.removeEventListener(
       'visibilitychange',

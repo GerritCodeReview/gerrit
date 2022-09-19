@@ -86,7 +86,7 @@ export class ConfigModel extends Model<ConfigState> implements Finalizable {
     this.subject$.next({...current, serverConfig});
   }
 
-  finalize() {
+  override finalize() {
     for (const s of this.subscriptions) {
       s.unsubscribe();
     }

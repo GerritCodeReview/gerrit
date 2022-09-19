@@ -23,6 +23,4 @@ export class PluginViewModel extends Model<PluginViewState> {
   constructor() {
     super(DEFAULT_STATE);
   }
-
-  finalize() {}
 }

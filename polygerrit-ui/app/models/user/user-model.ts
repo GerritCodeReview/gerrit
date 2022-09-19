@@ -140,7 +140,7 @@ export class UserModel extends Model<UserState> implements Finalizable {
     ];
   }
 
-  finalize() {
+  override finalize() {
     for (const s of this.subscriptions) {
       s.unsubscribe();
     }

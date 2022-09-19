@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c8ee2f4_d487cf4d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-19T12:46:24Z",
+      "side": 1,
+      "message": "You need to add a \u0027Release-Notes: skip\u0027 footer",
+      "revId": "cbe853176cdf7d0e460e74942bebc62e94782bc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

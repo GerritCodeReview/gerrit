@@ -47,10 +47,19 @@ import {
   adminViewModelToken,
   AdminViewState,
 } from '../../../models/views/admin';
-import {GroupDetailView, GroupViewState} from '../../../models/views/group';
-import {RepoDetailView, RepoViewState} from '../../../models/views/repo';
+import {
+  GroupDetailView,
+  groupViewModelToken,
+  GroupViewState,
+} from '../../../models/views/group';
+import {
+  RepoDetailView,
+  repoViewModelToken,
+  RepoViewState,
+} from '../../../models/views/repo';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
+import {merge} from 'rxjs';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
 
@@ -123,13 +132,22 @@ export class GrAdminView extends LitElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
-  private readonly getViewModel = resolve(this, adminViewModelToken);
+  private readonly getAdminViewModel = resolve(this, adminViewModelToken);
+
+  private readonly getGroupViewModel = resolve(this, groupViewModelToken);
+
+  private readonly getRepoViewModel = resolve(this, repoViewModelToken);
 
   constructor() {
     super();
     subscribe(
       this,
-      () => this.getViewModel().state$,
+      () =>
+        merge(
+          this.getAdminViewModel().state$,
+          this.getGroupViewModel().state$,
+          this.getRepoViewModel().state$
+        ),
       x => {
         this.viewState = x;
         if (this.needsReload()) this.reload();

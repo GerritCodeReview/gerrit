@@ -1779,12 +1779,7 @@ export class GrReplyDialog extends LitElement {
   }
 
   computeHasNewAttention(account?: AccountInfo) {
-    return !!(
-      account &&
-      ((account._account_id &&
-        this.newAttentionSet?.has(account._account_id)) ||
-        (account.email && this.newAttentionSet?.has(account.email)))
-    );
+    return !!(account && this.newAttentionSet?.has(getUserId(account)));
   }
 
   computeNewAttention() {
@@ -1813,7 +1808,7 @@ export class GrReplyDialog extends LitElement {
     const newAttention = new Set(this.currentAttentionSet);
 
     for (const user of this.mentionedUsersInUnresolvedDrafts) {
-      newAttention.add(user.email!);
+      newAttention.add(getUserId(user));
     }
 
     if (this.change.status === ChangeStatus.NEW) {
@@ -1942,9 +1937,7 @@ export class GrReplyDialog extends LitElement {
   }
 
   findAccountById(userId: UserId) {
-    return this.allAccounts().find(
-      r => r._account_id === userId || r.email === userId
-    );
+    return this.allAccounts().find(r => getUserId(r) === userId);
   }
 
   allAccounts() {
@@ -2148,7 +2141,7 @@ export class GrReplyDialog extends LitElement {
   private alreadyExists(ccs: AccountInput[], user: AccountInfoInput) {
     return ccs
       .filter(cc => isAccount(cc))
-      .some(cc => (cc as AccountInfoInput).email === user.email);
+      .some(cc => getUserId(cc) === getUserId(user));
   }
 
   private isAlreadyReviewerOrCC(user: AccountInfo) {

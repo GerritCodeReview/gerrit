@@ -41,10 +41,6 @@ export interface ChangeViewState extends ViewState {
   usp?: string;
 }
 
-const DEFAULT_STATE: ChangeViewState = {
-  view: GerritView.CHANGE,
-};
-
 export function createChangeUrl(state: Omit<ChangeViewState, 'view'>) {
   let range = getPatchRangeExpression(state);
   if (range.length) {
@@ -84,8 +80,8 @@ export function createChangeUrl(state: Omit<ChangeViewState, 'view'>) {
 export const changeViewModelToken =
   define<ChangeViewModel>('change-view-model');
 
-export class ChangeViewModel extends Model<ChangeViewState> {
+export class ChangeViewModel extends Model<ChangeViewState | undefined> {
   constructor() {
-    super(DEFAULT_STATE);
+    super(undefined);
   }
 }

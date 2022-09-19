@@ -181,7 +181,11 @@ import {filesModelToken} from '../../../models/change/files-model';
 import {getBaseUrl, prependOrigin} from '../../../utils/url-util';
 import {CopyLink, GrCopyLinks} from '../gr-copy-links/gr-copy-links';
 import {KnownExperimentId} from '../../../services/flags/flags';
-import {ChangeViewState, createChangeUrl} from '../../../models/views/change';
+import {
+  changeViewModelToken,
+  ChangeViewState,
+  createChangeUrl,
+} from '../../../models/views/change';
 import {rootUrl} from '../../../utils/url-util';
 import {createEditUrl} from '../../../models/views/edit';
 
@@ -275,23 +279,19 @@ export class GrChangeView extends LitElement {
 
   @query('gr-copy-links') private copyLinksDropdown?: GrCopyLinks;
 
-  /**
-   * URL params passed from the router.
-   * Use params getter/setter.
-   */
-  private _params?: ChangeViewState;
+  private _viewState?: ChangeViewState;
 
   @property({type: Object})
-  get params() {
-    return this._params;
+  get viewState() {
+    return this._viewState;
   }
 
-  set params(params: ChangeViewState | undefined) {
-    if (this._params === params) return;
-    const oldParams = this._params;
-    this._params = params;
-    this.paramsChanged();
-    this.requestUpdate('params', oldParams);
+  set viewState(viewState: ChangeViewState | undefined) {
+    if (this._viewState === viewState) return;
+    const oldViewState = this._viewState;
+    this._viewState = viewState;
+    this.viewStateChanged();
+    this.requestUpdate('viewState', oldViewState);
   }
 
   @property({type: String})
@@ -433,11 +433,11 @@ export class GrChangeView extends LitElement {
 
   // Private but used in tests.
   getEditMode() {
-    if (!this.patchRange || !this.params) {
+    if (!this.patchRange || !this.viewState) {
       return false;
     }
 
-    if (this.params.edit) {
+    if (this.viewState.edit) {
       return true;
     }
 
@@ -553,6 +553,8 @@ export class GrChangeView extends LitElement {
   private readonly getConfigModel = resolve(this, configModelToken);
 
   private readonly getFilesModel = resolve(this, filesModelToken);
+
+  private readonly getViewModel = resolve(this, changeViewModelToken);
 
   private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
 
@@ -691,6 +693,11 @@ export class GrChangeView extends LitElement {
   }
 
   private setupSubscriptions() {
+    subscribe(
+      this,
+      () => this.getViewModel().state$,
+      s => (this.viewState = s)
+    );
     subscribe(
       this,
       () => this.getChecksModel().aPluginHasRegistered$,
@@ -2094,25 +2101,25 @@ export class GrChangeView extends LitElement {
    */
   private isChangeObsolete() {
     // While this.changeNum is undefined the change view is fresh and has just
-    // not updated it to params.changeNum yet. Not obsolete in that case.
+    // not updated it to viewState.changeNum yet. Not obsolete in that case.
     if (this.changeNum === undefined) return false;
-    // this.params reflects the current state of the URL. If this.changeNum
+    // this.viewState reflects the current state of the URL. If this.changeNum
     // does not match it anymore, then this view must be considered obsolete.
-    return this.changeNum !== this.params?.changeNum;
+    return this.changeNum !== this.viewState?.changeNum;
   }
 
   // Private but used in tests.
-  hasPatchRangeChanged(value: ChangeViewState) {
+  hasPatchRangeChanged(viewState: ChangeViewState) {
     if (!this.patchRange) return false;
-    if (this.patchRange.basePatchNum !== value.basePatchNum) return true;
-    return this.hasPatchNumChanged(value);
+    if (this.patchRange.basePatchNum !== viewState.basePatchNum) return true;
+    return this.hasPatchNumChanged(viewState);
   }
 
   // Private but used in tests.
-  hasPatchNumChanged(value: ChangeViewState) {
+  hasPatchNumChanged(viewState: ChangeViewState) {
     if (!this.patchRange) return false;
-    if (value.patchNum !== undefined) {
-      return this.patchRange.patchNum !== value.patchNum;
+    if (viewState.patchNum !== undefined) {
+      return this.patchRange.patchNum !== viewState.patchNum;
     } else {
       // value.patchNum === undefined specifies the latest patchset
       return (
@@ -2122,8 +2129,8 @@ export class GrChangeView extends LitElement {
   }
 
   // Private but used in tests.
-  paramsChanged() {
-    if (this.params?.view !== GerritView.CHANGE) {
+  viewStateChanged() {
+    if (this.viewState === undefined) {
       this.initialLoadComplete = false;
       querySelectorAll(this, 'gr-overlay').forEach(overlay =>
         (overlay as GrOverlay).close()
@@ -2138,24 +2145,24 @@ export class GrChangeView extends LitElement {
       return;
     }
 
-    if (this.params.changeNum && this.params.project) {
+    if (this.viewState.changeNum && this.viewState.project) {
       this.restApiService.setInProjectLookup(
-        this.params.changeNum,
-        this.params.project
+        this.viewState.changeNum,
+        this.viewState.project
       );
     }
 
-    if (this.params.basePatchNum === undefined)
-      this.params.basePatchNum = PARENT;
+    if (this.viewState.basePatchNum === undefined)
+      this.viewState.basePatchNum = PARENT;
 
-    const patchChanged = this.hasPatchRangeChanged(this.params);
-    let patchNumChanged = this.hasPatchNumChanged(this.params);
+    const patchChanged = this.hasPatchRangeChanged(this.viewState);
+    let patchNumChanged = this.hasPatchNumChanged(this.viewState);
 
     this.patchRange = {
-      patchNum: this.params.patchNum,
-      basePatchNum: this.params.basePatchNum,
+      patchNum: this.viewState.patchNum,
+      basePatchNum: this.viewState.basePatchNum,
     };
-    this.scrollCommentId = this.params.commentId;
+    this.scrollCommentId = this.viewState.commentId;
 
     const patchKnown =
       !this.patchRange.patchNum ||
@@ -2163,7 +2170,7 @@ export class GrChangeView extends LitElement {
         ps => ps.num === this.patchRange!.patchNum
       );
     // _allPatchsets does not know value.patchNum so force a reload.
-    const forceReload = this.params.forceReload || !patchKnown;
+    const forceReload = this.viewState.forceReload || !patchKnown;
 
     // If changeNum is defined that means the change has already been
     // rendered once before so a full reload is not required.
@@ -2176,7 +2183,7 @@ export class GrChangeView extends LitElement {
         patchNumChanged = true;
       }
       if (patchChanged) {
-        // We need to collapse all diffs when params change so that a non
+        // We need to collapse all diffs when viewState changes so that a non
         // existing diff is not requested. See Issue 125270 for more details.
         this.fileList?.resetFileState();
         this.fileList?.collapseAllDiffs();
@@ -2198,8 +2205,8 @@ export class GrChangeView extends LitElement {
       return;
     }
 
-    // We need to collapse all diffs when params change so that a non existing
-    // diff is not requested. See Issue 125270 for more details.
+    // We need to collapse all diffs when viewState changes so that a non
+    // existing diff is not requested. See Issue 125270 for more details.
     this.updateComplete.then(() => {
       assertIsDefined(this.fileList);
       this.fileList?.collapseAllDiffs();
@@ -2218,7 +2225,7 @@ export class GrChangeView extends LitElement {
     }
 
     this.initialLoadComplete = false;
-    this.changeNum = this.params.changeNum;
+    this.changeNum = this.viewState.changeNum;
     this.loadData(true).then(() => {
       this.performPostLoadTasks();
     });
@@ -2232,9 +2239,9 @@ export class GrChangeView extends LitElement {
 
   private initActiveTab() {
     let tab = Tab.FILES;
-    if (this.params?.tab) {
-      tab = this.params?.tab as Tab;
-    } else if (this.params?.commentId) {
+    if (this.viewState?.tab) {
+      tab = this.viewState?.tab as Tab;
+    } else if (this.viewState?.commentId) {
       tab = Tab.COMMENT_THREADS;
     }
     const detail: SwitchTabEventDetail = {
@@ -2243,8 +2250,8 @@ export class GrChangeView extends LitElement {
     if (tab === Tab.CHECKS) {
       const state: ChecksTabState = {};
       detail.tabState = {checksTab: state};
-      if (this.params?.filter) state.filter = this.params.filter;
-      if (this.params?.attempt) state.attempt = this.params.attempt;
+      if (this.viewState?.filter) state.filter = this.viewState.filter;
+      if (this.viewState?.attempt) state.attempt = this.viewState.attempt;
     }
 
     this.setActiveTab(
@@ -2340,7 +2347,7 @@ export class GrChangeView extends LitElement {
 
   private maybeShowReplyDialog() {
     if (!this.loggedIn) return;
-    if (this.params?.openReplyDialog) {
+    if (this.viewState?.openReplyDialog) {
       this.openReplyDialog(FocusTarget.ANY);
     }
   }
@@ -2750,7 +2757,7 @@ export class GrChangeView extends LitElement {
 
   private async untilModelLoaded() {
     // NOTE: Wait until this page is connected before determining whether the
-    // model is loaded.  This can happen when params are changed when setting up
+    // model is loaded.  This can happen when viewState changes when setting up
     // this view. It's unclear whether this issue is related to Polymer
     // specifically.
     if (!this.isConnected) {

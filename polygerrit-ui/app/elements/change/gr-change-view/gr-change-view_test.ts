@@ -367,7 +367,7 @@ suite('gr-change-view tests', () => {
     element = await fixture<GrChangeView>(
       html`<gr-change-view></gr-change-view>`
     );
-    element.params = {
+    element.viewState = {
       view: GerritView.CHANGE,
       changeNum: TEST_NUMERIC_CHANGE_ID,
       project: 'gerrit' as RepoName,
@@ -730,9 +730,9 @@ suite('gr-change-view tests', () => {
       assert.equal(element.activeTab, Tab.FILES);
       // view is required
       element.changeNum = undefined;
-      element.params = {
+      element.viewState = {
         ...createChangeViewState(),
-        ...element.params,
+        ...element.viewState,
         tab: Tab.COMMENT_THREADS,
       };
       await element.updateComplete;
@@ -742,9 +742,9 @@ suite('gr-change-view tests', () => {
     test('invalid param change should not switch primary tab', async () => {
       assert.equal(element.activeTab, Tab.FILES);
       // view is required
-      element.params = {
+      element.viewState = {
         ...createChangeViewState(),
-        ...element.params,
+        ...element.viewState,
         tab: 'random',
       };
       await element.updateComplete;
@@ -1054,8 +1054,8 @@ suite('gr-change-view tests', () => {
       ) as GrRelatedChangesList;
       sinon.stub(relatedChanges, 'reload');
       sinon.stub(element, 'loadData').returns(Promise.resolve());
-      sinon.spy(element, 'paramsChanged');
-      element.params = createChangeViewState();
+      sinon.spy(element, 'viewStateChanged');
+      element.viewState = createChangeViewState();
     });
   });
 
@@ -1549,7 +1549,7 @@ suite('gr-change-view tests', () => {
     await element.updateComplete;
 
     element.changeNum = 2 as NumericChangeId;
-    element.params = {
+    element.viewState = {
       ...createChangeViewState(),
       changeNum: 2 as NumericChangeId,
     };
@@ -1574,7 +1574,7 @@ suite('gr-change-view tests', () => {
       patchNum: 1 as RevisionPatchSetNum,
     };
     element.changeNum = undefined;
-    element.params = value;
+    element.viewState = value;
     await element.updateComplete;
     assert.isTrue(reloadStub.calledOnce);
 
@@ -1590,7 +1590,7 @@ suite('gr-change-view tests', () => {
 
     value.basePatchNum = 1 as BasePatchSetNum;
     value.patchNum = 2 as RevisionPatchSetNum;
-    element.params = {...value};
+    element.viewState = {...value};
     await element.updateComplete;
     await waitEventLoop();
     assert.equal(element.fileList.selectedIndex, 0);
@@ -1619,7 +1619,7 @@ suite('gr-change-view tests', () => {
       view: GerritView.CHANGE,
       patchNum: 1 as RevisionPatchSetNum,
     };
-    element.params = value;
+    element.viewState = value;
     await element.updateComplete;
 
     element.initialLoadComplete = true;
@@ -1633,7 +1633,7 @@ suite('gr-change-view tests', () => {
 
     value.basePatchNum = 1 as BasePatchSetNum;
     value.patchNum = 2 as RevisionPatchSetNum;
-    element.params = {...value};
+    element.viewState = {...value};
     await element.updateComplete;
     assert.isTrue(reloadPortedCommentsStub.calledOnce);
     assert.isTrue(reloadPortedDraftsStub.calledOnce);
@@ -1646,13 +1646,13 @@ suite('gr-change-view tests', () => {
       .callsFake(() => Promise.resolve());
     const collapseStub = sinon.stub(element.fileList, 'collapseAllDiffs');
     const value: ChangeViewState = createChangeViewState();
-    element.params = value;
+    element.viewState = value;
     // change already loaded
     assert.isOk(element.changeNum);
     await element.updateComplete;
     assert.isFalse(reloadStub.calledOnce);
     element.initialLoadComplete = true;
-    element.params = {...value};
+    element.viewState = {...value};
     await element.updateComplete;
     assert.isFalse(reloadStub.calledTwice);
     assert.isFalse(collapseStub.calledTwice);
@@ -1667,7 +1667,7 @@ suite('gr-change-view tests', () => {
       .stub(element, 'loadData')
       .callsFake(() => Promise.resolve());
     const collapseStub = sinon.stub(element.fileList, 'collapseAllDiffs');
-    element.params = {...createChangeViewState(), forceReload: true};
+    element.viewState = {...createChangeViewState(), forceReload: true};
     await element.updateComplete;
     assert.isTrue(getChangeStub.called);
     assert.isTrue(loadDataStub.called);
@@ -1681,12 +1681,12 @@ suite('gr-change-view tests', () => {
     element.addEventListener('recreate-change-view', recreateSpy);
 
     const value: ChangeViewState = createChangeViewState();
-    element.params = value;
+    element.viewState = value;
     await element.updateComplete;
     assert.isFalse(recreateSpy.calledOnce);
 
     value.changeNum = 555111333 as NumericChangeId;
-    element.params = {...value};
+    element.viewState = {...value};
     await element.updateComplete;
     assert.isTrue(recreateSpy.calledOnce);
   });
@@ -1701,7 +1701,7 @@ suite('gr-change-view tests', () => {
       Promise.resolve({...createMergeable(), mergeable: true})
     );
 
-    element.params = createChangeViewState();
+    element.viewState = createChangeViewState();
     element.getChangeModel().setState({
       loadingStatus: LoadingStatus.LOADED,
       change: {
@@ -2019,8 +2019,8 @@ suite('gr-change-view tests', () => {
 
   test('header class computation', () => {
     assert.equal(element.computeHeaderClass(), 'header');
-    assertIsDefined(element.params);
-    element.params.edit = true;
+    assertIsDefined(element.viewState);
+    element.viewState.edit = true;
     assert.equal(element.computeHeaderClass(), 'header editMode');
   });
 
@@ -2038,8 +2038,8 @@ suite('gr-change-view tests', () => {
   });
 
   test('computeEditMode', async () => {
-    const callCompute = async (params: ChangeViewState) => {
-      element.params = params;
+    const callCompute = async (viewState: ChangeViewState) => {
+      element.viewState = viewState;
       await element.updateComplete;
       return element.getEditMode();
     };
@@ -2256,30 +2256,30 @@ suite('gr-change-view tests', () => {
     element.change.current_revision = '1' as CommitId;
     element.change = {...element.change};
 
-    const params = createChangeViewState();
+    const viewState = createChangeViewState();
 
-    assert.isFalse(element.hasPatchRangeChanged(params));
-    assert.isFalse(element.hasPatchNumChanged(params));
+    assert.isFalse(element.hasPatchRangeChanged(viewState));
+    assert.isFalse(element.hasPatchNumChanged(viewState));
 
-    params.basePatchNum = PARENT;
+    viewState.basePatchNum = PARENT;
     // undefined means navigate to latest patchset
-    params.patchNum = undefined;
+    viewState.patchNum = undefined;
 
     element.patchRange = {
       patchNum: 2 as RevisionPatchSetNum,
       basePatchNum: PARENT,
     };
 
-    assert.isTrue(element.hasPatchRangeChanged(params));
-    assert.isTrue(element.hasPatchNumChanged(params));
+    assert.isTrue(element.hasPatchRangeChanged(viewState));
+    assert.isTrue(element.hasPatchNumChanged(viewState));
 
     element.patchRange = {
       patchNum: 4 as RevisionPatchSetNum,
       basePatchNum: PARENT,
     };
 
-    assert.isFalse(element.hasPatchRangeChanged(params));
-    assert.isFalse(element.hasPatchNumChanged(params));
+    assert.isFalse(element.hasPatchRangeChanged(viewState));
+    assert.isFalse(element.hasPatchNumChanged(viewState));
   });
 
   suite('handleEditTap', () => {
@@ -2485,7 +2485,7 @@ suite('gr-change-view tests', () => {
       assert.isFalse(changeFullyLoadedStub.called);
     });
 
-    test('report changeDisplayed on paramsChanged', async () => {
+    test('report changeDisplayed on viewStateChanged', async () => {
       stubRestApi('getChangeOrEditFiles').resolves({
         'a-file.js': {},
       });
@@ -2499,7 +2499,7 @@ suite('gr-change-view tests', () => {
       );
       // reset so reload is triggered
       element.changeNum = undefined;
-      element.params = {
+      element.viewState = {
         ...createChangeViewState(),
         changeNum: TEST_NUMERIC_CHANGE_ID,
         project: TEST_PROJECT_NAME,

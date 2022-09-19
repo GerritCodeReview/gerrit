@@ -34,6 +34,24 @@
       "parentUuid": "00d8c6a5_e1a6cdab",
       "revId": "10dfa9379538c0ec5c5992307612e40a686bfa69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd445819_f7784f12",
+        "filename": "polygerrit-ui/app/models/views/change.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-19T13:03:32Z",
+      "side": 1,
+      "message": "I agree about not having a class hierarchy.  I was thinking we could do it for all models, not just view models.  But I\u0027m also fine keeping as is.",
+      "parentUuid": "2d625d27_3ba5702e",
+      "revId": "10dfa9379538c0ec5c5992307612e40a686bfa69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

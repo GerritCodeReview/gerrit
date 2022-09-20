@@ -22,6 +22,29 @@
       },
       "revId": "c9e26eb3dd0a2c04ebcc53136fd72af74f6654a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff7f89b7_009dc50c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-20T18:32:01Z",
+      "side": 1,
+      "message": "nit: s/ReleaseNotes/Release-Notes/",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 12
+      },
+      "revId": "c9e26eb3dd0a2c04ebcc53136fd72af74f6654a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

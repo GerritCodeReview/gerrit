@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ee03d394_54c6304f",
+        "filename": "polygerrit-ui/app/utils/change-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-20T11:46:24Z",
+      "side": 1,
+      "message": "Is it possible to look at change.owner instead of passing it in? That way it will always be there and you can remove the undefined checks too",
+      "range": {
+        "startLine": 259,
+        "startChar": 0,
+        "endLine": 259,
+        "endChar": 21
+      },
+      "revId": "194b93b350443bb0d990d17be301e7cb193bbd4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "66e22371_223040a2",
         "filename": "polygerrit-ui/app/utils/change-util.ts",
         "patchSetId": 2

@@ -21,14 +21,10 @@ export interface Page {
 
 // See https://visionmedia.github.io/page.js/ for details
 export interface PageContext {
-  save(): void;
-  handled: boolean;
   canonicalPath: string;
   path: string;
   querystring: string;
   pathname: string;
-  state: unknown;
-  title: string;
   hash: string;
   params: {[paramIndex: string]: string};
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66e22371_223040a2",
+        "filename": "polygerrit-ui/app/utils/change-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-09-20T11:28:49Z",
+      "side": 1,
+      "message": "Maybe\n\n```suggestion\n  return reviewers.some(r \u003d\u003e !isServiceUser(r) \u0026\u0026\n                             (!owner || getUserId(r) !\u003d\u003d getUserId(owner)));\n```\n\nTo avoid 2nd pass",
+      "range": {
+        "startLine": 262,
+        "startChar": 2,
+        "endLine": 265,
+        "endChar": 48
+      },
+      "revId": "194b93b350443bb0d990d17be301e7cb193bbd4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

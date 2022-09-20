@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0878962_9407e045",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-20T18:36:05Z",
+      "side": 1,
+      "message": "missing `Release-Notes` footer",
+      "revId": "5e1fcad867b484073c663ed2a5f6c44b64ad86ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36bcaa88_1f62638e",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-20T18:36:05Z",
+      "side": 1,
+      "message": "it seems that CI chokes on the javadoc with the following error:\n```\njava/com/google/gerrit/server/notedb/NoteDbUtil.java:58: error: [EmptyBlockTag] A block tag (@param, @return, @throws, @deprecated) has an empty description. Block tags without descriptions don\u0027t add much value for future readers of the code; consider removing the tag entirely or adding a description.\n   * @throws IOException\n     ^\n    (see https://google.github.io/styleguide/javaguide.html#s7.1.3-javadoc-block-tags)\n  Did you mean \u0027*\u0027?\n  ...\n```",
+      "range": {
+        "startLine": 58,
+        "startChar": 3,
+        "endLine": 58,
+        "endChar": 24
+      },
+      "revId": "5e1fcad867b484073c663ed2a5f6c44b64ad86ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

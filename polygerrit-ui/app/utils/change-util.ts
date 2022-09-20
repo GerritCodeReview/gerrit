@@ -14,7 +14,7 @@ import {
 } from '../types/common';
 import {ParsedChangeInfo} from '../types/types';
 import {ChangeStates} from '../elements/shared/gr-change-status/gr-change-status';
-import {isServiceUser} from './account-util';
+import {getUserId, isServiceUser} from './account-util';
 
 // This can be wrong! See WARNING above
 interface ChangeStatusesOptions {
@@ -257,8 +257,11 @@ export function getRevisionKey(
 export function hasHumanReviewer(
   change?: ChangeInfo | ParsedChangeInfo
 ): boolean {
-  const reviewers = change?.reviewers.REVIEWER ?? [];
-  return reviewers.some(r => !isServiceUser(r));
+  if (!change) return false;
+  const reviewers = change.reviewers.REVIEWER ?? [];
+  return reviewers
+    .filter(r => getUserId(r) !== getUserId(change.owner))
+    .some(r => !isServiceUser(r));
 }
 
 export function isRemovableReviewer(

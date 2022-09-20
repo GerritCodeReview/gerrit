@@ -30,6 +30,7 @@ import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {assert} from '../../../utils/common-util';
 import {ShortcutController} from '../../lit/shortcut-controller';
+import { getAccountSuggestions } from '../../../utils/account-util';
 
 const MAX_ITEMS_DROPDOWN = 10;
 
@@ -601,21 +602,13 @@ export class GrTextarea extends LitElement {
   }
 
   async computeReviewerSuggestions() {
-    this.suggestions = (
-      (await this.restApiService.getSuggestedAccounts(
+    this.suggestions = 
+      (await getAccountSuggestions(
         this.currentSearchString ?? '',
-        /* number= */ 15,
+        this.restApiService,
         this.changeNum,
         /* filterActive= */ true
       )) ?? []
-    )
-      .filter(account => account.email)
-      .map(account => {
-        return {
-          text: `${account.name ?? ''} <${account.email}>`,
-          dataValue: account.email,
-        };
-      });
   }
 
   // private but used in test

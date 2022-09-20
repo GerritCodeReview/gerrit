@@ -49,6 +49,7 @@ import {
 import {
   AccountId,
   AccountInfo,
+  AccountDetailInfo,
   AttentionSetInput,
   ChangeInfo,
   CommentInput,
@@ -321,7 +322,7 @@ export class GrReplyDialog extends LitElement {
    * we cannot reset the mentioned ccs when drafts change.
    */
   @state()
-  mentionedUsers: AccountInput[] = [];
+  mentionedUsers: AccountDetailInfo[] = [];
 
   @state()
   mentionedUsersInUnresolvedDrafts: AccountInfo[] = [];

@@ -2553,7 +2553,14 @@ suite('gr-reply-dialog tests', () => {
       await element.updateComplete;
     });
 
-    test('mentioned user in resolved draft is added to CC', async () => {
+    test.only('mentioned user in resolved draft is added to CC', async () => {
+      debugger;
+      stubRestApi('getAccountDetails').returns(
+        Promise.resolve({
+          ...createAccountWithEmail('abcd@def.com' as EmailAddress),
+          registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
+        })
+      );
       const draft = {
         ...createDraft(),
         message: 'hey @abcd@def take a look at this',
@@ -2575,7 +2582,10 @@ suite('gr-reply-dialog tests', () => {
       await element.updateComplete;
 
       assert.deepEqual(element.mentionedUsers, [
-        {email: 'abcd@def' as EmailAddress},
+        {
+          ...createAccountWithEmail('abcd@def.com' as EmailAddress),
+          registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
+        }
       ]);
       assert.deepEqual(element.ccs, [{email: 'abcd@def' as EmailAddress}]);
 

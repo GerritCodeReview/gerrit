@@ -7,7 +7,11 @@ import {assert} from '@open-wc/testing';
 import {ChangeStatus} from '../constants/constants';
 import {ChangeStates} from '../elements/shared/gr-change-status/gr-change-status';
 import '../test/common-test-setup';
-import {createChange, createRevisions} from '../test/test-data-generators';
+import {
+  createAccountWithId,
+  createChange,
+  createRevisions,
+} from '../test/test-data-generators';
 import {
   AccountId,
   CommitId,
@@ -24,6 +28,7 @@ import {
   isRemovableReviewer,
   ListChangesOption,
   listChangesOptionsToHex,
+  hasHumanReviewer,
 } from './change-util';
 
 suite('change-util tests', () => {
@@ -170,6 +175,23 @@ suite('change-util tests', () => {
       ChangeStates.WIP,
       ChangeStates.PRIVATE,
     ]);
+  });
+
+  test('hasHumanReviewer', () => {
+    const owner = createAccountWithId(1);
+    const change = {
+      ...createChange(),
+      _number: 1 as NumericChangeId,
+      subject: 'Subject 1',
+      owner,
+      reviewers: {
+        REVIEWER: [owner],
+      },
+    };
+    assert.isFalse(hasHumanReviewer(change, owner));
+
+    change.reviewers.REVIEWER.push(createAccountWithId(2));
+    assert.isTrue(hasHumanReviewer(change, owner));
   });
 
   test('isRemovableReviewer', () => {

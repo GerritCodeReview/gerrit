@@ -321,7 +321,7 @@ export class GrReplyDialog extends LitElement {
    * we cannot reset the mentioned ccs when drafts change.
    */
   @state()
-  mentionedUsers: AccountInput[] = [];
+  mentionedUsers: AccountInfo[] = [];
 
   @state()
   mentionedUsersInUnresolvedDrafts: AccountInfo[] = [];

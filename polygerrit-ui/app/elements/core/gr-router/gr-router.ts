@@ -393,15 +393,15 @@ export class GrRouter implements Finalizable {
    * resolves if the user is logged in. If the user us not logged in, the
    * promise is rejected and the page is redirected to the login flow.
    *
-   * @return A promise yielding the original route data
+   * @return A promise yielding the original route ctx
    * (if it resolves).
    */
-  redirectIfNotLoggedIn(data: PageContext) {
+  redirectIfNotLoggedIn(ctx: PageContext) {
     return this.restApiService.getLoggedIn().then(loggedIn => {
       if (loggedIn) {
         return Promise.resolve();
       } else {
-        this.redirectToLogin(data.canonicalPath);
+        this.redirectToLogin(ctx.canonicalPath);
         return Promise.reject(new Error());
       }
     });
@@ -870,13 +870,13 @@ export class GrRouter implements Finalizable {
    * @return if handling the route involves asynchrony, then a
    * promise is returned. Otherwise, synchronous handling returns null.
    */
-  handleRootRoute(data: PageContext) {
-    if (data.querystring.match(/^closeAfterLogin/)) {
+  handleRootRoute(ctx: PageContext) {
+    if (ctx.querystring.match(/^closeAfterLogin/)) {
       // Close child window on redirect after login.
       window.close();
       return null;
     }
-    let hash = this.getHashFromCanonicalPath(data.canonicalPath);
+    let hash = this.getHashFromCanonicalPath(ctx.canonicalPath);
     // For backward compatibility with GWT links.
     if (hash) {
       // In certain login flows the server may redirect to a hash without
@@ -884,7 +884,7 @@ export class GrRouter implements Finalizable {
       if (hash[0] !== '/') {
         hash = '/' + hash;
       }
-      if (hash.includes('/ /') && data.canonicalPath.includes('/+/')) {
+      if (hash.includes('/ /') && ctx.canonicalPath.includes('/+/')) {
         // Path decodes all '+' to ' ' -- this breaks project-based URLs.
         // See Issue 6888.
         hash = hash.replace('/ /', '/+/');
@@ -909,21 +909,21 @@ export class GrRouter implements Finalizable {
   /**
    * Handle dashboard routes. These may be user, or project dashboards.
    */
-  handleDashboardRoute(data: PageContext) {
+  handleDashboardRoute(ctx: PageContext) {
     // User dashboard. We require viewing user to be logged in, else we
     // redirect to login for self dashboard or simple owner search for
     // other user dashboard.
     return this.restApiService.getLoggedIn().then(loggedIn => {
       if (!loggedIn) {
-        if (data.params[0].toLowerCase() === 'self') {
-          this.redirectToLogin(data.canonicalPath);
+        if (ctx.params[0].toLowerCase() === 'self') {
+          this.redirectToLogin(ctx.canonicalPath);
         } else {
-          this.redirect('/q/owner:' + encodeURIComponent(data.params[0]));
+          this.redirect('/q/owner:' + encodeURIComponent(ctx.params[0]));
         }
       } else {
         const state: DashboardViewState = {
           view: GerritView.DASHBOARD,
-          user: data.params[0],
+          user: ctx.params[0],
         };
         this.setState(state);
         this.dashboardViewModel.updateState(state);
@@ -966,106 +966,106 @@ export class GrRouter implements Finalizable {
     return Promise.resolve();
   }
 
-  handleProjectDashboardRoute(data: PageContext) {
-    const project = data.params[0] as RepoName;
+  handleProjectDashboardRoute(ctx: PageContext) {
+    const project = ctx.params[0] as RepoName;
     const state: DashboardViewState = {
       view: GerritView.DASHBOARD,
       project,
-      dashboard: decodeURIComponent(data.params[1]) as DashboardId,
+      dashboard: decodeURIComponent(ctx.params[1]) as DashboardId,
     };
     this.setState(state);
     this.dashboardViewModel.updateState(state);
     this.reporting.setRepoName(project);
   }
 
-  handleLegacyProjectDashboardRoute(data: PageContext) {
-    this.redirect('/p/' + data.params[0] + '/+/dashboard/' + data.params[1]);
+  handleLegacyProjectDashboardRoute(ctx: PageContext) {
+    this.redirect('/p/' + ctx.params[0] + '/+/dashboard/' + ctx.params[1]);
   }
 
-  handleGroupInfoRoute(data: PageContext) {
-    this.redirect('/admin/groups/' + encodeURIComponent(data.params[0]));
+  handleGroupInfoRoute(ctx: PageContext) {
+    this.redirect('/admin/groups/' + encodeURIComponent(ctx.params[0]));
   }
 
   handleGroupSelfRedirectRoute(_: PageContext) {
     this.redirect('/settings/#Groups');
   }
 
-  handleGroupRoute(data: PageContext) {
+  handleGroupRoute(ctx: PageContext) {
     const state: GroupViewState = {
       view: GerritView.GROUP,
-      groupId: data.params[0] as GroupId,
+      groupId: ctx.params[0] as GroupId,
     };
     this.setState(state);
     this.groupViewModel.updateState(state);
   }
 
-  handleGroupAuditLogRoute(data: PageContext) {
+  handleGroupAuditLogRoute(ctx: PageContext) {
     const state: GroupViewState = {
       view: GerritView.GROUP,
       detail: GroupDetailView.LOG,
-      groupId: data.params[0] as GroupId,
+      groupId: ctx.params[0] as GroupId,
     };
     this.setState(state);
     this.groupViewModel.updateState(state);
   }
 
-  handleGroupMembersRoute(data: PageContext) {
+  handleGroupMembersRoute(ctx: PageContext) {
     const state: GroupViewState = {
       view: GerritView.GROUP,
       detail: GroupDetailView.MEMBERS,
-      groupId: data.params[0] as GroupId,
+      groupId: ctx.params[0] as GroupId,
     };
     this.setState(state);
     this.groupViewModel.updateState(state);
   }
 
-  handleGroupListOffsetRoute(data: PageContext) {
+  handleGroupListOffsetRoute(ctx: PageContext) {
     const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.GROUPS,
-      offset: data.params[1] || 0,
+      offset: ctx.params[1] || 0,
       filter: null,
-      openCreateModal: data.hash === 'create',
+      openCreateModal: ctx.hash === 'create',
     };
     this.setState(state);
     this.adminViewModel.updateState(state);
   }
 
-  handleGroupListFilterOffsetRoute(data: PageContext) {
+  handleGroupListFilterOffsetRoute(ctx: PageContext) {
     const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.GROUPS,
-      offset: data.params['offset'],
-      filter: data.params['filter'],
+      offset: ctx.params['offset'],
+      filter: ctx.params['filter'],
     };
     this.setState(state);
     this.adminViewModel.updateState(state);
   }
 
-  handleGroupListFilterRoute(data: PageContext) {
+  handleGroupListFilterRoute(ctx: PageContext) {
     const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.GROUPS,
-      filter: data.params['filter'] || null,
+      filter: ctx.params['filter'] || null,
     };
     this.setState(state);
     this.adminViewModel.updateState(state);
   }
 
-  handleProjectsOldRoute(data: PageContext) {
+  handleProjectsOldRoute(ctx: PageContext) {
     let params = '';
-    if (data.params[1]) {
-      params = encodeURIComponent(data.params[1]);
-      if (data.params[1].includes(',')) {
-        params = encodeURIComponent(data.params[1]).replace('%2C', ',');
+    if (ctx.params[1]) {
+      params = encodeURIComponent(ctx.params[1]);
+      if (ctx.params[1].includes(',')) {
+        params = encodeURIComponent(ctx.params[1]).replace('%2C', ',');
       }
     }
 
     this.redirect(`/admin/repos/${params}`);
   }
 
-  handleRepoCommandsRoute(data: PageContext) {
-    const repo = data.params[0] as RepoName;
+  handleRepoCommandsRoute(ctx: PageContext) {
+    const repo = ctx.params[0] as RepoName;
     const state: RepoViewState = {
       view: GerritView.REPO,
       detail: RepoDetailView.COMMANDS,
@@ -1076,8 +1076,8 @@ export class GrRouter implements Finalizable {
     this.reporting.setRepoName(repo);
   }
 
-  handleRepoGeneralRoute(data: PageContext) {
-    const repo = data.params[0] as RepoName;
+  handleRepoGeneralRoute(ctx: PageContext) {
+    const repo = ctx.params[0] as RepoName;
     const state: RepoViewState = {
       view: GerritView.REPO,
       detail: RepoDetailView.GENERAL,
@@ -1088,8 +1088,8 @@ export class GrRouter implements Finalizable {
     this.reporting.setRepoName(repo);
   }
 
-  handleRepoAccessRoute(data: PageContext) {
-    const repo = data.params[0] as RepoName;
+  handleRepoAccessRoute(ctx: PageContext) {
+    const repo = ctx.params[0] as RepoName;
     const state: RepoViewState = {
       view: GerritView.REPO,
       detail: RepoDetailView.ACCESS,
@@ -1100,8 +1100,8 @@ export class GrRouter implements Finalizable {
     this.reporting.setRepoName(repo);
   }
 
-  handleRepoDashboardsRoute(data: PageContext) {
-    const repo = data.params[0] as RepoName;
+  handleRepoDashboardsRoute(ctx: PageContext) {
+    const repo = ctx.params[0] as RepoName;
     const state: RepoViewState = {
       view: GerritView.REPO,
       detail: RepoDetailView.DASHBOARDS,
@@ -1112,104 +1112,104 @@ export class GrRouter implements Finalizable {
     this.reporting.setRepoName(repo);
   }
 
-  handleBranchListOffsetRoute(data: PageContext) {
+  handleBranchListOffsetRoute(ctx: PageContext) {
     const state: RepoViewState = {
       view: GerritView.REPO,
       detail: RepoDetailView.BRANCHES,
-      repo: data.params[0] as RepoName,
-      offset: data.params[2] || 0,
+      repo: ctx.params[0] as RepoName,
+      offset: ctx.params[2] || 0,
       filter: null,
     };
     this.setState(state);
     this.repoViewModel.updateState(state);
   }
 
-  handleBranchListFilterOffsetRoute(data: PageContext) {
+  handleBranchListFilterOffsetRoute(ctx: PageContext) {
     const state: RepoViewState = {
       view: GerritView.REPO,
       detail: RepoDetailView.BRANCHES,
-      repo: data.params['repo'] as RepoName,
-      offset: data.params['offset'],
-      filter: data.params['filter'],
+      repo: ctx.params['repo'] as RepoName,
+      offset: ctx.params['offset'],
+      filter: ctx.params['filter'],
     };
     this.setState(state);
     this.repoViewModel.updateState(state);
   }
 
-  handleBranchListFilterRoute(data: PageContext) {
+  handleBranchListFilterRoute(ctx: PageContext) {
     const state: RepoViewState = {
       view: GerritView.REPO,
       detail: RepoDetailView.BRANCHES,
-      repo: data.params['repo'] as RepoName,
-      filter: data.params['filter'] || null,
+      repo: ctx.params['repo'] as RepoName,
+      filter: ctx.params['filter'] || null,
     };
     this.setState(state);
     this.repoViewModel.updateState(state);
   }
 
-  handleTagListOffsetRoute(data: PageContext) {
+  handleTagListOffsetRoute(ctx: PageContext) {
     const state: RepoViewState = {
       view: GerritView.REPO,
       detail: RepoDetailView.TAGS,
-      repo: data.params[0] as RepoName,
-      offset: data.params[2] || 0,
+      repo: ctx.params[0] as RepoName,
+      offset: ctx.params[2] || 0,
       filter: null,
     };
     this.setState(state);
     this.repoViewModel.updateState(state);
   }
 
-  handleTagListFilterOffsetRoute(data: PageContext) {
+  handleTagListFilterOffsetRoute(ctx: PageContext) {
     const state: RepoViewState = {
       view: GerritView.REPO,
       detail: RepoDetailView.TAGS,
-      repo: data.params['repo'] as RepoName,
-      offset: data.params['offset'],
-      filter: data.params['filter'],
+      repo: ctx.params['repo'] as RepoName,
+      offset: ctx.params['offset'],
+      filter: ctx.params['filter'],
     };
     this.setState(state);
     this.repoViewModel.updateState(state);
   }
 
-  handleTagListFilterRoute(data: PageContext) {
+  handleTagListFilterRoute(ctx: PageContext) {
     const state: RepoViewState = {
       view: GerritView.REPO,
       detail: RepoDetailView.TAGS,
-      repo: data.params['repo'] as RepoName,
-      filter: data.params['filter'] || null,
+      repo: ctx.params['repo'] as RepoName,
+      filter: ctx.params['filter'] || null,
     };
     this.setState(state);
     this.repoViewModel.updateState(state);
   }
 
-  handleRepoListOffsetRoute(data: PageContext) {
+  handleRepoListOffsetRoute(ctx: PageContext) {
     const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.REPOS,
-      offset: data.params[1] || 0,
+      offset: ctx.params[1] || 0,
       filter: null,
-      openCreateModal: data.hash === 'create',
+      openCreateModal: ctx.hash === 'create',
     };
     this.setState(state);
     this.adminViewModel.updateState(state);
   }
 
-  handleRepoListFilterOffsetRoute(data: PageContext) {
+  handleRepoListFilterOffsetRoute(ctx: PageContext) {
     const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.REPOS,
-      offset: data.params['offset'],
-      filter: data.params['filter'],
+      offset: ctx.params['offset'],
+      filter: ctx.params['filter'],
     };
     this.setState(state);
     this.adminViewModel.updateState(state);
   }
 
-  handleRepoListFilterRoute(data: PageContext) {
+  handleRepoListFilterRoute(ctx: PageContext) {
     const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.REPOS,
-      filter: data.params['filter'] || null,
+      filter: ctx.params['filter'] || null,
     };
     this.setState(state);
     this.adminViewModel.updateState(state);
@@ -1227,37 +1227,37 @@ export class GrRouter implements Finalizable {
     this.redirect('/admin/groups#create');
   }
 
-  handleRepoRoute(data: PageContext) {
-    this.redirect(data.path + ',general');
+  handleRepoRoute(ctx: PageContext) {
+    this.redirect(ctx.path + ',general');
   }
 
-  handlePluginListOffsetRoute(data: PageContext) {
+  handlePluginListOffsetRoute(ctx: PageContext) {
     const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.PLUGINS,
-      offset: data.params[1] || 0,
+      offset: ctx.params[1] || 0,
       filter: null,
     };
     this.setState(state);
     this.adminViewModel.updateState(state);
   }
 
-  handlePluginListFilterOffsetRoute(data: PageContext) {
+  handlePluginListFilterOffsetRoute(ctx: PageContext) {
     const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.PLUGINS,
-      offset: data.params['offset'],
-      filter: data.params['filter'],
+      offset: ctx.params['offset'],
+      filter: ctx.params['filter'],
     };
     this.setState(state);
     this.adminViewModel.updateState(state);
   }
 
-  handlePluginListFilterRoute(data: PageContext) {
+  handlePluginListFilterRoute(ctx: PageContext) {
     const state: AdminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.PLUGINS,
-      filter: data.params['filter'] || null,
+      filter: ctx.params['filter'] || null,
     };
     this.setState(state);
     this.adminViewModel.updateState(state);
@@ -1272,23 +1272,23 @@ export class GrRouter implements Finalizable {
     this.adminViewModel.updateState(state);
   }
 
-  handleQueryRoute(data: PageContext) {
+  handleQueryRoute(ctx: PageContext) {
     const state: SearchViewState = {
       view: GerritView.SEARCH,
-      query: data.params[0],
-      offset: data.params[2],
+      query: ctx.params[0],
+      offset: ctx.params[2],
     };
     this.setState(state);
     this.searchViewModel.updateState(state);
   }
 
-  handleChangeIdQueryRoute(data: PageContext) {
+  handleChangeIdQueryRoute(ctx: PageContext) {
     // TODO(pcc): This will need to indicate that this was a change ID query if
     // standard queries gain the ability to search places like commit messages
     // for change IDs.
     const state: SearchViewState = {
       view: GerritView.SEARCH,
-      query: data.params[0],
+      query: ctx.params[0],
     };
     this.setState(state);
     this.searchViewModel.updateState(state);
@@ -1483,11 +1483,11 @@ export class GrRouter implements Finalizable {
     this.agreementViewModel.updateState(state);
   }
 
-  handleSettingsLegacyRoute(data: PageContext) {
+  handleSettingsLegacyRoute(ctx: PageContext) {
     // email tokens may contain '+' but no space.
     // The parameter parsing replaces all '+' with a space,
     // undo that to have valid tokens.
-    const token = data.params[0].replace(/ /g, '+');
+    const token = ctx.params[0].replace(/ /g, '+');
     const state: SettingsViewState = {
       view: GerritView.SETTINGS,
       emailToken: token,
@@ -1547,23 +1547,23 @@ export class GrRouter implements Finalizable {
     this.pluginViewModel.updateState(state);
   }
 
-  handleDocumentationSearchRoute(data: PageContext) {
+  handleDocumentationSearchRoute(ctx: PageContext) {
     const state: DocumentationViewState = {
       view: GerritView.DOCUMENTATION_SEARCH,
-      filter: data.params['filter'] || null,
+      filter: ctx.params['filter'] || null,
     };
     this.setState(state);
     this.documentationViewModel.updateState(state);
   }
 
-  handleDocumentationSearchRedirectRoute(data: PageContext) {
+  handleDocumentationSearchRedirectRoute(ctx: PageContext) {
     this.redirect(
-      '/Documentation/q/filter:' + encodeURIComponent(data.params[0])
+      '/Documentation/q/filter:' + encodeURIComponent(ctx.params[0])
     );
   }
 
-  handleDocumentationRedirectRoute(data: PageContext) {
-    if (data.params[1]) {
+  handleDocumentationRedirectRoute(ctx: PageContext) {
+    if (ctx.params[1]) {
       windowLocationReload();
     } else {
       // Redirect /Documentation to /Documentation/index.html

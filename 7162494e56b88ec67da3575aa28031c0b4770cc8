@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6cc18c8a_054dc1be",
+        "filename": "polygerrit-ui/app/utils/page-wrapper-utils.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-20T07:30:00Z",
+      "side": 0,
+      "message": "Given that this is mirroring an external type, I\u0027d prefer we keep them and maybe add a \"unused\" comment above the section of the unused ones?\n\nOtherwise I fear we might risk reinventing the wheel when we want to `save()` something in the future, not being aware that Page.js offers this functionality.\n\nWDYT?",
+      "revId": "7162494e56b88ec67da3575aa28031c0b4770cc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

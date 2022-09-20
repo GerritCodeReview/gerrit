@@ -8,7 +8,7 @@ import './gr-avatar';
 import {GrAvatar} from './gr-avatar';
 import {AvatarInfo} from '../../../types/common';
 import {
-  createAccountWithEmail,
+  createAccountWithEmailOnly,
   createAccountWithId,
   createServerInfo,
 } from '../../../test/test-data-generators';
@@ -96,7 +96,7 @@ suite('gr-avatar tests', () => {
 
     test('loads using email', async () => {
       const accountWithEmail = {
-        ...createAccountWithEmail('foo@gmail.com'),
+        ...createAccountWithEmailOnly('foo@gmail.com'),
         avatars: defaultAvatars,
       };
       element = await fixture(

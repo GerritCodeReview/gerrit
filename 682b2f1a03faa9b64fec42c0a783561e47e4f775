@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2854824e_eb64e9bc",
+        "filename": "polygerrit-ui/app/elements/change/gr-commit-info/gr-commit-info_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-20T12:27:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcae9bba_0c1cc781",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 57
+      },
+      "revId": "682b2f1a03faa9b64fec42c0a783561e47e4f775",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "46d59199_e34a1538",
@@ -66,6 +90,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "056bd2d2_6e82f5a7",
+        "filename": "polygerrit-ui/app/utils/weblink-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-20T12:27:18Z",
+      "side": 1,
+      "message": "What magic?",
+      "parentUuid": "46d59199_e34a1538",
+      "range": {
+        "startLine": 26,
+        "startChar": 15,
+        "endLine": 26,
+        "endChar": 33
+      },
+      "revId": "682b2f1a03faa9b64fec42c0a783561e47e4f775",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f1b16041_b10c9b26",
         "filename": "polygerrit-ui/app/utils/weblink-util.ts",
         "patchSetId": 4
@@ -77,6 +125,30 @@
       "writtenOn": "2022-09-20T10:59:07Z",
       "side": 1,
       "message": "consider `get` prefix like others",
+      "range": {
+        "startLine": 32,
+        "startChar": 16,
+        "endLine": 32,
+        "endChar": 39
+      },
+      "revId": "682b2f1a03faa9b64fec42c0a783561e47e4f775",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca2e9587_a2501f0f",
+        "filename": "polygerrit-ui/app/utils/weblink-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-20T12:27:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1b16041_b10c9b26",
       "range": {
         "startLine": 32,
         "startChar": 16,

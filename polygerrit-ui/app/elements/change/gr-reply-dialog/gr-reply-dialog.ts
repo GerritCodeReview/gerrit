@@ -1664,7 +1664,7 @@ export class GrReplyDialog extends LitElement {
 
   chooseFocusTarget() {
     if (!isOwner(this.change, this.account)) return FocusTarget.BODY;
-    if (hasHumanReviewer(this.change)) return FocusTarget.BODY;
+    if (hasHumanReviewer(this.change, this.account)) return FocusTarget.BODY;
     return FocusTarget.REVIEWERS;
   }
 

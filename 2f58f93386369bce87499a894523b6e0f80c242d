@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7a69472_726b6076",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-20T18:25:10Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com it LGTM so we could turn the WIP off having said that I believe we should:\n* add topic to all changes in chain so that it gets merged as a complete feature once it is ready\n* we need some documentation on the import process describing also its limits (e.g. that changes are going to be in read-only state, etc...) - yet it can be added as a follow-up (again topic will be useful in that case)\n\nWDYT?",
+      "revId": "2f58f93386369bce87499a894523b6e0f80c242d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

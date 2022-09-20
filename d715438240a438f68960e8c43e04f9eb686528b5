@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "389c816a_b6b65e33",
+        "filename": "java/com/google/gerrit/server/index/change/IndexedChangeQuery.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-20T23:07:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1298c9da_8a31f9c3",
+      "revId": "d715438240a438f68960e8c43e04f9eb686528b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca845d20_4baea065",
@@ -52,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a4a04b2_2f3d4b1b",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-20T23:07:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "345aac9d_1d5fc42a",
+      "revId": "d715438240a438f68960e8c43e04f9eb686528b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e5b99810_93b6f0cd",
@@ -75,6 +111,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b99fa01_109f6ce2",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-20T23:07:40Z",
+      "side": 1,
+      "message": "\u003e This is confusing because QueryProcessor has `getPermittedLimit()` already.\n\nQueryProcessor\u0027s `getPermittedLimit()` returns Integer.MAX_VALUE when `enforceVisibility` is false, so I can\u0027t use it to determine page-size. I have updated QueryProcessor now to try and make this less confusing.\n\n\u003e Why do you need to override `getInitialPageSize()` vs improve/fix `getEffectiveLimit()`?\n\nPagination is only implemented for the change index, hence the override. Queries for other indices should remain unchanged (i.e have page-size \u003d\u003d limit).",
+      "parentUuid": "e5b99810_93b6f0cd",
+      "range": {
+        "startLine": 101,
+        "startChar": 9,
+        "endLine": 101,
+        "endChar": 23
+      },
+      "revId": "d715438240a438f68960e8c43e04f9eb686528b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f4fe4dd6_6aad8178",
@@ -88,6 +148,30 @@
       "writtenOn": "2022-09-20T22:00:27Z",
       "side": 1,
       "message": "nit: don\u0027t need \u0027this.\u0027",
+      "range": {
+        "startLine": 170,
+        "startChar": 20,
+        "endLine": 170,
+        "endChar": 25
+      },
+      "revId": "d715438240a438f68960e8c43e04f9eb686528b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "699eb425_b7533edd",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-20T23:07:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4fe4dd6_6aad8178",
       "range": {
         "startLine": 170,
         "startChar": 20,

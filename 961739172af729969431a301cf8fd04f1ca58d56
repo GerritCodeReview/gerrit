@@ -16,6 +16,29 @@
       "message": "I have redone the change following Sven suggestion to return the Map of types\u003eclasses instead of keys and values separately.",
       "revId": "961739172af729969431a301cf8fd04f1ca58d56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "778adffd_d12478f6",
+        "filename": "java/com/google/gerrit/server/events/EventTypes.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-09-20T10:36:50Z",
+      "side": 1,
+      "message": "Possibly return an immutable view of the map to prevent modification?",
+      "range": {
+        "startLine": 73,
+        "startChar": 11,
+        "endLine": 73,
+        "endChar": 24
+      },
+      "revId": "961739172af729969431a301cf8fd04f1ca58d56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

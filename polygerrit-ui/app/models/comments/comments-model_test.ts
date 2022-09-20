@@ -4,10 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../test/common-test-setup';
-import {createDraft} from '../../test/test-data-generators';
+import {
+  createAccountWithEmail,
+  createDraft,
+} from '../../test/test-data-generators';
 import {
   AccountInfo,
   EmailAddress,
+  Timestamp,
   UrlEncodedCommentId,
 } from '../../types/common';
 import {CommentsModel, deleteDraft} from './comments-model';
@@ -120,6 +124,11 @@ suite('change service tests', () => {
   });
 
   test('duplicate mentions are filtered out', async () => {
+    const account = {
+      ...createAccountWithEmail('abcd@def.com' as EmailAddress),
+      registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
+    };
+    stubRestApi('getAccountDetails').returns(Promise.resolve(account));
     const model = new CommentsModel(
       getAppContext().routerModel,
       testResolver(changeModelToken),
@@ -139,6 +148,6 @@ suite('change service tests', () => {
 
     await waitUntil(() => mentionedUsers.length > 0);
 
-    assert.deepEqual(mentionedUsers, [{email: 'abc@def.com' as EmailAddress}]);
+    assert.deepEqual(mentionedUsers, [account]);
   });
 });

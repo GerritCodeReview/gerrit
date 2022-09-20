@@ -2554,6 +2554,11 @@ suite('gr-reply-dialog tests', () => {
     });
 
     test('mentioned user in resolved draft is added to CC', async () => {
+      const account = {
+        ...createAccountWithEmail('abcd@def.com' as EmailAddress),
+        registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
+      };
+      stubRestApi('getAccountDetails').returns(Promise.resolve(account));
       const draft = {
         ...createDraft(),
         message: 'hey @abcd@def take a look at this',
@@ -2574,10 +2579,8 @@ suite('gr-reply-dialog tests', () => {
 
       await element.updateComplete;
 
-      assert.deepEqual(element.mentionedUsers, [
-        {email: 'abcd@def' as EmailAddress},
-      ]);
-      assert.deepEqual(element.ccs, [{email: 'abcd@def' as EmailAddress}]);
+      assert.deepEqual(element.mentionedUsers, [account]);
+      assert.deepEqual(element.ccs, [account]);
 
       // owner(999) is added since (accountId = 1) replied to the change
       assert.sameMembers([...element.newAttentionSet], [999 as AccountId]);
@@ -2615,12 +2618,14 @@ suite('gr-reply-dialog tests', () => {
       assert.deepEqual(element.mentionedUsers, [
         {
           email: 'abcd@def.com' as EmailAddress,
-        },
+          registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
+        } as AccountInfo,
       ]);
       assert.deepEqual(element.ccs, [
         {
           email: 'abcd@def.com' as EmailAddress,
-        },
+          registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
+        } as AccountInfo,
       ]);
 
       // owner(999) is added since (accountId = 1) replied to the change
@@ -2677,7 +2682,8 @@ suite('gr-reply-dialog tests', () => {
       );
       assert.deepEqual(accountsChips[1].account, {
         email: 'abcd@def.com' as EmailAddress,
-      });
+        registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
+      } as AccountInfo);
       accountsChips[1].click();
 
       await element.updateComplete;
@@ -2686,6 +2692,12 @@ suite('gr-reply-dialog tests', () => {
     });
 
     test('mention user who is already CCed', async () => {
+      const account = {
+        ...createAccountWithEmail('abcd@def.com' as EmailAddress),
+        registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
+      };
+      stubRestApi('getAccountDetails').returns(Promise.resolve(account));
+
       element.getCommentsModel().setState({
         comments: {},
         robotComments: {},
@@ -2704,22 +2716,24 @@ suite('gr-reply-dialog tests', () => {
       });
 
       await element.updateComplete;
+      await waitUntil(() => element.mentionedUsers.length > 0);
 
-      assert.deepEqual(element.ccs, [{email: 'abcd@def.com' as EmailAddress}]);
-      assert.deepEqual(element.mentionedUsers, [
-        {email: 'abcd@def.com' as EmailAddress},
-      ]);
+      assert.deepEqual(element.ccs, [account]);
+      assert.deepEqual(element.mentionedUsers, [account]);
       element._ccs = [createAccountWithEmail('abcd@def.com')];
 
       await element.updateComplete;
 
-      assert.deepEqual(element.mentionedUsers, [
-        {email: 'abcd@def.com' as EmailAddress},
-      ]);
+      assert.deepEqual(element.mentionedUsers, [account]);
       assert.deepEqual(element.ccs, [{email: 'abcd@def.com' as EmailAddress}]);
     });
 
     test('mention user who is already a reviewer', async () => {
+      const account = {
+        ...createAccountWithEmail('abcd@def.com' as EmailAddress),
+        registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
+      };
+      stubRestApi('getAccountDetails').returns(Promise.resolve(account));
       element.getCommentsModel().setState({
         comments: {},
         robotComments: {},
@@ -2736,10 +2750,11 @@ suite('gr-reply-dialog tests', () => {
         portedDrafts: {},
         discardedDrafts: [],
       });
+
       await element.updateComplete;
-      assert.deepEqual(element.mentionedUsers, [
-        {email: 'abcd@def.com' as EmailAddress},
-      ]);
+      await waitUntil(() => element.mentionedUsers.length > 0);
+
+      assert.deepEqual(element.mentionedUsers, [account]);
 
       // ensure updates to reviewers is reflected to mentionedUsers property
       element.reviewers = [createAccountWithEmail('abcd@def.com')];
@@ -2748,13 +2763,9 @@ suite('gr-reply-dialog tests', () => {
 
       // overall ccs is empty since we filter out existing reviewers
       assert.deepEqual(element.ccs, []);
-      assert.deepEqual(element.mentionedUsers, [
-        {email: 'abcd@def.com' as EmailAddress},
-      ]);
+      assert.deepEqual(element.mentionedUsers, [account]);
       assert.deepEqual(element.reviewers, [
-        {
-          email: 'abcd@def.com' as EmailAddress,
-        },
+        {email: 'abcd@def.com' as EmailAddress},
       ]);
     });
   });

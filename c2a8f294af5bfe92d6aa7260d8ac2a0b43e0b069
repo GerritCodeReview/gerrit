@@ -2,7 +2,7 @@
   "checks": {
     "gerritforge:codestyle-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "RUNNING",
-      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-pipeline/job/78%252F346078%252F8/14/console",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-pipeline/job/78%252F346078%252F8/12/console",
       "started": "2022-09-20T20:32:52Z",
       "finished": "2022-09-20T20:16:23Z",
       "created": "2022-09-20T17:53:46Z",

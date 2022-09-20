@@ -79,6 +79,7 @@ import {
 } from '../../../models/views/documentation';
 import {PluginViewModel, PluginViewState} from '../../../models/views/plugin';
 import {SearchViewModel, SearchViewState} from '../../../models/views/search';
+import {DashboardSection} from '../../../utils/dashboard-util';
 
 const RoutePattern = {
   ROOT: '/',
@@ -245,16 +246,6 @@ export const _testOnly_RoutePattern = RoutePattern;
 const LINE_ADDRESS_PATTERN = /^([ab]?)(\d+)$/;
 
 /**
- * Pattern to recognize '+' in url-encoded strings for replacement with ' '.
- */
-const PLUS_PATTERN = /\+/g;
-
-/**
- * Pattern to recognize leading '?' in window.location.search, for stripping.
- */
-const QUESTION_PATTERN = /^\?*/;
-
-/**
  * GWT UI would use @\d+ at the end of a path to indicate linenum.
  */
 const LEGACY_LINENUM_PATTERN = /@([ab]?\d+)$/;
@@ -276,8 +267,6 @@ if (!app) {
     getAppContext().reportingService.timeEnd(Timing.WEB_COMPONENTS_READY);
   });
 })();
-
-type QueryStringItem = [string, string]; // [key, value]
 
 export const routerToken = define<GrRouter>('router');
 
@@ -918,48 +907,6 @@ export class GrRouter implements Finalizable {
   }
 
   /**
-   * Decode an application/x-www-form-urlencoded string.
-   *
-   * @param qs The application/x-www-form-urlencoded string.
-   * @return The decoded string.
-   */
-  private decodeQueryString(qs: string) {
-    return decodeURIComponent(qs.replace(PLUS_PATTERN, ' '));
-  }
-
-  /**
-   * Parse a query string (e.g. window.location.search) into an array of
-   * name/value pairs.
-   *
-   * @param qs The application/x-www-form-urlencoded query string.
-   * @return An array of name/value pairs, where each
-   * element is a 2-element array.
-   */
-  parseQueryString(qs: string): Array<QueryStringItem> {
-    qs = qs.replace(QUESTION_PATTERN, '');
-    if (!qs) {
-      return [];
-    }
-    const params: Array<[string, string]> = [];
-    qs.split('&').forEach(param => {
-      const idx = param.indexOf('=');
-      let name;
-      let value;
-      if (idx < 0) {
-        name = this.decodeQueryString(param);
-        value = '';
-      } else {
-        name = this.decodeQueryString(param.substring(0, idx));
-        value = this.decodeQueryString(param.substring(idx + 1));
-      }
-      if (name) {
-        params.push([name, value]);
-      }
-    });
-    return params;
-  }
-
-  /**
    * Handle dashboard routes. These may be user, or project dashboards.
    */
   handleDashboardRoute(data: PageContext) {
@@ -984,62 +931,38 @@ export class GrRouter implements Finalizable {
     });
   }
 
-  /**
-   * Handle custom dashboard routes.
-   *
-   * @param qs Optional query string associated with the route.
-   * If not given, window.location.search is used. (Used by tests).
-   */
-  handleCustomDashboardRoute(
-    _: PageContext,
-    qs: string = window.location.search
-  ) {
-    const queryParams = this.parseQueryString(qs);
-    let title = 'Custom Dashboard';
-    const titleParam = queryParams.find(
-      elem => elem[0].toLowerCase() === 'title'
-    );
-    if (titleParam) {
-      title = titleParam[1];
-    }
-    // Dashboards support a foreach param which adds a base query to any
-    // additional query.
-    const forEachParam = queryParams.find(
-      elem => elem[0].toLowerCase() === 'foreach'
-    );
-    let forEachQuery: string | null = null;
-    if (forEachParam) {
-      forEachQuery = forEachParam[1];
-    }
-    const sectionParams = queryParams.filter(
-      elem =>
-        elem[0] &&
-        elem[1] &&
-        elem[0].toLowerCase() !== 'title' &&
-        elem[0].toLowerCase() !== 'foreach'
-    );
-    const sections = sectionParams.map(elem => {
-      const query = forEachQuery ? `${forEachQuery} ${elem[1]}` : elem[1];
-      return {
-        name: elem[0],
-        query,
-      };
-    });
+  handleCustomDashboardRoute(ctx: PageContext) {
+    const queryParams = new URLSearchParams(ctx.querystring);
 
-    if (sections.length > 0) {
-      const state: DashboardViewState = {
-        view: GerritView.DASHBOARD,
-        user: 'self',
-        sections,
-        title,
-      };
-      this.setState(state);
-      this.dashboardViewModel.updateState(state);
+    let title = 'Custom Dashboard';
+    const titleParam = queryParams.get('title');
+    if (titleParam) title = titleParam;
+    queryParams.delete('title');
+
+    let forEachQuery = '';
+    const forEachParam = queryParams.get('foreach');
+    if (forEachParam) forEachQuery = forEachParam + ' ';
+    queryParams.delete('foreach');
+
+    const sections: DashboardSection[] = [];
+    for (const [name, query] of queryParams) {
+      if (!name || !query) continue;
+      sections.push({name, query: `${forEachQuery}${query}`});
+    }
+
+    if (sections.length === 0) {
+      this.redirect('/dashboard/self');
       return Promise.resolve();
     }
 
-    // Redirect /dashboard/ -> /dashboard/self.
-    this.redirect('/dashboard/self');
+    const state: DashboardViewState = {
+      view: GerritView.DASHBOARD,
+      user: 'self',
+      sections,
+      title,
+    };
+    this.setState(state);
+    this.dashboardViewModel.updateState(state);
     return Promise.resolve();
   }
 

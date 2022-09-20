@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c376eb5_b25e0629",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-20T12:27:11Z",
+      "side": 1,
+      "message": "# [Markdown](https://commonmark.org/help/) in Gerrit\n\n*Gerrit* now supports **markdown** in comments and checks\n\n## Caveat\n\n- It is not supported in the commit message.\n- Inline images are not supported.\n\n### headings and subheadings using #/##/etc\n\n*bold* using \\* or __\n\n**italics** using \\*\\* or _\n\n***bold+italics*** using \\*\\*\\* or ___\n\ninline [links](https://google.com) using \\[]()\n\ninline `code` snippets using `\n\n```\n\u003cdiv\u003e\n  multi-line code snippets using ```\n\u003c/div\u003e\n```\n\u003e quotes using \u003e\n\nfull lines with \\-\\-\\-\n\n---\n\n1. lists\n1. with\n1. numbering\n\n- lists\n- with\n- hyphens\n\nImages are not:\n![Image](https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg)",
+      "range": {
+        "startLine": 114,
+        "startChar": 14,
+        "endLine": 118,
+        "endChar": 0
+      },
+      "revId": "614fa9d868e7f852898b62764c1df3fbb5757e49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

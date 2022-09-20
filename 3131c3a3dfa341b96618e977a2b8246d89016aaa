@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68827507_aed751e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-09-20T12:49:01Z",
+      "side": 1,
+      "message": "I need an Library-Compliance vote as well.",
+      "revId": "3131c3a3dfa341b96618e977a2b8246d89016aaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

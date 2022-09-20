@@ -112,6 +112,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d766e72_3554f924",
+        "filename": "polygerrit-ui/app/utils/weblink-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-20T12:35:48Z",
+      "side": 1,
+      "message": "Oh I misunderstood. I thought `name` was some prefix you were removing, but it is just taking some digits off the id for display purposes. If the exact value 7 is not important (ie. not coordinating with other parts of our code), then no comment is needed.",
+      "parentUuid": "056bd2d2_6e82f5a7",
+      "range": {
+        "startLine": 26,
+        "startChar": 15,
+        "endLine": 26,
+        "endChar": 33
+      },
+      "revId": "682b2f1a03faa9b64fec42c0a783561e47e4f775",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f1b16041_b10c9b26",

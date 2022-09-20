@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88dd547c_08fcdc0a",
+        "filename": "modules/jgit",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-20T12:35:48Z",
+      "side": 1,
+      "message": "revert",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "9bd9eaeeeb249b0888204cee7b8ccbb7fea991a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

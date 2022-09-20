@@ -2556,6 +2556,7 @@ suite('gr-reply-dialog tests', () => {
     test('mentioned user in resolved draft is added to CC', async () => {
       const account = {
         ...createAccountWithEmail('abcd@def.com' as EmailAddress),
+        _account_id: 1234 as AccountId,
         registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
       };
       stubRestApi('getAccountDetails').returns(Promise.resolve(account));
@@ -2590,6 +2591,7 @@ suite('gr-reply-dialog tests', () => {
       stubRestApi('getAccountDetails').returns(
         Promise.resolve({
           ...createAccountWithEmail('abcd@def.com' as EmailAddress),
+          _account_id: 1234 as AccountId,
           registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
         })
       );
@@ -2635,10 +2637,12 @@ suite('gr-reply-dialog tests', () => {
       );
     });
 
-    test('mention user can be manually removed from attention set', async () => {
+    test.only('mention user can be manually removed from attention set', async () => {
+      debugger;
       stubRestApi('getAccountDetails').returns(
         Promise.resolve({
           ...createAccountWithEmail('abcd@def.com' as EmailAddress),
+          _account_id: 1234 as AccountId,
           registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
         })
       );
@@ -2694,6 +2698,7 @@ suite('gr-reply-dialog tests', () => {
     test('mention user who is already CCed', async () => {
       const account = {
         ...createAccountWithEmail('abcd@def.com' as EmailAddress),
+        _account_id: 1234 as AccountId,
         registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
       };
       stubRestApi('getAccountDetails').returns(Promise.resolve(account));
@@ -2731,6 +2736,7 @@ suite('gr-reply-dialog tests', () => {
     test('mention user who is already a reviewer', async () => {
       const account = {
         ...createAccountWithEmail('abcd@def.com' as EmailAddress),
+        _account_id: 1234 as AccountId,
         registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
       };
       stubRestApi('getAccountDetails').returns(Promise.resolve(account));

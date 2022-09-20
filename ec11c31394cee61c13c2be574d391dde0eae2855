@@ -22,6 +22,30 @@
       },
       "revId": "ec11c31394cee61c13c2be574d391dde0eae2855",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "218f870e_f89d6207",
+        "filename": "java/com/google/gerrit/server/events/EventTypes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-09-20T09:51:30Z",
+      "side": 1,
+      "message": "Indeed that is an excellent point, I have reworked the change which now introduces a single public method:\n\n    public static Map\u003cString, Class\u003c?\u003e\u003e  EventTypes.getRegisteredEvents()\n\nThank you!",
+      "parentUuid": "3ec438fe_6cbba594",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 86,
+        "endChar": 3
+      },
+      "revId": "ec11c31394cee61c13c2be574d391dde0eae2855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

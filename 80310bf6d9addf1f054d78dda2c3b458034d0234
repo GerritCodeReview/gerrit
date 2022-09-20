@@ -200,6 +200,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50bd9fc9_99e478a1",
+        "filename": "javatests/com/google/gerrit/server/events/EventTypesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-09-20T09:51:30Z",
+      "side": 1,
+      "message": "The issue is that EventTypes.typesByString is static and thus alterations made by previous tests stick to the next tests.",
+      "parentUuid": "ef763941_320cfabe",
+      "range": {
+        "startLine": 49,
+        "startChar": 59,
+        "endLine": 51,
+        "endChar": 79
+      },
+      "revId": "80310bf6d9addf1f054d78dda2c3b458034d0234",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9a6c5941_5cff0a31",
@@ -213,6 +237,30 @@
       "writtenOn": "2022-09-08T11:13:17Z",
       "side": 1,
       "message": "This assertion is most probably already covered with the eventTypeRegistrationWithAlternateType test above. It probably does not hurt to be explicit.",
+      "range": {
+        "startLine": 79,
+        "startChar": 4,
+        "endLine": 79,
+        "endChar": 58
+      },
+      "revId": "80310bf6d9addf1f054d78dda2c3b458034d0234",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b560a002_8e61d4af",
+        "filename": "javatests/com/google/gerrit/server/events/EventTypesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-09-20T09:51:30Z",
+      "side": 1,
+      "message": "The test asserted TestEvent.TYPE was present but that is registered from an other test above (due to EventType.typesByString being static).  I have removed the assertion.",
+      "parentUuid": "9a6c5941_5cff0a31",
       "range": {
         "startLine": 79,
         "startChar": 4,

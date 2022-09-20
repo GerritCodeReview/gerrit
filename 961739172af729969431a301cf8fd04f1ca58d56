@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02e68260_2ae29ef3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-09-20T09:51:30Z",
+      "side": 1,
+      "message": "I have redone the change following Sven suggestion to return the Map of types\u003eclasses instead of keys and values separately.",
+      "revId": "961739172af729969431a301cf8fd04f1ca58d56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

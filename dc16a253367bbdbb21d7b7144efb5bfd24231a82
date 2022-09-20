@@ -83,6 +83,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af9817e3_3a0498e4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-markdown/gr-markdown.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-20T06:16:59Z",
+      "side": 1,
+      "message": "+1 on the \"why not simply\" and +1 on the suggestion \"asMarkdown\" implies it\u0027s a boolean based on the name.\nOn that reason alone I would keep it as \"asMarkdown\" but since it\u0027s been updated I don\u0027t mind.",
+      "parentUuid": "802bbd60_bba227a7",
+      "revId": "dc16a253367bbdbb21d7b7144efb5bfd24231a82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba12e0e7_a0fb62f1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-markdown/gr-markdown.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-20T06:16:59Z",
+      "side": 1,
+      "message": "\u003e After rollout, gr-markdown will replace gr-formatted-text so the name will make sense.\n\n\u003e after rename to gr-formatted-text\n\nWhat isn\u0027t clear is that gr-markdown will be renamed to gr-formatted-text?\nIIUC then this makes sense but perhaps mention in the commit message.",
+      "parentUuid": "c51a800d_65577ccc",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 20
+      },
+      "revId": "dc16a253367bbdbb21d7b7144efb5bfd24231a82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d5945b9f_d999626b",

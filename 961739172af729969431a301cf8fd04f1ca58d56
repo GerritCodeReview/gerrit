@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bc41b47_f2babddf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-09-20T21:09:29Z",
+      "side": 1,
+      "message": "Made it to return an ImmutableMap to prevent further modification (thanks!).\n\nI have no idea why CI fails, the links yield some servers side error.",
+      "revId": "961739172af729969431a301cf8fd04f1ca58d56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "778adffd_d12478f6",
@@ -31,6 +48,30 @@
       "writtenOn": "2022-09-20T10:36:50Z",
       "side": 1,
       "message": "Possibly return an immutable view of the map to prevent modification?",
+      "range": {
+        "startLine": 73,
+        "startChar": 11,
+        "endLine": 73,
+        "endChar": 24
+      },
+      "revId": "961739172af729969431a301cf8fd04f1ca58d56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6464300a_953e999f",
+        "filename": "java/com/google/gerrit/server/events/EventTypes.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-09-20T21:09:29Z",
+      "side": 1,
+      "message": "Oops, excellent point. Looks like I am learning java the hard way. I wrapped the return with an ImmutableMap.copyOf(), thank you for the tip!",
+      "parentUuid": "778adffd_d12478f6",
       "range": {
         "startLine": 73,
         "startChar": 11,

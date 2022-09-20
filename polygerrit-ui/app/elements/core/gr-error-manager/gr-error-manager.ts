@@ -401,6 +401,7 @@ export class GrErrorManager extends LitElement {
   // private but used in tests
   createToastAlert(showDismiss?: boolean) {
     const el = document.createElement('gr-alert');
+    el.owner = this;
     el.toast = true;
     el.showDismiss = !!showDismiss;
     return el;

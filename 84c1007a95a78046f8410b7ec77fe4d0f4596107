@@ -52,6 +52,24 @@
       "parentUuid": "89e5c8bb_f0517191",
       "revId": "84c1007a95a78046f8410b7ec77fe4d0f4596107",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9599a78b_4784602b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-20T08:46:43Z",
+      "side": 1,
+      "message": "The [CI version being super outdated](https://gerrit-review.googlesource.com/c/gerrit/+/343187/comment/ee341086_bfdedfe4/) is the biggest difference, but not made worse by these changes. Also we are looking at CI stuff soon, so this stack of changes is ok with me",
+      "parentUuid": "c64d2fd1_c366b88b",
+      "revId": "84c1007a95a78046f8410b7ec77fe4d0f4596107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

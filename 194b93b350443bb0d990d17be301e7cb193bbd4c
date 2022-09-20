@@ -45,6 +45,29 @@
       },
       "revId": "194b93b350443bb0d990d17be301e7cb193bbd4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7909880_7e1a60dd",
+        "filename": "polygerrit-ui/app/utils/change-util_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-20T11:48:30Z",
+      "side": 1,
+      "message": "nit: add a service user since the main use of the function is to detect them",
+      "range": {
+        "startLine": 188,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 26
+      },
+      "revId": "194b93b350443bb0d990d17be301e7cb193bbd4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

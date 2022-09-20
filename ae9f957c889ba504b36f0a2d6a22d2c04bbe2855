@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fd22cc7_4bb88f57",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1403,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-09-20T12:09:05Z",
+      "side": 1,
+      "message": "This might actually split a multibyte character and thus lead to a corrupt string. It should be taken care that a split only happens between characters.",
+      "range": {
+        "startLine": 1403,
+        "startChar": 24,
+        "endLine": 1403,
+        "endChar": 42
+      },
+      "revId": "ae9f957c889ba504b36f0a2d6a22d2c04bbe2855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

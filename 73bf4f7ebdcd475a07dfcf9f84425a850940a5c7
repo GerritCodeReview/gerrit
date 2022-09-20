@@ -16,6 +16,24 @@
       "message": "You need to update the corresponding java test.",
       "revId": "73bf4f7ebdcd475a07dfcf9f84425a850940a5c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf5861b1_4cc752b0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1108045
+      },
+      "writtenOn": "2022-09-20T13:30:01Z",
+      "side": 1,
+      "message": "Done 👍",
+      "parentUuid": "f9bd12c2_1798449c",
+      "revId": "73bf4f7ebdcd475a07dfcf9f84425a850940a5c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

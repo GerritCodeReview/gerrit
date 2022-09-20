@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1298c9da_8a31f9c3",
+        "filename": "java/com/google/gerrit/server/index/change/IndexedChangeQuery.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-09-20T21:34:58Z",
+      "side": 1,
+      "message": "nit: extra blank line",
+      "revId": "d715438240a438f68960e8c43e04f9eb686528b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca845d20_4baea065",
+        "filename": "java/com/google/gerrit/server/index/change/IndexedChangeQuery.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-09-20T21:34:58Z",
+      "side": 1,
+      "message": "Instead of copying this all from AndSource, this likely should go somewhere it can be shared? Maybe this is PaginatedResultSet?",
+      "revId": "d715438240a438f68960e8c43e04f9eb686528b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

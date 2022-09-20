@@ -630,12 +630,13 @@ suite('gr-router tests', () => {
       });
 
       test('no user specified', () => {
-        const data = {
+        const data: PageContext = {
           ...createPageContext(),
           canonicalPath: '/dashboard/',
           params: {0: ''},
+          querystring: '',
         };
-        return router.handleCustomDashboardRoute(data, '').then(() => {
+        return router.handleCustomDashboardRoute(data).then(() => {
           assert.isFalse(setStateStub.called);
           assert.isTrue(redirectStub.called);
           assert.equal(redirectStub.lastCall.args[0], '/dashboard/self');
@@ -643,68 +644,65 @@ suite('gr-router tests', () => {
       });
 
       test('custom dashboard without title', () => {
-        const data = {
+        const data: PageContext = {
           ...createPageContext(),
           canonicalPath: '/dashboard/',
           params: {0: ''},
+          querystring: '?a=b&c&d=e',
         };
-        return router
-          .handleCustomDashboardRoute(data, '?a=b&c&d=e')
-          .then(() => {
-            assert.isFalse(redirectStub.called);
-            assert.isTrue(setStateStub.calledOnce);
-            assert.deepEqual(setStateStub.lastCall.args[0], {
-              view: GerritView.DASHBOARD,
-              user: 'self',
-              sections: [
-                {name: 'a', query: 'b'},
-                {name: 'd', query: 'e'},
-              ],
-              title: 'Custom Dashboard',
-            });
+        return router.handleCustomDashboardRoute(data).then(() => {
+          assert.isFalse(redirectStub.called);
+          assert.isTrue(setStateStub.calledOnce);
+          assert.deepEqual(setStateStub.lastCall.args[0], {
+            view: GerritView.DASHBOARD,
+            user: 'self',
+            sections: [
+              {name: 'a', query: 'b'},
+              {name: 'd', query: 'e'},
+            ],
+            title: 'Custom Dashboard',
           });
+        });
       });
 
       test('custom dashboard with title', () => {
-        const data = {
+        const data: PageContext = {
           ...createPageContext(),
           canonicalPath: '/dashboard/',
           params: {0: ''},
+          querystring: '?a=b&c&d=&=e&title=t',
         };
-        return router
-          .handleCustomDashboardRoute(data, '?a=b&c&d=&=e&title=t')
-          .then(() => {
-            assert.isFalse(redirectToLoginStub.called);
-            assert.isFalse(redirectStub.called);
-            assert.isTrue(setStateStub.calledOnce);
-            assert.deepEqual(setStateStub.lastCall.args[0], {
-              view: GerritView.DASHBOARD,
-              user: 'self',
-              sections: [{name: 'a', query: 'b'}],
-              title: 't',
-            });
+        return router.handleCustomDashboardRoute(data).then(() => {
+          assert.isFalse(redirectToLoginStub.called);
+          assert.isFalse(redirectStub.called);
+          assert.isTrue(setStateStub.calledOnce);
+          assert.deepEqual(setStateStub.lastCall.args[0], {
+            view: GerritView.DASHBOARD,
+            user: 'self',
+            sections: [{name: 'a', query: 'b'}],
+            title: 't',
           });
+        });
       });
 
       test('custom dashboard with foreach', () => {
-        const data = {
+        const data: PageContext = {
           ...createPageContext(),
           canonicalPath: '/dashboard/',
           params: {0: ''},
+          querystring: '?a=b&c&d=&=e&foreach=is:open',
         };
-        return router
-          .handleCustomDashboardRoute(data, '?a=b&c&d=&=e&foreach=is:open')
-          .then(() => {
-            assert.isFalse(redirectToLoginStub.called);
-            assert.isFalse(redirectStub.called);
-            assert.isTrue(setStateStub.calledOnce);
-            assert.deepEqual(setStateStub.lastCall.args[0], {
-              view: GerritView.DASHBOARD,
-              user: 'self',
-              sections: [{name: 'a', query: 'is:open b'}],
-              title: 'Custom Dashboard',
-            });
+        return router.handleCustomDashboardRoute(data).then(() => {
+          assert.isFalse(redirectToLoginStub.called);
+          assert.isFalse(redirectStub.called);
+          assert.isTrue(setStateStub.calledOnce);
+          assert.deepEqual(setStateStub.lastCall.args[0], {
+            view: GerritView.DASHBOARD,
+            user: 'self',
+            sections: [{name: 'a', query: 'is:open b'}],
+            title: 'Custom Dashboard',
           });
+        });
       });
     });
 
@@ -1334,37 +1332,6 @@ suite('gr-router tests', () => {
         screen: 'bar',
       });
       assert.isFalse(redirectStub.called);
-    });
-  });
-
-  suite('parseQueryString', () => {
-    test('empty queries', () => {
-      assert.deepEqual(router.parseQueryString(''), []);
-      assert.deepEqual(router.parseQueryString('?'), []);
-      assert.deepEqual(router.parseQueryString('??'), []);
-      assert.deepEqual(router.parseQueryString('&&&'), []);
-    });
-
-    test('url decoding', () => {
-      assert.deepEqual(router.parseQueryString('+'), [[' ', '']]);
-      assert.deepEqual(router.parseQueryString('???+%3d+'), [[' = ', '']]);
-      assert.deepEqual(
-        router.parseQueryString('%6e%61%6d%65=%76%61%6c%75%65'),
-        [['name', 'value']]
-      );
-    });
-
-    test('multiple parameters', () => {
-      assert.deepEqual(router.parseQueryString('a=b&c=d&e=f'), [
-        ['a', 'b'],
-        ['c', 'd'],
-        ['e', 'f'],
-      ]);
-      assert.deepEqual(router.parseQueryString('&a=b&&&e=f&c'), [
-        ['a', 'b'],
-        ['e', 'f'],
-        ['c', ''],
-      ]);
     });
   });
 });

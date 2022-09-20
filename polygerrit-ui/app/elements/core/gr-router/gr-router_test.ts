@@ -5,7 +5,7 @@
  */
 import '../../../test/common-test-setup';
 import './gr-router';
-import {page} from '../../../utils/page-wrapper-utils';
+import {page, PageContext} from '../../../utils/page-wrapper-utils';
 import {GerritNav} from '../gr-navigation/gr-navigation';
 import {
   stubBaseUrl,
@@ -13,12 +13,7 @@ import {
   addListenerForTest,
   waitEventLoop,
 } from '../../../test/test-utils';
-import {
-  GrRouter,
-  PageContextWithQueryMap,
-  routerToken,
-  _testOnly_RoutePattern,
-} from './gr-router';
+import {GrRouter, routerToken, _testOnly_RoutePattern} from './gr-router';
 import {GerritView} from '../../../services/router/router-model';
 import {
   BasePatchSetNum,
@@ -283,7 +278,7 @@ suite('gr-router tests', () => {
     // new set of app.params. This test helper asserts that passing `data`
     // into `methodName` results in setting the params specified in `params`.
     function assertDataToParams(
-      data: PageContextWithQueryMap,
+      data: PageContext,
       methodName: string,
       params: AppElementParams
     ) {
@@ -291,17 +286,12 @@ suite('gr-router tests', () => {
       assert.deepEqual(setStateStub.lastCall.args[0], params);
     }
 
-    function createPageContext(): PageContextWithQueryMap {
+    function createPageContext(): PageContext {
       return {
-        queryMap: new Map(),
-        save() {},
-        handled: true,
         canonicalPath: '',
         path: '',
         querystring: '',
         pathname: '',
-        state: '',
-        title: '',
         hash: '',
         params: {},
       };
@@ -408,7 +398,7 @@ suite('gr-router tests', () => {
     });
 
     test('handleQueryRoute', () => {
-      const data: PageContextWithQueryMap = {
+      const data: PageContext = {
         ...createPageContext(),
         params: {0: 'project:foo/bar/baz'},
       };
@@ -868,7 +858,7 @@ suite('gr-router tests', () => {
 
       suite('branch list routes', () => {
         test('handleBranchListOffsetRoute', () => {
-          const data: PageContextWithQueryMap = {
+          const data: PageContext = {
             ...createPageContext(),
             params: {0: '4321'},
           };
@@ -945,7 +935,7 @@ suite('gr-router tests', () => {
         });
 
         test('handleTagListFilterRoute', () => {
-          const data: PageContextWithQueryMap = {
+          const data: PageContext = {
             ...createPageContext(),
             params: {repo: '4321'},
           };
@@ -1126,10 +1116,7 @@ suite('gr-router tests', () => {
       });
 
       suite('handleChangeRoute', () => {
-        function makeParams(
-          _path: string,
-          _hash: string
-        ): PageContextWithQueryMap {
+        function makeParams(_path: string, _hash: string): PageContext {
           return {
             ...createPageContext(),
             params: {
@@ -1162,10 +1149,12 @@ suite('gr-router tests', () => {
 
         test('params', () => {
           const ctx = makeParams('', '');
-          ctx.queryMap.set('tab', 'checks');
-          ctx.queryMap.set('filter', 'fff');
-          ctx.queryMap.set('select', 'sss');
-          ctx.queryMap.set('attempt', '1');
+          const queryMap = new URLSearchParams();
+          queryMap.set('tab', 'checks');
+          queryMap.set('filter', 'fff');
+          queryMap.set('select', 'sss');
+          queryMap.set('attempt', '1');
+          ctx.querystring = queryMap.toString();
           assertDataToParams(ctx, 'handleChangeRoute', {
             view: GerritView.CHANGE,
             project: 'foo/bar' as RepoName,
@@ -1180,10 +1169,7 @@ suite('gr-router tests', () => {
       });
 
       suite('handleDiffRoute', () => {
-        function makeParams(
-          path: string,
-          hash: string
-        ): PageContextWithQueryMap {
+        function makeParams(path: string, hash: string): PageContext {
           return {
             ...createPageContext(),
             hash,

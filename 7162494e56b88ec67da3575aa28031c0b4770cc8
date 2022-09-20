@@ -16,6 +16,24 @@
       "message": "Given that this is mirroring an external type, I\u0027d prefer we keep them and maybe add a \"unused\" comment above the section of the unused ones?\n\nOtherwise I fear we might risk reinventing the wheel when we want to `save()` something in the future, not being aware that Page.js offers this functionality.\n\nWDYT?",
       "revId": "7162494e56b88ec67da3575aa28031c0b4770cc8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c52d044_83d2b50d",
+        "filename": "polygerrit-ui/app/utils/page-wrapper-utils.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-20T10:18:04Z",
+      "side": 0,
+      "message": "I would actually like to make this interface as narrow as possible, so that it is clear how much of the page.js API we are actually using. I guess we could have two types: One for mirroring exactly what page.js has (but then I would prefer to have the types come from somewhere else and just use those externally provided ones) and another one for the methods are in use. WDYT?",
+      "parentUuid": "6cc18c8a_054dc1be",
+      "revId": "7162494e56b88ec67da3575aa28031c0b4770cc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

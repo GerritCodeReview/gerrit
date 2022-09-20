@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3f72140_5a34f92a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-09-20T12:32:51Z",
+      "side": 1,
+      "message": "I was planning to add it along with the corresponding frontend change. But here works as well. Done.",
+      "parentUuid": "ad860c47_609fc538",
+      "revId": "cf73a3aae0fb7a35430048eedf169174435d282a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1a462c80_5a098b3f",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-09-19T07:20:04Z",
       "side": 1,
       "message": "Should this be updated so that it matches prefix and suffix?",
+      "range": {
+        "startLine": 1754,
+        "startChar": 30,
+        "endLine": 1754,
+        "endChar": 43
+      },
+      "revId": "cf73a3aae0fb7a35430048eedf169174435d282a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58ca5f65_4ac18b6f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1754,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-09-20T12:32:51Z",
+      "side": 1,
+      "message": "I\u0027ve thought about it. But decided that a simple example works better here, with a more complex example above. (You only ever need suffix and prefix if you\u0027re trying to be more robust and not catch things like \"somebug: 12\")",
+      "parentUuid": "1a462c80_5a098b3f",
       "range": {
         "startLine": 1754,
         "startChar": 30,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd22c39a_4b37f0d0",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3803,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-09-20T12:32:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23fe59b1_3f9a32f3",
+      "range": {
+        "startLine": 3801,
+        "startChar": 0,
+        "endLine": 3803,
+        "endChar": 39
+      },
+      "revId": "cf73a3aae0fb7a35430048eedf169174435d282a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2b396d79_42b162ce",
@@ -87,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "33cf9b6d_61bd20ca",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3825,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-09-20T12:32:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b396d79_42b162ce",
+      "range": {
+        "startLine": 3823,
+        "startChar": 0,
+        "endLine": 3825,
+        "endChar": 39
+      },
+      "revId": "cf73a3aae0fb7a35430048eedf169174435d282a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e7074f6e_c64f25cd",
@@ -100,6 +190,30 @@
       "writtenOn": "2022-09-19T07:20:04Z",
       "side": 1,
       "message": "Does this work if value.prefix, value.suffix or value.text is null? Do we have this case covered by a test?",
+      "range": {
+        "startLine": 306,
+        "startChar": 8,
+        "endLine": 308,
+        "endChar": 63
+      },
+      "revId": "cf73a3aae0fb7a35430048eedf169174435d282a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb6ec621_fd4d7dcf",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-09-20T12:32:51Z",
+      "side": 1,
+      "message": "This will not lead to an error: jgit libs use @NotNull annotation for locations that not can\u0027t be null. Additionally when the values are used they are always checked with Strings.isNullOrEmpty().\n\nHowever, the produced config has the names (if checked by getNames()) so it\u0027s not the same as never setting them. So I wrapped them in checks, to avoid adding empty lines like \"prefix\u003d\" to config.\n\n\nAs for the test. There isn\u0027t an existing test setup for rest-api endpoints, as far as I can tell. PutConfig seems difficult to construct manually. If you have advice in this regard I can add some tests for PutConfig. As it is now, there aren\u0027t any tests. (ProjectConfig tests though, have tests with optional values unset though)",
+      "parentUuid": "e7074f6e_c64f25cd",
       "range": {
         "startLine": 306,
         "startChar": 8,

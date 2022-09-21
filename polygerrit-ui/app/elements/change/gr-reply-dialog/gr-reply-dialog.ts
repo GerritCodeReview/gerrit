@@ -347,9 +347,6 @@ export class GrReplyDialog extends LitElement {
   reviewerPendingConfirmation: SuggestedReviewerGroupInfo | null = null;
 
   @state()
-  previewFormatting = false;
-
-  @state()
   sendButtonLabel?: string;
 
   @state()
@@ -521,13 +518,6 @@ export class GrReplyDialog extends LitElement {
       #textarea {
         flex: 1;
       }
-      .previewContainer {
-        border-top: none;
-      }
-      .previewContainer gr-formatted-text {
-        background: var(--table-header-background-color);
-        padding: var(--spacing-l);
-      }
       #checkingStatusLabel,
       #notLatestLabel {
         margin-left: var(--spacing-l);
@@ -553,9 +543,6 @@ export class GrReplyDialog extends LitElement {
       }
       #pluginMessage:empty {
         display: none;
-      }
-      .preview-formatting {
-        margin-left: var(--spacing-m);
       }
       .attention .edit-attention-button {
         vertical-align: top;
@@ -640,10 +627,6 @@ export class GrReplyDialog extends LitElement {
       }
       .patchsetLevelContainer.unresolved {
         background-color: var(--unresolved-comment-background-color);
-      }
-      .labelContainer {
-        padding-left: var(--spacing-m);
-        padding-bottom: var(--spacing-m);
       }
     `,
   ];
@@ -836,17 +819,6 @@ export class GrReplyDialog extends LitElement {
         <section class="newReplyDialog textareaContainer">
           ${this.renderReplyText()}
         </section>
-        ${when(
-          this.previewFormatting,
-          () => html`
-            <section class="previewContainer">
-              <gr-formatted-text
-                .content=${this.patchsetLevelDraftMessage}
-                .config=${this.projectConfig?.commentlinks}
-              ></gr-formatted-text>
-            </section>
-          `
-        )}
         ${this.renderDraftsSection()}
         <div class="stickyBottom newReplyDialog">
           <gr-endpoint-decorator name="reply-bottom">
@@ -1045,37 +1017,8 @@ export class GrReplyDialog extends LitElement {
           <gr-endpoint-param name="change" .value=${this.change}>
           </gr-endpoint-param>
         </gr-endpoint-decorator>
-        ${this.renderLabelContainer()}
       </div>
     `;
-  }
-
-  private renderLabelContainer() {
-    if (
-      this.flagsService.isEnabled(
-        KnownExperimentId.PATCHSET_LEVEL_COMMENT_USES_GRCOMMENT
-      )
-    )
-      return nothing;
-    return html`<div class="labelContainer">
-      <label>
-        <input
-          id="resolvedPatchsetLevelCommentCheckbox"
-          type="checkbox"
-          ?checked=${this.patchsetLevelDraftIsResolved}
-          @change=${this.handleResolvedPatchsetLevelCommentCheckboxChanged}
-        />
-        Resolved
-      </label>
-      <label class="preview-formatting">
-        <input
-          type="checkbox"
-          ?checked=${this.previewFormatting}
-          @change=${this.handlePreviewFormattingChanged}
-        />
-        Preview formatting
-      </label>
-    </div>`;
   }
 
   private renderDraftsSection() {
@@ -1408,16 +1351,6 @@ export class GrReplyDialog extends LitElement {
       start: this.reviewersList.focusStart,
       end,
     };
-  }
-
-  private handleResolvedPatchsetLevelCommentCheckboxChanged(e: Event) {
-    if (!(e.target instanceof HTMLInputElement)) return;
-    this.patchsetLevelDraftIsResolved = e.target.checked;
-  }
-
-  private handlePreviewFormattingChanged(e: Event) {
-    if (!(e.target instanceof HTMLInputElement)) return;
-    this.previewFormatting = e.target.checked;
   }
 
   private handleIncludeCommentsChanged(e: Event) {

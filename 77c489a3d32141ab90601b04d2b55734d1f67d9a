@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a4f0325_5539c54e",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-21T13:30:33Z",
+      "side": 1,
+      "message": "Is this something that should be exposed to plugins?",
+      "revId": "77c489a3d32141ab90601b04d2b55734d1f67d9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be54576d_fafcbff2",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-21T13:30:33Z",
+      "side": 1,
+      "message": "What will happen to this class?",
+      "revId": "77c489a3d32141ab90601b04d2b55734d1f67d9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

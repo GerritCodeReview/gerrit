@@ -234,7 +234,7 @@ export class GrSettingsView extends LitElement {
     const message = await this.restApiService.confirmEmail(this.emailToken);
     if (message) fireAlert(this, message);
     this.getViewModel().clearToken();
-    this.emailEditor.loadData();
+    await this.emailEditor.loadData();
   }
 
   override connectedCallback() {

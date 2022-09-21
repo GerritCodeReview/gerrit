@@ -16,6 +16,24 @@
       "message": "Still importing an unused type.",
       "revId": "4395b2ac8ab38954d6e62936e2ee6dc1966047f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0081db64_b7bfcf48",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-21T08:15:36Z",
+      "side": 1,
+      "message": "Yeah CI would have caught that.\nThanks.",
+      "parentUuid": "0b48c269_01485658",
+      "revId": "4395b2ac8ab38954d6e62936e2ee6dc1966047f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

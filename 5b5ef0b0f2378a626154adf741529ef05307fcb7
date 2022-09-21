@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08efe708_fb1a3736",
+        "filename": "javatests/com/google/gerrit/index/query/AndSourceTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-09-21T04:17:54Z",
+      "side": 1,
+      "message": "Need to fix compile time error here for 3.4. Will update it in a while along with perf testing.",
+      "range": {
+        "startLine": 28,
+        "startChar": 38,
+        "endLine": 28,
+        "endChar": 50
+      },
+      "revId": "5b5ef0b0f2378a626154adf741529ef05307fcb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

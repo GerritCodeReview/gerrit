@@ -72,7 +72,6 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.assistedinject.Assisted;
-import com.google.inject.multibindings.OptionalBinder;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -123,7 +122,6 @@ public class BatchUpdate implements AutoCloseable {
       @Override
       public void configure() {
         factory(BatchUpdate.Factory.class);
-        OptionalBinder.newOptionalBinder(binder(), AttentionSetObserver.class);
       }
     };
   }
@@ -410,7 +408,7 @@ public class BatchUpdate implements AutoCloseable {
   private String refLogMessage;
   private NotifyResolver.Result notify = NotifyResolver.Result.all();
   // Batch operations doesn't need observer
-  private Optional<AttentionSetObserver> attentionSetObserver;
+  private AttentionSetObserver attentionSetObserver;
 
   @Inject
   BatchUpdate(
@@ -422,7 +420,7 @@ public class BatchUpdate implements AutoCloseable {
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeIndexer indexer,
       GitReferenceUpdated gitRefUpdated,
-      Optional<AttentionSetObserver> attentionSetObserver,
+      AttentionSetObserver attentionSetObserver,
       @Assisted Project.NameKey project,
       @Assisted CurrentUser user,
       @Assisted Instant when) {
@@ -611,16 +609,13 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   private void fireAttentionSetUpdateEvents(PostUpdateContext ctx) {
-    attentionSetObserver.ifPresent(
-        observer -> {
-          for (ProjectChangeKey key : attentionSetUpdates.keySet()) {
-            ChangeData change = ctx.getChangeData(key.projectName(), key.changeId());
-            AccountState account = ctx.getAccount();
-            for (AttentionSetUpdate update : attentionSetUpdates.get(key)) {
-              observer.fire(change, account, update, ctx.getWhen());
-            }
-          }
-        });
+    for (ProjectChangeKey key : attentionSetUpdates.keySet()) {
+      ChangeData change = ctx.getChangeData(key.projectName(), key.changeId());
+      AccountState account = ctx.getAccount();
+      for (AttentionSetUpdate update : attentionSetUpdates.get(key)) {
+        attentionSetObserver.fire(change, account, update, ctx.getWhen());
+      }
+    }
   }
 
   private class ChangesHandle implements AutoCloseable {

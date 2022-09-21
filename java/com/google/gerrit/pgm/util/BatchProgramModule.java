@@ -60,6 +60,7 @@ import com.google.gerrit.server.config.EnablePeerIPInReflogRecordProvider;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
 import com.google.gerrit.server.config.SysExecutorModule;
+import com.google.gerrit.server.extensions.events.AttentionSetObserver;
 import com.google.gerrit.server.extensions.events.EventUtil;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
@@ -217,6 +218,7 @@ public class BatchProgramModule extends FactoryModule {
     bind(RevisionCreated.class).toInstance(RevisionCreated.DISABLED);
     bind(WorkInProgressStateChanged.class).toInstance(WorkInProgressStateChanged.DISABLED);
     bind(AccountVisibility.class).toProvider(AccountVisibilityProvider.class).in(SINGLETON);
+    bind(AttentionSetObserver.class).toInstance(AttentionSetObserver.DISABLED);
 
     ModuleOverloader.override(
             modules,

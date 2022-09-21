@@ -150,6 +150,7 @@ public class GeneralPreferencesInfo {
   public Boolean workInProgressByDefault;
   public List<MenuItem> my;
   public List<String> changeTable;
+  public Boolean allowBrowserNotifications;
 
   public DateFormat getDateFormat() {
     if (dateFormat == null) {
@@ -208,6 +209,7 @@ public class GeneralPreferencesInfo {
     p.disableKeyboardShortcuts = false;
     p.disableTokenHighlighting = false;
     p.workInProgressByDefault = false;
+    p.allowBrowserNotifications = true;
     return p;
   }
 }

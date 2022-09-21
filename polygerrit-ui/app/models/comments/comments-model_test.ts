@@ -97,7 +97,7 @@ suite('change service tests', () => {
       model.portedComments$.subscribe(c => (portedComments = c ?? {}))
     );
 
-    model.routerModel.updateState({
+    model.routerModel.setState({
       view: GerritView.CHANGE,
       changeNum: TEST_NUMERIC_CHANGE_ID,
     });

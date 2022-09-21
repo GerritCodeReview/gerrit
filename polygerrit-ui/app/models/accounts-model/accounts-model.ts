@@ -26,14 +26,14 @@ export class AccountsModel extends Model<AccountsState> implements Finalizable {
   }
 
   private updateStateAccount(id: UserId, account?: AccountDetailInfo) {
-    const current = {...this.subject$.getValue()};
     if (!account) return;
+    const current = {...this.getState()};
     current.accounts = {...current.accounts, [id]: account};
-    this.subject$.next(current);
+    this.setState(current);
   }
 
   async getAccount(partialAccount: AccountInfo) {
-    const current = this.subject$.getValue();
+    const current = this.getState();
     const id = getUserId(partialAccount);
     if (current.accounts[id]) return current.accounts[id];
     // It is possible to add emails to CC when they don't have a Gerrit

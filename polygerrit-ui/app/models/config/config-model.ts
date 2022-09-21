@@ -76,14 +76,12 @@ export class ConfigModel extends Model<ConfigState> implements Finalizable {
 
   // visible for testing
   updateRepoConfig(repoConfig?: ConfigInfo) {
-    const current = this.subject$.getValue();
-    this.subject$.next({...current, repoConfig});
+    this.updateState({repoConfig});
   }
 
   // visible for testing
   updateServerConfig(serverConfig?: ServerInfo) {
-    const current = this.subject$.getValue();
-    this.subject$.next({...current, serverConfig});
+    this.updateState({serverConfig});
   }
 
   override finalize() {

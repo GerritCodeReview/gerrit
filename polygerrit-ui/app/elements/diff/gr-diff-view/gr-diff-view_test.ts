@@ -1681,7 +1681,7 @@ suite('gr-diff-view tests', () => {
           loadingStatus: LoadingStatus.LOADED,
         });
 
-        element.routerModel.updateState({
+        element.routerModel.setState({
           changeNum: TEST_NUMERIC_CHANGE_ID,
           view: GerritView.DIFF,
           patchNum: 2 as RevisionPatchSetNum,
@@ -1723,7 +1723,7 @@ suite('gr-diff-view tests', () => {
         loadingStatus: LoadingStatus.LOADED,
       });
 
-      element.routerModel.updateState({
+      element.routerModel.setState({
         changeNum: TEST_NUMERIC_CHANGE_ID,
         view: GerritView.DIFF,
         patchNum: 22 as RevisionPatchSetNum,
@@ -1754,7 +1754,7 @@ suite('gr-diff-view tests', () => {
 
       element.userModel.setDiffPreferences(createDefaultDiffPrefs());
 
-      element.routerModel.updateState({
+      element.routerModel.setState({
         changeNum: TEST_NUMERIC_CHANGE_ID,
         view: GerritView.DIFF,
         patchNum: 2 as RevisionPatchSetNum,

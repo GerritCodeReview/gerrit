@@ -195,7 +195,7 @@ export class FilesModel extends Model<FilesState> implements Finalizable {
         map(filesToState)
       )
       .subscribe(state => {
-        this.updateFiles(state);
+        this.updateState(state);
       });
   }
 
@@ -204,19 +204,5 @@ export class FilesModel extends Model<FilesState> implements Finalizable {
       s.unsubscribe();
     }
     this.subscriptions = [];
-  }
-
-  // visible for testing
-  updateFiles(newState: Partial<FilesState>) {
-    const current = this.subject$.getValue();
-    this.setState({
-      ...current,
-      ...newState,
-    });
-  }
-
-  // visible for testing
-  setState(state: FilesState) {
-    this.subject$.next(state);
   }
 }

@@ -111,17 +111,16 @@ export class BulkActionsModel
     const index = selectedChangeNums.findIndex(item => item === changeNum);
     if (index === -1) return;
     selectedChangeNums.splice(index, 1);
-    this.setState({...current, selectedChangeNums});
+    this.updateState({selectedChangeNums});
   }
 
   clearSelectedChangeNums() {
-    this.setState({...this.subject$.getValue(), selectedChangeNums: []});
+    this.updateState({selectedChangeNums: []});
   }
 
   selectAll() {
-    const current = this.subject$.getValue();
-    this.setState({
-      ...current,
+    const current = this.getState();
+    this.updateState({
       selectedChangeNums: Array.from(current.allChanges.keys()),
     });
   }
@@ -131,7 +130,7 @@ export class BulkActionsModel
     // errorFn is needed to avoid showing an error dialog
     errFn?: (changeNum: NumericChangeId) => void
   ): Promise<Response | undefined>[] {
-    const current = this.subject$.getValue();
+    const current = this.getState();
     return current.selectedChangeNums.map(changeNum => {
       if (!current.allChanges.get(changeNum))
         throw new Error('invalid change id');
@@ -151,7 +150,7 @@ export class BulkActionsModel
   }
 
   voteChanges(reviewInput: ReviewInput) {
-    const current = this.subject$.getValue();
+    const current = this.getState();
     return current.selectedChangeNums.map(changeNum => {
       const change = current.allChanges.get(changeNum)!;
       if (!change) throw new Error('invalid change id');
@@ -170,7 +169,7 @@ export class BulkActionsModel
     changedReviewers: Map<ReviewerState, (AccountInfo | GroupInfo)[]>,
     reason: string
   ): Promise<Response>[] {
-    const current = this.subject$.getValue();
+    const current = this.getState();
     const changes = current.selectedChangeNums.map(
       changeNum => current.allChanges.get(changeNum)!
     );
@@ -208,7 +207,7 @@ export class BulkActionsModel
   }
 
   addHashtags(hashtags: Hashtag[]): Promise<Hashtag[]>[] {
-    const current = this.subject$.getValue();
+    const current = this.getState();
     return current.selectedChangeNums.map(changeNum =>
       this.restApiService
         .setChangeHashtag(changeNum, {
@@ -222,7 +221,7 @@ export class BulkActionsModel
 
           // refetch the current state since other changes may have been updated
           // since the promises were launched.
-          const current = this.subject$.getValue();
+          const current = this.getState();
           const nextState = {
             ...current,
             allChanges: new Map(current.allChanges),
@@ -239,12 +238,11 @@ export class BulkActionsModel
 
   async sync(changes: ChangeInfo[]) {
     const basicChanges = new Map(changes.map(c => [c._number, c]));
-    let currentState = this.subject$.getValue();
+    let currentState = this.getState();
     const selectedChangeNums = currentState.selectedChangeNums.filter(
       changeNum => basicChanges.has(changeNum)
     );
-    this.setState({
-      ...currentState,
+    this.updateState({
       loadingState: LoadingState.LOADING,
       selectedChangeNums,
       allChanges: basicChanges,
@@ -257,7 +255,7 @@ export class BulkActionsModel
       await this.restApiService.getDetailedChangesWithActions(
         changes.map(c => c._number)
       );
-    currentState = this.subject$.getValue();
+    currentState = this.getState();
     // Return early if sync has been called again since starting the load.
     if (basicChanges !== currentState.allChanges) return;
     const allDetailedChanges: Map<NumericChangeId, ChangeInfo> = new Map();
@@ -273,15 +271,6 @@ export class BulkActionsModel
       loadingState: LoadingState.LOADED,
       allChanges: allDetailedChanges,
     });
-  }
-
-  /** Required for testing */
-  getState() {
-    return this.subject$.getValue();
-  }
-
-  setState(state: BulkActionsState) {
-    this.subject$.next(state);
   }
 
   private mergeOldAndDetailedChangeInfos(

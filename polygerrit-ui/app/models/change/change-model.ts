@@ -325,17 +325,15 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
 
   // Temporary workaround until path is derived in the model itself.
   updatePath(diffPath?: string) {
-    const current = this.subject$.getValue();
-    this.setState({...current, diffPath});
+    this.updateState({diffPath});
   }
 
   updateStateReviewedFiles(reviewedFiles: string[]) {
-    const current = this.subject$.getValue();
-    this.setState({...current, reviewedFiles});
+    this.updateState({reviewedFiles});
   }
 
   updateStateFileReviewed(file: string, reviewed: boolean) {
-    const current = this.subject$.getValue();
+    const current = this.getState();
     if (current.reviewedFiles === undefined) {
       // Reviewed files haven't loaded yet.
       // TODO(dhruvsri): disable updating status if reviewed files are not loaded.
@@ -354,7 +352,7 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
 
     if (reviewed) reviewedFiles.push(file);
     else reviewedFiles.splice(reviewedFiles.indexOf(file), 1);
-    this.setState({...current, reviewedFiles});
+    this.updateState({reviewedFiles});
   }
 
   fetchReviewedFiles(patchNum: PatchSetNum, changeNum: NumericChangeId) {
@@ -391,7 +389,7 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
    * demand. So here it is for your convenience.
    */
   getChange() {
-    return this.subject$.getValue().change;
+    return this.getState().change;
   }
 
   /**
@@ -435,10 +433,9 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
    * a new change number, but an old change.
    */
   private updateStateLoading(changeNum: NumericChangeId) {
-    const current = this.subject$.getValue();
+    const current = this.getState();
     const reloading = current.change?._number === changeNum;
-    this.setState({
-      ...current,
+    this.updateState({
       change: reloading ? current.change : undefined,
       loadingStatus: reloading
         ? LoadingStatus.RELOADING
@@ -448,17 +445,10 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
 
   // Private but used in tests.
   updateStateChange(change?: ParsedChangeInfo) {
-    const current = this.subject$.getValue();
-    this.setState({
-      ...current,
+    this.updateState({
       change,
       loadingStatus:
         change === undefined ? LoadingStatus.NOT_LOADED : LoadingStatus.LOADED,
     });
-  }
-
-  // Private but used in tests
-  setState(state: ChangeState) {
-    this.subject$.next(state);
   }
 }

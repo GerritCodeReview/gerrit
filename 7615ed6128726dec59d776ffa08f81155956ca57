@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "35d228f4_2275c47c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-09-21T11:57:25Z",
+      "side": 1,
+      "message": "Discussed: this doesn\u0027t cover gerrit use-case.",
+      "parentUuid": "29de4b4e_950d7bc2",
+      "revId": "7615ed6128726dec59d776ffa08f81155956ca57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9533c722_b6676baa",

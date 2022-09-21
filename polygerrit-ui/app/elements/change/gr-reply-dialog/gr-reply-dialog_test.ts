@@ -2291,9 +2291,6 @@ suite('gr-reply-dialog tests', () => {
 
   suite('patchset level comment using GrComment', () => {
     setup(async () => {
-      stubFlags('isEnabled')
-        .withArgs(KnownExperimentId.PATCHSET_LEVEL_COMMENT_USES_GRCOMMENT)
-        .returns(true);
       element.account = createAccountWithId(1);
       element.requestUpdate();
       await element.updateComplete;

@@ -8,7 +8,7 @@ import {
   PageContext,
   PageNextCallback,
 } from '../../../utils/page-wrapper-utils';
-import {GerritNav} from '../gr-navigation/gr-navigation';
+import {GerritNav, NavigationService} from '../gr-navigation/gr-navigation';
 import {getAppContext} from '../../../services/app-context';
 import {convertToPatchSetNum} from '../../../utils/patch-set-util';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -270,7 +270,7 @@ if (!app) {
 
 export const routerToken = define<GrRouter>('router');
 
-export class GrRouter implements Finalizable {
+export class GrRouter implements Finalizable, NavigationService {
   readonly _app = app;
 
   _isRedirecting?: boolean;
@@ -446,6 +446,29 @@ export class GrRouter implements Finalizable {
         });
       }
     );
+  }
+
+  /**
+   * This is similar to letting the browser navigate to this URL when the user
+   * clicks it, or to just setting `window.location.href` directly.
+   *
+   * This adds a new entry to the browser location history. Consier using
+   * `replaceUrl()`, if you want to avoid that.
+   *
+   * page.show() eventually just calls `window.history.pushState()`.
+   */
+  setUrl(url: string) {
+    page.show(url);
+  }
+
+  /**
+   * Navigate to this URL, but replace the current URL in the history instead of
+   * adding a new one (which is what `setUrl()` would do).
+   *
+   * page.redirect() eventually just calls `window.history.replaceState()`.
+   */
+  replaceUrl(url: string) {
+    this.redirect(url);
   }
 
   startRouter() {

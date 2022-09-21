@@ -11,10 +11,9 @@ import {
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../types/types';
 import {createRepoUrl} from '../../../models/views/repo';
-import {createSearchUrl} from '../../../models/views/search';
 import {createDiffUrl} from '../../../models/views/diff';
-import {createDashboardUrl} from '../../../models/views/dashboard';
 import {createChangeUrl} from '../../../models/views/change';
+import {define} from '../../../models/dependency';
 
 const uninitialized = () => {
   console.warn('Use of uninitialized routing');
@@ -36,6 +35,29 @@ interface NavigateToChangeParams {
   openReplyDialog?: boolean;
 }
 
+export const navigationToken = define<NavigationService>('navigation');
+
+export interface NavigationService {
+  /**
+   * This is similar to letting the browser navigate to this URL when the user
+   * clicks it, or to just setting `window.location.href` directly.
+   *
+   * This adds a new entry to the browser location history. Consier using
+   * `replaceUrl()`, if you want to avoid that.
+   *
+   * page.show() eventually just calls `window.history.pushState()`.
+   */
+  setUrl(url: string): void;
+
+  /**
+   * Navigate to this URL, but replace the current URL in the history instead of
+   * adding a new one (which is what `setUrl()` would do).
+   *
+   * page.redirect() eventually just calls `window.history.replaceState()`.
+   */
+  replaceUrl(url: string): void;
+}
+
 // TODO(dmfilippov) Convert to class, extract consts, give better name and
 // expose as a service from appContext
 export const GerritNav = {
@@ -55,27 +77,6 @@ export const GerritNav = {
 
   destroy() {
     this._navigate = uninitializedNavigate;
-  },
-
-  /**
-   * Navigate to a search for changes with the given status.
-   */
-  navigateToStatusSearch(status: string) {
-    this._navigate(createSearchUrl({statuses: [status]}));
-  },
-
-  /**
-   * Navigate to a search query
-   */
-  navigateToSearchQuery(query: string, offset?: number) {
-    this._navigate(createSearchUrl({query, offset}));
-  },
-
-  /**
-   * Navigate to the user's dashboard
-   */
-  navigateToUserDashboard() {
-    this._navigate(createDashboardUrl({user: 'self'}));
   },
 
   /**

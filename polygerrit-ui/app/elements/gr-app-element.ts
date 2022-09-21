@@ -29,7 +29,7 @@ import './settings/gr-cla-view/gr-cla-view';
 import './settings/gr-registration-dialog/gr-registration-dialog';
 import './settings/gr-settings-view/gr-settings-view';
 import {getBaseUrl} from '../utils/url-util';
-import {GerritNav} from './core/gr-navigation/gr-navigation';
+import {navigationToken} from './core/gr-navigation/gr-navigation';
 import {getAppContext} from '../services/app-context';
 import {routerToken} from './core/gr-router/gr-router';
 import {AccountDetailInfo} from '../types/common';
@@ -70,8 +70,9 @@ import {AppTheme} from '../constants/constants';
 import {subscribe} from './lit/subscription-controller';
 import {KnownExperimentId} from '../services/flags/flags';
 import {PluginViewState} from '../models/views/plugin';
-import {SearchViewState} from '../models/views/search';
+import {createSearchUrl, SearchViewState} from '../models/views/search';
 import {createSettingsUrl} from '../models/views/settings';
+import {createDashboardUrl} from '../models/views/dashboard';
 
 interface ErrorInfo {
   text: string;
@@ -148,6 +149,8 @@ export class GrAppElement extends LitElement {
 
   readonly getRouter = resolve(this, routerToken);
 
+  private readonly getNavigation = resolve(this, navigationToken);
+
   private reporting = getAppContext().reportingService;
 
   private readonly restApiService = getAppContext().restApiService;
@@ -188,19 +191,21 @@ export class GrAppElement extends LitElement {
       this.showKeyboardShortcuts()
     );
     this.shortcuts.addAbstract(Shortcut.GO_TO_USER_DASHBOARD, () =>
-      this.goToUserDashboard()
+      this.getNavigation().setUrl(createDashboardUrl({user: 'self'}))
     );
     this.shortcuts.addAbstract(Shortcut.GO_TO_OPENED_CHANGES, () =>
-      this.goToOpenedChanges()
+      this.getNavigation().setUrl(createSearchUrl({statuses: ['open']}))
     );
     this.shortcuts.addAbstract(Shortcut.GO_TO_MERGED_CHANGES, () =>
-      this.goToMergedChanges()
+      this.getNavigation().setUrl(createSearchUrl({statuses: ['merged']}))
     );
     this.shortcuts.addAbstract(Shortcut.GO_TO_ABANDONED_CHANGES, () =>
-      this.goToAbandonedChanges()
+      this.getNavigation().setUrl(createSearchUrl({statuses: ['abandoned']}))
     );
     this.shortcuts.addAbstract(Shortcut.GO_TO_WATCHED_CHANGES, () =>
-      this.goToWatchedChanges()
+      this.getNavigation().setUrl(
+        createSearchUrl({query: 'is:watched is:open'})
+      )
     );
 
     subscribe(
@@ -738,27 +743,6 @@ export class GrAppElement extends LitElement {
     (this.params as AppElementJustRegisteredParams).justRegistered = false;
     assertIsDefined(this.registrationOverlay, 'registrationOverlay');
     this.registrationOverlay.close();
-  }
-
-  private goToOpenedChanges() {
-    GerritNav.navigateToStatusSearch('open');
-  }
-
-  private goToUserDashboard() {
-    GerritNav.navigateToUserDashboard();
-  }
-
-  private goToMergedChanges() {
-    GerritNav.navigateToStatusSearch('merged');
-  }
-
-  private goToAbandonedChanges() {
-    GerritNav.navigateToStatusSearch('abandoned');
-  }
-
-  private goToWatchedChanges() {
-    // The query is hardcoded, and doesn't respect custom menu entries
-    GerritNav.navigateToSearchQuery('is:watched is:open');
   }
 
   private computePluginScreenName() {

@@ -57,6 +57,7 @@ import {GroupViewModel, groupViewModelToken} from '../models/views/group';
 import {PluginViewModel, pluginViewModelToken} from '../models/views/plugin';
 import {RepoViewModel, repoViewModelToken} from '../models/views/repo';
 import {SearchViewModel, searchViewModelToken} from '../models/views/search';
+import {navigationToken} from '../elements/core/gr-navigation/gr-navigation';
 
 /**
  * The AppContext lazy initializator for all services
@@ -153,6 +154,7 @@ export function createAppDependencies(
     settingsViewModel
   );
   dependencies.set(routerToken, router);
+  dependencies.set(navigationToken, router);
 
   const changeModel = new ChangeModel(
     appContext.routerModel,

@@ -18,7 +18,10 @@ import '../gr-confirm-rebase-dialog/gr-confirm-rebase-dialog';
 import '../gr-confirm-revert-dialog/gr-confirm-revert-dialog';
 import '../gr-confirm-submit-dialog/gr-confirm-submit-dialog';
 import '../../../styles/shared-styles';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {
+  GerritNav,
+  navigationToken,
+} from '../../core/gr-navigation/gr-navigation';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {getAppContext} from '../../../services/app-context';
 import {CURRENT} from '../../../utils/patch-set-util';
@@ -106,6 +109,7 @@ import {ifDefined} from 'lit/directives/if-defined.js';
 import {assertIsDefined, queryAll} from '../../../utils/common-util';
 import {Interaction} from '../../../constants/reporting';
 import {rootUrl} from '../../../utils/url-util';
+import {createSearchUrl} from '../../../models/views/search';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -540,6 +544,8 @@ export class GrChangeActions
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly storage = getAppContext().storageService;
+
+  private readonly getNavigation = resolve(this, navigationToken);
 
   constructor() {
     super();
@@ -1872,9 +1878,9 @@ export class GrChangeActions
             return;
           /* If there is only 1 change then gerrit will automatically
             redirect to that change */
-          GerritNav.navigateToSearchQuery(
-            `topic: ${revertSubmistionInfo.revert_changes[0].topic}`
-          );
+          const topic = revertSubmistionInfo.revert_changes[0].topic;
+          const query = `topic:${topic}`;
+          if (topic) this.getNavigation().setUrl(createSearchUrl({query}));
           break;
         }
         default:

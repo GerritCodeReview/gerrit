@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f06b6c2c_b1b9acac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-09-21T21:38:16Z",
+      "side": 1,
+      "message": "s/different/different and accurate/\n\nYou may want to add a note in the main body of commit message explaining that queries with poorly defined costs/cardinalities/ could perform worse now.",
+      "range": {
+        "startLine": 21,
+        "startChar": 35,
+        "endLine": 21,
+        "endChar": 45
+      },
+      "revId": "9c6f5aa118e432624313deb980aafab121fb3dfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11fb038e_a9a2ae15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-09-21T21:38:16Z",
+      "side": 1,
+      "message": "s/always performant/performant despite ordering/",
+      "range": {
+        "startLine": 21,
+        "startChar": 63,
+        "endLine": 21,
+        "endChar": 81
+      },
+      "revId": "9c6f5aa118e432624313deb980aafab121fb3dfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

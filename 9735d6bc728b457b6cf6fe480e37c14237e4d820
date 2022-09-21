@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c2ce19b_2246c568",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-21T20:39:10Z",
+      "side": 1,
+      "message": "I\u0027m curious why this preference is needed. Do we continue to prompt even if the user has denied this perm in the browser?",
+      "revId": "9735d6bc728b457b6cf6fe480e37c14237e4d820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

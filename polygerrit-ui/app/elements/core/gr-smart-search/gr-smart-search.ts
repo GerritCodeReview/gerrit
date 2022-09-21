@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../gr-search-bar/gr-search-bar';
-import {GerritNav} from '../gr-navigation/gr-navigation';
+import {navigationToken} from '../gr-navigation/gr-navigation';
 import {getUserName} from '../../../utils/display-name-util';
 import {AccountInfo, ServerInfo} from '../../../types/common';
 import {
@@ -18,6 +18,7 @@ import {customElement, property, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
+import {createSearchUrl} from '../../../models/views/search';
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
 const SELF_EXPRESSION = 'self';
@@ -46,6 +47,8 @@ export class GrSmartSearch extends LitElement {
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly getConfigModel = resolve(this, configModelToken);
+
+  private readonly getNavigation = resolve(this, navigationToken);
 
   constructor() {
     super();
@@ -191,9 +194,8 @@ export class GrSmartSearch extends LitElement {
   }
 
   private handleSearch(e: CustomEvent<SearchBarHandleSearchDetail>) {
-    const input = e.detail.inputVal;
-    if (input) {
-      GerritNav.navigateToSearchQuery(input);
-    }
+    const query = e.detail.inputVal;
+    if (!query) return;
+    this.getNavigation().setUrl(createSearchUrl({query}));
   }
 }

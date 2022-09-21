@@ -62,6 +62,7 @@ import {GroupViewModel, groupViewModelToken} from '../models/views/group';
 import {PluginViewModel, pluginViewModelToken} from '../models/views/plugin';
 import {RepoViewModel, repoViewModelToken} from '../models/views/repo';
 import {SearchViewModel, searchViewModelToken} from '../models/views/search';
+import {navigationToken} from '../elements/core/gr-navigation/gr-navigation';
 
 export function createTestAppContext(): AppContext & Finalizable {
   const appRegistry: Registry<AppContext> = {
@@ -161,6 +162,13 @@ export function createTestDependencies(
       resolver(settingsViewModelToken)
     );
   dependencies.set(routerToken, routerCreator);
+  dependencies.set(navigationToken, () => {
+    return {
+      setUrl: () => {},
+      replaceUrl: () => {},
+      finalize: () => {},
+    };
+  });
 
   const changeModelCreator = () =>
     new ChangeModel(

@@ -5,7 +5,10 @@
  */
 import '../../../test/common-test-setup';
 import './gr-change-actions';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {
+  GerritNav,
+  navigationToken,
+} from '../../core/gr-navigation/gr-navigation';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {
   createAccountWithId,
@@ -59,6 +62,7 @@ import {GrConfirmMoveDialog} from '../gr-confirm-move-dialog/gr-confirm-move-dia
 import {GrConfirmAbandonDialog} from '../gr-confirm-abandon-dialog/gr-confirm-abandon-dialog';
 import {GrConfirmRevertDialog} from '../gr-confirm-revert-dialog/gr-confirm-revert-dialog';
 import {EventType} from '../../../types/events';
+import {testResolver} from '../../../test/common-test-setup';
 
 // TODO(dhruvsri): remove use of _populateRevertMessage as it's private
 suite('gr-change-actions tests', () => {
@@ -2506,15 +2510,14 @@ suite('gr-change-actions tests', () => {
         });
 
         suite('single changes revert', () => {
-          let navigateToSearchQueryStub: sinon.SinonStub;
+          let setUrlStub: sinon.SinonStub;
           setup(() => {
             getResponseObjectStub.returns(
-              Promise.resolve({revert_changes: [{change_id: 12345}]})
+              Promise.resolve({
+                revert_changes: [{change_id: 12345, topic: 'T'}],
+              })
             );
-            navigateToSearchQueryStub = sinon.stub(
-              GerritNav,
-              'navigateToSearchQuery'
-            );
+            setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
           });
 
           test('revert submission single change', async () => {
@@ -2534,13 +2537,14 @@ suite('gr-change-actions tests', () => {
               },
               new Response()
             );
-            assert.isTrue(navigateToSearchQueryStub.called);
+            assert.isTrue(setUrlStub.called);
+            assert.equal(setUrlStub.lastCall.args[0], '/q/topic:T');
           });
         });
 
         suite('multiple changes revert', () => {
           let showActionDialogStub: sinon.SinonStub;
-          let navigateToSearchQueryStub: sinon.SinonStub;
+          let setUrlStub: sinon.SinonStub;
           setup(() => {
             getResponseObjectStub.returns(
               Promise.resolve({
@@ -2551,10 +2555,7 @@ suite('gr-change-actions tests', () => {
               })
             );
             showActionDialogStub = sinon.stub(element, 'showActionDialog');
-            navigateToSearchQueryStub = sinon.stub(
-              GerritNav,
-              'navigateToSearchQuery'
-            );
+            setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
           });
 
           test('revert submission multiple change', async () => {
@@ -2575,7 +2576,8 @@ suite('gr-change-actions tests', () => {
               new Response()
             );
             assert.isFalse(showActionDialogStub.called);
-            assert.isTrue(navigateToSearchQueryStub.calledWith('topic: T'));
+            assert.isTrue(setUrlStub.called);
+            assert.equal(setUrlStub.lastCall.args[0], '/q/topic:T');
           });
         });
 

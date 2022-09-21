@@ -8,7 +8,7 @@ import '@polymer/iron-input/iron-input';
 import '../../../styles/shared-styles';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-dialog/gr-dialog';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {getAppContext} from '../../../services/app-context';
 import {
   ChangeInfo,
@@ -34,6 +34,8 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {choose} from 'lit/directives/choose.js';
 import {when} from 'lit/directives/when.js';
 import {BindValueChangeEvent} from '../../../types/events';
+import {resolve} from '../../../models/dependency';
+import {createSearchUrl} from '../../../models/views/search';
 
 const SUGGESTIONS_LIMIT = 15;
 const CHANGE_SUBJECT_LIMIT = 50;
@@ -123,6 +125,8 @@ export class GrConfirmCherrypickDialog extends LitElement {
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly reporting = getAppContext().reportingService;
+
+  private readonly getNavigation = resolve(this, navigationToken);
 
   constructor() {
     super();
@@ -576,9 +580,10 @@ export class GrConfirmCherrypickDialog extends LitElement {
             v => v.status !== ProgressStatus.SUCCESSFUL
           );
           if (!failedOrPending) {
-            /* This needs some more work, as the new topic may not always be
-          created, instead we may end up creating a new patchset */
-            GerritNav.navigateToSearchQuery(`topic: "${topic}"`);
+            // This needs some more work, as the new topic may not always be
+            // created, instead we may end up creating a new patchset */
+            const query = `topic: "${topic}"`;
+            this.getNavigation().setUrl(createSearchUrl({query}));
           }
         });
     });

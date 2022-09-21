@@ -12,12 +12,13 @@ import '@polymer/marked-element';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
-import {CommentLinks} from '../../../api/rest-api';
+import {CommentLinks, EmailAddress} from '../../../api/rest-api';
 import {
   applyHtmlRewritesFromConfig,
   applyLinkRewritesFromConfig,
   linkifyNormalUrls,
 } from '../../../utils/link-util';
+import {MENTIONS_REGEX} from '../../../utils/account-util';
 
 /**
  * This element renders markdown and also applies some regex replacements to
@@ -150,6 +151,14 @@ export class GrMarkdown extends LitElement {
         `<code>${unescapeHTML(text)}</code>`;
       renderer['code'] = (text: string) => `<pre><code>${text}</code></pre>`;
       renderer['text'] = boundRewriteText;
+      const oldLinkRenderer = renderer['link'];
+      renderer['link'] = (href: string, title: string, text: string) => {
+        if (text.startsWith('{mention}')) {
+          return `<mentions-chip>${text.slice(9)}</mentions-chip>`;
+        } else {
+          return oldLinkRenderer(href, title, text);
+        }
+      };
     }
 
     // The child with slot is optional but allows us control over the styling.
@@ -172,6 +181,8 @@ export class GrMarkdown extends LitElement {
     // in HTML fragments, but it is insufficient on it's own.
     text = text.replace(/(^|\n)&gt;/g, '$1>');
 
+    text = text.replace(MENTIONS_REGEX, '{mention}$1');
+
     return text;
   }
 
@@ -191,6 +202,16 @@ export class GrMarkdown extends LitElement {
     text = applyHtmlRewritesFromConfig(text, repoCommentLinks);
 
     return text;
+  }
+
+  override updated() {
+    for (const el of this.shadowRoot?.querySelectorAll('mentions-chip') ?? []) {
+      const accountlabel = document.createElement('gr-account-label');
+      accountlabel.account = {
+        email: el.textContent as EmailAddress,
+      };
+      el.parentNode?.replaceChild(accountlabel, el);
+    }
   }
 }
 

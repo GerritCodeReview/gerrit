@@ -81,7 +81,7 @@ suite('gr-formatted-text tests', () => {
     element.content = 'text `code`';
     await element.updateComplete;
 
-    assert.shadowDom.equal(element, /* HTML */ ` <gr-markdown></gr-markdown> `);
+    assert.shadowDom.equal(element, /* HTML */ ' <gr-markdown></gr-markdown> ');
   });
 
   for (const text of [

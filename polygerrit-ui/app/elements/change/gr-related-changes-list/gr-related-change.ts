@@ -3,7 +3,7 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {LitElement, css, html} from 'lit';
+import {LitElement, css, html, nothing} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {
@@ -14,6 +14,11 @@ import {
 import {ChangeStatus} from '../../../constants/constants';
 import {isChangeInfo} from '../../../utils/change-util';
 import {ifDefined} from 'lit/directives/if-defined.js';
+import {assertIsDefined} from '../../../utils/common-util';
+import {resolve} from '../../../models/dependency';
+import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
+import {KnownExperimentId} from '../../../services/flags/flags';
+import {getAppContext} from '../../../services/app-context';
 
 @customElement('gr-related-change')
 export class GrRelatedChange extends LitElement {
@@ -38,6 +43,12 @@ export class GrRelatedChange extends LitElement {
    */
   @property({type: Array})
   connectedRevisions?: CommitId[];
+
+  @property({type: Boolean, reflect: true}) checked = false;
+
+  private readonly flagsService = getAppContext().flagsService;
+
+  private readonly getBulkActionsModel = resolve(this, bulkActionsModelToken);
 
   static override get styles() {
     return [
@@ -92,6 +103,9 @@ export class GrRelatedChange extends LitElement {
         .submittableCheck.submittable {
           display: inline;
         }
+        .selectionLabel {
+          padding-right: var(--spacing-m);
+        }
       `,
     ];
   }
@@ -102,6 +116,7 @@ export class GrRelatedChange extends LitElement {
     const linkClass = this._computeLinkClass(change);
     return html`
       <div class="changeContainer">
+        ${this.renderBulkActionsCheckbox()}
         <a
           href=${ifDefined(this.href)}
           aria-label=${ifDefined(this.label)}
@@ -125,6 +140,31 @@ export class GrRelatedChange extends LitElement {
           : ''}
       </div>
     `;
+  }
+
+  private renderBulkActionsCheckbox() {
+    // if (
+    //   !this.flagsService.isEnabled(
+    //     KnownExperimentId.BULK_ACTIONS_FOR_STACKED_CHANGES
+    //   )
+    // ) {
+    //   return nothing;
+    // }
+    return html` <div>
+      <label class="selectionLabel">
+        <input type="checkbox" .checked=${this.checked}          @click=${this.toggleCheckbox}
+        />
+      </label>
+    </div>`;
+  }
+
+  private toggleCheckbox() {
+    assertIsDefined(this.change, 'change');
+    this.checked = !this.checked;
+    const num = isChangeInfo(this.change)
+      ? this.change._number
+      : this.change._change_number;
+    if (num) this.getBulkActionsModel().toggleSelectedChangeNum(num);
   }
 
   _computeLinkClass(change: ChangeInfo | RelatedChangeAndCommitInfo) {

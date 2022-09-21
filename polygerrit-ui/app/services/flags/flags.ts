@@ -21,7 +21,6 @@ export enum KnownExperimentId {
   SUGGEST_EDIT = 'UiFeature__suggest_edit',
   CHECKS_FIXES = 'UiFeature__checks_fixes',
   MENTION_USERS = 'UiFeature__mention_users',
-  PATCHSET_LEVEL_COMMENT_USES_GRCOMMENT = 'UiFeature__patchset_level_comment_uses_GrComment',
   RENDER_MARKDOWN = 'UiFeature__render_markdown',
   AUTO_APP_THEME = 'UiFeature__auto_app_theme',
   COPY_LINK_DIALOG = 'UiFeature__copy_link_dialog',

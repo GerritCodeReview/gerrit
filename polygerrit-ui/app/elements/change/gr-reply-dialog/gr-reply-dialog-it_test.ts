@@ -21,7 +21,6 @@ import {
   Timestamp,
 } from '../../../types/common';
 import {createChange} from '../../../test/test-data-generators';
-import {GrTextarea} from '../../shared/gr-textarea/gr-textarea';
 import {GrButton} from '../../shared/gr-button/gr-button';
 
 suite('gr-reply-dialog-it tests', () => {
@@ -120,14 +119,6 @@ suite('gr-reply-dialog-it tests', () => {
     getPluginLoader().loadPlugins([]);
     await getPluginLoader().awaitPluginsLoaded();
     await waitEventLoop();
-    const textarea = queryAndAssert<GrTextarea>(
-      element,
-      'gr-textarea'
-    ).getNativeTextarea();
-    textarea.value = 'LGTM';
-    textarea.dispatchEvent(
-      new CustomEvent('input', {bubbles: true, composed: true})
-    );
     await waitEventLoop();
     const labelScoreRows = queryAndAssert(
       element.getLabelScores(),

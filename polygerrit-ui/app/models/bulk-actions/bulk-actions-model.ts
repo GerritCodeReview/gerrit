@@ -22,6 +22,7 @@ import {
   ReviewInput,
   ReviewerInput,
   AttentionSetInput,
+  RelatedChangeAndCommitInfo,
 } from '../../types/common';
 import {getUserId} from '../../utils/account-util';
 
@@ -236,8 +237,14 @@ export class BulkActionsModel
     );
   }
 
+  private getNumber(c: ChangeInfo) {
+    return (
+      c._number || (c as unknown as RelatedChangeAndCommitInfo)._change_number!
+    );
+  }
+
   async sync(changes: ChangeInfo[]) {
-    const basicChanges = new Map(changes.map(c => [c._number, c]));
+    const basicChanges = new Map(changes.map(c => [this.getNumber(c), c]));
     let currentState = this.getState();
     const selectedChangeNums = currentState.selectedChangeNums.filter(
       changeNum => basicChanges.has(changeNum)
@@ -253,7 +260,7 @@ export class BulkActionsModel
     }
     const changeDetails =
       await this.restApiService.getDetailedChangesWithActions(
-        changes.map(c => c._number)
+        changes.map(c => this.getNumber(c))
       );
     currentState = this.getState();
     // Return early if sync has been called again since starting the load.

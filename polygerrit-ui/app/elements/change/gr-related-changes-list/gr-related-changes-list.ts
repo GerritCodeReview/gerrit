@@ -203,6 +203,7 @@ export class GrRelatedChangesList extends LitElement {
         title="Relation chain"
         class=${classMap({first: isFirst})}
         .length=${this.relatedChanges.length}
+        .changes=${this.relatedChanges}
         .numChangesWhenCollapsed=${sectionSize(Section.RELATED_CHANGES)}
       >
         ${this.relatedChanges.map(

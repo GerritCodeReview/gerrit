@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db073798_3d17c1fa",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-21T18:41:57Z",
+      "side": 1,
+      "message": "Is this still needed?",
+      "range": {
+        "startLine": 257,
+        "startChar": 1,
+        "endLine": 257,
+        "endChar": 44
+      },
+      "revId": "4339f2a8e3398e74ee0c6373a47dc8f104138606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4967461b_23c51dc2",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-21T18:41:57Z",
+      "side": 1,
+      "message": "Is this still needed?",
+      "range": {
+        "startLine": 499,
+        "startChar": 3,
+        "endLine": 513,
+        "endChar": 7
+      },
+      "revId": "4339f2a8e3398e74ee0c6373a47dc8f104138606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

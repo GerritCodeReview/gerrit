@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51f0b0f6_e1b5f800",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-21T18:41:57Z",
+      "side": 0,
+      "message": "Can you replace it with gr-comment?",
+      "range": {
+        "startLine": 123,
+        "startChar": 4,
+        "endLine": 130,
+        "endChar": 6
+      },
+      "revId": "ad5fb2598c1db378a9ae95e27431245353612764",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73cefee9_0982c353",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-21T18:41:57Z",
+      "side": 0,
+      "message": "Why is this removed? It\u0027s because we are not sending this comment via reply but as draft? \n\nIf it\u0027s like that, maybe add assert for draft send for this comment.",
+      "range": {
+        "startLine": 349,
+        "startChar": 6,
+        "endLine": 356,
+        "endChar": 8
+      },
+      "revId": "ad5fb2598c1db378a9ae95e27431245353612764",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

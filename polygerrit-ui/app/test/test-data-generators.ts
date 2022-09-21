@@ -204,6 +204,13 @@ export function createAccountDetailWithId(id = 5): AccountDetailInfo {
 export function createAccountWithEmail(email = 'test@'): AccountInfo {
   return {
     email: email as EmailAddress,
+    _account_id: 1 as AccountId,
+  };
+}
+
+export function createAccountWithEmailOnly(email = 'test@'): AccountInfo {
+  return {
+    email: email as EmailAddress,
   };
 }
 

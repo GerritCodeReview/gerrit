@@ -26,7 +26,7 @@ import {
 } from '../api/rest-api';
 import {
   createAccountDetailWithId,
-  createAccountWithEmail,
+  createAccountWithEmailOnly,
   createAccountWithId,
   createChange,
   createDetailedLabelInfo,
@@ -128,7 +128,7 @@ suite('account-util tests', () => {
   test('isAccountEmailOnly', () => {
     assert.isFalse(isAccountEmailOnly(createAccountWithId(1)));
     assert.isTrue(
-      isAccountEmailOnly(createAccountWithEmail('a' as EmailAddress))
+      isAccountEmailOnly(createAccountWithEmailOnly('a' as EmailAddress))
     );
     assert.isFalse(isAccountEmailOnly(createGroupInfo()));
   });

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81dafe6f_966a5188",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-21T09:55:12Z",
+      "side": 1,
+      "message": "I believe this is an important addition, worth mentioning in the release notes.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 19
+      },
+      "revId": "1a6d55f9e894bbc8e7b60dd1ecc7ea4c32638809",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0135c661_469407c5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-21T09:55:12Z",
+      "side": 1,
+      "message": "Just a couple of nits and then feel free to merge it! Good job.",
+      "revId": "1a6d55f9e894bbc8e7b60dd1ecc7ea4c32638809",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2dce8cbb_cc410b1d",
+        "filename": "java/com/google/gerrit/server/events/EventTypes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-21T09:55:12Z",
+      "side": 1,
+      "message": "a copy of all",
+      "range": {
+        "startLine": 67,
+        "startChar": 9,
+        "endLine": 67,
+        "endChar": 12
+      },
+      "revId": "1a6d55f9e894bbc8e7b60dd1ecc7ea4c32638809",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

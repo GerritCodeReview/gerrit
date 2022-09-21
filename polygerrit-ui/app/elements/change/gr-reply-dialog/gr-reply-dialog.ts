@@ -51,7 +51,6 @@ import {
   AccountInfo,
   AttentionSetInput,
   ChangeInfo,
-  CommentInput,
   GroupInfo,
   isAccount,
   isDetailedLabelInfo,
@@ -117,11 +116,11 @@ import {
   LabelNameToValuesMap,
   PatchSetNumber,
 } from '../../../api/rest-api';
-import {css, html, PropertyValues, LitElement, nothing} from 'lit';
+import {css, html, PropertyValues, LitElement} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {when} from 'lit/directives/when.js';
 import {classMap} from 'lit/directives/class-map.js';
-import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
+import {ValueChangedEvent} from '../../../types/events';
 import {customElement, property, state, query} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
@@ -958,14 +957,6 @@ export class GrReplyDialog extends LitElement {
   }
 
   private renderPatchsetLevelComment() {
-    if (
-      !this.flagsService.isEnabled(
-        KnownExperimentId.PATCHSET_LEVEL_COMMENT_USES_GRCOMMENT
-      )
-    ) {
-      return nothing;
-    }
-
     if (!this.patchsetLevelComment)
       this.patchsetLevelComment = this.createDraft();
     return html`
@@ -986,30 +977,6 @@ export class GrReplyDialog extends LitElement {
     `;
   }
 
-  private renderPatchsetLevelTextarea() {
-    if (
-      this.flagsService.isEnabled(
-        KnownExperimentId.PATCHSET_LEVEL_COMMENT_USES_GRCOMMENT
-      )
-    )
-      return nothing;
-    return html` <gr-textarea
-      id="textarea"
-      class="message newReplyDialog"
-      .autocomplete=${'on'}
-      .placeholder=${this.messagePlaceholder}
-      monospace
-      ?disabled=${this.disabled}
-      .rows=${4}
-      .text=${this.patchsetLevelDraftMessage}
-      @bind-value-changed=${(e: BindValueChangeEvent) => {
-        this.patchsetLevelDraftMessage = e.detail.value ?? '';
-        this.handleHeightChanged();
-      }}
-    >
-    </gr-textarea>`;
-  }
-
   private renderReplyText() {
     if (!this.change) return;
     return html`
@@ -1023,7 +990,6 @@ export class GrReplyDialog extends LitElement {
       >
         <gr-endpoint-decorator name="reply-text">
           ${this.renderPatchsetLevelComment()}
-          ${this.renderPatchsetLevelTextarea()}
           <gr-endpoint-param name="change" .value=${this.change}>
           </gr-endpoint-param>
         </gr-endpoint-decorator>
@@ -1511,32 +1477,11 @@ export class GrReplyDialog extends LitElement {
       reviewInput.remove_from_attention_set
     );
 
-    if (
-      this.flagsService.isEnabled(
-        KnownExperimentId.PATCHSET_LEVEL_COMMENT_USES_GRCOMMENT
-      )
-    ) {
-      const patchsetLevelComment = queryAndAssert<GrComment>(
-        this,
-        '#patchsetLevelComment'
-      );
-      await patchsetLevelComment.save();
-    }
-
-    if (
-      this.patchsetLevelDraftMessage &&
-      !this.flagsService.isEnabled(
-        KnownExperimentId.PATCHSET_LEVEL_COMMENT_USES_GRCOMMENT
-      )
-    ) {
-      const comment: CommentInput = {
-        message: this.patchsetLevelDraftMessage,
-        unresolved: !this.patchsetLevelDraftIsResolved,
-      };
-      reviewInput.comments = {
-        [SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: [comment],
-      };
-    }
+    const patchsetLevelComment = queryAndAssert<GrComment>(
+      this,
+      '#patchsetLevelComment'
+    );
+    await patchsetLevelComment.save();
 
     assertIsDefined(this.change, 'change');
     reviewInput.reviewers = this.computeReviewers();
@@ -1944,19 +1889,11 @@ export class GrReplyDialog extends LitElement {
         bubbles: false,
       })
     );
-    if (
-      this.flagsService.isEnabled(
-        KnownExperimentId.PATCHSET_LEVEL_COMMENT_USES_GRCOMMENT
-      )
-    ) {
-      const patchsetLevelComment = queryAndAssert<GrComment>(
-        this,
-        '#patchsetLevelComment'
-      );
-      await patchsetLevelComment.save();
-    } else {
-      queryAndAssert<GrTextarea>(this, 'gr-textarea').closeDropdown();
-    }
+    const patchsetLevelComment = queryAndAssert<GrComment>(
+      this,
+      '#patchsetLevelComment'
+    );
+    await patchsetLevelComment.save();
     this.rebuildReviewerArrays();
   }
 
@@ -2146,14 +2083,9 @@ export class GrReplyDialog extends LitElement {
         isDetailedLabelInfo(label) && getApprovalInfo(label, this.account!)
     );
     const revotingOrNewVote = this.labelsChanged || existingVote;
-    let hasDrafts = this.includeComments && this.draftCommentThreads.length > 0;
-    if (
-      this.flagsService.isEnabled(
-        KnownExperimentId.PATCHSET_LEVEL_COMMENT_USES_GRCOMMENT
-      )
-    ) {
-      hasDrafts = hasDrafts || this.patchsetLevelDraftMessage.length > 0;
-    }
+    const hasDrafts =
+      (this.includeComments && this.draftCommentThreads.length > 0) ||
+      this.patchsetLevelDraftMessage.length > 0;
     return (
       !hasDrafts &&
       !this.patchsetLevelDraftMessage.length &&

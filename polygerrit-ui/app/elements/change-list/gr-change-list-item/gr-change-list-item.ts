@@ -656,11 +656,7 @@ export class GrChangeListItem extends LitElement {
 
   private computeChangeURL() {
     if (!this.change) return '';
-    return createChangeUrl({
-      changeNum: this.change._number,
-      project: this.change.project,
-      usp: this.usp,
-    });
+    return createChangeUrl({change: this.change, usp: this.usp});
   }
 
   private computeRepoUrl() {

@@ -8,6 +8,7 @@ import {
   RepoName,
   RevisionPatchSetNum,
   BasePatchSetNum,
+  ChangeInfo,
 } from '../../api/rest-api';
 import {GerritView} from '../../services/router/router-model';
 import {UrlEncodedCommentId} from '../../types/common';
@@ -23,8 +24,8 @@ import {ViewState} from './base';
 
 export interface ChangeViewState extends ViewState {
   view: GerritView.CHANGE;
-  changeNum?: NumericChangeId;
-  project?: RepoName;
+  changeNum: NumericChangeId;
+  project: RepoName;
   edit?: boolean;
   patchNum?: RevisionPatchSetNum;
   basePatchNum?: BasePatchSetNum;
@@ -41,7 +42,42 @@ export interface ChangeViewState extends ViewState {
   usp?: string;
 }
 
-export function createChangeUrl(state: Omit<ChangeViewState, 'view'>) {
+/**
+ * This is a convenience type such that you can pass a `ChangeInfo` object
+ * as the `change` property instead of having to set both the `changeNum` and
+ * `project` properties explicitly.
+ */
+export type CreateChangeUrlObject = Omit<
+  ChangeViewState,
+  'view' | 'changeNum' | 'project'
+> & {
+  change: Pick<ChangeInfo, '_number' | 'project'>;
+};
+
+export function isCreateChangeUrlObject(
+  state: CreateChangeUrlObject | Omit<ChangeViewState, 'view'>
+): state is CreateChangeUrlObject {
+  return !!(state as CreateChangeUrlObject).change;
+}
+
+export function objToState(
+  obj: CreateChangeUrlObject | Omit<ChangeViewState, 'view'>
+): ChangeViewState {
+  if (isCreateChangeUrlObject(obj)) {
+    return {
+      ...obj,
+      view: GerritView.CHANGE,
+      changeNum: obj.change._number,
+      project: obj.change.project,
+    };
+  }
+  return {...obj, view: GerritView.CHANGE};
+}
+
+export function createChangeUrl(
+  obj: CreateChangeUrlObject | Omit<ChangeViewState, 'view'>
+) {
+  const state: ChangeViewState = objToState(obj);
   let range = getPatchRangeExpression(state);
   if (range.length) {
     range = '/' + range;

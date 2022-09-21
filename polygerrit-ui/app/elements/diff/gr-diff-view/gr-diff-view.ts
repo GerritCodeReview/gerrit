@@ -1819,8 +1819,7 @@ export class GrDiffView extends LitElement {
       this.change.revisions
     );
     return createChangeUrl({
-      changeNum: this.change._number,
-      project: this.change.project,
+      change: this.change,
       patchNum: range.patchNum,
       basePatchNum: range.basePatchNum,
     });

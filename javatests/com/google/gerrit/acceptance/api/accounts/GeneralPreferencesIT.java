@@ -62,6 +62,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
             new MenuItem("Edits", "#/q/has:edit", null),
             new MenuItem("Watched Changes", "#/q/is:watched+is:open", null),
             new MenuItem("Starred Changes", "#/q/is:starred", null),
+            new MenuItem("All Visible Changes", "#/q/is:visible", null),
             new MenuItem("Groups", "#/settings/#Groups", null));
     assertThat(o.changeTable).isEmpty();
 

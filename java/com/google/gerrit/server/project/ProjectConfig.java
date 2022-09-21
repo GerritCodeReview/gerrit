@@ -133,6 +133,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   public static final String KEY_MATCH = "match";
   private static final String KEY_HTML = "html";
   public static final String KEY_LINK = "link";
+  public static final String KEY_PREFIX = "prefix";
+  public static final String KEY_SUFFIX = "suffix";
+  public static final String KEY_TEXT = "text";
   public static final String KEY_ENABLED = "enabled";
 
   public static final String PROJECT_CONFIG = "project.config";
@@ -328,6 +331,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     }
 
     String link = cfg.getString(COMMENTLINK, name, KEY_LINK);
+    String linkPrefix = cfg.getString(COMMENTLINK, name, KEY_PREFIX);
+    String linkSuffix = cfg.getString(COMMENTLINK, name, KEY_SUFFIX);
+    String linkText = cfg.getString(COMMENTLINK, name, KEY_TEXT);
+
     String html = cfg.getString(COMMENTLINK, name, KEY_HTML);
     boolean hasHtml = !Strings.isNullOrEmpty(html);
 
@@ -352,6 +359,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return StoredCommentLinkInfo.builder(name)
         .setMatch(match)
         .setLink(link)
+        .setPrefix(linkPrefix)
+        .setSuffix(linkSuffix)
+        .setText(linkText)
         .setHtml(html)
         .setEnabled(enabled)
         .setOverrideOnly(false)
@@ -1376,6 +1386,15 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         }
         if (!Strings.isNullOrEmpty(cm.getLink())) {
           rc.setString(COMMENTLINK, cm.getName(), KEY_LINK, cm.getLink());
+        }
+        if (!Strings.isNullOrEmpty(cm.getPrefix())) {
+          rc.setString(COMMENTLINK, cm.getName(), KEY_PREFIX, cm.getPrefix());
+        }
+        if (!Strings.isNullOrEmpty(cm.getSuffix())) {
+          rc.setString(COMMENTLINK, cm.getName(), KEY_SUFFIX, cm.getSuffix());
+        }
+        if (!Strings.isNullOrEmpty(cm.getText())) {
+          rc.setString(COMMENTLINK, cm.getName(), KEY_TEXT, cm.getText());
         }
         if (cm.getEnabled() != null && !cm.getEnabled()) {
           rc.setBoolean(COMMENTLINK, cm.getName(), KEY_ENABLED, cm.getEnabled());

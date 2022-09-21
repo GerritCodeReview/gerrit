@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29de4b4e_950d7bc2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-09-21T10:29:49Z",
+      "side": 1,
+      "message": "Can we use group/groups instead of e-mails? This should give more flexibility for configuration.",
+      "revId": "7615ed6128726dec59d776ffa08f81155956ca57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9533c722_b6676baa",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4059,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-09-21T10:29:49Z",
+      "side": 1,
+      "message": "Please add what happens if the property not set.",
+      "range": {
+        "startLine": 4058,
+        "startChar": 0,
+        "endLine": 4059,
+        "endChar": 28
+      },
+      "revId": "7615ed6128726dec59d776ffa08f81155956ca57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43f2d3f7_7b807fad",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/ServerInfoIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-09-21T10:29:49Z",
+      "side": 1,
+      "message": "```suggestion\n    assertThat(i.notificationsEnabledRegexp).isEqualTo(\"*\");\n```",
+      "range": {
+        "startLine": 224,
+        "startChar": 17,
+        "endLine": 224,
+        "endChar": 18
+      },
+      "revId": "7615ed6128726dec59d776ffa08f81155956ca57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

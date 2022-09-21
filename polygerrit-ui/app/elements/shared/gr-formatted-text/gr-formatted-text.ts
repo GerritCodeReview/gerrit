@@ -15,12 +15,15 @@ import '@polymer/marked-element';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
-import {CommentLinks} from '../../../api/rest-api';
+import {CommentLinks, EmailAddress} from '../../../api/rest-api';
 import {
   applyHtmlRewritesFromConfig,
   applyLinkRewritesFromConfig,
   linkifyNormalUrls,
 } from '../../../utils/link-util';
+import {GrAccountChip} from '../gr-account-chip/gr-account-chip';
+import {KnownExperimentId} from '../../../services/flags/flags';
+import {getAppContext} from '../../../services/app-context';
 
 /**
  * This element optionally renders markdown and also applies some regex
@@ -36,6 +39,8 @@ export class GrFormattedText extends LitElement {
 
   @state()
   private repoCommentLinks: CommentLinks = {};
+
+  private readonly flagsService = getAppContext().flagsService;
 
   private readonly getConfigModel = resolve(this, configModelToken);
 
@@ -90,6 +95,9 @@ export class GrFormattedText extends LitElement {
       }
       li {
         margin-left: var(--spacing-xl);
+      }
+      gr-account-chip {
+        display: inline;
       }
       .plaintext {
         font: inherit;
@@ -199,6 +207,33 @@ export class GrFormattedText extends LitElement {
     text = applyHtmlRewritesFromConfig(text, repoCommentLinks);
 
     return text;
+  }
+
+  override updated() {
+    // Look for @mentions and replace them with an account-label chip.
+    if (this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) {
+      this.convertMentions();
+    }
+  }
+
+  private convertMentions() {
+    for (const el of this.shadowRoot?.querySelectorAll('a[href^="mailto"]') ??
+      []) {
+      if (el.previousSibling?.textContent?.match(/(?<=^|\s)@$/)) {
+        const accountChip = document.createElement(
+          'gr-account-chip'
+        ) as GrAccountChip;
+        accountChip.account = {
+          email: el.textContent as EmailAddress,
+        };
+        accountChip.removable = false;
+        el.previousSibling.textContent = el.previousSibling.textContent.slice(
+          0,
+          -1
+        );
+        el.parentNode?.replaceChild(accountChip, el);
+      }
+    }
   }
 }
 

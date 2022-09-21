@@ -15,9 +15,10 @@ import {getAppContext} from '../../../services/app-context';
 import './gr-formatted-text';
 import {GrFormattedText} from './gr-formatted-text';
 import {createConfig} from '../../../test/test-data-generators';
-import {waitUntilObserved} from '../../../test/test-utils';
+import {stubFlags, waitUntilObserved} from '../../../test/test-utils';
 import {CommentLinks} from '../../../api/rest-api';
 import {testResolver} from '../../../test/common-test-setup';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 suite('gr-formatted-text tests', () => {
   let element: GrFormattedText;
@@ -235,6 +236,7 @@ suite('gr-formatted-text tests', () => {
         `
       );
     });
+
     test('renders multiline-code without linking or rewriting', async () => {
       element.content = `\`\`\`\nmultiline code\n\`\`\`
         \n\`\`\`\nmultiline code with plain link: google.com\n\`\`\`
@@ -278,6 +280,53 @@ suite('gr-formatted-text tests', () => {
             </div>
           </marked-element>
         `
+      );
+    });
+
+    test('does not handle @mentions if not enabled', async () => {
+      stubFlags('isEnabled')
+        .withArgs(KnownExperimentId.MENTION_USERS)
+        .returns(false);
+      element.content = '@someone@google.com';
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <marked-element>
+            <div slot="markdown-html">
+              <p>
+                @
+                <a href="mailto:someone@google.com"> someone@google.com </a>
+              </p>
+            </div>
+          </marked-element>
+        `
+      );
+    });
+
+    test('handles @mentions if enabled', async () => {
+      stubFlags('isEnabled')
+        .withArgs(KnownExperimentId.MENTION_USERS)
+        .returns(true);
+      element.content = '@someone@google.com';
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <marked-element>
+            <div slot="markdown-html">
+              <p>
+                <gr-account-chip></gr-account-chip>
+              </p>
+            </div>
+          </marked-element>
+        `
+      );
+      assert.equal(
+        element.shadowRoot?.querySelector('gr-account-chip')?.account?.email,
+        'someone@google.com'
       );
     });
 

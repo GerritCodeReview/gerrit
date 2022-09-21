@@ -435,7 +435,9 @@ suite('gr-change-view tests', () => {
                         id="commitMessageEditor"
                         remove-zero-width-space=""
                       >
-                        <gr-markdown></gr-markdown>
+                        <gr-linked-text pre="" remove-zero-width-space="">
+                          <span id="output" slot="insert"> </span>
+                        </gr-linked-text>
                       </gr-editable-content>
                     </div>
                     <h3 class="assistive-tech-only">
@@ -1422,6 +1424,20 @@ suite('gr-change-view tests', () => {
       })
     );
     assert.isTrue(overlayOpenStub.called);
+  });
+
+  test('prepareCommitMsgForLinkify', () => {
+    let commitMessage = 'R=test@google.com';
+    let result = element.prepareCommitMsgForLinkify(commitMessage);
+    assert.equal(result, 'R=\u200Btest@google.com');
+
+    commitMessage = 'R=test@google.com\nR=test@google.com';
+    result = element.prepareCommitMsgForLinkify(commitMessage);
+    assert.equal(result, 'R=\u200Btest@google.com\nR=\u200Btest@google.com');
+
+    commitMessage = 'CC=test@google.com';
+    result = element.prepareCommitMsgForLinkify(commitMessage);
+    assert.equal(result, 'CC=\u200Btest@google.com');
   });
 
   test('_isSubmitEnabled', () => {

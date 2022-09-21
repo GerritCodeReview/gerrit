@@ -20,6 +20,7 @@ import {
   AccountId,
   GroupInfo,
   Hashtag,
+  EmailAddress,
 } from '../../api/rest-api';
 import {BulkActionsModel, LoadingState} from './bulk-actions-model';
 import {getAppContext} from '../../services/app-context';
@@ -504,7 +505,13 @@ suite('bulk actions model test', () => {
         },
       ],
       reviewers: {
-        REVIEWER: [{_account_id: 1 as AccountId, display_name: 'MyName'}],
+        REVIEWER: [
+          {
+            _account_id: 1 as AccountId,
+            display_name: 'MyName',
+            email: 'abcd' as EmailAddress,
+          },
+        ],
       },
     };
 

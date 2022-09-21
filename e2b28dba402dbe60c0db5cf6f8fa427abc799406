@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1451e55c_d1834ec0",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-21T07:52:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f80d6d38_19fe41dd",
+      "revId": "e2b28dba402dbe60c0db5cf6f8fa427abc799406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de6f0646_ead4e0f8",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a91f639f_e49c1d2c",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-21T07:52:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de6f0646_ead4e0f8",
+      "revId": "e2b28dba402dbe60c0db5cf6f8fa427abc799406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f05555c_c5d0e8e7",
@@ -48,6 +84,24 @@
       "writtenOn": "2022-09-21T07:49:42Z",
       "side": 1,
       "message": "Remove console.log",
+      "revId": "e2b28dba402dbe60c0db5cf6f8fa427abc799406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45d270d4_436e847f",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 967,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-21T07:52:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f05555c_c5d0e8e7",
       "revId": "e2b28dba402dbe60c0db5cf6f8fa427abc799406",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -71,6 +125,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "afba0d45_6985cbd0",
+        "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-21T07:52:10Z",
+      "side": 1,
+      "message": "You are commenting on the deleted code. Was that intentional?",
+      "parentUuid": "b8a4fe99_0fd1c048",
+      "revId": "e2b28dba402dbe60c0db5cf6f8fa427abc799406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "82cd5540_67915b0c",
         "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
         "patchSetId": 1
@@ -82,6 +154,24 @@
       "writtenOn": "2022-09-21T07:49:42Z",
       "side": 1,
       "message": "const nextState \u003d {...this.getState()};",
+      "revId": "e2b28dba402dbe60c0db5cf6f8fa427abc799406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32c94990_6646166d",
+        "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-21T07:52:10Z",
+      "side": 1,
+      "message": "You are commenting on the deleted code. Was that intentional?",
+      "parentUuid": "82cd5540_67915b0c",
       "revId": "e2b28dba402dbe60c0db5cf6f8fa427abc799406",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -105,6 +195,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c4211770_69979894",
+        "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-21T07:52:10Z",
+      "side": 1,
+      "message": "You are commenting on the deleted code. Was that intentional?",
+      "parentUuid": "a1977f6b_af2f3266",
+      "revId": "e2b28dba402dbe60c0db5cf6f8fa427abc799406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "079858c2_83ce9aac",
         "filename": "polygerrit-ui/app/models/model.ts",
         "patchSetId": 1
@@ -116,6 +224,24 @@
       "writtenOn": "2022-09-21T07:49:42Z",
       "side": 1,
       "message": "You can make this private now.",
+      "revId": "e2b28dba402dbe60c0db5cf6f8fa427abc799406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2bb2bba2_aa1cb296",
+        "filename": "polygerrit-ui/app/models/model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-21T07:52:10Z",
+      "side": 1,
+      "message": "You are commenting on the deleted code. Was that intentional?\n\nI have already made it private.",
+      "parentUuid": "079858c2_83ce9aac",
       "revId": "e2b28dba402dbe60c0db5cf6f8fa427abc799406",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

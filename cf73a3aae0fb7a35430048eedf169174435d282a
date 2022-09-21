@@ -83,6 +83,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2d1a3c9_0571dd6b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1754,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-21T07:35:06Z",
+      "side": 1,
+      "message": "Ack. Makes sense, thanks for explaining.",
+      "parentUuid": "58ca5f65_4ac18b6f",
+      "range": {
+        "startLine": 1754,
+        "startChar": 30,
+        "endLine": 1754,
+        "endChar": 43
+      },
+      "revId": "cf73a3aae0fb7a35430048eedf169174435d282a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "23fe59b1_3f9a32f3",
@@ -214,6 +238,30 @@
       "side": 1,
       "message": "This will not lead to an error: jgit libs use @NotNull annotation for locations that not can\u0027t be null. Additionally when the values are used they are always checked with Strings.isNullOrEmpty().\n\nHowever, the produced config has the names (if checked by getNames()) so it\u0027s not the same as never setting them. So I wrapped them in checks, to avoid adding empty lines like \"prefix\u003d\" to config.\n\n\nAs for the test. There isn\u0027t an existing test setup for rest-api endpoints, as far as I can tell. PutConfig seems difficult to construct manually. If you have advice in this regard I can add some tests for PutConfig. As it is now, there aren\u0027t any tests. (ProjectConfig tests though, have tests with optional values unset though)",
       "parentUuid": "e7074f6e_c64f25cd",
+      "range": {
+        "startLine": 306,
+        "startChar": 8,
+        "endLine": 308,
+        "endChar": 63
+      },
+      "revId": "cf73a3aae0fb7a35430048eedf169174435d282a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "330b8ff8_cd1b5c44",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-21T07:35:06Z",
+      "side": 1,
+      "message": "\u003e As for the test. There isn\u0027t an existing test setup for rest-api endpoints,\n\nOh I missed this. Then of course I\u0027m not expecting you to add these tests now.\n\n\u003e PutConfig seems difficult to construct manually.\n\u003e If you have advice in this regard I can add some tests for PutConfig.\n\nOptional, if you like, there is already a config(ConfigInput) method in com.google.gerrit.extensions.api.projects.ProjectApi that is used from tests. This would be the way to invoke PutConfig from a test (you can look at the current callers to see how it is called). There is also a config() method there that returns ConfigInfo which you could use to verify that the parameters have been set correctly. In addition you could use ProjectOperations#getConfig to get the actual git config for verification.",
+      "parentUuid": "bb6ec621_fd4d7dcf",
       "range": {
         "startLine": 306,
         "startChar": 8,

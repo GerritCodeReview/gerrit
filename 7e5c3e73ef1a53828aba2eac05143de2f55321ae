@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f4dcb2a_4624619e",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 3801,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-21T07:35:06Z",
+      "side": 1,
+      "message": "Looks like something got dropped here, should be: `prefix`",
+      "range": {
+        "startLine": 3801,
+        "startChar": 1,
+        "endLine": 3801,
+        "endChar": 3
+      },
+      "revId": "7e5c3e73ef1a53828aba2eac05143de2f55321ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -14,6 +14,7 @@ export interface FlagsService extends Finalizable {
  * Experiment ids used in Gerrit.
  */
 export enum KnownExperimentId {
+  BULK_ACTIONS_FOR_STACKED_CHANGES = 'UiFeature__bulk_actions_for_stacked_changes',
   NEW_IMAGE_DIFF_UI = 'UiFeature__new_image_diff_ui',
   CHECKS_DEVELOPER = 'UiFeature__checks_developer',
   PUSH_NOTIFICATIONS_DEVELOPER = 'UiFeature__push_notifications_developer',

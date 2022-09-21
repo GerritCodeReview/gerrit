@@ -1117,6 +1117,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
         ListChangesOption.CURRENT_ACTIONS,
         ListChangesOption.CURRENT_REVISION,
         ListChangesOption.DETAILED_LABELS,
+        // required so that reviewers are returned with complete detail
+        ListChangesOption.DETAILED_ACCOUNTS,
         // TODO: remove this option and merge requirements from dashboard req
         ListChangesOption.SUBMIT_REQUIREMENTS
       )

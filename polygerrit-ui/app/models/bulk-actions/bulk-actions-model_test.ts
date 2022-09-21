@@ -18,6 +18,7 @@ import {
   ReviewerState,
   GroupInfo,
   Hashtag,
+  EmailAddress,
 } from '../../api/rest-api';
 import {BulkActionsModel, LoadingState} from './bulk-actions-model';
 import {getAppContext} from '../../services/app-context';

@@ -9,6 +9,7 @@ import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../plugins/gr-endpoint-slot/gr-endpoint-slot';
 import '../../shared/gr-icon/gr-icon';
+import '../../change-list/gr-change-list-action-bar/gr-change-list-action-bar';
 import {classMap} from 'lit/directives/class-map.js';
 import {LitElement, css, html, TemplateResult} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
@@ -199,10 +200,12 @@ export class GrRelatedChangesList extends LitElement {
     );
 
     return html`<section id="relatedChanges">
+      <gr-change-list-action-bar></gr-change-list-action-bar>
       <gr-related-collapse
         title="Relation chain"
         class=${classMap({first: isFirst})}
         .length=${this.relatedChanges.length}
+        .changes=${this.relatedChanges}
         .numChangesWhenCollapsed=${sectionSize(Section.RELATED_CHANGES)}
       >
         ${this.relatedChanges.map(

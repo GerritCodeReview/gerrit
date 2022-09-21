@@ -14,6 +14,9 @@ import {
 import {ChangeStatus} from '../../../constants/constants';
 import {isChangeInfo} from '../../../utils/change-util';
 import {ifDefined} from 'lit/directives/if-defined.js';
+import {assertIsDefined} from '../../../utils/common-util';
+import {resolve} from '../../../models/dependency';
+import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
 
 @customElement('gr-related-change')
 export class GrRelatedChange extends LitElement {
@@ -38,6 +41,10 @@ export class GrRelatedChange extends LitElement {
    */
   @property({type: Array})
   connectedRevisions?: CommitId[];
+
+  @property({type: Boolean, reflect: true}) checked = false;
+
+  private readonly getBulkActionsModel = resolve(this, bulkActionsModelToken);
 
   static override get styles() {
     return [
@@ -102,6 +109,13 @@ export class GrRelatedChange extends LitElement {
     const linkClass = this._computeLinkClass(change);
     return html`
       <div class="changeContainer">
+        <label class="selectionLabel">
+          <input
+            type="checkbox"
+            .checked=${this.checked}
+            @click=${this.toggleCheckbox}
+          />
+        </label>
         <a
           href=${ifDefined(this.href)}
           aria-label=${ifDefined(this.label)}
@@ -125,6 +139,15 @@ export class GrRelatedChange extends LitElement {
           : ''}
       </div>
     `;
+  }
+
+  private toggleCheckbox() {
+    assertIsDefined(this.change, 'change');
+    this.checked = !this.checked;
+    const num = isChangeInfo(this.change)
+      ? this.change._number
+      : this.change._change_number;
+    if (num) this.getBulkActionsModel().toggleSelectedChangeNum(num);
   }
 
   _computeLinkClass(change: ChangeInfo | RelatedChangeAndCommitInfo) {

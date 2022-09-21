@@ -3,13 +3,26 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {LitElement, css, html, nothing, TemplateResult} from 'lit';
+import {
+  LitElement,
+  css,
+  html,
+  nothing,
+  TemplateResult,
+  PropertyValues,
+} from 'lit';
 import '../../shared/gr-icon/gr-icon';
 import {customElement, property} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {getAppContext} from '../../../services/app-context';
 import {Interaction} from '../../../constants/reporting';
 import {fontStyles} from '../../../styles/gr-font-styles';
+import {provide} from '../../../models/dependency';
+import {
+  BulkActionsModel,
+  bulkActionsModelToken,
+} from '../../../models/bulk-actions/bulk-actions-model';
+import {ChangeInfo} from '../../../api/rest-api';
 
 /** What is the maximum number of shown changes in collapsed list? */
 export const DEFALT_NUM_CHANGES_WHEN_COLLAPSED = 3;
@@ -31,7 +44,14 @@ export class GrRelatedCollapse extends LitElement {
   @property({type: Number})
   numChangesWhenCollapsed = DEFALT_NUM_CHANGES_WHEN_COLLAPSED;
 
+  @property({type: Array})
+  changes: ChangeInfo[] = [];
+
   private readonly reporting = getAppContext().reportingService;
+
+  bulkActionsModel: BulkActionsModel = new BulkActionsModel(
+    getAppContext().restApiService
+  );
 
   static override get styles() {
     return [
@@ -61,6 +81,20 @@ export class GrRelatedCollapse extends LitElement {
         }
       `,
     ];
+  }
+
+  constructor() {
+    super();
+    provide(this, bulkActionsModelToken, () => this.bulkActionsModel);
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('changes')) {
+      // In case the list of changes is updated due to auto reloading, we want
+      // to ensure the model removes any stale change that is not a part of the
+      // new section changes.
+      this.bulkActionsModel.sync(this.changes ?? []);
+    }
   }
 
   override render() {

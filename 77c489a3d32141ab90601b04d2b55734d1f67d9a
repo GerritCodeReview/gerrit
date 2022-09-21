@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "293c4eaf_6af8c5f4",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-21T14:05:37Z",
+      "side": 1,
+      "message": "Oh yes! Further down the road. It will also only be useful, if plugins also have access to the view state objects and the create...Url() functions.\n\nSo I am happy and excited about making this available to plugins, but OTOH it will broaden the API surface quite a bit. :-/",
+      "parentUuid": "6a4f0325_5539c54e",
+      "revId": "77c489a3d32141ab90601b04d2b55734d1f67d9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be54576d_fafcbff2",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-09-21T13:30:33Z",
       "side": 1,
       "message": "What will happen to this class?",
+      "revId": "77c489a3d32141ab90601b04d2b55734d1f67d9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0090c77c_c3fe8cc4",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-21T14:05:37Z",
+      "side": 1,
+      "message": "`GerritNav` will just go away. So `_navigate` and `uninitializedNavigate` will also go away. I hope tomorrow they will be gone. :-)",
+      "parentUuid": "be54576d_fafcbff2",
       "revId": "77c489a3d32141ab90601b04d2b55734d1f67d9a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

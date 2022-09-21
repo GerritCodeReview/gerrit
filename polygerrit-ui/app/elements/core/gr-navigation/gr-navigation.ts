@@ -102,8 +102,7 @@ export const GerritNav = {
     } = options;
     this._navigate(
       createChangeUrl({
-        changeNum: change._number,
-        project: change.project,
+        change,
         patchNum,
         basePatchNum,
         edit: isEdit,

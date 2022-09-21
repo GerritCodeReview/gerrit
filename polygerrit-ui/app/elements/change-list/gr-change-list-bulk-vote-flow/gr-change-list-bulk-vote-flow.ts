@@ -219,12 +219,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
 
   private handleOpenChanges() {
     for (const change of this.selectedChanges) {
-      window.open(
-        createChangeUrl({
-          changeNum: change._number,
-          project: change.project,
-        })
-      );
+      window.open(createChangeUrl({change, usp: 'bulk-vote'}));
     }
   }
 

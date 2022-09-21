@@ -296,11 +296,7 @@ export class GrRelatedChangesList extends LitElement {
       <gr-related-change
         .label=${this.renderChangeTitle(change)}
         .change=${change}
-        .href=${createChangeUrl({
-          changeNum: change._number,
-          project: change.project,
-          usp: 'submitted-together',
-        })}
+        .href=${createChangeUrl({change, usp: 'submitted-together'})}
         ?show-submittable-check=${showSubmittabilityCheck}
         >${change.subject}</gr-related-change
       >
@@ -377,11 +373,7 @@ export class GrRelatedChangesList extends LitElement {
                 mergeConflictsMarkersPredicate(index)
               )}<gr-related-change
                 .change=${change}
-                .href=${createChangeUrl({
-                  changeNum: change._number,
-                  project: change.project,
-                  usp: 'merge-conflict',
-                })}
+                .href=${createChangeUrl({change, usp: 'merge-conflict'})}
                 >${change.subject}</gr-related-change
               >
             </div>`
@@ -422,11 +414,7 @@ export class GrRelatedChangesList extends LitElement {
                 cherryPicksMarkersPredicate(index)
               )}<gr-related-change
                 .change=${change}
-                .href=${createChangeUrl({
-                  changeNum: change._number,
-                  project: change.project,
-                  usp: 'cherry-pick',
-                })}
+                .href=${createChangeUrl({change, usp: 'cherry-pick'})}
                 >${change.branch}: ${change.subject}</gr-related-change
               >
             </div>`

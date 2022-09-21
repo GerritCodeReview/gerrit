@@ -105,8 +105,7 @@ export class ServiceWorker {
   ) {
     const body = getReason(undefined, account, change);
     const changeUrl = createChangeUrl({
-      changeNum: change._number,
-      project: change.project,
+      change,
       usp: 'service-worker-notification',
     });
     // We are adding origin because each notification can have different origin

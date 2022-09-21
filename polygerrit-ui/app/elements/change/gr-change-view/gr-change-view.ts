@@ -2289,8 +2289,7 @@ export class GrChangeView extends LitElement {
     assertIsDefined(this.patchRange, 'patchRange');
     const hash = PREFIX + e.detail.id;
     const url = createChangeUrl({
-      changeNum: this.change._number,
-      project: this.change.project,
+      change: this.change,
       patchNum: this.patchRange.patchNum,
       basePatchNum: this.patchRange.basePatchNum,
       edit: this.getEditMode(),
@@ -2428,8 +2427,7 @@ export class GrChangeView extends LitElement {
   private computeChangeUrl(forceReload?: boolean) {
     if (!this.change) return undefined;
     return createChangeUrl({
-      changeNum: this.change._number,
-      project: this.change.project,
+      change: this.change,
       forceReload: !!forceReload,
     });
   }

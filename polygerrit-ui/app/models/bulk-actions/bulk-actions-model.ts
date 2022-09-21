@@ -275,15 +275,6 @@ export class BulkActionsModel
     });
   }
 
-  /** Required for testing */
-  getState() {
-    return this.subject$.getValue();
-  }
-
-  setState(state: BulkActionsState) {
-    this.subject$.next(state);
-  }
-
   private mergeOldAndDetailedChangeInfos(
     originalChange: ChangeInfo,
     newData: ChangeInfo

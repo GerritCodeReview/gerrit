@@ -214,9 +214,4 @@ export class FilesModel extends Model<FilesState> implements Finalizable {
       ...newState,
     });
   }
-
-  // visible for testing
-  setState(state: FilesState) {
-    this.subject$.next(state);
-  }
 }

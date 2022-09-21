@@ -77,7 +77,7 @@ export class PluginsModel extends Model<PluginsState> implements Finalizable {
       return;
     }
     nextState.checksPlugins.push(plugin);
-    this.subject$.next(nextState);
+    this.setState(nextState);
   }
 
   checksUpdate(update: ChecksUpdate) {

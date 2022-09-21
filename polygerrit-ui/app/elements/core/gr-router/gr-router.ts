@@ -307,7 +307,7 @@ export class GrRouter implements Finalizable {
   }
 
   setState(state: AppElementParams) {
-    this.routerModel.updateState({
+    this.routerModel.setState({
       view: state.view,
       changeNum: 'changeNum' in state ? state.changeNum : undefined,
       patchNum: 'patchNum' in state ? state.patchNum ?? undefined : undefined,
@@ -926,7 +926,8 @@ export class GrRouter implements Finalizable {
           user: ctx.params[0],
         };
         this.setState(state);
-        this.dashboardViewModel.updateState(state);
+        this.dashboardViewModel.setState(state);
+        console.log(`handleDashboardRoute ${JSON.stringify(state)}`);
       }
     });
   }
@@ -962,7 +963,8 @@ export class GrRouter implements Finalizable {
       title,
     };
     this.setState(state);
-    this.dashboardViewModel.updateState(state);
+    this.dashboardViewModel.setState(state);
+    console.log(`handleCustomDashboardRoute ${JSON.stringify(state)}`);
     return Promise.resolve();
   }
 
@@ -974,7 +976,7 @@ export class GrRouter implements Finalizable {
       dashboard: decodeURIComponent(ctx.params[1]) as DashboardId,
     };
     this.setState(state);
-    this.dashboardViewModel.updateState(state);
+    this.dashboardViewModel.setState(state);
     this.reporting.setRepoName(project);
   }
 
@@ -996,7 +998,7 @@ export class GrRouter implements Finalizable {
       groupId: ctx.params[0] as GroupId,
     };
     this.setState(state);
-    this.groupViewModel.updateState(state);
+    this.groupViewModel.setState(state);
   }
 
   handleGroupAuditLogRoute(ctx: PageContext) {
@@ -1006,7 +1008,7 @@ export class GrRouter implements Finalizable {
       groupId: ctx.params[0] as GroupId,
     };
     this.setState(state);
-    this.groupViewModel.updateState(state);
+    this.groupViewModel.setState(state);
   }
 
   handleGroupMembersRoute(ctx: PageContext) {
@@ -1016,7 +1018,7 @@ export class GrRouter implements Finalizable {
       groupId: ctx.params[0] as GroupId,
     };
     this.setState(state);
-    this.groupViewModel.updateState(state);
+    this.groupViewModel.setState(state);
   }
 
   handleGroupListOffsetRoute(ctx: PageContext) {
@@ -1028,7 +1030,7 @@ export class GrRouter implements Finalizable {
       openCreateModal: ctx.hash === 'create',
     };
     this.setState(state);
-    this.adminViewModel.updateState(state);
+    this.adminViewModel.setState(state);
   }
 
   handleGroupListFilterOffsetRoute(ctx: PageContext) {
@@ -1039,7 +1041,7 @@ export class GrRouter implements Finalizable {
       filter: ctx.params['filter'],
     };
     this.setState(state);
-    this.adminViewModel.updateState(state);
+    this.adminViewModel.setState(state);
   }
 
   handleGroupListFilterRoute(ctx: PageContext) {
@@ -1049,7 +1051,7 @@ export class GrRouter implements Finalizable {
       filter: ctx.params['filter'] || null,
     };
     this.setState(state);
-    this.adminViewModel.updateState(state);
+    this.adminViewModel.setState(state);
   }
 
   handleProjectsOldRoute(ctx: PageContext) {
@@ -1072,7 +1074,7 @@ export class GrRouter implements Finalizable {
       repo,
     };
     this.setState(state);
-    this.repoViewModel.updateState(state);
+    this.repoViewModel.setState(state);
     this.reporting.setRepoName(repo);
   }
 
@@ -1084,7 +1086,7 @@ export class GrRouter implements Finalizable {
       repo,
     };
     this.setState(state);
-    this.repoViewModel.updateState(state);
+    this.repoViewModel.setState(state);
     this.reporting.setRepoName(repo);
   }
 
@@ -1096,7 +1098,7 @@ export class GrRouter implements Finalizable {
       repo,
     };
     this.setState(state);
-    this.repoViewModel.updateState(state);
+    this.repoViewModel.setState(state);
     this.reporting.setRepoName(repo);
   }
 
@@ -1108,7 +1110,7 @@ export class GrRouter implements Finalizable {
       repo,
     };
     this.setState(state);
-    this.repoViewModel.updateState(state);
+    this.repoViewModel.setState(state);
     this.reporting.setRepoName(repo);
   }
 
@@ -1121,7 +1123,7 @@ export class GrRouter implements Finalizable {
       filter: null,
     };
     this.setState(state);
-    this.repoViewModel.updateState(state);
+    this.repoViewModel.setState(state);
   }
 
   handleBranchListFilterOffsetRoute(ctx: PageContext) {
@@ -1133,7 +1135,7 @@ export class GrRouter implements Finalizable {
       filter: ctx.params['filter'],
     };
     this.setState(state);
-    this.repoViewModel.updateState(state);
+    this.repoViewModel.setState(state);
   }
 
   handleBranchListFilterRoute(ctx: PageContext) {
@@ -1144,7 +1146,7 @@ export class GrRouter implements Finalizable {
       filter: ctx.params['filter'] || null,
     };
     this.setState(state);
-    this.repoViewModel.updateState(state);
+    this.repoViewModel.setState(state);
   }
 
   handleTagListOffsetRoute(ctx: PageContext) {
@@ -1156,7 +1158,7 @@ export class GrRouter implements Finalizable {
       filter: null,
     };
     this.setState(state);
-    this.repoViewModel.updateState(state);
+    this.repoViewModel.setState(state);
   }
 
   handleTagListFilterOffsetRoute(ctx: PageContext) {
@@ -1168,7 +1170,7 @@ export class GrRouter implements Finalizable {
       filter: ctx.params['filter'],
     };
     this.setState(state);
-    this.repoViewModel.updateState(state);
+    this.repoViewModel.setState(state);
   }
 
   handleTagListFilterRoute(ctx: PageContext) {
@@ -1179,7 +1181,7 @@ export class GrRouter implements Finalizable {
       filter: ctx.params['filter'] || null,
     };
     this.setState(state);
-    this.repoViewModel.updateState(state);
+    this.repoViewModel.setState(state);
   }
 
   handleRepoListOffsetRoute(ctx: PageContext) {
@@ -1191,7 +1193,7 @@ export class GrRouter implements Finalizable {
       openCreateModal: ctx.hash === 'create',
     };
     this.setState(state);
-    this.adminViewModel.updateState(state);
+    this.adminViewModel.setState(state);
   }
 
   handleRepoListFilterOffsetRoute(ctx: PageContext) {
@@ -1202,7 +1204,7 @@ export class GrRouter implements Finalizable {
       filter: ctx.params['filter'],
     };
     this.setState(state);
-    this.adminViewModel.updateState(state);
+    this.adminViewModel.setState(state);
   }
 
   handleRepoListFilterRoute(ctx: PageContext) {
@@ -1212,7 +1214,7 @@ export class GrRouter implements Finalizable {
       filter: ctx.params['filter'] || null,
     };
     this.setState(state);
-    this.adminViewModel.updateState(state);
+    this.adminViewModel.setState(state);
   }
 
   handleCreateProjectRoute(_: PageContext) {
@@ -1239,7 +1241,7 @@ export class GrRouter implements Finalizable {
       filter: null,
     };
     this.setState(state);
-    this.adminViewModel.updateState(state);
+    this.adminViewModel.setState(state);
   }
 
   handlePluginListFilterOffsetRoute(ctx: PageContext) {
@@ -1250,7 +1252,7 @@ export class GrRouter implements Finalizable {
       filter: ctx.params['filter'],
     };
     this.setState(state);
-    this.adminViewModel.updateState(state);
+    this.adminViewModel.setState(state);
   }
 
   handlePluginListFilterRoute(ctx: PageContext) {
@@ -1260,7 +1262,7 @@ export class GrRouter implements Finalizable {
       filter: ctx.params['filter'] || null,
     };
     this.setState(state);
-    this.adminViewModel.updateState(state);
+    this.adminViewModel.setState(state);
   }
 
   handlePluginListRoute(_: PageContext) {
@@ -1269,7 +1271,7 @@ export class GrRouter implements Finalizable {
       adminView: AdminChildView.PLUGINS,
     };
     this.setState(state);
-    this.adminViewModel.updateState(state);
+    this.adminViewModel.setState(state);
   }
 
   handleQueryRoute(ctx: PageContext) {
@@ -1279,7 +1281,7 @@ export class GrRouter implements Finalizable {
       offset: ctx.params[2],
     };
     this.setState(state);
-    this.searchViewModel.updateState(state);
+    this.searchViewModel.setState(state);
   }
 
   handleChangeIdQueryRoute(ctx: PageContext) {
@@ -1291,7 +1293,7 @@ export class GrRouter implements Finalizable {
       query: ctx.params[0],
     };
     this.setState(state);
-    this.searchViewModel.updateState(state);
+    this.searchViewModel.setState(state);
   }
 
   handleQueryLegacySuffixRoute(ctx: PageContext) {
@@ -1344,7 +1346,7 @@ export class GrRouter implements Finalizable {
     this.reporting.setChangeId(changeNum);
     this.normalizePatchRangeParams(state);
     this.setState(state);
-    this.changeViewModel.updateState(state);
+    this.changeViewModel.setState(state);
   }
 
   handleCommentRoute(ctx: PageContext) {
@@ -1360,7 +1362,7 @@ export class GrRouter implements Finalizable {
     this.reporting.setChangeId(changeNum);
     this.normalizePatchRangeParams(state);
     this.setState(state);
-    this.diffViewModel.updateState(state);
+    this.diffViewModel.setState(state);
   }
 
   handleCommentsRoute(ctx: PageContext) {
@@ -1376,7 +1378,7 @@ export class GrRouter implements Finalizable {
     this.reporting.setChangeId(changeNum);
     this.normalizePatchRangeParams(state);
     this.setState(state);
-    this.changeViewModel.updateState(state);
+    this.changeViewModel.setState(state);
   }
 
   handleDiffRoute(ctx: PageContext) {
@@ -1399,7 +1401,7 @@ export class GrRouter implements Finalizable {
     this.reporting.setChangeId(changeNum);
     this.normalizePatchRangeParams(state);
     this.setState(state);
-    this.diffViewModel.updateState(state);
+    this.diffViewModel.setState(state);
   }
 
   handleChangeLegacyRoute(ctx: PageContext) {
@@ -1438,7 +1440,7 @@ export class GrRouter implements Finalizable {
     };
     this.normalizePatchRangeParams(state);
     this.setState(state);
-    this.editViewModel.updateState(state);
+    this.editViewModel.setState(state);
     this.reporting.setRepoName(project);
     this.reporting.setChangeId(changeNum);
   }
@@ -1466,7 +1468,7 @@ export class GrRouter implements Finalizable {
     }
     this.normalizePatchRangeParams(state);
     this.setState(state);
-    this.changeViewModel.updateState(state);
+    this.changeViewModel.setState(state);
     this.reporting.setRepoName(project);
     this.reporting.setChangeId(changeNum);
   }
@@ -1480,7 +1482,7 @@ export class GrRouter implements Finalizable {
       view: GerritView.AGREEMENTS,
     };
     this.setState(state);
-    this.agreementViewModel.updateState(state);
+    this.agreementViewModel.setState(state);
   }
 
   handleSettingsLegacyRoute(ctx: PageContext) {
@@ -1493,13 +1495,13 @@ export class GrRouter implements Finalizable {
       emailToken: token,
     };
     this.setState(state);
-    this.settingsViewModel.updateState(state);
+    this.settingsViewModel.setState(state);
   }
 
   handleSettingsRoute(_: PageContext) {
     const state: SettingsViewState = {view: GerritView.SETTINGS};
     this.setState(state);
-    this.settingsViewModel.updateState(state);
+    this.settingsViewModel.setState(state);
   }
 
   handleRegisterRoute(ctx: PageContext) {
@@ -1544,7 +1546,7 @@ export class GrRouter implements Finalizable {
       screen: ctx.params[1],
     };
     this.setState(state);
-    this.pluginViewModel.updateState(state);
+    this.pluginViewModel.setState(state);
   }
 
   handleDocumentationSearchRoute(ctx: PageContext) {
@@ -1553,7 +1555,7 @@ export class GrRouter implements Finalizable {
       filter: ctx.params['filter'] || null,
     };
     this.setState(state);
-    this.documentationViewModel.updateState(state);
+    this.documentationViewModel.setState(state);
   }
 
   handleDocumentationSearchRedirectRoute(ctx: PageContext) {

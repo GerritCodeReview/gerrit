@@ -452,11 +452,6 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
     this.setState(reducer({...current}));
   }
 
-  // visible for testing
-  setState(state: CommentState) {
-    this.subject$.next(state);
-  }
-
   async reloadComments(changeNum: NumericChangeId): Promise<void> {
     const comments = await this.restApiService.getDiffComments(changeNum);
     this.modifyState(s => setComments(s, comments));

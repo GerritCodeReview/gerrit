@@ -29,7 +29,7 @@ export class AccountsModel extends Model<AccountsState> implements Finalizable {
     const current = {...this.subject$.getValue()};
     if (!account) return;
     current.accounts = {...current.accounts, [id]: account};
-    this.subject$.next(current);
+    this.setState(current);
   }
 
   async getAccount(partialAccount: AccountInfo) {

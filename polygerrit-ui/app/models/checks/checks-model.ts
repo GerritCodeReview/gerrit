@@ -503,7 +503,7 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
       actions: [],
       links: [],
     };
-    this.subject$.next(nextState);
+    this.setState(nextState);
   }
 
   getPluginState(
@@ -526,7 +526,7 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
       ...pluginState[pluginName],
       loading: true,
     };
-    this.subject$.next(nextState);
+    this.setState(nextState);
   }
 
   updateStateSetError(
@@ -545,7 +545,7 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
       runs: [],
       actions: [],
     };
-    this.subject$.next(nextState);
+    this.setState(nextState);
   }
 
   updateStateSetNotLoggedIn(
@@ -564,7 +564,7 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
       runs: [],
       actions: [],
     };
-    this.subject$.next(nextState);
+    this.setState(nextState);
   }
 
   updateStateSetResults(
@@ -612,7 +612,7 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
       links: [...links],
       summaryMessage,
     };
-    this.subject$.next(nextState);
+    this.setState(nextState);
   }
 
   updateStateUpdateResult(
@@ -651,25 +651,25 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
       ...pluginState[pluginName],
       runs,
     };
-    this.subject$.next(nextState);
+    this.setState(nextState);
   }
 
   updateStateSetPatchset(patchsetNumber?: PatchSetNumber) {
     const nextState = {...this.subject$.getValue()};
     nextState.patchsetNumberSelected = patchsetNumber;
-    this.subject$.next(nextState);
+    this.setState(nextState);
   }
 
   updateStateSetAttempt(attemptNumber: AttemptChoice) {
     const nextState = {...this.subject$.getValue()};
     nextState.attemptNumberSelected = attemptNumber;
-    this.subject$.next(nextState);
+    this.setState(nextState);
   }
 
   updateStateSetRunFilter(runFilter: string) {
     const nextState = {...this.subject$.getValue()};
     nextState.runFilterRegexp = runFilter;
-    this.subject$.next(nextState);
+    this.setState(nextState);
   }
 
   setPatchset(num?: PatchSetNumber) {

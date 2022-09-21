@@ -456,9 +456,4 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
         change === undefined ? LoadingStatus.NOT_LOADED : LoadingStatus.LOADED,
     });
   }
-
-  // Private but used in tests
-  setState(state: ChangeState) {
-    this.subject$.next(state);
-  }
 }

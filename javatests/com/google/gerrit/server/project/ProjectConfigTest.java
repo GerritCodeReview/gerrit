@@ -24,10 +24,13 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.common.RuntimeVersion;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.AccountGroup.NameKey;
+import com.google.gerrit.entities.AccountGroup.UUID;
 import com.google.gerrit.entities.AccountsSection;
 import com.google.gerrit.entities.BranchOrderSection;
 import com.google.gerrit.entities.ContributorAgreement;
 import com.google.gerrit.entities.GroupReference;
+import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.PermissionRule;
@@ -37,6 +40,7 @@ import com.google.gerrit.entities.StoredCommentLinkInfo;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.FileBasedAllProjectsConfigProvider;
 import com.google.gerrit.server.config.PluginConfig;
@@ -49,6 +53,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
@@ -97,7 +102,42 @@ public class ProjectConfigTest {
     sitePaths = new SitePaths(temporaryFolder.newFolder().toPath());
     Files.createDirectories(sitePaths.etc_dir);
     factory =
-        new ProjectConfig.Factory(ALL_PROJECTS, new FileBasedAllProjectsConfigProvider(sitePaths));
+        new ProjectConfig.Factory(
+            ALL_PROJECTS,
+            new FileBasedAllProjectsConfigProvider(sitePaths),
+            new GroupCache() {
+              @Override
+              public Optional<InternalGroup> get(AccountGroup.Id groupId) {
+                return Optional.empty();
+              }
+
+              @Override
+              public Optional<InternalGroup> get(NameKey name) {
+                return Optional.empty();
+              }
+
+              @Override
+              public Optional<InternalGroup> get(UUID groupUuid) {
+                return Optional.empty();
+              }
+
+              @Override
+              public Map<UUID, InternalGroup> get(Collection<UUID> groupUuids) {
+                return null;
+              }
+
+              @Override
+              public void evict(AccountGroup.Id groupId) {}
+
+              @Override
+              public void evict(NameKey groupName) {}
+
+              @Override
+              public void evict(UUID groupUuid) {}
+
+              @Override
+              public void evict(Collection<UUID> groupUuid) {}
+            });
     db = new InMemoryRepository(new DfsRepositoryDescription("repo"));
     tr = new TestRepository<>(db);
   }

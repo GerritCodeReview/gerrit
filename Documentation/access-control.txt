@@ -1507,6 +1507,10 @@ Allow viewing all accounts for purposes of auto-completion, regardless
 of link:config-gerrit.html#accounts.visibility[accounts.visibility]
 setting.
 
+Specifying `Registered Users` or `Anonymous Users` for this capability
+(any group that contains these transitively) is ignored. Instead, set
+link:config-gerrit.html#accounts.visibility[accounts.visibility].
+
 This capability allows to view all accounts but not all account data.
 E.g. secondary emails of all accounts can only be viewed with the
 link:#capability_modifyAccount[Modify Account] capability.

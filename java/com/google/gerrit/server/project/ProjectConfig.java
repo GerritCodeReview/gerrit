@@ -48,6 +48,7 @@ import com.google.gerrit.entities.ConfiguredMimeTypes;
 import com.google.gerrit.entities.ContributorAgreement;
 import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.GroupReference;
+import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelValue;
@@ -66,6 +67,7 @@ import com.google.gerrit.exceptions.InvalidNameException;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.AllProjectsConfigProvider;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.ConfigUtil;
@@ -73,6 +75,7 @@ import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -204,11 +207,16 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   public static class Factory {
     private final AllProjectsName allProjectsName;
     private final AllProjectsConfigProvider allProjectsConfigProvider;
+    private final GroupCache groupCache;
 
     @Inject
-    Factory(AllProjectsName allProjectsName, AllProjectsConfigProvider allProjectsConfigProvider) {
+    Factory(
+        AllProjectsName allProjectsName,
+        AllProjectsConfigProvider allProjectsConfigProvider,
+        GroupCache groupCache) {
       this.allProjectsName = allProjectsName;
       this.allProjectsConfigProvider = allProjectsConfigProvider;
+      this.groupCache = groupCache;
     }
 
     public ProjectConfig create(Project.NameKey projectName) {
@@ -217,7 +225,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           projectName.equals(allProjectsName)
               ? allProjectsConfigProvider.get(allProjectsName)
               : Optional.empty(),
-          allProjectsName);
+          allProjectsName,
+          groupCache);
     }
 
     public ProjectConfig read(MetaDataUpdate update) throws IOException, ConfigInvalidException {
@@ -246,6 +255,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private final AllProjectsName allProjectsName;
 
   private Project project;
+  private GroupCache groupCache;
   private AccountsSection accountsSection;
   private GroupList groupList;
   private Map<String, AccessSection> accessSections;
@@ -380,10 +390,12 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private ProjectConfig(
       Project.NameKey projectName,
       Optional<StoredConfig> baseConfig,
-      AllProjectsName allProjectsName) {
+      AllProjectsName allProjectsName,
+      GroupCache groupCache) {
     this.projectName = projectName;
     this.baseConfig = baseConfig;
     this.allProjectsName = allProjectsName;
+    this.groupCache = groupCache;
   }
 
   public void load(Repository repo) throws IOException, ConfigInvalidException {
@@ -925,6 +937,25 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return perm.build().getRules();
   }
 
+  private boolean containsAllUsersGroup(AccountGroup.UUID uuid, Set<AccountGroup.UUID> seen) {
+    if (uuid.equals(SystemGroupBackend.REGISTERED_USERS)
+        || uuid.equals(SystemGroupBackend.ANONYMOUS_USERS)) {
+      return true;
+    }
+    if (seen.contains(uuid)) return false;
+    seen.add(uuid);
+
+    Optional<InternalGroup> asInternal = groupCache.get(uuid);
+    if (!asInternal.isPresent()) return false;
+
+    for (AccountGroup.UUID sub : asInternal.get().getSubgroups()) {
+      if (containsAllUsersGroup(sub, seen)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   private void loadPermissionRules(
       Config rc,
       String section,
@@ -956,6 +987,12 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         error(String.format("group \"%s\" not in %s", ref.getName(), GroupList.FILE_NAME));
       }
 
+      if (varName.equals(GlobalCapability.VIEW_ALL_ACCOUNTS)
+          && containsAllUsersGroup(ref.getUUID(), new HashSet<>())) {
+        logger.atWarning().log(
+            "Ignoring %s permission for %s. Use gerrit.config instead.", varName, ref.getUUID());
+        return;
+      }
       perm.add(rule.toBuilder().setGroup(ref));
     }
   }

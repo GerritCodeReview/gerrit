@@ -17,6 +17,9 @@ package com.google.gerrit.acceptance.server.account;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
+import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.base.Splitter;
@@ -26,8 +29,12 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.account.TestAccount;
+import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.extensions.common.AccountVisibility;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.ServerInitiated;
@@ -55,10 +62,12 @@ public class AccountResolverIT extends AbstractDaemonTest {
 
   @Inject @ServerInitiated private Provider<AccountsUpdate> accountsUpdateProvider;
   @Inject private AccountOperations accountOperations;
+  @Inject private ProjectOperations projectOperations;
   @Inject private AccountResolver accountResolver;
   @Inject private Provider<CurrentUser> self;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private Sequences sequences;
+  @Inject private GroupOperations groupOperations;
 
   @Test
   public void bySelf() throws Exception {
@@ -363,6 +372,42 @@ public class AccountResolverIT extends AbstractDaemonTest {
     assertThat(resolve("Jane Doe")).containsExactly(id2);
     assertThat(resolve("janedoe@example.com")).containsExactly(id2);
     assertThat(resolve("doe")).containsExactly(id2);
+  }
+
+  @Test
+  @GerritConfig(name = "accounts.visibility", value = "NONE")
+  public void viewAllAccountsDisableSystemGroups() throws Exception {
+    Account.Id id1 =
+        accountOperations
+            .newAccount()
+            .fullname("John Doe")
+            .preferredEmail("johndoe@example.com")
+            .create();
+    Account.Id id2 =
+        accountOperations
+            .newAccount()
+            .fullname("Jane Doe")
+            .preferredEmail("janedoe@example.com")
+            .create();
+
+    AccountGroup.UUID superGroup =
+        groupOperations
+            .newGroup()
+            .addSubgroup(REGISTERED_USERS)
+            .addSubgroup(ANONYMOUS_USERS)
+            .create();
+
+    // id2 can't see id1, and vice versa.
+    requestScopeOperations.setApiUser(id1);
+    assertThat(resolve(id2)).isEmpty();
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.VIEW_ALL_ACCOUNTS).group(REGISTERED_USERS))
+        .add(allowCapability(GlobalCapability.VIEW_ALL_ACCOUNTS).group(ANONYMOUS_USERS))
+        .add(allowCapability(GlobalCapability.VIEW_ALL_ACCOUNTS).group(superGroup))
+        .update();
+    requestScopeOperations.setApiUser(id1);
+    assertThat(resolve(id2)).isEmpty();
   }
 
   private ImmutableSet<Account.Id> resolve(Object input) throws Exception {

@@ -2026,6 +2026,9 @@ Located in `/static/gerrit-theme.js` by default.
 The list of submit requirement names that should be displayed as separate
 columns in the dashboard. If empty, the default is to display all submit
 requirements that are applicable for changes appearing in the dashboard.
+|`notifications_enabled_regexp` |optional|
+Users whose email is matched by notifications enabled regexp are allowed to use
+Gerrit browser notifications.
 |=======================================
 
 [[sshd-info]]

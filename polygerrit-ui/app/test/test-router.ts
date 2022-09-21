@@ -5,12 +5,6 @@
  */
 import {GerritNav} from '../elements/core/gr-navigation/gr-navigation';
 
-GerritNav.setup(
-  () => {
-    /* noop */
-  },
-  () => [],
-  () => {
-    return {};
-  }
-);
+GerritNav.setup(() => {
+  /* noop */
+});

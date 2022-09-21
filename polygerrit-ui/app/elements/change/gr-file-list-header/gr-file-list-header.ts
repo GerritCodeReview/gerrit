@@ -285,11 +285,7 @@ export class GrFileListHeader extends LitElement {
             >
             </gr-patch-range-select>
             <span class="separator"></span>
-            <gr-commit-info
-              .change=${this.change}
-              .serverConfig=${this.serverConfig}
-              .commitInfo=${this.commitInfo}
-            ></gr-commit-info>
+            <gr-commit-info .commitInfo=${this.commitInfo}></gr-commit-info>
             <span class="container latestPatchContainer">
               <span class="separator"></span>
               <a href=${ifDefined(this.changeUrl)}>Go to latest patch set</a>

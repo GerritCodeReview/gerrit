@@ -11,12 +11,6 @@ import '../gr-create-commands-dialog/gr-create-commands-dialog';
 import '../gr-create-change-help/gr-create-change-help';
 import '../gr-create-destination-dialog/gr-create-destination-dialog';
 import '../gr-user-header/gr-user-header';
-import {
-  GerritNav,
-  OUTGOING,
-  UserDashboard,
-  YOUR_TURN,
-} from '../../core/gr-navigation/gr-navigation';
 import {getAppContext} from '../../../services/app-context';
 import {changeIsOpen} from '../../../utils/change-util';
 import {parseDate} from '../../../utils/date-util';
@@ -57,6 +51,12 @@ import {
 import {createSearchUrl} from '../../../models/views/search';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
+import {
+  getUserDashboard,
+  OUTGOING,
+  UserDashboard,
+  YOUR_TURN,
+} from '../../../utils/dashboard-util';
 
 const PROJECT_PLACEHOLDER_PATTERN = /\${project}/g;
 
@@ -380,11 +380,7 @@ export class GrDashboardView extends LitElement {
     const dashboardPromise: Promise<UserDashboard | undefined> = project
       ? this.getProjectDashboard(project, dashboard)
       : Promise.resolve(
-          GerritNav.getUserDashboard(
-            user,
-            sections,
-            title || this.computeTitle(user)
-          )
+          getUserDashboard(user, sections, title || this.computeTitle(user))
         );
     // Checking `this.account` to make sure that the user is logged in.
     // Otherwise sending a query for 'owner:self' will result in an error.

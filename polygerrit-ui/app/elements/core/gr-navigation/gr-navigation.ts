@@ -5,23 +5,15 @@
  */
 import {
   BasePatchSetNum,
-  ChangeConfigInfo,
   ChangeInfo,
-  CommentLinks,
-  CommitId,
-  PatchSetNum,
   RepoName,
   RevisionPatchSetNum,
-  ServerInfo,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../types/types';
 import {createRepoUrl} from '../../../models/views/repo';
 import {createSearchUrl} from '../../../models/views/search';
 import {createDiffUrl} from '../../../models/views/diff';
-import {
-  createDashboardUrl,
-  DashboardSection,
-} from '../../../models/views/dashboard';
+import {createDashboardUrl} from '../../../models/views/dashboard';
 import {createChangeUrl} from '../../../models/views/change';
 
 const uninitialized = () => {
@@ -33,166 +25,7 @@ const uninitializedNavigate: NavigateCallback = () => {
   return '';
 };
 
-const uninitializedGenerateWebLinks: GenerateWebLinksCallback = () => {
-  uninitialized();
-  return [];
-};
-
-const uninitializedMapCommentLinks: MapCommentLinksCallback = () => {
-  uninitialized();
-  return {};
-};
-
-const USER_PLACEHOLDER_PATTERN = /\${user}/g;
-
-export interface UserDashboardConfig {
-  change?: ChangeConfigInfo;
-}
-
-export interface UserDashboard {
-  title?: string;
-  sections: DashboardSection[];
-}
-
-// NOTE: These queries are tested in Java. Any changes made to definitions
-// here require corresponding changes to:
-// java/com/google/gerrit/httpd/raw/IndexPreloadingUtil.java
-const HAS_DRAFTS: DashboardSection = {
-  // Changes with unpublished draft comments. This section is omitted when
-  // viewing other users, so we don't need to filter anything out.
-  name: 'Has draft comments',
-  query: 'has:draft',
-  selfOnly: true,
-  hideIfEmpty: true,
-  suffixForDashboard: 'limit:10',
-};
-export const YOUR_TURN: DashboardSection = {
-  // Changes where the user is in the attention set.
-  name: 'Your Turn',
-  query: 'attention:${user}',
-  hideIfEmpty: false,
-  suffixForDashboard: 'limit:25',
-};
-const WIP: DashboardSection = {
-  // WIP open changes owned by viewing user. This section is omitted when
-  // viewing other users, so we don't need to filter anything out.
-  name: 'Work in progress',
-  query: 'is:open owner:${user} is:wip',
-  selfOnly: true,
-  hideIfEmpty: true,
-  suffixForDashboard: 'limit:25',
-};
-export const OUTGOING: DashboardSection = {
-  // Non-WIP open changes owned by viewed user.
-  name: 'Outgoing reviews',
-  query: 'is:open owner:${user} -is:wip',
-  suffixForDashboard: 'limit:25',
-};
-const INCOMING: DashboardSection = {
-  // Non-WIP open changes not owned by the viewed user, that the viewed user
-  // is associated with as a reviewer.
-  name: 'Incoming reviews',
-  query: 'is:open -owner:${user} -is:wip reviewer:${user}',
-  suffixForDashboard: 'limit:25',
-};
-const CCED: DashboardSection = {
-  // Open changes the viewed user is CCed on.
-  name: 'CCed on',
-  query: 'is:open -is:wip cc:${user}',
-  suffixForDashboard: 'limit:10',
-};
-export const CLOSED: DashboardSection = {
-  name: 'Recently closed',
-  // Closed changes where viewed user is owner or reviewer.
-  // WIP changes not owned by the viewing user (the one instance of
-  // 'owner:self' is intentional and implements this logic) are filtered out.
-  query:
-    'is:closed (-is:wip OR owner:self) ' +
-    '(owner:${user} OR reviewer:${user} OR cc:${user})',
-  suffixForDashboard: '-age:4w limit:10',
-};
-const DEFAULT_SECTIONS: DashboardSection[] = [
-  HAS_DRAFTS,
-  YOUR_TURN,
-  WIP,
-  OUTGOING,
-  INCOMING,
-  CCED,
-  CLOSED,
-];
-
-export interface GenerateWebLinksOptions {
-  weblinks?: GeneratedWebLink[];
-  config?: ServerInfo;
-}
-
-export interface GenerateWebLinksPatchsetParameters {
-  type: WeblinkType.PATCHSET;
-  repo: RepoName;
-  commit?: CommitId;
-  options?: GenerateWebLinksOptions;
-}
-export interface GenerateWebLinksResolveConflictsParameters {
-  type: WeblinkType.RESOLVE_CONFLICTS;
-  repo: RepoName;
-  commit?: CommitId;
-  options?: GenerateWebLinksOptions;
-}
-export interface GenerateWebLinksEditParameters {
-  type: WeblinkType.EDIT;
-  repo: RepoName;
-  commit: CommitId;
-  file: string;
-  options?: GenerateWebLinksOptions;
-}
-export interface GenerateWebLinksFileParameters {
-  type: WeblinkType.FILE;
-  repo: RepoName;
-  commit: CommitId;
-  file: string;
-  options?: GenerateWebLinksOptions;
-}
-export interface GenerateWebLinksChangeParameters {
-  type: WeblinkType.CHANGE;
-  repo: RepoName;
-  commit: CommitId;
-  options?: GenerateWebLinksOptions;
-}
-
-export type GenerateWebLinksParameters =
-  | GenerateWebLinksPatchsetParameters
-  | GenerateWebLinksResolveConflictsParameters
-  | GenerateWebLinksEditParameters
-  | GenerateWebLinksFileParameters
-  | GenerateWebLinksChangeParameters;
-
 export type NavigateCallback = (target: string, redirect?: boolean) => void;
-// TODO: Refactor to return only GeneratedWebLink[]
-export type GenerateWebLinksCallback = (
-  params: GenerateWebLinksParameters
-) => GeneratedWebLink[] | GeneratedWebLink;
-
-export type MapCommentLinksCallback = (patterns: CommentLinks) => CommentLinks;
-
-export interface WebLink {
-  name?: string;
-  label: string;
-  url: string;
-}
-
-export interface GeneratedWebLink {
-  name?: string;
-  label?: string;
-  url?: string;
-}
-
-export enum WeblinkType {
-  CHANGE = 'change',
-  EDIT = 'edit',
-  FILE = 'file',
-  PATCHSET = 'patchset',
-  RESOLVE_CONFLICTS = 'resolve-conflicts',
-}
 
 interface NavigateToChangeParams {
   patchNum?: RevisionPatchSetNum;
@@ -208,16 +41,6 @@ interface NavigateToChangeParams {
 export const GerritNav = {
   _navigate: uninitializedNavigate,
 
-  _generateWeblinks: uninitializedGenerateWebLinks,
-
-  mapCommentlinks: uninitializedMapCommentLinks,
-
-  _checkPatchRange(patchNum?: PatchSetNum, basePatchNum?: BasePatchSetNum) {
-    if (basePatchNum && !patchNum) {
-      throw new Error('Cannot use base patch number without patch number.');
-    }
-  },
-
   /**
    * Setup router implementation.
    *
@@ -225,38 +48,13 @@ export const GerritNav = {
    *     `window.location.href = ...` or window.location.replace(...). The
    *     string is a new location and boolean defines is it redirect or not
    *     (true means redirect, i.e. equivalent of window.location.replace).
-   * @param generateUrl generates a URL given
-   *     navigation parameters, detailed in the file header.
-   * @param generateWeblinks weblinks generator
-   *     function takes single payload parameter with type property that
-   *  determines which
-   *     part of the UI is the consumer of the weblinks. type property can
-   *     be one of file, change, or patchset.
-   *     - For file type, payload will also contain string properties: repo,
-   *         commit, file.
-   *     - For patchset type, payload will also contain string properties:
-   *         repo, commit.
-   *     - For change type, payload will also contain string properties:
-   *         repo, commit. If server provides weblinks, those will be passed
-   *         as options.weblinks property on the main payload object.
-   * @param mapCommentlinks provides an escape
-   *     hatch to modify the commentlinks object, e.g. if it contains any
-   *     relative URLs.
    */
-  setup(
-    navigate: NavigateCallback,
-    generateWeblinks: GenerateWebLinksCallback,
-    mapCommentlinks: MapCommentLinksCallback
-  ) {
+  setup(navigate: NavigateCallback) {
     this._navigate = navigate;
-    this._generateWeblinks = generateWeblinks;
-    this.mapCommentlinks = mapCommentlinks;
   },
 
   destroy() {
     this._navigate = uninitializedNavigate;
-    this._generateWeblinks = uninitializedGenerateWebLinks;
-    this.mapCommentlinks = uninitializedMapCommentLinks;
   },
 
   /**
@@ -352,114 +150,5 @@ export const GerritNav = {
    */
   navigateToRepo(repo: RepoName) {
     this._navigate(createRepoUrl({repo}));
-  },
-
-  getEditWebLinks(
-    repo: RepoName,
-    commit: CommitId,
-    file: string,
-    options?: GenerateWebLinksOptions
-  ): GeneratedWebLink[] {
-    const params: GenerateWebLinksEditParameters = {
-      type: WeblinkType.EDIT,
-      repo,
-      commit,
-      file,
-    };
-    if (options) {
-      params.options = options;
-    }
-    return ([] as GeneratedWebLink[]).concat(this._generateWeblinks(params));
-  },
-
-  getFileWebLinks(
-    repo: RepoName,
-    commit: CommitId,
-    file: string,
-    options?: GenerateWebLinksOptions
-  ): GeneratedWebLink[] {
-    const params: GenerateWebLinksFileParameters = {
-      type: WeblinkType.FILE,
-      repo,
-      commit,
-      file,
-    };
-    if (options) {
-      params.options = options;
-    }
-    return ([] as GeneratedWebLink[]).concat(this._generateWeblinks(params));
-  },
-
-  getPatchSetWeblink(
-    repo: RepoName,
-    commit?: CommitId,
-    options?: GenerateWebLinksOptions
-  ): GeneratedWebLink {
-    const params: GenerateWebLinksPatchsetParameters = {
-      type: WeblinkType.PATCHSET,
-      repo,
-      commit,
-    };
-    if (options) {
-      params.options = options;
-    }
-    const result = this._generateWeblinks(params);
-    if (Array.isArray(result)) {
-      // TODO(TS): Unclear what to do with empty array.
-      // Either write a comment why result can't be empty or change the return
-      // type or add a check.
-      return result.pop()!;
-    } else {
-      return result;
-    }
-  },
-
-  getResolveConflictsWeblinks(
-    repo: RepoName,
-    commit?: CommitId,
-    options?: GenerateWebLinksOptions
-  ): GeneratedWebLink[] {
-    const params: GenerateWebLinksResolveConflictsParameters = {
-      type: WeblinkType.RESOLVE_CONFLICTS,
-      repo,
-      commit,
-    };
-    if (options) {
-      params.options = options;
-    }
-    return ([] as GeneratedWebLink[]).concat(this._generateWeblinks(params));
-  },
-
-  getChangeWeblinks(
-    repo: RepoName,
-    commit: CommitId,
-    options?: GenerateWebLinksOptions
-  ): GeneratedWebLink[] {
-    const params: GenerateWebLinksChangeParameters = {
-      type: WeblinkType.CHANGE,
-      repo,
-      commit,
-    };
-    if (options) {
-      params.options = options;
-    }
-    return ([] as GeneratedWebLink[]).concat(this._generateWeblinks(params));
-  },
-
-  getUserDashboard(
-    user = 'self',
-    sections = DEFAULT_SECTIONS,
-    title = ''
-  ): UserDashboard {
-    sections = sections
-      .filter(section => user === 'self' || !section.selfOnly)
-      .map(section => {
-        return {
-          ...section,
-          name: section.name,
-          query: section.query.replace(USER_PLACEHOLDER_PATTERN, user),
-        };
-      });
-    return {title, sections};
   },
 };

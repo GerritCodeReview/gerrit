@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2cd5c47_edc9858f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-21T08:08:28Z",
+      "side": 1,
+      "message": "Do you have a demo for this?\n\nAFAIK we also save other comments in local-storage so worried about breakage if you close reply dialog too fast after creating a patchset level comment.",
+      "revId": "56fddc5b31a40b347c8d9b8f23534e06d74b98fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff0be5ec_0c524376",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-21T08:08:28Z",
+      "side": 1,
+      "message": "You no longer need this either.",
+      "revId": "56fddc5b31a40b347c8d9b8f23534e06d74b98fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

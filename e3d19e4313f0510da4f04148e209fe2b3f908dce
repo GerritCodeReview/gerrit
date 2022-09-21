@@ -51,6 +51,42 @@
       "parentUuid": "d05d8923_b995fe96",
       "revId": "e3d19e4313f0510da4f04148e209fe2b3f908dce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69cbbb66_9f3287ae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1152035
+      },
+      "writtenOn": "2022-09-21T14:41:42Z",
+      "side": 1,
+      "message": "Comment removed by: Chris Poucet; Reason: spam",
+      "parentUuid": "63ee1ae6_854e86a8",
+      "revId": "e3d19e4313f0510da4f04148e209fe2b3f908dce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "331d2f50_e417d470",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1152035
+      },
+      "writtenOn": "2022-09-21T14:41:42Z",
+      "side": 1,
+      "message": "Comment removed by: Chris Poucet; Reason: spam",
+      "parentUuid": "1a63654a_2e267945",
+      "revId": "e3d19e4313f0510da4f04148e209fe2b3f908dce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

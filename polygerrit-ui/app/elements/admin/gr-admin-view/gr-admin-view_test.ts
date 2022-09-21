@@ -76,7 +76,8 @@ suite('gr-admin-view tests', () => {
       },
     ];
 
-    element.viewState = {
+    element.view = GerritView.ADMIN;
+    element.adminViewState = {
       view: GerritView.ADMIN,
       adminView: AdminChildView.REPOS,
     };
@@ -161,6 +162,7 @@ suite('gr-admin-view tests', () => {
   });
 
   test('Repo shows up in nav', async () => {
+    element.view = GerritView.REPO;
     element.repoName = 'Test Repo' as RepoName;
     stubRestApi('getAccount').returns(
       Promise.resolve({
@@ -221,12 +223,13 @@ suite('gr-admin-view tests', () => {
       })
     );
 
-    element.viewState = {repo: 'Repo 1' as RepoName, view: GerritView.REPO};
+    element.view = GerritView.REPO;
+    element.repoViewState = {repo: 'Repo 1' as RepoName, view: GerritView.REPO};
     assert.isTrue(element.needsReload());
     await element.reload();
     await element.updateComplete;
 
-    element.viewState = {repo: 'Repo 2' as RepoName, view: GerritView.REPO};
+    element.repoViewState = {repo: 'Repo 2' as RepoName, view: GerritView.REPO};
     assert.isTrue(element.needsReload());
     await element.updateComplete;
   });
@@ -242,7 +245,8 @@ suite('gr-admin-view tests', () => {
         registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
       })
     );
-    element.viewState = {groupId: '1' as GroupId, view: GerritView.GROUP};
+    element.view = GerritView.GROUP;
+    element.groupViewState = {groupId: '1' as GroupId, view: GerritView.GROUP};
     assert.isTrue(element.needsReload());
   });
 
@@ -262,7 +266,8 @@ suite('gr-admin-view tests', () => {
 
     sinon.stub(element, 'computeGroupName');
     const groupId = '1' as GroupId;
-    element.viewState = {groupId, view: GerritView.GROUP};
+    element.view = GerritView.GROUP;
+    element.groupViewState = {groupId, view: GerritView.GROUP};
     await element.updateComplete;
 
     assert.isTrue(element.needsReload());
@@ -272,7 +277,8 @@ suite('gr-admin-view tests', () => {
   test('Needs reload when group name changes', async () => {
     const newName = 'newName' as GroupName;
     sinon.stub(element, 'computeGroupName');
-    element.viewState = {groupId: '1' as GroupId, view: GerritView.GROUP};
+    element.view = GerritView.GROUP;
+    element.groupViewState = {groupId: '1' as GroupId, view: GerritView.GROUP};
     element.groupName = 'oldName' as GroupName;
     assert.isTrue(element.needsReload());
     await element.reload();
@@ -289,6 +295,7 @@ suite('gr-admin-view tests', () => {
   });
 
   test('dropdown displays if there is a subsection', async () => {
+    element.view = GerritView.REPO;
     assert.isNotOk(query(element, '.mainHeader'));
     element.subsectionLinks = [
       {
@@ -308,7 +315,8 @@ suite('gr-admin-view tests', () => {
 
   test('Dropdown only triggers navigation on explicit select', async () => {
     element.repoName = 'my-repo' as RepoName;
-    element.viewState = {
+    element.view = GerritView.REPO;
+    element.repoViewState = {
       repo: 'my-repo' as RepoName,
       view: GerritView.REPO,
       detail: RepoDetailView.ACCESS,
@@ -479,7 +487,11 @@ suite('gr-admin-view tests', () => {
 
   test('selectedIsCurrentPage', () => {
     element.repoName = 'my-repo' as RepoName;
-    element.viewState = {view: GerritView.REPO, repo: 'my-repo' as RepoName};
+    element.view = GerritView.REPO;
+    element.repoViewState = {
+      view: GerritView.REPO,
+      repo: 'my-repo' as RepoName,
+    };
     const selected = {
       view: GerritView.REPO,
       parent: 'my-repo' as RepoName,
@@ -507,13 +519,20 @@ suite('gr-admin-view tests', () => {
       await element.reload();
     });
 
-    test('render', () => {
+    test('render', async () => {
+      element.view = GerritView.ADMIN;
+      element.adminViewState = {
+        view: GerritView.ADMIN,
+        adminView: AdminChildView.REPOS,
+        openCreateModal: false,
+      };
+      await element.updateComplete;
       assert.shadowDom.equal(
         element,
         /* HTML */ `
           <gr-page-nav class="navStyles">
             <ul class="sectionContent">
-              <li class="sectionTitle">
+              <li class="sectionTitle selected">
                 <a
                   class="title"
                   href="//localhost:9876/admin/repos"
@@ -542,6 +561,9 @@ suite('gr-admin-view tests', () => {
               </li>
             </ul>
           </gr-page-nav>
+          <div class="main table">
+            <gr-repo-list class="table"></gr-repo-list>
+          </div>
         `
       );
     });
@@ -554,7 +576,8 @@ suite('gr-admin-view tests', () => {
       });
 
       test('repo list', async () => {
-        element.viewState = {
+        element.view = GerritView.ADMIN;
+        element.adminViewState = {
           view: GerritView.ADMIN,
           adminView: AdminChildView.REPOS,
           openCreateModal: false,
@@ -566,7 +589,8 @@ suite('gr-admin-view tests', () => {
       });
 
       test('repo', async () => {
-        element.viewState = {
+        element.view = GerritView.REPO;
+        element.repoViewState = {
           view: GerritView.REPO,
           repo: 'foo' as RepoName,
         };
@@ -579,7 +603,8 @@ suite('gr-admin-view tests', () => {
       });
 
       test('repo access', async () => {
-        element.viewState = {
+        element.view = GerritView.REPO;
+        element.repoViewState = {
           view: GerritView.REPO,
           detail: RepoDetailView.ACCESS,
           repo: 'foo' as RepoName,
@@ -593,7 +618,8 @@ suite('gr-admin-view tests', () => {
       });
 
       test('repo dashboards', async () => {
-        element.viewState = {
+        element.view = GerritView.REPO;
+        element.repoViewState = {
           view: GerritView.REPO,
           detail: RepoDetailView.DASHBOARDS,
           repo: 'foo' as RepoName,
@@ -628,7 +654,8 @@ suite('gr-admin-view tests', () => {
       });
 
       test('group list', async () => {
-        element.viewState = {
+        element.view = GerritView.ADMIN;
+        element.adminViewState = {
           view: GerritView.ADMIN,
           adminView: AdminChildView.GROUPS,
           openCreateModal: false,
@@ -640,7 +667,8 @@ suite('gr-admin-view tests', () => {
       });
 
       test('internal group', async () => {
-        element.viewState = {
+        element.view = GerritView.GROUP;
+        element.groupViewState = {
           view: GerritView.GROUP,
           groupId: '1234' as GroupId,
         };
@@ -665,7 +693,8 @@ suite('gr-admin-view tests', () => {
             id: 'external-id',
           })
         );
-        element.viewState = {
+        element.view = GerritView.GROUP;
+        element.groupViewState = {
           view: GerritView.GROUP,
           groupId: '1234' as GroupId,
         };
@@ -684,7 +713,8 @@ suite('gr-admin-view tests', () => {
       });
 
       test('group members', async () => {
-        element.viewState = {
+        element.view = GerritView.GROUP;
+        element.groupViewState = {
           view: GerritView.GROUP,
           detail: GroupDetailView.MEMBERS,
           groupId: '1234' as GroupId,

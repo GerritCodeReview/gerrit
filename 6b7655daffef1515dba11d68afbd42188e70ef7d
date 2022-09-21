@@ -16,6 +16,23 @@
       "message": "Cool stuff Antoine !",
       "revId": "6b7655daffef1515dba11d68afbd42188e70ef7d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f2ae4e1_8387ec0a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-09-21T16:12:10Z",
+      "side": 1,
+      "message": "Thanks!  And I am very thankful to Sven for the review and I have learned java returns by reference :-]",
+      "revId": "6b7655daffef1515dba11d68afbd42188e70ef7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

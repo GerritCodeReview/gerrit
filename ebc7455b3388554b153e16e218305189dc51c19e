@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8683372d_0f8fb07d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-markdown/gr-markdown.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-21T14:54:05Z",
+      "side": 1,
+      "message": "this method is used rather than the `unsafeHtml` directive [that was previously attempted](https://gerrit-review.googlesource.com/c/gerrit/+/345880/12/polygerrit-ui/app/elements/shared/gr-markdown/gr-markdown.ts#124) but was not allowed within google.",
+      "range": {
+        "startLine": 125,
+        "startChar": 7,
+        "endLine": 125,
+        "endChar": 55
+      },
+      "revId": "ebc7455b3388554b153e16e218305189dc51c19e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

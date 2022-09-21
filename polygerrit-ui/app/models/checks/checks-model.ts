@@ -487,13 +487,12 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
       s.unsubscribe();
     }
     this.subscriptions = [];
-    this.subject$.complete();
   }
 
   // Must only be used by the checks service or whatever is in control of this
   // model.
   updateStateSetProvider(pluginName: string, patchset: ChecksPatchset) {
-    const nextState = {...this.subject$.getValue()};
+    const nextState = {...this.getState()};
     const pluginState = this.getPluginState(nextState, patchset);
     pluginState[pluginName] = {
       pluginName,
@@ -503,7 +502,7 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
       actions: [],
       links: [],
     };
-    this.subject$.next(nextState);
+    this.setState(nextState);
   }
 
   getPluginState(
@@ -520,13 +519,13 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
   }
 
   updateStateSetLoading(pluginName: string, patchset: ChecksPatchset) {
-    const nextState = {...this.subject$.getValue()};
+    const nextState = {...this.getState()};
     const pluginState = this.getPluginState(nextState, patchset);
     pluginState[pluginName] = {
       ...pluginState[pluginName],
       loading: true,
     };
-    this.subject$.next(nextState);
+    this.setState(nextState);
   }
 
   updateStateSetError(
@@ -534,7 +533,7 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
     errorMessage: string,
     patchset: ChecksPatchset
   ) {
-    const nextState = {...this.subject$.getValue()};
+    const nextState = {...this.getState()};
     const pluginState = this.getPluginState(nextState, patchset);
     pluginState[pluginName] = {
       ...pluginState[pluginName],
@@ -545,7 +544,7 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
       runs: [],
       actions: [],
     };
-    this.subject$.next(nextState);
+    this.setState(nextState);
   }
 
   updateStateSetNotLoggedIn(
@@ -553,7 +552,7 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
     loginCallback: () => void,
     patchset: ChecksPatchset
   ) {
-    const nextState = {...this.subject$.getValue()};
+    const nextState = {...this.getState()};
     const pluginState = this.getPluginState(nextState, patchset);
     pluginState[pluginName] = {
       ...pluginState[pluginName],
@@ -564,7 +563,7 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
       runs: [],
       actions: [],
     };
-    this.subject$.next(nextState);
+    this.setState(nextState);
   }
 
   updateStateSetResults(
@@ -579,7 +578,7 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
     for (const attemptInfo of attemptMap.values()) {
       attemptInfo.attempts.sort(sortAttemptDetails);
     }
-    const nextState = {...this.subject$.getValue()};
+    const nextState = {...this.getState()};
     const pluginState = this.getPluginState(nextState, patchset);
     const oldState = pluginState[pluginName];
     pluginState[pluginName] = {
@@ -612,7 +611,7 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
       links: [...links],
       summaryMessage,
     };
-    this.subject$.next(nextState);
+    this.setState(nextState);
   }
 
   updateStateUpdateResult(
@@ -621,7 +620,7 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
     updatedResult: CheckResultApi,
     patchset: ChecksPatchset
   ) {
-    const nextState = {...this.subject$.getValue()};
+    const nextState = {...this.getState()};
     const pluginState = this.getPluginState(nextState, patchset);
     let runUpdated = false;
     const runs: CheckRun[] = pluginState[pluginName].runs.map(run => {
@@ -651,25 +650,19 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
       ...pluginState[pluginName],
       runs,
     };
-    this.subject$.next(nextState);
+    this.setState(nextState);
   }
 
-  updateStateSetPatchset(patchsetNumber?: PatchSetNumber) {
-    const nextState = {...this.subject$.getValue()};
-    nextState.patchsetNumberSelected = patchsetNumber;
-    this.subject$.next(nextState);
+  updateStateSetPatchset(patchsetNumberSelected?: PatchSetNumber) {
+    this.updateState({patchsetNumberSelected});
   }
 
-  updateStateSetAttempt(attemptNumber: AttemptChoice) {
-    const nextState = {...this.subject$.getValue()};
-    nextState.attemptNumberSelected = attemptNumber;
-    this.subject$.next(nextState);
+  updateStateSetAttempt(attemptNumberSelected: AttemptChoice) {
+    this.updateState({attemptNumberSelected});
   }
 
-  updateStateSetRunFilter(runFilter: string) {
-    const nextState = {...this.subject$.getValue()};
-    nextState.runFilterRegexp = runFilter;
-    this.subject$.next(nextState);
+  updateStateSetRunFilter(runFilterRegexp: string) {
+    this.updateState({runFilterRegexp});
   }
 
   setPatchset(num?: PatchSetNumber) {

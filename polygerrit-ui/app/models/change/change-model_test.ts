@@ -118,7 +118,7 @@ suite('change service tests', () => {
     assert.equal(stub.callCount, 0);
     assert.isUndefined(state?.change);
 
-    changeModel.routerModel.updateState({
+    changeModel.routerModel.setState({
       view: GerritView.CHANGE,
       changeNum: knownChange._number,
     });
@@ -137,7 +137,7 @@ suite('change service tests', () => {
     const promise = mockPromise<ParsedChangeInfo | undefined>();
     const stub = stubRestApi('getChangeDetail').callsFake(() => promise);
     let state: ChangeState;
-    changeModel.routerModel.updateState({
+    changeModel.routerModel.setState({
       view: GerritView.CHANGE,
       changeNum: knownChange._number,
     });
@@ -161,7 +161,7 @@ suite('change service tests', () => {
     let promise = mockPromise<ParsedChangeInfo | undefined>();
     const stub = stubRestApi('getChangeDetail').callsFake(() => promise);
     let state: ChangeState;
-    changeModel.routerModel.updateState({
+    changeModel.routerModel.setState({
       view: GerritView.CHANGE,
       changeNum: knownChange._number,
     });
@@ -175,7 +175,7 @@ suite('change service tests', () => {
       _number: 123 as NumericChangeId,
     };
     promise = mockPromise<ParsedChangeInfo | undefined>();
-    changeModel.routerModel.updateState({
+    changeModel.routerModel.setState({
       view: GerritView.CHANGE,
       changeNum: otherChange._number,
     });
@@ -194,7 +194,7 @@ suite('change service tests', () => {
     let promise = mockPromise<ParsedChangeInfo | undefined>();
     const stub = stubRestApi('getChangeDetail').callsFake(() => promise);
     let state: ChangeState;
-    changeModel.routerModel.updateState({
+    changeModel.routerModel.setState({
       view: GerritView.CHANGE,
       changeNum: knownChange._number,
     });
@@ -205,7 +205,7 @@ suite('change service tests', () => {
 
     promise = mockPromise<ParsedChangeInfo | undefined>();
     promise.resolve(undefined);
-    changeModel.routerModel.updateState({
+    changeModel.routerModel.setState({
       view: GerritView.CHANGE,
       changeNum: undefined,
     });
@@ -217,7 +217,7 @@ suite('change service tests', () => {
 
     promise = mockPromise<ParsedChangeInfo | undefined>();
     promise.resolve(knownChange);
-    changeModel.routerModel.updateState({
+    changeModel.routerModel.setState({
       view: GerritView.CHANGE,
       changeNum: knownChange._number,
     });

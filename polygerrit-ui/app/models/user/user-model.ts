@@ -189,28 +189,22 @@ export class UserModel extends Model<UserState> implements Finalizable {
   }
 
   setPreferences(preferences: PreferencesInfo) {
-    const current = this.subject$.getValue();
-    this.subject$.next({...current, preferences});
+    this.updateState({preferences});
   }
 
   setDiffPreferences(diffPreferences: DiffPreferencesInfo) {
-    const current = this.subject$.getValue();
-    this.subject$.next({...current, diffPreferences});
+    this.updateState({diffPreferences});
   }
 
   setEditPreferences(editPreferences: EditPreferencesInfo) {
-    const current = this.subject$.getValue();
-    this.subject$.next({...current, editPreferences});
+    this.updateState({editPreferences});
   }
 
   setCapabilities(capabilities?: AccountCapabilityInfo) {
-    const current = this.subject$.getValue();
-    this.subject$.next({...current, capabilities});
+    this.updateState({capabilities});
   }
 
-  // Visible for testing.
   setAccount(account?: AccountDetailInfo) {
-    const current = this.subject$.getValue();
-    this.subject$.next({...current, account});
+    this.updateState({account});
   }
 }

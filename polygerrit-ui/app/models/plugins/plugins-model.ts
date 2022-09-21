@@ -60,12 +60,8 @@ export class PluginsModel extends Model<PluginsState> implements Finalizable {
     });
   }
 
-  override finalize() {
-    this.subject$.complete();
-  }
-
   checksRegister(plugin: ChecksPlugin) {
-    const nextState = {...this.subject$.getValue()};
+    const nextState = {...this.getState()};
     nextState.checksPlugins = [...nextState.checksPlugins];
     const alreadysRegistered = nextState.checksPlugins.some(
       p => p.pluginName === plugin.pluginName
@@ -77,11 +73,11 @@ export class PluginsModel extends Model<PluginsState> implements Finalizable {
       return;
     }
     nextState.checksPlugins.push(plugin);
-    this.subject$.next(nextState);
+    this.setState(nextState);
   }
 
   checksUpdate(update: ChecksUpdate) {
-    const plugins = this.subject$.getValue().checksPlugins;
+    const plugins = this.getState().checksPlugins;
     const plugin = plugins.find(p => p.pluginName === update.pluginName);
     if (!plugin) {
       console.warn(
@@ -93,7 +89,7 @@ export class PluginsModel extends Model<PluginsState> implements Finalizable {
   }
 
   checksAnnounce(pluginName: string) {
-    const plugins = this.subject$.getValue().checksPlugins;
+    const plugins = this.getState().checksPlugins;
     const plugin = plugins.find(p => p.pluginName === pluginName);
     if (!plugin) {
       console.warn(

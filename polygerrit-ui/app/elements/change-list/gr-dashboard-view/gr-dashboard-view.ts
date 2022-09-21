@@ -377,6 +377,7 @@ export class GrDashboardView extends LitElement {
     if (!this.viewState) return Promise.resolve();
     this.loading = true;
     const {project, dashboard, title, user, sections} = this.viewState;
+
     const dashboardPromise: Promise<UserDashboard | undefined> = project
       ? this.getProjectDashboard(project, dashboard)
       : Promise.resolve(

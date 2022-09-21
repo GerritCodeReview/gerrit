@@ -64,6 +64,6 @@ export class BrowserModel extends Model<BrowserState> implements Finalizable {
 
   // Private but used in tests.
   setScreenWidth(screenWidth: number) {
-    this.subject$.next({...this.subject$.getValue(), screenWidth});
+    this.updateState({screenWidth});
   }
 }

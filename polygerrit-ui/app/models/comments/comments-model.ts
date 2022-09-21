@@ -448,13 +448,7 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
 
   // visible for testing
   modifyState(reducer: (state: CommentState) => CommentState) {
-    const current = this.subject$.getValue();
-    this.setState(reducer({...current}));
-  }
-
-  // visible for testing
-  setState(state: CommentState) {
-    this.subject$.next(state);
+    this.setState(reducer({...this.getState()}));
   }
 
   async reloadComments(changeNum: NumericChangeId): Promise<void> {

@@ -16,11 +16,7 @@ import {
   stubFlags,
   stubRestApi,
 } from '../../../test/test-utils';
-import {
-  ChangeStatus,
-  ReviewerState,
-  SpecialFilePath,
-} from '../../../constants/constants';
+import {ChangeStatus, ReviewerState} from '../../../constants/constants';
 import {JSON_PREFIX} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {StandardLabels} from '../../../utils/label-util';
 import {
@@ -237,12 +233,12 @@ suite('gr-reply-dialog tests', () => {
           <section class="newReplyDialog textareaContainer">
             <div class="patchsetLevelContainer resolved">
               <gr-endpoint-decorator name="reply-text">
-                <gr-textarea
-                  class="message monospace newReplyDialog"
-                  id="textarea"
-                  monospace=""
+                <gr-comment
+                  hide-header=""
+                  id="patchsetLevelComment"
+                  permanent-editing-mode=""
                 >
-                </gr-textarea>
+                </gr-comment>
                 <gr-endpoint-param name="change"> </gr-endpoint-param>
               </gr-endpoint-decorator>
             </div>
@@ -345,14 +341,6 @@ suite('gr-reply-dialog tests', () => {
       labels: {
         'Code-Review': 0,
         Verified: 0,
-      },
-      comments: {
-        [SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: [
-          {
-            message: 'I wholeheartedly disapprove',
-            unresolved: false,
-          },
-        ],
       },
       reviewers: [],
       add_to_attention_set: [
@@ -1090,14 +1078,6 @@ suite('gr-reply-dialog tests', () => {
         'Code-Review': -1,
         Verified: -1,
       },
-      comments: {
-        [SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: [
-          {
-            message: 'I wholeheartedly disapprove',
-            unresolved: false,
-          },
-        ],
-      },
       reviewers: [],
       add_to_attention_set: [
         {user: 999, reason: '<GERRIT_ACCOUNT_1> replied on the change'},
@@ -1133,14 +1113,6 @@ suite('gr-reply-dialog tests', () => {
       labels: {
         'Code-Review': 0,
         Verified: 0,
-      },
-      comments: {
-        [SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: [
-          {
-            message: 'I wholeheartedly disapprove',
-            unresolved: false,
-          },
-        ],
       },
       reviewers: [],
       add_to_attention_set: [
@@ -1477,20 +1449,29 @@ suite('gr-reply-dialog tests', () => {
     // explicitly instead
     clock.tick(1);
     assert.equal(chooseFocusTargetSpy.callCount, 1);
-    assert.equal(element?.shadowRoot?.activeElement?.tagName, 'GR-TEXTAREA');
-    assert.equal(element?.shadowRoot?.activeElement?.id, 'textarea');
+    assert.equal(element?.shadowRoot?.activeElement?.tagName, 'GR-COMMENT');
+    assert.equal(
+      element?.shadowRoot?.activeElement?.id,
+      'patchsetLevelComment'
+    );
 
     element.focusOn(element.FocusTarget.ANY);
     clock.tick(1);
     assert.equal(chooseFocusTargetSpy.callCount, 2);
-    assert.equal(element?.shadowRoot?.activeElement?.tagName, 'GR-TEXTAREA');
-    assert.equal(element?.shadowRoot?.activeElement?.id, 'textarea');
+    assert.equal(element?.shadowRoot?.activeElement?.tagName, 'GR-COMMENT');
+    assert.equal(
+      element?.shadowRoot?.activeElement?.id,
+      'patchsetLevelComment'
+    );
 
     element.focusOn(element.FocusTarget.BODY);
     clock.tick(1);
     assert.equal(chooseFocusTargetSpy.callCount, 2);
-    assert.equal(element?.shadowRoot?.activeElement?.tagName, 'GR-TEXTAREA');
-    assert.equal(element?.shadowRoot?.activeElement?.id, 'textarea');
+    assert.equal(element?.shadowRoot?.activeElement?.tagName, 'GR-COMMENT');
+    assert.equal(
+      element?.shadowRoot?.activeElement?.id,
+      'patchsetLevelComment'
+    );
 
     element.focusOn(element.FocusTarget.REVIEWERS);
     clock.tick(1);
@@ -2291,9 +2272,6 @@ suite('gr-reply-dialog tests', () => {
 
   suite('patchset level comment using GrComment', () => {
     setup(async () => {
-      stubFlags('isEnabled')
-        .withArgs(KnownExperimentId.PATCHSET_LEVEL_COMMENT_USES_GRCOMMENT)
-        .returns(true);
       element.account = createAccountWithId(1);
       element.requestUpdate();
       await element.updateComplete;

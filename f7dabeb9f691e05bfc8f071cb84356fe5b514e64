@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "158b0855_37d2ee0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-21T20:37:07Z",
+      "side": 1,
+      "message": "I suspect there\u0027s a lot of hidden context in this bug. Currently this change is really confusing to me as a non-Googler since I don\u0027t know of any \"backend notification systems\" for Gerrit. Can you please fix that so I can review this with that context?",
+      "revId": "f7dabeb9f691e05bfc8f071cb84356fe5b514e64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

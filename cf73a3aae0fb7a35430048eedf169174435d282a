@@ -270,6 +270,30 @@
       },
       "revId": "cf73a3aae0fb7a35430048eedf169174435d282a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9eb1f57f_8c1c3830",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-09-21T09:33:13Z",
+      "side": 1,
+      "message": "Added a test to ProjectIT. It caught a bug, that I missed. Thank you for pushing for an added test.",
+      "parentUuid": "330b8ff8_cd1b5c44",
+      "range": {
+        "startLine": 306,
+        "startChar": 8,
+        "endLine": 308,
+        "endChar": 63
+      },
+      "revId": "cf73a3aae0fb7a35430048eedf169174435d282a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

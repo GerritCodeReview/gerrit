@@ -2026,6 +2026,10 @@ Located in `/static/gerrit-theme.js` by default.
 The list of submit requirement names that should be displayed as separate
 columns in the dashboard. If empty, the default is to display all submit
 requirements that are applicable for changes appearing in the dashboard.
+|`has_backend_notification_system` |optional|
+If server does have backend based notification system, admin can turn off
+Gerrit browser notifications. By default, empty property means notifications are
+available to users.
 |=======================================
 
 [[sshd-info]]

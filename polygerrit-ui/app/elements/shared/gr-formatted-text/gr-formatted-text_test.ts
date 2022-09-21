@@ -281,6 +281,26 @@ suite('gr-formatted-text tests', () => {
       );
     });
 
+
+    test('handles @mentions', async () => {
+      element.content = '@poucet@google.com';
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <marked-element>
+            <div slot="markdown-html">
+              <p>
+                <gr-account-label></gr-account-label>
+              </p>
+            </div>
+          </marked-element>
+        `
+      );
+    });
+
+
     test('renders inline links into <a> tags', async () => {
       element.content = '[myLink](https://www.google.com)';
       await element.updateComplete;

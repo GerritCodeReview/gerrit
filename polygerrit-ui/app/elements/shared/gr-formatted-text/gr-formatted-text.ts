@@ -15,7 +15,7 @@ import '@polymer/marked-element';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
-import {CommentLinks} from '../../../api/rest-api';
+import {CommentLinks, EmailAddress} from '../../../api/rest-api';
 import {
   applyHtmlRewritesFromConfig,
   applyLinkRewritesFromConfig,
@@ -199,6 +199,24 @@ export class GrFormattedText extends LitElement {
     text = applyHtmlRewritesFromConfig(text, repoCommentLinks);
 
     return text;
+  }
+
+  override updated() {
+    // Look for @mentions and replace them with an account-label chip.
+    for (const el of this.shadowRoot?.querySelectorAll('a[href^="mailto"]') ??
+      []) {
+      if (el.previousSibling?.textContent?.match(/(?<=^|\s)@$/)) {
+        const accountlabel = document.createElement('gr-account-label');
+        accountlabel.account = {
+          email: el.textContent as EmailAddress,
+        };
+        el.previousSibling.textContent = el.previousSibling.textContent.slice(
+          0,
+          -1
+        );
+        el.parentNode?.replaceChild(accountlabel, el);
+      }
+    }
   }
 }
 

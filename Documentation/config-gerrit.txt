@@ -4050,6 +4050,15 @@ each process retrieves at once.
 +
 By default, 20.
 
+[[notifications]]
+=== Section Notifications
+
+[[notification.notificationsEnabledRegexp]]notification.notificationsEnabledRegexp::
++
+Users whose email is matched by notifications enabled regexp are available to use
+Gerrit browser notifications. By default, empty property means notifications are
+not available to anyone.
+
 [[oauth]]
 === Section oauth
 

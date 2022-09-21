@@ -4050,6 +4050,15 @@ each process retrieves at once.
 +
 By default, 20.
 
+[[notifications]]
+=== Section Notifications
+
+[[notification.hasBackendNotificationSystem]]notification.hasBackendNotificationSystem::
++
+If server does have backend based notification system, admin can turn off
+Gerrit browser notifications. By default, empty property means notifications are
+available to users.
+
 [[oauth]]
 === Section oauth
 

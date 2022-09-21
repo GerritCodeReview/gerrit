@@ -195,6 +195,8 @@ public class ServerInfoIT extends AbstractDaemonTest {
 
     // submit requirement columns in dashboard
     assertThat(i.submitRequirementDashboardColumns).isEmpty();
+
+    assertThat(i.hasBackendNotificationSystem).isNull();
   }
 
   @Test
@@ -211,6 +213,13 @@ public class ServerInfoIT extends AbstractDaemonTest {
   public void serverConfigWithMultipleSubmitRequirementColumn() throws Exception {
     ServerInfo i = gApi.config().server().getInfo();
     assertThat(i.submitRequirementDashboardColumns).containsExactly("Code-Review", "Verified");
+  }
+
+  @Test
+  @GerritConfig(name = "notification.hasBackendNotificationSystem", value = "true")
+  public void serverConfigWithNotificationsEnabledRegexp() throws Exception {
+    ServerInfo i = gApi.config().server().getInfo();
+    assertThat(i.hasBackendNotificationSystem).isTrue();
   }
 
   @Test

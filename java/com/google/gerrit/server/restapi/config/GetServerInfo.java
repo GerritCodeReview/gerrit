@@ -156,6 +156,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.user = getUserInfo();
     info.receive = getReceiveInfo();
     info.submitRequirementDashboardColumns = getSubmitRequirementDashboardColumns();
+    info.hasBackendNotificationSystem = getHasBackendNotificationSystem();
     return Response.ok(info);
   }
 
@@ -378,6 +379,10 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
 
   private List<String> getSubmitRequirementDashboardColumns() {
     return Arrays.asList(config.getStringList("dashboard", null, "submitRequirementColumns"));
+  }
+
+  private Boolean getHasBackendNotificationSystem() {
+    return toBoolean(config.getBoolean("notification", null, "hasBackendNotificationSystem", false));
   }
 
   private static Boolean toBoolean(boolean v) {

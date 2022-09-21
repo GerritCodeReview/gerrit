@@ -7,6 +7,7 @@ import {fixture, html, assert} from '@open-wc/testing';
 import {SinonStubbedMember} from 'sinon';
 import {PluginApi} from '../../../api/plugin';
 import {ChangeStatus} from '../../../constants/constants';
+import {KnownExperimentId} from '../../../services/flags/flags';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import '../../../test/common-test-setup';
 import {
@@ -22,8 +23,10 @@ import {
   query,
   queryAndAssert,
   resetPlugins,
+  stubFlags,
   stubRestApi,
   waitEventLoop,
+  waitUntil,
 } from '../../../test/test-utils';
 import {
   ChangeId,
@@ -38,6 +41,7 @@ import {
 import {ParsedChangeInfo} from '../../../types/types';
 import {GrEndpointDecorator} from '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {GrRelatedChange} from './gr-related-change';
 import './gr-related-changes-list';
 import {
   ChangeMarkersInList,
@@ -317,6 +321,97 @@ suite('gr-related-changes-list', () => {
         'gr-related-collapse'
       );
       assert.isFalse(cherryPicks.classList.contains('first'));
+    });
+  });
+
+  suite.only('bulk actions', () => {
+    const relatedChangeInfo: RelatedChangesInfo = {
+      ...createRelatedChangesInfo(),
+      changes: [
+        {
+          ...createRelatedChangeAndCommitInfo(),
+          _change_number: 1234 as NumericChangeId,
+        },
+      ],
+    };
+    const submittedTogether: SubmittedTogetherInfo = {
+      ...createSubmittedTogetherInfo(),
+      changes: [createChange()],
+    };
+    setup(async () => {
+      element.change = createParsedChange();
+      element.patchNum = 1 as PatchSetNum;
+      stubRestApi('getRelatedChanges').returns(
+        Promise.resolve(relatedChangeInfo)
+      );
+      stubRestApi('getChangesSubmittedTogether').returns(
+        Promise.resolve(submittedTogether)
+      );
+      stubRestApi('getChangeCherryPicks').returns(
+        Promise.resolve([createChange()])
+      );
+      stubFlags('isEnabled')
+        .withArgs(KnownExperimentId.BULK_ACTIONS_FOR_STACKED_CHANGES)
+        .returns(true);
+      element.requestUpdate();
+      await element.updateComplete;
+      await element.reload();
+    });
+
+    test('renders checkboxes', () => {
+      const ged = queryAndAssert<HTMLElement>(element, 'gr-endpoint-decorator');
+      const section = query(ged, '#relatedChanges');
+      const line = query(section, '.relatedChangeLine');
+      const change = query<GrRelatedChange>(line, 'gr-related-change');
+      assert.shadowDom.equal(
+        change,
+        /* HTML */ `
+          <div class="changeContainer">
+            <div>
+              <label class="selectionLabel"> <input type="checkbox" /> </label>
+            </div>
+
+            <a href="/c/test-project/+/1234?usp=related-change">
+              <slot> </slot>
+            </a>
+            <span
+              aria-label="Submittable"
+              class="submittableCheck"
+              role="img"
+              tabindex="-1"
+              title="Submittable"
+            >
+              ✓
+            </span>
+            <span class="status"> () </span>
+          </div>
+        `
+      );
+    });
+
+    test('selecting checkbox toggles model state', async () => {
+      const ged = queryAndAssert<HTMLElement>(element, 'gr-endpoint-decorator');
+      const section = query(ged, '#relatedChanges');
+      const line = query(section, '.relatedChangeLine');
+      const change = queryAndAssert<GrRelatedChange>(line, 'gr-related-change');
+      const checkbox = queryAndAssert<HTMLInputElement>(change, 'input');
+      checkbox.click();
+
+      await waitUntil(
+        () =>
+          change.getBulkActionsModel().getState().selectedChangeNums.length > 0
+      );
+      assert.deepEqual(
+        change.getBulkActionsModel().getState().selectedChangeNums,
+        [1234]
+      );
+
+      checkbox.click();
+      await waitUntil(
+        () =>
+          change.getBulkActionsModel().getState().selectedChangeNums.length ===
+          0
+      );
     });
   });
 

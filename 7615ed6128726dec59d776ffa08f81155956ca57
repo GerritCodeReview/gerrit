@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4370327c_400c2024",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4059,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-21T11:05:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9533c722_b6676baa",
+      "range": {
+        "startLine": 4058,
+        "startChar": 0,
+        "endLine": 4059,
+        "endChar": 28
+      },
+      "revId": "7615ed6128726dec59d776ffa08f81155956ca57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "43f2d3f7_7b807fad",
@@ -54,6 +78,54 @@
       "writtenOn": "2022-09-21T10:29:49Z",
       "side": 1,
       "message": "```suggestion\n    assertThat(i.notificationsEnabledRegexp).isEqualTo(\"*\");\n```",
+      "range": {
+        "startLine": 224,
+        "startChar": 17,
+        "endLine": 224,
+        "endChar": 18
+      },
+      "revId": "7615ed6128726dec59d776ffa08f81155956ca57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bbaab2c_28dc2cd6",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/ServerInfoIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-21T11:05:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43f2d3f7_7b807fad",
+      "range": {
+        "startLine": 224,
+        "startChar": 17,
+        "endLine": 224,
+        "endChar": 18
+      },
+      "revId": "7615ed6128726dec59d776ffa08f81155956ca57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08f4ae4c_173bf617",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/ServerInfoIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-21T11:05:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43f2d3f7_7b807fad",
       "range": {
         "startLine": 224,
         "startChar": 17,

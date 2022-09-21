@@ -46,6 +46,30 @@
       },
       "revId": "ec67becea309240fb18a432be3d3180ef5ec1595",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d989194a_c2856474",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-09-21T08:36:13Z",
+      "side": 1,
+      "message": "I see, didn\u0027t realize these are stacked changes.",
+      "parentUuid": "435df63b_56997594",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 34
+      },
+      "revId": "ec67becea309240fb18a432be3d3180ef5ec1595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

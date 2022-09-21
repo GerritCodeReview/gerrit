@@ -1292,6 +1292,7 @@ any account.
     "mute_common_path_prefixes": true,
     "publish_comments_on_push": true,
     "work_in_progress_by_default": true,
+    "allow_browser_notifications": true,
     "default_base_for_merges": "FIRST_PARENT",
     "my": [
       {
@@ -1344,6 +1345,7 @@ link:#preferences-input[PreferencesInput] entity.
     "size_bar_in_change_table": true,
     "disable_keyboard_shortcuts": true,
     "disable_token_highlighting": true,
+    "allow_browser_notifications": false,
     "diff_view": "SIDE_BY_SIDE",
     "mute_common_path_prefixes": true,
     "my": [
@@ -2686,6 +2688,8 @@ Whether to mute common path prefixes in file names in the file table.
 |`signed_off_by`                |not set if `false`|
 Whether to insert Signed-off-by footer in changes created with the
 inline edit feature.
+|`allow_browser_notifications`  |not set if `false`|
+Whether to prompt user to enable browser notification in browser.
 |`my`                           ||
 The menu items of the `MY` top menu as a list of
 link:rest-api-config.html#top-menu-item-info[TopMenuItemInfo] entities.
@@ -2755,6 +2759,8 @@ Whether to mute common path prefixes in file names in the file table.
 |`signed_off_by`                |optional|
 Whether to insert Signed-off-by footer in changes created with the
 inline edit feature.
+|`allow_browser_notifications`  |not set if `false`|
+Whether to prompt user to enable browser notification in browser.
 |`my`                           |optional|
 The menu items of the `MY` top menu as a list of
 link:rest-api-config.html#top-menu-item-info[TopMenuItemInfo] entities.

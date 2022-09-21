@@ -140,6 +140,25 @@ suite('gr-editable-content tests', () => {
     assert.equal(element.newContent, 'stale content');
   });
 
+  test('zero width spaces are removed properly', async () => {
+    element.removeZeroWidthSpace = true;
+    element.content = 'R=\u200Btest@google.com';
+
+    // Needed because contentChanged resets newContent
+    // We want contentChanged observer to finish before editingChanged is
+    // called
+
+    await element.updateComplete;
+
+    element.editing = true;
+
+    // editingChanged updates newContent so wait for it's observer
+    // to finish
+    await element.updateComplete;
+
+    assert.equal(element.newContent, 'R=test@google.com');
+  });
+
   suite('editing', () => {
     setup(async () => {
       element.content = 'current content';

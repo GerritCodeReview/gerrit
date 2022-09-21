@@ -238,6 +238,16 @@ export class BulkActionsModel
     );
   }
 
+<<<<<<< PATCH SET (07932f Add bulk actions for related changes)
+  private getNumber(c: ChangeInfo) {
+    return c._number !== undefined
+      ? c._number
+      : (c as unknown as RelatedChangeAndCommitInfo)._change_number!;
+  }
+
+  async sync(changes: ChangeInfo[]) {
+    const basicChanges = new Map(changes.map(c => [this.getNumber(c), c]));
+=======
   private getChangeNumber(c: ChangeInfo | RelatedChangeAndCommitInfo) {
     return isChangeInfo(c) ? c._number : c._change_number!;
   }
@@ -246,6 +256,7 @@ export class BulkActionsModel
     const basicChanges = new Map(
       changes.map(c => [this.getChangeNumber(c), c])
     );
+>>>>>>> BASE      (16b834 Prepare bulk actions model to take RelatedChangeAndCommitInf)
     let currentState = this.getState();
     const selectedChangeNums = currentState.selectedChangeNums.filter(
       changeNum => basicChanges.has(changeNum)
@@ -261,7 +272,11 @@ export class BulkActionsModel
     }
     const changeDetails =
       await this.restApiService.getDetailedChangesWithActions(
+<<<<<<< PATCH SET (07932f Add bulk actions for related changes)
+        changes.map(c => this.getNumber(c))
+=======
         changes.map(c => this.getChangeNumber(c))
+>>>>>>> BASE      (16b834 Prepare bulk actions model to take RelatedChangeAndCommitInf)
       );
     currentState = this.getState();
     // Return early if sync has been called again since starting the load.

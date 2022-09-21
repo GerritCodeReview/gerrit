@@ -39,7 +39,7 @@ import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
 import {pageNavStyles} from '../../../styles/gr-page-nav-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html, nothing} from 'lit';
-import {customElement, property, state} from 'lit/decorators.js';
+import {customElement, state} from 'lit/decorators.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {ValueChangedEvent} from '../../../types/events';
 import {
@@ -59,7 +59,6 @@ import {
 } from '../../../models/views/repo';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
-import {merge} from 'rxjs';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
 
@@ -72,38 +71,21 @@ export interface AdminSubsectionLink {
   parent?: GroupId | RepoName;
 }
 
-type ViewState = AdminViewState | GroupViewState | RepoViewState;
-
-function isAdminView(viewState?: ViewState): viewState is AdminViewState {
-  return viewState?.view === GerritView.ADMIN;
-}
-
-function isGroupView(viewState?: ViewState): viewState is GroupViewState {
-  return viewState?.view === GerritView.GROUP;
-}
-
-function isRepoView(viewState?: ViewState): viewState is RepoViewState {
-  return viewState?.view === GerritView.REPO;
-}
-
-function getDetailView(
-  state: ViewState
-): GroupDetailView | RepoDetailView | undefined {
-  if (state.view !== GerritView.ADMIN) {
-    return state.detail;
-  }
-  return undefined;
-}
-
 @customElement('gr-admin-view')
 export class GrAdminView extends LitElement {
   private account?: AccountDetailInfo;
 
-  @property({type: Object})
-  viewState?: ViewState;
+  @state()
+  view?: GerritView;
 
-  @property({type: String})
-  adminView?: string;
+  @state()
+  adminViewState?: AdminViewState;
+
+  @state()
+  groupViewState?: GroupViewState;
+
+  @state()
+  repoViewState?: RepoViewState;
 
   @state() private breadcrumbParentName?: string;
 
@@ -138,18 +120,39 @@ export class GrAdminView extends LitElement {
 
   private readonly getRepoViewModel = resolve(this, repoViewModelToken);
 
+  private readonly routerModel = getAppContext().routerModel;
+
   constructor() {
     super();
     subscribe(
       this,
-      () =>
-        merge(
-          this.getAdminViewModel().state$,
-          this.getGroupViewModel().state$,
-          this.getRepoViewModel().state$
-        ),
-      x => {
-        this.viewState = x;
+      () => this.getAdminViewModel().state$,
+      state => {
+        this.adminViewState = state;
+        if (this.needsReload()) this.reload();
+      }
+    );
+    subscribe(
+      this,
+      () => this.getGroupViewModel().state$,
+      state => {
+        this.groupViewState = state;
+        if (this.needsReload()) this.reload();
+      }
+    );
+    subscribe(
+      this,
+      () => this.getRepoViewModel().state$,
+      state => {
+        this.repoViewState = state;
+        if (this.needsReload()) this.reload();
+      }
+    );
+    subscribe(
+      this,
+      () => this.routerModel.routerView$,
+      view => {
+        this.view = view;
         if (this.needsReload()) this.reload();
       }
     );
@@ -196,6 +199,7 @@ export class GrAdminView extends LitElement {
   }
 
   override render() {
+    if (!this.isAdminView()) return nothing;
     return html`
       <gr-page-nav class="navStyles">
         <ul class="sectionContent">
@@ -290,62 +294,67 @@ export class GrAdminView extends LitElement {
   }
 
   private renderRepoList() {
-    if (!isAdminView(this.viewState)) return nothing;
-    if (this.viewState.adminView !== AdminChildView.REPOS) return nothing;
+    if (this.view !== GerritView.ADMIN) return nothing;
+    if (this.adminViewState?.adminView !== AdminChildView.REPOS) return nothing;
 
     return html`
       <div class="main table">
-        <gr-repo-list class="table" .params=${this.viewState}></gr-repo-list>
+        <gr-repo-list
+          class="table"
+          .params=${this.adminViewState}
+        ></gr-repo-list>
       </div>
     `;
   }
 
   private renderGroupList() {
-    if (!isAdminView(this.viewState)) return nothing;
-    if (this.viewState.adminView !== AdminChildView.GROUPS) return nothing;
+    if (this.view !== GerritView.ADMIN) return nothing;
+    if (this.adminViewState?.adminView !== AdminChildView.GROUPS)
+      return nothing;
 
     return html`
       <div class="main table">
-        <gr-admin-group-list class="table" .params=${this.viewState}>
+        <gr-admin-group-list class="table" .params=${this.adminViewState}>
         </gr-admin-group-list>
       </div>
     `;
   }
 
   private renderPluginList() {
-    if (!isAdminView(this.viewState)) return nothing;
-    if (this.viewState.adminView !== AdminChildView.PLUGINS) return nothing;
+    if (this.view !== GerritView.ADMIN) return nothing;
+    if (this.adminViewState?.adminView !== AdminChildView.PLUGINS)
+      return nothing;
 
     return html`
       <div class="main table">
         <gr-plugin-list
           class="table"
-          .params=${this.viewState}
+          .params=${this.adminViewState}
         ></gr-plugin-list>
       </div>
     `;
   }
 
   private renderRepoMain() {
-    if (!isRepoView(this.viewState)) return nothing;
-    const detail = this.viewState.detail ?? RepoDetailView.GENERAL;
+    if (this.view !== GerritView.REPO) return nothing;
+    const detail = this.repoViewState?.detail ?? RepoDetailView.GENERAL;
     if (detail !== RepoDetailView.GENERAL) return nothing;
 
     return html`
       <div class="main breadcrumbs">
-        <gr-repo .repo=${this.viewState.repo}></gr-repo>
+        <gr-repo .repo=${this.repoViewState?.repo}></gr-repo>
       </div>
     `;
   }
 
   private renderGroup() {
-    if (!isGroupView(this.viewState)) return nothing;
-    if (this.viewState.detail !== undefined) return nothing;
+    if (this.view !== GerritView.GROUP) return nothing;
+    if (this.groupViewState?.detail !== undefined) return nothing;
 
     return html`
       <div class="main breadcrumbs">
         <gr-group
-          .groupId=${this.viewState.groupId}
+          .groupId=${this.groupViewState?.groupId}
           @name-changed=${(e: CustomEvent<GroupNameChangedDetail>) => {
             this.updateGroupName(e);
           }}
@@ -355,33 +364,35 @@ export class GrAdminView extends LitElement {
   }
 
   private renderGroupMembers() {
-    if (!isGroupView(this.viewState)) return nothing;
-    if (this.viewState.detail !== GroupDetailView.MEMBERS) return nothing;
+    if (this.view !== GerritView.GROUP) return nothing;
+    if (this.groupViewState?.detail !== GroupDetailView.MEMBERS) return nothing;
 
     return html`
       <div class="main breadcrumbs">
-        <gr-group-members .groupId=${this.viewState.groupId}></gr-group-members>
+        <gr-group-members
+          .groupId=${this.groupViewState?.groupId}
+        ></gr-group-members>
       </div>
     `;
   }
 
   private renderGroupAuditLog() {
-    if (!isGroupView(this.viewState)) return nothing;
-    if (this.viewState.detail !== GroupDetailView.LOG) return nothing;
+    if (this.view !== GerritView.GROUP) return nothing;
+    if (this.groupViewState?.detail !== GroupDetailView.LOG) return nothing;
 
     return html`
       <div class="main table breadcrumbs">
         <gr-group-audit-log
           class="table"
-          .groupId=${this.viewState.groupId}
+          .groupId=${this.groupViewState?.groupId}
         ></gr-group-audit-log>
       </div>
     `;
   }
 
   private renderRepoDetailList() {
-    if (!isRepoView(this.viewState)) return nothing;
-    const detail = this.viewState.detail;
+    if (this.view !== GerritView.REPO) return nothing;
+    const detail = this.repoViewState?.detail;
     if (detail !== RepoDetailView.BRANCHES && detail !== RepoDetailView.TAGS) {
       return nothing;
     }
@@ -390,41 +401,44 @@ export class GrAdminView extends LitElement {
       <div class="main table breadcrumbs">
         <gr-repo-detail-list
           class="table"
-          .params=${this.viewState}
+          .params=${this.repoViewState}
         ></gr-repo-detail-list>
       </div>
     `;
   }
 
   private renderRepoCommands() {
-    if (!isRepoView(this.viewState)) return nothing;
-    if (this.viewState.detail !== RepoDetailView.COMMANDS) return nothing;
+    if (this.view !== GerritView.REPO) return nothing;
+    if (this.repoViewState?.detail !== RepoDetailView.COMMANDS) return nothing;
 
     return html`
       <div class="main breadcrumbs">
-        <gr-repo-commands .repo=${this.viewState.repo}></gr-repo-commands>
+        <gr-repo-commands .repo=${this.repoViewState.repo}></gr-repo-commands>
       </div>
     `;
   }
 
   private renderRepoAccess() {
-    if (!isRepoView(this.viewState)) return nothing;
-    if (this.viewState.detail !== RepoDetailView.ACCESS) return nothing;
+    if (this.view !== GerritView.REPO) return nothing;
+    if (this.repoViewState?.detail !== RepoDetailView.ACCESS) return nothing;
 
     return html`
       <div class="main breadcrumbs">
-        <gr-repo-access .repo=${this.viewState.repo}></gr-repo-access>
+        <gr-repo-access .repo=${this.repoViewState.repo}></gr-repo-access>
       </div>
     `;
   }
 
   private renderRepoDashboards() {
-    if (!isRepoView(this.viewState)) return nothing;
-    if (this.viewState.detail !== RepoDetailView.DASHBOARDS) return nothing;
+    if (this.view !== GerritView.REPO) return nothing;
+    if (this.repoViewState?.detail !== RepoDetailView.DASHBOARDS)
+      return nothing;
 
     return html`
       <div class="main table breadcrumbs">
-        <gr-repo-dashboards .repo=${this.viewState.repo}></gr-repo-dashboards>
+        <gr-repo-dashboards
+          .repo=${this.repoViewState.repo}
+        ></gr-repo-dashboards>
       </div>
     `;
   }
@@ -500,19 +514,24 @@ export class GrAdminView extends LitElement {
     }
   }
 
+  private getDetailView() {
+    if (this.view === GerritView.REPO) return this.repoViewState?.detail;
+    if (this.view === GerritView.GROUP) return this.groupViewState?.detail;
+    return undefined;
+  }
+
   private computeSelectValue() {
-    if (!this.viewState?.view) return;
-    return `${this.viewState.view}${getDetailView(this.viewState) ?? ''}`;
+    return `${this.view}${this.getDetailView() ?? ''}`;
   }
 
   // private but used in test
   selectedIsCurrentPage(selected: AdminSubsectionLink) {
-    if (!this.viewState) return false;
+    if (!this.view) return false;
 
     return (
       selected.parent === (this.repoName ?? this.groupId) &&
-      selected.view === this.viewState.view &&
-      selected.detailType === getDetailView(this.viewState)
+      selected.view === this.view &&
+      selected.detailType === this.getDetailView()
     );
   }
 
@@ -533,21 +552,27 @@ export class GrAdminView extends LitElement {
     GerritNav.navigateToRelativeUrl(selected.url);
   }
 
+  isAdminView(): boolean {
+    return (
+      this.view === GerritView.ADMIN ||
+      this.view === GerritView.GROUP ||
+      this.view === GerritView.REPO
+    );
+  }
+
   needsReload(): boolean {
-    if (!this.viewState) return false;
+    if (!this.isAdminView()) return false;
 
     let needsReload = false;
     const newRepoName =
-      this.viewState.view === GerritView.REPO ? this.viewState.repo : undefined;
+      this.view === GerritView.REPO ? this.repoViewState?.repo : undefined;
     if (newRepoName !== this.repoName) {
       this.repoName = newRepoName;
       // Reloads the admin menu.
       needsReload = true;
     }
     const newGroupId =
-      this.viewState.view === GerritView.GROUP
-        ? this.viewState.groupId
-        : undefined;
+      this.view === GerritView.GROUP ? this.groupViewState?.groupId : undefined;
     if (newGroupId !== this.groupId) {
       this.groupId = newGroupId;
       // Reloads the admin menu.
@@ -555,8 +580,8 @@ export class GrAdminView extends LitElement {
     }
     if (
       this.breadcrumbParentName &&
-      (this.viewState.view !== GerritView.GROUP || !this.viewState.groupId) &&
-      (this.viewState.view !== GerritView.REPO || !this.viewState.repo)
+      (this.view !== GerritView.GROUP || !this.groupViewState?.groupId) &&
+      (this.view !== GerritView.REPO || !this.repoViewState?.repo)
     ) {
       needsReload = true;
     }
@@ -578,32 +603,31 @@ export class GrAdminView extends LitElement {
     itemView?: GerritView | AdminChildView,
     detailType?: GroupDetailView | RepoDetailView
   ) {
-    const viewState = this.viewState;
-    if (!viewState) return '';
+    if (!this.view) return '';
     // Group view state is structured differently than admin view state. Compute
     // selected differently for groups.
     // TODO(wyatta): Simplify this when all routes work like group view state.
-    if (viewState.view === GerritView.GROUP && itemView === GerritView.GROUP) {
-      if (!viewState.detail && !detailType) {
+    if (this.view === GerritView.GROUP && itemView === GerritView.GROUP) {
+      if (!this.groupViewState?.detail && !detailType) {
         return 'selected';
       }
-      if (viewState.detail === detailType) {
+      if (this.groupViewState?.detail === detailType) {
         return 'selected';
       }
       return '';
     }
 
-    if (viewState.view === GerritView.REPO && itemView === GerritView.REPO) {
-      if (!viewState.detail && !detailType) {
+    if (this.view === GerritView.REPO && itemView === GerritView.REPO) {
+      if (!this.repoViewState?.detail && !detailType) {
         return 'selected';
       }
-      if (viewState.detail === detailType) {
+      if (this.repoViewState?.detail === detailType) {
         return 'selected';
       }
       return '';
     }
-    return viewState.view === GerritView.ADMIN &&
-      itemView === viewState.adminView
+    return this.view === GerritView.ADMIN &&
+      itemView === this.adminViewState?.adminView
       ? 'selected'
       : '';
   }

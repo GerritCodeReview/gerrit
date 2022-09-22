@@ -5,10 +5,10 @@
  */
 import '../../../test/common-test-setup';
 import './gr-apply-fix-dialog';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {GrApplyFixDialog} from './gr-apply-fix-dialog';
-import {BasePatchSetNum, EDIT, PatchSetNum} from '../../../types/common';
+import {PatchSetNum} from '../../../types/common';
 import {
   createFixSuggestionInfo,
   createParsedChange,
@@ -24,9 +24,12 @@ import {
 } from '../../../types/events';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {fixture, html, assert} from '@open-wc/testing';
+import {SinonStub} from 'sinon';
+import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-apply-fix-dialog tests', () => {
   let element: GrApplyFixDialog;
+  let setUrlStub: SinonStub;
 
   const TWO_FIXES: OpenFixPreviewEventDetail = {
     patchNum: 2 as PatchSetNum,
@@ -58,6 +61,7 @@ suite('gr-apply-fix-dialog tests', () => {
   }
 
   setup(async () => {
+    setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
     element = await fixture<GrApplyFixDialog>(
       html`<gr-apply-fix-dialog></gr-apply-fix-dialog>`
     );
@@ -238,7 +242,6 @@ suite('gr-apply-fix-dialog tests', () => {
     const applyRobotFixSuggestionStub = stubRestApi(
       'applyRobotFixSuggestion'
     ).returns(Promise.resolve(new Response(null, {status: 200})));
-    const navigateToChangeStub = sinon.stub(GerritNav, 'navigateToChange');
     element.currentFix = createFixSuggestionInfo('123');
 
     const closeFixPreviewEventSpy = sinon.spy();
@@ -247,6 +250,7 @@ suite('gr-apply-fix-dialog tests', () => {
       EventType.CLOSE_FIX_PREVIEW,
       closeFixPreviewEventSpy
     );
+
     await element.handleApplyFix(new CustomEvent('confirm'));
 
     sinon.assert.calledOnceWithExactly(
@@ -255,10 +259,8 @@ suite('gr-apply-fix-dialog tests', () => {
       2 as PatchSetNum,
       '123'
     );
-    sinon.assert.calledWithExactly(navigateToChangeStub, element.change!, {
-      patchNum: EDIT,
-      basePatchNum: element.change!.revisions[2]._number as BasePatchSetNum,
-    });
+    assert.isTrue(setUrlStub.called);
+    assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/2..edit');
 
     sinon.assert.calledOnceWithExactly(
       closeFixPreviewEventSpy,
@@ -268,7 +270,6 @@ suite('gr-apply-fix-dialog tests', () => {
         },
       })
     );
-
     // reset gr-apply-fix-dialog and close
     assert.equal(element.currentFix, undefined);
     assert.equal(element.currentPreviews.length, 0);
@@ -278,18 +279,17 @@ suite('gr-apply-fix-dialog tests', () => {
     const applyRobotFixSuggestionStub = stubRestApi(
       'applyRobotFixSuggestion'
     ).returns(Promise.resolve(new Response(null, {status: 500})));
-    const navigateToChangeStub = sinon.stub(GerritNav, 'navigateToChange');
     element.currentFix = createFixSuggestionInfo('fix_123');
 
     await element.handleApplyFix(new CustomEvent('confirm'));
+
     sinon.assert.calledWithExactly(
       applyRobotFixSuggestionStub,
       element.change!._number,
       2 as PatchSetNum,
       'fix_123'
     );
-    assert.isTrue(navigateToChangeStub.notCalled);
-
+    assert.isFalse(setUrlStub.called);
     assert.equal(element.isApplyFixLoading, false);
   });
 
@@ -307,7 +307,6 @@ suite('gr-apply-fix-dialog tests', () => {
     stubRestApi('applyRobotFixSuggestion').returns(
       Promise.reject(new Error('backend error'))
     );
-    const navigateToChangeStub = sinon.stub(GerritNav, 'navigateToChange');
     element.currentFix = createFixSuggestionInfo('fix_123');
 
     const closeFixPreviewEventSpy = sinon.spy();
@@ -322,7 +321,7 @@ suite('gr-apply-fix-dialog tests', () => {
       expectedError = e;
     });
     assert.isOk(expectedError);
-    assert.isFalse(navigateToChangeStub.called);
+    assert.isFalse(setUrlStub.called);
     sinon.assert.notCalled(closeFixPreviewEventSpy);
   });
 

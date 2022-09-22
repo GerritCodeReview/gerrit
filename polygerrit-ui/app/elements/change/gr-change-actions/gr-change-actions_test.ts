@@ -5,10 +5,7 @@
  */
 import '../../../test/common-test-setup';
 import './gr-change-actions';
-import {
-  GerritNav,
-  navigationToken,
-} from '../../core/gr-navigation/gr-navigation';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {
   createAccountWithId,
@@ -2460,7 +2457,6 @@ suite('gr-change-actions tests', () => {
           sendStub = stubRestApi('executeChangeAction').returns(
             Promise.resolve(new Response())
           );
-          sinon.stub(GerritNav, 'navigateToChange');
         });
 
         test('change action', async () => {

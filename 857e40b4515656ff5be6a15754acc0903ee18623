@@ -80,6 +80,24 @@
       "parentUuid": "8c1a41de_c27b4b7b",
       "revId": "857e40b4515656ff5be6a15754acc0903ee18623",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d02d25e4_58d393d5",
+        "filename": "java/com/google/gerrit/index/query/AndPredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-09-22T16:13:31Z",
+      "side": 1,
+      "message": "Agreed",
+      "parentUuid": "20c78cf7_e5a9249e",
+      "revId": "857e40b4515656ff5be6a15754acc0903ee18623",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

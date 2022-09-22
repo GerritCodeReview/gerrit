@@ -19,10 +19,7 @@ import {
 } from '../../../constants/constants';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {_testOnly_resetEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
-import {
-  GerritNav,
-  navigationToken,
-} from '../../core/gr-navigation/gr-navigation';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {EventType, PluginApi} from '../../../api/plugin';
 import {
@@ -797,20 +794,16 @@ suite('gr-change-view tests', () => {
     });
 
     test('U should navigate to root if no backPage set', () => {
-      const relativeNavStub = sinon.stub(GerritNav, 'navigateToRelativeUrl');
       pressKey(element, 'u');
-      assert.isTrue(relativeNavStub.called);
-      assert.isTrue(relativeNavStub.lastCall.calledWithExactly(rootUrl()));
+      assert.isTrue(setUrlStub.called);
+      assert.isTrue(setUrlStub.lastCall.calledWithExactly(rootUrl()));
     });
 
     test('U should navigate to backPage if set', () => {
-      const relativeNavStub = sinon.stub(GerritNav, 'navigateToRelativeUrl');
       element.backPage = '/dashboard/self';
       pressKey(element, 'u');
-      assert.isTrue(relativeNavStub.called);
-      assert.isTrue(
-        relativeNavStub.lastCall.calledWithExactly('/dashboard/self')
-      );
+      assert.isTrue(setUrlStub.called);
+      assert.isTrue(setUrlStub.lastCall.calledWithExactly('/dashboard/self'));
     });
 
     test('A fires an error event when not logged in', async () => {
@@ -2114,10 +2107,6 @@ suite('gr-change-view tests', () => {
     const openDeleteDialogStub = sinon.stub(controls, 'openDeleteDialog');
     const openRenameDialogStub = sinon.stub(controls, 'openRenameDialog');
     const openRestoreDialogStub = sinon.stub(controls, 'openRestoreDialog');
-    const navigateToRelativeUrlStub = sinon.stub(
-      GerritNav,
-      'navigateToRelativeUrl'
-    );
 
     // Delete
     fileList.dispatchEvent(
@@ -2168,7 +2157,7 @@ suite('gr-change-view tests', () => {
     );
     await element.updateComplete;
 
-    assert.isTrue(navigateToRelativeUrlStub.called);
+    assert.isTrue(setUrlStub.called);
   });
 
   test('selectedRevision updates when patchNum is changed', async () => {

@@ -10,7 +10,7 @@ import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-dropdown/gr-dropdown';
 import '../../shared/gr-overlay/gr-overlay';
 import {GrEditAction, GrEditConstants} from '../gr-edit-constants';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {ChangeInfo, RevisionPatchSetNum} from '../../../types/common';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {
@@ -32,6 +32,7 @@ import {BindValueChangeEvent} from '../../../types/events';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {IronInputElement} from '@polymer/iron-input/iron-input';
 import {createEditUrl} from '../../../models/views/edit';
+import {resolve} from '../../../models/dependency';
 
 @customElement('gr-edit-controls')
 export class GrEditControls extends LitElement {
@@ -74,6 +75,8 @@ export class GrEditControls extends LitElement {
     this.queryFiles(input);
 
   private readonly restApiService = getAppContext().restApiService;
+
+  private readonly getNavigation = resolve(this, navigationToken);
 
   static override get styles() {
     return [
@@ -431,7 +434,7 @@ export class GrEditControls extends LitElement {
       patchNum: this.patchNum,
     });
 
-    GerritNav.navigateToRelativeUrl(url);
+    this.getNavigation().setUrl(url);
     this.closeDialog(this.getDialogFromEvent(e));
   };
 

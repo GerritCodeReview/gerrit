@@ -6,7 +6,6 @@
 // TODO(dmfilippov): remove bundled-polymer.js imports when the following issue
 // https://github.com/Polymer/polymer-resin/issues/9 is resolved.
 import '../scripts/bundled-polymer';
-import './test-router';
 import {AppContext, injectAppContext} from '../services/app-context';
 import {Finalizable} from '../services/registry';
 import {

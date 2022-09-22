@@ -7,7 +7,7 @@ import '../../../test/common-test-setup';
 import '../../shared/gr-date-formatter/gr-date-formatter';
 import './gr-file-list';
 import {FilesExpandedState} from '../gr-file-list-constants';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
   mockPromise,
   query,
@@ -55,6 +55,7 @@ import {GrEditFileControls} from '../../edit/gr-edit-file-controls/gr-edit-file-
 import {GrIcon} from '../../shared/gr-icon/gr-icon';
 import {fixture, html, assert} from '@open-wc/testing';
 import {Modifier} from '../../../utils/dom-util';
+import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-diff a11y test', () => {
   test('audit', async () => {
@@ -928,7 +929,10 @@ suite('gr-file-list tests', () => {
           basePatchNum: PARENT,
           patchNum: 2 as RevisionPatchSetNum,
         };
-        element.change = {_number: 42 as NumericChangeId} as ParsedChangeInfo;
+        element.change = {
+          _number: 42 as NumericChangeId,
+          project: 'test-project',
+        } as ParsedChangeInfo;
         element.fileCursor.setCursorAtIndex(0);
         await element.updateComplete;
         await waitEventLoop();
@@ -966,7 +970,7 @@ suite('gr-file-list tests', () => {
         assert.equal(element.selectedIndex, 1);
         pressKey(element, 'j');
 
-        const navStub = sinon.stub(GerritNav, 'navigateToDiff');
+        const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
         assert.equal(element.fileCursor.index, 2);
         assert.equal(element.selectedIndex, 2);
 
@@ -983,13 +987,10 @@ suite('gr-file-list tests', () => {
         assert.equal(element.selectedIndex, 1);
         pressKey(element, 'o');
 
-        assert(
-          navStub.lastCall.calledWith(
-            element.change,
-            'file_added_in_rev2.txt',
-            2 as RevisionPatchSetNum
-          ),
-          'Should navigate to /c/42/2/file_added_in_rev2.txt'
+        assert.equal(setUrlStub.callCount, 1);
+        assert.equal(
+          setUrlStub.lastCall.firstArg,
+          '/c/test-project/+/42/2/file_added_in_rev2.txt'
         );
 
         pressKey(element, 'k');
@@ -2241,16 +2242,16 @@ suite('gr-file-list tests', () => {
       const files = element.files;
       element.files = [];
       await element.updateComplete;
-      const navStub = sinon.stub(GerritNav, 'navigateToDiff');
+      const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
       // Noop when there are no files.
       element.openSelectedFile();
-      assert.isFalse(navStub.called);
+      assert.isFalse(setUrlStub.calledOnce);
 
       element.files = files;
       await element.updateComplete;
       // Navigates when a file is selected.
       element.openSelectedFile();
-      assert.isTrue(navStub.called);
+      assert.isTrue(setUrlStub.calledOnce);
     });
 
     test('displayLine', () => {

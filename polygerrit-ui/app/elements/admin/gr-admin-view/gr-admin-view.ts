@@ -18,7 +18,7 @@ import '../gr-repo-dashboards/gr-repo-dashboards';
 import '../gr-repo-detail-list/gr-repo-detail-list';
 import '../gr-repo-list/gr-repo-list';
 import {getBaseUrl} from '../../../utils/url-util';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {
   AdminNavLinksOption,
@@ -121,6 +121,8 @@ export class GrAdminView extends LitElement {
   private readonly getRepoViewModel = resolve(this, repoViewModelToken);
 
   private readonly routerModel = getAppContext().routerModel;
+
+  private readonly getNavigation = resolve(this, navigationToken);
 
   constructor() {
     super();
@@ -549,7 +551,7 @@ export class GrAdminView extends LitElement {
     if (this.selectedIsCurrentPage(selected)) return;
     if (selected.url === undefined) return;
     if (this.reloading) return;
-    GerritNav.navigateToRelativeUrl(selected.url);
+    this.getNavigation().setUrl(selected.url);
   }
 
   isAdminView(): boolean {

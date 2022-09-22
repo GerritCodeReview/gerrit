@@ -5,10 +5,7 @@
  */
 import '../../../test/common-test-setup';
 import './gr-diff-view';
-import {
-  GerritNav,
-  navigationToken,
-} from '../../core/gr-navigation/gr-navigation';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
   ChangeStatus,
   DiffViewMode,
@@ -72,7 +69,6 @@ import {fixture, html, assert} from '@open-wc/testing';
 import {EventType} from '../../../types/events';
 import {Key} from '../../../utils/dom-util';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {createEditUrl} from '../../../models/views/edit';
 import {testResolver} from '../../../test/common-test-setup';
 
 function createComment(
@@ -268,8 +264,7 @@ suite('gr-diff-view tests', () => {
       });
     });
 
-    test('unchanged diff X vs latest from comment links navigates to base vs X', () => {
-      const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
+    test('unchanged diff X vs latest from comment links navigates to base vs X', async () => {
       element.getCommentsModel().setState({
         comments: {
           '/COMMIT_MSG': [
@@ -307,21 +302,15 @@ suite('gr-diff-view tests', () => {
         ...createParsedChange(),
         revisions: createRevisions(11),
       };
-      return viewStateChangedSpy.returnValues[0]?.then(() => {
-        assert.isTrue(
-          diffNavStub.lastCall.calledWithExactly(
-            element.change!,
-            '/COMMIT_MSG',
-            2 as RevisionPatchSetNum,
-            PARENT,
-            10
-          )
-        );
-      });
+      await viewStateChangedSpy.returnValues[0];
+      assert.isTrue(setUrlStub.calledOnce);
+      assert.equal(
+        setUrlStub.lastCall.firstArg,
+        '/c/test-project/+/42/2//COMMIT_MSG#10'
+      );
     });
 
-    test('unchanged diff Base vs latest from comment does not navigate', () => {
-      const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
+    test('unchanged diff Base vs latest from comment does not navigate', async () => {
       element.getCommentsModel().setState({
         comments: {
           '/COMMIT_MSG': [
@@ -359,9 +348,8 @@ suite('gr-diff-view tests', () => {
         ...createParsedChange(),
         revisions: createRevisions(11),
       };
-      return viewStateChangedSpy.returnValues[0]!.then(() => {
-        assert.isFalse(diffNavStub.called);
-      });
+      await viewStateChangedSpy.returnValues[0];
+      assert.isFalse(setUrlStub.calledOnce);
     });
 
     test('isFileUnchanged', () => {
@@ -655,23 +643,18 @@ suite('gr-diff-view tests', () => {
       element.path = 'glados.txt';
       element.loggedIn = true;
       await element.updateComplete;
-
-      const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
+      setUrlStub.reset();
 
       pressKey(element, 'u');
-      assert.isTrue(setUrlStub.calledOnce);
+      assert.equal(setUrlStub.callCount, 1);
       assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42');
       await element.updateComplete;
 
       pressKey(element, ']');
-      assert(
-        diffNavStub.lastCall.calledWith(
-          element.change,
-          'wheatley.md',
-          10 as RevisionPatchSetNum,
-          PARENT
-        ),
-        'Should navigate to /c/42/10/wheatley.md'
+      assert.equal(setUrlStub.callCount, 2);
+      assert.equal(
+        setUrlStub.lastCall.firstArg,
+        '/c/test-project/+/42/10/wheatley.md'
       );
       element.path = 'wheatley.md';
       await element.updateComplete;
@@ -679,14 +662,10 @@ suite('gr-diff-view tests', () => {
       assert.isTrue(element.loading);
 
       pressKey(element, '[');
-      assert(
-        diffNavStub.lastCall.calledWith(
-          element.change,
-          'glados.txt',
-          10 as RevisionPatchSetNum,
-          PARENT
-        ),
-        'Should navigate to /c/42/10/glados.txt'
+      assert.equal(setUrlStub.callCount, 3);
+      assert.equal(
+        setUrlStub.lastCall.firstArg,
+        '/c/test-project/+/42/10/glados.txt'
       );
       element.path = 'glados.txt';
       await element.updateComplete;
@@ -694,14 +673,10 @@ suite('gr-diff-view tests', () => {
       assert.isTrue(element.loading);
 
       pressKey(element, '[');
-      assert(
-        diffNavStub.lastCall.calledWith(
-          element.change,
-          'chell.go',
-          10 as RevisionPatchSetNum,
-          PARENT
-        ),
-        'Should navigate to /c/42/10/chell.go'
+      assert.equal(setUrlStub.callCount, 4);
+      assert.equal(
+        setUrlStub.lastCall.firstArg,
+        '/c/test-project/+/42/10/chell.go'
       );
       element.path = 'chell.go';
       await element.updateComplete;
@@ -709,7 +684,7 @@ suite('gr-diff-view tests', () => {
       assert.isTrue(element.loading);
 
       pressKey(element, '[');
-      assert.isTrue(setUrlStub.calledTwice);
+      assert.equal(setUrlStub.callCount, 5);
       assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42');
       await element.updateComplete;
       assert.isTrue(element.loading);
@@ -790,7 +765,6 @@ suite('gr-diff-view tests', () => {
     });
 
     test('moveToNextCommentThread navigates to next file', async () => {
-      const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       assertIsDefined(element.cursor);
       sinon.stub(element.cursor, 'isAtEnd').returns(true);
       element.changeNum = 42 as NumericChangeId;
@@ -816,17 +790,15 @@ suite('gr-diff-view tests', () => {
       ]);
       element.path = 'glados.txt';
       element.loggedIn = true;
+      await element.updateComplete;
+      setUrlStub.reset();
 
       pressKey(element, 'N');
       await element.updateComplete;
-      assert.isTrue(
-        diffNavStub.calledWithExactly(
-          element.change,
-          'wheatley.md',
-          10 as RevisionPatchSetNum,
-          PARENT,
-          21
-        )
+      assert.equal(setUrlStub.callCount, 1);
+      assert.equal(
+        setUrlStub.lastCall.firstArg,
+        '/c/test-project/+/42/10/wheatley.md#21'
       );
 
       element.path = 'wheatley.md'; // navigated to next file
@@ -834,7 +806,8 @@ suite('gr-diff-view tests', () => {
       pressKey(element, 'N');
       await element.updateComplete;
 
-      assert.isTrue(setUrlStub.calledOnce);
+      assert.equal(setUrlStub.callCount, 2);
+      assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42');
     });
 
     test('shift+x shortcut toggles all diff context', async () => {
@@ -851,11 +824,11 @@ suite('gr-diff-view tests', () => {
         patchNum: 10 as RevisionPatchSetNum,
       };
       await element.updateComplete;
-      const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       element.handleDiffAgainstBase();
-      const args = diffNavStub.getCall(0).args;
-      assert.equal(args[2], 10 as RevisionPatchSetNum);
-      assert.isNotOk(args[3]);
+      assert.equal(
+        setUrlStub.lastCall.firstArg,
+        '/c/test-project/+/42/10/some/path.txt'
+      );
     });
 
     test('diff against latest', async () => {
@@ -869,11 +842,11 @@ suite('gr-diff-view tests', () => {
         patchNum: 10 as RevisionPatchSetNum,
       };
       await element.updateComplete;
-      const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       element.handleDiffAgainstLatest();
-      const args = diffNavStub.getCall(0).args;
-      assert.equal(args[2], 12 as RevisionPatchSetNum);
-      assert.equal(args[3], 5 as BasePatchSetNum);
+      assert.equal(
+        setUrlStub.lastCall.firstArg,
+        '/c/test-project/+/42/5..12/foo'
+      );
     });
 
     test('handleDiffBaseAgainstLeft', async () => {
@@ -894,13 +867,8 @@ suite('gr-diff-view tests', () => {
         path: 'foo',
       };
       await element.updateComplete;
-      const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       element.handleDiffBaseAgainstLeft();
-      assert(diffNavStub.called);
-      const args = diffNavStub.getCall(0).args;
-      assert.equal(args[2], 1 as RevisionPatchSetNum);
-      assert.equal(args[3], PARENT);
-      assert.isNotOk(args[4]);
+      assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/1/foo');
     });
 
     test('handleDiffBaseAgainstLeft when initially navigating to a comment', () => {
@@ -919,13 +887,11 @@ suite('gr-diff-view tests', () => {
         changeNum: 42 as NumericChangeId,
       };
       element.focusLineNum = 10;
-      const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       element.handleDiffBaseAgainstLeft();
-      assert(diffNavStub.called);
-      const args = diffNavStub.getCall(0).args;
-      assert.equal(args[2], 1 as RevisionPatchSetNum);
-      assert.equal(args[3], PARENT);
-      assert.equal(args[4], 10);
+      assert.equal(
+        setUrlStub.lastCall.firstArg,
+        '/c/test-project/+/42/1/some/path.txt#10'
+      );
     });
 
     test('handleDiffRightAgainstLatest', async () => {
@@ -939,12 +905,11 @@ suite('gr-diff-view tests', () => {
         patchNum: 3 as RevisionPatchSetNum,
       };
       await element.updateComplete;
-      const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       element.handleDiffRightAgainstLatest();
-      assert(diffNavStub.called);
-      const args = diffNavStub.getCall(0).args;
-      assert.equal(args[2], 10 as RevisionPatchSetNum);
-      assert.equal(args[3], 3 as BasePatchSetNum);
+      assert.equal(
+        setUrlStub.lastCall.firstArg,
+        '/c/test-project/+/42/3..10/foo'
+      );
     });
 
     test('handleDiffBaseAgainstLatest', async () => {
@@ -957,12 +922,11 @@ suite('gr-diff-view tests', () => {
         patchNum: 3 as RevisionPatchSetNum,
       };
       await element.updateComplete;
-      const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       element.handleDiffBaseAgainstLatest();
-      assert(diffNavStub.called);
-      const args = diffNavStub.getCall(0).args;
-      assert.equal(args[2], 10 as RevisionPatchSetNum);
-      assert.isNotOk(args[3]);
+      assert.equal(
+        setUrlStub.lastCall.firstArg,
+        '/c/test-project/+/42/10/some/path.txt'
+      );
     });
 
     test('A fires an error event when not logged in', async () => {
@@ -990,11 +954,15 @@ suite('gr-diff-view tests', () => {
         },
       };
       element.loggedIn = true;
+      await element.updateComplete;
       const loggedInErrorSpy = sinon.spy();
       element.addEventListener('show-auth-required', loggedInErrorSpy);
+      setUrlStub.reset();
+
       pressKey(element, 'a');
+
       await element.updateComplete;
-      assert.isTrue(setUrlStub.calledOnce);
+      assert.equal(setUrlStub.callCount, 1);
       assert.equal(
         setUrlStub.lastCall.firstArg,
         '/c/test-project/+/42/5..10?openReplyDialog=true'
@@ -1050,57 +1018,40 @@ suite('gr-diff-view tests', () => {
       ]);
       element.path = 'glados.txt';
 
-      const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
-
       pressKey(element, 'u');
-      assert.isTrue(setUrlStub.calledOnce);
+      assert.equal(setUrlStub.callCount, 1);
       assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/5..10');
 
       pressKey(element, ']');
       assert.isTrue(element.loading);
-      assert(
-        diffNavStub.lastCall.calledWithExactly(
-          element.change,
-          'wheatley.md',
-          10 as RevisionPatchSetNum,
-          5 as BasePatchSetNum,
-          undefined
-        ),
-        'Should navigate to /c/42/5..10/wheatley.md'
+      assert.equal(setUrlStub.callCount, 2);
+      assert.equal(
+        setUrlStub.lastCall.firstArg,
+        '/c/test-project/+/42/5..10/wheatley.md'
       );
       element.path = 'wheatley.md';
 
       pressKey(element, '[');
       assert.isTrue(element.loading);
-      assert(
-        diffNavStub.lastCall.calledWithExactly(
-          element.change,
-          'glados.txt',
-          10 as RevisionPatchSetNum,
-          5 as BasePatchSetNum,
-          undefined
-        ),
-        'Should navigate to /c/42/5..10/glados.txt'
+      assert.equal(setUrlStub.callCount, 3);
+      assert.equal(
+        setUrlStub.lastCall.firstArg,
+        '/c/test-project/+/42/5..10/glados.txt'
       );
       element.path = 'glados.txt';
 
       pressKey(element, '[');
       assert.isTrue(element.loading);
-      assert(
-        diffNavStub.lastCall.calledWithExactly(
-          element.change,
-          'chell.go',
-          10 as RevisionPatchSetNum,
-          5 as BasePatchSetNum,
-          undefined
-        ),
-        'Should navigate to /c/42/5..10/chell.go'
+      assert.equal(setUrlStub.callCount, 4);
+      assert.equal(
+        setUrlStub.lastCall.firstArg,
+        '/c/test-project/+/42/5..10/chell.go'
       );
       element.path = 'chell.go';
 
       pressKey(element, '[');
       assert.isTrue(element.loading);
-      assert.isTrue(setUrlStub.calledTwice);
+      assert.equal(setUrlStub.callCount, 5);
       assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/5..10');
 
       assertIsDefined(element.downloadOverlay);
@@ -1132,48 +1083,28 @@ suite('gr-diff-view tests', () => {
       ]);
       element.path = 'glados.txt';
 
-      const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
-
       pressKey(element, 'u');
       assert.isTrue(setUrlStub.calledOnce);
       assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/1');
 
       pressKey(element, ']');
-      assert(
-        diffNavStub.lastCall.calledWithExactly(
-          element.change,
-          'wheatley.md',
-          1 as RevisionPatchSetNum,
-          PARENT,
-          undefined
-        ),
-        'Should navigate to /c/42/1/wheatley.md'
+      assert.equal(
+        setUrlStub.lastCall.firstArg,
+        '/c/test-project/+/42/1/wheatley.md'
       );
       element.path = 'wheatley.md';
 
       pressKey(element, '[');
-      assert(
-        diffNavStub.lastCall.calledWithExactly(
-          element.change,
-          'glados.txt',
-          1 as RevisionPatchSetNum,
-          PARENT,
-          undefined
-        ),
-        'Should navigate to /c/42/1/glados.txt'
+      assert.equal(
+        setUrlStub.lastCall.firstArg,
+        '/c/test-project/+/42/1/glados.txt'
       );
       element.path = 'glados.txt';
 
       pressKey(element, '[');
-      assert(
-        diffNavStub.lastCall.calledWithExactly(
-          element.change,
-          'chell.go',
-          1 as RevisionPatchSetNum,
-          PARENT,
-          undefined
-        ),
-        'Should navigate to /c/42/1/chell.go'
+      assert.equal(
+        setUrlStub.lastCall.firstArg,
+        '/c/test-project/+/42/1/chell.go'
       );
       element.path = 'chell.go';
 
@@ -1200,7 +1131,6 @@ suite('gr-diff-view tests', () => {
           b: createRevision(2),
         },
       };
-      const redirectStub = sinon.stub(GerritNav, 'navigateToRelativeUrl');
       await element.updateComplete;
       const editBtn = queryAndAssert<GrButton>(
         element,
@@ -1208,17 +1138,8 @@ suite('gr-diff-view tests', () => {
       );
       assert.isTrue(!!editBtn);
       editBtn.click();
-      assert.isTrue(redirectStub.called);
-      assert.isTrue(
-        redirectStub.lastCall.calledWithExactly(
-          createEditUrl({
-            changeNum: element.change._number,
-            project: element.change.project,
-            path: element.path,
-            patchNum: element.patchRange.patchNum,
-          })
-        )
-      );
+      assert.equal(setUrlStub.callCount, 1);
+      assert.equal(setUrlStub.lastCall.firstArg, '/c/gerrit/+/42/1/t.txt,edit');
     });
 
     test('edit should redirect to edit page with line number', async () => {
@@ -1243,7 +1164,6 @@ suite('gr-diff-view tests', () => {
       sinon
         .stub(element.cursor, 'getAddress')
         .returns({number: lineNumber, leftSide: false});
-      const redirectStub = sinon.stub(GerritNav, 'navigateToRelativeUrl');
       await element.updateComplete;
       const editBtn = queryAndAssert<GrButton>(
         element,
@@ -1251,17 +1171,10 @@ suite('gr-diff-view tests', () => {
       );
       assert.isTrue(!!editBtn);
       editBtn.click();
-      assert.isTrue(redirectStub.called);
-      assert.isTrue(
-        redirectStub.lastCall.calledWithExactly(
-          createEditUrl({
-            changeNum: element.change._number,
-            project: element.change.project,
-            path: element.path,
-            patchNum: element.patchRange.patchNum,
-            lineNum: lineNumber,
-          })
-        )
+      assert.equal(setUrlStub.callCount, 1);
+      assert.equal(
+        setUrlStub.lastCall.firstArg,
+        '/c/gerrit/+/42/1/t.txt,edit#42'
       );
     });
 
@@ -1582,8 +1495,7 @@ suite('gr-diff-view tests', () => {
       });
     });
 
-    test('handlePatchChange calls navigateToDiff correctly', async () => {
-      const navigateStub = sinon.stub(GerritNav, 'navigateToDiff');
+    test('handlePatchChange calls setUrl correctly', async () => {
       element.change = {
         ...createParsedChange(),
         _number: 321 as NumericChangeId,
@@ -1606,13 +1518,9 @@ suite('gr-diff-view tests', () => {
         new CustomEvent('patch-range-change', {detail, bubbles: false})
       );
 
-      assert(
-        navigateStub.lastCall.calledWithExactly(
-          element.change,
-          element.path,
-          1 as RevisionPatchSetNum,
-          PARENT
-        )
+      assert.equal(
+        setUrlStub.lastCall.firstArg,
+        '/c/foo/bar/+/321/1/path/to/file.txt'
       );
     });
 
@@ -2126,11 +2034,9 @@ suite('gr-diff-view tests', () => {
 
       suite('skip next/previous', () => {
         let navToChangeStub: SinonStub;
-        let navToDiffStub: SinonStub;
 
         setup(() => {
           navToChangeStub = sinon.stub(element, 'navToChangeView');
-          navToDiffStub = sinon.stub(GerritNav, 'navigateToDiff');
           element.files = getFilesFromFileList([
             'path/one.jpg',
             'path/two.m4v',
@@ -2146,7 +2052,7 @@ suite('gr-diff-view tests', () => {
           test('no skips', () => {
             element.moveToPreviousFileWithComment();
             assert.isFalse(navToChangeStub.called);
-            assert.isFalse(navToDiffStub.called);
+            assert.isFalse(setUrlStub.called);
           });
 
           test('no previous', async () => {
@@ -2160,7 +2066,7 @@ suite('gr-diff-view tests', () => {
 
             element.moveToPreviousFileWithComment();
             assert.isTrue(navToChangeStub.calledOnce);
-            assert.isFalse(navToDiffStub.called);
+            assert.isFalse(setUrlStub.called);
           });
 
           test('w/ previous', async () => {
@@ -2174,7 +2080,7 @@ suite('gr-diff-view tests', () => {
 
             element.moveToPreviousFileWithComment();
             assert.isFalse(navToChangeStub.called);
-            assert.isTrue(navToDiffStub.calledOnce);
+            assert.isTrue(setUrlStub.calledOnce);
           });
         });
 
@@ -2182,7 +2088,7 @@ suite('gr-diff-view tests', () => {
           test('no skips', () => {
             element.moveToNextFileWithComment();
             assert.isFalse(navToChangeStub.called);
-            assert.isFalse(navToDiffStub.called);
+            assert.isFalse(setUrlStub.called);
           });
 
           test('no previous', async () => {
@@ -2196,7 +2102,7 @@ suite('gr-diff-view tests', () => {
 
             element.moveToNextFileWithComment();
             assert.isTrue(navToChangeStub.calledOnce);
-            assert.isFalse(navToDiffStub.called);
+            assert.isFalse(setUrlStub.called);
           });
 
           test('w/ previous', async () => {
@@ -2210,7 +2116,7 @@ suite('gr-diff-view tests', () => {
 
             element.moveToNextFileWithComment();
             assert.isFalse(navToChangeStub.called);
-            assert.isTrue(navToDiffStub.calledOnce);
+            assert.isTrue(setUrlStub.calledOnce);
           });
         });
       });
@@ -2452,10 +2358,9 @@ suite('gr-diff-view tests', () => {
       assert.deepEqual(navStub.lastCall.args, [['file1', 'file3'], 1]);
     });
 
-    test('File change should trigger navigateToDiff once', async () => {
+    test('File change should trigger setUrl once', async () => {
       element.files = getFilesFromFileList(['file1', 'file2', 'file3']);
       sinon.stub(element, 'initLineOfInterestAndCursor');
-      const navigateToDiffStub = sinon.stub(GerritNav, 'navigateToDiff');
 
       // Load file1
       element.viewState = {
@@ -2474,13 +2379,13 @@ suite('gr-diff-view tests', () => {
         revisions: createRevisions(1),
       };
       await element.updateComplete;
-      assert.isTrue(navigateToDiffStub.notCalled);
+      assert.isFalse(setUrlStub.called);
 
       // Switch to file2
       element.handleFileChange(
         new CustomEvent('value-change', {detail: {value: 'file2'}})
       );
-      assert.isTrue(navigateToDiffStub.calledOnce);
+      assert.isTrue(setUrlStub.calledOnce);
 
       // This is to mock the param change triggered by above navigate
       element.viewState = {
@@ -2496,7 +2401,7 @@ suite('gr-diff-view tests', () => {
       };
 
       // No extra call
-      assert.isTrue(navigateToDiffStub.calledOnce);
+      assert.isTrue(setUrlStub.calledOnce);
     });
 
     test('_computeDownloadDropdownLinks', () => {

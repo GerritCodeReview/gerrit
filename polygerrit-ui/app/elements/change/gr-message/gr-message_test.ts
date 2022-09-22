@@ -5,7 +5,7 @@
  */
 import '../../../test/common-test-setup';
 import './gr-message';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
   createAccountWithIdNameAndEmail,
   createChange,
@@ -25,11 +25,9 @@ import {
 import {GrMessage} from './gr-message';
 import {
   AccountId,
-  BasePatchSetNum,
   ChangeMessageId,
   EmailAddress,
   NumericChangeId,
-  PARENT,
   RevisionPatchSetNum,
   ReviewInputTag,
   Timestamp,
@@ -41,9 +39,10 @@ import {
 } from '../../../types/events';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {CommentSide} from '../../../constants/constants';
-import {SinonStubbedMember} from 'sinon';
+import {SinonStub} from 'sinon';
 import {html} from 'lit';
 import {fixture, assert} from '@open-wc/testing';
+import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-message tests', () => {
   let element: GrMessage;
@@ -424,10 +423,10 @@ suite('gr-message tests', () => {
     });
 
     suite('uploaded patchset X message navigates to X - 1 vs  X', () => {
-      let navStub: SinonStubbedMember<typeof GerritNav.navigateToChange>;
+      let setUrlStub: SinonStub;
       setup(() => {
         element.change = {...createChange(), revisions: createRevisions(4)};
-        navStub = sinon.stub(GerritNav, 'navigateToChange');
+        setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
       });
 
       test('Patchset 1 navigates to Base', () => {
@@ -436,12 +435,9 @@ suite('gr-message tests', () => {
           message: 'Uploaded patch set 1.',
         };
         element.handleViewPatchsetDiff(new MouseEvent('click'));
-        assert.isTrue(
-          navStub.calledWithExactly(element.change!, {
-            patchNum: 1 as RevisionPatchSetNum,
-            basePatchNum: PARENT,
-          })
-        );
+
+        assert.isTrue(setUrlStub.calledOnce);
+        assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/1');
       });
 
       test('Patchset X navigates to X vs X - 1', () => {
@@ -450,23 +446,20 @@ suite('gr-message tests', () => {
           message: 'Uploaded patch set 2.',
         };
         element.handleViewPatchsetDiff(new MouseEvent('click'));
-        assert.isTrue(
-          navStub.calledWithExactly(element.change!, {
-            patchNum: 2 as RevisionPatchSetNum,
-            basePatchNum: 1 as BasePatchSetNum,
-          })
-        );
+
+        assert.isTrue(setUrlStub.calledOnce);
+        assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/1..2');
 
         element.message = {
           ...createChangeMessage(),
           message: 'Uploaded patch set 200.',
         };
         element.handleViewPatchsetDiff(new MouseEvent('click'));
-        assert.isTrue(
-          navStub.calledWithExactly(element.change!, {
-            patchNum: 200 as RevisionPatchSetNum,
-            basePatchNum: 199 as BasePatchSetNum,
-          })
+
+        assert.isTrue(setUrlStub.calledTwice);
+        assert.equal(
+          setUrlStub.lastCall.firstArg,
+          '/c/test-project/+/42/199..200'
         );
       });
 
@@ -476,12 +469,9 @@ suite('gr-message tests', () => {
           message: 'Commit message updated.',
         };
         element.handleViewPatchsetDiff(new MouseEvent('click'));
-        assert.isTrue(
-          navStub.calledWithExactly(element.change!, {
-            patchNum: 4 as RevisionPatchSetNum,
-            basePatchNum: 3 as BasePatchSetNum,
-          })
-        );
+
+        assert.isTrue(setUrlStub.calledOnce);
+        assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/3..4');
       });
 
       test('Merged patchset change message', () => {
@@ -490,12 +480,9 @@ suite('gr-message tests', () => {
           message: 'abcd↵3 is the latest approved patch-set.↵abc',
         };
         element.handleViewPatchsetDiff(new MouseEvent('click'));
-        assert.isTrue(
-          navStub.calledWithExactly(element.change!, {
-            patchNum: 4 as RevisionPatchSetNum,
-            basePatchNum: 3 as BasePatchSetNum,
-          })
-        );
+
+        assert.isTrue(setUrlStub.calledOnce);
+        assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/3..4');
       });
     });
 

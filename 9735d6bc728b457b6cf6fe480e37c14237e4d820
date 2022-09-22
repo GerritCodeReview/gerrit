@@ -16,6 +16,23 @@
       "message": "I\u0027m curious why this preference is needed. Do we continue to prompt even if the user has denied this perm in the browser?",
       "revId": "9735d6bc728b457b6cf6fe480e37c14237e4d820",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b3ebc0a_63a31fd5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-22T10:58:46Z",
+      "side": 1,
+      "message": "What about making this a 3-state setting? ON, OFF, UNDECIDED\n\nThen you could show a prompt \"Do you want notifications?\" while the setting is UNDECIDED, but stop showing it, if the user has chosen OFF.",
+      "revId": "9735d6bc728b457b6cf6fe480e37c14237e4d820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

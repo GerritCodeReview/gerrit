@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "92de1bff_a8aa5c23",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-22T10:53:16Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "db073798_3d17c1fa",
+      "range": {
+        "startLine": 257,
+        "startChar": 1,
+        "endLine": 257,
+        "endChar": 44
+      },
+      "revId": "4339f2a8e3398e74ee0c6373a47dc8f104138606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4967461b_23c51dc2",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-09-21T18:41:57Z",
       "side": 1,
       "message": "Is this still needed?",
+      "range": {
+        "startLine": 499,
+        "startChar": 3,
+        "endLine": 513,
+        "endChar": 7
+      },
+      "revId": "4339f2a8e3398e74ee0c6373a47dc8f104138606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ef2a1be_b16c5f7c",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-22T10:53:16Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "4967461b_23c51dc2",
       "range": {
         "startLine": 499,
         "startChar": 3,

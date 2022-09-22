@@ -340,7 +340,7 @@ The above example will thus be applied as "This is a rebase on master!"
 To avoid confusion in parsing the git ref, at least the following characters
 must be percent-encoded: " %^@.~-+_:/!". Note that some of the reserved
 characters (like tilde) are not escaped in the standard URL encoding rules,
-so a language-provided function (e.g. encodeURIComponent(), in javascript)
+so a language-provided function (e.g. encodeURIComponent(), in JavaScript)
 might not suffice. To be safest, you might consider percent-encoding all
 non-alphanumeric characters (and all multibyte UTF-8 code points).
 

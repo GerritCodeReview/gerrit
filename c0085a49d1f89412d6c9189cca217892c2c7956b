@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e3cc75fc_4ff244d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-22T04:15:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48507fd0_a930bfb0",
+      "revId": "c0085a49d1f89412d6c9189cca217892c2c7956b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ee926562_ae6e7fd0",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -49,6 +67,24 @@
       "side": 1,
       "message": "Yep, and that\u0027s a blocker for JGit 6.0+ on stable-3.4, so I think this change is stuck. I\u0027ll move it to stable-3.5 and rebase there.\n\nFor stable-3.4 I just uploaded https://gerrit-review.googlesource.com/c/gerrit/+/346495 Bump JGit to latest stable-5.13 (035e0e23f), but that won\u0027t fix the Issues mentioned in this commit message.",
       "parentUuid": "ee926562_ae6e7fd0",
+      "revId": "c0085a49d1f89412d6c9189cca217892c2c7956b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cd76811_286163c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-22T04:15:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cfb167e7_2c7ce8ae",
       "revId": "c0085a49d1f89412d6c9189cca217892c2c7956b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

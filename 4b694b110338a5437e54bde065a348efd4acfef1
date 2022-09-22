@@ -16,6 +16,24 @@
       "message": "Please add a Release-Notes footer to satisfy our release notes submit requirement:\n\nRelease-Notes: skip",
       "revId": "4b694b110338a5437e54bde065a348efd4acfef1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1981ea3b_e9bc1cad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1007145
+      },
+      "writtenOn": "2022-09-22T10:06:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb234803_51ccb93c",
+      "revId": "4b694b110338a5437e54bde065a348efd4acfef1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

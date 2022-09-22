@@ -6,7 +6,6 @@
 import '../../../test/common-test-setup';
 import './gr-router';
 import {page, PageContext} from '../../../utils/page-wrapper-utils';
-import {GerritNav} from '../gr-navigation/gr-navigation';
 import {
   stubBaseUrl,
   stubRestApi,
@@ -104,7 +103,6 @@ suite('gr-router tests', () => {
 
     const requiresAuth: any = {};
     const doesNotRequireAuth: any = {};
-    sinon.stub(GerritNav, 'setup');
     sinon.stub(page, 'start');
     sinon.stub(page, 'base');
     sinon
@@ -368,7 +366,6 @@ suite('gr-router tests', () => {
         onExit = _onExit;
       };
       sinon.stub(page, 'exit').callsFake(onRegisteringExit);
-      sinon.stub(GerritNav, 'setup');
       sinon.stub(page, 'start');
       sinon.stub(page, 'base');
       router.startRouter();

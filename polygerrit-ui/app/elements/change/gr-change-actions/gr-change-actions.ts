@@ -18,10 +18,7 @@ import '../gr-confirm-rebase-dialog/gr-confirm-rebase-dialog';
 import '../gr-confirm-revert-dialog/gr-confirm-revert-dialog';
 import '../gr-confirm-submit-dialog/gr-confirm-submit-dialog';
 import '../../../styles/shared-styles';
-import {
-  GerritNav,
-  navigationToken,
-} from '../../core/gr-navigation/gr-navigation';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {getAppContext} from '../../../services/app-context';
 import {CURRENT} from '../../../utils/patch-set-util';
@@ -1863,7 +1860,7 @@ export class GrChangeActions
         }
         case ChangeActions.DELETE:
           if (action.__type === ActionType.CHANGE) {
-            GerritNav.navigateToRelativeUrl(rootUrl());
+            this.getNavigation().setUrl(rootUrl());
           }
           break;
         case ChangeActions.WIP:

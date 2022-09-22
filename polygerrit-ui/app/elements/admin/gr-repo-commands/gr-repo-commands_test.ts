@@ -6,7 +6,6 @@
 import '../../../test/common-test-setup';
 import './gr-repo-commands';
 import {GrRepoCommands} from './gr-repo-commands';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {
   addListenerForTest,
   mockPromise,
@@ -150,7 +149,6 @@ suite('gr-repo-commands tests', () => {
 
     setup(() => {
       createChangeStub = stubRestApi('createChange');
-      sinon.stub(GerritNav, 'navigateToRelativeUrl');
       handleSpy = sinon.spy(element, 'handleEditRepoConfig');
       alertStub = sinon.stub();
       element.repo = 'test' as RepoName;

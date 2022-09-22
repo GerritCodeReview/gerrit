@@ -10,7 +10,7 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-overlay/gr-overlay';
 import '../gr-create-change-dialog/gr-create-change-dialog';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
   BranchName,
   ConfigInfo,
@@ -34,6 +34,7 @@ import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, query, property, state} from 'lit/decorators.js';
 import {assertIsDefined} from '../../../utils/common-util';
 import {createEditUrl} from '../../../models/views/edit';
+import {resolve} from '../../../models/dependency';
 
 const GC_MESSAGE = 'Garbage collection completed successfully.';
 const CONFIG_BRANCH = 'refs/meta/config' as BranchName;
@@ -73,6 +74,8 @@ export class GrRepoCommands extends LitElement {
   @state() private runningGC = false;
 
   private readonly restApiService = getAppContext().restApiService;
+
+  private readonly getNavigation = resolve(this, navigationToken);
 
   override connectedCallback() {
     super.connectedCallback();
@@ -284,7 +287,7 @@ export class GrRepoCommands extends LitElement {
           return;
         }
 
-        GerritNav.navigateToRelativeUrl(
+        this.getNavigation().setUrl(
           createEditUrl({
             changeNum: change._number,
             project: change.project,

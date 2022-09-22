@@ -6,7 +6,6 @@
 import '../../../test/common-test-setup';
 import './gr-admin-view';
 import {AdminSubsectionLink, GrAdminView} from './gr-admin-view';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {stubBaseUrl, stubElement, stubRestApi} from '../../../test/test-utils';
 import {GerritView} from '../../../services/router/router-model';
@@ -19,6 +18,8 @@ import {fixture, html, assert} from '@open-wc/testing';
 import {AdminChildView} from '../../../models/views/admin';
 import {GroupDetailView} from '../../../models/views/group';
 import {RepoDetailView} from '../../../models/views/repo';
+import {testResolver} from '../../../test/common-test-setup';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 
 function createAdminCapabilities() {
   return {
@@ -456,10 +457,7 @@ suite('gr-admin-view tests', () => {
         parent: 'my-repo' as RepoName,
       },
     ];
-    const navigateToRelativeUrlStub = sinon.stub(
-      GerritNav,
-      'navigateToRelativeUrl'
-    );
+    const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
     const selectedIsCurrentPageSpy = sinon.spy(
       element,
       'selectedIsCurrentPage'
@@ -475,14 +473,14 @@ suite('gr-admin-view tests', () => {
     );
     assert.equal(selectedIsCurrentPageSpy.callCount, 1);
     // Doesn't trigger navigation from the page select menu.
-    assert.isFalse(navigateToRelativeUrlStub.called);
+    assert.isFalse(setUrlStub.called);
 
     // When explicitly changed, navigation is called
     queryAndAssert<GrDropdownList>(element, '#pageSelect').value =
       'repogeneral';
     await queryAndAssert<GrDropdownList>(element, '#pageSelect').updateComplete;
     assert.equal(selectedIsCurrentPageSpy.callCount, 2);
-    assert.isTrue(navigateToRelativeUrlStub.calledOnce);
+    assert.isTrue(setUrlStub.calledOnce);
   });
 
   test('selectedIsCurrentPage', () => {

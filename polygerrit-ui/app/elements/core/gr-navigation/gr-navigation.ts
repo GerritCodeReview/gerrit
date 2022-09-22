@@ -3,13 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {
-  BasePatchSetNum,
-  ChangeInfo,
-  RevisionPatchSetNum,
-} from '../../../types/common';
-import {ParsedChangeInfo} from '../../../types/types';
-import {createDiffUrl} from '../../../models/views/diff';
 import {define} from '../../../models/dependency';
 
 const uninitialized = () => {
@@ -65,28 +58,6 @@ export const GerritNav = {
 
   destroy() {
     this._navigate = uninitializedNavigate;
-  },
-
-  /**
-   * @param basePatchNum The string PARENT can be used for none.
-   */
-  navigateToDiff(
-    change: ChangeInfo | ParsedChangeInfo,
-    filePath: string,
-    patchNum?: RevisionPatchSetNum,
-    basePatchNum?: BasePatchSetNum,
-    lineNum?: number
-  ) {
-    this._navigate(
-      createDiffUrl({
-        changeNum: change._number,
-        project: change.project,
-        path: filePath,
-        patchNum,
-        basePatchNum,
-        lineNum,
-      })
-    );
   },
 
   /**

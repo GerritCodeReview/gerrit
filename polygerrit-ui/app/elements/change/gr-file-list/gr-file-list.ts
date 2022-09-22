@@ -21,10 +21,7 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {asyncForeach} from '../../../utils/async-util';
 import {FilesExpandedState} from '../gr-file-list-constants';
 import {diffFilePaths, pluralize} from '../../../utils/string-util';
-import {
-  GerritNav,
-  navigationToken,
-} from '../../core/gr-navigation/gr-navigation';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {getAppContext} from '../../../services/app-context';
@@ -2046,11 +2043,13 @@ export class GrFileList extends LitElement {
     if (!this.change || !diff || !this.patchRange || !diff.path) {
       throw new Error('change, diff and patchRange must be all set and valid');
     }
-    GerritNav.navigateToDiff(
-      this.change,
-      diff.path,
-      this.patchRange.patchNum,
-      this.patchRange.basePatchNum
+    this.getNavigation().setUrl(
+      createDiffUrl({
+        change: this.change,
+        path: diff.path,
+        patchNum: this.patchRange.patchNum,
+        basePatchNum: this.patchRange.basePatchNum,
+      })
     );
   }
 
@@ -2065,11 +2064,13 @@ export class GrFileList extends LitElement {
     if (!this.change || !this.patchRange) {
       throw new Error('change and patchRange must be set');
     }
-    GerritNav.navigateToDiff(
-      this.change,
-      this.files[this.fileCursor.index].__path,
-      this.patchRange.patchNum,
-      this.patchRange.basePatchNum
+    this.getNavigation().setUrl(
+      createDiffUrl({
+        change: this.change,
+        path: this.files[this.fileCursor.index].__path,
+        patchNum: this.patchRange.patchNum,
+        basePatchNum: this.patchRange.basePatchNum,
+      })
     );
   }
 

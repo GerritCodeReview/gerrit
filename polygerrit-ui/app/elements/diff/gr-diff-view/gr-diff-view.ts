@@ -1163,11 +1163,13 @@ export class GrDiffView extends LitElement {
       return;
     }
 
-    GerritNav.navigateToDiff(
-      this.change,
-      this.commentSkips.previous,
-      this.patchRange.patchNum,
-      this.patchRange.basePatchNum
+    this.getNavigation().setUrl(
+      createDiffUrl({
+        change: this.change,
+        path: this.commentSkips.previous,
+        patchNum: this.patchRange.patchNum,
+        basePatchNum: this.patchRange.basePatchNum,
+      })
     );
   }
 
@@ -1183,11 +1185,13 @@ export class GrDiffView extends LitElement {
       return;
     }
 
-    GerritNav.navigateToDiff(
-      this.change,
-      this.commentSkips.next,
-      this.patchRange.patchNum,
-      this.patchRange.basePatchNum
+    this.getNavigation().setUrl(
+      createDiffUrl({
+        change: this.change,
+        path: this.commentSkips.next,
+        patchNum: this.patchRange.patchNum,
+        basePatchNum: this.patchRange.basePatchNum,
+      })
     );
   }
 
@@ -1362,12 +1366,14 @@ export class GrDiffView extends LitElement {
         newPath.path,
         this.patchRange
       )?.[0].line;
-    GerritNav.navigateToDiff(
-      this.change,
-      newPath.path,
-      this.patchRange.patchNum,
-      this.patchRange.basePatchNum,
-      lineNum
+    this.getNavigation().setUrl(
+      createDiffUrl({
+        change: this.change,
+        path: newPath.path,
+        patchNum: this.patchRange.patchNum,
+        basePatchNum: this.patchRange.basePatchNum,
+        lineNum,
+      })
     );
   }
 
@@ -1712,12 +1718,14 @@ export class GrDiffView extends LitElement {
                   ${this.patchRange.patchNum}. Showing diff of Base vs
                   ${this.patchRange.basePatchNum}`
           );
-          GerritNav.navigateToDiff(
-            this.change,
-            this.path,
-            this.patchRange.basePatchNum as RevisionPatchSetNum,
-            PARENT,
-            this.focusLineNum
+          this.getNavigation().setUrl(
+            createDiffUrl({
+              change: this.change,
+              path: this.path,
+              patchNum: this.patchRange.basePatchNum as RevisionPatchSetNum,
+              basePatchNum: PARENT,
+              lineNum: this.focusLineNum,
+            })
           );
           return;
         }
@@ -1884,11 +1892,13 @@ export class GrDiffView extends LitElement {
       return;
     }
 
-    GerritNav.navigateToDiff(
-      this.change,
-      path,
-      this.patchRange.patchNum,
-      this.patchRange.basePatchNum
+    this.getNavigation().setUrl(
+      createDiffUrl({
+        change: this.change,
+        path,
+        patchNum: this.patchRange.patchNum,
+        basePatchNum: this.patchRange.basePatchNum,
+      })
     );
   }
 
@@ -1905,7 +1915,14 @@ export class GrDiffView extends LitElement {
     ) {
       return;
     }
-    GerritNav.navigateToDiff(this.change, this.path, patchNum, basePatchNum);
+    this.getNavigation().setUrl(
+      createDiffUrl({
+        change: this.change,
+        path: this.path,
+        patchNum,
+        basePatchNum,
+      })
+    );
   }
 
   // Private but used in tests.
@@ -2111,7 +2128,13 @@ export class GrDiffView extends LitElement {
       fireAlert(this, 'Base is already selected.');
       return;
     }
-    GerritNav.navigateToDiff(this.change, this.path, this.patchRange.patchNum);
+    this.getNavigation().setUrl(
+      createDiffUrl({
+        change: this.change,
+        path: this.path,
+        patchNum: this.patchRange.patchNum,
+      })
+    );
   }
 
   // Private but used in tests.
@@ -2124,14 +2147,18 @@ export class GrDiffView extends LitElement {
       fireAlert(this, 'Left is already base.');
       return;
     }
-    GerritNav.navigateToDiff(
-      this.change,
-      this.path,
-      this.patchRange.basePatchNum as RevisionPatchSetNum,
-      PARENT,
+    const lineNum =
       this.viewState?.view === GerritView.DIFF && this.viewState?.commentLink
         ? this.focusLineNum
-        : undefined
+        : undefined;
+    this.getNavigation().setUrl(
+      createDiffUrl({
+        change: this.change,
+        path: this.path,
+        patchNum: this.patchRange.basePatchNum as RevisionPatchSetNum,
+        basePatchNum: PARENT,
+        lineNum,
+      })
     );
   }
 
@@ -2147,11 +2174,13 @@ export class GrDiffView extends LitElement {
       return;
     }
 
-    GerritNav.navigateToDiff(
-      this.change,
-      this.path,
-      latestPatchNum,
-      this.patchRange.basePatchNum
+    this.getNavigation().setUrl(
+      createDiffUrl({
+        change: this.change,
+        path: this.path,
+        patchNum: latestPatchNum,
+        basePatchNum: this.patchRange.basePatchNum,
+      })
     );
   }
 
@@ -2166,11 +2195,13 @@ export class GrDiffView extends LitElement {
       fireAlert(this, 'Right is already latest.');
       return;
     }
-    GerritNav.navigateToDiff(
-      this.change,
-      this.path,
-      latestPatchNum,
-      this.patchRange.patchNum as BasePatchSetNum
+    this.getNavigation().setUrl(
+      createDiffUrl({
+        change: this.change,
+        path: this.path,
+        patchNum: latestPatchNum,
+        basePatchNum: this.patchRange.patchNum as BasePatchSetNum,
+      })
     );
   }
 
@@ -2188,7 +2219,13 @@ export class GrDiffView extends LitElement {
       fireAlert(this, 'Already diffing base against latest.');
       return;
     }
-    GerritNav.navigateToDiff(this.change, this.path, latestPatchNum);
+    this.getNavigation().setUrl(
+      createDiffUrl({
+        change: this.change,
+        path: this.path,
+        patchNum: latestPatchNum,
+      })
+    );
   }
 
   // Private but used in tests.

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec370bc8_8dea41d6",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-22T12:24:04Z",
+      "side": 1,
+      "message": "We should probably figure out one standard way of presenting account with email.\n\nSee getAccountDisplayName as that also gets name and email.",
+      "revId": "93377537e90a8c28b253e28a442470340fbc1a7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

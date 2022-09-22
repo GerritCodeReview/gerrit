@@ -29,6 +29,7 @@ import {EventType, PageErrorEvent} from '../../../types/events';
 import {getAccountSuggestions} from '../../../utils/account-util';
 import {getAppContext} from '../../../services/app-context';
 import {fixture, html, assert} from '@open-wc/testing';
+import {createServerInfo} from '../../../test/test-data-generators';
 
 suite('gr-group-members tests', () => {
   let element: GrGroupMembers;
@@ -102,6 +103,7 @@ suite('gr-group-members tests', () => {
             name: 'test-account',
             email: 'test.account@example.com' as EmailAddress,
             username: 'test123',
+            display_name: 'display-test-account',
           },
           {
             _account_id: 1001439 as AccountId,
@@ -498,7 +500,8 @@ suite('gr-group-members tests', () => {
   test('getAccountSuggestions empty', async () => {
     const accounts = await getAccountSuggestions(
       'nonexistent',
-      getAppContext().restApiService
+      getAppContext().restApiService,
+      createServerInfo()
     );
     assert.equal(accounts.length, 0);
   });
@@ -506,10 +509,14 @@ suite('gr-group-members tests', () => {
   test('getAccountSuggestions non-empty', async () => {
     const accounts = await getAccountSuggestions(
       'test-',
-      getAppContext().restApiService
+      getAppContext().restApiService,
+      createServerInfo()
     );
     assert.equal(accounts.length, 3);
-    assert.equal(accounts[0].name, 'test-account <test.account@example.com>');
+    assert.equal(
+      accounts[0].name,
+      'display-test-account <test.account@example.com>'
+    );
     assert.equal(accounts[1].name, 'test-admin <test.admin@example.com>');
     assert.equal(accounts[2].name, 'test-git');
   });

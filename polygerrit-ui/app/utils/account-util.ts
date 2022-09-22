@@ -176,6 +176,7 @@ export function computeVoteableText(change: ChangeInfo, reviewer: AccountInfo) {
 export function getAccountSuggestions(
   input: string,
   restApiService: RestApiService,
+  config?: ServerInfo,
   canSee?: NumericChangeId,
   filterActive = false
 ) {
@@ -187,9 +188,11 @@ export function getAccountSuggestions(
       for (const account of accounts) {
         let nameAndEmail: string;
         if (account.email !== undefined) {
-          nameAndEmail = `${account.name ?? ''} <${account.email}>`;
+          nameAndEmail = `${getDisplayName(config, account) ?? ''} <${
+            account.email
+          }>`;
         } else {
-          nameAndEmail = account.name ?? '';
+          nameAndEmail = getDisplayName(config, account);
         }
         accountSuggestions.push({
           name: nameAndEmail,

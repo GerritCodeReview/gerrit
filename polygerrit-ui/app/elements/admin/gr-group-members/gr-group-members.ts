@@ -17,6 +17,7 @@ import {
   AccountInfo,
   GroupInfo,
   GroupName,
+  ServerInfo,
 } from '../../../types/common';
 import {
   AutocompleteQuery,
@@ -40,6 +41,9 @@ import {LitElement, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {getAccountSuggestions} from '../../../utils/account-util';
+import {subscribe} from '../../lit/subscription-controller';
+import {configModelToken} from '../../../models/config/config-model';
+import {resolve} from '../../../models/dependency';
 
 const SAVING_ERROR_TEXT =
   'Group may not exist, or you may not have ' + 'permission to add it';
@@ -101,10 +105,21 @@ export class GrGroupMembers extends LitElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
+  private readonly getConfigModel = resolve(this, configModelToken);
+
+  private serverConfig?: ServerInfo;
+
   constructor() {
     super();
+    subscribe(
+      this,
+      () => this.getConfigModel().serverConfig$,
+      config => {
+        this.serverConfig = config;
+      }
+    );
     this.queryMembers = input =>
-      getAccountSuggestions(input, this.restApiService);
+      getAccountSuggestions(input, this.restApiService, this.serverConfig);
     this.queryIncludedGroup = input => this.getGroupSuggestions(input);
   }
 

@@ -37,10 +37,7 @@ import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {pluralize} from '../../../utils/string-util';
 import {querySelectorAll, windowLocationReload} from '../../../utils/dom-util';
-import {
-  GerritNav,
-  navigationToken,
-} from '../../core/gr-navigation/gr-navigation';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
@@ -2619,7 +2616,7 @@ export class GrChangeView extends LitElement {
   private determinePageBack() {
     // Default backPage to root if user came to change view page
     // via an email link, etc.
-    GerritNav.navigateToRelativeUrl(this.backPage || rootUrl());
+    this.getNavigation().setUrl(this.backPage || rootUrl());
   }
 
   private handleLabelRemoved(
@@ -3232,7 +3229,7 @@ export class GrChangeView extends LitElement {
         break;
       case GrEditConstants.Actions.OPEN.id:
         assertIsDefined(this.patchRange.patchNum, 'patchset number');
-        GerritNav.navigateToRelativeUrl(
+        this.getNavigation().setUrl(
           createEditUrl({
             changeNum: this.change._number,
             project: this.change.project,

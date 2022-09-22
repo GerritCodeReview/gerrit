@@ -5,10 +5,7 @@
  */
 import '../../../test/common-test-setup';
 import './gr-diff-view';
-import {
-  GerritNav,
-  navigationToken,
-} from '../../core/gr-navigation/gr-navigation';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
   ChangeStatus,
   DiffViewMode,
@@ -1135,7 +1132,6 @@ suite('gr-diff-view tests', () => {
           b: createRevision(2),
         },
       };
-      const redirectStub = sinon.stub(GerritNav, 'navigateToRelativeUrl');
       await element.updateComplete;
       const editBtn = queryAndAssert<GrButton>(
         element,
@@ -1143,17 +1139,8 @@ suite('gr-diff-view tests', () => {
       );
       assert.isTrue(!!editBtn);
       editBtn.click();
-      assert.isTrue(redirectStub.called);
-      assert.isTrue(
-        redirectStub.lastCall.calledWithExactly(
-          createEditUrl({
-            changeNum: element.change._number,
-            project: element.change.project,
-            path: element.path,
-            patchNum: element.patchRange.patchNum,
-          })
-        )
-      );
+      assert.equal(setUrlStub.callCount, 1);
+      assert.equal(setUrlStub.lastCall.firstArg, '/c/gerrit/+/42/1/t.txt,edit');
     });
 
     test('edit should redirect to edit page with line number', async () => {
@@ -1178,7 +1165,6 @@ suite('gr-diff-view tests', () => {
       sinon
         .stub(element.cursor, 'getAddress')
         .returns({number: lineNumber, leftSide: false});
-      const redirectStub = sinon.stub(GerritNav, 'navigateToRelativeUrl');
       await element.updateComplete;
       const editBtn = queryAndAssert<GrButton>(
         element,
@@ -1186,17 +1172,10 @@ suite('gr-diff-view tests', () => {
       );
       assert.isTrue(!!editBtn);
       editBtn.click();
-      assert.isTrue(redirectStub.called);
-      assert.isTrue(
-        redirectStub.lastCall.calledWithExactly(
-          createEditUrl({
-            changeNum: element.change._number,
-            project: element.change.project,
-            path: element.path,
-            patchNum: element.patchRange.patchNum,
-            lineNum: lineNumber,
-          })
-        )
+      assert.equal(setUrlStub.callCount, 1);
+      assert.equal(
+        setUrlStub.lastCall.firstArg,
+        '/c/gerrit/+/42/1/t.txt,edit#42'
       );
     });
 

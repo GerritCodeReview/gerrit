@@ -6,7 +6,7 @@
 import '../../../test/common-test-setup';
 import './gr-edit-controls';
 import {GrEditControls} from './gr-edit-controls';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {queryAll, stubRestApi, waitUntil} from '../../../test/test-utils';
 import {createChange, createRevision} from '../../../test/test-data-generators';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
@@ -22,6 +22,7 @@ import {fixture, html, assert} from '@open-wc/testing';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import '../../shared/gr-dialog/gr-dialog';
 import {waitForEventOnce} from '../../../utils/event-util';
+import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-edit-controls tests', () => {
   let element: GrEditControls;
@@ -194,11 +195,11 @@ suite('gr-edit-controls tests', () => {
   });
 
   suite('edit button CUJ', () => {
-    let navStub: sinon.SinonStub;
+    let setUrlStub: sinon.SinonStub;
     let openAutoComplete: GrAutocomplete;
 
     setup(() => {
-      navStub = sinon.stub(GerritNav, 'navigateToRelativeUrl');
+      setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
       openAutoComplete = queryAndAssert<GrAutocomplete>(
         element.openDialog,
         'gr-autocomplete'
@@ -234,7 +235,7 @@ suite('gr-edit-controls tests', () => {
         'gr-button[primary]'
       ).click();
 
-      assert.isTrue(navStub.called);
+      assert.isTrue(setUrlStub.called);
       assert.isTrue(closeDialogSpy.called);
     });
 
@@ -247,7 +248,7 @@ suite('gr-edit-controls tests', () => {
         await element.updateComplete;
         await waitUntil(() => !element.openDialog!.disabled);
         queryAndAssert<GrButton>(element.openDialog, 'gr-button').click();
-        assert.isFalse(navStub.called);
+        assert.isFalse(setUrlStub.called);
         await waitUntil(() => closeDialogSpy.called);
         assert.equal(element.path, '');
       });

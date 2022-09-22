@@ -21,10 +21,7 @@ import '../gr-diff-preferences-dialog/gr-diff-preferences-dialog';
 import '../gr-patch-range-select/gr-patch-range-select';
 import '../../change/gr-download-dialog/gr-download-dialog';
 import '../../shared/gr-overlay/gr-overlay';
-import {
-  GerritNav,
-  navigationToken,
-} from '../../core/gr-navigation/gr-navigation';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {getAppContext} from '../../../services/app-context';
 import {
   computeAllPatchSets,
@@ -1413,7 +1410,7 @@ export class GrDiffView extends LitElement {
       patchNum: this.patchRange.patchNum,
       lineNum: cursorAddress?.number,
     });
-    GerritNav.navigateToRelativeUrl(editUrl);
+    this.getNavigation().setUrl(editUrl);
   }
 
   /**

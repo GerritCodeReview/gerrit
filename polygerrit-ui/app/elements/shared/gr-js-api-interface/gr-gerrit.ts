@@ -21,7 +21,6 @@ import {
   EventCallback,
   EventEmitterService,
 } from '../../../services/gr-event-interface/gr-event-interface';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {Gerrit} from '../../../api/gerrit';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {formStyles} from '../../../styles/gr-form-styles';
@@ -67,7 +66,6 @@ export interface GerritInternal extends EventEmitterService, Gerrit {
   _customStyleSheet?: CSSStyleSheet;
 
   // exposed methods
-  Nav: typeof GerritNav;
   Auth: AuthService;
 }
 
@@ -111,8 +109,6 @@ const fakeApi = {
  */
 class GerritImpl implements GerritInternal {
   _customStyleSheet?: CSSStyleSheet;
-
-  public readonly Nav = GerritNav;
 
   public readonly Auth: AuthService;
 

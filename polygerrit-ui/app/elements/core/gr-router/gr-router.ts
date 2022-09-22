@@ -8,7 +8,7 @@ import {
   PageContext,
   PageNextCallback,
 } from '../../../utils/page-wrapper-utils';
-import {GerritNav, NavigationService} from '../gr-navigation/gr-navigation';
+import {NavigationService} from '../gr-navigation/gr-navigation';
 import {getAppContext} from '../../../services/app-context';
 import {convertToPatchSetNum} from '../../../utils/patch-set-util';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -476,14 +476,6 @@ export class GrRouter implements Finalizable, NavigationService {
     if (base) {
       page.base(base);
     }
-
-    GerritNav.setup((url, redirect?) => {
-      if (redirect) {
-        page.redirect(url);
-      } else {
-        page.show(url);
-      }
-    });
 
     page.exit('*', (_, next) => {
       if (!this._isRedirecting) {

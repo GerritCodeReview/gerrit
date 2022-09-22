@@ -5,17 +5,6 @@
  */
 import {define} from '../../../models/dependency';
 
-const uninitialized = () => {
-  console.warn('Use of uninitialized routing');
-};
-
-const uninitializedNavigate: NavigateCallback = () => {
-  uninitialized();
-  return '';
-};
-
-export type NavigateCallback = (target: string, redirect?: boolean) => void;
-
 export const navigationToken = define<NavigationService>('navigation');
 
 export interface NavigationService {
@@ -38,35 +27,3 @@ export interface NavigationService {
    */
   replaceUrl(url: string): void;
 }
-
-// TODO(dmfilippov) Convert to class, extract consts, give better name and
-// expose as a service from appContext
-export const GerritNav = {
-  _navigate: uninitializedNavigate,
-
-  /**
-   * Setup router implementation.
-   *
-   * @param navigate the router-abstracted equivalent of
-   *     `window.location.href = ...` or window.location.replace(...). The
-   *     string is a new location and boolean defines is it redirect or not
-   *     (true means redirect, i.e. equivalent of window.location.replace).
-   */
-  setup(navigate: NavigateCallback) {
-    this._navigate = navigate;
-  },
-
-  destroy() {
-    this._navigate = uninitializedNavigate;
-  },
-
-  /**
-   * Navigate to an arbitrary relative URL.
-   */
-  navigateToRelativeUrl(relativeUrl: string) {
-    if (!relativeUrl.startsWith('/')) {
-      throw new Error('navigateToRelativeUrl with non-relative URL');
-    }
-    this._navigate(relativeUrl);
-  },
-};

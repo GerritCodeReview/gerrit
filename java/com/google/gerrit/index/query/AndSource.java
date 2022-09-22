@@ -15,7 +15,6 @@
 package com.google.gerrit.index.query;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
@@ -27,11 +26,9 @@ import com.google.gerrit.index.PaginationType;
 import com.google.gerrit.index.QueryOptions;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.List;
 
-public class AndSource<T> extends AndPredicate<T>
-    implements DataSource<T>, Comparator<Predicate<T>> {
+public class AndSource<T> extends AndPredicate<T> implements DataSource<T> {
   protected final DataSource<T> source;
 
   private final IsVisibleToPredicate<T> isVisibleToPredicate;
@@ -69,7 +66,7 @@ public class AndSource<T> extends AndPredicate<T>
     int c = Integer.MAX_VALUE;
     DataSource<T> s = null;
     int minCost = Integer.MAX_VALUE;
-    for (Predicate<T> p : sort(getChildren())) {
+    for (Predicate<T> p : getChildren()) {
       if (p instanceof DataSource) {
         c = Math.min(c, ((DataSource<?>) p).getCardinality());
 
@@ -182,28 +179,6 @@ public class AndSource<T> extends AndPredicate<T>
   @Override
   public int getCardinality() {
     return cardinality;
-  }
-
-  private ImmutableList<Predicate<T>> sort(Collection<? extends Predicate<T>> that) {
-    return that.stream().sorted(this).collect(toImmutableList());
-  }
-
-  @Override
-  public int compare(Predicate<T> a, Predicate<T> b) {
-    int ai = a instanceof DataSource ? 0 : 1;
-    int bi = b instanceof DataSource ? 0 : 1;
-    int cmp = ai - bi;
-
-    if (cmp == 0) {
-      cmp = a.estimateCost() - b.estimateCost();
-    }
-
-    if (cmp == 0 && a instanceof DataSource && b instanceof DataSource) {
-      DataSource<?> as = (DataSource<?>) a;
-      DataSource<?> bs = (DataSource<?>) b;
-      cmp = as.getCardinality() - bs.getCardinality();
-    }
-    return cmp;
   }
 
   @SuppressWarnings("unchecked")

@@ -186,7 +186,7 @@ public class ChangeIndexRewriterTest {
     Predicate<ChangeData> out = rewrite(in, options(0, 5));
     assertThat(out.getClass()).isEqualTo(AndChangeSource.class);
     assertThat(out.getChildren())
-        .containsExactly(query(in.getChild(1), 5), parse("limit:5"), parse("limit:5"))
+        .containsExactly(query(parse("file:a"), 5), parse("limit:5"), parse("limit:5"))
         .inOrder();
   }
 

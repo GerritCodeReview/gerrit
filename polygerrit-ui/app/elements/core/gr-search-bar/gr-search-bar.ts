@@ -21,7 +21,6 @@ import {
   query as queryDec,
 } from 'lit/decorators.js';
 import {Shortcut, ShortcutController} from '../../lit/shortcut-controller';
-import {query as queryUtil} from '../../../utils/common-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {configModelToken} from '../../../models/config/config-model';
 import {resolve} from '../../../models/dependency';
@@ -295,14 +294,6 @@ export class GrSearchBar extends LitElement {
    */
   private preventDefaultAndNavigateToInputVal(e: Event) {
     e.preventDefault();
-    const target = e.composedPath()[0] as HTMLElement;
-    // If the target is the #searchInput or has a sub-input component, that
-    // is what holds the focus as opposed to the target from the DOM event.
-    if (queryUtil(target, '#input')) {
-      queryUtil<HTMLElement>(target, '#input')!.blur();
-    } else {
-      target.blur();
-    }
     if (!this.inputVal) return;
     const trimmedInput = this.inputVal.trim();
     if (trimmedInput) {

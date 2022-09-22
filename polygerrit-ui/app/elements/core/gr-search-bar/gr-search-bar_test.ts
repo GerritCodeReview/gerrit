@@ -134,26 +134,6 @@ suite('gr-search-bar tests', () => {
     await promise;
   });
 
-  test('input blurred after commit', async () => {
-    const blurSpy = sinon.spy(
-      queryAndAssert<PaperInputElement>(
-        queryAndAssert<GrAutocomplete>(element, '#searchInput'),
-        '#input'
-      ),
-      'blur'
-    );
-    queryAndAssert<GrAutocomplete>(element, '#searchInput').text = 'fate/stay';
-    await element.updateComplete;
-    pressKey(
-      queryAndAssert<PaperInputElement>(
-        queryAndAssert<GrAutocomplete>(element, '#searchInput'),
-        '#input'
-      ),
-      Key.ENTER
-    );
-    await waitUntil(() => blurSpy.called);
-  });
-
   test('empty search query does not trigger nav', async () => {
     const searchSpy = sinon.spy();
     element.addEventListener('handle-search', searchSpy);

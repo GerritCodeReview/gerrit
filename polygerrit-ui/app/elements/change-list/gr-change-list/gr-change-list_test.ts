@@ -6,7 +6,7 @@
 import '../../../test/common-test-setup';
 import './gr-change-list';
 import {GrChangeList, computeRelativeIndex} from './gr-change-list';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
   pressKey,
   query,
@@ -31,6 +31,7 @@ import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
 import {GrChangeListSection} from '../gr-change-list-section/gr-change-list-section';
 import {fixture, assert} from '@open-wc/testing';
 import {html} from 'lit';
+import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-change-list basic tests', () => {
   let element: GrChangeList;
@@ -224,16 +225,11 @@ suite('gr-change-list basic tests', () => {
     assert.equal(element.selectedIndex, 2);
     assert.isTrue(elementItems[2].selected);
 
-    const navStub = sinon.stub(GerritNav, 'navigateToChange');
+    const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
     assert.equal(element.selectedIndex, 2);
     pressKey(element, Key.ENTER);
-    await waitUntil(() => navStub.callCount >= 1);
-    await element.updateComplete;
-    assert.deepEqual(
-      navStub.lastCall.args[0],
-      {...createChange(), _number: 2 as NumericChangeId},
-      'Should navigate to /c/2/'
-    );
+    await waitUntil(() => setUrlStub.callCount >= 1);
+    assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/2');
 
     pressKey(element, 'k');
     await element.updateComplete;
@@ -241,15 +237,11 @@ suite('gr-change-list basic tests', () => {
 
     assert.equal(element.selectedIndex, 1);
 
-    const prevCount = navStub.callCount;
+    const prevCount = setUrlStub.callCount;
     pressKey(element, Key.ENTER);
 
-    await waitUntil(() => navStub.callCount > prevCount);
-    assert.deepEqual(
-      navStub.lastCall.args[0],
-      {...createChange(), _number: 1 as NumericChangeId},
-      'Should navigate to /c/1/'
-    );
+    await waitUntil(() => setUrlStub.callCount > prevCount);
+    assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/1');
 
     pressKey(element, 'k');
     pressKey(element, 'k');

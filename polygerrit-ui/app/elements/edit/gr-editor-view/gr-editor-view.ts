@@ -8,7 +8,7 @@ import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-editable-label/gr-editable-label';
 import '../gr-default-editor/gr-default-editor';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {computeTruncatedPath} from '../../../utils/path-list-util';
 import {
   EditPreferencesInfo,
@@ -32,6 +32,7 @@ import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {editViewModelToken, EditViewState} from '../../../models/views/edit';
+import {createChangeUrl} from '../../../models/views/change';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const SAVING_MESSAGE = 'Saving changes...';
@@ -93,6 +94,8 @@ export class GrEditorView extends LitElement {
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly getEditViewModel = resolve(this, editViewModelToken);
+
+  private readonly getNavigation = resolve(this, navigationToken);
 
   private readonly shortcuts = new ShortcutController(this);
 
@@ -328,7 +331,7 @@ export class GrEditorView extends LitElement {
       this,
       'Change edits cannot be created if change is merged or abandoned. Redirected to non edit mode.'
     );
-    GerritNav.navigateToChange(this.change);
+    this.getNavigation().setUrl(createChangeUrl({change: this.change}));
   }
 
   private navigateToChangeIfEditType() {
@@ -336,7 +339,7 @@ export class GrEditorView extends LitElement {
 
     // Prevent editing binary files
     fireAlert(this, 'You cannot edit binary files within the inline editor.');
-    GerritNav.navigateToChange(this.change);
+    this.getNavigation().setUrl(createChangeUrl({change: this.change}));
   }
 
   // private but used in test
@@ -362,10 +365,9 @@ export class GrEditorView extends LitElement {
   // private but used in test
   viewEditInChangeView() {
     if (!this.change) return;
-    GerritNav.navigateToChange(this.change, {
-      isEdit: true,
-      forceReload: true,
-    });
+    this.getNavigation().setUrl(
+      createChangeUrl({change: this.change, edit: true, forceReload: true})
+    );
   }
 
   // private but used in test
@@ -483,7 +485,9 @@ export class GrEditorView extends LitElement {
         )
         .then(() => {
           assertIsDefined(this.change, 'change');
-          GerritNav.navigateToChange(this.change, {forceReload: true});
+          this.getNavigation().setUrl(
+            createChangeUrl({change: this.change, forceReload: true})
+          );
         });
     });
   };

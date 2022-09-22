@@ -5,7 +5,10 @@
  */
 import '../../../test/common-test-setup';
 import './gr-diff-view';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {
+  GerritNav,
+  navigationToken,
+} from '../../core/gr-navigation/gr-navigation';
 import {
   ChangeStatus,
   DiffViewMode,
@@ -70,6 +73,7 @@ import {EventType} from '../../../types/events';
 import {Key} from '../../../utils/dom-util';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {createEditUrl} from '../../../models/views/edit';
+import {testResolver} from '../../../test/common-test-setup';
 
 function createComment(
   id: string,
@@ -92,6 +96,7 @@ suite('gr-diff-view tests', () => {
     let clock: SinonFakeTimers;
     let diffCommentsStub;
     let getDiffRestApiStub: SinonStub;
+    let setUrlStub: SinonStub;
 
     function getFilesFromFileList(fileList: string[]): Files {
       const changeFilesByPath = fileList.reduce((files, path) => {
@@ -105,6 +110,7 @@ suite('gr-diff-view tests', () => {
     }
 
     setup(async () => {
+      setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
       stubRestApi('getConfig').returns(Promise.resolve(createServerInfo()));
       stubRestApi('getLoggedIn').returns(Promise.resolve(false));
       stubRestApi('getProjectConfig').returns(Promise.resolve(createConfig()));
@@ -651,13 +657,10 @@ suite('gr-diff-view tests', () => {
       await element.updateComplete;
 
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
-      const changeNavStub = sinon.stub(GerritNav, 'navigateToChange');
 
       pressKey(element, 'u');
-      assert(
-        changeNavStub.lastCall.calledWith(element.change),
-        'Should navigate to /c/42/'
-      );
+      assert.isTrue(setUrlStub.calledOnce);
+      assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42');
       await element.updateComplete;
 
       pressKey(element, ']');
@@ -706,10 +709,8 @@ suite('gr-diff-view tests', () => {
       assert.isTrue(element.loading);
 
       pressKey(element, '[');
-      assert(
-        changeNavStub.lastCall.calledWith(element.change),
-        'Should navigate to /c/42/'
-      );
+      assert.isTrue(setUrlStub.calledTwice);
+      assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42');
       await element.updateComplete;
       assert.isTrue(element.loading);
 
@@ -790,7 +791,6 @@ suite('gr-diff-view tests', () => {
 
     test('moveToNextCommentThread navigates to next file', async () => {
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
-      const diffChangeStub = sinon.stub(element, 'navigateToChange');
       assertIsDefined(element.cursor);
       sinon.stub(element.cursor, 'isAtEnd').returns(true);
       element.changeNum = 42 as NumericChangeId;
@@ -834,7 +834,7 @@ suite('gr-diff-view tests', () => {
       pressKey(element, 'N');
       await element.updateComplete;
 
-      assert.isTrue(diffChangeStub.called);
+      assert.isTrue(setUrlStub.calledOnce);
     });
 
     test('shift+x shortcut toggles all diff context', async () => {
@@ -966,17 +966,12 @@ suite('gr-diff-view tests', () => {
     });
 
     test('A fires an error event when not logged in', async () => {
-      const changeNavStub = sinon.stub(GerritNav, 'navigateToChange');
       element.loggedIn = false;
       const loggedInErrorSpy = sinon.spy();
       element.addEventListener('show-auth-required', loggedInErrorSpy);
       pressKey(element, 'a');
       await element.updateComplete;
-      assert.isTrue(
-        changeNavStub.notCalled,
-        'The `a` keyboard shortcut ' +
-          'should only work when the user is logged in.'
-      );
+      assert.isFalse(setUrlStub.calledOnce);
       assert.isTrue(loggedInErrorSpy.called);
     });
 
@@ -994,19 +989,15 @@ suite('gr-diff-view tests', () => {
           b: createRevision(5),
         },
       };
-      const changeNavStub = sinon.stub(GerritNav, 'navigateToChange');
       element.loggedIn = true;
       const loggedInErrorSpy = sinon.spy();
       element.addEventListener('show-auth-required', loggedInErrorSpy);
       pressKey(element, 'a');
       await element.updateComplete;
-      assert(
-        changeNavStub.lastCall.calledWithExactly(element.change, {
-          patchNum: 10 as RevisionPatchSetNum,
-          basePatchNum: 5 as BasePatchSetNum,
-          openReplyDialog: true,
-        }),
-        'Should navigate to /c/42/5..10'
+      assert.isTrue(setUrlStub.calledOnce);
+      assert.equal(
+        setUrlStub.lastCall.firstArg,
+        '/c/test-project/+/42/5..10?openReplyDialog=true'
       );
       assert.isFalse(loggedInErrorSpy.called);
     });
@@ -1025,19 +1016,15 @@ suite('gr-diff-view tests', () => {
           b: createRevision(2),
         },
       };
-      const changeNavStub = sinon.stub(GerritNav, 'navigateToChange');
       element.loggedIn = true;
       const loggedInErrorSpy = sinon.spy();
       element.addEventListener('show-auth-required', loggedInErrorSpy);
       pressKey(element, 'a');
       await element.updateComplete;
-      assert(
-        changeNavStub.lastCall.calledWithExactly(element.change, {
-          patchNum: 1 as RevisionPatchSetNum,
-          basePatchNum: PARENT,
-          openReplyDialog: true,
-        }),
-        'Should navigate to /c/42/1'
+      assert.isTrue(setUrlStub.calledOnce);
+      assert.equal(
+        setUrlStub.lastCall.firstArg,
+        '/c/test-project/+/42/1?openReplyDialog=true'
       );
       assert.isFalse(loggedInErrorSpy.called);
     });
@@ -1064,17 +1051,10 @@ suite('gr-diff-view tests', () => {
       element.path = 'glados.txt';
 
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
-      const changeNavStub = sinon.stub(GerritNav, 'navigateToChange');
 
       pressKey(element, 'u');
-      assert(
-        changeNavStub.lastCall.calledWithExactly(element.change, {
-          patchNum: 10 as RevisionPatchSetNum,
-          basePatchNum: 5 as BasePatchSetNum,
-          openReplyDialog: false,
-        }),
-        'Should navigate to /c/42/5..10'
-      );
+      assert.isTrue(setUrlStub.calledOnce);
+      assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/5..10');
 
       pressKey(element, ']');
       assert.isTrue(element.loading);
@@ -1120,14 +1100,8 @@ suite('gr-diff-view tests', () => {
 
       pressKey(element, '[');
       assert.isTrue(element.loading);
-      assert(
-        changeNavStub.lastCall.calledWithExactly(element.change, {
-          patchNum: 10 as RevisionPatchSetNum,
-          basePatchNum: 5 as BasePatchSetNum,
-          openReplyDialog: false,
-        }),
-        'Should navigate to /c/42/5..10'
-      );
+      assert.isTrue(setUrlStub.calledTwice);
+      assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/5..10');
 
       assertIsDefined(element.downloadOverlay);
       const downloadOverlayStub = sinon
@@ -1159,17 +1133,10 @@ suite('gr-diff-view tests', () => {
       element.path = 'glados.txt';
 
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
-      const changeNavStub = sinon.stub(GerritNav, 'navigateToChange');
 
       pressKey(element, 'u');
-      assert(
-        changeNavStub.lastCall.calledWithExactly(element.change, {
-          patchNum: 1 as RevisionPatchSetNum,
-          basePatchNum: PARENT,
-          openReplyDialog: false,
-        }),
-        'Should navigate to /c/42/1'
-      );
+      assert.isTrue(setUrlStub.calledOnce);
+      assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/1');
 
       pressKey(element, ']');
       assert(
@@ -1210,17 +1177,10 @@ suite('gr-diff-view tests', () => {
       );
       element.path = 'chell.go';
 
-      changeNavStub.reset();
+      setUrlStub.reset();
       pressKey(element, '[');
-      assert(
-        changeNavStub.lastCall.calledWithExactly(element.change, {
-          patchNum: 1 as RevisionPatchSetNum,
-          basePatchNum: PARENT,
-          openReplyDialog: false,
-        }),
-        'Should navigate to /c/42/1'
-      );
-      assert.isTrue(changeNavStub.calledOnce);
+      assert.isTrue(setUrlStub.calledOnce);
+      assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/1');
     });
 
     test('edit should redirect to edit page', async () => {

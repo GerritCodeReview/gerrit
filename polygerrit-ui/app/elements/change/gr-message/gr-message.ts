@@ -38,7 +38,7 @@ import {
 import {LABEL_TITLE_SCORE_PATTERN} from '../gr-message-scores/gr-message-scores';
 import {getAppContext} from '../../../services/app-context';
 import {pluralize} from '../../../utils/string-util';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
   computeAllPatchSets,
   computeLatestPatchNum,
@@ -48,6 +48,8 @@ import {isServiceUser, replaceTemplates} from '../../../utils/account-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {when} from 'lit/directives/when.js';
 import {FormattedReviewerUpdateInfo} from '../../../types/types';
+import {resolve} from '../../../models/dependency';
+import {createChangeUrl} from '../../../models/views/change';
 
 const UPLOADED_NEW_PATCHSET_PATTERN = /Uploaded patch set (\d+)./;
 const MERGED_PATCHSET_PATTERN = /(\d+) is the latest approved patch-set/;
@@ -126,6 +128,8 @@ export class GrMessage extends LitElement {
   private isDeletingChangeMsg = false;
 
   private readonly restApiService = getAppContext().restApiService;
+
+  private readonly getNavigation = resolve(this, navigationToken);
 
   // for COMMENTS_AUTOCLOSE logging purposes only
   readonly uid = performance.now().toString(36) + Math.random().toString(36);
@@ -623,7 +627,9 @@ export class GrMessage extends LitElement {
       patchNum = computeLatestPatchNum(computeAllPatchSets(this.change))!;
       basePatchNum = computePredecessor(patchNum)!;
     }
-    GerritNav.navigateToChange(this.change, {patchNum, basePatchNum});
+    this.getNavigation().setUrl(
+      createChangeUrl({change: this.change, patchNum, basePatchNum})
+    );
     // stop propagation to stop message expansion
     e.stopPropagation();
   }

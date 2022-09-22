@@ -11,7 +11,7 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icon/gr-icon';
 import '../gr-commit-info/gr-commit-info';
 import {FilesExpandedState} from '../gr-file-list-constants';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {computeLatestPatchNum, PatchSet} from '../../../utils/patch-set-util';
 import {property, customElement, query, state} from 'lit/decorators.js';
 import {
@@ -41,6 +41,7 @@ import {resolve} from '../../../models/dependency';
 import {getAppContext} from '../../../services/app-context';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
+import {createChangeUrl} from '../../../models/views/change';
 
 @customElement('gr-file-list-header')
 export class GrFileListHeader extends LitElement {
@@ -123,6 +124,8 @@ export class GrFileListHeader extends LitElement {
   private readonly maxFilesForBulkActions = 225;
 
   private readonly userModel = getAppContext().userModel;
+
+  private readonly getNavigation = resolve(this, navigationToken);
 
   constructor() {
     super();
@@ -421,7 +424,9 @@ export class GrFileListHeader extends LitElement {
     ) {
       return;
     }
-    GerritNav.navigateToChange(this.change, {patchNum, basePatchNum});
+    this.getNavigation().setUrl(
+      createChangeUrl({change: this.change, patchNum, basePatchNum})
+    );
   }
 
   private handlePrefsTap(e: Event) {

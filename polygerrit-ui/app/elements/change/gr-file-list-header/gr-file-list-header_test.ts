@@ -6,7 +6,7 @@
 import '../../../test/common-test-setup';
 import './gr-file-list-header';
 import {FilesExpandedState} from '../gr-file-list-constants';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {createChange, createRevision} from '../../../test/test-data-generators';
 import {
   isVisible,
@@ -22,13 +22,13 @@ import {
   PARENT,
   PatchSetNum,
   PatchSetNumber,
-  RevisionPatchSetNum,
 } from '../../../types/common';
 import {ChangeInfo, ChangeStatus} from '../../../api/rest-api';
 import {PatchSet} from '../../../utils/patch-set-util';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
 import {fixture, html, assert} from '@open-wc/testing';
 import {GrButton} from '../../shared/gr-button/gr-button';
+import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-file-list-header tests', () => {
   let element: GrFileListHeader;
@@ -238,8 +238,8 @@ suite('gr-file-list-header tests', () => {
     assert.equal(getComputedStyle(collapseBtn).display, 'none');
   });
 
-  test('navigateToChange called when range select changes', async () => {
-    const navigateToChangeStub = sinon.stub(GerritNav, 'navigateToChange');
+  test('setUrl called when range select changes', async () => {
+    const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
     element.basePatchNum = 1 as BasePatchSetNum;
     element.patchNum = 2 as PatchSetNum;
     await element.updateComplete;
@@ -249,13 +249,8 @@ suite('gr-file-list-header tests', () => {
     } as CustomEvent);
     await element.updateComplete;
 
-    assert.equal(navigateToChangeStub.callCount, 1);
-    assert.isTrue(
-      navigateToChangeStub.lastCall.calledWithExactly(change, {
-        patchNum: 3 as RevisionPatchSetNum,
-        basePatchNum: 1 as BasePatchSetNum,
-      })
-    );
+    assert.equal(setUrlStub.callCount, 1);
+    assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/1..3');
   });
 
   test('class is applied to file list on old patch set', () => {

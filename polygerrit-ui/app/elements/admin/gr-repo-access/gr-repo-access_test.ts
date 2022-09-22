@@ -6,7 +6,7 @@
 import '../../../test/common-test-setup';
 import './gr-repo-access';
 import {GrRepoAccess} from './gr-repo-access';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {toSortedPermissionsArray} from '../../../utils/access-util';
 import {
   addListenerForTest,
@@ -32,6 +32,7 @@ import {GrAccessSection} from '../gr-access-section/gr-access-section';
 import {GrPermission} from '../gr-permission/gr-permission';
 import {createChange} from '../../../test/test-data-generators';
 import {fixture, html, assert} from '@open-wc/testing';
+import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-repo-access tests', () => {
   let element: GrRepoAccess;
@@ -1440,7 +1441,7 @@ suite('gr-repo-access tests', () => {
       stubRestApi('getRepoAccessRights').returns(
         Promise.resolve(JSON.parse(JSON.stringify(accessRes)))
       );
-      const navigateToChangeStub = sinon.stub(GerritNav, 'navigateToChange');
+      const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
       let resolver: (value: Response | PromiseLike<Response>) => void;
       const saveStub = stubRestApi('setRepoAccessRights').returns(
         new Promise(r => (resolver = r))
@@ -1459,7 +1460,7 @@ suite('gr-repo-access tests', () => {
       resolver!({status: 200} as Response);
       await element.updateComplete;
       assert.isTrue(saveStub.called);
-      assert.isTrue(navigateToChangeStub.notCalled);
+      assert.isTrue(setUrlStub.notCalled);
     });
 
     test('handleSaveForReview', async () => {
@@ -1490,7 +1491,7 @@ suite('gr-repo-access tests', () => {
       stubRestApi('getRepoAccessRights').returns(
         Promise.resolve(JSON.parse(JSON.stringify(accessRes)))
       );
-      const navigateToChangeStub = sinon.stub(GerritNav, 'navigateToChange');
+      const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
       let resolver: (value: ChangeInfo | PromiseLike<ChangeInfo>) => void;
       const saveForReviewStub = stubRestApi(
         'setRepoAccessRightsForReview'
@@ -1511,8 +1512,9 @@ suite('gr-repo-access tests', () => {
       resolver!(createChange());
       await element.updateComplete;
       assert.isTrue(saveForReviewStub.called);
+      assert.isTrue(setUrlStub.called);
       assert.isTrue(
-        navigateToChangeStub.lastCall.calledWithExactly(createChange())
+        setUrlStub.lastCall.args?.[0]?.includes(`${createChange()._number}`)
       );
     });
   });

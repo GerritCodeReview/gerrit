@@ -21,6 +21,7 @@ import {queryAndAssert} from '../../../test/test-utils';
 import {fixture, html, assert} from '@open-wc/testing';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import '../../shared/gr-dialog/gr-dialog';
+import {waitForEventOnce} from '../../../utils/event-util';
 
 suite('gr-edit-controls tests', () => {
   let element: GrEditControls;
@@ -507,15 +508,13 @@ suite('gr-edit-controls tests', () => {
   });
 
   suite('save file upload', () => {
-    let navStub: sinon.SinonStub;
     let fileStub: sinon.SinonStub;
 
     setup(() => {
-      navStub = sinon.stub(GerritNav, 'navigateToChange');
       fileStub = stubRestApi('saveFileUploadChangeEdit');
     });
 
-    test('handleUploadConfirm', () => {
+    test('handleUploadConfirm', async () => {
       fileStub.returns(Promise.resolve({ok: true}));
 
       element.change = {
@@ -535,9 +534,13 @@ suite('gr-edit-controls tests', () => {
         current_revision: 'efgh' as CommitId,
       };
 
-      element.handleUploadConfirm('test.php', 'base64').then(() => {
-        assert.isTrue(navStub.calledWithExactly(1 as NumericChangeId));
-      });
+      element.handleUploadConfirm('test.php', 'base64');
+
+      assert.isTrue(fileStub.calledOnce);
+      assert.equal(fileStub.lastCall.args[0], 1);
+      assert.equal(fileStub.lastCall.args[1], 'test.php');
+      assert.equal(fileStub.lastCall.args[2], 'base64');
+      await waitForEventOnce(element, 'reload');
     });
   });
 

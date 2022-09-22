@@ -8,7 +8,7 @@ import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-overlay/gr-overlay';
 import '../../../embed/diff/gr-diff/gr-diff';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
   NumericChangeId,
   EDIT,
@@ -31,6 +31,8 @@ import {customElement, property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {subscribe} from '../../lit/subscription-controller';
 import {assert} from '../../../utils/common-util';
+import {resolve} from '../../../models/dependency';
+import {createChangeUrl} from '../../../models/views/change';
 
 interface FilePreview {
   filepath: string;
@@ -78,6 +80,8 @@ export class GrApplyFixDialog extends LitElement {
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly userModel = getAppContext().userModel;
+
+  private readonly getNavigation = resolve(this, navigationToken);
 
   constructor() {
     super();
@@ -338,10 +342,13 @@ export class GrApplyFixDialog extends LitElement {
       );
     }
     if (res && res.ok) {
-      GerritNav.navigateToChange(change, {
-        patchNum: EDIT,
-        basePatchNum: patchNum as BasePatchSetNum,
-      });
+      this.getNavigation().setUrl(
+        createChangeUrl({
+          change,
+          patchNum: EDIT,
+          basePatchNum: patchNum as BasePatchSetNum,
+        })
+      );
       this.close(true);
     }
     this.isApplyFixLoading = false;

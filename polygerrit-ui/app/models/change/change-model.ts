@@ -139,7 +139,7 @@ function computeBase(
   // but we are not sure whether this was ever 100% working correctly. A
   // major challenge is being able to select PARENT explicitly even if your
   // preference for the default choice is FIRST_PARENT. <gr-file-list-header>
-  // just uses `GerritNav.navigateToChange()` and the router does not have any
+  // just uses `navigation.setUrl()` and the router does not have any
   // way of forcing the basePatchSetNum to stick to PARENT without being
   // altered back to FIRST_PARENT here.
   // See also corresponding TODO in gr-settings-view.

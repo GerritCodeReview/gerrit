@@ -7,7 +7,7 @@ import '../gr-change-list/gr-change-list';
 import '../gr-repo-header/gr-repo-header';
 import '../gr-user-header/gr-user-header';
 import {page} from '../../../utils/page-wrapper-utils';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
   AccountDetailInfo,
   AccountId,
@@ -30,6 +30,7 @@ import {
 } from '../../../models/views/search';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
+import {createChangeUrl} from '../../../models/views/change';
 
 const LOOKUP_QUERY_PATTERNS: RegExp[] = [
   /^\s*i?[0-9a-f]{7,40}\s*$/i, // CHANGE_ID
@@ -110,6 +111,8 @@ export class GrChangeListView extends LitElement {
   private userModel = getAppContext().userModel;
 
   private readonly getViewModel = resolve(this, searchViewModelToken);
+
+  private readonly getNavigation = resolve(this, navigationToken);
 
   constructor() {
     super();
@@ -302,11 +305,10 @@ export class GrChangeListView extends LitElement {
       if (this.query && changes.length === 1) {
         for (const queryPattern of LOOKUP_QUERY_PATTERNS) {
           if (this.query.match(queryPattern)) {
-            // "Back"/"Forward" buttons work correctly only with
-            // opt_redirect options
-            GerritNav.navigateToChange(changes[0], {
-              redirect: true,
-            });
+            // "Back"/"Forward" buttons work correctly only with replaceUrl()
+            this.getNavigation().replaceUrl(
+              createChangeUrl({change: changes[0]})
+            );
             return;
           }
         }

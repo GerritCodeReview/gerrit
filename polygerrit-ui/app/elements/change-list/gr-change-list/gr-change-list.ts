@@ -9,7 +9,7 @@ import '../gr-change-list-section/gr-change-list-section';
 import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import {getAppContext} from '../../../services/app-context';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {GrCursorManager} from '../../shared/gr-cursor-manager/gr-cursor-manager';
@@ -34,6 +34,8 @@ import {queryAll} from '../../../utils/common-util';
 import {GrChangeListSection} from '../gr-change-list-section/gr-change-list-section';
 import {Execution} from '../../../constants/reporting';
 import {ValueChangedEvent} from '../../../types/events';
+import {resolve} from '../../../models/dependency';
+import {createChangeUrl} from '../../../models/views/change';
 
 export interface ChangeListSection {
   countLabel?: string;
@@ -142,6 +144,8 @@ export class GrChangeList extends LitElement {
   private readonly reporting = getAppContext().reportingService;
 
   private readonly shortcuts = new ShortcutController(this);
+
+  private readonly getNavigation = resolve(this, navigationToken);
 
   private cursor = new GrCursorManager();
 
@@ -388,7 +392,7 @@ export class GrChangeList extends LitElement {
 
   private async openChange() {
     const change = await this.changeForIndex(this.selectedIndex);
-    if (change) GerritNav.navigateToChange(change);
+    if (change) this.getNavigation().setUrl(createChangeUrl({change}));
   }
 
   private nextPage() {

@@ -110,6 +110,7 @@ import {assertIsDefined, queryAll} from '../../../utils/common-util';
 import {Interaction} from '../../../constants/reporting';
 import {rootUrl} from '../../../utils/url-util';
 import {createSearchUrl} from '../../../models/views/search';
+import {createChangeUrl} from '../../../models/views/change';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -1845,14 +1846,18 @@ export class GrChangeActions
           this.waitForChangeReachable(revertChangeInfo._number)
             .then(() => this.setReviewOnRevert(revertChangeInfo._number))
             .then(() => {
-              GerritNav.navigateToChange(revertChangeInfo);
+              this.getNavigation().setUrl(
+                createChangeUrl({change: revertChangeInfo})
+              );
             });
           break;
         }
         case RevisionActions.CHERRYPICK: {
           const cherrypickChangeInfo: ChangeInfo = obj as unknown as ChangeInfo;
           this.waitForChangeReachable(cherrypickChangeInfo._number).then(() => {
-            GerritNav.navigateToChange(cherrypickChangeInfo);
+            this.getNavigation().setUrl(
+              createChangeUrl({change: cherrypickChangeInfo})
+            );
           });
           break;
         }

@@ -5,7 +5,7 @@
  */
 import '../gr-access-section/gr-access-section';
 import {encodeURL, getBaseUrl, singleDecodeURL} from '../../../utils/url-util';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {toSortedPermissionsArray} from '../../../utils/access-util';
 import {
   RepoName,
@@ -41,6 +41,8 @@ import {customElement, property, query, state} from 'lit/decorators.js';
 import {assertIsDefined} from '../../../utils/common-util';
 import {ValueChangedEvent} from '../../../types/events';
 import {ifDefined} from 'lit/directives/if-defined.js';
+import {resolve} from '../../../models/dependency';
+import {createChangeUrl} from '../../../models/views/change';
 
 const NOTHING_TO_SAVE = 'No changes to save.';
 
@@ -108,6 +110,8 @@ export class GrRepoAccess extends LitElement {
   private readonly query: AutocompleteQuery;
 
   private readonly restApiService = getAppContext().restApiService;
+
+  private readonly getNavigation = resolve(this, navigationToken);
 
   constructor() {
     super();
@@ -692,7 +696,7 @@ export class GrRepoAccess extends LitElement {
     return this.restApiService
       .setRepoAccessRightsForReview(this.repo, obj)
       .then(change => {
-        GerritNav.navigateToChange(change);
+        this.getNavigation().setUrl(createChangeUrl({change}));
       })
       .finally(() => {
         this.modified = false;

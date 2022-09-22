@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb043c1a_6f2af598",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-22T14:43:23Z",
+      "side": 1,
+      "message": "a",
+      "revId": "06a69793afce018a049c0e6e8665202d7ec3c080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9151b58c_82ac37da",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-22T14:43:23Z",
+      "side": 1,
+      "message": "debounceP so you can deal properly with promises.",
+      "revId": "06a69793afce018a049c0e6e8665202d7ec3c080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ce75cc9_4c75ae34",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-22T14:43:23Z",
+      "side": 1,
+      "message": "async method.",
+      "revId": "06a69793afce018a049c0e6e8665202d7ec3c080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

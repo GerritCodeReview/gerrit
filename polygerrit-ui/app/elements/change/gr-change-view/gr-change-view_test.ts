@@ -19,7 +19,10 @@ import {
 } from '../../../constants/constants';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {_testOnly_resetEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {
+  GerritNav,
+  navigationToken,
+} from '../../core/gr-navigation/gr-navigation';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {EventType, PluginApi} from '../../../api/plugin';
 import {
@@ -100,13 +103,11 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrCopyLinks} from '../gr-copy-links/gr-copy-links';
 import {ChangeViewState} from '../../../models/views/change';
 import {rootUrl} from '../../../utils/url-util';
+import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-change-view tests', () => {
   let element: GrChangeView;
-
-  let navigateToChangeStub: SinonStubbedMember<
-    typeof GerritNav.navigateToChange
-  >;
+  let setUrlStub: sinon.SinonStub;
 
   const ROBOT_COMMENTS_LIMIT = 10;
 
@@ -331,7 +332,7 @@ suite('gr-change-view tests', () => {
   setup(async () => {
     // Since pluginEndpoints are global, must reset state.
     _testOnly_resetEndpoints();
-    navigateToChangeStub = sinon.stub(GerritNav, 'navigateToChange');
+    setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
 
     stubRestApi('getConfig').returns(
       Promise.resolve({
@@ -583,10 +584,8 @@ suite('gr-change-view tests', () => {
       basePatchNum: 1 as BasePatchSetNum,
     };
     element.handleDiffAgainstBase();
-    assert(navigateToChangeStub.called);
-    const args = navigateToChangeStub.getCall(0).args;
-    assert.equal(args[0], element.change);
-    assert.equal(args[1]!.patchNum, 3 as RevisionPatchSetNum);
+    assert.isTrue(setUrlStub.called);
+    assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/3');
   });
 
   test('handleDiffAgainstLatest', () => {
@@ -599,11 +598,8 @@ suite('gr-change-view tests', () => {
       patchNum: 3 as RevisionPatchSetNum,
     };
     element.handleDiffAgainstLatest();
-    assert(navigateToChangeStub.called);
-    const args = navigateToChangeStub.getCall(0).args;
-    assert.equal(args[0], element.change);
-    assert.equal(args[1]!.patchNum, 10 as RevisionPatchSetNum);
-    assert.equal(args[1]!.basePatchNum, 1 as BasePatchSetNum);
+    assert.isTrue(setUrlStub.called);
+    assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/1..10');
   });
 
   test('handleDiffBaseAgainstLeft', () => {
@@ -616,10 +612,8 @@ suite('gr-change-view tests', () => {
       basePatchNum: 1 as BasePatchSetNum,
     };
     element.handleDiffBaseAgainstLeft();
-    assert(navigateToChangeStub.called);
-    const args = navigateToChangeStub.getCall(0).args;
-    assert.equal(args[0], element.change);
-    assert.equal(args[1]!.patchNum, 1 as RevisionPatchSetNum);
+    assert.isTrue(setUrlStub.called);
+    assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/1');
   });
 
   test('handleDiffRightAgainstLatest', () => {
@@ -632,10 +626,8 @@ suite('gr-change-view tests', () => {
       patchNum: 3 as RevisionPatchSetNum,
     };
     element.handleDiffRightAgainstLatest();
-    assert(navigateToChangeStub.called);
-    const args = navigateToChangeStub.getCall(0).args;
-    assert.equal(args[1]!.patchNum, 10 as RevisionPatchSetNum);
-    assert.equal(args[1]!.basePatchNum, 3 as BasePatchSetNum);
+    assert.isTrue(setUrlStub.called);
+    assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/3..10');
   });
 
   test('handleDiffBaseAgainstLatest', () => {
@@ -648,10 +640,8 @@ suite('gr-change-view tests', () => {
       patchNum: 3 as RevisionPatchSetNum,
     };
     element.handleDiffBaseAgainstLatest();
-    assert(navigateToChangeStub.called);
-    const args = navigateToChangeStub.getCall(0).args;
-    assert.equal(args[1]!.patchNum, 10 as RevisionPatchSetNum);
-    assert.isNotOk(args[1]!.basePatchNum);
+    assert.isTrue(setUrlStub.called);
+    assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/10');
   });
 
   test('toggle attention set status', async () => {
@@ -1694,7 +1684,7 @@ suite('gr-change-view tests', () => {
     });
 
     await element.loadData(true);
-    assert.isFalse(navigateToChangeStub.called);
+    assert.isFalse(setUrlStub.called);
     assert.isTrue(reloadStub.called);
   });
 
@@ -2274,7 +2264,6 @@ suite('gr-change-view tests', () => {
         assertIsDefined(element.actions);
         element.actions.dispatchEvent(new CustomEvent('edit-tap'));
       };
-      navigateToChangeStub.restore();
 
       element.change = {
         ...createChangeViewChange(),
@@ -2283,13 +2272,6 @@ suite('gr-change-view tests', () => {
     });
 
     test('edit exists in revisions', async () => {
-      const promise = mockPromise();
-      sinon.stub(GerritNav, 'navigateToChange').callsFake((...args) => {
-        assert.equal(args.length, 2);
-        assert.equal(args[1]!.patchNum, EDIT); // patchNum
-        promise.resolve();
-      });
-
       assertIsDefined(element.change);
       const newChange = {...element.change};
       newChange.revisions.rev2 = createRevision(EDIT);
@@ -2297,18 +2279,11 @@ suite('gr-change-view tests', () => {
       await element.updateComplete;
 
       fireEdit();
-      await promise;
+      assert.isTrue(setUrlStub.called);
+      assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/edit');
     });
 
     test('no edit exists in revisions, non-latest patchset', async () => {
-      const promise = mockPromise();
-      sinon.stub(GerritNav, 'navigateToChange').callsFake((...args) => {
-        assert.equal(args.length, 2);
-        assert.equal(args[1]!.patchNum, 1 as RevisionPatchSetNum); // patchNum
-        assert.equal(args[1]!.isEdit, true); // opt_isEdit
-        promise.resolve();
-      });
-
       assertIsDefined(element.change);
       const newChange = {...element.change};
       newChange.revisions.rev2 = createRevision(2);
@@ -2317,19 +2292,14 @@ suite('gr-change-view tests', () => {
       await element.updateComplete;
 
       fireEdit();
-      await promise;
+      assert.isTrue(setUrlStub.called);
+      assert.equal(
+        setUrlStub.lastCall.firstArg,
+        '/c/test-project/+/42/1,edit?forceReload=true'
+      );
     });
 
     test('no edit exists in revisions, latest patchset', async () => {
-      const promise = mockPromise();
-      sinon.stub(GerritNav, 'navigateToChange').callsFake((...args) => {
-        assert.equal(args.length, 2);
-        // No patch should be specified when patchNum == latest.
-        assert.isNotOk(args[1]!.patchNum); // patchNum
-        assert.equal(args[1]!.isEdit, true); // opt_isEdit
-        promise.resolve();
-      });
-
       assertIsDefined(element.change);
       const newChange = {...element.change};
       newChange.revisions.rev2 = createRevision(2);
@@ -2338,7 +2308,11 @@ suite('gr-change-view tests', () => {
       await element.updateComplete;
 
       fireEdit();
-      await promise;
+      assert.isTrue(setUrlStub.called);
+      assert.equal(
+        setUrlStub.lastCall.firstArg,
+        '/c/test-project/+/42,edit?forceReload=true'
+      );
     });
   });
 
@@ -2350,19 +2324,17 @@ suite('gr-change-view tests', () => {
     assertIsDefined(element.metadata);
     assertIsDefined(element.actions);
     sinon.stub(element.metadata, 'computeLabelNames');
-    navigateToChangeStub.restore();
-    const promise = mockPromise();
-    sinon.stub(GerritNav, 'navigateToChange').callsFake((...args) => {
-      assert.equal(args.length, 2);
-      assert.equal(args[1]!.patchNum, 1 as RevisionPatchSetNum); // patchNum
-      promise.resolve();
-    });
 
     element.patchRange = {patchNum: 1 as RevisionPatchSetNum};
     element.actions.dispatchEvent(
       new CustomEvent('stop-edit-tap', {bubbles: false})
     );
-    await promise;
+
+    assert.isTrue(setUrlStub.called);
+    assert.equal(
+      setUrlStub.lastCall.firstArg,
+      '/c/test-project/+/42/1?forceReload=true'
+    );
   });
 
   suite('plugin endpoints', () => {

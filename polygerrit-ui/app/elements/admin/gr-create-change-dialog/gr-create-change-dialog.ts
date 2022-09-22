@@ -10,7 +10,7 @@ import '../../../styles/shared-styles';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-select/gr-select';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
   RepoName,
   BranchName,
@@ -28,6 +28,7 @@ import {fireEvent} from '../../../utils/event-util';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
 import {resolve} from '../../../models/dependency';
+import {createChangeUrl} from '../../../models/views/change';
 
 const SUGGESTIONS_LIMIT = 15;
 const REF_PREFIX = 'refs/heads/';
@@ -70,6 +71,8 @@ export class GrCreateChangeDialog extends LitElement {
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly configModel = resolve(this, configModelToken);
+
+  private readonly getNavigation = resolve(this, navigationToken);
 
   constructor() {
     super();
@@ -223,9 +226,9 @@ export class GrCreateChangeDialog extends LitElement {
         this.baseChange,
         this.baseCommit || undefined
       )
-      .then(changeCreated => {
-        if (!changeCreated) return;
-        GerritNav.navigateToChange(changeCreated);
+      .then(change => {
+        if (!change) return;
+        this.getNavigation().setUrl(createChangeUrl({change}));
       });
   }
 

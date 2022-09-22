@@ -20,7 +20,10 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {asyncForeach} from '../../../utils/async-util';
 import {FilesExpandedState} from '../gr-file-list-constants';
 import {diffFilePaths, pluralize} from '../../../utils/string-util';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {
+  GerritNav,
+  navigationToken,
+} from '../../core/gr-navigation/gr-navigation';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {getAppContext} from '../../../services/app-context';
@@ -75,6 +78,7 @@ import {ifDefined} from 'lit/directives/if-defined.js';
 import {HtmlPatched} from '../../../utils/lit-util';
 import {createDiffUrl} from '../../../models/views/diff';
 import {createEditUrl} from '../../../models/views/edit';
+import {createChangeUrl} from '../../../models/views/change';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -302,6 +306,8 @@ export class GrFileList extends LitElement {
   });
 
   shortcutsController = new ShortcutController(this);
+
+  private readonly getNavigation = resolve(this, navigationToken);
 
   // private but used in test
   fileCursor = new GrCursorManager();
@@ -2168,10 +2174,13 @@ export class GrFileList extends LitElement {
 
   private handleShowParent1(): void {
     if (!this.change || !this.patchRange) return;
-    GerritNav.navigateToChange(this.change, {
-      patchNum: this.patchRange.patchNum,
-      basePatchNum: -1 as BasePatchSetNum, // Parent 1
-    });
+    this.getNavigation().setUrl(
+      createChangeUrl({
+        change: this.change,
+        patchNum: this.patchRange.patchNum,
+        basePatchNum: -1 as BasePatchSetNum, // Parent 1
+      })
+    );
   }
 
   private computeFilesShown(): NormalizedFileInfo[] {

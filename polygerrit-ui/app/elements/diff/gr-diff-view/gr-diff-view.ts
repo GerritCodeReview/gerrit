@@ -21,7 +21,10 @@ import '../gr-diff-preferences-dialog/gr-diff-preferences-dialog';
 import '../gr-patch-range-select/gr-patch-range-select';
 import '../../change/gr-download-dialog/gr-download-dialog';
 import '../../shared/gr-overlay/gr-overlay';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {
+  GerritNav,
+  navigationToken,
+} from '../../core/gr-navigation/gr-navigation';
 import {getAppContext} from '../../../services/app-context';
 import {
   computeAllPatchSets,
@@ -317,6 +320,8 @@ export class GrDiffView extends LitElement {
   private connected$ = new BehaviorSubject(false);
 
   private readonly shortcutsController = new ShortcutController(this);
+
+  private readonly getNavigation = resolve(this, navigationToken);
 
   constructor() {
     super();
@@ -1536,7 +1541,7 @@ export class GrDiffView extends LitElement {
       );
       if (!comment) {
         fireAlert(this, 'comment not found');
-        GerritNav.navigateToChange(this.change);
+        this.getNavigation().setUrl(createChangeUrl({change: this.change}));
         return;
       }
       this.getChangeModel().updatePath(comment.path);
@@ -1834,11 +1839,14 @@ export class GrDiffView extends LitElement {
   ) {
     if (!change) return;
     const range = this.getChangeUrlRange(patchRange, revisions);
-    GerritNav.navigateToChange(change, {
-      patchNum: range.patchNum,
-      basePatchNum: range.basePatchNum,
-      openReplyDialog: !!openReplyDialog,
-    });
+    this.getNavigation().setUrl(
+      createChangeUrl({
+        change,
+        patchNum: range.patchNum,
+        basePatchNum: range.basePatchNum,
+        openReplyDialog: !!openReplyDialog,
+      })
+    );
   }
 
   // Private but used in tests

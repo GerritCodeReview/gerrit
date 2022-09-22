@@ -6,7 +6,7 @@
 import '../../../test/common-test-setup';
 import './gr-editor-view';
 import {GrEditorView} from './gr-editor-view';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {HttpMethod} from '../../../constants/constants';
 import {
   mockPromise,
@@ -31,6 +31,7 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {fixture, html, assert} from '@open-wc/testing';
 import {EventType} from '../../../types/events';
 import {Modifier} from '../../../utils/dom-util';
+import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-editor-view tests', () => {
   let element: GrEditorView;
@@ -455,10 +456,15 @@ suite('gr-editor-view tests', () => {
   test('viewEditInChangeView', () => {
     element.change = createChangeViewChange();
     navigateStub.restore();
-    const navStub = sinon.stub(GerritNav, 'navigateToChange');
+    const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
+
     element.viewEditInChangeView();
-    assert.equal(navStub.lastCall.args[1]!.patchNum, undefined);
-    assert.equal(navStub.lastCall.args[1]!.isEdit, true);
+
+    assert.isTrue(setUrlStub.called);
+    assert.equal(
+      setUrlStub.lastCall.firstArg,
+      '/c/test-project/+/42,edit?forceReload=true'
+    );
   });
 
   suite('keyboard shortcuts', () => {

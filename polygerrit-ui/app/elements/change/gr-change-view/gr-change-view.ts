@@ -37,7 +37,10 @@ import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {pluralize} from '../../../utils/string-util';
 import {querySelectorAll, windowLocationReload} from '../../../utils/dom-util';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {
+  GerritNav,
+  navigationToken,
+} from '../../core/gr-navigation/gr-navigation';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
@@ -584,6 +587,8 @@ export class GrChangeView extends LitElement {
   routerPatchNum?: PatchSetNum;
 
   private readonly shortcutsController = new ShortcutController(this);
+
+  private readonly getNavigation = resolve(this, navigationToken);
 
   constructor() {
     super();
@@ -2092,8 +2097,8 @@ export class GrChangeView extends LitElement {
    * anymore. The app element makes sure that an obsolete change view is not
    * shown anymore, so if the change view is still and doing some update to
    * itself, then that is not dangerous. But for example it should not call
-   * navigateToChange() anymore. That would very likely cause erroneous
-   * behavior.
+   * the navigation service's set/replaceUrl() methods anymore. That would very
+   * likely cause erroneous behavior.
    */
   private isChangeObsolete() {
     // While this.changeNum is undefined the change view is fresh and has just
@@ -2509,9 +2514,9 @@ export class GrChangeView extends LitElement {
       fireAlert(this, 'Base is already selected.');
       return;
     }
-    GerritNav.navigateToChange(this.change, {
-      patchNum: this.patchRange.patchNum,
-    });
+    this.getNavigation().setUrl(
+      createChangeUrl({change: this.change, patchNum: this.patchRange.patchNum})
+    );
   }
 
   // Private but used in tests.
@@ -2523,9 +2528,12 @@ export class GrChangeView extends LitElement {
       fireAlert(this, 'Left is already base.');
       return;
     }
-    GerritNav.navigateToChange(this.change, {
-      patchNum: this.patchRange.basePatchNum as RevisionPatchSetNum,
-    });
+    this.getNavigation().setUrl(
+      createChangeUrl({
+        change: this.change,
+        patchNum: this.patchRange.basePatchNum as RevisionPatchSetNum,
+      })
+    );
   }
 
   // Private but used in tests.
@@ -2537,10 +2545,13 @@ export class GrChangeView extends LitElement {
       fireAlert(this, 'Latest is already selected.');
       return;
     }
-    GerritNav.navigateToChange(this.change, {
-      patchNum: latestPatchNum,
-      basePatchNum: this.patchRange.basePatchNum,
-    });
+    this.getNavigation().setUrl(
+      createChangeUrl({
+        change: this.change,
+        patchNum: latestPatchNum,
+        basePatchNum: this.patchRange.basePatchNum,
+      })
+    );
   }
 
   // Private but used in tests.
@@ -2552,10 +2563,13 @@ export class GrChangeView extends LitElement {
       fireAlert(this, 'Right is already latest.');
       return;
     }
-    GerritNav.navigateToChange(this.change, {
-      patchNum: latestPatchNum,
-      basePatchNum: this.patchRange.patchNum as BasePatchSetNum,
-    });
+    this.getNavigation().setUrl(
+      createChangeUrl({
+        change: this.change,
+        patchNum: latestPatchNum,
+        basePatchNum: this.patchRange.patchNum as BasePatchSetNum,
+      })
+    );
   }
 
   // Private but used in tests.
@@ -2570,7 +2584,9 @@ export class GrChangeView extends LitElement {
       fireAlert(this, 'Already diffing base against latest.');
       return;
     }
-    GerritNav.navigateToChange(this.change, {patchNum: latestPatchNum});
+    this.getNavigation().setUrl(
+      createChangeUrl({change: this.change, patchNum: latestPatchNum})
+    );
   }
 
   private handleToggleChangeStar() {
@@ -2884,9 +2900,9 @@ export class GrChangeView extends LitElement {
   loadData(isLocationChange?: boolean, clearPatchset?: boolean) {
     if (this.isChangeObsolete()) return Promise.resolve();
     if (clearPatchset && this.change) {
-      GerritNav.navigateToChange(this.change, {
-        forceReload: true,
-      });
+      this.getNavigation().setUrl(
+        createChangeUrl({change: this.change, forceReload: true})
+      );
       return Promise.resolve();
     }
     this.loading = true;
@@ -3245,7 +3261,11 @@ export class GrChangeView extends LitElement {
     );
 
     if (editInfo) {
-      GerritNav.navigateToChange(this.change, {patchNum: EDIT});
+      console.log('setNavigation');
+
+      this.getNavigation().setUrl(
+        createChangeUrl({change: this.change, patchNum: EDIT})
+      );
       return;
     }
 
@@ -3258,20 +3278,26 @@ export class GrChangeView extends LitElement {
     ) {
       patchNum = this.patchRange.patchNum;
     }
-    GerritNav.navigateToChange(this.change, {
-      patchNum,
-      isEdit: true,
-      forceReload: true,
-    });
+    this.getNavigation().setUrl(
+      createChangeUrl({
+        change: this.change,
+        patchNum,
+        edit: true,
+        forceReload: true,
+      })
+    );
   }
 
   private handleStopEditTap() {
     assertIsDefined(this.change, 'change');
     assertIsDefined(this.patchRange, 'patchRange');
-    GerritNav.navigateToChange(this.change, {
-      patchNum: this.patchRange.patchNum,
-      forceReload: true,
-    });
+    this.getNavigation().setUrl(
+      createChangeUrl({
+        change: this.change,
+        patchNum: this.patchRange.patchNum,
+        forceReload: true,
+      })
+    );
   }
 
   private resetReplyOverlayFocusStops() {

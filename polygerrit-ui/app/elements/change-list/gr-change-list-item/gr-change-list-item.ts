@@ -15,7 +15,7 @@ import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../gr-change-list-column-requirements-summary/gr-change-list-column-requirements-summary';
 import '../gr-change-list-column-requirement/gr-change-list-column-requirement';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {getDisplayName} from '../../../utils/display-name-util';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
@@ -113,6 +113,8 @@ export class GrChangeListItem extends LitElement {
   reporting: ReportingService = getAppContext().reportingService;
 
   private readonly getBulkActionsModel = resolve(this, bulkActionsModelToken);
+
+  private readonly getNavigation = resolve(this, navigationToken);
 
   constructor() {
     super();
@@ -645,7 +647,7 @@ export class GrChangeListItem extends LitElement {
     // gr-change-list-item such as account links, which will bubble through
     // without triggering this extra navigation.
     if (this.change && e.composedPath()[0] === this) {
-      GerritNav.navigateToChange(this.change);
+      this.getNavigation().setUrl(createChangeUrl({change: this.change}));
     }
   };
 

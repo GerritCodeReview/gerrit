@@ -62,6 +62,24 @@
       "message": "If this is zero here, shouldn\u0027t we then be comparing costs? i.e. Maybe move lines 131-133 below this \"if\" block?",
       "revId": "857e40b4515656ff5be6a15754acc0903ee18623",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20c78cf7_e5a9249e",
+        "filename": "java/com/google/gerrit/index/query/AndPredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-09-22T15:57:31Z",
+      "side": 1,
+      "message": "I think when control enters this if block, it means that \"ai - bi\" is zero and \"a.estimateCost() - b.estimateCost()\" is zero. So it does not matter ?",
+      "parentUuid": "8c1a41de_c27b4b7b",
+      "revId": "857e40b4515656ff5be6a15754acc0903ee18623",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

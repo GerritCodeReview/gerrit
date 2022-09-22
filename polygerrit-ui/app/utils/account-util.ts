@@ -20,7 +20,7 @@ import {
 } from '../types/common';
 import {AccountTag, ReviewerState} from '../constants/constants';
 import {assertNever, hasOwnProperty} from './common-util';
-import {getDisplayName} from './display-name-util';
+import {getAccountDisplayName, getDisplayName} from './display-name-util';
 import {getApprovalInfo} from './label-util';
 import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
 import {ParsedChangeInfo} from '../types/types';
@@ -186,16 +186,8 @@ export function getAccountSuggestions(
       if (!accounts) return [];
       const accountSuggestions = [];
       for (const account of accounts) {
-        let nameAndEmail: string;
-        if (account.email !== undefined) {
-          nameAndEmail = `${getDisplayName(config, account) ?? ''} <${
-            account.email
-          }>`;
-        } else {
-          nameAndEmail = getDisplayName(config, account);
-        }
         accountSuggestions.push({
-          name: nameAndEmail,
+          name: getAccountDisplayName(config, account),
           value: account._account_id?.toString(),
         });
       }

@@ -33,6 +33,24 @@
       "message": "Thanks!  And I am very thankful to Sven for the review and I have learned java returns by reference :-]",
       "revId": "6b7655daffef1515dba11d68afbd42188e70ef7d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2eada534_21967874",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-09-22T08:00:10Z",
+      "side": 1,
+      "message": "@hashar@free.fr\nThat\u0027s always a useful insight 😊 glad I could help.",
+      "parentUuid": "5f2ae4e1_8387ec0a",
+      "revId": "6b7655daffef1515dba11d68afbd42188e70ef7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -24,16 +24,22 @@ import {
 import {fixture, html, waitUntil, assert} from '@open-wc/testing';
 import {GerritView} from '../../../services/router/router-model';
 import {testResolver} from '../../../test/common-test-setup';
-import {SinonStub} from 'sinon';
+import {SinonFakeTimers, SinonStub} from 'sinon';
+import {GrChangeList} from '../gr-change-list/gr-change-list';
+import {GrChangeListSection} from '../gr-change-list-section/gr-change-list-section';
+import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
 
 const CHANGE_ID = 'IcA3dAB3edAB9f60B8dcdA6ef71A75980e4B7127';
 const COMMIT_HASH = '12345678';
 
 suite('gr-change-list-view tests', () => {
   let element: GrChangeListView;
+  let changes: ChangeInfo[] | undefined = [];
+  let clock: SinonFakeTimers;
 
   setup(async () => {
-    stubRestApi('getChanges').returns(Promise.resolve([]));
+    clock = sinon.useFakeTimers();
+    stubRestApi('getChanges').callsFake(() => Promise.resolve(changes));
     element = await fixture(html`<gr-change-list-view></gr-change-list-view>`);
     element.viewState = {
       view: GerritView.SEARCH,
@@ -68,31 +74,38 @@ suite('gr-change-list-view tests', () => {
   });
 
   suite('bulk actions', () => {
-    let getChangesStub: sinon.SinonStub;
     setup(async () => {
       stubFlags('isEnabled').returns(true);
-      getChangesStub = sinon.stub(element, 'getChanges');
-      getChangesStub.returns(Promise.resolve([createChange()]));
+      changes = [createChange()];
       element.loading = false;
       element.reload();
-      await waitUntil(() => element.loading === false);
-      element.requestUpdate();
+      clock.tick(100);
       await element.updateComplete;
+      await waitUntil(() => element.loading === false);
     });
 
     test('checkboxes remain checked after soft reload', async () => {
+      const changeListEl = queryAndAssert<GrChangeList>(
+        element,
+        'gr-change-list'
+      );
+      await changeListEl.updateComplete;
+      const changeListSectionEl = queryAndAssert<GrChangeListSection>(
+        changeListEl,
+        'gr-change-list-section'
+      );
+      await changeListSectionEl.updateComplete;
+      const changeListItemEl = queryAndAssert<GrChangeListItem>(
+        changeListSectionEl,
+        'gr-change-list-item'
+      );
+      await changeListItemEl.updateComplete;
       let checkbox = queryAndAssert<HTMLInputElement>(
-        query(
-          query(query(element, 'gr-change-list'), 'gr-change-list-section'),
-          'gr-change-list-item'
-        ),
+        changeListItemEl,
         '.selection > label > input'
       );
       checkbox.click();
       await waitUntil(() => checkbox.checked);
-
-      getChangesStub.restore();
-      getChangesStub.returns(Promise.resolve([[createChange()]]));
 
       element.reload();
       await element.updateComplete;
@@ -288,9 +301,10 @@ suite('gr-change-list-view tests', () => {
 
     test('Searching for a change ID redirects to change', async () => {
       const change = {...createChange(), _number: 1 as NumericChangeId};
-      sinon.stub(element, 'getChanges').returns(Promise.resolve([change]));
+      changes = [change];
 
       element.viewState = {view: GerritView.SEARCH, query: CHANGE_ID};
+      clock.tick(100);
       await element.updateComplete;
 
       assert.isTrue(replaceUrlStub.called);
@@ -299,9 +313,10 @@ suite('gr-change-list-view tests', () => {
 
     test('Searching for a change num redirects to change', async () => {
       const change = {...createChange(), _number: 1 as NumericChangeId};
-      sinon.stub(element, 'getChanges').returns(Promise.resolve([change]));
+      changes = [change];
 
       element.viewState = {view: GerritView.SEARCH, query: '1'};
+      clock.tick(100);
       await element.updateComplete;
 
       assert.isTrue(replaceUrlStub.called);
@@ -310,9 +325,10 @@ suite('gr-change-list-view tests', () => {
 
     test('Commit hash redirects to change', async () => {
       const change = {...createChange(), _number: 1 as NumericChangeId};
-      sinon.stub(element, 'getChanges').returns(Promise.resolve([change]));
+      changes = [change];
 
       element.viewState = {view: GerritView.SEARCH, query: COMMIT_HASH};
+      clock.tick(100);
       await element.updateComplete;
 
       assert.isTrue(replaceUrlStub.called);
@@ -320,18 +336,20 @@ suite('gr-change-list-view tests', () => {
     });
 
     test('Searching for an invalid change ID searches', async () => {
-      sinon.stub(element, 'getChanges').returns(Promise.resolve([]));
+      changes = [];
 
       element.viewState = {view: GerritView.SEARCH, query: CHANGE_ID};
+      clock.tick(100);
       await element.updateComplete;
 
       assert.isFalse(replaceUrlStub.called);
     });
 
     test('Change ID with multiple search results searches', async () => {
-      sinon.stub(element, 'getChanges').returns(Promise.resolve(undefined));
+      changes = undefined;
 
       element.viewState = {view: GerritView.SEARCH, query: CHANGE_ID};
+      clock.tick(100);
       await element.updateComplete;
 
       assert.isFalse(replaceUrlStub.called);

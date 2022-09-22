@@ -31,6 +31,9 @@ import {
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
 import {createChangeUrl} from '../../../models/views/change';
+import {debounce, DelayedTask} from '../../../utils/async-util';
+
+const GET_CHANGES_DEBOUNCE_INTERVAL_MS = 10;
 
 const LOOKUP_QUERY_PATTERNS: RegExp[] = [
   /^\s*i?[0-9a-f]{7,40}\s*$/i, // CHANGE_ID
@@ -141,10 +144,15 @@ export class GrChangeListView extends LitElement {
         this.preferences = x;
         if (this.changesPerPage !== x.changes_per_page) {
           this.changesPerPage = x.changes_per_page;
-          this.viewStateChanged();
+          this.debouncedGetChanges();
         }
       }
     );
+  }
+
+  override disconnectedCallback() {
+    this.getChangesTask?.flush();
+    super.disconnectedCallback();
   }
 
   static override get styles() {
@@ -275,12 +283,7 @@ export class GrChangeListView extends LitElement {
   }
 
   reload() {
-    if (this.loading) return;
-    this.loading = true;
-    this.getChanges().then(changes => {
-      this.changes = changes || [];
-      this.loading = false;
-    });
+    if (!this.loading) this.debouncedGetChanges();
   }
 
   // private, but visible for testing
@@ -300,31 +303,42 @@ export class GrChangeListView extends LitElement {
     // in an async so that attachment to the DOM can take place first.
     setTimeout(() => fireTitleChange(this, this.query));
 
-    return this.getChanges().then(changes => {
-      changes = changes || [];
-      if (this.query && changes.length === 1) {
-        for (const queryPattern of LOOKUP_QUERY_PATTERNS) {
-          if (this.query.match(queryPattern)) {
-            // "Back"/"Forward" buttons work correctly only with replaceUrl()
-            this.getNavigation().replaceUrl(
-              createChangeUrl({change: changes[0]})
-            );
-            return;
-          }
-        }
-      }
-      this.changes = changes;
-      this.loading = false;
-    });
+    this.debouncedGetChanges(true);
   }
 
-  // private but used in test
-  getChanges() {
-    return this.restApiService.getChanges(
-      this.changesPerPage,
-      this.query,
-      this.offset
+  private getChangesTask?: DelayedTask;
+
+  private debouncedGetChanges(shouldSingleMatchRedirect = false) {
+    this.getChangesTask = debounce(
+      this.getChangesTask,
+      () => {
+        this.getChanges(shouldSingleMatchRedirect);
+      },
+      GET_CHANGES_DEBOUNCE_INTERVAL_MS
     );
+  }
+
+  async getChanges(shouldSingleMatchRedirect = false) {
+    this.loading = true;
+    const changes =
+      (await this.restApiService.getChanges(
+        this.changesPerPage,
+        this.query,
+        this.offset
+      )) ?? [];
+    if (shouldSingleMatchRedirect && this.query && changes.length === 1) {
+      for (const queryPattern of LOOKUP_QUERY_PATTERNS) {
+        if (this.query.match(queryPattern)) {
+          // "Back"/"Forward" buttons work correctly only with replaceUrl()
+          this.getNavigation().replaceUrl(
+            createChangeUrl({change: changes[0]})
+          );
+          return;
+        }
+      }
+    }
+    this.changes = changes;
+    this.loading = false;
   }
 
   // private but used in test

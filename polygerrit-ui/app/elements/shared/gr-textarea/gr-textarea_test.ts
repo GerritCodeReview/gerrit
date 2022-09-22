@@ -137,7 +137,11 @@ suite('gr-textarea tests', () => {
     test('mention selector opens when previous char is \n', async () => {
       stubRestApi('getSuggestedAccounts').returns(
         Promise.resolve([
-          {...createAccountWithEmail('abc@google.com'), name: 'A'},
+          {
+            ...createAccountWithEmail('abc@google.com'),
+            name: 'A',
+            display_name: 'display A',
+          },
           {...createAccountWithEmail('abcdef@google.com'), name: 'B'},
         ])
       );
@@ -154,7 +158,7 @@ suite('gr-textarea tests', () => {
       assert.deepEqual(element.suggestions, [
         {
           dataValue: 'abc@google.com',
-          text: 'A <abc@google.com>',
+          text: 'display A <abc@google.com>',
         },
         {
           dataValue: 'abcdef@google.com',

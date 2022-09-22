@@ -24,12 +24,14 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {PropertyValues} from 'lit';
 import {classMap} from 'lit/directives/class-map.js';
 import {KnownExperimentId} from '../../../services/flags/flags';
-import {NumericChangeId} from '../../../api/rest-api';
+import {NumericChangeId, ServerInfo} from '../../../api/rest-api';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {assert} from '../../../utils/common-util';
 import {ShortcutController} from '../../lit/shortcut-controller';
+import {getAccountDisplayName} from '../../../utils/display-name-util';
+import {configModelToken} from '../../../models/config/config-model';
 
 const MAX_ITEMS_DROPDOWN = 10;
 
@@ -118,6 +120,10 @@ export class GrTextarea extends LitElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
+  private readonly getConfigModel = resolve(this, configModelToken);
+
+  private serverConfig?: ServerInfo;
+
   private changeNum?: NumericChangeId;
 
   // private but used in tests
@@ -134,6 +140,13 @@ export class GrTextarea extends LitElement {
       this,
       () => this.getChangeModel().changeNum$,
       x => (this.changeNum = x)
+    );
+    subscribe(
+      this,
+      () => this.getConfigModel().serverConfig$,
+      config => {
+        this.serverConfig = config;
+      }
     );
     this.shortcuts.addLocal({key: Key.UP}, e => this.handleUpKey(e), {
       preventDefault: false,
@@ -600,6 +613,7 @@ export class GrTextarea extends LitElement {
     }
   }
 
+  // TODO(dhruvsri): merge with getAccountSuggestions in account-util
   async computeReviewerSuggestions() {
     this.suggestions = (
       (await this.restApiService.getSuggestedAccounts(
@@ -612,7 +626,7 @@ export class GrTextarea extends LitElement {
       .filter(account => account.email)
       .map(account => {
         return {
-          text: `${account.name ?? ''} <${account.email}>`,
+          text: `${getAccountDisplayName(this.serverConfig, account)}`,
           dataValue: account.email,
         };
       });

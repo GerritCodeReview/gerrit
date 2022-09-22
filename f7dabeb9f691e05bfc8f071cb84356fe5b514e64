@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "05e83b4c_16aa259b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-09-22T12:31:55Z",
+      "side": 1,
+      "message": "FYI - there is a central notification system for all Google internal systems, and its Gerrit support is coincidentally launching at roughly the same time as this feature.",
+      "parentUuid": "158b0855_37d2ee0e",
+      "revId": "f7dabeb9f691e05bfc8f071cb84356fe5b514e64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2163ad86_21e06f64",
         "filename": "Documentation/rest-api-config.txt",
         "patchSetId": 6

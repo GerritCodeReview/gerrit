@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bfedf13_f5794eba",
+        "filename": "polygerrit-ui/app/elements/shared/gr-markdown/gr-markdown.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-22T13:00:53Z",
+      "side": 1,
+      "message": "Done. The callback is a final pass over the data done by markedjs before giving the results up to marked-element:\n[marked-element passing callback and using result](https://github.com/PolymerElements/marked-element/blob/master/marked-element.js#L316)\n[markedjs applying callback](https://github.com/markedjs/marked/blob/994b2e6127850bfa85547a202048f29b6fc26913/src/marked.js#L67)",
+      "parentUuid": "89463776_b7df9e0f",
+      "revId": "75f5f62f6b25d416074615cbca71ceb5a733791f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c5ccefd_40b5d24e",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-09-22T12:04:38Z",
       "side": 1,
       "message": "Why do we have spans with classname `gr-markdown`",
+      "revId": "75f5f62f6b25d416074615cbca71ceb5a733791f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bfd9404_82c0cf51",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-selection/gr-diff-selection_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-22T13:00:53Z",
+      "side": 1,
+      "message": "I was confused as well. As far as I understand, all these spans/divs are used as fake components in this test data with classes to indicate what the component would actually be. I don\u0027t think replacing all this with better test data should be done in my change.",
+      "parentUuid": "6c5ccefd_40b5d24e",
       "revId": "75f5f62f6b25d416074615cbca71ceb5a733791f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

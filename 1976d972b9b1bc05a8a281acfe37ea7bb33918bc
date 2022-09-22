@@ -16,6 +16,24 @@
       "message": "This needs a USP parameter",
       "revId": "1976d972b9b1bc05a8a281acfe37ea7bb33918bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e02b1c1_9d2227da",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-22T07:30:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d78f1272_79d6580f",
+      "revId": "1976d972b9b1bc05a8a281acfe37ea7bb33918bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

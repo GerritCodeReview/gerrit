@@ -7,9 +7,8 @@ import '../../../test/common-test-setup';
 import './gr-change-list-view';
 import {GrChangeListView} from './gr-change-list-view';
 import {page} from '../../../utils/page-wrapper-utils';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
-  mockPromise,
   query,
   stubRestApi,
   queryAndAssert,
@@ -24,6 +23,8 @@ import {
 } from '../../../api/rest-api';
 import {fixture, html, waitUntil, assert} from '@open-wc/testing';
 import {GerritView} from '../../../services/router/router-model';
+import {testResolver} from '../../../test/common-test-setup';
+import {SinonStub} from 'sinon';
 
 const CHANGE_ID = 'IcA3dAB3edAB9f60B8dcdA6ef71A75980e4B7127';
 const COMMIT_HASH = '12345678';
@@ -275,7 +276,10 @@ suite('gr-change-list-view tests', () => {
   });
 
   suite('query based navigation', () => {
-    setup(() => {});
+    let replaceUrlStub: SinonStub;
+    setup(() => {
+      replaceUrlStub = sinon.stub(testResolver(navigationToken), 'replaceUrl');
+    });
 
     teardown(async () => {
       await element.updateComplete;
@@ -285,82 +289,52 @@ suite('gr-change-list-view tests', () => {
     test('Searching for a change ID redirects to change', async () => {
       const change = {...createChange(), _number: 1 as NumericChangeId};
       sinon.stub(element, 'getChanges').returns(Promise.resolve([change]));
-      const promise = mockPromise();
-      sinon.stub(GerritNav, 'navigateToChange').callsFake((url, opt) => {
-        assert.equal(url, change);
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-        assert.isTrue(opt!.redirect);
-        promise.resolve();
-      });
 
-      element.viewState = {
-        view: GerritView.SEARCH,
-        query: CHANGE_ID,
-        offset: '',
-      };
-      await promise;
+      element.viewState = {view: GerritView.SEARCH, query: CHANGE_ID};
+      await element.updateComplete;
+
+      assert.isTrue(replaceUrlStub.called);
+      assert.equal(replaceUrlStub.lastCall.firstArg, '/c/test-project/+/1');
     });
 
     test('Searching for a change num redirects to change', async () => {
       const change = {...createChange(), _number: 1 as NumericChangeId};
       sinon.stub(element, 'getChanges').returns(Promise.resolve([change]));
-      const promise = mockPromise();
-      sinon.stub(GerritNav, 'navigateToChange').callsFake((url, opt) => {
-        assert.equal(url, change);
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-        assert.isTrue(opt!.redirect);
-        promise.resolve();
-      });
 
-      element.viewState = {view: GerritView.SEARCH, query: '1', offset: ''};
-      await promise;
+      element.viewState = {view: GerritView.SEARCH, query: '1'};
+      await element.updateComplete;
+
+      assert.isTrue(replaceUrlStub.called);
+      assert.equal(replaceUrlStub.lastCall.firstArg, '/c/test-project/+/1');
     });
 
     test('Commit hash redirects to change', async () => {
       const change = {...createChange(), _number: 1 as NumericChangeId};
       sinon.stub(element, 'getChanges').returns(Promise.resolve([change]));
-      const promise = mockPromise();
-      sinon.stub(GerritNav, 'navigateToChange').callsFake((url, opt) => {
-        assert.equal(url, change);
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-        assert.isTrue(opt!.redirect);
-        promise.resolve();
-      });
 
-      element.viewState = {
-        view: GerritView.SEARCH,
-        query: COMMIT_HASH,
-        offset: '',
-      };
-      await promise;
+      element.viewState = {view: GerritView.SEARCH, query: COMMIT_HASH};
+      await element.updateComplete;
+
+      assert.isTrue(replaceUrlStub.called);
+      assert.equal(replaceUrlStub.lastCall.firstArg, '/c/test-project/+/1');
     });
 
     test('Searching for an invalid change ID searches', async () => {
       sinon.stub(element, 'getChanges').returns(Promise.resolve([]));
-      const stub = sinon.stub(GerritNav, 'navigateToChange');
 
-      element.viewState = {
-        view: GerritView.SEARCH,
-        query: CHANGE_ID,
-        offset: '',
-      };
+      element.viewState = {view: GerritView.SEARCH, query: CHANGE_ID};
       await element.updateComplete;
 
-      assert.isFalse(stub.called);
+      assert.isFalse(replaceUrlStub.called);
     });
 
     test('Change ID with multiple search results searches', async () => {
       sinon.stub(element, 'getChanges').returns(Promise.resolve(undefined));
-      const stub = sinon.stub(GerritNav, 'navigateToChange');
 
-      element.viewState = {
-        view: GerritView.SEARCH,
-        query: CHANGE_ID,
-        offset: '',
-      };
+      element.viewState = {view: GerritView.SEARCH, query: CHANGE_ID};
       await element.updateComplete;
 
-      assert.isFalse(stub.called);
+      assert.isFalse(replaceUrlStub.called);
     });
   });
 });

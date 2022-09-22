@@ -32,7 +32,7 @@ import {
   TopicName,
 } from '../../../types/common';
 import {StandardLabels} from '../../../utils/label-util';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import './gr-change-list-item';
 import {GrChangeListItem} from './gr-change-list-item';
 import {
@@ -45,6 +45,7 @@ import {
 } from '../../../models/bulk-actions/bulk-actions-model';
 import {createTestAppContext} from '../../../test/test-app-context-init';
 import {ColumnNames} from '../../../constants/constants';
+import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-change-list-item tests', () => {
   const account = createAccountWithId();
@@ -309,7 +310,7 @@ suite('gr-change-list-item tests', () => {
   });
 
   test('clicking item navigates to change', async () => {
-    const navStub = sinon.stub(GerritNav);
+    const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
 
     element.change = change;
     await element.updateComplete;
@@ -317,7 +318,8 @@ suite('gr-change-list-item tests', () => {
     element.click();
     await element.updateComplete;
 
-    assert.isTrue(navStub.navigateToChange.calledWithExactly(change));
+    assert.isTrue(setUrlStub.called);
+    assert.equal(setUrlStub.lastCall.firstArg, '/c/a/test/repo/+/42');
   });
 
   test('renders', async () => {

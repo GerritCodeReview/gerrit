@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89463776_b7df9e0f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-markdown/gr-markdown.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-22T12:04:38Z",
+      "side": 1,
+      "message": "Could you add a comment as to what this callback does? I read the marked-element source and the comment on the callback there is not very informative.",
+      "revId": "75f5f62f6b25d416074615cbca71ceb5a733791f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c5ccefd_40b5d24e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-selection/gr-diff-selection_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-22T12:04:38Z",
+      "side": 1,
+      "message": "Why do we have spans with classname `gr-markdown`",
+      "revId": "75f5f62f6b25d416074615cbca71ceb5a733791f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -69,6 +69,24 @@
       "parentUuid": "7bca2b67_d4f25e68",
       "revId": "93377537e90a8c28b253e28a442470340fbc1a7d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9e8fd47_fd9a8f96",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-22T12:52:50Z",
+      "side": 1,
+      "message": "Filed b/248244166 and assigned to me.\nWill use that as a point of discussion before adding a TODO since it\u0027s not clear we want to render user status here.",
+      "parentUuid": "2c74a0a1_652430da",
+      "revId": "93377537e90a8c28b253e28a442470340fbc1a7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

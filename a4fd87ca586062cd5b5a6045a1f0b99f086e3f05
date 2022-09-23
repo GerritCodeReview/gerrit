@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b84ab953_adf5ee2c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-markdown/gr-markdown.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-23T13:57:04Z",
+      "side": 1,
+      "message": "return `\u003ca class\u003d\"mentions-chip\"\u003e${text}\u003c/a\u003e`\n\nThen in `updated` you can do the same as now but `.querySelectorAll(\u0027.mentions-chip\u0027)`",
+      "revId": "a4fd87ca586062cd5b5a6045a1f0b99f086e3f05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ad8cab79_eb50c688",
         "filename": "polygerrit-ui/app/utils/account-util.ts",
         "patchSetId": 2

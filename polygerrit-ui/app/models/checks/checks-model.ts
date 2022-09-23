@@ -20,7 +20,6 @@ import {
   Observable,
   of,
   Subject,
-  Subscription,
   timer,
 } from 'rxjs';
 import {
@@ -207,8 +206,6 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
   private readonly reloadListener: () => void;
 
   private readonly visibilityChangeListener: () => void;
-
-  private subscriptions: Subscription[] = [];
 
   public checksSelectedPatchsetNumber$ = select(
     this.state$,
@@ -483,10 +480,7 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
       'visibilitychange',
       this.visibilityChangeListener
     );
-    for (const s of this.subscriptions) {
-      s.unsubscribe();
-    }
-    this.subscriptions = [];
+    super.finalize();
   }
 
   // Must only be used by the checks service or whatever is in control of this

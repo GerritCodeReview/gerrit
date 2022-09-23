@@ -4,9 +4,20 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {assert} from '@open-wc/testing';
-import {BranchName, RepoName, TopicName} from '../../api/rest-api';
+import {SinonStub} from 'sinon';
+import {
+  BranchName,
+  NumericChangeId,
+  RepoName,
+  TopicName,
+} from '../../api/rest-api';
+import {getAppContext} from '../../services/app-context';
 import '../../test/common-test-setup';
-import {createSearchUrl, SearchUrlOptions} from './search';
+import {createChange} from '../../test/test-data-generators';
+import {createSearchUrl, SearchUrlOptions, SearchViewModel} from './search';
+
+const CHANGE_ID = 'IcA3dAB3edAB9f60B8dcdA6ef71A75980e4B7127';
+const COMMIT_HASH = '12345678';
 
 suite('search view state tests', () => {
   test('createSearchUrl', () => {
@@ -52,5 +63,72 @@ suite('search view state tests', () => {
 
     options = {topic: 'test:test' as TopicName};
     assert.equal(createSearchUrl(options), '/q/topic:"test:test"');
+  });
+
+  suite('query based navigation', () => {
+    let replaceUrlStub: SinonStub;
+    let model: SearchViewModel;
+
+    setup(() => {
+      model = new SearchViewModel(
+        getAppContext().restApiService,
+        getAppContext().userModel
+      );
+      replaceUrlStub = sinon.stub(model.navigation, 'replaceUrl');
+    });
+
+    teardown(() => {
+      model.finalize();
+    });
+
+    test('Searching for a change ID redirects to change', async () => {
+      const change = {...createChange(), _number: 1 as NumericChangeId};
+
+      const redirected = model.redirectSingleResult(CHANGE_ID, [change]);
+
+      assert.isTrue(redirected);
+      assert.isTrue(replaceUrlStub.called);
+      assert.equal(replaceUrlStub.lastCall.firstArg, '/c/test-project/+/1');
+    });
+
+    test('Searching for a change num redirects to change', async () => {
+      const change = {...createChange(), _number: 1 as NumericChangeId};
+
+      const redirected = model.redirectSingleResult('1', [change]);
+
+      assert.isTrue(redirected);
+      assert.isTrue(replaceUrlStub.called);
+      assert.equal(replaceUrlStub.lastCall.firstArg, '/c/test-project/+/1');
+    });
+
+    test('Commit hash redirects to change', async () => {
+      const change = {...createChange(), _number: 1 as NumericChangeId};
+
+      const redirected = model.redirectSingleResult(COMMIT_HASH, [change]);
+
+      assert.isTrue(redirected);
+      assert.isTrue(replaceUrlStub.called);
+      assert.equal(replaceUrlStub.lastCall.firstArg, '/c/test-project/+/1');
+    });
+
+    test('No results: no redirect', async () => {
+      const redirected = model.redirectSingleResult(CHANGE_ID, []);
+
+      assert.isFalse(redirected);
+      assert.isFalse(replaceUrlStub.called);
+    });
+
+    test('More than 1 result: no redirect', async () => {
+      const change1 = {...createChange(), _number: 1 as NumericChangeId};
+      const change2 = {...createChange(), _number: 2 as NumericChangeId};
+
+      const redirected = model.redirectSingleResult(CHANGE_ID, [
+        change1,
+        change2,
+      ]);
+
+      assert.isFalse(redirected);
+      assert.isFalse(replaceUrlStub.called);
+    });
   });
 });

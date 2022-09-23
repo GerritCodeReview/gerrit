@@ -131,7 +131,10 @@ export function createAppDependencies(
   dependencies.set(pluginViewModelToken, pluginViewModel);
   const repoViewModel = new RepoViewModel();
   dependencies.set(repoViewModelToken, repoViewModel);
-  const searchViewModel = new SearchViewModel();
+  const searchViewModel = new SearchViewModel(
+    appContext.restApiService,
+    appContext.userModel
+  );
   dependencies.set(searchViewModelToken, searchViewModel);
   const settingsViewModel = new SettingsViewModel();
   dependencies.set(settingsViewModelToken, settingsViewModel);
@@ -155,6 +158,7 @@ export function createAppDependencies(
   );
   dependencies.set(routerToken, router);
   dependencies.set(navigationToken, router);
+  searchViewModel.navigation = router;
 
   const changeModel = new ChangeModel(
     appContext.routerModel,

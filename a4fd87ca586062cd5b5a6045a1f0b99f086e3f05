@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b6b2250_1b679f41",
+        "filename": "polygerrit-ui/app/elements/shared/gr-markdown/gr-markdown.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-23T15:51:20Z",
+      "side": 1,
+      "message": "Obsolete",
+      "parentUuid": "b84ab953_adf5ee2c",
+      "revId": "a4fd87ca586062cd5b5a6045a1f0b99f086e3f05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ad8cab79_eb50c688",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-09-23T13:55:51Z",
       "side": 1,
       "message": "That extra parenthesis should not be there, it\u0027s left-over from an experiment.",
+      "revId": "a4fd87ca586062cd5b5a6045a1f0b99f086e3f05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5503434_01fa99b9",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-23T15:51:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad8cab79_eb50c688",
       "revId": "a4fd87ca586062cd5b5a6045a1f0b99f086e3f05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "005eb306_5e18b9ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-23T12:47:20Z",
+      "side": 1,
+      "message": "I would also add that this JGit upgrade won\u0027t allow to build Gerrit on Java 8 anymore. We previous stated at [1] that Java 8 *may not* be possible, which now turns into *will not* be possible.\n\n[1] https://www.gerritcodereview.com/3.5.html#support-for-java-8-dropped",
+      "range": {
+        "startLine": 247,
+        "startChar": 15,
+        "endLine": 247,
+        "endChar": 39
+      },
+      "revId": "3a2d41f1e29a0d64f29aad638748b532512f62eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ab4a1ae_68cb1dd9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-23T12:47:20Z",
+      "side": 1,
+      "message": "This is a big update, worth be highlighted a lot in the release notes.",
+      "revId": "3a2d41f1e29a0d64f29aad638748b532512f62eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

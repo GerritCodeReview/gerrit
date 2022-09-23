@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6b7853dd_d6a791ff",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-23T10:02:19Z",
+      "side": 1,
+      "message": "Given that you want to wait for the dom, putting this in `updated` seems more appropriate? Then you won\u0027t need the timeout.",
+      "revId": "c6064375e12feec378527db6fb57a164d5aa4b69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2557c0e1_4d2740da",
         "filename": "polygerrit-ui/app/models/views/search.ts",
         "patchSetId": 3
@@ -14,6 +31,30 @@
       "writtenOn": "2022-09-23T09:29:39Z",
       "side": 1,
       "message": "Could you please add documentation to the class?\n- Class level comment\n- Comment descritpion for public fields\n- (Optionally) Comment description for private fields\n\nWould probably also good for the SearchViewState",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 28
+      },
+      "revId": "c6064375e12feec378527db6fb57a164d5aa4b69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00eba087_0e0ef7b6",
+        "filename": "polygerrit-ui/app/models/views/search.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-23T10:02:19Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "2557c0e1_4d2740da",
       "range": {
         "startLine": 112,
         "startChar": 0,
@@ -43,6 +84,23 @@
         "endLine": 145,
         "endChar": 20
       },
+      "revId": "c6064375e12feec378527db6fb57a164d5aa4b69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f01d28f2_60d9247b",
+        "filename": "polygerrit-ui/app/models/views/search.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-23T10:02:19Z",
+      "side": 1,
+      "message": "This feels really hacky and rather arbitrary.  It also adds delay of 1s to loading.\n\nIs there no more reliable way to guarantee we\u0027re not loading for the wrong thing?\n\nMaybe something like \"userModel.isLoaded\" as a prop.",
       "revId": "c6064375e12feec378527db6fb57a164d5aa4b69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -89,6 +147,23 @@
         "endLine": 190,
         "endChar": 67
       },
+      "revId": "c6064375e12feec378527db6fb57a164d5aa4b69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5954efb0_2e0340e9",
+        "filename": "polygerrit-ui/app/services/app-context-init.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-23T10:02:19Z",
+      "side": 1,
+      "message": "Don\u0027t you need an equivalent in test-app-context-init?\n\nI find this assigning of variables a bit smelly.  Ideally you pass in these parameters as a constructor.\n\nI can see how this is challenging given the circular dependency.\n\nWhat about:\n\n```\nconst searchViewModel \u003d new SearchViewModel(\n    appContext.restApiService,\n    appContext.userModel,\n    () \u003d\u003e dependencies.get(navigationToken);\n  );\nThis makes it a resolver\n```",
       "revId": "c6064375e12feec378527db6fb57a164d5aa4b69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

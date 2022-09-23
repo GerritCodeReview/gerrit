@@ -108,6 +108,9 @@ export class GrRelatedChangesList extends LitElement {
           height: 1px;
           min-width: 20px;
         }
+        .repo {
+          margin-left: var(--spacing-m);
+        }
         .repo,
         .branch {
           color: var(--primary-text-color);
@@ -291,8 +294,6 @@ export class GrRelatedChangesList extends LitElement {
   ) {
     const truncatedRepo = truncatePath(change.project, 2);
     return html`
-      <span class="repo" .title=${change.project}>${truncatedRepo}</span
-      ><span class="branch">&nbsp;|&nbsp;${change.branch}&nbsp;</span>
       <gr-related-change
         .label=${this.renderChangeTitle(change)}
         .change=${change}
@@ -300,6 +301,8 @@ export class GrRelatedChangesList extends LitElement {
         ?show-submittable-check=${showSubmittabilityCheck}
         >${change.subject}</gr-related-change
       >
+      <span class="repo" .title=${change.project}>${truncatedRepo}</span
+      ><span class="branch">&nbsp;|&nbsp;${change.branch}&nbsp;</span>
     `;
   }
 

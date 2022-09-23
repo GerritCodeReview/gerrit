@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4c2d191_9465de26",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-23T11:42:21Z",
+      "side": 1,
+      "message": "Current implementation of prompting to enable notifications next to address bar is very distracting. We will use double permission pattern in FE - https://web.dev/push-notifications-permissions-ux/#double_permission\nthat is common pattern and it is less distracting.\n\nWith this setting user will be able to turn off any prompt about enabling notifications.\n\nIf user denies all notification permission, we can turn off prompting. But that depends on user testing.",
+      "parentUuid": "2c2ce19b_2246c568",
+      "revId": "9735d6bc728b457b6cf6fe480e37c14237e4d820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1b3ebc0a_63a31fd5",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-09-22T10:58:46Z",
       "side": 1,
       "message": "What about making this a 3-state setting? ON, OFF, UNDECIDED\n\nThen you could show a prompt \"Do you want notifications?\" while the setting is UNDECIDED, but stop showing it, if the user has chosen OFF.",
+      "revId": "9735d6bc728b457b6cf6fe480e37c14237e4d820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4c65469_1abb422c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-09-23T11:42:21Z",
+      "side": 1,
+      "message": "Problem is that even if the feature is ON, it\u0027s not creating notifications until user agree with notification in browser for Gerrit host.\nSo ON would mean - either showing notifications (if enabled in browser) or showing prompt to enable notifications in browser\nOFF - means no browser notifications and no prompts on page",
+      "parentUuid": "1b3ebc0a_63a31fd5",
       "revId": "9735d6bc728b457b6cf6fe480e37c14237e4d820",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

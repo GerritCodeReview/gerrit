@@ -5,7 +5,7 @@
  */
 
 import {FlagsService, KnownExperimentId} from './flags/flags';
-import {registerServiceWorker} from '../utils/worker-util';
+import {areNotificationsEnabled, registerServiceWorker} from '../utils/worker-util';
 import {UserModel} from '../models/user/user-model';
 import {AccountDetailInfo} from '../api/rest-api';
 
@@ -29,6 +29,7 @@ export class ServiceWorkerInstaller {
   }
 
   async init() {
+    if (!areNotificationsEnabled(this.account)) return;
     if (this.initialized) return;
     if (!this.flagsService.isEnabled(KnownExperimentId.PUSH_NOTIFICATIONS)) {
       return;

@@ -5,9 +5,13 @@
  */
 
 import {FlagsService, KnownExperimentId} from './flags/flags';
-import {registerServiceWorker} from '../utils/worker-util';
+import {
+  areNotificationsEnabled,
+  registerServiceWorker,
+} from '../utils/worker-util';
 import {UserModel} from '../models/user/user-model';
 import {AccountDetailInfo} from '../api/rest-api';
+import {until} from '../utils/async-util';
 
 /** Type of incoming messages for ServiceWorker. */
 export enum ServiceWorkerMessageType {
@@ -30,8 +34,23 @@ export class ServiceWorkerInstaller {
 
   async init() {
     if (this.initialized) return;
-    if (!this.flagsService.isEnabled(KnownExperimentId.PUSH_NOTIFICATIONS)) {
-      return;
+    if (
+      !this.flagsService.isEnabled(
+        KnownExperimentId.PUSH_NOTIFICATIONS_DEVELOPER
+      )
+    ) {
+      if (!this.flagsService.isEnabled(KnownExperimentId.PUSH_NOTIFICATIONS)) {
+        return;
+      }
+      const timeout1s = new Promise(resolve => {
+        setTimeout(resolve, 1000);
+      });
+      // We wait for account to be defined, if its not defined in 1s, it's guest
+      await Promise.race([
+        timeout1s,
+        until(this.userModel.account$, account => !!account),
+      ]);
+      if (!areNotificationsEnabled(this.account)) return;
     }
     if (!('serviceWorker' in navigator)) {
       console.error('Service worker API not available');

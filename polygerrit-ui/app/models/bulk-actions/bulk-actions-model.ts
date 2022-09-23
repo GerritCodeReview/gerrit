@@ -90,6 +90,7 @@ export class BulkActionsModel
 
   addSelectedChangeNum(changeNum: NumericChangeId) {
     const current = this.getState();
+    if (current.loadingState === LoadingState.LOADING) return;
     if (!current.allChanges.has(changeNum)) {
       throw new Error(
         `Trying to add change ${changeNum} that is not part of bulk-actions model`

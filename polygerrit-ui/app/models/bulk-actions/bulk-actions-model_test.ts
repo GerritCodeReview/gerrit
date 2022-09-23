@@ -71,6 +71,29 @@ suite('bulk actions model test', () => {
     assert.isEmpty(bulkActionsModel.getState().selectedChangeNums);
   });
 
+  test('selecting change in loading state does not throw error', () => {
+    const c1 = createChange();
+    c1._number = 1 as NumericChangeId;
+    const c2 = createChange();
+    c2._number = 2 as NumericChangeId;
+
+    assert.equal(
+      bulkActionsModel.getState().loadingState,
+      LoadingState.NOT_SYNCED
+    );
+
+    stubRestApi('getDetailedChangesWithActions');
+    bulkActionsModel.sync([c1, c2]);
+
+    assert.equal(
+      bulkActionsModel.getState().loadingState,
+      LoadingState.LOADING
+    );
+
+    bulkActionsModel.addSelectedChangeNum(createChange()._number);
+    assert.sameMembers(bulkActionsModel.getState().selectedChangeNums, []);
+  });
+
   test('add and remove selected changes', () => {
     const c1 = createChange();
     c1._number = 1 as NumericChangeId;

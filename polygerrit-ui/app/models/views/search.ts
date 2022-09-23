@@ -3,18 +3,41 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {RepoName, BranchName, TopicName} from '../../api/rest-api';
+import {combineLatest, fromEvent, Observable} from 'rxjs';
+import {
+  filter,
+  map,
+  startWith,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
+import {RepoName, BranchName, TopicName, ChangeInfo} from '../../api/rest-api';
+import {NavigationService} from '../../elements/core/gr-navigation/gr-navigation';
+import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {GerritView} from '../../services/router/router-model';
+import {select} from '../../utils/observable-util';
 import {addQuotesWhen} from '../../utils/string-util';
 import {encodeURL} from '../../utils/url-util';
 import {define} from '../dependency';
 import {Model} from '../model';
+import {UserModel} from '../user/user-model';
 import {ViewState} from './base';
+import {createChangeUrl} from './change';
+
+const LOOKUP_QUERY_PATTERNS: RegExp[] = [
+  /^\s*i?[0-9a-f]{7,40}\s*$/i, // CHANGE_ID
+  /^\s*[1-9][0-9]*\s*$/g, // CHANGE_NUM
+  /[0-9a-f]{40}/, // COMMIT
+];
 
 export interface SearchViewState extends ViewState {
   view: GerritView.SEARCH;
-  query?: string;
+  query: string;
   offset?: string;
+
+  loading: boolean;
+  changes: ChangeInfo[];
 }
 
 export interface SearchUrlOptions {
@@ -86,8 +109,102 @@ export function createSearchUrl(params: SearchUrlOptions): string {
 export const searchViewModelToken =
   define<SearchViewModel>('search-view-model');
 
+/**
+ * This is the view model for the search page.
+ *
+ * It keeps track of the overall search view state and provides selectors for
+ * subscribing to certain slices of the state.
+ *
+ * It manages loading the changes to be shown on the search page by providing
+ * `changes` in its state. Changes to the view state or certain user preferences
+ * will automatically trigger reloading the changes.
+ */
 export class SearchViewModel extends Model<SearchViewState | undefined> {
-  constructor() {
+  public readonly query$ = select(this.state$, s => s?.query ?? '');
+
+  private readonly offset$ = select(this.state$, s => s?.offset ?? '0');
+
+  public readonly offsetNumber$ = select(this.offset$, offset => {
+    const offsetNumber = Number(offset);
+    return Number.isFinite(offsetNumber) ? offsetNumber : 0;
+  });
+
+  public readonly changes$ = select(this.state$, s => s?.changes ?? []);
+
+  public readonly loading$ = select(this.state$, s => s?.loading ?? false);
+
+  // For usage in `combineLatest` we need `startWith` such that reload$ has an
+  // initial value.
+  private readonly reload$: Observable<unknown> = fromEvent(
+    document,
+    'reload'
+  ).pipe(startWith(undefined));
+
+  private readonly reloadChangesTrigger$ = combineLatest([
+    this.reload$,
+    this.query$,
+    this.offsetNumber$,
+    this.userModel.preferenceChangesPerPage$,
+  ]).pipe(
+    map(([_reload, query, offsetNumber, changesPerPage]) => {
+      const params: [string, number, number] = [
+        query,
+        offsetNumber,
+        changesPerPage,
+      ];
+      return params;
+    })
+  );
+
+  constructor(
+    private readonly restApiService: RestApiService,
+    private readonly userModel: UserModel,
+    private readonly getNavigation: () => NavigationService
+  ) {
     super(undefined);
+    this.subscriptions = [
+      this.reloadChangesTrigger$
+        .pipe(
+          switchMap(a => this.reloadChanges(a)),
+          tap(changes => this.updateState({changes, loading: false}))
+        )
+        .subscribe(),
+      this.changes$
+        .pipe(
+          filter(changes => changes.length === 1),
+          withLatestFrom(this.query$)
+        )
+        .subscribe(([changes, query]) =>
+          this.redirectSingleResult(query, changes)
+        ),
+    ];
+  }
+
+  private async reloadChanges([query, offset, changesPerPage]: [
+    string,
+    number,
+    number
+  ]): Promise<ChangeInfo[]> {
+    if (this.getState() === undefined) return [];
+    if (query.trim().length === 0) return [];
+    this.updateState({loading: true});
+    const changes = await this.restApiService.getChanges(
+      changesPerPage,
+      query,
+      offset
+    );
+    return changes ?? [];
+  }
+
+  // visible for testing
+  redirectSingleResult(query: string, changes: ChangeInfo[]): void {
+    if (changes.length !== 1) return;
+    for (const queryPattern of LOOKUP_QUERY_PATTERNS) {
+      if (query.match(queryPattern)) {
+        // "Back"/"Forward" buttons work correctly only with replaceUrl()
+        this.getNavigation().replaceUrl(createChangeUrl({change: changes[0]}));
+        return;
+      }
+    }
   }
 }

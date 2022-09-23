@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a9c895d_0926c4af",
+        "filename": "polygerrit-ui/app/utils/worker-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-23T09:47:30Z",
+      "side": 1,
+      "message": "Could you add a file comment that this entire file can be swapped out by internal implementations.\n\nIt\u0027s not immediately clear by the name of the file and I worry that someone that is not aware could add extra functions here that then would break compilation on import.",
+      "revId": "6c2018396b033b3000d6b9ad7825cf683fb78312",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

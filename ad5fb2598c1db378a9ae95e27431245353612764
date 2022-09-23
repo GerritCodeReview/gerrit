@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b66f0d37_d3a6bd8a",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-23T06:58:58Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "574eb57b_58159aeb",
+      "range": {
+        "startLine": 123,
+        "startChar": 4,
+        "endLine": 130,
+        "endChar": 6
+      },
+      "revId": "ad5fb2598c1db378a9ae95e27431245353612764",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "73cefee9_0982c353",
@@ -85,6 +109,30 @@
       "side": 0,
       "message": "\u003e It\u0027s because we are not sending this comment via reply but as draft?\n\nYes.\n\n\u003e If it\u0027s like that, maybe add assert for draft send for this comment.\n\nIn the test we are directly setting `element.patchsetLevelDraftMessage\u003d` so I don\u0027t think it\u0027s that valuable to assert that the comment will be sent.\n\nPatchset level comments are already tested here so I don\u0027t see much value in duplicating this.\nIf you disagree then let me know and I add the assertions.\n\n[1] https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts;l\u003d2292?q\u003d%22sending%20patchset%20level%20comment%22",
       "parentUuid": "73cefee9_0982c353",
+      "range": {
+        "startLine": 349,
+        "startChar": 6,
+        "endLine": 356,
+        "endChar": 8
+      },
+      "revId": "ad5fb2598c1db378a9ae95e27431245353612764",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b476811e_b1b5a253",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-23T06:58:58Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "0ccd317f_87e35c12",
       "range": {
         "startLine": 349,
         "startChar": 6,

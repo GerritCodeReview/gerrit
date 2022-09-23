@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad8cab79_eb50c688",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-23T13:55:51Z",
+      "side": 1,
+      "message": "That extra parenthesis should not be there, it\u0027s left-over from an experiment.",
+      "revId": "a4fd87ca586062cd5b5a6045a1f0b99f086e3f05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

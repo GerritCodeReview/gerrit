@@ -85,7 +85,11 @@ export function uniqueDefinedAvatar(
 }
 
 export function isDetailedAccount(account?: AccountInfo) {
-  return account && account._account_id;
+  // In case ChangeInfo is requested without DetailedAccount option, the
+  // reviewer entry is returned as just {_account_id: 123}
+  // This object should also be treated as not detailed account if they have
+  // an AccountId and no email
+  return !!account?.email && !!account?._account_id;
 }
 
 /**

@@ -90,7 +90,10 @@ suite('gr-reply-dialog tests', () => {
 
   let lastId = 1;
   const makeAccount = function () {
-    return {_account_id: lastId++ as AccountId};
+    return {
+      _account_id: lastId++ as AccountId,
+      email: `${lastId}.com` as EmailAddress,
+    };
   };
   const makeGroup = function () {
     return {id: `${lastId++}` as GroupId};
@@ -113,6 +116,7 @@ suite('gr-reply-dialog tests', () => {
       owner: {
         _account_id: 999 as AccountId,
         display_name: 'Kermit',
+        email: 'abcd' as EmailAddress,
       },
       labels: {
         Verified: {

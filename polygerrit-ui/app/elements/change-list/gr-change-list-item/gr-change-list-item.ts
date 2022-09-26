@@ -103,6 +103,14 @@ export class GrChangeListItem extends LitElement {
   @property({type: String})
   usp?: string;
 
+  /** Index of the item in the overall list. */
+  @property({type: Number})
+  globalIndex = 0;
+
+  /** Callback to call to request the item to be selected in the list. */
+  @property({type: Function})
+  triggerSelectionCallback?: (globalIndex: number) => void;
+
   @property({type: Boolean, reflect: true}) selected = false;
 
   // private but used in tests
@@ -682,6 +690,9 @@ export class GrChangeListItem extends LitElement {
   private toggleCheckbox() {
     assertIsDefined(this.change, 'change');
     this.checked = !this.checked;
+    if (this.triggerSelectionCallback) {
+      this.triggerSelectionCallback(this.globalIndex);
+    }
     this.getBulkActionsModel().toggleSelectedChangeNum(this.change._number);
   }
 

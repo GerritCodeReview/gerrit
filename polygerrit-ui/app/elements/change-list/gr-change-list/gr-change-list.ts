@@ -225,19 +225,34 @@ export class GrChangeList extends LitElement {
   override render() {
     if (!this.sections) return;
     const labelNames = this.computeLabelNames(this.sections);
+    const startIndices = this.calculateStartIndices(this.sections);
     return html`
       <table id="changeList">
         ${this.sections.map((changeSection, sectionIndex) =>
-          this.renderSection(changeSection, sectionIndex, labelNames)
+          this.renderSection(
+            changeSection,
+            sectionIndex,
+            labelNames,
+            startIndices[sectionIndex]
+          )
         )}
       </table>
     `;
   }
 
+  private calculateStartIndices(sections: ChangeListSection[]): number[] {
+    const startIndices: number[] = new Array(sections.length).fill(0);
+    for (let i = 1; i < sections.length; ++i) {
+      startIndices[i] = startIndices[i - 1] + sections[i - 1].results.length;
+    }
+    return startIndices;
+  }
+
   private renderSection(
     changeSection: ChangeListSection,
     sectionIndex: number,
-    labelNames: string[]
+    labelNames: string[],
+    startIndex: number
   ) {
     return html`
       <gr-change-list-section
@@ -256,6 +271,11 @@ export class GrChangeList extends LitElement {
         .showNumber=${this.showNumber}
         .visibleChangeTableColumns=${this.visibleChangeTableColumns}
         .usp=${this.usp}
+        .startIndex=${startIndex}
+        .triggerSelectionCallback=${(index: number) => {
+          this.selectedIndex = index;
+          this.cursor.setCursorAtIndex(this.selectedIndex);
+        }}
       >
         ${changeSection.emptyStateSlotName
           ? html`<slot

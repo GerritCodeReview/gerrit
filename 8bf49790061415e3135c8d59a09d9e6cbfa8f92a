@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04e6831a_54ebd41d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-26T18:58:01Z",
+      "side": 1,
+      "message": "convertEmailsToAccountChips",
+      "range": {
+        "startLine": 219,
+        "startChar": 10,
+        "endLine": 219,
+        "endChar": 25
+      },
+      "revId": "8bf49790061415e3135c8d59a09d9e6cbfa8f92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "494fec16_c8c10be3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-26T18:58:01Z",
+      "side": 1,
+      "message": "improve name of `el` since there are many elements involved in the function.",
+      "range": {
+        "startLine": 220,
+        "startChar": 15,
+        "endLine": 220,
+        "endChar": 17
+      },
+      "revId": "8bf49790061415e3135c8d59a09d9e6cbfa8f92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "461f837c_0c78b02e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-26T18:58:01Z",
+      "side": 1,
+      "message": "renderRoot [seems more correct](https://lit.dev/docs/components/shadow-dom/#accessing-nodes-in-the-shadow-dom)\n\n```suggestion\n    for (const el of this.renderRoot.querySelectorAll(\u0027a[href^\u003d\"mailto\"]\u0027) ??\n```",
+      "range": {
+        "startLine": 220,
+        "startChar": 21,
+        "endLine": 220,
+        "endChar": 54
+      },
+      "revId": "8bf49790061415e3135c8d59a09d9e6cbfa8f92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0ebf4e2_6e0009a7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-26T18:58:01Z",
+      "side": 1,
+      "message": "is it possible previous sibling is a list or code or something that shouldn\u0027t be counted for @ mention? In those cases this shouldn\u0027t insert the account chip Ex:\n```\n\u003ccode\u003esome code that happens to end with @\u003c/code\u003e\nfrankborden@google.com\n```",
+      "range": {
+        "startLine": 222,
+        "startChar": 13,
+        "endLine": 222,
+        "endChar": 28
+      },
+      "revId": "8bf49790061415e3135c8d59a09d9e6cbfa8f92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42fa4503_22caa92d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-26T18:58:01Z",
+      "side": 1,
+      "message": "comment explaining regex",
+      "range": {
+        "startLine": 222,
+        "startChar": 48,
+        "endLine": 222,
+        "endChar": 63
+      },
+      "revId": "8bf49790061415e3135c8d59a09d9e6cbfa8f92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "613295c3_2330828a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-26T18:58:01Z",
+      "side": 1,
+      "message": "```suggestion\n        );\n```",
+      "range": {
+        "startLine": 225,
+        "startChar": 8,
+        "endLine": 225,
+        "endChar": 27
+      },
+      "revId": "8bf49790061415e3135c8d59a09d9e6cbfa8f92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3cbaa38_da34af9f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-26T18:58:01Z",
+      "side": 1,
+      "message": "comment explaining slice removes @",
+      "range": {
+        "startLine": 230,
+        "startChar": 0,
+        "endLine": 230,
+        "endChar": 78
+      },
+      "revId": "8bf49790061415e3135c8d59a09d9e6cbfa8f92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

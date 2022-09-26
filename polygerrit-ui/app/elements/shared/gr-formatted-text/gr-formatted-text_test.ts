@@ -1,75 +1,58 @@
 /**
  * @license
- * Copyright 2016 Google LLC
+ * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+<<<<<<< PATCH SET (77e628 Replace gr-formatted-text with gr-markdown)
+=======
 import {fixture, html, assert} from '@open-wc/testing';
+>>>>>>> BASE      (380bee Enable markdown renderer by default)
 import '../../../test/common-test-setup';
+<<<<<<< PATCH SET (77e628 Replace gr-formatted-text with gr-markdown)
+import {assert, fixture, html} from '@open-wc/testing';
+import {changeModelToken} from '../../../models/change/change-model';
+=======
 import './gr-formatted-text';
+>>>>>>> BASE      (380bee Enable markdown renderer by default)
 import {
-  GrFormattedText,
-  Block,
-  ListBlock,
-  Paragraph,
-  QuoteBlock,
-  PreBlock,
-  CodeBlock,
-  InlineItem,
-  ListItem,
-  TextSpan,
-  LinkSpan,
-} from './gr-formatted-text';
+  ConfigModel,
+  configModelToken,
+} from '../../../models/config/config-model';
+import {wrapInProvider} from '../../../models/di-provider-element';
+import {getAppContext} from '../../../services/app-context';
+import './gr-formatted-text';
+import {GrFormattedText} from './gr-formatted-text';
+import {createConfig} from '../../../test/test-data-generators';
+import {waitUntilObserved} from '../../../test/test-utils';
+import {CommentLinks} from '../../../api/rest-api';
+import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-formatted-text tests', () => {
   let element: GrFormattedText;
+<<<<<<< PATCH SET (77e628 Replace gr-formatted-text with gr-markdown)
+  let configModel: ConfigModel;
+=======
+>>>>>>> BASE      (380bee Enable markdown renderer by default)
 
-  function assertSpan(actual: InlineItem, expected: InlineItem) {
-    assert.equal(actual.type, expected.type);
-    assert.equal(actual.text, expected.text);
-    switch (actual.type) {
-      case 'link':
-        assert.equal(actual.url, (expected as LinkSpan).url);
-        break;
-    }
-  }
-
-  function assertTextBlock(block: Block, spans: InlineItem[]) {
-    assert.equal(block.type, 'paragraph');
-    const paragraph = block as Paragraph;
-    assert.equal(paragraph.spans.length, spans.length);
-    for (let i = 0; i < paragraph.spans.length; ++i) {
-      assertSpan(paragraph.spans[i], spans[i]);
-    }
-  }
-
-  function assertPreBlock(block: Block, text: string) {
-    assert.equal(block.type, 'pre');
-    const preBlock = block as PreBlock;
-    assert.equal(preBlock.text, text);
-  }
-
-  function assertCodeBlock(block: Block, text: string) {
-    assert.equal(block.type, 'code');
-    const preBlock = block as CodeBlock;
-    assert.equal(preBlock.text, text);
-  }
-
-  function assertSimpleTextBlock(block: Block, text: string) {
-    assertTextBlock(block, [{type: 'text', text}]);
-  }
-
-  function assertListBlock(block: Block, items: ListItem[]) {
-    assert.equal(block.type, 'list');
-    const listBlock = block as ListBlock;
-    assert.deepEqual(listBlock.items, items);
-  }
-
-  function assertQuoteBlock(block: Block): QuoteBlock {
-    assert.equal(block.type, 'quote');
-    return block as QuoteBlock;
+  async function setCommentLinks(commentlinks: CommentLinks) {
+    configModel.updateRepoConfig({...createConfig(), commentlinks});
+    await waitUntilObserved(
+      configModel.repoCommentLinks$,
+      links => links === commentlinks
+    );
   }
 
   setup(async () => {
+<<<<<<< PATCH SET (77e628 Replace gr-formatted-text with gr-markdown)
+    configModel = new ConfigModel(
+      testResolver(changeModelToken),
+      getAppContext().restApiService
+    );
+    await setCommentLinks({
+      customLinkRewrite: {
+        match: '(LinkRewriteMe)',
+        link: 'http://google.com/$1',
+=======
     element = await fixture(html`<gr-formatted-text></gr-formatted-text>`);
   });
 
@@ -356,164 +339,345 @@ suite('gr-formatted-text tests', () => {
     assertListBlock(result[0], [
       {
         spans: [{type: 'link', text: 'text', url: 'http://url'}],
+>>>>>>> BASE      (380bee Enable markdown renderer by default)
       },
-      {spans: [{type: 'text', text: '2nd line'}]},
-    ]);
+      customHtmlRewrite: {
+        match: 'HTMLRewriteMe',
+        html: '<div>HTMLRewritten</div>',
+      },
+    });
+    element = (
+      await fixture(
+        wrapInProvider(
+          html`<gr-formatted-text></gr-formatted-text>`,
+          configModelToken,
+          configModel
+        )
+      )
+    ).querySelector('gr-formatted-text')!;
   });
 
-  test('nested list will NOT be recognized', () => {
-    // will be rendered as two separate lists
-    const comment = '- line 1\n    - line with indentation\n- line 2';
-    const result = element._computeBlocks(comment);
-    assert.lengthOf(result, 3);
-    assertListBlock(result[0], [{spans: [{type: 'text', text: 'line 1'}]}]);
-    assertPreBlock(result[1], '    - line with indentation');
-    assertListBlock(result[2], [{spans: [{type: 'text', text: 'line 2'}]}]);
+  suite('as plaintext', () => {
+    setup(async () => {
+      element.markdown = false;
+      await element.updateComplete;
+    });
+
+    test('renders text with links and rewrites', async () => {
+      element.content = `text with plain link: google.com
+        \ntext with config link: LinkRewriteMe
+        \ntext with config html: HTMLRewriteMe`;
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <pre class="plaintext">
+            text with plain link:
+            <a href="http://google.com" rel="noopener" target="_blank">
+              google.com
+            </a>
+            text with config link:
+            <a
+              href="http://google.com/LinkRewriteMe"
+              rel="noopener"
+              target="_blank"
+            >
+              LinkRewriteMe
+            </a>
+            text with config html:
+            <div>HTMLRewritten</div>
+          </pre>
+        `
+      );
+    });
+
+    test('does not render typed html', async () => {
+      element.content = 'plain text <div>foo</div>';
+      await element.updateComplete;
+
+      const escapedDiv = '&lt;div&gt;foo&lt;/div&gt;';
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `<pre class="plaintext">plain text ${escapedDiv}</pre>`
+      );
+    });
+
+    test('does not render markdown', async () => {
+      element.content = '# A Markdown Heading';
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ '<pre class="plaintext"># A Markdown Heading</pre>'
+      );
+    });
   });
 
-  test('pre format 1', () => {
-    const comment = 'A\n    This is pre\n    formatted';
-    const result = element._computeBlocks(comment);
-    assert.lengthOf(result, 2);
-    assertSimpleTextBlock(result[0], 'A');
-    assertPreBlock(result[1], '    This is pre\n    formatted');
-  });
+  suite('as markdown', () => {
+    setup(async () => {
+      element.markdown = true;
+      await element.updateComplete;
+    });
+    test('renders text with links and rewrites', async () => {
+      element.content = `text
+        \ntext with plain link: google.com
+        \ntext with config link: LinkRewriteMe
+        \ntext with config html: HTMLRewriteMe`;
+      await element.updateComplete;
 
-  test('pre format 2', () => {
-    const comment = 'A\n    This is pre\n    formatted\n\nbut this is not';
-    const result = element._computeBlocks(comment);
-    assert.lengthOf(result, 3);
-    assertSimpleTextBlock(result[0], 'A');
-    assertPreBlock(result[1], '    This is pre\n    formatted');
-    assertSimpleTextBlock(result[2], 'but this is not');
-  });
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <marked-element>
+            <div slot="markdown-html">
+              <p>text</p>
+              <p>
+                text with plain link:
+                <a href="http://google.com" rel="noopener" target="_blank">
+                  google.com
+                </a>
+              </p>
+              <p>
+                text with config link:
+                <a
+                  href="http://google.com/LinkRewriteMe"
+                  rel="noopener"
+                  target="_blank"
+                >
+                  LinkRewriteMe
+                </a>
+              </p>
+              <p>text with config html:</p>
+              <div>HTMLRewritten</div>
+              <p></p>
+            </div>
+          </marked-element>
+        `
+      );
+    });
 
-  test('pre format 3', () => {
-    const comment = 'A\n    Q\n    <R>\n    S\n\nB';
-    const result = element._computeBlocks(comment);
-    assert.lengthOf(result, 3);
-    assertSimpleTextBlock(result[0], 'A');
-    assertPreBlock(result[1], '    Q\n    <R>\n    S');
-    assertSimpleTextBlock(result[2], 'B');
-  });
+    test('renders headings with links and rewrites', async () => {
+      element.content = `# h1-heading
+        \n## h2-heading
+        \n### h3-heading
+        \n#### h4-heading
+        \n##### h5-heading
+        \n###### h6-heading
+        \n# heading with plain link: google.com
+        \n# heading with config link: LinkRewriteMe
+        \n# heading with config html: HTMLRewriteMe`;
+      await element.updateComplete;
 
-  test('pre format 4', () => {
-    const comment = '    Q\n    <R>\n    S\n\nB';
-    const result = element._computeBlocks(comment);
-    assert.lengthOf(result, 2);
-    assertPreBlock(result[0], '    Q\n    <R>\n    S');
-    assertSimpleTextBlock(result[1], 'B');
-  });
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <marked-element>
+            <div slot="markdown-html">
+              <h1>h1-heading</h1>
+              <h2>h2-heading</h2>
+              <h3>h3-heading</h3>
+              <h4>h4-heading</h4>
+              <h5>h5-heading</h5>
+              <h6>h6-heading</h6>
+              <h1>
+                heading with plain link:
+                <a href="http://google.com" rel="noopener" target="_blank">
+                  google.com
+                </a>
+              </h1>
+              <h1>
+                heading with config link:
+                <a
+                  href="http://google.com/LinkRewriteMe"
+                  rel="noopener"
+                  target="_blank"
+                >
+                  LinkRewriteMe
+                </a>
+              </h1>
+              <h1>
+                heading with config html:
+                <div>HTMLRewritten</div>
+              </h1>
+            </div>
+          </marked-element>
+        `
+      );
+    });
 
-  test('pre format 5', () => {
-    const comment = '    Q\n    <R>\n    S\n \nB';
-    const result = element._computeBlocks(comment);
-    assert.lengthOf(result, 2);
-    assertPreBlock(result[0], '    Q\n    <R>\n    S');
-    assertSimpleTextBlock(result[1], ' \nB');
-  });
+    test('renders inline-code without linking or rewriting', async () => {
+      element.content = `\`inline code\`
+        \n\`inline code with plain link: google.com\`
+        \n\`inline code with config link: LinkRewriteMe\`
+        \n\`inline code with config html: HTMLRewriteMe\``;
+      await element.updateComplete;
 
-  test('pre format 6', () => {
-    const comment = '    Q\n    <R>\n\n    S\n \nB';
-    const result = element._computeBlocks(comment);
-    assert.lengthOf(result, 2);
-    assertPreBlock(result[0], '    Q\n    <R>\n\n    S');
-    assertSimpleTextBlock(result[1], ' \nB');
-  });
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <marked-element>
+            <div slot="markdown-html">
+              <p>
+                <code>inline code</code>
+              </p>
+              <p>
+                <code>inline code with plain link: google.com</code>
+              </p>
+              <p>
+                <code>inline code with config link: LinkRewriteMe</code>
+              </p>
+              <p>
+                <code>inline code with config html: HTMLRewriteMe</code>
+              </p>
+            </div>
+          </marked-element>
+        `
+      );
+    });
+    test('renders multiline-code without linking or rewriting', async () => {
+      element.content = `\`\`\`\nmultiline code\n\`\`\`
+        \n\`\`\`\nmultiline code with plain link: google.com\n\`\`\`
+        \n\`\`\`\nmultiline code with config link: LinkRewriteMe\n\`\`\`
+        \n\`\`\`\nmultiline code with config html: HTMLRewriteMe\n\`\`\``;
+      await element.updateComplete;
 
-  test('quote 1', () => {
-    const comment = "> I'm happy with quotes!!";
-    const result = element._computeBlocks(comment);
-    assert.lengthOf(result, 1);
-    const quoteBlock = assertQuoteBlock(result[0]);
-    assert.lengthOf(quoteBlock.blocks, 1);
-    assertSimpleTextBlock(quoteBlock.blocks[0], "I'm happy with quotes!!");
-  });
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <marked-element>
+            <div slot="markdown-html">
+              <pre>
+              <code>multiline code</code>
+            </pre>
+              <pre>
+              <code>multiline code with plain link: google.com</code>
+            </pre>
+              <pre>
+              <code>multiline code with config link: LinkRewriteMe</code>
+            </pre>
+              <pre>
+              <code>multiline code with config html: HTMLRewriteMe</code>
+            </pre>
+            </div>
+          </marked-element>
+        `
+      );
+    });
 
-  test('quote 2', () => {
-    const comment = "> I'm happy\n > with quotes!\n\nSee above.";
-    const result = element._computeBlocks(comment);
-    assert.lengthOf(result, 2);
-    const quoteBlock = assertQuoteBlock(result[0]);
-    assert.lengthOf(quoteBlock.blocks, 1);
-    assertSimpleTextBlock(quoteBlock.blocks[0], "I'm happy\nwith quotes!");
-    assertSimpleTextBlock(result[1], 'See above.');
-  });
+    test('does not render inline images into <img> tags', async () => {
+      element.content = '![img](google.com/img.png)';
+      await element.updateComplete;
 
-  test('quote 3', () => {
-    const comment = 'See this said:\n > a quoted\n > string block\n\nOK?';
-    const result = element._computeBlocks(comment);
-    assert.lengthOf(result, 3);
-    assertSimpleTextBlock(result[0], 'See this said:');
-    const quoteBlock = assertQuoteBlock(result[1]);
-    assert.lengthOf(quoteBlock.blocks, 1);
-    assertSimpleTextBlock(quoteBlock.blocks[0], 'a quoted\nstring block');
-    assertSimpleTextBlock(result[2], 'OK?');
-  });
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <marked-element>
+            <div slot="markdown-html">
+              <p>![img](google.com/img.png)</p>
+            </div>
+          </marked-element>
+        `
+      );
+    });
 
-  test('nested quotes', () => {
-    const comment = ' > > prior\n > \n > next\n';
-    const result = element._computeBlocks(comment);
-    assert.lengthOf(result, 1);
-    const outerQuoteBlock = assertQuoteBlock(result[0]);
-    assert.lengthOf(outerQuoteBlock.blocks, 2);
-    const nestedQuoteBlock = assertQuoteBlock(outerQuoteBlock.blocks[0]);
-    assert.lengthOf(nestedQuoteBlock.blocks, 1);
-    assertSimpleTextBlock(nestedQuoteBlock.blocks[0], 'prior');
-    assertSimpleTextBlock(outerQuoteBlock.blocks[1], 'next');
-  });
+    test('renders inline links into <a> tags', async () => {
+      element.content = '[myLink](https://www.google.com)';
+      await element.updateComplete;
 
-  test('code entire text', () => {
-    const comment = '```\n// test code\n```';
-    const result = element._computeBlocks(comment);
-    assert.lengthOf(result, 1);
-    assertCodeBlock(result[0], '// test code');
-  });
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <marked-element>
+            <div slot="markdown-html">
+              <p>
+                <a href="https://www.google.com">myLink</a>
+              </p>
+            </div>
+          </marked-element>
+        `
+      );
+    });
 
-  test('code first line is descriptor not part of code', () => {
-    const comment = 'test code\n```descr\n// test code\n```\nsomething else';
-    const result = element._computeBlocks(comment);
-    assert.lengthOf(result, 3);
-    assertSimpleTextBlock(result[0], 'test code');
-    // 'descr' is omitted.
-    assertCodeBlock(result[1], '// test code');
-    assertSimpleTextBlock(result[2], 'something else');
-  });
+    test('renders block quotes with links and rewrites', async () => {
+      element.content = `> block quote
+        \n> block quote with plain link: google.com
+        \n> block quote with config link: LinkRewriteMe
+        \n> block quote with config html: HTMLRewriteMe`;
+      await element.updateComplete;
 
-  test('code open without close eats everything', () => {
-    const comment = 'test code\n```\n// test code\n// more code';
-    const result = element._computeBlocks(comment);
-    assert.lengthOf(result, 2);
-    assertSimpleTextBlock(result[0], 'test code');
-    assertCodeBlock(result[1], '// test code\n// more code');
-  });
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <marked-element>
+            <div slot="markdown-html">
+              <blockquote>
+                <p>block quote</p>
+              </blockquote>
+              <blockquote>
+                <p>
+                  block quote with plain link:
+                  <a href="http://google.com" rel="noopener" target="_blank">
+                    google.com
+                  </a>
+                </p>
+              </blockquote>
+              <blockquote>
+                <p>
+                  block quote with config link:
+                  <a
+                    href="http://google.com/LinkRewriteMe"
+                    rel="noopener"
+                    target="_blank"
+                  >
+                    LinkRewriteMe
+                  </a>
+                </p>
+              </blockquote>
+              <blockquote>
+                <p>block quote with config html:</p>
+                <div>HTMLRewritten</div>
+                <p></p>
+              </blockquote>
+            </div>
+          </marked-element>
+        `
+      );
+    });
 
-  test('backticks inside line not code', () => {
-    const comment = 'test code\nwords ```\n// test code```';
-    const result = element._computeBlocks(comment);
-    assert.lengthOf(result, 1);
-    // We don't care how paragraph itself is parsed for this test.
-    assert.equal(result[0].type, 'paragraph');
-  });
+    test('never renders typed html', async () => {
+      element.content = `plain text <div>foo</div>
+        \n\`inline code <div>foo</div>\`
+        \n\`\`\`\nmultiline code <div>foo</div>\`\`\`
+        \n> block quote <div>foo</div>
+        \n[inline link <div>foo</div>](http://google.com)`;
+      await element.updateComplete;
 
-  test('mix all 1', () => {
-    const comment =
-      '    bullets:\n- bullet 1\n- bullet 2\n\ncode example:\n' +
-      '```\n// test code\n```\n\n> reference is here';
-    const result = element._computeBlocks(comment);
-    assert.lengthOf(result, 5);
-    assert.equal(result[0].type, 'pre');
-    assert.equal(result[1].type, 'list');
-    assert.equal(result[2].type, 'paragraph');
-    assert.equal(result[3].type, 'code');
-    assert.equal(result[4].type, 'quote');
-  });
-
-  test('text with \\t is paragraph', () => {
-    const comment =
-      "Changes to NoteDb or entities packages require careful consideration. 		      Make sure your change is forward compatible and add the footer 		      'Forward-Compatible: checked' to your commit message";
-    const result = element._computeBlocks(comment);
-    assert.lengthOf(result, 1);
-    assert.equal(result[0].type, 'paragraph');
+      const escapedDiv = '&lt;div&gt;foo&lt;/div&gt;';
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <marked-element>
+            <div slot="markdown-html">
+              <p>plain text ${escapedDiv}</p>
+              <p>
+                <code>inline code ${escapedDiv}</code>
+              </p>
+              <pre>
+              <code>
+                multiline code ${escapedDiv}
+              </code>
+            </pre>
+              <blockquote>
+                <p>block quote ${escapedDiv}</p>
+              </blockquote>
+              <p>
+                <a href="http://google.com">inline link ${escapedDiv}</a>
+              </p>
+            </div>
+          </marked-element>
+        `
+      );
+    });
   });
 });

@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "af6ac6cf_b992add1",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2128,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-09-26T16:39:34Z",
+      "side": 1,
+      "message": "I do not think we should return Edit Info - we do not plan to create an edit.\n\nIf you think this is a better approach, could you, please, describe the expected behaviour in more detail?\n\nOur specific usecase is creating a new patchset or change from the patch. I think the API that Nitzan suggested would fulfill our requirements",
+      "parentUuid": "0fa0fd6b_28a988ea",
+      "range": {
+        "startLine": 2128,
+        "startChar": 4,
+        "endLine": 2128,
+        "endChar": 27
+      },
+      "revId": "d621f14911a199fa54fcc5ffdfad639450270c44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "99dc2f80_2d144cfd",
         "filename": "java/com/google/gerrit/extensions/api/changes/ApplyPatchInput.java",
         "patchSetId": 7

@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32dbdf2a_fb7a5404",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2133,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-09-26T16:39:34Z",
+      "side": 1,
+      "message": "nit: Creates a new patch set on a destination change from the provided patch.",
+      "range": {
+        "startLine": 2133,
+        "startChar": 0,
+        "endLine": 2133,
+        "endChar": 63
+      },
+      "revId": "b25b4e465b6d91403e88e87ebc9806823f2d3b4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7b73387_e5978cf9",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2180,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-09-26T16:39:34Z",
+      "side": 1,
+      "message": "nit: Misses current_revision?",
+      "range": {
+        "startLine": 2178,
+        "startChar": 0,
+        "endLine": 2180,
+        "endChar": 5
+      },
+      "revId": "b25b4e465b6d91403e88e87ebc9806823f2d3b4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd175064_2e70bd1f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 6568,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-09-26T16:39:34Z",
+      "side": 1,
+      "message": "nit: about a patch that will be applied to a tree of an existing commit.\n\nMy only concern here is that is makes it sound like this \u0027existing commit\u0027 will be modified.",
+      "range": {
+        "startLine": 6568,
+        "startChar": 50,
+        "endLine": 6568,
+        "endChar": 95
+      },
+      "revId": "b25b4e465b6d91403e88e87ebc9806823f2d3b4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "102cf186_d910f4ad",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 6581,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-09-26T16:39:34Z",
+      "side": 1,
+      "message": "nit: creating a new patch set from a patch.",
+      "range": {
+        "startLine": 6580,
+        "startChar": 64,
+        "endLine": 6581,
+        "endChar": 10
+      },
+      "revId": "b25b4e465b6d91403e88e87ebc9806823f2d3b4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ed147bb_e124daea",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ApplyPatchInput.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-09-26T16:39:34Z",
+      "side": 1,
+      "message": "nit: please, add a docsting.",
+      "range": {
+        "startLine": 17,
+        "startChar": 13,
+        "endLine": 17,
+        "endChar": 30
+      },
+      "revId": "b25b4e465b6d91403e88e87ebc9806823f2d3b4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e397c5fa_2f588855",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ApplyPatchInput.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-09-26T16:39:34Z",
+      "side": 1,
+      "message": "nit: please, add a comment about the format.",
+      "range": {
+        "startLine": 18,
+        "startChar": 9,
+        "endLine": 18,
+        "endChar": 22
+      },
+      "revId": "b25b4e465b6d91403e88e87ebc9806823f2d3b4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

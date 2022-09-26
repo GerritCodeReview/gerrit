@@ -80,9 +80,9 @@ export class GrMarkdown extends LitElement {
         /* Pre will preserve whitespace and line breaks but not wrap */
         white-space: pre;
       }
-      /* Code within a sentence needs display:inline to shrink and not take a
-         whole row */
-      p code {
+      /* Non-multiline code elements need display:inline to shrink and not take
+         a whole row */
+      :not(pre) > code {
         display: inline;
       }
       p {

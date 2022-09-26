@@ -93,6 +93,30 @@
       },
       "revId": "d621f14911a199fa54fcc5ffdfad639450270c44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b94ce79_97e10063",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ApplyPatchInput.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-09-26T07:54:58Z",
+      "side": 1,
+      "message": "Added. Default is the latest patch set/head in none.",
+      "parentUuid": "99dc2f80_2d144cfd",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 29
+      },
+      "revId": "d621f14911a199fa54fcc5ffdfad639450270c44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

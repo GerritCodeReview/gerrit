@@ -96,6 +96,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd6f268d_3b9c9b9a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2130,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-09-26T07:54:58Z",
+      "side": 1,
+      "message": "Added a \u0027patch\u0027 field to ChangeInfo to support this option.",
+      "parentUuid": "2a936696_02ccc903",
+      "range": {
+        "startLine": 2130,
+        "startChar": 6,
+        "endLine": 2130,
+        "endChar": 58
+      },
+      "revId": "0c689fd64e9d0e60fa9bbdab680be18f436b07af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "af62a17d_a4410134",

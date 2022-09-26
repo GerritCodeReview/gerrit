@@ -805,6 +805,10 @@ export class GrReplyDialog extends LitElement {
               name="change"
               .value=${this.change}
             ></gr-endpoint-param>
+            <gr-endpoint-param
+              name="message"
+              .value=${this.patchsetLevelDraftMessage}
+            ></gr-endpoint-param>
             ${this.renderAttentionSummarySection()}
             ${this.renderAttentionDetailsSection()}
             <gr-endpoint-slot name="above-actions"></gr-endpoint-slot>

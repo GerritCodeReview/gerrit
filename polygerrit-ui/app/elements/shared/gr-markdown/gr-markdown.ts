@@ -82,7 +82,7 @@ export class GrMarkdown extends LitElement {
       }
       /* Code within a sentence needs display:inline to shrink and not take a
          whole row */
-      p code {
+      :not(pre) > code {
         display: inline;
       }
       p {

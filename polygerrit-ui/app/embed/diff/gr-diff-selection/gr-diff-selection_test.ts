@@ -22,7 +22,9 @@ const diffTableTemplate = html`
         <div data-side="left">
           <div class="comment-thread">
             <div class="gr-formatted-text message">
-              <span id="output" class="gr-markdown">This is a comment</span>
+              <span id="output" class="gr-formatted-text"
+                >This is a comment</span
+              >
             </div>
           </div>
         </div>
@@ -44,7 +46,7 @@ const diffTableTemplate = html`
         <div data-side="right">
           <div class="comment-thread">
             <div class="gr-formatted-text message">
-              <span id="output" class="gr-markdown"
+              <span id="output" class="gr-formatted-text"
                 >This is a comment on the right</span
               >
             </div>
@@ -60,7 +62,7 @@ const diffTableTemplate = html`
         <div data-side="left">
           <div class="comment-thread">
             <div class="gr-formatted-text message">
-              <span id="output" class="gr-markdown"
+              <span id="output" class="gr-formatted-text"
                 >This is <a>a</a> different comment 💩 unicode is fun</span
               >
             </div>

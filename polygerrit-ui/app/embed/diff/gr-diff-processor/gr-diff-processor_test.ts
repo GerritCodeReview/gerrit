@@ -637,8 +637,8 @@ suite('gr-diff-processor tests', () => {
       // REST API.
       let content = [
         '      <section class="summary">',
-        '        <gr-markdown content="' +
-          '[[_computeCurrentRevisionMessage(change)]]"></gr-markdown>',
+        '        <gr-formatted-text content="' +
+          '[[_computeCurrentRevisionMessage(change)]]"></gr-formatted-text>',
         '      </section>',
       ];
       let highlights = [
@@ -659,12 +659,8 @@ suite('gr-diff-processor tests', () => {
         },
         {
           contentIndex: 1,
+          endIndex: 101,
           startIndex: 75,
-        },
-        {
-          contentIndex: 2,
-          startIndex: 0,
-          endIndex: 12,
         },
       ]);
       const lines = element.linesFromRows(
@@ -679,7 +675,7 @@ suite('gr-diff-processor tests', () => {
       assert.isTrue(lines[1].hasIntralineInfo);
       assert.equal(lines[1].highlights.length, 2);
       assert.isTrue(lines[2].hasIntralineInfo);
-      assert.equal(lines[2].highlights.length, 1);
+      assert.equal(lines[2].highlights.length, 0);
 
       content = [
         '        this._path = value.path;',

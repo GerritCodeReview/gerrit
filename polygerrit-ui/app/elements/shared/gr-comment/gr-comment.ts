@@ -24,7 +24,6 @@ import {GrTextarea} from '../gr-textarea/gr-textarea';
 import {GrOverlay} from '../gr-overlay/gr-overlay';
 import {
   AccountDetailInfo,
-  CommentLinks,
   NumericChangeId,
   RepoName,
   RobotCommentInfo,
@@ -60,7 +59,6 @@ import {LineNumber} from '../../../api/diff';
 import {CommentSide, SpecialFilePath} from '../../../constants/constants';
 import {Subject} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
-import {configModelToken} from '../../../models/config/config-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {Interaction} from '../../../constants/reporting';
 import {KnownExperimentId} from '../../../services/flags/flags';
@@ -192,9 +190,6 @@ export class GrComment extends LitElement {
   editing = false;
 
   @state()
-  commentLinks: CommentLinks = {};
-
-  @state()
   repoName?: RepoName;
 
   /* The 'dirty' state of the comment.message, which will be saved on demand. */
@@ -238,8 +233,6 @@ export class GrComment extends LitElement {
   readonly getCommentsModel = resolve(this, commentsModelToken);
 
   private readonly userModel = getAppContext().userModel;
-
-  private readonly configModel = resolve(this, configModelToken);
 
   private readonly shortcuts = new ShortcutController(this);
 
@@ -287,11 +280,6 @@ export class GrComment extends LitElement {
     if (this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) {
       this.messagePlaceholder = 'Mention others with @';
     }
-    subscribe(
-      this,
-      () => this.configModel().repoCommentLinks$,
-      x => (this.commentLinks = x)
-    );
     subscribe(
       this,
       () => this.userModel.account$,
@@ -724,8 +712,8 @@ export class GrComment extends LitElement {
           gr-diff-selection.-->
       <gr-formatted-text
         class="message"
-        .content=${this.comment?.message}
-        .config=${this.commentLinks}
+        .markdown=${true}
+        .content=${this.comment?.message ?? ''}
       ></gr-formatted-text>
     `;
   }

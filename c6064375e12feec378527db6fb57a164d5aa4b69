@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "17d0e67e_20d251ac",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-26T08:42:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b7853dd_d6a791ff",
+      "revId": "c6064375e12feec378527db6fb57a164d5aa4b69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2557c0e1_4d2740da",
@@ -65,6 +83,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c2e04a0_4888903a",
+        "filename": "polygerrit-ui/app/models/views/search.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-26T08:42:02Z",
+      "side": 1,
+      "message": "I have added a class level comment, but all the public fields are straightforward selectors. I think in that case it would be more valuable to explaining models and selectors in some central place then repeating it on every field. WDYT?",
+      "parentUuid": "00eba087_0e0ef7b6",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 28
+      },
+      "revId": "c6064375e12feec378527db6fb57a164d5aa4b69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a790b5ac_16ad7229",
@@ -78,6 +120,30 @@
       "writtenOn": "2022-09-23T09:29:39Z",
       "side": 1,
       "message": "Does line 113 above already guarantees that query will be \u0027\u0027 if undefined?",
+      "range": {
+        "startLine": 145,
+        "startChar": 8,
+        "endLine": 145,
+        "endChar": 20
+      },
+      "revId": "c6064375e12feec378527db6fb57a164d5aa4b69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2dc78dc_8d95a7a1",
+        "filename": "polygerrit-ui/app/models/views/search.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-26T08:42:02Z",
+      "side": 1,
+      "message": "Yes. Done.",
+      "parentUuid": "a790b5ac_16ad7229",
       "range": {
         "startLine": 145,
         "startChar": 8,
@@ -105,6 +171,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "680b24af_f95c6b39",
+        "filename": "polygerrit-ui/app/models/views/search.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-26T08:42:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f01d28f2_60d9247b",
+      "revId": "c6064375e12feec378527db6fb57a164d5aa4b69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d8efcac5_1e7b31da",
@@ -118,6 +202,30 @@
       "writtenOn": "2022-09-23T09:29:39Z",
       "side": 1,
       "message": "nit: Add output type",
+      "range": {
+        "startLine": 181,
+        "startChar": 2,
+        "endLine": 181,
+        "endChar": 6
+      },
+      "revId": "c6064375e12feec378527db6fb57a164d5aa4b69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04ecbf28_8076d5c4",
+        "filename": "polygerrit-ui/app/models/views/search.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-26T08:42:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8efcac5_1e7b31da",
       "range": {
         "startLine": 181,
         "startChar": 2,
@@ -151,6 +259,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4fac050_6a91463a",
+        "filename": "polygerrit-ui/app/models/views/search.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-26T08:42:02Z",
+      "side": 1,
+      "message": "It does not matter much what we return, because we are redirecting away from the search page anyway. But I agree. Maybe it is just fine to return as usual and don\u0027t do anything special here.",
+      "parentUuid": "2b627cc3_520d5e79",
+      "range": {
+        "startLine": 190,
+        "startChar": 4,
+        "endLine": 190,
+        "endChar": 67
+      },
+      "revId": "c6064375e12feec378527db6fb57a164d5aa4b69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5954efb0_2e0340e9",
@@ -164,6 +296,24 @@
       "writtenOn": "2022-09-23T10:02:19Z",
       "side": 1,
       "message": "Don\u0027t you need an equivalent in test-app-context-init?\n\nI find this assigning of variables a bit smelly.  Ideally you pass in these parameters as a constructor.\n\nI can see how this is challenging given the circular dependency.\n\nWhat about:\n\n```\nconst searchViewModel \u003d new SearchViewModel(\n    appContext.restApiService,\n    appContext.userModel,\n    () \u003d\u003e dependencies.get(navigationToken);\n  );\nThis makes it a resolver\n```",
+      "revId": "c6064375e12feec378527db6fb57a164d5aa4b69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "acdf85a9_957a8047",
+        "filename": "polygerrit-ui/app/services/app-context-init.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-26T08:42:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5954efb0_2e0340e9",
       "revId": "c6064375e12feec378527db6fb57a164d5aa4b69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

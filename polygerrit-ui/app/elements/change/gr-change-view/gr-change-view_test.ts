@@ -433,7 +433,7 @@ suite('gr-change-view tests', () => {
                         id="commitMessageEditor"
                         remove-zero-width-space=""
                       >
-                        <gr-markdown></gr-markdown>
+                        <gr-formatted-text></gr-formatted-text>
                       </gr-editable-content>
                     </div>
                     <h3 class="assistive-tech-only">

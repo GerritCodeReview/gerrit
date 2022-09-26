@@ -89,7 +89,7 @@ export class GrTriggerVoteHovercard extends base {
       </div>
       <div class="sectionContent">
         <gr-formatted-text
-          noTrailingMargin
+          .markdown=${true}
           .content=${description}
         ></gr-formatted-text>
       </div>

@@ -68,6 +68,46 @@
       "message": "ttt",
       "revId": "1817166ba8f6e2919494d655ea51fe67a0102282",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99b6d60b_de02b528",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-26T13:46:33Z",
+      "side": 1,
+      "message": "sdfsdf",
+      "revId": "1817166ba8f6e2919494d655ea51fe67a0102282",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa0b3793_cf6ef55d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-26T13:46:33Z",
+      "side": 1,
+      "message": "@dhruvsri@google.com PTAL",
+      "range": {
+        "startLine": 32,
+        "startChar": 11,
+        "endLine": 32,
+        "endChar": 26
+      },
+      "revId": "1817166ba8f6e2919494d655ea51fe67a0102282",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

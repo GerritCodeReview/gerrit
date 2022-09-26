@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7be11b0b_571daa62",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-26T09:48:53Z",
+      "side": 1,
+      "message": "return !!account?._account_id \u0026\u0026 !!account?.email;",
+      "revId": "3135f959569a52914405fcf1cdf7e91691e50595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

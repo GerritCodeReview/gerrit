@@ -235,11 +235,11 @@ suite('gr-related-changes-list', () => {
                   >
                     ➔
                   </span>
-                  <span class="repo" title="test-project">test-project</span>
-                  <span class="branch">&nbsp;|&nbsp;test-branch&nbsp;</span>
                   <gr-related-change show-submittable-check="">
                     Test subject
                   </gr-related-change>
+                  <span class="repo" title="test-project">test-project</span>
+                  <span class="branch">&nbsp;|&nbsp;test-branch&nbsp;</span>
                 </div>
               </gr-related-collapse>
               <div class="note" hidden="">(+ )</div>

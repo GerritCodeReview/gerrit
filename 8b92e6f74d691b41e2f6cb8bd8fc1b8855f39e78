@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ec28f438_51c68a00",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 694,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-26T12:09:06Z",
+      "side": 1,
+      "message": "`myFunc?.(myParam)` needs the period to optional chain. Otherwise it has ambiguity with ternary operator and will be a syntax error. Likewise for `myArray?.[3]`",
+      "parentUuid": "06b5b0cd_1f7ad7cb",
+      "revId": "8b92e6f74d691b41e2f6cb8bd8fc1b8855f39e78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9451b748_254da7fa",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
         "patchSetId": 2

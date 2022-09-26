@@ -50,6 +50,8 @@ export class AccountsModel extends Model<AccountsState> implements Finalizable {
   async fillDetails(account: AccountInfo) {
     if (!isDetailedAccount(account)) {
       if (account.email) return await this.getAccount({email: account.email});
+      else if (account._account_id)
+        return await this.getAccount({_account_id: account._account_id});
     }
     return account;
   }

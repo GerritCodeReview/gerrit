@@ -105,6 +105,24 @@
       "parentUuid": "786945bd_d28aee6c",
       "revId": "8b92e6f74d691b41e2f6cb8bd8fc1b8855f39e78",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a739589_75c96d62",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-09-26T13:36:07Z",
+      "side": 1,
+      "message": "Updated to not reuse the same array twice. (Still don\u0027t want to use reduce with concat though)\n\nAdded a test. Also fixed render test as `changes` and `sections` are not meant to be used at the same time.",
+      "parentUuid": "ecaad4b3_c9383afa",
+      "revId": "8b92e6f74d691b41e2f6cb8bd8fc1b8855f39e78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

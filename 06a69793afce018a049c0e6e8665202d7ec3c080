@@ -104,6 +104,24 @@
       "parentUuid": "811106af_efe7c108",
       "revId": "06a69793afce018a049c0e6e8665202d7ec3c080",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20a5ec7c_9ab3e63d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-26T09:26:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28503954_35027908",
+      "revId": "06a69793afce018a049c0e6e8665202d7ec3c080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

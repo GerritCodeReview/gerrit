@@ -16,6 +16,24 @@
       "message": "Friendly ping. 😊",
       "revId": "b97b1b618aacc97a790b02c2a71fdba07710e1a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec181c3f_03d51c65",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-26T12:37:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3e9fa9e_8fb4a005",
+      "revId": "b97b1b618aacc97a790b02c2a71fdba07710e1a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -184,6 +184,7 @@ export function createConfig(): ConfigInfo {
 export function createAccountWithId(id = 5): AccountInfo {
   return {
     _account_id: id as AccountId,
+    email: `${id}` as EmailAddress,
   };
 }
 

@@ -109,6 +109,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dc48736b_b405f501",
+        "filename": "polygerrit-ui/app/models/views/search.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-09-26T08:58:45Z",
+      "side": 1,
+      "message": "Comments are much better, thank you.\n\nnit: For the fields:\nI think that following fields are not obvious (can mean different things without reading through the usage) and could use clarification either in Model or in State.\n- offset\n- offsetNumber\n- loading",
+      "parentUuid": "9c2e04a0_4888903a",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 28
+      },
+      "revId": "c6064375e12feec378527db6fb57a164d5aa4b69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a790b5ac_16ad7229",
         "filename": "polygerrit-ui/app/models/views/search.ts",
         "patchSetId": 3

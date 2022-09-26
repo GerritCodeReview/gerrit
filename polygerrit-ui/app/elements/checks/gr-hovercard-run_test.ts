@@ -145,11 +145,11 @@ suite('gr-hovercard-run tests', () => {
             <div class="sectionContent">
               <div class="row">
                 <div class="title">Started</div>
-                <div>1 year 5 m ago</div>
+                <div>1 year 6 m ago</div>
               </div>
               <div class="row">
                 <div class="title">Ended</div>
-                <div>1 year 5 m ago</div>
+                <div>1 year 6 m ago</div>
               </div>
               <div class="row">
                 <div class="title">Completion</div>

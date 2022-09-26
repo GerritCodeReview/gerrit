@@ -15,6 +15,8 @@ suite('gr-hovercard-run tests', () => {
   let element: GrHovercardRun;
 
   setup(async () => {
+    const fakeNow = new Date('Sep 26 2022 12:00:00');
+    sinon.useFakeTimers(fakeNow);
     element = await fixture<GrHovercardRun>(html`
       <gr-hovercard-run class="hovered"></gr-hovercard-run>
     `);

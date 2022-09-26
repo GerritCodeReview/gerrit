@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06b5b0cd_1f7ad7cb",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 694,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-26T12:06:44Z",
+      "side": 1,
+      "message": "Nit:\n\nThis can also be written as:\n```\nthis.triggerSelectionCallback?(this.globalIndex);\n```",
+      "revId": "8b92e6f74d691b41e2f6cb8bd8fc1b8855f39e78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9451b748_254da7fa",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-26T12:06:44Z",
+      "side": 1,
+      "message": "Purely optional.\n\nCan be written as:\n\n```\nreturn sections.map(section \u003d\u003e section.results.length)\n  .reduce((a, b) \u003d\u003e a.concat(a[a.length - 1] + b), [0]);\n```",
+      "revId": "8b92e6f74d691b41e2f6cb8bd8fc1b8855f39e78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

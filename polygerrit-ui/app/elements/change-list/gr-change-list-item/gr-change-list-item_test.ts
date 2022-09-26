@@ -128,6 +128,24 @@ suite('gr-change-list-item tests', () => {
       assert.deepEqual(selectedChangeNums, []);
     });
 
+    test('checkbox click calls list selection callback', async () => {
+      let selectionCallback = sinon.stub()
+      element.triggerSelectionCallback = selectionCallback;
+      element.globalIndex = 5;
+      element.change = {...createChange(), _number: 1 as NumericChangeId};
+      bulkActionsModel.sync([element.change]);
+      await element.updateComplete;
+
+      const checkbox = queryAndAssert<HTMLInputElement>(
+        element,
+        '.selection > label > input'
+      );
+      checkbox.click();
+      await element.updateComplete;
+
+      assert.isTrue(selectionCallback.calledWith(5));
+    });
+
     test('checkbox state updates with model updates', async () => {
       element.requestUpdate();
       await element.updateComplete;

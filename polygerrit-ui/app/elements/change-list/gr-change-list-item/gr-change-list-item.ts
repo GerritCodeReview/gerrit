@@ -103,6 +103,14 @@ export class GrChangeListItem extends LitElement {
   @property({type: String})
   usp?: string;
 
+  /** Index of the item in the overall list. */
+  @property({type: Number})
+  globalIndex = 0;
+
+  /** Callback to call to request the item to be selected in the list. */
+  @property({type: Function})
+  triggerSelectionCallback?: (globalIndex: number) => void;
+
   @property({type: Boolean, reflect: true}) selected = false;
 
   // private but used in tests
@@ -145,9 +153,14 @@ export class GrChangeListItem extends LitElement {
   }
 
   override willUpdate(changedProperties: PropertyValues<this>) {
+    if (this.globalIndex === 50) {
+      console.log(`willUpdate on ${this.globalIndex}`);
+      debugger;
+    }
     // When the cursor selects this item, give it focus so that the item is read
     // out by screen readers and lets users start tabbing through the item
     if (this.selected && !changedProperties.get('selected')) {
+      console.log(`Focus on ${this.globalIndex}`);
       this.focus();
     }
   }
@@ -683,6 +696,11 @@ export class GrChangeListItem extends LitElement {
     assertIsDefined(this.change, 'change');
     this.checked = !this.checked;
     this.getBulkActionsModel().toggleSelectedChangeNum(this.change._number);
+    console.log('Interject');
+    if (this.triggerSelectionCallback) {
+      this.triggerSelectionCallback(this.globalIndex);
+    }
+    console.log('Set was called');
   }
 
   // private but used in test

@@ -3,7 +3,7 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {LitElement, css, html} from 'lit';
+import {LitElement, css, html, nothing} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {
@@ -14,6 +14,8 @@ import {
 import {ChangeStatus} from '../../../constants/constants';
 import {isChangeInfo} from '../../../utils/change-util';
 import {ifDefined} from 'lit/directives/if-defined.js';
+import {getAppContext} from '../../../services/app-context';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 @customElement('gr-related-change')
 export class GrRelatedChange extends LitElement {
@@ -32,12 +34,16 @@ export class GrRelatedChange extends LitElement {
   @property({type: Boolean, attribute: 'show-change-status'})
   showChangeStatus = false;
 
+  @property({type: Boolean, reflect: true}) checked = false;
+
   /*
    * Needed for calculation if change is direct or indirect ancestor/descendant
    * to current change.
    */
   @property({type: Array})
   connectedRevisions?: CommitId[];
+
+  private readonly flagsService = getAppContext().flagsService;
 
   static override get styles() {
     return [
@@ -92,6 +98,9 @@ export class GrRelatedChange extends LitElement {
         .submittableCheck.submittable {
           display: inline;
         }
+        .selectionLabel {
+          padding-right: var(--spacing-m);
+        }
       `,
     ];
   }
@@ -102,12 +111,7 @@ export class GrRelatedChange extends LitElement {
     const linkClass = this._computeLinkClass(change);
     return html`
       <div class="changeContainer">
-        <a
-          href=${ifDefined(this.href)}
-          aria-label=${ifDefined(this.label)}
-          class=${linkClass}
-          ><slot></slot
-        ></a>
+        ${this.renderBulkActionsCheckbox()}
         ${this.showSubmittableCheck
           ? html`<span
               tabindex="-1"
@@ -125,6 +129,28 @@ export class GrRelatedChange extends LitElement {
           : ''}
       </div>
     `;
+  }
+
+  private renderBulkActionsCheckbox() {
+    // if (
+    //   !this.flagsService.isEnabled(
+    //     KnownExperimentId.BULK_ACTIONS_FOR_STACKED_CHANGES
+    //   )
+    // ) {
+    //   return nothing;
+    // }
+    const linkClass = this._computeLinkClass(this.change!);
+    return html`
+      <div> <label class="selectionLabel">
+      <input type="checkbox" .checked=${this.checked} />
+        <a
+        href=${ifDefined(this.href)}
+        aria-label=${ifDefined(this.label)}
+        class=${linkClass}
+        ><slot></slot
+      ></a>
+
+    </label> </div>`;
   }
 
   _computeLinkClass(change: ChangeInfo | RelatedChangeAndCommitInfo) {

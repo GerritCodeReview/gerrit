@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aaa8035c_9fa6cd9a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-26T08:42:44Z",
+      "side": 1,
+      "message": "This will be obsolete as soon as this change lands:\n\n346616: Move behavior from component into view model for change-list-view | https://gerrit-review.googlesource.com/c/gerrit/+/346616",
+      "parentUuid": "9151b58c_82ac37da",
+      "revId": "06a69793afce018a049c0e6e8665202d7ec3c080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ce75cc9_4c75ae34",
@@ -48,6 +66,24 @@
       "writtenOn": "2022-09-22T14:43:23Z",
       "side": 1,
       "message": "async method.",
+      "revId": "06a69793afce018a049c0e6e8665202d7ec3c080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "811106af_efe7c108",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-26T08:42:44Z",
+      "side": 1,
+      "message": "This will be obsolete as soon as this change lands:\n\n346616: Move behavior from component into view model for change-list-view | https://gerrit-review.googlesource.com/c/gerrit/+/346616",
+      "parentUuid": "3ce75cc9_4c75ae34",
       "revId": "06a69793afce018a049c0e6e8665202d7ec3c080",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

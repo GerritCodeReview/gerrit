@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8fc0cd5a_52bbdeec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-26T18:35:52Z",
+      "side": 1,
+      "message": "Thanks for adding the chips.\nChips are definitely playing well with the overall layout.\n\nOne question is(feel free to tackle in another change), what should be the background color of the chip when the comment is rendered?\n\nColor when comment is unresolved.\nColor when comment is resolved.\n\nThe answer could be that we retain the existing color scheme but I would just like it discussed here",
+      "parentUuid": "56aa53ec_c3766a86",
+      "revId": "3006c83d8c314fb58ce88586001c31b27e334b42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d9bfe262_73773f0d",
         "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text_test.ts",
         "patchSetId": 10

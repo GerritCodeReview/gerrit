@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "56aa53ec_c3766a86",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-26T15:22:30Z",
+      "side": 1,
+      "message": "I think it makes sense, moved to gr-account-chip",
+      "parentUuid": "c9d25a58_bf1ee6a6",
+      "revId": "3006c83d8c314fb58ce88586001c31b27e334b42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d9bfe262_73773f0d",
@@ -67,6 +85,30 @@
       "writtenOn": "2022-09-26T15:12:59Z",
       "side": 1,
       "message": "maybe also assert that gr-account-label received the email and was able to request the complete account info based on the email",
+      "range": {
+        "startLine": 289,
+        "startChar": 6,
+        "endLine": 289,
+        "endChar": 28
+      },
+      "revId": "3006c83d8c314fb58ce88586001c31b27e334b42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a8435e3_21754b17",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text_test.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-26T15:22:30Z",
+      "side": 1,
+      "message": "Done, also ensured it only works when MENTIONS experiment is enabled.",
+      "parentUuid": "d9bfe262_73773f0d",
       "range": {
         "startLine": 289,
         "startChar": 6,

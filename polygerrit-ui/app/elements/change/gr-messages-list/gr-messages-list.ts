@@ -18,7 +18,6 @@ import {
   LabelNameToInfoMap,
   NumericChangeId,
   PatchSetNum,
-  RepoName,
   VotingRangeInfo,
 } from '../../../types/common';
 import {CommentThread, isRobot} from '../../../utils/comment-util';
@@ -314,9 +313,6 @@ export class GrMessagesList extends LitElement {
   private commentThreads: CommentThread[] = [];
 
   @state()
-  private projectName?: RepoName;
-
-  @state()
   expandAllState = ExpandAllState.EXPAND_ALL;
 
   // Private but used in tests.
@@ -349,13 +345,6 @@ export class GrMessagesList extends LitElement {
       () => this.changeModel().change$,
       x => {
         this.change = x;
-      }
-    );
-    subscribe(
-      this,
-      () => this.changeModel().repo$,
-      x => {
-        this.projectName = x;
       }
     );
     subscribe(
@@ -408,7 +397,6 @@ export class GrMessagesList extends LitElement {
           .changeNum=${this.changeNum}
           .message=${message}
           .commentThreads=${message.commentThreads}
-          .projectName=${this.projectName}
           @message-anchor-tap=${this.handleAnchorClick}
           .labelExtremes=${labelExtremes}
           data-message-id=${ifDefined(getMessageId(message) as String)}

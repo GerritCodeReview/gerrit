@@ -15,7 +15,7 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-change-star/gr-change-star';
 import '../../shared/gr-change-status/gr-change-status';
 import '../../shared/gr-editable-content/gr-editable-content';
-import '../../shared/gr-markdown/gr-markdown';
+import '../../shared/gr-formatted-text/gr-formatted-text';
 import '../../shared/gr-overlay/gr-overlay';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../gr-change-actions/gr-change-actions';
@@ -958,7 +958,7 @@ export class GrChangeView extends LitElement {
           /* Account for border and padding and rounding errors. */
           max-width: calc(72ch + 2px + 2 * var(--spacing-m) + 0.4px);
         }
-        .commitMessage gr-markdown {
+        .commitMessage gr-formatted-text {
           word-break: break-word;
         }
         #commitMessageEditor {
@@ -1459,9 +1459,9 @@ export class GrChangeView extends LitElement {
                 .commitCollapsible=${this.computeCommitCollapsible()}
                 remove-zero-width-space=""
               >
-                <gr-markdown
+                <gr-formatted-text
                   .content=${this.latestCommitMessage ?? ''}
-                ></gr-markdown>
+                ></gr-formatted-text>
               </gr-editable-content>
             </div>
             <h3 class="assistive-tech-only">Comments and Checks Summary</h3>

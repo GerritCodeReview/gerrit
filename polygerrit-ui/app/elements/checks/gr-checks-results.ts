@@ -54,11 +54,7 @@ import {durationString} from '../../utils/date-util';
 import {charsOnly} from '../../utils/string-util';
 import {isAttemptSelected, matches} from './gr-checks-util';
 import {ChecksTabState, ValueChangedEvent} from '../../types/events';
-import {
-  ConfigInfo,
-  LabelNameToInfoMap,
-  PatchSetNumber,
-} from '../../types/common';
+import {LabelNameToInfoMap, PatchSetNumber} from '../../types/common';
 import {spinnerStyles} from '../../styles/gr-spinner-styles';
 import {
   getLabelStatus,
@@ -70,7 +66,6 @@ import {subscribe} from '../lit/subscription-controller';
 import {fontStyles} from '../../styles/gr-font-styles';
 import {fire} from '../../utils/event-util';
 import {resolve} from '../../models/dependency';
-import {configModelToken} from '../../models/config/config-model';
 import {checksModelToken} from '../../models/checks/checks-model';
 import {Interaction} from '../../constants/reporting';
 import {Deduping} from '../../api/reporting';
@@ -627,12 +622,7 @@ class GrResultExpanded extends LitElement {
   @property({type: Boolean})
   hideCodePointers = false;
 
-  @state()
-  repoConfig?: ConfigInfo;
-
   private getChangeModel = resolve(this, changeModelToken);
-
-  private getConfigModel = resolve(this, configModelToken);
 
   static override get styles() {
     return [
@@ -655,15 +645,6 @@ class GrResultExpanded extends LitElement {
     ];
   }
 
-  constructor() {
-    super();
-    subscribe(
-      this,
-      () => this.getConfigModel().repoConfig$,
-      x => (this.repoConfig = x)
-    );
-  }
-
   override render() {
     if (!this.result) return '';
     return html`
@@ -679,10 +660,8 @@ class GrResultExpanded extends LitElement {
           .value=${this.result}
         ></gr-endpoint-param>
         <gr-formatted-text
-          noTrailingMargin
           class="message"
-          .content=${this.result.message}
-          .config=${this.repoConfig?.commentlinks}
+          .content=${this.result.message ?? ''}
         ></gr-formatted-text>
       </gr-endpoint-decorator>
     `;

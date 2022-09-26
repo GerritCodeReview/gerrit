@@ -188,10 +188,7 @@ export class GrSubmitRequirementHovercard extends base {
         <gr-icon icon="description"></gr-icon>
       </div>
       <div class="sectionContent">
-        <gr-formatted-text
-          noTrailingMargin
-          .content=${description}
-        ></gr-formatted-text>
+        <gr-formatted-text .content=${description}></gr-formatted-text>
       </div>
     </div>`;
   }

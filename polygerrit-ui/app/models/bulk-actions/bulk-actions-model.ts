@@ -280,7 +280,6 @@ export class BulkActionsModel
     return {
       ...originalChange,
       ...newData,
-      reviewers: originalChange.reviewers,
     };
   }
 

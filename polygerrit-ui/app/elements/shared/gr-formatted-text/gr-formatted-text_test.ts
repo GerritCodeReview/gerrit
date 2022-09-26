@@ -4,9 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {fixture, html, assert} from '@open-wc/testing';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import '../../../test/common-test-setup';
-import {stubFlags} from '../../../test/test-utils';
 import './gr-formatted-text';
 import {
   GrFormattedText,
@@ -24,7 +22,6 @@ import {
 
 suite('gr-formatted-text tests', () => {
   let element: GrFormattedText;
-  let markdownFlagStub: sinon.SinonStub<[experiment_id: string], boolean>;
 
   function assertSpan(actual: InlineItem, expected: InlineItem) {
     assert.equal(actual.type, expected.type);
@@ -73,22 +70,7 @@ suite('gr-formatted-text tests', () => {
   }
 
   setup(async () => {
-    markdownFlagStub = stubFlags('isEnabled')
-      .withArgs(KnownExperimentId.RENDER_MARKDOWN)
-      .returns(false);
     element = await fixture(html`<gr-formatted-text></gr-formatted-text>`);
-  });
-
-  test('uses gr-markdown when flag is enabled', async () => {
-    markdownFlagStub.returns(true);
-    const elementUsingMarkdown = await fixture(
-      html`<gr-formatted-text .content=${'# heading'}></gr-formatted-text>`
-    );
-
-    assert.shadowDom.equal(
-      elementUsingMarkdown,
-      /* HTML */ '<gr-markdown></gr-markdown>'
-    );
   });
 
   test('parse empty', () => {
@@ -99,15 +81,7 @@ suite('gr-formatted-text tests', () => {
     element.content = 'text `code`';
     await element.updateComplete;
 
-    assert.shadowDom.equal(
-      element,
-      /* HTML */ `
-        <p>
-          <gr-markdown></gr-markdown>
-          <span class="inline-code"> code </span>
-        </p>
-      `
-    );
+    assert.shadowDom.equal(element, /* HTML */ ` <gr-markdown></gr-markdown> `);
   });
 
   for (const text of [

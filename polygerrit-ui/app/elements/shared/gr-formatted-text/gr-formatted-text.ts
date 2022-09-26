@@ -7,8 +7,6 @@ import '../gr-markdown/gr-markdown';
 import {CommentLinks} from '../../../types/common';
 import {LitElement, css, html, TemplateResult} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
-import {getAppContext} from '../../../services/app-context';
-import {KnownExperimentId} from '../../../services/flags/flags';
 
 const CODE_MARKER_PATTERN = /^(`{1,3})([^`]+?)\1$/;
 const INLINE_PATTERN = /(\[.+?\]\(.+?\)|`[^`]+?`)/;
@@ -74,8 +72,6 @@ export class GrFormattedText extends LitElement {
   @property({type: Boolean, reflect: true})
   noTrailingMargin = false;
 
-  private readonly flagsService = getAppContext().flagsService;
-
   static override get styles() {
     return [
       css`
@@ -140,15 +136,10 @@ export class GrFormattedText extends LitElement {
   override render() {
     if (!this.content) return;
 
-    if (this.flagsService.isEnabled(KnownExperimentId.RENDER_MARKDOWN)) {
-      return html`<gr-markdown
-        .markdown=${true}
-        .content=${this.content}
-      ></gr-markdown>`;
-    } else {
-      const blocks = this._computeBlocks(this.content);
-      return html`${blocks.map(block => this.renderBlock(block))}`;
-    }
+    return html`<gr-markdown
+      .markdown=${true}
+      .content=${this.content}
+    ></gr-markdown>`;
   }
 
   /**

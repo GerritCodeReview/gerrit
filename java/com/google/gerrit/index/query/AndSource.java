@@ -16,15 +16,8 @@ package com.google.gerrit.index.query;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Ordering;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.IndexConfig;
-import com.google.gerrit.index.PaginationType;
-import com.google.gerrit.index.QueryOptions;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -62,6 +55,7 @@ public class AndSource<T> extends AndPredicate<T> implements DataSource<T> {
     checkArgument(start >= 0, "negative start: %s", start);
     this.isVisibleToPredicate = isVisibleToPredicate;
     this.start = start;
+    this.indexConfig = indexConfig;
 
     int c = Integer.MAX_VALUE;
     DataSource<T> s = null;
@@ -79,74 +73,16 @@ public class AndSource<T> extends AndPredicate<T> implements DataSource<T> {
     }
     this.source = s;
     this.cardinality = c;
-    this.indexConfig = indexConfig;
   }
 
   @Override
   public ResultSet<T> read() {
-    if (source == null) {
-      throw new StorageException("No DataSource: " + this);
-    }
-
-    // ResultSets are lazy. Calling #read here first and then dealing with ResultSets only when
-    // requested allows the index to run asynchronous queries.
-    ResultSet<T> resultSet = source.read();
-    return new LazyResultSet<>(
-        () -> {
-          List<T> r = new ArrayList<>();
-          T last = null;
-          int pageResultSize = 0;
-          for (T data : buffer(resultSet)) {
-            if (!isMatchable() || match(data)) {
-              r.add(data);
-            }
-            last = data;
-            pageResultSize++;
-          }
-
-          if (last != null && source instanceof Paginated) {
-            // Restart source and continue if we have not filled the
-            // full limit the caller wants.
-            //
-            @SuppressWarnings("unchecked")
-            Paginated<T> p = (Paginated<T>) source;
-            QueryOptions opts = p.getOptions();
-            final int limit = opts.limit();
-            int pageSize = opts.pageSize();
-            int pageSizeMultiplier = opts.pageSizeMultiplier();
-            Object searchAfter = resultSet.searchAfter();
-            int nextStart = pageResultSize;
-            while (pageResultSize == pageSize && r.size() < limit) {
-              pageSize = getNextPageSize(pageSize, pageSizeMultiplier);
-              ResultSet<T> next =
-                  indexConfig.paginationType().equals(PaginationType.SEARCH_AFTER)
-                      ? p.restart(searchAfter, pageSize)
-                      : p.restart(nextStart, pageSize);
-              pageResultSize = 0;
-              for (T data : buffer(next)) {
-                if (match(data)) {
-                  r.add(data);
-                }
-                pageResultSize++;
-              }
-              nextStart += pageResultSize;
-              searchAfter = next.searchAfter();
-            }
-          }
-
-          if (start >= r.size()) {
-            return ImmutableList.of();
-          } else if (start > 0) {
-            return ImmutableList.copyOf(r.subList(start, r.size()));
-          }
-          return ImmutableList.copyOf(r);
-        });
+    return source.read();
   }
 
   @Override
   public ResultSet<FieldBundle> readRaw() {
-    // TOOD(hiesel): Implement
-    throw new UnsupportedOperationException("not implemented");
+    return source.readRaw();
   }
 
   @Override
@@ -167,11 +103,6 @@ public class AndSource<T> extends AndPredicate<T> implements DataSource<T> {
     return true;
   }
 
-  private Iterable<T> buffer(ResultSet<T> scanner) {
-    return FluentIterable.from(Iterables.partition(scanner, 50))
-        .transformAndConcat(this::transformBuffer);
-  }
-
   protected List<T> transformBuffer(List<T> buffer) {
     return buffer;
   }
@@ -182,23 +113,17 @@ public class AndSource<T> extends AndPredicate<T> implements DataSource<T> {
   }
 
   @SuppressWarnings("unchecked")
-  private DataSource<T> toDataSource(Predicate<T> pred) {
-    return (DataSource<T>) pred;
-  }
+  private PaginatingSource<T> toDataSource(Predicate<T> pred) {
+    return new PaginatingSource<T>((DataSource<T>) pred, start, indexConfig) {
+      @Override
+      protected boolean match(T object) {
+        return AndSource.this.match(object);
+      }
 
-  private int getNextPageSize(int pageSize, int pageSizeMultiplier) {
-    List<Integer> possiblePageSizes = new ArrayList<>(3);
-    try {
-      possiblePageSizes.add(Math.multiplyExact(pageSize, pageSizeMultiplier));
-    } catch (ArithmeticException e) {
-      possiblePageSizes.add(Integer.MAX_VALUE);
-    }
-    if (indexConfig.maxPageSize() > 0) {
-      possiblePageSizes.add(indexConfig.maxPageSize());
-    }
-    if (indexConfig.maxLimit() > 0) {
-      possiblePageSizes.add(indexConfig.maxLimit());
-    }
-    return Ordering.natural().min(possiblePageSizes);
+      @Override
+      protected boolean isMatchable() {
+        return AndSource.this.isMatchable();
+      }
+    };
   }
 }

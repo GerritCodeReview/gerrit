@@ -9,6 +9,7 @@ import {
   extractMentionedUsers,
   getAccountTemplate,
   isAccountEmailOnly,
+  isDetailedAccount,
   isServiceUser,
   removeServiceUsers,
   replaceTemplates,
@@ -252,6 +253,18 @@ suite('account-util tests', () => {
     assert.strictEqual(
       computeVoteableText(change, {...createAccountDetailWithId(2)}),
       ''
+    );
+  });
+
+  test('isDetailedAccount', () => {
+    assert.isFalse(isDetailedAccount({_account_id: 12345 as AccountId}));
+    assert.isFalse(isDetailedAccount({email: 'abcd' as EmailAddress}));
+
+    assert.isTrue(
+      isDetailedAccount({
+        _account_id: 12345 as AccountId,
+        email: 'abcd' as EmailAddress,
+      })
     );
   });
 

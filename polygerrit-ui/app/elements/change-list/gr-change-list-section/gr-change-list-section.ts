@@ -85,6 +85,14 @@ export class GrChangeListSection extends LitElement {
   @property({type: String})
   usp?: string;
 
+  /** Index of the first element in the section in the overall list order. */
+  @property({type: Number})
+  startIndex = 0;
+
+  /** Callback to call to request the item to be selected in the list. */
+  @property({type: Function})
+  triggerSelectionCallback?: (globalIndex: number) => void;
+
   // private but used in tests
   @state()
   numSelected = 0;
@@ -317,6 +325,8 @@ export class GrChangeListSection extends LitElement {
         ?showStar=${this.showStar}
         .usp=${this.usp}
         .labelNames=${this.labelNames}
+        .globalIndex=${this.startIndex + index}
+        .triggerSelectionCallback=${this.triggerSelectionCallback}
         aria-label=${ariaLabel}
         role="button"
       ></gr-change-list-item>

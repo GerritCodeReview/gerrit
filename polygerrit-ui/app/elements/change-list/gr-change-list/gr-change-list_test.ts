@@ -48,20 +48,55 @@ suite('gr-change-list basic tests', () => {
     };
     element.account = {_account_id: 1001 as AccountId};
     element.config = createServerInfo();
-    element.sections = [{results: new Array(1)}, {results: new Array(2)}];
-    element.selectedIndex = 0;
-    element.changes = [
-      {...createChange(), _number: 0 as NumericChangeId},
-      {...createChange(), _number: 1 as NumericChangeId},
-      {...createChange(), _number: 2 as NumericChangeId},
+    element.sections = [
+      {
+        results: [{...createChange(), _number: 0 as NumericChangeId}],
+      },
+      {
+        results: [
+          {...createChange(), _number: 1 as NumericChangeId},
+          {...createChange(), _number: 2 as NumericChangeId},
+        ],
+      },
     ];
+    element.selectedIndex = 0;
     await element.updateComplete;
     assert.shadowDom.equal(
       element,
       /* HTML */ `
         <gr-change-list-section> </gr-change-list-section>
+        <gr-change-list-section> </gr-change-list-section>
         <table id="changeList"></table>
       `
+    );
+  });
+
+  test('sections receive global startIndex', async () => {
+    element.selectedIndex = 0;
+    element.sections = [
+      {
+        results: [{...createChange(), _number: 0 as NumericChangeId}],
+      },
+      {
+        results: [
+          {...createChange(), _number: 1 as NumericChangeId},
+          {...createChange(), _number: 2 as NumericChangeId},
+        ],
+      },
+      {
+        results: [
+          {...createChange(), _number: 3 as NumericChangeId},
+          {...createChange(), _number: 4 as NumericChangeId},
+        ],
+      },
+    ];
+    await element.updateComplete;
+
+    assert.deepEqual(
+      [...element.shadowRoot!.querySelectorAll('gr-change-list-section')].map(
+        section => section.startIndex
+      ),
+      [0, 1, 3]
     );
   });
 

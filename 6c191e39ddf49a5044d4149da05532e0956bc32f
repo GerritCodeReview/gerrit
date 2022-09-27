@@ -26,6 +26,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bdcbafba_155a5e34",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-09-27T08:57:45Z",
+      "side": 1,
+      "message": "Is \"?? []\" necessary.\n\n\u003e Return value\nA non-live NodeList containing one Element object for each element that matches at least one of the specified selectors or an empty NodeList in case of no matches.\n\nhttps://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll",
+      "range": {
+        "startLine": 222,
+        "startChar": 6,
+        "endLine": 222,
+        "endChar": 11
+      },
+      "revId": "6c191e39ddf49a5044d4149da05532e0956bc32f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edf8854c_61a55386",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-09-27T08:57:45Z",
+      "side": 1,
+      "message": "Why do we use \"\u003c\u003d\"(positive lookbehind) here? It would affect the output, but not the \"empty\" vs \"something\" truth value.\n\nSide-note: This part looks extremely brittle. Why do we have to only do it for mentions. Can we do this for any \"a[href^\u003d\"mailto\"]\" ? (Maybe adding fallback behaviour to gr-account-chip if the lookup fails, if there isn\u0027t one already)",
+      "range": {
+        "startLine": 226,
+        "startChar": 6,
+        "endLine": 229,
+        "endChar": 9
+      },
+      "revId": "6c191e39ddf49a5044d4149da05532e0956bc32f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "91c9a27d_7d774b7e",
         "filename": "polygerrit-ui/app/utils/account-util.ts",
         "patchSetId": 13

@@ -128,6 +128,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "77224f9b_c9e0452d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-27T08:17:41Z",
+      "side": 1,
+      "message": "Sounds good, leaving this comment unresolved.",
+      "parentUuid": "020854f0_0c146203",
+      "revId": "3006c83d8c314fb58ce88586001c31b27e334b42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d9bfe262_73773f0d",
         "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text_test.ts",
         "patchSetId": 10

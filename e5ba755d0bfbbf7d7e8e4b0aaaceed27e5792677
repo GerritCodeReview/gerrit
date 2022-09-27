@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a926f4d8_9241fa77",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-09-27T22:04:57Z",
+      "side": 1,
+      "message": "I thought that AndSource was extending PaginationSource, but since it is wrapping it, ignore this.",
+      "parentUuid": "ae217843_33c4f975",
+      "revId": "e5ba755d0bfbbf7d7e8e4b0aaaceed27e5792677",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae8dc982_e0d8323a",

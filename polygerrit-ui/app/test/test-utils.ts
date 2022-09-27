@@ -325,7 +325,7 @@ export function mouseDown(element: HTMLElement) {
 }
 
 export function assertFails(promise: Promise<unknown>, error?: unknown) {
-  promise
+  return promise
     .then((_v: unknown) => {
       assert.fail('Promise resolved but should have failed');
     })
@@ -333,6 +333,7 @@ export function assertFails(promise: Promise<unknown>, error?: unknown) {
       if (error) {
         assert.equal(e, error);
       }
+      return e;
     });
 }
 

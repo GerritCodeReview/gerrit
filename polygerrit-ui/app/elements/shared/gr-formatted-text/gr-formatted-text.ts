@@ -15,12 +15,15 @@ import '@polymer/marked-element';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
-import {CommentLinks} from '../../../api/rest-api';
+import {CommentLinks, EmailAddress} from '../../../api/rest-api';
 import {
   applyHtmlRewritesFromConfig,
   applyLinkRewritesFromConfig,
   linkifyNormalUrls,
 } from '../../../utils/link-util';
+import '../gr-account-chip/gr-account-chip';
+import {KnownExperimentId} from '../../../services/flags/flags';
+import {getAppContext} from '../../../services/app-context';
 
 /**
  * This element optionally renders markdown and also applies some regex
@@ -36,6 +39,8 @@ export class GrFormattedText extends LitElement {
 
   @state()
   private repoCommentLinks: CommentLinks = {};
+
+  private readonly flagsService = getAppContext().flagsService;
 
   private readonly getConfigModel = resolve(this, configModelToken);
 
@@ -90,6 +95,9 @@ export class GrFormattedText extends LitElement {
       }
       li {
         margin-left: var(--spacing-xl);
+      }
+      gr-account-chip {
+        display: inline;
       }
       .plaintext {
         font: inherit;
@@ -199,6 +207,36 @@ export class GrFormattedText extends LitElement {
     text = applyHtmlRewritesFromConfig(text, repoCommentLinks);
 
     return text;
+  }
+
+  override updated() {
+    // Look for @mentions and replace them with an account-label chip.
+    if (this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) {
+      this.convertEmailsToAccountChips();
+    }
+  }
+
+  private convertEmailsToAccountChips() {
+    for (const emailLink of this.renderRoot.querySelectorAll(
+      'a[href^="mailto"]'
+    )) {
+      const previous = emailLink.previousSibling;
+      // This Regexp matches the beginning of the MENTIONS_REGEX at the end of
+      // an element.
+      if (
+        previous?.nodeName === '#text' &&
+        previous?.textContent?.match(/(^|\s)@$/)
+      ) {
+        const accountChip = document.createElement('gr-account-chip');
+        accountChip.account = {
+          email: emailLink.textContent as EmailAddress,
+        };
+        accountChip.removable = false;
+        // Remove the trailing @ from the previous element.
+        previous.textContent = previous.textContent.slice(0, -1);
+        emailLink.parentNode?.replaceChild(accountChip, emailLink);
+      }
+    }
   }
 }
 

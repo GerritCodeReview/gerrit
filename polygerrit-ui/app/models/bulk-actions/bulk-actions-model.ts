@@ -22,8 +22,10 @@ import {
   ReviewInput,
   ReviewerInput,
   AttentionSetInput,
+  RelatedChangeAndCommitInfo,
 } from '../../types/common';
 import {getUserId} from '../../utils/account-util';
+import {isChangeInfo} from '../../utils/change-util';
 
 export const bulkActionsModelToken =
   define<BulkActionsModel>('bulk-actions-model');
@@ -139,12 +141,12 @@ export class BulkActionsModel
         return Promise.resolve(new Response());
       }
       return this.restApiService.executeChangeAction(
-        change._number,
+        this.getChangeNumber(change),
         change.actions!.abandon!.method,
         '/abandon',
         undefined,
         {message: reason ?? ''},
-        () => errFn && errFn(change._number)
+        () => errFn && errFn(this.getChangeNumber(change))
       );
     });
   }
@@ -155,7 +157,7 @@ export class BulkActionsModel
       const change = current.allChanges.get(changeNum)!;
       if (!change) throw new Error('invalid change id');
       return this.restApiService.saveChangeReview(
-        change._number,
+        this.getChangeNumber(change),
         'current',
         reviewInput,
         () => {
@@ -199,7 +201,7 @@ export class BulkActionsModel
         add_to_attention_set: attentionSetUpdates,
       };
       return this.restApiService.saveChangeReview(
-        change._number,
+        this.getChangeNumber(change),
         'current',
         reviewInput
       );
@@ -215,7 +217,7 @@ export class BulkActionsModel
         })
         .then(responseHashtags => {
           // Once we get server confirmation that the hashtags were added to the
-          // change, we are updating the model's ChangeInfo. This way we can
+          // change, we are updating the model's ChangeInfo | RelatedChangeAndCommitInfo. This way we can
           // keep the page state (dialog status) but use the updated change info
           // naturally.
 
@@ -236,8 +238,16 @@ export class BulkActionsModel
     );
   }
 
-  async sync(changes: ChangeInfo[]) {
-    const basicChanges = new Map(changes.map(c => [c._number, c]));
+  private getChangeNumber(
+    c: ChangeInfo | RelatedChangeAndCommitInfo | RelatedChangeAndCommitInfo
+  ) {
+    return isChangeInfo(c) ? c._number : c._change_number!;
+  }
+
+  async sync(changes: (ChangeInfo | RelatedChangeAndCommitInfo)[]) {
+    const basicChanges = new Map(
+      changes.map(c => [this.getChangeNumber(c), c])
+    );
     let currentState = this.getState();
     const selectedChangeNums = currentState.selectedChangeNums.filter(
       changeNum => basicChanges.has(changeNum)
@@ -245,7 +255,7 @@ export class BulkActionsModel
     this.updateState({
       loadingState: LoadingState.LOADING,
       selectedChangeNums,
-      allChanges: basicChanges,
+      allChanges: basicChanges as Map<NumericChangeId, ChangeInfo>,
     });
 
     if (changes.length === 0) {
@@ -253,7 +263,7 @@ export class BulkActionsModel
     }
     const changeDetails =
       await this.restApiService.getDetailedChangesWithActions(
-        changes.map(c => c._number)
+        changes.map(c => this.getChangeNumber(c))
       );
     currentState = this.getState();
     // Return early if sync has been called again since starting the load.
@@ -274,13 +284,15 @@ export class BulkActionsModel
   }
 
   private mergeOldAndDetailedChangeInfos(
-    originalChange: ChangeInfo,
+    originalChange: ChangeInfo | RelatedChangeAndCommitInfo,
     newData: ChangeInfo
   ) {
     return {
       ...originalChange,
       ...newData,
-      reviewers: originalChange.reviewers,
+      reviewers: isChangeInfo(originalChange)
+        ? originalChange.reviewers
+        : newData.reviewers,
     };
   }
 

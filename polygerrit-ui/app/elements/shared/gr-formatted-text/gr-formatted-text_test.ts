@@ -51,7 +51,15 @@ suite('gr-formatted-text tests', () => {
         match: 'HTMLRewriteMe',
         html: '<div>HTMLRewritten</div>',
       },
+      complexLinkRewrite: {
+        match: '(^|\\s)A Link (\\d+)($|\\s)',
+        link: '/page?id=$2',
+        text: 'Link $2',
+        prefix: '$1A ',
+        suffix: '$3'
+      }
     });
+    self.CANONICAL_PATH = 'http://localhost';
     element = (
       await fixture(
         wrapInProvider(
@@ -72,6 +80,8 @@ suite('gr-formatted-text tests', () => {
     test('renders text with links and rewrites', async () => {
       element.content = `text with plain link: google.com
         \ntext with config link: LinkRewriteMe
+        \ntext without a link: NotA Link 15 cats
+        \ntext with complex link: A Link 12
         \ntext with config html: HTMLRewriteMe`;
       await element.updateComplete;
 
@@ -90,6 +100,14 @@ suite('gr-formatted-text tests', () => {
               target="_blank"
             >
               LinkRewriteMe
+            </a>
+            text without a link: NotA Link 15 cats\n        \ntext with complex link: A
+            <a
+              href="http://localhost/page?id=12"
+              rel="noopener"
+              target="_blank"
+            >
+              Link 12
             </a>
             text with config html:
             <div>HTMLRewritten</div>
@@ -129,6 +147,8 @@ suite('gr-formatted-text tests', () => {
       element.content = `text
         \ntext with plain link: google.com
         \ntext with config link: LinkRewriteMe
+        \ntext without a link: NotA Link 15 cats
+        \ntext with complex link: A Link 12
         \ntext with config html: HTMLRewriteMe`;
       await element.updateComplete;
 
@@ -152,6 +172,19 @@ suite('gr-formatted-text tests', () => {
                   target="_blank"
                 >
                   LinkRewriteMe
+                </a>
+              </p>
+              <p>
+                text without a link: NotA Link 15 cats
+              </p>
+              <p>
+                text with complex link: A
+                <a
+                  href="http://localhost/page?id=12"
+                  rel="noopener"
+                  target="_blank"
+                >
+                  Link 12
                 </a>
               </p>
               <p>text with config html:</p>

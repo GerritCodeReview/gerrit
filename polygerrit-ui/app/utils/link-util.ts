@@ -18,7 +18,7 @@ export function linkifyNormalUrls(base: string): string {
   const parts: string[] = [];
   window.linkify(baseWithZeroWidthSpace, {
     callback: (text, href) => {
-      const result = href ? createLinkTemplate(text, href) : text;
+      const result = href ? createLinkTemplate(href, text) : text;
       const resultWithoutZeroWidthSpace = result.replace(/\u200B/g, '');
       parts.push(resultWithoutZeroWidthSpace);
     },
@@ -39,7 +39,12 @@ export function applyLinkRewritesFromConfig(
       : rewrite.link!;
     return {
       match: new RegExp(rewrite.match, 'g'),
-      replace: createLinkTemplate('$&', replacementHref),
+      replace: createLinkTemplate(
+        replacementHref,
+        rewrite.text ?? '$&',
+        rewrite.prefix,
+        rewrite.suffix
+      ),
     };
   });
   return applyRewrites(base, rewrites);
@@ -71,6 +76,15 @@ function applyRewrites(
   );
 }
 
-function createLinkTemplate(displayText: string, href: string) {
-  return `<a href="${href}" rel="noopener" target="_blank">${displayText}</a>`;
+function createLinkTemplate(
+  href: string,
+  displayText: string,
+  prefix?: string,
+  suffix?: string
+) {
+  return `${
+    prefix ?? ''
+  }<a href="${href}" rel="noopener" target="_blank">${displayText}</a>${
+    suffix ?? ''
+  }`;
 }

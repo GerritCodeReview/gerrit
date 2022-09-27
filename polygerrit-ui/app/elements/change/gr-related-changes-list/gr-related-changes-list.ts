@@ -28,8 +28,8 @@ import {truncatePath} from '../../../utils/path-list-util';
 import {pluralize} from '../../../utils/string-util';
 import {
   changeIsOpen,
+  getChangeNumber,
   getRevisionKey,
-  isChangeInfo,
 } from '../../../utils/change-util';
 import {DEFALT_NUM_CHANGES_WHEN_COLLAPSED} from './gr-related-collapse';
 import {createChangeUrl} from '../../../models/views/change';
@@ -639,27 +639,9 @@ export class GrRelatedChangesList extends LitElement {
     a?: ChangeInfo | RelatedChangeAndCommitInfo,
     b?: ChangeInfo | ParsedChangeInfo | RelatedChangeAndCommitInfo
   ) {
-    const aNum = this._getChangeNumber(a);
-    const bNum = this._getChangeNumber(b);
+    const aNum = getChangeNumber(a);
+    const bNum = getChangeNumber(b);
     return aNum === bNum;
-  }
-
-  /**
-   * Get the change number from either a ChangeInfo (such as those included in
-   * SubmittedTogetherInfo responses) or get the change number from a
-   * RelatedChangeAndCommitInfo (such as those included in a
-   * RelatedChangesInfo response).
-   */
-  _getChangeNumber(
-    change?: ChangeInfo | ParsedChangeInfo | RelatedChangeAndCommitInfo
-  ) {
-    // Default to 0 if change property is not defined.
-    if (!change) return 0;
-
-    if (isChangeInfo(change)) {
-      return change._number;
-    }
-    return change._change_number;
   }
 
   /*

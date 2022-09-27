@@ -144,6 +144,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d5d5b0a2_43961a41",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-27T11:51:35Z",
+      "side": 1,
+      "message": "It\u0027s in Loading state so I was hoping that no one is listening to allChanges in Loading state.\nI agree it\u0027s a bit fragile. Let me see if I can come up with a better solution.",
+      "parentUuid": "3bbff4ec_b801a568",
+      "revId": "16b834e88bb24fdaeeb59a1bf763069886b91fed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2b041721_7cde0981",
         "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
         "patchSetId": 2

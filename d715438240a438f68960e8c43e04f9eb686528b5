@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "02d78964_36172f12",
+        "filename": "java/com/google/gerrit/server/index/change/IndexedChangeQuery.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-27T17:48:18Z",
+      "side": 1,
+      "message": "Attempted in next PS6",
+      "parentUuid": "ca845d20_4baea065",
+      "revId": "d715438240a438f68960e8c43e04f9eb686528b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "345aac9d_1d5fc42a",

@@ -26,6 +26,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
@@ -1431,6 +1432,26 @@ public class RevertIT extends AbstractDaemonTest {
     assertThat(firstRevertChanges.get(1).get().subject).isEqualTo("Revert \"Revert\"");
     assertThat(firstRevertChanges.get(2).get().subject).isEqualTo("Revert^935 \"change x\"");
     assertThat(firstRevertChanges.get(3).get().subject).isEqualTo("Revert \"Revert^934\"");
+  }
+
+  @GerritConfig(name = "accounts.visibility", value = "NONE")
+  @Test
+  public void revertSubmissionWithoutAccountVisibility() throws Exception {
+    TestAccount u1 = accountCreator.create("u1");
+    TestAccount u2 = accountCreator.create("u2");
+
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).addReviewer(u1.username());
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
+    requestScopeOperations.setApiUser(u2.id());
+
+    // User can see change.
+    gApi.changes().id(r.getChangeId()).get();
+
+    assertThrows(ResourceNotFoundException.class, () -> gApi.accounts().id(u1.id().get()));
+
+    gApi.changes().id(r.getChangeId()).revert();
   }
 
   @Override

@@ -6,7 +6,6 @@
 import '../../../test/common-test-setup';
 import '../../change/gr-reply-dialog/gr-reply-dialog';
 import {stubRestApi} from '../../../test/test-utils';
-// eslint-disable-next-line import/named
 import {fixture, html, assert} from '@open-wc/testing';
 
 suite('gr-change-reply-js-api tests', () => {
@@ -21,11 +20,11 @@ suite('gr-change-reply-js-api tests', () => {
   suite('early init', () => {
     setup(async () => {
       window.Gerrit.install(
-          p => {
-            plugin = p;
-          },
-          '0.1',
-          'http://test.com/plugins/testplugin/static/test.js'
+        p => {
+          plugin = p;
+        },
+        '0.1',
+        'http://test.com/plugins/testplugin/static/test.js'
       );
       changeReply = plugin.changeReply();
       element = await fixture(html`<gr-reply-dialog></gr-reply-dialog>`);
@@ -42,7 +41,7 @@ suite('gr-change-reply-js-api tests', () => {
       sinon.stub(element, 'setLabelValue');
       changeReply.setLabelValue('My-Label', '+1337');
       assert.isTrue(
-          element.setLabelValue.calledWithExactly('My-Label', '+1337')
+        element.setLabelValue.calledWithExactly('My-Label', '+1337')
       );
 
       sinon.stub(element, 'setPluginMessage');
@@ -55,11 +54,11 @@ suite('gr-change-reply-js-api tests', () => {
     setup(async () => {
       element = await fixture(html`<gr-reply-dialog></gr-reply-dialog>`);
       window.Gerrit.install(
-          p => {
-            plugin = p;
-          },
-          '0.1',
-          'http://test.com/plugins/testplugin/static/test.js'
+        p => {
+          plugin = p;
+        },
+        '0.1',
+        'http://test.com/plugins/testplugin/static/test.js'
       );
       changeReply = plugin.changeReply();
     });
@@ -75,7 +74,7 @@ suite('gr-change-reply-js-api tests', () => {
       sinon.stub(element, 'setLabelValue');
       changeReply.setLabelValue('My-Label', '+1337');
       assert.isTrue(
-          element.setLabelValue.calledWithExactly('My-Label', '+1337')
+        element.setLabelValue.calledWithExactly('My-Label', '+1337')
       );
 
       sinon.stub(element, 'setPluginMessage');
@@ -84,4 +83,3 @@ suite('gr-change-reply-js-api tests', () => {
     });
   });
 });
-

@@ -45,6 +45,30 @@
       },
       "revId": "6c191e39ddf49a5044d4149da05532e0956bc32f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b85f77f4_ae8bd6b0",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-27T08:51:10Z",
+      "side": 1,
+      "message": "Originally it was to make the matching work in the old approach, but we went with another approach.\n\nRegardless, the regex was incorrect because it consumes whitespace and it shouldn\u0027t.",
+      "parentUuid": "91c9a27d_7d774b7e",
+      "range": {
+        "startLine": 32,
+        "startChar": 5,
+        "endLine": 32,
+        "endChar": 7
+      },
+      "revId": "6c191e39ddf49a5044d4149da05532e0956bc32f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

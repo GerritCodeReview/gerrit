@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cbcf440_dc294c0a",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-27T11:19:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7ec8b04_a9d43bc7",
+      "revId": "16b834e88bb24fdaeeb59a1bf763069886b91fed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e35f18af_5c943820",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3450153_25ac2243",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-27T11:19:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e35f18af_5c943820",
+      "revId": "16b834e88bb24fdaeeb59a1bf763069886b91fed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "902fe97b_159b90c9",
@@ -48,6 +84,24 @@
       "writtenOn": "2022-09-27T11:08:34Z",
       "side": 1,
       "message": "This is no longer correct, you\u0027re storing ChangeInfo | RelatedChangeAndCommitInfo objects.",
+      "revId": "16b834e88bb24fdaeeb59a1bf763069886b91fed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c59f48f_ee57f7a1",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-27T11:19:36Z",
+      "side": 1,
+      "message": "Yeah but I don\u0027t think it makes sense to update `allChanges` type to contain RelatedChangeAndCommitInfo since RelatedChangeAndCommitInfo doesn\u0027t have any relevant properties(for adding hashtag/abandoning) hence I would prefer to keep this incorrect cast.",
+      "parentUuid": "902fe97b_159b90c9",
       "revId": "16b834e88bb24fdaeeb59a1bf763069886b91fed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

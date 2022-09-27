@@ -118,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e49aac5f_66e0e352",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-09-27T09:37:39Z",
+      "side": 1,
+      "message": "It\u0027s the tight coupling to the specifics of how things end up being formatted and split into nodes. Any change to formatting (and not necessarily only for mentions) needs to also remember to update/check this part",
+      "parentUuid": "a9225fca_f81bcd3e",
+      "range": {
+        "startLine": 226,
+        "startChar": 6,
+        "endLine": 229,
+        "endChar": 9
+      },
+      "revId": "6c191e39ddf49a5044d4149da05532e0956bc32f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "91c9a27d_7d774b7e",

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9f15367_9bad6cd6",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-27T12:25:52Z",
+      "side": 1,
+      "message": "This needs to be converted to a minimal ChangeInfo",
+      "revId": "07729245e36a7430a0265c5eba3f15a788e4905f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

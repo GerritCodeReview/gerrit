@@ -108,6 +108,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f7056b82_d500a356",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-27T11:46:51Z",
+      "side": 1,
+      "message": "This is risky because someone might depend on the object being a ChangeInfo, not realizing that it actually contains something else.\n\nWhat about changing what is stored to be a subset of ChangeInfo that overlaps (conceptually) with what RelatedChangeAndCommitInfo contains, and then converting RelatedChangeAndCommitInfo into that?\n\nsomething like\n\n```\nexport type MinimalChangeInfo \u003d Pick\u003cChangeInfo, \u0027id\u0027 | \u0027project\u0027 | \u0027branch\u0027 | \u0027_number\u0027 | \u0027status\u0027 | \u0027submittable\u0027 | \u0027change_id\u0027\u003e\n```",
+      "parentUuid": "1c59f48f_ee57f7a1",
+      "revId": "16b834e88bb24fdaeeb59a1bf763069886b91fed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2b041721_7cde0981",
         "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
         "patchSetId": 2

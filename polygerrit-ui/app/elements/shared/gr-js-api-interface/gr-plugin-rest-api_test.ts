@@ -17,10 +17,14 @@ suite('gr-plugin-rest-api tests', () => {
   setup(() => {
     stubRestApi('getAccount').returns(Promise.resolve({name: 'Judy Hopps'}));
     getResponseObjectStub = stubRestApi('getResponseObject').returns(
-        Promise.resolve());
+      Promise.resolve()
+    );
     sendStub = stubRestApi('send').returns(Promise.resolve({status: 200}));
-    window.Gerrit.install(p => {}, '0.1',
-        'http://test.com/plugins/testplugin/static/test.js');
+    window.Gerrit.install(
+      p => {},
+      '0.1',
+      'http://test.com/plugins/testplugin/static/test.js'
+    );
     instance = new GrPluginRestApi();
   });
 
@@ -82,15 +86,23 @@ suite('gr-plugin-rest-api tests', () => {
   });
 
   test('delete fails', () => {
-    sendStub.returns(Promise.resolve(
-        {status: 400, text() { return Promise.resolve('text'); }}));
-    return instance.delete('/url').then(r => {
-      throw new Error('Should not resolve');
-    })
-        .catch(err => {
-          assert.isTrue(sendStub.calledWith('DELETE', '/url'));
-          assert.equal('text', err.message);
-        });
+    sendStub.returns(
+      Promise.resolve({
+        status: 400,
+        text() {
+          return Promise.resolve('text');
+        },
+      })
+    );
+    return instance
+      .delete('/url')
+      .then(r => {
+        throw new Error('Should not resolve');
+      })
+      .catch(err => {
+        assert.isTrue(sendStub.calledWith('DELETE', '/url'));
+        assert.equal('text', err.message);
+      });
   });
 
   test('getLoggedIn', () => {
@@ -117,4 +129,3 @@ suite('gr-plugin-rest-api tests', () => {
     });
   });
 });
-

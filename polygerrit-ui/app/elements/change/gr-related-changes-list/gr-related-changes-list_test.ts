@@ -36,6 +36,7 @@ import {
   SubmittedTogetherInfo,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../types/types';
+import {getChangeNumber} from '../../../utils/change-util';
 import {GrEndpointDecorator} from '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import './gr-related-changes-list';
@@ -359,8 +360,8 @@ suite('gr-related-changes-list', () => {
       change_id: '456' as ChangeId,
       _number: 1 as NumericChangeId,
     };
-    assert.equal(element._getChangeNumber(change1), 0);
-    assert.equal(element._getChangeNumber(change2), 1);
+    assert.equal(getChangeNumber(change1), 0);
+    assert.equal(getChangeNumber(change2), 1);
   });
 
   suite('get conflicts tests', () => {

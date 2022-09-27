@@ -137,6 +137,23 @@ export function changeIsAbandoned(
 ) {
   return change?.status === ChangeStatus.ABANDONED;
 }
+/**
+ * Get the change number from either a ChangeInfo (such as those included in
+ * SubmittedTogetherInfo responses) or get the change number from a
+ * RelatedChangeAndCommitInfo (such as those included in a
+ * RelatedChangesInfo response).
+ */
+export function getChangeNumber(
+  change?: ChangeInfo | ParsedChangeInfo | RelatedChangeAndCommitInfo
+): NumericChangeId {
+  // Default to 0 if change property is not defined.
+  if (!change) return 0 as NumericChangeId;
+
+  if (isChangeInfo(change)) {
+    return change._number;
+  }
+  return change._change_number!;
+}
 
 export function changeStatuses(
   change: ChangeInfo,

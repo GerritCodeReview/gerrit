@@ -47,6 +47,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "865ed2a4_b62eb7ca",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-27T09:27:32Z",
+      "side": 1,
+      "message": "This is no longer necessary in the new code.",
+      "parentUuid": "bdcbafba_155a5e34",
+      "range": {
+        "startLine": 222,
+        "startChar": 6,
+        "endLine": 222,
+        "endChar": 11
+      },
+      "revId": "6c191e39ddf49a5044d4149da05532e0956bc32f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "edf8854c_61a55386",
@@ -60,6 +84,30 @@
       "writtenOn": "2022-09-27T08:57:45Z",
       "side": 1,
       "message": "Why do we use \"\u003c\u003d\"(positive lookbehind) here? It would affect the output, but not the \"empty\" vs \"something\" truth value.\n\nSide-note: This part looks extremely brittle. Why do we have to only do it for mentions. Can we do this for any \"a[href^\u003d\"mailto\"]\" ? (Maybe adding fallback behaviour to gr-account-chip if the lookup fails, if there isn\u0027t one already)",
+      "range": {
+        "startLine": 226,
+        "startChar": 6,
+        "endLine": 229,
+        "endChar": 9
+      },
+      "revId": "6c191e39ddf49a5044d4149da05532e0956bc32f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9225fca_f81bcd3e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-27T09:27:32Z",
+      "side": 1,
+      "message": "No good reason except for consistency with the MENTIONS_REGEX.\n\nSimplified.\n\nCould you share what feels brittle here?",
+      "parentUuid": "edf8854c_61a55386",
       "range": {
         "startLine": 226,
         "startChar": 6,

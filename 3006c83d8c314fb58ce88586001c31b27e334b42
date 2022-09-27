@@ -144,6 +144,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9d6808a_4ea0edba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-27T09:27:32Z",
+      "side": 1,
+      "message": "Resolved in meeting.",
+      "parentUuid": "77224f9b_c9e0452d",
+      "revId": "3006c83d8c314fb58ce88586001c31b27e334b42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d9bfe262_73773f0d",

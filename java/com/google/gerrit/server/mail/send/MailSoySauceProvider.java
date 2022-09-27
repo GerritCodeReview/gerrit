@@ -71,6 +71,8 @@ public class MailSoySauceProvider implements Provider<SoySauce> {
     "NoReplyFooter.soy",
     "NoReplyFooterHtml.soy",
     "Private.soy",
+    "RateLimiterEmailFormat.soy",
+    "RateLimiterEmailFormatHTML.soy",
     "RegisterNewEmail.soy",
     "RegisterNewEmailHtml.soy",
     "RemoveFromAttentionSet.soy",

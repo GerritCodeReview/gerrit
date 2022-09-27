@@ -135,6 +135,8 @@ public class SitePathInitializer {
     extractMailExample("MergedHtml.soy");
     extractMailExample("NewChange.soy");
     extractMailExample("NewChangeHtml.soy");
+    extractMailExample("RateLimiterEmailFormat.soy");
+    extractMailExample("RateLimiterEmailFormatHTML.soy");
     extractMailExample("RegisterNewEmail.soy");
     extractMailExample("RegisterNewEmailHtml.soy");
     extractMailExample("RemoveFromAttentionSet.soy");

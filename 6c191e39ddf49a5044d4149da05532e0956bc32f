@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82a9de1d_ea864f4f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-27T08:48:19Z",
+      "side": 1,
+      "message": "add screenshot. can wait until color thing is resolved",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "6c191e39ddf49a5044d4149da05532e0956bc32f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91c9a27d_7d774b7e",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-27T08:48:19Z",
+      "side": 1,
+      "message": "curious what is this change for?",
+      "range": {
+        "startLine": 32,
+        "startChar": 5,
+        "endLine": 32,
+        "endChar": 7
+      },
+      "revId": "6c191e39ddf49a5044d4149da05532e0956bc32f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

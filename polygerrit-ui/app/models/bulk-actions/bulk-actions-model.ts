@@ -25,7 +25,7 @@ import {
   RelatedChangeAndCommitInfo,
 } from '../../types/common';
 import {getUserId} from '../../utils/account-util';
-import {getChangeNumber, isChangeInfo} from '../../utils/change-util';
+import {getChangeNumber} from '../../utils/change-util';
 
 export const bulkActionsModelToken =
   define<BulkActionsModel>('bulk-actions-model');
@@ -261,30 +261,13 @@ export class BulkActionsModel
     if (selectableChangeNums !== currentState.selectableChangeNums) return;
     const allDetailedChanges: Map<NumericChangeId, ChangeInfo> = new Map();
     for (const detailedChange of changeDetails ?? []) {
-      const basicChange = basicChanges.get(detailedChange._number)!;
-      allDetailedChanges.set(
-        detailedChange._number,
-        this.mergeOldAndDetailedChangeInfos(basicChange, detailedChange)
-      );
+      allDetailedChanges.set(detailedChange._number, detailedChange);
     }
     this.setState({
       ...currentState,
       loadingState: LoadingState.LOADED,
       allChanges: allDetailedChanges,
     });
-  }
-
-  private mergeOldAndDetailedChangeInfos(
-    originalChange: ChangeInfo | RelatedChangeAndCommitInfo,
-    newData: ChangeInfo
-  ) {
-    return {
-      ...originalChange,
-      ...newData,
-      reviewers: isChangeInfo(originalChange)
-        ? originalChange.reviewers
-        : newData.reviewers,
-    };
   }
 
   private getNewReviewersToChange(

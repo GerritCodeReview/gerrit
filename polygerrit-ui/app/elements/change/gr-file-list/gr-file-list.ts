@@ -882,7 +882,7 @@ export class GrFileList extends LitElement {
   override render() {
     this.classList.toggle('editMode', this.editMode);
     const patchChange = this.calculatePatchChange();
-    return html`
+    return this.patched.html`
       <h3 class="assistive-tech-only">File list</h3>
       ${this.renderContainer()} ${this.renderChangeTotals(patchChange)}
       ${this.renderBinaryTotals(patchChange)} ${this.renderControlRow()}
@@ -895,7 +895,7 @@ export class GrFileList extends LitElement {
   }
 
   private renderContainer() {
-    return html`
+    return this.patched.html`
       <div
         id="container"
         @click=${(e: MouseEvent) => this.handleFileListClick(e)}
@@ -1013,7 +1013,7 @@ export class GrFileList extends LitElement {
     this.reportRenderedRow(index);
     const previousFileName = this.shownFiles[index - 1]?.__path;
     const patchSetFile = this.computePatchSetFile(file);
-    return html` <div class="stickyArea">
+    return this.patched.html` <div class="stickyArea">
       <div
         class=${`file-row row ${this.computePathClass(file.__path)}`}
         data-file=${JSON.stringify(patchSetFile)}

@@ -57,10 +57,7 @@ import {GroupViewModel, groupViewModelToken} from '../models/views/group';
 import {PluginViewModel, pluginViewModelToken} from '../models/views/plugin';
 import {RepoViewModel, repoViewModelToken} from '../models/views/repo';
 import {SearchViewModel, searchViewModelToken} from '../models/views/search';
-import {
-  NavigationService,
-  navigationToken,
-} from '../elements/core/gr-navigation/gr-navigation';
+import {navigationToken} from '../elements/core/gr-navigation/gr-navigation';
 
 /**
  * The AppContext lazy initializator for all services
@@ -134,11 +131,7 @@ export function createAppDependencies(
   dependencies.set(pluginViewModelToken, pluginViewModel);
   const repoViewModel = new RepoViewModel();
   dependencies.set(repoViewModelToken, repoViewModel);
-  const searchViewModel = new SearchViewModel(
-    appContext.restApiService,
-    appContext.userModel,
-    () => dependencies.get(navigationToken) as unknown as NavigationService
-  );
+  const searchViewModel = new SearchViewModel();
   dependencies.set(searchViewModelToken, searchViewModel);
   const settingsViewModel = new SettingsViewModel();
   dependencies.set(settingsViewModelToken, settingsViewModel);

@@ -12,7 +12,7 @@ import {
   PatchSetNumber,
   RevisionPatchSetNum,
 } from '../../types/common';
-import {combineLatest, of, from} from 'rxjs';
+import {combineLatest, Subscription, of, from} from 'rxjs';
 import {switchMap, map} from 'rxjs/operators';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {Finalizable} from '../../services/registry';
@@ -131,6 +131,8 @@ export class FilesModel extends Model<FilesState> implements Finalizable {
     state => state.filesRightBase
   );
 
+  private subscriptions: Subscription[] = [];
+
   constructor(
     readonly changeModel: ChangeModel,
     readonly commentsModel: CommentsModel,
@@ -195,5 +197,12 @@ export class FilesModel extends Model<FilesState> implements Finalizable {
       .subscribe(state => {
         this.updateState(state);
       });
+  }
+
+  override finalize() {
+    for (const s of this.subscriptions) {
+      s.unsubscribe();
+    }
+    this.subscriptions = [];
   }
 }

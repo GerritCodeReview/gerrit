@@ -30,7 +30,7 @@ import {select} from '../../utils/observable-util';
 import {RouterModel} from '../../services/router/router-model';
 import {Finalizable} from '../../services/registry';
 import {define} from '../dependency';
-import {combineLatest, forkJoin, from, Observable} from 'rxjs';
+import {combineLatest, forkJoin, from, Observable, Subscription} from 'rxjs';
 import {fire, fireAlert, fireEvent} from '../../utils/event-util';
 import {CURRENT} from '../../utils/patch-set-util';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
@@ -370,6 +370,8 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
 
   private readonly reloadListener: () => void;
 
+  private readonly subscriptions: Subscription[] = [];
+
   private drafts: {[path: string]: DraftInfo[]} = {};
 
   private draftToastTask?: DelayedTask;
@@ -419,7 +421,10 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
 
   override finalize() {
     document.removeEventListener('reload', this.reloadListener);
-    super.finalize();
+    for (const s of this.subscriptions) {
+      s.unsubscribe();
+    }
+    this.subscriptions.splice(0, this.subscriptions.length);
   }
 
   // Note that this does *not* reload ported comments.

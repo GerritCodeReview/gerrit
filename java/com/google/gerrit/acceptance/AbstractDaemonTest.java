@@ -1227,7 +1227,10 @@ public abstract class AbstractDaemonTest {
 
     assertThat(diff.metaA).isNull();
     assertThat(diff.metaB).isNotNull();
-    assertThat(diff.metaB.commitId).isEqualTo(commit.name());
+
+    if (commit != null) {
+      assertThat(diff.metaB.commitId).isEqualTo(commit.name());
+    }
 
     String expectedContentType = "text/plain";
     if (COMMIT_MSG.equals(path)) {

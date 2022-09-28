@@ -35,6 +35,7 @@ export enum LoadingState {
 }
 export interface BulkActionsState {
   loadingState: LoadingState;
+  selectableChangeNums: NumericChangeId[];
   selectedChangeNums: NumericChangeId[];
   allChanges: Map<NumericChangeId, ChangeInfo>;
 }
@@ -42,6 +43,7 @@ export interface BulkActionsState {
 const initialState: BulkActionsState = {
   loadingState: LoadingState.NOT_SYNCED,
   selectedChangeNums: [],
+  selectableChangeNums: [],
   allChanges: new Map(),
 };
 
@@ -90,7 +92,7 @@ export class BulkActionsModel
 
   addSelectedChangeNum(changeNum: NumericChangeId) {
     const current = this.getState();
-    if (!current.allChanges.has(changeNum)) {
+    if (!current.selectableChangeNums.includes(changeNum)) {
       throw new Error(
         `Trying to add change ${changeNum} that is not part of bulk-actions model`
       );
@@ -102,7 +104,7 @@ export class BulkActionsModel
 
   removeSelectedChangeNum(changeNum: NumericChangeId) {
     const current = this.getState();
-    if (!current.allChanges.has(changeNum)) {
+    if (!current.selectableChangeNums.includes(changeNum)) {
       throw new Error(
         `Trying to remove change ${changeNum} that is not part of bulk-actions model`
       );
@@ -242,10 +244,12 @@ export class BulkActionsModel
     const selectedChangeNums = currentState.selectedChangeNums.filter(
       changeNum => basicChanges.has(changeNum)
     );
+    const selectableChangeNums = changes.map(c => c._number);
     this.updateState({
       loadingState: LoadingState.LOADING,
       selectedChangeNums,
-      allChanges: basicChanges,
+      selectableChangeNums,
+      allChanges: new Map(),
     });
 
     if (changes.length === 0) {
@@ -257,7 +261,7 @@ export class BulkActionsModel
       );
     currentState = this.getState();
     // Return early if sync has been called again since starting the load.
-    if (basicChanges !== currentState.allChanges) return;
+    if (selectableChangeNums !== currentState.selectableChangeNums) return;
     const allDetailedChanges: Map<NumericChangeId, ChangeInfo> = new Map();
     for (const detailedChange of changeDetails ?? []) {
       const basicChange = basicChanges.get(detailedChange._number)!;

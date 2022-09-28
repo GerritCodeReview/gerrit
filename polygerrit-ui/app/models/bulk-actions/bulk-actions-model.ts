@@ -68,11 +68,6 @@ export class BulkActionsModel
     bulkActionsState => bulkActionsState.loadingState
   );
 
-  public readonly allChanges$ = select(
-    this.state$,
-    bulkActionsState => bulkActionsState.allChanges
-  );
-
   public readonly selectedChanges$ = select(this.state$, bulkActionsState => {
     const result = [];
     for (const changeNum of bulkActionsState.selectedChangeNums) {

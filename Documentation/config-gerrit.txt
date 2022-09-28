@@ -1426,7 +1426,7 @@ By default 100,000.
 Maximum number of patch sets allowed per change. If this is insufficient,
 recreate the change with a new Change-Id, then abandon the old change.
 +
-By default 1,500.
+By default 1000.
 
 [[change.maxUpdates]]change.maxUpdates::
 +

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5cd0341_b8abcce0",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-28T12:21:49Z",
+      "side": 1,
+      "message": "I think you should submit your \"no more merging\" change before this one, and then `sync` only needs to accept the changes numbers and not this union type.",
+      "range": {
+        "startLine": 238,
+        "startChar": 0,
+        "endLine": 238,
+        "endChar": 68
+      },
+      "revId": "cecd5bcab729cdedac04a59404307dc546c89bde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

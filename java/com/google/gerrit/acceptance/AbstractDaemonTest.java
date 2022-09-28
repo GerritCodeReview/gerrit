@@ -1255,6 +1255,11 @@ public abstract class AbstractDaemonTest {
 
   protected void assertDiffForNewFile(
       DiffInfo diff, RevCommit commit, String path, String expectedContentSideB) throws Exception {
+    assertDiffForNewFile(diff, commit.name(), path, expectedContentSideB);
+  }
+
+  protected void assertDiffForNewFile(
+      DiffInfo diff, String commitName, String path, String expectedContentSideB) throws Exception {
     List<String> expectedLines = ImmutableList.copyOf(expectedContentSideB.split("\n", -1));
 
     assertThat(diff.binary).isNull();
@@ -1266,7 +1271,8 @@ public abstract class AbstractDaemonTest {
 
     assertThat(diff.metaA).isNull();
     assertThat(diff.metaB).isNotNull();
-    assertThat(diff.metaB.commitId).isEqualTo(commit.name());
+
+    assertThat(diff.metaB.commitId).isEqualTo(commitName);
 
     String expectedContentType = "text/plain";
     if (COMMIT_MSG.equals(path)) {

@@ -48,6 +48,7 @@ import com.google.gerrit.entities.converter.PatchSetProtoConverter;
 import com.google.gerrit.entities.converter.ProtoConverter;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.FieldDef;
+import com.google.gerrit.index.PaginationType;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.Schema;
@@ -455,31 +456,37 @@ public class LuceneChangeIndex implements ChangeIndex {
     private Results doRead(Set<String> fields) throws IOException {
       IndexSearcher[] searchers = new IndexSearcher[indexes.size()];
       Map<ChangeSubIndex, ScoreDoc> searchAfterBySubIndex = new HashMap<>();
+      boolean isSearchAfterPagination =
+          opts.config().paginationType().equals(PaginationType.SEARCH_AFTER);
       try {
         int realPageSize = opts.start() + opts.pageSize();
         if (Integer.MAX_VALUE - opts.pageSize() < opts.start()) {
           realPageSize = Integer.MAX_VALUE;
         }
-        TopFieldDocs[] hits = new TopFieldDocs[indexes.size()];
+        ArrayList<TopFieldDocs> hits = new ArrayList<>();
+        int hitsCount = 0;
         for (int i = 0; i < indexes.size(); i++) {
           ChangeSubIndex subIndex = indexes.get(i);
           searchers[i] = subIndex.acquire();
-          if (opts.searchAfter() != null && opts.searchAfter() instanceof HashMap) {
-            hits[i] =
+          ScoreDoc searchAfter = getSearchAfter(opts, subIndex);
+          int numHits = isSearchAfterPagination ? realPageSize - hitsCount : realPageSize;
+          if (numHits > 0) {
+            TopFieldDocs subIndexHits =
                 searchers[i].searchAfter(
-                    ((HashMap<ChangeSubIndex, ScoreDoc>) opts.searchAfter()).get(subIndex),
+                    searchAfter,
                     query,
-                    realPageSize,
+                    numHits,
                     sort,
                     /* doDocScores= */ false,
                     /* doMaxScore= */ false);
-          } else {
-            hits[i] = searchers[i].search(query, realPageSize, sort);
+            hitsCount += subIndexHits.scoreDocs.length;
+            searchAfterBySubIndex.put(
+                subIndex, Iterables.getLast(Arrays.asList(subIndexHits.scoreDocs), searchAfter));
+            hits.add(subIndexHits);
           }
-          searchAfterBySubIndex.put(
-              subIndex, Iterables.getLast(Arrays.asList(hits[i].scoreDocs), null));
         }
-        TopDocs docs = TopDocs.merge(sort, realPageSize, hits);
+        TopDocs docs =
+            TopDocs.merge(sort, realPageSize, hits.stream().toArray(TopFieldDocs[]::new));
 
         List<Document> result = new ArrayList<>(docs.scoreDocs.length);
         for (int i = opts.start(); i < docs.scoreDocs.length; i++) {
@@ -499,6 +506,23 @@ public class LuceneChangeIndex implements ChangeIndex {
         }
       }
     }
+  }
+
+  /**
+   * Returns null for the first page or when pagination type is not {@link
+   * PaginationType#SEARCH_AFTER search-after}, otherwise returns the last doc from previous search
+   * on the given change sub-index.
+   *
+   * @param opts query options
+   * @param subIndex change sub-index
+   * @return the score doc that can be used to page result sets
+   */
+  private ScoreDoc getSearchAfter(QueryOptions opts, ChangeSubIndex subIndex) {
+    ScoreDoc searchAfter = null;
+    if (opts.searchAfter() != null && opts.searchAfter() instanceof Map) {
+      searchAfter = ((Map<ChangeSubIndex, ScoreDoc>) opts.searchAfter()).get(subIndex);
+    }
+    return searchAfter;
   }
 
   private static class Results {

@@ -192,9 +192,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected ProjectCache projectCache;
   @Inject protected MetaDataUpdate.Server metaDataUpdateFactory;
   @Inject protected IdentifiedUser.GenericFactory identifiedUserFactory;
+  @Inject protected ProjectOperations projectOperations;
 
   @Inject private ProjectConfig.Factory projectConfigFactory;
-  @Inject private ProjectOperations projectOperations;
 
   protected Injector injector;
   protected LifecycleManager lifecycle;

@@ -28,6 +28,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.QueryOptions;
+import com.google.gerrit.index.query.AndPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.query.change.AndChangeSource;
@@ -198,7 +199,7 @@ public class ChangeIndexRewriterTest {
     int n = 3;
     Predicate<ChangeData> f = parse("file:a");
     Predicate<ChangeData> l = parse("limit:" + n);
-    Predicate<ChangeData> in = andSource(f, l);
+    Predicate<ChangeData> in = AndPredicate.and(f, l);
     assertThat(rewrite.rewrite(in, options(0, n))).isEqualTo(andSource(query(f, 3), l));
     assertThat(rewrite.rewrite(in, options(1, n))).isEqualTo(andSource(query(f, 4), l));
     assertThat(rewrite.rewrite(in, options(2, n))).isEqualTo(andSource(query(f, 5), l));

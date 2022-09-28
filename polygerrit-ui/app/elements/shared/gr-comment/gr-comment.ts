@@ -490,6 +490,7 @@ export class GrComment extends LitElement {
           width: unset;
         }
         .draft gr-formatted-text.message {
+          display: block;
           margin-bottom: var(--spacing-m);
         }
         .portedMessage {

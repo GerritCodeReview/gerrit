@@ -30,6 +30,7 @@ filegroup(
 
 nodejs_test(
     name = "web-test-runner",
+    size = "large",
     chdir = package_name(),
     data = [
         ":web-test-runner_config-sources",

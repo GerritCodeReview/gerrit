@@ -23,8 +23,8 @@ import org.junit.Test;
 public class AndSourceTest extends PredicateTest {
   @Test
   public void ensureLowerCostPredicateRunsFirst() {
-    TestMatchablePredicate p1 = new TestMatchablePredicate("predicate1", "foo", 10);
-    TestMatchablePredicate p2 = new TestMatchablePredicate("predicate2", "foo", 1);
+    TestDataSourcePredicate p1 = new TestDataSourcePredicate("predicate1", "foo", 10, 10);
+    TestDataSourcePredicate p2 = new TestDataSourcePredicate("predicate2", "foo", 1, 10);
     AndSource<String> andSource = new AndSource<>(Lists.newArrayList(p1, p2), null);
     andSource.match("bar");
     assertFalse(p1.ranMatch);

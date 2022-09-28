@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {ConfigInfo, RepoName, ServerInfo} from '../../types/common';
-import {from, of} from 'rxjs';
+import {from, of, Subscription} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 import {Finalizable} from '../../services/registry';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
@@ -50,6 +50,8 @@ export class ConfigModel extends Model<ConfigState> implements Finalizable {
     url => url
   );
 
+  private subscriptions: Subscription[];
+
   constructor(
     readonly changeModel: ChangeModel,
     readonly restApiService: RestApiService
@@ -80,5 +82,12 @@ export class ConfigModel extends Model<ConfigState> implements Finalizable {
   // visible for testing
   updateServerConfig(serverConfig?: ServerInfo) {
     this.updateState({serverConfig});
+  }
+
+  override finalize() {
+    for (const s of this.subscriptions) {
+      s.unsubscribe();
+    }
+    this.subscriptions = [];
   }
 }

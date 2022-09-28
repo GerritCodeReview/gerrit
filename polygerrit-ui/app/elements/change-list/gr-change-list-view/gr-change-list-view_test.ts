@@ -7,20 +7,45 @@ import '../../../test/common-test-setup';
 import './gr-change-list-view';
 import {GrChangeListView} from './gr-change-list-view';
 import {page} from '../../../utils/page-wrapper-utils';
-import {query, queryAndAssert} from '../../../test/test-utils';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
+import {
+  query,
+  stubRestApi,
+  queryAndAssert,
+  stubFlags,
+} from '../../../test/test-utils';
 import {createChange} from '../../../test/test-data-generators';
-import {ChangeInfo, EmailAddress, RepoName} from '../../../api/rest-api';
+import {
+  ChangeInfo,
+  EmailAddress,
+  NumericChangeId,
+  RepoName,
+} from '../../../api/rest-api';
 import {fixture, html, waitUntil, assert} from '@open-wc/testing';
+import {GerritView} from '../../../services/router/router-model';
+import {testResolver} from '../../../test/common-test-setup';
+import {SinonFakeTimers, SinonStub} from 'sinon';
 import {GrChangeList} from '../gr-change-list/gr-change-list';
 import {GrChangeListSection} from '../gr-change-list-section/gr-change-list-section';
 import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
 
+const CHANGE_ID = 'IcA3dAB3edAB9f60B8dcdA6ef71A75980e4B7127';
+const COMMIT_HASH = '12345678';
+
 suite('gr-change-list-view tests', () => {
   let element: GrChangeListView;
+  let changes: ChangeInfo[] | undefined = [];
+  let clock: SinonFakeTimers;
 
   setup(async () => {
+    clock = sinon.useFakeTimers();
+    stubRestApi('getChanges').callsFake(() => Promise.resolve(changes));
     element = await fixture(html`<gr-change-list-view></gr-change-list-view>`);
-    element.query = 'test-query';
+    element.viewState = {
+      view: GerritView.SEARCH,
+      query: 'test-query',
+      offset: '0',
+    };
     await element.updateComplete;
   });
 
@@ -50,9 +75,11 @@ suite('gr-change-list-view tests', () => {
 
   suite('bulk actions', () => {
     setup(async () => {
+      stubFlags('isEnabled').returns(true);
+      changes = [createChange()];
       element.loading = false;
-      element.changes = [createChange()];
-      await element.updateComplete;
+      element.reload();
+      clock.tick(100);
       await element.updateComplete;
       await waitUntil(() => element.loading === false);
     });
@@ -80,9 +107,8 @@ suite('gr-change-list-view tests', () => {
       checkbox.click();
       await waitUntil(() => checkbox.checked);
 
-      element.changes = [createChange()];
+      element.reload();
       await element.updateComplete;
-
       checkbox = queryAndAssert<HTMLInputElement>(
         query(
           query(query(element, 'gr-change-list'), 'gr-change-list-section'),
@@ -196,7 +222,7 @@ suite('gr-change-list-view tests', () => {
   });
 
   test('userId query', async () => {
-    assert.isUndefined(element.userId);
+    assert.isNull(element.userId);
     element.query = 'owner: foo@bar';
     element.changes = [
       {...createChange(), owner: {email: 'foo@bar' as EmailAddress}},
@@ -209,19 +235,19 @@ suite('gr-change-list-view tests', () => {
       {...createChange(), owner: {email: 'foo@bar' as EmailAddress}},
     ];
     await element.updateComplete;
-    assert.isUndefined(element.userId);
+    assert.isNull(element.userId);
   });
 
   test('userId query without email', async () => {
-    assert.isUndefined(element.userId);
+    assert.isNull(element.userId);
     element.query = 'owner: foo@bar';
     element.changes = [{...createChange(), owner: {}}];
     await element.updateComplete;
-    assert.isUndefined(element.userId);
+    assert.isNull(element.userId);
   });
 
   test('repo query', async () => {
-    assert.isUndefined(element.repo);
+    assert.isNull(element.repo);
     element.query = 'project: test-repo';
     element.changes = [
       {
@@ -238,11 +264,11 @@ suite('gr-change-list-view tests', () => {
       {...createChange(), owner: {email: 'foo@bar' as EmailAddress}},
     ];
     await element.updateComplete;
-    assert.isUndefined(element.repo);
+    assert.isNull(element.repo);
   });
 
   test('repo query with open status', async () => {
-    assert.isUndefined(element.repo);
+    assert.isNull(element.repo);
     element.query = 'project:test-repo status:open';
     element.changes = [
       {
@@ -259,6 +285,74 @@ suite('gr-change-list-view tests', () => {
       {...createChange(), owner: {email: 'foo@bar' as EmailAddress}},
     ];
     await element.updateComplete;
-    assert.isUndefined(element.repo);
+    assert.isNull(element.repo);
+  });
+
+  suite('query based navigation', () => {
+    let replaceUrlStub: SinonStub;
+    setup(() => {
+      replaceUrlStub = sinon.stub(testResolver(navigationToken), 'replaceUrl');
+    });
+
+    teardown(async () => {
+      await element.updateComplete;
+      sinon.restore();
+    });
+
+    test('Searching for a change ID redirects to change', async () => {
+      const change = {...createChange(), _number: 1 as NumericChangeId};
+      changes = [change];
+
+      element.viewState = {view: GerritView.SEARCH, query: CHANGE_ID};
+      clock.tick(100);
+      await element.updateComplete;
+
+      assert.isTrue(replaceUrlStub.called);
+      assert.equal(replaceUrlStub.lastCall.firstArg, '/c/test-project/+/1');
+    });
+
+    test('Searching for a change num redirects to change', async () => {
+      const change = {...createChange(), _number: 1 as NumericChangeId};
+      changes = [change];
+
+      element.viewState = {view: GerritView.SEARCH, query: '1'};
+      clock.tick(100);
+      await element.updateComplete;
+
+      assert.isTrue(replaceUrlStub.called);
+      assert.equal(replaceUrlStub.lastCall.firstArg, '/c/test-project/+/1');
+    });
+
+    test('Commit hash redirects to change', async () => {
+      const change = {...createChange(), _number: 1 as NumericChangeId};
+      changes = [change];
+
+      element.viewState = {view: GerritView.SEARCH, query: COMMIT_HASH};
+      clock.tick(100);
+      await element.updateComplete;
+
+      assert.isTrue(replaceUrlStub.called);
+      assert.equal(replaceUrlStub.lastCall.firstArg, '/c/test-project/+/1');
+    });
+
+    test('Searching for an invalid change ID searches', async () => {
+      changes = [];
+
+      element.viewState = {view: GerritView.SEARCH, query: CHANGE_ID};
+      clock.tick(100);
+      await element.updateComplete;
+
+      assert.isFalse(replaceUrlStub.called);
+    });
+
+    test('Change ID with multiple search results searches', async () => {
+      changes = undefined;
+
+      element.viewState = {view: GerritView.SEARCH, query: CHANGE_ID};
+      clock.tick(100);
+      await element.updateComplete;
+
+      assert.isFalse(replaceUrlStub.called);
+    });
   });
 });

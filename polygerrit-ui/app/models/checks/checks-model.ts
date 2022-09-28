@@ -568,6 +568,8 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
     summaryMessage: string | undefined,
     patchset: ChecksPatchset
   ) {
+    // Protect against plugins not respecting required fields.
+    runs = runs.filter(run => !!run.checkName && !!run.status);
     const attemptMap = createAttemptMap(runs);
     for (const attemptInfo of attemptMap.values()) {
       attemptInfo.attempts.sort(sortAttemptDetails);

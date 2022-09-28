@@ -190,6 +190,41 @@ public class CommitUtil {
   }
 
   /**
+   * Creates a commit with the specified tree ID.
+   *
+   * @param oi ObjectInserter for inserting the newly created commit.
+   * @param authorIdent of the new commit
+   * @param committerIdent of the new commit
+   * @param parentCommit of the new commit. Can be null.
+   * @param commitMessage for the new commit.
+   * @param treeId of the content for the new commit.
+   * @return the newly created commit.
+   * @throws IOException if fails to insert the commit.
+   */
+  public static ObjectId createCommitWithTree(
+      ObjectInserter oi,
+      PersonIdent authorIdent,
+      PersonIdent committerIdent,
+      @Nullable RevCommit parentCommit,
+      String commitMessage,
+      ObjectId treeId)
+      throws IOException {
+    logger.atFine().log("Creating commit with tree: %s", treeId.getName());
+    CommitBuilder commit = new CommitBuilder();
+    commit.setTreeId(treeId);
+    if (parentCommit != null) {
+      commit.setParentId(parentCommit);
+    }
+    commit.setAuthor(authorIdent);
+    commit.setCommitter(committerIdent);
+    commit.setMessage(commitMessage);
+
+    ObjectId id = oi.insert(commit);
+    oi.flush();
+    return id;
+  }
+
+  /**
    * Creates a revert commit.
    *
    * @param message Commit message for the revert commit.
@@ -227,12 +262,6 @@ public class CommitUtil {
     RevCommit parentToCommitToRevert = commitToRevert.getParent(0);
     revWalk.parseHeaders(parentToCommitToRevert);
 
-    CommitBuilder revertCommitBuilder = new CommitBuilder();
-    revertCommitBuilder.addParentId(commitToRevert);
-    revertCommitBuilder.setTreeId(parentToCommitToRevert.getTree());
-    revertCommitBuilder.setAuthor(authorIdent);
-    revertCommitBuilder.setCommitter(authorIdent);
-
     Change changeToRevert = notes.getChange();
     String subject = changeToRevert.getSubject();
     if (subject.length() > 63) {
@@ -244,11 +273,11 @@ public class CommitUtil {
               ChangeMessages.get().revertChangeDefaultMessage, subject, patch.commitId().name());
     }
     if (generatedChangeId != null) {
-      revertCommitBuilder.setMessage(ChangeIdUtil.insertId(message, generatedChangeId, true));
+      message = ChangeIdUtil.insertId(message, generatedChangeId, true);
     }
-    ObjectId id = oi.insert(revertCommitBuilder);
-    oi.flush();
-    return id;
+
+    return createCommitWithTree(
+        oi, authorIdent, committerIdent, commitToRevert, message, parentToCommitToRevert.getTree());
   }
 
   private Change.Id createRevertChangeFromCommit(

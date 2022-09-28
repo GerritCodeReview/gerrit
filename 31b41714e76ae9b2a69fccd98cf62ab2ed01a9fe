@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "352d7081_632cca4b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-28T09:18:03Z",
+      "side": 1,
+      "message": "FYI Jörg is on a longer leave and will not respond to review requests any time soon.",
+      "revId": "31b41714e76ae9b2a69fccd98cf62ab2ed01a9fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -28,6 +28,9 @@
   {@param? polyfillCE: ?}
   {@param? useGoogleFonts: ?}
   {@param? changeNum: ?}
+  {@param? changeSubject: ?}
+  {@param? changeProject: ?}
+  {@param? changeBranch: ?}
   {@param? changeRequestsPath: ?}
   {@param? defaultChangeDetailHex: ?}
   {@param? defaultDashboardHex: ?}
@@ -36,6 +39,9 @@
   <!DOCTYPE html>{\n}
   <html lang="en">{\n}
   <meta charset="utf-8">{\n}
+  {if $changeSubject and $changeProject and $changeBranch}
+    <title>[{$changeProject}:{$changeBranch}] {$changeNum}: {$changeSubject}</title>{\n}
+  {/if}
   <meta name="description" content="Gerrit Code Review">{\n}
   <meta name="referrer" content="never">{\n}
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">{\n}

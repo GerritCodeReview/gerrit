@@ -28,7 +28,9 @@ import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.accounts.AccountApi;
 import com.google.gerrit.extensions.api.config.Server;
 import com.google.gerrit.extensions.client.ListOption;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.server.experiments.ExperimentFeatures;
@@ -99,7 +101,20 @@ public class IndexHtmlUtil {
         data.put(
             "changeRequestsPath",
             IndexPreloadingUtil.computeChangeRequestsPath(requestedPath, page).get());
-        data.put("changeNum", IndexPreloadingUtil.computeChangeNum(requestedPath, page).get());
+        Integer changeNum = IndexPreloadingUtil.computeChangeNum(requestedPath, page).get();
+        data.put("changeNum", changeNum);
+        try {
+          ChangeInfo info = gerritApi.changes().id(changeNum).info();
+          data.put("changeSubject", info.subject);
+          data.put("changeProject", info.project);
+          data.put("changeBranch", info.branch);
+        } catch (AuthException e) {
+          logger.atFine().withCause(e).log(
+              "Not rendering change info since user does not have permission.");
+        } catch (ResourceNotFoundException e) {
+          logger.atFine().withCause(e).log(
+              "Not rendering change info since change does not exist.");
+        }
         break;
       case DASHBOARD:
         // Dashboard is preloaded queries are added later when we check user is authenticated.

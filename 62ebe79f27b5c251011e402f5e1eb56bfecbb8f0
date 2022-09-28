@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a8eb4c0_12d3098d",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-09-28T13:47:57Z",
+      "side": 1,
+      "message": "It is not first 32766 characters but the number of characters that, when encoded, can first into 32766 bytes.",
+      "revId": "62ebe79f27b5c251011e402f5e1eb56bfecbb8f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9935656f_5d51225c",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1407,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-09-28T13:47:57Z",
+      "side": 1,
+      "message": "This can allocate a lot of memory unnecessarily. We know that it can be at most maxBytes characters in the string (if they are all ASCII) so we can safely only use that prefix of the str:\n\n  str.substring(0, maxBytes).getBytes(UTF_8)",
+      "range": {
+        "startLine": 1407,
+        "startChar": 22,
+        "endLine": 1407,
+        "endChar": 42
+      },
+      "revId": "62ebe79f27b5c251011e402f5e1eb56bfecbb8f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

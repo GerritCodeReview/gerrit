@@ -347,7 +347,25 @@ public class FakeHttpServletRequest implements HttpServletRequest {
 
   @Override
   public StringBuffer getRequestURL() {
-    return null;
+    // Taken from Guice com.google.inject.servlet
+
+    StringBuffer url = new StringBuffer();
+    String scheme = getScheme();
+    int port = getServerPort();
+
+    url.append(scheme);
+    url.append("://");
+    url.append(getServerName());
+    // port might be -1 in some cases (see java.net.URL.getPort)
+    if (port > 0
+        && (("http".equals(scheme) && (port != 80))
+        || ("https".equals(scheme) && (port != 443)))) {
+      url.append(':');
+      url.append(port);
+    }
+    url.append(getRequestURI());
+
+    return (url);
   }
 
   @Override

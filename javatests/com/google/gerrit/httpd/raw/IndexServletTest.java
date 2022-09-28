@@ -22,8 +22,11 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.accounts.Accounts;
+import com.google.gerrit.extensions.api.changes.ChangeApi;
+import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.api.config.Config;
 import com.google.gerrit.extensions.api.config.Server;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.experiments.ConfigExperimentFeatures;
@@ -52,8 +55,18 @@ public class IndexServletTest {
     Config configApi = mock(Config.class);
     when(configApi.server()).thenReturn(serverApi);
 
+    Changes changesApi = mock(Changes.class);
+    ChangeApi changeApi = mock(ChangeApi.class);
+    when(changesApi.id(123)).thenReturn(changeApi);
+    ChangeInfo changeInfo = new ChangeInfo();
+    changeInfo.subject = "Lorem Ipsum";
+    changeInfo.project = "Project";
+    changeInfo.branch = "main";
+    when(changeApi.info()).thenReturn(changeInfo);
+
     GerritApi gerritApi = mock(GerritApi.class);
     when(gerritApi.accounts()).thenReturn(accountsApi);
+    when(gerritApi.changes()).thenReturn(changesApi);
     when(gerritApi.config()).thenReturn(configApi);
 
     String testCanonicalUrl = "foo-url";
@@ -76,7 +89,10 @@ public class IndexServletTest {
 
     FakeHttpServletResponse response = new FakeHttpServletResponse();
 
-    servlet.doGet(new FakeHttpServletRequest(), response);
+    FakeHttpServletRequest req = new FakeHttpServletRequest(
+        "gerrit.example.com", 80, "/c", "/project")
+        .setPathInfo("/+/123");
+    servlet.doGet(req, response);
 
     String output = response.getActualBodyString();
     assertThat(output).contains("<!DOCTYPE html>");
@@ -107,5 +123,11 @@ public class IndexServletTest {
             "window.ENABLED_EXPERIMENTS = JSON.parse('\\x5b\\x22"
                 + String.join("\\x22,\\x22", expectedEnabled)
                 + "\\x22\\x5d');</script>");
+    assertThat(output)
+        .contains(
+            "<link rel=\"preload\" href=\"foo-url/changes/project~123/detail?O=1916314\"" +
+                " as=\"fetch\" type=\"application/json\" crossorigin=\"anonymous\"/>");
+    assertThat(output)
+        .contains("<title>[Project:main] 123: Lorem Ipsum</title>");
   }
 }

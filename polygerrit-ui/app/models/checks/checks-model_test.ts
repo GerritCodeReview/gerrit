@@ -147,6 +147,35 @@ suite('checks-model tests', () => {
     assert.lengthOf(current.runs[0].results!, 1);
   });
 
+  test('model.updateStateSetResults ignore empty name or status', () => {
+    model.updateStateSetProvider(PLUGIN_NAME, ChecksPatchset.LATEST);
+    model.updateStateSetResults(
+      PLUGIN_NAME,
+      [
+        {
+          checkName: 'test-check-name',
+          status: RunStatus.COMPLETED,
+        },
+        // Will be ignored, because the checkName is empty.
+        {
+          checkName: undefined as unknown as string,
+          status: RunStatus.COMPLETED,
+        },
+        // Will be ignored, because the status is empty.
+        {
+          checkName: 'test-check-name',
+          status: undefined as unknown as RunStatus,
+        },
+      ],
+      [],
+      [],
+      undefined,
+      ChecksPatchset.LATEST
+    );
+    // 2 out of 3 runs are ignored.
+    assert.lengthOf(current.runs, 1);
+  });
+
   test('model.updateStateUpdateResult', () => {
     model.updateStateSetProvider(PLUGIN_NAME, ChecksPatchset.LATEST);
     model.updateStateSetResults(

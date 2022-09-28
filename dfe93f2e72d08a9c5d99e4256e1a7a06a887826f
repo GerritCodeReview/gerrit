@@ -85,6 +85,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "29f6a184_0a520dfe",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-28T14:33:47Z",
+      "side": 1,
+      "message": "\u003e Sorry for the bad grammar. Should have checked the comment more closely myself.\n\nNo worries.\n\n\u003e \n\u003e I saw David\u0027s comment here: https://gerrit-review.googlesource.com/c/gerrit/+/328636. He just states that we should not rely on the value provided by Lucene without giving a reason. My own reasoning was that we would like to have closer control on the indexed data ourselves. Maybe @david.ostrovsky@gmail.com could comment on why we should redefine the constant?\n\nI wonder if it was just because this is in the generic index code and not Lucene-specific and David didn\u0027t want to introduce a Lucene compilation dependency here (though maybe we already have one?). I would accept that as the reasoning in the comment if you want to update it.\n\n\u003e \n\u003e Making it configurable would be nice. I guess however that this would require major changes, since all values in the field are constants. The only reasonable way of doing that would be Guice providing multiple versions of the ChangeField class dependent on the configured index type. Not sure whether we should do that in a stable branch, especially since Lucene is currently the only officially supported index, that Elasticsearch is also based on Lucene and thus likely has the same limitation and that this truncation would only be a small inconvenience for people using an index supporting larger value sizes.\n\nES does have the same limitation and I do agree it would take more significant changes to make this fully configurable, likely for little value. If you can include some of this reasoning in the commit message, that would help.",
+      "parentUuid": "593ee840_cd072191",
+      "revId": "dfe93f2e72d08a9c5d99e4256e1a7a06a887826f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3c7c5ed9_b1c37e4c",
         "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 2

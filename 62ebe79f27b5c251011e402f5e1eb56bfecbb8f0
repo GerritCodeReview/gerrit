@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7c72653d_2e424a7d",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1406,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-28T14:33:47Z",
+      "side": 1,
+      "message": "Can we use https://guava.dev/releases/19.0/api/docs/com/google/common/base/Ascii.html#truncate(java.lang.CharSequence,%20int,%20java.lang.String) instead?",
+      "range": {
+        "startLine": 1406,
+        "startChar": 16,
+        "endLine": 1406,
+        "endChar": 31
+      },
+      "revId": "62ebe79f27b5c251011e402f5e1eb56bfecbb8f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9935656f_5d51225c",
         "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 7
@@ -36,6 +59,29 @@
         "startChar": 22,
         "endLine": 1407,
         "endChar": 42
+      },
+      "revId": "62ebe79f27b5c251011e402f5e1eb56bfecbb8f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86441f35_f41253c3",
+        "filename": "javatests/com/google/gerrit/server/index/change/ChangeFieldTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-28T14:33:47Z",
+      "side": 1,
+      "message": "nit: I think probably s/clip/truncate/ everywhere, since that\u0027s the more commonly used term.",
+      "range": {
+        "startLine": 172,
+        "startChar": 30,
+        "endLine": 172,
+        "endChar": 37
       },
       "revId": "62ebe79f27b5c251011e402f5e1eb56bfecbb8f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

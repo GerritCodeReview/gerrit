@@ -24,8 +24,11 @@ import static org.mockito.Mockito.when;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.accounts.Accounts;
+import com.google.gerrit.extensions.api.changes.ChangeApi;
+import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.api.config.Config;
 import com.google.gerrit.extensions.api.config.Server;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.template.soy.data.SanitizedContent;
@@ -110,14 +113,28 @@ public class IndexHtmlUtilTest {
     Config configApi = mock(Config.class);
     when(configApi.server()).thenReturn(serverApi);
 
+    Changes changesApi = mock(Changes.class);
+    ChangeApi changeApi = mock(ChangeApi.class);
+    when(changesApi.id(123)).thenReturn(changeApi);
+    ChangeInfo changeInfo = new ChangeInfo();
+    changeInfo.subject = "Lorem Ipsum";
+    changeInfo.project = "Project";
+    changeInfo.branch = "main";
+    when(changeApi.info()).thenReturn(changeInfo);
+
     GerritApi gerritApi = mock(GerritApi.class);
     when(gerritApi.accounts()).thenReturn(accountsApi);
+    when(gerritApi.changes()).thenReturn(changesApi);
     when(gerritApi.config()).thenReturn(configApi);
 
     assertThat(dynamicTemplateData(gerritApi, "/c/project/+/123"))
         .containsAtLeast(
             "defaultChangeDetailHex", "1916314",
-            "changeRequestsPath", "changes/project~123");
+            "changeRequestsPath", "changes/project~123",
+            "changeNum", 123,
+            "changeSubject", "Lorem Ipsum",
+            "changeProject", "Project",
+            "changeBranch", "main");
   }
 
   private static SanitizedContent ordain(String s) {

@@ -13,7 +13,7 @@ import {
   RevisionPatchSetNum,
 } from '../../types/common';
 import {combineLatest, of, from} from 'rxjs';
-import {switchMap, map} from 'rxjs/operators';
+import {switchMap, map, tap} from 'rxjs/operators';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {Finalizable} from '../../services/registry';
 import {select} from '../../utils/observable-util';
@@ -174,6 +174,7 @@ export class FilesModel extends Model<FilesState> implements Finalizable {
     ) => PatchRange | undefined,
     filesToState: (files: NormalizedFileInfo[]) => Partial<FilesState>
   ) {
+    console.log('subscribe to files');
     return combineLatest([
       this.changeModel.reload$,
       this.changeModel.changeNum$,
@@ -181,10 +182,12 @@ export class FilesModel extends Model<FilesState> implements Finalizable {
       this.changeModel.patchNum$,
     ])
       .pipe(
+        tap(() => console.log('tap into files load')),
         switchMap(([_, changeNum, basePatchNum, patchNum]) => {
           if (!changeNum || !patchNum) return of({});
           const range = rangeChooser(basePatchNum, patchNum);
           if (!range) return of({});
+          console.log(`files load ${changeNum} ${JSON.stringify(range)}`);
           return from(
             this.restApiService.getChangeOrEditFiles(changeNum, range)
           );
@@ -193,6 +196,8 @@ export class FilesModel extends Model<FilesState> implements Finalizable {
         map(filesToState)
       )
       .subscribe(state => {
+        console.log(`update state with files ${JSON.stringify(state)}`);
+
         this.updateState(state);
       });
   }

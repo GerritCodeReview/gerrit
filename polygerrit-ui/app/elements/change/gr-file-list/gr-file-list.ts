@@ -740,6 +740,8 @@ export class GrFileList extends LitElement {
       this,
       () => this.getFilesModel().filesWithUnmodified$,
       files => {
+        console.log('files model files with unmodified');
+
         this.files = [...files];
       }
     );
@@ -988,6 +990,7 @@ export class GrFileList extends LitElement {
       );
     }
     this.shownFilesOld = this.shownFiles;
+    console.log(`render files ${this.shownFiles.length}`);
     return incrementalRepeat({
       values: this.shownFiles,
       mapFn: (f, i) =>
@@ -1010,6 +1013,8 @@ export class GrFileList extends LitElement {
     showDynamicColumns: boolean,
     showPrependedDynamicColumns: boolean
   ) {
+    console.log(`render file row ${file.__path}`);
+
     this.reportRenderedRow(index);
     const previousFileName = this.shownFiles[index - 1]?.__path;
     const patchSetFile = this.computePatchSetFile(file);
@@ -2185,6 +2190,8 @@ export class GrFileList extends LitElement {
   }
 
   private computeFilesShown(): NormalizedFileInfo[] {
+    console.log(`compute files shown ${this.files.length}`);
+
     const previousNumFilesShown = this.shownFiles ? this.shownFiles.length : 0;
 
     const filesShown = this.files.slice(0, this.numFilesShown);

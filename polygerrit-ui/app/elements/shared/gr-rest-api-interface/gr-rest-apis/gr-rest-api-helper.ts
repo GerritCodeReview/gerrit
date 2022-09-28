@@ -76,9 +76,11 @@ export class SiteBasedCache {
       // Put all data shipped with index.html into the cache. This makes it
       // so that we spare more round trips to the server when the app loads
       // initially.
-      Object.entries(window.INITIAL_DATA).forEach(e =>
-        this._cache().set(e[0], e[1] as unknown as ParsedJSON)
-      );
+      Object.entries(window.INITIAL_DATA).forEach(e => {
+        console.log(`initial data ${e[0]}`);
+        if (e[0].includes('account')) return;
+        this._cache().set(e[0], e[1] as unknown as ParsedJSON);
+      });
     }
   }
 

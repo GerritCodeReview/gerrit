@@ -352,6 +352,10 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
       this.changeModel.patchNum$,
     ]),
     ([changeComments, basePatchNum, patchNum]) => {
+      console.log(
+        `commented path files ${changeComments.getAllComments().length}`
+      );
+
       if (!patchNum) return [];
       const pathsMap = changeComments.getPaths({basePatchNum, patchNum});
       return Object.keys(pathsMap);
@@ -384,6 +388,11 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
     readonly reporting: ReportingService
   ) {
     super(initialState);
+    this.subscriptions.push(
+      this.state$.subscribe(x =>
+        console.log(`files comments state ${x.comments?.length}`)
+      )
+    );
     this.subscriptions.push(
       this.discardedDrafts$.subscribe(x => (this.discardedDrafts = x))
     );
@@ -425,6 +434,8 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
   // Note that this does *not* reload ported comments.
   async reloadAllComments() {
     if (!this.changeNum) return;
+    console.log('files reload all comments');
+
     await Promise.all([
       this.reloadComments(this.changeNum),
       this.reloadRobotComments(this.changeNum),

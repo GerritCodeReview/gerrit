@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {from, of, Observable} from 'rxjs';
-import {filter, switchMap} from 'rxjs/operators';
+import {filter, switchMap, tap} from 'rxjs/operators';
 import {
   DiffPreferencesInfo as DiffPreferencesInfoAPI,
   DiffViewMode,
@@ -99,7 +99,10 @@ export class UserModel extends Model<UserState> implements Finalizable {
   readonly preferences$: Observable<PreferencesInfo> = select(
     this.state$,
     userState => userState.preferences
-  ).pipe(filter(isDefined));
+  ).pipe(
+    tap(x => console.log(`subs prefs ${x}`)),
+    filter(isDefined)
+  );
 
   readonly diffPreferences$: Observable<DiffPreferencesInfo> = select(
     this.state$,
@@ -130,12 +133,17 @@ export class UserModel extends Model<UserState> implements Finalizable {
     super({
       accountLoaded: false,
     });
+    this.restApiService
+      .getAccount()
+      .then((account?: AccountDetailInfo) => {
+        this.setAccount(account);
+      })
+      .catch(() => {
+        this.setAccount(undefined);
+        console.log('subs catch');
+      })
+      .finally(() => console.log('subs finally'));
     this.subscriptions = [
-      from(this.restApiService.getAccount()).subscribe(
-        (account?: AccountDetailInfo) => {
-          this.setAccount(account);
-        }
-      ),
       this.loadedAccount$
         .pipe(
           switchMap(account => {
@@ -237,6 +245,8 @@ export class UserModel extends Model<UserState> implements Finalizable {
   }
 
   setAccount(account?: AccountDetailInfo) {
+    console.log(`subs setAccount ${account}`);
+
     this.updateState({account, accountLoaded: true});
   }
 }

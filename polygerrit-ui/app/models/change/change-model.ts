@@ -22,6 +22,7 @@ import {
   distinctUntilChanged,
   startWith,
   switchMap,
+  tap,
 } from 'rxjs/operators';
 import {RouterModel} from '../../services/router/router-model';
 import {
@@ -236,16 +237,20 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
         distinctUntilChanged()
       )
       .pipe(
+        tap(() => console.log('subs base pipe')),
         withLatestFrom(
           this.routerModel.routerBasePatchNum$,
           this.patchNum$,
           this.change$,
           this.userModel.preferences$
         ),
+        tap(() => console.log('subs base withlf')),
         map(([_, routerBasePatchNum, patchNum, change, preferences]) =>
           computeBase(routerBasePatchNum, patchNum, change, preferences)
         ),
-        distinctUntilChanged()
+        tap(a => console.log(`subs base mapped ${a}`)),
+        distinctUntilChanged(),
+        tap(a => console.log(`subs base distinct ${a}`))
       );
 
   public readonly isOwner$: Observable<boolean> = select(
@@ -303,6 +308,10 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
           })
         )
         .subscribe(),
+      this.reload$.subscribe(() => console.log('subs reload')),
+      this.changeNum$.subscribe(() => console.log('subs changeNum')),
+      this.patchNum$.subscribe(() => console.log('subs patchNum')),
+      this.basePatchNum$.subscribe(() => console.log('subs basePatchNum')),
     ];
   }
 

@@ -79,6 +79,7 @@ suite('bulk actions model test', () => {
     bulkActionsModel.sync([c1, c2]);
 
     assert.isEmpty(bulkActionsModel.getState().selectedChangeNums);
+    assert.deepEqual(bulkActionsModel.getState().selectableChangeNums, [1, 2]);
 
     bulkActionsModel.addSelectedChangeNum(c1._number);
     assert.sameMembers(bulkActionsModel.getState().selectedChangeNums, [

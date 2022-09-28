@@ -60,11 +60,13 @@ import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
+import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.MergeInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
+import com.google.gerrit.extensions.restapi.PreconditionFailedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -86,6 +88,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import org.eclipse.jgit.api.errors.PatchFormatException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -924,11 +927,42 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createPatchApplyingChangeUnimplemented() throws Exception {
-    requestScopeOperations.setApiUser(user.id());
-    ChangeInput input = newPatchApplyingChangeInput("foo", "master");
+  public void createPatchApplyingChangeSuccess() throws Exception {
+    final String fileName = "a_new_file.txt";
+    final String fileContent = "First added line\nSecond added line\n";
+    final String patch =
+        "diff --git a/a_new_file.txt b/a_new_file.txt\n"
+            + "new file mode 100644\n"
+            + "index 0000000..f0eec86\n"
+            + "--- /dev/null\n"
+            + "+++ b/a_new_file.txt\n"
+            + "@@ -0,0 +1,2 @@\n"
+            + "+First added line\n"
+            + "+Second added line\n";
+    createBranch(BranchNameKey.create(project, "other"));
+    ChangeInput input = newPatchApplyingChangeInput("other", patch);
+
+    ChangeInfo info = assertCreateSucceeds(input);
+
+    DiffInfo diff = gApi.changes().id(info.id).current().file(fileName).diff();
+    assertDiffForNewFile(diff, null, fileName, fileContent);
+  }
+
+  @Test
+  public void createPatchApplyingChangeEmptyTip() throws Exception {
+    ChangeInput input = newPatchApplyingChangeInput("foo", "patch");
     input.newBranch = true;
-    assertCreateFails(input, RestApiException.class, "Patch applying is not yet implemented");
+    assertCreateFails(
+        input, PreconditionFailedException.class, "Cannot apply patch on top of an empty tree.");
+  }
+
+  @Test
+  public void createPatchApplyingChangeInternalErrorWhileApplyingPatch() throws Exception {
+    final String invalidPatch = "@@ -2,2 +2,3 @@ a\n" + " b\n" + "+c\n" + " d";
+    createBranch(BranchNameKey.create(project, "other"));
+    ChangeInput input = newPatchApplyingChangeInput("other", invalidPatch);
+    assertCreateFailsWithCause(
+        input, RestApiException.class, PatchFormatException.class, "Format error");
   }
 
   @Test
@@ -1141,6 +1175,17 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertThat(thrown).hasMessageThat().contains(errSubstring);
   }
 
+  private void assertCreateFailsWithCause(
+      ChangeInput in,
+      Class<? extends RestApiException> errType,
+      Class<? extends Exception> causeType,
+      String causeSubstring)
+      throws Exception {
+    Throwable thrown = assertThrows(errType, () -> gApi.changes().create(in));
+    assertThat(thrown).hasCauseThat().isInstanceOf(causeType);
+    assertThat(thrown).hasCauseThat().hasMessageThat().contains(causeSubstring);
+  }
+
   // TODO(davido): Expose setting of account preferences in the API
   private void setSignedOffByFooter(boolean value) throws Exception {
     RestResponse r = adminRestSession.get("/accounts/" + admin.email() + "/preferences");
@@ -1188,7 +1233,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     ChangeInput in = new ChangeInput();
     in.project = project.get();
     in.branch = targetBranch;
-    in.subject = "apply patch " + patch + " to " + targetBranch;
+    in.subject = "apply patch to " + targetBranch;
     in.status = ChangeStatus.NEW;
     ApplyPatchInput patchInput = new ApplyPatchInput();
     patchInput.patch = patch;

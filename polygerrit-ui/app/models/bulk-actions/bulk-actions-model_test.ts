@@ -14,10 +14,8 @@ import {
   NumericChangeId,
   ChangeStatus,
   HttpMethod,
-  SubmitRequirementStatus,
   AccountInfo,
   ReviewerState,
-  AccountId,
   GroupInfo,
   Hashtag,
 } from '../../api/rest-api';
@@ -489,60 +487,6 @@ suite('bulk actions model test', () => {
       model.allChanges.get(2 as NumericChangeId)?.subject,
       'Subject 2'
     );
-  });
-
-  test('sync retains keys from original change including reviewers', async () => {
-    const c1: ChangeInfo = {
-      ...createChange(),
-      _number: 1 as NumericChangeId,
-      submit_requirements: [
-        {
-          name: 'a',
-          status: SubmitRequirementStatus.FORCED,
-          submittability_expression_result: {
-            expression: 'b',
-          },
-        },
-      ],
-      reviewers: {
-        REVIEWER: [{_account_id: 1 as AccountId, display_name: 'MyName'}],
-      },
-    };
-
-    stubRestApi('getDetailedChangesWithActions').callsFake(() => {
-      const change: ChangeInfo = {
-        ...createChange(),
-        _number: 1 as NumericChangeId,
-        actions: {abandon: {}},
-        // detailed data will be missing names
-        reviewers: {REVIEWER: [createAccountWithIdNameAndEmail()]},
-      };
-      assert.isNotOk(change.submit_requirements);
-      return Promise.resolve([change]);
-    });
-
-    bulkActionsModel.sync([c1]);
-
-    await waitUntilObserved(
-      bulkActionsModel.loadingState$,
-      s => s === LoadingState.LOADED
-    );
-
-    const changeAfterSync = bulkActionsModel
-      .getState()
-      .allChanges.get(1 as NumericChangeId);
-    assert.deepEqual(changeAfterSync!.submit_requirements, [
-      {
-        name: 'a',
-        status: SubmitRequirementStatus.FORCED,
-        submittability_expression_result: {
-          expression: 'b',
-        },
-      },
-    ]);
-    assert.deepEqual(changeAfterSync!.actions, {abandon: {}});
-    // original reviewers are kept, which includes more details than loaded ones
-    assert.deepEqual(changeAfterSync!.reviewers, c1.reviewers);
   });
 
   test('sync ignores outdated fetch responses', async () => {

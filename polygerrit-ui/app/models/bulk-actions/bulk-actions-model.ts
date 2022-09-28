@@ -24,6 +24,10 @@ import {
   AttentionSetInput,
 } from '../../types/common';
 import {getUserId} from '../../utils/account-util';
+<<<<<<< HEAD
+=======
+import {getChangeNumber} from '../../utils/change-util';
+>>>>>>> d0a277c94c (Always take reviewers from new change)
 
 export const bulkActionsModelToken =
   define<BulkActionsModel>('bulk-actions-model');
@@ -259,28 +263,13 @@ export class BulkActionsModel
     if (selectableChangeNums !== currentState.selectableChangeNums) return;
     const allDetailedChanges: Map<NumericChangeId, ChangeInfo> = new Map();
     for (const detailedChange of changeDetails ?? []) {
-      const basicChange = basicChanges.get(detailedChange._number)!;
-      allDetailedChanges.set(
-        detailedChange._number,
-        this.mergeOldAndDetailedChangeInfos(basicChange, detailedChange)
-      );
+      allDetailedChanges.set(detailedChange._number, detailedChange);
     }
     this.setState({
       ...currentState,
       loadingState: LoadingState.LOADED,
       allChanges: allDetailedChanges,
     });
-  }
-
-  private mergeOldAndDetailedChangeInfos(
-    originalChange: ChangeInfo,
-    newData: ChangeInfo
-  ) {
-    return {
-      ...originalChange,
-      ...newData,
-      reviewers: originalChange.reviewers,
-    };
   }
 
   private getNewReviewersToChange(

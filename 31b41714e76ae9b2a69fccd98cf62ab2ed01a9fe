@@ -16,6 +16,24 @@
       "message": "FYI Jörg is on a longer leave and will not respond to review requests any time soon.",
       "revId": "31b41714e76ae9b2a69fccd98cf62ab2ed01a9fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d1b2fe7_1338a0aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144472
+      },
+      "writtenOn": "2022-09-28T09:54:21Z",
+      "side": 1,
+      "message": "Thanks for the update @ekempin@google.com. \n\nI have added Jörg as one of the reviewers because initially he/she had set the maxPatchSets value. https://gerrit-review.googlesource.com/c/gerrit/+/246447\n\nFor now, let\u0027s fix the code, if Jörg has any concerns, let\u0027s discuss them further.",
+      "parentUuid": "352d7081_632cca4b",
+      "revId": "31b41714e76ae9b2a69fccd98cf62ab2ed01a9fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

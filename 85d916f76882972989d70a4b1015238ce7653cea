@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c365ad9_520696b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1089918
+      },
+      "writtenOn": "2022-09-28T22:58:52Z",
+      "side": 1,
+      "message": "comment from cl/475668194\n\nTaking your suggestion, integrating at the gr-comment level instead of reply dialog might be better actually. It would make the banner show up more consistently across editable space in Gerrit (everywhere gr-comment is in editing mode for AOSP).\n\nThere is not an existing bottom section gr-endpoint-decorator in gr-comment to hook into however, and I\u0027d need a similar gr-endpoint-param for `editing` field.\n\nWDYT?",
+      "revId": "85d916f76882972989d70a4b1015238ce7653cea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

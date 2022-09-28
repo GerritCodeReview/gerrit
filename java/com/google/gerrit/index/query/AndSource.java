@@ -57,20 +57,23 @@ public class AndSource<T> extends AndPredicate<T> implements DataSource<T> {
     this.start = start;
     this.indexConfig = indexConfig;
 
-    DataSource<T> s = null;
-    int minCost = Integer.MAX_VALUE;
+    Predicate<T> selectedSource = null;
+    int minCardinality = Integer.MAX_VALUE;
     for (Predicate<T> p : getChildren()) {
       if (p instanceof DataSource) {
-
-        int cost = p.estimateCost();
-        if (cost < minCost) {
-          s = toPaginatingSource(p);
-          minCost = cost;
+        DataSource<T> source = (DataSource<T>) p;
+        int cardinality = source.getCardinality();
+        if (selectedSource == null || cardinality < minCardinality) {
+          selectedSource = p;
+          minCardinality = cardinality;
+        } else if (cardinality == minCardinality
+            && p.estimateCost() < selectedSource.estimateCost()) {
+          selectedSource = p;
         }
       }
     }
-    this.source = s;
-    this.cardinality = s != null ? s.getCardinality() : Integer.MAX_VALUE;
+    this.source = toPaginatingSource(selectedSource);
+    this.cardinality = source != null ? source.getCardinality() : Integer.MAX_VALUE;
   }
 
   @Override

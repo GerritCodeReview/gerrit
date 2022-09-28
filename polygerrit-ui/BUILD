@@ -31,6 +31,7 @@ filegroup(
 nodejs_test(
     name = "web-test-runner",
     chdir = package_name(),
+    size = "large",
     data = [
         ":web-test-runner_config-sources",
         "//polygerrit-ui/app:web-test-runner_app-sources",

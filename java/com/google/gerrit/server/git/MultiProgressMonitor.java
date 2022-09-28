@@ -16,8 +16,10 @@ package com.google.gerrit.server.git;
 
 import static com.google.gerrit.server.DeadlineChecker.getTimeoutFormatter;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
+import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
 import com.google.common.base.Ticker;
 import com.google.common.flogger.FluentLogger;
@@ -592,9 +594,11 @@ public class MultiProgressMonitor implements RequestStateProvider {
   }
 
   private void send(StringBuilder s) {
+    String progress = s.toString();
+    logger.atInfo().atMostEvery(1, MINUTES).log(CharMatcher.javaIsoControl().removeFrom(progress));
     if (!clientDisconnected) {
       try {
-        out.write(Constants.encode(s.toString()));
+        out.write(Constants.encode(progress));
         out.flush();
       } catch (IOException e) {
         logger.atWarning().withCause(e).log(

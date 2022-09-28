@@ -22,6 +22,30 @@
       },
       "revId": "19833940a1626e688aa4c4b8bcd159e62e03e4f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f212db78_2eb81c73",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-28T11:04:44Z",
+      "side": 1,
+      "message": "Yes, I think so.\nAny property in the originalChange will be overwritten by the new change.\nIn some exception case if we are relying on information from originalChange then we should update our code to handle it like Change 346700.\n\nI took a look at the dashboard query and couldn\u0027t figure out any other property that exists like this, that is present in originalChange but not in new change.\n\nIdeally I would have updated our model to request this information but that seems to have performance costs(which we are paying in some other place anyway).",
+      "parentUuid": "54cabb77_0baaae1d",
+      "range": {
+        "startLine": 267,
+        "startChar": 0,
+        "endLine": 267,
+        "endChar": 72
+      },
+      "revId": "19833940a1626e688aa4c4b8bcd159e62e03e4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

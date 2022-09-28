@@ -32,6 +32,7 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.InvalidMergeStrategyException;
 import com.google.gerrit.exceptions.MergeWithConflictsNotSupportedException;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
+import com.google.gerrit.extensions.api.changes.ApplyPatchInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -41,6 +42,7 @@ import com.google.gerrit.extensions.common.MergeInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.PreconditionFailedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -374,8 +376,8 @@ public class CreateChange
               c.getFilesWithGitConflicts());
         }
       } else {
-        // create an empty commit
-        c = newCommit(oi, rw, author, committer, mergeTip, commitMessage);
+        // create a commit with the given patch if any, or an empty commit otherwise.
+        c = newCommit(git, oi, rw, author, committer, mergeTip, commitMessage, input.patch);
       }
       // Flush inserter so that commit becomes visible to validators
       oi.flush();
@@ -527,16 +529,23 @@ public class CreateChange
   }
 
   private static CodeReviewCommit newCommit(
+      Repository repo,
       ObjectInserter oi,
       CodeReviewRevWalk rw,
       PersonIdent authorIdent,
       PersonIdent committerIdent,
       RevCommit mergeTip,
-      String commitMessage)
-      throws IOException {
+      String commitMessage,
+      @Nullable ApplyPatchInput patch)
+      throws IOException, PreconditionFailedException {
     logger.atFine().log("Creating empty commit");
     CommitBuilder commit = new CommitBuilder();
-    if (mergeTip == null) {
+    if (patch != null) {
+      commit.setTreeId(ApplyPatchUtil.applyPatchAsTree(repo, oi, patch, mergeTip));
+      if (mergeTip != null) {
+        commit.setParentId(mergeTip);
+      }
+    } else if (mergeTip == null) {
       commit.setTreeId(emptyTreeId(oi));
     } else {
       commit.setTreeId(mergeTip.getTree().getId());

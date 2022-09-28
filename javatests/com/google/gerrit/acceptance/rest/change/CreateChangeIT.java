@@ -47,6 +47,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
+import com.google.gerrit.extensions.api.changes.ApplyPatchInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -59,11 +60,13 @@ import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
+import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.MergeInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
+import com.google.gerrit.extensions.restapi.PreconditionFailedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -76,6 +79,7 @@ import com.google.gerrit.server.submit.ChangeAlreadyMergedException;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.Inject;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -923,6 +927,45 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createPatchApplyingChangeSuccess() throws Exception {
+    final String fileName = "a_new_file.txt";
+    final String fileContent = "First added line\nSecond added line\n";
+    final String patch =
+        "diff --git a/a_new_file.txt b/a_new_file.txt\n"
+            + "new file mode 100644\n"
+            + "index 0000000..f0eec86\n"
+            + "--- /dev/null\n"
+            + "+++ b/a_new_file.txt\n"
+            + "@@ -0,0 +1,2 @@\n"
+            + "+First added line\n"
+            + "+Second added line\n";
+    createBranch(BranchNameKey.create(project, "other"));
+    ChangeInput input = newPatchApplyingChangeInput("other", patch);
+
+    ChangeInfo info = assertCreateSucceeds(input);
+
+    DiffInfo diff = gApi.changes().id(info.id).current().file(fileName).diff();
+    assertDiffForNewFile(diff, null, fileName, fileContent);
+  }
+
+  @Test
+  public void createPatchApplyingChangeEmptyTip() throws Exception {
+    ChangeInput input = newPatchApplyingChangeInput("foo", "patch");
+    input.newBranch = true;
+    assertCreateFails(
+        input, PreconditionFailedException.class, "Cannot apply patch on top of an empty tree.");
+  }
+
+  @Test
+  public void createPatchApplyingChangeInternalErrorWhileApplyingPatch() throws Exception {
+    final String invalidPatch = "@@ -2,2 +2,3 @@ a\n" + " b\n" + "+c\n" + " d";
+    createBranch(BranchNameKey.create(project, "other"));
+    ChangeInput input = newPatchApplyingChangeInput("other", invalidPatch);
+    assertCreateFailsWithCause(
+        input, RestApiException.class, IOException.class, "Cannot apply patch:");
+  }
+
+  @Test
   @UseSystemTime
   public void sha1sOfTwoNewChangesDiffer() throws Exception {
     ChangeInput changeInput = newChangeInput(ChangeStatus.NEW);
@@ -1132,6 +1175,17 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertThat(thrown).hasMessageThat().contains(errSubstring);
   }
 
+  private void assertCreateFailsWithCause(
+      ChangeInput in,
+      Class<? extends RestApiException> errType,
+      Class<? extends Exception> causeType,
+      String causeSubstring)
+      throws Exception {
+    Throwable thrown = assertThrows(errType, () -> gApi.changes().create(in));
+    assertThat(thrown).hasCauseThat().isInstanceOf(causeType);
+    assertThat(thrown).hasCauseThat().hasMessageThat().contains(causeSubstring);
+  }
+
   // TODO(davido): Expose setting of account preferences in the API
   private void setSignedOffByFooter(boolean value) throws Exception {
     RestResponse r = adminRestSession.get("/accounts/" + admin.email() + "/preferences");
@@ -1171,6 +1225,19 @@ public class CreateChangeIT extends AbstractDaemonTest {
       in.merge.strategy = strategy;
     }
     in.merge.allowConflicts = allowConflicts;
+    return in;
+  }
+
+  private ChangeInput newPatchApplyingChangeInput(String targetBranch, String patch) {
+    // create a change applying the given patch on the target branch in gerrit
+    ChangeInput in = new ChangeInput();
+    in.project = project.get();
+    in.branch = targetBranch;
+    in.subject = "apply patch to " + targetBranch;
+    in.status = ChangeStatus.NEW;
+    ApplyPatchInput patchInput = new ApplyPatchInput();
+    patchInput.patch = patch;
+    in.patch = patchInput;
     return in;
   }
 

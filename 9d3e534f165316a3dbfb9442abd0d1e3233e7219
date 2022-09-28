@@ -63,6 +63,30 @@
       },
       "revId": "9d3e534f165316a3dbfb9442abd0d1e3233e7219",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "979fee0d_69767e49",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-28T10:59:07Z",
+      "side": 1,
+      "message": "\u003e Do we have an issue in the issue tracker that tracks this?\n\nYes, done with Issue 16284.\n\n\u003e Should we mention it in the release-notes for 3.6?\n\nYes, definitely.",
+      "parentUuid": "3b5015ea_a31a250c",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 27
+      },
+      "revId": "9d3e534f165316a3dbfb9442abd0d1e3233e7219",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

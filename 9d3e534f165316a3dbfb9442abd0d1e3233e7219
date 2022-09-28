@@ -1,5 +1,46 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f057293_3b235df1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-28T08:52:48Z",
+      "side": 1,
+      "message": "post-merge -1: this change has created a performance and memory issue to users migrating from v3.5 or earlier, when `auth.skipFullRefEvaluationIfAllRefsAreVisible` is true.",
+      "revId": "9d3e534f165316a3dbfb9442abd0d1e3233e7219",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0940c17_57fb0be7",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-28T08:52:48Z",
+      "side": 1,
+      "message": "This is a huge performance regression when `auth.skipFullRefEvaluationIfAllRefsAreVisible` is `true` and the caller has READ permissions on all refs, as discussed at [1].\n\nAlso, why are we eagerly loading *ALL* changes in an in-memory map? That implies reading the `/meta` ref content of potentially millions of refs, which could also cause a heap overflow.\n\nThe in-memory map isn\u0027t needed IMHO because the call at L145 to `filterRefs` may not use it when the caller has READ permissions on all changes.\n\n[1] https://groups.google.com/g/repo-discuss/c/V7909VlGiEU",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 27
+      },
+      "revId": "9d3e534f165316a3dbfb9442abd0d1e3233e7219",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

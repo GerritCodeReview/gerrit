@@ -25,7 +25,7 @@ import {
   RelatedChangeAndCommitInfo,
 } from '../../types/common';
 import {getUserId} from '../../utils/account-util';
-import {getChangeNumber, isChangeInfo} from '../../utils/change-util';
+import {getChangeNumber} from '../../utils/change-util';
 
 export const bulkActionsModelToken =
   define<BulkActionsModel>('bulk-actions-model');
@@ -281,9 +281,6 @@ export class BulkActionsModel
     return {
       ...originalChange,
       ...newData,
-      reviewers: isChangeInfo(originalChange)
-        ? originalChange.reviewers
-        : newData.reviewers,
     };
   }
 

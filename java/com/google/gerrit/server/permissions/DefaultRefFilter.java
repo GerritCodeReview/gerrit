@@ -21,6 +21,8 @@ import static com.google.gerrit.entities.RefNames.REFS_CONFIG;
 import static java.util.stream.Collectors.toCollection;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -133,15 +135,17 @@ class DefaultRefFilter {
     // Perform an initial ref filtering with all the refs the caller asked for. If we find tags that
     // we have to investigate separately (deferred tags) then perform a reachability check starting
     // from all visible branches (refs/heads/*).
-    ImmutableMap<Change.Id, ChangeData> visibleChanges =
-        GitVisibleChangeFilter.getVisibleChanges(
-            searchingChangeDataProvider,
-            changeNotesFactory,
-            changeDataFactory,
-            projectState.getNameKey(),
-            permissionBackendForProject,
-            repo,
-            changes(refs));
+    Supplier<ImmutableMap<Change.Id, ChangeData>> visibleChanges =
+        Suppliers.memoize(
+            () ->
+                GitVisibleChangeFilter.getVisibleChanges(
+                    searchingChangeDataProvider,
+                    changeNotesFactory,
+                    changeDataFactory,
+                    projectState.getNameKey(),
+                    permissionBackendForProject,
+                    repo,
+                    changes(refs)));
     Result initialRefFilter = filterRefs(new ArrayList<>(refs), opts, visibleChanges);
     ImmutableList.Builder<Ref> visibleRefs = ImmutableList.builder();
     visibleRefs.addAll(initialRefFilter.visibleRefs());
@@ -183,7 +187,9 @@ class DefaultRefFilter {
    * compute will be returned as part of {@link Result#visibleRefs()}.
    */
   Result filterRefs(
-      List<Ref> refs, RefFilterOptions opts, ImmutableMap<Change.Id, ChangeData> visibleChanges)
+      List<Ref> refs,
+      RefFilterOptions opts,
+      Supplier<ImmutableMap<Change.Id, ChangeData>> visibleChanges)
       throws PermissionBackendException {
     logger.atFinest().log("Filter refs (refs = %s)", refs);
     if (!projectState.statePermitsRead()) {
@@ -254,9 +260,9 @@ class DefaultRefFilter {
         // most recent changes).
         if (hasAccessDatabase) {
           resultRefs.add(ref);
-        } else if (!visibleChanges.containsKey(changeId)) {
+        } else if (!visibleChanges.get().containsKey(changeId)) {
           logger.atFinest().log("Filter out invisible change ref %s", refName);
-        } else if (RefNames.isRefsEdit(refName) && !visibleEdit(refName, visibleChanges)) {
+        } else if (RefNames.isRefsEdit(refName) && !visibleEdit(refName, visibleChanges.get())) {
           logger.atFinest().log("Filter out invisible change edit ref %s", refName);
         } else {
           // Change is visible

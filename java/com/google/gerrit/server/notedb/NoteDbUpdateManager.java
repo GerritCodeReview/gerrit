@@ -77,7 +77,7 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 public class NoteDbUpdateManager implements AutoCloseable {
   private static final int MAX_UPDATES_DEFAULT = 1000;
   /** Limits the number of patch sets that can be created. Can be overridden in the config. */
-  private static final int MAX_PATCH_SETS_DEFAULT = 1500;
+  private static final int MAX_PATCH_SETS_DEFAULT = 1000;
 
   public interface Factory {
     NoteDbUpdateManager create(Project.NameKey projectName);

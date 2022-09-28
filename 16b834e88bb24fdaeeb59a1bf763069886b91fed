@@ -271,6 +271,30 @@
       },
       "revId": "16b834e88bb24fdaeeb59a1bf763069886b91fed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2d4cf6b_2764af24",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-28T09:25:53Z",
+      "side": 1,
+      "message": "can you leave a comment explaining the situation. It sounds like we don\u0027t even need to merge anymore and can just use the new ChangeInfo everywhere?",
+      "parentUuid": "2b041721_7cde0981",
+      "range": {
+        "startLine": 291,
+        "startChar": 6,
+        "endLine": 291,
+        "endChar": 29
+      },
+      "revId": "16b834e88bb24fdaeeb59a1bf763069886b91fed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

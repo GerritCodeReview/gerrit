@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "677d17d7_d6818a01",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-09-28T15:08:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a8eb4c0_12d3098d",
+      "revId": "62ebe79f27b5c251011e402f5e1eb56bfecbb8f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c72653d_2e424a7d",
@@ -90,6 +108,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c5be222d_2a59b481",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1407,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-09-28T15:08:59Z",
+      "side": 1,
+      "message": "Done. However now one testcase fails, because substring() seems to split a 4-byte char in the middle, creating an invalid character. I will have another look at that.",
+      "parentUuid": "9935656f_5d51225c",
+      "range": {
+        "startLine": 1407,
+        "startChar": 22,
+        "endLine": 1407,
+        "endChar": 42
+      },
+      "revId": "62ebe79f27b5c251011e402f5e1eb56bfecbb8f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "86441f35_f41253c3",
         "filename": "javatests/com/google/gerrit/server/index/change/ChangeFieldTest.java",
         "patchSetId": 7
@@ -101,6 +143,30 @@
       "writtenOn": "2022-09-28T14:33:47Z",
       "side": 1,
       "message": "nit: I think probably s/clip/truncate/ everywhere, since that\u0027s the more commonly used term.",
+      "range": {
+        "startLine": 172,
+        "startChar": 30,
+        "endLine": 172,
+        "endChar": 37
+      },
+      "revId": "62ebe79f27b5c251011e402f5e1eb56bfecbb8f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eac042f9_250105d8",
+        "filename": "javatests/com/google/gerrit/server/index/change/ChangeFieldTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-09-28T15:08:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86441f35_f41253c3",
       "range": {
         "startLine": 172,
         "startChar": 30,

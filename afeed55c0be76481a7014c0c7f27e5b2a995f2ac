@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4c35984_54cabc49",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1272,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-29T15:16:52Z",
+      "side": 1,
+      "message": "No, this should create a new draft message, so that updates work correctly.",
+      "parentUuid": "26e1d3fe_276e1171",
+      "range": {
+        "startLine": 1272,
+        "startChar": 10,
+        "endLine": 1272,
+        "endChar": 58
+      },
+      "revId": "afeed55c0be76481a7014c0c7f27e5b2a995f2ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dbbae4d7_b7cf2b26",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "315d6e13_ff9c24d6",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1474,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-29T15:16:52Z",
+      "side": 1,
+      "message": "No, this should create a new draft message, so that updates work correctly.",
+      "parentUuid": "dbbae4d7_b7cf2b26",
+      "range": {
+        "startLine": 1474,
+        "startChar": 8,
+        "endLine": 1474,
+        "endChar": 57
+      },
+      "revId": "afeed55c0be76481a7014c0c7f27e5b2a995f2ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b6c9090e_7ba9d133",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-09-29T14:58:42Z",
       "side": 1,
       "message": "it\u0027s updating more than the message text.\nDo you think it makes sense to create two separate methods because right now the method name is not perfectly clear.",
+      "range": {
+        "startLine": 1058,
+        "startChar": 10,
+        "endLine": 1058,
+        "endChar": 27
+      },
+      "revId": "afeed55c0be76481a7014c0c7f27e5b2a995f2ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc260581_4e6010a9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1058,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-29T15:16:52Z",
+      "side": 1,
+      "message": "Renamed, but I would really like to get this in because it\u0027s a bug fix.",
+      "parentUuid": "b6c9090e_7ba9d133",
       "range": {
         "startLine": 1058,
         "startChar": 10,

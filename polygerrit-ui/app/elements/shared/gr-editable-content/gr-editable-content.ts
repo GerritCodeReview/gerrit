@@ -370,7 +370,10 @@ export class GrEditableContent extends LitElement {
       content = this.content || '';
     }
 
-    this.newContent = content;
+    // TODO(wyatta) switch linkify sequence, see issue 5526.
+    this.newContent = this.removeZeroWidthSpace
+      ? content.replace(/^R=\u200B/gm, 'R=')
+      : content;
   }
 
   computeSaveDisabled(): boolean {

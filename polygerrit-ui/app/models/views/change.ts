@@ -12,6 +12,7 @@ import {
 } from '../../api/rest-api';
 import {GerritView} from '../../services/router/router-model';
 import {UrlEncodedCommentId} from '../../types/common';
+import {select} from '../../utils/observable-util';
 import {
   encodeURL,
   getBaseUrl,
@@ -84,6 +85,12 @@ export function createChangeUrl(
   }
   let suffix = `${range}`;
   const queries = [];
+  if (state.attempt) {
+    if (state.attempt !== 'latest') queries.push(`attempt=${state.attempt}`);
+  }
+  if (state.filter) {
+    queries.push(`filter=${state.filter}`);
+  }
   if (state.forceReload) {
     queries.push('forceReload=true');
   }
@@ -117,7 +124,22 @@ export const changeViewModelToken =
   define<ChangeViewModel>('change-view-model');
 
 export class ChangeViewModel extends Model<ChangeViewState | undefined> {
+  public readonly tab$ = select(this.state$, state => state?.tab);
+
+  public readonly attempt$ = select(this.state$, state => state?.attempt);
+
+  public readonly filter$ = select(this.state$, state => state?.filter);
+
   constructor() {
     super(undefined);
+    this.state$.subscribe(s => {
+      if (s?.usp || s?.forceReload || s?.openReplyDialog) {
+        this.updateState({
+          usp: undefined,
+          forceReload: undefined,
+          openReplyDialog: undefined,
+        });
+      }
+    });
   }
 }

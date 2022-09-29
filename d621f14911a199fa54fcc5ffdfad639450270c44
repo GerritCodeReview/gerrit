@@ -122,6 +122,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6e6c68cb_5ad36681",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2128,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-29T16:35:30Z",
+      "side": 1,
+      "message": "\u003e If you think this is a better approach, could you, please, describe the expected behaviour in more detail?\n\u003e \n\u003e Our specific usecase is creating a new patchset or change from the patch.\n\nI think those are 2 different use cases. Let\u0027s start with the second: \"create a new change from a patch\".\n\nThat seems like something we\u0027d want to enhance the existing `CreateChange` endpoint [1] with. That takes a `ChangeInput`, which has a base_change field which I think would map to the change-id in this proposed applypatch endpoint? Then to support creating the change with some patch content you\u0027d need a new optional field (`patch`?) in ChangeInput that can have the content. That API returns a `ChangeInfo` just like this one does.\n\nFor the case of creating a new patchset, I thought the apply-*-fix endpoints are doing almost the same thing. Those endpoints take some kind of input that represents content to create a new patch from by applying it to the latest patchset on the change. However, maybe I\u0027m misunderstanding the use for the new API and this doc isn\u0027t saying enough. For this new API, what is the provided patch applied on top of? Is it the latest patchset on the change or something else?\n\nBeyond that potential difference (which would very much change my stance on the APIs being similar), there\u0027s also the difference you point out where the apply-*-fix APIs (currently) assume you may want to keep editing the new patchset before it\u0027s published and so they keep it as an edit and return an `EditInfo`. From an experience/behavior standpoint, it feels like a pretty trivial difference to choose to immediately publish/skip the edit and like it would be an optional behavior that would be perfectly acceptable in those APIs, but I agree it does complicate the response. Without spending a lot of time thinking on a solution there, the simplest would probably be to either 1) wrap an optional `EditInfo` or `ChangeInfo` into some new response type or 2) add a new field to `ChangeInfo` that\u0027s an optional edit_info. I like #2 better because it has more general utility.\n\nThen for the input side, to specifically match what I think your intent is in this change, you\u0027d want to add two fields to `ApplyProvidedFixInput`: 1) `patch`, an optional field that\u0027s the same as `ApplyPatchAsPatchSetInput.patch`, and 2) `publish`, a boolean that defaults to `false` that will immediately publish the applied patch as a new patchset when set to `true`. You\u0027ll also need to modify `ApplyProvidedFixInput.fix_replacement_infos` to be optional and mutually exclusive with the new `ApplyProvidedFixInput.patch`. As a change series, I would start with a change that adds the `publish` boolean to `ApplyProvidedFixInput` and changes the response. Then add the `patch` field in the next change.\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#create-change",
+      "parentUuid": "720962ff_3a4a4cfc",
+      "range": {
+        "startLine": 2128,
+        "startChar": 4,
+        "endLine": 2128,
+        "endChar": 27
+      },
+      "revId": "d621f14911a199fa54fcc5ffdfad639450270c44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "99dc2f80_2d144cfd",
         "filename": "java/com/google/gerrit/extensions/api/changes/ApplyPatchInput.java",
         "patchSetId": 7

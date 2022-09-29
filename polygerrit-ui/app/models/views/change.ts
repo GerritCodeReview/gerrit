@@ -11,6 +11,7 @@ import {
   ChangeInfo,
   PatchSetNumber,
 } from '../../api/rest-api';
+import {Tab} from '../../constants/constants';
 import {GerritView} from '../../services/router/router-model';
 import {UrlEncodedCommentId} from '../../types/common';
 import {select} from '../../utils/observable-util';
@@ -106,6 +107,9 @@ export function createChangeUrl(
   }
   if (state.filter) {
     queries.push(`filter=${state.filter}`);
+  }
+  if (state.tab && state.tab !== Tab.FILES) {
+    queries.push(`tab=${state.tab}`);
   }
   if (state.forceReload) {
     queries.push('forceReload=true');

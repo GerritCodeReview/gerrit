@@ -121,14 +121,12 @@ import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
 import {GrFileList} from '../gr-file-list/gr-file-list';
 import {EditRevisionInfo, ParsedChangeInfo} from '../../../types/types';
 import {
-  ChecksTabState,
   CloseFixPreviewEvent,
   EditableContentSaveEvent,
   EventType,
   OpenFixPreviewEvent,
   ShowAlertEventDetail,
   SwitchTabEvent,
-  SwitchTabEventDetail,
   TabState,
   ValueChangedEvent,
 } from '../../../types/events';
@@ -488,7 +486,7 @@ export class GrChangeView extends LitElement {
 
   // visible for testing
   @state()
-  activeTab = Tab.FILES;
+  activeTab: Tab | string = Tab.FILES;
 
   @property({type: Boolean})
   unresolvedOnly = true;
@@ -699,6 +697,11 @@ export class GrChangeView extends LitElement {
       this,
       () => this.getViewModel().state$,
       s => (this.viewState = s)
+    );
+    subscribe(
+      this,
+      () => this.getViewModel().tab$,
+      t => (this.activeTab = t ?? Tab.FILES)
     );
     subscribe(
       this,
@@ -1496,7 +1499,7 @@ export class GrChangeView extends LitElement {
 
   private renderTabHeaders() {
     return html`
-      <paper-tabs id="tabs" @selected-changed=${this.setActiveTab}>
+      <paper-tabs id="tabs" @selected-changed=${this.onPaperTabSelectionChange}>
         <paper-tab @click=${this.onPaperTabClick} data-name=${Tab.FILES}
           ><span>Files</span></paper-tab
         >
@@ -1729,35 +1732,37 @@ export class GrChangeView extends LitElement {
     }
   }
 
+  onPaperTabSelectionChange(e: ValueChangedEvent) {
+    const paperTabs = queryEl<PaperTabsElement>(this, '#tabs');
+    if (!paperTabs) return;
+    const tabs = [...queryAll<HTMLElement>(paperTabs, 'paper-tab')];
+    if (!tabs) return;
+
+    const tabIndex = Number(e.detail.value);
+    assert(
+      Number.isInteger(tabIndex) && tabIndex >= 0,
+      `${tabIndex} must be integer`
+    );
+    const tab = tabs[tabIndex].dataset['name'];
+
+    this.getViewModel().updateState({tab});
+  }
+
   setActiveTab(e: SwitchTabEvent) {
     const paperTabs = queryEl<PaperTabsElement>(this, '#tabs');
     if (!paperTabs) return;
     const tabs = [...queryAll<HTMLElement>(paperTabs, 'paper-tab')];
     if (!tabs) return;
 
-    let tabName = e.detail.tab;
-    let tabIndex = e.detail.value;
-
-    if (tabIndex === undefined) {
-      assert(tabName !== undefined, 'tabName or tabIndex must be defined');
-      tabIndex = tabs.findIndex(t => t.dataset['name'] === tabName);
-      assert(tabIndex !== -1, `tab ${tabName} not found`);
-    }
-
-    if (tabName === undefined) {
-      tabName = tabs[tabIndex].dataset['name'];
-    }
+    const tab = e.detail.tab;
+    const tabIndex = tabs.findIndex(t => t.dataset['name'] === tab);
+    assert(tabIndex !== -1, `tab ${tab} not found`);
 
     if (paperTabs.selected !== tabIndex) {
-      // paperTabs.selected is undefined during rendering
-      if (paperTabs.selected !== undefined) {
-        const src = (e.composedPath()?.[0] as Element | undefined)?.tagName;
-        this.reporting.reportInteraction(Interaction.SHOW_TAB, {tabName, src});
-      }
       paperTabs.selected = tabIndex;
     }
 
-    this.activeTab = tabName as Tab;
+    this.getViewModel().updateState({tab});
 
     if (e.detail.tabState) this.tabState = e.detail.tabState;
     if (e.detail.scrollIntoView) paperTabs.scrollIntoView({block: 'center'});
@@ -2246,19 +2251,7 @@ export class GrChangeView extends LitElement {
     } else if (this.viewState?.commentId) {
       tab = Tab.COMMENT_THREADS;
     }
-    const detail: SwitchTabEventDetail = {
-      tab,
-    };
-    if (tab === Tab.CHECKS) {
-      const state: ChecksTabState = {};
-      detail.tabState = {checksTab: state};
-    }
-
-    this.setActiveTab(
-      new CustomEvent(EventType.SHOW_TAB, {
-        detail,
-      })
-    );
+    this.setActiveTab(new CustomEvent(EventType.SHOW_TAB, {detail: {tab}}));
   }
 
   // Private but used in tests.

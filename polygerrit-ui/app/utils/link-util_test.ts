@@ -30,11 +30,13 @@ suite('link-util tests', () => {
       '<h1>Change 12345 is the best change</h1> <div>FOO</div>'
     );
   });
+
   test('applyLinkRewritesFromConfig', () => {
     const linkedNumber = link('#12345', 'google.com/12345');
     const linkedFoo = link('foo', 'foo.gov');
+    const linkedBar = link('Bar Page: 300', 'bar.com/page?id=300');
     assert.equal(
-      applyLinkRewritesFromConfig('#12345 foo', {
+      applyLinkRewritesFromConfig('#12345 foo crowbar:12 bar:300', {
         'number-linker': {
           match: '#(\\d+)',
           link: 'google.com/$1',
@@ -43,8 +45,15 @@ suite('link-util tests', () => {
           match: 'foo',
           link: 'foo.gov',
         },
+        'advanced-link': {
+          match: '(^|\\s)bar:(\\d+)($|\\s)',
+          link: 'bar.com/page?id=$2',
+          text: 'Bar Page: $2',
+          prefix: '$1',
+          suffix: '$3'
+        }
       }),
-      `${linkedNumber} ${linkedFoo}`
+      `${linkedNumber} ${linkedFoo} crowbar:12 ${linkedBar}`
     );
   });
 

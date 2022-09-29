@@ -130,6 +130,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "57c486cf_8ec2f756",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1407,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-09-29T13:43:47Z",
+      "side": 1,
+      "message": "Java chars only support 16bit and thus 3- and 4-byte UTF-8 characters are stored in two chars (high- and low surrogate). String.substring() does not check for surrogate characters at the truncation sites.",
+      "parentUuid": "c5be222d_2a59b481",
+      "range": {
+        "startLine": 1407,
+        "startChar": 22,
+        "endLine": 1407,
+        "endChar": 42
+      },
+      "revId": "62ebe79f27b5c251011e402f5e1eb56bfecbb8f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "86441f35_f41253c3",

@@ -130,6 +130,9 @@ export class GrRegistrationDialog extends LitElement {
           to others, and to send updates to code reviews you have either started
           or subscribed to.
         </p>
+        <gr-endpoint-decorator
+          .name=${'registration-text'}
+        ></gr-endpoint-decorator>
         <hr />
         <section>
           <span class="title">Full Name</span>

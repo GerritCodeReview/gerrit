@@ -28,11 +28,18 @@ import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.api.accounts.AccountInput;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.approval.ApprovalsUtil;
+import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
@@ -53,15 +60,21 @@ public class PatchSetUtil {
   private final Provider<ApprovalsUtil> approvalsUtilProvider;
   private final ProjectCache projectCache;
   private final GitRepositoryManager repoManager;
+  private final PermissionBackend permissionBackend;
+  private final Provider<CurrentUser> currentUser;
 
   @Inject
   PatchSetUtil(
       Provider<ApprovalsUtil> approvalsUtilProvider,
       ProjectCache projectCache,
-      GitRepositoryManager repoManager) {
+      GitRepositoryManager repoManager,
+      PermissionBackend permissionBackend,
+      Provider<CurrentUser> currentUser) {
     this.approvalsUtilProvider = approvalsUtilProvider;
     this.projectCache = projectCache;
     this.repoManager = repoManager;
+    this.permissionBackend = permissionBackend;
+    this.currentUser = currentUser;
   }
 
   public PatchSet current(ChangeNotes notes) {
@@ -158,6 +171,51 @@ public class PatchSetUtil {
       }
     }
     return false;
+  }
+
+  /**
+   * Checks whether the current user has permissions for adding a new patch set in the given change.
+   *
+   * @param projectState of the new patch set
+   * @param rsrc of the destination change.
+   * @param forgedAuthor The author that is requested to be listed.
+   * @throws ResourceConflictException if the branch doesn't allow writing.
+   * @throws AuthException if there are authentication errors.
+   * @throws PermissionBackendException if there are permission issues.
+   */
+  public void checkPermissionsForAddingPatchSet(
+      ProjectState projectState, ChangeResource rsrc, @Nullable AccountInput forgedAuthor)
+      throws ResourceConflictException, AuthException, PermissionBackendException {
+    // Not allowed to create a new patch set if the current patch set is locked.
+    checkPatchSetNotLocked(rsrc.getNotes());
+
+    rsrc.permissions().check(ChangePermission.ADD_PATCH_SET);
+    if (forgedAuthor != null
+        && !currentUser.get().getEmailAddresses().contains(forgedAuthor.email)) {
+      permissionBackend
+          .currentUser()
+          .project(rsrc.getProject())
+          .ref(rsrc.getChange().getDest().branch())
+          .check(RefPermission.FORGE_AUTHOR);
+    }
+    projectState.checkStatePermitsWrite();
+  }
+
+  /**
+   * Tests whether the current user has permissions for adding a new patch set in the given change.
+   *
+   * @param projectState of the new patch set
+   * @param rsrc of the destination change.
+   * @param forgedAuthor The author that is requested to be listed.
+   */
+  public boolean testPermissionsForAddingPatchSet(
+      ProjectState projectState, ChangeResource rsrc, @Nullable AccountInput forgedAuthor) {
+    try {
+      checkPermissionsForAddingPatchSet(projectState, rsrc, forgedAuthor);
+      return true;
+    } catch (Exception e) {
+      return false;
+    }
   }
 
   /** Returns the commit for the given project at the given patchset revision */

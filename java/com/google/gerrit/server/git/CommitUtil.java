@@ -26,10 +26,13 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.common.CommitInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -44,6 +47,8 @@ import com.google.gerrit.server.mail.send.RevertedSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.notedb.Sequences;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -58,15 +63,19 @@ import java.text.MessageFormat;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.InvalidObjectIdException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -390,5 +399,60 @@ public class CommitUtil {
           ChangeMessagesUtil.TAG_REVERT);
       return true;
     }
+  }
+
+  public static RevCommit getBaseCommit(
+      String project,
+      InternalChangeQuery changeQuery,
+      RevWalk revWalk,
+      Ref destRef,
+      String baseSha1)
+      throws RestApiException, IOException {
+    RevCommit destRefTip = revWalk.parseCommit(destRef.getObjectId());
+    // The tip commit of the destination ref is the default base for the newly created change.
+    if (Strings.isNullOrEmpty(baseSha1)) {
+      return destRefTip;
+    }
+
+    ObjectId baseObjectId;
+    try {
+      baseObjectId = ObjectId.fromString(baseSha1);
+    } catch (InvalidObjectIdException e) {
+      throw new BadRequestException(
+          String.format("Base %s doesn't represent a valid SHA-1", baseSha1), e);
+    }
+
+    RevCommit baseCommit;
+    try {
+      baseCommit = revWalk.parseCommit(baseObjectId);
+    } catch (MissingObjectException e) {
+      throw new UnprocessableEntityException(
+          String.format("Base %s doesn't exist", baseObjectId.name()), e);
+    }
+
+    changeQuery.enforceVisibility(true);
+    List<ChangeData> changeDatas = changeQuery.byBranchCommit(project, destRef.getName(), baseSha1);
+
+    if (changeDatas.isEmpty()) {
+      if (revWalk.isMergedInto(baseCommit, destRefTip)) {
+        // The base commit is a merged commit with no change associated.
+        return baseCommit;
+      }
+      throw new UnprocessableEntityException(
+          String.format("Commit %s does not exist on branch %s", baseCommit, destRef.getName()));
+    } else if (changeDatas.size() != 1) {
+      throw new ResourceConflictException("Multiple changes found for commit " + baseCommit);
+    }
+
+    Change change = changeDatas.get(0).change();
+    if (!change.isAbandoned()) {
+      // The base commit is a valid change revision.
+      return baseCommit;
+    }
+
+    throw new ResourceConflictException(
+        String.format(
+            "Change %s with commit %s is %s",
+            change.getChangeId(), baseCommit, ChangeUtil.status(change)));
   }
 }

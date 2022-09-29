@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32de91b0_3952770a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-29T15:39:33Z",
+      "side": 1,
+      "message": "What about title\u003dtitle?",
+      "revId": "7f2bc60149130f78b23f0a5c9bf44d8276a984f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

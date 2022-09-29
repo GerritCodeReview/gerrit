@@ -59,7 +59,11 @@ import {
   GroupViewState,
 } from '../../../models/views/group';
 import {DiffViewModel, DiffViewState} from '../../../models/views/diff';
-import {ChangeViewModel, ChangeViewState} from '../../../models/views/change';
+import {
+  ChangeViewModel,
+  ChangeViewState,
+  createChangeUrl,
+} from '../../../models/views/change';
 import {EditViewModel, EditViewState} from '../../../models/views/edit';
 import {
   DashboardViewModel,
@@ -295,7 +299,16 @@ export class GrRouter implements Finalizable, NavigationService {
     private readonly repoViewModel: RepoViewModel,
     private readonly searchViewModel: SearchViewModel,
     private readonly settingsViewModel: SettingsViewModel
-  ) {}
+  ) {
+    this.changeViewModel.state$.subscribe(state => {
+      if (!state) return;
+      const current = window.location.toString();
+      const next = new URL(createChangeUrl(state), current).toString();
+      if (current !== next) {
+        page.replace(next, null, /* init: */ false, /* dispatch: */ false);
+      }
+    });
+  }
 
   finalize(): void {}
 
@@ -1329,28 +1342,11 @@ export class GrRouter implements Finalizable, NavigationService {
     };
 
     const queryMap = new URLSearchParams(ctx.querystring);
-    if (queryMap.has('forceReload')) {
-      state.forceReload = true;
-      history.replaceState(
-        null,
-        '',
-        location.href.replace(/[?&]forceReload=true/, '')
-      );
-    }
-
-    if (queryMap.has('openReplyDialog')) {
-      state.openReplyDialog = true;
-      history.replaceState(
-        null,
-        '',
-        location.href.replace(/[?&]openReplyDialog=true/, '')
-      );
-    }
-
-    const tab = queryMap.get('tab');
-    if (tab) state.tab = tab;
-    const filter = queryMap.get('filter');
-    if (filter) state.filter = filter;
+    if (queryMap.has('forceReload')) state.forceReload = true;
+    if (queryMap.has('openReplyDialog')) state.openReplyDialog = true;
+    if (queryMap.has('tab')) state.tab = queryMap.get('tab') ?? undefined;
+    if (queryMap.has('filter'))
+      state.filter = queryMap.get('filter') ?? undefined;
     const attempt = stringToAttemptChoice(queryMap.get('attempt'));
     if (attempt && attempt !== LATEST_ATTEMPT) state.attempt = attempt;
 

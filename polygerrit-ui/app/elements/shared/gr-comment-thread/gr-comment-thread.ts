@@ -452,7 +452,7 @@ export class GrCommentThread extends LitElement {
       unresolved: this.unresolved,
       saving: this.saving,
     };
-    return this.patched.html`
+    return html`
       ${this.renderFilePath()}
       <div id="container">
         <h3 class="assistive-tech-only">${this.computeAriaHeading()}</h3>
@@ -504,7 +504,7 @@ export class GrCommentThread extends LitElement {
     // because we ran into spurious issues with <gr-comment> being destroyed
     // and re-created when an unsaved draft transitions to 'saved' state.
     const draftComment = this.renderComment(this.getDraftOrUnsaved());
-    return this.patched.html`${publishedComments}${draftComment}`;
+    return html`${publishedComments}${draftComment}`;
   }
 
   private renderComment(comment?: Comment) {

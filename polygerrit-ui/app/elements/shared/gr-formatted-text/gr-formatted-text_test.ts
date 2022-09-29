@@ -332,7 +332,13 @@ suite('gr-formatted-text tests', () => {
             <div slot="markdown-html">
               <p>
                 @
-                <a href="mailto:someone@google.com"> someone@google.com </a>
+                <a
+                  href="mailto:someone@google.com"
+                  rel="noopener"
+                  target="_blank"
+                >
+                  someone@google.com
+                </a>
               </p>
             </div>
           </marked-element>
@@ -383,7 +389,13 @@ suite('gr-formatted-text tests', () => {
             <div slot="markdown-html">
               <p>
                 <code>@</code>
-                <a href="mailto:someone@google.com"> someone@google.com </a>
+                <a
+                  href="mailto:someone@google.com"
+                  rel="noopener"
+                  target="_blank"
+                >
+                  someone@google.com
+                </a>
               </p>
             </div>
           </marked-element>
@@ -401,7 +413,9 @@ suite('gr-formatted-text tests', () => {
           <marked-element>
             <div slot="markdown-html">
               <p>
-                <a href="https://www.google.com">myLink</a>
+                <a href="https://www.google.com" rel="noopener" target="_blank"
+                  >myLink</a
+                >
               </p>
             </div>
           </marked-element>
@@ -482,7 +496,9 @@ suite('gr-formatted-text tests', () => {
                 <p>block quote ${escapedDiv}</p>
               </blockquote>
               <p>
-                <a href="http://google.com">inline link ${escapedDiv}</a>
+                <a href="http://google.com" rel="noopener" target="_blank"
+                  >inline link ${escapedDiv}</a
+                >
               </p>
             </div>
           </marked-element>

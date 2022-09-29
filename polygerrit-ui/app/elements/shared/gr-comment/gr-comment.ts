@@ -968,7 +968,7 @@ export class GrComment extends LitElement {
 
   override willUpdate(changed: PropertyValues) {
     this.firstWillUpdate();
-    if (changed.has('editing')) {
+    if (changed.has('editing') || changed.has('comment')) {
       this.onEditingChanged();
     }
     if (changed.has('unresolved')) {

@@ -286,7 +286,7 @@ public class CommitUtil {
     reviewers.remove(user.getAccountId());
     Set<Account.Id> ccs = new HashSet<>(reviewerSet.byState(ReviewerStateInternal.CC));
     ccs.remove(user.getAccountId());
-    ins.setReviewersAndCcs(reviewers, ccs);
+    ins.setReviewersAndCcsIgnoreVisibility(reviewers, ccs);
     ins.setRevertOf(notes.getChangeId());
     ins.setWorkInProgress(input.workInProgress);
 

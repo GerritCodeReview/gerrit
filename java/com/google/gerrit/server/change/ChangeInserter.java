@@ -275,14 +275,29 @@ public class ChangeInserter implements InsertChangeOp {
         Iterables.transform(ccs, Account.Id::toString));
   }
 
+  public ChangeInserter setReviewersAndCcsIgnoreVisibility(
+      Iterable<Account.Id> reviewers, Iterable<Account.Id> ccs) {
+    return setReviewersAndCcsAsStrings(
+        Iterables.transform(reviewers, Account.Id::toString),
+        Iterables.transform(ccs, Account.Id::toString),
+        /* skipVisibilityCheck= */ true);
+  }
+
   public ChangeInserter setReviewersAndCcsAsStrings(
       Iterable<String> reviewers, Iterable<String> ccs) {
+    return setReviewersAndCcsAsStrings(reviewers, ccs, /* skipVisibilityCheck= */ false);
+  }
+
+  private ChangeInserter setReviewersAndCcsAsStrings(
+      Iterable<String> reviewers, Iterable<String> ccs, boolean skipVisibilityCheck) {
     reviewerInputs =
         Streams.concat(
                 Streams.stream(reviewers)
                     .distinct()
-                    .map(id -> newReviewerInput(id, ReviewerState.REVIEWER)),
-                Streams.stream(ccs).distinct().map(id -> newReviewerInput(id, ReviewerState.CC)))
+                    .map(id -> newReviewerInput(id, ReviewerState.REVIEWER, skipVisibilityCheck)),
+                Streams.stream(ccs)
+                    .distinct()
+                    .map(id -> newReviewerInput(id, ReviewerState.CC, skipVisibilityCheck)))
             .collect(toImmutableList());
     return this;
   }
@@ -595,7 +610,8 @@ public class ChangeInserter implements InsertChangeOp {
     }
   }
 
-  private static InternalReviewerInput newReviewerInput(String reviewer, ReviewerState state) {
+  private static InternalReviewerInput newReviewerInput(
+      String reviewer, ReviewerState state, boolean skipVisibilityCheck) {
     // Disable individual emails when adding reviewers, as all reviewers will receive the single
     // bulk new change email.
     InternalReviewerInput input =
@@ -607,6 +623,8 @@ public class ChangeInserter implements InsertChangeOp {
     // theory we could provide finer control to do this for some reviewers and not others, but it's
     // not worth complicating the ChangeInserter interface further at this time.
     input.otherFailureBehavior = ReviewerModifier.FailureBehavior.IGNORE;
+
+    input.skipVisibilityCheck = skipVisibilityCheck;
 
     return input;
   }

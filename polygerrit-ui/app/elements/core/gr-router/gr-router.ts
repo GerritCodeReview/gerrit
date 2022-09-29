@@ -21,6 +21,7 @@ import {
   RepoName,
   UrlEncodedCommentId,
   PARENT,
+  PatchSetNumber,
 } from '../../../types/common';
 import {AppElement, AppElementParams} from '../../gr-app-types';
 import {LocationChangeEventDetail} from '../../../types/events';
@@ -85,7 +86,6 @@ import {PluginViewModel, PluginViewState} from '../../../models/views/plugin';
 import {SearchViewModel, SearchViewState} from '../../../models/views/search';
 import {DashboardSection} from '../../../utils/dashboard-util';
 import {Subscription} from 'rxjs';
-import {Gerrit} from '../../../api/gerrit';
 
 const RoutePattern = {
   ROOT: '/',
@@ -1369,6 +1369,10 @@ export class GrRouter implements Finalizable, NavigationService {
 
     const tab = queryMap.get('tab');
     if (tab) state.tab = tab;
+    const cps = Number(queryMap.get('cps'));
+    if (Number.isInteger(cps) && cps > 0) {
+      state.checksPatchset = cps as PatchSetNumber;
+    }
     const filter = queryMap.get('filter');
     if (filter) state.filter = filter;
     const attempt = stringToAttemptChoice(queryMap.get('attempt'));

@@ -1246,13 +1246,16 @@ export class GrChecksResults extends LitElement {
   }
 
   private onPatchsetSelected(e: CustomEvent<{value: string}>) {
-    const patchset = Number(e.detail.value);
-    assert(!isNaN(patchset), 'selected patchset must be a number');
-    this.getChecksModel().setPatchset(patchset as PatchSetNumber);
+    let patchset: number | undefined = Number(e.detail.value);
+    assert(Number.isInteger(patchset), `patchset must be integer: ${patchset}`);
+    if (patchset === this.latestPatchsetNumber) patchset = undefined;
+    this.getChecksModel().updateStateSetPatchset(
+      patchset as PatchSetNumber | undefined
+    );
   }
 
   private goToLatestPatchset() {
-    this.getChecksModel().setPatchset(undefined);
+    this.getChecksModel().updateStateSetPatchset(undefined);
   }
 
   private createAttemptDropdownItems() {

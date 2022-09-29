@@ -9,6 +9,7 @@ import {
   RevisionPatchSetNum,
   BasePatchSetNum,
   ChangeInfo,
+  PatchSetNumber,
 } from '../../api/rest-api';
 import {GerritView} from '../../services/router/router-model';
 import {UrlEncodedCommentId} from '../../types/common';
@@ -25,22 +26,34 @@ import {ViewState} from './base';
 
 export interface ChangeViewState extends ViewState {
   view: GerritView.CHANGE;
+
   changeNum: NumericChangeId;
   project: RepoName;
   edit?: boolean;
   patchNum?: RevisionPatchSetNum;
   basePatchNum?: BasePatchSetNum;
   commentId?: UrlEncodedCommentId;
-  forceReload?: boolean;
-  openReplyDialog?: boolean;
   tab?: string;
+
+  /** Checks related view state */
+
+  /** selected patchset for check runs (undefined=latest) */
+  checksPatchset?: PatchSetNumber;
   /** regular expression for filtering check runs */
   filter?: string;
-  /** selected attempt for selected check runs */
+  /** selected attempt for check runs (undefined=latest) */
   attempt?: AttemptChoice;
 
+  /** State properties that trigger one-time actions */
+
+  /** for scrolling a Change Log message into view in gr-change-view */
   messageHash?: string;
+  /** for logging where the user came from */
   usp?: string;
+  /** triggers all change related data to be reloaded */
+  forceReload?: boolean;
+  /** triggers opening the reply dialog */
+  openReplyDialog?: boolean;
 }
 
 /**
@@ -85,6 +98,9 @@ export function createChangeUrl(
   }
   let suffix = `${range}`;
   const queries = [];
+  if (state.checksPatchset && state.checksPatchset > 0) {
+    queries.push(`cps=${state.checksPatchset}`);
+  }
   if (state.attempt) {
     if (state.attempt !== 'latest') queries.push(`attempt=${state.attempt}`);
   }
@@ -125,6 +141,11 @@ export const changeViewModelToken =
 
 export class ChangeViewModel extends Model<ChangeViewState | undefined> {
   public readonly tab$ = select(this.state$, state => state?.tab);
+
+  public readonly checksPatchset$ = select(
+    this.state$,
+    state => state?.checksPatchset
+  );
 
   public readonly attempt$ = select(this.state$, state => state?.attempt);
 

@@ -968,7 +968,11 @@ export class GrComment extends LitElement {
 
   override willUpdate(changed: PropertyValues) {
     this.firstWillUpdate();
-    if (changed.has('editing')) {
+    // NOTE: onEditingChanged freezes comment.message into this.messageText
+    // If the comment changes, then this should be updated. This can happen
+    // when someone clicks "reply" on a message and the message is quoted.
+    // See: GrReplyDialog.open
+    if (changed.has('editing') || changed.has('comment')) {
       this.onEditingChanged();
     }
     if (changed.has('unresolved')) {

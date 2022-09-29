@@ -22,6 +22,30 @@
       },
       "revId": "709d7e78cb0d0241457fc4510d127284635acd85",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a43b43cc_60550241",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-29T14:57:25Z",
+      "side": 1,
+      "message": "Makes sense. Thanks for proposing this. Done.",
+      "parentUuid": "3df16cf0_6687c6b0",
+      "range": {
+        "startLine": 540,
+        "startChar": 14,
+        "endLine": 540,
+        "endChar": 48
+      },
+      "revId": "709d7e78cb0d0241457fc4510d127284635acd85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

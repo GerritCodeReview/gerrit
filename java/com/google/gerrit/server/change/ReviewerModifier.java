@@ -105,7 +105,10 @@ public class ReviewerModifier {
     FAIL,
 
     // Only not found failures cause the operation to fail, all other failures are ignored.
-    IGNORE_EXCEPT_NOT_FOUND;
+    IGNORE_EXCEPT_NOT_FOUND,
+
+    // All failures are ignored.
+    IGNORE_ALL;
   }
 
   private enum FailureType {
@@ -155,7 +158,7 @@ public class ReviewerModifier {
     in.reviewer = accountId.toString();
     in.state = CC;
     in.notify = notify;
-    in.otherFailureBehavior = FailureBehavior.IGNORE_EXCEPT_NOT_FOUND;
+    in.otherFailureBehavior = FailureBehavior.IGNORE_ALL;
     return Optional.of(in);
   }
 
@@ -595,8 +598,9 @@ public class ReviewerModifier {
           (input instanceof InternalReviewerInput)
               ? ((InternalReviewerInput) input).otherFailureBehavior
               : FailureBehavior.FAIL;
-      return failureType == FailureType.OTHER
-          && behavior == FailureBehavior.IGNORE_EXCEPT_NOT_FOUND;
+      return behavior == FailureBehavior.IGNORE_ALL
+          || (failureType == FailureType.OTHER
+              && behavior == FailureBehavior.IGNORE_EXCEPT_NOT_FOUND);
     }
   }
 

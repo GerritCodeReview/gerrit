@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "36d8e62c_836d2a07",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-09-29T09:38:34Z",
+      "side": 1,
+      "message": "The red blob got introduced by `eslintfix`. My original version looked somewhat nicer. `shadowDom.equal` just doesn\u0027t match nicely multiple lines of text not separated by tags. \n\nRemoved \"text without a link\" from this test, to avoid the issue.",
+      "parentUuid": "e6cba2c0_339756c8",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 8
+      },
+      "revId": "04432d135955975dca7d69afc867839f046065cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "7a31f0fa_279bf2d7",
         "filename": "polygerrit-ui/app/utils/link-util_test.ts",
         "patchSetId": 2
@@ -37,6 +61,24 @@
       "writtenOn": "2022-09-29T09:26:33Z",
       "side": 1,
       "message": "Just curious: Why is \\b typically not being used for matching a word boundary?",
+      "revId": "04432d135955975dca7d69afc867839f046065cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9135e6a7_fbbc6410",
+        "filename": "polygerrit-ui/app/utils/link-util_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-09-29T09:38:34Z",
+      "side": 1,
+      "message": "\\b is used in some configs. But the issue with \\b is that it matches any non word symbol, which sometimes ok (brackets, colon, comma), sometimes not (I don\u0027t think foo$bar usually intended to match a search for bar.",
+      "parentUuid": "7a31f0fa_279bf2d7",
       "revId": "04432d135955975dca7d69afc867839f046065cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

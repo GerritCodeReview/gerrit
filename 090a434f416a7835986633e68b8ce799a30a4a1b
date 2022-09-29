@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d94a6409_62c9beab",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1218,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-09-29T18:02:43Z",
+      "side": 1,
+      "message": "nit: Missing Nullable annotation.",
+      "range": {
+        "startLine": 1218,
+        "startChar": 21,
+        "endLine": 1218,
+        "endChar": 37
+      },
+      "revId": "090a434f416a7835986633e68b8ce799a30a4a1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2be40538_4524f112",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1231,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-09-29T18:02:43Z",
+      "side": 1,
+      "message": "Why is it nullable? The Diff always has some associated commit?",
+      "range": {
+        "startLine": 1231,
+        "startChar": 8,
+        "endLine": 1231,
+        "endChar": 22
+      },
+      "revId": "090a434f416a7835986633e68b8ce799a30a4a1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bc0c0a0_70f0adea",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatchUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-09-29T18:02:43Z",
+      "side": 1,
+      "message": "nit: use com.google.common.base.Preconditions.checkArgument",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 5
+      },
+      "revId": "090a434f416a7835986633e68b8ce799a30a4a1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ea73618_513209d2",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-09-29T18:02:43Z",
+      "side": 1,
+      "message": "should input.merge and input.patch be mutually exclusive?",
+      "range": {
+        "startLine": 290,
+        "startChar": 8,
+        "endLine": 290,
+        "endChar": 20
+      },
+      "revId": "090a434f416a7835986633e68b8ce799a30a4a1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3264a330_9ef85efc",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-09-29T18:02:43Z",
+      "side": 1,
+      "message": "nit: it seems like this newCommit logic will be reused for the new apply-patch API.\nMaybe move it to CommitUtil?\n\nOptional: it seems like creating a new empty commit and creating a new commit from the patch is rather different functionality. Maybe split into two different methods?",
+      "range": {
+        "startLine": 530,
+        "startChar": 2,
+        "endLine": 530,
+        "endChar": 44
+      },
+      "revId": "090a434f416a7835986633e68b8ce799a30a4a1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21021d8b_e1716d15",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-09-29T18:02:43Z",
+      "side": 1,
+      "message": "nit: mergeTip should never be null?",
+      "range": {
+        "startLine": 544,
+        "startChar": 10,
+        "endLine": 544,
+        "endChar": 26
+      },
+      "revId": "090a434f416a7835986633e68b8ce799a30a4a1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5511b7dc_07a49008",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-09-29T18:02:43Z",
+      "side": 1,
+      "message": "It would be nice to add a roundtrip test with GetPatch API\n(/changes/../revisions/../patch)",
+      "range": {
+        "startLine": 930,
+        "startChar": 14,
+        "endLine": 930,
+        "endChar": 46
+      },
+      "revId": "090a434f416a7835986633e68b8ce799a30a4a1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0035e72b_19085967",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1231,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-09-29T18:02:43Z",
+      "side": 1,
+      "message": "I think we also need tests in case the path is applied with the base_change or base_commit in input.",
+      "range": {
+        "startLine": 1231,
+        "startChar": 22,
+        "endLine": 1231,
+        "endChar": 49
+      },
+      "revId": "090a434f416a7835986633e68b8ce799a30a4a1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

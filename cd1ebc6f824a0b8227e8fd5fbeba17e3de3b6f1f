@@ -16,6 +16,24 @@
       "message": "Looks good to me.\nAdding @matthias.sohn@gmail.com, since he is currently performing memory allocation analyses for us and could include this fix into the tests to determine hoe much it improves the situation.",
       "revId": "cd1ebc6f824a0b8227e8fd5fbeba17e3de3b6f1f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "536ffc89_63f1810e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-29T14:13:35Z",
+      "side": 1,
+      "message": "The httpd_log includes the figure of how much memory was allocated: it should be easy to compare the before and after the change.\n\nFrom a functional\u0027s standpoint, it works as before, which is good.",
+      "parentUuid": "3a0ba581_5e4471b2",
+      "revId": "cd1ebc6f824a0b8227e8fd5fbeba17e3de3b6f1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

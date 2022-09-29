@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3dafa6fe_3c74ef11",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-29T13:37:10Z",
+      "side": 1,
+      "message": "Why did you modify the test?",
+      "revId": "afb2886cd692fc876aeb95a7d0d80f778089d9ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fb055aa_4ce964ea",
+        "filename": "polygerrit-ui/app/models/model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-29T13:37:10Z",
+      "side": 1,
+      "message": "This can become quite expensive for larger models. I\u0027d like to see benchmarks for this.",
+      "revId": "afb2886cd692fc876aeb95a7d0d80f778089d9ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

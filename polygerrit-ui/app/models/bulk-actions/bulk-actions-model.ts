@@ -259,28 +259,13 @@ export class BulkActionsModel
     if (selectableChangeNums !== currentState.selectableChangeNums) return;
     const allDetailedChanges: Map<NumericChangeId, ChangeInfo> = new Map();
     for (const detailedChange of changeDetails ?? []) {
-      const basicChange = basicChanges.get(detailedChange._number)!;
-      allDetailedChanges.set(
-        detailedChange._number,
-        this.mergeOldAndDetailedChangeInfos(basicChange, detailedChange)
-      );
+      allDetailedChanges.set(detailedChange._number, detailedChange);
     }
     this.setState({
       ...currentState,
       loadingState: LoadingState.LOADED,
       allChanges: allDetailedChanges,
     });
-  }
-
-  private mergeOldAndDetailedChangeInfos(
-    originalChange: ChangeInfo,
-    newData: ChangeInfo
-  ) {
-    return {
-      ...originalChange,
-      ...newData,
-      reviewers: originalChange.reviewers,
-    };
   }
 
   private getNewReviewersToChange(

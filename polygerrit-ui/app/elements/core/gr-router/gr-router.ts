@@ -21,6 +21,7 @@ import {
   RepoName,
   UrlEncodedCommentId,
   PARENT,
+  PatchSetNumber,
 } from '../../../types/common';
 import {AppElement, AppElementParams} from '../../gr-app-types';
 import {LocationChangeEventDetail} from '../../../types/events';
@@ -1368,6 +1369,10 @@ export class GrRouter implements Finalizable, NavigationService {
 
     const tab = queryMap.get('tab');
     if (tab) state.tab = tab;
+    const checksPatchset = Number(queryMap.get('checksPatchset'));
+    if (Number.isInteger(checksPatchset) && checksPatchset > 0) {
+      state.checksPatchset = checksPatchset as PatchSetNumber;
+    }
     const filter = queryMap.get('filter');
     if (filter) state.filter = filter;
     const attempt = stringToAttemptChoice(queryMap.get('attempt'));

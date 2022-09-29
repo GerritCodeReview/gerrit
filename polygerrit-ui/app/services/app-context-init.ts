@@ -186,6 +186,7 @@ export function createAppDependencies(
 
   const checksModel = new ChecksModel(
     appContext.routerModel,
+    changeViewModel,
     changeModel,
     appContext.reportingService,
     appContext.pluginsModel

@@ -126,6 +126,8 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
   @Override
   public Response<ChangeInfo> apply(ChangeResource rsrc, MergePatchSetInput in)
       throws IOException, RestApiException, UpdateException, PermissionBackendException {
+    ProjectState projectState =
+        projectCache.get(rsrc.getProject()).orElseThrow(illegalState(rsrc.getProject()));
     // Not allowed to create a new patch set if the current patch set is locked.
     psUtil.checkPatchSetNotLocked(rsrc.getNotes());
 
@@ -137,10 +139,6 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
           .ref(rsrc.getChange().getDest().branch())
           .check(RefPermission.FORGE_AUTHOR);
     }
-
-    ProjectState projectState =
-        projectCache.get(rsrc.getProject()).orElseThrow(illegalState(rsrc.getProject()));
-    projectState.checkStatePermitsWrite();
 
     MergeInput merge = in.merge;
     if (merge == null || Strings.isNullOrEmpty(merge.source)) {

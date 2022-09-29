@@ -128,6 +128,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
@@ -1154,7 +1155,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             .add(PushOneCommit.FILE_NAME, PushOneCommit.FILE_CONTENT)
             .message(PushOneCommit.SUBJECT)
             .create();
-    // Push commit as "Admnistrator".
+    // Push commit as "Administrator".
     pushHead(testRepo, "refs/for/master");
 
     String changeId = GitUtil.getChangeId(testRepo, c).get();
@@ -1168,7 +1169,103 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "accounts.visibility", value = "SAME_GROUP")
+  public void pushForMasterWithNonVisibleForgedAuthorAndCommitter() throws Exception {
+    // Define readable names for the users we use in this test.
+    TestAccount uploader = user; // cannot use admin since admin can see all users
+    TestAccount author = accountCreator.user2();
+    TestAccount committer =
+        accountCreator.create("user3", "user3@example.com", "User3", /* displayName= */ null);
+
+    // Check that the uploader can neither see the author nor the committer.
+    requestScopeOperations.setApiUser(uploader.id());
+    assertThatAccountIsNotVisible(author, committer);
+
+    // Allow the uploader to forge author and committer.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.FORGE_AUTHOR).ref("refs/heads/master").group(REGISTERED_USERS))
+        .add(allow(Permission.FORGE_COMMITTER).ref("refs/heads/master").group(REGISTERED_USERS))
+        .update();
+
+    // Clone the repo as uploader so that the push is done by the uplaoder.
+    TestRepository<InMemoryRepository> testRepo = cloneProject(project, uploader);
+
+    // Create a commit with different forged author and committer.
+    RevCommit c =
+        testRepo
+            .branch("HEAD")
+            .commit()
+            .insertChangeId()
+            .author(author.newIdent())
+            .committer(committer.newIdent())
+            .add(PushOneCommit.FILE_NAME, PushOneCommit.FILE_CONTENT)
+            .message(PushOneCommit.SUBJECT)
+            .create();
+
+    PushResult r = pushHead(testRepo, "refs/for/master");
+    RemoteRefUpdate refUpdate = r.getRemoteUpdate("refs/for/master");
+    assertThat(refUpdate.getStatus()).isEqualTo(RemoteRefUpdate.Status.OK);
+
+    String changeId = GitUtil.getChangeId(testRepo, c).get();
+    assertThat(getOwnerEmail(changeId)).isEqualTo(uploader.email());
+
+    // author and committer have not been CCed because their accounts are not visible
+    assertThat(getReviewerEmails(changeId, ReviewerState.CC)).isEmpty();
+  }
+
+  @Test
+  @GerritConfig(name = "accounts.visibility", value = "SAME_GROUP")
   public void pushNewPatchSetForMasterWithForgedAuthorAndCommitter() throws Exception {
+    // Define readable names for the users we use in this test.
+    TestAccount uploader = user; // cannot use admin since admin can see all users
+    TestAccount author = accountCreator.user2();
+    TestAccount committer =
+        accountCreator.create("user3", "user3@example.com", "User3", /* displayName= */ null);
+
+    // Check that the uploader can neither see the author nor the committer.
+    requestScopeOperations.setApiUser(uploader.id());
+    assertThatAccountIsNotVisible(author, committer);
+
+    // Allow the uploader to forge author and committer.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.FORGE_AUTHOR).ref("refs/heads/master").group(REGISTERED_USERS))
+        .add(allow(Permission.FORGE_COMMITTER).ref("refs/heads/master").group(REGISTERED_USERS))
+        .update();
+
+    // Clone the repo as uploader so that the push is done by the uplaoder.
+    TestRepository<InMemoryRepository> testRepo = cloneProject(project, uploader);
+
+    // First patch set has author and committer matching uploader.
+    PushOneCommit push = pushFactory.create(uploader.newIdent(), testRepo);
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertOkStatus();
+
+    assertThat(getOwnerEmail(r.getChangeId())).isEqualTo(uploader.email());
+    assertThat(getReviewerEmails(r.getChangeId(), ReviewerState.REVIEWER)).isEmpty();
+
+    testRepo
+        .amendRef("HEAD")
+        .author(author.newIdent())
+        .committer(committer.newIdent())
+        .add(PushOneCommit.FILE_NAME, PushOneCommit.FILE_CONTENT + "2")
+        .create();
+
+    PushResult r2 = pushHead(testRepo, "refs/for/master");
+    RemoteRefUpdate refUpdate = r2.getRemoteUpdate("refs/for/master");
+    assertThat(refUpdate.getStatus()).isEqualTo(RemoteRefUpdate.Status.OK);
+
+    assertThat(getOwnerEmail(r.getChangeId())).isEqualTo(uploader.email());
+
+    // author and committer have not been CCed because their accounts are not visible
+    assertThat(getReviewerEmails(r.getChangeId(), ReviewerState.CC)).isEmpty();
+  }
+
+  @Test
+  public void pushNewPatchSetForMasterWithNonVisibleForgedAuthorAndCommitter() throws Exception {
     TestAccount user2 = accountCreator.user2();
     // First patch set has author and committer matching change owner.
     PushOneCommit.Result r = pushTo("refs/for/master");

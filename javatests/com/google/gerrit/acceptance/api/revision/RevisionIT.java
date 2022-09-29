@@ -1009,6 +1009,84 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "accounts.visibility", value = "SAME_GROUP")
+  public void cherryPickWithNonVisibleUsers() throws Exception {
+    // Create a target branch for the cherry-pick.
+    createBranch(BranchNameKey.create(project, "stable"));
+
+    // Define readable names for the users we use in this test.
+    TestAccount cherryPicker = user;
+    TestAccount changeOwner = admin;
+    TestAccount reviewer = accountCreator.user2();
+    TestAccount cc =
+        accountCreator.create("user3", "user3@example.com", "User3", /* displayName= */ null);
+    TestAccount authorCommitter =
+        accountCreator.create("user4", "user4@example.com", "User4", /* displayName= */ null);
+
+    // Check that the cherry-picker can neither see the changeOwner, the reviewer, the cc nor the
+    // authorCommitter.
+    requestScopeOperations.setApiUser(cherryPicker.id());
+    assertThatAccountIsNotVisible(changeOwner, reviewer, cc, authorCommitter);
+
+    // Create the change with authorCommitter as the author and the committer.
+    requestScopeOperations.setApiUser(changeOwner.id());
+    PushOneCommit push = pushFactory.create(authorCommitter.newIdent(), testRepo);
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertOkStatus();
+
+    // Check that authorCommitter was set as the author and committer.
+    ChangeInfo changeInfo = gApi.changes().id(r.getChangeId()).get();
+    CommitInfo commit = changeInfo.revisions.get(changeInfo.currentRevision).commit;
+    assertThat(commit.author.email).isEqualTo(authorCommitter.email());
+    assertThat(commit.committer.email).isEqualTo(authorCommitter.email());
+
+    // Pushing a commit with a forged author/committer adds the author/committer as a CC.
+    assertCcs(r.getChangeId(), authorCommitter);
+
+    // Remove the author/committer as a CC because because otherwise there are two signals for CCing
+    // authorCommitter on the cherry-pick change: once because they are author and committer and
+    // once because they are a CC. For authorCommitter we only want to test the first signal here
+    // (the second signal is covered by adding an explicit CC below).
+    gApi.changes().id(r.getChangeId()).reviewer(authorCommitter.email()).remove();
+    assertNoCcs(r.getChangeId());
+
+    // Add reviewer and cc.
+    ReviewInput reviewerInput = ReviewInput.approve();
+    reviewerInput.reviewer(reviewer.email());
+    reviewerInput.cc(cc.email());
+    gApi.changes().id(r.getChangeId()).current().review(reviewerInput);
+
+    // Approve and submit the change.
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).current().submit();
+
+    // Cherry-pick the change.
+    requestScopeOperations.setApiUser(cherryPicker.id());
+    CherryPickInput cherryPickInput = new CherryPickInput();
+    cherryPickInput.message = "Cherry-pick to stable branch";
+    cherryPickInput.destination = "stable";
+    cherryPickInput.keepReviewers = true;
+    String cherryPickChangeId =
+        gApi.changes().id(r.getChangeId()).current().cherryPick(cherryPickInput).get().id;
+
+    // Cherry-pick doesn't check the visibility of explicit reviewers/CCs. Since the cherry-picker
+    // can see the cherry-picked change, they can also see its reviewers/CCs. This means preserving
+    // them on the cherry-pick change doesn't expose their account existence and it's OK to keep
+    // them even if their accounts are not visible to the cherry-picker.
+    // In contrast to this for implicit CCs that are added for the author/committer the account
+    // visibility is checked, but if their accounts are not visible the CC is silently dropped (so
+    // that the cherry-pick request can still succeed). Since in this case authorCommitter is not
+    // visible, we expect that CCing them is being dropped and hence authorCommitter is not returned
+    // as a CC here. The reason that the visibility for author/committer must be checked is that
+    // author/committer may not match a Gerrit account (if they are forged). This means by seeing
+    // the author/committer on the cherry-picked change, it's not possible to deduce that these
+    // Gerrit accounts exists, but if they would be added as a CC on the cherry-pick change even if
+    // they are not visible the account existence would be exposed.
+    assertReviewers(cherryPickChangeId, changeOwner, reviewer);
+    assertCcs(cherryPickChangeId, cc);
+  }
+
+  @Test
   public void cherryPickToMergedChangeRevision() throws Exception {
     createBranch(BranchNameKey.create(project, "foo"));
 

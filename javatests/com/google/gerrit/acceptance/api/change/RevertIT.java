@@ -50,7 +50,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.validators.CommitValidationException;
@@ -60,7 +59,6 @@ import com.google.gerrit.server.permissions.PermissionDeniedException;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.Inject;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -1487,36 +1485,6 @@ public class RevertIT extends AbstractDaemonTest {
     PushOneCommit.Result result = push.to(ref);
     result.assertOkStatus();
     return result;
-  }
-
-  private void assertThatAccountIsNotVisible(TestAccount... testAccounts) {
-    for (TestAccount testAccount : testAccounts) {
-      assertThrows(
-          ResourceNotFoundException.class, () -> gApi.accounts().id(testAccount.id().get()).get());
-    }
-  }
-
-  private void assertReviewers(String changeId, TestAccount... expectedReviewers)
-      throws RestApiException {
-    Map<ReviewerState, Collection<AccountInfo>> reviewerMap =
-        gApi.changes().id(changeId).get().reviewers;
-    assertThat(reviewerMap).containsKey(ReviewerState.REVIEWER);
-    List<Integer> reviewers =
-        reviewerMap.get(ReviewerState.REVIEWER).stream().map(a -> a._accountId).collect(toList());
-    assertThat(reviewers)
-        .containsExactlyElementsIn(
-            Arrays.stream(expectedReviewers).map(a -> a.id().get()).collect(toList()));
-  }
-
-  private void assertCcs(String changeId, TestAccount... expectedCcs) throws RestApiException {
-    Map<ReviewerState, Collection<AccountInfo>> reviewerMap =
-        gApi.changes().id(changeId).get().reviewers;
-    assertThat(reviewerMap).containsKey(ReviewerState.CC);
-    List<Integer> ccs =
-        reviewerMap.get(ReviewerState.CC).stream().map(a -> a._accountId).collect(toList());
-    assertThat(ccs)
-        .containsExactlyElementsIn(
-            Arrays.stream(expectedCcs).map(a -> a.id().get()).collect(toList()));
   }
 
   private void addPureRevertSubmitRule() throws Exception {

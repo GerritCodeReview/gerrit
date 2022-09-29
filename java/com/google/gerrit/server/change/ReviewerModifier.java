@@ -96,7 +96,8 @@ public class ReviewerModifier {
 
   public enum FailureBehavior {
     FAIL,
-    IGNORE;
+    IGNORE_EXCEPT_NOT_FOUND,
+    IGNORE_ALL
   }
 
   private enum FailureType {
@@ -146,7 +147,7 @@ public class ReviewerModifier {
     in.reviewer = accountId.toString();
     in.state = CC;
     in.notify = notify;
-    in.otherFailureBehavior = FailureBehavior.IGNORE;
+    in.otherFailureBehavior = FailureBehavior.IGNORE_ALL;
     return Optional.of(in);
   }
 
@@ -586,7 +587,9 @@ public class ReviewerModifier {
           (input instanceof InternalReviewerInput)
               ? ((InternalReviewerInput) input).otherFailureBehavior
               : FailureBehavior.FAIL;
-      return failureType == FailureType.OTHER && behavior == FailureBehavior.IGNORE;
+      return behavior == FailureBehavior.IGNORE_ALL
+          || (failureType == FailureType.OTHER
+              && behavior == FailureBehavior.IGNORE_EXCEPT_NOT_FOUND);
     }
   }
 

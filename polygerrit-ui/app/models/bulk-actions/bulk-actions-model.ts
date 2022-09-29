@@ -26,6 +26,7 @@ import {
 } from '../../types/common';
 import {getUserId} from '../../utils/account-util';
 import {getChangeNumber} from '../../utils/change-util';
+import {deepEqual} from '../../utils/deep-util';
 
 export const bulkActionsModelToken =
   define<BulkActionsModel>('bulk-actions-model');
@@ -258,7 +259,9 @@ export class BulkActionsModel
       );
     currentState = this.getState();
     // Return early if sync has been called again since starting the load.
-    if (selectableChangeNums !== currentState.selectableChangeNums) return;
+    if (!deepEqual(selectableChangeNums, currentState.selectableChangeNums)) {
+      return;
+    }
     const allDetailedChanges: Map<NumericChangeId, ChangeInfo> = new Map();
     for (const detailedChange of changeDetails ?? []) {
       allDetailedChanges.set(detailedChange._number, detailedChange);

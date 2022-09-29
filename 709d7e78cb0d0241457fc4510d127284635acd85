@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3df16cf0_6687c6b0",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-09-29T14:18:13Z",
+      "side": 1,
+      "message": "opt: these tests look very much the same. I wonder if you couldn\u0027t just make a test with a single change that is authored, reviewed, CC\u0027d and commited by 4 different accounts that are invisible to the caller, then do one revert, and ensure that the 4 users are there.",
+      "range": {
+        "startLine": 540,
+        "startChar": 14,
+        "endLine": 540,
+        "endChar": 48
+      },
+      "revId": "709d7e78cb0d0241457fc4510d127284635acd85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

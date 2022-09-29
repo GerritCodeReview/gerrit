@@ -31,7 +31,6 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.InvalidMergeStrategyException;
 import com.google.gerrit.exceptions.MergeWithConflictsNotSupportedException;
-import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -42,7 +41,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollectionModifyView;
@@ -65,12 +63,12 @@ import com.google.gerrit.server.git.CommitUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.MergeUtilFactory;
+import com.google.gerrit.server.git.PermissionChecker;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectResource;
@@ -119,6 +117,7 @@ public class CreateChange
   private final Sequences seq;
   private final ZoneId serverZoneId;
   private final PermissionBackend permissionBackend;
+  private final PermissionChecker permissionChecker;
   private final Provider<CurrentUser> user;
   private final ProjectsCollection projectsCollection;
   private final CommitsCollection commits;
@@ -141,6 +140,7 @@ public class CreateChange
       Sequences seq,
       @GerritPersonIdent PersonIdent myIdent,
       PermissionBackend permissionBackend,
+      PermissionChecker permissionChecker,
       Provider<CurrentUser> user,
       ProjectsCollection projectsCollection,
       CommitsCollection commits,
@@ -159,6 +159,7 @@ public class CreateChange
     this.seq = seq;
     this.serverZoneId = myIdent.getZoneId();
     this.permissionBackend = permissionBackend;
+    this.permissionChecker = permissionChecker;
     this.user = user;
     this.projectsCollection = projectsCollection;
     this.commits = commits;
@@ -195,7 +196,6 @@ public class CreateChange
     }
 
     ProjectState projectState = projectResource.getProjectState();
-    projectState.checkStatePermitsWrite();
 
     IdentifiedUser me = user.get().asIdentifiedUser();
     checkAndSanitizeChangeInput(input, me);
@@ -203,7 +203,8 @@ public class CreateChange
     Project.NameKey project = projectResource.getNameKey();
     contributorAgreements.check(project, user.get());
 
-    checkRequiredPermissions(project, input.branch, input.author);
+    permissionChecker.checkPermissionsForCreatingChange(
+        project, projectState, input.branch, input.author);
 
     ChangeInfo newChange = createNewChange(input, me, projectState, updateFactory);
     return Response.created(newChange);
@@ -307,19 +308,6 @@ public class CreateChange
   /** Changes are allowed to be created on any ref that is not Gerrit internal or a tag ref. */
   private boolean isBranchAllowed(String branch) {
     return !RefNames.isGerritRef(branch) && !branch.startsWith(RefNames.REFS_TAGS);
-  }
-
-  private void checkRequiredPermissions(
-      Project.NameKey project, String refName, @Nullable AccountInput author)
-      throws ResourceNotFoundException, AuthException, PermissionBackendException {
-    PermissionBackend.ForRef forRef = permissionBackend.currentUser().project(project).ref(refName);
-    if (!forRef.test(RefPermission.READ)) {
-      throw new ResourceNotFoundException(String.format("ref %s not found", refName));
-    }
-    forRef.check(RefPermission.CREATE_CHANGE);
-    if (author != null) {
-      forRef.check(RefPermission.FORGE_AUTHOR);
-    }
   }
 
   private ChangeInfo createNewChange(

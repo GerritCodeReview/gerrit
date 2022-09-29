@@ -161,6 +161,7 @@ export class GrFormattedText extends LitElement {
         `<code>${unescapeHTML(text)}</code>`;
       renderer['code'] = (text: string) => `<pre><code>${text}</code></pre>`;
       renderer['text'] = boundRewriteText;
+      renderer[''];
     }
 
     // The child with slot is optional but allows us control over the styling.
@@ -213,6 +214,9 @@ export class GrFormattedText extends LitElement {
     // Look for @mentions and replace them with an account-label chip.
     if (this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) {
       this.convertEmailsToAccountChips();
+    }
+    for (const link of this.querySelectorAll('a')) {
+      link.setAttribute('target', '_blank');
     }
   }
 

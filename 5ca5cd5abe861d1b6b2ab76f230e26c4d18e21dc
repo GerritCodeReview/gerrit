@@ -85,6 +85,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "86e1ef62_8967a489",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-29T21:50:51Z",
+      "side": 1,
+      "message": "Yeah, I got that you were using as \"the next thing\", but I think `right before/after` ends up sounding imprecise. Maybe `s/right/directly/` would work or `s/right/exactly/` (those were the two options I saw suggested most when I searched for examples)? Or re-word further? Some options:\n\n `directly before they run and directly after they complete`\n `exactly before they run and exactly after they complete`\n `directly preceding their execution and directly succeeding their completion`\n `exactly preceding their execution and exactly succeeding their completion`\n `directly prior to their execution and directly after their completion`\n `exactly prior to their execution and exactly after their completion`\n \nI would be fine with any of those, though some look better to me than others. I can live with `right before/after` if you feel strongly about it.",
+      "parentUuid": "72ac1e49_f686d6ea",
+      "range": {
+        "startLine": 540,
+        "startChar": 47,
+        "endLine": 540,
+        "endChar": 52
+      },
+      "revId": "5ca5cd5abe861d1b6b2ab76f230e26c4d18e21dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "39ea3055_de226ee9",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 15

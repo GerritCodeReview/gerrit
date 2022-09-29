@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f773c7d_777c2388",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-29T21:50:51Z",
+      "side": 1,
+      "message": "Should we be more specific and say \"WorkQueue QoS policies\"?",
+      "range": {
+        "startLine": 14,
+        "startChar": 14,
+        "endLine": 14,
+        "endChar": 26
+      },
+      "revId": "bef3cde84800b14f363ca4e1bd1f4313a765dd87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38afb866_fbb340b6",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-29T21:50:51Z",
+      "side": 1,
+      "message": "nit: s/runs/run/",
+      "range": {
+        "startLine": 64,
+        "startChar": 73,
+        "endLine": 64,
+        "endChar": 77
+      },
+      "revId": "bef3cde84800b14f363ca4e1bd1f4313a765dd87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

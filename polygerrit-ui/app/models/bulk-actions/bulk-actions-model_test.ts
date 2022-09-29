@@ -500,7 +500,7 @@ suite('bulk actions model test', () => {
     const getChangesStub = stubRestApi(
       'getDetailedChangesWithActions'
     ).callsFake(() => promise);
-    bulkActionsModel.sync([c1, c2]);
+    bulkActionsModel.sync([c1]);
     assert.strictEqual(getChangesStub.callCount, 1);
     await waitUntilObserved(
       bulkActionsModel.loadingState$,
@@ -534,7 +534,6 @@ suite('bulk actions model test', () => {
     // Resolve the old promise.
     responsePromise1.resolve([
       {...createChange(), _number: 1, subject: 'Subject 1-old'},
-      {...createChange(), _number: 2, subject: 'Subject 2-old'},
     ] as ChangeInfo[]);
     await waitEventLoop();
     const model2 = bulkActionsModel.getState();

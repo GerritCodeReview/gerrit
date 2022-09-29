@@ -56,7 +56,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.restapi.project.CommitsCollection;
@@ -126,21 +125,9 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
   @Override
   public Response<ChangeInfo> apply(ChangeResource rsrc, MergePatchSetInput in)
       throws IOException, RestApiException, UpdateException, PermissionBackendException {
-    // Not allowed to create a new patch set if the current patch set is locked.
-    psUtil.checkPatchSetNotLocked(rsrc.getNotes());
-
-    rsrc.permissions().check(ChangePermission.ADD_PATCH_SET);
-    if (in.author != null) {
-      permissionBackend
-          .currentUser()
-          .project(rsrc.getProject())
-          .ref(rsrc.getChange().getDest().branch())
-          .check(RefPermission.FORGE_AUTHOR);
-    }
-
     ProjectState projectState =
         projectCache.get(rsrc.getProject()).orElseThrow(illegalState(rsrc.getProject()));
-    projectState.checkStatePermitsWrite();
+    psUtil.checkPermissionsForAddingPatchSet(projectState, rsrc, in.author);
 
     MergeInput merge = in.merge;
     if (merge == null || Strings.isNullOrEmpty(merge.source)) {

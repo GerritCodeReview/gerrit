@@ -17,55 +17,204 @@ package com.google.gerrit.server.restapi.change;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.api.changes.ApplyPatchPatchSetInput;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
-import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.NotImplementedException;
+import com.google.gerrit.extensions.restapi.PreconditionFailedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.webui.UiAction;
+import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
-import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.change.PatchSetInserter;
+import com.google.gerrit.server.git.CodeReviewCommit;
+import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
+import com.google.gerrit.server.git.CommitUtil;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.util.CommitMessageUtil;
+import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.time.Instant;
+import java.time.ZoneId;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 @Singleton
-public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatchSetInput> {
-
-  private final PermissionBackend permissionBackend;
+public class ApplyPatch
+    implements RestModifyView<ChangeResource, ApplyPatchPatchSetInput>, UiAction<ChangeResource> {
+  private final ChangeJson.Factory jsonFactory;
   private final ContributorAgreementsChecker contributorAgreements;
   private final ProjectCache projectCache;
+  private final Provider<IdentifiedUser> user;
+  private final GitRepositoryManager gitManager;
+  private final BatchUpdate.Factory batchUpdateFactory;
+  private final PatchSetInserter.Factory patchSetInserterFactory;
+  private final Provider<InternalChangeQuery> queryProvider;
+  private final ZoneId serverZoneId;
+  private final PatchSetUtil psUtil;
 
   @Inject
   ApplyPatch(
-      PermissionBackend permissionBackend,
+      ChangeJson.Factory jsonFactory,
       ContributorAgreementsChecker contributorAgreements,
-      ProjectCache projectCache) {
-    this.permissionBackend = permissionBackend;
+      ProjectCache projectCache,
+      Provider<IdentifiedUser> user,
+      GitRepositoryManager gitManager,
+      BatchUpdate.Factory batchUpdateFactory,
+      PatchSetInserter.Factory patchSetInserterFactory,
+      Provider<InternalChangeQuery> queryProvider,
+      @GerritPersonIdent PersonIdent myIdent,
+      PatchSetUtil psUtil) {
+    this.jsonFactory = jsonFactory;
     this.contributorAgreements = contributorAgreements;
     this.projectCache = projectCache;
+    this.user = user;
+    this.gitManager = gitManager;
+    this.batchUpdateFactory = batchUpdateFactory;
+    this.patchSetInserterFactory = patchSetInserterFactory;
+    this.queryProvider = queryProvider;
+    this.serverZoneId = myIdent.getZoneId();
+    this.psUtil = psUtil;
   }
 
   @Override
   public Response<ChangeInfo> apply(ChangeResource rsrc, ApplyPatchPatchSetInput input)
-      throws AuthException, IOException, ResourceConflictException, PermissionBackendException {
+      throws IOException, UpdateException, RestApiException, PermissionBackendException,
+          ConfigInvalidException, NoSuchProjectException, InvalidChangeOperationException {
     NameKey project = rsrc.getProject();
+    ProjectState projectState =
+        projectCache.get(project).orElseThrow(illegalState(rsrc.getProject()));
     contributorAgreements.check(project, rsrc.getUser());
-
     BranchNameKey destBranch = rsrc.getChange().getDest();
-    permissionBackend
-        .currentUser()
-        .project(project)
-        .ref(destBranch.branch())
-        .check(RefPermission.CREATE_CHANGE);
-    projectCache.get(project).orElseThrow(illegalState(rsrc.getProject())).checkStatePermitsWrite();
+    psUtil.checkPermissionsForAddingPatchSet(projectState, rsrc, input.author);
 
-    throw new NotImplementedException("ApplyPatch is not yet implemented.");
+    try (Repository repo = gitManager.openRepository(project);
+        // This inserter and revwalk *must* be passed to any BatchUpdates
+        // created later on, to ensure the applied commit is flushed
+        // before patch sets are updated.
+        ObjectInserter oi = repo.newObjectInserter();
+        ObjectReader reader = oi.newReader();
+        CodeReviewRevWalk revWalk = CodeReviewCommit.newRevWalk(reader)) {
+      Ref destRef = repo.getRefDatabase().exactRef(destBranch.branch());
+      if (destRef == null) {
+        throw new ResourceNotFoundException(
+            String.format("Branch %s does not exist.", destBranch.branch()));
+      }
+      ChangeData destChange = rsrc.getChangeData();
+      if (destChange == null) {
+        throw new PreconditionFailedException(
+            "patch:apply cannot be called without a destination change.");
+      }
+
+      if (destChange.change().isClosed()) {
+        throw new PreconditionFailedException(
+            String.format(
+                "patch:apply with Change-Id %s could not update the existing change %d "
+                    + "in destination branch %s of project %s, because the change was closed (%s)",
+                destChange.getId(),
+                destChange.getId().get(),
+                destBranch.branch(),
+                destBranch.project(),
+                destChange.change().getStatus().name()));
+      }
+
+      RevCommit baseCommit =
+          CommitUtil.getBaseCommit(
+              project.get(), queryProvider.get(), revWalk, destRef, input.base);
+      ObjectId treeId = ApplyPatchUtil.applyPatch(repo, oi, input.patch, baseCommit);
+
+      Instant now = TimeUtil.now();
+      PersonIdent committerIdent = user.get().newCommitterIdent(now, serverZoneId);
+      PersonIdent authorIdent =
+          input.author == null
+              ? committerIdent
+              : new PersonIdent(input.author.name, input.author.email, now, serverZoneId);
+      String commitMessage =
+          CommitMessageUtil.checkAndSanitizeCommitMessage(
+              input.commitMessage != null
+                  ? input.commitMessage
+                  : "The following patch was applied:\n>\t"
+                      + input.patch.patch.replaceAll("\n", "\n>\t"));
+
+      ObjectId appliedCommit =
+          CommitUtil.createCommitWithTree(
+              oi, authorIdent, committerIdent, baseCommit, commitMessage, treeId);
+      CodeReviewCommit commit = revWalk.parseCommit(appliedCommit);
+      oi.flush();
+
+      Change resultChange;
+      try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
+        bu.setRepository(repo, revWalk, oi);
+        resultChange =
+            insertPatchSet(bu, repo, patchSetInserterFactory, destChange.notes(), commit);
+      } catch (NoSuchChangeException | RepositoryNotFoundException e) {
+        throw new ResourceConflictException(e.getMessage());
+      }
+      ChangeJson json = jsonFactory.create(ListChangesOption.CURRENT_REVISION);
+      ChangeInfo changeInfo = json.format(resultChange);
+      return Response.ok(changeInfo);
+    }
+  }
+
+  @Override
+  public Description getDescription(ChangeResource rsrc) throws Exception {
+    return new Description()
+        .setLabel("Apply patch")
+        .setTitle("Applies the supplied patch into the current change.")
+        .setVisible(
+            psUtil.testPermissionsForAddingPatchSet(
+                projectCache.get(rsrc.getProject()).orElseThrow(), rsrc, null));
+  }
+
+  private static Change insertPatchSet(
+      BatchUpdate bu,
+      Repository git,
+      PatchSetInserter.Factory patchSetInserterFactory,
+      ChangeNotes destNotes,
+      CodeReviewCommit commit)
+      throws IOException, UpdateException, RestApiException {
+    Change destChange = destNotes.getChange();
+    PatchSet.Id psId = ChangeUtil.nextPatchSetId(git, destChange.currentPatchSetId());
+    PatchSetInserter inserter = patchSetInserterFactory.create(destNotes, psId, commit);
+    inserter.setMessage(buildMessageForPatchSet(psId));
+    bu.addOp(destChange.getId(), inserter);
+    bu.execute();
+    return inserter.getChange();
+  }
+
+  private static String buildMessageForPatchSet(PatchSet.Id psId) {
+    return new StringBuilder(String.format("Uploaded patch set %s.", psId.get())).toString();
   }
 }

@@ -113,6 +113,9 @@ public class ReviewerModifier {
      * resolving to an account/group/email.
      */
     public FailureBehavior otherFailureBehavior = FailureBehavior.FAIL;
+
+    /** Whether the visibility check for the reviewer account should be skipped. */
+    public boolean skipVisibilityCheck = false;
   }
 
   public static InternalReviewerInput newReviewerInput(
@@ -262,7 +265,13 @@ public class ReviewerModifier {
     IdentifiedUser reviewerUser;
     boolean exactMatchFound = false;
     try {
-      reviewerUser = accountResolver.resolveIncludeInactive(input.reviewer).asUniqueUser();
+      if (input instanceof InternalReviewerInput
+          && ((InternalReviewerInput) input).skipVisibilityCheck) {
+        reviewerUser =
+            accountResolver.resolveIncludeInactiveIgnoreVisibility(input.reviewer).asUniqueUser();
+      } else {
+        reviewerUser = accountResolver.resolveIncludeInactive(input.reviewer).asUniqueUser();
+      }
       if (input.reviewer.equalsIgnoreCase(reviewerUser.getName())
           || input.reviewer.equals(String.valueOf(reviewerUser.getAccountId()))) {
         exactMatchFound = true;

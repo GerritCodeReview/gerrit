@@ -559,6 +559,11 @@ public class AccountResolver {
     return searchImpl(input, searchers, this::canSeePredicate, AccountResolver::allVisible);
   }
 
+  public Result resolveIncludeInactiveIgnoreVisibility(String input)
+      throws ConfigInvalidException, IOException {
+    return searchImpl(input, searchers, this::allVisiblePredicate, AccountResolver::allVisible);
+  }
+
   public Result resolveIgnoreVisibility(String input) throws ConfigInvalidException, IOException {
     return searchImpl(input, searchers, this::allVisiblePredicate, AccountResolver::isActive);
   }

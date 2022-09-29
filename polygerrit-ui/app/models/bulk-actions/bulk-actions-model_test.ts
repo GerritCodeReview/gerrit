@@ -545,7 +545,7 @@ suite('bulk actions model test', () => {
     assert.deepEqual(changeAfterSync!.reviewers, c1.reviewers);
   });
 
-  test('sync ignores outdated fetch responses', async () => {
+  test.only('sync ignores outdated fetch responses', async () => {
     const c1 = createChange();
     c1._number = 1 as NumericChangeId;
     const c2 = createChange();
@@ -558,10 +558,12 @@ suite('bulk actions model test', () => {
     ).callsFake(() => promise);
     bulkActionsModel.sync([c1, c2]);
     assert.strictEqual(getChangesStub.callCount, 1);
+    console.log('before 1');
     await waitUntilObserved(
       bulkActionsModel.loadingState$,
       s => s === LoadingState.LOADING
     );
+    console.log('after 1');
     const responsePromise2 = mockPromise<ChangeInfo[]>();
 
     promise = responsePromise2;
@@ -573,10 +575,12 @@ suite('bulk actions model test', () => {
       {...createChange(), _number: 2, subject: 'Subject 2'},
     ] as ChangeInfo[]);
 
+    console.log('before 2');
     await waitUntilObserved(
       bulkActionsModel.loadingState$,
       s => s === LoadingState.LOADED
     );
+    console.log('after 2');
     const model = bulkActionsModel.getState();
     assert.strictEqual(
       model.allChanges.get(1 as NumericChangeId)?.subject,

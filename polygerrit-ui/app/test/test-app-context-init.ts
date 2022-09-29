@@ -207,6 +207,7 @@ export function createTestDependencies(
   const checksModelCreator = () =>
     new ChecksModel(
       appContext.routerModel,
+      resolver(changeViewModelToken),
       resolver(changeModelToken),
       appContext.reportingService,
       appContext.pluginsModel

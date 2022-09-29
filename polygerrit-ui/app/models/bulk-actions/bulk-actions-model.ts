@@ -240,6 +240,7 @@ export class BulkActionsModel
       changeNum => basicChanges.has(changeNum)
     );
     const selectableChangeNums = changes.map(c => c._number);
+    console.log(`update state loading ${changes.length}`);
     this.updateState({
       loadingState: LoadingState.LOADING,
       selectedChangeNums,
@@ -255,6 +256,9 @@ export class BulkActionsModel
         changes.map(c => c._number)
       );
     currentState = this.getState();
+    console.log(
+      `update state after await ${changes.length} ${selectableChangeNums} ${currentState.selectableChangeNums}`
+    );
     // Return early if sync has been called again since starting the load.
     if (selectableChangeNums !== currentState.selectableChangeNums) return;
     const allDetailedChanges: Map<NumericChangeId, ChangeInfo> = new Map();
@@ -265,6 +269,7 @@ export class BulkActionsModel
         this.mergeOldAndDetailedChangeInfos(basicChange, detailedChange)
       );
     }
+    console.log(`update state LOADED ${changes.length}`);
     this.setState({
       ...currentState,
       loadingState: LoadingState.LOADED,

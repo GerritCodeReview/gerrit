@@ -62,6 +62,7 @@ import {
   ChecksUpdate,
   PluginsModel,
 } from '../plugins/plugins-model';
+import {ChangeViewModel} from '../views/change';
 
 /**
  * The checks model maintains the state of checks for two patchsets: the latest
@@ -142,15 +143,6 @@ interface ChecksState {
    * can be picked up from the change model.
    */
   patchsetNumberSelected?: PatchSetNumber;
-  /**
-   * This is the attempt number selected by the user. If this is `undefined`
-   * (default), then for each run the latest attempt is displayed.
-   */
-  attemptNumberSelected: AttemptChoice;
-  /**
-   * Current filter set by the user in the runs panel or via URL.
-   */
-  runFilterRegexp: string;
   /** Checks data for the latest patchset. */
   pluginStateLatest: {
     [name: string]: ChecksProviderState;
@@ -216,11 +208,14 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
   );
 
   public checksSelectedAttemptNumber$ = select(
-    this.state$,
-    state => state.attemptNumberSelected
+    this.changeViewModel.attempt$,
+    attempt => attempt ?? LATEST_ATTEMPT
   );
 
-  public runFilterRegexp$ = select(this.state$, state => state.runFilterRegexp);
+  public runFilterRegexp$ = select(
+    this.changeViewModel.filter$,
+    filter => filter ?? ''
+  );
 
   public checksLatest$ = select(this.state$, state => state.pluginStateLatest);
 
@@ -379,14 +374,13 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
 
   constructor(
     readonly routerModel: RouterModel,
+    readonly changeViewModel: ChangeViewModel,
     readonly changeModel: ChangeModel,
     readonly reporting: ReportingService,
     readonly pluginsModel: PluginsModel
   ) {
     super({
       patchsetNumberSelected: undefined,
-      attemptNumberSelected: LATEST_ATTEMPT,
-      runFilterRegexp: '',
       pluginStateLatest: {},
       pluginStateSelected: {},
     });
@@ -658,11 +652,11 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
   }
 
   updateStateSetAttempt(attemptNumberSelected: AttemptChoice) {
-    this.updateState({attemptNumberSelected});
+    this.changeViewModel.updateState({attempt: attemptNumberSelected});
   }
 
   updateStateSetRunFilter(runFilterRegexp: string) {
-    this.updateState({runFilterRegexp});
+    this.changeViewModel.updateState({filter: runFilterRegexp});
   }
 
   setPatchset(num?: PatchSetNumber) {

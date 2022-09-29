@@ -31,9 +31,7 @@ import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -46,6 +44,7 @@ import com.google.gerrit.server.change.ResetCherryPickOp;
 import com.google.gerrit.server.change.SetCherryPickOp;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
+import com.google.gerrit.server.git.CommitUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.MergeUtil;
@@ -76,8 +75,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.errors.InvalidObjectIdException;
-import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -85,7 +82,6 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.ChangeIdUtil;
 
 @Singleton
@@ -267,7 +263,9 @@ public class CherryPickChange {
             String.format("Branch %s does not exist.", dest.branch()));
       }
 
-      RevCommit baseCommit = getBaseCommit(destRef, project.get(), revWalk, input.base);
+      RevCommit baseCommit =
+          CommitUtil.getBaseCommit(
+              project.get(), queryProvider.get(), revWalk, destRef, input.base);
 
       CodeReviewCommit commitToCherryPick = revWalk.parseCommit(sourceCommit);
 
@@ -382,57 +380,6 @@ public class CherryPickChange {
         return Result.create(changeId, cherryPickCommit.getFilesWithGitConflicts());
       }
     }
-  }
-
-  private RevCommit getBaseCommit(Ref destRef, String project, RevWalk revWalk, String base)
-      throws RestApiException, IOException {
-    RevCommit destRefTip = revWalk.parseCommit(destRef.getObjectId());
-    // The tip commit of the destination ref is the default base for the newly created change.
-    if (Strings.isNullOrEmpty(base)) {
-      return destRefTip;
-    }
-
-    ObjectId baseObjectId;
-    try {
-      baseObjectId = ObjectId.fromString(base);
-    } catch (InvalidObjectIdException e) {
-      throw new BadRequestException(
-          String.format("Base %s doesn't represent a valid SHA-1", base), e);
-    }
-
-    RevCommit baseCommit;
-    try {
-      baseCommit = revWalk.parseCommit(baseObjectId);
-    } catch (MissingObjectException e) {
-      throw new UnprocessableEntityException(
-          String.format("Base %s doesn't exist", baseObjectId.name()), e);
-    }
-
-    InternalChangeQuery changeQuery = queryProvider.get();
-    changeQuery.enforceVisibility(true);
-    List<ChangeData> changeDatas = changeQuery.byBranchCommit(project, destRef.getName(), base);
-
-    if (changeDatas.isEmpty()) {
-      if (revWalk.isMergedInto(baseCommit, destRefTip)) {
-        // The base commit is a merged commit with no change associated.
-        return baseCommit;
-      }
-      throw new UnprocessableEntityException(
-          String.format("Commit %s does not exist on branch %s", base, destRef.getName()));
-    } else if (changeDatas.size() != 1) {
-      throw new ResourceConflictException("Multiple changes found for commit " + base);
-    }
-
-    Change change = changeDatas.get(0).change();
-    if (!change.isAbandoned()) {
-      // The base commit is a valid change revision.
-      return baseCommit;
-    }
-
-    throw new ResourceConflictException(
-        String.format(
-            "Change %s with commit %s is %s",
-            change.getChangeId(), base, ChangeUtil.status(change)));
   }
 
   private Change.Id insertPatchSet(

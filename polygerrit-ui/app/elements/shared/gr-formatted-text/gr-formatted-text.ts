@@ -130,6 +130,8 @@ export class GrFormattedText extends LitElement {
       this.repoCommentLinks
     );
 
+    console.log('linkedText', linkedText);
+
     return html`
       <pre class="plaintext">${sanitizeHtmlToFragment(linkedText)}</pre>
     `;

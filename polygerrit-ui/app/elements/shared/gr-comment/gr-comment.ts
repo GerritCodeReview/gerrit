@@ -968,8 +968,16 @@ export class GrComment extends LitElement {
 
   override willUpdate(changed: PropertyValues) {
     this.firstWillUpdate();
+    if (changed.has('editing') || changed.has('comment')) {
+      this.reflectCommentToInternalFields();
+    }
     if (changed.has('editing')) {
-      this.onEditingChanged();
+      // Parent components such as the reply dialog might be interested in whether
+      // come of their child components are in editing mode.
+      fire(this, 'comment-editing-changed', {
+        editing: this.editing,
+        path: this.comment?.path ?? '',
+      });
     }
     if (changed.has('unresolved')) {
       // The <gr-comment-thread> component wants to change its color based on
@@ -1047,22 +1055,14 @@ export class GrComment extends LitElement {
     throw new Error('unable to create preview fix event');
   }
 
-  private onEditingChanged() {
-    if (this.editing) {
-      this.collapsed = false;
-      this.messageText = this.comment?.message ?? '';
-      this.unresolved = this.comment?.unresolved ?? true;
-      this.originalMessage = this.messageText;
-      this.originalUnresolved = this.unresolved;
-      setTimeout(() => this.textarea?.putCursorAtEnd(), 1);
-    }
-
-    // Parent components such as the reply dialog might be interested in whether
-    // come of their child components are in editing mode.
-    fire(this, 'comment-editing-changed', {
-      editing: this.editing,
-      path: this.comment?.path ?? '',
-    });
+  private reflectCommentToInternalFields() {
+    if (!this.editing) return;
+    this.collapsed = false;
+    this.messageText = this.comment?.message ?? '';
+    this.unresolved = this.comment?.unresolved ?? true;
+    this.originalMessage = this.messageText;
+    this.originalUnresolved = this.unresolved;
+    setTimeout(() => this.textarea?.putCursorAtEnd(), 1);
   }
 
   // private, but visible for testing

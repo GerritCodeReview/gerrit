@@ -154,7 +154,10 @@ export class GrFormattedText extends LitElement {
     //    for this.
     // 4. Rewrite plain text ("text") to apply linking and other config-based
     //    rewrites. Text within code blocks is not passed here.
+    // 5. Open links in a new tab by rendering with target="_blank" attribute.
     function customRenderer(renderer: {[type: string]: Function}) {
+      renderer['link'] = (href: string, _title: string, text: string) =>
+        `<a href="${href}" target="_blank" rel="noopener">${text}</a>`;
       renderer['image'] = (href: string, _title: string, text: string) =>
         `![${text}](${href})`;
       renderer['codespan'] = (text: string) =>

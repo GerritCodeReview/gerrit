@@ -209,9 +209,7 @@ export type ShowErrorEvent = CustomEvent<ShowErrorEventDetail>;
 // Type for the custom event to switch tab.
 export interface SwitchTabEventDetail {
   // name of the tab to set as active, from custom event
-  tab?: string;
-  // index of tab to set as active, from paper-tabs event
-  value?: number;
+  tab: string;
   // scroll into the tab afterwards, from custom event
   scrollIntoView?: boolean;
   // define state of tab after opening

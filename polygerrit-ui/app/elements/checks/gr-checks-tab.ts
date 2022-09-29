@@ -3,7 +3,7 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {LitElement, css, html, PropertyValues} from 'lit';
+import {LitElement, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {
   CheckResult,
@@ -22,7 +22,6 @@ import {Deduping} from '../../api/reporting';
 import {Interaction} from '../../constants/reporting';
 import {resolve} from '../../models/dependency';
 import {GrChecksRuns} from './gr-checks-runs';
-import {LATEST_ATTEMPT} from '../../models/checks/checks-util';
 
 /**
  * The "Checks" tab on the Gerrit change page. Gets its data from plugins that
@@ -145,18 +144,6 @@ export class GrChecksTab extends LitElement {
         ></gr-checks-results>
       </div>
     `;
-  }
-
-  protected override updated(changedProperties: PropertyValues) {
-    super.updated(changedProperties);
-    if (changedProperties.has('tabState')) this.tabStateUpdated();
-  }
-
-  private tabStateUpdated() {
-    if (!this.tabState?.checksTab) return;
-    const {attempt, filter} = this.tabState.checksTab;
-    this.getChecksModel().updateStateSetAttempt(attempt ?? LATEST_ATTEMPT);
-    this.getChecksModel().updateStateSetRunFilter(filter ?? '');
   }
 
   handleRunSelected(e: RunSelectedEvent) {

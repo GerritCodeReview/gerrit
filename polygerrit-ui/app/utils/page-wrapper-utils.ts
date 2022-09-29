@@ -14,6 +14,7 @@ export interface Page {
   (pageCallback: PageCallback): void;
   show(url: string): void;
   redirect(url: string): void;
+  replace(path: string, state: null, init: boolean, dispatch: boolean): void;
   base(url: string): void;
   start(): void;
   exit(pattern: string | RegExp, ...pageCallback: PageCallback[]): void;

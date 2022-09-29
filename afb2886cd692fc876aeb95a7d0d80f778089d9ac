@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4b7ba9ea_b22dc3ae",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-29T13:47:36Z",
+      "side": 1,
+      "message": "Because the test is about making two different calls and the second one winning. So making the calls actually different is a good thing.\n\nOf course, the `deepEqual` is not a perfect check. Neither was the `!\u003d\u003d` a perfect check. In such cases, what you really want to use is a `switchMap`, but I don\u0027t feel responsible for cleaning up the bulk actions model at the moment. This entire change is already a distraction from what I am actually trying to achieve. :-)",
+      "parentUuid": "3dafa6fe_3c74ef11",
+      "revId": "afb2886cd692fc876aeb95a7d0d80f778089d9ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6fb055aa_4ce964ea",
         "filename": "polygerrit-ui/app/models/model.ts",
         "patchSetId": 2
@@ -31,6 +49,24 @@
       "writtenOn": "2022-09-29T13:37:10Z",
       "side": 1,
       "message": "This can become quite expensive for larger models. I\u0027d like to see benchmarks for this.",
+      "revId": "afb2886cd692fc876aeb95a7d0d80f778089d9ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "059fbd07_25a59a7f",
+        "filename": "polygerrit-ui/app/models/model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-29T13:47:36Z",
+      "side": 1,
+      "message": "Normally I tend to argue the other way around: You can only argue about performance, if you can actually prove that something has a substantial performance cost. \"Premature Optimization Is the Root of All Evil\".\n\nTriggering subscriptions twice can have unintentional consequences. This change prevents that and makes state updates easier to reason about.\n\nI doubt that calling `deepEqual()` matters much. If we don\u0027t worry about the amount of `setState()` calls and all the renderings in response to it, then why would we worry about a `deepEqual()`, which is more likely to prevent unnecessary latency than causing it?",
+      "parentUuid": "6fb055aa_4ce964ea",
       "revId": "afb2886cd692fc876aeb95a7d0d80f778089d9ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

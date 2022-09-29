@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdb00886_4bfb520d",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 941,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-29T13:43:52Z",
+      "side": 1,
+      "message": "maybe add a comment why we need to create a new comment everytime the message changes?",
+      "range": {
+        "startLine": 941,
+        "startChar": 10,
+        "endLine": 941,
+        "endChar": 67
+      },
+      "revId": "41cab64fb00bb0a59ec73d641cd681e978be4672",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a15dadbc_32747640",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 971,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-29T13:43:52Z",
+      "side": 1,
+      "message": "maybe write why we are triggering onEditingChanged?\nI would prefer we make it explicit that we want the message updated.\nIdeally we have a method `updateMessageText` or something like that.\nWDYT?",
+      "range": {
+        "startLine": 971,
+        "startChar": 34,
+        "endLine": 971,
+        "endChar": 56
+      },
+      "revId": "41cab64fb00bb0a59ec73d641cd681e978be4672",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

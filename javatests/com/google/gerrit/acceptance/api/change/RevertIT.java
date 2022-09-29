@@ -26,8 +26,10 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.BranchNameKey;
@@ -49,6 +51,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.validators.CommitValidationException;
@@ -58,6 +61,7 @@ import com.google.gerrit.server.permissions.PermissionDeniedException;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.Inject;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -70,6 +74,7 @@ import org.junit.Test;
 
 public class RevertIT extends AbstractDaemonTest {
 
+  @Inject private GroupOperations groupOperations;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
@@ -421,6 +426,157 @@ public class RevertIT extends AbstractDaemonTest {
         result.get(ReviewerState.CC).stream().map(a -> a._accountId).collect(toList());
     assertThat(ccs).containsExactly(accountCreator.user2().id().get());
     assertThat(reviewers).containsExactly(user.id().get(), admin.id().get());
+  }
+
+  @Test
+  @GerritConfig(name = "accounts.visibility", value = "SAME_GROUP")
+  public void revertReviewerNotVisible() throws Exception {
+    // Define more readable names for the users we use in this test.
+    TestAccount changeOwner = admin;
+    TestAccount reviewer = accountCreator.user2();
+    TestAccount reverter = user;
+
+    // Make changeOwner visible to reverter by creating a group that contains both users as a
+    // member.
+    groupOperations.newGroup().name("SameGroup").members(changeOwner.id(), reverter.id()).create();
+
+    // Check that the reverter can see the changeOwner, but not the reviewer.
+    requestScopeOperations.setApiUser(reverter.id());
+    assertThatAccountIsVisible(changeOwner);
+    assertThatAccountIsNotVisible(reviewer);
+
+    // Create the change, add the reviewer, approve the change and submit it.
+    requestScopeOperations.setApiUser(changeOwner.id());
+    PushOneCommit.Result r = createChange();
+    ReviewInput in = ReviewInput.approve();
+    in.reviewer(reviewer.email());
+    gApi.changes().id(r.getChangeId()).current().review(in);
+    gApi.changes().id(r.getChangeId()).current().submit();
+
+    // Revert the change.
+    requestScopeOperations.setApiUser(reverter.id());
+    String revertChangeId = gApi.changes().id(r.getChangeId()).revert().get().changeId;
+
+    // Expected reviewers: changeOwner, reviewer (although the reviewer account is not visible):
+    // Revert doesn't check the reviewer/CC visibility. Since the reverter can see the reverted
+    // change, they can also see its reviewers/CCs. This means preserving them on the revert change
+    // doesn't expose their account existence and it's OK to keep them even if their accounts are
+    // not visible to the reverter.
+    assertReviewers(revertChangeId, changeOwner, reviewer);
+    assertNoCcs(revertChangeId);
+  }
+
+  @Test
+  @GerritConfig(name = "accounts.visibility", value = "SAME_GROUP")
+  public void revertCcNotVisible() throws Exception {
+    // Define more readable names for the users we use in this test.
+    TestAccount changeOwner = admin;
+    TestAccount cc = accountCreator.user2();
+    TestAccount reverter = user;
+
+    // Make changeOwner visible to reverter by creating a group that contains both users as a
+    // member.
+    groupOperations.newGroup().name("SameGroup").members(changeOwner.id(), reverter.id()).create();
+
+    // Check that the reverter can see the changeOwner, but not the cc.
+    requestScopeOperations.setApiUser(reverter.id());
+    assertThatAccountIsVisible(changeOwner);
+    assertThatAccountIsNotVisible(cc);
+
+    // Create the change, add the cc, approve the change and submit it.
+    requestScopeOperations.setApiUser(changeOwner.id());
+    PushOneCommit.Result r = createChange();
+    ReviewInput in = ReviewInput.approve();
+    in.cc(cc.email());
+    gApi.changes().id(r.getChangeId()).current().review(in);
+    gApi.changes().id(r.getChangeId()).current().submit();
+
+    // Revert the change.
+    requestScopeOperations.setApiUser(reverter.id());
+    String revertChangeId = gApi.changes().id(r.getChangeId()).revert().get().changeId;
+
+    // Expected reviewer: changeOwner
+    // Expected CC: cc (although the cc account is not visible)
+    // Revert doesn't check the reviewer/CC visibility. Since the reverter can see the reverted
+    // change, they can also see its reviewers/CCs. This means preserving them on the revert change
+    // doesn't expose their account existence and it's OK to keep them even if their accounts are
+    // not visible to the reverter.
+    assertReviewers(revertChangeId, changeOwner);
+    assertCcs(revertChangeId, cc);
+  }
+
+  @Test
+  @GerritConfig(name = "accounts.visibility", value = "SAME_GROUP")
+  public void revertChangeOwnerNotVisible() throws Exception {
+    // Define more readable names for the users we use in this test.
+    TestAccount reverter = user;
+    TestAccount changeOwner = admin;
+
+    // Check that the reverter cannot see the changeOwner.
+    requestScopeOperations.setApiUser(reverter.id());
+    assertThatAccountIsNotVisible(changeOwner);
+
+    // Create the change, approve and submit it.
+    requestScopeOperations.setApiUser(changeOwner.id());
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).current().submit();
+
+    // Revert the change.
+    requestScopeOperations.setApiUser(reverter.id());
+    String revertChangeId = gApi.changes().id(r.getChangeId()).revert().get().changeId;
+
+    // Expected reviewer: changeOwner (although the change owner account is not visible)
+    // Revert doesn't check the reviewer/CC visibility. Since the reverter can see the reverted
+    // change, they can also see its reviewers/CCs. This means preserving them on the revert change
+    // doesn't expose their account existence and it's OK to keep them even if their accounts are
+    // not visible to the reverter.
+    assertReviewers(revertChangeId, changeOwner);
+    assertNoCcs(revertChangeId);
+  }
+
+  @Test
+  @GerritConfig(name = "accounts.visibility", value = "SAME_GROUP")
+  public void revertAuthorAndCommitterNotVisible() throws Exception {
+    // Define more readable names for the users we use in this test.
+    TestAccount reverter = user;
+    TestAccount changeOwner = admin;
+    TestAccount authorCommitter = accountCreator.user2();
+
+    // Make changeOwner visible to reverter by creating a group that contains both users as a
+    // member.
+    groupOperations.newGroup().name("SameGroup").members(changeOwner.id(), reverter.id()).create();
+
+    // Check that the reverter can see the changeOwner, but not the authorCommitter.
+    requestScopeOperations.setApiUser(reverter.id());
+    assertThatAccountIsVisible(changeOwner);
+    assertThatAccountIsNotVisible(authorCommitter);
+
+    // Create the change with authorCommitter as the author and the committer.
+    requestScopeOperations.setApiUser(changeOwner.id());
+    PushOneCommit push = pushFactory.create(authorCommitter.newIdent(), testRepo);
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertOkStatus();
+
+    // Pushing a commit with a forged author/committer adds the author/committer as a CC.
+    assertCcs(r.getChangeId(), authorCommitter);
+
+    // Approve and submit the change.
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).current().submit();
+
+    // Revert the change.
+    requestScopeOperations.setApiUser(reverter.id());
+    String revertChangeId = gApi.changes().id(r.getChangeId()).revert().get().changeId;
+
+    // Expected reviewer: changeOwner
+    // Expected CC: authorCommitter (although the authorCommitter account is not visible)
+    // Revert doesn't check the reviewer/CC visibility. Since the reverter can see the reverted
+    // change, they can also see its reviewers/CCs. This means preserving them on the revert change
+    // doesn't expose their account existence and it's OK to keep them even if their accounts are
+    // not visible to the reverter.
+    assertReviewers(revertChangeId, changeOwner);
+    assertCcs(revertChangeId, authorCommitter);
   }
 
   @Test
@@ -1444,6 +1600,46 @@ public class RevertIT extends AbstractDaemonTest {
     PushOneCommit.Result result = push.to(ref);
     result.assertOkStatus();
     return result;
+  }
+
+  private void assertThatAccountIsVisible(TestAccount testAccount) throws RestApiException {
+    // Trying to get the account details fails with ResourceNotFoundException if the account is not
+    // visible.
+    gApi.accounts().id(testAccount.id().get()).get();
+  }
+
+  private void assertThatAccountIsNotVisible(TestAccount testAccount) {
+    assertThrows(
+        ResourceNotFoundException.class, () -> gApi.accounts().id(testAccount.id().get()).get());
+  }
+
+  private void assertReviewers(String changeId, TestAccount... expectedReviewers)
+      throws RestApiException {
+    Map<ReviewerState, Collection<AccountInfo>> reviewerMap =
+        gApi.changes().id(changeId).get().reviewers;
+    assertThat(reviewerMap).containsKey(ReviewerState.REVIEWER);
+    List<Integer> reviewers =
+        reviewerMap.get(ReviewerState.REVIEWER).stream().map(a -> a._accountId).collect(toList());
+    assertThat(reviewers)
+        .containsExactlyElementsIn(
+            Arrays.stream(expectedReviewers).map(a -> a.id().get()).collect(toList()));
+  }
+
+  private void assertCcs(String changeId, TestAccount... expectedCcs) throws RestApiException {
+    Map<ReviewerState, Collection<AccountInfo>> reviewerMap =
+        gApi.changes().id(changeId).get().reviewers;
+    assertThat(reviewerMap).containsKey(ReviewerState.CC);
+    List<Integer> ccs =
+        reviewerMap.get(ReviewerState.CC).stream().map(a -> a._accountId).collect(toList());
+    assertThat(ccs)
+        .containsExactlyElementsIn(
+            Arrays.stream(expectedCcs).map(a -> a.id().get()).collect(toList()));
+  }
+
+  private void assertNoCcs(String changeId) throws RestApiException {
+    Map<ReviewerState, Collection<AccountInfo>> reviewerMap =
+        gApi.changes().id(changeId).get().reviewers;
+    assertThat(reviewerMap).doesNotContainKey(ReviewerState.CC);
   }
 
   private void addPureRevertSubmitRule() throws Exception {

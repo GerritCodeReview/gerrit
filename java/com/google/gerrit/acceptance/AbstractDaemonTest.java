@@ -1253,24 +1253,98 @@ public abstract class AbstractDaemonTest {
     assertThat(refValues.keySet()).containsAnyIn(trees.keySet());
   }
 
+  protected void assertDiffForFullyModifiedFile(
+      DiffInfo diff,
+      String commitName,
+      String path,
+      String expectedContentSideA,
+      String expectedContentSideB)
+      throws Exception {
+    assertDiffForFile(diff, commitName, path);
+
+    ImmutableList<String> expectedOldLines =
+        ImmutableList.copyOf(expectedContentSideA.split("\n", -1));
+    ImmutableList<String> expectedNewLines =
+        ImmutableList.copyOf(expectedContentSideB.split("\n", -1));
+
+    assertThat(diff.changeType).isEqualTo(ChangeType.MODIFIED);
+
+    assertThat(diff.metaA).isNotNull();
+    assertThat(diff.metaB).isNotNull();
+
+    assertThat(diff.metaA.name).isEqualTo(path);
+    assertThat(diff.metaA.lines).isEqualTo(expectedOldLines.size());
+    assertThat(diff.metaB.name).isEqualTo(path);
+    assertThat(diff.metaB.lines).isEqualTo(expectedNewLines.size());
+
+    DiffInfo.ContentEntry contentEntry = diff.content.get(0);
+    assertThat(contentEntry.a).containsExactlyElementsIn(expectedOldLines).inOrder();
+    assertThat(contentEntry.b).containsExactlyElementsIn(expectedNewLines).inOrder();
+    assertThat(contentEntry.ab).isNull();
+    assertThat(contentEntry.common).isNull();
+    assertThat(contentEntry.editA).isNull();
+    assertThat(contentEntry.editB).isNull();
+    assertThat(contentEntry.skip).isNull();
+  }
+
   protected void assertDiffForNewFile(
-      DiffInfo diff, RevCommit commit, String path, String expectedContentSideB) throws Exception {
+      DiffInfo diff, @Nullable RevCommit commit, String path, String expectedContentSideB)
+      throws Exception {
     assertDiffForNewFile(diff, commit.name(), path, expectedContentSideB);
   }
 
   protected void assertDiffForNewFile(
       DiffInfo diff, String commitName, String path, String expectedContentSideB) throws Exception {
-    List<String> expectedLines = ImmutableList.copyOf(expectedContentSideB.split("\n", -1));
+    assertDiffForFile(diff, commitName, path);
 
-    assertThat(diff.binary).isNull();
+    ImmutableList<String> expectedLines =
+        ImmutableList.copyOf(expectedContentSideB.split("\n", -1));
+
     assertThat(diff.changeType).isEqualTo(ChangeType.ADDED);
-    assertThat(diff.diffHeader).isNotNull();
-    assertThat(diff.intralineStatus).isNull();
-    assertThat(diff.webLinks).isNull();
-    assertThat(diff.editWebLinks).isNull();
 
     assertThat(diff.metaA).isNull();
     assertThat(diff.metaB).isNotNull();
+
+    assertThat(diff.metaB.name).isEqualTo(path);
+    assertThat(diff.metaB.lines).isEqualTo(expectedLines.size());
+
+    DiffInfo.ContentEntry contentEntry = diff.content.get(0);
+    assertThat(contentEntry.b).containsExactlyElementsIn(expectedLines).inOrder();
+    assertThat(contentEntry.a).isNull();
+    assertThat(contentEntry.ab).isNull();
+    assertThat(contentEntry.common).isNull();
+    assertThat(contentEntry.editA).isNull();
+    assertThat(contentEntry.editB).isNull();
+    assertThat(contentEntry.skip).isNull();
+  }
+
+  protected void assertDiffForDeletedFile(DiffInfo diff, String path, String expectedContentSideA)
+      throws Exception {
+    assertDiffHeaders(diff);
+
+    ImmutableList<String> expectedOriginalLines =
+        ImmutableList.copyOf(expectedContentSideA.split("\n", -1));
+
+    assertThat(diff.changeType).isEqualTo(ChangeType.DELETED);
+
+    assertThat(diff.metaA).isNotNull();
+    assertThat(diff.metaB).isNull();
+
+    assertThat(diff.metaA.name).isEqualTo(path);
+    assertThat(diff.metaA.lines).isEqualTo(expectedOriginalLines.size());
+
+    DiffInfo.ContentEntry contentEntry = diff.content.get(0);
+    assertThat(contentEntry.a).containsExactlyElementsIn(expectedOriginalLines).inOrder();
+    assertThat(contentEntry.b).isNull();
+    assertThat(contentEntry.ab).isNull();
+    assertThat(contentEntry.common).isNull();
+    assertThat(contentEntry.editA).isNull();
+    assertThat(contentEntry.editB).isNull();
+    assertThat(contentEntry.skip).isNull();
+  }
+
+  private void assertDiffForFile(DiffInfo diff, String commitName, String path) throws Exception {
+    assertDiffHeaders(diff);
 
     assertThat(diff.metaB.commitId).isEqualTo(commitName);
 
@@ -1280,21 +1354,19 @@ public abstract class AbstractDaemonTest {
     } else if (MERGE_LIST.equals(path)) {
       expectedContentType = FileContentUtil.TEXT_X_GERRIT_MERGE_LIST;
     }
+
     assertThat(diff.metaB.contentType).isEqualTo(expectedContentType);
 
-    assertThat(diff.metaB.lines).isEqualTo(expectedLines.size());
     assertThat(diff.metaB.name).isEqualTo(path);
     assertThat(diff.metaB.webLinks).isNull();
+  }
 
-    assertThat(diff.content).hasSize(1);
-    DiffInfo.ContentEntry contentEntry = diff.content.get(0);
-    assertThat(contentEntry.b).containsExactlyElementsIn(expectedLines).inOrder();
-    assertThat(contentEntry.a).isNull();
-    assertThat(contentEntry.ab).isNull();
-    assertThat(contentEntry.common).isNull();
-    assertThat(contentEntry.editA).isNull();
-    assertThat(contentEntry.editB).isNull();
-    assertThat(contentEntry.skip).isNull();
+  private void assertDiffHeaders(DiffInfo diff) throws Exception {
+    assertThat(diff.binary).isNull();
+    assertThat(diff.diffHeader).isNotNull();
+    assertThat(diff.intralineStatus).isNull();
+    assertThat(diff.webLinks).isNull();
+    assertThat(diff.editWebLinks).isNull();
   }
 
   protected void assertPermitted(ChangeInfo info, String label, Integer... expected) {

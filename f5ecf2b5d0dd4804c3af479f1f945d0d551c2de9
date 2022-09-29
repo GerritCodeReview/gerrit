@@ -16,6 +16,24 @@
       "message": "This impacts the latency of initial page load. I don\u0027t think we can wait for this.",
       "revId": "f5ecf2b5d0dd4804c3af479f1f945d0d551c2de9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9995004a_436b3fdc",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1108045
+      },
+      "writtenOn": "2022-09-29T11:24:59Z",
+      "side": 1,
+      "message": "I thought about this, but I don\u0027t know how expensive it actually is - I saw we were already querying accounts, for instance, and the call is really fast locally and on my (small) production hosts.\n\nI do believe that proper link previews are quite important for usability - any thought on how we could approach this? Perhaps we could route specific, known user agents to a dedicated link preview servlet?",
+      "parentUuid": "1927d584_87aae588",
+      "revId": "f5ecf2b5d0dd4804c3af479f1f945d0d551c2de9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

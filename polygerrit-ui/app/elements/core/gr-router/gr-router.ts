@@ -59,7 +59,11 @@ import {
   GroupViewState,
 } from '../../../models/views/group';
 import {DiffViewModel, DiffViewState} from '../../../models/views/diff';
-import {ChangeViewModel, ChangeViewState} from '../../../models/views/change';
+import {
+  ChangeViewModel,
+  ChangeViewState,
+  createChangeUrl,
+} from '../../../models/views/change';
 import {EditViewModel, EditViewState} from '../../../models/views/edit';
 import {
   DashboardViewModel,
@@ -80,6 +84,7 @@ import {
 import {PluginViewModel, PluginViewState} from '../../../models/views/plugin';
 import {SearchViewModel, SearchViewState} from '../../../models/views/search';
 import {DashboardSection} from '../../../utils/dashboard-util';
+import {Subscription} from 'rxjs';
 
 const RoutePattern = {
   ROOT: '/',
@@ -279,6 +284,10 @@ export class GrRouter implements Finalizable, NavigationService {
   // and for first navigation in app after loaded from server (true).
   _isInitialLoad = true;
 
+  private subscriptions: Subscription[] = [];
+
+  private view?: GerritView;
+
   constructor(
     private readonly reporting: ReportingService,
     private readonly routerModel: RouterModel,
@@ -295,9 +304,34 @@ export class GrRouter implements Finalizable, NavigationService {
     private readonly repoViewModel: RepoViewModel,
     private readonly searchViewModel: SearchViewModel,
     private readonly settingsViewModel: SettingsViewModel
-  ) {}
+  ) {
+    this.subscriptions = [
+      // TODO: Do the same for other view models.
+      // We want to make sure that the current view model state is always
+      // reflected back into the URL bar.
+      this.changeViewModel.state$.subscribe(state => {
+        if (!state) return;
+        if (this.view !== GerritView.CHANGE) return;
+        const browserUrl = window.location.toString();
+        const stateUrl = new URL(createChangeUrl(state), browserUrl).toString();
+        if (browserUrl !== stateUrl) {
+          page.replace(
+            stateUrl,
+            null,
+            /* init: */ false,
+            /* dispatch: */ false
+          );
+        }
+      }),
+      this.routerModel.routerView$.subscribe(view => (this.view = view)),
+    ];
+  }
 
-  finalize(): void {}
+  finalize(): void {
+    for (const subscription of this.subscriptions) {
+      subscription.unsubscribe();
+    }
+  }
 
   start() {
     if (!this._app) {
@@ -1329,23 +1363,8 @@ export class GrRouter implements Finalizable, NavigationService {
     };
 
     const queryMap = new URLSearchParams(ctx.querystring);
-    if (queryMap.has('forceReload')) {
-      state.forceReload = true;
-      history.replaceState(
-        null,
-        '',
-        location.href.replace(/[?&]forceReload=true/, '')
-      );
-    }
-
-    if (queryMap.has('openReplyDialog')) {
-      state.openReplyDialog = true;
-      history.replaceState(
-        null,
-        '',
-        location.href.replace(/[?&]openReplyDialog=true/, '')
-      );
-    }
+    if (queryMap.has('forceReload')) state.forceReload = true;
+    if (queryMap.has('openReplyDialog')) state.openReplyDialog = true;
 
     const tab = queryMap.get('tab');
     if (tab) state.tab = tab;

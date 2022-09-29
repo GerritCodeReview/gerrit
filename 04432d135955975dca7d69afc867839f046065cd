@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a31f0fa_279bf2d7",
+        "filename": "polygerrit-ui/app/utils/link-util_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-29T09:26:33Z",
+      "side": 1,
+      "message": "Just curious: Why is \\b typically not being used for matching a word boundary?",
+      "revId": "04432d135955975dca7d69afc867839f046065cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

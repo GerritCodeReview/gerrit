@@ -116,7 +116,7 @@ public class AndSource<T> extends AndPredicate<T> implements DataSource<T> {
             int pageSizeMultiplier = opts.pageSizeMultiplier();
             Object searchAfter = resultSet.searchAfter();
             int nextStart = pageResultSize;
-            while (pageResultSize == pageSize && r.size() < limit) {
+            while (pageResultSize == pageSize && r.size() - 1 < limit) {
               pageSize = getNextPageSize(pageSize, pageSizeMultiplier);
               ResultSet<T> next =
                   indexConfig.paginationType().equals(PaginationType.SEARCH_AFTER)

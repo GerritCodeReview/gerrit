@@ -52,6 +52,24 @@
       "parentUuid": "92869944_df37e3bd",
       "revId": "07729245e36a7430a0265c5eba3f15a788e4905f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "312ddf04_1be74ba3",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-29T08:11:53Z",
+      "side": 1,
+      "message": "Right, sorry I created the wrong order. This method is now obsolete after I switch the order of the stacked changes.",
+      "parentUuid": "1c039e1c_069730dd",
+      "revId": "07729245e36a7430a0265c5eba3f15a788e4905f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

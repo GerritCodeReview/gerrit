@@ -22,6 +22,30 @@
       },
       "revId": "cecd5bcab729cdedac04a59404307dc546c89bde",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55a163e1_0001aedc",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-29T08:11:53Z",
+      "side": 1,
+      "message": "I think it\u0027s fine to take this union type given the model isn\u0027t really using this type anywhere else?\nI guess we could ask callers to send the changeNums like you said but I don\u0027t see a major downside of having this type here.",
+      "parentUuid": "a5cd0341_b8abcce0",
+      "range": {
+        "startLine": 238,
+        "startChar": 0,
+        "endLine": 238,
+        "endChar": 68
+      },
+      "revId": "cecd5bcab729cdedac04a59404307dc546c89bde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

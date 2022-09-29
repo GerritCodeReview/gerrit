@@ -11,6 +11,7 @@ import {
   ChangeInfo,
   PatchSetNumber,
 } from '../../api/rest-api';
+import {Tab} from '../../constants/constants';
 import {GerritView} from '../../services/router/router-model';
 import {UrlEncodedCommentId} from '../../types/common';
 import {select} from '../../utils/observable-util';
@@ -33,7 +34,8 @@ export interface ChangeViewState extends ViewState {
   patchNum?: RevisionPatchSetNum;
   basePatchNum?: BasePatchSetNum;
   commentId?: UrlEncodedCommentId;
-  tab?: string;
+  /** This can be a string only for plugin provided tabs. */
+  tab?: Tab | string;
 
   /** Checks related view state */
 
@@ -106,6 +108,9 @@ export function createChangeUrl(
   }
   if (state.filter) {
     queries.push(`filter=${state.filter}`);
+  }
+  if (state.tab && state.tab !== Tab.FILES) {
+    queries.push(`tab=${state.tab}`);
   }
   if (state.forceReload) {
     queries.push('forceReload=true');

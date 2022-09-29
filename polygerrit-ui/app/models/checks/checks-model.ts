@@ -138,11 +138,6 @@ export interface ChecksProviderState {
 }
 
 interface ChecksState {
-  /**
-   * This is the patchset number selected by the user. The *latest* patchset
-   * can be picked up from the change model.
-   */
-  patchsetNumberSelected?: PatchSetNumber;
   /** Checks data for the latest patchset. */
   pluginStateLatest: {
     [name: string]: ChecksProviderState;
@@ -202,9 +197,10 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
 
   private subscriptions: Subscription[] = [];
 
+  // TODO: Maybe consider migrating usages to `changeViewModel` directly.
   public checksSelectedPatchsetNumber$ = select(
-    this.state$,
-    state => state.patchsetNumberSelected
+    this.changeViewModel.checksPatchset$,
+    ps => ps
   );
 
   public checksSelectedAttemptNumber$ = select(
@@ -219,10 +215,12 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
 
   public checksLatest$ = select(this.state$, state => state.pluginStateLatest);
 
-  public checksSelected$ = select(this.state$, state =>
-    state.patchsetNumberSelected
-      ? state.pluginStateSelected
-      : state.pluginStateLatest
+  public checksSelected$ = select(
+    combineLatest([this.state$, this.changeViewModel.checksPatchset$]),
+    ([state, ps]) => {
+      const checksPs = ps ? ChecksPatchset.SELECTED : ChecksPatchset.LATEST;
+      return this.getPluginState(state, checksPs);
+    }
   );
 
   public aPluginHasRegistered$ = select(
@@ -380,7 +378,6 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
     readonly pluginsModel: PluginsModel
   ) {
     super({
-      patchsetNumberSelected: undefined,
       pluginStateLatest: {},
       pluginStateSelected: {},
     });
@@ -398,19 +395,6 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
       this.pluginsModel.checksUpdate$.subscribe(u => this.updateResult(u)),
       this.checkToPluginMap$.subscribe(map => {
         this.checkToPluginMap = map;
-      }),
-      combineLatest([
-        this.routerModel.routerPatchNum$,
-        this.changeModel.latestPatchNum$,
-      ]).subscribe(([routerPs, latestPs]) => {
-        this.latestPatchNum = latestPs;
-        if (latestPs === undefined) {
-          this.setPatchset(undefined);
-        } else if (typeof routerPs === 'number') {
-          this.setPatchset(routerPs);
-        } else {
-          this.setPatchset(latestPs);
-        }
       }),
       this.firstLoadCompleted$
         .pipe(
@@ -649,8 +633,10 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
     this.setState(nextState);
   }
 
-  updateStateSetPatchset(patchsetNumberSelected?: PatchSetNumber) {
-    this.updateState({patchsetNumberSelected});
+  updateStateSetPatchset(num?: PatchSetNumber) {
+    this.changeViewModel.updateState({
+      checksPatchset: num === this.latestPatchNum ? undefined : num,
+    });
   }
 
   updateStateSetAttempt(attemptNumberSelected: AttemptChoice) {
@@ -659,10 +645,6 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
 
   updateStateSetRunFilter(runFilterRegexp: string) {
     this.changeViewModel.updateState({filter: runFilterRegexp});
-  }
-
-  setPatchset(num?: PatchSetNumber) {
-    this.updateStateSetPatchset(num === this.latestPatchNum ? undefined : num);
   }
 
   reload(pluginName: string) {

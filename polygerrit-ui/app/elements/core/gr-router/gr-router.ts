@@ -59,7 +59,11 @@ import {
   GroupViewState,
 } from '../../../models/views/group';
 import {DiffViewModel, DiffViewState} from '../../../models/views/diff';
-import {ChangeViewModel, ChangeViewState} from '../../../models/views/change';
+import {
+  ChangeViewModel,
+  ChangeViewState,
+  createChangeUrl,
+} from '../../../models/views/change';
 import {EditViewModel, EditViewState} from '../../../models/views/edit';
 import {
   DashboardViewModel,
@@ -80,6 +84,7 @@ import {
 import {PluginViewModel, PluginViewState} from '../../../models/views/plugin';
 import {SearchViewModel, SearchViewState} from '../../../models/views/search';
 import {DashboardSection} from '../../../utils/dashboard-util';
+import {Subscription} from 'rxjs';
 
 const RoutePattern = {
   ROOT: '/',
@@ -279,6 +284,10 @@ export class GrRouter implements Finalizable, NavigationService {
   // and for first navigation in app after loaded from server (true).
   _isInitialLoad = true;
 
+  private subscriptions: Subscription[] = [];
+
+  private view?: GerritView;
+
   constructor(
     private readonly reporting: ReportingService,
     private readonly routerModel: RouterModel,
@@ -295,9 +304,36 @@ export class GrRouter implements Finalizable, NavigationService {
     private readonly repoViewModel: RepoViewModel,
     private readonly searchViewModel: SearchViewModel,
     private readonly settingsViewModel: SettingsViewModel
-  ) {}
+  ) {
+    this.subscriptions = [
+      // TODO: Do the same for other view models.
+      // We want to make sure that the current view model state is always
+      // reflected back into the URL bar.
+      this.changeViewModel.state$.subscribe(state => {
+        if (!state) return;
+        // Note that router model view must be updated before view model state.
+        // So this check is slightly fragile, but should work.
+        if (this.view !== GerritView.CHANGE) return;
+        const browserUrl = window.location.toString();
+        const stateUrl = new URL(createChangeUrl(state), browserUrl).toString();
+        if (browserUrl !== stateUrl) {
+          page.replace(
+            stateUrl,
+            null,
+            /* init: */ false,
+            /* dispatch: */ false
+          );
+        }
+      }),
+      this.routerModel.routerView$.subscribe(view => (this.view = view)),
+    ];
+  }
 
-  finalize(): void {}
+  finalize(): void {
+    for (const subscription of this.subscriptions) {
+      subscription.unsubscribe();
+    }
+  }
 
   start() {
     if (!this._app) {
@@ -940,6 +976,7 @@ export class GrRouter implements Finalizable, NavigationService {
           view: GerritView.DASHBOARD,
           user: ctx.params[0],
         };
+        // Note that router model view must be updated before view models.
         this.setState(state);
         this.dashboardViewModel.setState(state);
       }
@@ -976,6 +1013,7 @@ export class GrRouter implements Finalizable, NavigationService {
       sections,
       title,
     };
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.dashboardViewModel.setState(state);
     return Promise.resolve();
@@ -988,6 +1026,7 @@ export class GrRouter implements Finalizable, NavigationService {
       project,
       dashboard: decodeURIComponent(ctx.params[1]) as DashboardId,
     };
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.dashboardViewModel.setState(state);
     this.reporting.setRepoName(project);
@@ -1010,6 +1049,7 @@ export class GrRouter implements Finalizable, NavigationService {
       view: GerritView.GROUP,
       groupId: ctx.params[0] as GroupId,
     };
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.groupViewModel.setState(state);
   }
@@ -1020,6 +1060,7 @@ export class GrRouter implements Finalizable, NavigationService {
       detail: GroupDetailView.LOG,
       groupId: ctx.params[0] as GroupId,
     };
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.groupViewModel.setState(state);
   }
@@ -1030,6 +1071,7 @@ export class GrRouter implements Finalizable, NavigationService {
       detail: GroupDetailView.MEMBERS,
       groupId: ctx.params[0] as GroupId,
     };
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.groupViewModel.setState(state);
   }
@@ -1042,6 +1084,7 @@ export class GrRouter implements Finalizable, NavigationService {
       filter: null,
       openCreateModal: ctx.hash === 'create',
     };
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.adminViewModel.setState(state);
   }
@@ -1053,6 +1096,7 @@ export class GrRouter implements Finalizable, NavigationService {
       offset: ctx.params['offset'],
       filter: ctx.params['filter'],
     };
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.adminViewModel.setState(state);
   }
@@ -1063,6 +1107,7 @@ export class GrRouter implements Finalizable, NavigationService {
       adminView: AdminChildView.GROUPS,
       filter: ctx.params['filter'] || null,
     };
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.adminViewModel.setState(state);
   }
@@ -1086,6 +1131,7 @@ export class GrRouter implements Finalizable, NavigationService {
       detail: RepoDetailView.COMMANDS,
       repo,
     };
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.repoViewModel.setState(state);
     this.reporting.setRepoName(repo);
@@ -1098,6 +1144,7 @@ export class GrRouter implements Finalizable, NavigationService {
       detail: RepoDetailView.GENERAL,
       repo,
     };
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.repoViewModel.setState(state);
     this.reporting.setRepoName(repo);
@@ -1110,6 +1157,7 @@ export class GrRouter implements Finalizable, NavigationService {
       detail: RepoDetailView.ACCESS,
       repo,
     };
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.repoViewModel.setState(state);
     this.reporting.setRepoName(repo);
@@ -1122,6 +1170,7 @@ export class GrRouter implements Finalizable, NavigationService {
       detail: RepoDetailView.DASHBOARDS,
       repo,
     };
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.repoViewModel.setState(state);
     this.reporting.setRepoName(repo);
@@ -1135,6 +1184,7 @@ export class GrRouter implements Finalizable, NavigationService {
       offset: ctx.params[2] || 0,
       filter: null,
     };
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.repoViewModel.setState(state);
   }
@@ -1147,6 +1197,7 @@ export class GrRouter implements Finalizable, NavigationService {
       offset: ctx.params['offset'],
       filter: ctx.params['filter'],
     };
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.repoViewModel.setState(state);
   }
@@ -1158,6 +1209,7 @@ export class GrRouter implements Finalizable, NavigationService {
       repo: ctx.params['repo'] as RepoName,
       filter: ctx.params['filter'] || null,
     };
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.repoViewModel.setState(state);
   }
@@ -1170,6 +1222,7 @@ export class GrRouter implements Finalizable, NavigationService {
       offset: ctx.params[2] || 0,
       filter: null,
     };
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.repoViewModel.setState(state);
   }
@@ -1182,6 +1235,7 @@ export class GrRouter implements Finalizable, NavigationService {
       offset: ctx.params['offset'],
       filter: ctx.params['filter'],
     };
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.repoViewModel.setState(state);
   }
@@ -1193,6 +1247,7 @@ export class GrRouter implements Finalizable, NavigationService {
       repo: ctx.params['repo'] as RepoName,
       filter: ctx.params['filter'] || null,
     };
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.repoViewModel.setState(state);
   }
@@ -1205,6 +1260,7 @@ export class GrRouter implements Finalizable, NavigationService {
       filter: null,
       openCreateModal: ctx.hash === 'create',
     };
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.adminViewModel.setState(state);
   }
@@ -1216,6 +1272,7 @@ export class GrRouter implements Finalizable, NavigationService {
       offset: ctx.params['offset'],
       filter: ctx.params['filter'],
     };
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.adminViewModel.setState(state);
   }
@@ -1226,6 +1283,7 @@ export class GrRouter implements Finalizable, NavigationService {
       adminView: AdminChildView.REPOS,
       filter: ctx.params['filter'] || null,
     };
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.adminViewModel.setState(state);
   }
@@ -1253,6 +1311,7 @@ export class GrRouter implements Finalizable, NavigationService {
       offset: ctx.params[1] || 0,
       filter: null,
     };
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.adminViewModel.setState(state);
   }
@@ -1264,6 +1323,7 @@ export class GrRouter implements Finalizable, NavigationService {
       offset: ctx.params['offset'],
       filter: ctx.params['filter'],
     };
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.adminViewModel.setState(state);
   }
@@ -1274,6 +1334,7 @@ export class GrRouter implements Finalizable, NavigationService {
       adminView: AdminChildView.PLUGINS,
       filter: ctx.params['filter'] || null,
     };
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.adminViewModel.setState(state);
   }
@@ -1283,6 +1344,7 @@ export class GrRouter implements Finalizable, NavigationService {
       view: GerritView.ADMIN,
       adminView: AdminChildView.PLUGINS,
     };
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.adminViewModel.setState(state);
   }
@@ -1293,6 +1355,7 @@ export class GrRouter implements Finalizable, NavigationService {
       query: ctx.params[0],
       offset: ctx.params[2],
     };
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.searchViewModel.setState(state);
   }
@@ -1305,6 +1368,7 @@ export class GrRouter implements Finalizable, NavigationService {
       view: GerritView.SEARCH,
       query: ctx.params[0],
     };
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.searchViewModel.setState(state);
   }
@@ -1329,23 +1393,8 @@ export class GrRouter implements Finalizable, NavigationService {
     };
 
     const queryMap = new URLSearchParams(ctx.querystring);
-    if (queryMap.has('forceReload')) {
-      state.forceReload = true;
-      history.replaceState(
-        null,
-        '',
-        location.href.replace(/[?&]forceReload=true/, '')
-      );
-    }
-
-    if (queryMap.has('openReplyDialog')) {
-      state.openReplyDialog = true;
-      history.replaceState(
-        null,
-        '',
-        location.href.replace(/[?&]openReplyDialog=true/, '')
-      );
-    }
+    if (queryMap.has('forceReload')) state.forceReload = true;
+    if (queryMap.has('openReplyDialog')) state.openReplyDialog = true;
 
     const tab = queryMap.get('tab');
     if (tab) state.tab = tab;
@@ -1358,6 +1407,7 @@ export class GrRouter implements Finalizable, NavigationService {
     this.reporting.setRepoName(state.project);
     this.reporting.setChangeId(changeNum);
     this.normalizePatchRangeParams(state);
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.changeViewModel.setState(state);
   }
@@ -1374,6 +1424,7 @@ export class GrRouter implements Finalizable, NavigationService {
     this.reporting.setRepoName(state.project ?? '');
     this.reporting.setChangeId(changeNum);
     this.normalizePatchRangeParams(state);
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.diffViewModel.setState(state);
   }
@@ -1390,6 +1441,7 @@ export class GrRouter implements Finalizable, NavigationService {
     this.reporting.setRepoName(state.project);
     this.reporting.setChangeId(changeNum);
     this.normalizePatchRangeParams(state);
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.changeViewModel.setState(state);
   }
@@ -1413,6 +1465,7 @@ export class GrRouter implements Finalizable, NavigationService {
     this.reporting.setRepoName(state.project ?? '');
     this.reporting.setChangeId(changeNum);
     this.normalizePatchRangeParams(state);
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.diffViewModel.setState(state);
   }
@@ -1452,6 +1505,7 @@ export class GrRouter implements Finalizable, NavigationService {
       view: GerritView.EDIT,
     };
     this.normalizePatchRangeParams(state);
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.editViewModel.setState(state);
     this.reporting.setRepoName(project);
@@ -1480,6 +1534,7 @@ export class GrRouter implements Finalizable, NavigationService {
       );
     }
     this.normalizePatchRangeParams(state);
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.changeViewModel.setState(state);
     this.reporting.setRepoName(project);
@@ -1494,6 +1549,7 @@ export class GrRouter implements Finalizable, NavigationService {
     const state: AgreementViewState = {
       view: GerritView.AGREEMENTS,
     };
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.agreementViewModel.setState(state);
   }
@@ -1507,12 +1563,14 @@ export class GrRouter implements Finalizable, NavigationService {
       view: GerritView.SETTINGS,
       emailToken: token,
     };
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.settingsViewModel.setState(state);
   }
 
   handleSettingsRoute(_: PageContext) {
     const state: SettingsViewState = {view: GerritView.SETTINGS};
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.settingsViewModel.setState(state);
   }
@@ -1558,6 +1616,7 @@ export class GrRouter implements Finalizable, NavigationService {
       plugin: ctx.params[0],
       screen: ctx.params[1],
     };
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.pluginViewModel.setState(state);
   }
@@ -1567,6 +1626,7 @@ export class GrRouter implements Finalizable, NavigationService {
       view: GerritView.DOCUMENTATION_SEARCH,
       filter: ctx.params['filter'] || null,
     };
+    // Note that router model view must be updated before view models.
     this.setState(state);
     this.documentationViewModel.setState(state);
   }

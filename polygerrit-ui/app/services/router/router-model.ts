@@ -29,6 +29,7 @@ export enum GerritView {
 }
 
 export interface RouterState {
+  // Note that this router model view must be updated before view model state.
   view?: GerritView;
   changeNum?: NumericChangeId;
   patchNum?: RevisionPatchSetNum;

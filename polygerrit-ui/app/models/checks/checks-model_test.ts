@@ -21,6 +21,7 @@ import {ParsedChangeInfo} from '../../types/types';
 import {changeModelToken} from '../change/change-model';
 import {assert} from '@open-wc/testing';
 import {testResolver} from '../../test/common-test-setup';
+import {changeViewModelToken} from '../views/change';
 
 const PLUGIN_NAME = 'test-plugin';
 
@@ -63,6 +64,7 @@ suite('checks-model tests', () => {
   setup(() => {
     model = new ChecksModel(
       getAppContext().routerModel,
+      testResolver(changeViewModelToken),
       testResolver(changeModelToken),
       getAppContext().reportingService,
       getAppContext().pluginsModel

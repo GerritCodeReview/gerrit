@@ -5,6 +5,7 @@
  */
 import {BehaviorSubject, Observable} from 'rxjs';
 import {Finalizable} from '../services/registry';
+import {deepEqual} from '../utils/deep-util';
 
 /**
  * A Model stores a value <T> and controls changes to that value via `subject$`
@@ -35,6 +36,7 @@ export abstract class Model<T> implements Finalizable {
   }
 
   setState(state: T) {
+    if (deepEqual(state, this.getState())) return;
     this.subject$.next(state);
   }
 

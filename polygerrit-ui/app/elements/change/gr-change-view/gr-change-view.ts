@@ -1171,6 +1171,7 @@ export class GrChangeView extends LitElement {
   }
 
   override render() {
+    console.log(`WARN change view render ${this.viewState?.attempt}`);
     return html`${this.renderLoading()}${this.renderMainContent()}`;
   }
 
@@ -2171,6 +2172,10 @@ export class GrChangeView extends LitElement {
     // _allPatchsets does not know value.patchNum so force a reload.
     const forceReload = this.viewState.forceReload || !patchKnown;
 
+    console.log(
+      `WARN change view state changed ${forceReload} ${this.changeNum} ${patchChanged}`
+    );
+
     // If changeNum is defined that means the change has already been
     // rendered once before so a full reload is not required.
     if (this.changeNum !== undefined && !forceReload) {
@@ -2249,8 +2254,6 @@ export class GrChangeView extends LitElement {
     if (tab === Tab.CHECKS) {
       const state: ChecksTabState = {};
       detail.tabState = {checksTab: state};
-      if (this.viewState?.filter) state.filter = this.viewState.filter;
-      if (this.viewState?.attempt) state.attempt = this.viewState.attempt;
     }
 
     this.setActiveTab(

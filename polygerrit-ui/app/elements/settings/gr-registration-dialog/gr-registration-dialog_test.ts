@@ -116,6 +116,7 @@ suite('gr-registration-dialog tests', () => {
           to others, and to send updates to code reviews you have either started
           or subscribed to.
         </p>
+        <gr-endpoint-decorator></gr-endpoint-decorator>
         <hr />
         <section>
           <span class="title"> Full Name </span>

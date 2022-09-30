@@ -170,7 +170,7 @@ public class ChangePredicates {
    * com.google.gerrit.entities.Project.NameKey}.
    */
   public static Predicate<ChangeData> project(Project.NameKey id) {
-    return new ChangeIndexPredicate(ChangeField.PROJECT, id.get());
+    return new ChangeIndexPredicate(ChangeField.PROJECT_SPEC, id.get());
   }
 
   /** Returns a predicate that matches changes targeted at the provided {@code refName}. */

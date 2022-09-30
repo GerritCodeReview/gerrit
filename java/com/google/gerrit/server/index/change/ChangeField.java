@@ -62,6 +62,7 @@ import com.google.gerrit.entities.converter.PatchSetApprovalProtoConverter;
 import com.google.gerrit.entities.converter.PatchSetProtoConverter;
 import com.google.gerrit.entities.converter.ProtoConverter;
 import com.google.gerrit.index.FieldDef;
+import com.google.gerrit.index.IndexedField;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.SchemaFieldDefs;
 import com.google.gerrit.index.SchemaUtil;
@@ -128,15 +129,25 @@ public class ChangeField {
       prefix(ChangeQueryBuilder.FIELD_CHANGE_ID).build(changeGetter(c -> c.getKey().get()));
 
   /** Change status string, in the same format as {@code status:}. */
-  public static final FieldDef<ChangeData, String> STATUS =
-      exact(ChangeQueryBuilder.FIELD_STATUS)
+  public static final IndexedField<ChangeData, String> STATUS_FIELD =
+      IndexedField.<ChangeData>stringBuilder("Status")
+          .required()
+          .size(20)
           .build(changeGetter(c -> ChangeStatusPredicate.canonicalize(c.getStatus())));
 
+  public static final IndexedField<ChangeData, String>.SearchSpec STATUS_SPEC =
+      STATUS_FIELD.exact(ChangeQueryBuilder.FIELD_STATUS);
+
   /** Project containing the change. */
-  public static final FieldDef<ChangeData, String> PROJECT =
-      exact(ChangeQueryBuilder.FIELD_PROJECT)
+  public static final IndexedField<ChangeData, String> PROJECT_FIELD =
+      IndexedField.<ChangeData>stringBuilder("Project")
+          .required()
           .stored()
+          .size(200)
           .build(changeGetter(c -> c.getProject().get()));
+
+  public static final IndexedField<ChangeData, String>.SearchSpec PROJECT_SPEC =
+      PROJECT_FIELD.exact(ChangeQueryBuilder.FIELD_PROJECT);
 
   /** Project containing the change, as a prefix field. */
   public static final FieldDef<ChangeData, String> PROJECTS =

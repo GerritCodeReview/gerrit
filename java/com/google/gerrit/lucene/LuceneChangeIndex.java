@@ -18,7 +18,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.lucene.AbstractLuceneIndex.sortFieldName;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
 import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID_STR;
-import static com.google.gerrit.server.index.change.ChangeField.PROJECT;
+import static com.google.gerrit.server.index.change.ChangeField.PROJECT_SPEC;
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.CLOSED_STATUSES;
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.OPEN_STATUSES;
 import static java.util.Objects.requireNonNull;
@@ -534,7 +534,7 @@ public class LuceneChangeIndex implements ChangeIndex {
 
       Change.Id id = Change.id(Integer.valueOf(f.stringValue()));
       // IndexUtils#changeFields ensures either CHANGE or PROJECT is always present.
-      IndexableField project = doc.get(PROJECT.getName()).iterator().next();
+      IndexableField project = doc.get(PROJECT_SPEC.getName()).iterator().next();
       cd = changeDataFactory.create(Project.nameKey(project.stringValue()), id);
     }
 

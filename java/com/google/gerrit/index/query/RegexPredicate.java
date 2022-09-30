@@ -14,14 +14,14 @@
 
 package com.google.gerrit.index.query;
 
-import com.google.gerrit.index.FieldDef;
+import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 
 public abstract class RegexPredicate<I> extends IndexPredicate<I> {
-  protected RegexPredicate(FieldDef<I, ?> def, String value) {
+  protected RegexPredicate(SchemaField<I, ?> def, String value) {
     super(def, value);
   }
 
-  protected RegexPredicate(FieldDef<I, ?> def, String name, String value) {
+  protected RegexPredicate(SchemaField<I, ?> def, String name, String value) {
     super(def, name, value);
   }
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7991a46e_4a3aeb97",
+        "filename": "polygerrit-ui/app/utils/change-util.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-30T08:20:17Z",
+      "side": 1,
+      "message": "undefined is better. If there is a logic or need for this to be 0 it should be documented here.",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 151,
+        "endChar": 0
+      },
+      "revId": "1ee04c4b92784f1f35dd7646ad102f93590a9f5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

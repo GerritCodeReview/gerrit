@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b09f7be_f4aee061",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-30T09:48:53Z",
+      "side": 1,
+      "message": "This change should be split into two as it\u0027s doing two separate things.",
+      "revId": "8ce5c575e01fe4f1717648898c570e6d288dfa6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -34,6 +34,40 @@
       "parentUuid": "4b09f7be_f4aee061",
       "revId": "8ce5c575e01fe4f1717648898c570e6d288dfa6e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7d7f100_d5f57ae6",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-30T09:57:47Z",
+      "side": 1,
+      "message": "I am worried about race-conditions here w.r.t. the `routerView$` subscription.\n\nIf the router-view is changed after we change a model, then this condition will be wrong.",
+      "revId": "8ce5c575e01fe4f1717648898c570e6d288dfa6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b0fda22_87a682d0",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-30T09:57:47Z",
+      "side": 1,
+      "message": "URL params can be ordered in different ways, this check is not safe.",
+      "revId": "8ce5c575e01fe4f1717648898c570e6d288dfa6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

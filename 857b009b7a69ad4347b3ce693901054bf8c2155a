@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bcfd832_766b31ec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-30T17:02:58Z",
+      "side": 1,
+      "message": "@Nasser can you try running //plugins/gitiles:gitiles_tests locally? Do they work for you?",
+      "revId": "857b009b7a69ad4347b3ce693901054bf8c2155a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

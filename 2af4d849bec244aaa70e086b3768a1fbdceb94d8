@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f643305_564a37be",
+        "filename": "polygerrit-ui/app/models/views/change.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-30T11:37:38Z",
+      "side": 1,
+      "message": "Don\u0027t you need to comma-separate them?",
+      "revId": "2af4d849bec244aaa70e086b3768a1fbdceb94d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3244ab79_d2be3739",
+        "filename": "polygerrit-ui/app/utils/common-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-30T11:37:38Z",
+      "side": 1,
+      "message": "return array.concat(item);",
+      "revId": "2af4d849bec244aaa70e086b3768a1fbdceb94d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

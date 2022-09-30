@@ -508,14 +508,22 @@ export class GrComment extends LitElement {
     if (isUnsaved(this.comment) && !this.editing) return;
     const classes = {container: true, draft: isDraftOrUnsaved(this.comment)};
     return html`
-      <div id="container" class=${classMap(classes)}>
-        ${this.renderHeader()}
-        <div class="body">
-          ${this.renderRobotAuthor()} ${this.renderEditingTextarea()}
-          ${this.renderCommentMessage()} ${this.renderHumanActions()}
-          ${this.renderRobotActions()} ${this.renderSuggestEditActions()}
+      <gr-endpoint-decorator name="comment">
+        <gr-endpoint-param name="comment" .value=${this.comment}>
+        </gr-endpoint-param>
+        <gr-endpoint-param name="editing" .value=${this.editing}>
+        </gr-endpoint-param>
+        <div id="container" class=${classMap(classes)}>
+          ${this.renderHeader()}
+          <div class="body">
+            ${this.renderRobotAuthor()} ${this.renderEditingTextarea()}
+            ${this.renderCommentMessage()}
+            <gr-endpoint-slot name="above-actions"></gr-endpoint-slot>
+            ${this.renderHumanActions()} ${this.renderRobotActions()}
+            ${this.renderSuggestEditActions()}
+          </div>
         </div>
-      </div>
+      </gr-endpoint-decorator>
       ${this.renderConfirmDialog()}
     `;
   }

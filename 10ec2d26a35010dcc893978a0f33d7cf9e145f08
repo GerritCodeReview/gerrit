@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bddd896_ff31d243",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1244,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-30T13:26:58Z",
+      "side": 1,
+      "message": "Wait. This is toggling logic. That is why it is needed. You want to be able to click on TAG chips and turn the filter on and off.",
+      "parentUuid": "f91c3590_c19da288",
+      "revId": "10ec2d26a35010dcc893978a0f33d7cf9e145f08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aaf4dcbb_263ddf8f",

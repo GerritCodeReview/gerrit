@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b372144_70d2a597",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-30T08:54:03Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4b7ba9ea_b22dc3ae",
+      "revId": "afb2886cd692fc876aeb95a7d0d80f778089d9ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6fb055aa_4ce964ea",
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "Normally I tend to argue the other way around: You can only argue about performance, if you can actually prove that something has a substantial performance cost. \"Premature Optimization Is the Root of All Evil\".\n\nTriggering subscriptions twice can have unintentional consequences. This change prevents that and makes state updates easier to reason about.\n\nI doubt that calling `deepEqual()` matters much. If we don\u0027t worry about the amount of `setState()` calls and all the renderings in response to it, then why would we worry about a `deepEqual()`, which is more likely to prevent unnecessary latency than causing it?",
       "parentUuid": "6fb055aa_4ce964ea",
+      "revId": "afb2886cd692fc876aeb95a7d0d80f778089d9ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1201e769_b3e61ed7",
+        "filename": "polygerrit-ui/app/models/model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-30T08:54:03Z",
+      "side": 1,
+      "message": "\"Premature Optimization is the Root of All Evil\" only applies if you significantly impacting the readability of code to make performance gains.  Here I am saying you\u0027re adding cost and that cost needs to be measured. \"Latency is death by a thousand paper cuts\" is an equally apt quote here.",
+      "parentUuid": "059fbd07_25a59a7f",
       "revId": "afb2886cd692fc876aeb95a7d0d80f778089d9ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

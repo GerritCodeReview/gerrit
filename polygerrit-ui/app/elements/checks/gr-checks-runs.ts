@@ -44,7 +44,7 @@ import {
 } from '../../models/checks/checks-fakes';
 import {assertIsDefined} from '../../utils/common-util';
 import {modifierPressed, whenVisible} from '../../utils/dom-util';
-import {fireRunSelected, fireRunSelectionReset} from './gr-checks-util';
+import {fireRunSelected, RunSelectedEvent} from './gr-checks-util';
 import {ChecksTabState} from '../../types/events';
 import {charsOnly} from '../../utils/string-util';
 import {getAppContext} from '../../services/app-context';
@@ -57,6 +57,7 @@ import {checksModelToken} from '../../models/checks/checks-model';
 import {Interaction} from '../../constants/reporting';
 import {Deduping} from '../../api/reporting';
 import {when} from 'lit/directives/when.js';
+import {changeViewModelToken} from '../../models/views/change';
 
 @customElement('gr-checks-run')
 export class GrChecksRun extends LitElement {
@@ -403,7 +404,7 @@ export class GrChecksRuns extends LitElement {
   @property({type: Boolean, reflect: true})
   collapsed = false;
 
-  @property({attribute: false})
+  @state()
   selectedRuns: string[] = [];
 
   @state()
@@ -423,6 +424,8 @@ export class GrChecksRuns extends LitElement {
   private flagService = getAppContext().flagsService;
 
   private getChecksModel = resolve(this, checksModelToken);
+
+  private readonly getViewModel = resolve(this, changeViewModelToken);
 
   private readonly reporting = getAppContext().reportingService;
 
@@ -452,6 +455,11 @@ export class GrChecksRuns extends LitElement {
       this,
       () => this.getChecksModel().runFilterRegexp$,
       x => (this.filterRegExp = x)
+    );
+    subscribe(
+      this,
+      () => this.getViewModel().checksRunsSelected$,
+      x => (this.selectedRuns = x)
     );
     this.addEventListener('click', () => {
       if (this.collapsed) this.toggleCollapsed();
@@ -676,7 +684,8 @@ export class GrChecksRuns extends LitElement {
       <gr-button
         class="font-normal"
         link
-        @click=${() => fireRunSelectionReset(this)}
+        @click=${() =>
+          this.getViewModel().updateState({checksRunsSelected: []})}
         >Unselect All</gr-button
       >
       <gr-tooltip-content
@@ -827,7 +836,14 @@ export class GrChecksRuns extends LitElement {
       ?condensed=${this.collapsed}
       .selected=${selectedRun}
       .deselected=${deselected}
+      @run-selected=${this.handleRunSelected}
     ></gr-checks-run>`;
+  }
+
+  handleRunSelected(e: RunSelectedEvent) {
+    if (e.detail.checkName) {
+      this.getViewModel().toggleSelectedCheckRun(e.detail.checkName);
+    }
   }
 
   showFilter(): boolean {

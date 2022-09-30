@@ -37,6 +37,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "34435d00_587e5153",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-change.ts",
+        "patchSetId": 28
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-30T09:41:33Z",
+      "side": 1,
+      "message": "do not expose. use https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/models/di-provider-element.ts;l\u003d26;drc\u003d42c1a45f81a8c45966b47622fd2dad2f37fc1439",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 30
+      },
+      "revId": "56cda553582b1455a87767eaf4c34ebbeb7fc540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "22bd0811_7b75c563",
         "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
         "patchSetId": 28

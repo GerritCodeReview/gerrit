@@ -22,6 +22,30 @@
       },
       "revId": "f1fd94dfe10e8c5ff2421813b4ac23f994578fe8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e00fef5e_c5788f8e",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 642,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-30T08:38:52Z",
+      "side": 1,
+      "message": "I don\u0027t think so.\nI\u0027m not sure why two undefined changes should be equal but **if** some code is relying on it then I prefer they not rely on it and handle it explicitly on their end.\n\nI checked existing usage and one of the param is always defined so we won\u0027t run into this but in the future I don\u0027t want users to rely on undefined matching undefined.",
+      "parentUuid": "9a9dc3bd_92a6a0eb",
+      "range": {
+        "startLine": 642,
+        "startChar": 0,
+        "endLine": 642,
+        "endChar": 31
+      },
+      "revId": "f1fd94dfe10e8c5ff2421813b4ac23f994578fe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

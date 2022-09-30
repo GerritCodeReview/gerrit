@@ -14,13 +14,15 @@ import {GerritView} from '../../services/router/router-model';
 import '../../test/common-test-setup';
 import {createChangeUrl, ChangeViewState} from './change';
 
+const STATE: ChangeViewState = {
+  view: GerritView.CHANGE,
+  changeNum: 1234 as NumericChangeId,
+  project: 'test' as RepoName,
+};
+
 suite('change view state tests', () => {
   test('createChangeUrl()', () => {
-    const state: ChangeViewState = {
-      view: GerritView.CHANGE,
-      changeNum: 1234 as NumericChangeId,
-      project: 'test' as RepoName,
-    };
+    const state: ChangeViewState = {...STATE};
 
     assert.equal(createChangeUrl(state), '/c/test/+/1234');
 
@@ -32,6 +34,18 @@ suite('change view state tests', () => {
 
     state.messageHash = '#123';
     assert.equal(createChangeUrl(state), '/c/test/+/1234/5..10#123');
+  });
+
+  test('createChangeUrl() checksRunsSelected', () => {
+    const state: ChangeViewState = {
+      ...STATE,
+      checksRunsSelected: ['asdf'],
+    };
+
+    assert.equal(
+      createChangeUrl(state),
+      '/c/test/+/1234?checksRunsSelected=asdf'
+    );
   });
 
   test('createChangeUrl() with repo name encoding', () => {

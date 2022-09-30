@@ -16,6 +16,23 @@
       "message": "Do not submit yet, I might still do some changes.",
       "revId": "41dbad4be6c75efc4c02a0de9d1690b7221f79a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5888aacf_879e3c2b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-30T09:25:18Z",
+      "side": 1,
+      "message": "FYI, testing with a non-visible author/committer is unneeded here, as they are not CCed on the revert change. The revert change is created by the reverter, hence for the revert change author/committer always matches the uploader which is the reverter.",
+      "revId": "41dbad4be6c75efc4c02a0de9d1690b7221f79a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

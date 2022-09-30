@@ -757,7 +757,7 @@ export class GrChecksResults extends LitElement {
   filterInput?: HTMLInputElement;
 
   @state()
-  filterRegExp = new RegExp('');
+  filterRegExp = '';
 
   /** All runs. Shown should only the selected/filtered ones. */
   @property({attribute: false})
@@ -860,6 +860,11 @@ export class GrChecksResults extends LitElement {
       this,
       () => this.getViewModel().checksRunsSelected$,
       x => (this.selectedRuns = x)
+    );
+    subscribe(
+      this,
+      () => this.getViewModel().checksResultsFilter$,
+      x => (this.filterRegExp = x)
     );
   }
 
@@ -1059,6 +1064,9 @@ export class GrChecksResults extends LitElement {
 
   protected override updated(changedProperties: PropertyValues) {
     super.updated(changedProperties);
+    if (changedProperties.has('filterRegExp') && this.filterInput) {
+      this.filterInput.value = this.filterRegExp;
+    }
     if (changedProperties.has('tabState') && this.tabState) {
       const {statusOrCategory, checkName} = this.tabState;
       if (isCategory(statusOrCategory)) {
@@ -1232,11 +1240,10 @@ export class GrChecksResults extends LitElement {
   }
 
   private handleFilter(e: ChecksResultsFilterEvent) {
-    if (!this.filterInput) return;
-    const oldValue = this.filterInput.value ?? '';
     const newValue = e.detail.filterRegExp ?? '';
-    this.filterInput.value = oldValue === newValue ? '' : newValue;
-    this.onFilterInputChange();
+    this.getViewModel().updateState({
+      checksResultsFilter: this.filterRegExp === newValue ? '' : newValue,
+    });
   }
 
   private renderAction(action?: Action) {
@@ -1308,10 +1315,11 @@ export class GrChecksResults extends LitElement {
       run =>
         this.isRunSelected(run) && isAttemptSelected(this.selectedAttempt, run)
     );
-    if (this.selectedRuns.length === 0 && allResults(runs).length <= 3) {
-      if (this.filterRegExp.source.length > 0) {
-        this.filterRegExp = new RegExp('');
-      }
+    if (
+      this.selectedRuns.length === 0 &&
+      allResults(runs).length <= 3 &&
+      this.filterRegExp === ''
+    ) {
       return;
     }
     return html`
@@ -1333,7 +1341,9 @@ export class GrChecksResults extends LitElement {
       {},
       {deduping: Deduping.EVENT_ONCE_PER_CHANGE}
     );
-    this.filterRegExp = new RegExp(this.filterInput.value, 'i');
+    this.getViewModel().updateState({
+      checksResultsFilter: this.filterInput.value,
+    });
   }
 
   renderSection(category: Category) {
@@ -1352,16 +1362,29 @@ export class GrChecksResults extends LitElement {
     );
     const isSelection = this.selectedRuns.length > 0;
     const selected = all.filter(result => this.isRunSelected(result));
-    const filtered = selected.filter(result =>
-      matches(result, this.filterRegExp)
-    );
+    const re = new RegExp(this.filterRegExp, 'i');
+    const filtered = selected.filter(result => matches(result, re));
+    const filterActiveWithResults =
+      this.filterRegExp !== '' && filtered.length > 0;
+
+    // The logic for deciding whether to expand a section by default is a bit
+    // complicated, but we want to collapse empty and info/success sections by
+    // default for a clean and focused user experience. However, as soon as the
+    // user starts selecting or filtering we must take this into account and
+    // prefer to expand the sections.
     let expanded = this.isSectionExpanded.get(category);
     const expandedByUser = this.isSectionExpandedByUser.get(category) ?? false;
     if (!expandedByUser || expanded === undefined) {
-      expanded = selected.length > 0 && (isWarningOrError || isSelection);
+      const isEmpty = selected.length === 0;
+      if (isEmpty) {
+        expanded = false;
+      } else {
+        expanded = isWarningOrError || isSelection || filterActiveWithResults;
+      }
       this.isSectionExpanded.set(category, expanded);
     }
     const expandedClass = expanded ? 'expanded' : 'collapsed';
+
     const isShowAll = this.isShowAll.get(category) ?? false;
     const resultCount = filtered.length;
     const empty = resultCount === 0 ? 'empty' : '';

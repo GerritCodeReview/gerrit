@@ -1406,6 +1406,8 @@ export class GrRouter implements Finalizable, NavigationService {
     }
     const filter = queryMap.get('filter');
     if (filter) state.filter = filter;
+    const checksResultsFilter = queryMap.get('checksResultsFilter');
+    if (checksResultsFilter) state.checksResultsFilter = checksResultsFilter;
     const attempt = stringToAttemptChoice(queryMap.get('attempt'));
     if (attempt && attempt !== LATEST_ATTEMPT) state.attempt = attempt;
     const selected = queryMap.get('checksRunsSelected');

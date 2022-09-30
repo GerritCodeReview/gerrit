@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fd24391_8a406c96",
+        "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-30T10:14:00Z",
+      "side": 0,
+      "message": "Could you extend the commit message to explain why this is no longer necessary?",
+      "revId": "8ce5c575e01fe4f1717648898c570e6d288dfa6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

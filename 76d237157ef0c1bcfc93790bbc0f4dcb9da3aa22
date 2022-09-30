@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e7f6241_3304b109",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1379,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-30T10:14:00Z",
+      "side": 1,
+      "message": "I think the logic to go from PageContext to state should live with the models, similar to how the state to URL lives with models.",
+      "revId": "76d237157ef0c1bcfc93790bbc0f4dcb9da3aa22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e7bdd6e_5c735968",
+        "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-30T10:14:00Z",
+      "side": 1,
+      "message": "Could this simply reuse getPluginState?",
+      "revId": "76d237157ef0c1bcfc93790bbc0f4dcb9da3aa22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe5e0da4_4fa6bf3b",
+        "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-30T10:14:00Z",
+      "side": 1,
+      "message": "Why are we copying and re-assigning?",
+      "revId": "76d237157ef0c1bcfc93790bbc0f4dcb9da3aa22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc853162_80028de1",
+        "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-30T10:14:00Z",
+      "side": 1,
+      "message": "Why are we copying and re-assigning?",
+      "revId": "76d237157ef0c1bcfc93790bbc0f4dcb9da3aa22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a6486df_35a969c7",
+        "filename": "polygerrit-ui/app/models/views/change.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-30T10:14:00Z",
+      "side": 1,
+      "message": "It\u0027s confusing that the URL param doesn\u0027t match the state param",
+      "revId": "76d237157ef0c1bcfc93790bbc0f4dcb9da3aa22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

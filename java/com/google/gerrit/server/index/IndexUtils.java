@@ -16,7 +16,7 @@ package com.google.gerrit.server.index;
 
 import static com.google.gerrit.server.index.change.ChangeField.CHANGE;
 import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID_STR;
-import static com.google.gerrit.server.index.change.ChangeField.PROJECT;
+import static com.google.gerrit.server.index.change.ChangeField.PROJECT_SPEC;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
@@ -81,10 +81,10 @@ public final class IndexUtils {
       // A Change is always sufficient.
       return fs;
     }
-    if (fs.contains(PROJECT.getName()) && fs.contains(LEGACY_ID_STR.getName())) {
+    if (fs.contains(PROJECT_SPEC.getName()) && fs.contains(LEGACY_ID_STR.getName())) {
       return fs;
     }
-    return Sets.union(fs, ImmutableSet.of(LEGACY_ID_STR.getName(), PROJECT.getName()));
+    return Sets.union(fs, ImmutableSet.of(LEGACY_ID_STR.getName(), PROJECT_SPEC.getName()));
   }
 
   /**

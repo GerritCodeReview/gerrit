@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "987e30fa_7496edaa",
+        "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-30T10:48:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e7bdd6e_5c735968",
+      "revId": "76d237157ef0c1bcfc93790bbc0f4dcb9da3aa22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe5e0da4_4fa6bf3b",
@@ -48,6 +66,24 @@
       "writtenOn": "2022-09-30T10:14:00Z",
       "side": 1,
       "message": "Why are we copying and re-assigning?",
+      "revId": "76d237157ef0c1bcfc93790bbc0f4dcb9da3aa22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eda14983_21db751e",
+        "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-30T10:48:08Z",
+      "side": 1,
+      "message": "Because this is being used in reducers and we have to treat state objects as immutable. So when creating a new state we have to be careful that we only modify copies.",
+      "parentUuid": "fe5e0da4_4fa6bf3b",
       "revId": "76d237157ef0c1bcfc93790bbc0f4dcb9da3aa22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -69,6 +105,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "948e5fb1_18d0c3de",
+        "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-30T10:48:08Z",
+      "side": 1,
+      "message": "Because this is being used in reducers and we have to treat state objects as immutable. So when creating a new state we have to be careful that we only modify copies.",
+      "parentUuid": "fc853162_80028de1",
+      "revId": "76d237157ef0c1bcfc93790bbc0f4dcb9da3aa22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4a6486df_35a969c7",
@@ -82,6 +136,24 @@
       "writtenOn": "2022-09-30T10:14:00Z",
       "side": 1,
       "message": "It\u0027s confusing that the URL param doesn\u0027t match the state param",
+      "revId": "76d237157ef0c1bcfc93790bbc0f4dcb9da3aa22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0866c967_accddb70",
+        "filename": "polygerrit-ui/app/models/views/change.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-30T10:48:08Z",
+      "side": 1,
+      "message": "Agree. Done.",
+      "parentUuid": "4a6486df_35a969c7",
       "revId": "76d237157ef0c1bcfc93790bbc0f4dcb9da3aa22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

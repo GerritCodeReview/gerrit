@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d8ce50f_5c45b80b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-30T10:16:07Z",
+      "side": 1,
+      "message": "Explain why this is either `Tab | string`",
+      "revId": "55dabcb8516cf21e530b5bba9bb25993c021e3e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37669879_fcfbc35f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1736,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-30T10:16:07Z",
+      "side": 1,
+      "message": "Make this an @query field",
+      "revId": "55dabcb8516cf21e530b5bba9bb25993c021e3e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2446a83b_153b5051",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1743,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-30T10:16:07Z",
+      "side": 1,
+      "message": "\u0026\u0026 tabIndex \u003c tabs.length",
+      "revId": "55dabcb8516cf21e530b5bba9bb25993c021e3e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

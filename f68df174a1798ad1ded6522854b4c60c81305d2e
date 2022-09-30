@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc57a289_a2185a28",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-30T18:58:40Z",
+      "side": 1,
+      "message": "optional: move to constructor?",
+      "range": {
+        "startLine": 459,
+        "startChar": 6,
+        "endLine": 460,
+        "endChar": 77
+      },
+      "revId": "f68df174a1798ad1ded6522854b4c60c81305d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "578085f7_c0ab141f",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-30T18:58:40Z",
+      "side": 1,
+      "message": "nit: move to just before use, inside the if below. Same for the next line.",
+      "range": {
+        "startLine": 470,
+        "startChar": 10,
+        "endLine": 470,
+        "endChar": 44
+      },
+      "revId": "f68df174a1798ad1ded6522854b4c60c81305d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54c21f3c_fac789dd",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-30T18:58:40Z",
+      "side": 1,
+      "message": "Do you not need to track hitsCount per-subIndex? Otherwise it seems you could skip over results.",
+      "range": {
+        "startLine": 472,
+        "startChar": 50,
+        "endLine": 472,
+        "endChar": 74
+      },
+      "revId": "f68df174a1798ad1ded6522854b4c60c81305d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "868d6bf5_336db67f",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-30T18:58:40Z",
+      "side": 1,
+      "message": "I know this is the same name the Lucene `searchAfter()` APIs use for this parameter, but it\u0027s not as clear in this code. Maybe `maxHits`? Or go back to `limit`, but I think I like `maxHits` better.",
+      "range": {
+        "startLine": 472,
+        "startChar": 14,
+        "endLine": 472,
+        "endChar": 21
+      },
+      "revId": "f68df174a1798ad1ded6522854b4c60c81305d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d244c51_7df2e307",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-30T18:58:40Z",
+      "side": 1,
+      "message": "for follow-up: from the Lucene javadocs [1], it seems it\u0027s possible `scoreDocs` could be `null`. We should probably guard against that.\n\n[1] https://lucene.apache.org/core/6_6_5/core/org/apache/lucene/search/TopDocsCollector.html#newTopDocs-org.apache.lucene.search.ScoreDoc:A-int-",
+      "range": {
+        "startLine": 482,
+        "startChar": 47,
+        "endLine": 482,
+        "endChar": 54
+      },
+      "revId": "f68df174a1798ad1ded6522854b4c60c81305d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12c423e6_283eb09e",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-30T18:58:40Z",
+      "side": 1,
+      "message": "why is this not `null` still?",
+      "range": {
+        "startLine": 484,
+        "startChar": 83,
+        "endLine": 484,
+        "endChar": 94
+      },
+      "revId": "f68df174a1798ad1ded6522854b4c60c81305d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bda17a1e_06616463",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-09-30T18:58:40Z",
+      "side": 1,
+      "message": "can you simplify to:\n\n```\n    if (opts.searchAfter() !\u003d null \u0026\u0026 opts.searchAfter() instanceof Map) {\n      return ((Map\u003cChangeSubIndex, ScoreDoc\u003e) opts.searchAfter()).get(subIndex);\n    }\n    return null;\n```",
+      "range": {
+        "startLine": 521,
+        "startChar": 0,
+        "endLine": 525,
+        "endChar": 23
+      },
+      "revId": "f68df174a1798ad1ded6522854b4c60c81305d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

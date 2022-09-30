@@ -16,6 +16,24 @@
       "message": "One way you could enforce this is by doing having a listener to `state$` that then looks at the view-type and calls the appropriate this.fooViewModel.setState",
       "revId": "7b22a298b4add1f8205da3c1a37a7df7c7dd335a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d346442_f156d327",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 1053,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-30T13:06:50Z",
+      "side": 1,
+      "message": "Yes. I would like to follow up with breaking up all the router handlers into something generic (where I can enforce this) and something view specific, which would be moved to a different file.\n\nSince you gave +2 I assume that you are ok with submitting this change as is.",
+      "parentUuid": "85a38741_5265a715",
+      "revId": "7b22a298b4add1f8205da3c1a37a7df7c7dd335a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "@Nasser can you try running //plugins/gitiles:gitiles_tests locally? Do they work for you?",
       "revId": "857b009b7a69ad4347b3ce693901054bf8c2155a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da8cfe7e_ca9abd8f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-09-30T18:46:48Z",
+      "side": 1,
+      "message": "without this change all tests in //plugins/gitiles:gitiles_tests succeed, with this change there are 2 test failures:\n\n1) listBranches_branchVisiblityIsRespected(com.googlesource.gerrit.plugins.gitiles.ListProjectsAccessTest)\ncom.google.gerrit.extensions.restapi.AuthException: update for creating new commit object not permitted\n\tat com.google.gerrit.server.project.CreateRefControl.checkCreateCommit(CreateRefControl.java:193)\n\tat com.google.gerrit.server.project.CreateRefControl.checkCreateRef(CreateRefControl.java:93)\n\tat com.google.gerrit.server.restapi.project.CreateBranch.apply(CreateBranch.java:132)\n\tat com.google.gerrit.server.api.projects.BranchApiImpl.create(BranchApiImpl.java:84)\n\tat com.googlesource.gerrit.plugins.gitiles.ListProjectsAccessTest.listBranches_branchVisiblityIsRespected(ListProjectsAccessTest.java:81)\n\n2) resolveRepository_branchVisibilityIsRespected(com.googlesource.gerrit.plugins.gitiles.RepositoryResolverAccessTest)\ncom.google.gerrit.extensions.restapi.AuthException: update for creating new commit object not permitted\n\tat com.google.gerrit.server.project.CreateRefControl.checkCreateCommit(CreateRefControl.java:193)\n\tat com.google.gerrit.server.project.CreateRefControl.checkCreateRef(CreateRefControl.java:93)\n\tat com.google.gerrit.server.restapi.project.CreateBranch.apply(CreateBranch.java:132)\n\tat com.google.gerrit.server.api.projects.BranchApiImpl.create(BranchApiImpl.java:84)\n\tat com.googlesource.gerrit.plugins.gitiles.RepositoryResolverAccessTest.resolveRepository_branchVisibilityIsRespected(RepositoryResolverAccessTest.java:66)\n\t...",
+      "parentUuid": "9bcfd832_766b31ec",
+      "revId": "857b009b7a69ad4347b3ce693901054bf8c2155a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

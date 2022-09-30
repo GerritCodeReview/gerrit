@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cf3f355f_ad6e03e3",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1385,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-30T11:38:40Z",
+      "side": 1,
+      "message": "It would be useful to have the handle functions next to the createUrl functions.\n\nAnd then the tests could verify for a bunch of states that `deepEqual(handleChangeRoute(createChangeUrl(state)), state)`",
+      "revId": "2af4d849bec244aaa70e086b3768a1fbdceb94d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3f643305_564a37be",
         "filename": "polygerrit-ui/app/models/views/change.ts",
         "patchSetId": 6

@@ -1169,6 +1169,24 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  public void pushForMasterWithNonExistingForgedAuthorAndCommitter() throws Exception {
+    // Create a commit with different forged author and committer.
+    RevCommit c =
+        commitBuilder()
+            .author(new PersonIdent("author", "author@example.com"))
+            .committer(new PersonIdent("committer", "committer@example.com"))
+            .add(PushOneCommit.FILE_NAME, PushOneCommit.FILE_CONTENT)
+            .message(PushOneCommit.SUBJECT)
+            .create();
+    // Push commit as "Administrator".
+    pushHead(testRepo, "refs/for/master");
+
+    String changeId = GitUtil.getChangeId(testRepo, c).get();
+    assertThat(getOwnerEmail(changeId)).isEqualTo(admin.email());
+    assertThat(getReviewerEmails(changeId, ReviewerState.CC)).isEmpty();
+  }
+
+  @Test
   @GerritConfig(name = "accounts.visibility", value = "SAME_GROUP")
   public void pushForMasterWithNonVisibleForgedAuthorAndCommitter() throws Exception {
     // Define readable names for the users we use in this test.
@@ -1238,6 +1256,25 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(sender.getMessages()).hasSize(1);
     assertThat(sender.getMessages().get(0).rcpt())
         .containsExactly(user.getNameEmail(), user2.getNameEmail());
+  }
+
+  @Test
+  public void pushNewPatchSetForMasterWithNonExistingForgedAuthorAndCommitter() throws Exception {
+    // First patch set has author and committer matching change owner.
+    PushOneCommit.Result r = pushTo("refs/for/master");
+
+    assertThat(getOwnerEmail(r.getChangeId())).isEqualTo(admin.email());
+    assertThat(getReviewerEmails(r.getChangeId(), ReviewerState.REVIEWER)).isEmpty();
+
+    amendBuilder()
+        .author(new PersonIdent("author", "author@example.com"))
+        .committer(new PersonIdent("committer", "committer@example.com"))
+        .add(PushOneCommit.FILE_NAME, PushOneCommit.FILE_CONTENT + "2")
+        .create();
+    pushHead(testRepo, "refs/for/master");
+
+    assertThat(getOwnerEmail(r.getChangeId())).isEqualTo(admin.email());
+    assertThat(getReviewerEmails(r.getChangeId(), ReviewerState.CC)).isEmpty();
   }
 
   @Test

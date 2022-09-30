@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "22bd0811_7b75c563",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
+        "patchSetId": 28
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-30T08:59:15Z",
+      "side": 1,
+      "message": "import should be in related-collapse, not here.",
+      "range": {
+        "startLine": 12,
+        "startChar": 14,
+        "endLine": 12,
+        "endChar": 20
+      },
+      "revId": "56cda553582b1455a87767eaf4c34ebbeb7fc540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2141e0c0_3526ff1c",
         "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-collapse.ts",
         "patchSetId": 28
@@ -48,6 +71,52 @@
       "writtenOn": "2022-09-30T08:53:35Z",
       "side": 1,
       "message": "Flag guard this.",
+      "revId": "56cda553582b1455a87767eaf4c34ebbeb7fc540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b363c1a6_7c3a2c10",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model_test.ts",
+        "patchSetId": 28
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-30T08:59:15Z",
+      "side": 1,
+      "message": "unused?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 15
+      },
+      "revId": "56cda553582b1455a87767eaf4c34ebbeb7fc540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f02eae7a_471de051",
+        "filename": "polygerrit-ui/app/services/flags/flags.ts",
+        "patchSetId": 28
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-30T08:59:15Z",
+      "side": 1,
+      "message": "maybe BULK_ACTIONS_ON_CHANGE_PAGE? since this also includes submitted together which is not always a stack",
+      "range": {
+        "startLine": 17,
+        "startChar": 2,
+        "endLine": 17,
+        "endChar": 34
+      },
       "revId": "56cda553582b1455a87767eaf4c34ebbeb7fc540",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

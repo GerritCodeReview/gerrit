@@ -106,6 +106,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dc81a895_6671d9cc",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_test.ts",
+        "patchSetId": 28
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-09-30T09:52:16Z",
+      "side": 1,
+      "message": "seems like a test that should be in gr-related-change test file and not here.",
+      "range": {
+        "startLine": 362,
+        "startChar": 0,
+        "endLine": 392,
+        "endChar": 0
+      },
+      "revId": "56cda553582b1455a87767eaf4c34ebbeb7fc540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2141e0c0_3526ff1c",
         "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-collapse.ts",
         "patchSetId": 28

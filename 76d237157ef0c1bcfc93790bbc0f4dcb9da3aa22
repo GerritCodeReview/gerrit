@@ -88,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "81826f63_2b3d1594",
+        "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-09-30T10:52:01Z",
+      "side": 1,
+      "message": "Then this method needs a better name because right now it reads as a getter and it\u0027s confusing that a getter would modify state.",
+      "parentUuid": "eda14983_21db751e",
+      "revId": "76d237157ef0c1bcfc93790bbc0f4dcb9da3aa22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc853162_80028de1",

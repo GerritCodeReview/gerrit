@@ -70,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9007066d_60666859",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-30T19:04:27Z",
+      "side": 1,
+      "message": "\u003e Should you also be checking to see if pred is a PaginatedSource?\n\n`pred` cannot be an instance of `PaginatedSource`. They are inconvertible types.\n\n\u003e And since AndSource extends PaginatingSource, maybe s/AndSource/PaginatingSource/ to be safer?\n\n`AndSource` does not extend `PaginatingSource`",
+      "parentUuid": "ae8dc982_e0d8323a",
+      "revId": "e5ba755d0bfbbf7d7e8e4b0aaaceed27e5792677",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "10d7b4bf_20865a14",
@@ -83,6 +101,30 @@
       "writtenOn": "2022-09-27T19:46:25Z",
       "side": 1,
       "message": "Make the two methods above the defaults so that you don\u0027t have to override it here?",
+      "range": {
+        "startLine": 294,
+        "startChar": 0,
+        "endLine": 294,
+        "endChar": 16
+      },
+      "revId": "e5ba755d0bfbbf7d7e8e4b0aaaceed27e5792677",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6a85861_92b65596",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-09-30T19:04:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10d7b4bf_20865a14",
       "range": {
         "startLine": 294,
         "startChar": 0,

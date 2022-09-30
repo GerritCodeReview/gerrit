@@ -47,6 +47,8 @@ export interface ChangeViewState extends ViewState {
   attempt?: AttemptChoice;
   /** selected check runs identified by `checkName` */
   checksRunsSelected?: string[];
+  /** regular expression for filtering check results */
+  checksResultsFilter?: string;
 
   /** State properties that trigger one-time actions */
 
@@ -111,6 +113,9 @@ export function createChangeUrl(
   if (state.filter) {
     queries.push(`filter=${state.filter}`);
   }
+  if (state.checksResultsFilter) {
+    queries.push(`checksResultsFilter=${state.checksResultsFilter}`);
+  }
   if (state.checksRunsSelected && state.checksRunsSelected.length > 0) {
     queries.push(`checksRunsSelected=${[...state.checksRunsSelected].sort()}`);
   }
@@ -160,6 +165,11 @@ export class ChangeViewModel extends Model<ChangeViewState | undefined> {
   public readonly attempt$ = select(this.state$, state => state?.attempt);
 
   public readonly filter$ = select(this.state$, state => state?.filter);
+
+  public readonly checksResultsFilter$ = select(
+    this.state$,
+    state => state?.checksResultsFilter ?? ''
+  );
 
   public readonly checksRunsSelected$ = select(
     this.state$,

@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "311ee06e_6a6f703c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-09-30T09:25:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7752b187_814c0d19",
+      "revId": "41dbad4be6c75efc4c02a0de9d1690b7221f79a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "5888aacf_879e3c2b",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
         "patchSetId": 2

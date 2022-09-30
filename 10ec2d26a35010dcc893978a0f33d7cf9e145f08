@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f91c3590_c19da288",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1244,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-30T13:24:57Z",
+      "side": 1,
+      "message": "That is why change 347058 is so nice. I don\u0027t have to think about this anymore. :-)",
+      "parentUuid": "e9a99d25_949efcf3",
+      "revId": "10ec2d26a35010dcc893978a0f33d7cf9e145f08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aaf4dcbb_263ddf8f",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "30557096_d3bef173",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1366,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-30T13:24:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aaf4dcbb_263ddf8f",
+      "revId": "10ec2d26a35010dcc893978a0f33d7cf9e145f08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ace2850f_a489d276",
@@ -48,6 +84,24 @@
       "writtenOn": "2022-09-30T12:01:01Z",
       "side": 1,
       "message": "Why this logic change? CAn you update the commit message?",
+      "revId": "10ec2d26a35010dcc893978a0f33d7cf9e145f08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5638eda_22b79085",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1375,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-30T13:24:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ace2850f_a489d276",
       "revId": "10ec2d26a35010dcc893978a0f33d7cf9e145f08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -81,6 +81,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c95dde1_70fedc04",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-change.ts",
+        "patchSetId": 28
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-30T11:23:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9c22f84_35708d7b",
+      "range": {
+        "startLine": 168,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 0
+      },
+      "revId": "56cda553582b1455a87767eaf4c34ebbeb7fc540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "22bd0811_7b75c563",
@@ -94,6 +118,30 @@
       "writtenOn": "2022-09-30T08:59:15Z",
       "side": 1,
       "message": "import should be in related-collapse, not here.",
+      "range": {
+        "startLine": 12,
+        "startChar": 14,
+        "endLine": 12,
+        "endChar": 20
+      },
+      "revId": "56cda553582b1455a87767eaf4c34ebbeb7fc540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9b9d54a_b305f6f9",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
+        "patchSetId": 28
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-30T11:23:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22bd0811_7b75c563",
       "range": {
         "startLine": 12,
         "startChar": 14,
@@ -129,6 +177,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "28eae056_99c4f200",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_test.ts",
+        "patchSetId": 28
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-30T11:23:44Z",
+      "side": 1,
+      "message": "I guess it can be argued both ways but I like that the entire test suite is in one place, easy to find what is tested.\nIs it fine to leave it here?",
+      "parentUuid": "dc81a895_6671d9cc",
+      "range": {
+        "startLine": 362,
+        "startChar": 0,
+        "endLine": 392,
+        "endChar": 0
+      },
+      "revId": "56cda553582b1455a87767eaf4c34ebbeb7fc540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2141e0c0_3526ff1c",
         "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-collapse.ts",
         "patchSetId": 28
@@ -140,6 +212,24 @@
       "writtenOn": "2022-09-30T08:53:35Z",
       "side": 1,
       "message": "Flag guard",
+      "revId": "56cda553582b1455a87767eaf4c34ebbeb7fc540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2dd9e413_09e115dc",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-collapse.ts",
+        "patchSetId": 28
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-30T11:23:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2141e0c0_3526ff1c",
       "revId": "56cda553582b1455a87767eaf4c34ebbeb7fc540",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -157,6 +247,24 @@
       "writtenOn": "2022-09-30T08:53:35Z",
       "side": 1,
       "message": "Flag guard this.",
+      "revId": "56cda553582b1455a87767eaf4c34ebbeb7fc540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd2cdd47_278c62ee",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-collapse.ts",
+        "patchSetId": 28
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-30T11:23:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd524131_baa3f89e",
       "revId": "56cda553582b1455a87767eaf4c34ebbeb7fc540",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -184,6 +292,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb99c737_0e2c6272",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model_test.ts",
+        "patchSetId": 28
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-30T11:23:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b363c1a6_7c3a2c10",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 15
+      },
+      "revId": "56cda553582b1455a87767eaf4c34ebbeb7fc540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f02eae7a_471de051",
@@ -197,6 +329,30 @@
       "writtenOn": "2022-09-30T08:59:15Z",
       "side": 1,
       "message": "maybe BULK_ACTIONS_ON_CHANGE_PAGE? since this also includes submitted together which is not always a stack",
+      "range": {
+        "startLine": 17,
+        "startChar": 2,
+        "endLine": 17,
+        "endChar": 34
+      },
+      "revId": "56cda553582b1455a87767eaf4c34ebbeb7fc540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6873d1f8_054e3cc9",
+        "filename": "polygerrit-ui/app/services/flags/flags.ts",
+        "patchSetId": 28
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-09-30T11:23:44Z",
+      "side": 1,
+      "message": "Perhaps but this is not really exposed to the user and will require making a Critique CL to update the name hence I prefer to keep it as is.\nIdeally this is discussed during the CL that creates the experiment name and not now.",
+      "parentUuid": "f02eae7a_471de051",
       "range": {
         "startLine": 17,
         "startChar": 2,

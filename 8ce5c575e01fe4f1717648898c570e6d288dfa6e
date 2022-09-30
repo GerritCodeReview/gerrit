@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "33c0f5cb_67bbb479",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-30T10:35:35Z",
+      "side": 1,
+      "message": "The router model is always changed first, so I was thinking that this is safe enough. But I had the same thoughts as you when writing the code. I just could not find a good solution to the problem, so I kept this slightly fragile code.\n\nDo you have a good solution?",
+      "parentUuid": "e7d7f100_d5f57ae6",
+      "revId": "8ce5c575e01fe4f1717648898c570e6d288dfa6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7b0fda22_87a682d0",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
         "patchSetId": 7
@@ -66,6 +84,24 @@
       "writtenOn": "2022-09-30T09:57:47Z",
       "side": 1,
       "message": "URL params can be ordered in different ways, this check is not safe.",
+      "revId": "8ce5c575e01fe4f1717648898c570e6d288dfa6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03adeda5_eabad7bf",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-30T10:35:35Z",
+      "side": 1,
+      "message": "`createChangeUrl()` produces predictable ordering, so I think this is fine.\n\nNote that the `page.replace()` call really only replaces the URL. It will not trigger anything. It cannot result in an infinite loop.",
+      "parentUuid": "7b0fda22_87a682d0",
       "revId": "8ce5c575e01fe4f1717648898c570e6d288dfa6e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

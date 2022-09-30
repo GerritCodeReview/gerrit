@@ -11,6 +11,7 @@ import {
   containsAll,
   intersection,
   difference,
+  toggle,
 } from './common-util';
 
 suite('common-util tests', () => {
@@ -96,5 +97,12 @@ suite('common-util tests', () => {
     assert.deepEqual(difference([1, 2, 3], [2, 3, 4]), [1]);
     assert.deepEqual(difference([1, 2, 3], [1, 2, 3]), []);
     assert.deepEqual(difference([1, 2, 3], [4, 5, 6]), [1, 2, 3]);
+  });
+
+  test('toggle', () => {
+    assert.deepEqual(toggle([], 1), [1]);
+    assert.deepEqual(toggle([1], 1), []);
+    assert.deepEqual(toggle([1, 2, 3], 1), [2, 3]);
+    assert.deepEqual(toggle([2, 3], 1), [2, 3, 1]);
   });
 });

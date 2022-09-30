@@ -11,7 +11,6 @@ import {
 } from '../../models/checks/checks-util';
 
 export interface RunSelectedEventDetail {
-  reset: boolean;
   checkName?: string;
 }
 
@@ -27,16 +26,6 @@ export function fireRunSelected(target: EventTarget, checkName: string) {
   target.dispatchEvent(
     new CustomEvent('run-selected', {
       detail: {reset: false, checkName},
-      composed: true,
-      bubbles: true,
-    })
-  );
-}
-
-export function fireRunSelectionReset(target: EventTarget) {
-  target.dispatchEvent(
-    new CustomEvent('run-selected', {
-      detail: {reset: true},
       composed: true,
       bubbles: true,
     })

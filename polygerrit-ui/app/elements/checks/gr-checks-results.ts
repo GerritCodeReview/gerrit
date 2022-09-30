@@ -77,6 +77,7 @@ import {HtmlPatched} from '../../utils/lit-util';
 import {DropdownItem} from '../shared/gr-dropdown-list/gr-dropdown-list';
 import './gr-checks-attempt';
 import {createDiffUrl} from '../../models/views/diff';
+import {changeViewModelToken} from '../../models/views/change';
 
 /**
  * Firing this event sets the regular expression of the results filter.
@@ -766,7 +767,7 @@ export class GrChecksResults extends LitElement {
    * Check names of runs that are selected in the runs panel. When this array
    * is empty, then no run is selected and all runs should be shown.
    */
-  @property({attribute: false})
+  @state()
   selectedRuns: string[] = [];
 
   @state()
@@ -807,6 +808,8 @@ export class GrChecksResults extends LitElement {
    * is not applied anymore.
    */
   private isSectionExpandedByUser = new Map<Category, boolean>();
+
+  private readonly getViewModel = resolve(this, changeViewModelToken);
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
@@ -852,6 +855,11 @@ export class GrChecksResults extends LitElement {
       this,
       () => this.getChecksModel().someProvidersAreLoadingSelected$,
       x => (this.someProvidersAreLoading = x)
+    );
+    subscribe(
+      this,
+      () => this.getViewModel().checksRunsSelected$,
+      x => (this.selectedRuns = x)
     );
   }
 

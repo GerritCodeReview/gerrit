@@ -14,6 +14,7 @@ import {
 import {Tab} from '../../constants/constants';
 import {GerritView} from '../../services/router/router-model';
 import {UrlEncodedCommentId} from '../../types/common';
+import {toggle} from '../../utils/common-util';
 import {select} from '../../utils/observable-util';
 import {
   encodeURL,
@@ -45,6 +46,8 @@ export interface ChangeViewState extends ViewState {
   filter?: string;
   /** selected attempt for check runs (undefined=latest) */
   attempt?: AttemptChoice;
+  /** selected check runs identified by `checkName` */
+  checksRunsSelected?: string[];
 
   /** State properties that trigger one-time actions */
 
@@ -109,6 +112,9 @@ export function createChangeUrl(
   if (state.filter) {
     queries.push(`filter=${state.filter}`);
   }
+  if (state.checksRunsSelected && state.checksRunsSelected.length > 0) {
+    queries.push(`checksRunsSelected=${[...state.checksRunsSelected].sort()}`);
+  }
   if (state.tab && state.tab !== Tab.FILES) {
     queries.push(`tab=${state.tab}`);
   }
@@ -156,6 +162,11 @@ export class ChangeViewModel extends Model<ChangeViewState | undefined> {
 
   public readonly filter$ = select(this.state$, state => state?.filter);
 
+  public readonly checksRunsSelected$ = select(
+    this.state$,
+    state => state?.checksRunsSelected ?? []
+  );
+
   constructor() {
     super(undefined);
     this.state$.subscribe(s => {
@@ -167,5 +178,10 @@ export class ChangeViewModel extends Model<ChangeViewState | undefined> {
         });
       }
     });
+  }
+
+  toggleSelectedCheckRun(checkName: string) {
+    const selected = this.getState()?.checksRunsSelected ?? [];
+    this.updateState({checksRunsSelected: toggle(selected, checkName)});
   }
 }

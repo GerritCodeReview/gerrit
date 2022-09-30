@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bad0be3_d840e783",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1733,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-30T13:10:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3198eadd_a9573aa4",
+      "revId": "c6fb1141dff6fbd0b2246836f4b8208581382b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a9d2868c_836a2d10",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-09-30T11:40:24Z",
       "side": 1,
       "message": "Don\u0027t you want this behavior for onPaperTabSelectionChange as well?\nI\u0027d factor out the common logic between this method and onPaperTabSelectionChange",
+      "revId": "c6fb1141dff6fbd0b2246836f4b8208581382b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6276a904_2e420ba6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1764,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-30T13:10:16Z",
+      "side": 1,
+      "message": "No, I don\u0027t want that in `onPaperTabSelectionChanged()`.\n\n`scrollIntoView` is a property that the event creator has to set explicitly, if they want that behavior.\n\nOtherwise I don\u0027t see common logic.",
+      "parentUuid": "a9d2868c_836a2d10",
       "revId": "c6fb1141dff6fbd0b2246836f4b8208581382b65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

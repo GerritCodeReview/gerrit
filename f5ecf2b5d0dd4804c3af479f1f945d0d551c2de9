@@ -52,6 +52,24 @@
       "parentUuid": "9995004a_436b3fdc",
       "revId": "f5ecf2b5d0dd4804c3af479f1f945d0d551c2de9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7342191a_a4b22a83",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1108045
+      },
+      "writtenOn": "2022-09-30T17:09:41Z",
+      "side": 1,
+      "message": "Some thoughts on how to approach the latency trade off:\n\n- Detect link preview bots and serve a static site just for them. Unfortunately, there is no standard way of identifying them other than by making a list of known user agents. Maintaining a list doesn\u0027t sound great, but otherwise, this would be my preferred solution - zero cost for the SPA, and it would us add more features over time (like Open Graph snippets or including parts of the commit message).\n\n- Make it configurable so users can pick their poison. Not great since it would lead to an inconsistent user experience.\n\n- Fetch /detail and prefetch it - the frontend fetches that anyway so at least don\u0027t pay the cost twice.\n\n(happy to move the discussion to the issue/repo-discuss/elsewhere - I\u0027m aware that submitting a CL without getting sign-off on the overall approach first means it might be rejected, I\u0027m OK with that)",
+      "parentUuid": "9ca6884e_345317f4",
+      "revId": "f5ecf2b5d0dd4804c3af479f1f945d0d551c2de9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

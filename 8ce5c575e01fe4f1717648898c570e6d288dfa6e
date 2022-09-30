@@ -16,6 +16,24 @@
       "message": "This change should be split into two as it\u0027s doing two separate things.",
       "revId": "8ce5c575e01fe4f1717648898c570e6d288dfa6e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2ae342f_b36f16d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-09-30T09:53:07Z",
+      "side": 1,
+      "message": "Was this comment meant to be unresolved?\n\nApart from splitting this up being a lot of work (30 minutes?) I think the change is small enough and the two changes are so similar that it is actually easier to review in one change.",
+      "parentUuid": "4b09f7be_f4aee061",
+      "revId": "8ce5c575e01fe4f1717648898c570e6d288dfa6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

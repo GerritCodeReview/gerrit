@@ -9,12 +9,9 @@
       "updated": "2022-09-30T11:17:36Z"
     },
     "gerritforge:polygerrit-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "FAILED",
-      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-chrome-latest/21083/console",
-      "started": "2022-09-30T11:05:18Z",
-      "finished": "2022-09-30T11:28:34Z",
+      "state": "NOT_STARTED",
       "created": "2022-09-30T11:05:18Z",
-      "updated": "2022-09-30T11:28:34Z"
+      "updated": "2022-09-30T11:28:58Z"
     }
   }
 }

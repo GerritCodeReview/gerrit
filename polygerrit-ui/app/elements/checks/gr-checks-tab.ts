@@ -14,7 +14,6 @@ import {changeModelToken} from '../../models/change/change-model';
 import './gr-checks-runs';
 import './gr-checks-results';
 import {NumericChangeId, PatchSetNumber} from '../../types/common';
-import {RunSelectedEvent} from './gr-checks-util';
 import {TabState} from '../../types/events';
 import {getAppContext} from '../../services/app-context';
 import {subscribe} from '../lit/subscription-controller';
@@ -49,9 +48,6 @@ export class GrChecksTab extends LitElement {
 
   @state()
   changeNum: NumericChangeId | undefined = undefined;
-
-  @state()
-  selectedRuns: string[] = [];
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
@@ -132,40 +128,15 @@ export class GrChecksTab extends LitElement {
           class="runs"
           ?collapsed=${this.offsetWidth < 1000}
           .runs=${this.runs}
-          .selectedRuns=${this.selectedRuns}
           .tabState=${this.tabState?.checksTab}
-          @run-selected=${this.handleRunSelected}
         ></gr-checks-runs>
         <gr-checks-results
           class="results"
           .tabState=${this.tabState?.checksTab}
           .runs=${this.runs}
-          .selectedRuns=${this.selectedRuns}
         ></gr-checks-results>
       </div>
     `;
-  }
-
-  handleRunSelected(e: RunSelectedEvent) {
-    this.reporting.reportInteraction(Interaction.CHECKS_RUN_SELECTED, {
-      checkName: e.detail.checkName,
-      reset: e.detail.reset,
-    });
-    if (e.detail.reset) {
-      this.selectedRuns = [];
-      return;
-    }
-    if (e.detail.checkName) {
-      this.toggleSelected(e.detail.checkName);
-    }
-  }
-
-  toggleSelected(checkName: string) {
-    if (this.selectedRuns.includes(checkName)) {
-      this.selectedRuns = this.selectedRuns.filter(r => r !== checkName);
-    } else {
-      this.selectedRuns = [...this.selectedRuns, checkName];
-    }
   }
 }
 

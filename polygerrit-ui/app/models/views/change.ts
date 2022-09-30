@@ -44,6 +44,8 @@ export interface ChangeViewState extends ViewState {
   filter?: string;
   /** selected attempt for check runs (undefined=latest) */
   attempt?: AttemptChoice;
+  /** selected check runs identified by `checkName` */
+  checksRunsSelected?: string[];
 
   /** State properties that trigger one-time actions */
 
@@ -108,6 +110,9 @@ export function createChangeUrl(
   if (state.filter) {
     queries.push(`filter=${state.filter}`);
   }
+  if (state.checksRunsSelected && state.checksRunsSelected.length > 0) {
+    queries.push(`checksRunsSelected=${[...state.checksRunsSelected].sort()}`);
+  }
   if (state.tab && state.tab !== Tab.FILES) {
     queries.push(`tab=${state.tab}`);
   }
@@ -155,6 +160,11 @@ export class ChangeViewModel extends Model<ChangeViewState | undefined> {
 
   public readonly filter$ = select(this.state$, state => state?.filter);
 
+  public readonly checksRunsSelected$ = select(
+    this.state$,
+    state => state?.checksRunsSelected ?? []
+  );
+
   constructor() {
     super(undefined);
     this.state$.subscribe(s => {
@@ -166,5 +176,15 @@ export class ChangeViewModel extends Model<ChangeViewState | undefined> {
         });
       }
     });
+  }
+
+  toggleSelectedCheckRun(checkName: string) {
+    let selected = [...(this.getState()?.checksRunsSelected ?? [])];
+    if (selected.includes(checkName)) {
+      selected = selected.filter(r => r !== checkName);
+    } else {
+      selected = [...selected, checkName];
+    }
+    this.updateState({checksRunsSelected: selected});
   }
 }

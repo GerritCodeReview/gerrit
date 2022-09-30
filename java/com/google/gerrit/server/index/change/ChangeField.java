@@ -62,6 +62,7 @@ import com.google.gerrit.entities.converter.PatchSetApprovalProtoConverter;
 import com.google.gerrit.entities.converter.PatchSetProtoConverter;
 import com.google.gerrit.entities.converter.ProtoConverter;
 import com.google.gerrit.index.FieldDef;
+import com.google.gerrit.index.IndexedField;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.SchemaFieldDefs;
 import com.google.gerrit.index.SchemaUtil;
@@ -128,35 +129,57 @@ public class ChangeField {
       prefix(ChangeQueryBuilder.FIELD_CHANGE_ID).build(changeGetter(c -> c.getKey().get()));
 
   /** Change status string, in the same format as {@code status:}. */
-  public static final FieldDef<ChangeData, String> STATUS =
-      exact(ChangeQueryBuilder.FIELD_STATUS)
+  public static final IndexedField<ChangeData, String> STATUS_FIELD =
+      IndexedField.<ChangeData>stringBuilder("Status")
+          .required()
+          .size(20)
           .build(changeGetter(c -> ChangeStatusPredicate.canonicalize(c.getStatus())));
 
+  public static final IndexedField<ChangeData, String>.SearchSpec STATUS_SPEC =
+      STATUS_FIELD.exact(ChangeQueryBuilder.FIELD_STATUS);
+
   /** Project containing the change. */
-  public static final FieldDef<ChangeData, String> PROJECT =
-      exact(ChangeQueryBuilder.FIELD_PROJECT)
+  public static final IndexedField<ChangeData, String> PROJECT_FIELD =
+      IndexedField.<ChangeData>stringBuilder("Project")
+          .required()
           .stored()
+          .size(200)
           .build(changeGetter(c -> c.getProject().get()));
 
+  public static final IndexedField<ChangeData, String>.SearchSpec PROJECT_SPEC =
+      PROJECT_FIELD.exact(ChangeQueryBuilder.FIELD_PROJECT);
+
   /** Project containing the change, as a prefix field. */
+  public static final IndexedField<ChangeData, String>.SearchSpec PROJECTS_SPEC =
+      PROJECT_FIELD.prefix(ChangeQueryBuilder.FIELD_PROJECTS);
+
   public static final FieldDef<ChangeData, String> PROJECTS =
       prefix(ChangeQueryBuilder.FIELD_PROJECTS).build(changeGetter(c -> c.getProject().get()));
 
   /** Reference (aka branch) the change will submit onto. */
-  public static final FieldDef<ChangeData, String> REF =
-      exact(ChangeQueryBuilder.FIELD_REF).build(changeGetter(c -> c.getDest().branch()));
+  public static final IndexedField<ChangeData, String> REF_FIELD =
+      IndexedField.<ChangeData>stringBuilder("Ref")
+          .required()
+          .size(300)
+          .build(changeGetter(c -> c.getDest().branch()));
+
+  public static final IndexedField<ChangeData, String>.SearchSpec REF_SPEC =
+      REF_FIELD.exact(ChangeQueryBuilder.FIELD_REF);
 
   /** Topic, a short annotation on the branch. */
-  public static final FieldDef<ChangeData, String> EXACT_TOPIC =
-      exact("topic4").build(ChangeField::getTopic);
+  public static final IndexedField<ChangeData, String> TOPIC_FIELD =
+      IndexedField.<ChangeData>stringBuilder("Topic").size(500).build(ChangeField::getTopic);
+
+  public static final IndexedField<ChangeData, String>.SearchSpec EXACT_TOPIC =
+      TOPIC_FIELD.exact("topic4");
 
   /** Topic, a short annotation on the branch. */
-  public static final FieldDef<ChangeData, String> FUZZY_TOPIC =
-      fullText("topic5").build(ChangeField::getTopic);
+  public static final IndexedField<ChangeData, String>.SearchSpec FUZZY_TOPIC =
+      TOPIC_FIELD.fullText("topic5");
 
   /** Topic, a short annotation on the branch. */
-  public static final FieldDef<ChangeData, String> PREFIX_TOPIC =
-      prefix("topic6").build(ChangeField::getTopic);
+  public static final IndexedField<ChangeData, String>.SearchSpec PREFIX_TOPIC =
+      TOPIC_FIELD.prefix("topic6");
 
   /** Submission id assigned by MergeOp. */
   public static final FieldDef<ChangeData, String> SUBMISSIONID =

@@ -170,12 +170,12 @@ public class ChangePredicates {
    * com.google.gerrit.entities.Project.NameKey}.
    */
   public static Predicate<ChangeData> project(Project.NameKey id) {
-    return new ChangeIndexPredicate(ChangeField.PROJECT, id.get());
+    return new ChangeIndexPredicate(ChangeField.PROJECT_SPEC, id.get());
   }
 
   /** Returns a predicate that matches changes targeted at the provided {@code refName}. */
   public static Predicate<ChangeData> ref(String refName) {
-    return new ChangeIndexPredicate(ChangeField.REF, refName);
+    return new ChangeIndexPredicate(ChangeField.REF_SPEC, refName);
   }
 
   /** Returns a predicate that matches changes in the provided {@code topic}. */
@@ -308,7 +308,7 @@ public class ChangePredicates {
    * its name.
    */
   public static Predicate<ChangeData> projectPrefix(String prefix) {
-    return new ChangeIndexPredicate(ChangeField.PROJECTS, prefix);
+    return new ChangeIndexPredicate(ChangeField.PROJECTS_SPEC, prefix);
   }
 
   /**

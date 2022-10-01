@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2a6d2d1_17a3d7a9",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-10-01T00:13:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc57a289_a2185a28",
+      "range": {
+        "startLine": 459,
+        "startChar": 6,
+        "endLine": 460,
+        "endChar": 77
+      },
+      "revId": "f68df174a1798ad1ded6522854b4c60c81305d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "578085f7_c0ab141f",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-09-30T18:58:40Z",
       "side": 1,
       "message": "nit: move to just before use, inside the if below. Same for the next line.",
+      "range": {
+        "startLine": 470,
+        "startChar": 10,
+        "endLine": 470,
+        "endChar": 44
+      },
+      "revId": "f68df174a1798ad1ded6522854b4c60c81305d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5dc7e2b7_7c3a9fd4",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-10-01T00:13:00Z",
+      "side": 1,
+      "message": "Not applicable now. I am no longer calling the same Lucene API for OFFSET and SEARCH_AFTER. Having them separate makes the code easier to understand.",
+      "parentUuid": "578085f7_c0ab141f",
       "range": {
         "startLine": 470,
         "startChar": 10,
@@ -93,6 +141,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "36124383_129c9768",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-10-01T00:13:00Z",
+      "side": 1,
+      "message": "I think not. I keep track of `hitsCount` to determine the remaining hits needed to meet the desired page size.",
+      "parentUuid": "54c21f3c_fac789dd",
+      "range": {
+        "startLine": 472,
+        "startChar": 50,
+        "endLine": 472,
+        "endChar": 74
+      },
+      "revId": "f68df174a1798ad1ded6522854b4c60c81305d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75860052_931519d1",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-10-01T00:13:00Z",
+      "side": 1,
+      "message": "Done. Renamed it to `maxRemainingHits` now as thats what it actually represents.",
+      "parentUuid": "868d6bf5_336db67f",
+      "range": {
+        "startLine": 472,
+        "startChar": 14,
+        "endLine": 472,
+        "endChar": 21
+      },
+      "revId": "f68df174a1798ad1ded6522854b4c60c81305d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8d244c51_7df2e307",
@@ -106,6 +202,30 @@
       "writtenOn": "2022-09-30T18:58:40Z",
       "side": 1,
       "message": "for follow-up: from the Lucene javadocs [1], it seems it\u0027s possible `scoreDocs` could be `null`. We should probably guard against that.\n\n[1] https://lucene.apache.org/core/6_6_5/core/org/apache/lucene/search/TopDocsCollector.html#newTopDocs-org.apache.lucene.search.ScoreDoc:A-int-",
+      "range": {
+        "startLine": 482,
+        "startChar": 47,
+        "endLine": 482,
+        "endChar": 54
+      },
+      "revId": "f68df174a1798ad1ded6522854b4c60c81305d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b58c6793_b291f53a",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-10-01T00:13:00Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8d244c51_7df2e307",
       "range": {
         "startLine": 482,
         "startChar": 47,
@@ -139,6 +259,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "62f3d202_93e37dfa",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-10-01T00:13:00Z",
+      "side": 1,
+      "message": "It being `null` was one of the issues we are trying to fix with this change. If its `null`, we\u0027d end up repeating the query to get the same results over and over for each page.",
+      "parentUuid": "12c423e6_283eb09e",
+      "range": {
+        "startLine": 484,
+        "startChar": 83,
+        "endLine": 484,
+        "endChar": 94
+      },
+      "revId": "f68df174a1798ad1ded6522854b4c60c81305d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bda17a1e_06616463",
@@ -152,6 +296,30 @@
       "writtenOn": "2022-09-30T18:58:40Z",
       "side": 1,
       "message": "can you simplify to:\n\n```\n    if (opts.searchAfter() !\u003d null \u0026\u0026 opts.searchAfter() instanceof Map) {\n      return ((Map\u003cChangeSubIndex, ScoreDoc\u003e) opts.searchAfter()).get(subIndex);\n    }\n    return null;\n```",
+      "range": {
+        "startLine": 521,
+        "startChar": 0,
+        "endLine": 525,
+        "endChar": 23
+      },
+      "revId": "f68df174a1798ad1ded6522854b4c60c81305d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef2c6a6e_fd44691d",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-10-01T00:13:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bda17a1e_06616463",
       "range": {
         "startLine": 521,
         "startChar": 0,

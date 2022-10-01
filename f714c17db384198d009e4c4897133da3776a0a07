@@ -116,6 +116,30 @@
       },
       "revId": "f714c17db384198d009e4c4897133da3776a0a07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4e4defd_eed4c632",
+        "filename": "javatests/com/google/gerrit/metrics/dropwizard/DropWizardReservoirProviderTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-01T02:20:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8404362_98b671c1",
+      "range": {
+        "startLine": 59,
+        "startChar": 48,
+        "endLine": 59,
+        "endChar": 51
+      },
+      "revId": "f714c17db384198d009e4c4897133da3776a0a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f09b67a6_a26c59d7",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1352,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-10-02T19:59:59Z",
+      "side": 1,
+      "message": "you felt the need to add a comment, I think that\u0027s a consequence of introducing a boolean method parameter\nhttps://martinfowler.com/bliki/FlagArgument.html",
+      "range": {
+        "startLine": 1352,
+        "startChar": 74,
+        "endLine": 1352,
+        "endChar": 88
+      },
+      "revId": "8de1c025503480dd84350aed3434629f02e95bac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

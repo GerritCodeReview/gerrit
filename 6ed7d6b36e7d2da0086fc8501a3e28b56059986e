@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4edc34c7_a6d7a38e",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-02T23:26:15Z",
+      "side": 1,
+      "message": "Should this be `toPaginatingSource` now?",
+      "range": {
+        "startLine": 116,
+        "startChar": 30,
+        "endLine": 116,
+        "endChar": 42
+      },
+      "revId": "6ed7d6b36e7d2da0086fc8501a3e28b56059986e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "266ac3e2_582109b0",
+        "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-02T23:26:15Z",
+      "side": 1,
+      "message": "s/`- 1 \u003c`/`\u003c\u003d`/\n\n(Should show up when you rebase on the latest patchset of the parent change, but just adding as a reminder since this is moved from another file. Check for other changes in the other file from when you rebase too.)",
+      "range": {
+        "startLine": 78,
+        "startChar": 58,
+        "endLine": 78,
+        "endChar": 63
+      },
+      "revId": "6ed7d6b36e7d2da0086fc8501a3e28b56059986e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4fee707_4e0a7897",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-02T23:26:15Z",
+      "side": 1,
+      "message": "This makes me think of account index queries. Can we say `userQueryLimit` or just `userLimit` instead?",
+      "range": {
+        "startLine": 82,
+        "startChar": 28,
+        "endLine": 82,
+        "endChar": 45
+      },
+      "revId": "6ed7d6b36e7d2da0086fc8501a3e28b56059986e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       },
       "revId": "8de1c025503480dd84350aed3434629f02e95bac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "946481bd_d3beca75",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1352,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-02T23:34:45Z",
+      "side": 1,
+      "message": "I think introducing new checkCreateRef* method variants would be ugly in this case, but maybe an enum could replace the boolean? Need something with values that are `GIT_PUSH` and maybe `REST`+`SSH`. Maybe a very generic version could be:\n\n```\npublic enum GerritApiType {\n  GIT,\n  REST,\n  SSH\n}\n```\n\nAnd then `forPush\u003d\u003dtrue` is equivalent to `GerritApiType.GIT`.",
+      "parentUuid": "f09b67a6_a26c59d7",
+      "range": {
+        "startLine": 1352,
+        "startChar": 74,
+        "endLine": 1352,
+        "endChar": 88
+      },
+      "revId": "8de1c025503480dd84350aed3434629f02e95bac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

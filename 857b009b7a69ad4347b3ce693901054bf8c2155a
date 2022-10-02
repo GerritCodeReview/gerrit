@@ -52,6 +52,24 @@
       "parentUuid": "da8cfe7e_ca9abd8f",
       "revId": "857b009b7a69ad4347b3ce693901054bf8c2155a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ab63265_e58b78c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-10-02T07:49:52Z",
+      "side": 1,
+      "message": "Yes, sorry I did not update the gitiles tests earlier. Here is the change: https://gerrit-review.googlesource.com/c/plugins/gitiles/+/347214. Once that is merged I can raise a submodule bump change for gerrit.",
+      "parentUuid": "4dbf139d_8109c743",
+      "revId": "857b009b7a69ad4347b3ce693901054bf8c2155a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

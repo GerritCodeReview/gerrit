@@ -58,7 +58,7 @@ public abstract class StoredCommentLinkInfo {
    * on it's own.
    */
   public static StoredCommentLinkInfo disabled(String name) {
-    return builder(name).setOverrideOnly(true).build();
+    return builder(name).setOverrideOnly(true).setEnabled(false).build();
   }
 
   /** Creates and returns a new {@link StoredCommentLinkInfo.Builder} instance. */

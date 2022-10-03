@@ -3,6 +3,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "be0bdd1f_8df1c0a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-03T20:27:09Z",
+      "side": 1,
+      "message": "add \"executed in two separate config suites\"",
+      "range": {
+        "startLine": 9,
+        "startChar": 36,
+        "endLine": 9,
+        "endChar": 58
+      },
+      "revId": "05c0c5d6366c063cd5786e555854dc848247f684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f41ce07_6f41282c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-03T20:27:09Z",
+      "side": 1,
+      "message": "I believe this works, but also just setting the container to `null` should work as well.",
+      "revId": "05c0c5d6366c063cd5786e555854dc848247f684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "19c08159_875d56e8",
         "filename": "javatests/com/google/gerrit/elasticsearch/ElasticV7QueryAccountsTest.java",
         "patchSetId": 2
@@ -32,6 +72,41 @@
       "side": 1,
       "message": "yeah, let me look at that more.",
       "parentUuid": "19c08159_875d56e8",
+      "revId": "05c0c5d6366c063cd5786e555854dc848247f684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3514d30_125fa177",
+        "filename": "javatests/com/google/gerrit/elasticsearch/ElasticV7QueryAccountsTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-03T20:27:09Z",
+      "side": 1,
+      "message": "\u003e Line 45 says only start it once, yet 53 stops it, should it not?\n\nI guess you want to stop the container when the tests are over, for not leaving one behind.\n\n\u003e If it is running here, will it be with the right config?\n\nIt should, because there is one config per suite.",
+      "parentUuid": "19c08159_875d56e8",
+      "revId": "05c0c5d6366c063cd5786e555854dc848247f684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "521b2995_4f511145",
+        "filename": "javatests/com/google/gerrit/elasticsearch/ElasticV7QueryAccountsTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-03T20:27:09Z",
+      "side": 1,
+      "message": "Alternative solution: just add `container \u003d null` here so that the start will detect that the container isn\u0027t there and will start a new one.",
       "revId": "05c0c5d6366c063cd5786e555854dc848247f684",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "89912047_b8fa6eff",
+        "filename": "java/com/google/gerrit/metrics/MetricsReservoirConfig.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-03T08:29:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7dca25d0_6aacd1a1",
+      "revId": "a608ad2056d2fb11d42004abff8d3c5ec35e7c69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "66174fa9_a96a6258",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-10-03T07:19:11Z",
       "side": 1,
       "message": "missing copyright header",
+      "revId": "a608ad2056d2fb11d42004abff8d3c5ec35e7c69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a57b181_c83c7ace",
+        "filename": "java/com/google/gerrit/metrics/ReservoirType.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-03T08:29:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66174fa9_a96a6258",
       "revId": "a608ad2056d2fb11d42004abff8d3c5ec35e7c69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +94,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a43ba9c6_0c3866c8",
+        "filename": "java/com/google/gerrit/metrics/dropwizard/DropWizardMetricMaker.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-03T08:29:08Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "446dc660_ad7f53d0",
+      "range": {
+        "startLine": 85,
+        "startChar": 6,
+        "endLine": 91,
+        "endChar": 7
+      },
+      "revId": "a608ad2056d2fb11d42004abff8d3c5ec35e7c69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "029f1926_4935a4c7",
@@ -75,6 +135,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8021766_eff9923f",
+        "filename": "java/com/google/gerrit/metrics/dropwizard/DropWizardReservoirProvider.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-03T08:29:08Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "029f1926_4935a4c7",
+      "revId": "a608ad2056d2fb11d42004abff8d3c5ec35e7c69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5f607688_6743a679",
@@ -88,6 +166,30 @@
       "writtenOn": "2022-10-03T07:19:11Z",
       "side": 1,
       "message": "nit: can be package protected",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 9
+      },
+      "revId": "a608ad2056d2fb11d42004abff8d3c5ec35e7c69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be980f41_f692a71c",
+        "filename": "java/com/google/gerrit/server/config/MetricsReservoirConfigImpl.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-03T08:29:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f607688_6743a679",
       "range": {
         "startLine": 42,
         "startChar": 2,

@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7dca25d0_6aacd1a1",
+        "filename": "java/com/google/gerrit/metrics/MetricsReservoirConfig.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-10-03T07:19:11Z",
+      "side": 1,
+      "message": "missing copyright header",
+      "revId": "a608ad2056d2fb11d42004abff8d3c5ec35e7c69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66174fa9_a96a6258",
+        "filename": "java/com/google/gerrit/metrics/ReservoirType.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-10-03T07:19:11Z",
+      "side": 1,
+      "message": "missing copyright header",
+      "revId": "a608ad2056d2fb11d42004abff8d3c5ec35e7c69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "446dc660_ad7f53d0",
+        "filename": "java/com/google/gerrit/metrics/dropwizard/DropWizardMetricMaker.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-10-03T07:19:11Z",
+      "side": 1,
+      "message": "nit: it is an `if/else` divided into two different statements: one uses `Optional.ifPresent` whereas the other one checks its value. IMHO it would be more readable when traditional `if/else` was used",
+      "range": {
+        "startLine": 85,
+        "startChar": 6,
+        "endLine": 91,
+        "endChar": 7
+      },
+      "revId": "a608ad2056d2fb11d42004abff8d3c5ec35e7c69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "029f1926_4935a4c7",
+        "filename": "java/com/google/gerrit/metrics/dropwizard/DropWizardReservoirProvider.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-10-03T07:19:11Z",
+      "side": 1,
+      "message": "nit: utility class is typically accompanied with private, empty constructor so that it cannot be instantiated e.g.\n```\nprivate DropWizardReservoirProvider() {}\n```",
+      "revId": "a608ad2056d2fb11d42004abff8d3c5ec35e7c69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f607688_6743a679",
+        "filename": "java/com/google/gerrit/server/config/MetricsReservoirConfigImpl.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-10-03T07:19:11Z",
+      "side": 1,
+      "message": "nit: can be package protected",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 9
+      },
+      "revId": "a608ad2056d2fb11d42004abff8d3c5ec35e7c69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

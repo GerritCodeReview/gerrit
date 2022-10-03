@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19c08159_875d56e8",
+        "filename": "javatests/com/google/gerrit/elasticsearch/ElasticV7QueryAccountsTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-03T19:50:58Z",
+      "side": 1,
+      "message": "Line 45 says only start it once, yet 53 stops it, should it not? If it is running here, will it be with the right config?",
+      "revId": "05c0c5d6366c063cd5786e555854dc848247f684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

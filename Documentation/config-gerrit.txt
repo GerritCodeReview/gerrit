@@ -1245,6 +1245,27 @@ threads will die out after the cache is loaded.
 +
 Default is the number of CPUs.
 
+[[cache.project_list.loadOnStartup]]cache.project_list.loadOnStartup::
++
+If the project_list cache should be loaded during server startup.
++
+Default is false, disabled.
+
+[[cache.project_list.loadPeriodically]]cache.project_list.loadPeriodically::
++
+If the project_list cache should be periodically loaded.
++
+Default is false, disabled.
+
+[[cache.project_list.startTime]]cache.project_list.startTime::
++
+The link:#schedule-configuration-startTime[start time] for running
+the project_list cache warmer.
+
+[[cache.project_list.interval]]cache.project_list.interval::
++
+The link:#schedule-configuration-interval[interval] for running
+the project_list cache warmer.
 
 [[capability]]
 === Section capability

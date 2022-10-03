@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8db6aa3_95eec24d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-03T13:52:34Z",
+      "side": 1,
+      "message": "The Verified -1 is unrelated to this change: I\u0027ll raise a ticket about the ES tests failing: //javatests/com/google/gerrit/elasticsearch:elasticsearch_query_groups_test_V7 FAILED in 3 out of 3 in 222.3s",
+      "revId": "4015d342b963ae510fff22803d9d55538b71af74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

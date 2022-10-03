@@ -46,6 +46,30 @@
       },
       "revId": "954cbdc875b10b7893441f1abaa9430de441d054",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af23cf96_66458c6b",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-10-03T07:17:10Z",
+      "side": 1,
+      "message": "I had this helper in the parent class instead of in `QuerySource`. Fixed that now.",
+      "parentUuid": "21e133ee_b9ab0033",
+      "range": {
+        "startLine": 524,
+        "startChar": 47,
+        "endLine": 524,
+        "endChar": 51
+      },
+      "revId": "954cbdc875b10b7893441f1abaa9430de441d054",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

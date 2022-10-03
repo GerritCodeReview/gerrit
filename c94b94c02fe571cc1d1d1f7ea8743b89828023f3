@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2044a43f_54c5d3ac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2022-10-03T22:39:14Z",
+      "side": 1,
+      "message": "This fixes https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d16296 for me.",
+      "revId": "c94b94c02fe571cc1d1d1f7ea8743b89828023f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

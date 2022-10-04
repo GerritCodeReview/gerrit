@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0635f680_6f7aa459",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-10-04T12:41:02Z",
+      "side": 1,
+      "message": "that\u0027s not an explanation *i* would consider adequate ...",
+      "revId": "afd0f7c68cfc44cdd4005fd213ce067486ecc32c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

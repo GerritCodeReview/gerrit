@@ -16,6 +16,24 @@
       "message": "that\u0027s not an explanation *i* would consider adequate ...",
       "revId": "afd0f7c68cfc44cdd4005fd213ce067486ecc32c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "daf776c1_618a8be2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-04T12:51:59Z",
+      "side": 1,
+      "message": "That\u0027s a valid point, but maybe you could phrase this feedback a bit more friendly?\n\nE.g. you could say something like:\n\"From this reason it\u0027s hard to understand why this is being reverted and whether it may be re-applied later. Could you next time please provide more details on revert reasons so that others can understand better what\u0027s going on?\".\n\nI\u0027m chiming in because I got aware that perceived impolite replies are harming our community collaboration and I want to help improving this.",
+      "parentUuid": "0635f680_6f7aa459",
+      "revId": "afd0f7c68cfc44cdd4005fd213ce067486ecc32c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -46,6 +46,30 @@
       },
       "revId": "52bdafa2a054ea98b0d0b673abe442bb9fe6d2a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38a11bf7_2693b2a6",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/TaskListenerIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-04T11:36:29Z",
+      "side": 1,
+      "message": "Right, I missed this.\n\nIn Eclipse this causes a warning (\"The value of the local variable unused is not used\"). Can you suppress this warning:\n\n  @SuppressWarnings(\"unused\")\n  boolean unused \u003d t.cancel(true);",
+      "parentUuid": "734435ca_484dd39c",
+      "range": {
+        "startLine": 167,
+        "startChar": 8,
+        "endLine": 167,
+        "endChar": 26
+      },
+      "revId": "52bdafa2a054ea98b0d0b673abe442bb9fe6d2a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -2927,11 +2927,15 @@ To upload a file as binary data in the request body:
   Content-Type: application/json; charset=UTF-8
 
   {
-    "binary_content": "data:text/plain;base64,SGVsbG8sIFdvcmxkIQ=="
+    "binary_content": "data:text/plain;base64,SGVsbG8sIFdvcmxkIQ==",
+    "git_file_mode": 10755
   }
 ----
 
 Note that it must be base-64 encoded data uri.
+
+The "git_file_mode" is optional, and if provided must be in octal format. The field
+indicates the new permissions of the file.
 
 When change edit doesn't exist for this change yet it is created. When file
 content isn't provided, it is wiped out for that file. As response

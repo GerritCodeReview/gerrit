@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c185c08_6ceb3e3f",
+        "filename": "java/com/google/gerrit/server/change/ReviewerModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-04T08:17:46Z",
+      "side": 1,
+      "message": "Reviewer hint: This enum value is just renamed (IGNORE -\u003e IGNORE_EXCEPT_NOT_FOUND), but it\u0027s behaviour was not changed. Since this enum ignored all failures except not found failures, the new name should be more readable.",
+      "revId": "5189e8e2b13e3d035f4e3034281aa0ad8d5a3673",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2468799e_6f3880cf",
+        "filename": "java/com/google/gerrit/server/change/ReviewerModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-04T08:17:46Z",
+      "side": 1,
+      "message": "Reviewer hint: For non-visible author/committers we want to ignore all failures including not found failures. This is what this new enum value is used for.",
+      "revId": "5189e8e2b13e3d035f4e3034281aa0ad8d5a3673",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

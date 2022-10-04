@@ -3804,6 +3804,7 @@ link:config-gerrit.html#commentlink.name.link[commentlink.name.link].
 |`enabled`  |optional|Whether the commentlink is enabled, as documented
 in link:config-gerrit.html#commentlink.name.enabled[
 commentlink.name.enabled]. If not set the commentlink is enabled.
+|==================================================
 
 [[commentlink-input]]
 === CommentLinkInput

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0aab333_cb0758fa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-10-04T07:03:45Z",
+      "side": 1,
+      "message": "Release-Notes footer is missing.",
+      "revId": "501b43740227eff0dd011b3a8fd07c2c896fc7b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

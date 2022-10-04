@@ -42,16 +42,25 @@ public class ChangeFileContentModification implements TreeModification {
 
   private final String filePath;
   private final RawInput newContent;
+  private final int newGitFileMode;
 
   public ChangeFileContentModification(String filePath, RawInput newContent) {
     this.filePath = filePath;
     this.newContent = requireNonNull(newContent, "new content required");
+    this.newGitFileMode = 0;
+  }
+
+  public ChangeFileContentModification(String filePath, RawInput newContent, int newGitFileMode) {
+    this.filePath = filePath;
+    this.newContent = requireNonNull(newContent, "new content required");
+    this.newGitFileMode = newGitFileMode;
   }
 
   @Override
   public List<DirCacheEditor.PathEdit> getPathEdits(
       Repository repository, ObjectId treeId, ImmutableList<? extends ObjectId> parents) {
-    DirCacheEditor.PathEdit changeContentEdit = new ChangeContent(filePath, newContent, repository);
+    DirCacheEditor.PathEdit changeContentEdit =
+        new ChangeContent(filePath, newContent, repository, newGitFileMode);
     return Collections.singletonList(changeContentEdit);
   }
 
@@ -70,16 +79,38 @@ public class ChangeFileContentModification implements TreeModification {
 
     private final RawInput newContent;
     private final Repository repository;
+    private final int newGitFileMode;
 
-    ChangeContent(String filePath, RawInput newContent, Repository repository) {
+    ChangeContent(String filePath, RawInput newContent, Repository repository, int newGitFileMode) {
       super(filePath);
       this.newContent = newContent;
       this.repository = repository;
+      this.newGitFileMode = newGitFileMode;
+    }
+
+    private boolean isValidGitFileMode(int gitFileMode) {
+      int[] validGitFileModes = {
+        100755,
+        100644
+      };
+
+      for (int i = 0; i < validGitFileModes.length; i++) {
+        if (validGitFileModes[i] == gitFileMode) {
+          return true;
+        }
+      }
+      return false;
     }
 
     @Override
     public void apply(DirCacheEntry dirCacheEntry) {
       try {
+        if (newGitFileMode != 0) {
+          if (!isValidGitFileMode(newGitFileMode)) {
+            throw new IllegalStateException("The GitFileMode provided was not valid");
+          }
+          dirCacheEntry.setFileMode(FileMode.fromBits(newGitFileMode));
+        }
         if (dirCacheEntry.getFileMode() == FileMode.GITLINK) {
           dirCacheEntry.setLength(0);
           dirCacheEntry.setLastModified(Instant.EPOCH);

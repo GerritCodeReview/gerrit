@@ -341,9 +341,13 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
       }
 
       try (Repository repository = repositoryManager.openRepository(rsrc.getProject())) {
-        editModifier.modifyFile(repository, rsrc.getNotes(), path, newContent);
+        editModifier.modifyFile(
+            repository, rsrc.getNotes(), path, newContent, fileContentInput.gitFileMode);
       } catch (InvalidChangeOperationException e) {
         throw new ResourceConflictException(e.getMessage());
+      } catch (IllegalStateException e) {
+        throw new BadRequestException(
+            "The value provided for the gitFileMode was invalid: " + e.getMessage());
       }
       return Response.none();
     }

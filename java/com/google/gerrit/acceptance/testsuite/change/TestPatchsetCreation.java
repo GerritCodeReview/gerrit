@@ -45,7 +45,13 @@ public abstract class TestPatchsetCreation {
 
     /** Modified file of the patchset. The file content is specified via the returned builder. */
     public FileContentBuilder<Builder> file(String filePath) {
-      return new FileContentBuilder<>(this, filePath, treeModificationsBuilder()::add);
+      return new FileContentBuilder<>(this, filePath, 0, treeModificationsBuilder()::add);
+    }
+
+    /** Modified file of the patchset. The file content is specified via the returned builder. */
+    public FileContentBuilder<Builder> file(String filePath, int newGitFileMode) {
+      return new FileContentBuilder<>(
+          this, filePath, newGitFileMode, treeModificationsBuilder()::add);
     }
 
     abstract ImmutableList.Builder<TreeModification> treeModificationsBuilder();

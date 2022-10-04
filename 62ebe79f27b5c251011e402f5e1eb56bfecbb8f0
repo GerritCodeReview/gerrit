@@ -83,6 +83,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d658021_d84009ac",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1406,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-04T21:00:33Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3d85c5f0_6af7a74b",
+      "range": {
+        "startLine": 1406,
+        "startChar": 16,
+        "endLine": 1406,
+        "endChar": 31
+      },
+      "revId": "62ebe79f27b5c251011e402f5e1eb56bfecbb8f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9935656f_5d51225c",

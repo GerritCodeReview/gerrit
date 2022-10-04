@@ -102,3 +102,52 @@ export function diffFilePaths(filePath: string, otherFilePath?: string) {
     fileName: fileNameSection,
   };
 }
+
+/**
+ * Returns the index of the first character in `a` that is not the same as in
+ * `b`. If both strings are identical or `a` is empty, returns -1.
+ *
+ * For example, `firstDifference('01234567', '0123zz67')` would return 4
+ */
+export function firstDifference(a: string, b: string): number {
+  if (a === b) {
+    return -1;
+  }
+  const aChars = a.split('');
+  const bChars = b.split('');
+  const differenceIndex = aChars.findIndex((aChar, i) => aChar !== bChars[i]);
+  // Since the identical strings case is early returned, when no difference is
+  // found from `findIndex` it must be because `b` has more characters than `a`.
+  // In that case the difference is at `a.length`.
+  return differenceIndex >= 0 ? differenceIndex : a.length;
+}
+
+/**
+ * Returns the index of the last character in `a` that is not the same as in
+ * `b`, counting from the end. If both strings are identical, returns -1.
+ *
+ * For example, `lastDifference('01234567', '0123zz67')` would return 5
+ */
+export function lastDifference(a: string, b: string) {
+  if (a === b) {
+    return -1;
+  }
+  const aCharsReverse = a.split('').reverse();
+  const bCharsReverse = b.split('').reverse();
+  const differenceIndex = aCharsReverse.findIndex(
+    (aChar, i) => aChar !== bCharsReverse[i]
+  );
+  // The empty string case doesn't semantically make sense, but 0 is relatively
+  // consistent with the likely use case of string splicing.
+  return differenceIndex >= 0 ? a.length - 1 - differenceIndex : 0;
+}
+
+/**
+ * removes text at the start of `a` that is also at the start of `b`, and
+ * likewise for the ending.
+ */
+export function trimMatching(a: string, b: string) {
+  const firstDiff = firstDifference(a, b);
+  const lastDiff = lastDifference(a,b);
+  return a.substring(firstDiff, lastDiff + 1);
+}

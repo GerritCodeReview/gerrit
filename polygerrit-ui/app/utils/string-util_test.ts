@@ -10,9 +10,12 @@ import {
   ordinal,
   listForSentence,
   diffFilePaths,
+  firstDifference,
+  lastDifference,
+  trimMatching,
 } from './string-util';
 
-suite('formatter util tests', () => {
+suite('string-util tests', () => {
   test('pluralize', () => {
     const noun = 'comment';
     assert.equal(pluralize(0, noun), '');
@@ -83,5 +86,58 @@ suite('formatter util tests', () => {
       newFolders: '',
       fileName: 'COMMIT_MSG',
     });
+  });
+
+  test('firstDifference', () => {
+    // basic difference
+    assert.equal(firstDifference('01234567', '0123zz67'), 4);
+
+    // no difference
+    assert.equal(firstDifference('01234567', '01234567'), -1);
+
+    // extra characters
+    assert.equal(firstDifference('01234', '0123'), 4);
+    assert.equal(firstDifference('0123', '01234'), 4);
+
+    // empty string cases
+    assert.equal(firstDifference('', ''), -1);
+    assert.equal(firstDifference('01234567', ''), 0);
+    assert.equal(firstDifference('', '01234567'), 0);
+  });
+
+  test('lastDifference', () => {
+    // basic difference
+    assert.equal(lastDifference('01234567', '0123zz67'), 5);
+
+    // no difference
+    assert.equal(lastDifference('01234567', '01234567'), -1);
+
+    // extra characters
+    assert.equal(lastDifference('01234', '0234'), 1);
+    assert.equal(lastDifference('01234', '0123'), 4);
+    assert.equal(lastDifference('0123', '01234'), 3);
+    assert.equal(lastDifference('0123', '123'), 0);
+
+    // empty string cases
+    assert.equal(lastDifference('', ''), -1);
+    assert.equal(lastDifference('01234567', ''), 7);
+    assert.equal(lastDifference('', '01234567'), 0);
+  });
+
+  test('trimMatching', () => {
+    // match on end
+    assert.equal(trimMatching('foo bbb', 'aaa bar bbb'), 'foo');
+
+    // match at start
+    assert.equal(trimMatching('aaa foo', 'aaa bar bbb'), 'foo');
+
+    // match at start and end
+    assert.equal(trimMatching('aaa foo bbb', 'aaa bar bbb'), 'foo');
+
+    // no match
+    assert.equal(trimMatching('foo', 'bar'), 'foo');
+
+    // internal match is ignored
+    assert.equal(trimMatching('aaa 123 bbb', '2'), 'aaa 123 bbb');
   });
 });

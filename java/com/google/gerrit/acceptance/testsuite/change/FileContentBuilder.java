@@ -28,13 +28,18 @@ import java.util.function.Consumer;
 public class FileContentBuilder<T> {
   private final T builder;
   private final String filePath;
+  private final int newGitFileMode;
   private final Consumer<TreeModification> modificationToBuilderAdder;
 
   FileContentBuilder(
-      T builder, String filePath, Consumer<TreeModification> modificationToBuilderAdder) {
+      T builder,
+      String filePath,
+      int newGitFileMode,
+      Consumer<TreeModification> modificationToBuilderAdder) {
     checkNotNull(Strings.emptyToNull(filePath), "File path must not be null or empty.");
     this.builder = builder;
     this.filePath = filePath;
+    this.newGitFileMode = newGitFileMode;
     this.modificationToBuilderAdder = modificationToBuilderAdder;
   }
 
@@ -44,7 +49,7 @@ public class FileContentBuilder<T> {
         Strings.emptyToNull(content),
         "Empty file content is not supported. Adjust test API if necessary.");
     modificationToBuilderAdder.accept(
-        new ChangeFileContentModification(filePath, RawInputUtil.create(content)));
+        new ChangeFileContentModification(filePath, RawInputUtil.create(content), newGitFileMode));
     return builder;
   }
 

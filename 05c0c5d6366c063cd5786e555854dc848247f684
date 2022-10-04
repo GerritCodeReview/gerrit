@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "13388ae4_83472c5e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-04T04:55:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be0bdd1f_8df1c0a1",
+      "range": {
+        "startLine": 9,
+        "startChar": 36,
+        "endLine": 9,
+        "endChar": 58
+      },
+      "revId": "05c0c5d6366c063cd5786e555854dc848247f684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "8f41ce07_6f41282c",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -94,6 +118,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd3fa59a_7106632e",
+        "filename": "javatests/com/google/gerrit/elasticsearch/ElasticV7QueryAccountsTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-04T04:55:03Z",
+      "side": 1,
+      "message": "\u003e \u003e Line 45 says only start it once, yet 53 stops it, should it not?\n\u003e \n\u003e I guess you want to stop the container when the tests are over, for not leaving one behind.\n\nRemoved this comment now.\n\n\u003e \n\u003e \u003e If it is running here, will it be with the right config?\n\u003e \n\u003e It should, because there is one config per suite.\n\nI added some log statements and confirmed the correct config was being used and I switched to forcing the container to recreate for each suite. That\u0027s the purpose of `@BeforeClass` anyway.",
+      "parentUuid": "d3514d30_125fa177",
+      "revId": "05c0c5d6366c063cd5786e555854dc848247f684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "521b2995_4f511145",
@@ -107,6 +149,24 @@
       "writtenOn": "2022-10-03T20:27:09Z",
       "side": 1,
       "message": "Alternative solution: just add `container \u003d null` here so that the start will detect that the container isn\u0027t there and will start a new one.",
+      "revId": "05c0c5d6366c063cd5786e555854dc848247f684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "342c10ed_8b1027cb",
+        "filename": "javatests/com/google/gerrit/elasticsearch/ElasticV7QueryAccountsTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-04T04:55:03Z",
+      "side": 1,
+      "message": "\u003e Alternative solution: just add `container \u003d null` here so that the start will detect that the container isn\u0027t there and will start a new one.\n\nIn fact, the very original code did exactly that. I think recreating each time is less error prone though, though it does seem there\u0027s an extra re-creation happening at the start, not sure why.",
+      "parentUuid": "521b2995_4f511145",
       "revId": "05c0c5d6366c063cd5786e555854dc848247f684",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

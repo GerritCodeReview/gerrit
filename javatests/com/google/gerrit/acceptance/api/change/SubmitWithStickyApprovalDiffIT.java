@@ -84,7 +84,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         changeOperations
             .newChange()
             .project(project)
-            .file("file")
+            .file("file", 0)
             .content("content\naa\nsF\naa\naaa\nsomething\nfoo\nbla\ndeletedEnd")
             .create();
 
@@ -93,7 +93,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
     changeOperations
         .change(changeId)
         .newPatchset()
-        .file("file")
+        .file("file", 0)
         .content("content\naa\nsS\naa\naaa\ndifferent\nfoo\nbla")
         .create();
 
@@ -131,7 +131,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         changeOperations
             .newChange()
             .project(project)
-            .file("file")
+            .file("file", 0)
             .content("line1\nline2\nline3\nline4")
             .create();
 
@@ -139,7 +139,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
     changeOperations
         .change(changeId)
         .newPatchset()
-        .file("file")
+        .file("file", 0)
         .content("line012\nline1\nline2\nline3\nline4")
         .create();
 
@@ -151,10 +151,10 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
     // create 2 unrelated changes and rebase on top of them. Those rebases should be ignored.
     // The changes add files.
     Change.Id unrelated =
-        changeOperations.newChange().project(project).file("a").content("a").create();
+        changeOperations.newChange().project(project).file("a", 0).content("a").create();
     gApi.changes().id(unrelated.get()).current().review(ReviewInput.approve());
     gApi.changes().id(unrelated.get()).current().submit();
-    unrelated = changeOperations.newChange().project(project).file("z").content("z").create();
+    unrelated = changeOperations.newChange().project(project).file("z", 0).content("z").create();
     gApi.changes().id(unrelated.get()).current().review(ReviewInput.approve());
     gApi.changes().id(unrelated.get()).current().submit();
 
@@ -180,11 +180,12 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
   @Test
   public void diffChangeMessageOnSubmitWithStickyVote_ignoreDiffFromRebaseRenames()
       throws Exception {
-    Change.Id setup = changeOperations.newChange().project(project).file("a").content("a").create();
+    Change.Id setup = changeOperations.newChange().project(project).file("a", 0).content("a")
+      .create();
     gApi.changes().id(setup.get()).current().review(ReviewInput.approve());
     gApi.changes().id(setup.get()).current().submit();
 
-    setup = changeOperations.newChange().project(project).file("z").content("z").create();
+    setup = changeOperations.newChange().project(project).file("z", 0).content("z").create();
     gApi.changes().id(setup.get()).current().review(ReviewInput.approve());
     gApi.changes().id(setup.get()).current().submit();
 
@@ -193,7 +194,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         changeOperations
             .newChange()
             .project(project)
-            .file("file")
+            .file("file", 0)
             .content("line1\nline2\nline3\nline4")
             .create();
 
@@ -201,7 +202,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
     changeOperations
         .change(changeId)
         .newPatchset()
-        .file("file")
+        .file("file", 0)
         .content("line012\nline1\nline2\nline3\nline4")
         .create();
 
@@ -213,10 +214,10 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
     // create 2 unrelated changes and rebase on top of them. Those rebases should be ignored.
     // The changes rename files.
     Change.Id unrelated =
-        changeOperations.newChange().project(project).file("a").renameTo("aa").create();
+        changeOperations.newChange().project(project).file("a", 0).renameTo("aa").create();
     gApi.changes().id(unrelated.get()).current().review(ReviewInput.approve());
     gApi.changes().id(unrelated.get()).current().submit();
-    unrelated = changeOperations.newChange().project(project).file("z").renameTo("zz").create();
+    unrelated = changeOperations.newChange().project(project).file("z", 0).renameTo("zz").create();
     gApi.changes().id(unrelated.get()).current().review(ReviewInput.approve());
     gApi.changes().id(unrelated.get()).current().submit();
 
@@ -242,11 +243,11 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
   @Test
   public void diffChangeMessageOnSubmitWithStickyVote_ignoreDiffFromRebaseDeletions()
       throws Exception {
-    Change.Id setup = changeOperations.newChange().project(project).file("a").content("a").create();
+    Change.Id setup = changeOperations.newChange().project(project).file("a", 0).content("a").create();
     gApi.changes().id(setup.get()).current().review(ReviewInput.approve());
     gApi.changes().id(setup.get()).current().submit();
 
-    setup = changeOperations.newChange().project(project).file("z").content("z").create();
+    setup = changeOperations.newChange().project(project).file("z", 0).content("z").create();
     gApi.changes().id(setup.get()).current().review(ReviewInput.approve());
     gApi.changes().id(setup.get()).current().submit();
 
@@ -255,7 +256,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         changeOperations
             .newChange()
             .project(project)
-            .file("file")
+            .file("file", 0)
             .content("line1\nline2\nline3\nline4")
             .create();
 
@@ -263,7 +264,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
     changeOperations
         .change(changeId)
         .newPatchset()
-        .file("file")
+        .file("file", 0)
         .content("line012\nline1\nline2\nline3\nline4")
         .create();
 
@@ -273,10 +274,11 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
     testRepo.reset(initial);
     // create 2 unrelated changes and rebase on top of them. Those rebases should be ignored.
     // The changes delete files.
-    Change.Id unrelated = changeOperations.newChange().project(project).file("a").delete().create();
+    Change.Id unrelated = changeOperations.newChange().project(project).file("a", 0).delete()
+      .create();
     gApi.changes().id(unrelated.get()).current().review(ReviewInput.approve());
     gApi.changes().id(unrelated.get()).current().submit();
-    unrelated = changeOperations.newChange().project(project).file("z").delete().create();
+    unrelated = changeOperations.newChange().project(project).file("z", 0).delete().create();
     gApi.changes().id(unrelated.get()).current().review(ReviewInput.approve());
     gApi.changes().id(unrelated.get()).current().submit();
 
@@ -306,7 +308,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         changeOperations
             .newChange()
             .project(project)
-            .file("file")
+            .file("file", 0)
             .content("content\naa\nbb\ncc\ndd\nee\nff\nTODELETE1\nTODELETE2\ngg\nend")
             .create();
     gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
@@ -314,7 +316,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
     changeOperations
         .change(changeId)
         .newPatchset()
-        .file("file")
+        .file("file", 0)
         .content("content\naa\nbb\ncc\nINSERTION\nINSERTED\nVERY\nLONG\ndd\nee\nff\ngg\nend")
         .create();
 
@@ -350,10 +352,10 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
   @GerritConfig(name = "change.cumulativeCommentSizeLimit", value = "10k")
   public void autoGeneratedPostSubmitDiffIsPartOfTheCommentSizeLimit() throws Exception {
     Change.Id changeId =
-        changeOperations.newChange().project(project).file("file").content("content").create();
+        changeOperations.newChange().project(project).file("file", 0).content("content").create();
     gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
     String content = new String(new char[800]).replace("\0", "a");
-    changeOperations.change(changeId).newPatchset().file("file").content(content).create();
+    changeOperations.change(changeId).newPatchset().file("file", 0).content(content).create();
 
     // Post a submit diff that is almost the cumulativeCommentSizeLimit
     gApi.changes().id(changeId.get()).current().submit();
@@ -382,13 +384,13 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
   @Test
   public void postSubmitDiffCannotBeTooBig() throws Exception {
     Change.Id changeId =
-        changeOperations.newChange().project(project).file("file").content("content").create();
+        changeOperations.newChange().project(project).file("file", 0).content("content").create();
     gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
 
     // max post submit diff size is 300k
     String content = new String(new char[320000]).replace("\0", "a");
 
-    changeOperations.change(changeId).newPatchset().file("file").content(content).create();
+    changeOperations.change(changeId).newPatchset().file("file", 0).content(content).create();
 
     // Post submit diff is over the postSubmitDiffSizeLimit (300k).
     gApi.changes().id(changeId.get()).current().submit();
@@ -404,7 +406,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
   @GerritConfig(name = "change.cumulativeCommentSizeLimit", value = "10k")
   public void postSubmitDiffCannotBeTooBigWithLargeComments() throws Exception {
     Change.Id changeId =
-        changeOperations.newChange().project(project).file("file").content("content").create();
+        changeOperations.newChange().project(project).file("file", 0).content("content").create();
     gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
 
     // unrelated comment taking up most of the space, making post submit diff shorter.
@@ -417,7 +419,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
     gApi.changes().id(changeId.get()).current().review(reviewInput);
 
     String content = new String(new char[500]).replace("\0", "a");
-    changeOperations.change(changeId).newPatchset().file("file").content(content).create();
+    changeOperations.change(changeId).newPatchset().file("file", 0).content(content).create();
 
     // Post submit diff is over the cumulativeCommentSizeLimit, since the comment took most of
     // the space (even though the post submit diff is not limited).
@@ -438,7 +440,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
     changeOperations
         .change(changeId)
         .newPatchset()
-        .file("file")
+        .file("file", 0)
         .content("content\nmore content\nlast content")
         .create();
 
@@ -464,14 +466,14 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
     changeOperations
         .change(changeId)
         .newPatchset()
-        .file("file")
+        .file("file", 0)
         .content("content1\nmore content\nlast content")
         .create();
 
     changeOperations
         .change(changeId)
         .newPatchset()
-        .file("otherFile")
+        .file("otherFile", 0)
         .content("content2\nmore content\nlast content")
         .create();
 
@@ -500,12 +502,12 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         changeOperations
             .newChange()
             .project(project)
-            .file("file")
+            .file("file", 0)
             .content("content\nmore content\nlast content")
             .create();
     gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
 
-    changeOperations.change(changeId).newPatchset().file("file").delete().create();
+    changeOperations.change(changeId).newPatchset().file("file", 0).delete().create();
 
     // add a reviewer to ensure an email is sent.
     gApi.changes().id(changeId.get()).addReviewer(user.email());
@@ -527,12 +529,12 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         changeOperations
             .newChange()
             .project(project)
-            .file("file")
+            .file("file", 0)
             .content("content\nmoreContent")
             .create();
     gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
 
-    changeOperations.change(changeId).newPatchset().file("file").renameTo("new_file").create();
+    changeOperations.change(changeId).newPatchset().file("file", 0).renameTo("new_file").create();
 
     // add a reviewer to ensure an email is sent.
     gApi.changes().id(changeId.get()).addReviewer(user.email());
@@ -554,12 +556,12 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         changeOperations
             .newChange()
             .project(project)
-            .file("file")
+            .file("file", 0)
             .content("content\nmoreContent")
             .create();
     gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
 
-    changeOperations.change(changeId).newPatchset().file("file").renameTo("new_file").create();
+    changeOperations.change(changeId).newPatchset().file("file", 0).renameTo("new_file").create();
 
     // Approve last patch-set again, although there is already a +2 on the change (since it's
     // sticky).

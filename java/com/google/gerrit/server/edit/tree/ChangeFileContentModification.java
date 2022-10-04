@@ -42,16 +42,19 @@ public class ChangeFileContentModification implements TreeModification {
 
   private final String filePath;
   private final RawInput newContent;
+  private final int newFileModeBits;
 
-  public ChangeFileContentModification(String filePath, RawInput newContent) {
+  public ChangeFileContentModification(String filePath, RawInput newContent, int newFileModeBits) {
     this.filePath = filePath;
     this.newContent = requireNonNull(newContent, "new content required");
+    this.newFileModeBits = newFileModeBits;
   }
 
   @Override
   public List<DirCacheEditor.PathEdit> getPathEdits(
       Repository repository, ObjectId treeId, ImmutableList<? extends ObjectId> parents) {
-    DirCacheEditor.PathEdit changeContentEdit = new ChangeContent(filePath, newContent, repository);
+    DirCacheEditor.PathEdit changeContentEdit =
+        new ChangeContent(filePath, newContent, repository, newFileModeBits);
     return Collections.singletonList(changeContentEdit);
   }
 
@@ -70,16 +73,22 @@ public class ChangeFileContentModification implements TreeModification {
 
     private final RawInput newContent;
     private final Repository repository;
+    private final int newFileModeBits;
 
-    ChangeContent(String filePath, RawInput newContent, Repository repository) {
+    ChangeContent(
+        String filePath, RawInput newContent, Repository repository, int newFileModeBits) {
       super(filePath);
       this.newContent = newContent;
       this.repository = repository;
+      this.newFileModeBits = newFileModeBits;
     }
 
     @Override
     public void apply(DirCacheEntry dirCacheEntry) {
       try {
+        if (newFileModeBits != 0) {
+          dirCacheEntry.setFileMode(FileMode.fromBits(newFileModeBits));
+        }
         if (dirCacheEntry.getFileMode() == FileMode.GITLINK) {
           dirCacheEntry.setLength(0);
           dirCacheEntry.setLastModified(Instant.EPOCH);

@@ -344,9 +344,9 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void createdChangeUsesMergedParentsAsBaseCommit() throws Exception {
     Change.Id parent1ChangeId =
-        changeOperations.newChange().file("file1").content("Line 1").create();
+        changeOperations.newChange().file("file1", 0).content("Line 1").create();
     Change.Id parent2ChangeId =
-        changeOperations.newChange().file("file2").content("Some other content").create();
+        changeOperations.newChange().file("file2", 0).content("Some other content").create();
 
     Change.Id changeId =
         changeOperations
@@ -367,9 +367,9 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void mergeConflictsOfParentsAreReported() {
     Change.Id parent1ChangeId =
-        changeOperations.newChange().file("file1").content("Content 1").create();
+        changeOperations.newChange().file("file1", 0).content("Content 1").create();
     Change.Id parent2ChangeId =
-        changeOperations.newChange().file("file1").content("Content 2").create();
+        changeOperations.newChange().file("file1", 0).content("Content 2").create();
 
     IllegalStateException exception =
         assertThrows(
@@ -389,9 +389,9 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void mergeConflictsCanBeAvoidedByUsingTheFirstParentAsBase() throws Exception {
     Change.Id parent1ChangeId =
-        changeOperations.newChange().file("file1").content("Content 1").create();
+        changeOperations.newChange().file("file1", 0).content("Content 1").create();
     Change.Id parent2ChangeId =
-        changeOperations.newChange().file("file1").content("Content 2").create();
+        changeOperations.newChange().file("file1", 0).content("Content 2").create();
 
     Change.Id changeId =
         changeOperations
@@ -437,11 +437,11 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void automaticMergeOfMoreThanTwoParentsIsNotPossible() {
     Change.Id parent1ChangeId =
-        changeOperations.newChange().file("file1").content("Content 1").create();
+        changeOperations.newChange().file("file1", 0).content("Content 1").create();
     Change.Id parent2ChangeId =
-        changeOperations.newChange().file("file2").content("Content 2").create();
+        changeOperations.newChange().file("file2", 0).content("Content 2").create();
     Change.Id parent3ChangeId =
-        changeOperations.newChange().file("file3").content("Content 3").create();
+        changeOperations.newChange().file("file3", 0).content("Content 3").create();
 
     IllegalStateException exception =
         assertThrows(
@@ -463,11 +463,11 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void createdChangeCanHaveMoreThanTwoParentsWhenBasedOnFirst() throws Exception {
     Change.Id parent1ChangeId =
-        changeOperations.newChange().file("file1").content("Content 1").create();
+        changeOperations.newChange().file("file1", 0).content("Content 1").create();
     Change.Id parent2ChangeId =
-        changeOperations.newChange().file("file2").content("Content 2").create();
+        changeOperations.newChange().file("file2", 0).content("Content 2").create();
     Change.Id parent3ChangeId =
-        changeOperations.newChange().file("file3").content("Content 3").create();
+        changeOperations.newChange().file("file3", 0).content("Content 3").create();
 
     Change.Id changeId =
         changeOperations
@@ -500,9 +500,9 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
     Change.Id parentChangeId =
         changeOperations
             .newChange()
-            .file("file1")
+            .file("file1", 0)
             .content("Content 1")
-            .file("file2")
+            .file("file2", 0)
             .content("Content 2")
             .create();
 
@@ -511,7 +511,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
             .newChange()
             .childOf()
             .change(parentChangeId)
-            .file("file1")
+            .file("file1", 0)
             .content("Different content")
             .create();
 
@@ -525,9 +525,9 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void changeFromMergedParentsMayHaveAdditionalFileModifications() throws Exception {
     Change.Id parent1ChangeId =
-        changeOperations.newChange().file("file1").content("Content 1").create();
+        changeOperations.newChange().file("file1", 0).content("Content 1").create();
     Change.Id parent2ChangeId =
-        changeOperations.newChange().file("file2").content("Content 2").create();
+        changeOperations.newChange().file("file2", 0).content("Content 2").create();
 
     Change.Id changeId =
         changeOperations
@@ -536,7 +536,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
             .change(parent1ChangeId)
             .and()
             .change(parent2ChangeId)
-            .file("file1")
+            .file("file1", 0)
             .content("Different content")
             .create();
 
@@ -551,7 +551,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   public void changeBasedOnFirstOfMultipleParentsMayHaveAdditionalFileModifications()
       throws Exception {
     Change.Id parent1ChangeId =
-        changeOperations.newChange().file("file1").content("Content 1").create();
+        changeOperations.newChange().file("file1", 0).content("Content 1").create();
     Change.Id parent2ChangeId = changeOperations.newChange().create();
 
     Change.Id changeId =
@@ -561,7 +561,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
             .change(parent1ChangeId)
             .and()
             .change(parent2ChangeId)
-            .file("file1")
+            .file("file1", 0)
             .content("Different content")
             .create();
 
@@ -682,16 +682,17 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
     Change.Id changeId =
         changeOperations
             .newChange()
-            .file("file1")
+            .file("file1", 0)
             .content("Line 1")
-            .file("path/to/file2.txt")
+            .file("path/to/file2.txt", 0)
             .content("Line one")
             .create();
 
     ChangeInfo change = getChangeFromServer(changeId);
     Map<String, FileInfo> files = change.revisions.get(change.currentRevision).files;
     assertThatMap(files).keys().containsExactly("file1", "path/to/file2.txt");
-    BinaryResult fileContent1 = gApi.changes().id(changeId.get()).current().file("file1").content();
+    BinaryResult fileContent1 = gApi.changes().id(changeId.get()).current().file("file1")
+      .content();
     assertThat(fileContent1).asString().isEqualTo("Line 1");
     BinaryResult fileContent2 =
         gApi.changes().id(changeId.get()).current().file("path/to/file2.txt").content();
@@ -848,13 +849,13 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void newPatchsetCanHaveReplacedFileContent() throws Exception {
-    Change.Id changeId = changeOperations.newChange().file("file1").content("Line 1").create();
+    Change.Id changeId = changeOperations.newChange().file("file1", 0).content("Line 1").create();
 
     PatchSet.Id patchsetId =
         changeOperations
             .change(changeId)
             .newPatchset()
-            .file("file1")
+            .file("file1", 0)
             .content("Different content")
             .create();
 
@@ -867,13 +868,13 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void newPatchsetCanHaveAdditionalFile() throws Exception {
-    Change.Id changeId = changeOperations.newChange().file("file1").content("Line 1").create();
+    Change.Id changeId = changeOperations.newChange().file("file1", 0).content("Line 1").create();
 
     PatchSet.Id patchsetId =
         changeOperations
             .change(changeId)
             .newPatchset()
-            .file("file2")
+            .file("file2", 0)
             .content("My file content")
             .create();
 
@@ -889,13 +890,13 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
     Change.Id changeId =
         changeOperations
             .newChange()
-            .file("file1")
+            .file("file1", 0)
             .content("Line 1")
-            .file("file2")
+            .file("file2", 0)
             .content("Line one")
             .create();
 
-    changeOperations.change(changeId).newPatchset().file("file2").delete().create();
+    changeOperations.change(changeId).newPatchset().file("file2", 0).delete().create();
 
     ChangeInfo change = getChangeFromServer(changeId);
     Map<String, FileInfo> files = change.revisions.get(change.currentRevision).files;
@@ -907,9 +908,9 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
     Change.Id changeId =
         changeOperations
             .newChange()
-            .file("file1")
+            .file("file1", 0)
             .content("Line 1")
-            .file("file2")
+            .file("file2", 0)
             .content("Line one")
             .create();
 
@@ -917,7 +918,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
         changeOperations
             .change(changeId)
             .newPatchset()
-            .file("file2")
+            .file("file2", 0)
             .renameTo("renamed file")
             .create();
 
@@ -935,9 +936,9 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
     Change.Id changeId =
         changeOperations
             .newChange()
-            .file("file1")
+            .file("file1", 0)
             .content("Some content")
-            .file("file2")
+            .file("file2", 0)
             .content("Line 1\nLine 2\nLine 3\n")
             .create();
     PatchSet.Id patchset1Id =
@@ -947,9 +948,9 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
         changeOperations
             .change(changeId)
             .newPatchset()
-            .file("file2")
+            .file("file2", 0)
             .delete()
-            .file("renamed file")
+            .file("renamed file", 0)
             .content("Line 1\nLine two\nLine 3\n")
             .create();
 
@@ -974,9 +975,9 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
     Change.Id changeId =
         changeOperations
             .newChange()
-            .file("file1")
+            .file("file1", 0)
             .content("Some content")
-            .file("file2")
+            .file("file2", 0)
             .content("Line 1")
             .create();
     PatchSet.Id patchset1Id =
@@ -987,9 +988,9 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
         changeOperations
             .change(changeId)
             .newPatchset()
-            .file("file2")
+            .file("file2", 0)
             .renameTo("renamed/copied file 1")
-            .file("renamed/copied file 2")
+            .file("renamed/copied file 2", 0)
             .content("Line 1")
             .create();
 
@@ -1019,9 +1020,9 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
     Change.Id changeId =
         changeOperations
             .newChange()
-            .file("file1")
+            .file("file1", 0)
             .content("Some content")
-            .file("file2")
+            .file("file2", 0)
             .content("Line 1\nLine 2\nLine 3\nLine 4\n")
             .create();
     PatchSet.Id patchset1Id =
@@ -1034,11 +1035,11 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
         changeOperations
             .change(changeId)
             .newPatchset()
-            .file("file2")
+            .file("file2", 0)
             .delete()
-            .file("renamed file")
+            .file("renamed file", 0)
             .content("Line 1\nLine 1.1\nLine 2\nLine 3\nLine 4\n")
-            .file("copied file")
+            .file("copied file", 0)
             .content("Line 1\nLine 1.1\nLine 1.2\nLine 2\nLine 3\nLine 4\n")
             .create();
 
@@ -1145,9 +1146,9 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void newPatchsetKeepsFileContentsWithDifferentParent() throws Exception {
     Change.Id changeId =
-        changeOperations.newChange().file("file1").content("Actual change content").create();
+        changeOperations.newChange().file("file1", 0).content("Actual change content").create();
     Change.Id newParentChange =
-        changeOperations.newChange().file("file1").content("Parent content").create();
+        changeOperations.newChange().file("file1", 0).content("Parent content").create();
 
     changeOperations.change(changeId).newPatchset().parent().change(newParentChange).create();
 
@@ -1313,7 +1314,8 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   private BinaryResult getFileContent(Change.Id changeId, PatchSet.Id patchsetId, String filePath)
       throws RestApiException {
-    return gApi.changes().id(changeId.get()).revision(patchsetId.get()).file(filePath).content();
+    return gApi.changes().id(changeId.get()).revision(patchsetId.get()).file(filePath)
+      .content();
   }
 
   private Correspondence<CommitInfo, String> hasSha1() {

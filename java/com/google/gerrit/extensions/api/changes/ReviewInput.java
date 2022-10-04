@@ -17,6 +17,7 @@ package com.google.gerrit.extensions.api.changes;
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
@@ -118,11 +119,13 @@ public class ReviewInput {
     public List<FixSuggestionInfo> fixSuggestions;
   }
 
+  @CanIgnoreReturnValue
   public ReviewInput message(String msg) {
     message = msg != null && !msg.isEmpty() ? msg : null;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public ReviewInput patchSetLevelComment(String message) {
     Objects.requireNonNull(message);
     CommentInput comment = new CommentInput();
@@ -132,6 +135,7 @@ public class ReviewInput {
     return this;
   }
 
+  @CanIgnoreReturnValue
   public ReviewInput label(String name, short value) {
     if (name == null || name.isEmpty()) {
       throw new IllegalArgumentException();
@@ -143,6 +147,7 @@ public class ReviewInput {
     return this;
   }
 
+  @CanIgnoreReturnValue
   public ReviewInput label(String name, int value) {
     if (value < Short.MIN_VALUE || value > Short.MAX_VALUE) {
       throw new IllegalArgumentException();
@@ -150,18 +155,22 @@ public class ReviewInput {
     return label(name, (short) value);
   }
 
+  @CanIgnoreReturnValue
   public ReviewInput label(String name) {
     return label(name, (short) 1);
   }
 
+  @CanIgnoreReturnValue
   public ReviewInput reviewer(String reviewer) {
     return reviewer(reviewer, REVIEWER, /* confirmed= */ false);
   }
 
+  @CanIgnoreReturnValue
   public ReviewInput cc(String cc) {
     return reviewer(cc, CC, /* confirmed= */ false);
   }
 
+  @CanIgnoreReturnValue
   public ReviewInput reviewer(String reviewer, ReviewerState state, boolean confirmed) {
     ReviewerInput input = new ReviewerInput();
     input.reviewer = reviewer;
@@ -174,6 +183,7 @@ public class ReviewInput {
     return this;
   }
 
+  @CanIgnoreReturnValue
   public ReviewInput addUserToAttentionSet(String user, String reason) {
     AttentionSetInput input = new AttentionSetInput();
     input.user = user;
@@ -185,6 +195,7 @@ public class ReviewInput {
     return this;
   }
 
+  @CanIgnoreReturnValue
   public ReviewInput removeUserFromAttentionSet(String user, String reason) {
     AttentionSetInput input = new AttentionSetInput();
     input.user = user;
@@ -196,17 +207,20 @@ public class ReviewInput {
     return this;
   }
 
+  @CanIgnoreReturnValue
   public ReviewInput blockAutomaticAttentionSetRules() {
     ignoreAutomaticAttentionSetRules = true;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public ReviewInput setWorkInProgress(boolean workInProgress) {
     this.workInProgress = workInProgress;
     ready = !workInProgress;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public ReviewInput setReady(boolean ready) {
     this.ready = ready;
     workInProgress = !ready;

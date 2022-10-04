@@ -29,6 +29,7 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
@@ -242,32 +243,38 @@ public class ChangeInserter implements InsertChangeOp {
     return change;
   }
 
+  @CanIgnoreReturnValue
   public ChangeInserter setTopic(String topic) {
     checkState(change == null, "setTopic(String) only valid before creating change");
     this.topic = topic;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public ChangeInserter setCherryPickOf(PatchSet.Id cherryPickOf) {
     this.cherryPickOf = cherryPickOf;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public ChangeInserter setMessage(String message) {
     this.message = message;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public ChangeInserter setPatchSetDescription(String patchSetDescription) {
     this.patchSetDescription = patchSetDescription;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public ChangeInserter setValidate(boolean validate) {
     this.validate = validate;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public ChangeInserter setReviewersAndCcs(
       Iterable<Account.Id> reviewers, Iterable<Account.Id> ccs) {
     return setReviewersAndCcsAsStrings(
@@ -275,6 +282,7 @@ public class ChangeInserter implements InsertChangeOp {
         Iterables.transform(ccs, Account.Id::toString));
   }
 
+  @CanIgnoreReturnValue
   public ChangeInserter setReviewersAndCcsIgnoreVisibility(
       Iterable<Account.Id> reviewers, Iterable<Account.Id> ccs) {
     return setReviewersAndCcsAsStrings(
@@ -283,11 +291,13 @@ public class ChangeInserter implements InsertChangeOp {
         /* skipVisibilityCheck= */ true);
   }
 
+  @CanIgnoreReturnValue
   public ChangeInserter setReviewersAndCcsAsStrings(
       Iterable<String> reviewers, Iterable<String> ccs) {
     return setReviewersAndCcsAsStrings(reviewers, ccs, /* skipVisibilityCheck= */ false);
   }
 
+  @CanIgnoreReturnValue
   private ChangeInserter setReviewersAndCcsAsStrings(
       Iterable<String> reviewers, Iterable<String> ccs, boolean skipVisibilityCheck) {
     reviewerInputs =
@@ -302,23 +312,27 @@ public class ChangeInserter implements InsertChangeOp {
     return this;
   }
 
+  @CanIgnoreReturnValue
   public ChangeInserter setPrivate(boolean isPrivate) {
     checkState(change == null, "setPrivate(boolean) only valid before creating change");
     this.isPrivate = isPrivate;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public ChangeInserter setWorkInProgress(boolean workInProgress) {
     this.workInProgress = workInProgress;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public ChangeInserter setStatus(Change.Status status) {
     checkState(change == null, "setStatus(Change.Status) only valid before creating change");
     this.status = status;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public ChangeInserter setGroups(List<String> groups) {
     requireNonNull(groups, "groups may not be empty");
     checkState(patchSet == null, "setGroups(List<String>) only valid before creating change");
@@ -326,6 +340,7 @@ public class ChangeInserter implements InsertChangeOp {
     return this;
   }
 
+  @CanIgnoreReturnValue
   public ChangeInserter setValidationOptions(
       ImmutableListMultimap<String, String> validationOptions) {
     requireNonNull(validationOptions, "validationOptions may not be null");
@@ -337,21 +352,25 @@ public class ChangeInserter implements InsertChangeOp {
     return this;
   }
 
+  @CanIgnoreReturnValue
   public ChangeInserter setFireRevisionCreated(boolean fireRevisionCreated) {
     this.fireRevisionCreated = fireRevisionCreated;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public ChangeInserter setSendMail(boolean sendMail) {
     this.sendMail = sendMail;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public ChangeInserter setRequestScopePropagator(RequestScopePropagator r) {
     this.requestScopePropagator = r;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public ChangeInserter setRevertOf(Change.Id revertOf) {
     this.revertOf = revertOf;
     return this;
@@ -366,6 +385,7 @@ public class ChangeInserter implements InsertChangeOp {
     return patchSet;
   }
 
+  @CanIgnoreReturnValue
   public ChangeInserter setApprovals(Map<String, Short> approvals) {
     this.approvals = approvals;
     return this;
@@ -383,6 +403,7 @@ public class ChangeInserter implements InsertChangeOp {
    * @param updateRef whether to update the ref during {@link #updateRepo(RepoContext)}.
    */
   @Deprecated
+  @CanIgnoreReturnValue
   public ChangeInserter setUpdateRef(boolean updateRef) {
     this.updateRef = updateRef;
     return this;

@@ -77,6 +77,76 @@ suite('gr-formatted-text tests', () => {
       await element.updateComplete;
     });
 
+    test('does not apply rewrites within links', async () => {
+      element.content = 'google.com/LinkRewriteMe';
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <pre class="plaintext">
+            <a
+              href="http://google.com/LinkRewriteMe"
+              rel="noopener"
+              target="_blank"
+            >
+              google.com/LinkRewriteMe
+            </a>
+          </pre>
+        `
+      );
+    });
+
+    test('does not apply rewrites on rewritten text', async () => {
+      await setCommentLinks({
+        capitalizeFoo: {
+          match: 'foo',
+          html: 'FOO',
+        },
+        lowercaseFoo: {
+          match: 'FOO',
+          html: 'foo',
+        },
+      });
+      element.content = 'foo';
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <pre class="plaintext">
+          FOO
+        </pre
+          >
+        `
+      );
+    });
+
+    test('supports overlapping rewrites', async () => {
+      await setCommentLinks({
+        bracketNum: {
+          match: '(Start:) ([0-9]+)',
+          html: '$1 [$2]',
+        },
+        bracketNum2: {
+          match: '(Start: [0-9]+) ([0-9]+)',
+          html: '$1 [$2]',
+        },
+      });
+      element.content = 'Start: 123 456';
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <pre class="plaintext">
+            Start: [123] [456]
+          </pre
+          >
+        `
+      );
+    });
+
     test('renders text with links and rewrites', async () => {
       element.content = `text with plain link: google.com
         \ntext with config link: LinkRewriteMe

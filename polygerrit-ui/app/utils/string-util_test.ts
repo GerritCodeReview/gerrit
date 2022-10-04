@@ -10,9 +10,12 @@ import {
   ordinal,
   listForSentence,
   diffFilePaths,
+  getSharedPrefix,
+  getSharedSuffix,
+  trimMatching,
 } from './string-util';
 
-suite('formatter util tests', () => {
+suite('string-util tests', () => {
   test('pluralize', () => {
     const noun = 'comment';
     assert.equal(pluralize(0, noun), '');
@@ -83,5 +86,58 @@ suite('formatter util tests', () => {
       newFolders: '',
       fileName: 'COMMIT_MSG',
     });
+  });
+
+  test('getSharedPrefix', () => {
+    // basic difference
+    assert.equal(getSharedPrefix('01234567', '0123zz67'), '0123');
+
+    // no difference
+    assert.equal(getSharedPrefix('01234567', '01234567'), '01234567');
+
+    // extra characters
+    assert.equal(getSharedPrefix('01234', '0123'), '0123');
+    assert.equal(getSharedPrefix('0123', '01234'), '0123');
+
+    // empty string cases
+    assert.equal(getSharedPrefix('', ''), '');
+    assert.equal(getSharedPrefix('01234567', ''), '');
+    assert.equal(getSharedPrefix('', '01234567'), '');
+  });
+
+  test('getSharedSuffix', () => {
+    // basic difference
+    assert.equal(getSharedSuffix('01234567', '0123zz67'), '67');
+
+    // no difference
+    assert.equal(getSharedSuffix('01234567', '01234567'), '01234567');
+
+    // extra characters
+    assert.equal(getSharedSuffix('01234', '0234'), '234');
+    assert.equal(getSharedSuffix('01234', '0123'), '');
+    assert.equal(getSharedSuffix('0123', '01234'), '');
+    assert.equal(getSharedSuffix('0123', '123'), '123');
+
+    // empty string cases
+    assert.equal(getSharedSuffix('', ''), '');
+    assert.equal(getSharedSuffix('01234567', ''), '');
+    assert.equal(getSharedSuffix('', '01234567'), '');
+  });
+
+  test('trimMatching', () => {
+    // match only on end
+    assert.equal(trimMatching('foo bbb', 'aaa bar bbb'), 'foo');
+
+    // match only at start
+    assert.equal(trimMatching('aaa foo', 'aaa bar bbb'), 'foo');
+
+    // match at both start and end
+    assert.equal(trimMatching('aaa foo bbb', 'aaa bar bbb'), 'foo');
+
+    // no match
+    assert.equal(trimMatching('foo', 'bar'), 'foo');
+
+    // internal match is ignored
+    assert.equal(trimMatching('aaa 123 bbb', '123'), 'aaa 123 bbb');
   });
 });

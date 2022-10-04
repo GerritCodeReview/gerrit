@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41bcceca_d6386fc6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-04T20:58:29Z",
+      "side": 1,
+      "message": "Needs Release-Notes footer",
+      "revId": "20530e9ffb3f1ea74bd7b00d3a5004ea65097869",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a02b987d_2c6c2422",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-04T20:58:29Z",
+      "side": 1,
+      "message": "Add the new states here",
+      "revId": "20530e9ffb3f1ea74bd7b00d3a5004ea65097869",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "371b2e4a_73acb591",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-04T20:58:29Z",
+      "side": 1,
+      "message": "When would we reach this now?",
+      "range": {
+        "startLine": 573,
+        "startChar": 8,
+        "endLine": 574,
+        "endChar": 26
+      },
+      "revId": "20530e9ffb3f1ea74bd7b00d3a5004ea65097869",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5887067f_6fa28634",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-04T20:58:29Z",
+      "side": 1,
+      "message": "Do we still want to set to `STOPPING` if we weren\u0027t `RUNNING`?",
+      "range": {
+        "startLine": 671,
+        "startChar": 10,
+        "endLine": 671,
+        "endChar": 42
+      },
+      "revId": "20530e9ffb3f1ea74bd7b00d3a5004ea65097869",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "016cbf09_2cf4424b",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-04T20:58:29Z",
+      "side": 1,
+      "message": "Is `null` equivalent to `READY`? Or is it either `READY` or `SLEEPING`?",
+      "range": {
+        "startLine": 674,
+        "startChar": 29,
+        "endLine": 674,
+        "endChar": 33
+      },
+      "revId": "20530e9ffb3f1ea74bd7b00d3a5004ea65097869",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

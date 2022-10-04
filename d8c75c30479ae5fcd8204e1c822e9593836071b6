@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1498a19c_ee7bef98",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-04T22:16:13Z",
+      "side": 1,
+      "message": "Can you guys verify this change on your Apple M1 as well?",
+      "revId": "d8c75c30479ae5fcd8204e1c822e9593836071b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

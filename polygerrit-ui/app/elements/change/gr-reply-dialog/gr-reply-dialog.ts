@@ -257,6 +257,9 @@ export class GrReplyDialog extends LitElement {
   @state() serverConfig?: ServerInfo;
 
   @state()
+  patchsetLevelDraftMessage = '';
+
+  @state()
   filterReviewerSuggestion: (input: Suggestion) => boolean;
 
   @state()
@@ -379,7 +382,7 @@ export class GrReplyDialog extends LitElement {
   patchsetLevelDraftIsResolved = true;
 
   @state()
-  patchsetLevelComment: UnsavedInfo | DraftInfo = this.createDraft('');
+  patchsetLevelComment?: UnsavedInfo | DraftInfo;
 
   private readonly restApiService: RestApiService =
     getAppContext().restApiService;
@@ -670,9 +673,7 @@ export class GrReplyDialog extends LitElement {
     subscribe(
       this,
       () => this.getCommentsModel().patchsetLevelDrafts$,
-      x => {
-        if (x.length > 0) this.patchsetLevelComment = x[0];
-      }
+      x => (this.patchsetLevelComment = x[0])
     );
     subscribe(
       this,
@@ -763,7 +764,7 @@ export class GrReplyDialog extends LitElement {
       changedProperties.has('mentionedUsersInUnresolvedDrafts') ||
       changedProperties.has('includeComments') ||
       changedProperties.has('labelsChanged') ||
-      changedProperties.has('patchsetLevelComment') ||
+      changedProperties.has('patchsetLevelDraftMessage') ||
       changedProperties.has('mentionedCCs')
     ) {
       this.computeNewAttention();
@@ -915,11 +916,10 @@ export class GrReplyDialog extends LitElement {
   }
 
   // TODO: move to comment-util
-  // Private but used in tests.
-  createDraft(message: string): UnsavedInfo {
+  private createDraft(): UnsavedInfo {
     return {
       patch_set: this.latestPatchNum,
-      message,
+      message: this.patchsetLevelDraftMessage,
       unresolved: !this.patchsetLevelDraftIsResolved,
       path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS,
       __unsaved: true,
@@ -927,6 +927,8 @@ export class GrReplyDialog extends LitElement {
   }
 
   private renderPatchsetLevelComment() {
+    if (!this.patchsetLevelComment)
+      this.patchsetLevelComment = this.createDraft();
     return html`
       <gr-comment
         id="patchsetLevelComment"
@@ -936,10 +938,7 @@ export class GrReplyDialog extends LitElement {
           this.patchsetLevelDraftIsResolved = !e.detail.value;
         }}
         @comment-text-changed=${(e: ValueChangedEvent<string>) => {
-          const newMessage = e.detail.value;
-          if (this.patchsetLevelComment.message === newMessage) return;
-          this.patchsetLevelComment.message = newMessage;
-          this.requestUpdate('patchsetLevelComment');
+          this.patchsetLevelDraftMessage = e.detail.value;
         }}
         .messagePlaceholder=${this.messagePlaceholder}
         hide-header
@@ -1269,7 +1268,7 @@ export class GrReplyDialog extends LitElement {
     this.focusOn(focusTarget);
     if (quote?.length) {
       // If a reply quote has been provided, use it.
-      this.patchsetLevelComment = this.createDraft(quote);
+      this.patchsetLevelDraftMessage = quote;
     }
     if (this.restApiService.hasPendingDiffDrafts()) {
       this.savingComments = true;
@@ -1282,7 +1281,7 @@ export class GrReplyDialog extends LitElement {
 
   hasDrafts() {
     return (
-      !!this.patchsetLevelComment.message?.length ||
+      this.patchsetLevelDraftMessage.length > 0 ||
       this.draftCommentThreads.length > 0
     );
   }
@@ -1470,8 +1469,8 @@ export class GrReplyDialog extends LitElement {
           return;
         }
 
+        this.patchsetLevelDraftMessage = '';
         this.includeComments = true;
-        this.patchsetLevelComment = this.createDraft('');
         this.dispatchEvent(
           new CustomEvent('send', {
             composed: true,
@@ -2032,6 +2031,7 @@ export class GrReplyDialog extends LitElement {
   computeSendButtonDisabled() {
     if (
       this.canBeStarted === undefined ||
+      this.patchsetLevelDraftMessage === undefined ||
       this.reviewersMutated === undefined ||
       this.labelsChanged === undefined ||
       this.includeComments === undefined ||
@@ -2055,8 +2055,13 @@ export class GrReplyDialog extends LitElement {
     const revotingOrNewVote = this.labelsChanged || existingVote;
     const hasDrafts =
       (this.includeComments && this.draftCommentThreads.length > 0) ||
-      !!this.patchsetLevelComment?.message?.length;
-    return !hasDrafts && !this.reviewersMutated && !revotingOrNewVote;
+      this.patchsetLevelDraftMessage.length > 0;
+    return (
+      !hasDrafts &&
+      !this.patchsetLevelDraftMessage.length &&
+      !this.reviewersMutated &&
+      !revotingOrNewVote
+    );
   }
 
   computePatchSetWarning() {

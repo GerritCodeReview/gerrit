@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0482fd9b_efe248ac",
+        "filename": "java/com/google/gerrit/server/change/ReviewerModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-04T10:14:06Z",
+      "side": 1,
+      "message": "Thanks for adding Javadocs. Much better now!",
+      "revId": "4bd3a7ae88979983dbba0c4a694da52eb638db4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

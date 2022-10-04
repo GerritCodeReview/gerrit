@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "b3d96833_959e5212",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-04T09:36:07Z",
+      "side": 1,
+      "message": "No, the cherry-pick should be performed by the calling user, so that this user is recorded as the user doing this action. Only for adding the reviewers we want to check the visibility check, but even here the calling user should be recorded as adding these reviewers, which would not be the case if we would use the server user.",
+      "parentUuid": "cd5c0128_7a3991f3",
+      "revId": "5189e8e2b13e3d035f4e3034281aa0ad8d5a3673",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "2c185c08_6ceb3e3f",
         "filename": "java/com/google/gerrit/server/change/ReviewerModifier.java",
         "patchSetId": 2
@@ -49,6 +67,24 @@
       "side": 1,
       "message": "Please add Javadocs clarifying what the values mean.\n\nI deduced this is: any failure will be ignored (with ignore \u003d user not added as reviewer), but if the failure \u003d user account not found, then the operation will fail. I think explanation would be useful for the future reader.",
       "parentUuid": "2c185c08_6ceb3e3f",
+      "revId": "5189e8e2b13e3d035f4e3034281aa0ad8d5a3673",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6635ed38_95ad9edf",
+        "filename": "java/com/google/gerrit/server/change/ReviewerModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-04T09:36:07Z",
+      "side": 1,
+      "message": "Ah, I hoped the new name IGNORE_EXCEPT_NOT_FOUND would make this clear now.\nSince improving this is unrelated to this change, I\u0027ve did this now in a separate change and added the javadoc there: https://gerrit-review.googlesource.com/c/gerrit/+/347334",
+      "parentUuid": "1b319476_7a97a864",
       "revId": "5189e8e2b13e3d035f4e3034281aa0ad8d5a3673",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

@@ -21,4 +21,5 @@ import com.google.gerrit.extensions.restapi.RawInput;
 public class FileContentInput {
   @DefaultInput public RawInput content;
   public String binary_content;
+  public int gitFileMode;
 }

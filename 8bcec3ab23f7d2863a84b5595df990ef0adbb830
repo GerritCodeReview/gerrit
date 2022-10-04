@@ -16,6 +16,47 @@
       "message": "Should I rebase this onto 3.7 or master or leave as is?",
       "revId": "8bcec3ab23f7d2863a84b5595df990ef0adbb830",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d63081fa_b05e22d3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-04T09:40:01Z",
+      "side": 1,
+      "message": "For me it\u0027s fine to do this in stable-3.6, but I don\u0027t know if there are plans for making another 3.6 release.",
+      "parentUuid": "71de2fe1_375fa676",
+      "revId": "8bcec3ab23f7d2863a84b5595df990ef0adbb830",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54e333bf_a4f512f3",
+        "filename": "javatests/com/google/gerrit/server/project/ProjectConfigTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-04T09:40:01Z",
+      "side": 1,
+      "message": "Does this need to be isNull now?",
+      "range": {
+        "startLine": 759,
+        "startChar": 84,
+        "endLine": 759,
+        "endChar": 90
+      },
+      "revId": "8bcec3ab23f7d2863a84b5595df990ef0adbb830",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

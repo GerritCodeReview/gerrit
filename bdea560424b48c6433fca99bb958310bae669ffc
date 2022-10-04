@@ -1,0 +1,234 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1dd8fc48_33518d7e",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1281,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-10-04T10:39:06Z",
+      "side": 1,
+      "message": "Looks like for the deleted file, the commit is likely available on metaA side.",
+      "range": {
+        "startLine": 1279,
+        "startChar": 4,
+        "endLine": 1281,
+        "endChar": 5
+      },
+      "revId": "bdea560424b48c6433fca99bb958310bae669ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfd6c18f_626b5366",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-10-04T10:39:06Z",
+      "side": 1,
+      "message": "I think serverIdent is typically used for gerrit-generated merge commits.\nI think we should use the currentUser here, similar to [1]\n\n[1]https://gerrit.googlesource.com/gerrit/+/master/java/com/google/gerrit/server/restapi/change/CreateChange.java#357",
+      "range": {
+        "startLine": 158,
+        "startChar": 18,
+        "endLine": 158,
+        "endChar": 52
+      },
+      "revId": "bdea560424b48c6433fca99bb958310bae669ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9826bf1f_f16f72ce",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-10-04T10:39:06Z",
+      "side": 1,
+      "message": "should you use author.ident here?",
+      "range": {
+        "startLine": 159,
+        "startChar": 6,
+        "endLine": 162,
+        "endChar": 90
+      },
+      "revId": "bdea560424b48c6433fca99bb958310bae669ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c65c9c2d_2b3d1455",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-10-04T10:39:06Z",
+      "side": 1,
+      "message": "should we add an option to provide the commit message for the new patch?\n\nI think this can be the case, since the previous PS might have nothing to do with the new PS.",
+      "range": {
+        "startLine": 164,
+        "startChar": 58,
+        "endLine": 164,
+        "endChar": 84
+      },
+      "revId": "bdea560424b48c6433fca99bb958310bae669ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22c7d435_39f433ec",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-10-04T10:39:06Z",
+      "side": 1,
+      "message": "similar to the previous change: I think this logic is the same for both creating a change and PS and it would be nice to extract it to a helper method.",
+      "range": {
+        "startLine": 156,
+        "startChar": 6,
+        "endLine": 177,
+        "endChar": 73
+      },
+      "revId": "bdea560424b48c6433fca99bb958310bae669ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af36dea6_94a87a7e",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-10-04T10:39:06Z",
+      "side": 1,
+      "message": "nit: I think this should happen in a separate block (outside if try(BatchUpdate bu \u003d...){}",
+      "range": {
+        "startLine": 183,
+        "startChar": 8,
+        "endLine": 187,
+        "endChar": 39
+      },
+      "revId": "bdea560424b48c6433fca99bb958310bae669ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8918fcb5_903d386b",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-10-04T10:39:06Z",
+      "side": 1,
+      "message": "Looks like this setting is used to keep/override the original commit author timestamp on cherry-picks[1].\n\nUnless we add an optional original commit date to the input, I do not think we need this setting here.\n\n[1]https://gerrit-review.googlesource.com/Documentation/config-project-config.html#submit.matchAuthorToCommitterDate",
+      "range": {
+        "startLine": 210,
+        "startChar": 22,
+        "endLine": 210,
+        "endChar": 48
+      },
+      "revId": "bdea560424b48c6433fca99bb958310bae669ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7453401a_a0c89678",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-10-04T10:39:06Z",
+      "side": 1,
+      "message": "nit: is this info necessary in commit message? This will be part of the commit message in NoteDB, and normally invisible to the user. I expect that the files in the commit will contain the merge markers anyway?",
+      "range": {
+        "startLine": 240,
+        "startChar": 0,
+        "endLine": 245,
+        "endChar": 5
+      },
+      "revId": "bdea560424b48c6433fca99bb958310bae669ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c505fab1_234cc8cc",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ApplyPatchIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-10-04T10:39:06Z",
+      "side": 1,
+      "message": "I think the following tests would also be useful:\n* Upload a patch that results in file/content conflicts.\n* Tests for commiter/autor of the resulting PS commit.\n* Multiple files in a single patch",
+      "range": {
+        "startLine": 33,
+        "startChar": 13,
+        "endLine": 33,
+        "endChar": 25
+      },
+      "revId": "bdea560424b48c6433fca99bb958310bae669ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91ae4725_fcdf10b2",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ApplyPatchIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-10-04T10:39:06Z",
+      "side": 1,
+      "message": "nit: how hard would it be to make all of the tests round-trip gerrit tests (e.g change the tests above to get-patch -\u003e apply-patch, similar to this test).",
+      "range": {
+        "startLine": 132,
+        "startChar": 14,
+        "endLine": 132,
+        "endChar": 35
+      },
+      "revId": "bdea560424b48c6433fca99bb958310bae669ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

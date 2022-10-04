@@ -2927,11 +2927,18 @@ To upload a file as binary data in the request body:
   Content-Type: application/json; charset=UTF-8
 
   {
-    "binary_content": "data:text/plain;base64,SGVsbG8sIFdvcmxkIQ=="
+    "binary_content": "data:text/plain;base64,SGVsbG8sIFdvcmxkIQ==",
+    "file_mode": 100755
   }
 ----
 
 Note that it must be base-64 encoded data uri.
+
+The "file_mode" field is optional, and if provided must be in octal format. The field
+indicates whether the file is executable or not and has a value of either 100755
+(executable) or 100644 (not executable). If it's unset, this indicates no change
+has been made. New files default to not being executable if this parameter is not
+provided
 
 When change edit doesn't exist for this change yet it is created. When file
 content isn't provided, it is wiped out for that file. As response

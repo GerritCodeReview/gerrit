@@ -340,8 +340,18 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
         throw new ResourceConflictException("Invalid path: " + path);
       }
 
+      if (fileContentInput.fileMode != null) {
+        if ((fileContentInput.fileMode != 100644) && (fileContentInput.fileMode != 100755)) {
+          throw new BadRequestException(
+              "file_mode ("
+                  + fileContentInput.fileMode
+                  + ") was invalid: supported values are 0, 644, or 755.");
+        }
+      }
+
       try (Repository repository = repositoryManager.openRepository(rsrc.getProject())) {
-        editModifier.modifyFile(repository, rsrc.getNotes(), path, newContent);
+        editModifier.modifyFile(
+            repository, rsrc.getNotes(), path, newContent, fileContentInput.fileMode);
       } catch (InvalidChangeOperationException e) {
         throw new ResourceConflictException(e.getMessage());
       }

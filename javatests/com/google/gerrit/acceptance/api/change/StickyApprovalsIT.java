@@ -357,14 +357,14 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
 
     Change.Id changeId =
-        changeOperations.newChange().project(project).file("file").content("content").create();
+        changeOperations.newChange().project(project).file("file", 0).content("content").create();
     vote(admin, changeId.toString(), 2, 1);
     vote(user, changeId.toString(), -2, -1);
 
     changeOperations
         .change(changeId)
         .newPatchset()
-        .file("new file")
+        .file("new file", 0)
         .content("new content")
         .create();
     ChangeInfo c = detailedChange(changeId.toString());
@@ -385,7 +385,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
         changeOperations
             .newChange()
             .project(project)
-            .file(existingFile)
+            .file(existingFile, 0)
             .content("content")
             .create();
     vote(admin, prep.toString(), 2, 1);
@@ -398,7 +398,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     changeOperations
         .change(changeId)
         .newPatchset()
-        .file(existingFile)
+        .file(existingFile, 0)
         .content("new content")
         .create();
     ChangeInfo c = detailedChange(changeId.toString());
@@ -415,11 +415,11 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
 
     Change.Id changeId =
-        changeOperations.newChange().project(project).file("file").content("content").create();
+        changeOperations.newChange().project(project).file("file", 0).content("content").create();
     vote(admin, changeId.toString(), 2, 1);
     vote(user, changeId.toString(), -2, -1);
 
-    changeOperations.change(changeId).newPatchset().file("file").delete().create();
+    changeOperations.change(changeId).newPatchset().file("file", 0).delete().create();
     ChangeInfo c = detailedChange(changeId.toString());
 
     // no votes are copied since the list of files changed.
@@ -433,11 +433,11 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
 
     Change.Id changeId =
-        changeOperations.newChange().project(project).file("file").content("content").create();
+        changeOperations.newChange().project(project).file("file", 0).content("content").create();
     vote(admin, changeId.toString(), 2, 1);
     vote(user, changeId.toString(), -2, -1);
 
-    changeOperations.change(changeId).newPatchset().file("file").content("new content").create();
+    changeOperations.change(changeId).newPatchset().file("file", 0).content("new content").create();
     ChangeInfo c = detailedChange(changeId.toString());
 
     // only code review votes are copied since copyAllScoresIfListOfFilesDidNotChange is
@@ -488,11 +488,11 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
 
     Change.Id changeId =
-        changeOperations.newChange().project(project).file("file").content("content").create();
+        changeOperations.newChange().project(project).file("file", 0).content("content").create();
     vote(admin, changeId.toString(), 2, 1);
     vote(user, changeId.toString(), -2, -1);
 
-    changeOperations.change(changeId).newPatchset().file("file").content("new content").create();
+    changeOperations.change(changeId).newPatchset().file("file", 0).content("new content").create();
     ChangeInfo c = detailedChange(changeId.toString());
 
     // only code review votes are copied since copyAllScoresIfListOfFilesDidNotChange is
@@ -508,15 +508,15 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
 
     Change.Id changeId =
-        changeOperations.newChange().project(project).file("file").content("content").create();
+        changeOperations.newChange().project(project).file("file", 0).content("content").create();
     vote(admin, changeId.toString(), 2, 1);
     vote(user, changeId.toString(), -2, -1);
 
-    changeOperations.change(changeId).newPatchset().file("new file").content("content").create();
+    changeOperations.change(changeId).newPatchset().file("new file", 0).content("content").create();
     changeOperations
         .change(changeId)
         .newPatchset()
-        .file("new file")
+        .file("new file", 0)
         .content("new content")
         .create();
     ChangeInfo c = detailedChange(changeId.toString());
@@ -532,11 +532,11 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
 
     Change.Id changeId =
-        changeOperations.newChange().project(project).file("file").content("content").create();
+        changeOperations.newChange().project(project).file("file", 0).content("content").create();
     vote(admin, changeId.toString(), 2, 1);
     vote(user, changeId.toString(), -2, -1);
 
-    changeOperations.change(changeId).newPatchset().file("file").renameTo("new_file").create();
+    changeOperations.change(changeId).newPatchset().file("file", 0).renameTo("new_file").create();
     ChangeInfo c = detailedChange(changeId.toString());
 
     // no votes are copied since the list of files changed (rename).
@@ -549,11 +549,11 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
 
     Change.Id changeId =
-        changeOperations.newChange().project(project).file("file").content("content").create();
+        changeOperations.newChange().project(project).file("file", 0).content("content").create();
     vote(admin, changeId.toString(), 2, 1);
     vote(user, changeId.toString(), -2, -1);
 
-    changeOperations.change(changeId).newPatchset().file("file").content("new content").create();
+    changeOperations.change(changeId).newPatchset().file("file", 0).content("new content").create();
     ChangeInfo c = detailedChange(changeId.toString());
 
     // Code-Review votes are copied over from ps1-> ps2 since the list of files were unchanged.
@@ -563,7 +563,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     changeOperations
         .change(changeId)
         .newPatchset()
-        .file("file")
+        .file("file", 0)
         .content("very new content")
         .create();
     c = detailedChange(changeId.toString());
@@ -575,7 +575,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     changeOperations
         .change(changeId)
         .newPatchset()
-        .file("new file")
+        .file("new file", 0)
         .content("new content")
         .create();
 
@@ -584,7 +584,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     assertVotes(c, admin, 0, 0);
     assertVotes(c, user, 0, 0);
 
-    changeOperations.change(changeId).newPatchset().file("file").content("content").create();
+    changeOperations.change(changeId).newPatchset().file("file", 0).content("content").create();
 
     c = detailedChange(changeId.toString());
     // Code-Review votes are not copied over from ps1 -> ps5 since a file was added on ps4.
@@ -1271,7 +1271,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       changeOperations
           .change(Change.id(r.getChange().getId().get()))
           .newPatchset()
-          .file("new_file")
+          .file("new_file", 0)
           .content("content")
           .commitMessage("Upload PS2")
           .create();
@@ -1282,7 +1282,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       changeOperations
           .change(Change.id(r.getChange().getId().get()))
           .newPatchset()
-          .file("another_file")
+          .file("another_file", 0)
           .content("content")
           .commitMessage("Upload PS3")
           .create();

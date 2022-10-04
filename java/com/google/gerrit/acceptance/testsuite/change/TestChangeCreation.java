@@ -88,8 +88,8 @@ public abstract class TestChangeCreation {
     public abstract Builder commitMessage(String commitMessage);
 
     /** Modified file of the change. The file content is specified via the returned builder. */
-    public FileContentBuilder<Builder> file(String filePath) {
-      return new FileContentBuilder<>(this, filePath, treeModificationsBuilder()::add);
+    public FileContentBuilder<Builder> file(String filePath, int newMode) {
+      return new FileContentBuilder<>(this, filePath, newMode, treeModificationsBuilder()::add);
     }
 
     abstract ImmutableList.Builder<TreeModification> treeModificationsBuilder();
@@ -108,12 +108,12 @@ public abstract class TestChangeCreation {
      * fluent change -> first parent of the change).
      *
      * <p>This method will automatically merge the parent commits and use the resulting commit as
-     * base for the change. Use {@link #file(String)} for additional file adjustments on top of that
-     * merge commit.
+     * base for the change. Use {@link #file(String, int)} for additional file adjustments on top of
+     * that merge commit.
      *
      * <p><strong>Note:</strong> If this method fails with a merge conflict, use {@link
      * #mergeOfButBaseOnFirst()} instead and specify all other necessary file contents manually via
-     * {@link #file(String)}.
+     * {@link #file(String, int)}.
      */
     public ParentBuilder<MultipleParentBuilder<Builder>> mergeOf() {
       return new ParentBuilder<>(parent -> mergeBuilder(MergeStrategy.RECURSIVE, parent));

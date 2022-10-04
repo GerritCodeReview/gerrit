@@ -22,6 +22,30 @@
       },
       "revId": "52bdafa2a054ea98b0d0b673abe442bb9fe6d2a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "734435ca_484dd39c",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/TaskListenerIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-04T11:18:12Z",
+      "side": 1,
+      "message": "it\u0027s needed I guess. \"t.cancel\" is a method that is not in our source code, so I cannot annotate it. For this I left the \"unused\" variable here.\n\nLMK if I\u0027m missing something.",
+      "parentUuid": "115a9fd1_f6b03af6",
+      "range": {
+        "startLine": 167,
+        "startChar": 8,
+        "endLine": 167,
+        "endChar": 26
+      },
+      "revId": "52bdafa2a054ea98b0d0b673abe442bb9fe6d2a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

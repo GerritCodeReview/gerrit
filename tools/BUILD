@@ -1,5 +1,6 @@
 load(
     "@bazel_tools//tools/jdk:default_java_toolchain.bzl",
+    "NONPREBUILT_TOOLCHAIN_CONFIGURATION",
     "default_java_toolchain",
 )
 load("@rules_java//java:defs.bzl", "java_package_configuration")
@@ -8,6 +9,7 @@ exports_files(["nongoogle.bzl"])
 
 default_java_toolchain(
     name = "error_prone_warnings_toolchain_java11",
+    configuration = NONPREBUILT_TOOLCHAIN_CONFIGURATION,
     package_configuration = [
         ":error_prone",
     ],

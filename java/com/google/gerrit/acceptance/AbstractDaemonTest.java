@@ -32,6 +32,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.server.project.testing.TestLabels.label;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
@@ -89,6 +90,7 @@ import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
+import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -98,6 +100,7 @@ import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -1098,6 +1101,42 @@ public abstract class AbstractDaemonTest {
 
   protected void recommend(String id) throws Exception {
     gApi.changes().id(id).current().review(ReviewInput.recommend());
+  }
+
+  protected void assertThatAccountIsNotVisible(TestAccount... testAccounts) {
+    for (TestAccount testAccount : testAccounts) {
+      assertThrows(
+          ResourceNotFoundException.class, () -> gApi.accounts().id(testAccount.id().get()).get());
+    }
+  }
+
+  protected void assertReviewers(String changeId, TestAccount... expectedReviewers)
+      throws RestApiException {
+    Map<ReviewerState, Collection<AccountInfo>> reviewerMap =
+        gApi.changes().id(changeId).get().reviewers;
+    assertThat(reviewerMap).containsKey(ReviewerState.REVIEWER);
+    List<Integer> reviewers =
+        reviewerMap.get(ReviewerState.REVIEWER).stream().map(a -> a._accountId).collect(toList());
+    assertThat(reviewers)
+        .containsExactlyElementsIn(
+            Arrays.stream(expectedReviewers).map(a -> a.id().get()).collect(toList()));
+  }
+
+  protected void assertCcs(String changeId, TestAccount... expectedCcs) throws RestApiException {
+    Map<ReviewerState, Collection<AccountInfo>> reviewerMap =
+        gApi.changes().id(changeId).get().reviewers;
+    assertThat(reviewerMap).containsKey(ReviewerState.CC);
+    List<Integer> ccs =
+        reviewerMap.get(ReviewerState.CC).stream().map(a -> a._accountId).collect(toList());
+    assertThat(ccs)
+        .containsExactlyElementsIn(
+            Arrays.stream(expectedCcs).map(a -> a.id().get()).collect(toList()));
+  }
+
+  protected void assertNoCcs(String changeId) throws RestApiException {
+    Map<ReviewerState, Collection<AccountInfo>> reviewerMap =
+        gApi.changes().id(changeId).get().reviewers;
+    assertThat(reviewerMap).doesNotContainKey(ReviewerState.CC);
   }
 
   protected void assertSubmittedTogether(String chId, String... expected) throws Exception {

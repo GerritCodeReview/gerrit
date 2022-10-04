@@ -405,7 +405,7 @@ public class ReplaceOp implements BatchUpdateOp {
 
     // Ignore failures for reasons like the reviewer being inactive or being unable to see the
     // change. See discussion in ChangeInserter.
-    input.otherFailureBehavior = ReviewerModifier.FailureBehavior.IGNORE;
+    input.otherFailureBehavior = ReviewerModifier.FailureBehavior.IGNORE_EXCEPT_NOT_FOUND;
 
     return input;
   }

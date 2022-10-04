@@ -622,7 +622,7 @@ public class ChangeInserter implements InsertChangeOp {
     // certain commit footers: putting a nonexistent user in a footer should not cause an error. In
     // theory we could provide finer control to do this for some reviewers and not others, but it's
     // not worth complicating the ChangeInserter interface further at this time.
-    input.otherFailureBehavior = ReviewerModifier.FailureBehavior.IGNORE;
+    input.otherFailureBehavior = ReviewerModifier.FailureBehavior.IGNORE_EXCEPT_NOT_FOUND;
 
     input.skipVisibilityCheck = skipVisibilityCheck;
 

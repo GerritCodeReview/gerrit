@@ -527,7 +527,7 @@ public class CherryPickChange {
       reviewers.remove(user.get().getAccountId());
       Set<Account.Id> ccs = new HashSet<>(reviewerSet.byState(ReviewerStateInternal.CC));
       ccs.remove(user.get().getAccountId());
-      ins.setReviewersAndCcs(reviewers, ccs);
+      ins.setReviewersAndCcsIgnoreVisibility(reviewers, ccs);
     }
     // If there is a base, and the base is not merged, the groups will be overridden by the base's
     // groups.

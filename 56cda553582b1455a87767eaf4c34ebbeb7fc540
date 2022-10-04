@@ -225,6 +225,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0ae12196_a3481247",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_test.ts",
+        "patchSetId": 28
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-04T09:20:22Z",
+      "side": 1,
+      "message": "It should be moved. Yes it can be argued to organize by feature, but that is not how our other tests and codebase are organized and this should match the existing pattern of component tests",
+      "parentUuid": "28eae056_99c4f200",
+      "range": {
+        "startLine": 362,
+        "startChar": 0,
+        "endLine": 392,
+        "endChar": 0
+      },
+      "revId": "56cda553582b1455a87767eaf4c34ebbeb7fc540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2141e0c0_3526ff1c",
         "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-collapse.ts",
         "patchSetId": 28

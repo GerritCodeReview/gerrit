@@ -46,6 +46,30 @@
       },
       "revId": "8de1c025503480dd84350aed3434629f02e95bac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f4c7925_fd7a228e",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1352,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-04T20:55:18Z",
+      "side": 1,
+      "message": "This be done as a follow-up change, I believe. It would make the code more readable but isn\u0027t directly related to the security fix.\n\nMarking this as resolved, @Matthias feel free to uncheck if you believe it should be addressed as part of this change.",
+      "parentUuid": "946481bd_d3beca75",
+      "range": {
+        "startLine": 1352,
+        "startChar": 74,
+        "endLine": 1352,
+        "endChar": 88
+      },
+      "revId": "8de1c025503480dd84350aed3434629f02e95bac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

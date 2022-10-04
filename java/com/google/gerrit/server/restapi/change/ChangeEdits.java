@@ -341,7 +341,8 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
       }
 
       try (Repository repository = repositoryManager.openRepository(rsrc.getProject())) {
-        editModifier.modifyFile(repository, rsrc.getNotes(), path, newContent);
+        editModifier.modifyFile(
+            repository, rsrc.getNotes(), path, newContent, fileContentInput.file_mode);
       } catch (InvalidChangeOperationException e) {
         throw new ResourceConflictException(e.getMessage());
       }

@@ -58,7 +58,7 @@ public class TreeCreatorTest {
     TreeCreator treeCreator = TreeCreator.basedOnEmptyTree();
     treeCreator.addTreeModifications(
         ImmutableList.of(
-            new ChangeFileContentModification("file.txt", RawInputUtil.create("Line 1"))));
+            new ChangeFileContentModification("file.txt", RawInputUtil.create("Line 1"), 0)));
     ObjectId newTreeId = treeCreator.createNewTreeAndGetId(repository);
 
     String fileContent = getFileContent(newTreeId, "file.txt");
@@ -100,7 +100,7 @@ public class TreeCreatorTest {
         ImmutableList.of(
             new RenameFileModification("oldFileName", "newFileName"),
             new ChangeFileContentModification(
-                "newFileName", RawInputUtil.create("Different content"))));
+                "newFileName", RawInputUtil.create("Different content"), 0)));
     IllegalStateException exception =
         assertThrows(
             IllegalStateException.class, () -> treeCreator.createNewTreeAndGetId(repository));
@@ -112,7 +112,7 @@ public class TreeCreatorTest {
   @Test
   public void fileContentModificationRefersToModifiedFile() {
     ChangeFileContentModification contentModification =
-        new ChangeFileContentModification("myFileName", RawInputUtil.create("Some content"));
+        new ChangeFileContentModification("myFileName", RawInputUtil.create("Some content"), 0);
     assertThat(contentModification.getFilePaths()).containsExactly("myFileName");
   }
 

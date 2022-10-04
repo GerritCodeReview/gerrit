@@ -44,8 +44,8 @@ public abstract class TestPatchsetCreation {
     public abstract Builder commitMessage(String commitMessage);
 
     /** Modified file of the patchset. The file content is specified via the returned builder. */
-    public FileContentBuilder<Builder> file(String filePath) {
-      return new FileContentBuilder<>(this, filePath, treeModificationsBuilder()::add);
+    public FileContentBuilder<Builder> file(String filePath, int newMode) {
+      return new FileContentBuilder<>(this, filePath, newMode, treeModificationsBuilder()::add);
     }
 
     abstract ImmutableList.Builder<TreeModification> treeModificationsBuilder();

@@ -112,7 +112,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void fileCommentCanBeCreated() throws Exception {
-    Change.Id changeId = changeOperations.newChange().file("file1").content("Line 1").create();
+    Change.Id changeId = changeOperations.newChange().file("file1", 0).content("Line 1").create();
 
     String commentUuid =
         changeOperations
@@ -133,7 +133,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
     Change.Id changeId =
         changeOperations
             .newChange()
-            .file("file1")
+            .file("file1", 0)
             .content("Line 1\nLine 2\nLine 3\nLine 4\n")
             .create();
 
@@ -156,7 +156,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
     Change.Id changeId =
         changeOperations
             .newChange()
-            .file("file1")
+            .file("file1", 0)
             .content("Line 1\nLine 2\nLine 3\nLine 4\n")
             .create();
 
@@ -475,7 +475,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void draftFileCommentCanBeCreated() throws Exception {
-    Change.Id changeId = changeOperations.newChange().file("file1").content("Line 1").create();
+    Change.Id changeId = changeOperations.newChange().file("file1", 0).content("Line 1").create();
 
     String commentUuid =
         changeOperations
@@ -496,7 +496,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
     Change.Id changeId =
         changeOperations
             .newChange()
-            .file("file1")
+            .file("file1", 0)
             .content("Line 1\nLine 2\nLine 3\nLine 4\n")
             .create();
 
@@ -519,7 +519,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
     Change.Id changeId =
         changeOperations
             .newChange()
-            .file("file1")
+            .file("file1", 0)
             .content("Line 1\nLine 2\nLine 3\nLine 4\n")
             .create();
 
@@ -889,7 +889,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void fileRobotCommentCanBeCreated() throws Exception {
-    Change.Id changeId = changeOperations.newChange().file("file1").content("Line 1").create();
+    Change.Id changeId = changeOperations.newChange().file("file1", 0).content("Line 1").create();
 
     String commentUuid =
         changeOperations
@@ -910,7 +910,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
     Change.Id changeId =
         changeOperations
             .newChange()
-            .file("file1")
+            .file("file1", 0)
             .content("Line 1\nLine 2\nLine 3\nLine 4\n")
             .create();
 
@@ -933,7 +933,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
     Change.Id changeId =
         changeOperations
             .newChange()
-            .file("file1")
+            .file("file1", 0)
             .content("Line 1\nLine 2\nLine 3\nLine 4\n")
             .create();
 

@@ -149,7 +149,7 @@ public class FixReplacementInterpreter {
     String fileContent = getFileContent(repository, projectState, patchSetCommitId, filePath);
     String newFileContent = FixCalculator.getNewFileContent(fileContent, fixReplacements);
 
-    return new ChangeFileContentModification(filePath, RawInputUtil.create(newFileContent));
+    return new ChangeFileContentModification(filePath, RawInputUtil.create(newFileContent), 0);
   }
 
   private String getFileContent(

@@ -236,8 +236,8 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
   @Test
   public void hasChangedFilesPredicate() throws Exception {
     Change.Id changeId =
-        changeOperations.newChange().project(project).file("file").content("content").create();
-    changeOperations.change(changeId).newPatchset().file("file").content("new content").create();
+        changeOperations.newChange().project(project).file("file", 0).content("content").create();
+    changeOperations.change(changeId).newPatchset().file("file", 0).content("new content").create();
 
     // can copy approval from patch-set 1 -> 2
     assertTrue(
@@ -247,7 +247,7 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
             .match(
                 contextForCodeReviewLabel(
                     /* value= */ 2, PatchSet.id(changeId, /* id= */ 1), admin.id())));
-    changeOperations.change(changeId).newPatchset().file("file").delete().create();
+    changeOperations.change(changeId).newPatchset().file("file", 0).delete().create();
 
     // can not copy approval from patch-set 2 -> 3
     assertFalse(

@@ -6,7 +6,10 @@ junit_tests(
     tags = ["metrics"],
     visibility = ["//visibility:public"],
     deps = [
+        "//java/com/google/gerrit/metrics",
         "//java/com/google/gerrit/metrics/dropwizard",
+        "//lib/mockito",
         "//lib/truth",
+        "@dropwizard-core//jar",
     ],
 )

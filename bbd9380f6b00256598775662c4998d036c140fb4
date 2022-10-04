@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4faf2db_fcc7ac96",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-04T05:01:04Z",
+      "side": 1,
+      "message": "```\nINFO: Found 5 test targets...\nINFO: Elapsed time: 187.172s, Critical Path: 183.57s\nINFO: 30 processes: 2 remote cache hit, 13 internal, 8 linux-sandbox, 7 worker.\nINFO: Build completed successfully, 30 total actions\n//javatests/com/google/gerrit/elasticsearch:elasticsearch_query_accounts_test_V7 PASSED in 175.1s\n//javatests/com/google/gerrit/elasticsearch:elasticsearch_query_changes_test_V7 PASSED in 164.9s\n//javatests/com/google/gerrit/elasticsearch:elasticsearch_query_groups_test_V7 PASSED in 165.8s\n//javatests/com/google/gerrit/elasticsearch:elasticsearch_query_projects_test_V7 PASSED in 165.7s\n//javatests/com/google/gerrit/elasticsearch:elasticsearch_tests          PASSED in 0.8s\n\nINFO: Build completed successfully, 30 total actions\n```",
+      "revId": "bbd9380f6b00256598775662c4998d036c140fb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

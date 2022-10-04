@@ -102,3 +102,43 @@ export function diffFilePaths(filePath: string, otherFilePath?: string) {
     fileName: fileNameSection,
   };
 }
+
+/**
+ * Returns the characters that are identical at the start of both strings.
+ *
+ * For example, `countMatchingStart('12345678', '1234zz78')` would return '1234'
+ */
+export function getSharedPrefix(a: string, b: string): string {
+  for (let i = 0; i < a.length; ++i) {
+    if (a[i] !== b[i]) {
+      return a.substring(0, i);
+    }
+  }
+  return a;
+}
+
+/**
+ * Returns the characters that are identical at the end of both strings.
+ * 
+ * For example, `countMatchingEnd('12345678', '1234zz78')` would return '78'
+ */
+export function getSharedSuffix(a: string, b: string): string {
+  for (let iFromEnd = 0; iFromEnd < a.length; ++iFromEnd) {
+    if (a[a.length - 1 - iFromEnd] !== b[b.length - 1 - iFromEnd]) {
+      return a.substring(a.length - iFromEnd, a.length);
+    }
+  }
+  return a;
+}
+
+/**
+ * removes text at the start of `a` that is also at the start of `b`, and
+ * likewise for the ending.
+ *
+ * For example, `trimMatching('aaBBcc', 'aabbcc') would return 'BB'
+ */
+export function trimMatching(a: string, b: string): string {
+  const sameStart = getSharedPrefix(a, b).length;
+  const sameEnd = getSharedSuffix(a, b).length;
+  return a.substring(sameStart, a.length - sameEnd);
+}

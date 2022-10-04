@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd5c0128_7a3991f3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-04T09:15:35Z",
+      "side": 1,
+      "message": "general thought: could it be better, for CP, to perform the action with the server user (with all accounts visible), instead of failing and handling?",
+      "revId": "5189e8e2b13e3d035f4e3034281aa0ad8d5a3673",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "2c185c08_6ceb3e3f",
@@ -14,6 +31,24 @@
       "writtenOn": "2022-10-04T08:17:46Z",
       "side": 1,
       "message": "Reviewer hint: This enum value is just renamed (IGNORE -\u003e IGNORE_EXCEPT_NOT_FOUND), but it\u0027s behaviour was not changed. Since this enum ignored all failures except not found failures, the new name should be more readable.",
+      "revId": "5189e8e2b13e3d035f4e3034281aa0ad8d5a3673",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b319476_7a97a864",
+        "filename": "java/com/google/gerrit/server/change/ReviewerModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-04T09:15:35Z",
+      "side": 1,
+      "message": "Please add Javadocs clarifying what the values mean.\n\nI deduced this is: any failure will be ignored (with ignore \u003d user not added as reviewer), but if the failure \u003d user account not found, then the operation will fail. I think explanation would be useful for the future reader.",
+      "parentUuid": "2c185c08_6ceb3e3f",
       "revId": "5189e8e2b13e3d035f4e3034281aa0ad8d5a3673",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

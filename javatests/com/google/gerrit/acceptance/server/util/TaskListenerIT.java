@@ -45,7 +45,7 @@ public class TaskListenerIT extends AbstractDaemonTest {
       /** Ensure that the latched method calls this on entry */
       public void call() {
         called.countDown();
-        await(complete);
+        boolean unused = await(complete);
       }
     }
 
@@ -162,7 +162,7 @@ public class TaskListenerIT extends AbstractDaemonTest {
     // "Log File Compressor"s are likely running and will interfere with tests
     while (0 != workQueue.getTasks().size()) {
       for (Task<?> t : workQueue.getTasks()) {
-        t.cancel(true);
+        boolean unused = t.cancel(true);
       }
       TimeUnit.MILLISECONDS.sleep(1);
     }

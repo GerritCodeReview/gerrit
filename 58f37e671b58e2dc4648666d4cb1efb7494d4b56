@@ -46,6 +46,30 @@
       },
       "revId": "58f37e671b58e2dc4648666d4cb1efb7494d4b56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b32aedd_1024b94d",
+        "filename": "java/com/google/gerrit/entities/StoredCommentLinkInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-04T09:17:11Z",
+      "side": 1,
+      "message": "I\u0027m not sure if I\u0027m following. By default all boolean fields in the REST API are not set if true. So doing something else here seems inconsistent?",
+      "parentUuid": "c9d991fb_9587d563",
+      "range": {
+        "startLine": 53,
+        "startChar": 47,
+        "endLine": 53,
+        "endChar": 63
+      },
+      "revId": "58f37e671b58e2dc4648666d4cb1efb7494d4b56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

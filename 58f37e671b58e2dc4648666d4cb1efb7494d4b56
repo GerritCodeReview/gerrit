@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfc098bd_6ba8b437",
+        "filename": "java/com/google/gerrit/entities/StoredCommentLinkInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-04T06:24:21Z",
+      "side": 1,
+      "message": "Why do we need to set true here?\n\nIIUC we use \u0027enabled\u003dfalse\u0027 for disabled and \u0027enabled\u003dnull\u0027 for enabled.",
+      "range": {
+        "startLine": 53,
+        "startChar": 47,
+        "endLine": 53,
+        "endChar": 63
+      },
+      "revId": "58f37e671b58e2dc4648666d4cb1efb7494d4b56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

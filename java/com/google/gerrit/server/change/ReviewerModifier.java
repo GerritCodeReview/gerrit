@@ -94,9 +94,18 @@ public class ReviewerModifier {
   public static final int DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK = 10;
   public static final int DEFAULT_MAX_REVIEWERS = 20;
 
+  /**
+   * Controls which failures should be ignored.
+   *
+   * <p>If a failure is ignored the operation succeeds, but the reviewer is not added. If not
+   * ignored a failure means that the operation fails.
+   */
   public enum FailureBehavior {
+    // All failures cause the operation to fail.
     FAIL,
-    IGNORE;
+
+    // Only not found failures cause the operation to fail, all other failures are ignored.
+    IGNORE_EXCEPT_NOT_FOUND;
   }
 
   private enum FailureType {
@@ -146,7 +155,7 @@ public class ReviewerModifier {
     in.reviewer = accountId.toString();
     in.state = CC;
     in.notify = notify;
-    in.otherFailureBehavior = FailureBehavior.IGNORE;
+    in.otherFailureBehavior = FailureBehavior.IGNORE_EXCEPT_NOT_FOUND;
     return Optional.of(in);
   }
 
@@ -586,7 +595,8 @@ public class ReviewerModifier {
           (input instanceof InternalReviewerInput)
               ? ((InternalReviewerInput) input).otherFailureBehavior
               : FailureBehavior.FAIL;
-      return failureType == FailureType.OTHER && behavior == FailureBehavior.IGNORE;
+      return failureType == FailureType.OTHER
+          && behavior == FailureBehavior.IGNORE_EXCEPT_NOT_FOUND;
     }
   }
 

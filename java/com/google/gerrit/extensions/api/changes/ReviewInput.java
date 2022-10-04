@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.api.changes;
 
+import static com.google.gerrit.extensions.client.ReviewerState.CC;
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 
 import com.google.gerrit.extensions.client.Comment;
@@ -154,7 +155,11 @@ public class ReviewInput {
   }
 
   public ReviewInput reviewer(String reviewer) {
-    return reviewer(reviewer, REVIEWER, false);
+    return reviewer(reviewer, REVIEWER, /* confirmed= */ false);
+  }
+
+  public ReviewInput cc(String cc) {
+    return reviewer(cc, CC, /* confirmed= */ false);
   }
 
   public ReviewInput reviewer(String reviewer, ReviewerState state, boolean confirmed) {

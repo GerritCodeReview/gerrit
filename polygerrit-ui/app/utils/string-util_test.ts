@@ -12,7 +12,7 @@ import {
   diffFilePaths,
 } from './string-util';
 
-suite('formatter util tests', () => {
+suite('string-util tests', () => {
   test('pluralize', () => {
     const noun = 'comment';
     assert.equal(pluralize(0, noun), '');

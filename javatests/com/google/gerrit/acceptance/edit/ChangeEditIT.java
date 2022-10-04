@@ -94,6 +94,8 @@ public class ChangeEditIT extends AbstractDaemonTest {
   private static final String FILE_NAME = "foo";
   private static final String FILE_NAME2 = "foo2";
   private static final String FILE_NAME3 = "foo3";
+  // private static final int FILE_MODE_OLD = 100644;
+  // private static final int FILE_MODE_NEW = 100755;
   private static final byte[] CONTENT_OLD = "bar".getBytes(UTF_8);
   private static final byte[] CONTENT_NEW = "baz".getBytes(UTF_8);
   private static final String CONTENT_NEW2_STR = "quxÄÜÖßµ";
@@ -302,6 +304,15 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   @Test
   public void updateExistingFile() throws Exception {
+    createEmptyEditFor(changeId);
+    gApi.changes().id(changeId).edit().modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_NEW));
+    assertThat(getEdit(changeId)).isPresent();
+    ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME), CONTENT_NEW);
+    ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME), CONTENT_NEW);
+  }
+
+  @Test
+  public void updateExistingFilePermissions() throws Exception {
     createEmptyEditFor(changeId);
     gApi.changes().id(changeId).edit().modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_NEW));
     assertThat(getEdit(changeId)).isPresent();

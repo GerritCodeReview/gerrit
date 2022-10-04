@@ -507,7 +507,7 @@ public class GetBranchIT extends AbstractDaemonTest {
             .newChange()
             .project(project)
             .branch("master")
-            .file(file)
+            .file(file, 0)
             .content("base content")
             .create();
     approve(Integer.toString(baseChange.get()));
@@ -525,7 +525,7 @@ public class GetBranchIT extends AbstractDaemonTest {
             .newChange()
             .project(project)
             .branch("master")
-            .file(file)
+            .file(file, 0)
             .content("master content")
             .create();
     approve(Integer.toString(changeInMaster.get()));
@@ -537,7 +537,7 @@ public class GetBranchIT extends AbstractDaemonTest {
             .newChange()
             .project(project)
             .branch(branchName)
-            .file(file)
+            .file(file, 0)
             .content("other content")
             .create();
     approve(Integer.toString(changeInOtherBranch.get()));
@@ -553,7 +553,7 @@ public class GetBranchIT extends AbstractDaemonTest {
             .tipOfBranch("master")
             .and()
             .tipOfBranch(branchName)
-            .file(file)
+            .file(file, 0)
             .content("merged content")
             .create();
 

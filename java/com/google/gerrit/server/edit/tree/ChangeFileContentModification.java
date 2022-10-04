@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.ByteStreams;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.RawInput;
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,16 +43,25 @@ public class ChangeFileContentModification implements TreeModification {
 
   private final String filePath;
   private final RawInput newContent;
+  private final Integer newGitFileMode;
 
   public ChangeFileContentModification(String filePath, RawInput newContent) {
     this.filePath = filePath;
     this.newContent = requireNonNull(newContent, "new content required");
+    this.newGitFileMode = null;
+  }
+
+  public ChangeFileContentModification(String filePath, RawInput newContent, @Nullable Integer newGitFileMode) {
+    this.filePath = filePath;
+    this.newContent = requireNonNull(newContent, "new content required");
+    this.newGitFileMode = newGitFileMode;
   }
 
   @Override
   public List<DirCacheEditor.PathEdit> getPathEdits(
       Repository repository, ObjectId treeId, ImmutableList<? extends ObjectId> parents) {
-    DirCacheEditor.PathEdit changeContentEdit = new ChangeContent(filePath, newContent, repository);
+    DirCacheEditor.PathEdit changeContentEdit =
+        new ChangeContent(filePath, newContent, repository, newGitFileMode);
     return Collections.singletonList(changeContentEdit);
   }
 
@@ -70,16 +80,28 @@ public class ChangeFileContentModification implements TreeModification {
 
     private final RawInput newContent;
     private final Repository repository;
+    private final Integer newGitFileMode;
 
-    ChangeContent(String filePath, RawInput newContent, Repository repository) {
+    ChangeContent(String filePath, RawInput newContent, Repository repository, @Nullable Integer newGitFileMode) {
       super(filePath);
       this.newContent = newContent;
       this.repository = repository;
+      this.newGitFileMode = newGitFileMode;
+    }
+
+    private boolean isValidGitFileMode(int gitFileMode) {
+      return (gitFileMode == 100755) || (gitFileMode == 100644);
     }
 
     @Override
     public void apply(DirCacheEntry dirCacheEntry) {
       try {
+        if (newGitFileMode != null && newGitFileMode != 0) {
+          if (!isValidGitFileMode(newGitFileMode)) {
+            throw new IllegalStateException("GitFileMode " + newGitFileMode + " is invalid");
+          }
+          dirCacheEntry.setFileMode(FileMode.fromBits(newGitFileMode));
+        }
         if (dirCacheEntry.getFileMode() == FileMode.GITLINK) {
           dirCacheEntry.setLength(0);
           dirCacheEntry.setLastModified(Instant.EPOCH);

@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.server.util;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.server.git.WorkQueue;
@@ -72,6 +73,7 @@ public class TaskListenerIT extends AbstractDaemonTest {
       complete.countDown();
     }
 
+    @CanIgnoreReturnValue
     private static boolean await(CountDownLatch latch) {
       try {
         return latch.await(AWAIT_TIMEOUT, AWAIT_TIMEUNIT);
@@ -162,7 +164,7 @@ public class TaskListenerIT extends AbstractDaemonTest {
     // "Log File Compressor"s are likely running and will interfere with tests
     while (0 != workQueue.getTasks().size()) {
       for (Task<?> t : workQueue.getTasks()) {
-        t.cancel(true);
+        boolean unused = t.cancel(true);
       }
       TimeUnit.MILLISECONDS.sleep(1);
     }

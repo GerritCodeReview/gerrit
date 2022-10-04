@@ -70,6 +70,24 @@
       "parentUuid": "9ca6884e_345317f4",
       "revId": "f5ecf2b5d0dd4804c3af479f1f945d0d551c2de9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e674a03_3db61eb8",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-04T07:52:10Z",
+      "side": 1,
+      "message": "IIUC this call results in invoking ChangesCollection#parse which invoked ChangeFinder#find. This means it:\n\n* does an index query (to find the project for changeNum, only if not present in the changeIdProjectCache)\n* loads the change from NoteDb (requires project + changeNum)\n* checks the read permissions of the change\n\nI do agree with Ben that this is likely a too large latency increase to do unconditionally.\n\nIIUC issue 16100 affects only a few user agents, hence your suggestion to make this logic depending on the user agent. Maybe admins could configure the list of user agents in gerrit.config for which the change info should be included? I have no preference for a solution here, but I think we should avoid the latency decrease for callers that do not need the change info.",
+      "parentUuid": "7342191a_a4b22a83",
+      "revId": "f5ecf2b5d0dd4804c3af479f1f945d0d551c2de9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

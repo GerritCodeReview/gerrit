@@ -16,11 +16,7 @@ import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
 import {CommentLinks, EmailAddress} from '../../../api/rest-api';
-import {
-  applyHtmlRewritesFromConfig,
-  applyLinkRewritesFromConfig,
-  linkifyNormalUrls,
-} from '../../../utils/link-util';
+import {linkifyUrlsAndApplyRewrite} from '../../../utils/link-util';
 import '../gr-account-chip/gr-account-chip';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {getAppContext} from '../../../services/app-context';
@@ -125,7 +121,7 @@ export class GrFormattedText extends LitElement {
   }
 
   private renderAsPlaintext() {
-    const linkedText = this.rewriteText(
+    const linkedText = linkifyUrlsAndApplyRewrite(
       htmlEscape(this.content).toString(),
       this.repoCommentLinks
     );
@@ -140,7 +136,7 @@ export class GrFormattedText extends LitElement {
     // renderer so we wrap 'this.rewriteText' so that 'this' is preserved via
     // closure.
     const boundRewriteText = (text: string) =>
-      this.rewriteText(text, this.repoCommentLinks);
+      linkifyUrlsAndApplyRewrite(text, this.repoCommentLinks);
 
     // We are overriding some marked-element renderers for a few reasons:
     // 1. Disable inline images as a design/policy choice.
@@ -197,24 +193,6 @@ export class GrFormattedText extends LitElement {
     // Unescape block quotes '>'. This is slightly dangerous as '>' can be used
     // in HTML fragments, but it is insufficient on it's own.
     text = text.replace(/(^|\n)&gt;/g, '$1>');
-
-    return text;
-  }
-
-  private rewriteText(text: string, repoCommentLinks: CommentLinks) {
-    // Turn universally identifiable URLs into links. Ex: www.google.com. The
-    // markdown library inside marked-element does this too, but is more
-    // conservative and misses some URLs like "google.com" without "www" prefix.
-    text = linkifyNormalUrls(text);
-
-    // Apply the host's config-specific regex replacements to create links. Ex:
-    // link "Bug 12345" to "google.com/bug/12345"
-    text = applyLinkRewritesFromConfig(text, repoCommentLinks);
-
-    // Apply the host's config-specific regex replacements to write arbitrary
-    // html. Most examples seen in the wild are also used for linking but with
-    // finer control over the rendered text. Ex: "Bug 12345" => "#12345"
-    text = applyHtmlRewritesFromConfig(text, repoCommentLinks);
 
     return text;
   }

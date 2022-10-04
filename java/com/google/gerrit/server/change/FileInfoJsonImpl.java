@@ -102,6 +102,14 @@ public class FileInfoJsonImpl implements FileInfoJson {
       fileInfo.oldPath = FilePathAdapter.getOldPath(fileDiff.oldPath(), fileDiff.changeType());
       fileInfo.sizeDelta = fileDiff.sizeDelta();
       fileInfo.size = fileDiff.size();
+      fileInfo.oldMode =
+          fileDiff.oldMode().isPresent() && !fileDiff.oldMode().get().equals(Patch.FileMode.MISSING)
+              ? fileDiff.oldMode().get().getMode()
+              : null;
+      fileInfo.newMode =
+          fileDiff.newMode().isPresent() && !fileDiff.newMode().get().equals(Patch.FileMode.MISSING)
+              ? fileDiff.newMode().get().getMode()
+              : null;
       if (fileDiff.patchType().get() == Patch.PatchType.BINARY) {
         fileInfo.binary = true;
       } else {

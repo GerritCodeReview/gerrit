@@ -16,6 +16,24 @@
       "message": "Could we rather annotate this method @CanIgnoreReturnValue?",
       "revId": "5d6380ee9b1bd36baebe7d37b145df4d7e09e13e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbfe5334_6c308a3c",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/TaskListenerIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-04T11:10:51Z",
+      "side": 1,
+      "message": "Done. But I kept the one in t.cancel(true) since this method is not in our source code.",
+      "parentUuid": "e2bb0cc4_cb25263f",
+      "revId": "5d6380ee9b1bd36baebe7d37b145df4d7e09e13e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -33,8 +33,6 @@ suite('gr-textarea tests', () => {
         <span id="caratSpan"> </span>
         <gr-autocomplete-dropdown
           id="emojiSuggestions"
-          horizontal-align="left"
-          vertical-align="top"
           is-hidden=""
           style="position: fixed; top: 150px; left: 392.5px; box-sizing: border-box; max-height: 300px; max-width: 785px;"
         >
@@ -64,20 +62,16 @@ suite('gr-textarea tests', () => {
           <div id="hiddenText"></div>
           <span id="caratSpan"> </span>
           <gr-autocomplete-dropdown
-            horizontal-align="left"
             id="emojiSuggestions"
             is-hidden=""
             style="position: fixed; top: 478px; left: 321px; box-sizing: border-box; max-height: 956px; max-width: 642px;"
-            vertical-align="top"
           >
           </gr-autocomplete-dropdown>
           <gr-autocomplete-dropdown
-            horizontal-align="left"
             id="mentionsSuggestions"
             is-hidden=""
             role="listbox"
             style="position: fixed; top: 478px; left: 321px; box-sizing: border-box; max-height: 956px; max-width: 642px;"
-            vertical-align="top"
           >
           </gr-autocomplete-dropdown>
           <iron-autogrow-textarea
@@ -581,6 +575,7 @@ suite('gr-textarea tests', () => {
       element.textarea!.selectionStart = 1;
       element.textarea!.selectionEnd = 2;
       element.text = ':1';
+      await element.emojiSuggestions!.updateComplete;
       await element.updateComplete;
     }
 

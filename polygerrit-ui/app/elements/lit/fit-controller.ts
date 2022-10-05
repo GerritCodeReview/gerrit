@@ -47,10 +47,10 @@ interface Positions {
 /**
  `FitController` fits an element in another element using `max-height`
  and `max-width`, and optionally centers it in the window or another element.
- 
+
  The element will only be sized and/or positioned if it has not already been
  sized and/or positioned by CSS.
- 
+
  CSS properties            | Action
  --------------------------|-------------------------------------------
  `position` set            | Element is not centered horizontally or vertically
@@ -58,37 +58,37 @@ interface Positions {
  `left` or `right` set     | Element is not horizontally centered
  `max-height` set          | Element respects `max-height`
  `max-width` set           | Element respects `max-width`
- 
+
  `FitController` can position an element into another element using
  `verticalAlign` and `horizontalAlign`. This will override the element's css
  position.
- 
+
      <div class="container">
        <iron-fit-impl vertical-align="top" horizontal-align="auto">
          Positioned into the container
        </iron-fit-impl>
      </div>
- 
+
  Use `noOverlap` to position the element around another element without
  overlapping it.
- 
+
      <div class="container">
        <iron-fit-impl no-overlap vertical-align="auto" horizontal-align="auto">
          Positioned around the container
        </iron-fit-impl>
      </div>
- 
+
  Use `horizontalOffset, verticalOffset` to offset the element from its
  `positionTarget`; `FitController` will collapse these in order to
  keep the element within `window` boundaries, while preserving the element's
  CSS margin values.
- 
+
      <div class="container">
        <iron-fit-impl vertical-align="top" vertical-offset="20">
          With vertical offset
        </iron-fit-impl>
      </div>
- 
+
  */
 export class FitController implements ReactiveController {
   host: ReactiveControllerHost & HTMLElement;
@@ -139,6 +139,8 @@ export class FitController implements ReactiveController {
    */
   private verticalOffset = 0;
 
+  private positionTarget?: HTMLElement;
+
   private fitInfo?: FitInfo | null;
 
   constructor(
@@ -146,14 +148,15 @@ export class FitController implements ReactiveController {
     horizontalOffset?: number,
     verticalOffset?: number,
     horizontalAlign?: string,
-    verticalAlign?: string
+    verticalAlign?: string,
+    positionTarget?: HTMLElement
   ) {
-    // TODO(dhruvsri): ensure this is passed from parent in constructor
     (this.host = host).addController(this);
     this.horizontalOffset = horizontalOffset ?? 0;
     this.verticalOffset = verticalOffset ?? 0;
     this.horizontalAlign = horizontalAlign;
     this.verticalAlign = verticalAlign;
+    this.positionTarget = positionTarget;
   }
 
   hostConnected() {}
@@ -171,7 +174,7 @@ export class FitController implements ReactiveController {
       parent = (parent as ShadowRoot).host;
     }
 
-    return parent;
+    return parent as HTMLElement;
   }
 
   /**
@@ -180,14 +183,13 @@ export class FitController implements ReactiveController {
    * @private
    */
   get shouldPosition() {
-    return (
-      (this.horizontalAlign || this.verticalAlign) &&
-      this._defaultPositionTarget
-    );
+    return (this.horizontalAlign || this.verticalAlign) && this.positionTarget;
   }
 
   /** @override */
-  attached() {}
+  attached() {
+    this.positionTarget = this.positionTarget || this._defaultPositionTarget;
+  }
 
   /** @override */
   detached() {}
@@ -307,9 +309,7 @@ export class FitController implements ReactiveController {
 
     const rect = this.host.getBoundingClientRect();
     // TODO(dhruvsi): verify cast
-    const positionRect = this.getNormalizedRect(
-      this._defaultPositionTarget as HTMLElement
-    );
+    const positionRect = this.getNormalizedRect(this.positionTarget!);
     const fitRect = this.getNormalizedRect(window);
 
     const margin = this.fitInfo!.margin;

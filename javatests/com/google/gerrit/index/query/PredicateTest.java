@@ -18,7 +18,29 @@ import org.junit.Ignore;
 
 @Ignore
 public abstract class PredicateTest {
-  protected static final class TestPredicate extends OperatorPredicate<String> {
+  protected static final class TestMatchablePredicate extends TestPredicate
+      implements Matchable<String> {
+    protected int cost;
+    protected boolean ranMatch = false;
+
+    protected TestMatchablePredicate(String name, String value, int cost) {
+      super(name, value);
+      this.cost = cost;
+    }
+
+    @Override
+    public boolean match(String object) {
+      ranMatch = true;
+      return false;
+    }
+
+    @Override
+    public int getCost() {
+      return cost;
+    }
+  }
+
+  protected static class TestPredicate extends OperatorPredicate<String> {
     protected TestPredicate(String name, String value) {
       super(name, value);
     }

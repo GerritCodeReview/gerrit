@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c27cb5f7_ab96ef26",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-05T18:03:25Z",
+      "side": 1,
+      "message": "Explain why this is desirable. With this fallback I would still expect to see the bug below, explain why this is not the case?",
+      "range": {
+        "startLine": 12,
+        "startChar": 44,
+        "endLine": 12,
+        "endChar": 71
+      },
+      "revId": "98c71efb2b035c58a196b3ff551984a91dd52640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a31ec8a6_e231a615",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-05T18:03:25Z",
+      "side": 1,
+      "message": "In the code, it looks like only the \u0027memoryLimit\u0027 setting is being affected by this? If so, let\u0027s make that clearer.",
+      "range": {
+        "startLine": 12,
+        "startChar": 19,
+        "endLine": 12,
+        "endChar": 28
+      },
+      "revId": "98c71efb2b035c58a196b3ff551984a91dd52640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       },
       "revId": "90c27374637d23d63b483b7d38464f2fda65b300",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e01fb7c9_c5fba4de",
+        "filename": "javatests/com/google/gerrit/server/index/change/ChangeIndexRewriterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-05T16:55:32Z",
+      "side": 1,
+      "message": "I think it reads better this way. We can always change it later if we find a way to keep it readable.",
+      "parentUuid": "8039c4cc_50292bff",
+      "range": {
+        "startLine": 100,
+        "startChar": 62,
+        "endLine": 100,
+        "endChar": 71
+      },
+      "revId": "90c27374637d23d63b483b7d38464f2fda65b300",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

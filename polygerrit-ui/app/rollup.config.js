@@ -30,6 +30,7 @@ function requirePlugin(id) {
 
 const resolve = requirePlugin('rollup-plugin-node-resolve');
 const {terser} = requirePlugin('rollup-plugin-terser');
+const define = requirePlugin('rollup-plugin-define');
 
 // @polymer/font-roboto-local uses import.meta.url value
 // as a base path to fonts. We should substitute a correct javascript
@@ -75,5 +76,11 @@ export default {
       extensions: ['.js'],
       moduleDirectory: 'external/ui_npm/node_modules',
     },
-  }), importLocalFontMetaUrlResolver()],
+  }),
+  define({
+     replacements: {
+       'process.env.NODE_ENV': JSON.stringify('production'),
+     },
+  }),
+  importLocalFontMetaUrlResolver()],
 };

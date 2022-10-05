@@ -525,7 +525,7 @@ export class GrTextarea extends LitElement {
       // Otherwise open the dropdown and set the position to be just below the
       // cursor.
       // Do not open dropdown if textarea is not focused
-      activeDropdown!.positionTarget = this.updateCaratPosition();
+      activeDropdown.setPositionTarget(this.updateCaratPosition());
       activate();
     }
   }

@@ -45,7 +45,7 @@ const RUNS: CheckRun[] = [
 ];
 
 const CONFIG: ChecksApiConfig = {
-  fetchPollingIntervalSeconds: 1000,
+  fetchPollingIntervalSeconds: 0.01, // 10ms
 };
 
 function createProvider(): ChecksProvider {
@@ -226,5 +226,55 @@ suite('checks-model tests', () => {
     assert.lengthOf(current.runs, 1);
     assert.lengthOf(current.runs[0].results!, 1);
     assert.equal(current.runs[0].results![0].summary, 'new');
+  });
+
+  test('polls for changes', async () => {
+    const clock = sinon.useFakeTimers();
+    let change: ParsedChangeInfo | undefined = undefined;
+    model.changeModel.change$.subscribe(c => (change = c));
+    const provider = createProvider();
+    const fetchSpy = sinon.spy(provider, 'fetch');
+
+    model.register({pluginName: 'test-plugin', provider, config: CONFIG});
+    await waitUntil(() => change === undefined);
+    clock.tick(1);
+    const testChange = createParsedChange();
+    model.changeModel.updateStateChange(testChange);
+    await waitUntil(() => change === testChange);
+    await waitUntilCalled(fetchSpy, 'fetch');
+    clock.tick(1);
+    const pollCount = fetchSpy.callCount;
+
+    // polling should continue while we wait
+    clock.tick(500);
+
+    assert.isTrue(fetchSpy.callCount > pollCount);
+  });
+
+  test('does not poll when config specifies 0 seconds', async () => {
+    const clock = sinon.useFakeTimers();
+    let change: ParsedChangeInfo | undefined = undefined;
+    model.changeModel.change$.subscribe(c => (change = c));
+    const provider = createProvider();
+    const fetchSpy = sinon.spy(provider, 'fetch');
+
+    model.register({
+      pluginName: 'test-plugin',
+      provider,
+      config: {...CONFIG, fetchPollingIntervalSeconds: 0},
+    });
+    await waitUntil(() => change === undefined);
+    clock.tick(1);
+    const testChange = createParsedChange();
+    model.changeModel.updateStateChange(testChange);
+    await waitUntil(() => change === testChange);
+    await waitUntilCalled(fetchSpy, 'fetch');
+    clock.tick(1);
+    const pollCount = fetchSpy.callCount;
+
+    // polling should not happen
+    clock.tick(500);
+
+    assert.equal(fetchSpy.callCount, pollCount);
   });
 });

@@ -756,7 +756,7 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
           ? this.changeModel.latestPatchNum$
           : this.checksSelectedPatchsetNumber$,
         this.reloadSubjects[pluginName].pipe(throttleTime(1000)),
-        timer(0, pollIntervalMs),
+        pollIntervalMs === 0 ? from([0]) : timer(0, pollIntervalMs),
         this.documentVisibilityChange$,
       ])
         .pipe(

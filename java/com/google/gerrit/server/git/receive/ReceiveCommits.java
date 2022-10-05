@@ -1446,7 +1446,7 @@ class ReceiveCommits {
         // Must pass explicit user instead of injecting a provider into CreateRefControl, since
         // Provider<CurrentUser> within ReceiveCommits will always return anonymous.
         createRefControl.checkCreateRef(
-            Providers.of(user), receivePack.getRepository(), branch, obj);
+            Providers.of(user), receivePack.getRepository(), branch, obj, /* forPush= */ true);
       } catch (AuthException denied) {
         rejectProhibited(cmd, denied);
         return;

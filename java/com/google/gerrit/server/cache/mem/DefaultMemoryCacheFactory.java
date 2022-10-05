@@ -158,7 +158,7 @@ class DefaultMemoryCacheFactory implements MemoryCacheFactory {
 
     Duration refreshAfterWrite = def.refreshAfterWrite();
     if (has(def.configKey(), "refreshAfterWrite")) {
-      builder.expireAfterAccess(
+      builder.refreshAfterWrite(
           ConfigUtil.getTimeUnit(
               cfg,
               "cache",

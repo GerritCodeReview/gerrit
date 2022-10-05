@@ -81,6 +81,30 @@
       },
       "revId": "a9a38ca78bd2af356ceb04b0dd1857bdf614502f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42bba81e_9e9a1b29",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-05T14:57:58Z",
+      "side": 1,
+      "message": "\u003e How about this?\n\u003e \n\u003e Release-Notes: refreshAfterWrite set from gerrit.config are now taken into effect\n\nMaybe:\n`Release-Notes: Setting refreshAfterWrite in gerrit.config now works and does not mistakenly set expireAfterAccess`",
+      "parentUuid": "a5c4d57f_1a2434d6",
+      "range": {
+        "startLine": 12,
+        "startChar": 15,
+        "endLine": 12,
+        "endChar": 19
+      },
+      "revId": "a9a38ca78bd2af356ceb04b0dd1857bdf614502f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

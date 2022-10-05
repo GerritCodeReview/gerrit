@@ -7,20 +7,15 @@ import '@polymer/iron-dropdown/iron-dropdown';
 import '../gr-cursor-manager/gr-cursor-manager';
 import '../../../styles/shared-styles';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-autocomplete-dropdown_html';
-import {IronFitMixin} from '../../../mixins/iron-fit-mixin/iron-fit-mixin';
-import {customElement, property, observe} from '@polymer/decorators';
-import {IronFitBehavior} from '@polymer/iron-fit-behavior/iron-fit-behavior';
 import {GrCursorManager} from '../gr-cursor-manager/gr-cursor-manager';
 import {fireEvent} from '../../../utils/event-util';
 import {addShortcut, Key} from '../../../utils/dom-util';
-
-export interface GrAutocompleteDropdown {
-  $: {
-    suggestions: Element;
-  };
-}
+import {FitController} from '../../lit/fit-controller';
+import {css, html, LitElement, PropertyValues} from 'lit';
+import {customElement, property} from 'lit/decorators.js';
+import {repeat} from 'lit/directives/repeat.js';
+import {queryAndAssert} from '../../../utils/common-util';
+import {sharedStyles} from '../../../styles/shared-styles';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -41,19 +36,12 @@ export interface ItemSelectedEvent {
   selected: HTMLElement | null;
 }
 
-// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = IronFitMixin(PolymerElement, IronFitBehavior as IronFitBehavior);
-
 /**
  * @attr {String} vertical-align - inherited from IronOverlay
  * @attr {String} horizontal-align - inherited from IronOverlay
  */
 @customElement('gr-autocomplete-dropdown')
-export class GrAutocompleteDropdown extends base {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrAutocompleteDropdown extends LitElement {
   /**
    * Fired when the dropdown is closed.
    *
@@ -69,14 +57,20 @@ export class GrAutocompleteDropdown extends base {
   @property({type: Number})
   index: number | null = null;
 
-  @property({type: Boolean, reflectToAttribute: true})
+  @property({type: Boolean, reflect: true})
   isHidden = true;
 
   @property({type: Number})
-  override verticalOffset: number | null = null;
+  verticalOffset: number | undefined = undefined;
+
+  @property({type: String, attribute: 'vertical-align'})
+  verticalAlign?: string;
+
+  @property({type: String, attribute: 'horizontal-align'})
+  horizontalAlign?: string;
 
   @property({type: Number})
-  override horizontalOffset: number | null = null;
+  horizontalOffset: number | undefined = undefined;
 
   @property({type: Array})
   suggestions: Item[] = [];
@@ -87,6 +81,63 @@ export class GrAutocompleteDropdown extends base {
   // visible for testing
   cursor = new GrCursorManager();
 
+  private fitController?: FitController;
+
+  static override get styles() {
+    return [
+      sharedStyles,
+      css`
+        :host {
+          z-index: 100;
+        }
+        :host([is-hidden]) {
+          display: none;
+        }
+        ul {
+          list-style: none;
+        }
+        li {
+          border-bottom: 1px solid var(--border-color);
+          cursor: pointer;
+          display: flex;
+          justify-content: space-between;
+          padding: var(--spacing-m) var(--spacing-l);
+        }
+        li:last-of-type {
+          border: none;
+        }
+        li:focus {
+          outline: none;
+        }
+        li:hover {
+          background-color: var(--hover-background-color);
+        }
+        li.selected {
+          background-color: var(--hover-background-color);
+        }
+        .dropdown-content {
+          background: var(--dropdown-background-color);
+          box-shadow: var(--elevation-level-2);
+          border-radius: var(--border-radius);
+          max-height: 50vh;
+          overflow: auto;
+        }
+        @media only screen and (max-height: 35em) {
+          .dropdown-content {
+            max-height: 80vh;
+          }
+        }
+        .label {
+          color: var(--deemphasized-text-color);
+          padding-left: var(--spacing-l);
+        }
+        .hide {
+          display: none;
+        }
+      `,
+    ];
+  }
+
   constructor() {
     super();
     this.cursor.cursorTargetClass = 'selected';
@@ -95,6 +146,13 @@ export class GrAutocompleteDropdown extends base {
 
   override connectedCallback() {
     super.connectedCallback();
+    this.fitController = new FitController(
+      this,
+      this.horizontalOffset,
+      this.verticalOffset,
+      this.horizontalAlign,
+      this.verticalAlign
+    );
     this.cleanups.push(
       addShortcut(this, {key: Key.UP}, () => this._handleUp())
     );
@@ -117,6 +175,50 @@ export class GrAutocompleteDropdown extends base {
     for (const cleanup of this.cleanups) cleanup();
     this.cleanups = [];
     super.disconnectedCallback();
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('index')) {
+      this._setIndex();
+    }
+  }
+
+  override updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('suggestions')) {
+      this.onSuggestionsChanged();
+    }
+  }
+
+  override render() {
+    return html`
+      <div
+        class="dropdown-content"
+        slot="dropdown-content"
+        id="suggestions"
+        role="listbox"
+      >
+        <ul>
+          ${repeat(this.suggestions, (item, index) => {
+            html`
+              <li
+                data-index$=${index}
+                data-value$=${item.dataValue}
+                tabindex="-1"
+                aria-label$=${item.name}
+                class="autocompleteOption"
+                role="option"
+                @click=${this._handleClickItem}
+              >
+                <span>${item.text}</span>
+                <span class$="label ${this._computeLabelClass(item)}"
+                  >${item.label}</span
+                >
+              </li>
+            `;
+          })}
+        </ul>
+      </div>
+    `;
   }
 
   close() {
@@ -209,23 +311,21 @@ export class GrAutocompleteDropdown extends base {
     return this.cursor.target;
   }
 
-  @observe('suggestions')
   onSuggestionsChanged() {
     if (this.suggestions.length > 0) {
       if (!this.isHidden) {
         flush();
         this.cursor.stops = Array.from(
-          this.$.suggestions.querySelectorAll('li')
+          queryAndAssert(this, '#suggestions').querySelectorAll('li')
         );
         this._resetCursorIndex();
       }
     } else {
       this.cursor.stops = [];
     }
-    this.refit();
+    this.fitController?.refit();
   }
 
-  @observe('index')
   _setIndex() {
     this.cursor.index = this.index || -1;
   }

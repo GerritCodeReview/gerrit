@@ -184,7 +184,7 @@ export class GrAutocomplete extends LitElement {
 
   get nativeInput() {
     return (this.input!.inputElement as IronInputElement)
-      .inputElement as HTMLInputElement;
+      .querySelector('input') as HTMLInputElement;
   }
 
   static override styles = [

@@ -260,8 +260,6 @@ export class GrTextarea extends LitElement {
         .suggestions=${this.suggestions}
         .horizontalOffset=${20}
         .verticalOffset=${20}
-        vertical-align="top"
-        horizontal-align="left"
         @dropdown-closed=${this.resetDropdown}
         @item-selected=${this.handleDropdownItemSelect}
       >
@@ -275,8 +273,6 @@ export class GrTextarea extends LitElement {
     return html` <gr-autocomplete-dropdown
       id="mentionsSuggestions"
       .suggestions=${this.suggestions}
-      vertical-align="top"
-      horizontal-align="left"
       @dropdown-closed=${this.resetDropdown}
       @item-selected=${this.handleDropdownItemSelect}
       .horizontalOffset=${20}
@@ -525,7 +521,7 @@ export class GrTextarea extends LitElement {
       // Otherwise open the dropdown and set the position to be just below the
       // cursor.
       // Do not open dropdown if textarea is not focused
-      activeDropdown!.positionTarget = this.updateCaratPosition();
+      activeDropdown.setPositionTarget(this.updateCaratPosition());
       activate();
     }
   }

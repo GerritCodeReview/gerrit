@@ -48,12 +48,10 @@ suite('gr-autocomplete tests', () => {
           </div>
         </paper-input>
         <gr-autocomplete-dropdown
-          horizontal-align="left"
           id="suggestions"
           is-hidden=""
           role="listbox"
           style="position: fixed; top: 300px; left: 392.5px; box-sizing: border-box; max-height: 600px; max-width: 785px;"
-          vertical-align="top"
         >
         </gr-autocomplete-dropdown>
       `,
@@ -99,12 +97,7 @@ suite('gr-autocomplete tests', () => {
             <slot name="suffix"> </slot>
           </div>
         </paper-input>
-        <gr-autocomplete-dropdown
-          horizontal-align="left"
-          id="suggestions"
-          role="listbox"
-          vertical-align="top"
-        >
+        <gr-autocomplete-dropdown id="suggestions" role="listbox">
         </gr-autocomplete-dropdown>
       `,
       {

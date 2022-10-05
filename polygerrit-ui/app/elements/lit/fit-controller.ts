@@ -107,12 +107,20 @@ export class FitController implements ReactiveController {
 
   private originalStyles = {};
 
-  /**
-   * The element that should be used to position the element,
-   * if no position target is configured.
-   */
-   get _defaultPositionTarget() {
-    var parent = this.host.parentNode;
+  private positionTarget?: HTMLElement;
+
+  constructor(host: ReactiveControllerHost & HTMLElement & FitControllerHost) {
+    (this.host = host).addController(this);
+  }
+
+  hostConnected() {
+    this.positionTarget = this.getDefaultPositionTarget();
+  }
+
+  hostDisconnected() {}
+
+  private getDefaultPositionTarget() {
+    let parent = this.host.parentNode;
 
     if (parent && parent.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
       parent = (parent as ShadowRoot).host;
@@ -120,14 +128,6 @@ export class FitController implements ReactiveController {
 
     return parent as HTMLElement;
   }
-
-  constructor(host: ReactiveControllerHost & HTMLElement & FitControllerHost) {
-    (this.host = host).addController(this);
-  }
-
-  hostConnected() {}
-
-  hostDisconnected() {}
 
   /**
    * Positions and fits the element into the `window` element.
@@ -144,7 +144,7 @@ export class FitController implements ReactiveController {
     if (this.fitInfo) {
       return;
     }
-    const host = (window as Window).getComputedStyle(this.host);
+    const hostStyles = (window as Window).getComputedStyle(this.host);
 
     // These properties are changes in position() hence keep the original
     // values to reset the host styles later.
@@ -159,38 +159,38 @@ export class FitController implements ReactiveController {
 
     this.fitInfo = {
       sizedBy: {
-        minWidth: Number(host.minWidth) || 0,
-        minHeight: Number(host.minHeight) || 0,
+        minWidth: Number(hostStyles.minWidth) || 0,
+        minHeight: Number(hostStyles.minHeight) || 0,
       },
       margin: {
-        top: Number(host.marginTop) || 0,
-        right: Number(host.marginRight) || 0,
-        bottom: Number(host.marginBottom) || 0,
-        left: Number(host.marginLeft) || 0,
+        top: Number(hostStyles.marginTop) || 0,
+        right: Number(hostStyles.marginRight) || 0,
+        bottom: Number(hostStyles.marginBottom) || 0,
+        left: Number(hostStyles.marginLeft) || 0,
       },
     };
   }
 
   /**
-   * Resets the target element's position and size constraints, and clear
-   * the memoized data.
+   * Reset the host style, and clear the memoized data.
    */
-  private resetTargetPosition() {
+  private resetStyles() {
     Object.assign(this.host.style, this.originalStyles);
     this.originalStyles = {};
     this.fitInfo = undefined;
   }
 
   /**
-   * Equivalent to calling `resetTargetPosition()` and `fit()`. Useful to call this after
-   * the element or the `window` element has been resized, or if any of the
-   * positioning properties (e.g. `horizontalAlign, verticalAlign`) is updated.
+   * Equivalent to calling `resetStyles()` and `fit()`.
+   * Useful to call this after the element or the `window` element has 
+   * been resized, or if any of the positioning properties
+   * (e.g. `horizontalAlign, verticalAlign`) is updated.
    * It preserves the scroll position of the host.
    */
   refit() {
     const scrollLeft = this.host.scrollLeft;
     const scrollTop = this.host.scrollTop;
-    this.resetTargetPosition();
+    this.resetStyles();
     this.fit();
     this.host.scrollLeft = scrollLeft;
     this.host.scrollTop = scrollTop;
@@ -211,7 +211,7 @@ export class FitController implements ReactiveController {
     this.host.style.top = '0px';
 
     const rect = this.host.getBoundingClientRect();
-    const positionRect = this.getNormalizedRect(this._defaultPositionTarget);
+    const positionRect = this.getNormalizedRect(this.positionTarget!);
     const fitRect = this.getNormalizedRect(window);
 
     const margin = this.fitInfo!.margin;
@@ -219,8 +219,8 @@ export class FitController implements ReactiveController {
     const position = {
       verticalAlign: 'top',
       horizontalAlign: 'left',
-      top: rect.top + this.host.verticalOffset,
-      left: rect.left + this.host.horizontalOffset,
+      top: positionRect.top + this.host.verticalOffset,
+      left: positionRect.left + this.host.horizontalOffset,
     };
 
     let left = position.left + margin.left;
@@ -264,7 +264,7 @@ export class FitController implements ReactiveController {
         width: window.innerWidth,
         height: window.innerHeight,
         right: window.innerWidth,
-        bottom: window.innerHeight
+        bottom: window.innerHeight,
       } as DOMRect;
     }
     return (target as HTMLElement).getBoundingClientRect();

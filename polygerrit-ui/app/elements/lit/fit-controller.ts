@@ -133,6 +133,10 @@ export class FitController implements ReactiveController {
     this.originalStyles = {};
   }
 
+  setPositionTarget(target: HTMLElement) {
+    this.positionTarget = target;
+  }
+
   /**
    * Equivalent to calling `resetStyles()` and `fit()`.
    * Useful to call this after the element or the `window` element has

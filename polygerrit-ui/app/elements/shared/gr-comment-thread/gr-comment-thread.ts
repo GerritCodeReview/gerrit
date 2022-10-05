@@ -73,6 +73,7 @@ import {whenRendered} from '../../../utils/dom-util';
 import {Interaction} from '../../../constants/reporting';
 import {HtmlPatched} from '../../../utils/lit-util';
 import {createDiffUrl} from '../../../models/views/diff';
+import {createChangeUrl} from '../../../models/views/change';
 
 declare global {
   interface HTMLElementEventMap {
@@ -779,13 +780,20 @@ export class GrCommentThread extends LitElement {
     if (!comment) return;
     assertIsDefined(this.changeNum, 'changeNum');
     assertIsDefined(this.repoName, 'repoName');
-    const url = generateAbsoluteUrl(
-      createDiffUrl({
+    let url: string;
+    if (this.isPatchsetLevel()) {
+      url = createChangeUrl({
         changeNum: this.changeNum,
         project: this.repoName,
         commentId: comment.id,
-      })
-    );
+      });
+    } else {
+      url = createDiffUrl({
+        changeNum: this.changeNum,
+        project: this.repoName,
+        commentId: comment.id,
+      });
+    }
     assertIsDefined(url, 'url for comment');
     copyToClipbard(generateAbsoluteUrl(url), 'Link');
   }

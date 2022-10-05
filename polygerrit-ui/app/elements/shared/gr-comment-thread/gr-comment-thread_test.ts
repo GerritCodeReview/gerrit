@@ -28,6 +28,8 @@ import {
 import {SinonStub} from 'sinon';
 import {fixture, html, waitUntil, assert} from '@open-wc/testing';
 import {GrButton} from '../gr-button/gr-button';
+import {SpecialFilePath} from '../../../constants/constants';
+import {GrIcon} from '../gr-icon/gr-icon';
 
 const c1 = {
   author: {name: 'Kermit'},
@@ -446,5 +448,36 @@ suite('gr-comment-thread tests', () => {
         updated: '2015-12-25 15:00:20.396000000' as Timestamp,
       },
     ]);
+  });
+
+  test('patchset comments link to /comments URL', async () => {
+    const clipboardStub = sinon.stub(navigator.clipboard, 'writeText');
+    element.thread = {
+      ...createThread(c1),
+      path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS,
+    };
+    await element.updateComplete;
+
+    queryAndAssert<GrIcon>(element, 'gr-icon.copy').click();
+
+    assert.equal(1, clipboardStub.callCount);
+    assert.equal(
+      clipboardStub.firstCall.args[0],
+      'http://localhost:9876/c/test-repo-name/+/1/comments/the-root'
+    );
+  });
+
+  test('file comments link to /comment URL', async () => {
+    const clipboardStub = sinon.stub(navigator.clipboard, 'writeText');
+    element.thread = createThread(c1);
+    await element.updateComplete;
+
+    queryAndAssert<GrIcon>(element, 'gr-icon.copy').click();
+
+    assert.equal(1, clipboardStub.callCount);
+    assert.equal(
+      clipboardStub.firstCall.args[0],
+      'http://localhost:9876/c/test-repo-name/+/1/comment/the-root/'
+    );
   });
 });

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7995426_0134ce47",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-10-05T14:51:22Z",
+      "side": 1,
+      "message": "Right it does not affect caches who have refreshAfterWrite by default unless they also have a config which tries to set refreshAfterWrite to a different value, then refreshAfterWrite is effectively not set at all.",
+      "parentUuid": "0d6e9488_91bfc5bf",
+      "revId": "a9a38ca78bd2af356ceb04b0dd1857bdf614502f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "702ca528_216d2eb2",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-10-05T14:12:36Z",
       "side": 1,
       "message": "Probably worth having a release note for this that captures the impact of the fix",
+      "range": {
+        "startLine": 12,
+        "startChar": 15,
+        "endLine": 12,
+        "endChar": 19
+      },
+      "revId": "a9a38ca78bd2af356ceb04b0dd1857bdf614502f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5c4d57f_1a2434d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-10-05T14:51:22Z",
+      "side": 1,
+      "message": "How about this?\n\nRelease-Notes: refreshAfterWrite set from gerrit.config are now taken into effect",
+      "parentUuid": "702ca528_216d2eb2",
       "range": {
         "startLine": 12,
         "startChar": 15,

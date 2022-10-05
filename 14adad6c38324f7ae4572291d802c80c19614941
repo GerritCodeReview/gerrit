@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40056635_5195a071",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-05T18:18:43Z",
+      "side": 1,
+      "message": "All tests pass locally for me.\n\n```\n$ bazel test --test_tag_filters\u003d-flaky --test_timeout 3600 --flaky_test_attempts 3 //...\n[snip]\nExecuted 186 out of 198 tests: 198 tests pass.\nINFO: Build completed successfully, 522 total actions\n```",
+      "revId": "14adad6c38324f7ae4572291d802c80c19614941",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

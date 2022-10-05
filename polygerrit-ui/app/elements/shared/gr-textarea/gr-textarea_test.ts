@@ -581,6 +581,7 @@ suite('gr-textarea tests', () => {
       element.textarea!.selectionStart = 1;
       element.textarea!.selectionEnd = 2;
       element.text = ':1';
+      await element.emojiSuggestions!.updateComplete;
       await element.updateComplete;
     }
 

@@ -315,11 +315,12 @@ export class GrRouter implements Finalizable, NavigationService {
         // Note that router model view must be updated before view model state.
         // So this check is slightly fragile, but should work.
         if (this.view !== GerritView.CHANGE) return;
-        const browserUrl = window.location.toString();
-        const stateUrl = new URL(createChangeUrl(state), browserUrl).toString();
-        if (browserUrl !== stateUrl) {
+        const browserUrl = new URL(window.location.toString());
+        const stateUrl = new URL(createChangeUrl(state), browserUrl);
+        stateUrl.hash = browserUrl.hash;
+        if (browserUrl.toString() !== stateUrl.toString()) {
           page.replace(
-            stateUrl,
+            stateUrl.toString(),
             null,
             /* init: */ false,
             /* dispatch: */ false

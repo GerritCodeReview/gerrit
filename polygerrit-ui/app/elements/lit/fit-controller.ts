@@ -111,8 +111,8 @@ export class FitController implements ReactiveController {
    * The element that should be used to position the element,
    * if no position target is configured.
    */
-   get _defaultPositionTarget() {
-    var parent = this.host.parentNode;
+  get _defaultPositionTarget() {
+    let parent = this.host.parentNode;
 
     if (parent && parent.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
       parent = (parent as ShadowRoot).host;
@@ -219,8 +219,8 @@ export class FitController implements ReactiveController {
     const position = {
       verticalAlign: 'top',
       horizontalAlign: 'left',
-      top: rect.top + this.host.verticalOffset,
-      left: rect.left + this.host.horizontalOffset,
+      top: positionRect.top + this.host.verticalOffset,
+      left: positionRect.left + this.host.horizontalOffset,
     };
 
     let left = position.left + margin.left;
@@ -264,7 +264,7 @@ export class FitController implements ReactiveController {
         width: window.innerWidth,
         height: window.innerHeight,
         right: window.innerWidth,
-        bottom: window.innerHeight
+        bottom: window.innerHeight,
       } as DOMRect;
     }
     return (target as HTMLElement).getBoundingClientRect();

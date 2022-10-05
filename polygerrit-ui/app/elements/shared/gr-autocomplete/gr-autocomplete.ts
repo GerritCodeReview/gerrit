@@ -183,8 +183,9 @@ export class GrAutocomplete extends LitElement {
   private updateSuggestionsTask?: DelayedTask;
 
   get nativeInput() {
-    return (this.input!.inputElement as IronInputElement)
-      .inputElement as HTMLInputElement;
+    return (this.input!.inputElement as IronInputElement).querySelector(
+      'input'
+    ) as HTMLInputElement;
   }
 
   static override styles = [

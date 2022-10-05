@@ -107,12 +107,20 @@ export class FitController implements ReactiveController {
 
   private originalStyles = {};
 
-  /**
-   * The element that should be used to position the element,
-   * if no position target is configured.
-   */
-   get _defaultPositionTarget() {
-    var parent = this.host.parentNode;
+  private positionTarget?: HTMLElement;
+
+  constructor(host: ReactiveControllerHost & HTMLElement & FitControllerHost) {
+    (this.host = host).addController(this);
+  }
+
+  hostConnected() {
+    this.positionTarget = this.getDefaultPositionTarget();
+  }
+
+  hostDisconnected() {}
+
+  private getDefaultPositionTarget() {
+    let parent = this.host.parentNode;
 
     if (parent && parent.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
       parent = (parent as ShadowRoot).host;
@@ -120,14 +128,6 @@ export class FitController implements ReactiveController {
 
     return parent as HTMLElement;
   }
-
-  constructor(host: ReactiveControllerHost & HTMLElement & FitControllerHost) {
-    (this.host = host).addController(this);
-  }
-
-  hostConnected() {}
-
-  hostDisconnected() {}
 
   /**
    * Positions and fits the element into the `window` element.
@@ -211,7 +211,7 @@ export class FitController implements ReactiveController {
     this.host.style.top = '0px';
 
     const rect = this.host.getBoundingClientRect();
-    const positionRect = this.getNormalizedRect(this._defaultPositionTarget);
+    const positionRect = this.getNormalizedRect(this.positionTarget!);
     const fitRect = this.getNormalizedRect(window);
 
     const margin = this.fitInfo!.margin;
@@ -219,8 +219,8 @@ export class FitController implements ReactiveController {
     const position = {
       verticalAlign: 'top',
       horizontalAlign: 'left',
-      top: rect.top + this.host.verticalOffset,
-      left: rect.left + this.host.horizontalOffset,
+      top: positionRect.top + this.host.verticalOffset,
+      left: positionRect.left + this.host.horizontalOffset,
     };
 
     let left = position.left + margin.left;
@@ -264,7 +264,7 @@ export class FitController implements ReactiveController {
         width: window.innerWidth,
         height: window.innerHeight,
         right: window.innerWidth,
-        bottom: window.innerHeight
+        bottom: window.innerHeight,
       } as DOMRect;
     }
     return (target as HTMLElement).getBoundingClientRect();

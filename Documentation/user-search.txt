@@ -618,7 +618,7 @@ commentby:'USER'::
 +
 Changes containing a top-level or inline comment by 'USER'. The special
 case of `commentby:self` will find changes where the caller has
-commented.
+commented. Note that setting a vote is also considered as a comment.
 
 [[from]]
 from:'USER'::

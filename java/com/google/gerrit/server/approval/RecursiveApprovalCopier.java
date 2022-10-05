@@ -101,7 +101,7 @@ public class RecursiveApprovalCopier {
     @Override
     public boolean updateChange(ChangeContext ctx) throws IOException {
       Change change = ctx.getChange();
-      ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
+      ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId(), change.getLastUpdatedOn());
       approvalsUtil.persistCopiedApprovals(
           ctx.getNotes(),
           ctx.getNotes().getCurrentPatchSet(),

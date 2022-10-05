@@ -20,6 +20,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import java.sql.Timestamp;
 
 /**
  * Context for performing the {@link BatchUpdateOp#updateChange} phase.
@@ -43,6 +44,15 @@ public interface ChangeContext extends Context {
   ChangeUpdate getUpdate(PatchSet.Id psId);
 
   /**
+   * Same as {@link ChangeContext#getUpdate}, but allows to override the commit timestamp.
+   *
+   * @param psId patch set ID.
+   * @param whenOverride commit timestamp.
+   * @return handle for change updates.
+   */
+  ChangeUpdate getUpdate(PatchSet.Id psId, Timestamp whenOverride);
+
+  /**
    * Gets a new ChangeUpdate for this change at a given patch set.
    *
    * <p>To get the current patch set ID, use {@link com.google.gerrit.server.PatchSetUtil#current}.
@@ -51,6 +61,15 @@ public interface ChangeContext extends Context {
    * @return handle for change updates.
    */
   ChangeUpdate getDistinctUpdate(PatchSet.Id psId);
+
+  /**
+   * Same as {@link ChangeContext#getDistinctUpdate}, but allows to override the commit timestamp.
+   *
+   * @param psId patch set ID.
+   * @param whenOverride commit timestamp.
+   * @return handle for change updates.
+   */
+  ChangeUpdate getDistinctUpdate(PatchSet.Id psId, Timestamp whenOverride);
 
   /**
    * Get the up-to-date notes for this change.

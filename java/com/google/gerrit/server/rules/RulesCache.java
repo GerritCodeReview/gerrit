@@ -17,6 +17,7 @@ package com.google.gerrit.server.rules;
 import static com.googlecode.prolog_cafe.lang.PrologMachineCopy.save;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Project;
@@ -73,11 +74,27 @@ import org.eclipse.jgit.util.RawParseUtils;
 @Singleton
 public class RulesCache {
   public static class Module extends CacheModule {
+    protected final Config config;
+
+    public Module(Config config) {
+      this.config = config;
+    }
+
     @Override
     protected void configure() {
-      cache(RulesCache.CACHE_NAME, ObjectId.class, PrologMachineCopy.class)
-          // This cache is auxiliary to the project cache, so size it the same.
-          .configKey(ProjectCacheImpl.CACHE_NAME);
+      if (has(CACHE_NAME, "memoryLimit")) {
+        // Use cache.prolog_rules.memoryLimit setting if it is available
+        cache(RulesCache.CACHE_NAME, ObjectId.class, PrologMachineCopy.class);
+      } else {
+        cache(RulesCache.CACHE_NAME, ObjectId.class, PrologMachineCopy.class)
+            // As this cache is auxiliary to the project cache, so size it the same
+            // as project cache when cache.prolog_rules.memoryLimit is not available.
+            .configKey(ProjectCacheImpl.CACHE_NAME);
+      }
+    }
+
+    private boolean has(String name, String var) {
+      return !Strings.isNullOrEmpty(config.getString("cache", name, var));
     }
   }
 

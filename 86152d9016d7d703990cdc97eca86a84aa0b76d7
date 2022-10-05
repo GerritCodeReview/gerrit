@@ -39,6 +39,30 @@
       },
       "revId": "86152d9016d7d703990cdc97eca86a84aa0b76d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8db4b271_555ce579",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 784,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-05T13:04:37Z",
+      "side": 1,
+      "message": "It can\u0027t happen again because I wrote a test for it.\n\nI tried abstracting it but I need to keep all these asserts and then there is really nothing left in the function. I don\u0027t think enough is added from a function that does all of this except the last line.",
+      "parentUuid": "6bee3037_8618d684",
+      "range": {
+        "startLine": 784,
+        "startChar": 4,
+        "endLine": 784,
+        "endChar": 33
+      },
+      "revId": "86152d9016d7d703990cdc97eca86a84aa0b76d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

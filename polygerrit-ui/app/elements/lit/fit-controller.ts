@@ -47,10 +47,10 @@ interface Positions {
 /**
  `FitController` fits an element in another element using `max-height`
  and `max-width`, and optionally centers it in the window or another element.
- 
+
  The element will only be sized and/or positioned if it has not already been
  sized and/or positioned by CSS.
- 
+
  CSS properties            | Action
  --------------------------|-------------------------------------------
  `position` set            | Element is not centered horizontally or vertically
@@ -58,37 +58,37 @@ interface Positions {
  `left` or `right` set     | Element is not horizontally centered
  `max-height` set          | Element respects `max-height`
  `max-width` set           | Element respects `max-width`
- 
+
  `FitController` can position an element into another element using
  `verticalAlign` and `horizontalAlign`. This will override the element's css
  position.
- 
+
      <div class="container">
        <iron-fit-impl vertical-align="top" horizontal-align="auto">
          Positioned into the container
        </iron-fit-impl>
      </div>
- 
+
  Use `noOverlap` to position the element around another element without
  overlapping it.
- 
+
      <div class="container">
        <iron-fit-impl no-overlap vertical-align="auto" horizontal-align="auto">
          Positioned around the container
        </iron-fit-impl>
      </div>
- 
+
  Use `horizontalOffset, verticalOffset` to offset the element from its
  `positionTarget`; `FitController` will collapse these in order to
  keep the element within `window` boundaries, while preserving the element's
  CSS margin values.
- 
+
      <div class="container">
        <iron-fit-impl vertical-align="top" vertical-offset="20">
          With vertical offset
        </iron-fit-impl>
      </div>
- 
+
  */
 export class FitController implements ReactiveController {
   host: ReactiveControllerHost & HTMLElement;
@@ -148,7 +148,6 @@ export class FitController implements ReactiveController {
     horizontalAlign?: string,
     verticalAlign?: string
   ) {
-    // TODO(dhruvsri): ensure this is passed from parent in constructor
     (this.host = host).addController(this);
     this.horizontalOffset = horizontalOffset ?? 0;
     this.verticalOffset = verticalOffset ?? 0;

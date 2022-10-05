@@ -6,6 +6,51 @@
 
 import {ReactiveController, ReactiveControllerHost} from 'lit';
 
+export interface FitControllerHost {
+  /**
+   * The orientation against which to align the element horizontally
+   * relative to the `positionTarget`. Possible values are "left", "right",
+   * "center", "auto".
+   */
+  horizontalAlign?: string | null;
+  /**
+   * The orientation against which to align the element vertically
+   * relative to the `positionTarget`. Possible values are "top", "bottom",
+   * "middle", "auto".
+   */
+  verticalAlign?: string | null;
+  /**
+   * A pixel value that will be added to the position calculated for the
+   * given `horizontalAlign`, in the direction of alignment. You can think
+   * of it as increasing or decreasing the distance to the side of the
+   * screen given by `horizontalAlign`.
+   *
+   * If `horizontalAlign` is "left" or "center", this offset will increase or
+   * decrease the distance to the left side of the screen: a negative offset
+   * will move the dropdown to the left; a positive one, to the right.
+   *
+   * Conversely if `horizontalAlign` is "right", this offset will increase
+   * or decrease the distance to the right side of the screen: a negative
+   * offset will move the dropdown to the right; a positive one, to the left.
+   */
+  horizontalOffset: number;
+  /**
+   * A pixel value that will be added to the position calculated for the
+   * given `verticalAlign`, in the direction of alignment. You can think
+   * of it as increasing or decreasing the distance to the side of the
+   * screen given by `verticalAlign`.
+   *
+   * If `verticalAlign` is "top" or "middle", this offset will increase or
+   * decrease the distance to the top side of the screen: a negative offset
+   * will move the dropdown upwards; a positive one, downwards.
+   *
+   * Conversely if `verticalAlign` is "bottom", this offset will increase
+   * or decrease the distance to the bottom side of the screen: a negative
+   * offset will move the dropdown downwards; a positive one, upwards.
+   */
+  verticalOffset: number;
+}
+
 // Information needed to position and size the target element
 interface FitInfo {
   inlineStyle: {
@@ -47,10 +92,10 @@ interface Positions {
 /**
  `FitController` fits an element in another element using `max-height`
  and `max-width`, and optionally centers it in the window or another element.
- 
+
  The element will only be sized and/or positioned if it has not already been
  sized and/or positioned by CSS.
- 
+
  CSS properties            | Action
  --------------------------|-------------------------------------------
  `position` set            | Element is not centered horizontally or vertically
@@ -58,102 +103,48 @@ interface Positions {
  `left` or `right` set     | Element is not horizontally centered
  `max-height` set          | Element respects `max-height`
  `max-width` set           | Element respects `max-width`
- 
+
  `FitController` can position an element into another element using
  `verticalAlign` and `horizontalAlign`. This will override the element's css
  position.
- 
+
      <div class="container">
        <iron-fit-impl vertical-align="top" horizontal-align="auto">
          Positioned into the container
        </iron-fit-impl>
      </div>
- 
+
  Use `noOverlap` to position the element around another element without
  overlapping it.
- 
+
      <div class="container">
        <iron-fit-impl no-overlap vertical-align="auto" horizontal-align="auto">
          Positioned around the container
        </iron-fit-impl>
      </div>
- 
+
  Use `horizontalOffset, verticalOffset` to offset the element from its
  `positionTarget`; `FitController` will collapse these in order to
  keep the element within `window` boundaries, while preserving the element's
  CSS margin values.
- 
+
      <div class="container">
        <iron-fit-impl vertical-align="top" vertical-offset="20">
          With vertical offset
        </iron-fit-impl>
      </div>
- 
+
  */
 export class FitController implements ReactiveController {
-  host: ReactiveControllerHost & HTMLElement;
+  host: ReactiveControllerHost & HTMLElement & FitControllerHost;
 
-  /**
-   * The orientation against which to align the element horizontally
-   * relative to the `positionTarget`. Possible values are "left", "right",
-   * "center", "auto".
-   */
-  private horizontalAlign?: string | null;
-
-  /**
-   * The orientation against which to align the element vertically
-   * relative to the `positionTarget`. Possible values are "top", "bottom",
-   * "middle", "auto".
-   */
-  private verticalAlign?: string | null;
-
-  /**
-   * A pixel value that will be added to the position calculated for the
-   * given `horizontalAlign`, in the direction of alignment. You can think
-   * of it as increasing or decreasing the distance to the side of the
-   * screen given by `horizontalAlign`.
-   *
-   * If `horizontalAlign` is "left" or "center", this offset will increase or
-   * decrease the distance to the left side of the screen: a negative offset
-   * will move the dropdown to the left; a positive one, to the right.
-   *
-   * Conversely if `horizontalAlign` is "right", this offset will increase
-   * or decrease the distance to the right side of the screen: a negative
-   * offset will move the dropdown to the right; a positive one, to the left.
-   */
-  private horizontalOffset = 0;
-
-  /**
-   * A pixel value that will be added to the position calculated for the
-   * given `verticalAlign`, in the direction of alignment. You can think
-   * of it as increasing or decreasing the distance to the side of the
-   * screen given by `verticalAlign`.
-   *
-   * If `verticalAlign` is "top" or "middle", this offset will increase or
-   * decrease the distance to the top side of the screen: a negative offset
-   * will move the dropdown upwards; a positive one, downwards.
-   *
-   * Conversely if `verticalAlign` is "bottom", this offset will increase
-   * or decrease the distance to the bottom side of the screen: a negative
-   * offset will move the dropdown downwards; a positive one, upwards.
-   */
-  private verticalOffset = 0;
+  private positionTarget?: HTMLElement;
 
   private fitInfo?: FitInfo | null;
 
-  constructor(
-    host: ReactiveControllerHost & HTMLElement,
-    horizontalOffset?: number,
-    verticalOffset?: number,
-    horizontalAlign?: string,
-    verticalAlign?: string
-  ) {
-    // TODO(dhruvsri): ensure this is passed from parent in constructor
+  constructor(host: ReactiveControllerHost & HTMLElement & FitControllerHost) {
     (this.host = host).addController(this);
-    this.horizontalOffset = horizontalOffset ?? 0;
-    this.verticalOffset = verticalOffset ?? 0;
-    this.horizontalAlign = horizontalAlign;
-    this.verticalAlign = verticalAlign;
+    this.positionTarget = this.positionTarget || this._defaultPositionTarget;
   }
 
   hostConnected() {}
@@ -171,7 +162,7 @@ export class FitController implements ReactiveController {
       parent = (parent as ShadowRoot).host;
     }
 
-    return parent;
+    return parent as HTMLElement;
   }
 
   /**
@@ -181,16 +172,10 @@ export class FitController implements ReactiveController {
    */
   get shouldPosition() {
     return (
-      (this.horizontalAlign || this.verticalAlign) &&
-      this._defaultPositionTarget
+      (this.host.horizontalAlign || this.host.verticalAlign) &&
+      this.positionTarget
     );
   }
-
-  /** @override */
-  attached() {}
-
-  /** @override */
-  detached() {}
 
   /**
    * Positions and fits the element into the `window` element.
@@ -199,6 +184,10 @@ export class FitController implements ReactiveController {
     this.position();
     this.constrain();
     this.center();
+  }
+
+  setPositionTarget(target: HTMLElement) {
+    this.positionTarget = target;
   }
 
   /**
@@ -307,9 +296,7 @@ export class FitController implements ReactiveController {
 
     const rect = this.host.getBoundingClientRect();
     // TODO(dhruvsi): verify cast
-    const positionRect = this.getNormalizedRect(
-      this._defaultPositionTarget as HTMLElement
-    );
+    const positionRect = this.getNormalizedRect(this.positionTarget!);
     const fitRect = this.getNormalizedRect(window);
 
     const margin = this.fitInfo!.margin;
@@ -508,59 +495,59 @@ export class FitController implements ReactiveController {
       {
         verticalAlign: 'top',
         horizontalAlign: 'left',
-        top: positionRect.top + this.verticalOffset,
-        left: positionRect.left + this.horizontalOffset,
+        top: positionRect.top + this.host.verticalOffset,
+        left: positionRect.left + this.host.horizontalOffset,
       },
       {
         verticalAlign: 'top',
         horizontalAlign: 'right',
-        top: positionRect.top + this.verticalOffset,
-        left: positionRect.right - size.width - this.horizontalOffset,
+        top: positionRect.top + this.host.verticalOffset,
+        left: positionRect.right - size.width - this.host.horizontalOffset,
       },
       {
         verticalAlign: 'bottom',
         horizontalAlign: 'left',
-        top: positionRect.bottom - size.height - this.verticalOffset,
-        left: positionRect.left + this.horizontalOffset,
+        top: positionRect.bottom - size.height - this.host.verticalOffset,
+        left: positionRect.left + this.host.horizontalOffset,
       },
       {
         verticalAlign: 'bottom',
         horizontalAlign: 'right',
-        top: positionRect.bottom - size.height - this.verticalOffset,
-        left: positionRect.right - size.width - this.horizontalOffset,
+        top: positionRect.bottom - size.height - this.host.verticalOffset,
+        left: positionRect.right - size.width - this.host.horizontalOffset,
       },
     ];
 
     // Consider auto as null for coding convenience.
-    this.verticalAlign =
-      this.verticalAlign === 'auto' ? null : this.verticalAlign;
-    this.horizontalAlign =
-      this.horizontalAlign === 'auto' ? null : this.horizontalAlign;
+    this.host.verticalAlign =
+      this.host.verticalAlign === 'auto' ? null : this.host.verticalAlign;
+    this.host.horizontalAlign =
+      this.host.horizontalAlign === 'auto' ? null : this.host.horizontalAlign;
 
-    if (!this.horizontalAlign || this.horizontalAlign === 'center') {
+    if (!this.host.horizontalAlign || this.host.horizontalAlign === 'center') {
       positions.push({
         verticalAlign: 'top',
         horizontalAlign: 'center',
-        top: positionRect.top + this.verticalOffset,
+        top: positionRect.top + this.host.verticalOffset,
         left:
           positionRect.left -
           sizeNoMargins.width / 2 +
           positionRect.width / 2 +
-          this.horizontalOffset,
+          this.host.horizontalOffset,
       });
       positions.push({
         verticalAlign: 'bottom',
         horizontalAlign: 'center',
-        top: positionRect.bottom - size.height - this.verticalOffset,
+        top: positionRect.bottom - size.height - this.host.verticalOffset,
         left:
           positionRect.left -
           sizeNoMargins.width / 2 +
           positionRect.width / 2 +
-          this.horizontalOffset,
+          this.host.horizontalOffset,
       });
     }
 
-    if (!this.verticalAlign || this.verticalAlign === 'middle') {
+    if (!this.host.verticalAlign || this.host.verticalAlign === 'middle') {
       positions.push({
         verticalAlign: 'middle',
         horizontalAlign: 'left',
@@ -568,8 +555,8 @@ export class FitController implements ReactiveController {
           positionRect.top -
           sizeNoMargins.height / 2 +
           positionRect.height / 2 +
-          this.verticalOffset,
-        left: positionRect.left + this.horizontalOffset,
+          this.host.verticalOffset,
+        left: positionRect.left + this.host.horizontalOffset,
       });
       positions.push({
         verticalAlign: 'middle',
@@ -578,12 +565,15 @@ export class FitController implements ReactiveController {
           positionRect.top -
           sizeNoMargins.height / 2 +
           positionRect.height / 2 +
-          this.verticalOffset,
-        left: positionRect.right - size.width - this.horizontalOffset,
+          this.host.verticalOffset,
+        left: positionRect.right - size.width - this.host.horizontalOffset,
       });
     }
 
-    if (this.verticalAlign === 'middle' && this.horizontalAlign === 'center') {
+    if (
+      this.host.verticalAlign === 'middle' &&
+      this.host.horizontalAlign === 'center'
+    ) {
       positions.push({
         verticalAlign: 'middle',
         horizontalAlign: 'center',
@@ -591,22 +581,22 @@ export class FitController implements ReactiveController {
           positionRect.top -
           sizeNoMargins.height / 2 +
           positionRect.height / 2 +
-          this.verticalOffset,
+          this.host.verticalOffset,
         left:
           positionRect.left -
           sizeNoMargins.width / 2 +
           positionRect.width / 2 +
-          this.horizontalOffset,
+          this.host.horizontalOffset,
       });
     }
 
     let position;
     for (let i = 0; i < positions.length; i++) {
       const candidate = positions[i];
-      const vAlignOk = candidate.verticalAlign === this.verticalAlign;
-      const hAlignOk = candidate.horizontalAlign === this.horizontalAlign;
+      const vAlignOk = candidate.verticalAlign === this.host.verticalAlign;
+      const hAlignOk = candidate.horizontalAlign === this.host.horizontalAlign;
 
-      // If both this.verticalAlign and this.horizontalAlign are defined, return exact match.
+      // If both this.host.verticalAlign and this.host.horizontalAlign are defined, return exact match.
       // For dynamicAlign and noOverlap we'll have more than one candidate, so
       // we'll have to check the offscreenArea to make the best choice.
       if (vAlignOk && hAlignOk) {
@@ -617,8 +607,8 @@ export class FitController implements ReactiveController {
       // Align is ok if alignment preferences are respected. If no preferences,
       // it is considered ok.
       const alignOk =
-        (!this.verticalAlign || vAlignOk) &&
-        (!this.horizontalAlign || hAlignOk);
+        (!this.host.verticalAlign || vAlignOk) &&
+        (!this.host.horizontalAlign || hAlignOk);
 
       // Filter out elements that don't match the alignment (if defined).
       // With dynamicAlign, we need to consider all the positions to find the

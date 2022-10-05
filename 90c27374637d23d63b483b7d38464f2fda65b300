@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8039c4cc_50292bff",
+        "filename": "javatests/com/google/gerrit/server/index/change/ChangeIndexRewriterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-05T16:00:41Z",
+      "side": 1,
+      "message": "Use CONSTANTS?",
+      "range": {
+        "startLine": 100,
+        "startChar": 62,
+        "endLine": 100,
+        "endChar": 71
+      },
+      "revId": "90c27374637d23d63b483b7d38464f2fda65b300",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

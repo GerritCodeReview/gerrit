@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d4edd8d_cd60d0a9",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1281,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-05T16:50:31Z",
+      "side": 1,
+      "message": "MetaA actually have the original commit ID. It seems that the deletion commit is not a part of the diff.",
+      "parentUuid": "1dd8fc48_33518d7e",
+      "range": {
+        "startLine": 1279,
+        "startChar": 4,
+        "endLine": 1281,
+        "endChar": 5
+      },
+      "revId": "bdea560424b48c6433fca99bb958310bae669ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bfd6c18f_626b5366",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-10-04T10:39:06Z",
       "side": 1,
       "message": "I think serverIdent is typically used for gerrit-generated merge commits.\nI think we should use the currentUser here, similar to [1]\n\n[1]https://gerrit.googlesource.com/gerrit/+/master/java/com/google/gerrit/server/restapi/change/CreateChange.java#357",
+      "range": {
+        "startLine": 158,
+        "startChar": 18,
+        "endLine": 158,
+        "endChar": 52
+      },
+      "revId": "bdea560424b48c6433fca99bb958310bae669ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3847266e_622028e5",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-05T16:50:31Z",
+      "side": 1,
+      "message": "The identity used by CreateChange for this purpose is IdentifiedUser. Switched to it with the same logic.\nhttps://gerrit.googlesource.com/gerrit/+/master/java/com/google/gerrit/server/restapi/change/CreateChange.java#357",
+      "parentUuid": "bfd6c18f_626b5366",
       "range": {
         "startLine": 158,
         "startChar": 18,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7ef8c40_d8b14ce5",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-05T16:50:31Z",
+      "side": 1,
+      "message": "Changed, now same as in CreateChange.",
+      "parentUuid": "9826bf1f_f16f72ce",
+      "range": {
+        "startLine": 159,
+        "startChar": 6,
+        "endLine": 162,
+        "endChar": 90
+      },
+      "revId": "bdea560424b48c6433fca99bb958310bae669ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c65c9c2d_2b3d1455",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-10-04T10:39:06Z",
       "side": 1,
       "message": "should we add an option to provide the commit message for the new patch?\n\nI think this can be the case, since the previous PS might have nothing to do with the new PS.",
+      "range": {
+        "startLine": 164,
+        "startChar": 58,
+        "endLine": 164,
+        "endChar": 84
+      },
+      "revId": "bdea560424b48c6433fca99bb958310bae669ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c519ab6e_c13ad2f6",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-05T16:50:31Z",
+      "side": 1,
+      "message": "Done. Also added support for input.base. Sorry, I forgot about those.",
+      "parentUuid": "c65c9c2d_2b3d1455",
       "range": {
         "startLine": 164,
         "startChar": 58,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7134537_cd6eb3ae",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-05T16:50:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22c7d435_39f433ec",
+      "range": {
+        "startLine": 156,
+        "startChar": 6,
+        "endLine": 177,
+        "endChar": 73
+      },
+      "revId": "bdea560424b48c6433fca99bb958310bae669ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "af36dea6_94a87a7e",
@@ -129,6 +249,30 @@
       "writtenOn": "2022-10-04T10:39:06Z",
       "side": 1,
       "message": "nit: I think this should happen in a separate block (outside if try(BatchUpdate bu \u003d...){}",
+      "range": {
+        "startLine": 183,
+        "startChar": 8,
+        "endLine": 187,
+        "endChar": 39
+      },
+      "revId": "bdea560424b48c6433fca99bb958310bae669ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b742310_3849ee1c",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-05T16:50:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af36dea6_94a87a7e",
       "range": {
         "startLine": 183,
         "startChar": 8,
@@ -162,6 +306,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f94905e_8166b518",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-05T16:50:31Z",
+      "side": 1,
+      "message": "Done. Used the same logic as in CreateChange instead.",
+      "parentUuid": "8918fcb5_903d386b",
+      "range": {
+        "startLine": 210,
+        "startChar": 22,
+        "endLine": 210,
+        "endChar": 48
+      },
+      "revId": "bdea560424b48c6433fca99bb958310bae669ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7453401a_a0c89678",
@@ -175,6 +343,30 @@
       "writtenOn": "2022-10-04T10:39:06Z",
       "side": 1,
       "message": "nit: is this info necessary in commit message? This will be part of the commit message in NoteDB, and normally invisible to the user. I expect that the files in the commit will contain the merge markers anyway?",
+      "range": {
+        "startLine": 240,
+        "startChar": 0,
+        "endLine": 245,
+        "endChar": 5
+      },
+      "revId": "bdea560424b48c6433fca99bb958310bae669ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0050109e_62fe7d4f",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-05T16:50:31Z",
+      "side": 1,
+      "message": "Obsolete.\nApply patch with conflicts is currently not possible.",
+      "parentUuid": "7453401a_a0c89678",
       "range": {
         "startLine": 240,
         "startChar": 0,
@@ -208,6 +400,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c78e107b_66d0dffc",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ApplyPatchIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-05T16:50:31Z",
+      "side": 1,
+      "message": "1. Seems that patch applying with conflicts is not possible. Added a test.\n2. Author/committer tests are based on CreateChangeIT.\n3. Added in applyGerritBasedPatchWithMultipleFiles.",
+      "parentUuid": "c505fab1_234cc8cc",
+      "range": {
+        "startLine": 33,
+        "startChar": 13,
+        "endLine": 33,
+        "endChar": 25
+      },
+      "revId": "bdea560424b48c6433fca99bb958310bae669ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "91ae4725_fcdf10b2",
@@ -221,6 +437,30 @@
       "writtenOn": "2022-10-04T10:39:06Z",
       "side": 1,
       "message": "nit: how hard would it be to make all of the tests round-trip gerrit tests (e.g change the tests above to get-patch -\u003e apply-patch, similar to this test).",
+      "range": {
+        "startLine": 132,
+        "startChar": 14,
+        "endLine": 132,
+        "endChar": 35
+      },
+      "revId": "bdea560424b48c6433fca99bb958310bae669ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e8a0aba_c396063e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ApplyPatchIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-05T16:50:31Z",
+      "side": 1,
+      "message": "I\u0027m not sure how to create changes for renaming/deletion. Added test for gerrit-based modification in applyGerritBasedPatchWithMultipleFiles.",
+      "parentUuid": "91ae4725_fcdf10b2",
       "range": {
         "startLine": 132,
         "startChar": 14,

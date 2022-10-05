@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "395d4751_061568bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-10-05T08:56:02Z",
+      "side": 1,
+      "message": "i find it intellectually insulting to lecture people about things i expect them to know already or be able to deduce in seconds. hence this was only a reminder to everyone involved to pay attention to such details, and i made it as non-committal as i was able to.",
+      "parentUuid": "daf776c1_618a8be2",
+      "revId": "afd0f7c68cfc44cdd4005fd213ce067486ecc32c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c5e74671_7f0b204e",
@@ -50,6 +68,24 @@
       "side": 1,
       "message": "Apologies, this was originally intended as an experiment and I forgot to update the commit msg when it turned out necessary to submit.",
       "tag": "mailMessageId\u003d\u003cCAN9+7Xe3WP1OzoDX0aEUF5N3o5v8zfsRH68x\u003dSbnfRGXPADjTA@mail.gmail.com\u003e",
+      "revId": "afd0f7c68cfc44cdd4005fd213ce067486ecc32c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05fb6d94_58320920",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-10-05T08:56:02Z",
+      "side": 1,
+      "message": "shit happens. 😁\n\ni think in principle it should be possible to mostly rectify such faux-pas by attaching git notes to commits (which git log shows by default according to the docu).",
+      "parentUuid": "c5e74671_7f0b204e",
       "revId": "afd0f7c68cfc44cdd4005fd213ce067486ecc32c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

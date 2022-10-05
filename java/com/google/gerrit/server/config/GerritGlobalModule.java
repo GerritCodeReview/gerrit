@@ -144,6 +144,7 @@ import com.google.gerrit.server.git.PureRevertCache;
 import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
+import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.receive.PluginPushOption;
 import com.google.gerrit.server.git.receive.ReceiveCommitsModule;
 import com.google.gerrit.server.git.validators.CommentCountValidator;
@@ -293,6 +294,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(ThreadLocalRequestContext.module());
     install(new ApprovalModule());
     install(new MailSoySauceModule());
+    install(new WorkQueue.WorkQueueModule());
 
     factory(CapabilityCollection.Factory.class);
     factory(ChangeData.AssistedFactory.class);

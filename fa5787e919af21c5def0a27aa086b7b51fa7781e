@@ -16,6 +16,23 @@
       "message": "This breaks the build on 3.5 and not on 3.4, but I figured it should get fixed on 3.4 where it was introduced.",
       "revId": "fa5787e919af21c5def0a27aa086b7b51fa7781e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a22dde0d_536c644f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-05T19:54:18Z",
+      "side": 1,
+      "message": "Thanks @Nasser for fixing it.",
+      "revId": "fa5787e919af21c5def0a27aa086b7b51fa7781e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

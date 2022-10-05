@@ -45,6 +45,54 @@
       },
       "revId": "98c71efb2b035c58a196b3ff551984a91dd52640",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28dd90a8_20c16e31",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-10-05T18:16:36Z",
+      "side": 1,
+      "message": "Yes we would still see the issue only when we set refreshAfterWrite in cache.projects. The fall back is mainly to not affect existing users who are currently sharing cache.projects.memoryLimit.",
+      "parentUuid": "c27cb5f7_ab96ef26",
+      "range": {
+        "startLine": 12,
+        "startChar": 44,
+        "endLine": 12,
+        "endChar": 71
+      },
+      "revId": "98c71efb2b035c58a196b3ff551984a91dd52640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2a99858_89562d58",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-10-05T18:16:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a31ec8a6_e231a615",
+      "range": {
+        "startLine": 12,
+        "startChar": 19,
+        "endLine": 12,
+        "endChar": 28
+      },
+      "revId": "98c71efb2b035c58a196b3ff551984a91dd52640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

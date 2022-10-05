@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "2857193c_72db7bc4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-05T09:07:31Z",
+      "side": 1,
+      "message": "\u003e i find it intellectually insulting to lecture people \n\nI believe this may be the root cause of why communication with you sometimes doesn\u0027t go well. In my opinion code review is not about \"lecturing people\", but about helping people to improve their changes. If this is something you don\u0027t want to do or you cannot do, maybe doing code reviews isn\u0027t for you.",
+      "parentUuid": "395d4751_061568bc",
+      "revId": "afd0f7c68cfc44cdd4005fd213ce067486ecc32c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c5e74671_7f0b204e",

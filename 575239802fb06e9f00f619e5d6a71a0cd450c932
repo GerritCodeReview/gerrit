@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7366552c_e14e2e52",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-05T18:22:35Z",
+      "side": 1,
+      "message": ".memoryLimit Also fix line 10",
+      "range": {
+        "startLine": 7,
+        "startChar": 23,
+        "endLine": 7,
+        "endChar": 32
+      },
+      "revId": "575239802fb06e9f00f619e5d6a71a0cd450c932",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d97e41b3_884548ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-05T18:22:35Z",
+      "side": 1,
+      "message": "It is unclear why setting refreshAfterWrite on projects is affecting startup, and how this change is preventing that, is it? It really seems like there are two issues, and this fixes one, and half the other? Should we fix both (even if in separate changes)?",
+      "range": {
+        "startLine": 11,
+        "startChar": 12,
+        "endLine": 11,
+        "endChar": 30
+      },
+      "revId": "575239802fb06e9f00f619e5d6a71a0cd450c932",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6909129_41aae130",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-05T18:22:35Z",
+      "side": 1,
+      "message": "It\u0027s not clear what the \"so\" here is referring to?",
+      "range": {
+        "startLine": 13,
+        "startChar": 38,
+        "endLine": 13,
+        "endChar": 41
+      },
+      "revId": "575239802fb06e9f00f619e5d6a71a0cd450c932",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

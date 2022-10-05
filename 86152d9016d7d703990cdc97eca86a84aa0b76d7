@@ -16,6 +16,29 @@
       "message": "Thank you for the fix",
       "revId": "86152d9016d7d703990cdc97eca86a84aa0b76d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bee3037_8618d684",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 784,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-05T12:30:48Z",
+      "side": 1,
+      "message": "this seems like it can happen again\n\nshould we create a new method `createCommentUrl` that takes care of these two different scenarios?",
+      "range": {
+        "startLine": 784,
+        "startChar": 4,
+        "endLine": 784,
+        "endChar": 33
+      },
+      "revId": "86152d9016d7d703990cdc97eca86a84aa0b76d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

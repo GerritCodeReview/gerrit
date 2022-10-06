@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f76b58b0_76878be7",
+        "filename": "java/com/google/gerrit/server/project/PeriodicProjectListCacheWarmer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-10-06T20:48:37Z",
+      "side": 1,
+      "message": "Should you be using the \u0027interval\u0027 and \u0027startTime\u0027 config entries here if they are configured?",
+      "range": {
+        "startLine": 57,
+        "startChar": 59,
+        "endLine": 57,
+        "endChar": 88
+      },
+      "revId": "5870f959143d4300fe9b164fcc479d44fe4948e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c3de9a0e_d98b2db6",
         "filename": "java/com/google/gerrit/server/project/PeriodicProjectListCacheWarmer.java",
         "patchSetId": 2

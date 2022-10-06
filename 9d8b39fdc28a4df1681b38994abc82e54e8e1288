@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83ec5e9f_e386f562",
+        "filename": "java/com/google/gerrit/server/fixes/FixReplacementInterpreter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1091855
+      },
+      "writtenOn": "2022-10-06T22:12:03Z",
+      "side": 1,
+      "message": "this will presumably result in no change to the file mode?",
+      "range": {
+        "startLine": 152,
+        "startChar": 92,
+        "endLine": 152,
+        "endChar": 94
+      },
+      "revId": "9d8b39fdc28a4df1681b38994abc82e54e8e1288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

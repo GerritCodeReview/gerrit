@@ -30,7 +30,6 @@ import {DraftsAction} from '../../../constants/constants';
 import {ReviewInput} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import {assertIsDefined} from '../../../utils/common-util';
-import {CURRENT} from '../../../utils/patch-set-util';
 import {fireReload} from '../../../utils/event-util';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
 import {
@@ -321,7 +320,11 @@ export class GrSubmitRequirementHovercard extends base {
       },
     };
     return this.restApiService
-      .saveChangeReview(this.change._number, CURRENT, review)
+      .saveChangeReview(
+        this.change._number,
+        this.change.current_revision,
+        review
+      )
       .then(() => {
         fireReload(this, true);
       });

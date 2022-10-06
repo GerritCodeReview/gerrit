@@ -234,6 +234,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "048c8ceb_d53c007f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-10-06T16:34:57Z",
+      "side": 1,
+      "message": "\u003e I propose we move this discussion off of this change.\n\nwhile the discussion is arguably a bit too meta to be considered on-topic, i think it would be counterproductive to tear it off here. therefore, i suggest to take care to keep chris out of the AS instead.\n\n\u003e The problem is that there are people that perceive such comments as offensive\n\nare you *sure* that the complaints about offense included *this* type of comment?\n\nover the years i\u0027ve participated in many projects and received lots of complaints (duh), but the complaints about indisputably factual comments never went beyond variations of \"unpleasant\". and i mean, how would it even make sense? compilers and other automation makes such \"comments\" all the time, though these tend to refer to matters of lower complexity for obvious reasons.\n\nif you are sure, then i wonder whether the offence wasn\u0027t merely due to the non-compliance with the expectations about the form, rather than the form itself. in this case this would be a wholly self-made problem by setting standards that are discriminatory against certain forms of neurodivergence.",
+      "parentUuid": "fe283746_ad124720",
+      "revId": "afd0f7c68cfc44cdd4005fd213ce067486ecc32c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c5e74671_7f0b204e",

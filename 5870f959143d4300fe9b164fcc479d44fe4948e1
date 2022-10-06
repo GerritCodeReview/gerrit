@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca90fa69_e4463f65",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1261,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-06T19:03:47Z",
+      "side": 1,
+      "message": "I think we should default this to 1/2 the maxAge interval by default, as 30s is very frequent.",
+      "revId": "5870f959143d4300fe9b164fcc479d44fe4948e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3de9a0e_d98b2db6",
+        "filename": "java/com/google/gerrit/server/project/PeriodicProjectListCacheWarmer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-06T19:03:47Z",
+      "side": 1,
+      "message": "This should be removed from the queue (and potentially cancelled) on shutdown. I would look to see what other periodic things are doing.",
+      "range": {
+        "startLine": 62,
+        "startChar": 20,
+        "endLine": 62,
+        "endChar": 23
+      },
+      "revId": "5870f959143d4300fe9b164fcc479d44fe4948e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

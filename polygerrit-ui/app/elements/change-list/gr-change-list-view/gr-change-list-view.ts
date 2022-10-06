@@ -68,6 +68,12 @@ export class GrChangeListView extends LitElement {
   }
 
   set viewState(viewState: SearchViewState | undefined) {
+    console.log(
+      'set viewState',
+      viewState,
+      this._viewState,
+      this._viewState === viewState
+    );
     if (this._viewState === viewState) return;
     const oldViewState = this._viewState;
     this._viewState = viewState;
@@ -144,7 +150,8 @@ export class GrChangeListView extends LitElement {
         this.preferences = x;
         if (this.changesPerPage !== x.changes_per_page) {
           this.changesPerPage = x.changes_per_page;
-          this.debouncedGetChanges();
+          this.debouncedGetChanges(true);
+          // this.debouncedGetChanges();
         }
       }
     );
@@ -288,6 +295,7 @@ export class GrChangeListView extends LitElement {
 
   // private, but visible for testing
   viewStateChanged() {
+    console.log('viewStateChanged', this.viewState);
     if (!this.viewState) return;
 
     let offset = Number(this.viewState.offset);
@@ -309,6 +317,7 @@ export class GrChangeListView extends LitElement {
   private getChangesTask?: DelayedTask;
 
   private debouncedGetChanges(shouldSingleMatchRedirect = false) {
+    console.log('debouncing getchanges');
     this.getChangesTask = debounce(
       this.getChangesTask,
       () => {
@@ -319,6 +328,7 @@ export class GrChangeListView extends LitElement {
   }
 
   async getChanges(shouldSingleMatchRedirect = false) {
+    console.log('getting changes');
     this.loading = true;
     const changes =
       (await this.restApiService.getChanges(

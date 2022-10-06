@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8baf944_d57fa159",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-06T13:27:43Z",
+      "side": 1,
+      "message": "Why is this doing this.foo \u003d this.foo || this._defaultFoo;\n\nfitInfo is private and starts out as null",
+      "revId": "80e10f9a30136dd73ebda8cf73c2b150c062bd09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "010df1c0_11f92c97",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-06T13:27:43Z",
+      "side": 1,
+      "message": "These methods are not necessary.",
+      "revId": "80e10f9a30136dd73ebda8cf73c2b150c062bd09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37afba45_fcd75637",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-06T13:27:43Z",
+      "side": 1,
+      "message": "should be private.",
+      "revId": "80e10f9a30136dd73ebda8cf73c2b150c062bd09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25f7cc18_dcf4e72f",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-06T13:27:43Z",
+      "side": 1,
+      "message": "Make this a function, there\u0027s very little value add to this being a getter.",
+      "revId": "80e10f9a30136dd73ebda8cf73c2b150c062bd09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ebe24ce_58f36bdf",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-06T13:27:43Z",
+      "side": 1,
+      "message": "Should this recompute `position`?",
+      "revId": "80e10f9a30136dd73ebda8cf73c2b150c062bd09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cde869d5_94ebcd05",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-06T13:27:43Z",
+      "side": 1,
+      "message": "This could be a getter instead of an explicit function that needs to be called.",
+      "revId": "80e10f9a30136dd73ebda8cf73c2b150c062bd09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35fc6f12_a8fda9df",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-06T13:27:43Z",
+      "side": 1,
+      "message": "Why do we do the same thing twice?",
+      "revId": "80e10f9a30136dd73ebda8cf73c2b150c062bd09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1333f87_af64a497",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-06T13:27:43Z",
+      "side": 1,
+      "message": "Why do we have these object assigns? We\u0027re just assigning back what originally came from the host.  Is this to normalize the fields to be empty strings?",
+      "revId": "80e10f9a30136dd73ebda8cf73c2b150c062bd09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91049909_c261faa0",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-06T13:27:43Z",
+      "side": 1,
+      "message": "Make this a function and add tests, it doesn\u0027t need to be a method.",
+      "revId": "80e10f9a30136dd73ebda8cf73c2b150c062bd09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34150c69_f973863c",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-06T13:27:43Z",
+      "side": 1,
+      "message": "All this code could be a function that takes as input the vertical and horizontal offset so it\u0027s easily testable.\n\nAlso it\u0027s quite large, please split into smaller functions with meaningful names.  For instance the for-loop at the end could be a separate function.",
+      "revId": "80e10f9a30136dd73ebda8cf73c2b150c062bd09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa18efcb_cc495716",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-06T13:27:43Z",
+      "side": 1,
+      "message": "MAke a function to generate positions so it\u0027s easily testable. It just needs FitControllerHost as parameter",
+      "revId": "80e10f9a30136dd73ebda8cf73c2b150c062bd09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "002835a4_4f9513d8",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-06T13:27:43Z",
+      "side": 1,
+      "message": "This can be a separate function that takes a list of positions",
+      "revId": "80e10f9a30136dd73ebda8cf73c2b150c062bd09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

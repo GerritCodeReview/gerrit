@@ -595,7 +595,8 @@ public class MultiProgressMonitor implements RequestStateProvider {
 
   private void send(StringBuilder s) {
     String progress = s.toString();
-    logger.atInfo().atMostEvery(1, MINUTES).log(CharMatcher.javaIsoControl().removeFrom(progress));
+    logger.atInfo().atMostEvery(1, MINUTES).log(
+        "%s", CharMatcher.javaIsoControl().removeFrom(progress));
     if (!clientDisconnected) {
       try {
         out.write(Constants.encode(progress));

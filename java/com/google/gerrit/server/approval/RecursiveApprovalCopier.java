@@ -64,8 +64,7 @@ public class RecursiveApprovalCopier {
 
   public void persist(Project.NameKey project, @Nullable Consumer<Change> labelsCopiedListener)
       throws IOException, UpdateException, RestApiException, RepositoryNotFoundException {
-    try (BatchUpdate bu =
-            batchUpdateFactory.create(project, internalUserFactory.create(), TimeUtil.nowTs());
+    try (BatchUpdate bu = batchUpdateFactory.create(project, internalUserFactory.create());
         Repository repository = repositoryManager.openRepository(project)) {
       for (Ref changeMetaRef :
           repository.getRefDatabase().getRefsByPrefix(RefNames.REFS_CHANGES).stream()
@@ -101,7 +100,7 @@ public class RecursiveApprovalCopier {
     @Override
     public boolean updateChange(ChangeContext ctx) throws IOException {
       Change change = ctx.getChange();
-      ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId(), change.getLastUpdatedOn());
+      ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
       approvalsUtil.persistCopiedApprovals(
           ctx.getNotes(),
           ctx.getNotes().getCurrentPatchSet(),

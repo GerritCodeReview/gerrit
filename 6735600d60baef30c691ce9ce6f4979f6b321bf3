@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "743caa06_8dd206d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-06T11:52:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d321b12_26415542",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "6735600d60baef30c691ce9ce6f4979f6b321bf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d67d1f7f_72960c01",
@@ -81,6 +105,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65638008_fd517b31",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-06T11:52:17Z",
+      "side": 1,
+      "message": "I don\u0027t plan on editing this file until it\u0027s converted to Lit, at which point I will add the tests.\nUntil then I don\u0027t see the benefit of copying tests over.",
+      "parentUuid": "01bcc8c1_b687cc43",
+      "revId": "6735600d60baef30c691ce9ce6f4979f6b321bf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca3657a1_85aca4b5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-06T11:52:17Z",
+      "side": 1,
+      "message": "This was written in the Migration Plan in the doc as well so I\u0027m surprised with the questions at this point. 😊\n\nIn general I prefer making multiple small changes instead of one big change converting everything.\nIt can be done but I prefer this approach.",
+      "parentUuid": "2780c310_adfe9ddc",
+      "revId": "6735600d60baef30c691ce9ce6f4979f6b321bf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "771efdd2_701a019a",
@@ -104,6 +164,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5ddcbd0_fd873f6c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown-fit-controller.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-06T11:52:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "771efdd2_701a019a",
+      "range": {
+        "startLine": 51,
+        "startChar": 32,
+        "endLine": 51,
+        "endChar": 40
+      },
+      "revId": "6735600d60baef30c691ce9ce6f4979f6b321bf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "18e44aa0_2e57b36f",
@@ -117,6 +201,30 @@
       "writtenOn": "2022-10-06T11:44:15Z",
       "side": 1,
       "message": "this is not a controller this is a polymer element. Consider \"V2\" with a class comment, or \"WithFitController\"",
+      "range": {
+        "startLine": 52,
+        "startChar": 13,
+        "endLine": 52,
+        "endChar": 48
+      },
+      "revId": "6735600d60baef30c691ce9ce6f4979f6b321bf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ce876de_12d73635",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown-fit-controller.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-06T11:52:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18e44aa0_2e57b36f",
       "range": {
         "startLine": 52,
         "startChar": 13,

@@ -162,6 +162,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "bebd0609_6d3eaf2e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-06T06:40:14Z",
+      "side": 1,
+      "message": "We are a community of people with various backgrounds working together on this project and maintaining a friendly and welcoming culture is crucial to our collaboration and the project\u0027s success. \n\nThe context is that I heard from various people that they feel offended and demotivated by such kind of comments and as a result of this they lose their interest and joy to work on the project. In my opinion this means that such comments make more harm than good (the good being that valid point is being made).",
+      "parentUuid": "80363fc5_aece0333",
+      "revId": "afd0f7c68cfc44cdd4005fd213ce067486ecc32c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c5e74671_7f0b204e",

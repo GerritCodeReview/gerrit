@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4893a414_502a28f3",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-10-06T13:28:23Z",
+      "side": 1,
+      "message": "Use the simpler orElse method:\n\n return when.orElse(null);",
+      "revId": "2636d791254f8c596314b3ff7fdafb787272312b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "379d85b3_55702a6c",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-10-06T13:28:23Z",
+      "side": 1,
+      "message": "Use orElse:\n\n  when.orElse(this.notes.getChange().getLastUpdatedOn())",
+      "revId": "2636d791254f8c596314b3ff7fdafb787272312b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "355a4897_eb6eab05",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-10-06T13:28:23Z",
+      "side": 1,
+      "message": "Unrelated to this change but neither user nor the timestamp will change for the lifetime of the BatchUpdate instance (they are both final): so this PersonIdent could be computed and set already in the BatchUpdate constructor.",
+      "revId": "2636d791254f8c596314b3ff7fdafb787272312b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

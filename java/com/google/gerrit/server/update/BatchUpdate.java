@@ -64,9 +64,10 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.NoSuchRefException;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.inject.Inject;
+import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Module;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -122,6 +123,8 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   public interface Factory {
+    BatchUpdate create(Project.NameKey project, CurrentUser user);
+
     BatchUpdate create(Project.NameKey project, CurrentUser user, Timestamp when);
   }
 
@@ -311,14 +314,9 @@ public class BatchUpdate implements AutoCloseable {
 
     @Override
     public ChangeUpdate getUpdate(PatchSet.Id psId) {
-      return getUpdate(psId, when);
-    }
-
-    @Override
-    public ChangeUpdate getUpdate(PatchSet.Id psId, Timestamp whenOverride) {
       ChangeUpdate u = defaultUpdates.get(psId);
       if (u == null) {
-        u = getNewChangeUpdate(psId, whenOverride);
+        u = getNewChangeUpdate(psId);
         defaultUpdates.put(psId, u);
       }
       return u;
@@ -326,18 +324,18 @@ public class BatchUpdate implements AutoCloseable {
 
     @Override
     public ChangeUpdate getDistinctUpdate(PatchSet.Id psId) {
-      return getDistinctUpdate(psId, when);
-    }
-
-    @Override
-    public ChangeUpdate getDistinctUpdate(PatchSet.Id psId, Timestamp whenOverride) {
-      ChangeUpdate u = getNewChangeUpdate(psId, whenOverride);
+      ChangeUpdate u = getNewChangeUpdate(psId);
       distinctUpdates.put(psId, u);
       return u;
     }
 
-    private ChangeUpdate getNewChangeUpdate(PatchSet.Id psId, Timestamp whenOverride) {
-      ChangeUpdate u = changeUpdateFactory.create(notes, user, whenOverride);
+    private ChangeUpdate getNewChangeUpdate(PatchSet.Id psId) {
+      ChangeUpdate u;
+      if (when == null) {
+        u = changeUpdateFactory.create(notes, user);
+      } else {
+        u = changeUpdateFactory.create(notes, user, when);
+      }
       if (newChanges.containsKey(notes.getChangeId())) {
         u.setAllowWriteToNewRef(true);
       }
@@ -386,7 +384,7 @@ public class BatchUpdate implements AutoCloseable {
 
   private final Project.NameKey project;
   private final CurrentUser user;
-  private final Timestamp when;
+  @Nullable private final Timestamp when;
   private final TimeZone tz;
 
   private final ListMultimap<Change.Id, BatchUpdateOp> ops =
@@ -403,7 +401,7 @@ public class BatchUpdate implements AutoCloseable {
   private String refLogMessage;
   private NotifyResolver.Result notify = NotifyResolver.Result.all();
 
-  @Inject
+  @AssistedInject
   BatchUpdate(
       GitRepositoryManager repoManager,
       @GerritPersonIdent PersonIdent serverIdent,
@@ -415,7 +413,7 @@ public class BatchUpdate implements AutoCloseable {
       GitReferenceUpdated gitRefUpdated,
       @Assisted Project.NameKey project,
       @Assisted CurrentUser user,
-      @Assisted Timestamp when) {
+      @Nullable @Assisted Timestamp when) {
     this.repoManager = repoManager;
     this.changeDataFactory = changeDataFactory;
     this.changeNotesFactory = changeNotesFactory;
@@ -426,6 +424,31 @@ public class BatchUpdate implements AutoCloseable {
     this.project = project;
     this.user = user;
     this.when = when;
+    tz = serverIdent.getTimeZone();
+  }
+
+  @AssistedInject
+  BatchUpdate(
+      GitRepositoryManager repoManager,
+      @GerritPersonIdent PersonIdent serverIdent,
+      ChangeData.Factory changeDataFactory,
+      ChangeNotes.Factory changeNotesFactory,
+      ChangeUpdate.Factory changeUpdateFactory,
+      NoteDbUpdateManager.Factory updateManagerFactory,
+      ChangeIndexer indexer,
+      GitReferenceUpdated gitRefUpdated,
+      @Assisted Project.NameKey project,
+      @Assisted CurrentUser user) {
+    this.repoManager = repoManager;
+    this.changeDataFactory = changeDataFactory;
+    this.changeNotesFactory = changeNotesFactory;
+    this.changeUpdateFactory = changeUpdateFactory;
+    this.updateManagerFactory = updateManagerFactory;
+    this.indexer = indexer;
+    this.gitRefUpdated = gitRefUpdated;
+    this.project = project;
+    this.user = user;
+    this.when = null;
     tz = serverIdent.getTimeZone();
   }
 
@@ -669,7 +692,11 @@ public class BatchUpdate implements AutoCloseable {
                     repo, repoView.getRevWalk(), repoView.getInserter(), repoView.getCommands()),
             dryrun);
     if (user.isIdentifiedUser()) {
-      handle.manager.setRefLogIdent(user.asIdentifiedUser().newRefLogIdent(when, tz));
+      if (when == null) {
+        handle.manager.setRefLogIdent(user.asIdentifiedUser().newRefLogIdent(TimeUtil.nowTs(), tz));
+      } else {
+        handle.manager.setRefLogIdent(user.asIdentifiedUser().newRefLogIdent(when, tz));
+      }
     }
     handle.manager.setRefLogMessage(refLogMessage);
     handle.manager.setPushCertificate(pushCert);

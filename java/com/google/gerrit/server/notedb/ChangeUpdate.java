@@ -118,6 +118,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
  */
 public class ChangeUpdate extends AbstractChangeUpdate {
   public interface Factory {
+    ChangeUpdate create(ChangeNotes notes, CurrentUser user);
+
     ChangeUpdate create(ChangeNotes notes, CurrentUser user, Date when);
 
     ChangeUpdate create(
@@ -169,6 +171,36 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private RobotCommentUpdate robotCommentUpdate;
   private DeleteCommentRewriter deleteCommentRewriter;
   private DeleteChangeMessageRewriter deleteChangeMessageRewriter;
+
+  @AssistedInject
+  private ChangeUpdate(
+      @GerritPersonIdent PersonIdent serverIdent,
+      NoteDbUpdateManager.Factory updateManagerFactory,
+      ChangeDraftUpdate.Factory draftUpdateFactory,
+      RobotCommentUpdate.Factory robotCommentUpdateFactory,
+      DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
+      ProjectCache projectCache,
+      ServiceUserClassifier serviceUserClassifier,
+      @Assisted ChangeNotes notes,
+      @Assisted CurrentUser user,
+      ChangeNoteUtil noteUtil) {
+    this(
+        serverIdent,
+        updateManagerFactory,
+        draftUpdateFactory,
+        robotCommentUpdateFactory,
+        deleteCommentRewriterFactory,
+        serviceUserClassifier,
+        notes,
+        user,
+        notes.getChange().getLastUpdatedOn(),
+        projectCache
+            .get(notes.getProjectName())
+            .orElseThrow(illegalState(notes.getProjectName()))
+            .getLabelTypes()
+            .nameComparator(),
+        noteUtil);
+  }
 
   @AssistedInject
   private ChangeUpdate(

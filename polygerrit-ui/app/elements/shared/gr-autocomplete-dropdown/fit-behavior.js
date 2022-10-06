@@ -6,45 +6,6 @@
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import '@polymer/polymer/polymer-legacy';
 
-// IE11 has a bug where an element with (1) `overflow: auto;`, (2) size based on
-// its content's natural size, (3) absolute positioning (either `absolute` or
-// `fixed`), and (4) use `max-width` to constrain its width will place its
-// vertical scrollbar outside the area constrained by `max-width`.
-//
-// Unlike other browsers, IE11 doesn't support changing the size of scrollbars
-// with CSS, so we don't need to read this value live from the element in
-// question when trying to work around the bug.
-let verticalScrollbarMaxWidthBugOffset = undefined;
-const getVerticalScrollbarMaxWidthBugOffset = () => {
-  if (verticalScrollbarMaxWidthBugOffset !== undefined) {
-    return verticalScrollbarMaxWidthBugOffset;
-  }
-
-  const container = document.createElement('div');
-  Object.assign(container.style, {
-    overflow: 'auto',
-    position: 'fixed',
-    left: '0px',
-    top: '0px',
-    maxWidth: '100px',
-    maxHeight: '100px',
-  });
-
-  const content = document.createElement('div');
-  content.style.width = '200px';
-  content.style.height = '200px';
-  container.appendChild(content);
-
-  document.body.appendChild(container);
-  verticalScrollbarMaxWidthBugOffset =
-      Math.abs(container.offsetWidth - 100) > 1 ?
-        container.offsetWidth - container.clientWidth :
-        0;
-  document.body.removeChild(container);
-
-  return verticalScrollbarMaxWidthBugOffset;
-};
-
 // `FitBehavior` fits an element in another element using `max-height`
 // and `max-width`, and optionally centers it in the window or another element.
 
@@ -182,13 +143,6 @@ export const FitBehavior = {
      * Set to true to auto-fit on attach.
      */
     autoFitOnAttach: {type: Boolean, value: false},
-
-    /**
-     * If true and scrollbars are added to `sizingTarget` after it is
-     * positioned, the size of the added scrollbars will be added to its
-     * `maxWidth` and `maxHeight`.
-     */
-    expandSizingTargetForScrollbars: {type: Boolean, value: false},
 
     /** @type {?Object} */
     _fitInfo: {type: Object},
@@ -366,17 +320,6 @@ export const FitBehavior = {
     const positionRect = this.__getNormalizedRect(this.positionTarget);
     const fitRect = this.__getNormalizedRect(this.fitInto);
 
-    let unpositionedOffsetWidth;
-    let unpositionedOffsetHeight;
-    let unpositionedClientWidth;
-    let unpositionedClientHeight;
-    if (this.expandSizingTargetForScrollbars) {
-      unpositionedOffsetWidth = this.sizingTarget.offsetWidth;
-      unpositionedOffsetHeight = this.sizingTarget.offsetHeight;
-      unpositionedClientWidth = this.sizingTarget.clientWidth;
-      unpositionedClientHeight = this.sizingTarget.clientHeight;
-    }
-
     const margin = this._fitInfo.margin;
 
     // Consider the margin as part of the size for position calculations.
@@ -417,96 +360,6 @@ export const FitBehavior = {
     const topPosition = top - rect.top;
     this.style.left = `${leftPosition}px`;
     this.style.top = `${topPosition}px`;
-
-    if (this.expandSizingTargetForScrollbars) {
-      // Expand the height first - i.e. in the typical block direction - in case
-      // this expands the element enough to remove the vertical scrollbar.
-
-      const positionedOffsetHeight = this.sizingTarget.offsetHeight;
-      const positionedClientHeight = this.sizingTarget.clientHeight;
-      const unpositionedHeightDelta =
-          unpositionedOffsetHeight - unpositionedClientHeight;
-      const positionedHeightDelta =
-          positionedOffsetHeight - positionedClientHeight;
-
-      const sizingTargetScrollbarHeight =
-          positionedHeightDelta - unpositionedHeightDelta;
-      if (sizingTargetScrollbarHeight > 0) {
-        // Expand `maxHeight` by `sizingTargetScrollbarHeight` up to the overall
-        // allowed height within `fitRect`.
-        const fitRectMaxHeight = fitRect.height - margin.top - margin.bottom;
-        const newMaxHeight =
-            Math.min(fitRectMaxHeight, maxHeight + sizingTargetScrollbarHeight);
-        this.sizingTarget.style.maxHeight = `${newMaxHeight}px`;
-
-        // Measure the element's real change in height. This may not equal
-        // `sizingTargetScrollbarHeight` if the overflow amount is less than the
-        // scrollbar size.
-        const offsetHeight = this.sizingTarget.offsetHeight;
-        const addedHeight = offsetHeight - positionedOffsetHeight;
-
-        // Adjust the top position if the alignment requires it.
-        let newTopPosition;
-        if (position.verticalAlign === 'top') {
-          newTopPosition = topPosition;
-        } else if (position.verticalAlign === 'middle') {
-          newTopPosition = topPosition - addedHeight / 2;
-        } else if (position.verticalAlign === 'bottom') {
-          newTopPosition = topPosition - addedHeight;
-        }
-
-        // Constrain the new top position based on `fitRect` again.
-        newTopPosition = Math.max(
-            fitRect.top + margin.top,
-            Math.min(
-                newTopPosition, fitRect.bottom - margin.bottom - offsetHeight));
-        this.style.top = `${newTopPosition}px`;
-      }
-
-      const positionedOffsetWidth = this.sizingTarget.offsetWidth;
-      const positionedClientWidth = this.sizingTarget.clientWidth;
-      const unpositionedWidthDelta =
-          unpositionedOffsetWidth - unpositionedClientWidth;
-      const positionedWidthDelta =
-          positionedOffsetWidth - positionedClientWidth;
-
-      const sizingTargetScrollbarWidth =
-          positionedWidthDelta - unpositionedWidthDelta;
-      if (sizingTargetScrollbarWidth > 0) {
-        const maxWidthBugOffset = getVerticalScrollbarMaxWidthBugOffset();
-
-        // Expand `maxWidth` by `sizingTargetScrollbarWidth` up to the overall
-        // allowed width within `fitRect`.
-        const fitRectMaxWidth = fitRect.width - margin.left - margin.right;
-        const newMaxWidth = Math.min(
-            fitRectMaxWidth,
-            maxWidth + sizingTargetScrollbarWidth - maxWidthBugOffset);
-        this.sizingTarget.style.maxWidth = `${newMaxWidth}px`;
-
-        // Measure the element's real change in width. This may not equal
-        // `sizingTargetScrollbarWidth` if the overflow amount is less than the
-        // scrollbar size.
-        const offsetWidth = this.sizingTarget.offsetWidth + maxWidthBugOffset;
-        const addedWidth = offsetWidth - positionedOffsetWidth;
-
-        // Adjust the left position if the alignment requires it.
-        let newLeftPosition;
-        if (position.horizontalAlign === 'left') {
-          newLeftPosition = leftPosition;
-        } else if (position.horizontalAlign === 'center') {
-          newLeftPosition = leftPosition - addedWidth / 2;
-        } else if (position.horizontalAlign === 'right') {
-          newLeftPosition = leftPosition - addedWidth;
-        }
-
-        // Constrain the new left position based on `fitRect` again.
-        newLeftPosition = Math.max(
-            fitRect.left + margin.left,
-            Math.min(
-                newLeftPosition, fitRect.right - margin.right - offsetWidth));
-        this.style.left = `${newLeftPosition}px`;
-      }
-    }
   },
 
   /**

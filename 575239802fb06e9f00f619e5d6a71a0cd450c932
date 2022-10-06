@@ -49,6 +49,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7f6be341_28bc4be7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-10-06T04:02:30Z",
+      "side": 1,
+      "message": "ok, You mean to say the two below issues?\n\n1. prolog_rules cache is not only looking at cache.projects.memoryLimit, but rather all the settings\n2. prolog_rules cache does not consider settings from cache.prolog_rules config",
+      "parentUuid": "d97e41b3_884548ab",
+      "range": {
+        "startLine": 11,
+        "startChar": 12,
+        "endLine": 11,
+        "endChar": 30
+      },
+      "revId": "575239802fb06e9f00f619e5d6a71a0cd450c932",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c6909129_41aae130",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

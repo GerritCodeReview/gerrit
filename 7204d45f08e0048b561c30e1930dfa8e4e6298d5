@@ -16,6 +16,57 @@
       "message": "@sasa.zivkov@sap.com Here an implementation based on your suggestion",
       "revId": "7204d45f08e0048b561c30e1930dfa8e4e6298d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00cdd072_89808ecf",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-10-06T12:58:29Z",
+      "side": 1,
+      "message": "This should rather go into the BatchUpdate, see the next comment",
+      "revId": "7204d45f08e0048b561c30e1930dfa8e4e6298d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a430ce0_cb9746d8",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-10-06T12:58:29Z",
+      "side": 1,
+      "message": "I would propose to compute when here and pass it to the changeUpdateFactory.create.\nIn that case ChangeUpdateFactory API doesn\u0027t need to be extended and basically resemble the extended API of the BatchUpdate.Factory",
+      "revId": "7204d45f08e0048b561c30e1930dfa8e4e6298d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd91cd38_abbc1395",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-10-06T12:58:29Z",
+      "side": 1,
+      "message": "Better set a (new) field refLogIdent already in the constructor... we don\u0027t need to get nowTs for every single update.",
+      "revId": "7204d45f08e0048b561c30e1930dfa8e4e6298d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

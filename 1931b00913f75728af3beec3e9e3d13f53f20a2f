@@ -22,6 +22,30 @@
       },
       "revId": "1931b00913f75728af3beec3e9e3d13f53f20a2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6db7d26c_5ff43a12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-06T14:47:27Z",
+      "side": 1,
+      "message": "\"when\" makes it sound like \"before\", whereas I believe \"while\" does a better job conveying \"during the entire duration of\".",
+      "parentUuid": "f29eea43_64183ea7",
+      "range": {
+        "startLine": 14,
+        "startChar": 71,
+        "endLine": 14,
+        "endChar": 76
+      },
+      "revId": "1931b00913f75728af3beec3e9e3d13f53f20a2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

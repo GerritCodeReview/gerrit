@@ -139,11 +139,6 @@ export const FitBehavior = {
      */
     verticalOffset: {type: Number, value: 0, notify: true},
 
-    /**
-     * Set to true to auto-fit on attach.
-     */
-    autoFitOnAttach: {type: Boolean, value: false},
-
     /** @type {?Object} */
     _fitInfo: {type: Object},
   },
@@ -204,15 +199,6 @@ export const FitBehavior = {
   /** @override */
   attached() {
     this.positionTarget = this.positionTarget || this._defaultPositionTarget;
-    if (this.autoFitOnAttach) {
-      if (window.getComputedStyle(this).display === 'none') {
-        setTimeout(() => {
-          this.fit();
-        });
-      } else {
-        this.fit();
-      }
-    }
   },
 
   /** @override */

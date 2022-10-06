@@ -321,7 +321,11 @@ export class GrSubmitRequirementHovercard extends base {
       },
     };
     return this.restApiService
-      .saveChangeReview(this.change._number, CURRENT, review)
+      .saveChangeReview(
+        this.change._number,
+        this.change.current_revision,
+        review
+      )
       .then(() => {
         fireReload(this, true);
       });

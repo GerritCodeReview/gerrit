@@ -18,7 +18,7 @@ import {
   createSubmitRequirementResultInfo,
 } from '../../../test/test-data-generators';
 import {ParsedChangeInfo} from '../../../types/types';
-import {query, queryAndAssert} from '../../../test/test-utils';
+import {query, queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {ChangeStatus, SubmitRequirementResultInfo} from '../../../api/rest-api';
 
@@ -319,6 +319,22 @@ suite('gr-submit-requirement-hovercard tests', () => {
         ></gr-submit-requirement-hovercard>`
       );
       assert.isUndefined(query(element, '.quickApprove'));
+    });
+
+    test('uses patchset from change', async () => {
+      const saveChangeReview = stubRestApi('saveChangeReview').resolves();
+      const element = await fixture<GrSubmitRequirementHovercard>(
+        html`<gr-submit-requirement-hovercard
+          .requirement=${submitRequirement}
+          .change=${change}
+          .account=${account}
+        ></gr-submit-requirement-hovercard>`
+      );
+
+      queryAndAssert<GrButton>(element, '.quickApprove > gr-button').click();
+
+      assert.equal(saveChangeReview.callCount, 1);
+      assert.equal(saveChangeReview.firstCall.args[1], change.current_revision);
     });
 
     test('override button renders', async () => {

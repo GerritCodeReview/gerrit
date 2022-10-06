@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "79e21aa5_85f8d452",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-06T18:08:59Z",
+      "side": 1,
+      "message": "Infeasible. Patch applying will fail in that case. See the other change.",
+      "parentUuid": "be4860e0_badb28e3",
+      "range": {
+        "startLine": 375,
+        "startChar": 1,
+        "endLine": 379,
+        "endChar": 9
+      },
+      "revId": "8e280c4027dcea2b2abc4c7522acf9137c7dcda7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0427a8a4_835b8a57",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-10-04T17:37:06Z",
       "side": 1,
       "message": "nit: it would be nice to name tests in a format action_expectedResult. I.e.\ncreateChangeWithMergeAndPatch_fails or createChangeWithMergeAndPatch_notAllowed",
+      "range": {
+        "startLine": 930,
+        "startChar": 14,
+        "endLine": 930,
+        "endChar": 55
+      },
+      "revId": "8e280c4027dcea2b2abc4c7522acf9137c7dcda7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "843c6818_e2f7ae3b",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-06T18:08:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0427a8a4_835b8a57",
       "range": {
         "startLine": 930,
         "startChar": 14,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "690d6b5f_027e96f8",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-06T18:08:59Z",
+      "side": 1,
+      "message": "Done, thanks for the tip!",
+      "parentUuid": "d1e352d6_53a100cc",
+      "range": {
+        "startLine": 937,
+        "startChar": 2,
+        "endLine": 937,
+        "endChar": 14
+      },
+      "revId": "8e280c4027dcea2b2abc4c7522acf9137c7dcda7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9d1480db_5374d100",
@@ -100,6 +172,30 @@
       "writtenOn": "2022-10-04T17:37:06Z",
       "side": 1,
       "message": "I do not really understand why this test requires two commits in different branches for the set up?\nI think we only want to test that we applied the patch to the correct base (e.g. not the tip).\n\nIn this case, I think this is not enough to just assert the diff: since we always add the file, it is still the same regardless of the baseTree.\nIf we e.g. delete the file, then the test will fail if the patch is applied on the wrong tree.",
+      "range": {
+        "startLine": 994,
+        "startChar": 8,
+        "endLine": 994,
+        "endChar": 27
+      },
+      "revId": "8e280c4027dcea2b2abc4c7522acf9137c7dcda7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "728249bf_8873e89b",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 994,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-06T18:08:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d1480db_5374d100",
       "range": {
         "startLine": 994,
         "startChar": 8,
@@ -133,6 +229,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f4b3404_7885cc2b",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1011,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-06T18:08:59Z",
+      "side": 1,
+      "message": "Not if I use checkNotNull() as you suggested earlier.\nI do think BadRequest is better. reverting to it.",
+      "parentUuid": "4308848b_f3b6dd2c",
+      "range": {
+        "startLine": 1011,
+        "startChar": 15,
+        "endLine": 1011,
+        "endChar": 35
+      },
+      "revId": "8e280c4027dcea2b2abc4c7522acf9137c7dcda7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a227ec27_a6374bb6",
@@ -156,6 +276,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc08a635_f7c92a02",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1015,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-06T18:08:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a227ec27_a6374bb6",
+      "range": {
+        "startLine": 1015,
+        "startChar": 33,
+        "endLine": 1015,
+        "endChar": 52
+      },
+      "revId": "8e280c4027dcea2b2abc4c7522acf9137c7dcda7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "84d7dfa3_90062d90",
@@ -169,6 +313,30 @@
       "writtenOn": "2022-10-04T17:37:06Z",
       "side": 1,
       "message": "thank you for adding the tests!\nI think the coverage is much better now.\n\nTests that would be nice to have:\n* input.author is respected for the new patch\n* Change can be still created if there are merge conflicts.",
+      "range": {
+        "startLine": 1285,
+        "startChar": 22,
+        "endLine": 1285,
+        "endChar": 49
+      },
+      "revId": "8e280c4027dcea2b2abc4c7522acf9137c7dcda7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b579b858_768367f7",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1285,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-06T18:08:59Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "84d7dfa3_90062d90",
       "range": {
         "startLine": 1285,
         "startChar": 22,

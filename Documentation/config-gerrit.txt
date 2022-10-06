@@ -1200,7 +1200,7 @@ a cache flush, as they will be read upon first reference.
 cache `"prolog_rules"`::
 +
 Caches parsed `rules.pl` contents for each project. This cache uses the same
-size as the `projects` cache, and cannot be configured independently.
+size as the `projects` cache when `cache.prolog_rules.memoryLimit` is not set.
 
 cache `"pure_revert"`::
 +

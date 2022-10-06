@@ -55,6 +55,7 @@ import com.google.gerrit.server.config.DefaultPreferencesCacheImpl;
 import com.google.gerrit.server.config.DefaultUrlFormatter;
 import com.google.gerrit.server.config.EnablePeerIPInReflogRecord;
 import com.google.gerrit.server.config.EnablePeerIPInReflogRecordProvider;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
 import com.google.gerrit.server.config.SysExecutorModule;
@@ -87,6 +88,7 @@ import com.google.gerrit.server.rules.PrologModule;
 import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.inject.Injector;
+import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
 import com.google.inject.util.Providers;
@@ -94,6 +96,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import org.eclipse.jgit.lib.Config;
 
 /** Module for programs that perform batch operations on a site. */
 public class BatchProgramModule extends FactoryModule {
@@ -187,7 +190,7 @@ public class BatchProgramModule extends FactoryModule {
     // Submit rules
     DynamicSet.setOf(binder(), SubmitRule.class);
     factory(SubmitRuleEvaluator.Factory.class);
-    modules.add(new PrologModule());
+    modules.add(new PrologModule(getConfig()));
     modules.add(new DefaultSubmitRule.Module());
     modules.add(new IgnoreSelfApprovalRule.Module());
 
@@ -202,5 +205,9 @@ public class BatchProgramModule extends FactoryModule {
             modules, LibModuleLoader.loadModules(parentInjector, LibModuleType.SYS_BATCH_MODULE))
         .stream()
         .forEach(this::install);
+  }
+
+  protected Config getConfig() {
+    return parentInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
   }
 }

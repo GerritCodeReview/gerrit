@@ -185,6 +185,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "70bfa161_27f9b09c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-06T12:03:12Z",
+      "side": 1,
+      "message": "I\u0027d rather have the Lit directly rather than having to reason through the polymer version (which could have bugs) and then looking at the Lit version (which could have bugs upon bugs).\n\nI don\u0027t think you\u0027re saving much by trying to remain with a small change.  This adds two hops from IronFitBehavior to our LitController, that\u0027s two places of potential errors instead of one.",
+      "parentUuid": "b383d0ad_aa606965",
+      "revId": "6735600d60baef30c691ce9ce6f4979f6b321bf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "771efdd2_701a019a",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown-fit-controller.ts",
         "patchSetId": 1

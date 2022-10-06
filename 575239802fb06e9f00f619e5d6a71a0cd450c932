@@ -73,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "85af04a3_e1dbbebc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-06T05:22:28Z",
+      "side": 1,
+      "message": "\u003e ok, You mean to say the two below issues?\n\u003e \n\u003e 1. prolog_rules cache is not only looking at cache.projects.memoryLimit, but rather all the settings\n\nI think #1 is that prolog_rules cache is not a LoadingCache and so Gerrit will fail to start if you\u0027ve set `cache.projects.refreshAfterWrite`.\n\n\u003e 2. prolog_rules cache does not consider settings from cache.prolog_rules config\n\n+1",
+      "parentUuid": "7f6be341_28bc4be7",
+      "range": {
+        "startLine": 11,
+        "startChar": 12,
+        "endLine": 11,
+        "endChar": 30
+      },
+      "revId": "575239802fb06e9f00f619e5d6a71a0cd450c932",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c6909129_41aae130",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

@@ -148,7 +148,7 @@ export const FitBehavior = {
    * if no position target is configured.
    */
   get _defaultPositionTarget() {
-    let parent = dom(this).parentNode;
+    let parent = this.parentNode;
 
     if (parent && parent.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
       parent = parent.host;

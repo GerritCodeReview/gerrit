@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "22230ab2_14b30667",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-06T01:50:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41bcceca_d6386fc6",
+      "revId": "20530e9ffb3f1ea74bd7b00d3a5004ea65097869",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a02b987d_2c6c2422",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e3abc3e_cd5efced",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-06T01:50:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a02b987d_2c6c2422",
+      "revId": "20530e9ffb3f1ea74bd7b00d3a5004ea65097869",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "371b2e4a_73acb591",
@@ -48,6 +84,30 @@
       "writtenOn": "2022-10-04T20:58:29Z",
       "side": 1,
       "message": "When would we reach this now?",
+      "range": {
+        "startLine": 573,
+        "startChar": 8,
+        "endLine": 574,
+        "endChar": 26
+      },
+      "revId": "20530e9ffb3f1ea74bd7b00d3a5004ea65097869",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b36e81d9_68871226",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-06T01:50:21Z",
+      "side": 1,
+      "message": "Similar to previously, when the task has completed (after STOPPING, previously after RUNNING) and it isn\u0027t going to run again (it is not periodic). This basically avoids it being called DONE when it is periodic; instead it will be considered READY or SLEEPING depending on the delay (see below).",
+      "parentUuid": "371b2e4a_73acb591",
       "range": {
         "startLine": 573,
         "startChar": 8,
@@ -81,6 +141,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b016f1c4_93019cba",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-06T01:50:21Z",
+      "side": 1,
+      "message": "Yes. Anytime onStart() is called, onStop() must be called to release any resources which may have been acquired in onStart().",
+      "parentUuid": "5887067f_6fa28634",
+      "range": {
+        "startLine": 671,
+        "startChar": 10,
+        "endLine": 671,
+        "endChar": 42
+      },
+      "revId": "20530e9ffb3f1ea74bd7b00d3a5004ea65097869",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "016cbf09_2cf4424b",
@@ -94,6 +178,30 @@
       "writtenOn": "2022-10-04T20:58:29Z",
       "side": 1,
       "message": "Is `null` equivalent to `READY`? Or is it either `READY` or `SLEEPING`?",
+      "range": {
+        "startLine": 674,
+        "startChar": 29,
+        "endLine": 674,
+        "endChar": 33
+      },
+      "revId": "20530e9ffb3f1ea74bd7b00d3a5004ea65097869",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c51f11f6_5b0a071a",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-06T01:50:21Z",
+      "side": 1,
+      "message": "Null is any state when the task does not have a thread assigned to it, i.e. any non STARTING/RUNNING/STOPPING state. Documented now.",
+      "parentUuid": "016cbf09_2cf4424b",
       "range": {
         "startLine": 674,
         "startChar": 29,

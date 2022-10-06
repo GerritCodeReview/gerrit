@@ -16,6 +16,24 @@
       "message": "would it make sense to fix the commit message here? gerrit cross-links the changes, so there is a slight chance that it would be found.",
       "revId": "24ea8e393694b3271c5b086ef911a88619a639ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e5112f8_f8080a3b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-10-06T11:53:40Z",
+      "side": 1,
+      "message": "This is only a cherry pick, would have been better to go on the master branch.",
+      "parentUuid": "f974fe88_4dbcc24e",
+      "revId": "24ea8e393694b3271c5b086ef911a88619a639ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

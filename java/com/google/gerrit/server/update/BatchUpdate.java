@@ -311,9 +311,14 @@ public class BatchUpdate implements AutoCloseable {
 
     @Override
     public ChangeUpdate getUpdate(PatchSet.Id psId) {
+      return getUpdate(psId, when);
+    }
+
+    @Override
+    public ChangeUpdate getUpdate(PatchSet.Id psId, Timestamp whenOverride) {
       ChangeUpdate u = defaultUpdates.get(psId);
       if (u == null) {
-        u = getNewChangeUpdate(psId);
+        u = getNewChangeUpdate(psId, whenOverride);
         defaultUpdates.put(psId, u);
       }
       return u;
@@ -321,13 +326,18 @@ public class BatchUpdate implements AutoCloseable {
 
     @Override
     public ChangeUpdate getDistinctUpdate(PatchSet.Id psId) {
-      ChangeUpdate u = getNewChangeUpdate(psId);
+      return getDistinctUpdate(psId, when);
+    }
+
+    @Override
+    public ChangeUpdate getDistinctUpdate(PatchSet.Id psId, Timestamp whenOverride) {
+      ChangeUpdate u = getNewChangeUpdate(psId, whenOverride);
       distinctUpdates.put(psId, u);
       return u;
     }
 
-    private ChangeUpdate getNewChangeUpdate(PatchSet.Id psId) {
-      ChangeUpdate u = changeUpdateFactory.create(notes, user, when);
+    private ChangeUpdate getNewChangeUpdate(PatchSet.Id psId, Timestamp whenOverride) {
+      ChangeUpdate u = changeUpdateFactory.create(notes, user, whenOverride);
       if (newChanges.containsKey(notes.getChangeId())) {
         u.setAllowWriteToNewRef(true);
       }

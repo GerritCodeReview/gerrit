@@ -180,6 +180,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5ff36c2_6e9142ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-10-06T11:37:14Z",
+      "side": 1,
+      "message": "speaking strictly about my alternative proposals, i don\u0027t see how anyone could reasonably find them offensive, as in my estimation they are as matter-of-fact and impersonal as possible.\n\ni don\u0027t see myself responsible for community building and others\u0027 motivation beyond attempting to be constructive and not offensive. esp. so given how irrelevant overall i am to the community (something you have proven rather impressively by ignoring my contributions for several months).",
+      "parentUuid": "bebd0609_6d3eaf2e",
+      "revId": "afd0f7c68cfc44cdd4005fd213ce067486ecc32c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c5e74671_7f0b204e",

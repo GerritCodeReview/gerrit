@@ -22,6 +22,30 @@
       },
       "revId": "bb2c6c3d0447206e6f590cf38d6ca2384a2774fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c651826_ae277b72",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-10-06T19:31:06Z",
+      "side": 1,
+      "message": "Using `newQuery(\"status:new\").get()` will enforce visibility and as a result the predicate will be an instance of `AndChangeSource`, which is not what we intend to cover in this test.\n\nThis test tries to cover internal queries (which were paginated in I2f5a6aad3) where predicate will be an instance of `IndexedChangeQuery`.",
+      "parentUuid": "8fefea0d_dd73fac0",
+      "range": {
+        "startLine": 132,
+        "startChar": 4,
+        "endLine": 132,
+        "endChar": 78
+      },
+      "revId": "bb2c6c3d0447206e6f590cf38d6ca2384a2774fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

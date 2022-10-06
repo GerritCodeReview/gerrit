@@ -216,6 +216,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe283746_ad124720",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-06T14:39:21Z",
+      "side": 1,
+      "message": "\u003e speaking strictly about my alternative proposals,\n\u003e i don\u0027t see how anyone could reasonably find them offensive,\n\u003e as in my estimation they are as matter-of-fact and impersonal as possible.\n\nThe problem is that there are people that perceive such comments as offensive (and this is not just one person). This makes it a real problem that we as a community need to address. In my opinion the best way to address this is if we all find a tone and language that doesn\u0027t trigger such negative perceptions, which is why I was trying to help with suggesting better alternatives.\n\n\u003e i don\u0027t see myself responsible for community building and others\u0027 motivation\n\u003e beyond attempting to be constructive and not offensive.\n\nSure, but I as a community manager feel responsible for community building and others\u0027 motivation, which is why I\u0027m bringing it to your attention that such comments are a problem for us.\n\n\u003e esp. so given how irrelevant overall i am to the community (something you\n\u003e have proven rather impressively by ignoring my contributions for several months).\n\nI agree that it\u0027s is a problem that the Gerrit maintainers (including myself) do not have sufficient time and resources to give feedback on all contributions in a timely manner. I\u0027m really sorry for this and wish we could find a way to improve this.",
+      "parentUuid": "d5ff36c2_6e9142ce",
+      "revId": "afd0f7c68cfc44cdd4005fd213ce067486ecc32c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c5e74671_7f0b204e",

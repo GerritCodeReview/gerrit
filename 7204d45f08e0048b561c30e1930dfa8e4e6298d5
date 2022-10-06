@@ -52,6 +52,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bae43c86_2d8e1582",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-10-06T13:12:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a430ce0_cb9746d8",
+      "revId": "7204d45f08e0048b561c30e1930dfa8e4e6298d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fd91cd38_abbc1395",
@@ -65,6 +83,24 @@
       "writtenOn": "2022-10-06T12:58:29Z",
       "side": 1,
       "message": "Better set a (new) field refLogIdent already in the constructor... we don\u0027t need to get nowTs for every single update.",
+      "revId": "7204d45f08e0048b561c30e1930dfa8e4e6298d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e6ee0ac_f3c4cbe4",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-10-06T13:12:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd91cd38_abbc1395",
       "revId": "7204d45f08e0048b561c30e1930dfa8e4e6298d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

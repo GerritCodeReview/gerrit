@@ -15,6 +15,7 @@ import {IronFitBehavior} from '@polymer/iron-fit-behavior/iron-fit-behavior';
 import {GrCursorManager} from '../gr-cursor-manager/gr-cursor-manager';
 import {fireEvent} from '../../../utils/event-util';
 import {addShortcut, Key} from '../../../utils/dom-util';
+import {FitBehavior} from './fit-behavior';
 
 export interface GrAutocompleteDropdown {
   $: {
@@ -42,7 +43,10 @@ export interface ItemSelectedEvent {
 }
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = IronFitMixin(PolymerElement, IronFitBehavior as IronFitBehavior);
+const base = IronFitMixin(
+  PolymerElement,
+  FitBehavior as unknown as IronFitBehavior
+);
 
 /**
  * @attr {String} vertical-align - inherited from IronOverlay

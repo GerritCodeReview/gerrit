@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d37c9bd_ff11ef85",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1241,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-06T16:06:20Z",
+      "side": 1,
+      "message": "From the code, I don\u0027t see any exceptions for the \"warmer\", so does the \"warmer\" use this setting also after this change?",
+      "revId": "8eba852be4dd225add08c4842202525e44209440",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f2db3d9_d0df3b08",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1252,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-06T16:06:20Z",
+      "side": 1,
+      "message": "Should we enable this by default also? Is it desirable to enable this if the \"interval\" is set?",
+      "revId": "8eba852be4dd225add08c4842202525e44209440",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c23a79c5_e521f5ce",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1258,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-06T16:06:20Z",
+      "side": 1,
+      "message": "I think this is significant enough of a problem to be considered a bug if it impacts normal change_page loads, and we should enable this by default?\n\nThat being said, I see no reason to have a separate enable switch when we have an \"interval\" definition below, if users want to disable this, they should set the interval to \"-1\"?",
+      "revId": "8eba852be4dd225add08c4842202525e44209440",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b06cd98c_a61f34cd",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1263,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-06T16:06:20Z",
+      "side": 1,
+      "message": "Do we need to ensure somehow that the startup load is complete before the first \"warmer\" run?",
+      "revId": "8eba852be4dd225add08c4842202525e44209440",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b5aaa0a_1402fc27",
+        "filename": "java/com/google/gerrit/server/project/PeriodicProjectListCacheWarmer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-06T16:06:20Z",
+      "side": 1,
+      "message": "This should likely be public and defined at the top below the logger?",
+      "revId": "8eba852be4dd225add08c4842202525e44209440",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

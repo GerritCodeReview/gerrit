@@ -55,7 +55,6 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
 
   @Test
   @UseClockStep
-  @SuppressWarnings("unchecked")
   public void stopQueryIfNoMoreResults() throws Exception {
     // create 2 visible changes
     TestRepository<InMemoryRepositoryManager.Repo> testRepo = createProject("repo");
@@ -72,7 +71,8 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
         .add(block(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
         .update();
 
-    AbstractFakeIndex idx = (AbstractFakeIndex) changeIndexCollection.getSearchIndex();
+    AbstractFakeIndex<?, ?, ?> idx =
+        (AbstractFakeIndex<?, ?, ?>) changeIndexCollection.getSearchIndex();
     newQuery("status:new").withLimit(5).get();
     // Since the limit of the query (i.e. 5) is more than the total number of changes (i.e. 4),
     // only 1 index search is expected.
@@ -81,7 +81,6 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
 
   @Test
   @UseClockStep
-  @SuppressWarnings("unchecked")
   public void noLimitQueryPaginates() throws Exception {
     TestRepository<InMemoryRepositoryManager.Repo> testRepo = createProject("repo");
     // create 4 changes
@@ -97,7 +96,8 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
         .add(allowCapability(QUERY_LIMIT).group(REGISTERED_USERS).range(0, 2))
         .update();
 
-    AbstractFakeIndex idx = (AbstractFakeIndex) changeIndexCollection.getSearchIndex();
+    AbstractFakeIndex<?, ?, ?> idx =
+        (AbstractFakeIndex<?, ?, ?>) changeIndexCollection.getSearchIndex();
 
     // 2 index searches are expected. The first index search will run with size 2 (i.e.
     // the configured query-limit), and then we will paginate to get the remaining 2

@@ -14,8 +14,11 @@
 
 package com.google.gerrit.server.mail.send;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelType;
@@ -26,12 +29,16 @@ import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.server.change.NotifyResolver;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.Optional;
 
 /** Send notice about a change successfully merged. */
 public class MergedSender extends ReplyToChangeSender {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public interface Factory {
     MergedSender create(
         Project.NameKey project, Change.Id changeId, Optional<String> stickyApprovalDiff);
@@ -49,6 +56,22 @@ public class MergedSender extends ReplyToChangeSender {
     super(args, "merged", newChangeData(args, project, changeId));
     labelTypes = changeData.getLabelTypes();
     this.stickyApprovalDiff = stickyApprovalDiff;
+  }
+
+  @Override
+  public void setNotify(NotifyResolver.Result notify) {
+    checkNotNull(notify);
+    if (!stickyApprovalDiff.isEmpty()) {
+      if (notify.handling() != NotifyHandling.ALL) {
+        logger.atFine().log(
+            "Requested to notify %s, but for change submission with sticky approval diff,"
+                + " Notify=ALL is enforced.",
+            notify.handling().name());
+      }
+      this.notify = NotifyResolver.Result.create(NotifyHandling.ALL, notify.accounts());
+    } else {
+      this.notify = notify;
+    }
   }
 
   @Override

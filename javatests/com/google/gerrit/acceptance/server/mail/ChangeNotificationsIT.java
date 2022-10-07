@@ -29,6 +29,8 @@ import static com.google.gerrit.extensions.api.changes.NotifyHandling.OWNER_REVI
 import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.CC_ON_OWN_COMMENTS;
 import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.ENABLED;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.project.testing.TestLabels.labelBuilder;
+import static com.google.gerrit.server.project.testing.TestLabels.value;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.truth.Truth;
@@ -39,6 +41,7 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.LabelId;
+import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
@@ -1710,6 +1713,42 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assertThat(sender).didNotSend();
   }
 
+  @Test
+  public void mergeByOtherAlwaysNotifiesAllIfThereIsAStickyApprovalDiff() throws Exception {
+    StagedChange sc = stageChangeReadyForMergeWithStickyApprovalDiff();
+    // The user requests to notify NONE, but if there is a sticky approval diff we notify ALL.
+    merge(sc.changeId, other, NONE);
+    assertThat(sender)
+        .sent("merged", sc)
+        .to(sc.owner)
+        .cc(sc.reviewer)
+        .cc(sc.ccer)
+        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
+        .bcc(sc.starrer)
+        .bcc(SUBMITTED_CHANGES)
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
+    assertThat(sender).didNotSend();
+  }
+
+  @Test
+  public void mergeOnBehalfOfAlwaysNotifiesAllIfThereIsAStickyApprovalDiff() throws Exception {
+    StagedChange sc = stageChangeReadyForMergeWithStickyApprovalDiff();
+    // The user requests to notify NONE, but if there is a sticky approval diff we notify ALL.
+    merge(sc.changeId, other, sc.owner, NONE);
+    assertThat(sender)
+        .sent("merged", sc)
+        .to(sc.owner)
+        .cc(sc.reviewer)
+        .cc(sc.ccer)
+        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
+        .bcc(sc.starrer)
+        .bcc(SUBMITTED_CHANGES)
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
+    assertThat(sender).didNotSend();
+  }
+
   private void merge(String changeId, TestAccount by) throws Exception {
     merge(changeId, by, ENABLED);
   }
@@ -1749,6 +1788,29 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     StagedChange sc = stageReviewableChange();
     requestScopeOperations.setApiUser(sc.reviewer.id());
     gApi.changes().id(sc.changeId).current().review(ReviewInput.approve());
+    sender.clear();
+    return sc;
+  }
+
+  private StagedChange stageChangeReadyForMergeWithStickyApprovalDiff() throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      LabelType.Builder codeReview =
+          labelBuilder(
+                  LabelId.CODE_REVIEW,
+                  value(2, "Looks good to me, approved"),
+                  value(1, "Looks good to me, but someone else must approve"),
+                  value(0, "No score"),
+                  value(-1, "I would prefer this is not submitted as is"),
+                  value(-2, "This shall not be submitted"))
+              .setCopyCondition("is:ANY");
+      u.getConfig().upsertLabelType(codeReview.build());
+      u.save();
+    }
+
+    StagedChange sc = stageReviewableChange();
+    requestScopeOperations.setApiUser(sc.reviewer.id());
+    gApi.changes().id(sc.changeId).current().review(ReviewInput.approve());
+    amendChange(sc.changeId, "refs/for/master", sc.owner, sc.repo).assertOkStatus();
     sender.clear();
     return sc;
   }

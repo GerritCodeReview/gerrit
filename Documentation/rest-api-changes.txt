@@ -8479,7 +8479,13 @@ permission on the branch.
 Notify handling that defines to whom email notifications should be sent after
 the change is submitted. +
 Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
-If not set, the default is `ALL`.
+If not set, the default is `ALL`.+
+Ignored if a post approval diff is present (i.e. if the change is submitted
+with copied approvals), because in this case everyone should be informed
+about the non-reviewed diff which has been applied after the change has been
+approved so that they can take action if the post approval diff looks
+unexpected. In other words if a post approval diff is present `ALL` is
+enforced.
 |`notify_details`|optional|
 Additional information about whom to notify about the update as a map
 of link:user-notify.html#recipient-types[recipient type] to

@@ -131,6 +131,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "87ec3f9b_09bcbb44",
+        "filename": "java/com/google/gerrit/server/project/PeriodicProjectListCacheWarmer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-10-07T08:46:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e3b451c_35d551b9",
+      "range": {
+        "startLine": 57,
+        "startChar": 59,
+        "endLine": 57,
+        "endChar": 88
+      },
+      "revId": "5870f959143d4300fe9b164fcc479d44fe4948e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3de9a0e_d98b2db6",

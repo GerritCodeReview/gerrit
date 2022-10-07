@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b325c79_9f87e9e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-07T10:32:47Z",
+      "side": 1,
+      "message": "Not sure why I was added to this change. But you should add a Release-Notes footer to your Commit Msg.",
+      "revId": "9d8b39fdc28a4df1681b38994abc82e54e8e1288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "83ec5e9f_e386f562",

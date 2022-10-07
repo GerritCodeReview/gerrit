@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfddf9bd_a2c9007e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-07T18:42:00Z",
+      "side": 1,
+      "message": "It should have been mentioned that this needs to be reverted on stable-3.6, because the copy-approval tool is not available in v3.6.",
+      "revId": "124d6829be8aa49696b42b7c8d88706dfd665621",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

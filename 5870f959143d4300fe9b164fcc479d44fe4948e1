@@ -85,6 +85,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "527d9891_235012f7",
+        "filename": "java/com/google/gerrit/server/project/PeriodicProjectListCacheWarmer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-07T01:03:37Z",
+      "side": 1,
+      "message": "But... if `startTime` and `maxAge` are configured and `interval` is not, we\u0027ll ignore `startTime`. @prudhvi.alahari@linaro.org if you want to try fixing that, feel free. I considered adding `config.setString(\"cache\", ProjectCacheImpl.CACHE_LIST, \"interval\", Duration.of(interval).toString())` after the enabled check and I think that would solve it and remove the orElseGet() logic, but I don\u0027t know if that\u0027s a good thing to do.",
+      "parentUuid": "e1733778_c74d915a",
+      "range": {
+        "startLine": 57,
+        "startChar": 59,
+        "endLine": 57,
+        "endChar": 88
+      },
+      "revId": "5870f959143d4300fe9b164fcc479d44fe4948e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c3de9a0e_d98b2db6",
         "filename": "java/com/google/gerrit/server/project/PeriodicProjectListCacheWarmer.java",
         "patchSetId": 2

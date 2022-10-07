@@ -16,6 +16,75 @@
       "message": "for the sake of avoiding redundant data, i would store it *only* when it\u0027s provided explicitly.",
       "revId": "0c3901f535abc57c86f94c0df161059101709a43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf3d074a_e8a35b28",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-10-07T10:13:35Z",
+      "side": 1,
+      "message": "timestamp?",
+      "range": {
+        "startLine": 61,
+        "startChar": 75,
+        "endLine": 61,
+        "endChar": 79
+      },
+      "revId": "0c3901f535abc57c86f94c0df161059101709a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5804a1e5_01094879",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-10-07T10:13:35Z",
+      "side": 1,
+      "message": "Should this condition be tested for updateTimestamp also?\nI.e. should you be able to move lastUpdatedOn for a change back in time with the update-time footer?",
+      "range": {
+        "startLine": 499,
+        "startChar": 15,
+        "endLine": 499,
+        "endChar": 51
+      },
+      "revId": "0c3901f535abc57c86f94c0df161059101709a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65ce8d45_03baa155",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1293,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-10-07T10:13:35Z",
+      "side": 1,
+      "message": "You could make this more descriptive by adding the footer:\n\n    \"The value of the \" + FOOTER_UPDATE_TIME + \" footer,\\\"\" + footer + \"\\\", is not a valid timestamp\"\n    \nOr similar.",
+      "range": {
+        "startLine": 1293,
+        "startChar": 39,
+        "endLine": 1293,
+        "endChar": 84
+      },
+      "revId": "0c3901f535abc57c86f94c0df161059101709a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

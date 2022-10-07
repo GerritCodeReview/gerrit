@@ -52,6 +52,24 @@
       "parentUuid": "930162d4_89c383fd",
       "revId": "ddb28768f298b80c2324b3933a06606606e71252",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b584ad7_70b225c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-07T09:12:22Z",
+      "side": 1,
+      "message": "Thank you for the follow-up, Edwin! What was that exactly that did not work?",
+      "parentUuid": "09f972bd_e82efbcb",
+      "revId": "ddb28768f298b80c2324b3933a06606606e71252",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

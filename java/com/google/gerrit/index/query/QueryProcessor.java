@@ -79,7 +79,7 @@ public abstract class QueryProcessor<T> {
   private final IndexCollection<?, T, ? extends Index<?, T>> indexes;
   private final IndexRewriter<T> rewriter;
   private final String limitField;
-  private final IntSupplier permittedLimit;
+  private final IntSupplier userQueryLimit;
   private final CallerFinder callerFinder;
 
   // This class is not generally thread-safe, but programmer error may result in it being shared
@@ -100,14 +100,14 @@ public abstract class QueryProcessor<T> {
       IndexCollection<?, T, ? extends Index<?, T>> indexes,
       IndexRewriter<T> rewriter,
       String limitField,
-      IntSupplier permittedLimit) {
+      IntSupplier userQueryLimit) {
     this.metrics = new Metrics(metricMaker);
     this.schemaDef = schemaDef;
     this.indexConfig = indexConfig;
     this.indexes = indexes;
     this.rewriter = rewriter;
     this.limitField = limitField;
-    this.permittedLimit = permittedLimit;
+    this.userQueryLimit = userQueryLimit;
     this.used = new AtomicBoolean(false);
     this.callerFinder =
         CallerFinder.builder()
@@ -230,7 +230,7 @@ public abstract class QueryProcessor<T> {
         checkSupportedForQueries(q);
         int limit = getEffectiveLimit(q);
         limits.add(limit);
-        int initialPageSize = getInitialPageSize(q);
+        int initialPageSize = getInitialPageSize(limit);
 
         if (initialPageSize == getBackendSupportedLimit()) {
           initialPageSize--;
@@ -281,6 +281,9 @@ public abstract class QueryProcessor<T> {
 
         @SuppressWarnings("unchecked")
         DataSource<T> s = (DataSource<T>) pred;
+        if (initialPageSize < limit && !(pred instanceof AndSource)) {
+          s = new PaginatingSource<T>(s, start, indexConfig);
+        }
         sources.add(s);
       }
 
@@ -385,14 +388,17 @@ public abstract class QueryProcessor<T> {
   }
 
   private int getPermittedLimit() {
-    return enforceVisibility ? permittedLimit.getAsInt() : Integer.MAX_VALUE;
+    return enforceVisibility ? userQueryLimit.getAsInt() : Integer.MAX_VALUE;
   }
 
   private int getBackendSupportedLimit() {
     return indexConfig.maxLimit();
   }
 
-  public int getInitialPageSize(Predicate<T> p) {
+  public int getEffectiveLimit(Predicate<T> p) {
+    if (isNoLimit == true) {
+      return Integer.MAX_VALUE;
+    }
     List<Integer> possibleLimits = new ArrayList<>(4);
     possibleLimits.add(getBackendSupportedLimit());
     possibleLimits.add(getPermittedLimit());
@@ -407,16 +413,9 @@ public abstract class QueryProcessor<T> {
     }
     int result = Ordering.natural().min(possibleLimits);
     // Should have short-circuited from #query or thrown some other exception before getting here.
-    checkState(result > 0, "effective initial page size should be positive");
+    checkState(result > 0, "effective limit should be positive");
 
     return result;
-  }
-
-  private int getEffectiveLimit(Predicate<T> p) {
-    if (isNoLimit == true) {
-      return Integer.MAX_VALUE;
-    }
-    return getInitialPageSize(p);
   }
 
   private static Optional<QueryParseException> findQueryParseException(Throwable t) {
@@ -424,6 +423,14 @@ public abstract class QueryProcessor<T> {
         .filter(c -> c instanceof QueryParseException)
         .map(QueryParseException.class::cast)
         .findFirst();
+  }
+
+  protected IntSupplier getUserQueryLimit() {
+    return userQueryLimit;
+  }
+
+  protected int getInitialPageSize(int queryLimit) {
+    return queryLimit;
   }
 
   protected abstract String formatForLogging(T t);

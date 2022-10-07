@@ -80,6 +80,7 @@ java_package_configuration(
         "-Xep:BundleDeserializationCast:ERROR",
         "-Xep:ByteBufferBackingArray:ERROR",
         "-Xep:CacheLoaderNull:ERROR",
+        "-Xep:CanIgnoreReturnValueSuggester:ERROR",
         "-Xep:CannotMockFinalClass:ERROR",
         "-Xep:CanonicalDuration:ERROR",
         "-Xep:CatchAndPrintStackTrace:ERROR",

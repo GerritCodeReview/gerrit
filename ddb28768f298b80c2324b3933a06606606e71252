@@ -70,6 +70,24 @@
       "parentUuid": "09f972bd_e82efbcb",
       "revId": "ddb28768f298b80c2324b3933a06606606e71252",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52e0e428_0cf72a60",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-07T09:19:33Z",
+      "side": 1,
+      "message": "See this change [1]:\nI expected that adding \"-Xep:CanIgnoreReturnValueSuggester:ERROR\" would make the build fail if there are setter methods that return \u0027this\u0027 which are not annotated with @CanIgnoreReturnValue (such as the newly added setTopic2 method), but the build succeeded.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/347716",
+      "parentUuid": "9b584ad7_70b225c3",
+      "revId": "ddb28768f298b80c2324b3933a06606606e71252",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

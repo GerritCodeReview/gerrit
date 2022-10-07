@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e851966_d716576b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-07T22:05:03Z",
+      "side": 1,
+      "message": "Ah, it was just been merged tonight: let me re-do the merge.",
+      "parentUuid": "f05b91c4_454927cb",
+      "range": {
+        "startLine": 2,
+        "startChar": 12,
+        "endLine": 2,
+        "endChar": 20
+      },
+      "revId": "c64d35f38dc2acfd40a95b559a2792a3c6c22467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "809ff9ef_6091be59",
@@ -126,6 +150,24 @@
       "side": 1,
       "message": "\u003e \u003e This merge resolution doesn\u0027t look correct. I think it should match Parent 2. If you want to change the check() to a test(), we should do that least in a separate change (likely back on stable-3.4).\n\u003e \n\u003e The change from check() to a test() was done in I91958f8780e98 only on stable-3.6, that\u0027s why is kept here.\n\nBut that change was for other existing calls. It wouldn\u0027t be wrong to apply that to stable-3.4 or stable-3.5. I also don\u0027t think it would be wrong to keep this the same as it is on 3.4/3.5 currently. Diverging increases the risk future merges have conflicts. I can upload a fix for this instance on 3.4 if you\u0027d like.",
       "parentUuid": "b238420f_fb6fe1af",
+      "revId": "c64d35f38dc2acfd40a95b559a2792a3c6c22467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c397cd3_883148ae",
+        "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-07T22:05:03Z",
+      "side": 1,
+      "message": "\u003e \u003e \u003e This merge resolution doesn\u0027t look correct. I think it should match Parent 2. If you want to change the check() to a test(), we should do that least in a separate change (likely back on stable-3.4).\n\u003e \u003e \n\u003e \u003e The change from check() to a test() was done in I91958f8780e98 only on stable-3.6, that\u0027s why is kept here.\n\u003e \n\u003e But that change was for other existing calls.\n\nYes, the call `forRef.check(RefPermission.UPDATE);` already existed and it was changed to `forRef.test(RefPermission.UPDATE);` in stable-3.6.\n\n\u003e It wouldn\u0027t be wrong to apply that to stable-3.4 or stable-3.5.\n\u003e I also don\u0027t think it would be wrong to keep this the same as it is on 3.4/3.5 currently. Diverging increases the risk future merges have conflicts. I can upload a fix for this instance on 3.4 if you\u0027d like.\n\nTrue, I\u0027m not religious about it, I\u0027m fine in keeping the `check` with `try/catch`.",
+      "parentUuid": "d44b6c8f_9a4d3b84",
       "revId": "c64d35f38dc2acfd40a95b559a2792a3c6c22467",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

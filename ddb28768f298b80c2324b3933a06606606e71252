@@ -34,6 +34,24 @@
       "parentUuid": "b63c9ffa_a64bf2ca",
       "revId": "ddb28768f298b80c2324b3933a06606606e71252",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09f972bd_e82efbcb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-07T08:21:00Z",
+      "side": 1,
+      "message": "FWIW, I tried enabling this ErrorProne check [1] in [2], but it didn\u0027t work :/\n\n[1] https://errorprone.info/bugpattern/CanIgnoreReturnValueSuggester\n[2] https://gerrit-review.googlesource.com/c/gerrit/+/347716",
+      "parentUuid": "930162d4_89c383fd",
+      "revId": "ddb28768f298b80c2324b3933a06606606e71252",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -542,7 +542,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
           }
         }
         ScoreDoc searchAfter = scoreDoc;
-        return new ListResultSet<T>(b.build()) {
+        return new ListResultSet<>(b.build()) {
           @Override
           public Object searchAfter() {
             return searchAfter;

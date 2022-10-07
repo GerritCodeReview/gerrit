@@ -552,7 +552,7 @@ public class WorkQueue {
     private final Instant startTime;
 
     // runningState is non-null when listener or task code is running in an executor thread
-    private final AtomicReference<State> runningState = new AtomicReference<State>();
+    private final AtomicReference<State> runningState = new AtomicReference<>();
 
     Task(Runnable runnable, RunnableScheduledFuture<V> task, Executor executor, int taskId) {
       this.runnable = runnable;

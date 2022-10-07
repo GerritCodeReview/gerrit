@@ -216,6 +216,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "051963fa_d6dba147",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-07T14:58:30Z",
+      "side": 1,
+      "message": "Resolving this comment since there are no more open questions.\n\nTo summarise: we discussed whether to run this as a pgm vs. schema migration. Consensus was to do a schema migration (will be implemented in a follow-up change). We will follow the 4 steps procedure highlighted by Edwin.\n\nThis change is only about adding the logic. More changes to follow.",
+      "parentUuid": "1dec87c5_330524bc",
+      "range": {
+        "startLine": 7,
+        "startChar": 6,
+        "endLine": 7,
+        "endChar": 9
+      },
+      "revId": "bb2c4e7d256c289775034f3548ec04c881aa8acc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb5da239_fc91deff",

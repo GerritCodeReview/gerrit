@@ -206,6 +206,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f77ce2d4_8738871a",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-07T14:58:30Z",
+      "side": 1,
+      "message": "Done.\n\n1. I passed a callback to print the updates.\n2. I reworked the implementation such that the migrator accepts a single project. Caller should iterate on all different projects then.",
+      "parentUuid": "de3e4106_4083a85d",
+      "revId": "647ff1198b75bdba31c4a9ca181bd2f47cd81d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c8a5e3a4_c36fef06",
@@ -318,6 +336,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e03de839_d4eaeb8d",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-07T14:58:30Z",
+      "side": 1,
+      "message": "Adapted the class in this change to migrate a single project. Will print your suggested message with the schema migration in a follow up change.",
+      "parentUuid": "c78b80a4_5921086f",
+      "revId": "647ff1198b75bdba31c4a9ca181bd2f47cd81d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e5ba213e_fc271af7",
@@ -388,6 +424,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "93d2add6_0fcc3a7a",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-07T14:58:30Z",
+      "side": 1,
+      "message": "Will do in a follow up change.",
+      "parentUuid": "e5ba213e_fc271af7",
+      "range": {
+        "startLine": 82,
+        "startChar": 29,
+        "endLine": 82,
+        "endChar": 51
+      },
+      "revId": "647ff1198b75bdba31c4a9ca181bd2f47cd81d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e1f8f13_d005313a",
@@ -448,6 +508,24 @@
       "writtenOn": "2022-07-14T08:21:46Z",
       "side": 1,
       "message": "I think in the case where a submit requirement with the same name is already present, we should check whether it matches with the submit requirement that the migration would have created and if it\u0027s not matching emit a warning to the admin that there is a mismatch that needs to be inspected manually.",
+      "revId": "647ff1198b75bdba31c4a9ca181bd2f47cd81d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "309cb6bf_ac4002bf",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-07T14:58:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5bf3c5c_d5e65087",
       "revId": "647ff1198b75bdba31c4a9ca181bd2f47cd81d29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -536,6 +614,30 @@
       "side": 1,
       "message": "Partially. I think I can drop this to get rid of the project cache.\n\nThe main point is that if the migration failed in the middle, with some projects migrated and others aren\u0027t, then if there are two projects p1 \u0026 p2 (with p1 parent of p2), both defining some label, p2\u0027s definition takes precedence in p2.\n\nIf migration updated p1 but not p2, p2 will be incorrectly using p1\u0027s definition of the SR (since p2\u0027s SR is not yet written to override p1\u0027s SR).",
       "parentUuid": "9add56f5_f5078ca5",
+      "range": {
+        "startLine": 179,
+        "startChar": 5,
+        "endLine": 179,
+        "endChar": 43
+      },
+      "revId": "647ff1198b75bdba31c4a9ca181bd2f47cd81d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89aa46ca_693f74d5",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-07T14:58:30Z",
+      "side": 1,
+      "message": "Done. Removed the ordering and the usage of the project cache.",
+      "parentUuid": "85fa20f0_cfe5fff0",
       "range": {
         "startLine": 179,
         "startChar": 5,

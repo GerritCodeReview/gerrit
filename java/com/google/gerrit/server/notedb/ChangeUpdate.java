@@ -40,6 +40,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMISSION_I
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TAG;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_UPDATE_TIME;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_WORK_IN_PROGRESS;
 import static com.google.gerrit.server.notedb.NoteDbUtil.sanitizeFooter;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
@@ -86,6 +87,7 @@ import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -176,6 +178,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   // If null, the update does not modify the field. Otherwise, it updates the field with the
   // new value or resets if cherryPickOf == Optional.empty().
   private Optional<String> cherryPickOf;
+  private boolean preserveLastUpdatedOn = false;
 
   private ChangeDraftUpdate draftUpdate;
   private RobotCommentUpdate robotCommentUpdate;
@@ -457,6 +460,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   public void setHashtags(Set<String> hashtags) {
     this.hashtags = hashtags;
+  }
+
+  public void setPreserveLastUpdatedOn(boolean preserveLastUpdatedOn) {
+    this.preserveLastUpdatedOn = preserveLastUpdatedOn;
   }
 
   /**
@@ -865,6 +872,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         // Update cherryPickOf with an empty value.
         addFooter(msg, FOOTER_CHERRY_PICK_OF).append('\n');
       }
+    }
+
+    if (preserveLastUpdatedOn) {
+      addFooter(msg, FOOTER_UPDATE_TIME, Timestamp.from(this.change.getLastUpdatedOn()));
     }
 
     boolean hasAttentionSeUpdates = updateAttentionSet(msg);

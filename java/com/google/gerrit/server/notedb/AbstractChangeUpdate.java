@@ -48,7 +48,7 @@ public abstract class AbstractChangeUpdate {
   protected final Instant when;
 
   @Nullable private final ChangeNotes notes;
-  private final Change change;
+  protected final Change change;
   protected final PersonIdent serverIdent;
 
   @Nullable protected PatchSet.Id psId;

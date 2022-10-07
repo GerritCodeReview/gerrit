@@ -414,10 +414,12 @@ public class LuceneChangeIndex implements ChangeIndex {
         for (int i = 0; i < indexes.size(); i++) {
           ChangeSubIndex subIndex = indexes.get(i);
           searchers[i] = subIndex.acquire();
-          if (opts.searchAfter() != null && opts.searchAfter() instanceof HashMap) {
+          if (opts.searchAfter() != null
+              && opts.searchAfter() instanceof HashMap
+              && ((HashMap<?, ?>) opts.searchAfter()).get(subIndex) instanceof ScoreDoc) {
             hits[i] =
                 searchers[i].searchAfter(
-                    ((HashMap<ChangeSubIndex, ScoreDoc>) opts.searchAfter()).get(subIndex),
+                    (ScoreDoc) ((HashMap<?, ?>) opts.searchAfter()).get(subIndex),
                     query,
                     realPageSize,
                     sort,

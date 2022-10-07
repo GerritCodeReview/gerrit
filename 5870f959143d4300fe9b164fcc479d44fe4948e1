@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bca1ee0_689e4220",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1261,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-07T00:58:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca90fa69_e4463f65",
+      "revId": "5870f959143d4300fe9b164fcc479d44fe4948e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f76b58b0_76878be7",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1733778_c74d915a",
+        "filename": "java/com/google/gerrit/server/project/PeriodicProjectListCacheWarmer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-07T00:58:36Z",
+      "side": 1,
+      "message": "Lines 52-54 do that if they\u0027re configured. This is the fallback for when they\u0027re not.",
+      "parentUuid": "f76b58b0_76878be7",
+      "range": {
+        "startLine": 57,
+        "startChar": 59,
+        "endLine": 57,
+        "endChar": 88
+      },
+      "revId": "5870f959143d4300fe9b164fcc479d44fe4948e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3de9a0e_d98b2db6",
@@ -54,6 +96,30 @@
       "writtenOn": "2022-10-06T19:03:47Z",
       "side": 1,
       "message": "This should be removed from the queue (and potentially cancelled) on shutdown. I would look to see what other periodic things are doing.",
+      "range": {
+        "startLine": 62,
+        "startChar": 20,
+        "endLine": 62,
+        "endChar": 23
+      },
+      "revId": "5870f959143d4300fe9b164fcc479d44fe4948e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40d14504_e0dc944a",
+        "filename": "java/com/google/gerrit/server/project/PeriodicProjectListCacheWarmer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-07T00:58:36Z",
+      "side": 1,
+      "message": "They all have a comment like `// handled by WorkQueue.stop() already`. You can run `git grep -A1 \u0027public void stop() {$\u0027` if you want to find instances. I added that comment now.",
+      "parentUuid": "c3de9a0e_d98b2db6",
       "range": {
         "startLine": 62,
         "startChar": 20,

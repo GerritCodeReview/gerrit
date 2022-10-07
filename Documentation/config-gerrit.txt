@@ -1313,6 +1313,21 @@ threads will die out after the cache is loaded.
 +
 Default is the number of CPUs.
 
+[[cache.project_list.interval]]cache.project_list.interval::
++
+The link:#schedule-configuration-interval[interval] for running
+the project_list cache warmer.
+
+By default, if `cache.project_list.maxAge` is set, `interval` will be set to
+half its value. If `cache.project_list.maxAge` is not set or `interval` is set
+to `-1`, it is disabled.
+
+[[cache.project_list.startTime]]cache.project_list.startTime::
++
+The link:#schedule-configuration-startTime[start time] for running
+the project_list cache warmer.
+
+Default is 00:00 if the project_list cache warmer is enabled.
 
 [[capability]]
 === Section capability

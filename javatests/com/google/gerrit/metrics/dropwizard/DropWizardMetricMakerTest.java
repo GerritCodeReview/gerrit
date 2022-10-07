@@ -15,12 +15,33 @@
 package com.google.gerrit.metrics.dropwizard;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+import com.codahale.metrics.MetricRegistry;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.MetricsReservoirConfig;
+import com.google.gerrit.metrics.ReservoirType;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
+@RunWith(MockitoJUnitRunner.class)
 public class DropWizardMetricMakerTest {
-  DropWizardMetricMaker metrics =
-      new DropWizardMetricMaker(null /* MetricRegistry unused in tests */);
+
+  @Mock MetricsReservoirConfig reservoirConfigMock;
+
+  MetricRegistry registry;
+
+  DropWizardMetricMaker metrics;
+
+  @Before
+  public void setupMocks() {
+    registry = new MetricRegistry();
+    metrics = new DropWizardMetricMaker(registry, reservoirConfigMock);
+  }
 
   @Test
   public void shouldSanitizeUnwantedChars() throws Exception {
@@ -40,5 +61,16 @@ public class DropWizardMetricMakerTest {
     assertThat(metrics.sanitizeMetricName("metric/")).isEqualTo("metric");
     assertThat(metrics.sanitizeMetricName("metric//")).isEqualTo("metric");
     assertThat(metrics.sanitizeMetricName("metric/submetric/")).isEqualTo("metric/submetric");
+  }
+
+  @Test
+  public void shouldRequestForReservoirForNewTimer() throws Exception {
+    when(reservoirConfigMock.reservoirType()).thenReturn(ReservoirType.ExponentiallyDecaying);
+
+    metrics.newTimer(
+        "foo",
+        new Description("foo description").setCumulative().setUnit(Description.Units.MILLISECONDS));
+
+    verify(reservoirConfigMock).reservoirType();
   }
 }

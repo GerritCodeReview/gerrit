@@ -18,12 +18,19 @@ import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.rules.RulesCache.RulesCacheModule;
+import org.eclipse.jgit.lib.Config;
 
 public class PrologModule extends FactoryModule {
+  protected final Config config;
+
+  public PrologModule(Config config) {
+    this.config = config;
+  }
+
   @Override
   protected void configure() {
     install(new EnvironmentModule());
-    install(new RulesCacheModule());
+    install(new RulesCacheModule(config));
     bind(PrologEnvironment.Args.class);
     factory(PrologRuleEvaluator.Factory.class);
 

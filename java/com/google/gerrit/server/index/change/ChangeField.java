@@ -84,6 +84,7 @@ import com.google.protobuf.MessageLite;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -117,6 +118,12 @@ public class ChangeField {
   public static final int NO_ASSIGNEE = -1;
 
   private static final Gson GSON = OutputFormat.JSON_COMPACT.newGson();
+
+  /**
+   * To avoid the non-google dependency on org.apache.lucene.index.IndexWriter.MAX_TERM_LENGTH it is
+   * redefined here.
+   */
+  public static final int MAX_TERM_LENGTH = (1 << 15) - 2;
 
   // TODO: Rename LEGACY_ID to NUMERIC_ID
   /** Legacy change ID. */
@@ -874,7 +881,8 @@ public class ChangeField {
 
   /** Commit message of the current patch set. */
   public static final FieldDef<ChangeData, String> COMMIT_MESSAGE_EXACT =
-      exact(ChangeQueryBuilder.FIELD_MESSAGE_EXACT).build(ChangeData::commitMessage);
+      exact(ChangeQueryBuilder.FIELD_MESSAGE_EXACT)
+          .build(cd -> truncateStringValueToMaxTermLength(cd.commitMessage()));
 
   /** Summary or inline comment. */
   public static final FieldDef<ChangeData, Iterable<String>> COMMENT =
@@ -1394,5 +1402,47 @@ public class ChangeField {
 
   private static AllUsersName allUsers(ChangeData cd) {
     return cd.getAllUsersNameForIndexing();
+  }
+
+  private static String truncateStringValueToMaxTermLength(String str) {
+    return truncateStringValue(str, MAX_TERM_LENGTH);
+  }
+
+  @VisibleForTesting
+  static String truncateStringValue(String str, int maxBytes) {
+    if (maxBytes < 0) {
+      throw new IllegalArgumentException("maxBytes < 0 not allowed");
+    }
+
+    if (maxBytes == 0) {
+      return "";
+    }
+
+    if (str.length() > maxBytes) {
+      if (Character.isHighSurrogate(str.charAt(maxBytes - 1))) {
+        str = str.substring(0, maxBytes - 1);
+      } else {
+        str = str.substring(0, maxBytes);
+      }
+    }
+    byte[] strBytes = str.getBytes(UTF_8);
+    if (strBytes.length > maxBytes) {
+      while (maxBytes > 0 && (strBytes[maxBytes] & 0xC0) == 0x80) {
+        maxBytes -= 1;
+      }
+      if (maxBytes > 0) {
+        if (strBytes.length >= maxBytes && (strBytes[maxBytes - 1] & 0xE0) == 0xC0) {
+          maxBytes -= 1;
+        }
+        if (strBytes.length >= maxBytes && (strBytes[maxBytes - 1] & 0xF0) == 0xE0) {
+          maxBytes -= 1;
+        }
+        if (strBytes.length >= maxBytes && (strBytes[maxBytes - 1] & 0xF8) == 0xF0) {
+          maxBytes -= 1;
+        }
+      }
+      return new String(Arrays.copyOfRange(strBytes, 0, maxBytes), UTF_8);
+    }
+    return str;
   }
 }

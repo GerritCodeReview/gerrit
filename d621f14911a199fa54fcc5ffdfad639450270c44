@@ -146,6 +146,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "073933d5_1e4a4dd9",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2128,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-10-07T13:06:18Z",
+      "side": 1,
+      "message": "Thank you for the detailed answer.\n\n\u003e That seems like something we\u0027d want to enhance the existing CreateChange endpoint [1] with.\nYou are correct, Nitzan updated the documentation with the new parameter to create-change endpoint in this change.\n\n\u003e However, maybe I\u0027m misunderstanding the use for the new API and this doc isn\u0027t saying enough. For this new API, what is the provided patch applied on top of? Is it the latest patchset on the change or something else?\n\nNitzan, could you, please, document this better? I think the idea is to use the explicit \u0027base\u0027 SHA1 if provided, or the destination branch tip, if not?\n\n\u003e assume you may want to keep editing the new patchset before it\u0027s published and so they keep it as an edit and return an EditInfo\n\nFor our usecase, we do not require this behaviour (unpublish edit as a result of applying a patch).\nWe expect that the new endpoint will be used by the automation, which does not use edits. \n\nSo I think it is reasonable if we implement the API that Nitzan suggested, without overcomplicating the new API. If there will be need in this feature later, we can implement it as a follow up.",
+      "parentUuid": "6e6c68cb_5ad36681",
+      "range": {
+        "startLine": 2128,
+        "startChar": 4,
+        "endLine": 2128,
+        "endChar": 27
+      },
+      "revId": "d621f14911a199fa54fcc5ffdfad639450270c44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "99dc2f80_2d144cfd",
         "filename": "java/com/google/gerrit/extensions/api/changes/ApplyPatchInput.java",
         "patchSetId": 7

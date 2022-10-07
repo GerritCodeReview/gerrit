@@ -196,6 +196,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "689f6ab4_b2072629",
+        "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-07T22:16:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c397cd3_883148ae",
+      "revId": "c64d35f38dc2acfd40a95b559a2792a3c6c22467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0953d7ce_73373f49",

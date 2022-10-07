@@ -114,6 +114,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d44b6c8f_9a4d3b84",
+        "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-07T21:56:36Z",
+      "side": 1,
+      "message": "\u003e \u003e This merge resolution doesn\u0027t look correct. I think it should match Parent 2. If you want to change the check() to a test(), we should do that least in a separate change (likely back on stable-3.4).\n\u003e \n\u003e The change from check() to a test() was done in I91958f8780e98 only on stable-3.6, that\u0027s why is kept here.\n\nBut that change was for other existing calls. It wouldn\u0027t be wrong to apply that to stable-3.4 or stable-3.5. I also don\u0027t think it would be wrong to keep this the same as it is on 3.4/3.5 currently. Diverging increases the risk future merges have conflicts. I can upload a fix for this instance on 3.4 if you\u0027d like.",
+      "parentUuid": "b238420f_fb6fe1af",
+      "revId": "c64d35f38dc2acfd40a95b559a2792a3c6c22467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0953d7ce_73373f49",
         "filename": "modules/jgit",
         "patchSetId": 4

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0114ece8_f26b9a1e",
+        "filename": "java/com/google/gerrit/server/git/CommitUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-10-07T12:44:47Z",
+      "side": 1,
+      "message": "nit: Returns the parent commit for a new commit.\n\n\u003cp\u003e If {@code baseSha1} is provided, the method verifies it can be used as a base. If {@code baseSha1} is not provided the tip of the {@code destRef} is returned.\n\nI think this would be enough, since explaining all params/method behaviour might be over complicated and outside of the scope of the change.",
+      "range": {
+        "startLine": 405,
+        "startChar": 5,
+        "endLine": 405,
+        "endChar": 88
+      },
+      "revId": "c34e1c20b390511771d27614046c4cbf27044b59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a08e0ba_b8f0e464",
+        "filename": "java/com/google/gerrit/server/git/CommitUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-10-07T12:44:47Z",
+      "side": 1,
+      "message": "nit: you can inject this into util and then inject the util into handlers.",
+      "range": {
+        "startLine": 419,
+        "startChar": 6,
+        "endLine": 419,
+        "endChar": 37
+      },
+      "revId": "c34e1c20b390511771d27614046c4cbf27044b59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

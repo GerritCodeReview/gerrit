@@ -1188,7 +1188,7 @@ a cache flush, as they will be read upon first reference.
 cache `"prolog_rules"`::
 +
 Caches parsed `rules.pl` contents for each project. This cache uses the same
-size as the `projects` cache, and cannot be configured independently.
+size as the `projects` cache when `cache.prolog_rules.memoryLimit` is not set.
 
 cache `"pure_revert"`::
 +
@@ -1309,6 +1309,21 @@ threads will die out after the cache is loaded.
 +
 Default is the number of CPUs.
 
+[[cache.project_list.interval]]cache.project_list.interval::
++
+The link:#schedule-configuration-interval[interval] for running
+the project_list cache warmer.
+
+By default, if `cache.project_list.maxAge` is set, `interval` will be set to
+half its value. If `cache.project_list.maxAge` is not set or `interval` is set
+to `-1`, it is disabled.
+
+[[cache.project_list.startTime]]cache.project_list.startTime::
++
+The link:#schedule-configuration-startTime[start time] for running
+the project_list cache warmer.
+
+Default is 00:00 if the project_list cache warmer is enabled.
 
 [[capability]]
 === Section capability
@@ -3988,6 +4003,46 @@ Defaults to true.
 If set to true, log files are rotated daily at midnight (GMT).
 +
 Defaults to true.
+
+[[metrics]]
+=== Section metrics
+
+[[metrics.reservoir]]metrics.reservoir::
++
+The type of data reservoir used by the metrics system to calculate the percentile
+values for timers and histograms.
+It can be set to one of the following values:
++
+* ExponentiallyDecaying: An exponentially-decaying random reservoir based on
+  Cormode et al's forward-decaying priority reservoir sampling method to produce
+  a statistically representative sampling reservoir, exponentially biased towards
+  newer entries.
+* SlidingTimeWindowArray: A sliding window that stores only the measurements made
+  in the last window using chunks of 512 samples.
+* SlidingTimeWindow: A sliding window that stores only the measurements made in
+  the last window using a skip list.
+* SlidingWindow: A sliding window that stores only the last measurements.
+* Uniform: A random sampling reservoir that uses Vitter's Algorithm R to produce
+  a statistically representative sample.
++
+Defaults to ExponentiallyDecaying.
+
+[[metrics.ExponentiallyDecaying.alpha]]metrics.ExponentiallyDecaying.alpha::
++
+The exponential decay factor; the higher this is, the more biased the reservoir
+will be towards newer values.
+
+[[metrics.reservoirType.size]]metrics.<reservoirType>.size::
++
+The number of samples to keep in the reservoir. Applies to all reservoir types
+except the sliding time-based ones.
++
+Defaults to 1028.
+
+[[metrics.reservoirType.window]]metrics.<reservoirType>.window::
++
+The window of time for keeping data in the reservoir. It only applies to sliding
+time-based reservoir types.
 
 [[mimetype]]
 === Section mimetype

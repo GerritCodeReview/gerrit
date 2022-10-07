@@ -97,7 +97,7 @@ public class ChangeIndexRewriterTest {
     Predicate<ChangeData> in = parse("foo:a file:b");
     Predicate<ChangeData> out = rewrite(in);
     assertThat(AndChangeSource.class).isSameInstanceAs(out.getClass());
-    assertThat(out.getChildren()).containsExactly(query(in.getChild(1)), in.getChild(0)).inOrder();
+    assertThat(out.getChildren()).containsExactly(query(parse("file:b")), parse("foo:a")).inOrder();
   }
 
   @Test
@@ -126,9 +126,9 @@ public class ChangeIndexRewriterTest {
         .inOrder();
 
     // Same at the assertions above, that were added for readability
-    assertThat(out.getChild(0)).isEqualTo(query(in.getChild(0)));
+    assertThat(out.getChild(0)).isEqualTo(query(parse("-status:abandoned")));
     assertThat(indexedSubTree.getChildren())
-        .containsExactly(query(in.getChild(1).getChild(1)), in.getChild(1).getChild(0))
+        .containsExactly(query(parse("file:b")), parse("foo:a"))
         .inOrder();
   }
 
@@ -137,7 +137,9 @@ public class ChangeIndexRewriterTest {
     Predicate<ChangeData> in = parse("-foo:a (file:b OR file:c)");
     Predicate<ChangeData> out = rewrite(in);
     assertThat(out.getClass()).isSameInstanceAs(AndChangeSource.class);
-    assertThat(out.getChildren()).containsExactly(query(in.getChild(1)), in.getChild(0)).inOrder();
+    assertThat(out.getChildren())
+        .containsExactly(query(parse("file:b OR file:c")), parse("-foo:a"))
+        .inOrder();
   }
 
   @Test
@@ -146,7 +148,8 @@ public class ChangeIndexRewriterTest {
     Predicate<ChangeData> out = rewrite(in);
     assertThat(out.getClass()).isSameInstanceAs(OrSource.class);
     assertThat(out.getChildren())
-        .containsExactly(query(or(in.getChild(0), in.getChild(2))), in.getChild(1), in.getChild(3))
+        .containsExactly(
+            query(or(parse("file:a"), parse("file:c"))), parse("foo:b"), parse("foo:d"))
         .inOrder();
   }
 
@@ -156,7 +159,7 @@ public class ChangeIndexRewriterTest {
     Predicate<ChangeData> out = rewrite(in);
     assertThat(AndChangeSource.class).isSameInstanceAs(out.getClass());
     assertThat(out.getChildren())
-        .containsExactly(query(and(in.getChild(0), in.getChild(2))), in.getChild(1))
+        .containsExactly(query(and(parse("status:new"), parse("file:a"))), parse("bar:p"))
         .inOrder();
   }
 
@@ -166,7 +169,7 @@ public class ChangeIndexRewriterTest {
     Predicate<ChangeData> out = rewrite(in);
     assertThat(out.getClass()).isEqualTo(AndChangeSource.class);
     assertThat(out.getChildren())
-        .containsExactly(query(and(in.getChild(0), in.getChild(2))), in.getChild(1))
+        .containsExactly(query(and(parse("status:new"), parse("file:a"))), parse("bar:p"))
         .inOrder();
   }
 
@@ -176,7 +179,7 @@ public class ChangeIndexRewriterTest {
     Predicate<ChangeData> out = rewrite(in);
     assertThat(out.getClass()).isEqualTo(AndChangeSource.class);
     assertThat(out.getChildren())
-        .containsExactly(query(and(in.getChild(0), in.getChild(2))), in.getChild(1))
+        .containsExactly(query(and(parse("status:new OR file:a"), parse("file:b"))), parse("bar:p"))
         .inOrder();
   }
 
@@ -186,7 +189,7 @@ public class ChangeIndexRewriterTest {
     Predicate<ChangeData> out = rewrite(in, options(0, 5));
     assertThat(out.getClass()).isEqualTo(AndChangeSource.class);
     assertThat(out.getChildren())
-        .containsExactly(query(in.getChild(1), 5), parse("limit:5"), parse("limit:5"))
+        .containsExactly(query(parse("file:a"), 5), parse("limit:5"), parse("limit:5"))
         .inOrder();
   }
 

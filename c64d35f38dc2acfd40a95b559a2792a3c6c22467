@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba02d566_f2cdcfba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-07T21:42:07Z",
+      "side": 1,
+      "message": "Cool, I\u0027ll wait for you to finalise the review before merging.",
+      "parentUuid": "809ff9ef_6091be59",
+      "revId": "c64d35f38dc2acfd40a95b559a2792a3c6c22467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae7ba60b_69fad607",
@@ -90,6 +108,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "0953d7ce_73373f49",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "c64d35f38dc2acfd40a95b559a2792a3c6c22467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "700219b4_cab82d74",
+        "filename": "modules/jgit",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-07T21:42:07Z",
+      "side": 1,
+      "message": "Good catch, I\u0027ve also updated the release notes.",
+      "parentUuid": "8a6dfe89_968989b2",
       "range": {
         "startLine": 1,
         "startChar": 18,

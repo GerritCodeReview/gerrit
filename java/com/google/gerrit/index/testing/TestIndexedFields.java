@@ -182,7 +182,10 @@ public final class TestIndexedFields {
 
   public static final IndexedField<TestIndexedData, Entities.Change> STORED_PROTO_FIELD =
       IndexedField.<TestIndexedData, Entities.Change>builder(
-              "TestChange", new TypeToken<Entities.Change>() {})
+              "TestChange",
+              new TypeToken<Entities.Change>() {
+                private static final long serialVersionUID = 1L;
+              })
           .stored()
           .build(getter(), setter(), ChangeProtoConverter.INSTANCE);
 
@@ -192,7 +195,10 @@ public final class TestIndexedFields {
   public static final IndexedField<TestIndexedData, Iterable<Entities.Change>>
       ITERABLE_STORED_PROTO_FIELD =
           IndexedField.<TestIndexedData, Iterable<Entities.Change>>builder(
-                  "IterableTestChange", new TypeToken<Iterable<Entities.Change>>() {})
+                  "IterableTestChange",
+                  new TypeToken<Iterable<Entities.Change>>() {
+                    private static final long serialVersionUID = 1L;
+                  })
               .stored()
               .build(getter(), setter(), ChangeProtoConverter.INSTANCE);
 

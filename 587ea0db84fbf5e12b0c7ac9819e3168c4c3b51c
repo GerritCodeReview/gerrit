@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "459aeffa_a0aee5ac",
+        "filename": "java/com/google/gerrit/server/project/PeriodicProjectListCacheWarmer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-10-07T04:57:53Z",
+      "side": 1,
+      "message": "Invalid time unit value: cache.project_list.interval\u003d-1",
+      "range": {
+        "startLine": 49,
+        "startChar": 10,
+        "endLine": 54,
+        "endChar": 28
+      },
+      "revId": "587ea0db84fbf5e12b0c7ac9819e3168c4c3b51c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

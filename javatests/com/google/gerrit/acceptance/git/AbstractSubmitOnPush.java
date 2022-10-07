@@ -20,13 +20,15 @@ import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Multimap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.EmailHeader;
@@ -43,7 +45,10 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.Inject;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.TransportException;
@@ -393,7 +398,8 @@ public abstract class AbstractSubmitOnPush extends AbstractDaemonTest {
   }
 
   @Test
-  public void pushForSubmitWithNotifyOption() throws Exception {
+  public void pushForSubmitWithNotifyOption_considersOptionForReviewButAlwaysNotifiesAllForSubmit()
+      throws Exception {
     projectOperations
         .project(project)
         .forUpdate()
@@ -406,27 +412,34 @@ public abstract class AbstractSubmitOnPush extends AbstractDaemonTest {
 
     PushOneCommit.Result result = pushTo(pushSpec + ",submit,notify=" + NotifyHandling.NONE);
     result.assertOkStatus();
-    assertThat(sender.getMessages()).isEmpty();
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThatEmailWasSent(
+        sender.getMessages().get(0), "submitted", ImmutableMultimap.of(RecipientType.CC, user));
 
     sender.clear();
     result = pushTo(pushSpec + ",submit,notify=" + NotifyHandling.OWNER);
     result.assertOkStatus();
-    assertThat(sender.getMessages()).isEmpty();
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThatEmailWasSent(
+        sender.getMessages().get(0), "submitted", ImmutableMultimap.of(RecipientType.CC, user));
 
     sender.clear();
     result = pushTo(pushSpec + ",submit,notify=" + NotifyHandling.OWNER_REVIEWERS);
     result.assertOkStatus();
-    assertThatEmailsForChangeCreationAndSubmitWereSent(user, null);
+    assertThatEmailsForChangeCreationAndSubmitWereSent(
+        ImmutableList.of(user), ImmutableList.of(user));
 
     sender.clear();
     result = pushTo(pushSpec + ",submit,notify=" + NotifyHandling.ALL);
     result.assertOkStatus();
-    assertThatEmailsForChangeCreationAndSubmitWereSent(user, null);
+    assertThatEmailsForChangeCreationAndSubmitWereSent(
+        ImmutableList.of(user), ImmutableList.of(user));
 
     sender.clear();
     result = pushTo(pushSpec + ",submit"); // default is notify = ALL
     result.assertOkStatus();
-    assertThatEmailsForChangeCreationAndSubmitWereSent(user, null);
+    assertThatEmailsForChangeCreationAndSubmitWereSent(
+        ImmutableList.of(user), ImmutableList.of(user));
   }
 
   @Test
@@ -442,23 +455,30 @@ public abstract class AbstractSubmitOnPush extends AbstractDaemonTest {
 
     TestAccount user2 = accountCreator.user2();
 
+    // User is asking to only notify user2. This is only taken into account for the change creation
+    // email. For the change submit email - we notify all.
     sender.clear();
     PushOneCommit.Result result =
         pushTo(pushSpec + ",submit,notify=" + NotifyHandling.NONE + ",notify-to=" + user2.email());
     result.assertOkStatus();
-    assertThatEmailsForChangeCreationAndSubmitWereSent(user2, RecipientType.TO);
+    assertThatEmailsForChangeCreationAndSubmitWereSent(
+        ImmutableMultimap.of(RecipientType.TO, user2),
+        ImmutableMultimap.of(RecipientType.TO, user2, RecipientType.CC, user));
 
     sender.clear();
     result =
         pushTo(pushSpec + ",submit,notify=" + NotifyHandling.NONE + ",notify-cc=" + user2.email());
     result.assertOkStatus();
-    assertThatEmailsForChangeCreationAndSubmitWereSent(user2, RecipientType.CC);
-
+    assertThatEmailsForChangeCreationAndSubmitWereSent(
+        ImmutableMultimap.of(RecipientType.CC, user2),
+        ImmutableMultimap.of(RecipientType.CC, user2, RecipientType.CC, user));
     sender.clear();
     result =
         pushTo(pushSpec + ",submit,notify=" + NotifyHandling.NONE + ",notify-bcc=" + user2.email());
     result.assertOkStatus();
-    assertThatEmailsForChangeCreationAndSubmitWereSent(user2, RecipientType.BCC);
+    assertThatEmailsForChangeCreationAndSubmitWereSent(
+        ImmutableMultimap.of(RecipientType.BCC, user2),
+        ImmutableMultimap.of(RecipientType.BCC, user2, RecipientType.CC, user));
   }
 
   private PatchSetApproval getSubmitter(PatchSet.Id patchSetId) throws Exception {
@@ -512,41 +532,87 @@ public abstract class AbstractSubmitOnPush extends AbstractDaemonTest {
   /**
    * Makes sure that two emails are sent: one for the change creation, and one for the submit.
    *
-   * @param expected The account expected to receive message.
-   * @param expectedRecipientType The notification's type: To/Cc/Bcc. if {@code null} then it is not
-   *     needed to check the recipientType. It is meant for -notify without other flags like
-   *     notify-cc, notify-to, and notify-bcc. With the -notify flag, the message can sometimes be
-   *     sent as "To" and sometimes can be sent as "Cc".
+   * <p>This variation is meant for -notify with other flags like notify-cc, notify-to, or
+   * notify-bcc. The arguments are maps of accounts expected to receive the messages, keyed by their
+   * expected notification type - To/Cc/Bcc.
+   *
+   * @param expectedReviewRecipients The recipients of the review message.
+   * @param expectedSubmitRecipients The recipients of the submit message.
    */
   private void assertThatEmailsForChangeCreationAndSubmitWereSent(
-      TestAccount expected, @Nullable RecipientType expectedRecipientType) {
-    String expectedEmail = expected.email();
-    String expectedFullName = expected.fullName();
-    Address expectedAddress = Address.create(expectedFullName, expectedEmail);
+      Multimap<RecipientType, TestAccount> expectedReviewRecipients,
+      Multimap<RecipientType, TestAccount> expectedSubmitRecipients) {
     assertThat(sender.getMessages()).hasSize(2);
-    Message message = sender.getMessages().get(0);
-    assertThat(message.body().contains("review")).isTrue();
-    assertAddress(message, expectedAddress, expectedRecipientType);
-    message = sender.getMessages().get(1);
-    assertThat(message.rcpt()).containsExactly(expectedAddress);
-    assertAddress(message, expectedAddress, expectedRecipientType);
-    assertThat(message.body().contains("submitted")).isTrue();
+
+    Message reviewMessage = sender.getMessages().get(0);
+    assertThatEmailWasSent(reviewMessage, "review", expectedReviewRecipients);
+
+    Message submitMessage = sender.getMessages().get(1);
+    assertThatEmailWasSent(submitMessage, "submitted", expectedSubmitRecipients);
+  }
+
+  /**
+   * Makes sure that two emails are sent: one for the change creation, and one for the submit.
+   *
+   * <p>This variation is meant for -notify without other flags like notify-cc, notify-to, and
+   * notify-bcc. With the -notify flag, the message can sometimes be sent as "To" and sometimes can
+   * be sent as "Cc", hence no {@code RecipientType} is passed.
+   *
+   * @param expectedReviewRecipients The recipients of the review message.
+   * @param expectedSubmitRecipients The recipients of the submit message.
+   */
+  private void assertThatEmailsForChangeCreationAndSubmitWereSent(
+      List<TestAccount> expectedReviewRecipients, List<TestAccount> expectedSubmitRecipients) {
+    assertThat(sender.getMessages()).hasSize(2);
+
+    Message reviewMessage = sender.getMessages().get(0);
+    assertThat(reviewMessage.body().contains("review")).isTrue();
+    assertThat(reviewMessage.rcpt())
+        .containsExactlyElementsIn(getAddresses(expectedReviewRecipients));
+
+    Message submitMessage = sender.getMessages().get(1);
+    assertThat(submitMessage.body().contains("submitted")).isTrue();
+    assertThat(submitMessage.rcpt())
+        .containsExactlyElementsIn(getAddresses(expectedSubmitRecipients));
+  }
+
+  private void assertThatEmailWasSent(
+      Message resultMessage,
+      String expectedMessageContent,
+      Multimap<RecipientType, TestAccount> expectedRecipients) {
+    assertThat(resultMessage.body().contains(expectedMessageContent)).isTrue();
+    for (Map.Entry<RecipientType, TestAccount> e : expectedRecipients.entries()) {
+      assertAddress(resultMessage, getAddress(e.getValue()), e.getKey());
+    }
+    assertThat(resultMessage.rcpt())
+        .containsExactlyElementsIn(getAddresses(expectedRecipients.values()));
   }
 
   private void assertAddress(
-      Message message, Address expectedAddress, @Nullable RecipientType expectedRecipientType) {
-    assertThat(message.rcpt()).containsExactly(expectedAddress);
-    if (expectedRecipientType != null
-        && expectedRecipientType
-            != RecipientType.BCC) { // When Bcc, it does not appear in the header.
+      Message message, Address expectedAddress, RecipientType expectedRecipientType) {
+    if (expectedRecipientType != RecipientType.BCC) { // When Bcc, it does not appear in the header.
       String expectedRecipientTypeString = "To";
       if (expectedRecipientType == RecipientType.CC) {
         expectedRecipientTypeString = "Cc";
       }
-      assertThat(
-              ((EmailHeader.AddressList) message.headers().get(expectedRecipientTypeString))
-                  .getAddressList())
-          .containsExactly(expectedAddress);
+      List<Address> addressList =
+          ((EmailHeader.AddressList) message.headers().get(expectedRecipientTypeString))
+              .getAddressList();
+      assertThat(addressList).contains(expectedAddress);
     }
+  }
+
+  private static Address getAddress(TestAccount account) {
+    String expectedEmail = account.email();
+    String expectedFullName = account.fullName();
+    return Address.create(expectedFullName, expectedEmail);
+  }
+
+  private static List<Address> getAddresses(Collection<TestAccount> accounts) {
+    List<Address> res = new ArrayList<>();
+    for (TestAccount account : accounts) {
+      res.add(getAddress(account));
+    }
+    return res;
   }
 }

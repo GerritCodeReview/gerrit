@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4aed149_90ef2392",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatchUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-10-07T12:21:51Z",
+      "side": 1,
+      "message": "Sorry, I see you changed it because of my comment about the tests.\n\nI think it should be checkArgument() here (since mergeTip is not nullable) and input check in CreateChange",
+      "range": {
+        "startLine": 50,
+        "startChar": 5,
+        "endLine": 50,
+        "endChar": 27
+      },
+      "revId": "59b4f490f16527ed34deae5710537b9e2c326f52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86097364_0dfb759d",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatchUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-10-07T12:21:51Z",
+      "side": 1,
+      "message": "nit: invalid patch format",
+      "range": {
+        "startLine": 61,
+        "startChar": 37,
+        "endLine": 61,
+        "endChar": 72
+      },
+      "revId": "59b4f490f16527ed34deae5710537b9e2c326f52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00a432e7_b4d5df55",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-10-07T12:21:51Z",
+      "side": 1,
+      "message": "I think we should throw badRequest here if the mergeTip could not be found?",
+      "range": {
+        "startLine": 382,
+        "startChar": 73,
+        "endLine": 382,
+        "endChar": 82
+      },
+      "revId": "59b4f490f16527ed34deae5710537b9e2c326f52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd67c6b7_f4d40c93",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-10-07T12:21:51Z",
+      "side": 1,
+      "message": "this looks like almost a duplicate of CherryPickChange#getBaseCommit, that you extracted in the next change?",
+      "range": {
+        "startLine": 445,
+        "startChar": 19,
+        "endLine": 445,
+        "endChar": 34
+      },
+      "revId": "59b4f490f16527ed34deae5710537b9e2c326f52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ee47e2f_ac79730b",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1027,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-10-07T12:21:51Z",
+      "side": 1,
+      "message": "nit:\ncreateChange_fromBadPatch_fails?",
+      "range": {
+        "startLine": 1027,
+        "startChar": 14,
+        "endLine": 1027,
+        "endChar": 69
+      },
+      "revId": "59b4f490f16527ed34deae5710537b9e2c326f52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83bb6ebd_d18a2f8d",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1054,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-10-07T12:21:51Z",
+      "side": 1,
+      "message": "nit: this test is for a patch that does not apply?\nSo maybe createChange_withUnaplicablePatch_fails()?",
+      "range": {
+        "startLine": 1054,
+        "startChar": 33,
+        "endLine": 1054,
+        "endChar": 52
+      },
+      "revId": "59b4f490f16527ed34deae5710537b9e2c326f52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

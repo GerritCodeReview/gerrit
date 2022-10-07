@@ -646,7 +646,10 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
             .getRaw(
                 Account.id(userInfo._accountId),
                 QueryOptions.create(
-                    IndexConfig.createDefault(), 0, 1, schema.getStoredFields().keySet()));
+                    IndexConfig.fromConfig(config).build(),
+                    0,
+                    1,
+                    schema.getStoredFields().keySet()));
 
     assertThat(rawFields).isPresent();
     if (schema.useLegacyNumericFields()) {

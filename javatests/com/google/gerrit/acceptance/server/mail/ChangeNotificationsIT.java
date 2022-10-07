@@ -1597,47 +1597,20 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void mergeByOtherNotifyOwnerReviewers() throws Exception {
+  public void mergeByOtherAlwaysNotifiesAll() throws Exception {
     StagedChange sc = stageChangeReadyForMerge();
-    merge(sc.changeId, other, OWNER_REVIEWERS);
+    // The user requests to notify NONE, but we notify ALL.
+    merge(sc.changeId, other, NONE);
     assertThat(sender)
         .sent("merged", sc)
         .to(sc.owner)
-        .cc(sc.reviewer, sc.ccer)
+        .cc(sc.reviewer)
+        .cc(sc.ccer)
         .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
+        .bcc(sc.starrer)
+        .bcc(SUBMITTED_CHANGES)
+        .bcc(ALL_COMMENTS)
         .noOneElse();
-    assertThat(sender).didNotSend();
-  }
-
-  @Test
-  public void mergeByOtherNotifyOwner() throws Exception {
-    StagedChange sc = stageChangeReadyForMerge();
-    merge(sc.changeId, other, OWNER);
-    assertThat(sender).sent("merged", sc).to(sc.owner).noOneElse();
-    assertThat(sender).didNotSend();
-  }
-
-  @Test
-  public void mergeByOtherCcingSelfNotifyOwner() throws Exception {
-    StagedChange sc = stageChangeReadyForMerge();
-    setEmailStrategy(other, EmailStrategy.CC_ON_OWN_COMMENTS);
-    merge(sc.changeId, other, OWNER);
-    assertThat(sender).sent("merged", sc).to(sc.owner).noOneElse();
-    assertThat(sender).didNotSend();
-  }
-
-  @Test
-  public void mergeByOtherNotifyNone() throws Exception {
-    StagedChange sc = stageChangeReadyForMerge();
-    merge(sc.changeId, other, NONE);
-    assertThat(sender).didNotSend();
-  }
-
-  @Test
-  public void mergeByOtherCcingSelfNotifyNone() throws Exception {
-    StagedChange sc = stageChangeReadyForMerge();
-    setEmailStrategy(other, EmailStrategy.CC_ON_OWN_COMMENTS);
-    merge(sc.changeId, other, NONE);
     assertThat(sender).didNotSend();
   }
 
@@ -1676,21 +1649,22 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void mergeOnBehalfOfReviewerNotifyOwner_impersonatedReviewerInCC() throws Exception {
-    StagedChange sc = stageChangeReadyForMerge();
-    setEmailStrategy(sc.reviewer, ENABLED);
-    // Even though Submit strategy is OWNER, impersonated reviewer is added to CC.
-    merge(sc.changeId, other, sc.reviewer, OWNER);
-    assertThat(sender).sent("merged", sc).to(sc.owner).cc(sc.reviewer).noOneElse();
-    assertThat(sender).didNotSend();
-  }
-
-  @Test
-  public void mergeOnBehalfOfOtherNotifyOwner_impersonatedOtherInCC() throws Exception {
+  public void mergeOnBehalfOfOtherNotifyNone_notifiesAllAndImpersonatedOtherInCC()
+      throws Exception {
     StagedChange sc = stageChangeReadyForMerge();
     // Unrelated impersonated user is added to CC.
     merge(sc.changeId, sc.reviewer, other, OWNER);
-    assertThat(sender).sent("merged", sc).to(sc.owner).cc(other).noOneElse();
+    assertThat(sender)
+        .sent("merged", sc)
+        .to(sc.owner)
+        .cc(other)
+        .cc(sc.reviewer)
+        .cc(sc.ccer)
+        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
+        .bcc(sc.starrer)
+        .bcc(SUBMITTED_CHANGES)
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
     assertThat(sender).didNotSend();
   }
 
@@ -1698,15 +1672,35 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   public void mergeOnBehalfOfEmailDisabled_doesNotNotify() throws Exception {
     StagedChange sc = stageChangeReadyForMerge();
     setEmailStrategy(other, EmailStrategy.DISABLED);
-    merge(sc.changeId, sc.reviewer, other, OWNER);
-    assertThat(sender).sent("merged", sc).to(sc.owner).noOneElse();
+    merge(sc.changeId, sc.reviewer, other, ALL);
+    assertThat(sender)
+        .sent("merged", sc)
+        .to(sc.owner)
+        .cc(sc.reviewer)
+        .cc(sc.ccer)
+        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
+        .bcc(sc.starrer)
+        .bcc(SUBMITTED_CHANGES)
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
     assertThat(sender).didNotSend();
   }
 
   @Test
-  public void mergeOnBehalfOfNotifyNone() throws Exception {
+  public void mergeOnBehalfOfAlwaysNotifiesAll() throws Exception {
     StagedChange sc = stageChangeReadyForMerge();
+    // The user requests to notify NONE, but we notify ALL.
     merge(sc.changeId, other, sc.owner, NONE);
+    assertThat(sender)
+        .sent("merged", sc)
+        .to(sc.owner)
+        .cc(sc.reviewer)
+        .cc(sc.ccer)
+        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
+        .bcc(sc.starrer)
+        .bcc(SUBMITTED_CHANGES)
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
     assertThat(sender).didNotSend();
   }
 

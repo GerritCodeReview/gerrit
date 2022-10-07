@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.submit;
 
-import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
@@ -439,10 +438,14 @@ public class MergeOp implements AutoCloseable {
       boolean dryrun)
       throws RestApiException, UpdateException, IOException, ConfigInvalidException,
           PermissionBackendException {
+    if (submitInput.notify != NotifyHandling.ALL) {
+      logger.atFine().log(
+          "Requested to notify %s, but for change submission, Notify=ALL is forced.",
+          submitInput.notify != null ? submitInput.notify.name() : "<null>");
+    }
+    submitInput.notify = NotifyHandling.ALL;
     this.submitInput = submitInput;
-    this.notify =
-        notifyResolver.resolve(
-            firstNonNull(submitInput.notify, NotifyHandling.ALL), submitInput.notifyDetails);
+    this.notify = notifyResolver.resolve(NotifyHandling.ALL, submitInput.notifyDetails);
     this.dryrun = dryrun;
     this.caller = caller;
     this.ts = TimeUtil.now();

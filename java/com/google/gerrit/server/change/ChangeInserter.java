@@ -250,6 +250,12 @@ public class ChangeInserter implements InsertChangeOp {
     return this;
   }
 
+  public ChangeInserter setTopic2(String topic) {
+    checkState(change == null, "setTopic(String) only valid before creating change");
+    this.topic = topic;
+    return this;
+  }
+
   @CanIgnoreReturnValue
   public ChangeInserter setCherryPickOf(PatchSet.Id cherryPickOf) {
     this.cherryPickOf = cherryPickOf;

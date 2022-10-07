@@ -441,8 +441,7 @@ public class MergeOp implements AutoCloseable {
           PermissionBackendException {
     this.submitInput = submitInput;
     this.notify =
-        notifyResolver.resolve(
-            firstNonNull(submitInput.notify, NotifyHandling.ALL), submitInput.notifyDetails);
+        notifyResolver.resolve(NotifyHandling.ALL, submitInput.notifyDetails);
     this.dryrun = dryrun;
     this.caller = caller;
     this.ts = TimeUtil.now();

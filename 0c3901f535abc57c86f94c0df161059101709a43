@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1a9cee0e_8a786462",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-10-07T10:25:27Z",
+      "side": 1,
+      "message": "+see",
+      "range": {
+        "startLine": 13,
+        "startChar": 12,
+        "endLine": 13,
+        "endChar": 13
+      },
+      "revId": "0c3901f535abc57c86f94c0df161059101709a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f46c554d_1f480c87",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -14,6 +37,23 @@
       "writtenOn": "2022-10-07T09:06:38Z",
       "side": 1,
       "message": "for the sake of avoiding redundant data, i would store it *only* when it\u0027s provided explicitly.",
+      "revId": "0c3901f535abc57c86f94c0df161059101709a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99368e32_d81f2337",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-10-07T10:25:27Z",
+      "side": 1,
+      "message": "as a completely alternative idea, how about using the fact that commits already come with two timestamps? the author timestamp could be \"faked\" by the schema update to simply repeat the last \"regular\" commit\u0027s timestamp, while the commit timestamp would represent the time of the schema update. or would this disrupt some other use?",
       "revId": "0c3901f535abc57c86f94c0df161059101709a43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

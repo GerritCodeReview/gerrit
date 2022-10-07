@@ -24,7 +24,9 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.CommentRange;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.util.time.TimeUtil;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 

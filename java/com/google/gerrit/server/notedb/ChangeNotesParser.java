@@ -37,6 +37,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMISSION_I
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TAG;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_UPDATE_TIME;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_WORK_IN_PROGRESS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.parseCommitMessageRange;
 import static java.util.Comparator.comparing;
@@ -492,7 +493,10 @@ class ChangeNotesParser {
 
     parseSubmission(commit, commitTimestamp);
 
-    if (lastUpdatedOn == null || commitTimestamp.isAfter(lastUpdatedOn)) {
+    Instant updateTimestamp = parseUpdateTime(commit);
+    if (updateTimestamp != null && doesLastUpdatedOnTimestampNeedUpdate(updateTimestamp)) {
+      lastUpdatedOn = updateTimestamp;
+    } else if (doesLastUpdatedOnTimestampNeedUpdate(commitTimestamp)) {
       lastUpdatedOn = commitTimestamp;
     }
 
@@ -552,6 +556,10 @@ class ChangeNotesParser {
     if (countTowardsMaxUpdatesLimit(commit, hasChangeMessage)) {
       updateCount++;
     }
+  }
+
+  private boolean doesLastUpdatedOnTimestampNeedUpdate(Instant newTimestamp) {
+    return lastUpdatedOn == null || newTimestamp.isAfter(lastUpdatedOn);
   }
 
   private void parseSubmission(ChangeNotesCommit commit, Instant commitTimestamp)
@@ -1260,6 +1268,35 @@ class ChangeNotesParser {
       } catch (IllegalArgumentException e) {
         throw new ConfigInvalidException("\"" + footer + "\" is not a valid patchset", e);
       }
+    }
+  }
+
+  /**
+   * Parses {@link ChangeNoteUtil#FOOTER_UPDATE_TIME} of the commit.
+   *
+   * @param commit the commit to parse.
+   * @return {@link Optional} value of the parsed footer or {@code null} if the footer is missing in
+   *     this commit.
+   * @throws ConfigInvalidException if the footer value could not be parsed as a valid {@link
+   *     com.google.gerrit.entities.PatchSet.Id}.
+   */
+  @Nullable
+  private Instant parseUpdateTime(ChangeNotesCommit commit) throws ConfigInvalidException {
+    String footer = parseOneFooter(commit, FOOTER_UPDATE_TIME);
+    if (footer == null) {
+      // The footer is missing, nothing to parse.
+      return null;
+    }
+    try {
+      return Timestamp.valueOf(footer).toInstant();
+    } catch (IllegalArgumentException e) {
+      throw new ConfigInvalidException(
+          "The value of the "
+              + FOOTER_UPDATE_TIME
+              + " footer,\""
+              + footer
+              + "\", is not a valid timestamp",
+          e);
     }
   }
 

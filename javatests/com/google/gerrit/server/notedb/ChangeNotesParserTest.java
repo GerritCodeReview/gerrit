@@ -20,6 +20,9 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.util.time.TimeUtil;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -722,6 +725,40 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
     assertParseSucceeds("Update change\n\nPatch-set: 1\nCurrent: tRUe");
     assertParseFails("Update change\n\nPatch-set: 1\nCurrent: false");
     assertParseFails("Update change\n\nPatch-set: 1\nCurrent: blah");
+  }
+
+  @Test
+  public void parseLastUpdatedOn() throws Exception {
+    ChangeNoteUtil noteUtil = injector.getInstance(ChangeNoteUtil.class);
+    Timestamp ts = Timestamp.from(Instant.ofEpochMilli(1665146063961L));
+    RevCommit commit =
+        writeCommit(
+            "Update change\n"
+                + "\n"
+                + "Branch: refs/heads/master\n"
+                + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+                + "Patch-set: 1\n"
+                + "Subject: This is a test change\n",
+            noteUtil.newAccountIdIdent(changeOwner.getAccount().id(), ts.toInstant(), serverIdent));
+    ChangeNotesState state = assertParseSucceeds(commit);
+    assertThat(state.columns().lastUpdatedOn())
+        .isEqualTo(ts.toInstant().truncatedTo(ChronoUnit.SECONDS));
+
+    RevCommit newCommit =
+        writeCommit(
+            "Update change\n"
+                + "\n"
+                + "Branch: refs/heads/master\n"
+                + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+                + "Patch-set: 1\n"
+                + "Subject: This is a test change\n"
+                + "Update-timestamp: "
+                + ts.toString()
+                + "\n",
+            noteUtil.newAccountIdIdent(
+                changeOwner.getAccount().id(), ts.toInstant().minusMillis(10000), serverIdent));
+    ChangeNotesState stateWithTimestampOverride = assertParseSucceeds(newCommit);
+    assertThat(stateWithTimestampOverride.columns().lastUpdatedOn()).isEqualTo(ts.toInstant());
   }
 
   private RevCommit writeCommit(String body) throws Exception {

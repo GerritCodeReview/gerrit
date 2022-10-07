@@ -106,6 +106,24 @@
       "parentUuid": "52e0e428_0cf72a60",
       "revId": "ddb28768f298b80c2324b3933a06606606e71252",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd339838_20f4f1ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-07T09:34:57Z",
+      "side": 1,
+      "message": "Reply: We had it enabled already.",
+      "parentUuid": "21f372c9_7ae0eb18",
+      "revId": "ddb28768f298b80c2324b3933a06606606e71252",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -88,6 +88,24 @@
       "parentUuid": "9b584ad7_70b225c3",
       "revId": "ddb28768f298b80c2324b3933a06606606e71252",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21f372c9_7ae0eb18",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-07T09:33:16Z",
+      "side": 1,
+      "message": "ah OK; that\u0027s why you had that random added constructor. Thanks for clarifying.\n\nMaybe you could try enabling \"CheckReturnValue\"? That\u0027s the error I received and for which I added the fix here.\n\nhttps://errorprone.info/bugpattern/CheckReturnValue",
+      "parentUuid": "52e0e428_0cf72a60",
+      "revId": "ddb28768f298b80c2324b3933a06606606e71252",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

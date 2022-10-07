@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "f05b91c4_454927cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-07T21:53:45Z",
+      "side": 1,
+      "message": "It\u0027d be great if you can bump to 60c908c362a026af473e825da18e639e1a3f1f04 to pick up that new project_list cache warmer.",
+      "range": {
+        "startLine": 2,
+        "startChar": 12,
+        "endLine": 2,
+        "endChar": 20
+      },
+      "revId": "c64d35f38dc2acfd40a95b559a2792a3c6c22467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "809ff9ef_6091be59",
@@ -31,6 +54,24 @@
       "writtenOn": "2022-10-07T21:42:07Z",
       "side": 1,
       "message": "Cool, I\u0027ll wait for you to finalise the review before merging.",
+      "parentUuid": "809ff9ef_6091be59",
+      "revId": "c64d35f38dc2acfd40a95b559a2792a3c6c22467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "abe0b649_ac2c4fc4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-07T21:53:45Z",
+      "side": 1,
+      "message": "Nothing else.",
       "parentUuid": "809ff9ef_6091be59",
       "revId": "c64d35f38dc2acfd40a95b559a2792a3c6c22467",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

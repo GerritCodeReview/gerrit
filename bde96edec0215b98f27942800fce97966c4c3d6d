@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff63da30_1a11e157",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-10-07T09:34:13Z",
+      "side": 1,
+      "message": "We do not need to store this.when anymore. The only usage of this variable is from the constructor.",
+      "revId": "bde96edec0215b98f27942800fce97966c4c3d6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85340ea3_9b8ba478",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-10-07T09:34:13Z",
+      "side": 1,
+      "message": "This constructor should simply call the previous constructor passing TimeUti.nowTs as the \"when\" parameter. This avoid repeating the logic for the refLogIdent creation.",
+      "revId": "bde96edec0215b98f27942800fce97966c4c3d6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

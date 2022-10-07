@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b238420f_fb6fe1af",
+        "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-07T21:36:41Z",
+      "side": 1,
+      "message": "\u003e This merge resolution doesn\u0027t look correct. I think it should match Parent 2. If you want to change the check() to a test(), we should do that least in a separate change (likely back on stable-3.4).\n\nThe change from check() to a test() was done in I91958f8780e98 only on stable-3.6, that\u0027s why is kept here.",
+      "parentUuid": "ae7ba60b_69fad607",
+      "revId": "c64d35f38dc2acfd40a95b559a2792a3c6c22467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0953d7ce_73373f49",
         "filename": "modules/jgit",
         "patchSetId": 4
@@ -48,6 +66,30 @@
       "writtenOn": "2022-10-07T21:28:11Z",
       "side": 1,
       "message": "d01376106af8800017ac3c08d7c7ac1fd5ccc9ee is newer, so you should take that update.",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "c64d35f38dc2acfd40a95b559a2792a3c6c22467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a6dfe89_968989b2",
+        "filename": "modules/jgit",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-07T21:36:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0953d7ce_73373f49",
       "range": {
         "startLine": 1,
         "startChar": 18,

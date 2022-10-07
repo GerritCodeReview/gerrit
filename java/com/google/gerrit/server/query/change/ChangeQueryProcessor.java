@@ -160,4 +160,9 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
   protected int getBatchSize() {
     return sequences.changeBatchSize();
   }
+
+  @Override
+  protected int getInitialPageSize(int limit) {
+    return Math.min(getUserQueryLimit().getAsInt(), limit);
+  }
 }

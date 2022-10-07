@@ -51,6 +51,7 @@ import java.io.IOException;
 import java.util.Map;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -134,7 +135,21 @@ public class CreateBranch
         object = rw.parseCommit(object);
       }
 
-      createRefControl.checkCreateRef(identifiedUser, repo, name, object);
+      Ref sourceRef = repo.exactRef(input.revision);
+      if (sourceRef == null) {
+        createRefControl.checkCreateRef(identifiedUser, repo, name, object, /* forPush= */ false);
+      } else {
+        if (sourceRef.isSymbolic()) {
+          sourceRef = sourceRef.getTarget();
+        }
+        createRefControl.checkCreateRef(
+            identifiedUser,
+            repo,
+            name,
+            object,
+            /* forPush= */ false,
+            BranchNameKey.create(rsrc.getNameKey(), sourceRef.getName()));
+      }
 
       RefUpdate u = repo.updateRef(ref);
       u.setExpectedOldObjectId(ObjectId.zeroId());

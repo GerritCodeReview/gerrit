@@ -728,6 +728,7 @@ public class ProjectConfigTest {
     ProjectConfig cfg = read(rev);
     assertThat(cfg.getCommentLinkSections())
         .containsExactly(StoredCommentLinkInfo.enabled("bugzilla"));
+    assertThat(Iterables.getOnlyElement(cfg.getCommentLinkSections()).getEnabled()).isNull();
   }
 
   @Test
@@ -739,6 +740,7 @@ public class ProjectConfigTest {
     ProjectConfig cfg = read(rev);
     assertThat(cfg.getCommentLinkSections())
         .containsExactly(StoredCommentLinkInfo.disabled("bugzilla"));
+    assertThat(Iterables.getOnlyElement(cfg.getCommentLinkSections()).getEnabled()).isFalse();
   }
 
   @Test

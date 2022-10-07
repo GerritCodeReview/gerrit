@@ -15,15 +15,19 @@
 package com.google.gerrit.index.query;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 
+import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /** Requires all predicates to be true. */
-public class AndPredicate<T> extends Predicate<T> implements Matchable<T> {
+public class AndPredicate<T> extends Predicate<T>
+    implements Matchable<T>, Comparator<Predicate<T>> {
   private final List<Predicate<T>> children;
   private final int cost;
 
@@ -35,7 +39,7 @@ public class AndPredicate<T> extends Predicate<T> implements Matchable<T> {
   protected AndPredicate(Collection<? extends Predicate<T>> that) {
     List<Predicate<T>> t = new ArrayList<>(that.size());
     int c = 0;
-    for (Predicate<T> p : that) {
+    for (Predicate<T> p : sort(that)) {
       if (getClass() == p.getClass()) {
         for (Predicate<T> gp : p.getChildren()) {
           t.add(gp);
@@ -114,6 +118,28 @@ public class AndPredicate<T> extends Predicate<T> implements Matchable<T> {
     }
     return getClass() == other.getClass()
         && getChildren().equals(((Predicate<?>) other).getChildren());
+  }
+
+  private ImmutableList<Predicate<T>> sort(Collection<? extends Predicate<T>> that) {
+    return that.stream().sorted(this).collect(toImmutableList());
+  }
+
+  @Override
+  public int compare(Predicate<T> a, Predicate<T> b) {
+    int ai = a instanceof DataSource ? 0 : 1;
+    int bi = b instanceof DataSource ? 0 : 1;
+    int cmp = ai - bi;
+
+    if (cmp == 0) {
+      cmp = a.estimateCost() - b.estimateCost();
+    }
+
+    if (cmp == 0 && a instanceof DataSource && b instanceof DataSource) {
+      DataSource<?> as = (DataSource<?>) a;
+      DataSource<?> bs = (DataSource<?>) b;
+      cmp = as.getCardinality() - bs.getCardinality();
+    }
+    return cmp;
   }
 
   @Override

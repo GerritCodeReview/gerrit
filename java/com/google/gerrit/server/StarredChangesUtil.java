@@ -32,7 +32,6 @@ import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.git.GitUpdateFailureException;
@@ -194,7 +193,7 @@ public class StarredChangesUtil {
     }
   }
 
-  public void star(Account.Id accountId, Project.NameKey project, Change.Id changeId, Operation op)
+  public void star(Account.Id accountId, Change.Id changeId, Operation op)
       throws IllegalLabelException {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       String refName = RefNames.refsStarredChanges(changeId, accountId);

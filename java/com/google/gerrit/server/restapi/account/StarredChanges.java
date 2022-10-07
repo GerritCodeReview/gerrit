@@ -131,10 +131,7 @@ public class StarredChanges
 
       try {
         starredChangesUtil.star(
-            self.get().getAccountId(),
-            change.getProject(),
-            change.getId(),
-            StarredChangesUtil.Operation.ADD);
+            self.get().getAccountId(), change.getId(), StarredChangesUtil.Operation.ADD);
       } catch (MutuallyExclusiveLabelsException e) {
         throw new ResourceConflictException(e.getMessage());
       } catch (IllegalLabelException e) {
@@ -182,10 +179,7 @@ public class StarredChanges
         throw new AuthException("not allowed remove starred change");
       }
       starredChangesUtil.star(
-          self.get().getAccountId(),
-          rsrc.getChange().getProject(),
-          rsrc.getChange().getId(),
-          StarredChangesUtil.Operation.REMOVE);
+          self.get().getAccountId(), rsrc.getChange().getId(), StarredChangesUtil.Operation.REMOVE);
       return Response.none();
     }
   }

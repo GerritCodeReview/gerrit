@@ -57,12 +57,10 @@ public class AndSource<T> extends AndPredicate<T> implements DataSource<T> {
     this.start = start;
     this.indexConfig = indexConfig;
 
-    int c = Integer.MAX_VALUE;
     DataSource<T> s = null;
     int minCost = Integer.MAX_VALUE;
     for (Predicate<T> p : getChildren()) {
       if (p instanceof DataSource) {
-        c = Math.min(c, ((DataSource<?>) p).getCardinality());
 
         int cost = p.estimateCost();
         if (cost < minCost) {
@@ -72,7 +70,7 @@ public class AndSource<T> extends AndPredicate<T> implements DataSource<T> {
       }
     }
     this.source = s;
-    this.cardinality = c;
+    this.cardinality = s != null ? s.getCardinality() : Integer.MAX_VALUE;
   }
 
   @Override

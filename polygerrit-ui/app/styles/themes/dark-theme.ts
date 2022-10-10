@@ -219,8 +219,8 @@ const darkThemeCss = safeStyleSheet`
     --dark-remove-highlight-color: #62110f;
     --light-remove-highlight-color: #320404;
 
-    --dark-rebased-add-highlight-color: rgba(11, 255, 155, 0.15);
-    --light-rebased-add-highlight-color: #487165;
+    --dark-rebased-add-highlight-color: var(--deep-purple-800);
+    --light-rebased-add-highlight-color: var(--deep-purple-600);
     --dark-rebased-remove-highlight-color: rgba(255, 139, 6, 0.15);
     --light-rebased-remove-highlight-color: #2f3f2f;
 

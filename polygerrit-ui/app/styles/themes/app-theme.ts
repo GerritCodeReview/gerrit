@@ -99,6 +99,8 @@ const appThemeCss = safeStyleSheet`
     --purple-100: #e9d2fd;
     --purple-50: #f3e8fd;
     --purple-tonal: #523272;
+    --deep-purple-800: #4527A0;
+    --deep-purple-600: #5E35B1;
     --pink-800: #b80672;
     --pink-500: #f538a0;
     --pink-50: #fde7f3;

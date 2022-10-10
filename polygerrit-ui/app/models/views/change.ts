@@ -155,11 +155,18 @@ export class ChangeViewModel extends Model<ChangeViewState | undefined> {
     super(undefined);
     this.state$.subscribe(s => {
       if (s?.usp || s?.forceReload || s?.openReplyDialog) {
-        this.updateState({
-          usp: undefined,
-          forceReload: undefined,
-          openReplyDialog: undefined,
-        });
+        // We had been running into issues with directly calling
+        // `this.updateState()` without `setTimeout()`, because we want to
+        // first allow all subscribers to process the first state update before
+        // creating another one. For some unknown reason some subscribers even
+        // got the state updates out of order.
+        setTimeout(() => {
+          this.updateState({
+            usp: undefined,
+            forceReload: undefined,
+            openReplyDialog: undefined,
+          });
+        }, 0);
       }
     });
   }

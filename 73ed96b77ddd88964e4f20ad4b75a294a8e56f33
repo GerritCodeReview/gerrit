@@ -16,6 +16,24 @@
       "message": "should we have regression test?",
       "revId": "73ed96b77ddd88964e4f20ad4b75a294a8e56f33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42b40808_b977244e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-10T11:24:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0e64412_865aa7b1",
+      "revId": "73ed96b77ddd88964e4f20ad4b75a294a8e56f33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

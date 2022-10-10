@@ -16,6 +16,40 @@
       "message": "Leaving for Ben to review when he is back next week.",
       "revId": "f7a62fefb280651451e4df68b42086dc0e1417cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bd6a493_e9a09cb2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-10T11:29:16Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "f7a62fefb280651451e4df68b42086dc0e1417cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "386795f3_d6176d84",
+        "filename": "polygerrit-ui/app/models/checks/checks-model_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-10T11:29:16Z",
+      "side": 1,
+      "message": "Maybe use `const clock \u003d sinon.useFakeTimers();`? Otherwise this test will always take 500 ms to run? Also see change 347836.",
+      "revId": "f7a62fefb280651451e4df68b42086dc0e1417cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

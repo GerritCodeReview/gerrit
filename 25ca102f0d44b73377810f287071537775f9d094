@@ -16,6 +16,24 @@
       "message": "s/refreshProjectListCache/refreshProjectList/",
       "revId": "25ca102f0d44b73377810f287071537775f9d094",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7844ceff_ba17de74",
+        "filename": "java/com/google/gerrit/server/project/ProjectCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-10-10T10:26:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b891a48_19821433",
+      "revId": "25ca102f0d44b73377810f287071537775f9d094",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

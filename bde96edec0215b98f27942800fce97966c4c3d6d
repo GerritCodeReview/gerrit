@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3057c7f2_52a6dfec",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-10-10T09:02:12Z",
+      "side": 1,
+      "message": "Nope. See line 315.",
+      "parentUuid": "ff63da30_1a11e157",
+      "revId": "bde96edec0215b98f27942800fce97966c4c3d6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "85340ea3_9b8ba478",
         "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
         "patchSetId": 4
@@ -31,6 +49,24 @@
       "writtenOn": "2022-10-07T09:34:13Z",
       "side": 1,
       "message": "This constructor should simply call the previous constructor passing TimeUti.nowTs as the \"when\" parameter. This avoid repeating the logic for the refLogIdent creation.",
+      "revId": "bde96edec0215b98f27942800fce97966c4c3d6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a02e71e_c02aa16b",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-10-10T09:02:12Z",
+      "side": 1,
+      "message": "Since we can\u0027t get rid of `when` this doesn\u0027t work, since when would then be set to `TimeUtil.nowTs()` and would not be overriden.",
+      "parentUuid": "85340ea3_9b8ba478",
       "revId": "bde96edec0215b98f27942800fce97966c4c3d6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

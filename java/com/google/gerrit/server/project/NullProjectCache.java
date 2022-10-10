@@ -62,6 +62,11 @@ public class NullProjectCache implements ProjectCache {
   }
 
   @Override
+  public void refreshProjectList() {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
   public Set<UUID> guessRelevantGroupUUIDs() {
     throw new UnsupportedOperationException();
   }

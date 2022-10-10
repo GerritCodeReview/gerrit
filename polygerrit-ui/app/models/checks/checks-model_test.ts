@@ -100,6 +100,30 @@ suite('checks-model tests', () => {
     assert.equal(model.changeNum, testChange._number);
   });
 
+  test('reload throttle', async () => {
+    const clock = sinon.useFakeTimers();
+    let change: ParsedChangeInfo | undefined = undefined;
+    model.changeModel.change$.subscribe(c => (change = c));
+    const provider = createProvider();
+    const fetchSpy = sinon.spy(provider, 'fetch');
+
+    model.register({pluginName: 'test-plugin', provider, config: CONFIG});
+    await waitUntil(() => change === undefined);
+
+    const testChange = createParsedChange();
+    model.changeModel.updateStateChange(testChange);
+    await waitUntil(() => change === testChange);
+    clock.tick(1);
+    assert.equal(fetchSpy.callCount, 1);
+
+    // The second reload call will be processed, but only after a 1s throttle.
+    model.reload('test-plugin');
+    clock.tick(100);
+    assert.equal(fetchSpy.callCount, 1);
+    clock.tick(5000);
+    assert.equal(fetchSpy.callCount, 2);
+  });
+
   test('triggerAction', async () => {
     model.changeNum = 314 as NumericChangeId;
     model.latestPatchNum = 13 as PatchSetNumber;

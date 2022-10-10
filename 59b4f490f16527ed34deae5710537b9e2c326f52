@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c480398_65e7dba1",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatchUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-10T09:43:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4aed149_90ef2392",
+      "range": {
+        "startLine": 50,
+        "startChar": 5,
+        "endLine": 50,
+        "endChar": 27
+      },
+      "revId": "59b4f490f16527ed34deae5710537b9e2c326f52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "86097364_0dfb759d",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-10-07T12:21:51Z",
       "side": 1,
       "message": "nit: invalid patch format",
+      "range": {
+        "startLine": 61,
+        "startChar": 37,
+        "endLine": 61,
+        "endChar": 72
+      },
+      "revId": "59b4f490f16527ed34deae5710537b9e2c326f52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01eed091_b0e883ac",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatchUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-10T09:43:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86097364_0dfb759d",
       "range": {
         "startLine": 61,
         "startChar": 37,
@@ -70,6 +118,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "75f8021e_9e5f09ce",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-10T09:43:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00a432e7_b4d5df55",
+      "range": {
+        "startLine": 382,
+        "startChar": 73,
+        "endLine": 382,
+        "endChar": 82
+      },
+      "revId": "59b4f490f16527ed34deae5710537b9e2c326f52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcf3620f_a71eb3f7",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-10T09:43:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00a432e7_b4d5df55",
+      "range": {
+        "startLine": 382,
+        "startChar": 73,
+        "endLine": 382,
+        "endChar": 82
+      },
+      "revId": "59b4f490f16527ed34deae5710537b9e2c326f52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fd67c6b7_f4d40c93",
@@ -83,6 +179,54 @@
       "writtenOn": "2022-10-07T12:21:51Z",
       "side": 1,
       "message": "this looks like almost a duplicate of CherryPickChange#getBaseCommit, that you extracted in the next change?",
+      "range": {
+        "startLine": 445,
+        "startChar": 19,
+        "endLine": 445,
+        "endChar": 34
+      },
+      "revId": "59b4f490f16527ed34deae5710537b9e2c326f52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a6984dd_b048ce9a",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-10T09:43:27Z",
+      "side": 1,
+      "message": "This version has more options - such getting the base commit for a new branch, or from a patch set.\nAlso, they are very different in case `baseCommit` is null. Maybe CreateChange cal call the other method and complete the missing parts, but I don\u0027t think it worth the effort at the moment.",
+      "parentUuid": "fd67c6b7_f4d40c93",
+      "range": {
+        "startLine": 445,
+        "startChar": 19,
+        "endLine": 445,
+        "endChar": 34
+      },
+      "revId": "59b4f490f16527ed34deae5710537b9e2c326f52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee4f4285_74feb588",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-10T09:43:27Z",
+      "side": 1,
+      "message": "This",
+      "parentUuid": "fd67c6b7_f4d40c93",
       "range": {
         "startLine": 445,
         "startChar": 19,
@@ -116,6 +260,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bca9311a_c1558ccb",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1027,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-10T09:43:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ee47e2f_ac79730b",
+      "range": {
+        "startLine": 1027,
+        "startChar": 14,
+        "endLine": 1027,
+        "endChar": 69
+      },
+      "revId": "59b4f490f16527ed34deae5710537b9e2c326f52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "83bb6ebd_d18a2f8d",
@@ -129,6 +297,30 @@
       "writtenOn": "2022-10-07T12:21:51Z",
       "side": 1,
       "message": "nit: this test is for a patch that does not apply?\nSo maybe createChange_withUnaplicablePatch_fails()?",
+      "range": {
+        "startLine": 1054,
+        "startChar": 33,
+        "endLine": 1054,
+        "endChar": 52
+      },
+      "revId": "59b4f490f16527ed34deae5710537b9e2c326f52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f67e464c_fb79ea9f",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1054,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-10T09:43:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83bb6ebd_d18a2f8d",
       "range": {
         "startLine": 1054,
         "startChar": 33,

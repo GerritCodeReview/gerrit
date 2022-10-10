@@ -311,6 +311,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "158cbf1d_8c80ecf2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-10T11:50:47Z",
+      "side": 1,
+      "message": "Marking as resolved. I prefer to have the schema migration added in the follow up change, and having this change for the logic. Please LMK if you prefer otherwise.",
+      "parentUuid": "01c9aab9_13e50178",
+      "range": {
+        "startLine": 28,
+        "startChar": 37,
+        "endLine": 29,
+        "endChar": 15
+      },
+      "revId": "bb2c4e7d256c289775034f3548ec04c881aa8acc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "68c48759_807c16df",

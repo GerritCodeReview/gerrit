@@ -281,6 +281,11 @@ public class ProjectCacheImpl implements ProjectCache {
   }
 
   @Override
+  public void refreshProjectList() {
+    list.refresh(ListKey.ALL);
+  }
+
+  @Override
   public Set<AccountGroup.UUID> guessRelevantGroupUUIDs() {
     try (Timer0.Context ignored = guessRelevantGroupsLatency.start()) {
       return all().stream()

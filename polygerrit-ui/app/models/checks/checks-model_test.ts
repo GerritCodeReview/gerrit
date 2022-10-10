@@ -7,6 +7,7 @@ import '../../test/common-test-setup';
 import './checks-model';
 import {ChecksModel, ChecksPatchset, ChecksProviderState} from './checks-model';
 import {
+  Action,
   Category,
   CheckRun,
   ChecksApiConfig,
@@ -22,6 +23,7 @@ import {changeModelToken} from '../change/change-model';
 import {assert} from '@open-wc/testing';
 import {testResolver} from '../../test/common-test-setup';
 import {changeViewModelToken} from '../views/change';
+import {NumericChangeId, PatchSetNumber} from '../../api/rest-api';
 
 const PLUGIN_NAME = 'test-plugin';
 
@@ -89,6 +91,26 @@ suite('checks-model tests', () => {
     model.changeModel.updateStateChange(testChange);
     await waitUntil(() => change === testChange);
     await waitUntilCalled(fetchSpy, 'fetch');
+
+    assert.equal(
+      model.latestPatchNum,
+      testChange.revisions[testChange.current_revision]._number
+    );
+    assert.equal(model.changeNum, testChange._number);
+  });
+
+  test('triggerAction', async () => {
+    model.changeNum = 314 as NumericChangeId;
+    model.latestPatchNum = 13 as PatchSetNumber;
+    const action: Action = {
+      name: 'test action',
+      callback: () => undefined,
+    };
+    const spy = sinon.spy(action, 'callback');
+    model.triggerAction(action, undefined, 'none');
+    assert.isTrue(spy.calledOnce);
+    assert.equal(spy.lastCall.args[0], 314);
+    assert.equal(spy.lastCall.args[1], 13);
   });
 
   test('model.updateStateSetProvider', () => {

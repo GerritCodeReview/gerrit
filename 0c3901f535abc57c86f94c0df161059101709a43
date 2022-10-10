@@ -138,6 +138,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "946d7860_62a98557",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-10-10T08:42:58Z",
+      "side": 1,
+      "message": "This might be an idea. I am not too sure whether this approach would have side effects. @ekempin@google.com DO you think the author timestamp can be used for something like that in the notedb or is it already used in a different way? Is it ensured that the author timestamp for notedb commits is always the same as the commit timestamp?",
+      "parentUuid": "ffa89664_8d691095",
+      "revId": "0c3901f535abc57c86f94c0df161059101709a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cf3d074a_e8a35b28",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
         "patchSetId": 1
@@ -244,6 +262,30 @@
       "side": 1,
       "message": "My point was that currently the check is only performed for the commitTimestamp. My question was \"is there any reason why we shouldn\u0027t check that for the updateTimestamp from the footer as well?\"",
       "parentUuid": "0e93e211_de327b70",
+      "range": {
+        "startLine": 499,
+        "startChar": 15,
+        "endLine": 499,
+        "endChar": 51
+      },
+      "revId": "0c3901f535abc57c86f94c0df161059101709a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "469ce375_7d89d500",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-10-10T08:42:58Z",
+      "side": 1,
+      "message": "I think it should be checked.\nDuring note parsing, Gerrit will walk through the refs/changes/../meta branch from the most recent towards the oldest commit. In case it parses a commit containing the Update-timestamp footer, it will disregard the commit-timestamp of this commit completely. However, it will still check, whether the parsed timestamp is actually more recent than the timestamps of the already parsed (more recent) commits. If we don\u0027t do this check, once set the footer would have to be set for every new commit to avoid being stuck with this timestamp.\nWhat can still happen is that the timestamp in the footer was to set to a time in the future. Then the timestamp would be used as the lastUpdatedOn timestamp, even if there is a newer commit. I am not sure, whether we should enforce that the Update-timestamp footer has to contain a timestamp between the commit timestamp of the last commit and the commit timestamp of the commit containing the footer (now()).",
+      "parentUuid": "3fc51481_570ddaa2",
       "range": {
         "startLine": 499,
         "startChar": 15,

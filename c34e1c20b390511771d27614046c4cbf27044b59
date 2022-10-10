@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c126ef0b_d90bc7cf",
+        "filename": "java/com/google/gerrit/server/git/CommitUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-10T10:08:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0114ece8_f26b9a1e",
+      "range": {
+        "startLine": 405,
+        "startChar": 5,
+        "endLine": 405,
+        "endChar": 88
+      },
+      "revId": "c34e1c20b390511771d27614046c4cbf27044b59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5a08e0ba_b8f0e464",
@@ -49,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c0714d08_712e4e5a",
+        "filename": "java/com/google/gerrit/server/git/CommitUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-10T10:08:24Z",
+      "side": 1,
+      "message": "Given this method is a stand-alone, and the util takes care of a lot of different things - I think injecting the util class is pretty dirty.\nIf any changes around this - I\u0027d follow go/noutils and put the method in a new class (and still keep the method static), though this doesn\u0027t seem to be the approach in Gerrit.",
+      "parentUuid": "5a08e0ba_b8f0e464",
+      "range": {
+        "startLine": 419,
+        "startChar": 6,
+        "endLine": 419,
+        "endChar": 37
+      },
+      "revId": "c34e1c20b390511771d27614046c4cbf27044b59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0c8d52e8_03cddf4c",
         "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
         "patchSetId": 9
@@ -60,6 +108,30 @@
       "writtenOn": "2022-10-07T12:48:43Z",
       "side": 1,
       "message": "should verify this is provided?",
+      "range": {
+        "startLine": 162,
+        "startChar": 68,
+        "endLine": 162,
+        "endChar": 78
+      },
+      "revId": "c34e1c20b390511771d27614046c4cbf27044b59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88d28753_ec466ca1",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-10T10:08:24Z",
+      "side": 1,
+      "message": "The `base` argument can be empty. In this case, the base will be the current tip.",
+      "parentUuid": "0c8d52e8_03cddf4c",
       "range": {
         "startLine": 162,
         "startChar": 68,

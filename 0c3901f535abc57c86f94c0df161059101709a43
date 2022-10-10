@@ -298,6 +298,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fce43f41_99a42bab",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-10-10T10:12:57Z",
+      "side": 1,
+      "message": "IMO we should enforce it or at least render a warning in the error-log if it doesn\u0027t adhere to $LATEST_UPDATE \u003c updateTime \u003c $NOW.",
+      "parentUuid": "469ce375_7d89d500",
+      "range": {
+        "startLine": 499,
+        "startChar": 15,
+        "endLine": 499,
+        "endChar": 51
+      },
+      "revId": "0c3901f535abc57c86f94c0df161059101709a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "65ce8d45_03baa155",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 1

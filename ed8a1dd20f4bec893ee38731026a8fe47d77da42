@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50bca2ac_01a13dbb",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 6597,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-10-10T11:54:38Z",
+      "side": 1,
+      "message": "please, add a comment about the behavior if the base is not present here.",
+      "range": {
+        "startLine": 6597,
+        "startChar": 0,
+        "endLine": 6597,
+        "endChar": 93
+      },
+      "revId": "ed8a1dd20f4bec893ee38731026a8fe47d77da42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c63bae89_697d1abd",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ApplyPatchAsPatchSetInput.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-10-10T11:54:38Z",
+      "side": 1,
+      "message": "please, add a comment about the behavior if the base is not present here.",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 21
+      },
+      "revId": "ed8a1dd20f4bec893ee38731026a8fe47d77da42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

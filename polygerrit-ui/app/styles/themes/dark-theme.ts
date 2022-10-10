@@ -214,10 +214,10 @@ const darkThemeCss = safeStyleSheet`
     --dashboard-size-xl-text: black;
 
     /* diff colors */
-    --dark-add-highlight-color: var(--green-tonal);
-    --light-add-highlight-color: #182b1f;
-    --dark-remove-highlight-color: #62110f;
-    --light-remove-highlight-color: #320404;
+    --dark-add-highlight-color: var(--green-900);
+    --light-add-highlight-color: var(--green-tonal);
+    --dark-remove-highlight-color: var(--red-900);
+    --light-remove-highlight-color: var(--red-tonal);
 
     --dark-rebased-add-highlight-color: rgba(11, 255, 155, 0.15);
     --light-rebased-add-highlight-color: #487165;

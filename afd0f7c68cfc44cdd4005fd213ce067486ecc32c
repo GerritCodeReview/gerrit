@@ -252,6 +252,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d505ee87_2975c629",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-10T11:29:42Z",
+      "side": 1,
+      "message": "\u003e\u003e The problem is that there are people that perceive such comments as offensive\n\u003e are you sure that the complaints about offense included this type of comment?\n\nComments from you regularly make people feel uncomfortable which is why I chimed in.\n\nIn my opinion\n\n```\n  \"that\u0027s not an explanation i would consider adequate ...\"\n```\n\ncould be phrased more friendly. It was posted after the change had been submitted, so it was too late for the author to address this point. In this case there are two possible reasons for pointing this out anyway. Either you want the author to pay more attention to this for future reverts or you want to learn more about the reason why this particular change had been reverted. I assume it’s the former, but it\u0027s not really clear from your comment. Since your intention for posting this comment is not clear, it sounds more like you just wanted to blame the author of having done something wrong. Of course the perception here is debatable and not everyone will perceive it the same way. My intention by commenting on this was to make you more sensitive for how your comments may be perceived and help you with how this could have been phrased better.\n\nWhat I find more concerning was your follow-up comment.\n\n```\n  \"i find it intellectually insulting to lecture people\"\n```\n\nThis sounds like you think \"people\" are incompetent and that they need to be \"lectured\". Even worse, you feel \"insulted\" that somebody made this mistake and bothered you with it (note they didn\u0027t ask you for your feedback). \n\nThat\u0027s a comment I consider offensive.\n\nIt makes me think that you did you not understand that the purpose of doing code reviews is to work together with the author to improve the proposed code modifications. \n\n\n\u003e over the years i\u0027ve participated in many projects and received lots\n\u003e of complaints (duh), but the complaints about indisputably factual comments\n\u003e never went beyond variations of \"unpleasant\".\n\nTo be honest, I think you should consider taking this as a signal that you should really work on improving this.\n\n\"unpleasant\" comments on a regular basis are bad enough to harm our community collaboration and we are not willing to tolerate them permanently.\n\n\n\u003e and i mean, how would it even make sense? compilers and other automation makes\n\u003e such \"comments\" all the time, though these tend to refer to matters of lower \n\u003e complexity for obvious reasons.\n\nI think I can agree to this. There are certain types of issues (e.g. spelling mistakes) where we as a community have a common understanding to point them out by short and concise comments and I think everyone is fine with this. I think this is also fine for other low-complexity issues.\n\n\u003e if you are sure, then i wonder whether the offence wasn\u0027t merely due to the\n\u003e non-compliance with the expectations about the form, rather than the form itself.\n\nAs explained above, I think your initially comment (\"that\u0027s not an explanation i would consider adequate ...\") just could have been more friendly. No big deal. What I found offensive was your follow-up statement: \"i find it intellectually insulting to lecture people”. So this is not only about form.",
+      "parentUuid": "048c8ceb_d53c007f",
+      "revId": "afd0f7c68cfc44cdd4005fd213ce067486ecc32c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c5e74671_7f0b204e",

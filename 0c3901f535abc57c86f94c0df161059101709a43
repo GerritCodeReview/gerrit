@@ -232,6 +232,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3fc51481_570ddaa2",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-10-10T06:55:48Z",
+      "side": 1,
+      "message": "My point was that currently the check is only performed for the commitTimestamp. My question was \"is there any reason why we shouldn\u0027t check that for the updateTimestamp from the footer as well?\"",
+      "parentUuid": "0e93e211_de327b70",
+      "range": {
+        "startLine": 499,
+        "startChar": 15,
+        "endLine": 499,
+        "endChar": 51
+      },
+      "revId": "0c3901f535abc57c86f94c0df161059101709a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "65ce8d45_03baa155",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 1

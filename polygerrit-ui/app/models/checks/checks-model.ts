@@ -185,9 +185,11 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
 
   private checkToPluginMap = new Map<string, string>();
 
-  private changeNum?: NumericChangeId;
+  // visible for testing
+  changeNum?: NumericChangeId;
 
-  private latestPatchNum?: PatchSetNumber;
+  // visible for testing
+  latestPatchNum?: PatchSetNumber;
 
   private readonly documentVisibilityChange$ = new BehaviorSubject(undefined);
 
@@ -384,6 +386,9 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
     this.reporting.time(Timing.CHECKS_LOAD);
     this.subscriptions = [
       this.changeModel.changeNum$.subscribe(x => (this.changeNum = x)),
+      this.changeModel.latestPatchNum$.subscribe(
+        x => (this.latestPatchNum = x)
+      ),
       this.pluginsModel.checksPlugins$.subscribe(plugins => {
         for (const plugin of plugins) {
           this.register(plugin);

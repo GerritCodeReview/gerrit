@@ -6,6 +6,7 @@
     "@gerritcodereview/typescript-api": "3.7.0",
     "@polymer/decorators": "^3.0.0",
     "@polymer/polymer": "^3.4.1",
+    "@open-wc/testing": "^3.1.6",
     "lit": "^2.2.3",
     "rxjs": "^6.6.7"
   },

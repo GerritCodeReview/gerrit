@@ -44,8 +44,12 @@ const RUNS: CheckRun[] = [
   },
 ];
 
-const CONFIG: ChecksApiConfig = {
-  fetchPollingIntervalSeconds: 0.01, // 10ms
+const CONFIG_POLLING_5S: ChecksApiConfig = {
+  fetchPollingIntervalSeconds: 5,
+};
+
+const CONFIG_POLLING_NONE: ChecksApiConfig = {
+  fetchPollingIntervalSeconds: 0,
 };
 
 function createProvider(): ChecksProvider {
@@ -84,7 +88,11 @@ suite('checks-model tests', () => {
     const provider = createProvider();
     const fetchSpy = sinon.spy(provider, 'fetch');
 
-    model.register({pluginName: 'test-plugin', provider, config: CONFIG});
+    model.register({
+      pluginName: 'test-plugin',
+      provider,
+      config: CONFIG_POLLING_NONE,
+    });
     await waitUntil(() => change === undefined);
 
     const testChange = createParsedChange();
@@ -98,6 +106,35 @@ suite('checks-model tests', () => {
         ._number as PatchSetNumber
     );
     assert.equal(model.changeNum, testChange._number);
+  });
+
+  test('reload throttle', async () => {
+    const clock = sinon.useFakeTimers();
+    let change: ParsedChangeInfo | undefined = undefined;
+    model.changeModel.change$.subscribe(c => (change = c));
+    const provider = createProvider();
+    const fetchSpy = sinon.spy(provider, 'fetch');
+
+    model.register({
+      pluginName: 'test-plugin',
+      provider,
+      config: CONFIG_POLLING_NONE,
+    });
+    await waitUntil(() => change === undefined);
+
+    const testChange = createParsedChange();
+    model.changeModel.updateStateChange(testChange);
+    await waitUntil(() => change === testChange);
+    clock.tick(1);
+    assert.equal(fetchSpy.callCount, 1);
+
+    // The second reload call will be processed, but only after a 1s throttle.
+    model.reload('test-plugin');
+    clock.tick(100);
+    assert.equal(fetchSpy.callCount, 1);
+    // 2000 ms is greater than the 1000 ms throttle time.
+    clock.tick(2000);
+    assert.equal(fetchSpy.callCount, 2);
   });
 
   test('triggerAction', async () => {
@@ -235,7 +272,11 @@ suite('checks-model tests', () => {
     const provider = createProvider();
     const fetchSpy = sinon.spy(provider, 'fetch');
 
-    model.register({pluginName: 'test-plugin', provider, config: CONFIG});
+    model.register({
+      pluginName: 'test-plugin',
+      provider,
+      config: CONFIG_POLLING_5S,
+    });
     await waitUntil(() => change === undefined);
     clock.tick(1);
     const testChange = createParsedChange();
@@ -246,7 +287,7 @@ suite('checks-model tests', () => {
     const pollCount = fetchSpy.callCount;
 
     // polling should continue while we wait
-    clock.tick(500);
+    clock.tick(CONFIG_POLLING_5S.fetchPollingIntervalSeconds * 1000 * 2);
 
     assert.isTrue(fetchSpy.callCount > pollCount);
   });
@@ -261,7 +302,7 @@ suite('checks-model tests', () => {
     model.register({
       pluginName: 'test-plugin',
       provider,
-      config: {...CONFIG, fetchPollingIntervalSeconds: 0},
+      config: CONFIG_POLLING_NONE,
     });
     await waitUntil(() => change === undefined);
     clock.tick(1);
@@ -273,7 +314,7 @@ suite('checks-model tests', () => {
     const pollCount = fetchSpy.callCount;
 
     // polling should not happen
-    clock.tick(500);
+    clock.tick(60 * 1000);
 
     assert.equal(fetchSpy.callCount, pollCount);
   });

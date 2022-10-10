@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7507be66_99d3aec0",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-10T13:25:48Z",
+      "side": 1,
+      "message": "small letters for consistency\n```suggestion\n    --deep-purple-800: #4527a0;\n    --deep-purple-600: #5e35b1;\n```",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 31
+      },
+      "revId": "761d4c8f050ab77663333ef32d5d89d40cd368a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

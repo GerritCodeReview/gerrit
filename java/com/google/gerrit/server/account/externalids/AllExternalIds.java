@@ -45,6 +45,13 @@ public abstract class AllExternalIds {
     return new AutoValue_AllExternalIds(byKey.build(), byAccount.build(), byEmail.build());
   }
 
+  static AllExternalIds create(
+      ImmutableMap<ExternalId.Key, ExternalId> byKey,
+      ImmutableSetMultimap<Account.Id, ExternalId> byAccount,
+      ImmutableSetMultimap<String, ExternalId> byEmail) {
+    return new AutoValue_AllExternalIds(byKey, byAccount, byEmail);
+  }
+
   public abstract ImmutableMap<ExternalId.Key, ExternalId> byKey();
 
   public abstract ImmutableSetMultimap<Account.Id, ExternalId> byAccount();

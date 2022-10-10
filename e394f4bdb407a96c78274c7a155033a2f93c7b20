@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23fd8810_dc020039",
+        "filename": "polygerrit-ui/app/models/checks/checks-model_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-10T13:41:13Z",
+      "side": 1,
+      "message": "with line 48 value being low I believe it triggering more polls when you wait",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 40
+      },
+      "revId": "e394f4bdb407a96c78274c7a155033a2f93c7b20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

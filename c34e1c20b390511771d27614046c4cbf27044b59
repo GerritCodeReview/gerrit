@@ -95,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90c26e07_c5903497",
+        "filename": "java/com/google/gerrit/server/git/CommitUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-10-10T10:53:40Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "c0714d08_712e4e5a",
+      "range": {
+        "startLine": 419,
+        "startChar": 6,
+        "endLine": 419,
+        "endChar": 37
+      },
+      "revId": "c34e1c20b390511771d27614046c4cbf27044b59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c8d52e8_03cddf4c",
@@ -132,6 +156,30 @@
       "side": 1,
       "message": "The `base` argument can be empty. In this case, the base will be the current tip.",
       "parentUuid": "0c8d52e8_03cddf4c",
+      "range": {
+        "startLine": 162,
+        "startChar": 68,
+        "endLine": 162,
+        "endChar": 78
+      },
+      "revId": "c34e1c20b390511771d27614046c4cbf27044b59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7912add3_9a71af9d",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-10-10T10:53:40Z",
+      "side": 1,
+      "message": "See my comment on the first change[1].\nPlease, add a comment to the input and document this behavior.\nhttps://gerrit-review.googlesource.com/c/gerrit/+/340065/comment/5be11420_6d773b00/",
+      "parentUuid": "88d28753_ec466ca1",
       "range": {
         "startLine": 162,
         "startChar": 68,

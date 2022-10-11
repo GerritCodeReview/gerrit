@@ -188,6 +188,30 @@
       },
       "revId": "c34e1c20b390511771d27614046c4cbf27044b59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f55a57d4_e90593d2",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-11T07:40:39Z",
+      "side": 1,
+      "message": "Added documentation to the Input file in the other change.\nIt\u0027s also documented in getBaseCommit() description. I think putting an extra comment here will mostly cause confusion, because there\u0027s no special behavior in this case compared to other usage(s) of getBaseCommit().",
+      "parentUuid": "7912add3_9a71af9d",
+      "range": {
+        "startLine": 162,
+        "startChar": 68,
+        "endLine": 162,
+        "endChar": 78
+      },
+      "revId": "c34e1c20b390511771d27614046c4cbf27044b59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

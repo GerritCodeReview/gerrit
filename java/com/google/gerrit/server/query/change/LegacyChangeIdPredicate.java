@@ -17,9 +17,10 @@ package com.google.gerrit.server.query.change;
 import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID;
 
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.index.query.HasCardinality;
 
 /** Predicate over change number (aka legacy ID or Change.Id). */
-public class LegacyChangeIdPredicate extends ChangeIndexPredicate {
+public class LegacyChangeIdPredicate extends ChangeIndexPredicate implements HasCardinality {
   protected final Change.Id id;
 
   public LegacyChangeIdPredicate(Change.Id id) {
@@ -34,6 +35,11 @@ public class LegacyChangeIdPredicate extends ChangeIndexPredicate {
 
   @Override
   public int getCost() {
+    return 1;
+  }
+
+  @Override
+  public int getCardinality() {
     return 1;
   }
 }

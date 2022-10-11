@@ -15,9 +15,10 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.index.query.HasCardinality;
 import com.google.gerrit.server.index.change.ChangeField;
 
-public class RefPredicate extends ChangeIndexPredicate {
+public class RefPredicate extends ChangeIndexPredicate implements HasCardinality {
   public RefPredicate(String ref) {
     super(ChangeField.REF, ref);
   }
@@ -34,5 +35,10 @@ public class RefPredicate extends ChangeIndexPredicate {
   @Override
   public int getCost() {
     return 1;
+  }
+
+  @Override
+  public int getCardinality() {
+    return 10_000;
   }
 }

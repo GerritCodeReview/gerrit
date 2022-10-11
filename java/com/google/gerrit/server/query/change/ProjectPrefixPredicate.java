@@ -15,9 +15,10 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.index.query.HasCardinality;
 import com.google.gerrit.server.index.change.ChangeField;
 
-public class ProjectPrefixPredicate extends ChangeIndexPredicate {
+public class ProjectPrefixPredicate extends ChangeIndexPredicate implements HasCardinality {
   public ProjectPrefixPredicate(String prefix) {
     super(ChangeField.PROJECTS, prefix);
   }
@@ -31,5 +32,10 @@ public class ProjectPrefixPredicate extends ChangeIndexPredicate {
   @Override
   public int getCost() {
     return 1;
+  }
+
+  @Override
+  public int getCardinality() {
+    return 90_000;
   }
 }

@@ -138,7 +138,10 @@ export function createTestDependencies(
   dependencies.set(pluginViewModelToken, pluginViewModelCreator);
   const repoViewModelCreator = () => new RepoViewModel();
   dependencies.set(repoViewModelToken, repoViewModelCreator);
-  const searchViewModelCreator = () => new SearchViewModel();
+  const searchViewModelCreator = () =>
+    new SearchViewModel(appContext.restApiService, appContext.userModel, () =>
+      resolver(navigationToken)
+    );
   dependencies.set(searchViewModelToken, searchViewModelCreator);
   const settingsViewModelCreator = () => new SettingsViewModel();
   dependencies.set(settingsViewModelToken, settingsViewModelCreator);

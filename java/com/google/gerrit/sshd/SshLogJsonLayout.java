@@ -84,7 +84,7 @@ public class SshLogJsonLayout extends JsonLayout {
 
       String metricString = getMdcString(event, P_MESSAGE);
       if (metricString != null && !metricString.isEmpty()) {
-        List<String> ssh_metrics = SPLITTER.splitToList(" ");
+        List<String> ssh_metrics = SPLITTER.splitToList(metricString);
         this.timeNegotiating = ssh_metrics.get(0);
         this.timeSearchReuse = ssh_metrics.get(1);
         this.timeSearchSizes = ssh_metrics.get(2);

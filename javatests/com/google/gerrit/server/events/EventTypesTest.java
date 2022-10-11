@@ -48,4 +48,16 @@ public class EventTypesTest {
     Class<?> clazz = EventTypes.getClass("does-not-exist-event");
     assertThat(clazz).isNull();
   }
+
+  @Test
+  public void getRegisteredEventsGetsANewlyRegisteredEvent() {
+    EventTypes.register(TestEvent.TYPE, TestEvent.class);
+    assertThat(EventTypes.getRegisteredEvents()).containsEntry(TestEvent.TYPE, TestEvent.class);
+  }
+
+  @Test
+  public void getRegisteredEventsGetsTypeGivenAtRegistration() {
+    EventTypes.register("alternate-type", TestEvent.class);
+    assertThat(EventTypes.getRegisteredEvents()).containsEntry("alternate-type", TestEvent.class);
+  }
 }

@@ -99,10 +99,37 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
     AbstractFakeIndex<?, ?, ?> idx =
         (AbstractFakeIndex<?, ?, ?>) changeIndexCollection.getSearchIndex();
 
-    // 2 index searches are expected. The first index search will run with size 2 (i.e.
-    // the configured query-limit), and then we will paginate to get the remaining 2
+    // 2 index searches are expected. The first index search will run with size 3 (i.e.
+    // the configured query-limit+1), and then we will paginate to get the remaining
     // changes with the second index search.
     newQuery("status:new").withNoLimit().get();
+    assertThat(idx.getQueryCount()).isEqualTo(2);
+  }
+
+  @Test
+  @UseClockStep
+  @SuppressWarnings("unchecked")
+  public void internalQueriesPaginate() throws Exception {
+    // create 4 changes
+    TestRepository<InMemoryRepositoryManager.Repo> testRepo = createProject("repo");
+    insert(testRepo, newChange(testRepo));
+    insert(testRepo, newChange(testRepo));
+    insert(testRepo, newChange(testRepo));
+    insert(testRepo, newChange(testRepo));
+
+    // Set queryLimit to 2
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(allowCapability(QUERY_LIMIT).group(REGISTERED_USERS).range(0, 2))
+        .update();
+
+    AbstractFakeIndex idx = (AbstractFakeIndex) changeIndexCollection.getSearchIndex();
+
+    // 2 index searches are expected. The first index search will run with size 3 (i.e.
+    // the configured query-limit+1), and then we will paginate to get the remaining
+    // changes with the second index search.
+    queryProvider.get().query(queryBuilder.parse("status:new"));
     assertThat(idx.getQueryCount()).isEqualTo(2);
   }
 }

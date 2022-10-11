@@ -18,8 +18,10 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.metrics.dropwizard.MetricResource.METRIC_KIND;
 import static com.google.gerrit.server.config.ConfigResource.CONFIG_KIND;
 
+import com.codahale.metrics.Histogram;
 import com.codahale.metrics.Metric;
 import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.Timer;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -41,6 +43,7 @@ import com.google.gerrit.metrics.Histogram1;
 import com.google.gerrit.metrics.Histogram2;
 import com.google.gerrit.metrics.Histogram3;
 import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.metrics.MetricsReservoirConfig;
 import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.metrics.Timer2;
@@ -48,10 +51,12 @@ import com.google.gerrit.metrics.Timer3;
 import com.google.gerrit.metrics.proc.JGitMetricModule;
 import com.google.gerrit.metrics.proc.ProcMetricModule;
 import com.google.gerrit.server.cache.CacheMetrics;
+import com.google.gerrit.server.config.MetricsReservoirConfigImpl;
 import com.google.inject.Inject;
 import com.google.inject.Scopes;
 import com.google.inject.Singleton;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
@@ -65,8 +70,25 @@ import java.util.regex.Pattern;
 @Singleton
 public class DropWizardMetricMaker extends MetricMaker {
   public static class ApiModule extends RestApiModule {
+    private final Optional<MetricsReservoirConfig> metricsReservoirConfig;
+
+    public ApiModule(MetricsReservoirConfig metricsReservoirConfig) {
+      this.metricsReservoirConfig = Optional.of(metricsReservoirConfig);
+    }
+
+    public ApiModule() {
+      this.metricsReservoirConfig = Optional.empty();
+    }
+
     @Override
     protected void configure() {
+      if (metricsReservoirConfig.isPresent()) {
+        bind(MetricsReservoirConfig.class).toInstance(metricsReservoirConfig.get());
+      } else {
+        bind(MetricsReservoirConfig.class)
+            .to(MetricsReservoirConfigImpl.class)
+            .in(Scopes.SINGLETON);
+      }
       bind(MetricRegistry.class).in(Scopes.SINGLETON);
       bind(DropWizardMetricMaker.class).in(Scopes.SINGLETON);
       bind(MetricMaker.class).to(DropWizardMetricMaker.class);
@@ -89,12 +111,14 @@ public class DropWizardMetricMaker extends MetricMaker {
   private final MetricRegistry registry;
   private final Map<String, BucketedMetric> bucketed;
   private final Map<String, ImmutableMap<String, String>> descriptions;
+  private final MetricsReservoirConfig reservoirConfig;
 
   @Inject
-  DropWizardMetricMaker(MetricRegistry registry) {
+  DropWizardMetricMaker(MetricRegistry registry, MetricsReservoirConfig reservoirConfig) {
     this.registry = registry;
     this.bucketed = new ConcurrentHashMap<>();
     this.descriptions = new ConcurrentHashMap<>();
+    this.reservoirConfig = reservoirConfig;
   }
 
   Iterable<String> getMetricNames() {
@@ -222,7 +246,9 @@ public class DropWizardMetricMaker extends MetricMaker {
   }
 
   TimerImpl newTimerImpl(String name) {
-    return new TimerImpl(name, registry.timer(name));
+    return new TimerImpl(
+        name,
+        registry.timer(name, () -> new Timer(DropWizardReservoirProvider.get(reservoirConfig))));
   }
 
   @Override
@@ -271,7 +297,10 @@ public class DropWizardMetricMaker extends MetricMaker {
   }
 
   HistogramImpl newHistogramImpl(String name) {
-    return new HistogramImpl(name, registry.histogram(name));
+    return new HistogramImpl(
+        name,
+        registry.histogram(
+            name, () -> new Histogram(DropWizardReservoirProvider.get(reservoirConfig))));
   }
 
   @Override

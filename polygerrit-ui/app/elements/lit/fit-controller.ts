@@ -167,6 +167,14 @@ export class FitController implements ReactiveController {
     const positionRect = this.getNormalizedRect(this.positionTarget!);
     const windowRect = this.getNormalizedRect(window);
 
+    this.calculatePositions(hostRect, positionRect, windowRect);
+  }
+
+  calculatePositions(
+    hostRect: DOMRect,
+    positionRect: DOMRect,
+    windowRect: DOMRect
+  ) {
     const hostStyles = (window as Window).getComputedStyle(this.host);
     const hostMinWidth = parseInt(hostStyles.minWidth) || 0;
     const hostMinHeight = parseInt(hostStyles.minHeight) || 0;
@@ -193,19 +201,19 @@ export class FitController implements ReactiveController {
       topPosition + hostRect.height
     );
 
+    // Respect hostMinWidth and hostMinHeight
+    // Current width is rightPosition - leftPosition or hostRect.width
+    //    rightPosition - leftPosition >= hostMinHeight
+    // => leftPosition <= rightPosition - hostMinHeight
+    leftPosition = Math.min(leftPosition, rightPosition - hostMinWidth);
+    topPosition = Math.min(topPosition, bottomPosition - hostMinHeight);
+
     // Limit left/top within window respecting the margin.
-    leftPosition = Math.max(
-      windowRect.left + hostMargin.left,
-      Math.min(leftPosition, rightPosition - hostMinWidth)
-    );
-    topPosition = Math.max(
-      windowRect.top + hostMargin.top,
-      Math.min(topPosition, bottomPosition - hostMinHeight)
-    );
+    leftPosition = Math.max(windowRect.left + hostMargin.left, leftPosition);
+    topPosition = Math.max(windowRect.top + hostMargin.top, topPosition);
 
     // Use right/bottom to set maxWidth/maxHeight and respect
     // minWidth/minHeight.
-    // Set maxWidth/maxHeight so that element is positioned within window
     const maxWidth = Math.max(rightPosition - leftPosition, hostMinWidth);
     const maxHeight = Math.max(bottomPosition - topPosition, hostMinHeight);
 

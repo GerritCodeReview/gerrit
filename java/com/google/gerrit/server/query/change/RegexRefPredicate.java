@@ -24,7 +24,7 @@ public class RegexRefPredicate extends ChangeRegexPredicate {
   protected final RunAutomaton pattern;
 
   public RegexRefPredicate(String re) throws QueryParseException {
-    super(ChangeField.REF, re);
+    super(ChangeField.REF_SPEC, re);
 
     if (re.startsWith("^")) {
       re = re.substring(1);

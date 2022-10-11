@@ -21,6 +21,7 @@ import com.google.common.collect.Iterables;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * An abstract predicate tree for any form of query.
@@ -139,6 +140,14 @@ public abstract class Predicate<T> {
       return 1;
     }
     return asMatchable().getCost();
+  }
+
+  /** @return an optional estimate of the number of results a source can return. */
+  public Optional<Integer> getOptionalCardinality() {
+    if (this instanceof HasCardinality) {
+      return Optional.of(((HasCardinality) this).getCardinality());
+    }
+    return Optional.empty();
   }
 
   @Override

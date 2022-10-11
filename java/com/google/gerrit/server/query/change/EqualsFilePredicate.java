@@ -40,4 +40,9 @@ public class EqualsFilePredicate extends ChangeIndexPredicate {
   public int getCost() {
     return 1;
   }
+
+  @Override
+  public int getCardinality() {
+    return 50;
+  }
 }

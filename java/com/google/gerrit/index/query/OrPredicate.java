@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /** Requires one predicate to be true. */
 public class OrPredicate<T> extends Predicate<T> implements Matchable<T> {
@@ -126,5 +127,17 @@ public class OrPredicate<T> extends Predicate<T> implements Matchable<T> {
     }
     r.append(")");
     return r.toString();
+  }
+
+  @Override
+  public Optional<Integer> getOptionalCardinality() {
+    int cardinality = 0;
+    for (Predicate<T> child : getChildren()) {
+      Optional<Integer> c = child.getOptionalCardinality();
+      if (c.isPresent()) {
+        cardinality += c.get();
+      }
+    }
+    return cardinality != 0 ? Optional.of(cardinality) : Optional.empty();
   }
 }

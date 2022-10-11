@@ -143,4 +143,9 @@ public class EqualsLabelPredicate extends ChangeIndexPostFilterPredicate {
   public int getCost() {
     return 1 + (group == null ? 0 : 1);
   }
+
+  @Override
+  public int getCardinality() {
+    return 10;
+  }
 }

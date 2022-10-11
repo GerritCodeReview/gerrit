@@ -143,4 +143,16 @@ public final class ChangeStatusPredicate extends ChangeIndexPredicate {
   public String toString() {
     return getOperator() + ":" + getValue();
   }
+
+  @Override
+  public int getCardinality() {
+    switch (getStatus()) {
+      case MERGED:
+        return 5_00_000;
+      case ABANDONED:
+        return 1_00_000;
+      default:
+        return 20_000;
+    }
+  }
 }

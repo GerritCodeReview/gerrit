@@ -38,4 +38,9 @@ public class FileExtensionPredicate extends ChangeIndexPredicate {
   public int getCost() {
     return 0;
   }
+
+  @Override
+  public int getCardinality() {
+    return 10;
+  }
 }

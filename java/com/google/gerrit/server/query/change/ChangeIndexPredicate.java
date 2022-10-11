@@ -15,13 +15,14 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.index.FieldDef;
+import com.google.gerrit.index.query.HasCardinality;
 import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Matchable;
 import com.google.gerrit.index.query.Predicate;
 
 /** Predicate that is mapped to a field in the change index. */
 public abstract class ChangeIndexPredicate extends IndexPredicate<ChangeData>
-    implements Matchable<ChangeData> {
+    implements Matchable<ChangeData>, HasCardinality {
   /**
    * Returns an index predicate that matches no changes in the index.
    *

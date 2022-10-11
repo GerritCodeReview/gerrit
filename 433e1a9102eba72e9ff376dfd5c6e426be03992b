@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49009cd1_1f06a307",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-11T23:45:57Z",
+      "side": 1,
+      "message": "Post-merge -1",
+      "revId": "433e1a9102eba72e9ff376dfd5c6e426be03992b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb61a8bd_80661bf5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GitwebConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-11T23:45:57Z",
+      "side": 1,
+      "message": "This is not accurate: gitweb does would not render a lightweight tag using the \u0027a\u003dtag\u0027 action, which is reserved for annotated tags only (see [1]).\n\nThe safest default would be \u0027a\u003dshotlog\u0027, which would work for both lightweight and annotated tags.\n\n[1] https://git-scm.com/docs/gitweb#Documentation/gitweb.txt-tag",
+      "range": {
+        "startLine": 144,
+        "startChar": 41,
+        "endLine": 144,
+        "endChar": 44
+      },
+      "revId": "433e1a9102eba72e9ff376dfd5c6e426be03992b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

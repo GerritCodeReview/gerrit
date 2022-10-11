@@ -39,6 +39,11 @@ public class StarPredicate extends ChangeIndexPredicate {
   }
 
   @Override
+  public int getCardinality() {
+    return 10;
+  }
+
+  @Override
   public String toString() {
     return ChangeQueryBuilder.FIELD_STAR + ":" + label;
   }

@@ -22,7 +22,7 @@ export class GrTooltip extends LitElement {
   @property({type: String})
   maxWidth = '';
 
-  @property({type: String})
+  @property({type: String}) // test for mentions study
   arrowCenterOffset = '0';
 
   @property({type: Boolean, reflect: true, attribute: 'position-below'})

@@ -47,6 +47,10 @@ export function assert(
   if (!condition) throw new Error(errorMessage);
 }
 
+export function isDefined<T>(x: T): x is NonNullable<T> {
+  return x !== undefined && x !== null;
+}
+
 /**
  * Throws an error if the property is not defined.
  */

@@ -16,6 +16,29 @@
       "message": "@puhl@google.com",
       "revId": "e9167e099527afeb1ccb72531b4f83e2359494a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be566a19_5a52d459",
+        "filename": "polygerrit-ui/app/elements/shared/gr-tooltip/gr-tooltip.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-11T13:20:32Z",
+      "side": 1,
+      "message": "@jasongarrison@google.com",
+      "range": {
+        "startLine": 17,
+        "startChar": 1,
+        "endLine": 17,
+        "endChar": 14
+      },
+      "revId": "e9167e099527afeb1ccb72531b4f83e2359494a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

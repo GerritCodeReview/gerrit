@@ -413,7 +413,8 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
         return Promise.reject(error);
       }
       return {
-        isLatest: actualLatest <= knownLatest,
+        // isLatest: actualLatest <= knownLatest,
+        isLatest: false,
         newStatus: change.status !== detail.status ? detail.status : null,
         newMessages:
           (change.messages || []).length < (detail.messages || []).length

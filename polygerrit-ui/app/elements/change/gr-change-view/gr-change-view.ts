@@ -760,6 +760,7 @@ export class GrChangeView extends LitElement {
       this,
       () => this.getChangeModel().change$,
       change => {
+        console.log('got new change in change view from change model', change);
         // The change view is tied to a specific change number, so don't update
         // change to undefined.
         if (change) this.change = change;
@@ -1375,6 +1376,11 @@ export class GrChangeView extends LitElement {
   }
 
   private renderCommitActions() {
+    console.log(
+      'rendering change view with latest num',
+      this.allPatchSets,
+      computeLatestPatchNum(this.allPatchSets)
+    );
     return html` <div class="commitActions">
       <!-- always show gr-change-actions regardless if logged in or not -->
       <gr-change-actions

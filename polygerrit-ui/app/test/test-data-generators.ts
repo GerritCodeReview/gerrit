@@ -706,6 +706,8 @@ export function createAppElementSearchViewParams(): SearchViewState {
     view: GerritView.SEARCH,
     query: TEST_NUMERIC_CHANGE_ID.toString(),
     offset: '0',
+    changes: [],
+    loading: false,
   };
 }
 

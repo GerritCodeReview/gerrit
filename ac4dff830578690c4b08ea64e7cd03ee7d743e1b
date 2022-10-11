@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd9c23e8_1a7a9942",
+        "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-11T08:11:33Z",
+      "side": 1,
+      "message": "Add a comment why this is 16000. Also, why not 15000 to line up with their deadline?",
+      "revId": "ac4dff830578690c4b08ea64e7cd03ee7d743e1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

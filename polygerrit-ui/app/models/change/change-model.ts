@@ -14,15 +14,7 @@ import {
   RevisionPatchSetNum,
 } from '../../types/common';
 import {DefaultBase} from '../../constants/constants';
-import {
-  combineLatest,
-  from,
-  fromEvent,
-  Observable,
-  Subscription,
-  forkJoin,
-  of,
-} from 'rxjs';
+import {combineLatest, from, fromEvent, Observable, forkJoin, of} from 'rxjs';
 import {
   map,
   filter,
@@ -260,8 +252,6 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
     ([change, account]) => isOwner(change, account)
   );
 
-  private subscriptions: Subscription[] = [];
-
   // For usage in `combineLatest` we need `startWith` such that reload$ has an
   // initial value.
   readonly reload$: Observable<unknown> = fromEvent(document, 'reload').pipe(
@@ -313,13 +303,6 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
         )
         .subscribe(),
     ];
-  }
-
-  override finalize() {
-    for (const s of this.subscriptions) {
-      s.unsubscribe();
-    }
-    this.subscriptions = [];
   }
 
   // Temporary workaround until path is derived in the model itself.

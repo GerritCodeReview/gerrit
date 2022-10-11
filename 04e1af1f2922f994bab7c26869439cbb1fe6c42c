@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bc16493_4d0fab25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-11T13:24:59Z",
+      "side": 1,
+      "message": "Ah, right. I re-checked the implementation and I think you\u0027re correct. Thanks for the catch!\n\nI updated the commit message and added an extra test for this use case.",
+      "parentUuid": "e8101bcd_46f5ba9a",
+      "range": {
+        "startLine": 14,
+        "startChar": 53,
+        "endLine": 14,
+        "endChar": 157
+      },
+      "revId": "04e1af1f2922f994bab7c26869439cbb1fe6c42c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f07f3d13_9a9c5d39",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-10-11T12:44:04Z",
       "side": 1,
       "message": "nit: long lines, please wrap :)",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 65
+      },
+      "revId": "04e1af1f2922f994bab7c26869439cbb1fe6c42c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23c39bef_c149f9b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-11T13:24:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f07f3d13_9a9c5d39",
       "range": {
         "startLine": 14,
         "startChar": 0,

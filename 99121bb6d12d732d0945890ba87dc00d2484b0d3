@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e74c7d9_67b05eba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-11T12:08:56Z",
+      "side": 1,
+      "message": "Maybe worth to mention what this change means for existing project.config\u0027s that already contain duplicate submit requirements. IIUC it means that those project.config\u0027s cannot be updated until they are fixed, but reading them is not an issue?",
+      "revId": "99121bb6d12d732d0945890ba87dc00d2484b0d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

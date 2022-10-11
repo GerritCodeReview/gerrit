@@ -977,6 +977,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     Map<String, String> lowerNames = new HashMap<>();
     submitRequirementSections = new LinkedHashMap<>();
     for (String name : rc.getSubsections(SUBMIT_REQUIREMENT)) {
+      checkDuplicateSrDefinition(rc, name);
       String lower = name.toLowerCase();
       if (lowerNames.containsKey(lower)) {
         error(
@@ -1031,6 +1032,40 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
               .build();
 
       submitRequirementSections.put(name, submitRequirement);
+    }
+  }
+
+  private void checkDuplicateSrDefinition(Config rc, String srName) {
+    if (rc.getStringList(SUBMIT_REQUIREMENT, srName, KEY_SR_DESCRIPTION).length > 1) {
+      error(
+          String.format(
+              "Multiple definitions of %s for submit requirement '%s'",
+              KEY_SR_DESCRIPTION, srName));
+    }
+    if (rc.getStringList(SUBMIT_REQUIREMENT, srName, KEY_SR_APPLICABILITY_EXPRESSION).length > 1) {
+      error(
+          String.format(
+              "Multiple definitions of %s for submit requirement '%s'",
+              KEY_SR_APPLICABILITY_EXPRESSION, srName));
+    }
+    if (rc.getStringList(SUBMIT_REQUIREMENT, srName, KEY_SR_SUBMITTABILITY_EXPRESSION).length > 1) {
+      error(
+          String.format(
+              "Multiple definitions of %s for submit requirement '%s'",
+              KEY_SR_SUBMITTABILITY_EXPRESSION, srName));
+    }
+    if (rc.getStringList(SUBMIT_REQUIREMENT, srName, KEY_SR_OVERRIDE_EXPRESSION).length > 1) {
+      error(
+          String.format(
+              "Multiple definitions of %s for submit requirement '%s'",
+              KEY_SR_OVERRIDE_EXPRESSION, srName));
+    }
+    if (rc.getStringList(SUBMIT_REQUIREMENT, srName, KEY_SR_OVERRIDE_IN_CHILD_PROJECTS).length
+        > 1) {
+      error(
+          String.format(
+              "Multiple definitions of %s for submit requirement '%s'",
+              KEY_SR_OVERRIDE_IN_CHILD_PROJECTS, srName));
     }
   }
 

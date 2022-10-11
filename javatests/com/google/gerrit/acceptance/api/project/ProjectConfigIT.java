@@ -25,6 +25,8 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.entities.SubmitRequirement;
+import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -36,6 +38,7 @@ import com.google.inject.Inject;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
 public class ProjectConfigIT extends AbstractDaemonTest {
@@ -386,6 +389,168 @@ public class ProjectConfigIT extends AbstractDaemonTest {
             "ERROR: commit %s: Parameter 'label.Foo.%s' is deprecated and cannot be set,"
                 + " use 'is:<copy-value>' in 'label.Foo.copyCondition' instead.",
             abbreviateName(r.getCommit()), LabelConfigValidator.KEY_COPY_VALUE));
+  }
+
+  @Test
+  public void rejectSubmitRequirement_duplicateDescriptionKeys() throws Exception {
+    fetchRefsMetaConfig();
+    PushOneCommit push =
+        pushFactory.create(
+            admin.newIdent(),
+            testRepo,
+            "Test Change",
+            ProjectConfig.PROJECT_CONFIG,
+            "[submit-requirement \"Foo\"]\n"
+                + "    description = description 1\n "
+                + "    submittableIf = label:Code-Review=MAX\n"
+                + "[submit-requirement \"Foo\"]\n"
+                + "    description = description 2\n");
+    PushOneCommit.Result r = push.to(RefNames.REFS_CONFIG);
+    r.assertErrorStatus(
+        String.format("commit %s: invalid project configuration", abbreviateName(r.getCommit())));
+    r.assertMessage(
+        String.format(
+            "ERROR: commit %s:   project.config: multiple definitions of description"
+                + " for submit requirement 'foo'",
+            abbreviateName(r.getCommit())));
+  }
+
+  @Test
+  public void rejectSubmitRequirement_duplicateApplicableIfKeys() throws Exception {
+    fetchRefsMetaConfig();
+    PushOneCommit push =
+        pushFactory.create(
+            admin.newIdent(),
+            testRepo,
+            "Test Change",
+            ProjectConfig.PROJECT_CONFIG,
+            "[submit-requirement \"Foo\"]\n "
+                + "   applicableIf = is:true\n  "
+                + "   submittableIf = label:Code-Review=MAX\n"
+                + "[submit-requirement \"Foo\"]\n"
+                + "   applicableIf = is:false\n");
+    PushOneCommit.Result r = push.to(RefNames.REFS_CONFIG);
+    r.assertErrorStatus(
+        String.format("commit %s: invalid project configuration", abbreviateName(r.getCommit())));
+    r.assertMessage(
+        String.format(
+            "ERROR: commit %s:   project.config: multiple definitions of applicableif"
+                + " for submit requirement 'foo'",
+            abbreviateName(r.getCommit())));
+  }
+
+  @Test
+  public void rejectSubmitRequirement_duplicateSubmittableIfKeys() throws Exception {
+    fetchRefsMetaConfig();
+    PushOneCommit push =
+        pushFactory.create(
+            admin.newIdent(),
+            testRepo,
+            "Test Change",
+            ProjectConfig.PROJECT_CONFIG,
+            "[submit-requirement \"Foo\"]\n"
+                + "    submittableIf = label:Code-Review=MAX\n"
+                + "[submit-requirement \"Foo\"]\n"
+                + "    submittableIf = label:Code-Review=MIN\n");
+    PushOneCommit.Result r = push.to(RefNames.REFS_CONFIG);
+    r.assertErrorStatus(
+        String.format("commit %s: invalid project configuration", abbreviateName(r.getCommit())));
+    r.assertMessage(
+        String.format(
+            "ERROR: commit %s:   project.config: multiple definitions of submittableif"
+                + " for submit requirement 'foo'",
+            abbreviateName(r.getCommit())));
+  }
+
+  @Test
+  public void rejectSubmitRequirement_duplicateOverrideIfKeys() throws Exception {
+    fetchRefsMetaConfig();
+    PushOneCommit push =
+        pushFactory.create(
+            admin.newIdent(),
+            testRepo,
+            "Test Change",
+            ProjectConfig.PROJECT_CONFIG,
+            "[submit-requirement \"Foo\"]\n"
+                + "  overrideIf = is:true\n "
+                + "  submittableIf = label:Code-Review=MAX\n"
+                + "[submit-requirement \"Foo\"]\n"
+                + "  overrideIf = is:false\n");
+    PushOneCommit.Result r = push.to(RefNames.REFS_CONFIG);
+    r.assertErrorStatus(
+        String.format("commit %s: invalid project configuration", abbreviateName(r.getCommit())));
+    r.assertMessage(
+        String.format(
+            "ERROR: commit %s:   project.config: multiple definitions of overrideif"
+                + " for submit requirement 'foo'",
+            abbreviateName(r.getCommit())));
+  }
+
+  @Test
+  public void rejectSubmitRequirement_duplicateCanOverrideInChildProjectsKey() throws Exception {
+    fetchRefsMetaConfig();
+    PushOneCommit push =
+        pushFactory.create(
+            admin.newIdent(),
+            testRepo,
+            "Test Change",
+            ProjectConfig.PROJECT_CONFIG,
+            "[submit-requirement \"Foo\"]\n"
+                + "    canOverrideInChildProjects = true\n"
+                + "    submittableIf = label:Code-Review=MAX\n"
+                + "[submit-requirement \"Foo\"]\n "
+                + "    canOverrideInChildProjects = false\n");
+    PushOneCommit.Result r = push.to(RefNames.REFS_CONFIG);
+    r.assertErrorStatus(
+        String.format("commit %s: invalid project configuration", abbreviateName(r.getCommit())));
+    r.assertMessage(
+        String.format(
+            "ERROR: commit %s:   project.config: multiple definitions of canoverrideinchildprojects"
+                + " for submit requirement 'foo'",
+            abbreviateName(r.getCommit())));
+  }
+
+  @Test
+  public void submitRequirementsAreParsed_forExistingDuplicateDefinitions() throws Exception {
+    // Duplicate submit requirement definitions are rejected on config change uploads. For setups
+    // already containing duplicate SR definitions, the server is able to parse the "submit
+    // requirements correctly"
+
+    RevCommit revision;
+    // Commit a change to the project config, bypassing server validation.
+    try (TestRepository<Repository> testRepo =
+        new TestRepository<>(repoManager.openRepository(project))) {
+      revision =
+          testRepo
+              .branch(RefNames.REFS_CONFIG)
+              .commit()
+              .add(
+                  ProjectConfig.PROJECT_CONFIG,
+                  "[submit-requirement \"Foo\"]\n"
+                      + "    canOverrideInChildProjects = true\n"
+                      + "    submittableIf = label:Code-Review=MAX\n"
+                      + "[submit-requirement \"Foo\"]\n "
+                      + "    canOverrideInChildProjects = false\n")
+              .parent(projectOperations.project(project).getHead(RefNames.REFS_CONFIG))
+              .create();
+    }
+
+    try (Repository git = repoManager.openRepository(project)) {
+      // Server is able to parse the config.
+      ProjectConfig cfg = projectConfigFactory.create(project);
+      cfg.load(git, revision);
+
+      // One of the two definitions takes precedence and overrides the other.
+      assertThat(cfg.getSubmitRequirementSections())
+          .containsExactly(
+              "Foo",
+              SubmitRequirement.builder()
+                  .setName("Foo")
+                  .setAllowOverrideInChildProjects(false)
+                  .setSubmittabilityExpression(
+                      SubmitRequirementExpression.create("label:Code-Review=MAX"))
+                  .build());
+    }
   }
 
   @Test

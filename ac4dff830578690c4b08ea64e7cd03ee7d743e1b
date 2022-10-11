@@ -16,6 +16,24 @@
       "message": "Add a comment why this is 16000. Also, why not 15000 to line up with their deadline?",
       "revId": "ac4dff830578690c4b08ea64e7cd03ee7d743e1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fab03ac9_a80690ec",
+        "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-11T08:24:27Z",
+      "side": 1,
+      "message": "Added comment. If we would use 15000, then we would probably error out one millisecond before the Android plugin throws an error. So we would at least do something like 15010.",
+      "parentUuid": "fd9c23e8_1a7a9942",
+      "revId": "ac4dff830578690c4b08ea64e7cd03ee7d743e1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

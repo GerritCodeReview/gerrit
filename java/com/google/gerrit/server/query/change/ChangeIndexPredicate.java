@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.index.FieldDef;
+import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Predicate;
 
@@ -32,11 +32,11 @@ public class ChangeIndexPredicate extends IndexPredicate<ChangeData> {
     return ChangeStatusPredicate.NONE;
   }
 
-  protected ChangeIndexPredicate(FieldDef<ChangeData, ?> def, String value) {
+  protected ChangeIndexPredicate(SchemaField<ChangeData, ?> def, String value) {
     super(def, value);
   }
 
-  protected ChangeIndexPredicate(FieldDef<ChangeData, ?> def, String name, String value) {
+  protected ChangeIndexPredicate(SchemaField<ChangeData, ?> def, String name, String value) {
     super(def, name, value);
   }
 }

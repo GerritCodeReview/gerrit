@@ -285,6 +285,8 @@ suite('change model tests', () => {
   // And the missing `replay` led to a bug that was hard to find. That is why
   // we are testing this explicitly here.
   test('basePatchNum$ selector', async () => {
+    await waitUntilObserved(changeModel.basePatchNum$, x => x === PARENT);
+
     const spy = sinon.spy();
     changeModel.basePatchNum$.subscribe(spy);
 

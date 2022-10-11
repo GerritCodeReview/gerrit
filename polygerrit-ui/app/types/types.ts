@@ -20,8 +20,8 @@ import {
 } from './common';
 import {AuthRequestInit} from '../services/gr-auth/gr-auth';
 
-export function notUndefined<T>(x: T | undefined): x is T {
-  return x !== undefined;
+export function notUndefined<T>(x: T): x is NonNullable<T> {
+  return x !== undefined && x !== null;
 }
 
 export interface FixIronA11yAnnouncer extends IronA11yAnnouncer {

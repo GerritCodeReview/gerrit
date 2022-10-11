@@ -270,6 +270,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b2966ab_9c8857cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-10-11T10:15:42Z",
+      "side": 1,
+      "message": "\u003e In my opinion\n\u003e \n\u003e ```\n\u003e   \"that\u0027s not an explanation i would consider adequate ...\"\n\u003e ```\n\u003e \n\u003e could be phrased more friendly.\n\nyes, but this isn\u0027t the comment i was asking about, cf. \"speaking strictly about my alternative proposals, [...]\"\n\n\u003e What I find more concerning was your follow-up comment.\n\u003e \n\u003e ```\n\u003e   \"i find it intellectually insulting to lecture people\"\n\u003e ```\n\u003e \n\u003e This sounds like you think \"people\" are incompetent and that they need to be \"lectured\".\n\nno, it actually says the exact opposite.\n\n\u003e Even worse, you feel \"insulted\" that somebody made this mistake and bothered you with it (note they didn\u0027t ask you for your feedback). \n\nno, i explained why *i* wouldn\u0027t want to use your proposal.\n\nthe point is that it is *painfully* obvious what is wrong with the commit message, by any standards. the failure was merely one of attention/diligence, by two persons. there is just no way to make pointing that out non-personal or positive, which is the real underlying reason why the comment sounds unfriendly.\n\nyou are quite correct that the intention is to minimize the occurrence of such failures in the future. the question is how to achieve that. i don\u0027t see how telling people things they already know would help in any way, which is why i find doing just that intellectually insulting.\n\n\u003e \u003e over the years i\u0027ve participated in many projects and received lots\n\u003e \u003e of complaints (duh), but the complaints about indisputably factual comments\n\u003e \u003e never went beyond variations of \"unpleasant\".\n\u003e \n\u003e To be honest, I think you should consider taking this as a signal that you should really work on improving this.\n\nthere is an \"impedance mismatch\" regarding what \"improving\" means here. i find many aspects of the accepted social protocol pointless, dishonest or manipulative, and therefore just as unpleasant. and i would feel sleazy emulating it.\n\nand to preempt what you\u0027re likely to repeat now: yes, i\u0027d love to just not have to deal with this (or any other) community. unfortunately, this isn\u0027t a practical proposition in the areas i am interested in pursuing.",
+      "parentUuid": "d505ee87_2975c629",
+      "revId": "afd0f7c68cfc44cdd4005fd213ce067486ecc32c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c5e74671_7f0b204e",

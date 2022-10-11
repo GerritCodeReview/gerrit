@@ -260,7 +260,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     resetTimeWithClockStep(1, SECONDS);
   }
 
-  private void resetTimeWithClockStep(long clockStep, TimeUnit clockStepUnit) {
+  void resetTimeWithClockStep(long clockStep, TimeUnit clockStepUnit) {
     systemTimeZone = System.setProperty("user.timezone", "US/Eastern");
     // TODO(dborowitz): Figure out why tests fail when stubbing out
     // SystemReader.
@@ -1665,13 +1665,23 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("age:1d", change2, change1);
 
     // Same test as above, but using filter code path.
-    assertQuery(makeIndexedPredicateFilterQuery("-age:1d"));
-    assertQuery(makeIndexedPredicateFilterQuery("-age:" + (30 * 60 - 1) + "m"));
-    assertQuery(makeIndexedPredicateFilterQuery("-age:2d"), change2);
-    assertQuery(makeIndexedPredicateFilterQuery("-age:3d"), change2, change1);
-    assertQuery(makeIndexedPredicateFilterQuery("age:3d"));
-    assertQuery(makeIndexedPredicateFilterQuery("age:2d"), change1);
-    assertQuery(makeIndexedPredicateFilterQuery("age:1d"), change2, change1);
+    assertQuery(makeIndexedPredicateFilterQuery("-age:1d", Lists.newArrayList(change1, change2)));
+    assertQuery(
+        makeIndexedPredicateFilterQuery(
+            "-age:" + (30 * 60 - 1) + "m", Lists.newArrayList(change1, change2)));
+    assertQuery(
+        makeIndexedPredicateFilterQuery("-age:2d", Lists.newArrayList(change1, change2)), change2);
+    assertQuery(
+        makeIndexedPredicateFilterQuery("-age:3d", Lists.newArrayList(change1, change2)),
+        change2,
+        change1);
+    assertQuery(makeIndexedPredicateFilterQuery("age:3d", Lists.newArrayList(change1, change2)));
+    assertQuery(
+        makeIndexedPredicateFilterQuery("age:2d", Lists.newArrayList(change1, change2)), change1);
+    assertQuery(
+        makeIndexedPredicateFilterQuery("age:1d", Lists.newArrayList(change1, change2)),
+        change2,
+        change1);
   }
 
   @Test
@@ -1702,18 +1712,42 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     // Same test as above, but using filter code path.
     for (String predicate : Lists.newArrayList("before:", "until:")) {
-      assertQuery(makeIndexedPredicateFilterQuery(predicate + "2009-09-29"));
-      assertQuery(makeIndexedPredicateFilterQuery(predicate + "2009-09-30"));
-      assertQuery(makeIndexedPredicateFilterQuery(predicate + "\"2009-09-30 16:59:00 -0400\""));
-      assertQuery(makeIndexedPredicateFilterQuery(predicate + "\"2009-09-30 20:59:00 -0000\""));
-      assertQuery(makeIndexedPredicateFilterQuery(predicate + "\"2009-09-30 20:59:00\""));
       assertQuery(
-          makeIndexedPredicateFilterQuery(predicate + "\"2009-09-30 17:02:00 -0400\""), change1);
+          makeIndexedPredicateFilterQuery(
+              predicate + "2009-09-29", Lists.newArrayList(change1, change2)));
       assertQuery(
-          makeIndexedPredicateFilterQuery(predicate + "\"2009-10-01 21:02:00 -0000\""), change1);
-      assertQuery(makeIndexedPredicateFilterQuery(predicate + "\"2009-10-01 21:02:00\""), change1);
-      assertQuery(makeIndexedPredicateFilterQuery(predicate + "2009-10-01"), change1);
-      assertQuery(makeIndexedPredicateFilterQuery(predicate + "2009-10-03"), change2, change1);
+          makeIndexedPredicateFilterQuery(
+              predicate + "2009-09-30", Lists.newArrayList(change1, change2)));
+      assertQuery(
+          makeIndexedPredicateFilterQuery(
+              predicate + "\"2009-09-30 16:59:00 -0400\"", Lists.newArrayList(change1, change2)));
+      assertQuery(
+          makeIndexedPredicateFilterQuery(
+              predicate + "\"2009-09-30 20:59:00 -0000\"", Lists.newArrayList(change1, change2)));
+      assertQuery(
+          makeIndexedPredicateFilterQuery(
+              predicate + "\"2009-09-30 20:59:00\"", Lists.newArrayList(change1, change2)));
+      assertQuery(
+          makeIndexedPredicateFilterQuery(
+              predicate + "\"2009-09-30 17:02:00 -0400\"", Lists.newArrayList(change1, change2)),
+          change1);
+      assertQuery(
+          makeIndexedPredicateFilterQuery(
+              predicate + "\"2009-10-01 21:02:00 -0000\"", Lists.newArrayList(change1, change2)),
+          change1);
+      assertQuery(
+          makeIndexedPredicateFilterQuery(
+              predicate + "\"2009-10-01 21:02:00\"", Lists.newArrayList(change1, change2)),
+          change1);
+      assertQuery(
+          makeIndexedPredicateFilterQuery(
+              predicate + "2009-10-01", Lists.newArrayList(change1, change2)),
+          change1);
+      assertQuery(
+          makeIndexedPredicateFilterQuery(
+              predicate + "2009-10-03", Lists.newArrayList(change1, change2)),
+          change2,
+          change1);
     }
   }
 
@@ -1739,13 +1773,26 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     // Same test as above, but using filter code path.
     for (String predicate : Lists.newArrayList("after:", "since:")) {
-      assertQuery(makeIndexedPredicateFilterQuery(predicate + "2009-10-03"));
       assertQuery(
-          makeIndexedPredicateFilterQuery(predicate + "\"2009-10-01 20:59:59 -0400\""), change2);
+          makeIndexedPredicateFilterQuery(
+              predicate + "2009-10-03", Lists.newArrayList(change1, change2)));
       assertQuery(
-          makeIndexedPredicateFilterQuery(predicate + "\"2009-10-01 20:59:59 -0000\""), change2);
-      assertQuery(makeIndexedPredicateFilterQuery(predicate + "2009-10-01"), change2);
-      assertQuery(makeIndexedPredicateFilterQuery(predicate + "2009-09-30"), change2, change1);
+          makeIndexedPredicateFilterQuery(
+              predicate + "\"2009-10-01 20:59:59 -0400\"", Lists.newArrayList(change1, change2)),
+          change2);
+      assertQuery(
+          makeIndexedPredicateFilterQuery(
+              predicate + "\"2009-10-01 20:59:59 -0000\"", Lists.newArrayList(change1, change2)),
+          change2);
+      assertQuery(
+          makeIndexedPredicateFilterQuery(
+              predicate + "2009-10-01", Lists.newArrayList(change1, change2)),
+          change2);
+      assertQuery(
+          makeIndexedPredicateFilterQuery(
+              predicate + "2009-09-30", Lists.newArrayList(change1, change2)),
+          change2,
+          change1);
     }
   }
 
@@ -1810,17 +1857,42 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("mergedbefore:2009-10-04", change3, change2);
 
     // Same test as above, but using filter code path.
-    assertQuery(makeIndexedPredicateFilterQuery("mergedbefore:2009-10-01"));
-    assertQuery(makeIndexedPredicateFilterQuery("mergedbefore:2009-10-02"));
-    assertQuery(makeIndexedPredicateFilterQuery("mergedbefore:\"2009-10-01 22:59:00 -0400\""));
-    assertQuery(makeIndexedPredicateFilterQuery("mergedbefore:\"2009-10-01 02:59:00\""));
     assertQuery(
-        makeIndexedPredicateFilterQuery("mergedbefore:\"2009-10-01 23:02:00 -0400\""), change3);
+        makeIndexedPredicateFilterQuery(
+            "mergedbefore:2009-10-01", Lists.newArrayList(change1, change2, change3)));
     assertQuery(
-        makeIndexedPredicateFilterQuery("mergedbefore:\"2009-10-02 03:02:00 -0000\""), change3);
-    assertQuery(makeIndexedPredicateFilterQuery("mergedbefore:\"2009-10-02 03:02:00\""), change3);
-    assertQuery(makeIndexedPredicateFilterQuery("mergedbefore:2009-10-03"), change3);
-    assertQuery(makeIndexedPredicateFilterQuery("mergedbefore:2009-10-04"), change3, change2);
+        makeIndexedPredicateFilterQuery(
+            "mergedbefore:2009-10-02", Lists.newArrayList(change1, change2, change3)));
+    assertQuery(
+        makeIndexedPredicateFilterQuery(
+            "mergedbefore:\"2009-10-01 22:59:00 -0400\"",
+            Lists.newArrayList(change1, change2, change3)));
+    assertQuery(
+        makeIndexedPredicateFilterQuery(
+            "mergedbefore:\"2009-10-01 02:59:00\"", Lists.newArrayList(change1, change2, change3)));
+    assertQuery(
+        makeIndexedPredicateFilterQuery(
+            "mergedbefore:\"2009-10-01 23:02:00 -0400\"",
+            Lists.newArrayList(change1, change2, change3)),
+        change3);
+    assertQuery(
+        makeIndexedPredicateFilterQuery(
+            "mergedbefore:\"2009-10-02 03:02:00 -0000\"",
+            Lists.newArrayList(change1, change2, change3)),
+        change3);
+    assertQuery(
+        makeIndexedPredicateFilterQuery(
+            "mergedbefore:\"2009-10-02 03:02:00\"", Lists.newArrayList(change1, change2, change3)),
+        change3);
+    assertQuery(
+        makeIndexedPredicateFilterQuery(
+            "mergedbefore:2009-10-03", Lists.newArrayList(change1, change2, change3)),
+        change3);
+    assertQuery(
+        makeIndexedPredicateFilterQuery(
+            "mergedbefore:2009-10-04", Lists.newArrayList(change1, change2, change3)),
+        change3,
+        change2);
   }
 
   @Test
@@ -1872,24 +1944,45 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     // Same test as above, but using filter code path.
 
-    assertQuery(makeIndexedPredicateFilterQuery("mergedafter:2009-10-01"), change3, change2);
+    assertQuery(
+        makeIndexedPredicateFilterQuery(
+            "mergedafter:2009-10-01", Lists.newArrayList(change1, change2, change3)),
+        change3,
+        change2);
     // Changes are sorted by lastUpdatedOn first, then by mergedOn.
     // Even though Change2 was merged after Change3, Change3 is returned first.
     assertQuery(
-        makeIndexedPredicateFilterQuery("mergedafter:\"2009-10-01 22:59:00 -0400\""),
+        makeIndexedPredicateFilterQuery(
+            "mergedafter:\"2009-10-01 22:59:00 -0400\"",
+            Lists.newArrayList(change1, change2, change3)),
         change3,
         change2);
     assertQuery(
-        makeIndexedPredicateFilterQuery("mergedafter:\"2009-10-02 02:59:00 -0000\""),
+        makeIndexedPredicateFilterQuery(
+            "mergedafter:\"2009-10-02 02:59:00 -0000\"",
+            Lists.newArrayList(change1, change2, change3)),
         change3,
         change2);
     assertQuery(
-        makeIndexedPredicateFilterQuery("mergedafter:\"2009-10-01 23:02:00 -0400\""), change2);
+        makeIndexedPredicateFilterQuery(
+            "mergedafter:\"2009-10-01 23:02:00 -0400\"",
+            Lists.newArrayList(change1, change2, change3)),
+        change2);
     assertQuery(
-        makeIndexedPredicateFilterQuery("mergedafter:\"2009-10-02 03:02:00 -0000\""), change2);
+        makeIndexedPredicateFilterQuery(
+            "mergedafter:\"2009-10-02 03:02:00 -0000\"",
+            Lists.newArrayList(change1, change2, change3)),
+        change2);
     // Changes included on the date submitted.
-    assertQuery(makeIndexedPredicateFilterQuery("mergedafter:2009-10-02"), change3, change2);
-    assertQuery(makeIndexedPredicateFilterQuery("mergedafter:2009-10-03"), change2);
+    assertQuery(
+        makeIndexedPredicateFilterQuery(
+            "mergedafter:2009-10-02", Lists.newArrayList(change1, change2, change3)),
+        change3,
+        change2);
+    assertQuery(
+        makeIndexedPredicateFilterQuery(
+            "mergedafter:2009-10-03", Lists.newArrayList(change1, change2, change3)),
+        change2);
   }
 
   @Test
@@ -3930,8 +4023,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
    * tested (for all changes without a reviewer):
    *
    * <ul>
-   *   <li>The search term 'status:new OR status:merged OR status:abandoned' is used to return all
-   *       changes from the search index.
+   *   <li>The search term 'change:<change_number> ...' is used to return all changes from the
+   *       search index.
    *   <li>The non-indexed search term 'reviewerin:"Empty Group"' is only used to make the right AND
    *       operand work as a filter (not a data source).
    *   <li>See how it is rewritten in {@link
@@ -3942,14 +4035,25 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
    *     as filter
    * @return a search query that allows to test the {@code searchTerm} as a filter.
    */
-  protected String makeIndexedPredicateFilterQuery(String searchTerm) throws Exception {
+  protected String makeIndexedPredicateFilterQuery(String searchTerm, List<Change> allChanges)
+      throws Exception {
     String emptyGroupName = "Empty Group";
     if (gApi.groups().query(emptyGroupName).get().isEmpty()) {
       createGroup(emptyGroupName, "Administrators");
     }
-    String queryPattern =
-        "(status:new OR status:merged OR status:abandoned) AND (reviewerin:\"%s\" OR %s)";
-    return String.format(queryPattern, emptyGroupName, searchTerm);
+    String queryPattern = "(%s) AND (reviewerin:\"%s\" OR %s)";
+    return String.format(queryPattern, getChangesQuery(allChanges), emptyGroupName, searchTerm);
+  }
+
+  protected String getChangesQuery(List<Change> allChanges) {
+    StringBuilder query = new StringBuilder();
+    for (Change change : allChanges) {
+      if (query.length() > 0) {
+        query.append(" OR ");
+      }
+      query.append("change:" + change.getChangeId());
+    }
+    return query.toString();
   }
 
   private void addComment(int changeId, String message, Boolean unresolved) throws Exception {

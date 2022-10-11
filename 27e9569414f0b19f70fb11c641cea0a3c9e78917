@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "884c5f76_2e786f73",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-11T15:28:39Z",
+      "side": 0,
+      "message": "This test should remain.",
+      "revId": "27e9569414f0b19f70fb11c641cea0a3c9e78917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b387dc8_db02499e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-11T15:28:39Z",
+      "side": 0,
+      "message": "This test should remain.",
+      "revId": "27e9569414f0b19f70fb11c641cea0a3c9e78917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ea4fc52_91d4928f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-11T15:28:39Z",
+      "side": 0,
+      "message": "This test should remain.",
+      "revId": "27e9569414f0b19f70fb11c641cea0a3c9e78917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cdfac46_8ba7ad29",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-11T15:28:39Z",
+      "side": 0,
+      "message": "This test should remain.",
+      "revId": "27e9569414f0b19f70fb11c641cea0a3c9e78917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "215927fe_bacbe74e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-11T15:28:39Z",
+      "side": 0,
+      "message": "This test should remain.",
+      "revId": "27e9569414f0b19f70fb11c641cea0a3c9e78917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

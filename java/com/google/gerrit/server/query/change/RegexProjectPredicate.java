@@ -24,7 +24,7 @@ public class RegexProjectPredicate extends ChangeRegexPredicate {
   protected final RunAutomaton pattern;
 
   public RegexProjectPredicate(String re) {
-    super(ChangeField.PROJECT, re);
+    super(ChangeField.PROJECT_SPEC, re);
 
     if (re.startsWith("^")) {
       re = re.substring(1);

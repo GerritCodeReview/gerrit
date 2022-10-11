@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2d93755_0799b02e",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-10-11T10:31:08Z",
+      "side": 1,
+      "message": "should probably check also check for read access?",
+      "range": {
+        "startLine": 122,
+        "startChar": 29,
+        "endLine": 122,
+        "endChar": 42
+      },
+      "revId": "55bafc1cd124e6e1210242571e7aebdaf1b51bfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0fcddec8_71f4c68e",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatchUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-10-11T10:31:08Z",
+      "side": 1,
+      "message": "this should also process the header lines and the message body.\n\nThere is already code in gerrit to parse email messages (for the email ingestion), maybe you can crib from that.",
+      "revId": "55bafc1cd124e6e1210242571e7aebdaf1b51bfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

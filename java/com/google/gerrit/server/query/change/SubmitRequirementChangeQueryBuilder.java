@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.index.FieldDef;
+import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
 import com.google.gerrit.index.query.QueryParseException;
@@ -61,7 +61,7 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
   }
 
   @Override
-  protected void checkFieldAvailable(FieldDef<ChangeData, ?> field, String operator) {
+  protected void checkFieldAvailable(SchemaField<ChangeData, ?> field, String operator) {
     // Submit requirements don't rely on the index, so they can be used regardless of index schema
     // version.
   }

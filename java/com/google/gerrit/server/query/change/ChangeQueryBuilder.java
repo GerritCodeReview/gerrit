@@ -42,9 +42,9 @@ import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.exceptions.NotSignedInException;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.Schema;
+import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import com.google.gerrit.index.SchemaUtil;
 import com.google.gerrit.index.query.LimitPredicate;
 import com.google.gerrit.index.query.Predicate;
@@ -1600,7 +1600,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     return Predicate.or(predicates);
   }
 
-  protected void checkFieldAvailable(FieldDef<ChangeData, ?> field, String operator)
+  protected void checkFieldAvailable(SchemaField<ChangeData, ?> field, String operator)
       throws QueryParseException {
     if (!args.index.getSchema().hasField(field)) {
       throw new QueryParseException(

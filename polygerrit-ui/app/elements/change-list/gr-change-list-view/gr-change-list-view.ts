@@ -7,7 +7,6 @@ import '../gr-change-list/gr-change-list';
 import '../gr-repo-header/gr-repo-header';
 import '../gr-user-header/gr-user-header';
 import {page} from '../../../utils/page-wrapper-utils';
-import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
   AccountDetailInfo,
   AccountId,
@@ -22,29 +21,12 @@ import {getAppContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css, nothing} from 'lit';
 import {customElement, state, query} from 'lit/decorators.js';
-import {ValueChangedEvent} from '../../../types/events';
 import {
   createSearchUrl,
   searchViewModelToken,
-  SearchViewState,
 } from '../../../models/views/search';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
-import {createChangeUrl} from '../../../models/views/change';
-import {debounce, DelayedTask} from '../../../utils/async-util';
-
-const GET_CHANGES_DEBOUNCE_INTERVAL_MS = 10;
-
-const LOOKUP_QUERY_PATTERNS: RegExp[] = [
-  /^\s*i?[0-9a-f]{7,40}\s*$/i, // CHANGE_ID
-  /^\s*[1-9][0-9]*\s*$/g, // CHANGE_NUM
-  /[0-9a-f]{40}/, // COMMIT
-];
-
-const USER_QUERY_PATTERN = /^owner:\s?("[^"]+"|[^ ]+)$/;
-
-const REPO_QUERY_PATTERN =
-  /^project:\s?("[^"]+"|[^ ]+)(\sstatus\s?:(open|"open"))?$/;
 
 const LIMIT_OPERATOR_PATTERN = /\blimit:(\d+)/i;
 
@@ -59,21 +41,6 @@ export class GrChangeListView extends LitElement {
   @query('#prevArrow') protected prevArrow?: HTMLAnchorElement;
 
   @query('#nextArrow') protected nextArrow?: HTMLAnchorElement;
-
-  private _viewState?: SearchViewState;
-
-  @state()
-  get viewState() {
-    return this._viewState;
-  }
-
-  set viewState(viewState: SearchViewState | undefined) {
-    if (this._viewState === viewState) return;
-    const oldViewState = this._viewState;
-    this._viewState = viewState;
-    this.viewStateChanged();
-    this.requestUpdate('viewState', oldViewState);
-  }
 
   // private but used in test
   @state() account?: AccountDetailInfo;
@@ -91,21 +58,19 @@ export class GrChangeListView extends LitElement {
   @state() query = '';
 
   // private but used in test
-  @state() offset?: number;
+  @state() offset = 0;
 
   // private but used in test
-  @state() changes?: ChangeInfo[];
+  @state() changes: ChangeInfo[] = [];
 
   // private but used in test
   @state() loading = true;
 
   // private but used in test
-  @state() userId: AccountId | EmailAddress | null = null;
+  @state() userId?: AccountId | EmailAddress;
 
   // private but used in test
-  @state() repo: RepoName | null = null;
-
-  @state() selectedIndex = 0;
+  @state() repo?: RepoName;
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -115,17 +80,40 @@ export class GrChangeListView extends LitElement {
 
   private readonly getViewModel = resolve(this, searchViewModelToken);
 
-  private readonly getNavigation = resolve(this, navigationToken);
-
   constructor() {
     super();
     this.addEventListener('next-page', () => this.handleNextPage());
     this.addEventListener('previous-page', () => this.handlePreviousPage());
-    this.addEventListener('reload', () => this.reload());
+
     subscribe(
       this,
-      () => this.getViewModel().state$,
-      x => (this.viewState = x)
+      () => this.getViewModel().query$,
+      x => (this.query = x)
+    );
+    subscribe(
+      this,
+      () => this.getViewModel().offsetNumber$,
+      x => (this.offset = x)
+    );
+    subscribe(
+      this,
+      () => this.getViewModel().loading$,
+      x => (this.loading = x)
+    );
+    subscribe(
+      this,
+      () => this.getViewModel().changes$,
+      x => (this.changes = x)
+    );
+    subscribe(
+      this,
+      () => this.getViewModel().userId$,
+      x => (this.userId = x)
+    );
+    subscribe(
+      this,
+      () => this.getViewModel().repo$,
+      x => (this.repo = x)
     );
     subscribe(
       this,
@@ -139,20 +127,14 @@ export class GrChangeListView extends LitElement {
     );
     subscribe(
       this,
-      () => this.userModel.preferences$,
-      x => {
-        this.preferences = x;
-        if (this.changesPerPage !== x.changes_per_page) {
-          this.changesPerPage = x.changes_per_page;
-          this.debouncedGetChanges();
-        }
-      }
+      () => this.userModel.preferenceChangesPerPage$,
+      x => (this.changesPerPage = x)
     );
-  }
-
-  override disconnectedCallback() {
-    this.getChangesTask?.flush();
-    super.disconnectedCallback();
+    subscribe(
+      this,
+      () => this.userModel.preferences$,
+      x => (this.preferences = x)
+    );
   }
 
   static override get styles() {
@@ -211,10 +193,6 @@ export class GrChangeListView extends LitElement {
           .changes=${this.changes}
           .preferences=${this.preferences}
           .showStar=${this.loggedIn}
-          .selectedIndex=${this.selectedIndex}
-          @selected-index-changed=${(e: ValueChangedEvent<number>) => {
-            this.selectedIndex = e.detail.value;
-          }}
           @toggle-star=${(e: CustomEvent<ChangeStarToggleStarDetail>) => {
             this.handleToggleStar(e);
           }}
@@ -276,69 +254,10 @@ export class GrChangeListView extends LitElement {
     `;
   }
 
-  override willUpdate(changedProperties: PropertyValues) {
-    if (changedProperties.has('changes')) {
-      this.changesChanged();
+  override updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('query')) {
+      fireTitleChange(this, this.query);
     }
-  }
-
-  reload() {
-    if (!this.loading) this.debouncedGetChanges();
-  }
-
-  // private, but visible for testing
-  viewStateChanged() {
-    if (!this.viewState) return;
-
-    let offset = Number(this.viewState.offset);
-    if (isNaN(offset)) offset = 0;
-    const query = this.viewState.query ?? '';
-
-    if (this.query !== query) this.selectedIndex = 0;
-    this.loading = true;
-    this.query = query;
-    this.offset = offset;
-
-    // NOTE: This method may be called before attachment. Fire title-change
-    // in an async so that attachment to the DOM can take place first.
-    setTimeout(() => fireTitleChange(this, this.query));
-
-    this.debouncedGetChanges(true);
-  }
-
-  private getChangesTask?: DelayedTask;
-
-  private debouncedGetChanges(shouldSingleMatchRedirect = false) {
-    this.getChangesTask = debounce(
-      this.getChangesTask,
-      () => {
-        this.getChanges(shouldSingleMatchRedirect);
-      },
-      GET_CHANGES_DEBOUNCE_INTERVAL_MS
-    );
-  }
-
-  async getChanges(shouldSingleMatchRedirect = false) {
-    this.loading = true;
-    const changes =
-      (await this.restApiService.getChanges(
-        this.changesPerPage,
-        this.query,
-        this.offset
-      )) ?? [];
-    if (shouldSingleMatchRedirect && this.query && changes.length === 1) {
-      for (const queryPattern of LOOKUP_QUERY_PATTERNS) {
-        if (this.query.match(queryPattern)) {
-          // "Back"/"Forward" buttons work correctly only with replaceUrl()
-          this.getNavigation().replaceUrl(
-            createChangeUrl({change: changes[0]})
-          );
-          return;
-        }
-      }
-    }
-    this.changes = changes;
-    this.loading = false;
   }
 
   // private but used in test
@@ -369,26 +288,6 @@ export class GrChangeListView extends LitElement {
   handlePreviousPage() {
     if (!this.prevArrow || !this.changesPerPage) return;
     page.show(this.computeNavLink(-1));
-  }
-
-  private changesChanged() {
-    this.userId = null;
-    this.repo = null;
-    const changes = this.changes;
-    if (!changes || !changes.length) {
-      return;
-    }
-    if (USER_QUERY_PATTERN.test(this.query)) {
-      const owner = changes[0].owner;
-      const userId = owner._account_id ? owner._account_id : owner.email;
-      if (userId) {
-        this.userId = userId;
-        return;
-      }
-    }
-    if (REPO_QUERY_PATTERN.test(this.query)) {
-      this.repo = changes[0].project;
-    }
   }
 
   // private but used in test

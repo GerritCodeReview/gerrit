@@ -16,10 +16,11 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.index.query.HasCardinality;
 import com.google.gerrit.index.query.PostFilterPredicate;
 import com.google.gerrit.server.IdentifiedUser;
 
-public class OwnerinPredicate extends PostFilterPredicate<ChangeData> {
+public class OwnerinPredicate extends PostFilterPredicate<ChangeData> implements HasCardinality {
   protected final IdentifiedUser.GenericFactory userFactory;
   protected final AccountGroup.UUID uuid;
 
@@ -42,5 +43,10 @@ public class OwnerinPredicate extends PostFilterPredicate<ChangeData> {
   @Override
   public int getCost() {
     return 2;
+  }
+
+  @Override
+  public int getCardinality() {
+    return 500;
   }
 }

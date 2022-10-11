@@ -151,7 +151,7 @@ interface ChecksState {
   };
 }
 
-const FETCH_RESULT_TIMEOUT_MS = 10000;
+const FETCH_RESULT_TIMEOUT_MS = 16000;
 
 /**
  * Can be used in `reduce()` to collect all results from all runs from all

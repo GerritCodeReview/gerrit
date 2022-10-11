@@ -20,6 +20,8 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.a
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.capabilityKey;
+import static com.google.gerrit.entities.RefNames.changeMetaRef;
+import static com.google.gerrit.entities.RefNames.patchSetRef;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -28,11 +30,13 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -43,8 +47,10 @@ import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.Patch;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Permission;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -55,6 +61,7 @@ import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.client.Side;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
@@ -71,8 +78,15 @@ import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
+import java.io.File;
+import java.io.IOException;
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.ReflogEntry;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -105,28 +119,50 @@ public class ImpersonationIT extends AbstractDaemonTest {
   }
 
   @Test
+  @UseLocalDisk
   public void voteOnBehalfOf() throws Exception {
     allowCodeReviewOnBehalfOf();
+    TestAccount realUser = admin;
+    TestAccount impersonatedUser = user;
     PushOneCommit.Result r = createChange();
     RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
 
-    ReviewInput in = ReviewInput.recommend();
-    in.onBehalfOf = user.id().toString();
-    in.message = "Message on behalf of";
-    revision.review(in);
+    try (Repository repo = repoManager.openRepository(project)) {
+      String changeMetaRef = changeMetaRef(r.getChange().getId());
+      createRefLogFileIfMissing(repo, changeMetaRef);
 
-    PatchSetApproval psa = Iterables.getOnlyElement(r.getChange().approvals().values());
-    assertThat(psa.patchSetId().get()).isEqualTo(1);
-    assertThat(psa.label()).isEqualTo("Code-Review");
-    assertThat(psa.accountId()).isEqualTo(user.id());
-    assertThat(psa.value()).isEqualTo(1);
-    assertThat(psa.realAccountId()).isEqualTo(admin.id());
+      ReviewInput in = ReviewInput.recommend();
+      in.onBehalfOf = impersonatedUser.id().toString();
+      in.message = "Message on behalf of";
+      revision.review(in);
 
-    ChangeData cd = r.getChange();
-    ChangeMessage m = Iterables.getLast(cmUtil.byChange(cd.notes()));
-    assertThat(m.getMessage()).endsWith(in.message);
-    assertThat(m.getAuthor()).isEqualTo(user.id());
-    assertThat(m.getRealAuthor()).isEqualTo(admin.id());
+      PatchSetApproval psa = Iterables.getOnlyElement(r.getChange().approvals().values());
+      assertThat(psa.patchSetId().get()).isEqualTo(1);
+      assertThat(psa.label()).isEqualTo("Code-Review");
+      assertThat(psa.accountId()).isEqualTo(impersonatedUser.id());
+      assertThat(psa.value()).isEqualTo(1);
+      assertThat(psa.realAccountId()).isEqualTo(realUser.id());
+
+      ChangeData cd = r.getChange();
+      ChangeMessage m = Iterables.getLast(cmUtil.byChange(cd.notes()));
+      assertThat(m.getMessage()).endsWith(in.message);
+      assertThat(m.getAuthor()).isEqualTo(impersonatedUser.id());
+      assertThat(m.getRealAuthor()).isEqualTo(realUser.id());
+
+      // The change meta commit is created by the server and has the impersonated user as the
+      // author.
+      // Person idents of users in NoteDb commits are obfuscated due to privacy reasons.
+      RevCommit changeMetaCommit = projectOperations.project(project).getHead(changeMetaRef);
+      assertThat(changeMetaCommit.getCommitterIdent().getEmailAddress())
+          .isEqualTo(serverIdent.get().getEmailAddress());
+      assertThat(changeMetaCommit.getAuthorIdent().getEmailAddress())
+          .isEqualTo(changeNoteUtil.getAccountIdAsEmailAddress(impersonatedUser.id()));
+
+      // The ref log for the change meta ref records the impersonated user.
+      ReflogEntry changeMetaRefLogEntry = repo.getReflogReader(changeMetaRef).getLastEntry();
+      assertThat(changeMetaRefLogEntry.getWho().getEmailAddress())
+          .isEqualTo(impersonatedUser.email());
+    }
   }
 
   @Test
@@ -342,21 +378,120 @@ public class ImpersonationIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitOnBehalfOf() throws Exception {
-    allowSubmitOnBehalfOf();
-    PushOneCommit.Result r = createChange();
+  @UseLocalDisk
+  public void submitOnBehalfOf_mergeAlways() throws Exception {
+    TestAccount realUser = admin;
+    TestAccount impersonatedUser = admin2;
+
+    // Create a project with MERGE_ALWAYS submit strategy so that a merge commit is created on
+    // submit and we can verify its committer and author and the ref log for the update of the
+    // target branch.
+    Project.NameKey project =
+        projectOperations.newProject().submitType(SubmitType.MERGE_ALWAYS).create();
+
+    testSubmitOnBehalfOf(project, realUser, impersonatedUser);
+
+    // The merge commit is created by the server and has the impersonated user as the author.
+    RevCommit mergeCommit = projectOperations.project(project).getHead("refs/heads/master");
+    assertThat(mergeCommit.getCommitterIdent().getEmailAddress())
+        .isEqualTo(serverIdent.get().getEmailAddress());
+    assertThat(mergeCommit.getAuthorIdent().getEmailAddress()).isEqualTo(impersonatedUser.email());
+
+    // The ref log for the target branch records the impersonated user.
+    try (Repository repo = repoManager.openRepository(project)) {
+      ReflogEntry targetBranchRefLogEntry =
+          repo.getReflogReader("refs/heads/master").getLastEntry();
+      assertThat(targetBranchRefLogEntry.getWho().getEmailAddress())
+          .isEqualTo(impersonatedUser.email());
+    }
+  }
+
+  @Test
+  @UseLocalDisk
+  public void submitOnBehalfOf_rebaseAlways() throws Exception {
+    TestAccount realUser = admin;
+    TestAccount impersonatedUser = admin2;
+
+    // Create a project with REBASE_ALWAYS submit strategy so that a new patch set is created on
+    // submit and we can verify its committer and author and the ref log for the update of the
+    // patch set ref and the target branch.
+    Project.NameKey project =
+        projectOperations.newProject().submitType(SubmitType.REBASE_ALWAYS).create();
+
+    ChangeData cd = testSubmitOnBehalfOf(project, realUser, impersonatedUser);
+
+    // Rebase on submit is expected to create a new patch set.
+    assertThat(cd.currentPatchSet().id().get()).isEqualTo(2);
+
+    // The patch set commit is created by the impersonated user and has the real user as the author.
+    // Recording the real user as the author seems to a bug, we would expect the author to be the
+    // impersonated user.
+    RevCommit newPatchSetCommit =
+        projectOperations.project(project).getHead(cd.currentPatchSet().refName());
+    assertThat(newPatchSetCommit.getCommitterIdent().getEmailAddress())
+        .isEqualTo(impersonatedUser.email());
+    assertThat(newPatchSetCommit.getAuthorIdent().getEmailAddress()).isEqualTo(realUser.email());
+
+    try (Repository repo = repoManager.openRepository(project)) {
+      // The ref log for the patch set ref records the impersonated user.
+      ReflogEntry patchSetRefLogEntry =
+          repo.getReflogReader(cd.currentPatchSet().refName()).getLastEntry();
+      assertThat(patchSetRefLogEntry.getWho().getEmailAddress())
+          .isEqualTo(impersonatedUser.email());
+
+      // The ref log for the target branch records the impersonated user.
+      ReflogEntry targetBranchRefLogEntry =
+          repo.getReflogReader("refs/heads/master").getLastEntry();
+      assertThat(targetBranchRefLogEntry.getWho().getEmailAddress())
+          .isEqualTo(impersonatedUser.email());
+    }
+  }
+
+  @CanIgnoreReturnValue
+  private ChangeData testSubmitOnBehalfOf(
+      Project.NameKey project, TestAccount realUser, TestAccount impersonatedUser)
+      throws Exception {
+    allowSubmitOnBehalfOf(project);
+
+    TestRepository<InMemoryRepository> testRepo = cloneProject(project, realUser);
+
+    PushOneCommit.Result r = createChange(testRepo);
     String changeId = project.get() + "~master~" + r.getChangeId();
     gApi.changes().id(changeId).current().review(ReviewInput.approve());
     SubmitInput in = new SubmitInput();
-    in.onBehalfOf = admin2.email();
-    gApi.changes().id(changeId).current().submit(in);
+    in.onBehalfOf = impersonatedUser.email();
 
-    ChangeData cd = r.getChange();
-    assertThat(cd.change().isMerged()).isTrue();
-    PatchSetApproval submitter =
-        approvalsUtil.getSubmitter(cd.notes(), cd.change().currentPatchSetId());
-    assertThat(submitter.accountId()).isEqualTo(admin2.id());
-    assertThat(submitter.realAccountId()).isEqualTo(admin.id());
+    try (Repository repo = repoManager.openRepository(project)) {
+      String changeMetaRef = changeMetaRef(r.getChange().getId());
+      createRefLogFileIfMissing(repo, changeMetaRef);
+      createRefLogFileIfMissing(repo, "refs/heads/master");
+      createRefLogFileIfMissing(repo, patchSetRef(PatchSet.id(r.getChange().getId(), 2)));
+
+      gApi.changes().id(changeId).current().submit(in);
+
+      ChangeData cd = r.getChange();
+      assertThat(cd.change().isMerged()).isTrue();
+      PatchSetApproval submitter =
+          approvalsUtil.getSubmitter(cd.notes(), cd.change().currentPatchSetId());
+      assertThat(submitter.accountId()).isEqualTo(impersonatedUser.id());
+      assertThat(submitter.realAccountId()).isEqualTo(realUser.id());
+
+      // The change meta commit is created by the server and has the impersonated user as the
+      // author.
+      // Person idents of users in NoteDb commits are obfuscated due to privacy reasons.
+      RevCommit changeMetaCommit = projectOperations.project(project).getHead(changeMetaRef);
+      assertThat(changeMetaCommit.getCommitterIdent().getEmailAddress())
+          .isEqualTo(serverIdent.get().getEmailAddress());
+      assertThat(changeMetaCommit.getAuthorIdent().getEmailAddress())
+          .isEqualTo(changeNoteUtil.getAccountIdAsEmailAddress(impersonatedUser.id()));
+
+      // The ref log for the change meta ref records the impersonated user.
+      ReflogEntry changeMetaRefLogEntry = repo.getReflogReader(changeMetaRef).getLastEntry();
+      assertThat(changeMetaRefLogEntry.getWho().getEmailAddress())
+          .isEqualTo(impersonatedUser.email());
+
+      return cd;
+    }
   }
 
   @Test
@@ -591,6 +726,10 @@ public class ImpersonationIT extends AbstractDaemonTest {
   }
 
   private void allowSubmitOnBehalfOf() throws Exception {
+    allowSubmitOnBehalfOf(project);
+  }
+
+  private void allowSubmitOnBehalfOf(Project.NameKey project) throws Exception {
     String heads = "refs/heads/*";
     projectOperations
         .project(project)
@@ -629,5 +768,13 @@ public class ImpersonationIT extends AbstractDaemonTest {
 
   private static Header runAsHeader(Object user) {
     return new BasicHeader("X-Gerrit-RunAs", user.toString());
+  }
+
+  private void createRefLogFileIfMissing(Repository repo, String ref) throws IOException {
+    File log = new File(repo.getDirectory(), "logs/" + ref);
+    if (!log.exists()) {
+      log.getParentFile().mkdirs();
+      assertThat(log.createNewFile()).isTrue();
+    }
   }
 }

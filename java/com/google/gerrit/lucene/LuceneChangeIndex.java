@@ -83,6 +83,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -382,7 +383,8 @@ public class LuceneChangeIndex implements ChangeIndex {
 
     @Override
     public int getCardinality() {
-      return 10; // TODO(dborowitz): estimate from Lucene?
+      Optional<Integer> cardinality = predicate.getOptionalCardinality();
+      return cardinality.isPresent() ? cardinality.get() : 10;
     }
 
     @Override

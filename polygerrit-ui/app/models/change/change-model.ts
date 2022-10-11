@@ -27,7 +27,6 @@ import {
   map,
   filter,
   withLatestFrom,
-  distinctUntilChanged,
   startWith,
   switchMap,
 } from 'rxjs/operators';
@@ -234,27 +233,27 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
      * out inconsistent state, e.g. router changeNum already updated, change not
      * yet reset to undefined.
      */
-    combineLatest([this.routerModel.state$, this.state$, this.userModel.state$])
-      .pipe(
+    select(
+      combineLatest([
+        this.routerModel.state$,
+        this.state$,
+        this.userModel.state$,
+      ]).pipe(
         filter(([routerState, changeState, _]) => {
           const changeNum = changeState.change?._number;
           const routerChangeNum = routerState.changeNum;
           return changeNum === undefined || changeNum === routerChangeNum;
         }),
-        distinctUntilChanged()
-      )
-      .pipe(
         withLatestFrom(
           this.routerModel.routerBasePatchNum$,
           this.patchNum$,
           this.change$,
           this.userModel.preferences$
-        ),
-        map(([_, routerBasePatchNum, patchNum, change, preferences]) =>
-          computeBase(routerBasePatchNum, patchNum, change, preferences)
-        ),
-        distinctUntilChanged()
-      );
+        )
+      ),
+      ([_, routerBasePatchNum, patchNum, change, preferences]) =>
+        computeBase(routerBasePatchNum, patchNum, change, preferences)
+    );
 
   public readonly isOwner$: Observable<boolean> = select(
     combineLatest([this.change$, this.userModel.account$]),

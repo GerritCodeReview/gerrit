@@ -1982,19 +1982,20 @@ export class GrChangeActions
           return Promise.resolve(undefined);
         }
         const patchNum = revisionAction ? this.latestPatchNum : undefined;
-        return this.restApiService
-          .executeChangeAction(
-            changeNum,
-            method,
-            actionEndpoint,
-            patchNum,
-            payload,
-            handleError
-          )
-          .then(response => {
-            cleanupFn.call(this);
-            return response;
-          });
+        console.log('send', revisionAction, this.latestPatchNum, patchNum);
+        // return this.restApiService
+        //   .executeChangeAction(
+        //     changeNum,
+        //     method,
+        //     actionEndpoint,
+        //     patchNum,
+        //     payload,
+        //     handleError
+        //   )
+        //   .then(response => {
+        //     cleanupFn.call(this);
+        //     return response;
+        //   });
       });
   }
 

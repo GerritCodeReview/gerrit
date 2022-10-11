@@ -21,8 +21,9 @@ import static com.google.gerrit.server.index.change.ChangeField.EXACT_COMMIT;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.index.FieldDef;
+import com.google.gerrit.index.query.HasCardinality;
 
-public class CommitPredicate extends ChangeIndexPredicate {
+public class CommitPredicate extends ChangeIndexPredicate implements HasCardinality {
   static FieldDef<ChangeData, ?> commitField(String id) {
     if (id.length() == ObjectIds.STR_LEN) {
       return EXACT_COMMIT;
@@ -55,5 +56,10 @@ public class CommitPredicate extends ChangeIndexPredicate {
   @Override
   public int getCost() {
     return 1;
+  }
+
+  @Override
+  public int getCardinality() {
+    return 5;
   }
 }

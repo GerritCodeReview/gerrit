@@ -15,10 +15,11 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.index.query.HasCardinality;
 import com.google.gerrit.server.index.change.ChangeField;
 
 /** Predicate over Change-Id strings (aka Change.Key). */
-public class ChangeIdPredicate extends ChangeIndexPredicate {
+public class ChangeIdPredicate extends ChangeIndexPredicate implements HasCardinality {
   public ChangeIdPredicate(String id) {
     super(ChangeField.ID, ChangeQueryBuilder.FIELD_CHANGE, id);
   }
@@ -40,5 +41,10 @@ public class ChangeIdPredicate extends ChangeIndexPredicate {
   @Override
   public int getCost() {
     return 1;
+  }
+
+  @Override
+  public int getCardinality() {
+    return 5;
   }
 }

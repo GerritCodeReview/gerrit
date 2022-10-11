@@ -52,7 +52,10 @@ import com.google.gerrit.index.PaginationType;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.Schema;
+import com.google.gerrit.index.query.AndPredicate;
 import com.google.gerrit.index.query.FieldBundle;
+import com.google.gerrit.index.query.HasCardinality;
+import com.google.gerrit.index.query.OrPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.ResultSet;
@@ -382,7 +385,35 @@ public class LuceneChangeIndex implements ChangeIndex {
 
     @Override
     public int getCardinality() {
-      return 10; // TODO(dborowitz): estimate from Lucene?
+      int cardinality = getCardinality(predicate);
+      return cardinality == -1 ? 10 : cardinality;
+    }
+
+    private int getCardinality(Predicate<ChangeData> predicate) {
+      if (predicate instanceof AndPredicate) {
+        int cardinality = Integer.MAX_VALUE;
+        for (Predicate<ChangeData> child : predicate.getChildren()) {
+          int c = getCardinality(child);
+          if (c != -1) {
+            cardinality = Math.min(c, cardinality);
+          }
+        }
+        return cardinality;
+      }
+      if (predicate instanceof OrPredicate) {
+        int cardinality = 0;
+        for (Predicate<ChangeData> child : predicate.getChildren()) {
+          int c = getCardinality(child);
+          if (c != -1) {
+            cardinality += c;
+          }
+        }
+        return cardinality;
+      }
+      if (predicate instanceof HasCardinality) {
+        return ((HasCardinality<ChangeData>) predicate).getCardinality();
+      }
+      return -1;
     }
 
     @Override

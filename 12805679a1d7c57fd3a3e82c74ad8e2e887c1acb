@@ -1,0 +1,383 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47aceb0d_2a2b6394",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 2128,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-12T22:10:20Z",
+      "side": 1,
+      "message": "How about \"Create Patch Set from patch\" ?",
+      "range": {
+        "startLine": 2128,
+        "startChar": 4,
+        "endLine": 2128,
+        "endChar": 27
+      },
+      "revId": "12805679a1d7c57fd3a3e82c74ad8e2e887c1acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e81d5b8e_f434a58a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 2130,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-12T22:10:20Z",
+      "side": 1,
+      "message": "nit: extra `/`",
+      "range": {
+        "startLine": 2130,
+        "startChar": 45,
+        "endLine": 2130,
+        "endChar": 46
+      },
+      "revId": "12805679a1d7c57fd3a3e82c74ad8e2e887c1acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "998c7290_ca2ac121",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 2130,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-12T22:10:20Z",
+      "side": 1,
+      "message": "nit: Do we need \u0027apply\u0027 here or could this just be \u0027patch\u0027?\n\nWe have `GET /changes/{change-id}/revisions/{revision-id}/patch` already and a `GET /changes/{change-id}/patch` could be a shortcut for the current patch set patch (not saying you should add that now, just a thought for later and an example of how the APIs would align).",
+      "range": {
+        "startLine": 2130,
+        "startChar": 47,
+        "endLine": 2130,
+        "endChar": 57
+      },
+      "revId": "12805679a1d7c57fd3a3e82c74ad8e2e887c1acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf062c00_f0615e3f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 2133,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-12T22:10:20Z",
+      "side": 1,
+      "message": "API docs for similar operations mention that if the change is closed the API will fail.",
+      "revId": "12805679a1d7c57fd3a3e82c74ad8e2e887c1acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08b10a26_ddcbb36a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 2136,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-12T22:10:20Z",
+      "side": 1,
+      "message": "If you go with the endpoint rename I suggest above, you could do `PatchSetPatchInput`, which might read better. Or drop any reference to a patchset and do `PatchInput` or `ChangePatchInput`.",
+      "range": {
+        "startLine": 2136,
+        "startChar": 31,
+        "endLine": 2136,
+        "endChar": 54
+      },
+      "revId": "12805679a1d7c57fd3a3e82c74ad8e2e887c1acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d15b5626_b8624b91",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 2139,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-12T22:10:20Z",
+      "side": 1,
+      "message": "What happens if the patch doesn\u0027t apply cleanly to the base? Do you need an `allow_conflicts` in the input?",
+      "revId": "12805679a1d7c57fd3a3e82c74ad8e2e887c1acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2acf2005_73193499",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 6574,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-12T22:10:20Z",
+      "side": 1,
+      "message": "s/uploaded/saved/ ?",
+      "range": {
+        "startLine": 6574,
+        "startChar": 49,
+        "endLine": 6574,
+        "endChar": 57
+      },
+      "revId": "12805679a1d7c57fd3a3e82c74ad8e2e887c1acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c399103f_f0cee4c3",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 6594,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-12T22:10:20Z",
+      "side": 1,
+      "message": "Is this the commit message?\n\nIf yes, it should be called `message` or `commit_message` and you probably need to mention that any included Change-Id needs to match the existing change (like the Set Commit Message endpoint does). For background, the subject of a commit message is only the first line, so subject is a different thing.\n\nIf this does actually set just the subject somehow, how can someone set the whole commit message?",
+      "range": {
+        "startLine": 6594,
+        "startChar": 2,
+        "endLine": 6594,
+        "endChar": 9
+      },
+      "revId": "12805679a1d7c57fd3a3e82c74ad8e2e887c1acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57c17eb2_380e0739",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 6597,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-12T22:10:20Z",
+      "side": 1,
+      "message": "s/change/patch set/",
+      "range": {
+        "startLine": 6597,
+        "startChar": 86,
+        "endLine": 6597,
+        "endChar": 92
+      },
+      "revId": "12805679a1d7c57fd3a3e82c74ad8e2e887c1acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ed0fc88_b9ca73b7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 6603,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-12T22:10:20Z",
+      "side": 1,
+      "message": "These lines appear contradictory. Is this an `AccountInput` or a name/email combo?",
+      "range": {
+        "startLine": 6601,
+        "startChar": 0,
+        "endLine": 6603,
+        "endChar": 55
+      },
+      "revId": "12805679a1d7c57fd3a3e82c74ad8e2e887c1acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b68bd6ef_50e331d8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 6604,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-12T22:10:20Z",
+      "side": 1,
+      "message": "Do they need that if the account/email is their own?",
+      "range": {
+        "startLine": 6604,
+        "startChar": 0,
+        "endLine": 6604,
+        "endChar": 65
+      },
+      "revId": "12805679a1d7c57fd3a3e82c74ad8e2e887c1acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "658d75ca_f4ff7e1a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 6605,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-12T22:10:20Z",
+      "side": 1,
+      "message": "Is that also true for committer since you don\u0027t provide a way to input it?",
+      "range": {
+        "startLine": 6605,
+        "startChar": 31,
+        "endLine": 6605,
+        "endChar": 36
+      },
+      "revId": "12805679a1d7c57fd3a3e82c74ad8e2e887c1acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3725ebac_47997346",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 6983,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-12T22:10:20Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this only be added in 346975: Implement patch applying for new changes (as part of CreateChange). | https://gerrit-review.googlesource.com/c/gerrit/+/346975 ? Or if you\u0027re keeping API/impl in separate changes (not sure why that\u0027s the pattern being followed here), should this be its own change?",
+      "range": {
+        "startLine": 6982,
+        "startChar": 0,
+        "endLine": 6983,
+        "endChar": 84
+      },
+      "revId": "12805679a1d7c57fd3a3e82c74ad8e2e887c1acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bcbc3e2_682f31eb",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ApplyPatchInput.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-12T22:10:20Z",
+      "side": 1,
+      "message": "Use javadoc formatting?",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 19,
+        "endChar": 4
+      },
+      "revId": "12805679a1d7c57fd3a3e82c74ad8e2e887c1acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71c358d4_8442ec02",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ApplyPatchPatchSetInput.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-12T22:10:20Z",
+      "side": 1,
+      "message": "If the others aren\u0027t required, I think they should be `@Nullable`, so you won\u0027t need this comment.",
+      "range": {
+        "startLine": 21,
+        "startChar": 32,
+        "endLine": 21,
+        "endChar": 43
+      },
+      "revId": "12805679a1d7c57fd3a3e82c74ad8e2e887c1acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a60fc0fc_2e6b3a38",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ApplyPatchPatchSetInput.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-12T22:10:20Z",
+      "side": 1,
+      "message": "Use javadoc formatting",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 23,
+        "endChar": 4
+      },
+      "revId": "12805679a1d7c57fd3a3e82c74ad8e2e887c1acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "156b6216_b1787a58",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeRestApiModule.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-12T22:10:20Z",
+      "side": 1,
+      "message": "this doesn\u0027t match the doc (doc doesn\u0027t have `_`)",
+      "range": {
+        "startLine": 125,
+        "startChar": 23,
+        "endLine": 125,
+        "endChar": 34
+      },
+      "revId": "12805679a1d7c57fd3a3e82c74ad8e2e887c1acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

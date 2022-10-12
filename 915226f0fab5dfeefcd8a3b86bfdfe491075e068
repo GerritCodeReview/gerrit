@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63977961_9ca4b215",
+        "filename": "polygerrit-ui/app/utils/link-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-10-12T09:25:33Z",
+      "side": 1,
+      "message": "Is this used anywhere (outside of tests)?",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 1
+      },
+      "revId": "915226f0fab5dfeefcd8a3b86bfdfe491075e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf5ae687_9af0e26a",
+        "filename": "polygerrit-ui/app/utils/link-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-10-12T09:25:33Z",
+      "side": 1,
+      "message": "I think the comment doesn\u0027t clearly convey purpose of this.\n\nI would suggest pointing out explicitly, that unchanged portion is eligible for further matches, while the replaced part is not.\n\nI would also change the names of `originalTextStartPosition` and `originalTextEndPosition` to reflect that. ie. `replacedTextStartPosition`",
+      "range": {
+        "startLine": 73,
+        "startChar": 6,
+        "endLine": 75,
+        "endChar": 66
+      },
+      "revId": "915226f0fab5dfeefcd8a3b86bfdfe491075e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "037672bb_a346a9a4",
+        "filename": "polygerrit-ui/app/utils/link-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-10-12T09:25:33Z",
+      "side": 1,
+      "message": "check if the replacementText is empty?\n\nMakes it easier to reason about in next methods, if they are guaranteed non-empty",
+      "range": {
+        "startLine": 78,
+        "startChar": 6,
+        "endLine": 84,
+        "endChar": 9
+      },
+      "revId": "915226f0fab5dfeefcd8a3b86bfdfe491075e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "800a09ed_38162189",
+        "filename": "polygerrit-ui/app/utils/link-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-10-12T09:25:33Z",
+      "side": 1,
+      "message": "Why is unpacking necessary here?",
+      "range": {
+        "startLine": 96,
+        "startChar": 40,
+        "endLine": 96,
+        "endChar": 59
+      },
+      "revId": "915226f0fab5dfeefcd8a3b86bfdfe491075e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac861b3f_ec3432b8",
+        "filename": "polygerrit-ui/app/utils/link-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-10-12T09:25:33Z",
+      "side": 1,
+      "message": "Nit: I have a preference for having a fully defined sort order (ie. also have secondary comparison parameters, when end position is the same).\n\nOr at least specify in the comment above, that among the ones that have the same ending position, the one that is earlier in the list will be applied.",
+      "range": {
+        "startLine": 97,
+        "startChar": 10,
+        "endLine": 97,
+        "endChar": 73
+      },
+      "revId": "915226f0fab5dfeefcd8a3b86bfdfe491075e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a21bcab_35f35eb9",
+        "filename": "polygerrit-ui/app/utils/link-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-10-12T09:25:33Z",
+      "side": 1,
+      "message": "I think this part can be written in a way that\u0027s easier to understand, and when written without \"piping\".\n\n```\nfilteredRewrites \u003d [];\nlet latestReplace \u003d base.length;\nfor (let rewrite of sortedRewrites) {\n  if (rewrite.originalTextEndPosition \u003c\u003d latestRewrite) {\n    filteredRewrites.push(rewrite);\n    latestReplace \u003d rewrite.originalTextStartPosition;\n  }\n}\n```\n\nnit: I would also write the reduce below as a state machine (building the string from start to end gradually), as I think it\u0027s easier to read. But I think in `reduce` case, that\u0027s just my preference, so feel free to ignore.",
+      "range": {
+        "startLine": 98,
+        "startChar": 4,
+        "endLine": 103,
+        "endChar": 6
+      },
+      "revId": "915226f0fab5dfeefcd8a3b86bfdfe491075e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64d48429_f69de1dd",
+        "filename": "polygerrit-ui/app/utils/string-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-10-12T09:25:33Z",
+      "side": 1,
+      "message": "I feel like this is too much complexity added in order to avoid writing a for loop. I would just do a for-loop.\n\nThe description also doesn\u0027t specify what the result should be if `a` is prefix of `b`. I think this should be supercase of (a is empty) and to me the reasonable return value is a.length (and not -1)\n\n```\nlet i \u003d 0;\nfor (; i \u003c a.length \u0026\u0026 i \u003c b.length; ++i) {\n  if (a[i] !\u003d b[i]) {\n    return i;\n  }\n}\nreturn a.length \u003d\u003d\u003d b.length ? -1 : i;\n```\n\nSame for the method below.",
+      "range": {
+        "startLine": 113,
+        "startChar": 2,
+        "endLine": 122,
+        "endChar": 59
+      },
+      "revId": "915226f0fab5dfeefcd8a3b86bfdfe491075e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

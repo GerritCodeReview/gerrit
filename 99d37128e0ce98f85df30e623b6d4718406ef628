@@ -16,6 +16,24 @@
       "message": "What is \u0027replay\u0027 functionality?\n\nI admit I don\u0027t understand why this broke without select, but maybe my rxjs-fu isn\u0027t strong enough.",
       "revId": "99d37128e0ce98f85df30e623b6d4718406ef628",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a18cc315_2183f07d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-12T12:04:54Z",
+      "side": 1,
+      "message": "I made a [sandbox demo of the differences](https://codesandbox.io/s/rxjs-playground-forked-wgv57k?file\u003d/src/index.js).\n\nBut it looks like [you added this yourself](https://gerrit-review.googlesource.com/c/gerrit/+/324621/9/polygerrit-ui/app/utils/observable-util.ts#25)?",
+      "parentUuid": "f8ce568e_3bf91674",
+      "revId": "99d37128e0ce98f85df30e623b6d4718406ef628",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

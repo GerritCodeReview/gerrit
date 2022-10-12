@@ -6,7 +6,13 @@
 import '../../../test/common-test-setup';
 import './gr-settings-view';
 import {GrSettingsView} from './gr-settings-view';
-import {queryAll, stubRestApi, waitEventLoop} from '../../../test/test-utils';
+import {
+  queryAll,
+  queryAndAssert,
+  stubFlags,
+  stubRestApi,
+  waitEventLoop,
+} from '../../../test/test-utils';
 import {
   AuthInfo,
   AccountDetailInfo,
@@ -507,6 +513,24 @@ suite('gr-settings-view tests', () => {
           </gr-endpoint-decorator>
         </div>
       </div>`
+    );
+  });
+
+  test('allow browser notifications', async () => {
+    stubFlags('isEnabled').returns(true);
+    element = await fixture(html`<gr-settings-view></gr-settings-view>`);
+    element.account = createAccountDetailWithId();
+    await element.updateComplete;
+    assert.dom.equal(
+      queryAndAssert(element, '#allowBrowserNotificationsSection'),
+      /* HTML */ `<section id="allowBrowserNotificationsSection">
+        <label class="title" for="allowBrowserNotifications">
+          Allow browser notifications
+        </label>
+        <span class="value">
+          <input checked="" id="allowBrowserNotifications" type="checkbox" />
+        </span>
+      </section>`
     );
   });
 

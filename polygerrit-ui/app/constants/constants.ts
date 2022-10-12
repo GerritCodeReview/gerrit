@@ -270,6 +270,7 @@ export function createDefaultPreferences(): PreferencesInfo {
     change_table: [],
     email_strategy: EmailStrategy.ATTENTION_SET_ONLY,
     default_base_for_merges: DefaultBase.AUTO_MERGE,
+    allow_browser_notifications: false,
   };
 }
 

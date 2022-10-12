@@ -28,7 +28,11 @@ import {GrWatchedProjectsEditor} from '../gr-watched-projects-editor/gr-watched-
 import {GrGroupList} from '../gr-group-list/gr-group-list';
 import {GrIdentities} from '../gr-identities/gr-identities';
 import {GrDiffPreferences} from '../../shared/gr-diff-preferences/gr-diff-preferences';
-import {PreferencesInput, ServerInfo} from '../../../types/common';
+import {
+  AccountDetailInfo,
+  PreferencesInput,
+  ServerInfo,
+} from '../../../types/common';
 import {GrSshEditor} from '../gr-ssh-editor/gr-ssh-editor';
 import {GrGpgEditor} from '../gr-gpg-editor/gr-gpg-editor';
 import {GrEmailEditor} from '../gr-email-editor/gr-email-editor';
@@ -58,6 +62,7 @@ import {KnownExperimentId} from '../../../services/flags/flags';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {settingsViewModelToken} from '../../../models/views/settings';
+import {areNotificationsEnabled} from '../../../utils/worker-util';
 
 const GERRIT_DOCS_BASE_URL =
   'https://gerrit-review.googlesource.com/' + 'Documentation';
@@ -110,6 +115,9 @@ export class GrSettingsView extends LitElement {
   @query('#showSizeBarsInFileList') showSizeBarsInFileList!: HTMLInputElement;
 
   @query('#publishCommentsOnPush') publishCommentsOnPush!: HTMLInputElement;
+
+  @query('#allowBrowserNotifications')
+  allowBrowserNotifications?: HTMLInputElement;
 
   @query('#disableKeyboardShortcuts')
   disableKeyboardShortcuts!: HTMLInputElement;
@@ -186,6 +194,8 @@ export class GrSettingsView extends LitElement {
   // private but used in test
   @state() showNumber?: boolean;
 
+  @state() account?: AccountDetailInfo;
+
   // private but used in test
   public _testOnly_loadingPromise?: Promise<void>;
 
@@ -193,7 +203,8 @@ export class GrSettingsView extends LitElement {
 
   private readonly userModel = getAppContext().userModel;
 
-  private readonly flagsService = getAppContext().flagsService;
+  // private but used in test
+  readonly flagsService = getAppContext().flagsService;
 
   private readonly getViewModel = resolve(this, settingsViewModelToken);
 
@@ -205,6 +216,13 @@ export class GrSettingsView extends LitElement {
       x => {
         this.emailToken = x;
         this.confirmEmail();
+      }
+    );
+    subscribe(
+      this,
+      () => this.userModel.account$,
+      acc => {
+        this.account = acc;
       }
     );
     subscribe(
@@ -399,7 +417,8 @@ export class GrSettingsView extends LitElement {
           <fieldset id="preferences">
             ${this.renderTheme()} ${this.renderChangesPerPages()}
             ${this.renderDateTimeFormat()} ${this.renderEmailNotification()}
-            ${this.renderEmailFormat()} ${this.renderDefaultBaseForMerges()}
+            ${this.renderEmailFormat()} ${this.renderBrowserNotifications()}
+            ${this.renderDefaultBaseForMerges()}
             ${this.renderRelativeDateInChangeTable()} ${this.renderDiffView()}
             ${this.renderShowSizeBarsInFileList()}
             ${this.renderPublishCommentsOnPush()}
@@ -864,6 +883,31 @@ export class GrSettingsView extends LitElement {
               <option value="PLAINTEXT">Plaintext only</option>
             </select>
           </gr-select>
+        </span>
+      </section>
+    `;
+  }
+
+  private renderBrowserNotifications() {
+    if (!this.flagsService.isEnabled(KnownExperimentId.PUSH_NOTIFICATIONS))
+      return nothing;
+    if (!areNotificationsEnabled(this.account)) return nothing;
+    return html`
+      <section id="allowBrowserNotificationsSection">
+        <label class="title" for="allowBrowserNotifications"
+          >Allow browser notifications</label
+        >
+        <span class="value">
+          <input
+            id="allowBrowserNotifications"
+            type="checkbox"
+            ?checked=${this.localPrefs.allow_browser_notifications}
+            @change=${() => {
+              this.localPrefs.allow_browser_notifications =
+                this.allowBrowserNotifications!.checked;
+              this.prefsChanged = true;
+            }}
+          />
         </span>
       </section>
     `;

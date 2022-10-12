@@ -6,6 +6,7 @@
 
 export interface GerritServiceWorkerState {
   latestUpdateTimestampMs: number;
+  allowBrowserNotificationsPreference: boolean;
 }
 
 const SERVICE_WORKER_DB = 'service-worker-db-1';

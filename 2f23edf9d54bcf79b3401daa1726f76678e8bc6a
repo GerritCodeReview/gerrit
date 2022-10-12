@@ -89,6 +89,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "819c0cb8_4e369cf9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-12T12:58:51Z",
+      "side": 1,
+      "message": "Hi Martin, the reason I abandoned this change is that it was needed as part of the series (the 4 linked changes) to move the \u0027edits\u0027 field outside of the change index. Now that we don\u0027t need to proceed with these series right now, I abandoned.\n\n\u003e This was a cool idea, I know we could definitely make use of it to look up changes in our bug tracker in bulk.\n\nPer my understanding, change search does not hit the match methods, but rather uses the field name and value available in the predicate. The match (and matchAll of this change) methods should\u0027ve been called since the EditPredicate is a \u0027post filter predicate\u0027 and I needed to implement it to optimise the matching for multiple changes at once.\n\nHow do you think this is needed? Happy to receive your feedback and re-consider this feature if it\u0027s going to be useful.\n\n\u003e The bug link doesn\u0027t work.\n\nUnfortunately, the link is google internal. Pasting my analysis in the attached bug here at the end for your reference.\n\n--\n\n\nWe discussed this FR in the team meeting. Pasting the main points for future reference:\n\nHere are the important points / concerns:\n\n* do we really need to move edits out of the index? What\u0027s the benefit? consensus: no clear benefit compared to e.g. drafts, nice to have. It\u0027s OK to leave edits in the index. This is no blocker for the \u003cindexing backend migration at Google\u003e.\n\n* concern: are we OK with the new restriction (has:edit query will return changes where user is in {owner, reviewer, cc})? consensus: look at existing data and verify that this assumption is OK.\n\n* concern: what if I have an edit, and I\u0027m e.g. in CC, then someone removed me from CC. Should the edit be automatically removed? should removing from CC be disallowed? consensus: we didn\u0027t reach an agreement here. one suggestion is to do just nothing and the change will not be returned in has:edit queries. claim: user needs to re-add themselves as CC, reply: but user can\u0027t know these change IDs because has:edit will no longer match with the change ... ¯_(ツ)_/¯\n\nPoint 3 might overcomplicate this FR more than needed hence might not justify the extra effort.",
+      "parentUuid": "79aa0209_1f429f20",
+      "revId": "2f23edf9d54bcf79b3401daa1726f76678e8bc6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90185d25_c80ddecb",

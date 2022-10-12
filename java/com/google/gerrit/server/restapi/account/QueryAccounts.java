@@ -240,7 +240,7 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
       if (suggest) {
         return Response.ok(ImmutableList.of());
       }
-      throw new BadRequestException(e.getMessage());
+      throw new BadRequestException(e.getMessage(), e);
     }
   }
 }

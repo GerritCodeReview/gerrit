@@ -70,7 +70,6 @@ export class GrApp extends LitElement {
         appContext.flagsService,
         appContext.userModel
       );
-      this.serviceWorkerInstaller.init();
     }
   }
 

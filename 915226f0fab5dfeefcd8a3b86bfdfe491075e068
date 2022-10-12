@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1a29e97_23a8febe",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-12T09:27:08Z",
+      "side": 1,
+      "message": "I admit I don\u0027t understand this logic.\n\nIt\u0027s replacing (Start:) and ([0-9]+) with \u0027$1 [$2]\u0027 which would make one think that the input is consumed but then we\u0027re rematching the same text.",
+      "revId": "915226f0fab5dfeefcd8a3b86bfdfe491075e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63977961_9ca4b215",
@@ -139,6 +156,40 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "56f603f5_36caf0cf",
+        "filename": "polygerrit-ui/app/utils/link-util_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-12T09:27:08Z",
+      "side": 1,
+      "message": "Thanks for all the tests!",
+      "revId": "915226f0fab5dfeefcd8a3b86bfdfe491075e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1436d45c_59a61492",
+        "filename": "polygerrit-ui/app/utils/string-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-12T09:27:08Z",
+      "side": 1,
+      "message": "Why do you assume that a.length \u003c b.length?\n\nI also wonder if it\u0027s the most straightforward way to take the findIndex approach instead of a simple for loop.  The latter avoids having to blow up the string into an array.",
+      "revId": "915226f0fab5dfeefcd8a3b86bfdfe491075e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "64d48429_f69de1dd",
@@ -158,6 +209,40 @@
         "endLine": 122,
         "endChar": 59
       },
+      "revId": "915226f0fab5dfeefcd8a3b86bfdfe491075e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ab96687_a158d99a",
+        "filename": "polygerrit-ui/app/utils/string-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-12T09:27:08Z",
+      "side": 1,
+      "message": "Same comment regarding using a (reverse) for loop.",
+      "revId": "915226f0fab5dfeefcd8a3b86bfdfe491075e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e92796b6_6bcb5b59",
+        "filename": "polygerrit-ui/app/utils/string-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-12T09:27:08Z",
+      "side": 1,
+      "message": "Is there any way to only have a single function for first/Last Difference and reverse the array in this function to avoid having to split the string twice. It would also remove one function, making the testing surface smaller",
       "revId": "915226f0fab5dfeefcd8a3b86bfdfe491075e068",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

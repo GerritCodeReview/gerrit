@@ -114,7 +114,7 @@ public class AndSource<T> extends AndPredicate<T> implements DataSource<T> {
 
   @SuppressWarnings("unchecked")
   private PaginatingSource<T> toPaginatingSource(Predicate<T> pred) {
-    return new PaginatingSource<T>((DataSource<T>) pred, start, indexConfig) {
+    return new PaginatingSource<>((DataSource<T>) pred, start, indexConfig) {
       @Override
       protected boolean match(T object) {
         return AndSource.this.match(object);

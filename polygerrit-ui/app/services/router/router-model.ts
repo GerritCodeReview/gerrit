@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {Observable} from 'rxjs';
-import {distinctUntilChanged, map} from 'rxjs/operators';
 import {Finalizable} from '../registry';
 import {
   NumericChangeId,
@@ -12,6 +11,7 @@ import {
   BasePatchSetNum,
 } from '../../types/common';
 import {Model} from '../../models/model';
+import {select} from '../../utils/observable-util';
 
 export enum GerritView {
   ADMIN = 'admin',
@@ -37,31 +37,23 @@ export interface RouterState {
 }
 
 export class RouterModel extends Model<RouterState> implements Finalizable {
-  readonly routerView$: Observable<GerritView | undefined>;
+  readonly routerView$: Observable<GerritView | undefined> = select(
+    this.state$,
+    state => state.view
+  );
 
-  readonly routerChangeNum$: Observable<NumericChangeId | undefined>;
+  readonly routerChangeNum$: Observable<NumericChangeId | undefined> = select(
+    this.state$,
+    state => state.changeNum
+  );
 
-  readonly routerPatchNum$: Observable<RevisionPatchSetNum | undefined>;
+  readonly routerPatchNum$: Observable<RevisionPatchSetNum | undefined> =
+    select(this.state$, state => state.patchNum);
 
-  readonly routerBasePatchNum$: Observable<BasePatchSetNum | undefined>;
+  readonly routerBasePatchNum$: Observable<BasePatchSetNum | undefined> =
+    select(this.state$, state => state.basePatchNum);
 
   constructor() {
     super({});
-    this.routerView$ = this.state$.pipe(
-      map(state => state.view),
-      distinctUntilChanged()
-    );
-    this.routerChangeNum$ = this.state$.pipe(
-      map(state => state.changeNum),
-      distinctUntilChanged()
-    );
-    this.routerPatchNum$ = this.state$.pipe(
-      map(state => state.patchNum),
-      distinctUntilChanged()
-    );
-    this.routerBasePatchNum$ = this.state$.pipe(
-      map(state => state.basePatchNum),
-      distinctUntilChanged()
-    );
   }
 }

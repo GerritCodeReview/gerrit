@@ -854,7 +854,6 @@ export class GrReplyDialog extends LitElement {
           .reviewerState=${ReviewerState.CC}
           @account-added=${this.handleAccountAdded}
           @accounts-changed=${this.handleCcsChanged}
-          .removableValues=${this.change?.removable_reviewers}
           .filter=${this.filterCCSuggestion}
           .pendingConfirmation=${this.ccPendingConfirmation}
           @pending-confirmation-changed=${this.handleCcsConfirmationChanged}

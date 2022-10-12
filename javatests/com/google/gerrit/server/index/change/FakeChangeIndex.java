@@ -40,9 +40,9 @@ public class FakeChangeIndex implements ChangeIndex {
   static final Schema<ChangeData> V2 =
       schema(
           2,
-          ImmutableList.of(ChangeField.PATH, ChangeField.UPDATED),
-          ImmutableList.of(ChangeField.STATUS_FIELD),
-          ImmutableList.of(ChangeField.STATUS_SPEC));
+          ImmutableList.of(ChangeField.UPDATED),
+          ImmutableList.of(ChangeField.PATH_FIELD, ChangeField.STATUS_FIELD),
+          ImmutableList.of(ChangeField.PATH_SPEC, ChangeField.STATUS_SPEC));
 
   private static class Source implements ChangeDataSource {
     private final Predicate<ChangeData> p;

@@ -61,10 +61,7 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
               ChangeField.EXTENSION,
               ChangeField.FILE_PART,
               ChangeField.FOOTER,
-              ChangeField.FUZZY_HASHTAG,
               ChangeField.GROUP,
-              ChangeField.HASHTAG,
-              ChangeField.HASHTAG_CASE_AWARE,
               ChangeField.ID,
               ChangeField.IS_PURE_REVERT,
               ChangeField.IS_SUBMITTABLE,
@@ -72,11 +69,9 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
               ChangeField.LEGACY_ID_STR,
               ChangeField.MERGE,
               ChangeField.MERGEABLE,
-              ChangeField.MERGED_ON,
               ChangeField.ONLY_EXTENSIONS,
               ChangeField.OWNER,
               ChangeField.PATCH_SET,
-              ChangeField.PATH,
               ChangeField.PENDING_REVIEWER,
               ChangeField.PENDING_REVIEWER_BY_EMAIL,
               ChangeField.PRIVATE,
@@ -101,19 +96,28 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
               ChangeField.UPLOADER,
               ChangeField.WIP),
           ImmutableList.of(
-              ChangeField.SUBMISSIONID_FIELD,
-              ChangeField.STATUS_FIELD,
+              ChangeField.HASHTAG_CASE_AWARE_FIELD,
+              ChangeField.HASHTAG_FIELD,
+              ChangeField.MERGED_ON_FIELD,
+              ChangeField.PATH_FIELD,
               ChangeField.PROJECT_FIELD,
               ChangeField.REF_FIELD,
+              ChangeField.STATUS_FIELD,
+              ChangeField.SUBMISSIONID_FIELD,
               ChangeField.TOPIC_FIELD),
           ImmutableList.of(
               ChangeField.EXACT_TOPIC,
+              ChangeField.FUZZY_HASHTAG,
               ChangeField.FUZZY_TOPIC,
-              ChangeField.SUBMISSIONID_SPEC,
-              ChangeField.STATUS_SPEC,
-              ChangeField.PROJECT_SPEC,
+              ChangeField.HASHTAG_CASE_AWARE_SPEC,
+              ChangeField.HASHTAG_SPEC,
+              ChangeField.MERGED_ON_SPEC,
+              ChangeField.PATH_SPEC,
               ChangeField.PROJECTS_SPEC,
-              ChangeField.REF_SPEC));
+              ChangeField.PROJECT_SPEC,
+              ChangeField.REF_SPEC,
+              ChangeField.STATUS_SPEC,
+              ChangeField.SUBMISSIONID_SPEC));
 
   /**
    * Added new field {@link ChangeField#PREFIX_HASHTAG} and {@link ChangeField#PREFIX_TOPIC} to
@@ -123,7 +127,7 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   static final Schema<ChangeData> V75 =
       new Schema.Builder<ChangeData>()
           .add(V74)
-          .add(ChangeField.PREFIX_HASHTAG)
+          .addSearchSpecs(ChangeField.PREFIX_HASHTAG)
           .addSearchSpecs(ChangeField.PREFIX_TOPIC)
           .build();
 

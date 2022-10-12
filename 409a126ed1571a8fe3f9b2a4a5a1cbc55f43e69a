@@ -16,6 +16,24 @@
       "message": "We probably want to explain why this policy change makes sense. If possible, it would be good to give an example that is affected by this change.",
       "revId": "409a126ed1571a8fe3f9b2a4a5a1cbc55f43e69a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93512eba_218d9f05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-10-12T14:05:16Z",
+      "side": 1,
+      "message": "Done. Tried to explain better.",
+      "parentUuid": "085ca5e0_df382df1",
+      "revId": "409a126ed1571a8fe3f9b2a4a5a1cbc55f43e69a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

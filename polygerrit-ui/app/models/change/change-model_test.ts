@@ -22,6 +22,7 @@ import {
   CommitId,
   EDIT,
   NumericChangeId,
+  PARENT,
   PatchSetNum,
   PatchSetNumber,
 } from '../../types/common';
@@ -63,7 +64,7 @@ suite('updateChangeWithEdit() tests', () => {
   });
 });
 
-suite('change service tests', () => {
+suite('change model tests', () => {
   let changeModel: ChangeModel;
   let knownChange: ParsedChangeInfo;
   const testCompleted = new Subject<void>();
@@ -278,5 +279,26 @@ suite('change service tests', () => {
       ...createChangeMessageInfo(),
       message: 'blah blah',
     });
+  });
+
+  // At some point we had forgotten the `select()` wrapper for this selector.
+  // And the missing `replay` led to a bug that was hard to find. That is why
+  // we are testing this explicitly here.
+  test('basePatchNum$ selector', async () => {
+    const spy = sinon.spy();
+    changeModel.basePatchNum$.subscribe(spy);
+
+    // test replay
+    assert.equal(spy.callCount, 1);
+    assert.equal(spy.lastCall.firstArg, PARENT);
+
+    // test update
+    changeModel.routerModel.updateState({basePatchNum: 1 as PatchSetNumber});
+    assert.equal(spy.callCount, 2);
+    assert.equal(spy.lastCall.firstArg, 1 as PatchSetNumber);
+
+    // test distinctUntilChanged
+    changeModel.updateStateChange(createParsedChange());
+    assert.equal(spy.callCount, 2);
   });
 });

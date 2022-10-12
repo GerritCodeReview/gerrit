@@ -233,27 +233,28 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
       throws IOException {
     Set<String> destHashes = new HashSet<>();
     or.rw.reset();
-    markHeadUninteresting(or, b);
-    for (RevCommit c : sourceCommits) {
-      String name = c.name();
-      if (ignoreHashes.contains(name)) {
-        continue;
+    if (checkAndMarkHeadUninteresting(or, b)) {
+      for (RevCommit c : sourceCommits) {
+        String name = c.name();
+        if (ignoreHashes.contains(name)) {
+          continue;
+        }
+        destHashes.add(name);
+        or.rw.markStart(c);
       }
-      destHashes.add(name);
-      or.rw.markStart(c);
-    }
-    for (RevCommit c : or.rw) {
-      String name = c.name();
-      if (ignoreHashes.contains(name)) {
-        continue;
+      for (RevCommit c : or.rw) {
+        String name = c.name();
+        if (ignoreHashes.contains(name)) {
+          continue;
+        }
+        destHashes.add(name);
       }
-      destHashes.add(name);
     }
 
     return destHashes;
   }
 
-  private void markHeadUninteresting(OpenRepo or, Branch.NameKey b) throws IOException {
+  private boolean checkAndMarkHeadUninteresting(OpenRepo or, Branch.NameKey b) throws IOException {
     Optional<RevCommit> head = heads.get(b);
     if (head == null) {
       Ref ref = or.repo.getRefDatabase().exactRef(b.get());
@@ -263,6 +264,8 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
     if (head.isPresent()) {
       or.rw.markUninteresting(head.get());
     }
+
+    return head.isPresent();
   }
 
   private void logErrorAndThrow(String msg) throws OrmException {

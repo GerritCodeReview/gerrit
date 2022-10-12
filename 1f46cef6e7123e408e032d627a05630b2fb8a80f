@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "734fbbe1_36be14dc",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1365,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-12T09:16:18Z",
+      "side": 1,
+      "message": "Consider compiling the regular expression once and passing it into renderSection.",
+      "revId": "1f46cef6e7123e408e032d627a05630b2fb8a80f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6cd0233_f9438c34",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1374,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-12T09:16:18Z",
+      "side": 1,
+      "message": "This condition could be broken down into pieces with meaningful names, its\u0027 hard to figure out what it does.",
+      "revId": "1f46cef6e7123e408e032d627a05630b2fb8a80f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b0f6117_d2bba537",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1409,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-12T09:16:18Z",
+      "side": 1,
+      "message": "Test for this?",
+      "revId": "1f46cef6e7123e408e032d627a05630b2fb8a80f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb3747fe_4c3d23d6",
+        "filename": "polygerrit-ui/app/models/views/change.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-12T09:16:18Z",
+      "side": 1,
+      "message": "Test for this?",
+      "revId": "1f46cef6e7123e408e032d627a05630b2fb8a80f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

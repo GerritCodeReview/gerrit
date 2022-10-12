@@ -23,6 +23,7 @@ import com.codahale.metrics.Snapshot;
 import com.codahale.metrics.Timer;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import java.util.ArrayList;
@@ -144,6 +145,7 @@ class MetricJson {
     }
   }
 
+  @Nullable
   private static Boolean toBool(ImmutableMap<String, String> atts, String key) {
     return Description.TRUE_VALUE.equals(atts.get(key)) ? true : null;
   }

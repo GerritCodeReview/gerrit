@@ -16,6 +16,7 @@ package com.google.gerrit.httpd.auth.restapi;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.auth.oauth.OAuthTokenCache;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.auth.oauth.OAuthToken;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -70,6 +71,7 @@ public class GetOAuthToken implements RestReadView<AccountResource> {
     return Response.ok(accessTokenInfo);
   }
 
+  @Nullable
   private static String getHostName(String canonicalWebUrl) {
     if (canonicalWebUrl == null) {
       logger.atSevere().log(

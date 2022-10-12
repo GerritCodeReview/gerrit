@@ -15,6 +15,7 @@
 package com.google.gerrit.server.config;
 
 import com.google.common.collect.Iterables;
+import com.google.gerrit.common.Nullable;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -140,6 +141,7 @@ public final class SitePaths {
    * @param path the path string to resolve. May be null.
    * @return the resolved path; null if {@code path} was null or empty.
    */
+  @Nullable
   public Path resolve(String path) {
     if (path != null && !path.isEmpty()) {
       Path loc = site_path.resolve(path).normalize();

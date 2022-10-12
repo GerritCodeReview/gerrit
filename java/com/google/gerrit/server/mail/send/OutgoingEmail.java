@@ -380,10 +380,12 @@ public abstract class OutgoingEmail {
     return SystemReader.getInstance().getHostname();
   }
 
+  @Nullable
   public String getSettingsUrl() {
     return args.urlFormatter.get().getSettingsUrl().orElse(null);
   }
 
+  @Nullable
   private String getGerritUrl() {
     return args.urlFormatter.get().getWebUrl().orElse(null);
   }
@@ -471,6 +473,7 @@ public abstract class OutgoingEmail {
    * @param accountId user to fetch.
    * @return name/email of account, username, or null if unset or the accountId is null.
    */
+  @Nullable
   protected String getUserNameEmailFor(@Nullable Account.Id accountId) {
     if (accountId == null) {
       return null;
@@ -594,6 +597,7 @@ public abstract class OutgoingEmail {
     }
   }
 
+  @Nullable
   private Address toAddress(Account.Id id) {
     Optional<Account> accountState = args.accountCache.get(id).map(AccountState::account);
     if (!accountState.isPresent()) {

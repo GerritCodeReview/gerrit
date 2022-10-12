@@ -25,6 +25,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Maps;
+import com.google.gerrit.common.Nullable;
 import java.io.BufferedReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -105,6 +106,7 @@ public class FakeHttpServletRequest implements HttpServletRequest {
     return -1;
   }
 
+  @Nullable
   @Override
   public String getContentType() {
     List<String> contentType = headers.get("Content-Type");

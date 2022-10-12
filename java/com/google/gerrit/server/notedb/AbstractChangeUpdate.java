@@ -101,6 +101,7 @@ public abstract class AbstractChangeUpdate {
         user);
   }
 
+  @Nullable
   private static Account.Id accountId(CurrentUser u) {
     checkUserType(u);
     return (u instanceof IdentifiedUser) ? u.getAccountId() : null;
@@ -206,6 +207,7 @@ public abstract class AbstractChangeUpdate {
    *     deleted.
    * @throws IOException if a lower-level error occurred.
    */
+  @Nullable
   final ObjectId apply(RevWalk rw, ObjectInserter ins, ObjectId curr) throws IOException {
     if (isEmpty()) {
       return null;

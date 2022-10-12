@@ -126,6 +126,7 @@ public class GroupList extends TabFile {
     byUUID.put(uuid, reference);
   }
 
+  @Nullable
   public String asText() {
     if (byUUID.isEmpty()) {
       return null;

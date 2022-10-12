@@ -124,6 +124,7 @@ public abstract class Permission implements Comparable<Permission> {
     return LABEL_AS + labelName;
   }
 
+  @Nullable
   public static String extractLabel(String varName) {
     if (isLabel(varName)) {
       return varName.substring(LABEL.length());

@@ -79,6 +79,7 @@ public class StarredChangesUtil {
   public abstract static class StarField {
     private static final String SEPARATOR = ":";
 
+    @Nullable
     public static StarField parse(String s) {
       int p = s.indexOf(SEPARATOR);
       if (p >= 0) {

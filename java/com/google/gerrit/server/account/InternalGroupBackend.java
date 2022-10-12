@@ -17,6 +17,7 @@ package com.google.gerrit.server.account;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.GroupReference;
@@ -60,6 +61,7 @@ public class InternalGroupBackend implements GroupBackend {
     return ObjectId.isId(uuid.get()); // [0-9a-f]{40};
   }
 
+  @Nullable
   @Override
   public GroupDescription.Internal get(AccountGroup.UUID uuid) {
     if (!handles(uuid)) {

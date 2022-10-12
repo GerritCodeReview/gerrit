@@ -49,6 +49,7 @@ public abstract class Comment {
       return code;
     }
 
+    @Nullable
     public static Status forCode(char c) {
       for (Status s : Status.values()) {
         if (s.code == c) {

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.pgm.rules;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -182,6 +183,7 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
     }
   }
 
+  @Nullable
   private String getMyClasspath() {
     StringBuilder cp = new StringBuilder();
     appendClasspath(cp, getClass().getClassLoader());

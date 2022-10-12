@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -97,6 +98,7 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
       return true;
     }
 
+    @Nullable
     public Account.Id getDeletedAssignee() {
       return deletedAssignee != null ? deletedAssignee.account().id() : null;
     }

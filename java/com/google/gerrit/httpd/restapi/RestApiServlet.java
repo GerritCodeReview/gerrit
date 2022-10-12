@@ -315,6 +315,7 @@ public class RestApiServlet extends HttpServlet {
       this.cancellationMetrics = cancellationMetrics;
     }
 
+    @Nullable
     private static Pattern makeAllowOrigin(Config cfg) {
       String[] allow = cfg.getStringList("site", null, "allowOriginRegex");
       if (allow.length > 0) {
@@ -854,6 +855,7 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
+  @Nullable
   private String getEtagWithRetry(
       HttpServletRequest req, TraceContext traceContext, RestResource.HasETag rsrc) {
     try (TraceTimer ignored =
@@ -1277,6 +1279,7 @@ public class RestApiServlet extends HttpServlet {
     return ((ParameterizedType) supertype).getActualTypeArguments()[2];
   }
 
+  @Nullable
   private Object parseRequest(HttpServletRequest req, Type type)
       throws IOException, BadRequestException, SecurityException, IllegalArgumentException,
           NoSuchMethodException, IllegalAccessException, InstantiationException,

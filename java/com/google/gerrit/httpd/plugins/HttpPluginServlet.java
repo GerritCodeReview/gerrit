@@ -35,6 +35,7 @@ import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.ByteStreams;
 import com.google.common.net.HttpHeaders;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.httpd.resources.Resource;
 import com.google.gerrit.httpd.resources.ResourceKey;
 import com.google.gerrit.httpd.resources.SmallResource;
@@ -174,6 +175,7 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
     plugins.put(name, holder);
   }
 
+  @Nullable
   private GuiceFilter load(Plugin plugin) {
     if (plugin.getHttpInjector() != null) {
       final String name = plugin.getName();
@@ -327,6 +329,7 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
     }
   }
 
+  @Nullable
   private static Pattern makeAllowOrigin(Config cfg) {
     String[] allow = cfg.getStringList("site", null, "allowOriginRegex");
     if (allow.length > 0) {
@@ -720,6 +723,7 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
       this.docPrefix = getPrefix(plugin, "Gerrit-HttpDocumentationPrefix", "Documentation/");
     }
 
+    @Nullable
     private static String getPrefix(Plugin plugin, String attr, String def) {
       Path path = plugin.getSrcFile();
       PluginContentScanner scanner = plugin.getContentScanner();

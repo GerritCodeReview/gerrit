@@ -37,6 +37,7 @@ import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.AttentionSetUpdate;
@@ -3938,6 +3939,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     return new String(rw.getObjectReader().open(dataId, OBJ_BLOB).getCachedBytes(), UTF_8);
   }
 
+  @Nullable
   private ObjectId exactRefAllUsers(String refName) throws Exception {
     try (Repository allUsersRepo = repoManager.openRepository(allUsers)) {
       Ref ref = allUsersRepo.exactRef(refName);

@@ -15,6 +15,7 @@
 package com.google.gerrit.metrics.proc;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.sun.management.UnixOperatingSystemMXBean;
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
@@ -25,6 +26,7 @@ class OperatingSystemMXBeanFactory {
 
   private OperatingSystemMXBeanFactory() {}
 
+  @Nullable
   static OperatingSystemMXBeanInterface create() {
     OperatingSystemMXBean sys = ManagementFactory.getOperatingSystemMXBean();
     if (sys instanceof UnixOperatingSystemMXBean) {

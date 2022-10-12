@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.patch;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Patch.ChangeType;
 import java.util.Optional;
 
@@ -30,6 +31,7 @@ public class FilePathAdapter {
   /**
    * Converts the old file path of the new diff cache output to the old diff cache representation.
    */
+  @Nullable
   public static String getOldPath(Optional<String> oldName, ChangeType changeType) {
     switch (changeType) {
       case DELETED:

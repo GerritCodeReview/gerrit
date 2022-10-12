@@ -15,6 +15,7 @@
 package com.google.gerrit.sshd;
 
 import com.google.auto.value.AutoAnnotation;
+import com.google.gerrit.common.Nullable;
 import com.google.inject.Key;
 import java.lang.annotation.Annotation;
 import org.apache.sshd.server.command.Command;
@@ -78,6 +79,7 @@ public class Commands {
     return false;
   }
 
+  @Nullable
   static CommandName parentOf(CommandName name) {
     if (name instanceof NestedCommandNameImpl) {
       return ((NestedCommandNameImpl) name).parent;

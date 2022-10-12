@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import static java.util.stream.Collectors.toMap;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelValue;
 import com.google.gerrit.entities.Project;
@@ -39,6 +40,7 @@ public class LabelDefinitionJson {
     return label;
   }
 
+  @Nullable
   private static Boolean toBoolean(boolean v) {
     return v ? v : null;
   }

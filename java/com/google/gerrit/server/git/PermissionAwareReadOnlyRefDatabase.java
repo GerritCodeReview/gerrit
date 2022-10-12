@@ -82,6 +82,7 @@ public class PermissionAwareReadOnlyRefDatabase extends DelegateRefDatabase {
     throw new UnsupportedOperationException("PermissionAwareReadOnlyRefDatabase is read-only");
   }
 
+  @Nullable
   @Override
   public Ref exactRef(String name) throws IOException {
     Ref ref = getDelegate().getRefDatabase().exactRef(name);

@@ -2064,6 +2064,7 @@ public class AccountIT extends AbstractDaemonTest {
     return newEmailInput(email, true);
   }
 
+  @Nullable
   private String getMetaId(Account.Id accountId) throws IOException {
     try (Repository repo = repoManager.openRepository(allUsers);
         RevWalk rw = new RevWalk(repo);

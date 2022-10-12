@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "96be87e9_8fc1a04d",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-12T19:55:11Z",
+      "side": 1,
+      "message": "\u003e should this check for forgeAuthor/forgeCommitter permission? \n\nAdded permission checks (extracted from CreateChange).\n\n\u003e What about addPatchSet?\n\nI\u0027ve looked on the usages of PatchSetInserter, and each sets different fields. Some (like CherryPickChange) even add more updates the the BatchUpdater. I think extracting a method here will only cause confusion.",
+      "parentUuid": "56aa7124_9b0c0360",
+      "range": {
+        "startLine": 166,
+        "startChar": 4,
+        "endLine": 167,
+        "endChar": 31
+      },
+      "revId": "9a26ad4cd5410a80d9258c58b112bfb90bd7749d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "229ff8f9_4eabc4f5",
         "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
         "patchSetId": 10
@@ -37,6 +61,24 @@
       "writtenOn": "2022-10-11T14:01:59Z",
       "side": 1,
       "message": "as mentionned on the other change, the patch already contains author and commit message, and I think the intended use case is to download a patch from one gerrit instance and insert into another instance, which would mean respecting that? It would be good to doublecheck if that is the intended use case.",
+      "revId": "9a26ad4cd5410a80d9258c58b112bfb90bd7749d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dab46d45_9187a576",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-12T19:55:11Z",
+      "side": 1,
+      "message": "Discussed in the other thread. Will support that as a followup.",
+      "parentUuid": "229ff8f9_4eabc4f5",
       "revId": "9a26ad4cd5410a80d9258c58b112bfb90bd7749d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

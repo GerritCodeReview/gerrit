@@ -92,6 +92,7 @@ public class PeriodicProjectListCacheWarmer implements Runnable {
   }
 
   @Override
+  @SuppressWarnings("CheckReturnValue")
   public void run() {
     logger.atFine().log("Loading project_list cache");
     cache.all();

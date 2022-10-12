@@ -95,6 +95,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9ace51af_31860ae0",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-12T09:11:18Z",
+      "side": 1,
+      "message": "Newline between this and next comment",
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "39562b03_aa4bffae",
         "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
         "patchSetId": 14
@@ -164,6 +181,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ccee17f9_7d8d7683",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-12T09:11:18Z",
+      "side": 1,
+      "message": "Set this to undefined and give this a proper type so it\u0027s clear which properties it entails.",
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "26dc0081_61dfa007",
         "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
         "patchSetId": 14
@@ -181,6 +215,40 @@
         "endLine": 131,
         "endChar": 0
       },
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88440009_3d5b0158",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-12T09:11:18Z",
+      "side": 1,
+      "message": "Object.assign does not make it clear which properties are set and requires one to look at setOriginalStyles() as well as scan through the entire class to see where else this.originalStyles might be modified.\n\n\nPlease expand this to:\n\n```\nthis.host.style.top \u003d this.originalStyles.top;\n...\n```\n\nIt makes it clearer which properties are set.",
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0dcaca2f_3391c26b",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-12T09:11:18Z",
+      "side": 1,
+      "message": "Set this to undefined.",
       "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -210,6 +278,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "55c743d0_df6a01ad",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-12T09:11:18Z",
+      "side": 1,
+      "message": "What happened to the center and resize methods? You\u0027re only positioning.",
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4af09e24_301c5f6e",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-12T09:11:18Z",
+      "side": 1,
+      "message": "This is not using horizontalAlign.",
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dff43e54_1ea41e5e",
         "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
         "patchSetId": 14
@@ -227,6 +329,40 @@
         "endLine": 173,
         "endChar": 20
       },
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c243f321_f92c07af",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-12T09:11:18Z",
+      "side": 1,
+      "message": "Explain why this function is public and why you can\u0027t merge position and calculatePositions as they both seem to be accessing this.host",
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aac91550_95226250",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-12T09:11:18Z",
+      "side": 1,
+      "message": "Please be consistent in how you generate the strings.\n\n```\n    this.host.style.maxHeight \u003d maxHeight.toString() + \u0027px\u0027;\n```\nvs\n```\n    this.host.style.left \u003d `${leftPosition}px`;\n```",
       "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

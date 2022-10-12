@@ -46,6 +46,30 @@
       },
       "revId": "8359e49d01845df1f2dd392a93708b2a68beb04b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2724dd8_57b6acf3",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ApplyPatchAsPatchSetInput.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-10-12T09:54:44Z",
+      "side": 1,
+      "message": "\u003e The original patch is a Gerrit patch (which is correct for the current use case, but highly limiting the functionality of this endpoint).\n\nIt\u0027s the standard format, though. Try \"git format-patch HEAD^\" for example.\n\n\u003eGiven the patch is a text that can be manually edited before getting applied - this might result in some security issues.\n\nbut you\u0027re already accepting the input.author to set the author to an arbitrary account? ie. you have to do a check if the caller is allowed to forge author/committer anyway. Also, in terms of security issues: this endpoint allows someone to literally inject the code that is going to be put up for review, so this endpoint is not a security control.\n\n\u003e but if we ever need to add some extra common fields (e.g. encoding config)\n\nWhat fields do we foresee now? None of the API docs have fields for setting text encoding.\n\n\u003e The intention was to align with MergePatchSetInput which contains a MergeInput field.",
+      "parentUuid": "f5f61845_77431c0a",
+      "range": {
+        "startLine": 23,
+        "startChar": 16,
+        "endLine": 23,
+        "endChar": 23
+      },
+      "revId": "8359e49d01845df1f2dd392a93708b2a68beb04b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

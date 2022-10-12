@@ -107,6 +107,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b01c771c_76116b1d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-12T16:04:37Z",
+      "side": 1,
+      "message": "\u003e Hi Martin, the reason I abandoned this change is that it was needed as part of the series (the 4 linked changes) to move the \u0027edits\u0027 field outside of the change index. Now that we don\u0027t need to proceed with these series right now, I abandoned.\n\nMakes sense.\n\n\u003e \u003e This was a cool idea, I know we could definitely make use of it to look up changes in our bug tracker in bulk.\n\u003e \n\u003e Per my understanding, change search does not hit the match methods, but rather uses the field name and value available in the predicate. The match (and matchAll of this change) methods should\u0027ve been called since the EditPredicate is a \u0027post filter predicate\u0027 and I needed to implement it to optimise the matching for multiple changes at once.\n\nI think that is only true of index predicates. We have many plugin provided predicates which are not index predicates and they rely on match being called (and it works).\n\n\u003e How do you think this is needed? Happy to receive your feedback and re-consider this feature if it\u0027s going to be useful.\n\nWe have a bug tracker which stores changes in a DB. If want to search on changes associated with a bug, it requires querying the DB with something like \"SELECT change_number FROM bugtable WHERE change_number \u003d ?\". If that query is done in the match for each change, that ends up being a round trip to the DB for each change. However, if we try to get all the changes with bugs like this \"SELECT change_number FROM bugtable\" we can get all the changes with bugs in one query up front, but that takes a long time ~10s because we have a lot of changes with bugs. With a matchAll(List\u003cChangeData\u003e) interface, we could instead do something a single query like \"SELECT change_number FROM bugtable WHERE change_number in (?, ?, ?, ...)\" up front, and that would be fast since it would be a restricted set. \n\n\u003e Unfortunately, the link is google internal. Pasting my analysis in the attached bug here at the end for your reference.\n\nThanks.",
+      "parentUuid": "819c0cb8_4e369cf9",
+      "revId": "2f23edf9d54bcf79b3401daa1726f76678e8bc6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90185d25_c80ddecb",

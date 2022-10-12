@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "54954417_36f2ffb3",
+        "filename": "java/com/google/gerrit/server/git/CommitUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-12T18:41:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c715bea1_233106d0",
+      "revId": "1042904244bdcd75c9cc67881280668834bf6e5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b45ea6e1_5d5e34e9",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-10-12T09:22:20Z",
       "side": 1,
       "message": "used only once; inline?",
+      "range": {
+        "startLine": 280,
+        "startChar": 26,
+        "endLine": 280,
+        "endChar": 38
+      },
+      "revId": "1042904244bdcd75c9cc67881280668834bf6e5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "417d933e_d13be92b",
+        "filename": "java/com/google/gerrit/server/git/CommitUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-12T18:41:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b45ea6e1_5d5e34e9",
       "range": {
         "startLine": 280,
         "startChar": 26,

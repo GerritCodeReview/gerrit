@@ -1122,6 +1122,7 @@ export interface PreferencesInfo {
   work_in_progress_by_default?: boolean;
   // The email_format doesn't mentioned in doc, but exists in Java class GeneralPreferencesInfo
   email_format?: EmailFormat;
+  allow_browser_notifications?: boolean;
 }
 
 /**

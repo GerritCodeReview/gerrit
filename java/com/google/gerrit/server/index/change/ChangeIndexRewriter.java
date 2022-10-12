@@ -184,6 +184,7 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
    * @throws QueryParseException if the underlying index implementation does not support this
    *     predicate.
    */
+  @Nullable
   private Predicate<ChangeData> rewriteImpl(
       Predicate<ChangeData> in, ChangeIndex index, QueryOptions opts, MutableInteger leafTerms)
       throws QueryParseException {

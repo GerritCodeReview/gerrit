@@ -99,6 +99,7 @@ public class MagicLabelPredicate extends ChangeIndexPredicate {
     return new EqualsLabelPredicate(args, label, value, account, count);
   }
 
+  @Nullable
   protected static LabelType type(LabelTypes types, String toFind) {
     if (types.byLabel(toFind).isPresent()) {
       return types.byLabel(toFind).get();

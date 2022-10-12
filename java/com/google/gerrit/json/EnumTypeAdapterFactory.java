@@ -14,6 +14,7 @@
 
 package com.google.gerrit.json;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.TypeAdapter;
@@ -34,6 +35,7 @@ import java.io.IOException;
 public class EnumTypeAdapterFactory implements TypeAdapterFactory {
 
   @SuppressWarnings({"rawtypes", "unchecked"})
+  @Nullable
   @Override
   public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> typeToken) {
     TypeAdapter<T> defaultEnumAdapter = TypeAdapters.ENUM_FACTORY.create(gson, typeToken);

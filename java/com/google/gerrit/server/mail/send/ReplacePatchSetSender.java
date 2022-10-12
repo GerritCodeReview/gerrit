@@ -142,6 +142,7 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
     }
   }
 
+  @Nullable
   public ImmutableList<String> getReviewerNames() {
     List<String> names = new ArrayList<>();
     for (Account.Id id : reviewers) {

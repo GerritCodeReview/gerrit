@@ -30,6 +30,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.cache.Cache;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
@@ -149,6 +150,7 @@ public class WebSessionManager {
     return -1;
   }
 
+  @Nullable
   Val get(Key key) {
     Val val = self.getIfPresent(key.token);
     if (val != null && val.expiresAt <= nowMs()) {

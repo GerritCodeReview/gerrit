@@ -201,6 +201,7 @@ public class ProjectWatches {
 
   @AutoValue
   public abstract static class NotifyValue {
+    @Nullable
     public static NotifyValue parse(
         Account.Id accountId,
         String project,

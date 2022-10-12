@@ -26,6 +26,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.UncheckedExecutionException;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.index.SiteIndexer;
@@ -179,6 +180,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     return Result.create(sw, ok.get(), nDone, nFailed);
   }
 
+  @Nullable
   public Callable<Void> reindexProject(
       ChangeIndexer indexer, Project.NameKey project, Task done, Task failed) {
     try (Repository repo = repoManager.openRepository(project)) {

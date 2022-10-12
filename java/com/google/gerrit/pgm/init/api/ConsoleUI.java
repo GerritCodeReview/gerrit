@@ -17,6 +17,7 @@ package com.google.gerrit.pgm.init.api;
 import com.google.errorprone.annotations.FormatMethod;
 import com.google.errorprone.annotations.FormatString;
 import com.google.gerrit.common.Die;
+import com.google.gerrit.common.Nullable;
 import java.io.Console;
 import java.util.EnumSet;
 import java.util.Set;
@@ -179,6 +180,7 @@ public abstract class ConsoleUI {
 
     @Override
     @FormatMethod
+    @Nullable
     public String password(String fmt, Object... args) {
       final String prompt = String.format(fmt, args);
       for (; ; ) {

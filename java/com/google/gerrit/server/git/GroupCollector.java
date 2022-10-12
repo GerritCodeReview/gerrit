@@ -27,6 +27,7 @@ import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.collect.SortedSetMultimap;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.PatchSetUtil;
@@ -258,6 +259,7 @@ public class GroupCollector {
     return actual;
   }
 
+  @Nullable
   private ObjectId parseGroup(ObjectId forCommit, String group) {
     try {
       return ObjectId.fromString(group);

@@ -38,6 +38,7 @@ public class LuceneStoredValue implements StoredValue {
     this.field = field;
   }
 
+  @Nullable
   @Override
   public String asString() {
     return Iterables.getFirst(asStrings(), null);
@@ -48,6 +49,7 @@ public class LuceneStoredValue implements StoredValue {
     return field.stream().map(f -> f.stringValue()).collect(toImmutableList());
   }
 
+  @Nullable
   @Override
   public Integer asInteger() {
     return Iterables.getFirst(asIntegers(), null);
@@ -58,6 +60,7 @@ public class LuceneStoredValue implements StoredValue {
     return field.stream().map(f -> f.numericValue().intValue()).collect(toImmutableList());
   }
 
+  @Nullable
   @Override
   public Long asLong() {
     return Iterables.getFirst(asLongs(), null);
@@ -68,11 +71,13 @@ public class LuceneStoredValue implements StoredValue {
     return field.stream().map(f -> f.numericValue().longValue()).collect(toImmutableList());
   }
 
+  @Nullable
   @Override
   public Timestamp asTimestamp() {
     return asLong() == null ? null : new Timestamp(asLong());
   }
 
+  @Nullable
   @Override
   public byte[] asByteArray() {
     return Iterables.getFirst(asByteArrays(), null);

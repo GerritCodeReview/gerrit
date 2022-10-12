@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.toSet;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.Index;
@@ -118,6 +119,7 @@ public class InternalQuery<T, Q extends InternalQuery<T, Q>> {
     }
   }
 
+  @Nullable
   protected final Schema<T> schema() {
     Index<?, T> index = indexes != null ? indexes.getSearchIndex() : null;
     return index != null ? index.getSchema() : null;

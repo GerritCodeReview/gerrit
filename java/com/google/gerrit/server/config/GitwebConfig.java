@@ -99,6 +99,7 @@ public class GitwebConfig {
     return values.length > 0 && isNullOrEmpty(values[0]);
   }
 
+  @Nullable
   private static GitwebType typeFromConfig(Config cfg) {
     GitwebType defaultType = defaultType(cfg.getString("gitweb", null, "type"));
     if (defaultType == null) {
@@ -136,6 +137,7 @@ public class GitwebConfig {
     return type;
   }
 
+  @Nullable
   private static GitwebType defaultType(String typeName) {
     GitwebType type = new GitwebType();
     switch (nullToEmpty(typeName)) {
@@ -283,6 +285,7 @@ public class GitwebConfig {
       this.tag = parse(type.getTag());
     }
 
+    @Nullable
     @Override
     public WebLinkInfo getBranchWebLink(String projectName, String branchName) {
       if (branch != null) {
@@ -295,6 +298,7 @@ public class GitwebConfig {
       return null;
     }
 
+    @Nullable
     @Override
     public WebLinkInfo getTagWebLink(String projectName, String tagName) {
       if (tag != null) {
@@ -304,6 +308,7 @@ public class GitwebConfig {
       return null;
     }
 
+    @Nullable
     @Override
     public WebLinkInfo getFileHistoryWebLink(String projectName, String revision, String fileName) {
       if (fileHistory != null) {
@@ -317,6 +322,7 @@ public class GitwebConfig {
       return null;
     }
 
+    @Nullable
     @Override
     public WebLinkInfo getFileWebLink(
         String projectName, String revision, String hash, String fileName) {
@@ -331,6 +337,7 @@ public class GitwebConfig {
       return null;
     }
 
+    @Nullable
     @Override
     public WebLinkInfo getPatchSetWebLink(
         String projectName, String commit, String commitMessage, String branchName) {
@@ -359,6 +366,7 @@ public class GitwebConfig {
       return getPatchSetWebLink(projectName, commit, commitMessage, branchName);
     }
 
+    @Nullable
     @Override
     public WebLinkInfo getProjectWeblink(String projectName) {
       if (project != null) {
@@ -378,6 +386,7 @@ public class GitwebConfig {
       return new WebLinkInfo(type.getLinkName(), null, url + rest, null);
     }
 
+    @Nullable
     private static ParameterizedString parse(String pattern) {
       if (!isNullOrEmpty(pattern)) {
         return new ParameterizedString(pattern);

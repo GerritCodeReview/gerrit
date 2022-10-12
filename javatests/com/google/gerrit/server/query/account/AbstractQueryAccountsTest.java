@@ -24,6 +24,7 @@ import static org.junit.Assert.fail;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.GerritApi;
@@ -741,6 +742,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     return "\"" + s + "\"";
   }
 
+  @Nullable
   protected String name(String name) {
     if (name == null) {
       return null;

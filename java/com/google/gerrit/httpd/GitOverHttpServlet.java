@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -667,6 +668,7 @@ public class GitOverHttpServlet extends GitServlet {
     public void destroy() {}
   }
 
+  @Nullable
   private static String getSessionIdOrNull(Provider<WebSession> sessionProvider) {
     WebSession session = sessionProvider.get();
     if (session.isSignedIn()) {

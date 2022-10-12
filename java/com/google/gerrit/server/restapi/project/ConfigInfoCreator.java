@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.project;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
@@ -125,6 +126,7 @@ public class ConfigInfoCreator {
     return info;
   }
 
+  @Nullable
   private static Map<String, Map<String, ConfigParameterInfo>> getPluginConfig(
       ProjectState project,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,

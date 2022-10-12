@@ -106,6 +106,7 @@ public class ActionJson {
     to.actions = toActionMap(rsrc, visitors, changeInfo, copy(visitors, to));
   }
 
+  @Nullable
   private ChangeInfo copy(List<ActionVisitor> visitors, ChangeInfo changeInfo) {
     if (visitors.isEmpty()) {
       return null;
@@ -152,6 +153,7 @@ public class ActionJson {
     return copy;
   }
 
+  @Nullable
   private RevisionInfo copy(List<ActionVisitor> visitors, RevisionInfo revisionInfo) {
     if (visitors.isEmpty()) {
       return null;

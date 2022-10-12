@@ -75,6 +75,7 @@ public class AbstractGroupTest {
     allUsersRepo.close();
   }
 
+  @Nullable
   protected Instant getTipTimestamp(AccountGroup.UUID uuid) throws Exception {
     try (RevWalk rw = new RevWalk(allUsersRepo)) {
       Ref ref = allUsersRepo.exactRef(RefNames.refsGroups(uuid));

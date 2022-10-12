@@ -46,6 +46,7 @@ public abstract class Address {
     throw new IllegalArgumentException("Invalid email address: " + in);
   }
 
+  @Nullable
   public static Address tryParse(String in) {
     try {
       return parse(in);

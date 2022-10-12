@@ -44,6 +44,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.StringWriter;
@@ -567,6 +568,7 @@ public class CmdLineParser {
      *     and it needed to be exposed.
      */
     @SuppressWarnings("rawtypes")
+    @Nullable
     public OptionHandler findOptionByName(String name) {
       for (OptionHandler h : optionsList) {
         if (h.option instanceof NamedOptionDef) {

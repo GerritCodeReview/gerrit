@@ -20,6 +20,7 @@ import static java.util.Comparator.naturalOrder;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
+import com.google.gerrit.common.Nullable;
 import com.google.inject.Binder;
 import com.google.inject.Key;
 import com.google.inject.Provider;
@@ -313,6 +314,7 @@ public class DynamicSet<T> implements Iterable<T> {
       return key;
     }
 
+    @Nullable
     @Override
     public ReloadableHandle replace(Key<T> newKey, Provider<T> newItem) {
       Extension<T> n = new Extension<>(item.getPluginName(), newItem);

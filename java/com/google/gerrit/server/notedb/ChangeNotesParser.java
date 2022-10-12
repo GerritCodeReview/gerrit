@@ -323,6 +323,7 @@ class ChangeNotesParser {
     return result;
   }
 
+  @Nullable
   private PatchSet.Id buildCurrentPatchSetId() {
     // currentPatchSets are in parse order, i.e. newest first. Pick the first
     // patch set that was marked as current, excluding deleted patch sets.
@@ -576,6 +577,7 @@ class ChangeNotesParser {
     return parseOneFooter(commit, FOOTER_SUBMISSION_ID);
   }
 
+  @Nullable
   private String parseBranch(ChangeNotesCommit commit) throws ConfigInvalidException {
     String branch = parseOneFooter(commit, FOOTER_BRANCH);
     return branch != null ? RefNames.fullName(branch) : null;
@@ -603,6 +605,7 @@ class ChangeNotesParser {
     return parseOneFooter(commit, FOOTER_TOPIC);
   }
 
+  @Nullable
   private String parseOneFooter(ChangeNotesCommit commit, FooterKey footerKey)
       throws ConfigInvalidException {
     List<String> footerLines = commit.getFooterLineValues(footerKey);
@@ -623,6 +626,7 @@ class ChangeNotesParser {
     return line;
   }
 
+  @Nullable
   private ObjectId parseRevision(ChangeNotesCommit commit) throws ConfigInvalidException {
     String sha = parseOneFooter(commit, FOOTER_COMMIT);
     if (sha == null) {
@@ -760,6 +764,7 @@ class ChangeNotesParser {
     }
   }
 
+  @Nullable
   private Change.Status parseStatus(ChangeNotesCommit commit) throws ConfigInvalidException {
     List<String> statusLines = commit.getFooterLineValues(FOOTER_STATUS);
     if (statusLines.isEmpty()) {
@@ -798,6 +803,7 @@ class ChangeNotesParser {
     return PatchSet.id(id, psId);
   }
 
+  @Nullable
   private PatchSetState parsePatchSetState(ChangeNotesCommit commit) throws ConfigInvalidException {
     String psIdLine = parseExactlyOneFooter(commit, FOOTER_PATCH_SET);
     int s = psIdLine.indexOf(' ');
@@ -1138,6 +1144,7 @@ class ChangeNotesParser {
     }
   }
 
+  @Nullable
   private Account.Id parseIdent(ChangeNotesCommit commit) throws ConfigInvalidException {
     // Check if the author name/email is the same as the committer name/email,
     // i.e. was the server ident at the time this commit was made.
@@ -1223,6 +1230,7 @@ class ChangeNotesParser {
     throw invalidFooter(FOOTER_WORK_IN_PROGRESS, raw);
   }
 
+  @Nullable
   private Change.Id parseRevertOf(ChangeNotesCommit commit) throws ConfigInvalidException {
     String footer = parseOneFooter(commit, FOOTER_REVERT_OF);
     if (footer == null) {

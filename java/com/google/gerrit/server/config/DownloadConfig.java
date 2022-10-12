@@ -16,6 +16,7 @@ package com.google.gerrit.server.config;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.CoreDownloadSchemes;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DownloadCommand;
 import com.google.gerrit.server.change.ArchiveFormatInternal;
@@ -87,6 +88,7 @@ public class DownloadConfig {
     return list.size() == 1 && list.get(0) == null;
   }
 
+  @Nullable
   private static String toCoreScheme(String s) {
     try {
       Field f = CoreDownloadSchemes.class.getField(s.toUpperCase());

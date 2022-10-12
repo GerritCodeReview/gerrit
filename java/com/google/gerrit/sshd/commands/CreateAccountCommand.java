@@ -17,6 +17,7 @@ package com.google.gerrit.sshd.commands;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
@@ -87,6 +88,7 @@ final class CreateAccountCommand extends SshCommand {
     }
   }
 
+  @Nullable
   private String readSshKey() throws IOException {
     if (sshKey == null) {
       return null;

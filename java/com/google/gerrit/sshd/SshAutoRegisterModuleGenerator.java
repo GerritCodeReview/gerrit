@@ -19,6 +19,7 @@ import static com.google.gerrit.server.plugins.AutoRegisterUtil.calculateBindAnn
 
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.annotations.Export;
 import com.google.gerrit.server.plugins.InvalidPluginException;
 import com.google.gerrit.server.plugins.ModuleGenerator;
@@ -84,6 +85,7 @@ class SshAutoRegisterModuleGenerator extends AbstractModule implements ModuleGen
     listeners.put(tl, clazz);
   }
 
+  @Nullable
   @Override
   public Module create() throws InvalidPluginException {
     checkState(command != null, "pluginName must be provided");

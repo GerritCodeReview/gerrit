@@ -24,6 +24,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
@@ -212,6 +213,7 @@ public class JarScanner implements PluginContentScanner, AutoCloseable {
       this.superName = superName;
     }
 
+    @Nullable
     @Override
     public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
       if (!visible) {

@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import com.google.auto.value.AutoValue;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -71,6 +72,7 @@ public class RebaseUtil {
 
   @AutoValue
   public abstract static class Base {
+    @Nullable
     private static Base create(ChangeNotes notes, PatchSet ps) {
       if (notes == null) {
         return null;

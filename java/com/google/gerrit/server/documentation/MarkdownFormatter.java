@@ -21,6 +21,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.vladsch.flexmark.ast.Heading;
 import com.vladsch.flexmark.ast.util.TextCollectingVisitor;
 import com.vladsch.flexmark.html.HtmlRenderer;
@@ -126,6 +127,7 @@ public class MarkdownFormatter {
     return findTitle(parseMarkdown(md));
   }
 
+  @Nullable
   private String findTitle(Node root) {
     if (root instanceof Heading) {
       Heading h = (Heading) root;

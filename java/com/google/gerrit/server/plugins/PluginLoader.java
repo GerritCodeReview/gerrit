@@ -27,6 +27,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
@@ -713,6 +714,7 @@ public class PluginLoader implements LifecycleListener {
     return Iterables.filter(paths, p -> !p.getFileName().toString().endsWith(".disabled"));
   }
 
+  @Nullable
   public String getGerritPluginName(Path srcPath) {
     String fileName = srcPath.getFileName().toString();
     if (isUiPlugin(fileName)) {

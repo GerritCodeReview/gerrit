@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.entities.RefNames;
@@ -346,6 +347,7 @@ public class GroupCacheImpl implements GroupCache {
       return Protos.toByteArray(InternalGroupSerializer.serialize(value));
     }
 
+    @Nullable
     @Override
     public InternalGroup deserialize(byte[] in) {
       if (Strings.fromByteArray(in).isEmpty()) {

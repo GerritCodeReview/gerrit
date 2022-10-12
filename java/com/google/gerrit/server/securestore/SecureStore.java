@@ -15,6 +15,7 @@
 package com.google.gerrit.server.securestore;
 
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.Nullable;
 import java.util.List;
 
 /**
@@ -53,6 +54,7 @@ public abstract class SecureStore {
    *
    * @return decrypted String value or {@code null} if not found
    */
+  @Nullable
   public final String get(String section, String subsection, String name) {
     String[] values = getList(section, subsection, name);
     if (values != null && values.length > 0) {
@@ -67,6 +69,7 @@ public abstract class SecureStore {
    *
    * @return decrypted String value or {@code null} if not found
    */
+  @Nullable
   public final String getForPlugin(
       String pluginName, String section, String subsection, String name) {
     String[] values = getListForPlugin(pluginName, section, subsection, name);

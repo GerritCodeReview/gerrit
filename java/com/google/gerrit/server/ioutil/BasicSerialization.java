@@ -31,6 +31,7 @@ package com.google.gerrit.server.ioutil;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.CodedEnum;
 import java.io.EOFException;
 import java.io.IOException;
@@ -129,6 +130,7 @@ public class BasicSerialization {
   }
 
   /** Read a UTF-8 string, prefixed by its byte length in a varint. */
+  @Nullable
   public static String readString(InputStream input) throws IOException {
     final byte[] bin = readBytes(input);
     if (bin.length == 0) {

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a721aa6_74050ac0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-10-12T13:45:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ec1db01_8d8af4d0",
+      "revId": "e93ec927846f77ca063d877629a9f64cb799607e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eb571d69_1b8cfca2",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-10-12T13:31:13Z",
       "side": 1,
       "message": "This line should go before the previous one.",
+      "revId": "e93ec927846f77ca063d877629a9f64cb799607e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a241a9f8_be495968",
+        "filename": "polygerrit-ui/app/utils/change-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-10-12T13:45:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb571d69_1b8cfca2",
       "revId": "e93ec927846f77ca063d877629a9f64cb799607e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

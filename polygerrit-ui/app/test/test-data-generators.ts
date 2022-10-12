@@ -686,6 +686,7 @@ export function createPreferences(): PreferencesInfo {
     change_table: [],
     email_strategy: EmailStrategy.ENABLED,
     default_base_for_merges: DefaultBase.AUTO_MERGE,
+    allow_browser_notifications: true,
   };
 }
 

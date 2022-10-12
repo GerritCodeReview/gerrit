@@ -25,6 +25,7 @@ suite('service worker class tests', () => {
       },
     } as {} as ServiceWorkerGlobalScope;
     serviceWorker = new ServiceWorker(moctCtx);
+    serviceWorker.allowBrowserNotificationsPreference = true;
   });
 
   test('notify about attention in t2 when time is t3', async () => {

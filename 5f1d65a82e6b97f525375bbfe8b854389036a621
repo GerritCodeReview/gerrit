@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27690f0e_6d13cf7b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-12T15:37:47Z",
+      "side": 1,
+      "message": "It\u0027s not obvious how this is possible since the AndSource is not using its own cardinality to pick a data source. I believe this requires another And or Or Source to be looking at the AndSource with the wrong cardinality for correctness to be affected? I think that needs explaining.",
+      "range": {
+        "startLine": 12,
+        "startChar": 7,
+        "endLine": 14,
+        "endChar": 42
+      },
+      "revId": "5f1d65a82e6b97f525375bbfe8b854389036a621",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "941c7feb_6632978c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-12T15:37:47Z",
+      "side": 1,
+      "message": "Is this not theoretically possible with plugin predicates which aren\u0027t index predicates?",
+      "revId": "5f1d65a82e6b97f525375bbfe8b854389036a621",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

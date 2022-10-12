@@ -76,6 +76,16 @@ an existing one by adding `If-None-Match: *` to the request HTTP
 headers. If the named resource already exists the server will respond
 with HTTP 412 Precondition Failed.
 
+[[backwards-compatibility]]
+=== Backwards Compatibility
+
+The REST API is regularly extended (e.g. addition of new REST endpoints or new fields in existing
+JSON entities). Callers of the REST API must be able to deal with this (e.g. ignore unknown fields
+in the REST responses). Incompatible changes (e.g. removal of REST endpoints, altering/removal of
+existing fields in JSON entities) are avoided if possible, but can happen in rare cases. If they
+happen, they are announced in the link:https://www.gerritcodereview.com/releases-readme.html[release
+notes].
+
 [[output]]
 === Output Format
 JSON responses are encoded using UTF-8 and use content type

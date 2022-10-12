@@ -34,6 +34,24 @@
       "parentUuid": "75303d6a_f6783df5",
       "revId": "a5cad2d36715075e89ac77cfac6459b632e3b9b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb998fbe_9b490eec",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-12T09:26:21Z",
+      "side": 1,
+      "message": "It still is a Predicate right, just not stored as one?",
+      "parentUuid": "40d78d39_6efd1d3e",
+      "revId": "a5cad2d36715075e89ac77cfac6459b632e3b9b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -29,7 +29,7 @@ public class FileExtensionListPredicate extends ChangeIndexPredicate {
   }
 
   FileExtensionListPredicate(String value) {
-    super(ChangeField.ONLY_EXTENSIONS, clean(value));
+    super(ChangeField.ONLY_EXTENSIONS_SPEC, clean(value));
   }
 
   @Override

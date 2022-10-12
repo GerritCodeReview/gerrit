@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f70650e8_ff19d099",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-12T10:22:52Z",
+      "side": 1,
+      "message": "Could you make this part of the FitController change and not rely on gr-autocomplete",
+      "revId": "b812f993ba2577df5eebbc1ca736c13649f8f2d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

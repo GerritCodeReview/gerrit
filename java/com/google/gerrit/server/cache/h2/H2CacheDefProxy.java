@@ -47,6 +47,7 @@ class H2CacheDefProxy<K, V> implements PersistentCacheDef<K, V> {
     return source.refreshAfterWrite();
   }
 
+  @Nullable
   @Override
   public Weigher<K, V> weigher() {
     Weigher<K, V> weigher = source.weigher();

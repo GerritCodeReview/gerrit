@@ -15,6 +15,7 @@
 package com.google.gerrit.entities;
 
 import com.google.auto.value.AutoValue;
+import com.google.gerrit.common.Nullable;
 
 public final class AccountGroup {
   public static NameKey nameKey(String n) {
@@ -65,6 +66,7 @@ public final class AccountGroup {
     }
 
     /** Parse an {@link AccountGroup.UUID} out of a ref-name. */
+    @Nullable
     public static UUID fromRef(String ref) {
       if (ref == null) {
         return null;
@@ -81,6 +83,7 @@ public final class AccountGroup {
      * @param refPart a ref name with the following syntax: {@code "12/1234..."}. We assume that the
      *     caller has trimmed any prefix.
      */
+    @Nullable
     public static UUID fromRefPart(String refPart) {
       String uuid = RefNames.parseShardedUuidFromRefPart(refPart);
       return uuid != null ? AccountGroup.uuid(uuid) : null;

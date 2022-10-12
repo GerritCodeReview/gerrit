@@ -17,6 +17,7 @@ package com.google.gerrit.server.config;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
@@ -360,6 +361,7 @@ public class ProjectConfigEntry {
       }
     }
 
+    @Nullable
     private ProjectConfig parseConfig(Project.NameKey p, String idStr)
         throws IOException, ConfigInvalidException, RepositoryNotFoundException {
       ObjectId id = ObjectId.fromString(idStr);
@@ -382,14 +384,17 @@ public class ProjectConfigEntry {
     }
   }
 
+  @Nullable
   private static Boolean toBoolean(String value) {
     return value != null ? Boolean.parseBoolean(value) : null;
   }
 
+  @Nullable
   private static Integer toInt(String value) {
     return value != null ? Integer.parseInt(value) : null;
   }
 
+  @Nullable
   private static Long toLong(String value) {
     return value != null ? Long.parseLong(value) : null;
   }

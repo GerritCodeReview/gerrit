@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.util.git;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmoduleSubscription;
@@ -65,6 +66,7 @@ public class SubmoduleSectionParser {
     return parsedSubscriptions;
   }
 
+  @Nullable
   private SubmoduleSubscription parse(String id) {
     final String url = config.getString("submodule", id, "url");
     final String path = config.getString("submodule", id, "path");

@@ -21,6 +21,7 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.base.Preconditions;
 import com.google.common.io.ByteStreams;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.git.ObjectIds;
 import java.io.ByteArrayInputStream;
@@ -92,6 +93,7 @@ public class PublicKeyStore implements AutoCloseable {
    *     null} if none was found.
    * @throws PGPException if an error occurred verifying the signature.
    */
+  @Nullable
   public static PGPPublicKey getSigner(
       Iterable<PGPPublicKeyRing> keyRings, PGPSignature sig, byte[] data) throws PGPException {
     for (PGPPublicKeyRing kr : keyRings) {
@@ -126,6 +128,7 @@ public class PublicKeyStore implements AutoCloseable {
    *     {@code null} if none was found.
    * @throws PGPException if an error occurred verifying the certification.
    */
+  @Nullable
   public static PGPPublicKey getSigner(
       Iterable<PGPPublicKeyRing> keyRings, PGPSignature sig, String userId, PGPPublicKey key)
       throws PGPException {
@@ -210,6 +213,7 @@ public class PublicKeyStore implements AutoCloseable {
    * @throws PGPException if an error occurred parsing the key data.
    * @throws IOException if an error occurred reading the repository data.
    */
+  @Nullable
   public PGPPublicKeyRing get(byte[] fingerprint) throws PGPException, IOException {
     List<PGPPublicKeyRing> keyRings = get(Fingerprint.getId(fingerprint), fingerprint);
     return !keyRings.isEmpty() ? keyRings.get(0) : null;

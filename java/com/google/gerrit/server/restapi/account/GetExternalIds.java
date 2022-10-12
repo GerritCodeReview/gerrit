@@ -18,6 +18,7 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USE
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.common.AccountExternalIdInfo;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -92,6 +93,7 @@ public class GetExternalIds implements RestReadView<AccountResource> {
     return Response.ok(result);
   }
 
+  @Nullable
   private static Boolean toBoolean(boolean v) {
     return v ? v : null;
   }

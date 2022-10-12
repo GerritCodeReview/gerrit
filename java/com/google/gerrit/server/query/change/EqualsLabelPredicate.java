@@ -119,6 +119,7 @@ public class EqualsLabelPredicate extends ChangeIndexPostFilterPredicate {
     return count == null ? matchingVotes >= 1 : matchingVotes == count;
   }
 
+  @Nullable
   protected static LabelType type(LabelTypes types, String toFind) {
     if (types.byLabel(toFind).isPresent()) {
       return types.byLabel(toFind).get();

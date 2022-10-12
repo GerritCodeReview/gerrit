@@ -26,6 +26,7 @@ import static java.util.stream.Collectors.toMap;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupDescription;
@@ -340,6 +341,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
     return accessSectionInfo;
   }
 
+  @Nullable
   private static Boolean toBoolean(boolean value) {
     return value ? true : null;
   }

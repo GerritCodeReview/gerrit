@@ -17,6 +17,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.exceptions.NotSignedInException;
 import com.google.gerrit.exceptions.StorageException;
@@ -98,6 +99,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState, AccountQuery
       }
     }
 
+    @Nullable
     Schema<AccountState> schema() {
       Index<?, AccountState> index = indexes != null ? indexes.getSearchIndex() : null;
       return index != null ? index.getSchema() : null;

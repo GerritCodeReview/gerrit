@@ -18,6 +18,7 @@ import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.gerrit.index.project.ProjectField.NAME;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.QueryOptions;
@@ -151,6 +152,7 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
         new Sort(new SortField(NAME_SORT_FIELD, SortField.Type.STRING, false)));
   }
 
+  @Nullable
   @Override
   protected ProjectData fromDocument(Document doc) {
     Project.NameKey nameKey = Project.nameKey(doc.getField(NAME.getName()).stringValue());

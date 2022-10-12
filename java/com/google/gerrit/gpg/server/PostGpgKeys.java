@@ -29,6 +29,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.exceptions.StorageException;
@@ -299,6 +300,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
     return externalIdKeyFactory.create(SCHEME_GPGKEY, BaseEncoding.base16().encode(fp));
   }
 
+  @Nullable
   private Account getAccountByExternalId(ExternalId.Key extIdKey) {
     List<AccountState> accountStates = accountQueryProvider.get().byExternalId(extIdKey);
 

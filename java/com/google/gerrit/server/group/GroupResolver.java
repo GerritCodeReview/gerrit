@@ -15,6 +15,7 @@
 package com.google.gerrit.server.group;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.GroupReference;
@@ -84,6 +85,7 @@ public class GroupResolver {
    * @param id ID of the group, can be a group UUID, a group name or a legacy group ID
    * @return the group, null if no group is found for the given group ID
    */
+  @Nullable
   public GroupDescription.Basic parseId(String id) {
     logger.atFine().log("Parsing group %s", id);
 

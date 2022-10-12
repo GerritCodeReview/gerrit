@@ -20,6 +20,7 @@ import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
@@ -234,6 +235,7 @@ public class StreamEventsApiListener
         });
   }
 
+  @Nullable
   String[] hashtagArray(Collection<String> hashtags) {
     if (hashtags != null && !hashtags.isEmpty()) {
       return Sets.newHashSet(hashtags).toArray(new String[hashtags.size()]);

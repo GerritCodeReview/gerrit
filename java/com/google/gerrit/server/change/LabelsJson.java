@@ -80,6 +80,7 @@ public class LabelsJson {
    * lazily populate accounts. Callers have to call {@link AccountLoader#fill()} afterwards to
    * populate all accounts in the returned {@link LabelInfo}s.
    */
+  @Nullable
   Map<String, LabelInfo> labelsFor(
       AccountLoader accountLoader, ChangeData cd, boolean standard, boolean detailed)
       throws PermissionBackendException {

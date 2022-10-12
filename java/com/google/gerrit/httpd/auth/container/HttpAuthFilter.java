@@ -21,6 +21,7 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GER
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.RemoteUserUtil;
@@ -143,6 +144,7 @@ class HttpAuthFilter implements Filter {
         : remoteUser;
   }
 
+  @Nullable
   String getRemoteDisplayname(HttpServletRequest req) {
     if (displaynameHeader != null) {
       String raw = req.getHeader(displaynameHeader);
@@ -151,6 +153,7 @@ class HttpAuthFilter implements Filter {
     return null;
   }
 
+  @Nullable
   String getRemoteEmail(HttpServletRequest req) {
     if (emailHeader != null) {
       return emptyToNull(req.getHeader(emailHeader));
@@ -158,6 +161,7 @@ class HttpAuthFilter implements Filter {
     return null;
   }
 
+  @Nullable
   String getRemoteExternalIdToken(HttpServletRequest req) {
     if (externalIdHeader != null) {
       return emptyToNull(req.getHeader(externalIdHeader));

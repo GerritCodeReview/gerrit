@@ -17,6 +17,7 @@ package com.google.gerrit.server.mail.send;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.BranchNameKey;
@@ -92,6 +93,7 @@ public abstract class NotificationEmail extends OutgoingEmail {
 
   protected abstract void addWatcher(RecipientType type, Account.Id to);
 
+  @Nullable
   public String getSshHost() {
     String host = Iterables.getFirst(args.sshAddresses, null);
     if (host == null) {

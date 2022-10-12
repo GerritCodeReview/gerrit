@@ -407,6 +407,7 @@ public class ChangeIndexer {
       return future;
     }
 
+    @Nullable
     @Override
     public ChangeData callImpl() throws Exception {
       // Remove this task from queuedIndexTasks. This is done right at the beginning of this task so
@@ -460,6 +461,7 @@ public class ChangeIndexer {
       this.id = id;
     }
 
+    @Nullable
     @Override
     public ChangeData call() {
       logger.atFine().log("Delete change %d from index.", id.get());

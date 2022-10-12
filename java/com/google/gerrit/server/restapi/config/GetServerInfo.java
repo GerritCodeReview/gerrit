@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.ContributorAgreement;
 import com.google.gerrit.extensions.common.AccountDefaultDisplayName;
 import com.google.gerrit.extensions.common.AccountsInfo;
@@ -303,6 +304,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     return info;
   }
 
+  @Nullable
   private String getDocUrl() {
     String docUrl = config.getString("gerrit", null, "docUrl");
     if (Strings.isNullOrEmpty(docUrl)) {
@@ -328,6 +330,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private static final String DEFAULT_THEME = "/static/" + SitePaths.THEME_FILENAME;
   private static final String DEFAULT_THEME_JS = "/static/" + SitePaths.THEME_JS_FILENAME;
 
+  @Nullable
   private String getDefaultTheme() {
     if (config.getString("theme", null, "enableDefault") == null) {
       // If not explicitly enabled or disabled, check for the existence of the theme file.
@@ -344,6 +347,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     return null;
   }
 
+  @Nullable
   private SshdInfo getSshdInfo() {
     String[] addr = config.getStringList("sshd", null, "listenAddress");
     if (addr.length == 1 && isOff(addr[0])) {
@@ -380,6 +384,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     return Arrays.asList(config.getStringList("dashboard", null, "submitRequirementColumns"));
   }
 
+  @Nullable
   private static Boolean toBoolean(boolean v) {
     return v ? v : null;
   }

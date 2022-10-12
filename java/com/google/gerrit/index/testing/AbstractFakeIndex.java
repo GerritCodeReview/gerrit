@@ -151,6 +151,7 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
       @Override
       public ResultSet<V> read() {
         return new ListResultSet<>(results) {
+          @Nullable
           @Override
           public Object searchAfter() {
             @Nullable V last = Iterables.getLast(results, null);

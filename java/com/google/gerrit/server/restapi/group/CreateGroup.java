@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.group;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
@@ -181,6 +182,7 @@ public class CreateGroup
     return Response.created(json.format(new InternalGroupDescription(createGroup(args))));
   }
 
+  @Nullable
   private AccountGroup.UUID owner(GroupInput input) throws UnprocessableEntityException {
     if (input.ownerId != null) {
       GroupDescription.Internal d = groups.parseInternal(Url.decode(input.ownerId));

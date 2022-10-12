@@ -33,6 +33,7 @@ import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.converter.ChangeProtoConverter;
@@ -470,6 +471,7 @@ public class LuceneChangeIndex implements ChangeIndex {
      * @param subIndex change sub-index
      * @return the score doc that can be used to page result sets
      */
+    @Nullable
     private ScoreDoc getSearchAfter(ChangeSubIndex subIndex) {
       if (isSearchAfterPagination
           && opts.searchAfter() != null

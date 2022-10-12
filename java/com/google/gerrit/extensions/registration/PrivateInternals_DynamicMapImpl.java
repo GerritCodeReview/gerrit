@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.registration;
 
 import static java.util.Objects.requireNonNull;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.annotations.Export;
 import com.google.inject.Key;
 import com.google.inject.Provider;
@@ -79,6 +80,7 @@ public class PrivateInternals_DynamicMapImpl<T> extends DynamicMap<T> {
       return key;
     }
 
+    @Nullable
     @Override
     public ReloadableHandle replace(Key<T> newKey, Provider<T> newItem) {
       if (items.replace(np, item, newItem)) {

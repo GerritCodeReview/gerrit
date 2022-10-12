@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Splitter;
 import com.google.common.primitives.Ints;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import java.util.List;
 
@@ -112,6 +113,7 @@ public final class Patch {
     }
 
     @UsedAt(UsedAt.Project.COLLABNET)
+    @Nullable
     public static ChangeType forCode(char c) {
       for (ChangeType s : ChangeType.values()) {
         if (s.code == c) {

@@ -16,6 +16,7 @@ package com.google.gerrit.pgm.init;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitStep;
@@ -62,6 +63,7 @@ public class InitPluginStepsLoader {
     return pluginsInitSteps;
   }
 
+  @Nullable
   private InitStep loadInitStep(Path jar) {
     try {
       URLClassLoader pluginLoader =

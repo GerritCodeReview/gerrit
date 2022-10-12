@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ee9d57d_b191362e",
+        "filename": "java/com/google/gerrit/index/query/HasCardinality.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-12T07:32:12Z",
+      "side": 1,
+      "message": "T unused",
+      "range": {
+        "startLine": 17,
+        "startChar": 31,
+        "endLine": 17,
+        "endChar": 34
+      },
+      "revId": "444a7e26b44a330109d5be76344df431efdadd6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6300246_5ebacdd5",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-12T07:32:12Z",
+      "side": 1,
+      "message": "Where would -1 come from? Better to not implement HasCardinality if a Predicate doesn\u0027t have a value.",
+      "revId": "444a7e26b44a330109d5be76344df431efdadd6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fda73e74_8abff192",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-12T07:32:12Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this me implemented by AndPredicate instead?",
+      "revId": "444a7e26b44a330109d5be76344df431efdadd6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50bc3e80_10ac6554",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeIndexPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-12T07:32:12Z",
+      "side": 1,
+      "message": "I don\u0027t think we want a default here.",
+      "revId": "444a7e26b44a330109d5be76344df431efdadd6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8d74e49_1d3b01d9",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeStatusPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-12T07:32:12Z",
+      "side": 1,
+      "message": "Use a switch statement?",
+      "revId": "444a7e26b44a330109d5be76344df431efdadd6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

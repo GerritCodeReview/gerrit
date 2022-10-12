@@ -1,5 +1,92 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "851a365a_b788adc9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-12T19:47:07Z",
+      "side": 1,
+      "message": "@ghareeb@google.com this merged a little fast. Please wait longer for reviews or unset private much earlier. I don\u0027t see why this change was ever private though.",
+      "revId": "ea3a5601dcfe855fe16ef5fcbe34ed74ccd9247d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3eda5a25_8041ad78",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-12T19:47:07Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we be using a constant for this? `ChangeQueryBuilder.FIELD_STATUS` still exists [1], so it\u0027s strange that it\u0027s now unused here.\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/changes/37/347137/14/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java#201",
+      "range": {
+        "startLine": 133,
+        "startChar": 45,
+        "endLine": 133,
+        "endChar": 53
+      },
+      "revId": "ea3a5601dcfe855fe16ef5fcbe34ed74ccd9247d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfb7fe7d_d9471776",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-12T19:47:07Z",
+      "side": 1,
+      "message": "Where do these size #s come from?",
+      "range": {
+        "startLine": 135,
+        "startChar": 11,
+        "endLine": 135,
+        "endChar": 19
+      },
+      "revId": "ea3a5601dcfe855fe16ef5fcbe34ed74ccd9247d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78167a7d_12d87053",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-12T19:47:07Z",
+      "side": 1,
+      "message": "Should this version increase?",
+      "range": {
+        "startLine": 35,
+        "startChar": 25,
+        "endLine": 35,
+        "endChar": 27
+      },
+      "revId": "ea3a5601dcfe855fe16ef5fcbe34ed74ccd9247d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

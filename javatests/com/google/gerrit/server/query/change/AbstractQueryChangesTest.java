@@ -626,7 +626,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byUploader() throws Exception {
-    assume().that(getSchema().hasField(ChangeField.UPLOADER)).isTrue();
+    assume().that(getSchema().hasField(ChangeField.UPLOADER_SPEC)).isTrue();
     Account.Id user2 =
         accountManager.authenticate(authRequestFactory.createForUser("anotheruser")).getAccountId();
     CurrentUser user2CurrentUser = userFactory.create(user2);
@@ -762,7 +762,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byUploaderIn() throws Exception {
-    assume().that(getSchema().hasField(ChangeField.UPLOADER)).isTrue();
+    assume().that(getSchema().hasField(ChangeField.UPLOADER_SPEC)).isTrue();
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo), userId);
     assertQuery("uploaderin:Administrators", change1);

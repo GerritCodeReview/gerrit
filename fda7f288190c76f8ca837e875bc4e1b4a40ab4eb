@@ -16,6 +16,24 @@
       "message": "Could you add a test for updateState",
       "revId": "fda7f288190c76f8ca837e875bc4e1b4a40ab4eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4396a37b_18755fa1",
+        "filename": "polygerrit-ui/app/models/model_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-12T15:26:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71d3575d_8ca88d7a",
+      "revId": "fda7f288190c76f8ca837e875bc4e1b4a40ab4eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

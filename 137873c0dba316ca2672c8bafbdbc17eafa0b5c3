@@ -1,0 +1,234 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0456667_cbd8ec13",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-12T08:57:59Z",
+      "side": 1,
+      "message": "what does this mean? horizontalAlign is not set or read anywhere in the file, and it\u0027s not clear if this is supposed to be an option for the user or something they must set on the host? Can you clarify everywhere and same for verticalAlign.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d580f81_8e3f17ae",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-12T08:57:59Z",
+      "side": 1,
+      "message": "this should be joined with the verticalAlign jsdoc below if you want it to show up as documentation for the interface.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 3
+      },
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d6495e1_c17caea5",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-12T08:57:59Z",
+      "side": 1,
+      "message": "I don\u0027t think we usually have these newlines between documentation and the thing itself.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 0
+      },
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0b4a4da_dcda3ad8",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-12T08:57:59Z",
+      "side": 1,
+      "message": "given where? same for verticalAlign.",
+      "range": {
+        "startLine": 24,
+        "startChar": 5,
+        "endLine": 24,
+        "endChar": 10
+      },
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39562b03_aa4bffae",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-12T08:57:59Z",
+      "side": 1,
+      "message": "wraps here",
+      "range": {
+        "startLine": 56,
+        "startChar": 72,
+        "endLine": 56,
+        "endChar": 82
+      },
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "623b8b13_40a1527e",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-12T08:57:59Z",
+      "side": 1,
+      "message": "rewrite examples for FitController, not iron-fit-impl",
+      "range": {
+        "startLine": 66,
+        "startChar": 8,
+        "endLine": 81,
+        "endChar": 14
+      },
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c4c8b37_ae489f74",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-12T08:57:59Z",
+      "side": 1,
+      "message": "The whole thing should be converted to a /** */ jsdoc so that it is associated as documentation for the FitController class. With the way you have it, nothing shows up when hovering over FitController or when autocompleting it.",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 4
+      },
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26dc0081_61dfa007",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-12T08:57:59Z",
+      "side": 1,
+      "message": "what is suggestion?",
+      "range": {
+        "startLine": 129,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 0
+      },
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2944a718_3e524dda",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-12T08:57:59Z",
+      "side": 1,
+      "message": "no such method?",
+      "range": {
+        "startLine": 141,
+        "startChar": 48,
+        "endLine": 141,
+        "endChar": 51
+      },
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dff43e54_1ea41e5e",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-12T08:57:59Z",
+      "side": 1,
+      "message": "private?",
+      "range": {
+        "startLine": 173,
+        "startChar": 2,
+        "endLine": 173,
+        "endChar": 20
+      },
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -22,6 +22,13 @@ import {deepEqual} from '../utils/deep-util';
  *  Any new subscriber will immediately receive the current value.
  */
 export abstract class Model<T> implements Finalizable {
+  /**
+   * rxjs does not like `next()` being called on a subject during processing of
+   * another `next()` call. So make sure that state updates complete before
+   * starting another one.
+   */
+  stateUpdateInProgress = false;
+
   private subject$: BehaviorSubject<T>;
 
   public state$: Observable<T>;
@@ -36,11 +43,24 @@ export abstract class Model<T> implements Finalizable {
   }
 
   setState(state: T) {
+    if (this.stateUpdateInProgress) {
+      setTimeout(() => this.setState(state));
+      return;
+    }
     if (deepEqual(state, this.getState())) return;
-    this.subject$.next(state);
+    try {
+      this.stateUpdateInProgress = true;
+      this.subject$.next(state);
+    } finally {
+      this.stateUpdateInProgress = false;
+    }
   }
 
   updateState(state: Partial<T>) {
+    if (this.stateUpdateInProgress) {
+      setTimeout(() => this.updateState(state));
+      return;
+    }
     this.setState({...this.getState(), ...state});
   }
 

@@ -70,6 +70,24 @@
       "parentUuid": "c64d2fd1_c366b88b",
       "revId": "84c1007a95a78046f8410b7ec77fe4d0f4596107",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ecf8165_5b6e489a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-12T09:30:00Z",
+      "side": 1,
+      "message": "I will trust your +2 on this.",
+      "parentUuid": "9599a78b_4784602b",
+      "revId": "84c1007a95a78046f8410b7ec77fe4d0f4596107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -282,7 +282,7 @@ public abstract class QueryProcessor<T> {
         @SuppressWarnings("unchecked")
         DataSource<T> s = (DataSource<T>) pred;
         if (initialPageSize < limit && !(pred instanceof AndSource)) {
-          s = new PaginatingSource<T>(s, start, indexConfig);
+          s = new PaginatingSource<>(s, start, indexConfig);
         }
         sources.add(s);
       }

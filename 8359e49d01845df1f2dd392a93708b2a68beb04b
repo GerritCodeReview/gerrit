@@ -142,6 +142,30 @@
       },
       "revId": "8359e49d01845df1f2dd392a93708b2a68beb04b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2c5718b_a96e8b17",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ApplyPatchAsPatchSetInput.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-12T18:32:14Z",
+      "side": 1,
+      "message": "\u003e OK. How about ApplyInput and ApplyPatchSetInput for consistency, then? Or ApplyPatchInput, ApplyPatchPatchSetInput?\n\nRenamed ApplyPatchAsPatchSetInput to ApplyPatchPatchSetInput.\n\n\u003e We allow people to upload changes to gerrit with arbitrary author (including email addresses that don\u0027t exist in Gerrit) using the git command line\n\nThanks for the info!\n\n\u003e Even if it\u0027s not required right now, can you confirm that we can add support for this use case in the future?\n\nI\u0027ve filed a bug for doing that as a followup.",
+      "parentUuid": "dfb9a34f_f57b5e55",
+      "range": {
+        "startLine": 23,
+        "startChar": 16,
+        "endLine": 23,
+        "endChar": 23
+      },
+      "revId": "8359e49d01845df1f2dd392a93708b2a68beb04b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

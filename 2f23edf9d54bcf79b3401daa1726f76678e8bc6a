@@ -72,6 +72,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "79aa0209_1f429f20",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-12T12:42:06Z",
+      "side": 1,
+      "message": "This was a cool idea, I know we could definitely make use of it to look up changes in our bug tracker in bulk.\n\n\u003e See attached bug for more info.\n\nThe bug link doesn\u0027t work. 😞",
+      "revId": "2f23edf9d54bcf79b3401daa1726f76678e8bc6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90185d25_c80ddecb",

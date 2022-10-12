@@ -18,6 +18,7 @@ import static com.google.gerrit.common.FileUtil.modified;
 
 import com.google.common.io.ByteStreams;
 import com.google.gerrit.common.Die;
+import com.google.gerrit.common.Nullable;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -127,6 +128,7 @@ public class InitUtil {
     }
   }
 
+  @Nullable
   private static InputStream open(Class<?> sibling, String name) {
     final InputStream in = sibling.getResourceAsStream(name);
     if (in == null) {

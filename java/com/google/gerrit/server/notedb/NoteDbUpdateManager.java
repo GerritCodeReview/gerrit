@@ -365,6 +365,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
                 cu -> cu.getAttentionSetUpdates().stream()));
   }
 
+  @Nullable
   private BatchRefUpdate execute(OpenRepo or, boolean dryrun, @Nullable PushCertificate pushCert)
       throws IOException {
     if (or == null || or.cmds.isEmpty()) {

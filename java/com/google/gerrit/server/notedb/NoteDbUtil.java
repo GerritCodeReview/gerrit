@@ -18,6 +18,7 @@ import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.primitives.Ints;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import java.sql.Timestamp;
@@ -68,6 +69,7 @@ public class NoteDbUtil {
    * Returns the name of the REST API handler that is in the stack trace of the caller of this
    * method.
    */
+  @Nullable
   static String guessRestApiHandler() {
     StackTraceElement[] trace = Thread.currentThread().getStackTrace();
     int i = findRestApiServlet(trace);

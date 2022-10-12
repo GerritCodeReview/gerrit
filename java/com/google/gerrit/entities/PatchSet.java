@@ -23,6 +23,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.InlineMe;
+import com.google.gerrit.common.Nullable;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
@@ -83,6 +84,7 @@ public abstract class PatchSet {
     }
 
     /** Parse a PatchSet.Id from a {@link #refName()} result. */
+    @Nullable
     public static Id fromRef(String ref) {
       int cs = Change.Id.startIndex(ref);
       if (cs < 0) {

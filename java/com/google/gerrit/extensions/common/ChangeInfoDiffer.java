@@ -21,6 +21,7 @@ import static java.util.stream.Collectors.groupingBy;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.common.Nullable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.sql.Timestamp;
@@ -147,12 +148,14 @@ public final class ChangeInfoDiffer {
   }
 
   /** Returns {@code null} if nothing has been added to {@code oldCollection} */
+  @Nullable
   private static ImmutableList<?> getAddedForCollection(
       Collection<?> oldCollection, Collection<?> newCollection) {
     ImmutableList<?> notInOldCollection = getAdditions(oldCollection, newCollection);
     return notInOldCollection.isEmpty() ? null : notInOldCollection;
   }
 
+  @Nullable
   private static ImmutableList<Object> getAdditions(
       Collection<?> oldCollection, Collection<?> newCollection) {
     if (oldCollection == null)
@@ -169,6 +172,7 @@ public final class ChangeInfoDiffer {
   }
 
   /** Returns {@code null} if nothing has been added to {@code oldMap} */
+  @Nullable
   private static ImmutableMap<Object, Object> getAddedForMap(Map<?, ?> oldMap, Map<?, ?> newMap) {
     ImmutableMap.Builder<Object, Object> additionsBuilder = ImmutableMap.builder();
     for (Map.Entry<?, ?> entry : newMap.entrySet()) {

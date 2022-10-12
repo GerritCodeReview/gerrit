@@ -14,10 +14,13 @@
 
 package com.google.gerrit.extensions.client;
 
+import com.google.gerrit.common.Nullable;
+
 public enum Side {
   PARENT,
   REVISION;
 
+  @Nullable
   public static Side fromShort(short s) {
     if (s <= 0) {
       return PARENT;

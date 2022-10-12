@@ -303,6 +303,7 @@ public class AbstractPluginFieldsTest extends AbstractDaemonTest {
     return pluginInfoFromChangeInfo(changeInfos.get(0));
   }
 
+  @Nullable
   protected static List<PluginDefinedInfo> pluginInfoFromChangeInfo(ChangeInfo changeInfo) {
     List<PluginDefinedInfo> pluginInfo = changeInfo.plugins;
     if (pluginInfo == null) {
@@ -331,6 +332,7 @@ public class AbstractPluginFieldsTest extends AbstractDaemonTest {
    * @param plugins list of {@code MyInfo} objects, each as a raw map returned from Gson.
    * @return decoded list of {@code MyInfo}s.
    */
+  @Nullable
   protected static List<PluginDefinedInfo> decodeRawPluginsList(
       Gson gson, @Nullable Object plugins) {
     if (plugins == null) {

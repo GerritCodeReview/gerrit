@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.restapi.config.ListTasks.TaskInfo;
 import com.google.gson.reflect.TypeToken;
 import java.util.List;
@@ -41,6 +42,7 @@ public class GetTaskIT extends AbstractDaemonTest {
     userRestSession.get("/config/server/tasks/" + getLogFileCompressorTaskId()).assertNotFound();
   }
 
+  @Nullable
   private String getLogFileCompressorTaskId() throws Exception {
     RestResponse r = adminRestSession.get("/config/server/tasks/");
     List<TaskInfo> result =

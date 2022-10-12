@@ -17,6 +17,7 @@ package com.google.gerrit.lucene;
  * limitations under the License.
  */
 
+import com.google.gerrit.common.Nullable;
 import java.io.IOException;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.FilterDirectoryReader;
@@ -132,6 +133,7 @@ final class WrappableSearcherManager extends ReferenceManager<IndexSearcher> {
     reference.getIndexReader().decRef();
   }
 
+  @Nullable
   @Override
   protected IndexSearcher refreshIfNeeded(IndexSearcher referenceToRefresh) throws IOException {
     final IndexReader r = referenceToRefresh.getIndexReader();

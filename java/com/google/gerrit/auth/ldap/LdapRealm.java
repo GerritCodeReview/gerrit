@@ -20,6 +20,7 @@ import com.google.common.base.Strings;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
@@ -162,6 +163,7 @@ class LdapRealm extends AbstractRealm {
     return vlist;
   }
 
+  @Nullable
   static String optdef(Config c, String n, String d) {
     final String[] v = c.getStringList("ldap", null, n);
     if (v == null || v.length == 0) {
@@ -184,6 +186,7 @@ class LdapRealm extends AbstractRealm {
     return v;
   }
 
+  @Nullable
   static ParameterizedString paramString(Config c, String n, String d) {
     String expression = optdef(c, n, d);
     if (expression == null) {
@@ -209,6 +212,7 @@ class LdapRealm extends AbstractRealm {
     return !readOnlyAccountFields.contains(field);
   }
 
+  @Nullable
   static String apply(ParameterizedString p, LdapQuery.Result m) throws NamingException {
     if (p == null) {
       return null;
@@ -306,6 +310,7 @@ class LdapRealm extends AbstractRealm {
     usernameCache.put(who.getLocalUser(), Optional.of(account.id()));
   }
 
+  @Nullable
   @Override
   public Account.Id lookup(String accountName) {
     if (Strings.isNullOrEmpty(accountName)) {

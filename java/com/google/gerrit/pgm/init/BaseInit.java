@@ -22,6 +22,7 @@ import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Die;
 import com.google.gerrit.common.IoUtil;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.IndexType;
 import com.google.gerrit.metrics.DisabledMetricMaker;
@@ -175,6 +176,7 @@ public class BaseInit extends SiteProgram {
    */
   protected void afterInit(SiteRun run) throws Exception {}
 
+  @Nullable
   protected List<String> getInstallPlugins() {
     try {
       if (pluginsToInstall != null && pluginsToInstall.isEmpty()) {
@@ -304,6 +306,7 @@ public class BaseInit extends SiteProgram {
     return ConsoleUI.getInstance(false);
   }
 
+  @Nullable
   private SecureStoreInitData discoverSecureStoreClass() {
     String secureStore = getSecureStoreLib();
     if (Strings.isNullOrEmpty(secureStore)) {

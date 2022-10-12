@@ -141,6 +141,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     return args.allUsers;
   }
 
+  @Nullable
   @VisibleForTesting
   NoteMap getNoteMap() {
     return revisionNoteMap != null ? revisionNoteMap.noteMap : null;

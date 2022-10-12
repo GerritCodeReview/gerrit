@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.CurrentUser;
@@ -25,6 +26,7 @@ import com.google.gerrit.server.CurrentUser;
  * of which sections are relevant to any given input reference.
  */
 public class SectionMatcher extends RefPatternMatcher {
+  @Nullable
   static SectionMatcher wrap(Project.NameKey project, AccessSection section) {
     String ref = section.getName();
     if (AccessSection.isValidRefSectionName(ref)) {

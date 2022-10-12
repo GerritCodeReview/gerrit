@@ -166,6 +166,7 @@ public abstract class Project {
    * @return name key of the parent project, {@code null} if this project is the All-Projects
    *     project
    */
+  @Nullable
   public Project.NameKey getParent(Project.NameKey allProjectsName) {
     if (getParent() != null) {
       return getParent();
@@ -178,6 +179,7 @@ public abstract class Project {
     return allProjectsName;
   }
 
+  @Nullable
   public String getParentName() {
     return getParent() != null ? getParent().get() : null;
   }

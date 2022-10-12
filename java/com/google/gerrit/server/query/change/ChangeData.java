@@ -580,6 +580,7 @@ public class ChangeData {
     return notes;
   }
 
+  @Nullable
   public PatchSet currentPatchSet() {
     if (currentPatchSet == null) {
       Change c = change();
@@ -624,6 +625,7 @@ public class ChangeData {
     currentApprovals = approvals;
   }
 
+  @Nullable
   public String commitMessage() {
     if (commitMessage == null) {
       if (!loadCommitData()) {
@@ -647,6 +649,7 @@ public class ChangeData {
     return trackingFooters.extract(commitFooters());
   }
 
+  @Nullable
   public PersonIdent getAuthor() {
     if (author == null) {
       if (!loadCommitData()) {
@@ -656,6 +659,7 @@ public class ChangeData {
     return author;
   }
 
+  @Nullable
   public PersonIdent getCommitter() {
     if (committer == null) {
       if (!loadCommitData()) {
@@ -751,6 +755,7 @@ public class ChangeData {
   }
 
   /** Returns patch with the given ID, or null if it does not exist. */
+  @Nullable
   public PatchSet patchSet(PatchSet.Id psId) {
     if (currentPatchSet != null && currentPatchSet.id().equals(psId)) {
       return currentPatchSet;
@@ -892,6 +897,7 @@ public class ChangeData {
     return robotComments;
   }
 
+  @Nullable
   public Integer unresolvedCommentCount() {
     if (unresolvedCommentCount == null) {
       if (!lazyload()) {
@@ -914,6 +920,7 @@ public class ChangeData {
     this.unresolvedCommentCount = count;
   }
 
+  @Nullable
   public Integer totalCommentCount() {
     if (totalCommentCount == null) {
       if (!lazyload()) {

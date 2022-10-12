@@ -58,6 +58,7 @@ public abstract class Account {
       return Optional.ofNullable(Ints.tryParse(str)).map(Account::id);
     }
 
+    @Nullable
     public static Id fromRef(String name) {
       if (name == null) {
         return null;
@@ -78,11 +79,13 @@ public abstract class Account {
      * @param name a ref name with the following syntax: {@code "34/1234..."}. We assume that the
      *     caller has trimmed any prefix.
      */
+    @Nullable
     public static Id fromRefPart(String name) {
       Integer id = RefNames.parseShardedRefPart(name);
       return id != null ? Account.id(id) : null;
     }
 
+    @Nullable
     public static Id parseAfterShardedRefPart(String name) {
       Integer id = RefNames.parseAfterShardedRefPart(name);
       return id != null ? Account.id(id) : null;
@@ -98,6 +101,7 @@ public abstract class Account {
      * @param name ref name
      * @return account ID, or null if not numeric.
      */
+    @Nullable
     public static Id fromRefSuffix(String name) {
       Integer id = RefNames.parseRefSuffix(name);
       return id != null ? Account.id(id) : null;

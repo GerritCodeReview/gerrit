@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import java.util.Collection;
@@ -30,6 +31,7 @@ public class CreateGroupArgs {
     return groupName;
   }
 
+  @Nullable
   public String getGroupName() {
     return groupName != null ? groupName.get() : null;
   }

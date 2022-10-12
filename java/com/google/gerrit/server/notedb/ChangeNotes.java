@@ -673,6 +673,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return change.getProject();
   }
 
+  @Nullable
   @Override
   protected ObjectId readRef(Repository repo) throws IOException {
     return refs != null ? refs.get(getRefName()).orElse(null) : super.readRef(repo);

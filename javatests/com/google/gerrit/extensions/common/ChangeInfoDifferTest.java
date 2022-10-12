@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.ReviewerState;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -344,6 +345,7 @@ public final class ChangeInfoDifferTest {
     assertThat(diff.removed().reviewers).isNull();
   }
 
+  @Nullable
   private static Object buildObjectWithFullFields(Class<?> c) throws Exception {
     if (c == null) {
       return null;
@@ -365,6 +367,7 @@ public final class ChangeInfoDifferTest {
     return toPopulate;
   }
 
+  @Nullable
   private static Class<?> getParameterizedType(Field field) {
     if (!Collection.class.isAssignableFrom(field.getType())) {
       return null;

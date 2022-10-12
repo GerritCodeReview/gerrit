@@ -441,6 +441,7 @@ public class ReplaceOp implements BatchUpdateOp {
         update, message.toString(), ChangeMessagesUtil.uploadedPatchSetTag(workInProgress));
   }
 
+  @Nullable
   private String changeKindMessage(ChangeKind changeKind) {
     switch (changeKind) {
       case MERGE_FIRST_PARENT_UPDATE:
@@ -624,6 +625,7 @@ public class ReplaceOp implements BatchUpdateOp {
     return cmd;
   }
 
+  @Nullable
   private static String findMergedInto(Context ctx, String first, RevCommit commit) {
     try {
       RevWalk rw = ctx.getRevWalk();

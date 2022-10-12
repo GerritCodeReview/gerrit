@@ -45,6 +45,7 @@ public class OptionalSubmitRequirementExpressionResultAdapterFactory implements 
       TypeToken.get(SubmitRequirementExpressionResult.class);
 
   @SuppressWarnings({"unchecked"})
+  @Nullable
   @Override
   public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> typeToken) {
     if (typeToken.equals(OPTIONAL_SR_EXPRESSION_RESULT_TOKEN)) {

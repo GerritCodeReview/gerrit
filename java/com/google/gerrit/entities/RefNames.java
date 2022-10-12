@@ -16,6 +16,7 @@ package com.google.gerrit.entities;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import java.util.List;
 
@@ -222,6 +223,7 @@ public class RefNames {
     return REFS_CACHE_AUTOMERGE + hash.substring(0, 2) + '/' + hash.substring(2);
   }
 
+  @Nullable
   public static String shard(int id) {
     if (id < 0) {
       return null;
@@ -343,6 +345,7 @@ public class RefNames {
     return GERRIT_REFS.stream().anyMatch(internalRef -> ref.startsWith(internalRef));
   }
 
+  @Nullable
   static Integer parseShardedRefPart(String name) {
     if (name == null) {
       return null;
@@ -386,6 +389,7 @@ public class RefNames {
   }
 
   @UsedAt(UsedAt.Project.PLUGINS_ALL)
+  @Nullable
   public static String parseShardedUuidFromRefPart(String name) {
     if (name == null) {
       return null;
@@ -420,6 +424,7 @@ public class RefNames {
    * @return the rest of the name, {@code null} if the ref name part doesn't start with a valid
    *     sharded ID
    */
+  @Nullable
   static String skipShardedRefPart(String name) {
     if (name == null) {
       return null;
@@ -473,6 +478,7 @@ public class RefNames {
    *     ref name part doesn't start with a valid sharded ID or if no valid ID follows the sharded
    *     ref part
    */
+  @Nullable
   static Integer parseAfterShardedRefPart(String name) {
     String rest = skipShardedRefPart(name);
     if (rest == null || !rest.startsWith("/")) {
@@ -493,6 +499,7 @@ public class RefNames {
     return Integer.parseInt(rest.substring(0, ie));
   }
 
+  @Nullable
   public static Integer parseRefSuffix(String name) {
     if (name == null) {
       return null;

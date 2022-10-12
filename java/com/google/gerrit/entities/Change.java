@@ -117,6 +117,7 @@ public final class Change {
       return id != null ? Optional.of(Change.id(id)) : Optional.empty();
     }
 
+    @Nullable
     public static Id fromRef(String ref) {
       if (RefNames.isRefsEdit(ref)) {
         return fromEditRefPart(ref);
@@ -134,6 +135,7 @@ public final class Change {
       return null;
     }
 
+    @Nullable
     public static Id fromAllUsersRef(String ref) {
       if (ref == null) {
         return null;
@@ -169,6 +171,7 @@ public final class Change {
       return true;
     }
 
+    @Nullable
     public static Id fromEditRefPart(String ref) {
       int startChangeId = ref.indexOf(RefNames.EDIT_PREFIX) + RefNames.EDIT_PREFIX.length();
       int endChangeId = nextNonDigit(ref, startChangeId);
@@ -179,6 +182,7 @@ public final class Change {
       return null;
     }
 
+    @Nullable
     public static Id fromRefPart(String ref) {
       Integer id = RefNames.parseShardedRefPart(ref);
       return id != null ? Change.id(id) : null;
@@ -404,6 +408,7 @@ public final class Change {
       return changeStatus;
     }
 
+    @Nullable
     public static Status forCode(char c) {
       for (Status s : Status.values()) {
         if (s.code == c) {
@@ -414,6 +419,7 @@ public final class Change {
       return null;
     }
 
+    @Nullable
     public static Status forChangeStatus(ChangeStatus cs) {
       for (Status s : Status.values()) {
         if (s.changeStatus == cs) {
@@ -599,6 +605,7 @@ public final class Change {
   }
 
   /** Get the id of the most current {@link PatchSet} in this change. */
+  @Nullable
   public PatchSet.Id currentPatchSetId() {
     if (currentPatchSetId > 0) {
       return PatchSet.id(changeId, currentPatchSetId);

@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Ordering;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.InvalidSshKeyException;
@@ -194,6 +195,7 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
    * @return the SSH key, <code>null</code> if there is no SSH key with this sequence number, or if
    *     the SSH key with this sequence number has been deleted
    */
+  @Nullable
   private AccountSshKey getKey(int seq) {
     checkLoaded();
     return keys.get(seq - 1).orElse(null);

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.auth.ldap;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.metrics.Timer0;
 import java.util.ArrayList;
@@ -114,6 +115,7 @@ class LdapQuery {
       return get("dn");
     }
 
+    @Nullable
     String get(String attName) throws NamingException {
       final Attribute att = getAll(attName);
       return att != null && 0 < att.size() ? String.valueOf(att.get(0)) : null;

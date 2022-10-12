@@ -21,6 +21,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.GroupReference;
@@ -140,6 +141,7 @@ public class SystemGroupBackend extends AbstractGroupBackend {
     return isSystemGroup(uuid);
   }
 
+  @Nullable
   @Override
   public GroupDescription.Basic get(AccountGroup.UUID uuid) {
     final GroupReference ref = uuids.get(uuid);

@@ -17,6 +17,7 @@ package com.google.gerrit.prettify.common;
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.Nullable;
 
 /**
  * A class to store subset of a file's lines in a memory efficient way. Internally, it stores lines
@@ -134,6 +135,7 @@ public abstract class SparseFileContent {
       return getSize();
     }
 
+    @Nullable
     private String getLine(int idx) {
       // Most requests are sequential in nature, fetching the next
       // line from the current range, or the next range.

@@ -17,6 +17,7 @@ package com.google.gerrit.server.git.meta;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.git.ValidationError;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -84,6 +85,7 @@ public class TabFile {
     return map;
   }
 
+  @Nullable
   protected static String asText(String left, String right, Map<String, String> entries) {
     if (entries.isEmpty()) {
       return null;
@@ -96,6 +98,7 @@ public class TabFile {
     return asText(left, right, rows);
   }
 
+  @Nullable
   protected static String asText(String left, String right, List<Row> rows) {
     if (rows.isEmpty()) {
       return null;

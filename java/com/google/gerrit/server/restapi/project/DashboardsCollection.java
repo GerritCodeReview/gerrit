@@ -225,6 +225,7 @@ public class DashboardsCollection implements ChildCollection<ProjectResource, Da
     return info;
   }
 
+  @Nullable
   private static String replace(String project, String input) {
     return input == null ? input : input.replace("${project}", project);
   }

@@ -17,6 +17,7 @@ package com.google.gerrit.pgm.init;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.InternalGroup;
@@ -182,6 +183,7 @@ public class InitAdminUser implements InitStep {
     return email;
   }
 
+  @Nullable
   private AccountSshKey readSshKey(Account.Id id) throws IOException {
     String defaultPublicSshKeyFile = "";
     Path defaultPublicSshKeyPath = Paths.get(System.getProperty("user.home"), ".ssh", "id_rsa.pub");

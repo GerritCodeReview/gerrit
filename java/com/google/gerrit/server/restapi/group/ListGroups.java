@@ -21,6 +21,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupDescription;
@@ -408,6 +409,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     }
   }
 
+  @Nullable
   private Pattern getRegexPattern() {
     return Strings.isNullOrEmpty(matchRegex) ? null : Pattern.compile(matchRegex);
   }

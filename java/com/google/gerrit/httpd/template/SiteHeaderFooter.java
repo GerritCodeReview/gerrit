@@ -18,6 +18,7 @@ import static com.google.gerrit.common.FileUtil.lastModified;
 
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -125,6 +126,7 @@ public class SiteHeaderFooter {
       return cssFile.isStale() || headerFile.isStale() || footerFile.isStale();
     }
 
+    @Nullable
     private static Element readXml(FileInfo src) throws IOException {
       Document d = HtmlDomUtil.parseFile(src.path);
       return d != null ? d.getDocumentElement() : null;

@@ -23,6 +23,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.auth.oauth.OAuthLoginProvider;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -226,6 +227,7 @@ class ProjectOAuthFilter implements Filter {
     }
   }
 
+  @Nullable
   private AuthInfo extractAuthInfo(String hdr, String encoding)
       throws UnsupportedEncodingException {
     byte[] decoded = BaseEncoding.base64().decode(hdr.substring(BASIC.length()));
@@ -241,6 +243,7 @@ class ProjectOAuthFilter implements Filter {
         defaultAuthProvider);
   }
 
+  @Nullable
   private AuthInfo extractAuthInfo(Cookie cookie) throws UnsupportedEncodingException {
     String username =
         URLDecoder.decode(cookie.getName().substring(GIT_COOKIE_PREFIX.length()), UTF_8.name());
@@ -272,6 +275,7 @@ class ProjectOAuthFilter implements Filter {
     return MoreObjects.firstNonNull(req.getCharacterEncoding(), UTF_8.name());
   }
 
+  @Nullable
   private static Cookie findGitCookie(HttpServletRequest req) {
     Cookie[] cookies = req.getCookies();
     if (cookies != null) {

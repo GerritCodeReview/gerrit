@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.PermissionRange;
@@ -177,6 +178,7 @@ class RefControl {
   }
 
   /** The range of permitted values associated with a label permission. */
+  @Nullable
   PermissionRange getRange(String permission, boolean isChangeOwner) {
     if (Permission.hasRange(permission)) {
       return toRange(permission, isChangeOwner);

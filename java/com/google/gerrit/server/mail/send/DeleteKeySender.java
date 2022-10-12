@@ -15,6 +15,7 @@
 package com.google.gerrit.server.mail.send;
 
 import com.google.common.base.Joiner;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.server.IdentifiedUser;
@@ -109,10 +110,12 @@ public class DeleteKeySender extends OutgoingEmail {
     throw new IllegalStateException("key type is not SSH or GPG");
   }
 
+  @Nullable
   private String getSshKey() {
     return (sshKey != null) ? sshKey.sshPublicKey() + "\n" : null;
   }
 
+  @Nullable
   private String getGpgKeyFingerprints() {
     if (!gpgKeyFingerprints.isEmpty()) {
       return Joiner.on("\n").join(gpgKeyFingerprints);

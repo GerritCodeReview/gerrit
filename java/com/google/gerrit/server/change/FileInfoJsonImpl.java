@@ -42,6 +42,7 @@ public class FileInfoJsonImpl implements FileInfoJson {
     this.diffs = diffOperations;
   }
 
+  @Nullable
   @Override
   public Map<String, FileInfo> getFileInfoMap(
       Change change, ObjectId objectId, @Nullable PatchSet base)
@@ -63,6 +64,7 @@ public class FileInfoJsonImpl implements FileInfoJson {
     }
   }
 
+  @Nullable
   @Override
   public Map<String, FileInfo> getFileInfoMap(
       Project.NameKey project, ObjectId objectId, int parent)

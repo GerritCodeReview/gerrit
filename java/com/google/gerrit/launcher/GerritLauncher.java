@@ -533,6 +533,7 @@ public final class GerritLauncher {
     return myHome;
   }
 
+  @SuppressWarnings("ReturnMissingNullable")
   private static File tmproot() {
     File tmp;
     String gerritTemp = System.getenv("GERRIT_TMP");
@@ -572,6 +573,7 @@ public final class GerritLauncher {
     }
   }
 
+  @SuppressWarnings("ReturnMissingNullable")
   private static File locateHomeDirectory() {
     // Try to find the user's home directory. If we can't find it
     // return null so the JVM's default temporary directory is used

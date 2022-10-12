@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.registration;
 
+import com.google.gerrit.common.Nullable;
 import com.google.inject.Binding;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -39,6 +40,7 @@ class DynamicItemProvider<T> implements Provider<DynamicItem<T>> {
     return new DynamicItem<>(key, find(injector, type), PluginName.GERRIT);
   }
 
+  @Nullable
   private static <T> Provider<T> find(Injector src, TypeLiteral<T> type) {
     List<Binding<T>> bindings = src.findBindingsByType(type);
     if (bindings != null && bindings.size() == 1) {

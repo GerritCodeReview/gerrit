@@ -16,6 +16,7 @@ import {until} from '../utils/async-util';
 /** Type of incoming messages for ServiceWorker. */
 export enum ServiceWorkerMessageType {
   TRIGGER_NOTIFICATIONS = 'TRIGGER_NOTIFICATIONS',
+  USER_PREFERENCE_CHANGE = 'USER_PREFERENCE_CHANGE',
 }
 
 export const TRIGGER_NOTIFICATION_UPDATES_MS = 5 * 60 * 1000;
@@ -25,33 +26,34 @@ export class ServiceWorkerInstaller {
 
   account?: AccountDetailInfo;
 
+  allowBrowserNotificationsPreference?: boolean;
+
   constructor(
     private readonly flagsService: FlagsService,
     private readonly userModel: UserModel
   ) {
     this.userModel.account$.subscribe(acc => (this.account = acc));
+    this.userModel.preferences$.subscribe(prefs => {
+      if (
+        this.allowBrowserNotificationsPreference !==
+        prefs.allow_browser_notifications
+      ) {
+        this.allowBrowserNotificationsPreference =
+          prefs.allow_browser_notifications;
+        navigator.serviceWorker.controller?.postMessage({
+          type: ServiceWorkerMessageType.USER_PREFERENCE_CHANGE,
+          allowBrowserNotificationsPreference:
+            this.allowBrowserNotificationsPreference,
+        });
+      }
+    });
   }
 
   async init() {
     if (this.initialized) return;
-    if (
-      !this.flagsService.isEnabled(
-        KnownExperimentId.PUSH_NOTIFICATIONS_DEVELOPER
-      )
-    ) {
-      if (!this.flagsService.isEnabled(KnownExperimentId.PUSH_NOTIFICATIONS)) {
-        return;
-      }
-      const timeout1s = new Promise(resolve => {
-        setTimeout(resolve, 1000);
-      });
-      // We wait for account to be defined, if its not defined in 1s, it's guest
-      await Promise.race([
-        timeout1s,
-        until(this.userModel.account$, account => !!account),
-      ]);
-      if (!areNotificationsEnabled(this.account)) return;
-    }
+    await this.waitUntilAccountIsResolved();
+    if (!this.areNotificationsEnabled()) return;
+
     if (!('serviceWorker' in navigator)) {
       console.error('Service worker API not available');
       return;
@@ -60,6 +62,35 @@ export class ServiceWorkerInstaller {
     const permission = await Notification.requestPermission();
     if (this.isPermitted(permission)) this.startTriggerTimer();
     this.initialized = true;
+  }
+
+  async waitUntilAccountIsResolved() {
+    const timeout1s = new Promise(resolve => {
+      setTimeout(resolve, 1000);
+    });
+    // We wait for account to be defined, if its not defined in 1s, it's guest
+    await Promise.race([
+      timeout1s,
+      until(this.userModel.account$, account => !!account),
+    ]);
+  }
+
+  areNotificationsEnabled() {
+    if (!this.flagsService.isEnabled(KnownExperimentId.PUSH_NOTIFICATIONS)) {
+      return false;
+    }
+    // Push Notification developer can have notification enabled even if they
+    // are disabled for this.account.
+    if (
+      !this.flagsService.isEnabled(
+        KnownExperimentId.PUSH_NOTIFICATIONS_DEVELOPER
+      ) &&
+      !areNotificationsEnabled(this.account)
+    ) {
+      return false;
+    }
+
+    return this.allowBrowserNotificationsPreference;
   }
 
   /**

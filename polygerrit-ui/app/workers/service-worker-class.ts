@@ -27,6 +27,8 @@ export class ServiceWorker {
   // private but used in test
   latestUpdateTimestampMs = Date.now();
 
+  allowBrowserNotificationsPreference = true;
+
   /**
    * We cannot rely on a state in a service worker, because every time
    * service worker starts or stops, new instance is created. So every time
@@ -44,6 +46,8 @@ export class ServiceWorker {
   saveState() {
     return putServiceWorkerState({
       latestUpdateTimestampMs: this.latestUpdateTimestampMs,
+      allowBrowserNotificationsPreference:
+        this.allowBrowserNotificationsPreference,
     });
   }
 
@@ -51,19 +55,27 @@ export class ServiceWorker {
     const state = await getServiceWorkerState();
     if (state) {
       this.latestUpdateTimestampMs = state.latestUpdateTimestampMs;
+      this.allowBrowserNotificationsPreference =
+        state.allowBrowserNotificationsPreference;
     }
   }
 
   private onMessage(e: ExtendableMessageEvent) {
-    if (e.data?.type !== ServiceWorkerMessageType.TRIGGER_NOTIFICATIONS) {
-      // Only this notification message type exists, but we do not throw error.
-      return;
+    if (e.data?.type === ServiceWorkerMessageType.TRIGGER_NOTIFICATIONS) {
+      e.waitUntil(
+        this.showLatestAttentionChangeNotification(
+          e.data?.account as AccountDetailInfo | undefined
+        )
+      );
+    } else if (
+      e.data?.type === ServiceWorkerMessageType.USER_PREFERENCE_CHANGE
+    ) {
+      e.waitUntil(
+        this.allowBrowserNotificationsPreferenceChanged(
+          e.data?.allowBrowserNotificationsPreference as boolean
+        )
+      );
     }
-    e.waitUntil(
-      this.showLatestAttentionChangeNotification(
-        e.data?.account as AccountDetailInfo | undefined
-      )
-    );
   }
 
   private onNotificationClick(e: NotificationEvent) {
@@ -71,10 +83,16 @@ export class ServiceWorker {
     e.waitUntil(this.openWindow(e.notification.data.url));
   }
 
+  async allowBrowserNotificationsPreferenceChanged(preference: boolean) {
+    this.allowBrowserNotificationsPreference = preference;
+    await this.saveState();
+  }
+
   // private but used in test
   async showLatestAttentionChangeNotification(account?: AccountDetailInfo) {
     // Message always contains account, but we do not throw error.
     if (!account?._account_id) return;
+    if (!this.allowBrowserNotificationsPreference) return;
     const latestAttentionChanges = await this.getChangesToNotify(account);
     const numOfChangesToNotifyAbout = latestAttentionChanges.length;
     if (numOfChangesToNotifyAbout === 1) {

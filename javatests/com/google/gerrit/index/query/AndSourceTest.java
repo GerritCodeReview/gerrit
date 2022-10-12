@@ -26,7 +26,7 @@ public class AndSourceTest extends PredicateTest {
     TestMatchablePredicate p1 = new TestMatchablePredicate("predicate1", "foo", 10);
     TestMatchablePredicate p2 = new TestMatchablePredicate("predicate2", "foo", 1);
     AndSource<String> andSource = new AndSource<>(Lists.newArrayList(p1, p2), null);
-    andSource.match("bar");
+    assertFalse(andSource.match("bar"));
     assertFalse(p1.ranMatch);
     assertTrue(p2.ranMatch);
   }

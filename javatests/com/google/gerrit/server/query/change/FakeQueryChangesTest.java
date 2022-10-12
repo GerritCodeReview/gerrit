@@ -32,6 +32,7 @@ import com.google.gerrit.testing.InMemoryRepositoryManager.Repo;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import java.util.List;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
@@ -129,7 +130,8 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
     // 2 index searches are expected. The first index search will run with size 3 (i.e.
     // the configured query-limit+1), and then we will paginate to get the remaining
     // changes with the second index search.
-    queryProvider.get().query(queryBuilder.parse("status:new"));
+    List<ChangeData> matches = queryProvider.get().query(queryBuilder.parse("status:new"));
+    assertThat(matches).hasSize(4);
     assertThat(idx.getQueryCount()).isEqualTo(2);
   }
 }

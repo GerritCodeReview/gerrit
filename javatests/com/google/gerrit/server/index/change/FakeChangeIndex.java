@@ -18,6 +18,8 @@ import static com.google.gerrit.index.SchemaUtil.schema;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.index.FieldDef;
+import com.google.gerrit.index.IndexedField;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.FieldBundle;
@@ -33,16 +35,16 @@ public class FakeChangeIndex implements ChangeIndex {
   static final Schema<ChangeData> V1 =
       schema(
           1,
-          ImmutableList.of(),
-          ImmutableList.of(ChangeField.STATUS_FIELD),
-          ImmutableList.of(ChangeField.STATUS_SPEC));
+          ImmutableList.<FieldDef<ChangeData, ?>>of(),
+          ImmutableList.<IndexedField<ChangeData, ?>>of(ChangeField.STATUS_FIELD),
+          ImmutableList.<IndexedField<ChangeData, ?>.SearchSpec>of(ChangeField.STATUS_SPEC));
 
   static final Schema<ChangeData> V2 =
       schema(
           2,
-          ImmutableList.of(ChangeField.PATH, ChangeField.UPDATED),
-          ImmutableList.of(ChangeField.STATUS_FIELD),
-          ImmutableList.of(ChangeField.STATUS_SPEC));
+          ImmutableList.<FieldDef<ChangeData, ?>>of(ChangeField.PATH, ChangeField.UPDATED),
+          ImmutableList.<IndexedField<ChangeData, ?>>of(ChangeField.STATUS_FIELD),
+          ImmutableList.<IndexedField<ChangeData, ?>.SearchSpec>of(ChangeField.STATUS_SPEC));
 
   private static class Source implements ChangeDataSource {
     private final Predicate<ChangeData> p;

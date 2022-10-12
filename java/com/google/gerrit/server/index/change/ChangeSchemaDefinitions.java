@@ -17,6 +17,8 @@ package com.google.gerrit.server.index.change;
 import static com.google.gerrit.index.SchemaUtil.schema;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.index.FieldDef;
+import com.google.gerrit.index.IndexedField;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.SchemaDefinitions;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -33,7 +35,7 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   static final Schema<ChangeData> V74 =
       schema(
           /* version= */ 74,
-          ImmutableList.of(
+          ImmutableList.<FieldDef<ChangeData, ?>>of(
               ChangeField.ADDED,
               ChangeField.APPROVAL,
               ChangeField.ASSIGNEE,
@@ -100,13 +102,13 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
               ChangeField.UPDATED,
               ChangeField.UPLOADER,
               ChangeField.WIP),
-          ImmutableList.of(
+          ImmutableList.<IndexedField<ChangeData, ?>>of(
               ChangeField.SUBMISSIONID_FIELD,
               ChangeField.STATUS_FIELD,
               ChangeField.PROJECT_FIELD,
               ChangeField.REF_FIELD,
               ChangeField.TOPIC_FIELD),
-          ImmutableList.of(
+          ImmutableList.<IndexedField<ChangeData, ?>.SearchSpec>of(
               ChangeField.EXACT_TOPIC,
               ChangeField.FUZZY_TOPIC,
               ChangeField.SUBMISSIONID_SPEC,

@@ -270,12 +270,20 @@ public class ChangeField {
       HASHTAG_CASE_AWARE_SPEC = HASHTAG_CASE_AWARE_FIELD.storedOnly("_hashtag");
 
   /** Components of each file path modified in the current patch set. */
-  public static final FieldDef<ChangeData, Iterable<String>> FILE_PART =
-      exact(ChangeQueryBuilder.FIELD_FILEPART).buildRepeatable(ChangeField::getFileParts);
+  public static final IndexedField<ChangeData, Iterable<String>> FILE_PART_FIELD =
+      IndexedField.<ChangeData>iterableStringBuilder("FilePart").build(ChangeField::getFileParts);
+
+  public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec FILE_PART_SPEC =
+      FILE_PART_FIELD.exact(ChangeQueryBuilder.FIELD_FILEPART);
 
   /** File extensions of each file modified in the current patch set. */
-  public static final FieldDef<ChangeData, Iterable<String>> EXTENSION =
-      exact(ChangeQueryBuilder.FIELD_EXTENSION).buildRepeatable(ChangeField::getExtensions);
+  public static final IndexedField<ChangeData, Iterable<String>> EXTENSION_FIELD =
+      IndexedField.<ChangeData>iterableStringBuilder("Extension")
+          .size(100)
+          .build(ChangeField::getExtensions);
+
+  public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec EXTENSION_SPEC =
+      EXTENSION_FIELD.exact(ChangeQueryBuilder.FIELD_EXTENSION);
 
   public static Set<String> getExtensions(ChangeData cd) {
     return extensions(cd).collect(toSet());
@@ -285,8 +293,12 @@ public class ChangeField {
    * File extensions of each file modified in the current patch set as a sorted list. The purpose of
    * this field is to allow matching changes that only touch files with certain file extensions.
    */
-  public static final FieldDef<ChangeData, String> ONLY_EXTENSIONS =
-      exact(ChangeQueryBuilder.FIELD_ONLY_EXTENSIONS).build(ChangeField::getAllExtensionsAsList);
+  public static final IndexedField<ChangeData, String> ONLY_EXTENSIONS_FIELD =
+      IndexedField.<ChangeData>stringBuilder("OnlyExtensions")
+          .build(ChangeField::getAllExtensionsAsList);
+
+  public static final IndexedField<ChangeData, String>.SearchSpec ONLY_EXTENSIONS_SPEC =
+      ONLY_EXTENSIONS_FIELD.exact(ChangeQueryBuilder.FIELD_ONLY_EXTENSIONS);
 
   public static String getAllExtensionsAsList(ChangeData cd) {
     return extensions(cd).distinct().sorted().collect(joining(","));
@@ -310,8 +322,11 @@ public class ChangeField {
   }
 
   /** Footers from the commit message of the current patch set. */
-  public static final FieldDef<ChangeData, Iterable<String>> FOOTER =
-      exact(ChangeQueryBuilder.FIELD_FOOTER).buildRepeatable(ChangeField::getFooters);
+  public static final IndexedField<ChangeData, Iterable<String>> FOOTER_FIELD =
+      IndexedField.<ChangeData>iterableStringBuilder("Footer").build(ChangeField::getFooters);
+
+  public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec FOOTER_SPEC =
+      FOOTER_FIELD.exact(ChangeQueryBuilder.FIELD_FOOTER);
 
   public static Set<String> getFooters(ChangeData cd) {
     return cd.commitFooters().stream()
@@ -320,16 +335,24 @@ public class ChangeField {
   }
 
   /** Footers from the commit message of the current patch set. */
-  public static final FieldDef<ChangeData, Iterable<String>> FOOTER_NAME =
-      exact(ChangeQueryBuilder.FIELD_FOOTER_NAME).buildRepeatable(ChangeField::getFootersNames);
+  public static final IndexedField<ChangeData, Iterable<String>> FOOTER_NAME_FIELD =
+      IndexedField.<ChangeData>iterableStringBuilder("FooterName")
+          .build(ChangeField::getFootersNames);
+
+  public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec FOOTER_NAME =
+      FOOTER_NAME_FIELD.exact(ChangeQueryBuilder.FIELD_FOOTER_NAME);
 
   public static Set<String> getFootersNames(ChangeData cd) {
     return cd.commitFooters().stream().map(f -> f.getKey()).collect(toSet());
   }
 
   /** Folders that are touched by the current patch set. */
-  public static final FieldDef<ChangeData, Iterable<String>> DIRECTORY =
-      exact(ChangeQueryBuilder.FIELD_DIRECTORY).buildRepeatable(ChangeField::getDirectories);
+  public static final IndexedField<ChangeData, Iterable<String>> DIRECTORY_FIELD =
+      IndexedField.<ChangeData>iterableStringBuilder("Directory")
+          .build(ChangeField::getDirectories);
+
+  public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec DIRECTORY_SPEC =
+      DIRECTORY_FIELD.exact(ChangeQueryBuilder.FIELD_DIRECTORY);
 
   public static Set<String> getDirectories(ChangeData cd) {
     List<String> paths = cd.currentFilePaths();
@@ -364,12 +387,22 @@ public class ChangeField {
   }
 
   /** Owner/creator of the change. */
-  public static final FieldDef<ChangeData, Integer> OWNER =
-      integer(ChangeQueryBuilder.FIELD_OWNER).build(changeGetter(c -> c.getOwner().get()));
+  public static final IndexedField<ChangeData, Integer> OWNER_FIELD =
+      IndexedField.<ChangeData>integerBuilder("Owner")
+          .required()
+          .build(changeGetter(c -> c.getOwner().get()));
+
+  public static final IndexedField<ChangeData, Integer>.SearchSpec OWNER_SPEC =
+      OWNER_FIELD.integer(ChangeQueryBuilder.FIELD_OWNER);
 
   /** Uploader of the latest patch set. */
-  public static final FieldDef<ChangeData, Integer> UPLOADER =
-      integer(ChangeQueryBuilder.FIELD_UPLOADER).build(cd -> cd.currentPatchSet().uploader().get());
+  public static final IndexedField<ChangeData, Integer> UPLOADER_FIELD =
+      IndexedField.<ChangeData>integerBuilder("Uploader")
+          .required()
+          .build(cd -> cd.currentPatchSet().uploader().get());
+
+  public static final IndexedField<ChangeData, Integer>.SearchSpec UPLOADER_SPEC =
+      UPLOADER_FIELD.integer(ChangeQueryBuilder.FIELD_UPLOADER);
 
   /** References the source change number that this change was cherry-picked from. */
   public static final FieldDef<ChangeData, Integer> CHERRY_PICK_OF_CHANGE =
@@ -839,25 +872,49 @@ public class ChangeField {
    * The exact email address, or any part of the author name or email address, in the current patch
    * set.
    */
-  public static final FieldDef<ChangeData, Iterable<String>> AUTHOR =
-      fullText(ChangeQueryBuilder.FIELD_AUTHOR).buildRepeatable(ChangeField::getAuthorParts);
+  public static final IndexedField<ChangeData, Iterable<String>> AUTHOR_PARTS_FIELD =
+      IndexedField.<ChangeData>iterableStringBuilder("AuthorParts")
+          .required()
+          .description(
+              "The exact email address, or any part of the author name or email address, in the current patch set.")
+          .build(ChangeField::getAuthorParts);
+
+  public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec AUTHOR_PARTS_SPEC =
+      AUTHOR_PARTS_FIELD.fullText(ChangeQueryBuilder.FIELD_AUTHOR);
 
   /** The exact name, email address and NameEmail of the author. */
-  public static final FieldDef<ChangeData, Iterable<String>> EXACT_AUTHOR =
-      exact(ChangeQueryBuilder.FIELD_EXACTAUTHOR)
-          .buildRepeatable(ChangeField::getAuthorNameAndEmail);
+  public static final IndexedField<ChangeData, Iterable<String>> EXACT_AUTHOR_FIELD =
+      IndexedField.<ChangeData>iterableStringBuilder("ExactAuthor")
+          .required()
+          .description("The exact name, email address and NameEmail of the author.")
+          .build(ChangeField::getAuthorNameAndEmail);
+
+  public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec EXACT_AUTHOR_SPEC =
+      EXACT_AUTHOR_FIELD.exact(ChangeQueryBuilder.FIELD_EXACTAUTHOR);
 
   /**
    * The exact email address, or any part of the committer name or email address, in the current
    * patch set.
    */
-  public static final FieldDef<ChangeData, Iterable<String>> COMMITTER =
-      fullText(ChangeQueryBuilder.FIELD_COMMITTER).buildRepeatable(ChangeField::getCommitterParts);
+  public static final IndexedField<ChangeData, Iterable<String>> COMMITTER_PARTS_FIELD =
+      IndexedField.<ChangeData>iterableStringBuilder("CommitterParts")
+          .description(
+              "The exact email address, or any part of the committer name or email address, in the current patch set.")
+          .required()
+          .build(ChangeField::getCommitterParts);
+
+  public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec COMMITTER_PARTS_SPEC =
+      COMMITTER_PARTS_FIELD.fullText(ChangeQueryBuilder.FIELD_COMMITTER);
 
   /** The exact name, email address, and NameEmail of the committer. */
-  public static final FieldDef<ChangeData, Iterable<String>> EXACT_COMMITTER =
-      exact(ChangeQueryBuilder.FIELD_EXACTCOMMITTER)
-          .buildRepeatable(ChangeField::getCommitterNameAndEmail);
+  public static final IndexedField<ChangeData, Iterable<String>> EXACT_COMMITTER_FIELD =
+      IndexedField.<ChangeData>iterableStringBuilder("ExactCommiter")
+          .required()
+          .description("The exact name, email address, and NameEmail of the committer.")
+          .build(ChangeField::getCommitterNameAndEmail);
+
+  public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec EXACT_COMMITTER_SPEC =
+      EXACT_COMMITTER_FIELD.exact(ChangeQueryBuilder.FIELD_EXACTCOMMITTER);
 
   /** Serialized change object, used for pre-populating results. */
   public static final FieldDef<ChangeData, byte[]> CHANGE =

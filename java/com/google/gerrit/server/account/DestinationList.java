@@ -18,6 +18,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.git.ValidationError;
@@ -39,6 +40,7 @@ public class DestinationList extends TabFile {
     destinations.replaceValues(label, toSet(parse(text, DIR_NAME + label, TRIM, null, errors)));
   }
 
+  @Nullable
   String asText(String label) {
     Set<BranchNameKey> dests = destinations.get(label);
     if (dests == null) {

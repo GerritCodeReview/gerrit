@@ -19,6 +19,7 @@ import static com.google.gerrit.entities.RefNames.robotCommentsRef;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
@@ -100,6 +101,7 @@ public class RobotCommentUpdate extends AbstractChangeUpdate {
     put.add(c);
   }
 
+  @Nullable
   private CommitBuilder storeCommentsInNotes(
       RevWalk rw, ObjectInserter ins, ObjectId curr, CommitBuilder cb)
       throws ConfigInvalidException, IOException {

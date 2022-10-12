@@ -19,6 +19,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.IoUtil;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.SiteLibraryLoaderUtil;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.server.config.SitePaths;
@@ -185,6 +186,7 @@ public class SwitchSecureStore extends SiteProgram {
     }
   }
 
+  @Nullable
   private Path findJarWithSecureStore(SitePaths sitePaths, String secureStoreClass)
       throws IOException {
     List<Path> jars = SiteLibraryLoaderUtil.listJars(sitePaths.lib_dir);

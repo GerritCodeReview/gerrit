@@ -104,6 +104,7 @@ public class CommentsUtil {
     return PatchSet.id(changeId, comment.key.patchSetId);
   }
 
+  @Nullable
   public static String extractMessageId(@Nullable String tag) {
     if (tag == null || !tag.startsWith("mailMessageId=")) {
       return null;

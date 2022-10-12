@@ -15,6 +15,7 @@
 package com.google.gerrit.server.securestore;
 
 import com.google.gerrit.common.FileUtil;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.ProvisionException;
@@ -54,6 +55,7 @@ public class DefaultSecureStore extends SecureStore {
     return sec.getStringList(section, subsection, name);
   }
 
+  @Nullable
   @Override
   public synchronized String[] getListForPlugin(
       String pluginName, String section, String subsection, String name) {

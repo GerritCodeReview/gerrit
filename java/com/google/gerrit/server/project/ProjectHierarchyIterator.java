@@ -18,6 +18,7 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import java.util.Iterator;
@@ -63,6 +64,7 @@ class ProjectHierarchyIterator implements Iterator<ProjectState> {
     return n;
   }
 
+  @Nullable
   private ProjectState computeNext(ProjectState n) {
     Project.NameKey parentName = n.getProject().getParent();
     if (parentName != null && visit(parentName)) {

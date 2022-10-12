@@ -130,6 +130,7 @@ public class UniversalGroupBackend implements GroupBackend {
     return true;
   }
 
+  @Nullable
   @Override
   public GroupDescription.Basic get(AccountGroup.UUID uuid) {
     if (uuid == null) {

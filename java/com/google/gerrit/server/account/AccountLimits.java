@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.PermissionRange;
 import com.google.gerrit.entities.PermissionRule;
@@ -105,6 +106,7 @@ public class AccountLimits {
   }
 
   /** The range of permitted values associated with a label permission. */
+  @Nullable
   public PermissionRange getRange(String permission) {
     if (GlobalCapability.hasRange(permission)) {
       return toRange(permission, getRules(permission));

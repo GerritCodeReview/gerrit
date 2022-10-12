@@ -16,6 +16,7 @@ package com.google.gerrit.server.documentation;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -99,6 +100,7 @@ public class QueryDocumentationExecutor {
     }
   }
 
+  @Nullable
   protected Directory readIndexDirectory() throws IOException {
     Directory dir = new ByteBuffersDirectory();
     byte[] buffer = new byte[4096];

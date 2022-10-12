@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.AccountFieldName;
@@ -79,6 +80,7 @@ public class DefaultRealm extends AbstractRealm {
   @Override
   public void onCreateAccount(AuthRequest who, Account account) {}
 
+  @Nullable
   @Override
   public Account.Id lookup(String accountName) throws IOException {
     if (emailExpander.canExpand(accountName)) {

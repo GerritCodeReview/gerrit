@@ -22,6 +22,7 @@ import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
@@ -158,6 +159,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     }
   }
 
+  @Nullable
   private CodeReviewCommit getAlreadyMergedCommit(RepoContext ctx) throws IOException {
     CodeReviewCommit tip = args.mergeTip.getInitialTip();
     if (tip == null) {

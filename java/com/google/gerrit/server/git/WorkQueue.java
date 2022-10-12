@@ -18,6 +18,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.CaseFormat;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -241,6 +242,7 @@ public class WorkQueue {
   }
 
   /** Locate a task by its unique id, null if no task matches. */
+  @Nullable
   public Task<?> getTask(int id) {
     Task<?> result = null;
     for (Executor e : queues) {
@@ -256,6 +258,7 @@ public class WorkQueue {
     return result;
   }
 
+  @Nullable
   public ScheduledThreadPoolExecutor getExecutor(String queueName) {
     for (Executor e : queues) {
       if (e.queueName.equals(queueName)) {

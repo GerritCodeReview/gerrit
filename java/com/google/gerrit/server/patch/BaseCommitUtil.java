@@ -91,6 +91,7 @@ class BaseCommitUtil {
    * @return Returns the parent commit of the commit represented by the commitId parameter. Note
    *     that auto-merge is not supported for commits having more than two parents.
    */
+  @Nullable
   RevObject getParentCommit(
       Repository repo,
       ObjectInserter ins,

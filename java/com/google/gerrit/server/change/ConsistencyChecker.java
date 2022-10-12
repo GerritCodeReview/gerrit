@@ -764,6 +764,7 @@ public class ConsistencyChecker {
     return serverIdent.get();
   }
 
+  @Nullable
   private RevCommit parseCommit(ObjectId objId, String desc) {
     try {
       return rw.parseCommit(objId);

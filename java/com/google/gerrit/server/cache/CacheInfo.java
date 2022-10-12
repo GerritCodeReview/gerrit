@@ -16,6 +16,7 @@ package com.google.gerrit.server.cache;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheStats;
+import com.google.gerrit.common.Nullable;
 
 public class CacheInfo {
 
@@ -53,6 +54,7 @@ public class CacheInfo {
     }
   }
 
+  @Nullable
   private static String duration(double ns) {
     if (ns < 0.5) {
       return null;
@@ -118,6 +120,7 @@ public class CacheInfo {
       disk = percent(value, total);
     }
 
+    @Nullable
     private static Integer percent(long value, long total) {
       if (total <= 0) {
         return null;

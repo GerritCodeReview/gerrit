@@ -99,6 +99,7 @@ public class EventUtil {
     return revisionJsonFactory.create(changeOptions).getRevisionInfo(cd, ps);
   }
 
+  @Nullable
   public AccountInfo accountInfo(@Nullable AccountState accountState) {
     if (accountState == null || accountState.account().id() == null) {
       return null;

@@ -370,6 +370,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
           : Iterables.getFirst(fileDiffList.values(), null).oldCommitId();
     }
 
+    @Nullable
     private ObjectId getNewId(Map<String, FileDiffOutput> fileDiffList) {
       return fileDiffList.isEmpty()
           ? null

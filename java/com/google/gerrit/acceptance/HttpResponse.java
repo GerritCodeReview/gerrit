@@ -19,6 +19,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.Nullable;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -59,6 +60,7 @@ public class HttpResponse {
     return getHeader("X-FYI-Content-Type");
   }
 
+  @Nullable
   public String getHeader(String name) {
     Header hdr = response.getFirstHeader(name);
     return hdr != null ? hdr.getValue() : null;

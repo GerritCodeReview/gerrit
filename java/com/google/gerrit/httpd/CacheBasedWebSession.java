@@ -116,6 +116,7 @@ public abstract class CacheBasedWebSession extends WebSession {
     }
   }
 
+  @Nullable
   private static String readCookie(HttpServletRequest request) {
     Cookie[] all = request.getCookies();
     if (all != null) {
@@ -219,6 +220,7 @@ public abstract class CacheBasedWebSession extends WebSession {
     }
   }
 
+  @Nullable
   @Override
   public String getSessionId() {
     return val != null ? val.getSessionId() : null;

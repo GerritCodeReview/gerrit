@@ -18,6 +18,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import java.io.IOException;
@@ -80,6 +81,7 @@ public abstract class PersistentCacheBaseFactory implements PersistentCacheFacto
     return !diskEnabled || diskLimit <= 0;
   }
 
+  @Nullable
   private static Path getCacheDir(SitePaths site, String name) {
     if (name == null) {
       return null;

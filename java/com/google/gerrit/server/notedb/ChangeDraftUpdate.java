@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.auto.value.AutoValue;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
@@ -187,6 +188,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     return clonedUpdate;
   }
 
+  @Nullable
   private CommitBuilder storeCommentsInNotes(
       RevWalk rw, ObjectInserter ins, ObjectId curr, CommitBuilder cb)
       throws ConfigInvalidException, IOException {

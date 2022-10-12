@@ -26,6 +26,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.TestCapability;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.TestLabelPermission;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.TestPermission;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupReference;
@@ -213,6 +214,7 @@ public class ProjectOperationsImpl implements ProjectOperations {
                   as -> as.upsertPermission(key.name()).setExclusiveGroup(exclusive)));
     }
 
+    @Nullable
     private RevCommit headOrNull(String branch) {
       branch = RefNames.fullName(branch);
 

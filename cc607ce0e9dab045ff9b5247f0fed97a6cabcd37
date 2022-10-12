@@ -69,6 +69,24 @@
       "parentUuid": "2199b42b_1e8a8f1f",
       "revId": "cc607ce0e9dab045ff9b5247f0fed97a6cabcd37",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a395b437_b25a09c5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-12T15:13:43Z",
+      "side": 1,
+      "message": "I guess this WORKSPACE command is downloading and using the latest, and the agent-node-wct is deprecated/removed now.",
+      "parentUuid": "a2f82722_69e5a601",
+      "revId": "cc607ce0e9dab045ff9b5247f0fed97a6cabcd37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

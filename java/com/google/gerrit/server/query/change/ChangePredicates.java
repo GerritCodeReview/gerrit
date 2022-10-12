@@ -136,7 +136,7 @@ public class ChangePredicates {
    * com.google.gerrit.entities.Account.Id}.
    */
   public static Predicate<ChangeData> owner(Account.Id id) {
-    return new ChangeIndexPredicate(ChangeField.OWNER, id.toString());
+    return new ChangeIndexPredicate(ChangeField.OWNER_SPEC, id.toString());
   }
 
   /**
@@ -144,7 +144,7 @@ public class ChangePredicates {
    * provided {@link com.google.gerrit.entities.Account.Id}.
    */
   public static Predicate<ChangeData> uploader(Account.Id id) {
-    return new ChangeIndexPredicate(ChangeField.UPLOADER, id.toString());
+    return new ChangeIndexPredicate(ChangeField.UPLOADER_SPEC, id.toString());
   }
 
   /**
@@ -229,10 +229,10 @@ public class ChangePredicates {
   /** Returns a predicate that matches changes that modified the provided {@code file}. */
   public static Predicate<ChangeData> file(ChangeQueryBuilder.Arguments args, String file) {
     Predicate<ChangeData> eqPath = path(file);
-    if (!args.getSchema().hasField(ChangeField.FILE_PART)) {
+    if (!args.getSchema().hasField(ChangeField.FILE_PART_SPEC)) {
       return eqPath;
     }
-    return Predicate.or(eqPath, new ChangeIndexPredicate(ChangeField.FILE_PART, file));
+    return Predicate.or(eqPath, new ChangeIndexPredicate(ChangeField.FILE_PART_SPEC, file));
   }
 
   /**
@@ -247,7 +247,7 @@ public class ChangePredicates {
     if (indexEquals > 0 && (indexEquals < indexColon || indexColon < 0)) {
       footer = footer.substring(0, indexEquals) + ": " + footer.substring(indexEquals + 1);
     }
-    return new ChangeIndexPredicate(ChangeField.FOOTER, footer.toLowerCase(Locale.US));
+    return new ChangeIndexPredicate(ChangeField.FOOTER_SPEC, footer.toLowerCase(Locale.US));
   }
 
   /**
@@ -263,7 +263,7 @@ public class ChangePredicates {
    */
   public static Predicate<ChangeData> directory(String directory) {
     return new ChangeIndexPredicate(
-        ChangeField.DIRECTORY, CharMatcher.is('/').trimFrom(directory).toLowerCase(Locale.US));
+        ChangeField.DIRECTORY_SPEC, CharMatcher.is('/').trimFrom(directory).toLowerCase(Locale.US));
   }
 
   /** Returns a predicate that matches changes with the provided {@code trackingId}. */
@@ -273,12 +273,13 @@ public class ChangePredicates {
 
   /** Returns a predicate that matches changes authored by the provided {@code exactAuthor}. */
   public static Predicate<ChangeData> exactAuthor(String exactAuthor) {
-    return new ChangeIndexPredicate(ChangeField.EXACT_AUTHOR, exactAuthor.toLowerCase(Locale.US));
+    return new ChangeIndexPredicate(
+        ChangeField.EXACT_AUTHOR_SPEC, exactAuthor.toLowerCase(Locale.US));
   }
 
   /** Returns a predicate that matches changes authored by the provided {@code author}. */
   public static Predicate<ChangeData> author(String author) {
-    return new ChangeIndexPredicate(ChangeField.AUTHOR, author);
+    return new ChangeIndexPredicate(ChangeField.AUTHOR_PARTS_SPEC, author);
   }
 
   /**
@@ -287,7 +288,7 @@ public class ChangePredicates {
    */
   public static Predicate<ChangeData> exactCommitter(String exactCommitter) {
     return new ChangeIndexPredicate(
-        ChangeField.EXACT_COMMITTER, exactCommitter.toLowerCase(Locale.US));
+        ChangeField.EXACT_COMMITTER_SPEC, exactCommitter.toLowerCase(Locale.US));
   }
 
   /**
@@ -295,7 +296,8 @@ public class ChangePredicates {
    * committer}.
    */
   public static Predicate<ChangeData> committer(String comitter) {
-    return new ChangeIndexPredicate(ChangeField.COMMITTER, comitter.toLowerCase(Locale.US));
+    return new ChangeIndexPredicate(
+        ChangeField.COMMITTER_PARTS_SPEC, comitter.toLowerCase(Locale.US));
   }
 
   /** Returns a predicate that matches changes whose ID starts with the provided {@code id}. */

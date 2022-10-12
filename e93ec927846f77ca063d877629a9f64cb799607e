@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ec1db01_8d8af4d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-12T13:31:13Z",
+      "side": 1,
+      "message": "restring -\u003e restricting",
+      "revId": "e93ec927846f77ca063d877629a9f64cb799607e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb571d69_1b8cfca2",
+        "filename": "polygerrit-ui/app/utils/change-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-12T13:31:13Z",
+      "side": 1,
+      "message": "This line should go before the previous one.",
+      "revId": "e93ec927846f77ca063d877629a9f64cb799607e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

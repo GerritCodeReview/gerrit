@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1f2a17b_2e2c4cb6",
+        "filename": "polygerrit-ui/app/models/model_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-12T15:27:32Z",
+      "side": 1,
+      "message": "I don\u0027t think this test is sufficient. It would pass if you removed the extra logic from updateState.\n\nWhat you really want to check is that the update is applied to the new state, not the old state.",
+      "revId": "e8a9aa8977a005f672925f1c498647462d874e89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

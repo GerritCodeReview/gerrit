@@ -282,7 +282,9 @@ export function isRemovableReviewer(
   change?: ChangeInfo,
   reviewer?: AccountInfo
 ): boolean {
-  if (!change?.removable_reviewers || !reviewer) return false;
+  if (!reviewer || !change) return false;
+  if (isCc(change, reviewer)) return true;
+  if (!change.removable_reviewers) return false;
   return change.removable_reviewers.some(
     account =>
       account._account_id === reviewer._account_id ||

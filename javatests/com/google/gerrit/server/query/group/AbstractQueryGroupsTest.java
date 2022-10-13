@@ -382,7 +382,9 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
             .getRaw(
                 uuid,
                 QueryOptions.create(
-                    IndexConfig.fromConfig(config).build(),
+                    config != null
+                        ? IndexConfig.fromConfig(config).build()
+                        : IndexConfig.createDefault(),
                     0,
                     10,
                     indexes.getSearchIndex().getSchema().getStoredFields()));

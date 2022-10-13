@@ -143,6 +143,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e637f06c_741ce62a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-13T16:20:56Z",
+      "side": 1,
+      "message": "\u003e Nice! So If I understand it correctly, you have an implementation of a predicate that queries your database, and now you can benefit of that by running a single query to the database against multiple change IDs? \n\nExactly!\n\n\u003e I created a cherry-pick of this change only on master, https://gerrit-review.googlesource.com/c/gerrit/+/348315, such that we keep track of it.\n\nGreat, thanks. FYI, instead of cherry-picking, you can just rebase the change on the tip to \"detach\" it from its parent changes.",
+      "parentUuid": "bbede75c_4e824642",
+      "revId": "2f23edf9d54bcf79b3401daa1726f76678e8bc6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90185d25_c80ddecb",

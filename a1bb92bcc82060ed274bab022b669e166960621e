@@ -34,6 +34,41 @@
       "parentUuid": "01f34cd5_46ab274f",
       "revId": "a1bb92bcc82060ed274bab022b669e166960621e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b11468fa_637cdc3e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-13T14:06:44Z",
+      "side": 1,
+      "message": "\u003e So, there are some facts:\n\u003e \n\u003e 1. Gerrit v2.16.x *does not* allow to create a branch without an empty destination branch\n\nThe above is true but ONLY when creating a change online. When creating a change as a result of a push, the target branch could be absent and Gerrit would accept that.\nThe submit operation would eventually create the non-existent branch.\n\n\u003e 2. *SOME* of the Gerrit v2.16 tests are creating changes *without* a destination branch\n\nThat was explicit for testing 1. as shown by I8d80186c4",
+      "parentUuid": "606d676e_b15e8056",
+      "revId": "a1bb92bcc82060ed274bab022b669e166960621e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da1448fe_70dc464b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-13T14:06:44Z",
+      "side": 1,
+      "message": "I need to rethink the approach: the behaviour of scanning *ALL* changes was explicit because Gerrit allows to create changes with a non-existent branch and also have them submitted together in a topic.\n\nThe question is: how can we prevent this from becoming a problem?",
+      "revId": "a1bb92bcc82060ed274bab022b669e166960621e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

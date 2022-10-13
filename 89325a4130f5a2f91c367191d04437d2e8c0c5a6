@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97c80c73_14129985",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-10-13T07:55:35Z",
+      "side": 1,
+      "message": "i doubt that i\u0027d understand what this means if i hadn\u0027t read the rest of the message already. making it more problem-oriented would likely help, e.g. \"fixed excessive resource usage when accessing changes whose target branch is missing\"",
+      "revId": "89325a4130f5a2f91c367191d04437d2e8c0c5a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

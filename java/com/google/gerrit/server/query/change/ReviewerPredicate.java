@@ -39,7 +39,7 @@ public class ReviewerPredicate extends ChangeIndexPredicate {
   protected final Account.Id id;
 
   private ReviewerPredicate(ReviewerStateInternal state, Account.Id id) {
-    super(ChangeField.REVIEWER, ChangeField.getReviewerFieldValue(state, id));
+    super(ChangeField.REVIEWER_SPEC, ChangeField.getReviewerFieldValue(state, id));
     this.state = state;
     this.id = id;
   }

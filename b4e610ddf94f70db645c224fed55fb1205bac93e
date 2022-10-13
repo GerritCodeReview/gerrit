@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "491fa264_c29e3b3f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
+        "patchSetId": 45
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T08:39:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a245a08_67a5fa24",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 46
+      },
+      "revId": "b4e610ddf94f70db645c224fed55fb1205bac93e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d61f80d_9eb29bda",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-10-12T12:34:43Z",
       "side": 1,
       "message": "convert",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "b4e610ddf94f70db645c224fed55fb1205bac93e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0829051_0f24c8ec",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
+        "patchSetId": 45
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T08:39:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d61f80d_9eb29bda",
       "range": {
         "startLine": 9,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3f41699_35bcfc34",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
+        "patchSetId": 45
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T08:39:10Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "3f7997e3_addb9acb",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 0
+      },
+      "revId": "b4e610ddf94f70db645c224fed55fb1205bac93e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e9728b28_b4c4c7ec",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-10-12T12:34:43Z",
       "side": 1,
       "message": "is nobody is using the new properties?",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 0
+      },
+      "revId": "b4e610ddf94f70db645c224fed55fb1205bac93e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "993e64a4_500c6e31",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
+        "patchSetId": 45
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T08:39:10Z",
+      "side": 1,
+      "message": "Removed.\nInitially the controller was reading this from the host but that\u0027s no longer the case.",
+      "parentUuid": "e9728b28_b4c4c7ec",
       "range": {
         "startLine": 66,
         "startChar": 0,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "88549bac_e822a0c6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
+        "patchSetId": 45
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T08:39:10Z",
+      "side": 1,
+      "message": "Ideally yes, but we won\u0027t run into the issue since these properties are not expected to change.\n\nIn case they do change, refit() is called every time suggestions are updated so we avoid this issue as well.",
+      "parentUuid": "8acd5dab_4ef03c4d",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 0
+      },
+      "revId": "b4e610ddf94f70db645c224fed55fb1205bac93e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bf1e4ca1_034ef7b2",
@@ -139,6 +259,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b48b2ef2_a548a49e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
+        "patchSetId": 45
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T08:39:10Z",
+      "side": 1,
+      "message": "Initially kept it here since I needed to pass some properties to the controller.\nNo longer the case.\nMoved to constructor.",
+      "parentUuid": "bf1e4ca1_034ef7b2",
+      "range": {
+        "startLine": 150,
+        "startChar": 0,
+        "endLine": 150,
+        "endChar": 49
+      },
+      "revId": "b4e610ddf94f70db645c224fed55fb1205bac93e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e6a7833f_463d445f",
@@ -152,6 +296,30 @@
       "writtenOn": "2022-10-12T12:34:43Z",
       "side": 1,
       "message": "can you explain this change? I remember this came up a few times and seemed settled. We are doing the same thing in accountlist and editablelabel but you have not changed those places.",
+      "range": {
+        "startLine": 185,
+        "startChar": 21,
+        "endLine": 189,
+        "endChar": 3
+      },
+      "revId": "b4e610ddf94f70db645c224fed55fb1205bac93e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cde808d_57343347",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 45
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T08:39:10Z",
+      "side": 1,
+      "message": "Reverted.\nI this this is some flaky console error I occasionally get when using dev helper. (Unrelated to this change hence reverted)\n\nNeed to look deeply to resolve this but reverted for now.",
+      "parentUuid": "e6a7833f_463d445f",
       "range": {
         "startLine": 185,
         "startChar": 21,

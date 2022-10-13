@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.index.FieldDef;
+import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 
 public class BooleanPredicate extends ChangeIndexPredicate {
-  public BooleanPredicate(FieldDef<ChangeData, String> field) {
+  public BooleanPredicate(SchemaField<ChangeData, String> field) {
     super(field, "1");
   }
 

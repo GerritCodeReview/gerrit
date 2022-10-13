@@ -3844,7 +3844,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void isPureRevert() throws Exception {
-    assume().that(getSchema().hasField(ChangeField.IS_PURE_REVERT)).isTrue();
+    assume().that(getSchema().hasField(ChangeField.IS_PURE_REVERT_SPEC)).isTrue();
     TestRepository<Repo> repo = createProject("repo");
     // Create two commits and revert second commit (initial commit can't be reverted)
     Change initial = insert(repo, newChange(repo));

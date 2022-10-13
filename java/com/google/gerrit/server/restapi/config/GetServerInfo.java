@@ -221,7 +221,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     ChangeConfigInfo info = new ChangeConfigInfo();
     info.allowBlame = toBoolean(config.getBoolean("change", "allowBlame", true));
     boolean hasAssigneeInIndex =
-        indexes.getSearchIndex().getSchema().hasField(ChangeField.ASSIGNEE);
+        indexes.getSearchIndex().getSchema().hasField(ChangeField.ASSIGNEE_SPEC);
     info.showAssigneeInChangesTable =
         toBoolean(
             config.getBoolean("change", "showAssigneeInChangesTable", false) && hasAssigneeInIndex);

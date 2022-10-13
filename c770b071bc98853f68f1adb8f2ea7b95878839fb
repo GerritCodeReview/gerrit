@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59ba68d8_7d67cb70",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller_test.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-13T14:29:16Z",
+      "side": 1,
+      "message": "delete",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 51
+      },
+      "revId": "c770b071bc98853f68f1adb8f2ea7b95878839fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4b1a476_0d7ef556",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller_test.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-13T14:29:16Z",
+      "side": 1,
+      "message": "why parse to an integer instead of asserting \"37px\"? You are dropping the units that would be important.",
+      "range": {
+        "startLine": 67,
+        "startChar": 17,
+        "endLine": 67,
+        "endChar": 48
+      },
+      "revId": "c770b071bc98853f68f1adb8f2ea7b95878839fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "200de6c7_c870795e",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller_test.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-13T14:29:16Z",
+      "side": 1,
+      "message": "name should reflect that it\u0027s setting the positions and not just calculating/returning them.",
+      "range": {
+        "startLine": 101,
+        "startChar": 26,
+        "endLine": 101,
+        "endChar": 44
+      },
+      "revId": "c770b071bc98853f68f1adb8f2ea7b95878839fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "082560db_44e453b7",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller_test.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-13T14:29:16Z",
+      "side": 1,
+      "message": "s/test/assert. I thought it was talking about `host margin updates positioning` test.",
+      "range": {
+        "startLine": 154,
+        "startChar": 38,
+        "endLine": 154,
+        "endChar": 42
+      },
+      "revId": "c770b071bc98853f68f1adb8f2ea7b95878839fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8124c7d6_53e5eef7",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller_test.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-13T14:29:16Z",
+      "side": 1,
+      "message": "isn\u0027t this offscreen since window is 40x40? If so, maybe a more normal use case can be used",
+      "range": {
+        "startLine": 198,
+        "startChar": 0,
+        "endLine": 200,
+        "endChar": 0
+      },
+      "revId": "c770b071bc98853f68f1adb8f2ea7b95878839fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

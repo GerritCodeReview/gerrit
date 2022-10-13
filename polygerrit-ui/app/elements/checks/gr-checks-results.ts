@@ -73,7 +73,6 @@ import {changeModelToken} from '../../models/change/change-model';
 import {getAppContext} from '../../services/app-context';
 import {when} from 'lit/directives/when.js';
 import {KnownExperimentId} from '../../services/flags/flags';
-import {HtmlPatched} from '../../utils/lit-util';
 import {DropdownItem} from '../shared/gr-dropdown-list/gr-dropdown-list';
 import './gr-checks-attempt';
 import {createDiffUrl} from '../../models/views/diff';
@@ -814,13 +813,6 @@ export class GrChecksResults extends LitElement {
 
   private readonly reporting = getAppContext().reportingService;
 
-  private readonly patched = new HtmlPatched(key => {
-    this.reporting.reportInteraction(Interaction.AUTOCLOSE_HTML_PATCHED, {
-      component: this.tagName,
-      key: key.substring(0, 300),
-    });
-  });
-
   constructor() {
     super();
     subscribe(
@@ -1472,7 +1464,7 @@ export class GrChecksResults extends LitElement {
           ${repeat(
             filtered,
             result => result.internalResultId,
-            (result?: RunResult) => this.patched.html`
+            (result?: RunResult) => html`
               <gr-result-row
                 class=${charsOnly(result!.checkName)}
                 .result=${result}

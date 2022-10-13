@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f56ec4d0_10ef0ca2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-13T08:29:12Z",
+      "side": 1,
+      "message": "It\u0027s good engineering practice to have test and code reviewed together so we can ensure all cases aer covered. Otherwise the reviewer has to switch back and forth between changes or change and codesearch",
+      "parentUuid": "e54a03e8_4e9a87c7",
+      "revId": "282a7ae9c5fa3b7e4669a5caebf30fff46ff4bcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d8d68b3f_8cb923dd",
         "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
         "patchSetId": 15
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "DomRect extends `interface DOMRectReadOnly` so right and bottom are part of DomRect?\n\nIIUC right and bottom cannot be set via the constructor.\n\nThey are calculated by calling the constructor but calls like (0,0,height,width) don\u0027t set the correct right and bottom.\nLeft a TODO to resolve this later.",
       "parentUuid": "d8d68b3f_8cb923dd",
+      "revId": "282a7ae9c5fa3b7e4669a5caebf30fff46ff4bcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "130ae0d2_84bcab0a",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-13T08:29:12Z",
+      "side": 1,
+      "message": "right and bottom are computed by the DomRect class, that\u0027s why it has a constructor.\n\nSee: https://developer.mozilla.org/en-US/docs/Web/API/DOMRect",
+      "parentUuid": "03fe3bf1_20826f51",
       "revId": "282a7ae9c5fa3b7e4669a5caebf30fff46ff4bcc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

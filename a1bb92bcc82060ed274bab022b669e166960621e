@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01f34cd5_46ab274f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-13T12:41:57Z",
+      "side": 1,
+      "message": "I need to rethink the approach: I found out that there are some tests that are *expicitly* creating changes against a non-existent branch and expecting them to work properly 😞",
+      "revId": "a1bb92bcc82060ed274bab022b669e166960621e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

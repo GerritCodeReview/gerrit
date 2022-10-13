@@ -190,6 +190,30 @@
       },
       "revId": "8359e49d01845df1f2dd392a93708b2a68beb04b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb7c546a_087ecad6",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ApplyPatchAsPatchSetInput.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-13T17:33:51Z",
+      "side": 1,
+      "message": "`ApplyPatchInput` is also used as part of `ChangeInput`, which has `subject` and `author` fields of its own. Besides the redundancy, the relationship between the 2 sets is weird. If the `ApplyPatchInput` fields are required, it means the `ChangeInput` ones are ignored; then later, when we make the patch fields optional, we can fall back to the change ones. This is very inconsistent.\n\nMaybe we can put a const message instead of the current-patch one when an explicit message is not provided? Then any addition won\u0027t change the semantics much.",
+      "parentUuid": "68484204_8de71c97",
+      "range": {
+        "startLine": 23,
+        "startChar": 16,
+        "endLine": 23,
+        "endChar": 23
+      },
+      "revId": "8359e49d01845df1f2dd392a93708b2a68beb04b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

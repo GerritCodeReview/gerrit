@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "301a64a6_dcda564a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-10-13T07:57:14Z",
+      "side": 1,
+      "message": "I will add commit message and test in half hour",
+      "revId": "bdd5c5f6e528ab78b20d81681ccda0f96f7e221f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c9d53b4_54f568e4",
@@ -31,6 +48,24 @@
       "writtenOn": "2022-10-13T07:13:06Z",
       "side": 1,
       "message": "Should this be default off for non-signed in users?",
+      "revId": "bdd5c5f6e528ab78b20d81681ccda0f96f7e221f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0f97954_04438e6c",
+        "filename": "polygerrit-ui/app/constants/constants.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-10-13T07:57:14Z",
+      "side": 1,
+      "message": "browser notifications works only for signed in users. But maybe it\u0027s good idea to have false for non-signed as second safe check.",
+      "parentUuid": "6c9d53b4_54f568e4",
       "revId": "bdd5c5f6e528ab78b20d81681ccda0f96f7e221f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -69,6 +104,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9d64e85_7a417f6f",
+        "filename": "polygerrit-ui/app/services/service-worker-installer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-10-13T07:57:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "154c0991_d58bb412",
+      "revId": "bdd5c5f6e528ab78b20d81681ccda0f96f7e221f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9511df32_ca9b085f",
@@ -82,6 +135,24 @@
       "writtenOn": "2022-10-13T07:13:06Z",
       "side": 1,
       "message": "Rather than doing an await, why not trigger all the logic below in response to account being set?",
+      "revId": "bdd5c5f6e528ab78b20d81681ccda0f96f7e221f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec7d3061_1f1fbc0b",
+        "filename": "polygerrit-ui/app/services/service-worker-installer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-10-13T07:57:14Z",
+      "side": 1,
+      "message": "Good idea",
+      "parentUuid": "9511df32_ca9b085f",
       "revId": "bdd5c5f6e528ab78b20d81681ccda0f96f7e221f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -103,6 +174,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3efb1916_b3033d99",
+        "filename": "polygerrit-ui/app/services/service-worker-installer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-10-13T07:57:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a9d7235_b32fdfc4",
+      "revId": "bdd5c5f6e528ab78b20d81681ccda0f96f7e221f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "10054aae_0a530a87",
@@ -116,6 +205,24 @@
       "writtenOn": "2022-10-13T07:13:06Z",
       "side": 1,
       "message": "Default to false",
+      "revId": "bdd5c5f6e528ab78b20d81681ccda0f96f7e221f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e560fa9_9bc43395",
+        "filename": "polygerrit-ui/app/workers/service-worker-class.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-10-13T07:57:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10054aae_0a530a87",
       "revId": "bdd5c5f6e528ab78b20d81681ccda0f96f7e221f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

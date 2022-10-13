@@ -109,7 +109,6 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
 
   @Test
   @UseClockStep
-  @SuppressWarnings("unchecked")
   public void internalQueriesPaginate() throws Exception {
     // create 4 changes
     TestRepository<InMemoryRepositoryManager.Repo> testRepo = createProject("repo");

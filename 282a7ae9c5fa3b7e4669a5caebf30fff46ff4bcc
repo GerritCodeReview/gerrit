@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e54a03e8_4e9a87c7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T08:27:34Z",
+      "side": 1,
+      "message": "I prefer keeping them in a separate change. Any reason why you prefer them merged?\n\nIn general I prefer making multiple smaller changes instead of one giant change.",
+      "parentUuid": "b690c1ba_faaab508",
+      "revId": "282a7ae9c5fa3b7e4669a5caebf30fff46ff4bcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d8d68b3f_8cb923dd",
         "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
         "patchSetId": 15
@@ -31,6 +49,24 @@
       "writtenOn": "2022-10-13T07:19:05Z",
       "side": 1,
       "message": "right and bottom are not fields of DomRect.\n\nPlease use the DomRect constructor instead of casting.",
+      "revId": "282a7ae9c5fa3b7e4669a5caebf30fff46ff4bcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03fe3bf1_20826f51",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T08:27:34Z",
+      "side": 1,
+      "message": "DomRect extends `interface DOMRectReadOnly` so right and bottom are part of DomRect?\n\nIIUC right and bottom cannot be set via the constructor.\n\nThey are calculated by calling the constructor but calls like (0,0,height,width) don\u0027t set the correct right and bottom.\nLeft a TODO to resolve this later.",
+      "parentUuid": "d8d68b3f_8cb923dd",
       "revId": "282a7ae9c5fa3b7e4669a5caebf30fff46ff4bcc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

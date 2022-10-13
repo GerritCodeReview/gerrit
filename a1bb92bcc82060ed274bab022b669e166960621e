@@ -16,6 +16,24 @@
       "message": "I need to rethink the approach: I found out that there are some tests that are *expicitly* creating changes against a non-existent branch and expecting them to work properly 😞",
       "revId": "a1bb92bcc82060ed274bab022b669e166960621e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "606d676e_b15e8056",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-13T12:51:18Z",
+      "side": 1,
+      "message": "So, there are some facts:\n\n1. Gerrit v2.16.x *does not* allow to create a branch without an empty destination branch\n2. *SOME* of the Gerrit v2.16 tests are creating changes *without* a destination branch\n\nI will make a separate change to fix the tests at point 2. and keep this change as-is.",
+      "parentUuid": "01f34cd5_46ab274f",
+      "revId": "a1bb92bcc82060ed274bab022b669e166960621e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

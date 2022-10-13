@@ -260,6 +260,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fee21f5_71ed6500",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T09:47:07Z",
+      "side": 1,
+      "message": "Added comment.\n\n```\n//  FitController overrides all properties defined in PositionStyles for the\n//  host.\n```",
+      "parentUuid": "4033b441_c13f61d6",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 45
+      },
+      "revId": "9f76980950c7ca1645884cc9410b930624417bf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "321f8a8f_5dbb4ac2",

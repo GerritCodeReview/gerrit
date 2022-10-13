@@ -162,7 +162,7 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
         List<ChangeData> cds =
             queryProvider
                 .get()
-                .setRequestedFields(ChangeField.CHANGE, ChangeField.REVIEWER)
+                .setRequestedFields(ChangeField.CHANGE, ChangeField.REVIEWER_SPEC)
                 .byProject(key);
         List<CachedChange> result = new ArrayList<>(cds.size());
         for (ChangeData cd : cds) {

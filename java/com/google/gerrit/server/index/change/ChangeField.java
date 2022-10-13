@@ -405,22 +405,28 @@ public class ChangeField {
       UPLOADER_FIELD.integer(ChangeQueryBuilder.FIELD_UPLOADER);
 
   /** References the source change number that this change was cherry-picked from. */
-  public static final FieldDef<ChangeData, Integer> CHERRY_PICK_OF_CHANGE =
-      integer(ChangeQueryBuilder.FIELD_CHERRY_PICK_OF_CHANGE)
+  public static final IndexedField<ChangeData, Integer> CHERRY_PICK_OF_CHANGE_FIELD =
+      IndexedField.<ChangeData>integerBuilder("CherryPickOfChange")
           .build(
               cd ->
                   cd.change().getCherryPickOf() != null
                       ? cd.change().getCherryPickOf().changeId().get()
                       : null);
 
+  public static final IndexedField<ChangeData, Integer>.SearchSpec CHERRY_PICK_OF_CHANGE =
+      CHERRY_PICK_OF_CHANGE_FIELD.integer(ChangeQueryBuilder.FIELD_CHERRY_PICK_OF_CHANGE);
+
   /** References the source change patch-set that this change was cherry-picked from. */
-  public static final FieldDef<ChangeData, Integer> CHERRY_PICK_OF_PATCHSET =
-      integer(ChangeQueryBuilder.FIELD_CHERRY_PICK_OF_PATCHSET)
+  public static final IndexedField<ChangeData, Integer> CHERRY_PICK_OF_PATCHSET_FIELD =
+      IndexedField.<ChangeData>integerBuilder("CherryPickOfPatchset")
           .build(
               cd ->
                   cd.change().getCherryPickOf() != null
                       ? cd.change().getCherryPickOf().get()
                       : null);
+
+  public static final IndexedField<ChangeData, Integer>.SearchSpec CHERRY_PICK_OF_PATCHSET =
+      CHERRY_PICK_OF_PATCHSET_FIELD.integer(ChangeQueryBuilder.FIELD_CHERRY_PICK_OF_PATCHSET);
 
   /** This class decouples the internal and API types from storage. */
   private static class StoredAttentionSetEntry {
@@ -448,14 +454,21 @@ public class ChangeField {
    *
    * @see #ATTENTION_SET_FULL
    */
-  public static final FieldDef<ChangeData, Iterable<Integer>> ATTENTION_SET_USERS =
-      integer(ChangeQueryBuilder.FIELD_ATTENTION_SET_USERS)
-          .buildRepeatable(ChangeField::getAttentionSetUserIds);
+  public static final IndexedField<ChangeData, Iterable<Integer>> ATTENTION_SET_USERS_FIELD =
+      IndexedField.<ChangeData>iterableIntegerBuilder("AttentionSetUsers")
+          .build(ChangeField::getAttentionSetUserIds);
+
+  public static final IndexedField<ChangeData, Iterable<Integer>>.SearchSpec ATTENTION_SET_USERS =
+      ATTENTION_SET_USERS_FIELD.integer(ChangeQueryBuilder.FIELD_ATTENTION_SET_USERS);
 
   /** Number of changes that contain attention set. */
-  public static final FieldDef<ChangeData, Integer> ATTENTION_SET_USERS_COUNT =
-      intRange(ChangeQueryBuilder.FIELD_ATTENTION_SET_USERS_COUNT)
+  public static final IndexedField<ChangeData, Integer> ATTENTION_SET_USERS_COUNT_FIELD =
+      IndexedField.<ChangeData>integerBuilder("AttentionSetUsersCount")
           .build(cd -> additionsOnly(cd.attentionSet()).size());
+
+  public static final IndexedField<ChangeData, Integer>.SearchSpec ATTENTION_SET_USERS_COUNT =
+      ATTENTION_SET_USERS_COUNT_FIELD.integerRange(
+          ChangeQueryBuilder.FIELD_ATTENTION_SET_USERS_COUNT);
 
   /**
    * The full attention set data including timestamp, reason and possible future fields.
@@ -474,60 +487,82 @@ public class ChangeField {
                       cd));
 
   /** The user assigned to the change. */
-  public static final FieldDef<ChangeData, Integer> ASSIGNEE =
-      integer(ChangeQueryBuilder.FIELD_ASSIGNEE)
+  public static final IndexedField<ChangeData, Integer> ASSIGNEE_FIELD =
+      IndexedField.<ChangeData>integerBuilder("Assignee")
           .build(changeGetter(c -> c.getAssignee() != null ? c.getAssignee().get() : NO_ASSIGNEE));
 
+  public static final IndexedField<ChangeData, Integer>.SearchSpec ASSIGNEE_SPEC =
+      ASSIGNEE_FIELD.integer(ChangeQueryBuilder.FIELD_ASSIGNEE);
+
   /** Reviewer(s) associated with the change. */
-  public static final FieldDef<ChangeData, Iterable<String>> REVIEWER =
-      exact("reviewer2")
+  public static final IndexedField<ChangeData, Iterable<String>> REVIEWER_FIELD =
+      IndexedField.<ChangeData>iterableStringBuilder("Reviewer")
           .stored()
-          .buildRepeatable(
+          .build(
               cd -> getReviewerFieldValues(cd.reviewers()),
               (cd, field) -> cd.setReviewers(parseReviewerFieldValues(cd.getId(), field)));
 
+  public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec REVIEWER_SPEC =
+      REVIEWER_FIELD.exact("reviewer2");
+
   /** Reviewer(s) associated with the change that do not have a gerrit account. */
-  public static final FieldDef<ChangeData, Iterable<String>> REVIEWER_BY_EMAIL =
-      exact("reviewer_by_email")
+  public static final IndexedField<ChangeData, Iterable<String>> REVIEWER_BY_EMAIL_FIELD =
+      IndexedField.<ChangeData>iterableStringBuilder("ReviewerByEmail")
           .stored()
-          .buildRepeatable(
+          .build(
               cd -> getReviewerByEmailFieldValues(cd.reviewersByEmail()),
               (cd, field) ->
                   cd.setReviewersByEmail(parseReviewerByEmailFieldValues(cd.getId(), field)));
 
+  public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec REVIEWER_BY_EMAIL =
+      REVIEWER_BY_EMAIL_FIELD.exact("reviewer_by_email");
+
   /** Reviewer(s) modified during change's current WIP phase. */
-  public static final FieldDef<ChangeData, Iterable<String>> PENDING_REVIEWER =
-      exact(ChangeQueryBuilder.FIELD_PENDING_REVIEWER)
+  public static final IndexedField<ChangeData, Iterable<String>> PENDING_REVIEWER_FIELD =
+      IndexedField.<ChangeData>iterableStringBuilder("PendigReviewer")
           .stored()
-          .buildRepeatable(
+          .build(
               cd -> getReviewerFieldValues(cd.pendingReviewers()),
               (cd, field) -> cd.setPendingReviewers(parseReviewerFieldValues(cd.getId(), field)));
 
+  public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec PENDING_REVIEWER_SPEC =
+      PENDING_REVIEWER_FIELD.exact(ChangeQueryBuilder.FIELD_PENDING_REVIEWER);
+
   /** Reviewer(s) by email modified during change's current WIP phase. */
-  public static final FieldDef<ChangeData, Iterable<String>> PENDING_REVIEWER_BY_EMAIL =
-      exact(ChangeQueryBuilder.FIELD_PENDING_REVIEWER_BY_EMAIL)
+  public static final IndexedField<ChangeData, Iterable<String>> PENDING_REVIEWER_BY_EMAIL_FIELD =
+      IndexedField.<ChangeData>iterableStringBuilder("PendigReviewerByEmail")
           .stored()
-          .buildRepeatable(
+          .build(
               cd -> getReviewerByEmailFieldValues(cd.pendingReviewersByEmail()),
               (cd, field) ->
                   cd.setPendingReviewersByEmail(
                       parseReviewerByEmailFieldValues(cd.getId(), field)));
 
+  public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec
+      PENDING_REVIEWER_BY_EMAIL =
+          PENDING_REVIEWER_BY_EMAIL_FIELD.exact(ChangeQueryBuilder.FIELD_PENDING_REVIEWER_BY_EMAIL);
+
   /** References a change that this change reverts. */
-  public static final FieldDef<ChangeData, Integer> REVERT_OF =
-      integer(ChangeQueryBuilder.FIELD_REVERTOF)
+  public static final IndexedField<ChangeData, Integer> REVERT_OF_FIELD =
+      IndexedField.<ChangeData>integerBuilder("RevertOf")
           .build(cd -> cd.change().getRevertOf() != null ? cd.change().getRevertOf().get() : null);
 
-  public static final FieldDef<ChangeData, String> IS_PURE_REVERT =
-      fullText(ChangeQueryBuilder.FIELD_PURE_REVERT)
+  public static final IndexedField<ChangeData, Integer>.SearchSpec REVERT_OF =
+      REVERT_OF_FIELD.integer(ChangeQueryBuilder.FIELD_REVERTOF);
+
+  public static final IndexedField<ChangeData, String> IS_PURE_REVERT_FIELD =
+      IndexedField.<ChangeData>stringBuilder("IsPureRevert")
           .build(cd -> Boolean.TRUE.equals(cd.isPureRevert()) ? "1" : "0");
+
+  public static final IndexedField<ChangeData, String>.SearchSpec IS_PURE_REVERT_SPEC =
+      IS_PURE_REVERT_FIELD.fullText(ChangeQueryBuilder.FIELD_PURE_REVERT);
 
   /**
    * Determines if a change is submittable based on {@link
    * com.google.gerrit.entities.SubmitRequirement}s.
    */
-  public static final FieldDef<ChangeData, String> IS_SUBMITTABLE =
-      exact(ChangeQueryBuilder.FIELD_IS_SUBMITTABLE)
+  public static final IndexedField<ChangeData, String> IS_SUBMITTABLE_FIELD =
+      IndexedField.<ChangeData>stringBuilder("IsSubmittable")
           .build(
               cd ->
                   // All submit requirements should be fulfilled
@@ -535,6 +570,9 @@ public class ChangeField {
                           .allMatch(SubmitRequirementResult::fulfilled)
                       ? "1"
                       : "0");
+
+  public static final IndexedField<ChangeData, String>.SearchSpec IS_SUBMITTABLE_SPEC =
+      IS_SUBMITTABLE_FIELD.exact(ChangeQueryBuilder.FIELD_IS_SUBMITTABLE);
 
   @VisibleForTesting
   static List<String> getReviewerFieldValues(ReviewerSet reviewers) {

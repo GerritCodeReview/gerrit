@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6553eb3d_734a7eca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-13T16:50:26Z",
+      "side": 1,
+      "message": "Verified E2E and it works fine:\n\n1) I have defined\n\n[change]\n        maxSubmittableAtOnce \u003d 2\n        \n2) I have uploaded 3 dependent changes\n\n3) I can submit together only 2 of them",
+      "revId": "31a2c2ba83e26aec7e328060c316eed2421e48d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

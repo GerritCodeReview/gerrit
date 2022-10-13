@@ -144,8 +144,5 @@ export enum Interaction {
   DIFF_AUTOCLOSE_DIFF_HOST_NOT_RENDERING = 'diff-autoclose-diff-not-rendering',
   DIFF_AUTOCLOSE_FILE_LIST_UPDATED = 'diff-autoclose-file-list-updated',
   DIFF_AUTOCLOSE_SHOWN_FILES_CHANGED = 'diff-autoclose-shown-files-changed',
-  // The following interaction is logged for reporting and counting a suspected
-  // Chrome bug that leads to html`` misbehavior.
-  AUTOCLOSE_HTML_PATCHED = 'autoclose-html-patched',
   CHANGE_ACTION_FIRED = 'change-action-fired',
 }

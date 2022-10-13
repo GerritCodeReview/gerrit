@@ -72,7 +72,6 @@ import {when} from 'lit/directives/when.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {incrementalRepeat} from '../../lit/incremental-repeat';
 import {ifDefined} from 'lit/directives/if-defined.js';
-import {HtmlPatched} from '../../../utils/lit-util';
 import {createDiffUrl} from '../../../models/views/diff';
 import {createEditUrl} from '../../../models/views/edit';
 import {createChangeUrl} from '../../../models/views/change';
@@ -294,13 +293,6 @@ export class GrFileList extends LitElement {
   private readonly getCommentsModel = resolve(this, commentsModelToken);
 
   private readonly getBrowserModel = resolve(this, browserModelToken);
-
-  private readonly patched = new HtmlPatched(key => {
-    this.reporting.reportInteraction(Interaction.AUTOCLOSE_HTML_PATCHED, {
-      component: this.tagName,
-      key: key.substring(0, 300),
-    });
-  });
 
   shortcutsController = new ShortcutController(this);
 
@@ -1037,7 +1029,7 @@ export class GrFileList extends LitElement {
       </div>
       ${when(
         this.isFileExpanded(file.__path),
-        () => this.patched.html`
+        () => html`
           <gr-diff-host
             ?noAutoRender=${true}
             ?showLoadFailure=${true}

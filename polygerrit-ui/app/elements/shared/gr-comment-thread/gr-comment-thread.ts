@@ -71,7 +71,6 @@ import {commentsModelToken} from '../../../models/comments/comments-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {whenRendered} from '../../../utils/dom-util';
 import {Interaction} from '../../../constants/reporting';
-import {HtmlPatched} from '../../../utils/lit-util';
 import {createDiffUrl} from '../../../models/views/diff';
 import {createChangeUrl} from '../../../models/views/change';
 
@@ -262,13 +261,6 @@ export class GrCommentThread extends LitElement {
 
   // for COMMENTS_AUTOCLOSE logging purposes only
   readonly uid = performance.now().toString(36) + Math.random().toString(36);
-
-  private readonly patched = new HtmlPatched(key => {
-    this.reporting.reportInteraction(Interaction.AUTOCLOSE_HTML_PATCHED, {
-      component: this.tagName,
-      key: key.substring(0, 300),
-    });
-  });
 
   constructor() {
     super();
@@ -516,16 +508,15 @@ export class GrCommentThread extends LitElement {
       (this.messageId
         ? comment.change_message_id !== this.messageId
         : !this.unresolved);
-    return this.patched.html`
+    return html`
       <gr-comment
         .comment=${comment}
         .comments=${this.thread!.comments}
         ?initially-collapsed=${initiallyCollapsed}
         ?robot-button-disabled=${robotButtonDisabled}
         ?show-patchset=${this.showPatchset}
-        ?show-ported-comment=${
-          this.showPortedComment && comment.id === this.rootId
-        }
+        ?show-ported-comment=${this.showPortedComment &&
+        comment.id === this.rootId}
         @reply-to-comment=${this.handleReplyToComment}
         @copy-comment-link=${this.handleCopyLink}
         @comment-editing-changed=${(

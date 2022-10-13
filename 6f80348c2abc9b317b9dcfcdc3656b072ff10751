@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65fa66e0_a617054a",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-13T10:47:47Z",
+      "side": 1,
+      "message": "Nit: \"is updated\" -\u003e \"are updated\"",
+      "revId": "6f80348c2abc9b317b9dcfcdc3656b072ff10751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fac27c3_5a9c4b6c",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-13T10:47:47Z",
+      "side": 1,
+      "message": "Please use the Domrect constructor rather than doing an unsafe cast.",
+      "revId": "6f80348c2abc9b317b9dcfcdc3656b072ff10751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

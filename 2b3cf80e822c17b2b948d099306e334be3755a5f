@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "664451af_60297c55",
+        "filename": "polygerrit-ui/app/services/service-worker-installer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-13T08:23:44Z",
+      "side": 1,
+      "message": "Won\u0027t this hang forever if either account or browser_notification is not set?",
+      "revId": "2b3cf80e822c17b2b948d099306e334be3755a5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

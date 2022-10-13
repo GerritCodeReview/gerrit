@@ -99,6 +99,30 @@
       },
       "revId": "89325a4130f5a2f91c367191d04437d2e8c0c5a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b37b1e2_3c3162aa",
+        "filename": "java/com/google/gerrit/server/submit/LocalMergeSuperSetComputation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-10-13T08:57:06Z",
+      "side": 1,
+      "message": "Maybe simple name change to `checkAndMark...` would do? Otherwise I\u0027m happy with any proposal that improves the readability :)",
+      "parentUuid": "78ed5541_f1aa1446",
+      "range": {
+        "startLine": 257,
+        "startChar": 18,
+        "endLine": 257,
+        "endChar": 39
+      },
+      "revId": "89325a4130f5a2f91c367191d04437d2e8c0c5a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

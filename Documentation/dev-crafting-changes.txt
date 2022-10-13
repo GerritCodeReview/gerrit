@@ -1,13 +1,16 @@
 :linkattrs:
 = Gerrit Code Review - Crafting Changes
 
-Here are some hints as to what approvers may be looking for
+[[Overview]]
+== Overview
+
+Here are some hints as to what reviewers may be looking for
 before approving or submitting changes to the Gerrit project.
-Let's start with the simple nit picky stuff.  You are likely
+Let's start with the simple nit picky stuff. You are likely
 excited that your code works; help us share your excitement
-by not distracting us with the simple stuff.  Thanks to Gerrit,
+by not distracting us with the simple stuff. Thanks to Gerrit,
 problems are often highlighted and we find it hard to look
-beyond simple spacing issues.  Blame it on our short attention
+beyond simple issues like spacing. Blame it on our short attention
 spans, we really do want your code.
 
 
@@ -28,7 +31,7 @@ guidelines:
   might take a while until you could benefit from it. In that case,
   implement the feature on master and, if you really need it on an
   earlier `stable-*` branch, cherry-pick the change and build
-  Gerrit on your own environent.
+  Gerrit on your own environment.
 * Bug-fixes should generally at least cover the oldest affected and
   still supported version. If you're affected and run an even older
   version, you're welcome to upload to that older version, even if
@@ -58,22 +61,6 @@ change to be reviewed.
   * Include a `Bug: Issue <#>` line if fixing a Gerrit issue, or a
     `Feature: Issue <#>` line if implementing a feature request.
   * Include a `Change-Id` line
-
-[[vim-setup]]
-=== Setting up Vim for Git commit message
-
-Git uses Vim as the default commit message editor. Put this into your
-`$HOME/.vimrc` file to configure Vim for Git commit message formatting
-and writing:
-
-====
-  " Enable spell checking, which is not on by default for commit messages.
-  au FileType gitcommit setlocal spell
-
-  " Reset textwidth if you've previously overridden it.
-  au FileType gitcommit setlocal textwidth=72
-====
-
 
 [[git-commit-settings]]
 === A sample good Gerrit commit message:
@@ -110,6 +97,23 @@ same hook in the submodules:
   git submodule foreach 'cp -p "$hook" "$(git rev-parse --git-dir)/hooks/"'
 ====
 
+[[vim-setup]]
+=== Setting up Vim for Git commit message
+
+Git uses Vim as the default commit message editor. Put this into your
+`$HOME/.vimrc` file to configure Vim for Git commit message formatting
+and writing:
+
+====
+  " Enable spell checking, which is not on by default for commit messages.
+  au FileType gitcommit setlocal spell
+
+  " Reset textwidth if you've previously overridden it.
+  au FileType gitcommit setlocal textwidth=72
+====
+
+// TODO: Create a doc/section that covers pushing the completed change and move this there
+=== Setting up your Git remote
 
 To set up git's remote for easy pushing, run the following:
 
@@ -125,7 +129,7 @@ Password tab of the user settings page,role=external,window=_blank].
 Alternately, you may use the
 link:https://pypi.org/project/git-review/[git-review,role=external,window=_blank] tool to submit changes
 to Gerrit. If you do, it will set up the Change-Id hook and `gerrit` remote
-for you. You will still need to do the HTTP access step.
+for you. You will still need to do the HTTPS access step.
 
 [[style]]
 == Style

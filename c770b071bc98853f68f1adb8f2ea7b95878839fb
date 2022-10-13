@@ -189,6 +189,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb6e1ef1_e19e3d52",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller_test.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T16:31:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2fd2a44_bb1397a7",
+      "range": {
+        "startLine": 154,
+        "startChar": 38,
+        "endLine": 154,
+        "endChar": 42
+      },
+      "revId": "c770b071bc98853f68f1adb8f2ea7b95878839fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8124c7d6_53e5eef7",

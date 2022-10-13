@@ -405,22 +405,28 @@ public class ChangeField {
       UPLOADER_FIELD.integer(ChangeQueryBuilder.FIELD_UPLOADER);
 
   /** References the source change number that this change was cherry-picked from. */
-  public static final FieldDef<ChangeData, Integer> CHERRY_PICK_OF_CHANGE =
-      integer(ChangeQueryBuilder.FIELD_CHERRY_PICK_OF_CHANGE)
+  public static final IndexedField<ChangeData, Integer> CHERRY_PICK_OF_CHANGE_FIELD =
+      IndexedField.<ChangeData>integerBuilder("CherryPickOfChange")
           .build(
               cd ->
                   cd.change().getCherryPickOf() != null
                       ? cd.change().getCherryPickOf().changeId().get()
                       : null);
 
+  public static final IndexedField<ChangeData, Integer>.SearchSpec CHERRY_PICK_OF_CHANGE =
+      CHERRY_PICK_OF_CHANGE_FIELD.integer(ChangeQueryBuilder.FIELD_CHERRY_PICK_OF_CHANGE);
+
   /** References the source change patch-set that this change was cherry-picked from. */
-  public static final FieldDef<ChangeData, Integer> CHERRY_PICK_OF_PATCHSET =
-      integer(ChangeQueryBuilder.FIELD_CHERRY_PICK_OF_PATCHSET)
+  public static final IndexedField<ChangeData, Integer> CHERRY_PICK_OF_PATCHSET_FIELD =
+      IndexedField.<ChangeData>integerBuilder("CherryPickOfPatchset")
           .build(
               cd ->
                   cd.change().getCherryPickOf() != null
                       ? cd.change().getCherryPickOf().get()
                       : null);
+
+  public static final IndexedField<ChangeData, Integer>.SearchSpec CHERRY_PICK_OF_PATCHSET =
+      CHERRY_PICK_OF_PATCHSET_FIELD.integer(ChangeQueryBuilder.FIELD_CHERRY_PICK_OF_PATCHSET);
 
   /** This class decouples the internal and API types from storage. */
   private static class StoredAttentionSetEntry {
@@ -448,14 +454,21 @@ public class ChangeField {
    *
    * @see #ATTENTION_SET_FULL
    */
-  public static final FieldDef<ChangeData, Iterable<Integer>> ATTENTION_SET_USERS =
-      integer(ChangeQueryBuilder.FIELD_ATTENTION_SET_USERS)
-          .buildRepeatable(ChangeField::getAttentionSetUserIds);
+  public static final IndexedField<ChangeData, Iterable<Integer>> ATTENTION_SET_USERS_FIELD =
+      IndexedField.<ChangeData>iterableIntegerBuilder("AttentionSetUsers")
+          .build(ChangeField::getAttentionSetUserIds);
+
+  public static final IndexedField<ChangeData, Iterable<Integer>>.SearchSpec ATTENTION_SET_USERS =
+      ATTENTION_SET_USERS_FIELD.integer(ChangeQueryBuilder.FIELD_ATTENTION_SET_USERS);
 
   /** Number of changes that contain attention set. */
-  public static final FieldDef<ChangeData, Integer> ATTENTION_SET_USERS_COUNT =
-      intRange(ChangeQueryBuilder.FIELD_ATTENTION_SET_USERS_COUNT)
+  public static final IndexedField<ChangeData, Integer> ATTENTION_SET_USERS_COUNT_FIELD =
+      IndexedField.<ChangeData>integerBuilder("AttentionSetUsersCount")
           .build(cd -> additionsOnly(cd.attentionSet()).size());
+
+  public static final IndexedField<ChangeData, Integer>.SearchSpec ATTENTION_SET_USERS_COUNT =
+      ATTENTION_SET_USERS_COUNT_FIELD.integerRange(
+          ChangeQueryBuilder.FIELD_CHERRY_PICK_OF_PATCHSET);
 
   /**
    * The full attention set data including timestamp, reason and possible future fields.

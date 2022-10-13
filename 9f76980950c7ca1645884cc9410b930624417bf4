@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ce2bda90_b648c83e",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-13T09:51:10Z",
+      "side": 1,
+      "message": "\u003e a pattern which we have used a lot in the codebase already\n\nit\u0027s an antipattern, not a best practice. it makes the tests easier because it makes them worse.\n\nWhat is the testing challenge involved with porting these tests or making equivalents? https://github.com/PolymerElements/iron-fit-behavior/blob/master/test/iron-fit-behavior.html",
+      "parentUuid": "5758ea5a_c2a150af",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 30
+      },
+      "revId": "9f76980950c7ca1645884cc9410b930624417bf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "052f1fb4_1354be26",
         "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
         "patchSetId": 16

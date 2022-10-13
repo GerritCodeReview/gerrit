@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3437bcec_bc69ccd0",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T15:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "392d94ee_037b403a",
+      "revId": "7e5f678d88d1ab3877d6f73041ca56f4b5ad58be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5068b5cb_a74093f9",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-10-13T14:47:15Z",
       "side": 1,
       "message": "You\u0027re never testing for different values of offset.",
+      "revId": "7e5f678d88d1ab3877d6f73041ca56f4b5ad58be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2cefe0a_43ea4d4b",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller_test.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T15:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5068b5cb_a74093f9",
       "revId": "7e5f678d88d1ab3877d6f73041ca56f4b5ad58be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2330bcc5_306cacdf",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller_test.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T15:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12827328_7bac2110",
+      "revId": "7e5f678d88d1ab3877d6f73041ca56f4b5ad58be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "57491c93_ee992646",
@@ -65,6 +119,24 @@
       "writtenOn": "2022-10-13T14:47:15Z",
       "side": 1,
       "message": "Use DOMRect constructor",
+      "revId": "7e5f678d88d1ab3877d6f73041ca56f4b5ad58be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "183e7a0d_0fdb496e",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller_test.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T15:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57491c93_ee992646",
       "revId": "7e5f678d88d1ab3877d6f73041ca56f4b5ad58be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -86,6 +158,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c78eef5_e229c620",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller_test.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T15:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee5dd779_51b7a724",
+      "revId": "7e5f678d88d1ab3877d6f73041ca56f4b5ad58be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e8ea4315_027809c2",
@@ -99,6 +189,24 @@
       "writtenOn": "2022-10-13T14:47:15Z",
       "side": 1,
       "message": "Use DomRect constructor",
+      "revId": "7e5f678d88d1ab3877d6f73041ca56f4b5ad58be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "344845d9_06d3001e",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller_test.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T15:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8ea4315_027809c2",
       "revId": "7e5f678d88d1ab3877d6f73041ca56f4b5ad58be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -120,6 +228,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bc66b5c_b5cb84f7",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller_test.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T15:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c923ef3a_aeacc6dc",
+      "revId": "7e5f678d88d1ab3877d6f73041ca56f4b5ad58be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "33066934_d7949cc4",
@@ -133,6 +259,24 @@
       "writtenOn": "2022-10-13T14:47:15Z",
       "side": 1,
       "message": "Use DomRect constructor",
+      "revId": "7e5f678d88d1ab3877d6f73041ca56f4b5ad58be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ee7e344_564918df",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller_test.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T15:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33066934_d7949cc4",
       "revId": "7e5f678d88d1ab3877d6f73041ca56f4b5ad58be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -154,6 +298,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b7b0225_a3628cb6",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller_test.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T15:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11b06613_46cca4ff",
+      "revId": "7e5f678d88d1ab3877d6f73041ca56f4b5ad58be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7b640e4a_a4abaffc",
@@ -167,6 +329,24 @@
       "writtenOn": "2022-10-13T14:47:15Z",
       "side": 1,
       "message": "Use DOMRect constructor",
+      "revId": "7e5f678d88d1ab3877d6f73041ca56f4b5ad58be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21c283dc_08c19706",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller_test.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T15:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b640e4a_a4abaffc",
       "revId": "7e5f678d88d1ab3877d6f73041ca56f4b5ad58be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -188,6 +368,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5dc8297f_36148ace",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller_test.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T15:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0c86024_db2a7907",
+      "revId": "7e5f678d88d1ab3877d6f73041ca56f4b5ad58be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ea42e1a_ac7c12c1",
@@ -201,6 +399,24 @@
       "writtenOn": "2022-10-13T14:47:15Z",
       "side": 1,
       "message": "Use DOMRect constructor",
+      "revId": "7e5f678d88d1ab3877d6f73041ca56f4b5ad58be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c76caf15_4f687faf",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller_test.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T15:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ea42e1a_ac7c12c1",
       "revId": "7e5f678d88d1ab3877d6f73041ca56f4b5ad58be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -222,6 +438,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eadb5882_c24713fc",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller_test.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T15:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60babfc4_41473176",
+      "revId": "7e5f678d88d1ab3877d6f73041ca56f4b5ad58be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c5f09386_7167c0a3",
@@ -235,6 +469,24 @@
       "writtenOn": "2022-10-13T14:47:15Z",
       "side": 1,
       "message": "Use DOMRect constructor",
+      "revId": "7e5f678d88d1ab3877d6f73041ca56f4b5ad58be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5faae8ae_30cb140d",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller_test.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T15:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5f09386_7167c0a3",
       "revId": "7e5f678d88d1ab3877d6f73041ca56f4b5ad58be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

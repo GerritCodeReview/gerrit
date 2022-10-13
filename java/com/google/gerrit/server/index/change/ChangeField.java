@@ -203,18 +203,26 @@ public class ChangeField {
 
   /** When this change was merged, time since January 1, 1970. */
   // TODO(issue-15518): Migrate type for timestamp index fields from Timestamp to Instant
-  public static final FieldDef<ChangeData, Timestamp> MERGED_ON =
-      timestamp(ChangeQueryBuilder.FIELD_MERGED_ON)
+  public static final IndexedField<ChangeData, Timestamp> MERGED_ON_FIELD =
+      IndexedField.<ChangeData>timestampBuilder("MergedOn")
           .stored()
           .build(
               cd -> cd.getMergedOn().map(Timestamp::from).orElse(null),
               (cd, field) -> cd.setMergedOn(field != null ? field.toInstant() : null));
 
+  public static final IndexedField<ChangeData, Timestamp>.SearchSpec MERGED_ON_SPEC =
+      MERGED_ON_FIELD.timestamp(ChangeQueryBuilder.FIELD_MERGED_ON);
+
   /** List of full file paths modified in the current patch set. */
-  public static final FieldDef<ChangeData, Iterable<String>> PATH =
+  public static final IndexedField<ChangeData, Iterable<String>> PATH_FIELD =
       // Named for backwards compatibility.
-      exact(ChangeQueryBuilder.FIELD_FILE)
-          .buildRepeatable(cd -> firstNonNull(cd.currentFilePaths(), ImmutableList.of()));
+      IndexedField.<ChangeData>iterableStringBuilder("File")
+          .build(cd -> firstNonNull(cd.currentFilePaths(), ImmutableList.of()));
+
+  public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec PATH_SPEC =
+      PATH_FIELD
+          // Named for backwards compatibility.
+          .exact(ChangeQueryBuilder.FIELD_FILE);
 
   public static Set<String> getFileParts(ChangeData cd) {
     List<String> paths = cd.currentFilePaths();
@@ -230,30 +238,36 @@ public class ChangeField {
   }
 
   /** Hashtags tied to a change */
-  public static final FieldDef<ChangeData, Iterable<String>> HASHTAG =
-      exact(ChangeQueryBuilder.FIELD_HASHTAG)
-          .buildRepeatable(cd -> cd.hashtags().stream().map(String::toLowerCase).collect(toSet()));
+  public static final IndexedField<ChangeData, Iterable<String>> HASHTAG_FIELD =
+      IndexedField.<ChangeData>iterableStringBuilder("Hashtag")
+          .size(200)
+          .build(cd -> cd.hashtags().stream().map(String::toLowerCase).collect(toSet()));
+
+  public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec HASHTAG_SPEC =
+      HASHTAG_FIELD.exact(ChangeQueryBuilder.FIELD_HASHTAG);
 
   /** Hashtags as fulltext field for in-string search. */
-  public static final FieldDef<ChangeData, Iterable<String>> FUZZY_HASHTAG =
-      fullText("hashtag2")
-          .buildRepeatable(cd -> cd.hashtags().stream().map(String::toLowerCase).collect(toSet()));
+  public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec FUZZY_HASHTAG =
+      HASHTAG_FIELD.fullText("hashtag2");
 
   /** Hashtags as prefix field for in-string search. */
-  public static final FieldDef<ChangeData, Iterable<String>> PREFIX_HASHTAG =
-      prefix("hashtag3")
-          .buildRepeatable(cd -> cd.hashtags().stream().map(String::toLowerCase).collect(toSet()));
+  public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec PREFIX_HASHTAG =
+      HASHTAG_FIELD.prefix("hashtag3");
 
   /** Hashtags with original case. */
-  public static final FieldDef<ChangeData, Iterable<byte[]>> HASHTAG_CASE_AWARE =
-      storedOnly("_hashtag")
-          .buildRepeatable(
+  public static final IndexedField<ChangeData, Iterable<byte[]>> HASHTAG_CASE_AWARE_FIELD =
+      IndexedField.<ChangeData>iterableByteArrayBuilder("HashtagCaseAware")
+          .stored()
+          .build(
               cd -> cd.hashtags().stream().map(t -> t.getBytes(UTF_8)).collect(toSet()),
               (cd, field) ->
                   cd.setHashtags(
                       StreamSupport.stream(field.spliterator(), false)
                           .map(f -> new String(f, UTF_8))
                           .collect(toImmutableSet())));
+
+  public static final IndexedField<ChangeData, Iterable<byte[]>>.SearchSpec
+      HASHTAG_CASE_AWARE_SPEC = HASHTAG_CASE_AWARE_FIELD.storedOnly("_hashtag");
 
   /** Components of each file path modified in the current patch set. */
   public static final FieldDef<ChangeData, Iterable<String>> FILE_PART =

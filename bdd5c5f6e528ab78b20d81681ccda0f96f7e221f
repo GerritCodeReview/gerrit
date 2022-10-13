@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2eb89275_63ecde83",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-13T07:13:06Z",
+      "side": 1,
+      "message": "Missing Release Notes",
+      "revId": "bdd5c5f6e528ab78b20d81681ccda0f96f7e221f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c9d53b4_54f568e4",
+        "filename": "polygerrit-ui/app/constants/constants.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-13T07:13:06Z",
+      "side": 1,
+      "message": "Should this be default off for non-signed in users?",
+      "revId": "bdd5c5f6e528ab78b20d81681ccda0f96f7e221f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a6dd0c9_b12d542d",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-13T07:13:06Z",
+      "side": 1,
+      "message": "Test?",
+      "revId": "bdd5c5f6e528ab78b20d81681ccda0f96f7e221f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "154c0991_d58bb412",
+        "filename": "polygerrit-ui/app/services/service-worker-installer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-13T07:13:06Z",
+      "side": 1,
+      "message": "This should be flag protected.",
+      "revId": "bdd5c5f6e528ab78b20d81681ccda0f96f7e221f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9511df32_ca9b085f",
+        "filename": "polygerrit-ui/app/services/service-worker-installer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-13T07:13:06Z",
+      "side": 1,
+      "message": "Rather than doing an await, why not trigger all the logic below in response to account being set?",
+      "revId": "bdd5c5f6e528ab78b20d81681ccda0f96f7e221f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a9d7235_b32fdfc4",
+        "filename": "polygerrit-ui/app/services/service-worker-installer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-13T07:13:06Z",
+      "side": 1,
+      "message": "This feels like a hack to work around rxjs and subscriptions.\n\n\nI\u0027m a bit wary of this approach, what if the call takes 1.1s?",
+      "revId": "bdd5c5f6e528ab78b20d81681ccda0f96f7e221f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10054aae_0a530a87",
+        "filename": "polygerrit-ui/app/workers/service-worker-class.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-13T07:13:06Z",
+      "side": 1,
+      "message": "Default to false",
+      "revId": "bdd5c5f6e528ab78b20d81681ccda0f96f7e221f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

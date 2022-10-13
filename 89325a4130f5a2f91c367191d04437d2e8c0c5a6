@@ -123,6 +123,30 @@
       },
       "revId": "89325a4130f5a2f91c367191d04437d2e8c0c5a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df8a05de_4ff6a10f",
+        "filename": "java/com/google/gerrit/server/submit/LocalMergeSuperSetComputation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-13T11:24:17Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9b37b1e2_3c3162aa",
+      "range": {
+        "startLine": 257,
+        "startChar": 18,
+        "endLine": 257,
+        "endChar": 39
+      },
+      "revId": "89325a4130f5a2f91c367191d04437d2e8c0c5a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

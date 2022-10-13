@@ -72,6 +72,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5316d897_357126d4",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 2130,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-10-13T09:25:03Z",
+      "side": 1,
+      "message": "I like the symmetry with GET /patch vs POST /patch.",
+      "parentUuid": "998c7290_ca2ac121",
+      "range": {
+        "startLine": 2130,
+        "startChar": 47,
+        "endLine": 2130,
+        "endChar": 57
+      },
+      "revId": "12805679a1d7c57fd3a3e82c74ad8e2e887c1acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cf062c00_f0615e3f",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 19
@@ -129,6 +153,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "decd8b40_33c7ee85",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 2148,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-10-13T09:25:03Z",
+      "side": 1,
+      "message": "can you embed newlines like this?",
+      "revId": "12805679a1d7c57fd3a3e82c74ad8e2e887c1acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79e2e183_31617718",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 2149,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-10-13T09:25:03Z",
+      "side": 1,
+      "message": "does it work if you indent the lines like this?",
+      "revId": "12805679a1d7c57fd3a3e82c74ad8e2e887c1acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2acf2005_73193499",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 19
@@ -163,6 +221,30 @@
       "writtenOn": "2022-10-12T22:10:20Z",
       "side": 1,
       "message": "Is this the commit message?\n\nIf yes, it should be called `message` or `commit_message` and you probably need to mention that any included Change-Id needs to match the existing change (like the Set Commit Message endpoint does). For background, the subject of a commit message is only the first line, so subject is a different thing.\n\nIf this does actually set just the subject somehow, how can someone set the whole commit message?",
+      "range": {
+        "startLine": 6594,
+        "startChar": 2,
+        "endLine": 6594,
+        "endChar": 9
+      },
+      "revId": "12805679a1d7c57fd3a3e82c74ad8e2e887c1acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00fbfa58_3943c605",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 6594,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-10-13T09:25:03Z",
+      "side": 1,
+      "message": "it looks like this is historical, and this is the full commit message in MergePatchsetInput as well. So for consistency we could use \u0027subject\u0027 here, but it should be documented that it\u0027s the full message.  We can fix the doc for MergePatchsetInput in a separate change.",
+      "parentUuid": "c399103f_f0cee4c3",
       "range": {
         "startLine": 6594,
         "startChar": 2,

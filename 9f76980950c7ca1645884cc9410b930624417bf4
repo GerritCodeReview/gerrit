@@ -119,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e20e7a8_b9c32a38",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T09:53:13Z",
+      "side": 1,
+      "message": "I am not looking at that file but writing my own tests.\n\nI would prefer this being treated as a new feature/component ideally with no prior knowledge of iron-fit-behavior.\n\nIf you feel any test coverage scenario is missing then I can add it but I am not looking into that test file since the behavior and controller have diverged quite a lot.",
+      "parentUuid": "ce2bda90_b648c83e",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 30
+      },
+      "revId": "9f76980950c7ca1645884cc9410b930624417bf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "052f1fb4_1354be26",

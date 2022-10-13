@@ -168,6 +168,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bd7095e9_53c01f6c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 2130,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-13T18:11:00Z",
+      "side": 1,
+      "message": "\u003e IMO `patch` implies \"fetch-patch\", which matches the behavior Nasser suggested. I think GET/POST /patch is too confusing, especially given the HTTP method isn\u0027t always written explicitly by the user (e.g. in `curl \u003cGET request\u003e`).\n\n`patch` as a verb is the same as `applypatch` though.\n\n\u003e \n\u003e From another angle: Git CLI refers to this command as `apply`. I think in Gerrit it might be ambiguous (diff applying, permission applying etc.), but I think it\u0027s useful to keep the Gerrit name related.\n\nI like aligning things with CLI Git, but because Gerrit has a superset of Git concepts, it doesn\u0027t always work.\n\n\u003e \n\u003e If we want too keep the name related to both parts - we\u0027re back at `applypatch` or similar.\n\nIf you really wanted both noun and verb in the name, I\u0027d argue for `patch:apply`. We have other endpoints with that noun:verb style where you might want to have multiple different actions with the same object.",
+      "parentUuid": "0fe0c700_a7da5b0d",
+      "range": {
+        "startLine": 2130,
+        "startChar": 47,
+        "endLine": 2130,
+        "endChar": 57
+      },
+      "revId": "12805679a1d7c57fd3a3e82c74ad8e2e887c1acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cf062c00_f0615e3f",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 19
@@ -279,6 +303,24 @@
       "side": 1,
       "message": "At the moment, JGit does not support any conflict handling for this operation, and the whole operation will fail. Added that to the documentation. \nUnfortunately, adding this support is **currently** out of scope.",
       "parentUuid": "d15b5626_b8624b91",
+      "revId": "12805679a1d7c57fd3a3e82c74ad8e2e887c1acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d93ea3c_0adcbb24",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 2139,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-13T18:11:00Z",
+      "side": 1,
+      "message": "\u003e At the moment, JGit does not support any conflict handling for this operation, and the whole operation will fail. Added that to the documentation. \n\nAre you sure? JGit handles cherry-picking with conflicts. I would assume the code isn\u0027t that different, but maybe it is?",
+      "parentUuid": "29427f1a_1c574f1f",
       "revId": "12805679a1d7c57fd3a3e82c74ad8e2e887c1acb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -473,6 +515,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4a21a561_41f269a2",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 6594,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-13T18:11:00Z",
+      "side": 1,
+      "message": "I get that it\u0027s historical for `MergePatchsetInput`, but this is a new entity, so we shouldn\u0027t carry over the mistakes from there. Set Commit Message uses `message`, but lots of other endpoints use `message` to mean change comments, so I think you want to use `commit_message`. Consistency with MergePatchSetInput should be handled by a future change adding `commit_message` as an alias for `subject` and deprecating `subject`.",
+      "parentUuid": "67611ccd_5613be41",
+      "range": {
+        "startLine": 6594,
+        "startChar": 2,
+        "endLine": 6594,
+        "endChar": 9
+      },
+      "revId": "12805679a1d7c57fd3a3e82c74ad8e2e887c1acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "57c17eb2_380e0739",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 19
@@ -567,6 +633,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bbbafcee_fa157f7b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 6603,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-13T18:11:00Z",
+      "side": 1,
+      "message": "\u003e The `AccountInput` must include both name and email. Otherwise, the operation will fail. \n\nGotcha, thanks.\n\n\u003e The same description appears for `ChangeInput` and `MergePatchSetInput`.\n\u003e If you have a better wording - I\u0027m happy to edit all occurrences.\n\nHow about?\n\n```\nThe author of the commit to create. Must be an\nlink:rest-api-accounts.html#account-input[AccountInput] entity with at least\nthe `name` and `email` fields set.\n```",
+      "parentUuid": "e6af46db_14711552",
+      "range": {
+        "startLine": 6601,
+        "startChar": 0,
+        "endLine": 6603,
+        "endChar": 55
+      },
+      "revId": "12805679a1d7c57fd3a3e82c74ad8e2e887c1acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b68bd6ef_50e331d8",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 19
@@ -602,6 +692,30 @@
       "side": 1,
       "message": "Currently yes, in all of the flows mentioned [above](https://gerrit-review.googlesource.com/c/gerrit/+/340065/comment/2ed0fc88_b9ca73b7/).\nI agree this might not be the logical behavior, but changing it should be a separate effort IMO.",
       "parentUuid": "b68bd6ef_50e331d8",
+      "range": {
+        "startLine": 6604,
+        "startChar": 0,
+        "endLine": 6604,
+        "endChar": 65
+      },
+      "revId": "12805679a1d7c57fd3a3e82c74ad8e2e887c1acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24572930_93b0b227",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 6604,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-13T18:11:00Z",
+      "side": 1,
+      "message": "\u003e Currently yes, in all of the flows mentioned [above](https://gerrit-review.googlesource.com/c/gerrit/+/340065/comment/2ed0fc88_b9ca73b7/).\n\nThat\u0027s surprising.\n\n\u003e I agree this might not be the logical behavior, but changing it should be a separate effort IMO.\n\nWhat about for this new API? You don\u0027t need to change the others now.",
+      "parentUuid": "a0a471ad_7154dc1c",
       "range": {
         "startLine": 6604,
         "startChar": 0,
@@ -696,6 +810,30 @@
       "side": 1,
       "message": "All 3 changes in this chain will be squashed together before merging. The separation is for making the review process easier, since it\u0027s a large change.",
       "parentUuid": "3725ebac_47997346",
+      "range": {
+        "startLine": 6982,
+        "startChar": 0,
+        "endLine": 6983,
+        "endChar": 84
+      },
+      "revId": "12805679a1d7c57fd3a3e82c74ad8e2e887c1acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78fdae87_4a9fd6a9",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 6983,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-13T18:11:00Z",
+      "side": 1,
+      "message": "\u003e All 3 changes in this chain will be squashed together before merging. The separation is for making the review process easier, since it\u0027s a large change.\n\nThat\u0027s not our typical Gerrit workflow (sounds like a github PR model). In Gerrit we typically look for ways to incrementally build a feature in functional parts. I haven\u0027t look at the next changes enough to know how you would apply that in this case, but maybe something to keep in mind.",
+      "parentUuid": "28f1ab94_3bc00a21",
       "range": {
         "startLine": 6982,
         "startChar": 0,

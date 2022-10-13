@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e16bdb06_6adfab91",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-13T18:40:09Z",
+      "side": 1,
+      "message": "\u003e This was my change, not Youssef\u0027s.\n\nSure, but Youssef also +2\u0027ed and as the maintainer doing so has the responsibility to ensure the change is ready to be submitted.\n\n\u003e \n\u003e The change was not private (in review) for half of the business day.\n\n\"half of the business day\" isn\u0027t especially helpful when your business day starts while I\u0027m asleep and finishes when I\u0027ve finished my morning coffee. 😊\n\n\u003e If you prefer the changes being pending longer, I can wait a day before submitting in the future.\n\nI don\u0027t think every change needs to be pending longer, but when you\u0027re changing a fundamental part of Gerrit (like indexing), planning for a little extra time in review would be helpful.",
+      "parentUuid": "0301a202_58f2743e",
+      "revId": "ea3a5601dcfe855fe16ef5fcbe34ed74ccd9247d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3eda5a25_8041ad78",
@@ -73,6 +91,30 @@
       "side": 1,
       "message": "It is used in L139.\n\nChangeQueryBuilder.FIELD_STATUS is still used by all existing indexing implementations, so nothing has changed for them. \nThe \"Status\" name can be used by the indexing implementations, that allow multiple searches by the dame field. Though in this case there is exactly one search (L138) on the field.",
       "parentUuid": "3eda5a25_8041ad78",
+      "range": {
+        "startLine": 133,
+        "startChar": 45,
+        "endLine": 133,
+        "endChar": 53
+      },
+      "revId": "ea3a5601dcfe855fe16ef5fcbe34ed74ccd9247d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18f6ccef_7a9f1726",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-13T18:40:09Z",
+      "side": 1,
+      "message": "\u003e It is used in L139.\n\u003e \n\u003e ChangeQueryBuilder.FIELD_STATUS is still used by all existing indexing implementations, so nothing has changed for them. \n\u003e The \"Status\" name can be used by the indexing implementations, that allow multiple searches by the dame field. Though in this case there is exactly one search (L138) on the field.\n\nHow would those indexing implementations know to to use the \"Status\" name? They just use `IndexedField.getName()`?\n\nI guess I\u0027m just confused why we need a new name instead of continuing to use existing field name. That\u0027s seeming to lead to the code needing to know there are two different field names depending on if you\u0027re doing the new multi-search thing or not.",
+      "parentUuid": "e75c043e_2ceefa94",
       "range": {
         "startLine": 133,
         "startChar": 45,
@@ -132,6 +174,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "90e01c41_841938e9",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-13T18:40:09Z",
+      "side": 1,
+      "message": "\u003e Change#Status enum only has NEW, MERGED, ABANDONED statuses. A reasonable assumption that if we introduce a new status, it does not exceed a round number of 20 characters.\n\nCouldn\u0027t you compute this from the enum values then? Or I guess if you don\u0027t want to have it change without changing the index version, you could add a test that confirms its accuracy?\n\n\u003e \n\u003e Note: we are not enforcing sizes anywhere yet. We are likely not going to.\n\nIf we\u0027re not enforcing and we\u0027re not going to, why set it?",
+      "parentUuid": "d57ef7ad_280368b4",
+      "range": {
+        "startLine": 135,
+        "startChar": 11,
+        "endLine": 135,
+        "endChar": 19
+      },
+      "revId": "ea3a5601dcfe855fe16ef5fcbe34ed74ccd9247d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "78167a7d_12d87053",
         "filename": "java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
         "patchSetId": 14
@@ -167,6 +233,30 @@
       "side": 1,
       "message": "No. Still the same version definition is used by all existing index implementations. See the change 339336. So if the index does not use IndexedFields, the fields, exposed by this schema (SchemaFields) are exactly the same.",
       "parentUuid": "78167a7d_12d87053",
+      "range": {
+        "startLine": 35,
+        "startChar": 25,
+        "endLine": 35,
+        "endChar": 27
+      },
+      "revId": "ea3a5601dcfe855fe16ef5fcbe34ed74ccd9247d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c51c14a0_b1c81e1b",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-13T18:40:09Z",
+      "side": 1,
+      "message": "\u003e No. Still the same version definition is used by all existing index implementations. See the change 339336. So if the index does not use IndexedFields, the fields, exposed by this schema (SchemaFields) are exactly the same.\n\nBut if the index does use the IndexedFields, then the version should be different?\n\nI think maybe the pertinent part of the change you linked is:\n\u003e Each new FieldDef will be mapped exactly to a new SearchSpec, and all\n\u003e FieldDefs will be eventually removed. See the follow up changes for the\n\u003e code migration strategy.\n\nLooking at those follow up changes, it\u0027s not clear to me what the complete strategy is. I\u0027m sure part of the challenge is that the solution you\u0027re developing is very abstract to me since I\u0027m not at Google and don\u0027t know anything about the new index backend you\u0027re trying to support.\n\nAs a concrete example, if I want to update the elasticsearch index implementation to use IndexedFields, what would I need to do? (and maybe that\u0027s a more detailed question than I\u0027m trying for, so don\u0027t spend a lot of time on trying to answer it completely if it is)\nWould I end up needing to increment the schema version?",
+      "parentUuid": "b6034533_2ee047b5",
       "range": {
         "startLine": 35,
         "startChar": 25,

@@ -208,7 +208,7 @@ public class ReviewerRecommender {
           queryProvider
               .get()
               .setLimit(numberOfRelevantChanges)
-              .setRequestedFields(ChangeField.REVIEWER)
+              .setRequestedFields(ChangeField.REVIEWER_SPEC)
               .query(changeQueryBuilder.owner("self"));
       Map<Account.Id, MutableDouble> suggestions = new LinkedHashMap<>();
       // Put those candidates at the bottom of the list

@@ -16,6 +16,29 @@
       "message": "Verified E2E and it works fine:\n\n1) I have defined\n\n[change]\n        maxSubmittableAtOnce \u003d 2\n        \n2) I have uploaded 3 dependent changes\n\n3) I can submit together only 2 of them",
       "revId": "31a2c2ba83e26aec7e328060c316eed2421e48d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b34113c_6756c34a",
+        "filename": "java/com/google/gerrit/server/submit/LocalMergeSuperSetComputation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-10-13T17:01:55Z",
+      "side": 1,
+      "message": "how about breaking the loop(s) if the limit is reached? Would it otherwise walk the sourceCommits for nothing?",
+      "range": {
+        "startLine": 251,
+        "startChar": 4,
+        "endLine": 270,
+        "endChar": 0
+      },
+      "revId": "31a2c2ba83e26aec7e328060c316eed2421e48d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

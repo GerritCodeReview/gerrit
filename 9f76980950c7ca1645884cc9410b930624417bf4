@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4dec40d_a5c24283",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T09:36:46Z",
+      "side": 1,
+      "message": "refit() should be called by the host component and not the controller.",
+      "parentUuid": "8c02ef05_da176ce7",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 51
+      },
+      "revId": "9f76980950c7ca1645884cc9410b930624417bf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f9cf5a9a_a00efc13",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-10-13T09:24:25Z",
       "side": 1,
       "message": "Why can\u0027t the tests inspect the actual behavior instead of calling private methods? Same for calculatePositions",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 30
+      },
+      "revId": "9f76980950c7ca1645884cc9410b930624417bf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5758ea5a_c2a150af",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T09:36:46Z",
+      "side": 1,
+      "message": "In theory yes but this makes the tests a lot simpler and I think that justifies the cost of keeping the method non-private for tests, a pattern which we have used a lot in the codebase already.\n\ncalculatePositions() is pretty close to a util method that takes some DOM rects as input and returns height,width and positions.\n\nIt could be possible to remove all instances of `this.host` in that method and truly make it a util method but since it\u0027s used in only one place I kept it inside the component.\n\nIf you feel strongly, I can make it a util method.",
+      "parentUuid": "f9cf5a9a_a00efc13",
       "range": {
         "startLine": 76,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b347c5e6_a82f4289",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T09:36:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "052f1fb4_1354be26",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 0
+      },
+      "revId": "9f76980950c7ca1645884cc9410b930624417bf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "da3238da_ca51e7be",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-10-13T09:24:25Z",
       "side": 1,
       "message": "s/align/offset?",
+      "range": {
+        "startLine": 123,
+        "startChar": 12,
+        "endLine": 123,
+        "endChar": 42
+      },
+      "revId": "9f76980950c7ca1645884cc9410b930624417bf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3575d190_7f3a3fe5",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T09:36:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da3238da_ca51e7be",
       "range": {
         "startLine": 123,
         "startChar": 12,
@@ -118,6 +214,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9aba5d0e_e1ad6bb7",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T09:36:46Z",
+      "side": 1,
+      "message": "I don\u0027t understand this comment.\nWhat do you need commented here?",
+      "parentUuid": "4a046d74_cc8ee9eb",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 45
+      },
+      "revId": "9f76980950c7ca1645884cc9410b930624417bf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "321f8a8f_5dbb4ac2",
         "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
         "patchSetId": 16
@@ -129,6 +249,30 @@
       "writtenOn": "2022-10-13T09:24:25Z",
       "side": 1,
       "message": "why do you need to toString a number here but not for this.host.style.left? Leave a comment",
+      "range": {
+        "startLine": 197,
+        "startChar": 43,
+        "endLine": 197,
+        "endChar": 51
+      },
+      "revId": "9f76980950c7ca1645884cc9410b930624417bf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27cc5a28_83e07a5e",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T09:36:46Z",
+      "side": 1,
+      "message": "Removed .toString().",
+      "parentUuid": "321f8a8f_5dbb4ac2",
       "range": {
         "startLine": 197,
         "startChar": 43,

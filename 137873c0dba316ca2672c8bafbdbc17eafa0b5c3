@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "35903e77_84eddc03",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T07:10:02Z",
+      "side": 1,
+      "message": "Neither, this is defining how the controller is positioning the element.\nThe comment defines what the term means. \n\nI removed the comment since it\u0027s not really helping much and updated the other comment to reflect that the controller always aligns it horizontally left and vertically top.",
+      "parentUuid": "b0456667_cbd8ec13",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6d580f81_8e3f17ae",
         "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
         "patchSetId": 14
@@ -37,6 +61,30 @@
       "writtenOn": "2022-10-12T08:57:59Z",
       "side": 1,
       "message": "this should be joined with the verticalAlign jsdoc below if you want it to show up as documentation for the interface.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 3
+      },
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b14bce39_707d1b2b",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T07:10:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d580f81_8e3f17ae",
       "range": {
         "startLine": 13,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff9e28d7_9cf94ea6",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T07:10:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d6495e1_c17caea5",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 0
+      },
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b0b4a4da_dcda3ad8",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-10-12T08:57:59Z",
       "side": 1,
       "message": "given where? same for verticalAlign.",
+      "range": {
+        "startLine": 24,
+        "startChar": 5,
+        "endLine": 24,
+        "endChar": 10
+      },
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1e85111_3406eaca",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T07:10:02Z",
+      "side": 1,
+      "message": "Removed comment.\nIt is causing more confusion that clarity I think.",
+      "parentUuid": "b0b4a4da_dcda3ad8",
       "range": {
         "startLine": 24,
         "startChar": 5,
@@ -110,6 +206,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ec3df12_7fad4a9b",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T07:10:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ace51af_31860ae0",
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "39562b03_aa4bffae",
@@ -123,6 +237,30 @@
       "writtenOn": "2022-10-12T08:57:59Z",
       "side": 1,
       "message": "wraps here",
+      "range": {
+        "startLine": 56,
+        "startChar": 72,
+        "endLine": 56,
+        "endChar": 82
+      },
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3699ab52_d15ead68",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T07:10:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39562b03_aa4bffae",
       "range": {
         "startLine": 56,
         "startChar": 72,
@@ -179,6 +317,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98f3b85e_e9437aa5",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T07:10:02Z",
+      "side": 1,
+      "message": "Removed examples.\nOther controller doesn\u0027t have a usage example as well and I don\u0027t think it adds any value adding here.",
+      "parentUuid": "623b8b13_40a1527e",
+      "range": {
+        "startLine": 66,
+        "startChar": 8,
+        "endLine": 81,
+        "endChar": 14
+      },
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ccee17f9_7d8d7683",
@@ -196,6 +358,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "847f178c_5bdf342b",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T07:10:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ccee17f9_7d8d7683",
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "26dc0081_61dfa007",
@@ -209,6 +389,30 @@
       "writtenOn": "2022-10-12T08:57:59Z",
       "side": 1,
       "message": "what is suggestion?",
+      "range": {
+        "startLine": 129,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 0
+      },
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea4eb5f8_33682879",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T07:10:02Z",
+      "side": 1,
+      "message": "Property of GrAutocompleteDropdown.\nUpdated the comment.",
+      "parentUuid": "26dc0081_61dfa007",
       "range": {
         "startLine": 129,
         "startChar": 0,
@@ -238,6 +442,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9c304f25_896266d7",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T07:10:02Z",
+      "side": 1,
+      "message": "\u003e scan through the entire class to see where else this.originalStyles might be modified.\n\nThis issue is still present even if we update the styles one by one.\n\n\u003e Object.assign does not make it clear which properties are set\n\nWith the comment above asking for a proper type, now it\u0027s clear which properties are being updated.\n\nWhat is the benefit of updating each property one by one explicitly now?",
+      "parentUuid": "88440009_3d5b0158",
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0dcaca2f_3391c26b",
         "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
         "patchSetId": 14
@@ -249,6 +471,24 @@
       "writtenOn": "2022-10-12T09:11:18Z",
       "side": 1,
       "message": "Set this to undefined.",
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13c94b53_ffd08850",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T07:10:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0dcaca2f_3391c26b",
       "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -266,6 +506,30 @@
       "writtenOn": "2022-10-12T08:57:59Z",
       "side": 1,
       "message": "no such method?",
+      "range": {
+        "startLine": 141,
+        "startChar": 48,
+        "endLine": 141,
+        "endChar": 51
+      },
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a18928c5_12541c81",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T07:10:02Z",
+      "side": 1,
+      "message": "Replaced with position.",
+      "parentUuid": "2944a718_3e524dda",
       "range": {
         "startLine": 141,
         "startChar": 48,
@@ -295,6 +559,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e6912985_c13b0c00",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T07:10:02Z",
+      "side": 1,
+      "message": "Original proposal was to treat this as new code in which case why is \"old method X\" not present is the wrong way to phrase the question.\n\nIf you feel there is some functionality missing then try and mention why the functionality is useful so that I can give a proper answer to it.\n\nOtherwise the reason why method X is no longer here is because it was not required to be a part of this controller.",
+      "parentUuid": "55c743d0_df6a01ad",
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4af09e24_301c5f6e",
         "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
         "patchSetId": 14
@@ -306,6 +588,24 @@
       "writtenOn": "2022-10-12T09:11:18Z",
       "side": 1,
       "message": "This is not using horizontalAlign.",
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4f80078_863b793b",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T07:10:02Z",
+      "side": 1,
+      "message": "Removed comment.",
+      "parentUuid": "4af09e24_301c5f6e",
       "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -352,6 +652,48 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f5766254_c5472aa6",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T07:10:02Z",
+      "side": 1,
+      "message": "\u003e Explain why this function is public\nAdded comment explaining it\u0027s used in tests/\n\n\u003e merge position and calculatePositions as they both seem to be accessing this.host\nIn general we prefer having multiple methods instead of having one giant method?\n\nI don\u0027t see the reason for explaining why we should be merging multiple methods?\n\nThe answer is `separate function so that it can be tested easily` but I would be hesitant with adding such comments in the code since it doesn\u0027t add much value imo.",
+      "parentUuid": "c243f321_f92c07af",
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3176327a_e2b9705b",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T07:10:02Z",
+      "side": 1,
+      "message": "used in tests.\nadded a comment.",
+      "parentUuid": "dff43e54_1ea41e5e",
+      "range": {
+        "startLine": 173,
+        "startChar": 2,
+        "endLine": 173,
+        "endChar": 20
+      },
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "aac91550_95226250",
         "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
         "patchSetId": 14
@@ -363,6 +705,24 @@
       "writtenOn": "2022-10-12T09:11:18Z",
       "side": 1,
       "message": "Please be consistent in how you generate the strings.\n\n```\n    this.host.style.maxHeight \u003d maxHeight.toString() + \u0027px\u0027;\n```\nvs\n```\n    this.host.style.left \u003d `${leftPosition}px`;\n```",
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e09d7067_f3884f32",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-13T07:10:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aac91550_95226250",
       "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

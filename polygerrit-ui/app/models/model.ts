@@ -3,7 +3,7 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {BehaviorSubject, Observable} from 'rxjs';
+import {BehaviorSubject, Observable, Subscription} from 'rxjs';
 import {Finalizable} from '../services/registry';
 import {deepEqual} from '../utils/deep-util';
 
@@ -32,6 +32,8 @@ export abstract class Model<T> implements Finalizable {
   private subject$: BehaviorSubject<T>;
 
   public state$: Observable<T>;
+
+  protected subscriptions: Subscription[] = [];
 
   constructor(initialState: T) {
     this.subject$ = new BehaviorSubject(initialState);
@@ -66,5 +68,9 @@ export abstract class Model<T> implements Finalizable {
 
   finalize() {
     this.subject$.complete();
+    for (const s of this.subscriptions) {
+      s.unsubscribe();
+    }
+    this.subscriptions = [];
   }
 }

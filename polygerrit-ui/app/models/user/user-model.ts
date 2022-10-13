@@ -3,7 +3,7 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {from, of, Observable, Subscription} from 'rxjs';
+import {from, of, Observable} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 import {
   DiffPreferencesInfo as DiffPreferencesInfoAPI,
@@ -83,8 +83,6 @@ export class UserModel extends Model<UserState> implements Finalizable {
     preference => preference.theme
   );
 
-  private subscriptions: Subscription[] = [];
-
   constructor(readonly restApiService: RestApiService) {
     super({
       preferences: createDefaultPreferences(),
@@ -138,13 +136,6 @@ export class UserModel extends Model<UserState> implements Finalizable {
           this.setCapabilities(capabilities);
         }),
     ];
-  }
-
-  override finalize() {
-    for (const s of this.subscriptions) {
-      s.unsubscribe();
-    }
-    this.subscriptions = [];
   }
 
   updatePreferences(prefs: Partial<PreferencesInfo>) {

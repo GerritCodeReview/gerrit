@@ -16,6 +16,29 @@
       "message": "@Jacek verified with tests and E2E",
       "revId": "eaa27767eb6a36fb39048a277270e811b7de9d23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd4cc2a2_a7437791",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-10-13T20:18:36Z",
+      "side": 1,
+      "message": "Why do you need a topic in the test? Can you just chain together 2 changes, similarly to the `newBranchTwoChangesTogether` test?",
+      "range": {
+        "startLine": 187,
+        "startChar": 44,
+        "endLine": 187,
+        "endChar": 68
+      },
+      "revId": "eaa27767eb6a36fb39048a277270e811b7de9d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

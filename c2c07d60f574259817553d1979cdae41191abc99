@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca072bc6_a54fe57f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-13T15:48:21Z",
+      "side": 1,
+      "message": "This class is touching so many files, so probably Gerrit is not the best place (I mean for the reviewer) to check the files.\n\nFor this change, I\u0027m making sure it\u0027s not accidentally touching, adding or removing wrong content. I trust you made this change correctly, so +2 from my side. Please resolve and submit.\n\nQuestion: did you automate setting these annotations?",
+      "revId": "c2c07d60f574259817553d1979cdae41191abc99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

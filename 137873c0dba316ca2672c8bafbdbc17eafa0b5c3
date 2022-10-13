@@ -460,6 +460,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d041424c_7c9010de",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-13T07:19:05Z",
+      "side": 1,
+      "message": "I think it\u0027s fine now. Though you do want to check that originalStyles is not undefined.",
+      "parentUuid": "9c304f25_896266d7",
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0dcaca2f_3391c26b",
         "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
         "patchSetId": 14
@@ -571,6 +589,24 @@
       "side": 1,
       "message": "Original proposal was to treat this as new code in which case why is \"old method X\" not present is the wrong way to phrase the question.\n\nIf you feel there is some functionality missing then try and mention why the functionality is useful so that I can give a proper answer to it.\n\nOtherwise the reason why method X is no longer here is because it was not required to be a part of this controller.",
       "parentUuid": "55c743d0_df6a01ad",
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db092198_46b16a88",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-13T07:19:05Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e6912985_c13b0c00",
       "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -688,6 +724,24 @@
         "endLine": 173,
         "endChar": 20
       },
+      "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a582751a_b1df185a",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-13T07:19:05Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f5766254_c5472aa6",
       "revId": "137873c0dba316ca2672c8bafbdbc17eafa0b5c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

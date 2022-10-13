@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b690c1ba_faaab508",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-13T07:19:05Z",
+      "side": 1,
+      "message": "Could you add tests as part of this change?",
+      "revId": "282a7ae9c5fa3b7e4669a5caebf30fff46ff4bcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8d68b3f_8cb923dd",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-13T07:19:05Z",
+      "side": 1,
+      "message": "right and bottom are not fields of DomRect.\n\nPlease use the DomRect constructor instead of casting.",
+      "revId": "282a7ae9c5fa3b7e4669a5caebf30fff46ff4bcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -20,7 +20,7 @@ import com.google.gerrit.server.index.change.ChangeField;
 
 public class IsSubmittablePredicate extends BooleanPredicate {
   public IsSubmittablePredicate() {
-    super(ChangeField.IS_SUBMITTABLE);
+    super(ChangeField.IS_SUBMITTABLE_SPEC);
   }
 
   /**
@@ -53,11 +53,11 @@ public class IsSubmittablePredicate extends BooleanPredicate {
   public static Predicate<ChangeData> rewrite(Predicate<ChangeData> in) {
     if (in instanceof IsSubmittablePredicate) {
       return Predicate.and(
-          new BooleanPredicate(ChangeField.IS_SUBMITTABLE), ChangeStatusPredicate.open());
+          new BooleanPredicate(ChangeField.IS_SUBMITTABLE_SPEC), ChangeStatusPredicate.open());
     }
     if (in instanceof NotPredicate && in.getChild(0) instanceof IsSubmittablePredicate) {
       return Predicate.or(
-          Predicate.not(new BooleanPredicate(ChangeField.IS_SUBMITTABLE)),
+          Predicate.not(new BooleanPredicate(ChangeField.IS_SUBMITTABLE_SPEC)),
           ChangeStatusPredicate.closed());
     }
     return in;

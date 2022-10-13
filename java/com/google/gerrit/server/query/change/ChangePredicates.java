@@ -200,14 +200,14 @@ public class ChangePredicates {
 
   /** Returns a predicate that matches changes that modified the provided {@code path}. */
   public static Predicate<ChangeData> path(String path) {
-    return new ChangeIndexPredicate(ChangeField.PATH, path);
+    return new ChangeIndexPredicate(ChangeField.PATH_SPEC, path);
   }
 
   /** Returns a predicate that matches changes tagged with the provided {@code hashtag}. */
   public static Predicate<ChangeData> hashtag(String hashtag) {
     // Use toLowerCase without locale to match behavior in ChangeField.
     return new ChangeIndexPredicate(
-        ChangeField.HASHTAG, HashtagsUtil.cleanupHashtag(hashtag).toLowerCase());
+        ChangeField.HASHTAG_SPEC, HashtagsUtil.cleanupHashtag(hashtag).toLowerCase());
   }
 
   /** Returns a predicate that matches changes tagged with the provided {@code hashtag}. */

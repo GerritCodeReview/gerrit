@@ -125,7 +125,7 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
     } else if (f == ChangeField.UPDATED) {
       long t = ((Timestamp) getOnlyElement(values.getValues())).getTime();
       doc.add(new NumericDocValuesField(UPDATED_SORT_FIELD, t));
-    } else if (f == ChangeField.MERGED_ON) {
+    } else if (f == ChangeField.MERGED_ON_SPEC) {
       long t = ((Timestamp) getOnlyElement(values.getValues())).getTime();
       doc.add(new NumericDocValuesField(MERGED_ON_SORT_FIELD, t));
     }

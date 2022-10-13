@@ -125,6 +125,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbede75c_4e824642",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-13T16:05:06Z",
+      "side": 1,
+      "message": "\u003e I think that is only true of index predicates. We have many plugin provided predicates which are not index predicates and they rely on match being called (and it works).\n\nOh, thanks for clarifying. I wasn\u0027t aware of that. Yes, this makes sense.\n\n\u003e We have a bug tracker which stores changes in a DB. If want to search on changes associated with a bug, it requires querying the DB with something like \"SELECT change_number FROM bugtable WHERE change_number \u003d ?\". If that query is done in the match for each change, that ends up being a round trip to the DB for each change. However, if we try to get all the changes with bugs like this \"SELECT change_number FROM bugtable\" we can get all the changes with bugs in one query up front, but that takes a long time ~10s because we have a lot of changes with bugs. With a matchAll(List\u003cChangeData\u003e) interface, we could instead do something a single query like \"SELECT change_number FROM bugtable WHERE change_number in (?, ?, ?, ...)\" up front, and that would be fast since it would be a restricted set.\n\nNice! So If I understand it correctly, you have an implementation of a predicate that queries your database, and now you can benefit of that by running a single query to the database against multiple change IDs? In this case, yes, having matchAll() is cool.\n\nI created a cherry-pick of this change only on master, https://gerrit-review.googlesource.com/c/gerrit/+/348315, such that we keep track of it.",
+      "parentUuid": "b01c771c_76116b1d",
+      "revId": "2f23edf9d54bcf79b3401daa1726f76678e8bc6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90185d25_c80ddecb",

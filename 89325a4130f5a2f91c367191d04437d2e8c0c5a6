@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd91e5a6_97c5c1b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-13T08:33:10Z",
+      "side": 1,
+      "message": "Makes sense, done.",
+      "parentUuid": "93297817_9f3190de",
+      "revId": "89325a4130f5a2f91c367191d04437d2e8c0c5a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4624aaf3_4484311f",
@@ -49,6 +67,30 @@
       "writtenOn": "2022-10-13T08:18:33Z",
       "side": 1,
       "message": "nit: can the method name be improved? currently it does 2 things: checks if head exists and marks it as uninteresting...",
+      "range": {
+        "startLine": 257,
+        "startChar": 18,
+        "endLine": 257,
+        "endChar": 39
+      },
+      "revId": "89325a4130f5a2f91c367191d04437d2e8c0c5a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78ed5541_f1aa1446",
+        "filename": "java/com/google/gerrit/server/submit/LocalMergeSuperSetComputation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-13T08:33:10Z",
+      "side": 1,
+      "message": "Well, the issue here is that it wasn\u0027t marking the head as uninteresting if the head was missing.\n\nWe could change it to return an Optional\u003cOpenRepo\u003e which is the repo ready to walk the commits, which is define only if the head exists.",
+      "parentUuid": "4624aaf3_4484311f",
       "range": {
         "startLine": 257,
         "startChar": 18,

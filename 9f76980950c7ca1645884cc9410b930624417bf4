@@ -238,6 +238,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4033b441_c13f61d6",
+        "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-13T09:42:17Z",
+      "side": 1,
+      "message": "host cannot set its boxSizing how it prefers because controller is taking it over. If host expects to be width+padding wide it will be incorrect, so the documentation should warn/explain.",
+      "parentUuid": "9aba5d0e_e1ad6bb7",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 45
+      },
+      "revId": "9f76980950c7ca1645884cc9410b930624417bf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "321f8a8f_5dbb4ac2",
         "filename": "polygerrit-ui/app/elements/lit/fit-controller.ts",
         "patchSetId": 16

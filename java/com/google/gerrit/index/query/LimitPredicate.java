@@ -14,8 +14,11 @@
 
 package com.google.gerrit.index.query;
 
+import com.google.gerrit.common.Nullable;
+
 public class LimitPredicate<T> extends IntPredicate<T> implements Matchable<T> {
   @SuppressWarnings("unchecked")
+  @Nullable
   public static Integer getLimit(String fieldName, Predicate<?> p) {
     IntPredicate<?> ip = QueryBuilder.find(p, IntPredicate.class, fieldName);
     return ip != null ? ip.intValue() : null;

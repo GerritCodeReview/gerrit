@@ -234,6 +234,7 @@ public class Submit
    * @param user the user who is checking to submit
    * @return a reason why any of the changes is not submittable or null
    */
+  @Nullable
   private String problemsForSubmittingChangeset(ChangeData cd, ChangeSet cs, CurrentUser user) {
     try {
       if (cs.furtherHiddenChanges()) {
@@ -297,6 +298,7 @@ public class Submit
     return null;
   }
 
+  @Nullable
   @Override
   public UiAction.Description getDescription(RevisionResource resource)
       throws IOException, PermissionBackendException {
@@ -372,6 +374,7 @@ public class Submit
         .setEnabled(Boolean.TRUE.equals(enabled));
   }
 
+  @Nullable
   public Collection<ChangeData> unmergeableChanges(ChangeSet cs) throws IOException {
     Set<ChangeData> mergeabilityMap = new HashSet<>();
     Set<ObjectId> outDatedPatchsets = new HashSet<>();

@@ -20,6 +20,7 @@ import static com.google.gerrit.server.submit.CommitMergeStatus.EMPTY_COMMIT;
 import static com.google.gerrit.server.submit.CommitMergeStatus.SKIPPED_IDENTICAL_TREE;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.exceptions.StorageException;
@@ -238,6 +239,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
       acceptMergeTip(args.mergeTip);
     }
 
+    @Nullable
     @Override
     public PatchSet updateChangeImpl(ChangeContext ctx)
         throws NoSuchChangeException, ResourceConflictException, IOException, BadRequestException {

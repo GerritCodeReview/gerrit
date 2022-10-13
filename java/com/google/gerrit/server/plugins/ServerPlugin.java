@@ -110,6 +110,7 @@ public class ServerPlugin extends Plugin {
     }
   }
 
+  @Nullable
   @SuppressWarnings("unchecked")
   protected static Class<? extends Module> load(@Nullable String name, ClassLoader pluginLoader)
       throws ClassNotFoundException {

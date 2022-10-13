@@ -19,6 +19,7 @@ import static com.google.common.net.HttpHeaders.AUTHORIZATION;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.io.BaseEncoding;
+import com.google.gerrit.common.Nullable;
 import javax.servlet.http.HttpServletRequest;
 
 public class RemoteUserUtil {
@@ -62,6 +63,7 @@ public class RemoteUserUtil {
    * @param auth header value which is used for extracting.
    * @return username if available or null.
    */
+  @Nullable
   public static String extractUsername(String auth) {
     auth = emptyToNull(auth);
 

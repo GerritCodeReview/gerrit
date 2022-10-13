@@ -191,6 +191,7 @@ public class RulesCache {
     return pmc;
   }
 
+  @Nullable
   private PrologMachineCopy consultRules(String name, Reader rules) throws CompileException {
     BufferingPrologControl ctl = newEmptyMachine(systemLoader);
     PushbackReader in = new PushbackReader(rules, Prolog.PUSHBACK_SIZE);

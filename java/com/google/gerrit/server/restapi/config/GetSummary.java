@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.config;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.Response;
@@ -221,6 +222,7 @@ public class GetSummary implements RestReadView<ConfigResource> {
     return jvmSummary;
   }
 
+  @Nullable
   private static Integer toInteger(int i) {
     return i != 0 ? i : null;
   }

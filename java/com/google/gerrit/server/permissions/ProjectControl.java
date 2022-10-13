@@ -21,6 +21,7 @@ import static com.google.gerrit.entities.RefNames.REFS_TAGS;
 import static com.google.gerrit.server.util.MagicBranch.NEW_CHANGE;
 
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.BranchNameKey;
@@ -269,6 +270,7 @@ class ProjectControl {
     return false;
   }
 
+  @Nullable
   private Boolean canPerform(String permissionName, AccessSection section, Permission permission) {
     for (PermissionRule rule : permission.getRules()) {
       if (rule.isBlock() || rule.isDeny() || !match(rule)) {

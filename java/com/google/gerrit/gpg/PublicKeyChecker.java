@@ -30,6 +30,7 @@ import static org.bouncycastle.openpgp.PGPSignature.DIRECT_KEY;
 import static org.bouncycastle.openpgp.PGPSignature.KEY_REVOCATION;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.common.GpgKeyInfo.Status;
 import java.io.IOException;
 import java.time.Instant;
@@ -229,6 +230,7 @@ public class PublicKeyChecker {
         || PushCertificateChecker.getCreationTime(revocation).isBefore(now);
   }
 
+  @Nullable
   private PGPSignature scanRevocations(
       PGPPublicKey key,
       Instant now,
@@ -264,6 +266,7 @@ public class PublicKeyChecker {
     return null;
   }
 
+  @Nullable
   private RevocationKey getRevocationKey(PGPPublicKey key, PGPSignature sig) throws PGPException {
     if (sig.getKeyID() != key.getKeyID()) {
       return null;
@@ -320,6 +323,7 @@ public class PublicKeyChecker {
     }
   }
 
+  @Nullable
   private static RevocationReason getRevocationReason(PGPSignature sig) {
     if (sig.getSignatureType() != KEY_REVOCATION) {
       throw new IllegalArgumentException(
@@ -425,6 +429,7 @@ public class PublicKeyChecker {
     return CheckResult.create(OK, problems);
   }
 
+  @Nullable
   private static PGPPublicKey getSigner(
       PublicKeyStore store,
       PGPSignature sig,
@@ -455,6 +460,7 @@ public class PublicKeyChecker {
     }
   }
 
+  @Nullable
   private String checkTrustSubpacket(PGPSignature sig, int depth) {
     SignatureSubpacket trustSub =
         sig.getHashedSubPackets().getSubpacket(SignatureSubpacketTags.TRUST_SIG);

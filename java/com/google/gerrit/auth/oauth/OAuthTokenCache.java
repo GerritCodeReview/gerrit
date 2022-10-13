@@ -20,6 +20,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Converter;
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.auth.oauth.OAuthToken;
 import com.google.gerrit.extensions.auth.oauth.OAuthTokenEncrypter;
@@ -109,6 +110,7 @@ public class OAuthTokenCache {
     this.encrypter = encrypter;
   }
 
+  @Nullable
   public OAuthToken get(Account.Id id) {
     OAuthToken accessToken = cache.getIfPresent(id);
     if (accessToken == null) {

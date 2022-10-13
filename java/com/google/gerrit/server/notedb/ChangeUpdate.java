@@ -571,6 +571,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   /** Returns the tree id for the updated tree */
+  @Nullable
   private ObjectId storeRevisionNotes(RevWalk rw, ObjectInserter inserter, ObjectId curr)
       throws ConfigInvalidException, IOException {
     if (submitRequirementResults == null && comments.isEmpty() && pushCert == null) {

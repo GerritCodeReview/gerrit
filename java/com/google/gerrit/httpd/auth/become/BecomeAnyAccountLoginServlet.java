@@ -17,6 +17,7 @@ package com.google.gerrit.httpd.auth.become;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_UUID;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -185,6 +186,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
     return account.map(a -> new AuthResult(a.account().id(), null, false));
   }
 
+  @Nullable
   private AuthResult auth(Account.Id account) {
     if (account != null) {
       return new AuthResult(account, null, false);
@@ -192,6 +194,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
     return null;
   }
 
+  @Nullable
   private AuthResult byUserName(String userName) {
     List<AccountState> accountStates = queryProvider.get().byExternalId(SCHEME_USERNAME, userName);
     if (accountStates.isEmpty()) {
@@ -223,6 +226,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
     }
   }
 
+  @Nullable
   private AuthResult create() throws IOException {
     try {
       return accountManager.authenticate(

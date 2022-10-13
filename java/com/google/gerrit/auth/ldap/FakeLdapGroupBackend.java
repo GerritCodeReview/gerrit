@@ -39,6 +39,7 @@ public class FakeLdapGroupBackend implements GroupBackend {
     return uuid.get().startsWith(LDAP_UUID);
   }
 
+  @Nullable
   @Override
   public GroupDescription.Basic get(AccountGroup.UUID uuid) {
     if (!handles(uuid)) {

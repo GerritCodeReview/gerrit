@@ -19,6 +19,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_IMPLEMENTED;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.httpd.resources.Resource;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.plugins.Plugin;
@@ -119,6 +120,7 @@ public class LfsPluginServlet extends HttpServlet
     filter.set(guiceFilter);
   }
 
+  @Nullable
   private GuiceFilter load(Plugin plugin) {
     if (plugin.getHttpInjector() != null) {
       final String name = plugin.getName();

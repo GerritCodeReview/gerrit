@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
@@ -93,6 +94,7 @@ public class GetWatchedProjects implements RestReadView<AccountResource> {
     return pwi;
   }
 
+  @Nullable
   private static Boolean toBoolean(boolean value) {
     return value ? true : null;
   }

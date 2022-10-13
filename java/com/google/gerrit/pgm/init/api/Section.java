@@ -166,6 +166,7 @@ public class Section {
     return nv;
   }
 
+  @Nullable
   public String password(String username, String password) {
     final String ov = getSecure(password);
 

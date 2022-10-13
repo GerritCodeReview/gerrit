@@ -14,6 +14,7 @@
 
 package com.google.gerrit.json;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -30,6 +31,7 @@ import java.util.TimeZone;
 class SqlTimestampDeserializer implements JsonDeserializer<Timestamp>, JsonSerializer<Timestamp> {
   private static final TimeZone UTC = TimeZone.getTimeZone("UTC");
 
+  @Nullable
   @Override
   public Timestamp deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
       throws JsonParseException {

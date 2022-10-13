@@ -583,6 +583,7 @@ class ChangeApiImpl implements ChangeApi {
     }
   }
 
+  @Nullable
   @Override
   public AccountInfo getAssignee() throws RestApiException {
     try {
@@ -602,6 +603,7 @@ class ChangeApiImpl implements ChangeApi {
     }
   }
 
+  @Nullable
   @Override
   public AccountInfo deleteAssignee() throws RestApiException {
     try {

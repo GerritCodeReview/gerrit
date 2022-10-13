@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.restapi;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.gerrit.common.Nullable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -40,6 +41,7 @@ public final class Url {
    * @param component a string containing text to encode.
    * @return a string with all invalid URL characters escaped.
    */
+  @Nullable
   public static String encode(String component) {
     if (component != null) {
       try {
@@ -52,6 +54,7 @@ public final class Url {
   }
 
   /** Decode a URL encoded string, e.g. from {@code "%2F"} to {@code "/"}. */
+  @Nullable
   public static String decode(String str) {
     if (str != null) {
       try {

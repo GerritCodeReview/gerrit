@@ -106,6 +106,7 @@ public class IndexPreloadingUtil {
           ListChangesOption.SKIP_DIFFSTAT,
           ListChangesOption.SUBMIT_REQUIREMENTS);
 
+  @Nullable
   public static String getPath(@Nullable String requestedURL) throws URISyntaxException {
     if (requestedURL == null) {
       return null;

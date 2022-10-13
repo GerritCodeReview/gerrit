@@ -15,6 +15,7 @@
 package com.google.gerrit.server.util;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.entities.Project;
 import java.io.IOException;
@@ -38,6 +39,7 @@ public final class MagicBranch {
   }
 
   /** Returns the ref name prefix for a magic branch, {@code null} if the branch is not magic */
+  @Nullable
   public static String getMagicRefNamePrefix(String refName) {
     if (refName.startsWith(NEW_CHANGE)) {
       return NEW_CHANGE;

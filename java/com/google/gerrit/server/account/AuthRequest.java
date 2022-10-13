@@ -102,6 +102,7 @@ public class AuthRequest {
     return externalId;
   }
 
+  @Nullable
   public String getLocalUser() {
     if (externalId.isScheme(SCHEME_GERRIT)) {
       return externalId.id();

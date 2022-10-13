@@ -17,6 +17,7 @@ package com.google.gerrit.server.api.accounts;
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.extensions.api.accounts.AccountApi;
 import com.google.gerrit.extensions.api.accounts.AgreementInput;
@@ -575,6 +576,7 @@ public class AccountApiImpl implements AccountApi {
     }
   }
 
+  @Nullable
   @Override
   public String generateHttpPassword() throws RestApiException {
     HttpPasswordInput input = new HttpPasswordInput();
@@ -589,6 +591,7 @@ public class AccountApiImpl implements AccountApi {
     }
   }
 
+  @Nullable
   @Override
   public String setHttpPassword(String password) throws RestApiException {
     HttpPasswordInput input = new HttpPasswordInput();

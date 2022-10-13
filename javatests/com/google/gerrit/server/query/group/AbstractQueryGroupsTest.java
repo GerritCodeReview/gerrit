@@ -23,6 +23,7 @@ import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.fail;
 
 import com.google.common.base.CharMatcher;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.InternalGroup;
@@ -560,6 +561,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     return groups.stream().map(g -> g.id).sorted().collect(toList());
   }
 
+  @Nullable
   protected String name(String name) {
     if (name == null) {
       return null;

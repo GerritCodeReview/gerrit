@@ -334,6 +334,7 @@ class LoginForm extends HttpServlet {
     form.appendChild(div);
   }
 
+  @Nullable
   private OAuthServiceProvider lookupOAuthServiceProvider(String providerId) {
     if (providerId.startsWith("http://")) {
       providerId = providerId.substring("http://".length());
@@ -350,6 +351,7 @@ class LoginForm extends HttpServlet {
     return null;
   }
 
+  @Nullable
   private static String getLastId(HttpServletRequest req) {
     Cookie[] cookies = req.getCookies();
     if (cookies != null) {

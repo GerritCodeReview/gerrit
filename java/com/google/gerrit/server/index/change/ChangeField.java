@@ -1393,6 +1393,7 @@ public class ChangeField {
               },
               (cd, field) -> cd.setRefStatePatterns(field));
 
+  @Nullable
   private static String getTopic(ChangeData cd) {
     Change c = cd.change();
     if (c == null) {

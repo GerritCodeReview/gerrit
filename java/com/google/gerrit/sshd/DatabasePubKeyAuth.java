@@ -22,6 +22,7 @@ import com.google.common.base.Splitter;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.common.FileUtil;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.account.AccountSshKey;
@@ -169,6 +170,7 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
     return p.keys;
   }
 
+  @Nullable
   private SshKeyCacheEntry find(Iterable<SshKeyCacheEntry> keyList, PublicKey suppliedKey) {
     for (SshKeyCacheEntry k : keyList) {
       if (k.match(suppliedKey)) {

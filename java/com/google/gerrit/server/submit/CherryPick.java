@@ -19,6 +19,7 @@ import static com.google.gerrit.server.submit.CommitMergeStatus.SKIPPED_IDENTICA
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetInfo;
@@ -142,6 +143,7 @@ public class CherryPick extends SubmitStrategy {
       patchSetInfo = args.patchSetInfoFactory.get(ctx.getRevWalk(), newCommit, psId);
     }
 
+    @Nullable
     @Override
     public PatchSet updateChangeImpl(ChangeContext ctx) throws NoSuchChangeException, IOException {
       if (newCommit == null && toMerge.getStatusCode() == SKIPPED_IDENTICAL_TREE) {

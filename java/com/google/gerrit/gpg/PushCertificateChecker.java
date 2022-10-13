@@ -22,6 +22,7 @@ import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
 
 import com.google.common.base.Joiner;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.common.GpgKeyInfo.Status;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -176,6 +177,7 @@ public abstract class PushCertificateChecker {
     return CheckResult.ok();
   }
 
+  @Nullable
   private PGPSignature readSignature(PushCertificate cert) throws IOException {
     ArmoredInputStream in =
         new ArmoredInputStream(new ByteArrayInputStream(Constants.encode(cert.getSignature())));

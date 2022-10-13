@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.auth.openid;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.auth.openid.OpenIdUrls;
 import com.google.gerrit.entities.Account;
@@ -518,6 +519,7 @@ class OpenIdServiceImpl {
     rsp.sendRedirect(rdr.toString());
   }
 
+  @Nullable
   private State init(
       HttpServletRequest req,
       final String openidIdentifier,

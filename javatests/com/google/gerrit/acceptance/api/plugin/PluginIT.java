@@ -24,6 +24,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.extensions.api.plugins.InstallPluginInput;
 import com.google.gerrit.extensions.api.plugins.PluginApi;
@@ -198,6 +199,7 @@ public class PluginIT extends AbstractDaemonTest {
     return pluginJarContent(plugin);
   }
 
+  @Nullable
   private String pluginVersion(String plugin) {
     String name = pluginName(plugin);
     if (name.endsWith("empty")) {
@@ -210,6 +212,7 @@ public class PluginIT extends AbstractDaemonTest {
     return dash > 0 ? name.substring(dash + 1) : "";
   }
 
+  @Nullable
   private String pluginApiVersion(String plugin) {
     if (plugin.endsWith("normal.jar")) {
       return "2.16.19-SNAPSHOT";

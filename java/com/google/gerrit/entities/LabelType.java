@@ -132,6 +132,7 @@ public abstract class LabelType {
     return psa.labelId().get().equalsIgnoreCase(getName());
   }
 
+  @Nullable
   public LabelValue getMin() {
     if (getValues().isEmpty()) {
       return null;
@@ -139,6 +140,7 @@ public abstract class LabelType {
     return getValues().get(0);
   }
 
+  @Nullable
   public LabelValue getMax() {
     if (getValues().isEmpty()) {
       return null;

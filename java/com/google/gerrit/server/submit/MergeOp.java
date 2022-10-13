@@ -929,11 +929,13 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
+  @Nullable
   private SubmitType getSubmitType(ChangeData cd) {
     SubmitTypeRecord str = cd.submitTypeRecord();
     return str.isOk() ? str.type : null;
   }
 
+  @Nullable
   private OpenRepo openRepo(Project.NameKey project) {
     try {
       return orm.getRepo(project);

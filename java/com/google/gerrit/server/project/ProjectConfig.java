@@ -1203,6 +1203,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return false;
   }
 
+  @Nullable
   private List<String> getStringListOrNull(
       Config rc, String section, String subSection, String name) {
     String[] ac = rc.getStringList(section, subSection, name);
@@ -1372,6 +1373,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return true;
   }
 
+  @Nullable
   public static String validMaxObjectSizeLimit(String value) throws ConfigInvalidException {
     if (value == null) {
       return null;

@@ -1027,6 +1027,7 @@ public class MergeUtil {
     }
   }
 
+  @Nullable
   public static CodeReviewCommit findAnyMergedInto(
       CodeReviewRevWalk rw, Iterable<CodeReviewCommit> commits, CodeReviewCommit tip)
       throws IOException {

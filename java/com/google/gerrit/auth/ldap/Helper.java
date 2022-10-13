@@ -18,6 +18,7 @@ import com.google.common.base.Throwables;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.metrics.Description;
@@ -224,6 +225,7 @@ class Helper {
     return ctx;
   }
 
+  @Nullable
   private DirContext kerberosOpen(Properties env)
       throws IOException, LoginException, NamingException {
     LoginContext ctx = new LoginContext("KerberosLogin");

@@ -15,6 +15,7 @@
 package com.google.gerrit.sshd;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.plugins.Plugin;
@@ -57,6 +58,7 @@ class SshPluginStarterCallback implements StartPluginListener, ReloadPluginListe
     }
   }
 
+  @Nullable
   private Provider<Command> load(Plugin plugin) {
     if (plugin.getSshInjector() != null) {
       Key<Command> key = Commands.key(plugin.getName());

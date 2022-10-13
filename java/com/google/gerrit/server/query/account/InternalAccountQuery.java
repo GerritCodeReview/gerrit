@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.index.IndexConfig;
@@ -71,6 +72,7 @@ public class InternalAccountQuery extends InternalQuery<AccountState, InternalAc
     return query(AccountPredicates.externalIdIncludingSecondaryEmails(externalId.toString()));
   }
 
+  @Nullable
   @UsedAt(UsedAt.Project.COLLABNET)
   public AccountState oneByExternalId(ExternalId.Key externalId) {
     List<AccountState> accountStates = byExternalId(externalId);

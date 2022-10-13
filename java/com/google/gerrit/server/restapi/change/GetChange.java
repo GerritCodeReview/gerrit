@@ -144,6 +144,7 @@ public class GetChange
         cds, this, Streams.stream(pdiFactories.entries()));
   }
 
+  @Nullable
   private ObjectId verifyMetaId(Change change, @Nullable ObjectId id) throws RestApiException {
     if (id == null) {
       return null;

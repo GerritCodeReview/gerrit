@@ -16,6 +16,23 @@
       "message": "I played around with the hovercard on my machine. I propose the following:\n* don\u0027t show the hovercard if users hover over a button (showing a hovercard while hovering on a button is not a UX pattern for hovercards)\n* The ideal behavior would be to always show the hovercard to the right of the vote or `No vote` text. I did not mention this aspect in the bug. What I meant was to display the hovercard to the right of the text (Vote, no vote) and not the cursor. Is such hovercard behavior possible?",
       "revId": "5cdac1849dca7b5fb39f1bf59b85570b27fb3eb0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "016a149e_fd6862bc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-10-14T11:47:04Z",
+      "side": 1,
+      "message": "test",
+      "revId": "5cdac1849dca7b5fb39f1bf59b85570b27fb3eb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

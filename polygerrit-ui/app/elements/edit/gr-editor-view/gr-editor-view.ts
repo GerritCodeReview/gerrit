@@ -469,7 +469,7 @@ export class GrEditorView extends LitElement {
     this.saveEdit().then(() => {
       const handleError: ErrorCallback = response => {
         this.showAlert(PUBLISH_FAILED_MSG);
-        this.reporting.error(new Error(response?.statusText));
+        this.reporting.error('/edit:publish', new Error(response?.statusText));
       };
 
       this.showAlert(PUBLISHING_EDIT_MSG);

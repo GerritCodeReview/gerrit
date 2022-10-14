@@ -120,7 +120,7 @@ export function initErrorReporter(reportingService: ReportingService) {
       line = line ?? error.lineNumber;
       column = column ?? error.columnNumber;
     }
-    reportingService.error(normalizeError(error), 'onError', {
+    reportingService.error('onError', normalizeError(error), {
       line,
       column,
       url,
@@ -143,7 +143,7 @@ export function initErrorReporter(reportingService: ReportingService) {
     context.addEventListener(
       'unhandledrejection',
       (e: PromiseRejectionEvent) => {
-        reportingService.error(normalizeError(e.reason), 'unhandledrejection');
+        reportingService.error('unhandledrejection', normalizeError(e.reason));
       }
     );
   };
@@ -862,16 +862,20 @@ export class GrReporting implements ReportingService, Finalizable {
     this.reportExecution(Execution.PLUGIN_API, {plugin, object, method});
   }
 
-  error(error: Error, errorSource?: string, details?: EventDetails) {
-    const eventDetails = details ?? {};
-    const message = `${errorSource ? errorSource + ': ' : ''}${error.message}`;
+  error(errorSource: string, error: Error, details?: EventDetails) {
+    const message = `${errorSource}: ${error.message}`;
+    const eventDetails = {
+      errorMessage: message,
+      ...details,
+      stack: error.stack,
+    };
 
     this.reporter(
       ERROR.TYPE,
       ERROR.CATEGORY.EXCEPTION,
-      message,
+      errorSource,
       {error},
-      {...eventDetails, stack: error.stack}
+      eventDetails
     );
   }
 
@@ -879,8 +883,9 @@ export class GrReporting implements ReportingService, Finalizable {
     this.reporter(
       ERROR.TYPE,
       ERROR.CATEGORY.ERROR_DIALOG,
-      'ErrorDialog: ' + message,
-      {error: new Error(message)}
+      'ErrorDialog',
+      {error: new Error(message)},
+      {errorMessage: message}
     );
   }
 

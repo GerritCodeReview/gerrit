@@ -132,7 +132,11 @@ export class PluginLoader {
       try {
         url = new URL(url);
       } catch (e: unknown) {
-        this._getReporting().error(new Error('url parse error'), undefined, e);
+        this._getReporting().error(
+          'GrPluginLoader',
+          new Error('url parse error'),
+          e
+        );
         return false;
       }
     }
@@ -184,8 +188,8 @@ export class PluginLoader {
         this._failToLoad(`${e.name}: ${e.message}`, src);
       } else {
         this._getReporting().error(
+          'GrPluginLoader',
           new Error('plugin callback error'),
-          undefined,
           e
         );
       }

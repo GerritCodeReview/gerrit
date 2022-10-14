@@ -1756,6 +1756,7 @@ export class GrReplyDialog extends LitElement {
       return 'No additions to the attention set.';
     }
     this.reporting.error(
+      'computeDoNotUpdateMessage',
       new Error(
         'computeDoNotUpdateMessage()' +
           'should not be called when users were added to the attention set.'
@@ -1829,6 +1830,7 @@ export class GrReplyDialog extends LitElement {
         entry = suggestion.group;
       } else {
         this.reporting.error(
+          'Reviewer Suggestion',
           new Error(`Suggestion is neither account nor group: ${suggestion}`)
         );
         return false;
@@ -1935,6 +1937,7 @@ export class GrReplyDialog extends LitElement {
       return;
     }
     this.reporting.error(
+      'confirmPendingReviewer',
       new Error('confirmPendingReviewer called without pending confirm')
     );
   }

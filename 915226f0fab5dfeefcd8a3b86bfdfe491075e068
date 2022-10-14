@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f39a07ae_082df312",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-14T10:42:00Z",
+      "side": 1,
+      "message": "Can you explain what you mean by rematching? If we don\u0027t put it back in the output then it will be deleted",
+      "parentUuid": "e1a29e97_23a8febe",
+      "revId": "915226f0fab5dfeefcd8a3b86bfdfe491075e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "63977961_9ca4b215",
         "filename": "polygerrit-ui/app/utils/link-util.ts",
         "patchSetId": 3
@@ -31,6 +49,30 @@
       "writtenOn": "2022-10-12T09:25:33Z",
       "side": 1,
       "message": "Is this used anywhere (outside of tests)?",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 1
+      },
+      "revId": "915226f0fab5dfeefcd8a3b86bfdfe491075e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "888e89d0_2914d7aa",
+        "filename": "polygerrit-ui/app/utils/link-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-14T10:42:00Z",
+      "side": 1,
+      "message": "No I will remove it.",
+      "parentUuid": "63977961_9ca4b215",
       "range": {
         "startLine": 11,
         "startChar": 0,
@@ -54,6 +96,30 @@
       "writtenOn": "2022-10-12T09:25:33Z",
       "side": 1,
       "message": "I think the comment doesn\u0027t clearly convey purpose of this.\n\nI would suggest pointing out explicitly, that unchanged portion is eligible for further matches, while the replaced part is not.\n\nI would also change the names of `originalTextStartPosition` and `originalTextEndPosition` to reflect that. ie. `replacedTextStartPosition`",
+      "range": {
+        "startLine": 73,
+        "startChar": 6,
+        "endLine": 75,
+        "endChar": 66
+      },
+      "revId": "915226f0fab5dfeefcd8a3b86bfdfe491075e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1219734b_10ab84d3",
+        "filename": "polygerrit-ui/app/utils/link-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-14T10:42:00Z",
+      "side": 1,
+      "message": "Done PTAL. I have updated the comment and renamed the variables.",
+      "parentUuid": "bf5ae687_9af0e26a",
       "range": {
         "startLine": 73,
         "startChar": 6,
@@ -89,6 +155,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8f85f8f3_6a34ef7c",
+        "filename": "polygerrit-ui/app/utils/link-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-14T10:42:00Z",
+      "side": 1,
+      "message": "Can you explain what it is about the next methods that is confusing for empty strings? I am not handling it specially anywhere and I guess it ought to be supported (deleting whitespace or something) instead of rejected unless there is a solid reason.",
+      "parentUuid": "037672bb_a346a9a4",
+      "range": {
+        "startLine": 78,
+        "startChar": 6,
+        "endLine": 84,
+        "endChar": 9
+      },
+      "revId": "915226f0fab5dfeefcd8a3b86bfdfe491075e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "800a09ed_38162189",
         "filename": "polygerrit-ui/app/utils/link-util.ts",
         "patchSetId": 3
@@ -100,6 +190,30 @@
       "writtenOn": "2022-10-12T09:25:33Z",
       "side": 1,
       "message": "Why is unpacking necessary here?",
+      "range": {
+        "startLine": 96,
+        "startChar": 40,
+        "endLine": 96,
+        "endChar": 59
+      },
+      "revId": "915226f0fab5dfeefcd8a3b86bfdfe491075e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01abfdf4_5b6dd4c3",
+        "filename": "polygerrit-ui/app/utils/link-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-14T10:42:00Z",
+      "side": 1,
+      "message": ".sort() unfortunately does the sort in-place and then returns itself, so it is better practice to copy the array to prevent confusing bugs later.",
+      "parentUuid": "800a09ed_38162189",
       "range": {
         "startLine": 96,
         "startChar": 40,
@@ -133,6 +247,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "303e9be3_3f3abe3f",
+        "filename": "polygerrit-ui/app/utils/link-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-14T10:42:00Z",
+      "side": 1,
+      "message": "Done. Tie breaking by start position, added a test. The final tie break is implicitly the order that we iterate the config, but it\u0027s a map and not an array so I would not like to explicitly make that promise in the documentation.",
+      "parentUuid": "ac861b3f_ec3432b8",
+      "range": {
+        "startLine": 97,
+        "startChar": 10,
+        "endLine": 97,
+        "endChar": 73
+      },
+      "revId": "915226f0fab5dfeefcd8a3b86bfdfe491075e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1a21bcab_35f35eb9",
@@ -146,6 +284,30 @@
       "writtenOn": "2022-10-12T09:25:33Z",
       "side": 1,
       "message": "I think this part can be written in a way that\u0027s easier to understand, and when written without \"piping\".\n\n```\nfilteredRewrites \u003d [];\nlet latestReplace \u003d base.length;\nfor (let rewrite of sortedRewrites) {\n  if (rewrite.originalTextEndPosition \u003c\u003d latestRewrite) {\n    filteredRewrites.push(rewrite);\n    latestReplace \u003d rewrite.originalTextStartPosition;\n  }\n}\n```\n\nnit: I would also write the reduce below as a state machine (building the string from start to end gradually), as I think it\u0027s easier to read. But I think in `reduce` case, that\u0027s just my preference, so feel free to ignore.",
+      "range": {
+        "startLine": 98,
+        "startChar": 4,
+        "endLine": 103,
+        "endChar": 6
+      },
+      "revId": "915226f0fab5dfeefcd8a3b86bfdfe491075e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "beca6d79_9897e96a",
+        "filename": "polygerrit-ui/app/utils/link-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-14T10:42:00Z",
+      "side": 1,
+      "message": "Hmm in this case that doesn\u0027t seem easier to understand to me with the tracking variables updates (`for+if+push` seems like a `filter` to me). but I know any code we write ourselves seems easier than code somebody else writes. As a compromise I will add some comments.\n\nFor the final construction we really ought to build end-to-start otherwise the originalText*Position will become incorrect as earlier replacements are made.",
+      "parentUuid": "1a21bcab_35f35eb9",
       "range": {
         "startLine": 98,
         "startChar": 4,
@@ -190,6 +352,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "efcfa666_27b2be0b",
+        "filename": "polygerrit-ui/app/utils/string-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-14T10:42:00Z",
+      "side": 1,
+      "message": "Done. I didn\u0027t assume that and I don\u0027t think treating it as an array is confusing when a forloop is indexing into them anyway, but it is changed.",
+      "parentUuid": "1436d45c_59a61492",
+      "revId": "915226f0fab5dfeefcd8a3b86bfdfe491075e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "64d48429_f69de1dd",
@@ -203,6 +383,30 @@
       "writtenOn": "2022-10-12T09:25:33Z",
       "side": 1,
       "message": "I feel like this is too much complexity added in order to avoid writing a for loop. I would just do a for-loop.\n\nThe description also doesn\u0027t specify what the result should be if `a` is prefix of `b`. I think this should be supercase of (a is empty) and to me the reasonable return value is a.length (and not -1)\n\n```\nlet i \u003d 0;\nfor (; i \u003c a.length \u0026\u0026 i \u003c b.length; ++i) {\n  if (a[i] !\u003d b[i]) {\n    return i;\n  }\n}\nreturn a.length \u003d\u003d\u003d b.length ? -1 : i;\n```\n\nSame for the method below.",
+      "range": {
+        "startLine": 113,
+        "startChar": 2,
+        "endLine": 122,
+        "endChar": 59
+      },
+      "revId": "915226f0fab5dfeefcd8a3b86bfdfe491075e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd69ab50_73982061",
+        "filename": "polygerrit-ui/app/utils/string-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-14T10:42:00Z",
+      "side": 1,
+      "message": "Done. I thought a while and `firstDifference` / `lastDifference` didn\u0027t really make sense for some cases like empty strings or no differences. I renamed to `getSharedPrefix` and `getSharedSuffix` where it should be more obvious how it handles every case.",
+      "parentUuid": "64d48429_f69de1dd",
       "range": {
         "startLine": 113,
         "startChar": 2,
@@ -230,6 +434,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8df20caf_c094054d",
+        "filename": "polygerrit-ui/app/utils/string-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-14T10:42:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ab96687_a158d99a",
+      "revId": "915226f0fab5dfeefcd8a3b86bfdfe491075e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e92796b6_6bcb5b59",
@@ -243,6 +465,24 @@
       "writtenOn": "2022-10-12T09:27:08Z",
       "side": 1,
       "message": "Is there any way to only have a single function for first/Last Difference and reverse the array in this function to avoid having to split the string twice. It would also remove one function, making the testing surface smaller",
+      "revId": "915226f0fab5dfeefcd8a3b86bfdfe491075e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "390d05ed_30341510",
+        "filename": "polygerrit-ui/app/utils/string-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-14T10:42:00Z",
+      "side": 1,
+      "message": "It\u0027s not really expensive at all. There\u0027s no need to optimize here prematurely.",
+      "parentUuid": "e92796b6_6bcb5b59",
       "revId": "915226f0fab5dfeefcd8a3b86bfdfe491075e068",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

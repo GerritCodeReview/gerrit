@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "38856534_2c13b5f1",
+        "filename": "polygerrit-ui/app/utils/string-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-14T13:44:55Z",
+      "side": 1,
+      "message": "it is handled naturally, since b[999] will be undefined and a[999] won\u0027t be. However I think we write our code very differently overall so I would like to do whatever way you prefer.",
+      "parentUuid": "176935dc_2c01b0ca",
+      "range": {
+        "startLine": 112,
+        "startChar": 2,
+        "endLine": 112,
+        "endChar": 38
+      },
+      "revId": "69802da8392cd7054e865bbf42ae687e9cc802f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e7fe9cfd_9c3148d6",
@@ -71,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f27edf29_d41b84f2",
+        "filename": "polygerrit-ui/app/utils/string-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-14T13:44:55Z",
+      "side": 1,
+      "message": "As above, end-of-string checks are handled naturally but I will write it however you prefer. Done.",
+      "parentUuid": "6f8c82db_2a28930b",
+      "range": {
+        "startLine": 126,
+        "startChar": 2,
+        "endLine": 126,
+        "endChar": 59
+      },
+      "revId": "69802da8392cd7054e865bbf42ae687e9cc802f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0b5bd476_b4b19a9d",
@@ -84,6 +132,30 @@
       "writtenOn": "2022-10-14T12:29:33Z",
       "side": 1,
       "message": "Since we only carry about length, I would make the method return length (ie. getSharedPrefixLength). It keeps the same semantics, that make it well-defined, but avoid unnecessary copying.",
+      "range": {
+        "startLine": 141,
+        "startChar": 2,
+        "endLine": 142,
+        "endChar": 47
+      },
+      "revId": "69802da8392cd7054e865bbf42ae687e9cc802f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5399c7f_41e99199",
+        "filename": "polygerrit-ui/app/utils/string-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-14T13:44:55Z",
+      "side": 1,
+      "message": "Done, but I don\u0027t think it\u0027s a good standalone utility at that point so I am moving it as a private helper.",
+      "parentUuid": "0b5bd476_b4b19a9d",
       "range": {
         "startLine": 141,
         "startChar": 2,

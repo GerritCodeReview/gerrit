@@ -71,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5b302c2_62afc2f3",
+        "filename": "polygerrit-ui/app/utils/link-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-14T13:44:55Z",
+      "side": 1,
+      "message": "I disagree with all of that, but I don\u0027t think we will make progress here. I have made your suggestion and deleted the utility",
+      "parentUuid": "213c4058_d7e913a7",
+      "revId": "42a9d50097fdfe39ebaef484ab5211e2976d3676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c93d6f2_9e18d592",
@@ -84,6 +102,30 @@
       "writtenOn": "2022-10-14T12:09:02Z",
       "side": 1,
       "message": "```suggestion\n  const commonPrefix \u003d getSharedPrefix(match[0], fullReplacementText);\n  const commonSuffix \u003d getSharedSuffix(match[0], fullReplacementText);\n  const prefixIndex \u003d commonPrefix.length;\n  const suffixIndex \u003d match[0].length - commonSuffix.length;\n  \n  return partialResults.push({\n    replacedTextStartPosition: \n      partialResults.push({\n        replacedTextStartPosition:  match.index + prefixIndex,\n        replacedTextEndPosition: match.index + suffixIndex,\n        replacementText: fullReplacementText.substring(prefixIndex, suffixIndex)\n      });\n```",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 9
+      },
+      "revId": "42a9d50097fdfe39ebaef484ab5211e2976d3676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42d68149_59340e2d",
+        "filename": "polygerrit-ui/app/utils/link-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-14T13:44:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c93d6f2_9e18d592",
       "range": {
         "startLine": 68,
         "startChar": 0,

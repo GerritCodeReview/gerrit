@@ -386,6 +386,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "87244766_56be278e",
+        "filename": "polygerrit-ui/app/utils/link-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-14T13:44:55Z",
+      "side": 1,
+      "message": "Done. nice catch",
+      "parentUuid": "7a92bdac_7837c743",
+      "range": {
+        "startLine": 98,
+        "startChar": 4,
+        "endLine": 103,
+        "endChar": 6
+      },
+      "revId": "915226f0fab5dfeefcd8a3b86bfdfe491075e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "56f603f5_36caf0cf",
         "filename": "polygerrit-ui/app/utils/link-util_test.ts",
         "patchSetId": 3

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05ee04fc_21a9b4ef",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 1383,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-14T08:11:00Z",
+      "side": 1,
+      "message": "I\u0027m not sure this if condition makes it more legible, can you go back to a single expression?",
+      "revId": "17a499b0494bf6071ea32bb73ca511e0cc80886d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8f803c9_0fd47e0e",
+        "filename": "polygerrit-ui/app/models/views/change.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-14T08:11:00Z",
+      "side": 1,
+      "message": "This makes state -\u003e url -\u003e state a non-identity function do the sorting.\n\nMaybe we should sort when checksRunsSelected is set?",
+      "revId": "17a499b0494bf6071ea32bb73ca511e0cc80886d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

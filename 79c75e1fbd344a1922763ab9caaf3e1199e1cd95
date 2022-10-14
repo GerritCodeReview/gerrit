@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5d9eec7_9a27f90b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-14T10:43:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e0e62e6_8d7d511c",
+      "revId": "79c75e1fbd344a1922763ab9caaf3e1199e1cd95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "77697047_b7653180",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "49fbe5ca_8b83726e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-14T10:43:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77697047_b7653180",
+      "range": {
+        "startLine": 12,
+        "startChar": 28,
+        "endLine": 12,
+        "endChar": 34
+      },
+      "revId": "79c75e1fbd344a1922763ab9caaf3e1199e1cd95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e46f11d7_80b7cd59",
@@ -54,6 +96,30 @@
       "writtenOn": "2022-10-14T06:52:21Z",
       "side": 1,
       "message": "is this an alias for the foreign serverId or a literal copy of the foreign serverId ?",
+      "range": {
+        "startLine": 14,
+        "startChar": 25,
+        "endLine": 14,
+        "endChar": 30
+      },
+      "revId": "79c75e1fbd344a1922763ab9caaf3e1199e1cd95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81b26864_040d2464",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-14T10:43:24Z",
+      "side": 1,
+      "message": "I\u0027ve clarified that it is the actual server-id of the foreign server.",
+      "parentUuid": "e46f11d7_80b7cd59",
       "range": {
         "startLine": 14,
         "startChar": 25,

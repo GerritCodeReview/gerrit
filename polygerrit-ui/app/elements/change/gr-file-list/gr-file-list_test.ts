@@ -342,8 +342,8 @@ suite('gr-file-list tests', () => {
     });
 
     test('correct number of files are shown', async () => {
-      element.fileListIncrement = 300;
-      element.files = createFiles(500);
+      element.fileListIncrement = 100;
+      element.files = createFiles(250);
       await element.updateComplete;
       await waitEventLoop();
 
@@ -358,19 +358,19 @@ suite('gr-file-list tests', () => {
           element,
           '#incrementButton'
         ).textContent!.trim(),
-        'Show 300 more'
+        'Show 50 more'
       );
       assert.equal(
         queryAndAssert<GrButton>(element, '#showAllButton').textContent!.trim(),
-        'Show all 500 files'
+        'Show all 250 files'
       );
 
       queryAndAssert<GrButton>(element, '#showAllButton').click();
       await element.updateComplete;
       await waitEventLoop();
 
-      assert.equal(element.numFilesShown, 500);
-      assert.equal(element.shownFiles.length, 500);
+      assert.equal(element.numFilesShown, 250);
+      assert.equal(element.shownFiles.length, 250);
       assert.isTrue(controlRow.classList.contains('invisible'));
     });
 

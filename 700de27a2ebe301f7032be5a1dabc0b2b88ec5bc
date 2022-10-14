@@ -16,6 +16,24 @@
       "message": "No idea why gerrit builds fine in 3.7 which has this library, but identical usage here in 3.6 does not build:\n```\n[!] Error: \u0027sanitizeHtmlToFragment\u0027 is not exported by external/ui_npm/node_modules/safevalues/index.js, imported by bazel-out/darwin-fastbuild/bin/polygerrit-ui/app/_pg_ts_out/utils/inner-html-util.js\n```",
       "revId": "700de27a2ebe301f7032be5a1dabc0b2b88ec5bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "033ae387_ff035835",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-14T16:17:55Z",
+      "side": 1,
+      "message": "addition in 3.7+ that worked https://gerrit-review.googlesource.com/c/gerrit/+/343915",
+      "parentUuid": "36409ca9_322a7396",
+      "revId": "700de27a2ebe301f7032be5a1dabc0b2b88ec5bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

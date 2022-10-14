@@ -39,7 +39,7 @@ suite('change view state tests', () => {
   test('createChangeUrl() checksRunsSelected', () => {
     const state: ChangeViewState = {
       ...STATE,
-      checksRunsSelected: ['asdf'],
+      checksRunsSelected: new Set(['asdf']),
     };
 
     assert.equal(

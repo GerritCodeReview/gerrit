@@ -117,16 +117,12 @@ export function containsAll<T>(set: Set<T>, subSet: Set<T>): boolean {
 /**
  * Add value, if the set does not contain it. Otherwise remove it.
  */
-export function toggleSetMembership<T>(set: Set<T>, value: T): void {
+export function toggleSet<T>(set: Set<T>, value: T): void {
   if (set.has(value)) {
     set.delete(value);
   } else {
     set.add(value);
   }
-}
-
-export function unique<T>(item: T, index: number, array: T[]) {
-  return array.indexOf(item) === index;
 }
 
 export function toggle<T>(array: T[], item: T): T[] {
@@ -135,6 +131,10 @@ export function toggle<T>(array: T[], item: T): T[] {
   } else {
     return array.concat([item]);
   }
+}
+
+export function unique<T>(item: T, index: number, array: T[]) {
+  return array.indexOf(item) === index;
 }
 
 /**

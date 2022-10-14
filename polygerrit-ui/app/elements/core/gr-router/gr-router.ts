@@ -1411,7 +1411,7 @@ export class GrRouter implements Finalizable, NavigationService {
     const attempt = stringToAttemptChoice(queryMap.get('attempt'));
     if (attempt && attempt !== LATEST_ATTEMPT) state.attempt = attempt;
     const selected = queryMap.get('checksRunsSelected');
-    if (selected) state.checksRunsSelected = selected.split(',');
+    if (selected) state.checksRunsSelected = new Set(selected.split(','));
 
     assertIsDefined(state.project, 'project');
     this.reporting.setRepoName(state.project);

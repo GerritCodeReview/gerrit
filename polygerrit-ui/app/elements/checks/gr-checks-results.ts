@@ -768,7 +768,7 @@ export class GrChecksResults extends LitElement {
    * is empty, then no run is selected and all runs should be shown.
    */
   @state()
-  selectedRuns: string[] = [];
+  selectedRuns: Set<string> = new Set();
 
   @state()
   actions: Action[] = [];
@@ -1304,10 +1304,7 @@ export class GrChecksResults extends LitElement {
   }
 
   isRunSelected(run: {checkName: string}) {
-    return (
-      this.selectedRuns.length === 0 ||
-      this.selectedRuns.includes(run.checkName)
-    );
+    return this.selectedRuns.size === 0 || this.selectedRuns.has(run.checkName);
   }
 
   renderFilter() {
@@ -1316,7 +1313,7 @@ export class GrChecksResults extends LitElement {
         this.isRunSelected(run) && isAttemptSelected(this.selectedAttempt, run)
     );
     if (
-      this.selectedRuns.length === 0 &&
+      this.selectedRuns.size === 0 &&
       allResults(runs).length <= 3 &&
       this.filterRegExp === ''
     ) {
@@ -1360,7 +1357,7 @@ export class GrChecksResults extends LitElement {
       ],
       []
     );
-    const isSelectionActive = this.selectedRuns.length > 0;
+    const isSelectionActive = this.selectedRuns.size > 0;
     const selected = all.filter(result => this.isRunSelected(result));
     const re = new RegExp(this.filterRegExp, 'i');
     const filtered = selected.filter(result => matches(result, re));

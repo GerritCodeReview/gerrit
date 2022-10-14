@@ -65,6 +65,11 @@ elaboration on these guidelines.
   * Use the past tense when describing the status before this commit
   * Include a `Bug: Issue <#>` line if fixing a Gerrit issue, or a
     `Feature: Issue <#>` line if implementing a feature request.
+  ** It's also acceptable to include a `Bug:` or `Feature:` footer that refers
+     to a private system
+  ** Content in a bug tracker does not replace a good commit message. The
+     commit message must have content that stands on its own without the
+     external content.
   * Include a `Change-Id` line
 
 [[git-commit-settings]]

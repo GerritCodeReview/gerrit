@@ -259,7 +259,7 @@ export class GrErrorManager extends LitElement {
           );
         }
       }
-      this.reporting.error(new Error(`Server error: ${errorText}`));
+      this.reporting.error('Server error', new Error(errorText));
     });
   };
 
@@ -316,7 +316,7 @@ export class GrErrorManager extends LitElement {
 
   private readonly handleNetworkError = (e: NetworkErrorEvent) => {
     this._showAlert('Server unavailable');
-    this.reporting.error(new Error(`network error: ${e.detail.error.message}`));
+    this.reporting.error('Network error', new Error(e.detail.error.message));
   };
 
   // TODO(dhruvsri): allow less priority alerts to override high priority alerts

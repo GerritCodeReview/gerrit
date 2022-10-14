@@ -399,7 +399,7 @@ export class GrDashboardView extends LitElement {
       })
       .catch(err => {
         fireTitleChange(this, title || this.computeTitle(user));
-        this.reporting.error(err);
+        this.reporting.error('Dashboard reload', err);
       })
       .finally(() => {
         this.loading = false;

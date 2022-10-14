@@ -71,6 +71,7 @@ export class Plugin implements PluginApi {
 
     if (!url) {
       this.report.error(
+        'Plugin constructor',
         new Error(
           'Plugin not being loaded from /plugins base path. Unable to determine name.'
         )

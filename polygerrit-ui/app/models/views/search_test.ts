@@ -23,6 +23,10 @@ suite('search view state tests', () => {
         'topic:g%2525h+status:op%2525en'
     );
 
+    window.CANONICAL_PATH = '/base';
+    assert.equal(createSearchUrl(options).substring(0, 5), '/base');
+    window.CANONICAL_PATH = undefined;
+
     options.offset = 100;
     assert.equal(
       createSearchUrl(options),

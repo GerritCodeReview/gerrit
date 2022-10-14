@@ -146,9 +146,9 @@ export function createChangeUrl(
   }
   if (state.project) {
     const encodedProject = encodeURL(state.project, true);
-    return getBaseUrl() + `/c/${encodedProject}/+/${state.changeNum}${suffix}`;
+    return `${getBaseUrl()}/c/${encodedProject}/+/${state.changeNum}${suffix}`;
   } else {
-    return getBaseUrl() + `/c/${state.changeNum}${suffix}`;
+    return `${getBaseUrl()}/c/${state.changeNum}${suffix}`;
   }
 }
 

@@ -36,6 +36,13 @@ suite('change view state tests', () => {
     assert.equal(createChangeUrl(state), '/c/test/+/1234/5..10#123');
   });
 
+  test('createChangeUrl() baseUrl', () => {
+    window.CANONICAL_PATH = '/base';
+    const state: ChangeViewState = {...STATE};
+    assert.equal(createChangeUrl(state).substring(0, 5), '/base');
+    window.CANONICAL_PATH = undefined;
+  });
+
   test('createChangeUrl() checksRunsSelected', () => {
     const state: ChangeViewState = {
       ...STATE,

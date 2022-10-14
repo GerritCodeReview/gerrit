@@ -25,6 +25,10 @@ suite('diff view state tests', () => {
     };
     assert.equal(createDiffUrl(params), '/c/42/12/x%252By/path.cpp');
 
+    window.CANONICAL_PATH = '/base';
+    assert.equal(createDiffUrl(params).substring(0, 5), '/base');
+    window.CANONICAL_PATH = undefined;
+
     params.project = 'test' as RepoName;
     assert.equal(createDiffUrl(params), '/c/test/+/42/12/x%252By/path.cpp');
 

@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "92cb4051_421d976f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-10-14T18:11:05Z",
+      "side": 1,
+      "message": "Nice, thanks for cleaning up error labels",
+      "revId": "b86062b5115c709dc39ea692c86ad241490e0d04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5eeaf2b6_4df30b4a",
@@ -19,6 +36,29 @@
         "startChar": 21,
         "endLine": 1367,
         "endChar": 31
+      },
+      "revId": "b86062b5115c709dc39ea692c86ad241490e0d04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c969fdf_f6e5104d",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 865,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-10-14T18:11:05Z",
+      "side": 1,
+      "message": "This change would be great opportunity to put error source as enum in polygerrit-ui/app/constants/reporting.ts\n\nBut we can do it later.",
+      "range": {
+        "startLine": 865,
+        "startChar": 21,
+        "endLine": 865,
+        "endChar": 27
       },
       "revId": "b86062b5115c709dc39ea692c86ad241490e0d04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

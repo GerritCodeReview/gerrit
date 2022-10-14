@@ -129,6 +129,14 @@ export function unique<T>(item: T, index: number, array: T[]) {
   return array.indexOf(item) === index;
 }
 
+export function toggle<T>(array: T[], item: T): T[] {
+  if (array.includes(item)) {
+    return array.filter(r => r !== item);
+  } else {
+    return array.concat([item]);
+  }
+}
+
 /**
  * Returns the elements that are present in every sub-array. If a compareBy
  * predicate is passed in, it will be used instead of strict equality. A new

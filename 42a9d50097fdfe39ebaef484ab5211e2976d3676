@@ -16,6 +16,74 @@
       "message": "Thanks for all the comments, PTAL",
       "revId": "42a9d50097fdfe39ebaef484ab5211e2976d3676",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d89d448_a38683b0",
+        "filename": "polygerrit-ui/app/utils/link-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-14T11:08:53Z",
+      "side": 1,
+      "message": "You\u0027re computing the sharedPrefix and sharedSuffix indices twice (once inside of trimMatching) and once down-below.\n\nWhat about inlining the logic of trimMatching so you avoid recomputing?\n\nAlternatively, have a single function called \u0027splitCommonPrefixAndSuffix\u0027 that returns a 3-tuple or record.",
+      "revId": "42a9d50097fdfe39ebaef484ab5211e2976d3676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26eff00b_3509508f",
+        "filename": "polygerrit-ui/app/utils/link-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-14T11:08:53Z",
+      "side": 1,
+      "message": "Given this is just concatening strings, I find it harder to read with the string-expansion format (no syntax highlighting and it\u0027s harder to read if there\u0027s any extra characters in the string).\n\nWhat about:\n\n```\ntext.substring(0, rewrite.replacedTextStartPosition).concat(\n  rewrite.replacementText).concat(\n     text.substring(rewrite.replacedTextEndPosition);\n```",
+      "revId": "42a9d50097fdfe39ebaef484ab5211e2976d3676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3352449e_63391494",
+        "filename": "polygerrit-ui/app/utils/link-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-14T11:08:53Z",
+      "side": 1,
+      "message": "Is this safe from XSS injections?  I.o.w. do we know that displayText can not contain html.",
+      "revId": "42a9d50097fdfe39ebaef484ab5211e2976d3676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21624553_dac52042",
+        "filename": "polygerrit-ui/app/utils/string-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-14T11:08:53Z",
+      "side": 1,
+      "message": "Unnecessary whitespace.",
+      "revId": "42a9d50097fdfe39ebaef484ab5211e2976d3676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

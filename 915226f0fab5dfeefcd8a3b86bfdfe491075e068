@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "26342a59_c8830b82",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-14T11:08:53Z",
+      "side": 1,
+      "message": "I mean the second match is matching over the same text as the first one. I don\u0027t fully understand the semantics here.\n\nThey both capture \u0027Start:\u0027 and then output it, they\u0027re not executed linearly because if they were the second regex wouldn\u0027t match anymore after the first one is executed.\n\nThis is not a comment on your code, just on the whole algorithm as it originally existed.\n\nI guess I\u0027m wondering if we can simplify the semantics by finding an alternative solution to the regexps above.\n\nNot required as part of this change.",
+      "parentUuid": "f39a07ae_082df312",
+      "revId": "915226f0fab5dfeefcd8a3b86bfdfe491075e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63977961_9ca4b215",

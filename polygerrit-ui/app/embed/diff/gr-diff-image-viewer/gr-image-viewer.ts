@@ -13,6 +13,7 @@ import '@polymer/paper-item/paper-item';
 import '@polymer/paper-listbox/paper-listbox';
 import './gr-overview-image';
 import './gr-zoomed-image';
+import '../../../elements/shared/gr-icons/gr-icons';
 
 import {GrLibLoader} from '../../../elements/shared/gr-lib-loader/gr-lib-loader';
 import {RESEMBLEJS_LIBRARY_CONFIG} from '../../../elements/shared/gr-lib-loader/resemblejs_config';

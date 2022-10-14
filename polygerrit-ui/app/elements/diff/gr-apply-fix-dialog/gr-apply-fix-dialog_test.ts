@@ -52,7 +52,7 @@ suite('gr-apply-fix-dialog tests', () => {
   }
 
   async function open(detail: OpenFixPreviewEventDetail) {
-    await element.open(
+    element.open(
       new CustomEvent<OpenFixPreviewEventDetail>(EventType.OPEN_FIX_PREVIEW, {
         detail,
       })

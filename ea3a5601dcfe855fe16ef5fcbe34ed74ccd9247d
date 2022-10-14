@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3eb17dc2_56332383",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-14T08:09:34Z",
+      "side": 1,
+      "message": "Nasser is right; we agreed before to wait at least 1 day such that the change gets proper review from any interested maintainer.\n\nThis change was merged a little fast. I\u0027ll keep this in mind in the future.",
+      "parentUuid": "e16bdb06_6adfab91",
+      "revId": "ea3a5601dcfe855fe16ef5fcbe34ed74ccd9247d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3eda5a25_8041ad78",

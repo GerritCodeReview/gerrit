@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0dfcae85_89d06f84",
+        "filename": "javatests/com/google/gerrit/server/notedb/ImportedChangeNotesTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-10-14T08:00:42Z",
+      "side": 1,
+      "message": "build fails with errorprone errors on this class",
+      "revId": "ebacf94f0a9b0a77cebd827f9606fb3b7ee07cc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -41,6 +41,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc7060ac_25fc2f56",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 1383,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-14T08:28:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75796b59_79c7ea38",
+      "range": {
+        "startLine": 1378,
+        "startChar": 0,
+        "endLine": 1383,
+        "endChar": 7
+      },
+      "revId": "17a499b0494bf6071ea32bb73ca511e0cc80886d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0de3c927_256cfc91",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 1383,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-14T08:28:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05ee04fc_21a9b4ef",
+      "revId": "17a499b0494bf6071ea32bb73ca511e0cc80886d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d8f803c9_0fd47e0e",
@@ -54,6 +96,24 @@
       "writtenOn": "2022-10-14T08:11:00Z",
       "side": 1,
       "message": "This makes state -\u003e url -\u003e state a non-identity function do the sorting.\n\nMaybe we should sort when checksRunsSelected is set?",
+      "revId": "17a499b0494bf6071ea32bb73ca511e0cc80886d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "300d8717_d5b2c91c",
+        "filename": "polygerrit-ui/app/models/views/change.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-14T08:28:54Z",
+      "side": 1,
+      "message": "Yes, `state -\u003e url -\u003e state` is not an identify function, but does it have to be? \n\n`checksRunsSelected` is set via generic `updateState` calls, which we would have to override in the checks model. That would add complexity. I would be slightly in favor of avoiding that complexity, but don\u0027t feel strongly.\n\nI think what we would really like to have is that `checksRunsSelected` in the checks state is a set, not an array. But that would mean that state objects are not plain JSON anymore with just primitive types. And if we allow `Set` in state objects, then we also have to be more careful with utilities like `deepEqual` and `deepFreeze`.\n\nWhat do you think we should be doing here?",
+      "parentUuid": "d8f803c9_0fd47e0e",
       "revId": "17a499b0494bf6071ea32bb73ca511e0cc80886d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

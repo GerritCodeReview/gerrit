@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93db940c_d910d747",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-14T08:11:21Z",
+      "side": 1,
+      "message": "Unresolved comment to prevent submission: let\u0027s wait a bit so that others get the chance to look at the change.\n\nPlease resolve and submit after the change sits for a while.",
+      "revId": "a94c997f28de76739d20a75ee56bbf1febdc1689",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

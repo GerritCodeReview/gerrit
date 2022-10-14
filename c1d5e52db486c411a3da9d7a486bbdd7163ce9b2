@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3df1e7fa_d0c4bcf6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
+        "patchSetId": 52
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-14T09:45:37Z",
+      "side": 1,
+      "message": "This is being called in `updated` why do you need to await updateComplete?",
+      "revId": "c1d5e52db486c411a3da9d7a486bbdd7163ce9b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0da4b04f_ec54f3f8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
+        "patchSetId": 52
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-14T09:45:37Z",
+      "side": 1,
+      "message": "Why do you need this one?",
+      "revId": "c1d5e52db486c411a3da9d7a486bbdd7163ce9b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

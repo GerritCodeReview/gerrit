@@ -41,6 +41,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7bc004f_ec81b8fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-14T13:16:46Z",
+      "side": 1,
+      "message": "In that case, it would be the same as the account was removed from the All-Users.git repository manually: Gerrit will display a \"User not set\" in the GUI instead of the user name.",
+      "parentUuid": "c49ce7c1_0a359e1c",
+      "revId": "22f4fb9fde1ce6157f270a6d550f71465dc252ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "be7f6bf8_d4ac72b6",

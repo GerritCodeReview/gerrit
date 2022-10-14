@@ -18,6 +18,7 @@ import static com.google.inject.Scopes.SINGLETON;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
@@ -39,6 +40,8 @@ import com.google.gerrit.server.account.FakeRealm;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.account.ServiceUserClassifier;
+import com.google.gerrit.server.account.externalids.DisabledExternalIdCache;
+import com.google.gerrit.server.account.externalids.ExternalIdCache;
 import com.google.gerrit.server.approval.PatchSetApprovalUuidGenerator;
 import com.google.gerrit.server.approval.testing.TestPatchSetApprovalUuidGenerator;
 import com.google.gerrit.server.config.AllUsersName;
@@ -48,11 +51,13 @@ import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.DefaultUrlFormatter.DefaultUrlFormatterModule;
 import com.google.gerrit.server.config.EnablePeerIPInReflogRecord;
+import com.google.gerrit.server.config.GerritImportedServerIds;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.RepositoryCaseMismatchException;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.NullProjectCache;
 import com.google.gerrit.server.project.ProjectCache;
@@ -67,9 +72,12 @@ import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Module;
+import com.google.inject.TypeLiteral;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.concurrent.ExecutorService;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -84,10 +92,13 @@ import org.junit.runner.RunWith;
 @Ignore
 @RunWith(ConfigSuite.class)
 public abstract class AbstractChangeNotesTest {
+  protected static final String LOCAL_SERVER_ID = "gerrit";
+
   private static final ZoneId ZONE_ID = ZoneId.of("America/Los_Angeles");
 
   @ConfigSuite.Parameter public Config testConfig;
 
+  protected Account.Id changeOwnerId;
   protected Account.Id otherUserId;
   protected FakeAccountCache accountCache;
   protected IdentifiedUser changeOwner;
@@ -111,11 +122,21 @@ public abstract class AbstractChangeNotesTest {
 
   @Inject @GerritServerId protected String serverId;
 
+  @Inject protected ExternalIdCache externalIdCache;
+
   protected Injector injector;
   private String systemTimeZone;
 
   @Before
   public void setUpTestEnvironment() throws Exception {
+    setupTestPrerequisites();
+
+    injector = createTestInjector(LOCAL_SERVER_ID);
+    createAllUsers(injector);
+    injector.injectMembers(this);
+  }
+
+  protected void setupTestPrerequisites() throws Exception {
     setTimeForTesting();
 
     serverIdent = new PersonIdent("Gerrit Server", "noreply@gerrit.com", TimeUtil.now(), ZONE_ID);
@@ -134,58 +155,75 @@ public abstract class AbstractChangeNotesTest {
     ou.setPreferredEmail("other@account.com");
     accountCache.put(ou.build());
     assertableFanOutExecutor = new AssertableExecutorService();
-
-    injector =
-        Guice.createInjector(
-            new FactoryModule() {
-              @Override
-              public void configure() {
-                install(new GitModule());
-
-                install(new DefaultUrlFormatterModule());
-                install(NoteDbModule.forTest());
-                bind(AllUsersName.class).toProvider(AllUsersNameProvider.class);
-                bind(String.class).annotatedWith(GerritServerId.class).toInstance("gerrit");
-                bind(GitRepositoryManager.class).toInstance(repoManager);
-                bind(ProjectCache.class).to(NullProjectCache.class);
-                bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(testConfig);
-                bind(String.class)
-                    .annotatedWith(AnonymousCowardName.class)
-                    .toProvider(AnonymousCowardNameProvider.class);
-                bind(String.class)
-                    .annotatedWith(CanonicalWebUrl.class)
-                    .toInstance("http://localhost:8080/");
-                bind(Boolean.class)
-                    .annotatedWith(EnablePeerIPInReflogRecord.class)
-                    .toInstance(Boolean.FALSE);
-                bind(Realm.class).to(FakeRealm.class);
-                bind(GroupBackend.class).to(SystemGroupBackend.class).in(SINGLETON);
-                bind(AccountCache.class).toInstance(accountCache);
-                bind(PersonIdent.class)
-                    .annotatedWith(GerritPersonIdent.class)
-                    .toInstance(serverIdent);
-                bind(GitReferenceUpdated.class).toInstance(GitReferenceUpdated.DISABLED);
-                bind(MetricMaker.class).to(DisabledMetricMaker.class);
-                bind(ExecutorService.class)
-                    .annotatedWith(FanOutExecutor.class)
-                    .toInstance(assertableFanOutExecutor);
-                bind(ServiceUserClassifier.class).to(ServiceUserClassifier.NoOp.class);
-                bind(InternalChangeQuery.class)
-                    .toProvider(
-                        () -> {
-                          throw new UnsupportedOperationException();
-                        });
-                bind(PatchSetApprovalUuidGenerator.class)
-                    .to(TestPatchSetApprovalUuidGenerator.class);
-              }
-            });
-
-    injector.injectMembers(this);
-    repoManager.createRepository(allUsers);
-    changeOwner = userFactory.create(co.id());
-    otherUser = userFactory.create(ou.id());
-    otherUserId = otherUser.getAccountId();
+    changeOwnerId = co.id();
+    otherUserId = ou.id();
     internalUser = new InternalUser();
+  }
+
+  protected Injector createTestInjector(String serverId, String... importedServerIds)
+      throws Exception {
+    return createTestInjector(DisabledExternalIdCache.module(), serverId, importedServerIds);
+  }
+
+  protected Injector createTestInjector(
+      Module extraGuiceModule, String serverId, String... importedServerIds) throws Exception {
+
+    return Guice.createInjector(
+        new FactoryModule() {
+          @Override
+          public void configure() {
+            install(extraGuiceModule);
+            install(new GitModule());
+
+            install(new DefaultUrlFormatterModule());
+            install(NoteDbModule.forTest());
+            bind(AllUsersName.class).toProvider(AllUsersNameProvider.class);
+            bind(String.class).annotatedWith(GerritServerId.class).toInstance(serverId);
+            bind(new TypeLiteral<ImmutableSet<String>>() {})
+                .annotatedWith(GerritImportedServerIds.class)
+                .toInstance(new ImmutableSet.Builder<String>().add(importedServerIds).build());
+            bind(GitRepositoryManager.class).toInstance(repoManager);
+            bind(ProjectCache.class).to(NullProjectCache.class);
+            bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(testConfig);
+            bind(String.class)
+                .annotatedWith(AnonymousCowardName.class)
+                .toProvider(AnonymousCowardNameProvider.class);
+            bind(String.class)
+                .annotatedWith(CanonicalWebUrl.class)
+                .toInstance("http://localhost:8080/");
+            bind(Boolean.class)
+                .annotatedWith(EnablePeerIPInReflogRecord.class)
+                .toInstance(Boolean.FALSE);
+            bind(Realm.class).to(FakeRealm.class);
+            bind(GroupBackend.class).to(SystemGroupBackend.class).in(SINGLETON);
+            bind(AccountCache.class).toInstance(accountCache);
+            bind(PersonIdent.class).annotatedWith(GerritPersonIdent.class).toInstance(serverIdent);
+            bind(GitReferenceUpdated.class).toInstance(GitReferenceUpdated.DISABLED);
+            bind(MetricMaker.class).to(DisabledMetricMaker.class);
+            bind(ExecutorService.class)
+                .annotatedWith(FanOutExecutor.class)
+                .toInstance(assertableFanOutExecutor);
+            bind(ServiceUserClassifier.class).to(ServiceUserClassifier.NoOp.class);
+            bind(InternalChangeQuery.class)
+                .toProvider(
+                    () -> {
+                      throw new UnsupportedOperationException();
+                    });
+            bind(PatchSetApprovalUuidGenerator.class).to(TestPatchSetApprovalUuidGenerator.class);
+          }
+        });
+  }
+
+  protected void createAllUsers(Injector injector)
+      throws RepositoryCaseMismatchException, RepositoryNotFoundException {
+    AllUsersName allUsersName = injector.getInstance(AllUsersName.class);
+
+    repoManager.createRepository(allUsersName);
+
+    IdentifiedUser.GenericFactory identifiedUserFactory =
+        injector.getInstance(IdentifiedUser.GenericFactory.class);
+    changeOwner = identifiedUserFactory.create(changeOwnerId);
+    otherUser = identifiedUserFactory.create(otherUserId);
   }
 
   private void setTimeForTesting() {
@@ -200,8 +238,12 @@ public abstract class AbstractChangeNotesTest {
   }
 
   protected Change newChange(boolean workInProgress) throws Exception {
+    return newChange(injector, workInProgress);
+  }
+
+  protected Change newChange(Injector injector, boolean workInProgress) throws Exception {
     Change c = TestChanges.newChange(project, changeOwner.getAccountId());
-    ChangeUpdate u = newUpdateForNewChange(c, changeOwner);
+    ChangeUpdate u = newUpdate(injector, c, changeOwner, false);
     u.setChangeId(c.getKey().get());
     u.setBranch(c.getDest().branch());
     u.setWorkInProgress(workInProgress);
@@ -218,15 +260,20 @@ public abstract class AbstractChangeNotesTest {
   }
 
   protected ChangeUpdate newUpdateForNewChange(Change c, CurrentUser user) throws Exception {
-    return newUpdate(c, user, false);
+    return newUpdate(injector, c, user, false);
   }
 
   protected ChangeUpdate newUpdate(Change c, CurrentUser user) throws Exception {
-    return newUpdate(c, user, true);
+    return newUpdate(injector, c, user, true);
   }
 
   protected ChangeUpdate newUpdate(Change c, CurrentUser user, boolean shouldExist)
       throws Exception {
+    return newUpdate(injector, c, user, shouldExist);
+  }
+
+  protected ChangeUpdate newUpdate(
+      Injector injector, Change c, CurrentUser user, boolean shouldExist) throws Exception {
     ChangeUpdate update = TestChanges.newUpdate(injector, c, user, shouldExist);
     update.setPatchSetId(c.currentPatchSetId());
     update.setAllowWriteToNewRef(true);
@@ -235,6 +282,10 @@ public abstract class AbstractChangeNotesTest {
 
   protected ChangeNotes newNotes(Change c) {
     return new ChangeNotes(args, c, true, null).load();
+  }
+
+  protected ChangeNotes newNotes(AbstractChangeNotes.Args cArgs, Change c) {
+    return new ChangeNotes(cArgs, c, true, null).load();
   }
 
   protected static SubmitRecord submitRecord(

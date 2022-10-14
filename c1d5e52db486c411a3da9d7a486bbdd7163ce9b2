@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1763319f_dcf1bd01",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
+        "patchSetId": 52
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-14T12:23:40Z",
+      "side": 1,
+      "message": "Please use an @query defined on the element.",
+      "revId": "c1d5e52db486c411a3da9d7a486bbdd7163ce9b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0da4b04f_ec54f3f8",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
         "patchSetId": 52

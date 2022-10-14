@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be7f6bf8_d4ac72b6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-14T10:46:00Z",
+      "side": 1,
+      "message": "@matthias.sohn@gmail.com @geminica.programs@gmail.com can you have a look again? There are still tests missing, so I\u0027ll keep it in WIP.\n\nHowever, the full picture should be clearer now and this would *actually* allow to render the correct accounts when importing changes from other Gerrit server-ids.",
+      "revId": "22f4fb9fde1ce6157f270a6d550f71465dc252ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

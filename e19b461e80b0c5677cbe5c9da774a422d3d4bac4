@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b40b1b67_6b00160b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-14T12:44:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2dc2722f_9f691750",
+      "range": {
+        "startLine": 9,
+        "startChar": 6,
+        "endLine": 9,
+        "endChar": 8
+      },
+      "revId": "e19b461e80b0c5677cbe5c9da774a422d3d4bac4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de655337_4065d69e",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-10-14T11:31:51Z",
       "side": 1,
       "message": "referenced in changes imported from another server having a different server-id.",
+      "range": {
+        "startLine": 10,
+        "startChar": 12,
+        "endLine": 10,
+        "endChar": 58
+      },
+      "revId": "e19b461e80b0c5677cbe5c9da774a422d3d4bac4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c53623a9_9ea9ed98",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-14T12:44:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de655337_4065d69e",
       "range": {
         "startLine": 10,
         "startChar": 12,

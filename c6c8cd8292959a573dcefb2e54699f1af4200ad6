@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "efb83df9_c5122a51",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-14T00:28:35Z",
+      "side": 1,
+      "message": "This is now complete and ready for review. @matthias.sohn@gmail.com do you have some time to review? I\u0027d like to target v3.7.0 for having it ready to start hosting the JGit repos on GerritHub.io.",
+      "revId": "c6c8cd8292959a573dcefb2e54699f1af4200ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

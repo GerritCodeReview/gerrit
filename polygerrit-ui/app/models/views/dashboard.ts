@@ -7,7 +7,7 @@ import {RepoName} from '../../api/rest-api';
 import {GerritView} from '../../services/router/router-model';
 import {DashboardId} from '../../types/common';
 import {DashboardSection} from '../../utils/dashboard-util';
-import {encodeURL} from '../../utils/url-util';
+import {encodeURL, getBaseUrl} from '../../utils/url-util';
 import {define} from '../dependency';
 import {Model} from '../model';
 import {ViewState} from './base';
@@ -46,14 +46,14 @@ export function createDashboardUrl(state: Omit<DashboardViewState, 'view'>) {
       queryParams.push('title=' + encodeURIComponent(state.title));
     }
     const user = state.user ? state.user : '';
-    return `/dashboard/${user}?${queryParams.join('&')}`;
+    return `${getBaseUrl()}/dashboard/${user}?${queryParams.join('&')}`;
   } else if (repoName) {
     // Project dashboard.
     const encodedRepo = encodeURL(repoName, true);
-    return `/p/${encodedRepo}/+/dashboard/${state.dashboard}`;
+    return `${getBaseUrl()}/p/${encodedRepo}/+/dashboard/${state.dashboard}`;
   } else {
     // User dashboard.
-    return `/dashboard/${state.user || 'self'}`;
+    return `${getBaseUrl()}/dashboard/${state.user || 'self'}`;
   }
 }
 

@@ -15,6 +15,12 @@ suite('dashboard view state tests', () => {
       assert.equal(createDashboardUrl({}), '/dashboard/self');
     });
 
+    test('baseUrl', () => {
+      window.CANONICAL_PATH = '/base';
+      assert.equal(createDashboardUrl({}).substring(0, 5), '/base');
+      window.CANONICAL_PATH = undefined;
+    });
+
     test('user dashboard', () => {
       assert.equal(createDashboardUrl({user: 'user'}), '/dashboard/user');
     });

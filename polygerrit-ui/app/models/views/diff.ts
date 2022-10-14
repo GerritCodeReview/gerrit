@@ -12,7 +12,11 @@ import {
 } from '../../api/rest-api';
 import {GerritView} from '../../services/router/router-model';
 import {UrlEncodedCommentId} from '../../types/common';
-import {encodeURL, getPatchRangeExpression} from '../../utils/url-util';
+import {
+  encodeURL,
+  getBaseUrl,
+  getPatchRangeExpression,
+} from '../../utils/url-util';
 import {define} from '../dependency';
 import {Model} from '../model';
 import {ViewState} from './base';
@@ -85,9 +89,9 @@ export function createDiffUrl(
 
   if (state.project) {
     const encodedProject = encodeURL(state.project, true);
-    return `/c/${encodedProject}/+/${state.changeNum}${suffix}`;
+    return `${getBaseUrl()}/c/${encodedProject}/+/${state.changeNum}${suffix}`;
   } else {
-    return `/c/${state.changeNum}${suffix}`;
+    return `${getBaseUrl()}/c/${state.changeNum}${suffix}`;
   }
 }
 

@@ -27,5 +27,9 @@ suite('edit view state tests', () => {
       createEditUrl(params),
       '/c/test-project/+/42/12/x%252By/path.cpp,edit#31'
     );
+
+    window.CANONICAL_PATH = '/base';
+    assert.equal(createEditUrl(params).substring(0, 5), '/base');
+    window.CANONICAL_PATH = undefined;
   });
 });

@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bbd32d8_b43796c7",
+        "filename": "polygerrit-ui/app/utils/link-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-14T12:01:38Z",
+      "side": 1,
+      "message": "This is part of an overall complicated logic and JS is lightning fast when not doing DOM operations, so it is far more important to simplify wherever possible than to avoid rechecking a few characters on a few strings.\n\nIf you are confident there will be real performance gains to optimizing this I can take some time and do a benchmark, but on face value it is not right to trade off any readability here even if some duplication is apparent and we have an itch to make that go away.",
+      "parentUuid": "6d89d448_a38683b0",
+      "revId": "42a9d50097fdfe39ebaef484ab5211e2976d3676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "26eff00b_3509508f",
@@ -48,6 +66,24 @@
       "writtenOn": "2022-10-14T11:08:53Z",
       "side": 1,
       "message": "Given this is just concatening strings, I find it harder to read with the string-expansion format (no syntax highlighting and it\u0027s harder to read if there\u0027s any extra characters in the string).\n\nWhat about:\n\n```\ntext.substring(0, rewrite.replacedTextStartPosition).concat(\n  rewrite.replacementText).concat(\n     text.substring(rewrite.replacedTextEndPosition);\n```",
+      "revId": "42a9d50097fdfe39ebaef484ab5211e2976d3676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a54aaacd_cc216bdc",
+        "filename": "polygerrit-ui/app/utils/link-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-14T12:01:38Z",
+      "side": 1,
+      "message": "Done. Definitely better in this case, thanks.\n\n\u003e no syntax highlighting\n\nthis part is a gerrit bug, not a coding problem IMO. Everybody else highlights it just fine (github, vscode, code search, etc).",
+      "parentUuid": "26eff00b_3509508f",
       "revId": "42a9d50097fdfe39ebaef484ab5211e2976d3676",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -69,6 +105,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b398e28_ba98a3e5",
+        "filename": "polygerrit-ui/app/utils/link-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-14T12:01:38Z",
+      "side": 1,
+      "message": "all user\u0027s input is escaped [1](https://gerrit-review.googlesource.com/c/gerrit/+/347974/4/polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts#125), [2](https://gerrit-review.googlesource.com/c/gerrit/+/347974/4/polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts#192) and final output is sanitized for safety [1](https://gerrit-review.googlesource.com/c/gerrit/+/347974/4/polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts#130), [2](https://gerrit-review.googlesource.com/c/gerrit/+/347974/4/polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts#182).",
+      "parentUuid": "3352449e_63391494",
+      "revId": "42a9d50097fdfe39ebaef484ab5211e2976d3676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "21624553_dac52042",
@@ -82,6 +136,24 @@
       "writtenOn": "2022-10-14T11:08:53Z",
       "side": 1,
       "message": "Unnecessary whitespace.",
+      "revId": "42a9d50097fdfe39ebaef484ab5211e2976d3676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c12b72d2_74482ef8",
+        "filename": "polygerrit-ui/app/utils/string-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-14T12:01:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21624553_dac52042",
       "revId": "42a9d50097fdfe39ebaef484ab5211e2976d3676",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

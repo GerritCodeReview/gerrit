@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f49816d7_a0ddad1a",
+        "filename": "polygerrit-ui/app/utils/string-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-10-14T14:10:10Z",
+      "side": 1,
+      "message": "Ah, I see. I didn\u0027t realize that. \n\nYou\u0027re right, I think I do write my code in a more \"C++ style\" (occupational hazard :) )",
+      "parentUuid": "38856534_2c13b5f1",
+      "range": {
+        "startLine": 112,
+        "startChar": 2,
+        "endLine": 112,
+        "endChar": 38
+      },
+      "revId": "69802da8392cd7054e865bbf42ae687e9cc802f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e7fe9cfd_9c3148d6",

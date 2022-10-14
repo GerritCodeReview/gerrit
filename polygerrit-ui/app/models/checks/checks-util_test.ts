@@ -10,9 +10,13 @@ import {
   ALL_ATTEMPTS,
   AttemptChoice,
   LATEST_ATTEMPT,
+  rectifyFix,
   sortAttemptChoices,
   stringToAttemptChoice,
 } from './checks-util';
+import {Fix, Replacement} from '../../api/checks';
+import {CommentRange} from '../../api/core';
+import {PROVIDED_FIX_ID} from '../../utils/comment-util';
 
 suite('checks-util tests', () => {
   setup(() => {});
@@ -31,6 +35,55 @@ suite('checks-util tests', () => {
     assert.equal(stringToAttemptChoice('asdf'), undefined);
     assert.equal(stringToAttemptChoice('-1'), undefined);
     assert.equal(stringToAttemptChoice('1x'), undefined);
+  });
+
+  test('rectifyFix', () => {
+    assert.isUndefined(rectifyFix(undefined, 'name'));
+    assert.isUndefined(rectifyFix({} as Fix, 'name'));
+    assert.isUndefined(
+      rectifyFix({description: 'asdf', replacements: []}, 'name')
+    );
+    assert.isUndefined(
+      rectifyFix(
+        {description: 'asdf', replacements: [{} as Replacement]},
+        'test-check-name'
+      )
+    );
+    assert.isUndefined(
+      rectifyFix(
+        {
+          description: 'asdf',
+          replacements: [
+            {
+              path: 'test-path',
+              range: {} as CommentRange,
+              replacement: 'test-replacement-string',
+            },
+          ],
+        },
+        'test-check-name'
+      )
+    );
+    const rectified = rectifyFix(
+      {
+        replacements: [
+          {
+            path: 'test-path',
+            range: {
+              start_line: 1,
+              end_line: 1,
+              start_character: 0,
+              end_character: 1,
+            } as CommentRange,
+            replacement: 'test-replacement-string',
+          },
+        ],
+      },
+      'test-check-name'
+    );
+    assert.isDefined(rectified);
+    assert.equal(rectified?.description, 'Fix provided by test-check-name');
+    assert.equal(rectified?.fix_id, PROVIDED_FIX_ID);
   });
 
   test('sortAttemptChoices', () => {

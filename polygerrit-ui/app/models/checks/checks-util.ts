@@ -8,12 +8,16 @@ import {
   Category,
   CheckResult as CheckResultApi,
   CheckRun as CheckRunApi,
+  Fix,
   Link,
   LinkIcon,
+  Replacement,
   RunStatus,
 } from '../../api/checks';
 import {PatchSetNumber} from '../../api/rest-api';
+import {FixSuggestionInfo, FixReplacementInfo} from '../../types/common';
 import {OpenFixPreviewEventDetail} from '../../types/events';
+import {notUndefined} from '../../types/types';
 import {PROVIDED_FIX_ID} from '../../utils/comment-util';
 import {assert, assertNever} from '../../utils/common-util';
 import {fire} from '../../utils/event-util';
@@ -86,17 +90,15 @@ export function createFixAction(
   target: EventTarget,
   result?: RunResult
 ): Action | undefined {
-  const fixes = result?.fixes;
-  if (!fixes || fixes?.length === 0 || !result?.patchset) return;
+  if (!result?.patchset) return;
+  if (!result?.fixes) return;
+  const fixSuggestions = result.fixes
+    .map(f => rectifyFix(f, result?.checkName))
+    .filter(notUndefined);
+  if (fixSuggestions.length === 0) return;
   const eventDetail: OpenFixPreviewEventDetail = {
-    patchNum: result?.patchset as PatchSetNumber,
-    fixSuggestions: fixes.map(fix => {
-      return {
-        description: `Fix provided by ${result?.checkName}`,
-        fix_id: PROVIDED_FIX_ID,
-        ...fix,
-      };
-    }),
+    patchNum: result.patchset as PatchSetNumber,
+    fixSuggestions,
   };
   return {
     name: 'Show Fix',
@@ -105,6 +107,36 @@ export function createFixAction(
       return undefined;
     },
   };
+}
+
+export function rectifyFix(
+  fix: Fix | undefined,
+  checkName: string
+): FixSuggestionInfo | undefined {
+  if (!fix?.replacements) return undefined;
+  const replacements = fix.replacements
+    .map(rectifyReplacement)
+    .filter(notUndefined);
+  if (replacements.length === 0) return undefined;
+
+  return {
+    description: fix.description ?? `Fix provided by ${checkName}`,
+    fix_id: PROVIDED_FIX_ID,
+    replacements,
+  };
+}
+
+export function rectifyReplacement(
+  r: Replacement | undefined
+): FixReplacementInfo | undefined {
+  if (!r?.path) return undefined;
+  if (!r?.range) return undefined;
+  if (r?.replacement === undefined) return undefined;
+  if (!Number.isInteger(r.range.start_line)) return undefined;
+  if (!Number.isInteger(r.range.end_line)) return undefined;
+  if (!Number.isInteger(r.range.start_character)) return undefined;
+  if (!Number.isInteger(r.range.end_character)) return undefined;
+  return r;
 }
 
 export function worstCategory(run: CheckRun) {

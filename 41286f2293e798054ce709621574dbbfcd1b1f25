@@ -39,6 +39,24 @@
       "message": "It seems this prerequisite would be hard to meet since changes coming from a different server use accounts defined in another independent All-Users repository which isn\u0027t aware of the account ids of the server the changes are imported to.\n\nHow would accounts only existing in the server where the imported changes come from be imported to the server they are imported into ?",
       "revId": "41286f2293e798054ce709621574dbbfcd1b1f25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd1f8566_9cf3338a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-14T07:15:07Z",
+      "side": 1,
+      "message": "The accounts concern is addressed in the follow-up changes.",
+      "parentUuid": "86b742cd_c06268e6",
+      "revId": "41286f2293e798054ce709621574dbbfcd1b1f25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

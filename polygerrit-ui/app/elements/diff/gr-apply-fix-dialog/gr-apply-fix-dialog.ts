@@ -22,7 +22,7 @@ import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {PROVIDED_FIX_ID} from '../../../utils/comment-util';
 import {OpenFixPreviewEvent} from '../../../types/events';
 import {getAppContext} from '../../../services/app-context';
-import {fireCloseFixPreview, fireEvent} from '../../../utils/event-util';
+import {fireCloseFixPreview} from '../../../utils/event-util';
 import {DiffLayer, ParsedChangeInfo} from '../../../types/types';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-highlight-layer';
@@ -33,6 +33,7 @@ import {subscribe} from '../../lit/subscription-controller';
 import {assert} from '../../../utils/common-util';
 import {resolve} from '../../../models/dependency';
 import {createChangeUrl} from '../../../models/views/change';
+import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 
 interface FilePreview {
   filepath: string;
@@ -43,6 +44,15 @@ interface FilePreview {
 export class GrApplyFixDialog extends LitElement {
   @query('#applyFixOverlay')
   applyFixOverlay?: GrOverlay;
+
+  @query('#applyFixDialog')
+  applyFixDialog?: GrDialog;
+
+  /** The currently observed dialog by `dialogOberserver`. */
+  observedDialog?: GrDialog;
+
+  /** The current observer observing the `observedDialog`. */
+  dialogOberserver?: ResizeObserver;
 
   @query('#nextFix')
   nextFix?: GrButton;
@@ -102,9 +112,6 @@ export class GrApplyFixDialog extends LitElement {
         this.diffPrefs = diffPreferences;
       }
     );
-    this.addEventListener('diff-context-expanded', () => {
-      if (this.applyFixOverlay) fireEvent(this.applyFixOverlay, 'iron-resize');
-    });
   }
 
   static override styles = [
@@ -146,6 +153,39 @@ export class GrApplyFixDialog extends LitElement {
         </gr-dialog>
       </gr-overlay>
     `;
+  }
+
+  override updated() {
+    this.updateDialogObserver();
+  }
+
+  override disconnectedCallback() {
+    this.removeDialogObserver();
+    super.disconnectedCallback();
+  }
+
+  private removeDialogObserver() {
+    this.dialogOberserver?.disconnect();
+    this.dialogOberserver = undefined;
+    this.observedDialog = undefined;
+  }
+
+  private updateDialogObserver() {
+    if (
+      this.applyFixDialog === this.observedDialog &&
+      this.dialogOberserver !== undefined
+    ) {
+      return;
+    }
+
+    this.removeDialogObserver();
+    if (!this.applyFixDialog) return;
+
+    this.observedDialog = this.applyFixDialog;
+    this.dialogOberserver = new ResizeObserver(() => {
+      this.applyFixOverlay?.refit();
+    });
+    this.dialogOberserver.observe(this.observedDialog);
   }
 
   private renderHeader() {
@@ -202,7 +242,7 @@ export class GrApplyFixDialog extends LitElement {
    * Given event with fixSuggestions, fetch diffs associated with first
    * suggested fix and open dialog.
    */
-  async open(e: OpenFixPreviewEvent) {
+  open(e: OpenFixPreviewEvent) {
     this.patchNum = e.detail.patchNum;
     this.fixSuggestions = e.detail.fixSuggestions;
     assert(this.fixSuggestions.length > 0, 'no fix in the event');
@@ -212,9 +252,6 @@ export class GrApplyFixDialog extends LitElement {
       this.showSelectedFixSuggestion(this.fixSuggestions[0]),
       this.applyFixOverlay?.open()
     );
-    return Promise.all(promises).then(() => {
-      if (this.applyFixOverlay) fireEvent(this.applyFixOverlay, 'iron-resize');
-    });
   }
 
   private async showSelectedFixSuggestion(fixSuggestion: FixSuggestionInfo) {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bba23ec_9ce94088",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2022-10-14T10:18:21Z",
+      "side": 1,
+      "message": "Fixes the problem for me.\nBut shouldn\u0027t this go directly to the `stable-3.7` branch according to https://www.gerritcodereview.com/2022-09-29-gerrit-3.7-release-plan.html#change-acceptance-policy-for-the-stable-branch?",
+      "revId": "69c5686134e1b9f1a6394ba0e1fbe5edaf90b68f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

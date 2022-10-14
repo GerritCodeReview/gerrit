@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "176935dc_2c01b0ca",
+        "filename": "polygerrit-ui/app/utils/string-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-10-14T12:29:33Z",
+      "side": 1,
+      "message": "The check for the length of the string `b` is missing (if a is longer than b)",
+      "range": {
+        "startLine": 112,
+        "startChar": 2,
+        "endLine": 112,
+        "endChar": 38
+      },
+      "revId": "69802da8392cd7054e865bbf42ae687e9cc802f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7fe9cfd_9c3148d6",
+        "filename": "polygerrit-ui/app/utils/string-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-10-14T12:29:33Z",
+      "side": 1,
+      "message": "The check for the length of b is missing (if a is longer than b)\n\nnit: I like loops like,\n```\nfor (let i \u003d a.length, j \u003d b.length; i !\u003d 0 \u0026\u0026 j !\u003d 0; --i, --j)\n```\nmore, but feel free to ignore.",
+      "range": {
+        "startLine": 126,
+        "startChar": 2,
+        "endLine": 126,
+        "endChar": 59
+      },
+      "revId": "69802da8392cd7054e865bbf42ae687e9cc802f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b5bd476_b4b19a9d",
+        "filename": "polygerrit-ui/app/utils/string-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-10-14T12:29:33Z",
+      "side": 1,
+      "message": "Since we only carry about length, I would make the method return length (ie. getSharedPrefixLength). It keeps the same semantics, that make it well-defined, but avoid unnecessary copying.",
+      "range": {
+        "startLine": 141,
+        "startChar": 2,
+        "endLine": 142,
+        "endChar": 47
+      },
+      "revId": "69802da8392cd7054e865bbf42ae687e9cc802f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

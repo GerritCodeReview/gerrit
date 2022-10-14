@@ -195,6 +195,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "61968577_960b2b60",
+        "filename": "polygerrit-ui/app/utils/link-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-10-14T12:29:33Z",
+      "side": 1,
+      "message": "If I remember correctly, I wrote the comment after I spend some time thinking about if empty strings affect sorting or not. I think I missed the case, where replacementText is empty because of deletion. \n\nThe comment is actually about [originalTextStartPosition, originalTextEndPosition) being empty. But there are also cases where the edit is strictly additive. So it\u0027s also needed. Sorry for the confusion. I think I was just wrong here.",
+      "parentUuid": "8f85f8f3_6a34ef7c",
+      "range": {
+        "startLine": 78,
+        "startChar": 6,
+        "endLine": 84,
+        "endChar": 9
+      },
+      "revId": "915226f0fab5dfeefcd8a3b86bfdfe491075e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "800a09ed_38162189",
@@ -326,6 +350,30 @@
       "side": 1,
       "message": "Hmm in this case that doesn\u0027t seem easier to understand to me with the tracking variables updates (`for+if+push` seems like a `filter` to me). but I know any code we write ourselves seems easier than code somebody else writes. As a compromise I will add some comments.\n\nFor the final construction we really ought to build end-to-start otherwise the originalText*Position will become incorrect as earlier replacements are made.",
       "parentUuid": "1a21bcab_35f35eb9",
+      "range": {
+        "startLine": 98,
+        "startChar": 4,
+        "endLine": 103,
+        "endChar": 6
+      },
+      "revId": "915226f0fab5dfeefcd8a3b86bfdfe491075e068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a92bdac_7837c743",
+        "filename": "polygerrit-ui/app/utils/link-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-10-14T12:29:33Z",
+      "side": 1,
+      "message": "Hm, I think there is a bug here actually: When you do array.findIndex you are also discarding elements, that overlap with previously discarded intervals, which I don\u0027t think is desired.\n\nExample: \n[[0, 2], [1, 5], [4, 6]] should result in [[0,2], [4,6]], but will instead result in [[4,6]].\n\nRe:compromise: SGTM",
+      "parentUuid": "beca6d79_9897e96a",
       "range": {
         "startLine": 98,
         "startChar": 4,

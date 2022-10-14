@@ -16,6 +16,24 @@
       "message": "Thanks for the fix!\n\nSorry if the review was more nitpicky than needed.",
       "revId": "535abe5fa8152ed18f0aee84ebb3c5182318c1e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2e51c2d_1970af35",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-14T14:12:54Z",
+      "side": 1,
+      "message": "No worries, review was helpful for me for sure",
+      "parentUuid": "33e58cc2_ab5b85e0",
+      "revId": "535abe5fa8152ed18f0aee84ebb3c5182318c1e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

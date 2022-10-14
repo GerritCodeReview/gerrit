@@ -159,11 +159,13 @@ public class SystemGroupBackend extends AbstractGroupBackend {
         return ref.getUUID();
       }
 
+      @Nullable
       @Override
       public String getUrl() {
         return null;
       }
 
+      @Nullable
       @Override
       public String getEmailAddress() {
         return null;

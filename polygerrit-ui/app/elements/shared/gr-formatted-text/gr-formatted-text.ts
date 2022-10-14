@@ -18,6 +18,7 @@ import '../gr-linked-text/gr-linked-text';
 import {CommentLinks} from '../../../types/common';
 import {LitElement, css, html, TemplateResult} from 'lit';
 import {customElement, property} from 'lit/decorators';
+import {sanitizeHtmlToFragment} from '../../../utils/inner-html-util';
 
 const CODE_MARKER_PATTERN = /^(`{1,3})([^`]+?)\1$/;
 const INLINE_PATTERN = /(\[.+?\]\(.+?\)|`[^`]+?`)/;
@@ -363,7 +364,7 @@ export class GrFormattedText extends LitElement {
   }
 
   private renderLink(text: string, url: string): TemplateResult {
-    return html`<a href=${url}>${text}</a>`;
+    return html`${sanitizeHtmlToFragment(`<a href=${url}>${text}</a>`)}`;
   }
 
   private renderInlineCode(text: string): TemplateResult {

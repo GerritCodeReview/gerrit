@@ -1161,7 +1161,7 @@ suite('gr-router tests', () => {
             attempt: 1,
             filter: 'fff',
             tab: 'checks',
-            checksRunsSelected: ['asdf', 'qwer'],
+            checksRunsSelected: new Set(['asdf', 'qwer']),
             checksResultsFilter: 'asdf.*qwer',
           });
         });

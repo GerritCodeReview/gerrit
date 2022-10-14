@@ -405,7 +405,7 @@ export class GrChecksRuns extends LitElement {
   collapsed = false;
 
   @state()
-  selectedRuns: string[] = [];
+  selectedRuns: Set<string> = new Set();
 
   @state()
   selectedAttempt: AttemptChoice = LATEST_ATTEMPT;
@@ -668,8 +668,8 @@ export class GrChecksRuns extends LitElement {
 
   private renderTitleButtons() {
     if (this.collapsed) return;
-    if (this.selectedRuns.length < 2) return;
-    const actions = this.selectedRuns.map(selected => {
+    if (this.selectedRuns.size < 2) return;
+    const actions = [...this.selectedRuns].map(selected => {
       const run = this.runs.find(
         run => run.isLatestAttempt && run.checkName === selected
       );
@@ -685,7 +685,7 @@ export class GrChecksRuns extends LitElement {
         class="font-normal"
         link
         @click=${() =>
-          this.getViewModel().updateState({checksRunsSelected: []})}
+          this.getViewModel().updateState({checksRunsSelected: undefined})}
         >Unselect All</gr-button
       >
       <gr-tooltip-content
@@ -829,8 +829,8 @@ export class GrChecksRuns extends LitElement {
   }
 
   renderRun(run: CheckRun) {
-    const selectedRun = this.selectedRuns.includes(run.checkName);
-    const deselected = !selectedRun && this.selectedRuns.length > 0;
+    const selectedRun = this.selectedRuns.has(run.checkName);
+    const deselected = !selectedRun && this.selectedRuns.size > 0;
     return html`<gr-checks-run
       .run=${run}
       ?condensed=${this.collapsed}

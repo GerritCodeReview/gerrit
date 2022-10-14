@@ -14,7 +14,7 @@ import {
 import {Tab} from '../../constants/constants';
 import {GerritView} from '../../services/router/router-model';
 import {UrlEncodedCommentId} from '../../types/common';
-import {toggle} from '../../utils/common-util';
+import {toggleSet} from '../../utils/common-util';
 import {select} from '../../utils/observable-util';
 import {
   encodeURL,
@@ -47,7 +47,7 @@ export interface ChangeViewState extends ViewState {
   /** selected attempt for check runs (undefined=latest) */
   attempt?: AttemptChoice;
   /** selected check runs identified by `checkName` */
-  checksRunsSelected?: string[];
+  checksRunsSelected?: Set<string>;
   /** regular expression for filtering check results */
   checksResultsFilter?: string;
 
@@ -117,7 +117,7 @@ export function createChangeUrl(
   if (state.checksResultsFilter) {
     queries.push(`checksResultsFilter=${state.checksResultsFilter}`);
   }
-  if (state.checksRunsSelected && state.checksRunsSelected.length > 0) {
+  if (state.checksRunsSelected && state.checksRunsSelected.size > 0) {
     queries.push(`checksRunsSelected=${[...state.checksRunsSelected].sort()}`);
   }
   if (state.tab && state.tab !== Tab.FILES) {
@@ -174,7 +174,7 @@ export class ChangeViewModel extends Model<ChangeViewState | undefined> {
 
   public readonly checksRunsSelected$ = select(
     this.state$,
-    state => state?.checksRunsSelected ?? []
+    state => state?.checksRunsSelected ?? new Set<string>()
   );
 
   constructor() {
@@ -191,7 +191,9 @@ export class ChangeViewModel extends Model<ChangeViewState | undefined> {
   }
 
   toggleSelectedCheckRun(checkName: string) {
-    const selected = this.getState()?.checksRunsSelected ?? [];
-    this.updateState({checksRunsSelected: toggle(selected, checkName)});
+    const current = this.getState()?.checksRunsSelected ?? new Set();
+    const next = new Set(current);
+    toggleSet(next, checkName);
+    this.updateState({checksRunsSelected: next});
   }
 }

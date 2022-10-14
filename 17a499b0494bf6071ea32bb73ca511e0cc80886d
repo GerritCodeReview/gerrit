@@ -116,6 +116,24 @@
       "parentUuid": "d8f803c9_0fd47e0e",
       "revId": "17a499b0494bf6071ea32bb73ca511e0cc80886d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38fd9a53_485cd761",
+        "filename": "polygerrit-ui/app/models/views/change.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-14T08:31:47Z",
+      "side": 1,
+      "message": "deepEqual already supports Sets.\n\nI think moving to sets makes sense",
+      "parentUuid": "300d8717_d5b2c91c",
+      "revId": "17a499b0494bf6071ea32bb73ca511e0cc80886d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

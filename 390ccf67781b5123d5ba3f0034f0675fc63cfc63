@@ -16,6 +16,23 @@
       "message": "Forcing Verified +1, as the follow-up change works.",
       "revId": "390ccf67781b5123d5ba3f0034f0675fc63cfc63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0876720_370d3704",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-14T21:00:08Z",
+      "side": 1,
+      "message": "Forcing Verified +1, as the follow-up change works.",
+      "revId": "390ccf67781b5123d5ba3f0034f0675fc63cfc63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

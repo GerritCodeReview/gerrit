@@ -205,6 +205,10 @@ func handleSrcRequest(compiledSrcPath string, dirListingMux *http.ServeMux, writ
 		moduleImportRegexp = regexp.MustCompile(`((import|export)[^'";]*'/node_modules/(@lit/)?)(lit-element|lit-html|reactive-element).js';`)
 		data = moduleImportRegexp.ReplaceAll(data, []byte("${1}${4}/${4}.js';"))
 
+		// 'safevalues.js' has to be resolved as 'safevalues/index.mjs'.
+		moduleImportRegexp = regexp.MustCompile("(?m)^((import|export).*'/node_modules/)safevalues.js';$")
+		data = moduleImportRegexp.ReplaceAll(data, []byte("${1}safevalues/builders/html_sanitizer/html_sanitizer.js';"))
+
 		// 'immer' imports and exports have to be resolved to 'immer/dist/immer.esm.js'.
 		moduleImportRegexp = regexp.MustCompile("(?m)^((import|export).*'/node_modules/)immer.js';$")
 		data = moduleImportRegexp.ReplaceAll(data, []byte("${1}/immer/dist/immer.esm.js';"))

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d50b4d01_9e459dda",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-14T13:06:14Z",
+      "side": 1,
+      "message": "This breaks the dev-helper for some reason.",
+      "revId": "ab23d2b7db71b357fefc4ae2d228da163cdfc8ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

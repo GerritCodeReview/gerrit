@@ -22,6 +22,30 @@
       },
       "revId": "25d1bf78fbce1b348b05a5192a712fd2c35a5c15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1747ee3_d880cf1d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-14T11:48:02Z",
+      "side": 1,
+      "message": "I think not, but done anyway. 😊",
+      "parentUuid": "6e868720_8a5a6c00",
+      "range": {
+        "startLine": 160,
+        "startChar": 29,
+        "endLine": 160,
+        "endChar": 62
+      },
+      "revId": "25d1bf78fbce1b348b05a5192a712fd2c35a5c15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

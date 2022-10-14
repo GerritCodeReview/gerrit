@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f08ad731_c5117b65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-14T14:13:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a03b7f3_90ab0834",
+      "range": {
+        "startLine": 29,
+        "startChar": 18,
+        "endLine": 29,
+        "endChar": 39
+      },
+      "revId": "22f4fb9fde1ce6157f270a6d550f71465dc252ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c49ce7c1_0a359e1c",
@@ -55,6 +79,24 @@
       "side": 1,
       "message": "In that case, it would be the same as the account was removed from the All-Users.git repository manually: Gerrit will display a \"User not set\" in the GUI instead of the user name.",
       "parentUuid": "c49ce7c1_0a359e1c",
+      "revId": "22f4fb9fde1ce6157f270a6d550f71465dc252ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "838a4692_3a8dc54c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-14T14:13:25Z",
+      "side": 1,
+      "message": "Actually, that is still an open point I believe: at the moment I am returning an accountId set to zero. Let me double-check the user-experience of that.",
+      "parentUuid": "d7bc004f_ec81b8fd",
       "revId": "22f4fb9fde1ce6157f270a6d550f71465dc252ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

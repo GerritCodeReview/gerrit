@@ -52,6 +52,7 @@ java_package_configuration(
         # separator.
         "-XepExcludedPaths:.*/\\\\$$?\\\\$$?AutoValue(Gson)?_.*\\.java",
         "-Xep:AlmostJavadoc:ERROR",
+        "-Xep:AlreadyChecked:ERROR",
         "-Xep:AlwaysThrows:ERROR",
         "-Xep:AmbiguousMethodReference:ERROR",
         "-Xep:AnnotateFormatMethod:ERROR",

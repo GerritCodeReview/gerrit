@@ -893,7 +893,7 @@ public class CommitRewriter {
             commitMessageRange.get().subjectEnd());
     Optional<String> fixedChangeMessage = Optional.empty();
     String originalChangeMessage = null;
-    if (commitMessageRange.isPresent() && commitMessageRange.get().hasChangeMessage()) {
+    if (commitMessageRange.get().hasChangeMessage()) {
       originalChangeMessage =
           RawParseUtils.decode(
                   enc,

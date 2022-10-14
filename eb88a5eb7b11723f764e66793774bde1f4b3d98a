@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "061a8cc3_db9f31b9",
+        "filename": "java/com/google/gerrit/server/submit/LocalMergeSuperSetComputation.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-10-14T18:05:20Z",
+      "side": 1,
+      "message": "nit: I\u0027m probably not seeing the full picture but I can\u0027t see the relation between SQL and this variable AFAICT it is used to limit the number of commits that are walked through",
+      "range": {
+        "startLine": 69,
+        "startChar": 14,
+        "endLine": 69,
+        "endChar": 71
+      },
+      "revId": "eb88a5eb7b11723f764e66793774bde1f4b3d98a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0f5a951_d9aa7f42",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-10-14T18:05:20Z",
+      "side": 1,
+      "message": "I\u0027m not sure what is being tested as there is one change pushed for review and another two, independent changes that are successfully pushed... I would imagine that we have chain of 3 changes and attempt to push them fails and if re-attempted for previous two it would work. WDYT?",
+      "range": {
+        "startLine": 185,
+        "startChar": 14,
+        "endLine": 185,
+        "endChar": 50
+      },
+      "revId": "eb88a5eb7b11723f764e66793774bde1f4b3d98a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

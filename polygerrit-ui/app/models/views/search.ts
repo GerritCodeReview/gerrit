@@ -6,7 +6,7 @@
 import {RepoName, BranchName, TopicName} from '../../api/rest-api';
 import {GerritView} from '../../services/router/router-model';
 import {addQuotesWhen} from '../../utils/string-util';
-import {encodeURL} from '../../utils/url-util';
+import {encodeURL, getBaseUrl} from '../../utils/url-util';
 import {define} from '../dependency';
 import {Model} from '../model';
 import {ViewState} from './base';
@@ -35,7 +35,7 @@ export function createSearchUrl(params: SearchUrlOptions): string {
   }
 
   if (params.query) {
-    return '/q/' + encodeURL(params.query, true) + offsetExpr;
+    return `${getBaseUrl()}/q/${encodeURL(params.query, true)}${offsetExpr}`;
   }
 
   const operators: string[] = [];
@@ -80,7 +80,7 @@ export function createSearchUrl(params: SearchUrlOptions): string {
     }
   }
 
-  return '/q/' + operators.join('+') + offsetExpr;
+  return `${getBaseUrl()}/q/${operators.join('+')}${offsetExpr}`;
 }
 
 export const searchViewModelToken =

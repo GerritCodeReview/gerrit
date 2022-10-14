@@ -55,6 +55,47 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "213c4058_d7e913a7",
+        "filename": "polygerrit-ui/app/utils/link-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-14T12:09:02Z",
+      "side": 1,
+      "message": "I disagree that performance and readability are at odds here.\n\nPerformance is death by a thousand paper cuts, where we can easily avoid duplicative effort we should.\n\nDon\u0027t optimize prematurely !\u003d write code that computes things more than necessary.",
+      "parentUuid": "4bbd32d8_b43796c7",
+      "revId": "42a9d50097fdfe39ebaef484ab5211e2976d3676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c93d6f2_9e18d592",
+        "filename": "polygerrit-ui/app/utils/link-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-14T12:09:02Z",
+      "side": 1,
+      "message": "```suggestion\n  const commonPrefix \u003d getSharedPrefix(match[0], fullReplacementText);\n  const commonSuffix \u003d getSharedSuffix(match[0], fullReplacementText);\n  const prefixIndex \u003d commonPrefix.length;\n  const suffixIndex \u003d match[0].length - commonSuffix.length;\n  \n  return partialResults.push({\n    replacedTextStartPosition: \n      partialResults.push({\n        replacedTextStartPosition:  match.index + prefixIndex,\n        replacedTextEndPosition: match.index + suffixIndex,\n        replacementText: fullReplacementText.substring(prefixIndex, suffixIndex)\n      });\n```",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 9
+      },
+      "revId": "42a9d50097fdfe39ebaef484ab5211e2976d3676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "26eff00b_3509508f",
         "filename": "polygerrit-ui/app/utils/link-util.ts",
         "patchSetId": 4

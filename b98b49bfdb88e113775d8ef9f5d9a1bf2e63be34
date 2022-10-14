@@ -141,6 +141,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "58798e47_d3e245e7",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-14T15:51:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2125e3a_7c97eebd",
+      "range": {
+        "startLine": 57,
+        "startChar": 70,
+        "endLine": 57,
+        "endChar": 78
+      },
+      "revId": "b98b49bfdb88e113775d8ef9f5d9a1bf2e63be34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "78fb7211_20c38ffd",
@@ -154,6 +178,24 @@
       "writtenOn": "2022-10-14T15:41:39Z",
       "side": 1,
       "message": "+ returns UNKNOWN_ACCOUNT_ID if the account was not found by reverse lookup",
+      "revId": "b98b49bfdb88e113775d8ef9f5d9a1bf2e63be34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "daa27e50_02868c88",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-14T15:51:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78fb7211_20c38ffd",
       "revId": "b98b49bfdb88e113775d8ef9f5d9a1bf2e63be34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

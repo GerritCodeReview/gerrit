@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "18bff1d1_39a70a0e",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1365,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-14T08:04:50Z",
+      "side": 1,
+      "message": "I would prefer to keep the method self contained. For me this has slightly higher value than the performance gain. Are you ok?",
+      "parentUuid": "734fbbe1_36be14dc",
+      "revId": "1f46cef6e7123e408e032d627a05630b2fb8a80f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c6cd0233_f9438c34",
         "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
         "patchSetId": 7
@@ -31,6 +49,24 @@
       "writtenOn": "2022-10-12T09:16:18Z",
       "side": 1,
       "message": "This condition could be broken down into pieces with meaningful names, its\u0027 hard to figure out what it does.",
+      "revId": "1f46cef6e7123e408e032d627a05630b2fb8a80f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c5fde92_39430267",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1374,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-14T08:04:50Z",
+      "side": 1,
+      "message": "Indeed. I have broken this down a bit and added a longer comment about why we are doing this.",
+      "parentUuid": "c6cd0233_f9438c34",
       "revId": "1f46cef6e7123e408e032d627a05630b2fb8a80f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5295c973_d55b66d7",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1409,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-14T08:04:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b0f6117_d2bba537",
+      "revId": "1f46cef6e7123e408e032d627a05630b2fb8a80f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eb3747fe_4c3d23d6",
@@ -65,6 +119,24 @@
       "writtenOn": "2022-10-12T09:16:18Z",
       "side": 1,
       "message": "Test for this?",
+      "revId": "1f46cef6e7123e408e032d627a05630b2fb8a80f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f106b568_9bdb7448",
+        "filename": "polygerrit-ui/app/models/views/change.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-14T08:04:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb3747fe_4c3d23d6",
       "revId": "1f46cef6e7123e408e032d627a05630b2fb8a80f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

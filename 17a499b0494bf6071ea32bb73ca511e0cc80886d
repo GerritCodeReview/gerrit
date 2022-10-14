@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "75796b59_79c7ea38",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 1383,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-14T08:13:11Z",
+      "side": 1,
+      "message": "```suggestion\n      const isEmpty \u003d selected.length \u003d\u003d\u003d 0;\n      expanded \u003d !isEmpty \u0026\u0026 (isWarningOrError || isSelection || filterActiveWithResults);\n```",
+      "range": {
+        "startLine": 1378,
+        "startChar": 0,
+        "endLine": 1383,
+        "endChar": 7
+      },
+      "revId": "17a499b0494bf6071ea32bb73ca511e0cc80886d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d8f803c9_0fd47e0e",
         "filename": "polygerrit-ui/app/models/views/change.ts",
         "patchSetId": 8

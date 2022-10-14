@@ -46,7 +46,7 @@ export interface ReportingService extends Finalizable {
   pluginLoaded(name: string): void;
   pluginsLoaded(pluginsList?: string[]): void;
   pluginsFailed(pluginsList?: string[]): void;
-  error(err: Error, reporter?: string, details?: EventDetails): void;
+  error(errorSource: string, error: Error, details?: EventDetails): void;
   /**
    * Reset named timer.
    */

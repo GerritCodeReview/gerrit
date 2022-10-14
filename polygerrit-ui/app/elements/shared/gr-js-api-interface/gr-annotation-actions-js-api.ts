@@ -32,7 +32,10 @@ export class GrAnnotationActionsInterface implements AnnotationPluginApi {
     this.reporting.trackApi(this.plugin, 'annotation', 'setCoverageProvider');
     if (this.coverageProvider) {
       this.reporting.error(
-        new Error(`Overwriting cov provider: ${this.plugin.getPluginName()}`)
+        'Annotation Plugin',
+        new Error(
+          `Overwriting coverage provider: ${this.plugin.getPluginName()}`
+        )
       );
     }
     this.coverageProvider = coverageProvider;

@@ -89,8 +89,8 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
         return callback(change, revision) === false;
       } catch (err: unknown) {
         this.reporting.error(
+          'GrJsApiInterface',
           new Error('canSubmitChange callback error'),
-          undefined,
           err
         );
       }
@@ -114,8 +114,8 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
         cb(detail.path);
       } catch (err: unknown) {
         this.reporting.error(
+          'GrJsApiInterface',
           new Error('handleHistory callback error'),
-          undefined,
           err
         );
       }
@@ -159,8 +159,8 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
         cb(change, revision, info);
       } catch (err: unknown) {
         this.reporting.error(
+          'GrJsApiInterface',
           new Error('showChange callback error'),
-          undefined,
           err
         );
       }
@@ -176,8 +176,8 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
         cb(detail.revisionActions, detail.change);
       } catch (err: unknown) {
         this.reporting.error(
+          'GrJsApiInterface',
           new Error('showRevisionActions callback error'),
-          undefined,
           err
         );
       }
@@ -190,8 +190,8 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
         cb(change, msg);
       } catch (err: unknown) {
         this.reporting.error(
+          'GrJsApiInterface',
           new Error('commitMessage callback error'),
-          undefined,
           err
         );
       }
@@ -205,8 +205,8 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
         cb(detail.node);
       } catch (err: unknown) {
         this.reporting.error(
+          'GrJsApiInterface',
           new Error('comment callback error'),
-          undefined,
           err
         );
       }
@@ -219,8 +219,8 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
         cb(detail.change);
       } catch (err: unknown) {
         this.reporting.error(
+          'GrJsApiInterface',
           new Error('labelChange callback error'),
-          undefined,
           err
         );
       }
@@ -233,8 +233,8 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
         cb(detail.hljs);
       } catch (err: unknown) {
         this.reporting.error(
+          'GrJsApiInterface',
           new Error('HighlightjsLoaded callback error'),
-          undefined,
           err
         );
       }
@@ -247,8 +247,8 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
         revertMsg = cb(change, revertMsg, origMsg) as string;
       } catch (err: unknown) {
         this.reporting.error(
+          'GrJsApiInterface',
           new Error('modifyRevertMsg callback error'),
-          undefined,
           err
         );
       }
@@ -270,8 +270,8 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
         ) as string;
       } catch (err: unknown) {
         this.reporting.error(
+          'GrJsApiInterface',
           new Error('modifyRevertSubmissionMsg callback error'),
-          undefined,
           err
         );
       }
@@ -288,8 +288,8 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
         if (layer) layers.push(layer);
       } catch (err: unknown) {
         this.reporting.error(
+          'GrJsApiInterface',
           new Error('getDiffLayers callback error'),
-          undefined,
           err
         );
       }
@@ -304,8 +304,8 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
         annotationApi.disposeLayer(path);
       } catch (err: unknown) {
         this.reporting.error(
+          'GrJsApiInterface',
           new Error('disposeDiffLayers callback error'),
-          undefined,
           err
         );
       }
@@ -354,8 +354,8 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
         }
       } catch (err: unknown) {
         this.reporting.error(
+          'GrJsApiInterface',
           new Error('getReviewPostRevert callback error'),
-          undefined,
           err
         );
       }

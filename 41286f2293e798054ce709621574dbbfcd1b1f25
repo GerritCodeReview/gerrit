@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa6c0cb5_f5403e55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-10-14T06:52:50Z",
+      "side": 1,
+      "message": "coming",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 6
+      },
+      "revId": "41286f2293e798054ce709621574dbbfcd1b1f25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86b742cd_c06268e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-10-14T06:52:50Z",
+      "side": 1,
+      "message": "It seems this prerequisite would be hard to meet since changes coming from a different server use accounts defined in another independent All-Users repository which isn\u0027t aware of the account ids of the server the changes are imported to.\n\nHow would accounts only existing in the server where the imported changes come from be imported to the server they are imported into ?",
+      "revId": "41286f2293e798054ce709621574dbbfcd1b1f25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

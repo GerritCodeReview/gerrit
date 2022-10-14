@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e0e62e6_8d7d511c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-10-14T06:52:21Z",
+      "side": 1,
+      "message": "This is hard to understand. How about this ?\n\n Introduce new external id for imported accounts\n\n The new external id using the scheme \"imported:\" can be used to associate accounts originating from other Gerrit servers when importing data from other Gerrit servers having a different GerritServerId.",
+      "revId": "79c75e1fbd344a1922763ab9caaf3e1199e1cd95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77697047_b7653180",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-10-14T06:52:21Z",
+      "side": 1,
+      "message": "originating",
+      "range": {
+        "startLine": 12,
+        "startChar": 28,
+        "endLine": 12,
+        "endChar": 34
+      },
+      "revId": "79c75e1fbd344a1922763ab9caaf3e1199e1cd95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e46f11d7_80b7cd59",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-10-14T06:52:21Z",
+      "side": 1,
+      "message": "is this an alias for the foreign serverId or a literal copy of the foreign serverId ?",
+      "range": {
+        "startLine": 14,
+        "startChar": 25,
+        "endLine": 14,
+        "endChar": 30
+      },
+      "revId": "79c75e1fbd344a1922763ab9caaf3e1199e1cd95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -49,6 +49,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6f8c82db_2a28930b",
+        "filename": "polygerrit-ui/app/utils/string-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-14T12:30:51Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "e7fe9cfd_9c3148d6",
+      "range": {
+        "startLine": 126,
+        "startChar": 2,
+        "endLine": 126,
+        "endChar": 59
+      },
+      "revId": "69802da8392cd7054e865bbf42ae687e9cc802f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0b5bd476_b4b19a9d",
         "filename": "polygerrit-ui/app/utils/string-util.ts",
         "patchSetId": 5

@@ -1150,6 +1150,7 @@ suite('gr-router tests', () => {
           queryMap.set('select', 'sss');
           queryMap.set('attempt', '1');
           queryMap.set('checksRunsSelected', 'asdf,qwer');
+          queryMap.set('checksResultsFilter', 'asdf.*qwer');
           ctx.querystring = queryMap.toString();
           assertctxToParams(ctx, 'handleChangeRoute', {
             view: GerritView.CHANGE,
@@ -1161,6 +1162,7 @@ suite('gr-router tests', () => {
             filter: 'fff',
             tab: 'checks',
             checksRunsSelected: ['asdf', 'qwer'],
+            checksResultsFilter: 'asdf.*qwer',
           });
         });
       });

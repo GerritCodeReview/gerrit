@@ -48,6 +48,18 @@ suite('change view state tests', () => {
     );
   });
 
+  test('createChangeUrl() checksResultsFilter', () => {
+    const state: ChangeViewState = {
+      ...STATE,
+      checksResultsFilter: 'asdf.*qwer',
+    };
+
+    assert.equal(
+      createChangeUrl(state),
+      '/c/test/+/1234?checksResultsFilter=asdf.*qwer'
+    );
+  });
+
   test('createChangeUrl() with repo name encoding', () => {
     const state: ChangeViewState = {
       view: GerritView.CHANGE,

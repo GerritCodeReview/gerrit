@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d81be25_de46073b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-14T21:08:04Z",
+      "side": 1,
+      "message": "Forcing Verified +1 as the follow-up change is verified",
+      "revId": "76f5ff5c2492003cbd18be5ddae2d93b3af76f3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

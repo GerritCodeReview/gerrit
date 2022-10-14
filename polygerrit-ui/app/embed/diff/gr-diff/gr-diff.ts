@@ -5,7 +5,6 @@
  */
 import '../../../styles/shared-styles';
 import '../../../elements/shared/gr-button/gr-button';
-import '../../../elements/shared/gr-icons/gr-icons';
 import '../../../elements/shared/gr-icon/gr-icon';
 import '../gr-diff-builder/gr-diff-builder-element';
 import '../gr-diff-highlight/gr-diff-highlight';

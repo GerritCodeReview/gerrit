@@ -103,6 +103,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "b62e1711_baf505a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-14T15:07:05Z",
+      "side": 1,
+      "message": "I tested it E2E and I see:\n\n1. If the account can be found using the `imported:userid@serverid`, then the user is correctly remapped\n2. If the account cannot be found, then the user appears with `Name of user not set` which is acceptable IMHO\n\nI can now set this change ready for review: we have some initial test coverage and also works E2E",
+      "parentUuid": "838a4692_3a8dc54c",
+      "revId": "22f4fb9fde1ce6157f270a6d550f71465dc252ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "be7f6bf8_d4ac72b6",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6

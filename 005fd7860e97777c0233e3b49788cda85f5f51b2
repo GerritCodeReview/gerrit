@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55d5139f_cf33c25f",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-10-14T06:57:26Z",
+      "side": 1,
+      "message": "it seems this method is still unused",
+      "revId": "005fd7860e97777c0233e3b49788cda85f5f51b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62039f24_2d9b8cba",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-10-14T06:57:26Z",
+      "side": 1,
+      "message": "Let Guice inject the cache ?",
+      "range": {
+        "startLine": 61,
+        "startChar": 42,
+        "endLine": 61,
+        "endChar": 73
+      },
+      "revId": "005fd7860e97777c0233e3b49788cda85f5f51b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

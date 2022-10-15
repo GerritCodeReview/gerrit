@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eafd2c60_41495d0b",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-10-15T07:23:56Z",
+      "side": 1,
+      "message": "i would word that as \"Try to limit the subject line to 50, at most 72 characters\". sometimes the few extra chars make the difference between a completely generic summary and one that is distinct. this usually works even if it\u0027s truncated, and nothing really bad happens in any case.",
+      "revId": "ca652f39ab25b50a02fa94a639541f1c27a7b96f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6c021a5_3f7556fc",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-10-15T07:23:56Z",
+      "side": 1,
+      "message": "it makes sense to spell out the exception for pre-formatted text. this is the case for error messages, tables, and in our case the release-notes footer (which is why i argued against this particular form, but whatever).",
+      "revId": "ca652f39ab25b50a02fa94a639541f1c27a7b96f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0e89e21_b483281c",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-10-15T07:23:56Z",
+      "side": 1,
+      "message": "in qt we use \"contribution guidelines\". otherwise, this would have to be consistently quoted to be correct, as it\u0027s not the guidelines that contribute (well, not patches).",
+      "range": {
+        "startLine": 75,
+        "startChar": 15,
+        "endLine": 75,
+        "endChar": 27
+      },
+      "revId": "ca652f39ab25b50a02fa94a639541f1c27a7b96f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

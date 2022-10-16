@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6944d351_7dda9285",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-16T20:58:20Z",
+      "side": 0,
+      "message": "I would have rather replaced this with a simple set of instructions on how to run the web-dev-server.\n\n```\n$ npm run start:server\n```\n\nWDYT?",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 0
+      },
+      "revId": "b0c62dc94104bdfa5c5fda9040c63a70985d85a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

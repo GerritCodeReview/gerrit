@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "349400bb_bcb877e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-16T20:53:33Z",
+      "side": 1,
+      "message": "This looks like something to mention in the release notes, as the way to develop and test Gerrit will change.\n\nWhy should this be skipped?",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 19
+      },
+      "revId": "e2cf0fdca3850f6d67e0b30ff41055ccf5bf32a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c8f2b69c_cf57b199",
@@ -14,6 +37,46 @@
       "writtenOn": "2022-09-12T07:45:30Z",
       "side": 1,
       "message": "Nice! ❤️",
+      "revId": "e2cf0fdca3850f6d67e0b30ff41055ccf5bf32a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd0507f2_28c9389d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-16T20:53:33Z",
+      "side": 1,
+      "message": "Post-merge -1",
+      "revId": "e2cf0fdca3850f6d67e0b30ff41055ccf5bf32a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc3fbda5_75bd95b4",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-16T20:53:33Z",
+      "side": 1,
+      "message": "Broken anchor? Where is this web-dev-server defined?",
+      "range": {
+        "startLine": 135,
+        "startChar": 27,
+        "endLine": 135,
+        "endChar": 41
+      },
       "revId": "e2cf0fdca3850f6d67e0b30ff41055ccf5bf32a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

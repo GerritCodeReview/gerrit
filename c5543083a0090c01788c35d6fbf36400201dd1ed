@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "775472d4_709560cf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-17T12:45:43Z",
+      "side": 1,
+      "message": "This check becomes obsolete?",
+      "revId": "c5543083a0090c01788c35d6fbf36400201dd1ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

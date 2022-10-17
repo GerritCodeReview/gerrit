@@ -498,7 +498,6 @@ export declare interface ConfigInfo {
   use_content_merge?: InheritedBooleanInfo;
   use_signed_off_by?: InheritedBooleanInfo;
   create_new_change_for_all_not_in_target?: InheritedBooleanInfo;
-  require_change_id?: InheritedBooleanInfo;
   enable_signed_push?: InheritedBooleanInfo;
   require_signed_push?: InheritedBooleanInfo;
   reject_implicit_merges?: InheritedBooleanInfo;

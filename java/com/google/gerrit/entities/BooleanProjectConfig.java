@@ -32,7 +32,6 @@ public enum BooleanProjectConfig {
   USE_CONTRIBUTOR_AGREEMENTS("receive", "requireContributorAgreement"),
   USE_SIGNED_OFF_BY("receive", "requireSignedOffBy"),
   USE_CONTENT_MERGE("submit", "mergeContent"),
-  REQUIRE_CHANGE_ID("receive", "requireChangeId"),
   CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET("receive", "createNewChangeForAllNotInTarget"),
   ENABLE_SIGNED_PUSH("receive", "enableSignedPush"),
   REQUIRE_SIGNED_PUSH("receive", "requireSignedPush"),

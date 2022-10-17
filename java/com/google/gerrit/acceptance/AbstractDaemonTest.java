@@ -1071,7 +1071,6 @@ public abstract class AbstractDaemonTest {
   protected void setRequireChangeId(InheritableBoolean value) throws Exception {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
       ProjectConfig config = projectConfigFactory.read(md);
-      config.updateProject(p -> p.setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, value));
       config.commit(md);
       projectCache.evictAndReindex(config.getProject());
     }

@@ -4220,7 +4220,6 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void changeCommitMessageWithNoChangeIdSucceedsIfChangeIdNotRequired() throws Exception {
     ConfigInput configInput = new ConfigInput();
-    configInput.requireChangeId = InheritableBoolean.FALSE;
     gApi.projects().name(project.get()).config(configInput);
 
     PushOneCommit.Result r = createChange();

@@ -68,7 +68,6 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.AttentionSetUpdate;
-import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.LabelId;
@@ -1771,15 +1770,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             + "Squash the commits with the same Change-Id or ensure Change-Ids are unique for each"
             + " commit");
 
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .updateProject(
-              p ->
-                  p.setBooleanConfig(
-                      BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.FALSE));
-      u.save();
-    }
-
     pushForReviewRejected(
         testRepo,
         "same Change-Id in multiple changes.\n"
@@ -1798,15 +1788,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         "same Change-Id in multiple changes.\n"
             + "Squash the commits with the same Change-Id or ensure Change-Ids are unique for each"
             + " commit");
-
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .updateProject(
-              p ->
-                  p.setBooleanConfig(
-                      BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.FALSE));
-      u.save();
-    }
 
     pushForReviewRejected(
         testRepo,

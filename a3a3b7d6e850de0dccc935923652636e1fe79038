@@ -16,6 +16,24 @@
       "message": "```suggestion\n        // should better ways of maintaining an overall consistent URL state.\n```",
       "revId": "a3a3b7d6e850de0dccc935923652636e1fe79038",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16e09335_43a59b7a",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-17T10:37:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d4b80fb_54d2681c",
+      "revId": "a3a3b7d6e850de0dccc935923652636e1fe79038",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

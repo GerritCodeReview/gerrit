@@ -17,7 +17,6 @@ _ssh_ -p <port> <host> _gerrit create-project_
   [--use-signed-off-by | --so]
   [--use-content-merge]
   [--create-new-change-for-all-not-in-target]
-  [--require-change-id | --id]
   [[--branch <REF> | -b <REF>] ...]
   [--empty-commit]
   [--max-object-size-limit <N>]
@@ -149,12 +148,6 @@ Submit Types].
 	of open changes, this option also does not accept merge commits in the
 	commit chain.
 	Disabled by default.
-
---require-change-id::
---id::
-	Require a valid link:user-changeid.html[Change-Id] footer
-	in any commit uploaded for review. This does not apply to
-	commits pushed directly to a branch or tag.
 
 --empty-commit::
 	Creates an initial empty commit for the Git repository of the

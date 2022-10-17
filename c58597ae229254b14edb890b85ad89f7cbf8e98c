@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d103c69_f10cb72f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-17T15:53:02Z",
+      "side": 0,
+      "message": "This should stay",
+      "range": {
+        "startLine": 277,
+        "startChar": 33,
+        "endLine": 277,
+        "endChar": 65
+      },
+      "revId": "c58597ae229254b14edb890b85ad89f7cbf8e98c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f06c5930_45cfb87a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-17T15:53:02Z",
+      "side": 0,
+      "message": "This function should also be removed",
+      "range": {
+        "startLine": 399,
+        "startChar": 15,
+        "endLine": 399,
+        "endChar": 58
+      },
+      "revId": "c58597ae229254b14edb890b85ad89f7cbf8e98c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

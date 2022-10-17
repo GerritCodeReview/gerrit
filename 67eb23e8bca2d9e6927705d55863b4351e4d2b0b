@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf2d90c6_7df41221",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-17T12:00:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0518292f_b5a5a927",
+      "range": {
+        "startLine": 15,
+        "startChar": 32,
+        "endLine": 15,
+        "endChar": 66
+      },
+      "revId": "67eb23e8bca2d9e6927705d55863b4351e4d2b0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c4c944af_ac0023ec",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ff955bb_8fb2afc0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-17T12:00:03Z",
+      "side": 1,
+      "message": "Correct, le me rectify the statement.",
+      "parentUuid": "c4c944af_ac0023ec",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 64
+      },
+      "revId": "67eb23e8bca2d9e6927705d55863b4351e4d2b0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eff4c65e_f0d7bd93",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-08-19T15:24:20Z",
       "side": 1,
       "message": "s/Gerrit\u0027s/change\u0027s/\n\nMaybe add \"in the commit message\" to the end of this line?",
+      "range": {
+        "startLine": 21,
+        "startChar": 27,
+        "endLine": 21,
+        "endChar": 35
+      },
+      "revId": "67eb23e8bca2d9e6927705d55863b4351e4d2b0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f02fb78_b09d8ca6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-17T12:00:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eff4c65e_f0d7bd93",
       "range": {
         "startLine": 21,
         "startChar": 27,

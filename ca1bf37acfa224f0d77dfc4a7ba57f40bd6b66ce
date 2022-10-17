@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "522b8684_69a69d7c",
+        "filename": "polygerrit-ui/app/models/views/search.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-17T10:00:28Z",
+      "side": 1,
+      "message": "Answer below.",
+      "parentUuid": "5636e46a_b87245d6",
+      "revId": "ca1bf37acfa224f0d77dfc4a7ba57f40bd6b66ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "047fce3b_a10cebb6",
         "filename": "polygerrit-ui/app/models/views/search.ts",
         "patchSetId": 9
@@ -31,6 +49,24 @@
       "writtenOn": "2022-10-17T08:40:37Z",
       "side": 1,
       "message": "Newline between member and next comment.",
+      "revId": "ca1bf37acfa224f0d77dfc4a7ba57f40bd6b66ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "731655d3_9af3abab",
+        "filename": "polygerrit-ui/app/models/views/search.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-17T10:00:28Z",
+      "side": 1,
+      "message": "Done. Can we teach this to eslint?",
+      "parentUuid": "047fce3b_a10cebb6",
       "revId": "ca1bf37acfa224f0d77dfc4a7ba57f40bd6b66ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ddd493d_ab28989c",
+        "filename": "polygerrit-ui/app/models/views/search.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-17T10:00:28Z",
+      "side": 1,
+      "message": "Done. Can we teach this to eslint?",
+      "parentUuid": "33ba7934_80c7501a",
+      "revId": "ca1bf37acfa224f0d77dfc4a7ba57f40bd6b66ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb3ecd1d_430ac8e7",
@@ -65,6 +119,24 @@
       "writtenOn": "2022-10-17T08:40:37Z",
       "side": 1,
       "message": "Instead of a forloop, what about creating a single pattern that just does an | between them?",
+      "revId": "ca1bf37acfa224f0d77dfc4a7ba57f40bd6b66ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "774fec4e_4e9bdfde",
+        "filename": "polygerrit-ui/app/models/views/search.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-17T10:00:28Z",
+      "side": 1,
+      "message": "When using a very long regular expression, then you have to be really good at spotting the | characters for mentally parsing what it is doing. I actually like having separate patterns. That makes it much more readable IMO.\n\nWDYT?",
+      "parentUuid": "bb3ecd1d_430ac8e7",
       "revId": "ca1bf37acfa224f0d77dfc4a7ba57f40bd6b66ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

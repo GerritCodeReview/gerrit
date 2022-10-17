@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "62f91252_328e70d1",
+        "filename": "polygerrit-ui/app/models/views/search.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-17T10:00:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05e98b1f_1c7f3be0",
+      "revId": "857f585c01f6aee85dc030edba7006c71db0467e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7a5bd3de_1c7e5d12",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-10-17T08:40:37Z",
       "side": 1,
       "message": "This feels more like an \u0027isDefined\u0027 than a \u0027notUndefined\u0027 now.  The latter is more specific.",
+      "revId": "857f585c01f6aee85dc030edba7006c71db0467e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bd978c9_045518af",
+        "filename": "polygerrit-ui/app/types/types.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-17T10:00:28Z",
+      "side": 1,
+      "message": "Sure, we can rename this. This change or follow-up?",
+      "parentUuid": "7a5bd3de_1c7e5d12",
       "revId": "857f585c01f6aee85dc030edba7006c71db0467e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -52,7 +52,7 @@ import {
   shareReplay,
   switchMap,
 } from 'rxjs/operators';
-import {notUndefined} from '../../types/types';
+import {isDefined} from '../../types/types';
 
 export interface CommentState {
   /** undefined means 'still loading' */
@@ -295,7 +295,7 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
           uniqueUsers.map(user => from(this.accountsModel.fillDetails(user)));
         return forkJoin(filledUsers$);
       }),
-      map(users => users.filter(notUndefined)),
+      map(users => users.filter(isDefined)),
       distinctUntilChanged(deepEqual),
       shareReplay(1)
     );
@@ -318,7 +318,7 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
           uniqueUsers.map(user => from(this.accountsModel.fillDetails(user)));
         return forkJoin(filledUsers$);
       }),
-      map(users => users.filter(notUndefined)),
+      map(users => users.filter(isDefined)),
       distinctUntilChanged(deepEqual),
       shareReplay(1)
     );

@@ -26,7 +26,7 @@ import {DiffPreferencesInfo} from '../../types/diff';
 import {Finalizable} from '../../services/registry';
 import {select} from '../../utils/observable-util';
 import {Model} from '../model';
-import {notUndefined} from '../../types/types';
+import {isDefined} from '../../types/types';
 
 export interface UserState {
   /**
@@ -99,17 +99,17 @@ export class UserModel extends Model<UserState> implements Finalizable {
   readonly preferences$: Observable<PreferencesInfo> = select(
     this.state$,
     userState => userState.preferences
-  ).pipe(filter(notUndefined));
+  ).pipe(filter(isDefined));
 
   readonly diffPreferences$: Observable<DiffPreferencesInfo> = select(
     this.state$,
     userState => userState.diffPreferences
-  ).pipe(filter(notUndefined));
+  ).pipe(filter(isDefined));
 
   readonly editPreferences$: Observable<EditPreferencesInfo> = select(
     this.state$,
     userState => userState.editPreferences
-  ).pipe(filter(notUndefined));
+  ).pipe(filter(isDefined));
 
   readonly preferenceDiffViewMode$: Observable<DiffViewMode> = select(
     this.preferences$,

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {PluginApi} from '../../../api/plugin';
-import {notUndefined} from '../../../types/types';
+import {isDefined} from '../../../types/types';
 import {HookApi, PluginElement} from '../../../api/hook';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -161,7 +161,7 @@ export class GrPluginEndpoints {
       return [];
     }
     return Array.from(new Set(modulesData.map(m => m.pluginUrl))).filter(
-      notUndefined
+      isDefined
     );
   }
 }

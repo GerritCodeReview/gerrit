@@ -17,7 +17,7 @@ import {
 import {PatchSetNumber} from '../../api/rest-api';
 import {FixSuggestionInfo, FixReplacementInfo} from '../../types/common';
 import {OpenFixPreviewEventDetail} from '../../types/events';
-import {notUndefined} from '../../types/types';
+import {isDefined} from '../../types/types';
 import {PROVIDED_FIX_ID} from '../../utils/comment-util';
 import {assert, assertNever} from '../../utils/common-util';
 import {fire} from '../../utils/event-util';
@@ -94,7 +94,7 @@ export function createFixAction(
   if (!result?.fixes) return;
   const fixSuggestions = result.fixes
     .map(f => rectifyFix(f, result?.checkName))
-    .filter(notUndefined);
+    .filter(isDefined);
   if (fixSuggestions.length === 0) return;
   const eventDetail: OpenFixPreviewEventDetail = {
     patchNum: result.patchset as PatchSetNumber,
@@ -116,7 +116,7 @@ export function rectifyFix(
   if (!fix?.replacements) return undefined;
   const replacements = fix.replacements
     .map(rectifyReplacement)
-    .filter(notUndefined);
+    .filter(isDefined);
   if (replacements.length === 0) return undefined;
 
   return {

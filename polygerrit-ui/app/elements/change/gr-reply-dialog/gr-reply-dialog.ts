@@ -33,7 +33,7 @@ import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announce
 import {TargetElement} from '../../../api/plugin';
 import {
   FixIronA11yAnnouncer,
-  notUndefined,
+  isDefined,
   ParsedChangeInfo,
 } from '../../../types/types';
 import {
@@ -1411,13 +1411,13 @@ export class GrReplyDialog extends LitElement {
     )
       .filter(user => !this.currentAttentionSet.has(user))
       .map(user => allAccounts.find(a => getUserId(a) === user))
-      .filter(notUndefined);
+      .filter(isDefined);
 
     const newAttentionSetUsers = (
       await Promise.all(
         newAttentionSetAdditions.map(a => this.accountsModel.fillDetails(a))
       )
-    ).filter(notUndefined);
+    ).filter(isDefined);
 
     for (const user of newAttentionSetUsers) {
       let reason;

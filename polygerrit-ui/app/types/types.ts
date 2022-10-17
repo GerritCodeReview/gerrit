@@ -20,7 +20,7 @@ import {
 } from './common';
 import {AuthRequestInit} from '../services/gr-auth/gr-auth';
 
-export function notUndefined<T>(x: T): x is NonNullable<T> {
+export function isDefined<T>(x: T): x is NonNullable<T> {
   return x !== undefined && x !== null;
 }
 

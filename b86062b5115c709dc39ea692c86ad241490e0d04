@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6eec2cd4_e3386ff6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1367,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-10-17T08:08:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5eeaf2b6_4df30b4a",
+      "range": {
+        "startLine": 1367,
+        "startChar": 21,
+        "endLine": 1367,
+        "endChar": 31
+      },
+      "revId": "b86062b5115c709dc39ea692c86ad241490e0d04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c969fdf_f6e5104d",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-10-14T18:11:05Z",
       "side": 1,
       "message": "This change would be great opportunity to put error source as enum in polygerrit-ui/app/constants/reporting.ts\n\nBut we can do it later.",
+      "range": {
+        "startLine": 865,
+        "startChar": 21,
+        "endLine": 865,
+        "endChar": 27
+      },
+      "revId": "b86062b5115c709dc39ea692c86ad241490e0d04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bff5d8c8_3dfc3db4",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 865,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-10-17T08:08:35Z",
+      "side": 1,
+      "message": "Ack.\n\nPersonally, I like it a bit more as a freeform string grouping. I feel like an enum will have too many entries to be useful (ex. constantly growing, containing many entries, not that much consistency or ordering to look through it manually).",
+      "parentUuid": "4c969fdf_f6e5104d",
       "range": {
         "startLine": 865,
         "startChar": 21,

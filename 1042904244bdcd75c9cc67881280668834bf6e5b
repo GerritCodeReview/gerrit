@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e5879e7_2750a4c4",
+        "filename": "java/com/google/gerrit/server/git/CommitUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-10-17T13:31:07Z",
+      "side": 1,
+      "message": "I was actually referring to createCommitWithTree(), but it\u0027s OK to keep as is as well.",
+      "parentUuid": "54954417_36f2ffb3",
+      "revId": "1042904244bdcd75c9cc67881280668834bf6e5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b45ea6e1_5d5e34e9",

@@ -202,7 +202,7 @@ public class Schema<T> {
    * @return all fields in this schema indexed by name.
    */
   public final ImmutableMap<String, SchemaField<T, ?>> getSchemaFields() {
-    return ImmutableMap.copyOf(schemaFields);
+    return schemaFields;
   }
 
   public final ImmutableMap<String, IndexedField<T, ?>> getIndexFields() {

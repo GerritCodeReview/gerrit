@@ -207,8 +207,9 @@ export class GrAutocompleteDropdown extends LitElement {
     this.isHidden = true;
   }
 
-  open() {
+  async open() {
     this.isHidden = false;
+    await this.updateComplete;
     this.onSuggestionsChanged();
   }
 

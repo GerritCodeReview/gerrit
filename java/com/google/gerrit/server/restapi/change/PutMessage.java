@@ -16,7 +16,6 @@ package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
-import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.CommitMessageInput;
@@ -108,13 +107,7 @@ public class PutMessage implements RestModifyView<ChangeResource, CommitMessageI
     String sanitizedCommitMessage = CommitMessageUtil.checkAndSanitizeCommitMessage(input.message);
 
     ensureCanEditCommitMessage(resource.getNotes());
-    ChangeUtil.ensureChangeIdIsCorrect(
-        projectCache
-            .get(resource.getProject())
-            .orElseThrow(illegalState(resource.getProject()))
-            .is(BooleanProjectConfig.REQUIRE_CHANGE_ID),
-        resource.getChange().getKey().get(),
-        sanitizedCommitMessage);
+    ChangeUtil.ensureChangeIdIsCorrect(resource.getChange().getKey().get(), sanitizedCommitMessage);
 
     try (Repository repository = repositoryManager.openRepository(resource.getProject());
         RevWalk revWalk = new RevWalk(repository);

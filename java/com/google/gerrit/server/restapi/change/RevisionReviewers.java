@@ -16,6 +16,8 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
+import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
@@ -36,6 +38,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class RevisionReviewers implements ChildCollection<RevisionResource, ReviewerResource> {
+
   private final DynamicMap<RestView<ReviewerResource>> views;
   private final ApprovalsUtil approvalsUtil;
   private final AccountsCollection accounts;
@@ -69,13 +72,13 @@ public class RevisionReviewers implements ChildCollection<RevisionResource, Revi
   @Override
   public ReviewerResource parse(RevisionResource rsrc, IdString id)
       throws ResourceNotFoundException, AuthException, MethodNotAllowedException, IOException,
-          ConfigInvalidException {
-    if (!rsrc.isCurrent()) {
-      throw new MethodNotAllowedException("Cannot access on non-current patch set");
-    }
+      ConfigInvalidException {
+
     Address address = Address.tryParse(id.get());
 
+    PatchSet ps = rsrc.getPatchSet();
     Account.Id accountId = null;
+
     try {
       accountId = accounts.parse(TopLevelResource.INSTANCE, id).getUser().getAccountId();
     } catch (ResourceNotFoundException e) {
@@ -83,13 +86,13 @@ public class RevisionReviewers implements ChildCollection<RevisionResource, Revi
         throw e;
       }
     }
-    Collection<Account.Id> reviewers = approvalsUtil.getReviewers(rsrc.getNotes()).all();
-    // See if the id exists as a reviewer for this change
-    if (reviewers.contains(accountId)) {
+
+    Iterable<PatchSetApproval> approval = approvalsUtil.byPatchSetUser(rsrc.getNotes(), ps.id(),
+        accountId);
+    if (approval.spliterator().getExactSizeIfKnown() != 0) {
       return resourceFactory.create(rsrc, accountId);
     }
 
-    // See if the address exists as a reviewer on the change
     if (address != null && rsrc.getNotes().getReviewersByEmail().all().contains(address)) {
       return new ReviewerResource(rsrc, address);
     }

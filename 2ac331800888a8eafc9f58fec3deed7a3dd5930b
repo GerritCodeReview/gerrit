@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "aaf6ff07_4b401f42",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-17T14:22:51Z",
+      "side": 1,
+      "message": "Should this rather be \u0027if no project has a rules.pl file.\u0027?",
+      "range": {
+        "startLine": 11,
+        "startChar": 29,
+        "endLine": 12,
+        "endChar": 5
+      },
+      "revId": "2ac331800888a8eafc9f58fec3deed7a3dd5930b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "68056d2d_c0ded813",
@@ -14,6 +37,195 @@
       "writtenOn": "2022-10-10T11:50:47Z",
       "side": 1,
       "message": "@ekempin@google.com thanks for the thorough comments. Appreciate if you could review this change again.",
+      "revId": "2ac331800888a8eafc9f58fec3deed7a3dd5930b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6f1ad65_7d0f6e7c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-17T14:22:51Z",
+      "side": 1,
+      "message": "Thanks, mostly looks good to me now.",
+      "revId": "2ac331800888a8eafc9f58fec3deed7a3dd5930b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "193edf0a_588833cf",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-17T14:22:51Z",
+      "side": 1,
+      "message": "nit: we usually do not import NameKey classes",
+      "revId": "2ac331800888a8eafc9f58fec3deed7a3dd5930b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7e3f1ec_cd6f53f9",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-17T14:22:51Z",
+      "side": 1,
+      "message": "[optional] Return a boolean to say whether an update was performed or not. This way we can have different flume counters for projects that are updated and projects that are skipped because nothing needs to be done.",
+      "range": {
+        "startLine": 89,
+        "startChar": 9,
+        "endLine": 89,
+        "endChar": 13
+      },
+      "revId": "2ac331800888a8eafc9f58fec3deed7a3dd5930b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17898cd2_36729817",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-17T14:22:51Z",
+      "side": 1,
+      "message": "Doesn\u0027t this mean that this message will be shown for all labels when the migration is rerun? Could we do better and only emit this message if the existing SR mismatches with the SR we would create if no such SR was present yet (ie. if sr from line 130 doesn\u0027t match the existing SR)?",
+      "range": {
+        "startLine": 119,
+        "startChar": 8,
+        "endLine": 127,
+        "endChar": 9
+      },
+      "revId": "2ac331800888a8eafc9f58fec3deed7a3dd5930b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af7f501d_a9b57039",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-17T14:22:51Z",
+      "side": 1,
+      "message": "Maybe consider renaming this method. I got confused why MaxNoBlock a function that has \"no block\" is considered as \"blocking\". \n\nWhat\u0027s confusing here is that the function names use \u0027Block\u0027 if \u0027veto votes prevent submit\u0027 (AnyWithBlock, MaxWithBlock), but you seem to use \u0027Blocking\u0027 if \u0027submission is blocked until approved\u0027 (MaxWithBlock, MaxWithBlock)?\n\nEither way, no none of the 2 \u0027block\u0027 definitions seems to match all the 3 functions that are matched here.\n\nIf you rename this method here, please also rename \u0027createBlockingSr\u0027 above and the tests accordingly. Maybe use \"isApplicable\" and \u0027createApplicableSr\u0027?",
+      "range": {
+        "startLine": 255,
+        "startChar": 25,
+        "endLine": 255,
+        "endChar": 40
+      },
+      "revId": "2ac331800888a8eafc9f58fec3deed7a3dd5930b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7dc839ec_6629e49b",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-17T14:22:51Z",
+      "side": 1,
+      "message": "Since we are iterating over all projects, I think it would make sense to be extra careful here and handle the case were the refs/meta/config branch doesn\u0027t exist (refsConfig \u003d\u003d null).",
+      "range": {
+        "startLine": 274,
+        "startChar": 5,
+        "endLine": 275,
+        "endChar": 68
+      },
+      "revId": "2ac331800888a8eafc9f58fec3deed7a3dd5930b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf5eac24_a7adfe6f",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/MigrateLabelFunctionsToSubmitRequirementIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-17T14:22:51Z",
+      "side": 1,
+      "message": "[optional] This may be slightly easier:\n\nRevCommit oldMetaCommit \u003d projectOperations.project(project).getHead(RefNames.REFS_CONFIG);\n\nThis method already parses the commit which make thinks easier below.",
+      "range": {
+        "startLine": 166,
+        "startChar": 4,
+        "endLine": 168,
+        "endChar": 5
+      },
+      "revId": "2ac331800888a8eafc9f58fec3deed7a3dd5930b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f1eecfc_88d9cb9e",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/MigrateLabelFunctionsToSubmitRequirementIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-17T14:22:51Z",
+      "side": 1,
+      "message": "If you follow my suggestion above, this could be:\n\nRevCommit newMetaCommit \u003d projectOperations.project(project).getHead(RefNames.REFS_CONFIG);\nassertThat(newMetaCommit).isNotEqualTo(oldMetaCommit);\nassertThat(newMetaCommit.getCommitterIdent().getEmailAddress()).isEqualTo(serverIdent.get().getEmailAddress());",
+      "range": {
+        "startLine": 181,
+        "startChar": 3,
+        "endLine": 189,
+        "endChar": 5
+      },
+      "revId": "2ac331800888a8eafc9f58fec3deed7a3dd5930b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a77778cb_2da1f8a9",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/MigrateLabelFunctionsToSubmitRequirementIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-17T14:22:51Z",
+      "side": 1,
+      "message": "Maybe just drop this test case.",
       "revId": "2ac331800888a8eafc9f58fec3deed7a3dd5930b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

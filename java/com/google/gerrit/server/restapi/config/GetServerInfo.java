@@ -386,6 +386,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
 
   @Nullable
   private static Boolean toBoolean(boolean v) {
-    return v ? v : null;
+    return v ? Boolean.TRUE : null;
   }
 }

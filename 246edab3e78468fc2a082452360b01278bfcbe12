@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff7638c6_22883e9f",
+        "filename": "polygerrit-ui/app/models/comments/comments-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-17T13:53:43Z",
+      "side": 1,
+      "message": "Comment explaining this because it\u0027s not immediately obvious.",
+      "revId": "246edab3e78468fc2a082452360b01278bfcbe12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -847,7 +847,6 @@ export interface ConfigInput {
   use_content_merge?: InheritedBooleanInfoConfiguredValue;
   use_signed_off_by?: InheritedBooleanInfoConfiguredValue;
   create_new_change_for_all_not_in_target?: InheritedBooleanInfoConfiguredValue;
-  require_change_id?: InheritedBooleanInfoConfiguredValue;
   enable_signed_push?: InheritedBooleanInfoConfiguredValue;
   require_signed_push?: InheritedBooleanInfoConfiguredValue;
   private_by_default?: InheritedBooleanInfoConfiguredValue;
@@ -884,7 +883,6 @@ export interface ProjectInput {
   use_signed_off_by?: InheritedBooleanInfoConfiguredValue;
   create_new_change_for_all_not_in_target?: InheritedBooleanInfoConfiguredValue;
   use_content_merge?: InheritedBooleanInfoConfiguredValue;
-  require_change_id?: InheritedBooleanInfoConfiguredValue;
   enable_signed_push?: InheritedBooleanInfoConfiguredValue;
   require_signed_push?: InheritedBooleanInfoConfiguredValue;
   max_object_size_limit?: string;

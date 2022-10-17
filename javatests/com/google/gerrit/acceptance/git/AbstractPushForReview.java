@@ -68,7 +68,6 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.AttentionSetUpdate;
-import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.LabelId;
@@ -454,8 +453,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void pushWithoutChangeIdDeprecated() throws Exception {
-    setRequireChangeId(InheritableBoolean.FALSE);
+  public void pushWithoutChangeIdUnsupported() throws Exception {
     testRepo
         .branch("HEAD")
         .commit()
@@ -464,7 +462,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         .committer(new PersonIdent(admin.newIdent(), testRepo.getDate()))
         .create();
     PushResult result = pushHead(testRepo, "refs/for/master");
-    assertThat(result.getMessages()).contains("warning: pushing without Change-Id is deprecated");
+    assertThat(result.getMessages()).contains("missing Change-Id in message footer");
   }
 
   @Test
@@ -1598,26 +1596,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void pushWithoutChangeId() throws Exception {
-    testPushWithoutChangeId();
-  }
-
-  @Test
-  public void pushWithoutChangeIdWithCreateNewChangeForAllNotInTarget() throws Exception {
-    enableCreateNewChangeForAllNotInTarget();
-    testPushWithoutChangeId();
-  }
-
-  private void testPushWithoutChangeId() throws Exception {
-    RevCommit c = createCommit(testRepo, "Message without Change-Id");
-    assertThat(GitUtil.getChangeId(testRepo, c)).isEmpty();
-    pushForReviewRejected(testRepo, "missing Change-Id in message footer");
-
-    setRequireChangeId(InheritableBoolean.FALSE);
-    pushForReviewOk(testRepo);
-  }
-
-  @Test
   public void pushWithChangeIdAboveFooter() throws Exception {
     testPushWithChangeIdAboveFooter();
   }
@@ -1659,9 +1637,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
                 + "More text, uh oh.\n");
     assertThat(GitUtil.getChangeId(testRepo, c)).isEmpty();
     pushForReviewRejected(testRepo, "Change-Id must be in message footer");
-
-    setRequireChangeId(InheritableBoolean.FALSE);
-    pushForReviewRejected(testRepo, "Change-Id must be in message footer");
   }
 
   @Test
@@ -1698,9 +1673,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             + "Change-Id: I10f98c2ef76e52e23aa23be5afeb71e40b350e86\n"
             + "Change-Id: Ie9a132e107def33bdd513b7854b50de911edba0a\n");
     pushForReviewRejected(testRepo, "multiple Change-Id lines in message footer");
-
-    setRequireChangeId(InheritableBoolean.FALSE);
-    pushForReviewRejected(testRepo, "multiple Change-Id lines in message footer");
   }
 
   @Test
@@ -1716,9 +1688,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   private void testpushWithInvalidChangeId() throws Exception {
     createCommit(testRepo, "Message with invalid Change-Id\n\nChange-Id: X\n");
-    pushForReviewRejected(testRepo, "invalid Change-Id line format in message footer");
-
-    setRequireChangeId(InheritableBoolean.FALSE);
     pushForReviewRejected(testRepo, "invalid Change-Id line format in message footer");
   }
 
@@ -1741,17 +1710,11 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             + "\n"
             + "Change-Id: I0000000000000000000000000000000000000000\n");
     pushForReviewRejected(testRepo, "invalid Change-Id line format in message footer");
-
-    setRequireChangeId(InheritableBoolean.FALSE);
-    pushForReviewRejected(testRepo, "invalid Change-Id line format in message footer");
   }
 
   @Test
   public void pushWithChangeIdInSubjectLine() throws Exception {
     createCommit(testRepo, "Change-Id: I1234000000000000000000000000000000000000");
-    pushForReviewRejected(testRepo, "missing subject; Change-Id must be in message footer");
-
-    setRequireChangeId(InheritableBoolean.FALSE);
     pushForReviewRejected(testRepo, "missing subject; Change-Id must be in message footer");
   }
 
@@ -1771,15 +1734,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             + "Squash the commits with the same Change-Id or ensure Change-Ids are unique for each"
             + " commit");
 
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .updateProject(
-              p ->
-                  p.setBooleanConfig(
-                      BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.FALSE));
-      u.save();
-    }
-
     pushForReviewRejected(
         testRepo,
         "same Change-Id in multiple changes.\n"
@@ -1798,15 +1752,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         "same Change-Id in multiple changes.\n"
             + "Squash the commits with the same Change-Id or ensure Change-Ids are unique for each"
             + " commit");
-
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .updateProject(
-              p ->
-                  p.setBooleanConfig(
-                      BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.FALSE));
-      u.save();
-    }
 
     pushForReviewRejected(
         testRepo,
@@ -2787,20 +2732,20 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void cannotPushTheSameCommitTwiceForReviewToTheSameBranch() throws Exception {
-    testCannotPushTheSameCommitTwiceForReviewToTheSameBranch();
+    testCannotPushTheSameCommitTwiceForReviewToTheSameBranch("no new changes");
   }
 
   @Test
   public void cannotPushTheSameCommitTwiceForReviewToTheSameBranchCreateNewChangeForAllNotInTarget()
       throws Exception {
     enableCreateNewChangeForAllNotInTarget();
-    testCannotPushTheSameCommitTwiceForReviewToTheSameBranch();
+    testCannotPushTheSameCommitTwiceForReviewToTheSameBranch(
+        "commit(s) already exists (as current patchset)");
   }
 
-  private void testCannotPushTheSameCommitTwiceForReviewToTheSameBranch() throws Exception {
-    setRequireChangeId(InheritableBoolean.FALSE);
-
-    // create a commit without Change-Id
+  private void testCannotPushTheSameCommitTwiceForReviewToTheSameBranch(String expectedReason)
+      throws Exception {
+    createChange(testRepo);
     testRepo
         .branch("HEAD")
         .commit()
@@ -2808,22 +2753,21 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         .committer(user.newIdent())
         .add(PushOneCommit.FILE_NAME, PushOneCommit.FILE_CONTENT)
         .message(PushOneCommit.SUBJECT)
+        .insertChangeId()
         .create();
 
     // push the commit for review to create a change
     PushResult r = pushHead(testRepo, "refs/for/master");
     assertPushOk(r, "refs/for/master");
 
-    // try to push the same commit for review again to create another change on the same branch,
-    // it's expected that this is rejected with "no new changes"
+    // try to push the same commit for review again on the same branch,
+    // it's expected that this is rejected with a specific reason message
     r = pushHead(testRepo, "refs/for/master");
-    assertPushRejected(r, "refs/for/master", "no new changes");
+    assertPushRejected(r, "refs/for/master", expectedReason);
   }
 
   @Test
   public void pushTheSameCommitTwiceForReviewToDifferentBranches() throws Exception {
-    setRequireChangeId(InheritableBoolean.FALSE);
-
     // create a commit without Change-Id
     testRepo
         .branch("HEAD")
@@ -2832,6 +2776,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         .committer(user.newIdent())
         .add(PushOneCommit.FILE_NAME, PushOneCommit.FILE_CONTENT)
         .message(PushOneCommit.SUBJECT)
+        .insertChangeId()
         .create();
 
     // push the commit for review to create a change

@@ -17,7 +17,6 @@ package com.google.gerrit.server.edit;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.common.base.Charsets;
-import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
@@ -368,15 +367,9 @@ public class ChangeEditModifier {
     PatchSet basePatchset = modificationTarget.getBasePatchset();
     RevCommit basePatchsetCommit = NoteDbEdits.lookupCommit(repository, basePatchset.commitId());
 
-    boolean changeIdRequired =
-        projectCache
-            .get(notes.getChange().getProject())
-            .orElseThrow(illegalState(notes.getChange().getProject()))
-            .is(BooleanProjectConfig.REQUIRE_CHANGE_ID);
     String currentChangeId = notes.getChange().getKey().get();
     String newCommitMessage =
-        createNewCommitMessage(
-            changeIdRequired, currentChangeId, editBehavior, commitModification, commitToModify);
+        createNewCommitMessage(currentChangeId, editBehavior, commitModification, commitToModify);
     newCommitMessage = editBehavior.mergeCommitMessageIfNecessary(newCommitMessage, commitToModify);
 
     Optional<ChangeEdit> unmodifiedEdit =
@@ -473,7 +466,6 @@ public class ChangeEditModifier {
   }
 
   private String createNewCommitMessage(
-      boolean requireChangeId,
       String currentChangeId,
       EditBehavior editBehavior,
       CommitModification commitModification,
@@ -492,7 +484,7 @@ public class ChangeEditModifier {
           "New commit message cannot be same as existing commit message");
     }
 
-    ChangeUtil.ensureChangeIdIsCorrect(requireChangeId, currentChangeId, newCommitMessage);
+    ChangeUtil.ensureChangeIdIsCorrect(currentChangeId, newCommitMessage);
 
     return newCommitMessage;
   }

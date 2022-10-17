@@ -69,10 +69,6 @@ suite('gr-repo tests', () => {
       value: false,
       configured_value: InheritedBooleanInfoConfiguredValue.FALSE,
     },
-    require_change_id: {
-      value: false,
-      configured_value: InheritedBooleanInfoConfiguredValue.FALSE,
-    },
     enable_signed_push: {
       value: false,
       configured_value: InheritedBooleanInfoConfiguredValue.FALSE,
@@ -251,16 +247,6 @@ suite('gr-repo tests', () => {
                   </span>
                   <span class="value">
                     <gr-select id="newChangeSelect">
-                      <select disabled=""></select>
-                    </gr-select>
-                  </span>
-                </section>
-                <section>
-                  <span class="title">
-                    Require Change-Id in commit message
-                  </span>
-                  <span class="value">
-                    <gr-select id="requireChangeIdSelect">
                       <select disabled=""></select>
                     </gr-select>
                   </span>
@@ -696,7 +682,6 @@ suite('gr-repo tests', () => {
         use_signed_off_by: InheritedBooleanInfoConfiguredValue.TRUE,
         create_new_change_for_all_not_in_target:
           InheritedBooleanInfoConfiguredValue.TRUE,
-        require_change_id: InheritedBooleanInfoConfiguredValue.TRUE,
         enable_signed_push: InheritedBooleanInfoConfiguredValue.TRUE,
         require_signed_push: InheritedBooleanInfoConfiguredValue.TRUE,
         reject_implicit_merges: InheritedBooleanInfoConfiguredValue.TRUE,
@@ -735,8 +720,6 @@ suite('gr-repo tests', () => {
         configInputObj.use_content_merge;
       queryAndAssert<GrSelect>(element, '#newChangeSelect').bindValue =
         configInputObj.create_new_change_for_all_not_in_target;
-      queryAndAssert<GrSelect>(element, '#requireChangeIdSelect').bindValue =
-        configInputObj.require_change_id;
       queryAndAssert<GrSelect>(element, '#enableSignedPush').bindValue =
         configInputObj.enable_signed_push;
       queryAndAssert<GrSelect>(element, '#requireSignedPush').bindValue =

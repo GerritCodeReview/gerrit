@@ -157,8 +157,6 @@ public class ProjectCreator {
                 BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET,
                 args.newChangeForAllNotInTarget);
             newProject.setBooleanConfig(
-                BooleanProjectConfig.REQUIRE_CHANGE_ID, args.changeIdRequired);
-            newProject.setBooleanConfig(
                 BooleanProjectConfig.REJECT_EMPTY_COMMIT, args.rejectEmptyCommit);
             newProject.setMaxObjectSizeLimit(args.maxObjectSizeLimit);
             newProject.setBooleanConfig(

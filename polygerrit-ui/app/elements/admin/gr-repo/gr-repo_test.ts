@@ -255,16 +255,6 @@ suite('gr-repo tests', () => {
                     </gr-select>
                   </span>
                 </section>
-                <section>
-                  <span class="title">
-                    Require Change-Id in commit message
-                  </span>
-                  <span class="value">
-                    <gr-select id="requireChangeIdSelect">
-                      <select disabled=""></select>
-                    </gr-select>
-                  </span>
-                </section>
                 <section
                   class="repositorySettings"
                   id="enableSignedPushSettings"
@@ -735,8 +725,6 @@ suite('gr-repo tests', () => {
         configInputObj.use_content_merge;
       queryAndAssert<GrSelect>(element, '#newChangeSelect').bindValue =
         configInputObj.create_new_change_for_all_not_in_target;
-      queryAndAssert<GrSelect>(element, '#requireChangeIdSelect').bindValue =
-        configInputObj.require_change_id;
       queryAndAssert<GrSelect>(element, '#enableSignedPush').bindValue =
         configInputObj.enable_signed_push;
       queryAndAssert<GrSelect>(element, '#requireSignedPush').bindValue =

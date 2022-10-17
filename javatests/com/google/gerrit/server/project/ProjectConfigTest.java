@@ -17,7 +17,7 @@ package com.google.gerrit.server.project;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
-import static com.google.gerrit.entities.BooleanProjectConfig.REQUIRE_CHANGE_ID;
+import static com.google.gerrit.entities.BooleanProjectConfig.REQUIRE_SIGNED_PUSH;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -829,13 +829,13 @@ public class ProjectConfigTest {
   public void readAllProjectsBaseConfigFromSitePaths() throws Exception {
     ProjectConfig cfg = factory.create(ALL_PROJECTS);
     cfg.load(db);
-    assertThat(cfg.getProject().getBooleanConfig(REQUIRE_CHANGE_ID))
+    assertThat(cfg.getProject().getBooleanConfig(REQUIRE_SIGNED_PUSH))
         .isEqualTo(InheritableBoolean.INHERIT);
 
-    writeDefaultAllProjectsConfig("[receive]", "requireChangeId = false");
+    writeDefaultAllProjectsConfig("[receive]", "requireSignedPush = false");
 
     cfg.load(db);
-    assertThat(cfg.getProject().getBooleanConfig(REQUIRE_CHANGE_ID))
+    assertThat(cfg.getProject().getBooleanConfig(REQUIRE_SIGNED_PUSH))
         .isEqualTo(InheritableBoolean.FALSE);
   }
 
@@ -843,17 +843,17 @@ public class ProjectConfigTest {
   public void readOtherProjectIgnoresAllProjectsBaseConfig() throws Exception {
     ProjectConfig cfg = factory.create(Project.nameKey("test"));
     cfg.load(db);
-    assertThat(cfg.getProject().getBooleanConfig(REQUIRE_CHANGE_ID))
+    assertThat(cfg.getProject().getBooleanConfig(REQUIRE_SIGNED_PUSH))
         .isEqualTo(InheritableBoolean.INHERIT);
 
-    writeDefaultAllProjectsConfig("[receive]", "requireChangeId = false");
+    writeDefaultAllProjectsConfig("[receive]", "requireSignedPush = false");
 
     cfg.load(db);
     // If we went through ProjectState, then this would return FALSE, since project.config for
     // All-Projects would inherit from all_projects.config, and this project would inherit from
     // All-Projects. But in ProjectConfig itself, there is no inheritance from All-Projects, so this
     // continues to return the default.
-    assertThat(cfg.getProject().getBooleanConfig(REQUIRE_CHANGE_ID))
+    assertThat(cfg.getProject().getBooleanConfig(REQUIRE_SIGNED_PUSH))
         .isEqualTo(InheritableBoolean.INHERIT);
   }
 

@@ -33,7 +33,6 @@ public class CreateProjectArgs {
   public List<String> branch;
   public InheritableBoolean contentMerge;
   public InheritableBoolean newChangeForAllNotInTarget;
-  public InheritableBoolean changeIdRequired;
   public InheritableBoolean rejectEmptyCommit;
   public InheritableBoolean enableSignedPush;
   public InheritableBoolean requireSignedPush;
@@ -44,7 +43,6 @@ public class CreateProjectArgs {
     contributorAgreements = InheritableBoolean.INHERIT;
     signedOffBy = InheritableBoolean.INHERIT;
     contentMerge = InheritableBoolean.INHERIT;
-    changeIdRequired = InheritableBoolean.INHERIT;
     newChangeForAllNotInTarget = InheritableBoolean.INHERIT;
     enableSignedPush = InheritableBoolean.INHERIT;
     requireSignedPush = InheritableBoolean.INHERIT;

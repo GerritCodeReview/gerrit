@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "229bbb63_feaf739b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-17T08:45:57Z",
+      "side": 1,
+      "message": "I have to admit that these RXJS clauses are becoming expert-level-only.",
+      "revId": "8a78c0defd2d57d6a2fa10c4ed2229127aa3622d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

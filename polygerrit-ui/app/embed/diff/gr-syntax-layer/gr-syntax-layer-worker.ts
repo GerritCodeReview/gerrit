@@ -275,7 +275,8 @@ export class GrSyntaxLayerWorker implements DiffLayer {
       this.notify();
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      if (!err.isCanceled) this.reportingService.error(err as Error);
+      if (!err.isCanceled)
+        this.reportingService.error('Diff Syntax Layer', err as Error);
       // One source of "error" can promise cancelation.
       this.leftRanges = [];
       this.rightRanges = [];

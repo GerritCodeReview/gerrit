@@ -118,7 +118,10 @@ export class HighlightService implements Finalizable {
   private handleResult(worker: Worker, result: SyntaxWorkerResult) {
     this.moveBusyToIdle(worker);
     if (result.error) {
-      this.reporting.error(new Error(`syntax worker failed: ${result.error}`));
+      this.reporting.error(
+        'Diff Syntax Layer',
+        new Error(`syntax worker failed: ${result.error}`)
+      );
     }
     const resolver = this.queueForResult.get(worker);
     this.queueForResult.delete(worker);

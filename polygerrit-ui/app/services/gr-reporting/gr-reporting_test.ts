@@ -533,7 +533,14 @@ suite('gr-reporting tests', () => {
       const error = new Error('bar');
       error.stack = undefined;
       emulateThrow('bar', 'http://url', 4, 2, error);
-      assert.isTrue(reporter.calledWith('error', 'exception', 'onError: bar'));
+      assert.isTrue(reporter.calledWith('error', 'exception', 'onError'));
+    });
+
+    test('is reported with message', () => {
+      const error = new Error('bar');
+      emulateThrow('bar', 'http://url', 4, 2, error);
+      const eventDetails = reporter.lastCall.args[4];
+      assert.equal(eventDetails.errorMessage, 'onError: bar');
     });
 
     test('is reported with stack', () => {
@@ -551,7 +558,7 @@ suite('gr-reporting tests', () => {
       const newError = new Error('bar');
       fakeWindow.handlers['unhandledrejection']({reason: newError});
       assert.isTrue(
-        reporter.calledWith('error', 'exception', 'unhandledrejection: bar')
+        reporter.calledWith('error', 'exception', 'unhandledrejection')
       );
     });
   });

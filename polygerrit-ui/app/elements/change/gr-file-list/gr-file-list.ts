@@ -847,19 +847,28 @@ export class GrFileList extends LitElement {
           this.dynamicHeaderEndpoints.length !==
           this.dynamicContentEndpoints.length
         ) {
-          this.reporting.error(new Error('dynamic header/content mismatch'));
+          this.reporting.error(
+            'Plugin change-view-file-list',
+            new Error('dynamic header/content mismatch')
+          );
         }
         if (
           this.dynamicPrependedHeaderEndpoints.length !==
           this.dynamicPrependedContentEndpoints.length
         ) {
-          this.reporting.error(new Error('dynamic header/content mismatch'));
+          this.reporting.error(
+            'Plugin change-view-file-list',
+            new Error('dynamic prepend header/content mismatch')
+          );
         }
         if (
           this.dynamicHeaderEndpoints.length !==
           this.dynamicSummaryEndpoints.length
         ) {
-          this.reporting.error(new Error('dynamic header/content mismatch'));
+          this.reporting.error(
+            'Plugin change-view-file-list',
+            new Error('dynamic header/summary mismatch')
+          );
         }
       });
     this.diffCursor = new GrDiffCursor();
@@ -2350,6 +2359,7 @@ export class GrFileList extends LitElement {
       const diffElem = this.findDiffByPath(path, diffElements);
       if (!diffElem) {
         this.reporting.error(
+          'GrFileList',
           new Error(`Did not find <gr-diff-host> element for ${path}`)
         );
         return;
@@ -2364,6 +2374,7 @@ export class GrFileList extends LitElement {
       const diffElem = this.findDiffByPath(path, diffElements);
       if (!diffElem) {
         this.reporting.error(
+          'GrFileList',
           new Error(`Did not find <gr-diff-host> element for ${path}`)
         );
         return;

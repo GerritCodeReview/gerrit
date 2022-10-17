@@ -497,9 +497,13 @@ export class GrDiffHost extends LitElement {
         if (e === DELAYED_CANCELLATION) {
           // Do nothing.
         } else if (e instanceof Error) {
-          this.reporting.error(e);
+          this.reporting.error('GrDiffHost Reload:', e);
         } else {
-          this.reporting.error(new Error('reloadPromise error'), undefined, e);
+          this.reporting.error(
+            'GrDiffHost Reload:',
+            new Error('reloadPromise error'),
+            e
+          );
         }
       }
       await this.updateComplete;
@@ -570,11 +574,11 @@ export class GrDiffHost extends LitElement {
           return;
         } catch (e: unknown) {
           if (e instanceof Error) {
-            this.reporting.error(e);
+            this.reporting.error('GrDiffHost Reload:', e);
           } else {
             this.reporting.error(
+              'GrDiffHost Reload:',
               new Error('reloadInternal error'),
-              undefined,
               e
             );
           }
@@ -657,9 +661,13 @@ export class GrDiffHost extends LitElement {
       if (e instanceof Response) {
         this.handleGetDiffError(e);
       } else if (e instanceof Error) {
-        this.reporting.error(e);
+        this.reporting.error('GrDiffHost Reload:', e);
       } else {
-        this.reporting.error(new Error('reload error'), undefined, e);
+        this.reporting.error(
+          'GrDiffHost Reload:',
+          new Error('reload error'),
+          e
+        );
       }
     } finally {
       this.reporting.timeEnd(Timing.DIFF_TOTAL, this.timingDetails());
@@ -884,12 +892,12 @@ export class GrDiffHost extends LitElement {
               });
             })
             .catch(err => {
-              this.reporting.error(err);
+              this.reporting.error('GrDiffHost Coverage', err);
             });
         });
       })
       .catch(err => {
-        this.reporting.error(err);
+        this.reporting.error('GrDiffHost Coverage', err);
       });
   }
 

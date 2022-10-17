@@ -1361,7 +1361,10 @@ export class GrChangeActions
     revert dialog after revert button is pressed. */
     this.restApiService.getChanges(0, query).then(changes => {
       if (!changes) {
-        this.reporting.error(new Error('changes is undefined'));
+        this.reporting.error(
+          'Change Actions',
+          new Error('getChanges returns undefined')
+        );
         return;
       }
       assertIsDefined(this.confirmRevertDialog, 'confirmRevertDialog');
@@ -1668,7 +1671,10 @@ export class GrChangeActions
         );
         break;
       default:
-        this.reporting.error(new Error('invalid revert type'));
+        this.reporting.error(
+          'Change Actions',
+          new Error('invalid revert type')
+        );
     }
   }
 
@@ -2013,7 +2019,10 @@ export class GrChangeActions
       .getChanges(0, query, undefined, options)
       .then(changes => {
         if (!changes) {
-          this.reporting.error(new Error('getChanges returns undefined'));
+          this.reporting.error(
+            'Change Actions',
+            new Error('getChanges returns undefined')
+          );
           return;
         }
         this.confirmCherrypick!.updateChanges(changes);

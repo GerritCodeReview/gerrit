@@ -174,6 +174,24 @@
       "message": "I think you need to restore the .warning class too?",
       "revId": "67eb23e8bca2d9e6927705d55863b4351e4d2b0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbeeb34b_6940eceb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-17T12:03:40Z",
+      "side": 1,
+      "message": "The `.warning` class in I971bc62bac was for customising its colour, which isn\u0027t necessarily related to this change.",
+      "parentUuid": "cb2a426a_1581166f",
+      "revId": "67eb23e8bca2d9e6927705d55863b4351e4d2b0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

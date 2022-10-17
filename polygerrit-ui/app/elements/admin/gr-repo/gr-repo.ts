@@ -274,7 +274,7 @@ export class GrRepo extends LitElement {
       <fieldset id="options">
         ${this.renderState()} ${this.renderSubmitType()}
         ${this.renderContentMerges()} ${this.renderNewChange()}
-        ${this.renderChangeId()} ${this.renderEnableSignedPush()}
+        ${this.renderEnableSignedPush()}
         ${this.renderRequireSignedPush()} ${this.renderRejectImplicitMerges()}
         ${this.renderUnRegisteredCc()} ${this.renderPrivateByDefault()}
         ${this.renderWorkInProgressByDefault()} ${this.renderMaxGitObjectSize()}
@@ -375,32 +375,6 @@ export class GrRepo extends LitElement {
             <select ?disabled=${this.readOnly}>
               ${this.formatBooleanSelect(
                 this.repoConfig?.create_new_change_for_all_not_in_target
-              ).map(
-                item => html`
-                  <option value=${item.value}>${item.label}</option>
-                `
-              )}
-            </select>
-          </gr-select>
-        </span>
-      </section>
-    `;
-  }
-
-  private renderChangeId() {
-    return html`
-      <section>
-        <span class="title">Require Change-Id in commit message</span>
-        <span class="value">
-          <gr-select
-            id="requireChangeIdSelect"
-            .bindValue=${this.repoConfig?.require_change_id?.configured_value}
-            @bind-value-changed=${this
-              .handleRequireChangeIdSelectBindValueChanged}
-          >
-            <select ?disabled=${this.readOnly}>
-              ${this.formatBooleanSelect(
-                this.repoConfig?.require_change_id
               ).map(
                 item => html`
                   <option value=${item.value}>${item.label}</option>
@@ -1159,13 +1133,6 @@ export class GrRepo extends LitElement {
       return;
     this.repoConfig.create_new_change_for_all_not_in_target.configured_value = e
       .detail.value as InheritedBooleanInfoConfiguredValue;
-    this.requestUpdate();
-  }
-
-  private handleRequireChangeIdSelectBindValueChanged(e: BindValueChangeEvent) {
-    if (!this.repoConfig?.require_change_id || this.loading) return;
-    this.repoConfig.require_change_id.configured_value = e.detail
-      .value as InheritedBooleanInfoConfiguredValue;
     this.requestUpdate();
   }
 

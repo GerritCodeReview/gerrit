@@ -72,17 +72,12 @@ public class Votes implements ChildCollection<ReviewerResource, VoteResource> {
     }
 
     @Override
-    public Response<Map<String, Short>> apply(ReviewerResource rsrc)
-        throws MethodNotAllowedException {
-      if (rsrc.getRevisionResource() != null && !rsrc.getRevisionResource().isCurrent()) {
-        throw new MethodNotAllowedException("Cannot list votes on non-current patch set");
-      }
-
+    public Response<Map<String, Short>> apply(ReviewerResource rsrc) {
       Map<String, Short> votes = new TreeMap<>();
       Iterable<PatchSetApproval> byPatchSetUser =
           approvalsUtil.byPatchSetUser(
               rsrc.getChangeResource().getNotes(),
-              rsrc.getChange().currentPatchSetId(),
+              rsrc.getRevisionResource().getPatchSet().id(),
               rsrc.getReviewerUser().getAccountId());
       for (PatchSetApproval psa : byPatchSetUser) {
         votes.put(psa.label(), psa.value());

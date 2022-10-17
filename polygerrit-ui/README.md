@@ -24,11 +24,13 @@ cd gerrit && (
 
 Follow the instructions
 [here](https://gerrit-review.googlesource.com/Documentation/dev-bazel.html#_installation)
-to get and install Bazel.
+to get and install Bazel. The `npm install -g @bazel/bazelisk` method is
+probably easiest since you will have npm as part of Nodejs.
 
 ## Installing [Node.js](https://nodejs.org/en/download/) and npm packages
 
-The minimum nodejs version supported is 10.x+.
+The minimum nodejs version supported is 10.x+. We recommend at least the latest
+LTS (v16 as of October 2022).
 
 ```sh
 # Debian experimental
@@ -80,11 +82,12 @@ yarn remove @bazel/...
 
 ## Setup typescript support in the IDE
 
-Modern IDE should automatically handle typescript settings from the
-`polygerrit-ui/app/tsconfig.json` files. IDE places compiled files in the
-`.ts-out/pg` directory at the root of gerrit workspace and you can configure IDE
-to exclude the whole .ts-out directory. To do it in the IntelliJ IDEA click on
-this directory and select "Mark Directory As > Excluded" in the context menu.
+Modern IDEs should automatically handle typescript settings from the
+`polygerrit-ui/app/tsconfig.json` files. The `tsc` compiler places compiled
+files in the `.ts-out/pg` directory at the root of gerrit workspace and you can
+configure the IDE to exclude the whole .ts-out directory. To do it in the
+IntelliJ IDEA click on this directory and select "Mark Directory As > Excluded"
+in the context menu.
 
 However, if you receive some errors from IDE, you can try to configure IDE
 manually. For example, if IntelliJ IDEA shows
@@ -92,22 +95,27 @@ manually. For example, if IntelliJ IDEA shows
 options `--project polygerrit-ui/app/tsconfig.json` in the IDE settings.
 
 
-## Serving files locally
+## Developing locally
 
-#### Web Dev Server
+The preferred method for development is to serve the web files locally using the
+Web Dev Server and then view a running gerrit instance (local or otherwise) to
+replace its web client with the local one using the Gerrit FE Dev Helper
+extension.
 
-To test the local frontend against production data or a local test site execute:
+### Web Dev Server
+
+The [Web Dev Server](https://modern-web.dev/docs/dev-server/overview/) serves
+the compiled web files and dependencies unbundled over localhost. Start it using
+this command:
 
 ```sh
 yarn start
 ```
 
-This command starts the [Web Dev Server](https://modern-web.dev/docs/dev-server/overview/).
 To inject plugins or other files, we use the [Gerrit FE Dev Helper](https://chrome.google.com/webstore/detail/gerrit-fe-dev-helper/jimgomcnodkialnpmienbomamgomglkd) Chrome extension.
 
 If any issues occured, please refer to the Troubleshooting section at the bottom or contact the team!
 
-## Running locally against production data
 
 ### Chrome extension: Gerrit FE Dev Helper
 
@@ -120,7 +128,7 @@ The source code is in [Gerrit - gerrit-fe-dev-helper](https://gerrit-review.goog
 
 To use this extension, just follow its [readme here](https://gerrit.googlesource.com/gerrit-fe-dev-helper/+/master/README.md).
 
-## Running locally against a Gerrit test site
+### Running locally against a Gerrit test site
 
 Set up a local test site once:
 
@@ -144,26 +152,38 @@ $(bazel info output_base)/external/local_jdk/bin/java \
     --dev-cdn http://localhost:8081
 ```
 
+The Web Dev Server is currently not serving fonts or other static assets. Follow
+[Issue 16341](https://bugs.chromium.org/p/gerrit/issues/detail?id=16341) for
+fixing this issue.
+
 *NOTE* You can use any other cdn here, for example: https://cdn.googlesource.com/polygerrit_ui/678.0
 
 ## Running Tests
 
 For daily development you typically only want to run and debug individual tests.
-There are several ways to run tests.
+Our tests run using the
+[Web Test Runner](https://modern-web.dev/docs/test-runner/overview/). There are
+several ways to trigger tests:
 
-* Run all tests:
+* Run all tests once:
 ```sh
 yarn test
 ```
 
-* Run all tests under bazel:
+* Run all tests and then watches for changes. Change a file will trigger all
+tests affected by the changes.
+```sh
+yarn test:watch
+```
+
+* Run all tests once under bazel:
 ```sh
 ./polygerrit-ui/app/run_test.sh
 ```
 
-* Run a single test file:
+* Run a single test file and rerun on any changes affecting it:
 ```
-yarn test:single "**/async-foreach-behavior_test.js"
+yarn test:single "**/gr-comment_test.ts"
 ```
 
 Compiling code:
@@ -172,33 +192,8 @@ Compiling code:
 yarn compile:local
 
 # Watch mode:
-## Terminal 1:
 yarn compile:watch
-## Terminal 2, test & watch a file for example:
-yarn test:single "**/async-foreach-behavior_test.js"
 ```
-
-### Generated file overview
-
-A generated file starts with imports followed by a static content with
-different type definitions. You can skip this part - it doesn't contains
-anything usefule.
-
-After the static content there is a class definition. Example:
-```typescript
-export class GrCreateGroupDialogCheck extends GrCreateGroupDialog {
-  templateCheck() {
-    // Converted template
-    // Each HTML element from the template is wrapped into own block.
-  }
-}
-```
-
-The converted template usually quite straightforward, but in some cases
-additional functions are added. For example, `<element x=[[y.a]]>` converts into
-`el.x = y!.a` if y is a simple type. However, if y has a union type, like - `y:A|B`,
-then the generated code looks like `el.x=__f(y)!.a` (`y!.a` may result in a TS error
-if `a` is defined only in one type of a union).
 
 ## Style guide
 

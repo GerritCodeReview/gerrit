@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53e31979_2f86416b",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-10-17T12:57:06Z",
+      "side": 1,
+      "message": "I don\u0027t think you need the check for ADD_PATCH_SET, this is handled by PatchSetInserter already[1]\n\nMaybe just add a test for that?\n\nI also don\u0027t think you need a check for FORGE_AUTHOR. I see there was a test that setting the author without FORGE_AUTHOR permission resulted in an error, even before this change. \n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/changes/54/347054/13/java/com/google/gerrit/server/change/PatchSetInserter.java#395",
+      "range": {
+        "startLine": 121,
+        "startChar": 4,
+        "endLine": 121,
+        "endChar": 45
+      },
+      "revId": "09764a62da947e7ad378e8cfd152390ea9642cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

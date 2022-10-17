@@ -40,7 +40,7 @@ import {
 } from '../../../utils/comment-util';
 import {pluralize} from '../../../utils/string-util';
 import {AccountInfo} from '../../../types/common';
-import {notUndefined} from '../../../types/types';
+import {isDefined} from '../../../types/types';
 import {Tab} from '../../../constants/constants';
 import {ChecksTabState, CommentTabState} from '../../../types/events';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';
@@ -670,7 +670,7 @@ export class GrChangeSummary extends LitElement {
     return commentThreads
       .map(getFirstComment)
       .map(comment => comment?.author ?? this.selfAccount)
-      .filter(notUndefined);
+      .filter(isDefined);
   }
 }
 

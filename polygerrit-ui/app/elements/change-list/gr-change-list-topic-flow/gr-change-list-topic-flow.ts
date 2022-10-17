@@ -15,7 +15,7 @@ import '../../shared/gr-autocomplete/gr-autocomplete';
 import '@polymer/iron-dropdown/iron-dropdown';
 import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
 import {getAppContext} from '../../../services/app-context';
-import {notUndefined} from '../../../types/types';
+import {isDefined} from '../../../types/types';
 import {unique} from '../../../utils/common-util';
 import {AutocompleteSuggestion} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {when} from 'lit/directives/when.js';
@@ -190,7 +190,7 @@ export class GrChangeListTopicFlow extends LitElement {
   private renderExistingTopicsMode() {
     const topics = this.selectedChanges
       .map(change => change.topic)
-      .filter(notUndefined)
+      .filter(isDefined)
       .filter(unique);
     const removeDisabled =
       this.selectedExistingTopics.size === 0 ||
@@ -347,7 +347,7 @@ export class GrChangeListTopicFlow extends LitElement {
     );
     this.existingTopicSuggestions = (suggestions ?? [])
       .map(change => change.topic)
-      .filter(notUndefined)
+      .filter(isDefined)
       .filter(unique);
     return this.existingTopicSuggestions.map(topic => {
       return {name: topic, value: topic};

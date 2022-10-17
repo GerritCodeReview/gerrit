@@ -15,7 +15,7 @@ import '../../shared/gr-autocomplete/gr-autocomplete';
 import '@polymer/iron-dropdown/iron-dropdown';
 import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
 import {getAppContext} from '../../../services/app-context';
-import {notUndefined} from '../../../types/types';
+import {isDefined} from '../../../types/types';
 import {unique} from '../../../utils/common-util';
 import {AutocompleteSuggestion} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {when} from 'lit/directives/when.js';
@@ -215,7 +215,7 @@ export class GrChangeListHashtagFlow extends LitElement {
   private renderExistingHashtags() {
     const hashtags = this.selectedChanges
       .flatMap(change => change.hashtags ?? [])
-      .filter(notUndefined)
+      .filter(isDefined)
       .filter(unique);
     return html`
       <div class="chips">
@@ -302,7 +302,7 @@ export class GrChangeListHashtagFlow extends LitElement {
     );
     this.existingHashtagSuggestions = (suggestions ?? [])
       .flatMap(change => change.hashtags ?? [])
-      .filter(notUndefined)
+      .filter(isDefined)
       .filter(unique);
     return this.existingHashtagSuggestions.map(hashtag => {
       return {name: hashtag, value: hashtag};

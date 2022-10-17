@@ -61,7 +61,7 @@ import {
 import {fireAlert, fireEvent, fireReload} from '../../../utils/event-util';
 import {
   EditRevisionInfo,
-  notUndefined,
+  isDefined,
   ParsedChangeInfo,
 } from '../../../types/types';
 import {
@@ -1124,7 +1124,7 @@ export class GrChangeMetadata extends LitElement {
       .then(response =>
         (response ?? [])
           .map(change => change.topic)
-          .filter(notUndefined)
+          .filter(isDefined)
           .filter(unique)
           .map(topic => {
             return {name: topic, value: topic};
@@ -1140,7 +1140,7 @@ export class GrChangeMetadata extends LitElement {
       .then(response =>
         (response ?? [])
           .flatMap(change => change.hashtags ?? [])
-          .filter(notUndefined)
+          .filter(isDefined)
           .filter(unique)
           .map(hashtag => {
             return {name: hashtag, value: hashtag};

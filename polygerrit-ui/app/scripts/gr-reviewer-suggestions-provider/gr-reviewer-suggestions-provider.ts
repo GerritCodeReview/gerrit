@@ -20,7 +20,7 @@ import {
 import {assertNever} from '../../utils/common-util';
 import {AutocompleteSuggestion} from '../../elements/shared/gr-autocomplete/gr-autocomplete';
 import {allSettled, isFulfilled} from '../../utils/async-util';
-import {notUndefined, ParsedChangeInfo} from '../../types/types';
+import {isDefined, ParsedChangeInfo} from '../../types/types';
 import {accountKey} from '../../utils/account-util';
 import {
   AccountId,
@@ -63,7 +63,7 @@ export class GrReviewerSuggestionsProvider
     const suggestionsByChangeIndex = resultsByChangeIndex
       .filter(isFulfilled)
       .map(result => result.value)
-      .filter(notUndefined);
+      .filter(isDefined);
     if (suggestionsByChangeIndex.length !== resultsByChangeIndex.length) {
       // one of the requests failed, so don't allow any suggestions.
       return [];

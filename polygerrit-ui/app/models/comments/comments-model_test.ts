@@ -150,4 +150,40 @@ suite('change service tests', () => {
 
     assert.deepEqual(mentionedUsers, [account]);
   });
+
+  test('empty mentions are emitted', async () => {
+    const account = {
+      ...createAccountWithEmail('abcd@def.com' as EmailAddress),
+      registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
+    };
+    stubRestApi('getAccountDetails').returns(Promise.resolve(account));
+    const model = new CommentsModel(
+      getAppContext().routerModel,
+      testResolver(changeModelToken),
+      getAppContext().accountsModel,
+      getAppContext().restApiService,
+      getAppContext().reportingService
+    );
+    let mentionedUsers: AccountInfo[] = [];
+    const draft = {...createDraft(), message: 'hey @abc@def.com'};
+    model.mentionedUsersInDrafts$.subscribe(x => (mentionedUsers = x));
+    model.setState({
+      drafts: {
+        'abc.txt': [draft],
+      },
+      discardedDrafts: [],
+    });
+
+    await waitUntil(() => mentionedUsers.length > 0);
+
+    assert.deepEqual(mentionedUsers, [account]);
+
+    model.setState({
+      drafts: {
+        'abc.txt': [],
+      },
+      discardedDrafts: [],
+    });
+    await waitUntil(() => mentionedUsers.length === 0);
+  });
 });

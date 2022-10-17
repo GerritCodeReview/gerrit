@@ -428,6 +428,7 @@ java_package_configuration(
         "-Xep:WrongOneof:ERROR",
         "-Xep:XorPower:ERROR",
         "-Xep:ZoneIdOfZ:ERROR",
+        "-Xlint:unchecked",
     ],
     packages = ["error_prone_packages"],
 )

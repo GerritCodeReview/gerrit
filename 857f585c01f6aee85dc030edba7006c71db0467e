@@ -87,6 +87,24 @@
       "parentUuid": "3bd978c9_045518af",
       "revId": "857f585c01f6aee85dc030edba7006c71db0467e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2784de47_23a002e2",
+        "filename": "polygerrit-ui/app/types/types.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-17T10:41:12Z",
+      "side": 1,
+      "message": "Follow-up is fine.",
+      "parentUuid": "3bd978c9_045518af",
+      "revId": "857f585c01f6aee85dc030edba7006c71db0467e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

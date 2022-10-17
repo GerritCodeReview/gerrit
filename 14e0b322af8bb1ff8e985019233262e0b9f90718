@@ -16,6 +16,24 @@
       "message": "What about doing this in `updated` if isHidden is modified?",
       "revId": "14e0b322af8bb1ff8e985019233262e0b9f90718",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "031d80a2_fc0d4182",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-17T12:36:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c86c4fc_6d397ba6",
+      "revId": "14e0b322af8bb1ff8e985019233262e0b9f90718",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -325,6 +325,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7061999_b1998e30",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 2139,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-17T08:51:14Z",
+      "side": 1,
+      "message": "Unfortunately, yes. JGIt Apply is very limited.\nThe hunks are applied in a serial order, and if any of them is not applied - an exception is thrown.\nhttps://git.eclipse.org/c/jgit/jgit.git/tree/org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java#n842",
+      "parentUuid": "5d93ea3c_0adcbb24",
+      "revId": "12805679a1d7c57fd3a3e82c74ad8e2e887c1acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "decd8b40_33c7ee85",
@@ -537,6 +555,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a9d4103_832e5c0a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 6594,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-17T08:51:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a21a561_41f269a2",
+      "range": {
+        "startLine": 6594,
+        "startChar": 2,
+        "endLine": 6594,
+        "endChar": 9
+      },
+      "revId": "12805679a1d7c57fd3a3e82c74ad8e2e887c1acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "57c17eb2_380e0739",
@@ -655,6 +697,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2963921f_86d2b11b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 6603,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-17T08:51:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bbbafcee_fa157f7b",
+      "range": {
+        "startLine": 6601,
+        "startChar": 0,
+        "endLine": 6603,
+        "endChar": 55
+      },
+      "revId": "12805679a1d7c57fd3a3e82c74ad8e2e887c1acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b68bd6ef_50e331d8",
@@ -716,6 +782,30 @@
       "side": 1,
       "message": "\u003e Currently yes, in all of the flows mentioned [above](https://gerrit-review.googlesource.com/c/gerrit/+/340065/comment/2ed0fc88_b9ca73b7/).\n\nThat\u0027s surprising.\n\n\u003e I agree this might not be the logical behavior, but changing it should be a separate effort IMO.\n\nWhat about for this new API? You don\u0027t need to change the others now.",
       "parentUuid": "a0a471ad_7154dc1c",
+      "range": {
+        "startLine": 6604,
+        "startChar": 0,
+        "endLine": 6604,
+        "endChar": 65
+      },
+      "revId": "12805679a1d7c57fd3a3e82c74ad8e2e887c1acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e31e9e41_61b534c5",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 6604,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-17T08:51:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24572930_93b0b227",
       "range": {
         "startLine": 6604,
         "startChar": 0,

@@ -6093,7 +6093,7 @@ describes the resulting cherry-pick change.
 
 Lists the reviewers of a revision.
 
-Please note that only the current revision is supported.
+Please note the returned reviewers are of the current patch set.
 
 As result a list of link:#reviewer-info[ReviewerInfo] entries is returned.
 
@@ -6138,8 +6138,6 @@ As result a list of link:#reviewer-info[ReviewerInfo] entries is returned.
 --
 
 Lists the votes for a specific reviewer of the revision.
-
-Please note that only the current revision is supported.
 
 .Request
 ----

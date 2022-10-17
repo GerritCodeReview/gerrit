@@ -69,6 +69,7 @@ import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
+import com.google.gerrit.extensions.api.changes.RevisionReviewerApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ReviewerState;
@@ -1985,7 +1986,58 @@ public class RevisionIT extends AbstractDaemonTest {
                     .revision(r.getCommit().getName())
                     .reviewer(user.id().toString())
                     .deleteVote(LabelId.CODE_REVIEW));
-    assertThat(thrown).hasMessageThat().contains("Cannot access on non-current patch set");
+    assertThat(thrown).hasMessageThat().contains("Cannot delete vote on non-current patch set");
+  }
+
+  @Test
+  public void getVotesByRevisionOnNonCurrentPatchSetUsingApi() throws Exception {
+    PushOneCommit.Result patchset1 = createChange(); // patch set 1
+    // Add reviewer user
+    change(patchset1).addReviewer(user.email());
+    // Add reviewer admin
+    change(patchset1).addReviewer(admin.email());
+    // create patch set 2
+    PushOneCommit.Result patchset2 = amendChange(patchset1.getChangeId());
+    // admin votes on patch set 2
+    requestScopeOperations.setApiUser(admin.id());
+    ReviewInput in = new ReviewInput();
+    in.label(LabelId.CODE_REVIEW, 2);
+    revision(patchset2).review(in);
+    // add reviewer user2
+    change(patchset2).addReviewer(accountCreator.user2().email());
+
+    // Patchset1 Should have admin as reviewer but without votes
+    assertThat(gApi.changes()
+        .id(patchset1.getChangeId())
+        .revision(patchset1.getCommit().getName())
+        .reviewer(admin.id().toString()).votes()).containsExactly();
+
+    // Patchset2 Should have admin with votes
+    assertThat(gApi.changes()
+        .id(patchset2.getChangeId())
+        .revision(patchset2.getCommit().getName())
+        .reviewer(admin.id().toString()).votes()).containsExactly(LabelId.CODE_REVIEW, (short)2);
+
+    // Patchset1 has user as a reviewer
+    assertThat(gApi.changes()
+        .id(patchset1.getChangeId())
+        .revision(patchset1.getCommit().getName())
+        .reviewer(user.id().toString()).votes()).containsExactly();
+
+    // Query to patchset1 has user2 as a reviewer (reviewers are returned for current patchset only)
+    assertThat(gApi.changes()
+        .id(patchset1.getChangeId())
+        .revision(patchset1.getCommit().getName())
+        .reviewer(accountCreator.user2().id().toString()).votes()).containsExactly();
+
+
+
+    // // Patchset1 Should NOT have user
+
+    assertThat(gApi.changes()
+        .id(patchset2.getChangeId())
+        .revision(patchset2.getCommit().getName())
+        .reviewer(accountCreator.user2().id().toString()).votes()).containsExactly();
   }
 
   @Test

@@ -16,11 +16,12 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
+import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -36,20 +37,18 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class RevisionReviewers implements ChildCollection<RevisionResource, ReviewerResource> {
+
   private final DynamicMap<RestView<ReviewerResource>> views;
-  private final ApprovalsUtil approvalsUtil;
   private final AccountsCollection accounts;
   private final ReviewerResource.Factory resourceFactory;
   private final ListRevisionReviewers list;
 
   @Inject
   RevisionReviewers(
-      ApprovalsUtil approvalsUtil,
       AccountsCollection accounts,
       ReviewerResource.Factory resourceFactory,
       DynamicMap<RestView<ReviewerResource>> views,
       ListRevisionReviewers list) {
-    this.approvalsUtil = approvalsUtil;
     this.accounts = accounts;
     this.resourceFactory = resourceFactory;
     this.views = views;
@@ -68,14 +67,13 @@ public class RevisionReviewers implements ChildCollection<RevisionResource, Revi
 
   @Override
   public ReviewerResource parse(RevisionResource rsrc, IdString id)
-      throws ResourceNotFoundException, AuthException, MethodNotAllowedException, IOException,
-          ConfigInvalidException {
-    if (!rsrc.isCurrent()) {
-      throw new MethodNotAllowedException("Cannot access on non-current patch set");
-    }
+      throws ResourceNotFoundException, AuthException, IOException,
+      ConfigInvalidException {
+
     Address address = Address.tryParse(id.get());
 
     Account.Id accountId = null;
+
     try {
       accountId = accounts.parse(TopLevelResource.INSTANCE, id).getUser().getAccountId();
     } catch (ResourceNotFoundException e) {
@@ -83,13 +81,11 @@ public class RevisionReviewers implements ChildCollection<RevisionResource, Revi
         throw e;
       }
     }
-    Collection<Account.Id> reviewers = approvalsUtil.getReviewers(rsrc.getNotes()).all();
-    // See if the id exists as a reviewer for this change
-    if (reviewers.contains(accountId)) {
+
+    if(rsrc.getNotes().getReviewers().all().contains(accountId)) {
       return resourceFactory.create(rsrc, accountId);
     }
 
-    // See if the address exists as a reviewer on the change
     if (address != null && rsrc.getNotes().getReviewersByEmail().all().contains(address)) {
       return new ReviewerResource(rsrc, address);
     }

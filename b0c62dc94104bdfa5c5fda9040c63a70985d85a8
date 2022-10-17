@@ -70,6 +70,30 @@
       },
       "revId": "b0c62dc94104bdfa5c5fda9040c63a70985d85a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e03ec2f_2b7fa085",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-17T10:20:17Z",
+      "side": 0,
+      "message": "This is a regression because we normally use Gerrit FE Dev Helper Extension to replace only the javascript on the page, but the `--dev-cdn` on a local backend instance expects other stuff to come from localhost (fonts and maybe others, but not index.html or API responses?). I will file a bug and take this.",
+      "parentUuid": "a71ed470_a1eefc7c",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 0
+      },
+      "revId": "b0c62dc94104bdfa5c5fda9040c63a70985d85a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

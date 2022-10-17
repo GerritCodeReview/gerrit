@@ -46,6 +46,30 @@
       },
       "revId": "b0c62dc94104bdfa5c5fda9040c63a70985d85a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a71ed470_a1eefc7c",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-17T08:58:14Z",
+      "side": 0,
+      "message": "I see, however, the previous go-server was also serving static assets like the fonts whilst the Web Dev Server doesn\u0027t.\n\nIf I run Gerrit in dev mode (from Eclipse) and the Web Dev Server, I don\u0027t have a working and complete UI because fonts are missing.\n\nIs there anything else I should do to have a dev environment like before?",
+      "parentUuid": "caf3707b_6e9aff83",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 0
+      },
+      "revId": "b0c62dc94104bdfa5c5fda9040c63a70985d85a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

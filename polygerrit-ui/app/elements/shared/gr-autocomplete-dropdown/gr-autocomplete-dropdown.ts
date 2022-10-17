@@ -7,12 +7,13 @@ import '../gr-cursor-manager/gr-cursor-manager';
 import '../../../styles/shared-styles';
 import {GrCursorManager} from '../gr-cursor-manager/gr-cursor-manager';
 import {fireEvent} from '../../../utils/event-util';
-import {addShortcut, Key} from '../../../utils/dom-util';
+import {Key} from '../../../utils/dom-util';
 import {FitController} from '../../lit/fit-controller';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query} from 'lit/decorators.js';
 import {repeat} from 'lit/directives/repeat.js';
 import {sharedStyles} from '../../../styles/shared-styles';
+import {ShortcutController} from '../../lit/shortcut-controller';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -64,8 +65,7 @@ export class GrAutocompleteDropdown extends LitElement {
 
   @query('#suggestions') suggestionsDiv?: HTMLDivElement;
 
-  /** Called in disconnectedCallback. */
-  private cleanups: (() => void)[] = [];
+  private readonly shortcuts = new ShortcutController(this);
 
   // visible for testing
   cursor = new GrCursorManager();
@@ -132,29 +132,19 @@ export class GrAutocompleteDropdown extends LitElement {
     super();
     this.cursor.cursorTargetClass = 'selected';
     this.cursor.focusOnMove = true;
+    this.shortcuts.addLocal({key: Key.UP}, () => this.handleUp());
+    this.shortcuts.addLocal({key: Key.DOWN}, () => this.handleDown());
+    this.shortcuts.addLocal({key: Key.ENTER}, () => this.handleEnter());
+    this.shortcuts.addLocal({key: Key.ESC}, () => this.handleEscape());
+    this.shortcuts.addLocal({key: Key.TAB}, () => this.handleTab());
   }
 
   override connectedCallback() {
     super.connectedCallback();
-    this.cleanups.push(addShortcut(this, {key: Key.UP}, () => this.handleUp()));
-    this.cleanups.push(
-      addShortcut(this, {key: Key.DOWN}, () => this.handleDown())
-    );
-    this.cleanups.push(
-      addShortcut(this, {key: Key.ENTER}, () => this.handleEnter())
-    );
-    this.cleanups.push(
-      addShortcut(this, {key: Key.ESC}, () => this.handleEscape())
-    );
-    this.cleanups.push(
-      addShortcut(this, {key: Key.TAB}, () => this.handleTab())
-    );
   }
 
   override disconnectedCallback() {
     this.cursor.unsetCursor();
-    for (const cleanup of this.cleanups) cleanup();
-    this.cleanups = [];
     super.disconnectedCallback();
   }
 

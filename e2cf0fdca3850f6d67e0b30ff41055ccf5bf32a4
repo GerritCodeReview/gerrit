@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c45899d0_63a2a796",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-17T08:53:26Z",
+      "side": 1,
+      "message": "Sorry I interpreted `Release-Notes` as only for details relevant to the release consumers, but you are right this kind of thing should also be included. I am not sure how best to rectify this. I will mention in the Release-Notes for the cleanup change I am sending you, if you prefer not doing it that way then please comment there.",
+      "parentUuid": "349400bb_bcb877e1",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 19
+      },
+      "revId": "e2cf0fdca3850f6d67e0b30ff41055ccf5bf32a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c8f2b69c_cf57b199",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -71,6 +95,30 @@
       "writtenOn": "2022-10-16T20:53:33Z",
       "side": 1,
       "message": "Broken anchor? Where is this web-dev-server defined?",
+      "range": {
+        "startLine": 135,
+        "startChar": 27,
+        "endLine": 135,
+        "endChar": 41
+      },
+      "revId": "e2cf0fdca3850f6d67e0b30ff41055ccf5bf32a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69b27c01_40ca687d",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-17T08:53:26Z",
+      "side": 1,
+      "message": "I was confused as well about the previous `#go-server` link as well. AFAICT, the generated id/name for the heading replaces spaces with hyphens. So `#### Web Dev Server` gets the `web-dev-server` name.\n\nIt works fine: https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/README.md#web-dev-server",
+      "parentUuid": "cc3fbda5_75bd95b4",
       "range": {
         "startLine": 135,
         "startChar": 27,

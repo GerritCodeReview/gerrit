@@ -22,6 +22,30 @@
       },
       "revId": "b0c62dc94104bdfa5c5fda9040c63a70985d85a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "caf3707b_6e9aff83",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-17T08:53:26Z",
+      "side": 0,
+      "message": "The `#### Web Dev Server` section above already does this, it was added when I introduced the Web Dev Server, but this change is removing the old Go Server \u0026 docs. I think the sections and groupings got a bit out of order at some point. I will send you a change to improve this. I will leave this comment open until it is sent.",
+      "parentUuid": "6944d351_7dda9285",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 0
+      },
+      "revId": "b0c62dc94104bdfa5c5fda9040c63a70985d85a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

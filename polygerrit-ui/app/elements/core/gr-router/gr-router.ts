@@ -317,7 +317,15 @@ export class GrRouter implements Finalizable, NavigationService {
         if (this.view !== GerritView.CHANGE) return;
         const browserUrl = new URL(window.location.toString());
         const stateUrl = new URL(createChangeUrl(state), browserUrl);
+
+        // Keeping the hash and certain parameters are stop-gap solution. We
+        // should find better ways of maintaining an overall consistent URL
+        // state.
         stateUrl.hash = browserUrl.hash;
+        for (const p of browserUrl.searchParams.entries()) {
+          if (p[0] === 'experiment') stateUrl.searchParams.append(p[0], p[1]);
+        }
+
         if (browserUrl.toString() !== stateUrl.toString()) {
           page.replace(
             stateUrl.toString(),

@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4e1ac15_48b03999",
+        "filename": "polygerrit-ui/app/models/views/search.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-17T10:38:41Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "522b8684_69a69d7c",
+      "revId": "ca1bf37acfa224f0d77dfc4a7ba57f40bd6b66ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "047fce3b_a10cebb6",
@@ -137,6 +155,24 @@
       "side": 1,
       "message": "When using a very long regular expression, then you have to be really good at spotting the | characters for mentally parsing what it is doing. I actually like having separate patterns. That makes it much more readable IMO.\n\nWDYT?",
       "parentUuid": "bb3ecd1d_430ac8e7",
+      "revId": "ca1bf37acfa224f0d77dfc4a7ba57f40bd6b66ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa7ac14d_61429dee",
+        "filename": "polygerrit-ui/app/models/views/search.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-17T10:38:41Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "774fec4e_4e9bdfde",
       "revId": "ca1bf37acfa224f0d77dfc4a7ba57f40bd6b66ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

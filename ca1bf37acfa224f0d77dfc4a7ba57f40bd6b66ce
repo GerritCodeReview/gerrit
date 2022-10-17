@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5636e46a_b87245d6",
+        "filename": "polygerrit-ui/app/models/views/search.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-17T08:40:37Z",
+      "side": 1,
+      "message": "As discussed below, this could be a single REGEXP rather than a list of REGEXP",
+      "revId": "ca1bf37acfa224f0d77dfc4a7ba57f40bd6b66ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "047fce3b_a10cebb6",
+        "filename": "polygerrit-ui/app/models/views/search.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-17T08:40:37Z",
+      "side": 1,
+      "message": "Newline between member and next comment.",
+      "revId": "ca1bf37acfa224f0d77dfc4a7ba57f40bd6b66ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33ba7934_80c7501a",
+        "filename": "polygerrit-ui/app/models/views/search.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-17T08:40:37Z",
+      "side": 1,
+      "message": "Newline between member and next comment.",
+      "revId": "ca1bf37acfa224f0d77dfc4a7ba57f40bd6b66ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb3ecd1d_430ac8e7",
+        "filename": "polygerrit-ui/app/models/views/search.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-17T08:40:37Z",
+      "side": 1,
+      "message": "Instead of a forloop, what about creating a single pattern that just does an | between them?",
+      "revId": "ca1bf37acfa224f0d77dfc4a7ba57f40bd6b66ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

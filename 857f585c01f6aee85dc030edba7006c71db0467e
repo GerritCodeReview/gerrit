@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05e98b1f_1c7f3be0",
+        "filename": "polygerrit-ui/app/models/views/search.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-17T08:40:37Z",
+      "side": 1,
+      "message": "There\u0027s a type for this: `Provider\u003cNavigationService\u003e`.  It\u0027s defined in dependency.ts.  It makes it a bit clearer that it\u0027s a provide and not a creator.",
+      "revId": "857f585c01f6aee85dc030edba7006c71db0467e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a5bd3de_1c7e5d12",
+        "filename": "polygerrit-ui/app/types/types.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-17T08:40:37Z",
+      "side": 1,
+      "message": "This feels more like an \u0027isDefined\u0027 than a \u0027notUndefined\u0027 now.  The latter is more specific.",
+      "revId": "857f585c01f6aee85dc030edba7006c71db0467e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

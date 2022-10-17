@@ -165,8 +165,13 @@ export class GrAutocompleteDropdown extends LitElement {
   }
 
   override updated(changedProperties: PropertyValues) {
-    if (changedProperties.has('suggestions')) {
-      this.onSuggestionsChanged();
+    if (
+      changedProperties.has('suggestions') ||
+      changedProperties.has('isHidden')
+    ) {
+      if (!this.isHidden) {
+        this.computeCursorStopsAndRefit();
+      }
     }
   }
 
@@ -209,7 +214,6 @@ export class GrAutocompleteDropdown extends LitElement {
 
   open() {
     this.isHidden = false;
-    this.onSuggestionsChanged();
   }
 
   getCurrentText() {
@@ -299,14 +303,12 @@ export class GrAutocompleteDropdown extends LitElement {
     return this.cursor.target;
   }
 
-  onSuggestionsChanged() {
+  computeCursorStopsAndRefit() {
     if (this.suggestions.length > 0) {
-      if (!this.isHidden) {
-        this.cursor.stops = Array.from(
-          this.suggestionsDiv?.querySelectorAll('li') ?? []
-        );
-        this.resetCursorIndex();
-      }
+      this.cursor.stops = Array.from(
+        this.suggestionsDiv?.querySelectorAll('li') ?? []
+      );
+      this.resetCursorIndex();
     } else {
       this.cursor.stops = [];
     }

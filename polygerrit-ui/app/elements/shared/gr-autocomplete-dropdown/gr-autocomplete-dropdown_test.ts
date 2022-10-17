@@ -170,7 +170,7 @@ suite('gr-autocomplete-dropdown', () => {
   });
 
   test('updated suggestions resets cursor stops', async () => {
-    const resetStopsSpy = sinon.spy(element, 'onSuggestionsChanged');
+    const resetStopsSpy = sinon.spy(element, 'computeCursorStopsAndRefit');
     element.suggestions = [];
     await waitUntil(() => resetStopsSpy.called);
   });

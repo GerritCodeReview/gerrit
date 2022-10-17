@@ -107,9 +107,6 @@ with the following message:
   ! [remote rejected] HEAD -> refs/for/master (missing Change-Id in commit
   message footer)
 
-However, repositories can be configured to allow commits without Change-Ids
-in the commit message by setting "Require Change-Id in commit message" to "FALSE".
-
 For more details on using git push to upload changes to Gerrit,
 see link:user-upload.html#push_create[creating changes by git push].
 

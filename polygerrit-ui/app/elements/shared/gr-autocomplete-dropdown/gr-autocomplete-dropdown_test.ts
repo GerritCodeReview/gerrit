@@ -11,6 +11,7 @@ import {
   queryAll,
   queryAndAssert,
   waitEventLoop,
+  waitUntil,
 } from '../../../test/test-utils';
 import {assertIsDefined} from '../../../utils/common-util';
 import {fixture, html, assert} from '@open-wc/testing';
@@ -70,9 +71,6 @@ suite('gr-autocomplete-dropdown', () => {
               <span> 2 </span>
               <span class="hide label"> </span>
             </li>
-            <dom-repeat style="display: none;">
-              <template is="dom-repeat"> </template>
-            </dom-repeat>
           </ul>
         </div>
       `
@@ -93,7 +91,7 @@ suite('gr-autocomplete-dropdown', () => {
   });
 
   test('tab key', () => {
-    const handleTabSpy = sinon.spy(element, '_handleTab');
+    const handleTabSpy = sinon.spy(element, 'handleTab');
     const itemSelectedStub = sinon.stub();
     element.addEventListener('item-selected', itemSelectedStub);
     pressKey(element, Key.TAB);
@@ -107,7 +105,7 @@ suite('gr-autocomplete-dropdown', () => {
   });
 
   test('enter key', () => {
-    const handleEnterSpy = sinon.spy(element, '_handleEnter');
+    const handleEnterSpy = sinon.spy(element, 'handleEnter');
     const itemSelectedStub = sinon.stub();
     element.addEventListener('item-selected', itemSelectedStub);
     pressKey(element, Key.ENTER);
@@ -171,9 +169,9 @@ suite('gr-autocomplete-dropdown', () => {
     });
   });
 
-  test('updated suggestions resets cursor stops', () => {
+  test('updated suggestions resets cursor stops', async () => {
     const resetStopsSpy = sinon.spy(element, 'onSuggestionsChanged');
     element.suggestions = [];
-    assert.isTrue(resetStopsSpy.called);
+    await waitUntil(() => resetStopsSpy.called);
   });
 });

@@ -21,6 +21,7 @@ import {
   withLatestFrom,
   startWith,
   switchMap,
+  tap,
 } from 'rxjs/operators';
 import {RouterModel} from '../../services/router/router-model';
 import {
@@ -195,7 +196,6 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
       combineLatest([
         this.routerModel.state$,
         this.state$,
-        this.routerModel.routerPatchNum$,
         this.latestPatchNum$,
       ]).pipe(
         /**
@@ -203,14 +203,14 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
          * out inconsistent state, e.g. router changeNum already updated, change not
          * yet reset to undefined.
          */
-        filter(([routerState, changeState, _routerPatchN, _latestPatchN]) => {
+        filter(([routerState, changeState, _latestPatchN]) => {
           const changeNum = changeState.change?._number;
           const routerChangeNum = routerState.changeNum;
           return changeNum === undefined || changeNum === routerChangeNum;
         })
       ),
-      ([_routerState, _changeState, routerPatchN, latestPatchN]) =>
-        routerPatchN || latestPatchN
+      ([routerState, _changeState, latestPatchN]) =>
+        routerState?.patchNum || latestPatchN
     );
 
   /**

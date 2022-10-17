@@ -30,6 +30,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LAB
 import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import com.google.gerrit.extensions.api.changes.RevisionReviewerApi;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.HEAD;
@@ -1985,7 +1986,23 @@ public class RevisionIT extends AbstractDaemonTest {
                     .revision(r.getCommit().getName())
                     .reviewer(user.id().toString())
                     .deleteVote(LabelId.CODE_REVIEW));
-    assertThat(thrown).hasMessageThat().contains("Cannot access on non-current patch set");
+    assertThat(thrown).hasMessageThat().contains("Cannot delete vote on non-current patch set");
+  }
+
+  @Test
+  public void getVotesByRevisionOnNonCurrentPatchSetUsingApi() throws Exception {
+    PushOneCommit.Result r = createChange(); // patch set 1
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
+
+    // patch set 2
+    amendChange(r.getChangeId());
+
+    RevisionReviewerApi revisionReviewerApi = gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().getName())
+        .reviewer(admin.id().toString());
+
+    assertThat(revisionReviewerApi.votes()).containsExactly(LabelId.CODE_REVIEW, (short) 2);
   }
 
   @Test

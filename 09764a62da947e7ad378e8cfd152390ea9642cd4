@@ -22,6 +22,30 @@
       },
       "revId": "09764a62da947e7ad378e8cfd152390ea9642cd4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14e8dedb_5dae04b3",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-18T08:10:57Z",
+      "side": 1,
+      "message": "Han-Wen just asked to add those. [1]\nI do think it makes sense that permission errors fail fast, and it seems to be the convention in the API methods, but I don\u0027t feel strongly about it. \n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/347054/comment/56aa7124_9b0c0360/",
+      "parentUuid": "53e31979_2f86416b",
+      "range": {
+        "startLine": 121,
+        "startChar": 4,
+        "endLine": 121,
+        "endChar": 45
+      },
+      "revId": "09764a62da947e7ad378e8cfd152390ea9642cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "039949e6_014a95ac",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-10-18T11:54:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f82bccb0_19061391",
+      "revId": "0d94620df9e1d04e09386287f9dfc9f021350ff1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d645656a_2202a4fc",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-10-12T15:50:28Z",
       "side": 1,
       "message": "Do this in the getter so you don\u0027t have to store cardinality?",
+      "revId": "0d94620df9e1d04e09386287f9dfc9f021350ff1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "063eafe5_61352a65",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-10-18T11:54:35Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "d645656a_2202a4fc",
       "revId": "0d94620df9e1d04e09386287f9dfc9f021350ff1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

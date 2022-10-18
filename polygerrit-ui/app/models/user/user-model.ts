@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {from, of, Observable} from 'rxjs';
-import {filter, switchMap} from 'rxjs/operators';
+import {switchMap} from 'rxjs/operators';
 import {
   DiffPreferencesInfo as DiffPreferencesInfoAPI,
   DiffViewMode,
@@ -26,59 +26,21 @@ import {DiffPreferencesInfo} from '../../types/diff';
 import {Finalizable} from '../../services/registry';
 import {select} from '../../utils/observable-util';
 import {Model} from '../model';
-import {isDefined} from '../../types/types';
 
 export interface UserState {
   /**
    * Keeps being defined even when credentials have expired.
-   *
-   * `undefined` can mean that the app is still starting up and we have not
-   * tried loading an account object yet. If you want to wait until the
-   * `account` is known, then use `accountLoaded` below.
    */
   account?: AccountDetailInfo;
-  /**
-   * Starts as `false` and switches to `true` after the first `getAccount` call.
-   * A common use case for this is to wait with loading or doing something until
-   * we know whether the user is logged in or not, see `loadedAccount$` below.
-   *
-   * This value cannot change back to `false` once it has become `true`.
-   *
-   * This value does *not* indicate whether the user is logged in or whether an
-   * `account` object is available. If the first `getAccount()` call returns
-   * `undefined`, then `accountLoaded` still becomes true, even if `account`
-   * stays `undefined`.
-   */
-  accountLoaded: boolean;
-  preferences?: PreferencesInfo;
-  diffPreferences?: DiffPreferencesInfo;
-  editPreferences?: EditPreferencesInfo;
+  preferences: PreferencesInfo;
+  diffPreferences: DiffPreferencesInfo;
+  editPreferences: EditPreferencesInfo;
   capabilities?: AccountCapabilityInfo;
 }
 
 export class UserModel extends Model<UserState> implements Finalizable {
-  /**
-   * Note that the initially emitted `undefined` value can mean "not loaded
-   * the account into object yet" or "user is not logged in". Consider using
-   * `loadedAccount$` below.
-   *
-   * TODO: Maybe consider changing all usages to `loadedAccount$`.
-   */
   readonly account$: Observable<AccountDetailInfo | undefined> = select(
     this.state$,
-    userState => userState.account
-  );
-
-  /**
-   * Only emits once we have tried to actually load the account. Note that
-   * this does not initially emit a value.
-   *
-   * So if this emits `undefined`, then you actually know that the user is not
-   * logged in. And for logged in users you will never get an initial
-   * `undefined` emission.
-   */
-  readonly loadedAccount$: Observable<AccountDetailInfo | undefined> = select(
-    this.state$.pipe(filter(s => s.accountLoaded)),
     userState => userState.account
   );
 
@@ -99,17 +61,17 @@ export class UserModel extends Model<UserState> implements Finalizable {
   readonly preferences$: Observable<PreferencesInfo> = select(
     this.state$,
     userState => userState.preferences
-  ).pipe(filter(isDefined));
+  );
 
   readonly diffPreferences$: Observable<DiffPreferencesInfo> = select(
     this.state$,
     userState => userState.diffPreferences
-  ).pipe(filter(isDefined));
+  );
 
   readonly editPreferences$: Observable<EditPreferencesInfo> = select(
     this.state$,
     userState => userState.editPreferences
-  ).pipe(filter(isDefined));
+  );
 
   readonly preferenceDiffViewMode$: Observable<DiffViewMode> = select(
     this.preferences$,
@@ -121,14 +83,11 @@ export class UserModel extends Model<UserState> implements Finalizable {
     preference => preference.theme
   );
 
-  readonly preferenceChangesPerPage$: Observable<number> = select(
-    this.preferences$,
-    preference => preference.changes_per_page
-  );
-
   constructor(readonly restApiService: RestApiService) {
     super({
-      accountLoaded: false,
+      preferences: createDefaultPreferences(),
+      diffPreferences: createDefaultDiffPrefs(),
+      editPreferences: createDefaultEditPrefs(),
     });
     this.subscriptions = [
       from(this.restApiService.getAccount()).subscribe(
@@ -136,7 +95,7 @@ export class UserModel extends Model<UserState> implements Finalizable {
           this.setAccount(account);
         }
       ),
-      this.loadedAccount$
+      this.account$
         .pipe(
           switchMap(account => {
             if (!account) return of(createDefaultPreferences());
@@ -146,7 +105,7 @@ export class UserModel extends Model<UserState> implements Finalizable {
         .subscribe((preferences?: PreferencesInfo) => {
           this.setPreferences(preferences ?? createDefaultPreferences());
         }),
-      this.loadedAccount$
+      this.account$
         .pipe(
           switchMap(account => {
             if (!account) return of(createDefaultDiffPrefs());
@@ -156,7 +115,7 @@ export class UserModel extends Model<UserState> implements Finalizable {
         .subscribe((diffPrefs?: DiffPreferencesInfoAPI) => {
           this.setDiffPreferences(diffPrefs ?? createDefaultDiffPrefs());
         }),
-      this.loadedAccount$
+      this.account$
         .pipe(
           switchMap(account => {
             if (!account) return of(createDefaultEditPrefs());
@@ -166,7 +125,7 @@ export class UserModel extends Model<UserState> implements Finalizable {
         .subscribe((editPrefs?: EditPreferencesInfo) => {
           this.setEditPreferences(editPrefs ?? createDefaultEditPrefs());
         }),
-      this.loadedAccount$
+      this.account$
         .pipe(
           switchMap(account => {
             if (!account) return of(undefined);
@@ -237,6 +196,6 @@ export class UserModel extends Model<UserState> implements Finalizable {
   }
 
   setAccount(account?: AccountDetailInfo) {
-    this.updateState({account, accountLoaded: true});
+    this.updateState({account});
   }
 }

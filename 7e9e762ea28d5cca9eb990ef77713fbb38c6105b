@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b103e02b_8c3e7f02",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-18T08:57:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e237e531_abc3aee7",
+      "revId": "7e9e762ea28d5cca9eb990ef77713fbb38c6105b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f7ec431_2baa5ba5",
@@ -48,6 +66,30 @@
       "writtenOn": "2022-10-17T11:26:13Z",
       "side": 1,
       "message": "I think this naming is a bit misleading.\n\nIIUC the main intention of this test is to verify that a user that disables email notifications via the user preferences doesn\u0027t get an email, and this is still the case with the new logic (the \u0027other\u0027 user who disables email notification doesn\u0027t get an email).\n\nI would suggest to just keep the old test name and change the notify handling below in line 1675 from OWNER to ALL. I think then it gets more clear that this is only about testing the DISABLED email strategy.",
+      "range": {
+        "startLine": 1672,
+        "startChar": 42,
+        "endLine": 1672,
+        "endChar": 57
+      },
+      "revId": "7e9e762ea28d5cca9eb990ef77713fbb38c6105b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95514cd8_5651a931",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/ChangeNotificationsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1672,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-18T08:57:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f7ec431_2baa5ba5",
       "range": {
         "startLine": 1672,
         "startChar": 42,

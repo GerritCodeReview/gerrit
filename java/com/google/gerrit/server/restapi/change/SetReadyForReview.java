@@ -29,6 +29,7 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.WorkInProgressOp;
 import com.google.gerrit.server.change.WorkInProgressOp.Input;
+import com.google.gerrit.server.git.CommitUtil;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -42,11 +43,16 @@ public class SetReadyForReview
     implements RestModifyView<ChangeResource, Input>, UiAction<ChangeResource> {
   private final BatchUpdate.Factory updateFactory;
   private final WorkInProgressOp.Factory opFactory;
+  private final CommitUtil commitUtil;
 
   @Inject
-  SetReadyForReview(BatchUpdate.Factory updateFactory, WorkInProgressOp.Factory opFactory) {
+  SetReadyForReview(
+      BatchUpdate.Factory updateFactory,
+      WorkInProgressOp.Factory opFactory,
+      CommitUtil commitUtil) {
     this.updateFactory = updateFactory;
     this.opFactory = opFactory;
+    this.commitUtil = commitUtil;
   }
 
   @Override
@@ -66,6 +72,10 @@ public class SetReadyForReview
     try (BatchUpdate bu = updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.now())) {
       bu.setNotify(NotifyResolver.Result.create(firstNonNull(input.notify, NotifyHandling.ALL)));
       bu.addOp(rsrc.getChange().getId(), opFactory.create(false, input));
+      if (change.getRevertOf() != null) {
+        commitUtil.addChangeRevertedNotificationOps(
+            bu, change.getRevertOf(), change.getId(), change.getKey().get());
+      }
       bu.execute();
       return Response.ok();
     }

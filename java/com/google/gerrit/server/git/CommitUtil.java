@@ -94,6 +94,7 @@ public class CommitUtil {
   private final NotifyResolver notifyResolver;
   private final RevertedSender.Factory revertedSenderFactory;
   private final ChangeMessagesUtil cmUtil;
+  private final ChangeNotes.Factory changeNotesFactory;
   private final ChangeReverted changeReverted;
   private final BatchUpdate.Factory updateFactory;
   private final MessageIdGenerator messageIdGenerator;
@@ -108,6 +109,7 @@ public class CommitUtil {
       NotifyResolver notifyResolver,
       RevertedSender.Factory revertedSenderFactory,
       ChangeMessagesUtil cmUtil,
+      ChangeNotes.Factory changeNotesFactory,
       ChangeReverted changeReverted,
       BatchUpdate.Factory updateFactory,
       MessageIdGenerator messageIdGenerator) {
@@ -119,6 +121,7 @@ public class CommitUtil {
     this.notifyResolver = notifyResolver;
     this.revertedSenderFactory = revertedSenderFactory;
     this.cmUtil = cmUtil;
+    this.changeNotesFactory = changeNotesFactory;
     this.changeReverted = changeReverted;
     this.updateFactory = updateFactory;
     this.messageIdGenerator = messageIdGenerator;
@@ -301,17 +304,17 @@ public class CommitUtil {
       Repository git)
       throws IOException, RestApiException, UpdateException, ConfigInvalidException {
     RevCommit revertCommit = revWalk.parseCommit(revertCommitId);
-    Change changeToRevert = notes.getChange();
     Change.Id changeId = Change.id(seq.nextChangeId());
     if (input.workInProgress) {
-      input.notify = firstNonNull(input.notify, NotifyHandling.OWNER);
+      input.notify = firstNonNull(input.notify, NotifyHandling.NONE);
     }
     NotifyResolver.Result notify =
         notifyResolver.resolve(firstNonNull(input.notify, NotifyHandling.ALL), input.notifyDetails);
 
+    Change changeToRevert = notes.getChange();
     ChangeInserter ins =
         changeInserterFactory
-            .create(changeId, revertCommit, notes.getChange().getDest().branch())
+            .create(changeId, revertCommit, changeToRevert.getDest().branch())
             .setTopic(input.topic == null ? changeToRevert.getTopic() : input.topic.trim());
     ins.setMessage("Uploaded patch set 1.");
     ins.setValidationOptions(getValidateOptionsAsMultimap(input.validationOptions));
@@ -332,8 +335,10 @@ public class CommitUtil {
       bu.setRepository(git, revWalk, oi);
       bu.setNotify(notify);
       bu.insertChange(ins);
-      bu.addOp(changeId, new NotifyOp(changeToRevert, ins));
-      bu.addOp(changeToRevert.getId(), new PostRevertedMessageOp(generatedChangeId));
+      if (!input.workInProgress) {
+        addChangeRevertedNotificationOps(
+            bu, changeToRevert.getId(), changeId, generatedChangeId.name());
+      }
       bu.execute();
     }
     return changeId;
@@ -353,45 +358,67 @@ public class CommitUtil {
     return validationOptionsBuilder.build();
   }
 
-  private class NotifyOp implements BatchUpdateOp {
-    private final Change change;
-    private final ChangeInserter ins;
+  /**
+   * Notify the owners of a change that their change is being reverted.
+   *
+   * @param bu to append the notification actions to.
+   * @param revertedChangeId to be notified.
+   * @param revertingChangeId to notify about.
+   * @param revertingChangeKey to notify about.
+   */
+  public void addChangeRevertedNotificationOps(
+      BatchUpdate bu,
+      Change.Id revertedChangeId,
+      Change.Id revertingChangeId,
+      String revertingChangeKey) {
+    bu.addOp(revertingChangeId, new ChangeRevertedNotifyOp(revertedChangeId, revertingChangeId));
+    bu.addOp(revertedChangeId, new PostRevertedMessageOp(revertingChangeKey));
+  }
 
-    NotifyOp(Change change, ChangeInserter ins) {
-      this.change = change;
-      this.ins = ins;
+  private class ChangeRevertedNotifyOp implements BatchUpdateOp {
+    private final Change.Id revertedChangeId;
+    private final Change.Id revertingChangeId;
+
+    ChangeRevertedNotifyOp(Change.Id revertedChangeId, Change.Id revertingChangeId) {
+      this.revertedChangeId = revertedChangeId;
+      this.revertingChangeId = revertingChangeId;
     }
 
     @Override
     public void postUpdate(PostUpdateContext ctx) throws Exception {
-      changeReverted.fire(
-          ctx.getChangeData(change), ctx.getChangeData(ins.getChange()), ctx.getWhen());
+      ChangeData revertedChange =
+          ctx.getChangeData(changeNotesFactory.createChecked(ctx.getProject(), revertedChangeId));
+      ChangeData revertingChange =
+          ctx.getChangeData(changeNotesFactory.createChecked(ctx.getProject(), revertingChangeId));
+      changeReverted.fire(revertedChange, revertingChange, ctx.getWhen());
       try {
-        RevertedSender emailSender = revertedSenderFactory.create(ctx.getProject(), change.getId());
+        RevertedSender emailSender =
+            revertedSenderFactory.create(ctx.getProject(), revertedChange.getId());
         emailSender.setFrom(ctx.getAccountId());
-        emailSender.setNotify(ctx.getNotify(change.getId()));
+        emailSender.setNotify(ctx.getNotify(revertedChangeId));
         emailSender.setMessageId(
-            messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));
+            messageIdGenerator.fromChangeUpdate(
+                ctx.getRepoView(), revertedChange.currentPatchSet().id()));
         emailSender.send();
       } catch (Exception err) {
         logger.atSevere().withCause(err).log(
-            "Cannot send email for revert change %s", change.getId());
+            "Cannot send email for revert change %s", revertedChangeId);
       }
     }
   }
 
   private class PostRevertedMessageOp implements BatchUpdateOp {
-    private final ObjectId computedChangeId;
+    private final String revertingChangeKey;
 
-    PostRevertedMessageOp(ObjectId computedChangeId) {
-      this.computedChangeId = computedChangeId;
+    PostRevertedMessageOp(String revertingChangeKey) {
+      this.revertingChangeKey = revertingChangeKey;
     }
 
     @Override
     public boolean updateChange(ChangeContext ctx) {
       cmUtil.setChangeMessage(
           ctx,
-          "Created a revert of this change as I" + computedChangeId.name(),
+          "Created a revert of this change as I" + revertingChangeKey,
           ChangeMessagesUtil.TAG_REVERT);
       return true;
     }

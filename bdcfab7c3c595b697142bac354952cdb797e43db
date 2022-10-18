@@ -22,6 +22,30 @@
       },
       "revId": "bdcfab7c3c595b697142bac354952cdb797e43db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "414be1bb_a6ef41aa",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1380,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-18T08:34:42Z",
+      "side": 1,
+      "message": "Before we were using `setState`, so every property that was not present, would be `undefined`. But now we are using `updateState`, so we have to set `undefined` explicitly, if we want to reset a property.",
+      "parentUuid": "341ff698_f5a092ec",
+      "range": {
+        "startLine": 1380,
+        "startChar": 6,
+        "endLine": 1380,
+        "endChar": 24
+      },
+      "revId": "bdcfab7c3c595b697142bac354952cdb797e43db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

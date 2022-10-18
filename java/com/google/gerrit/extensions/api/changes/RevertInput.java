@@ -37,5 +37,11 @@ public class RevertInput {
    */
   public boolean workInProgress;
 
+  /**
+   * Mark the revert as silent. Silent reverts are marked as WIP. The authors of the original change
+   * are added as reviewers, but they will only get notified once the change is no longer WIP.
+   */
+  public boolean silent = false;
+
   public Map<String, String> validationOptions;
 }

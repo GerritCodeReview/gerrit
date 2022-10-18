@@ -263,17 +263,17 @@ public class CommitUtil {
       Repository git)
       throws IOException, RestApiException, UpdateException, ConfigInvalidException {
     RevCommit revertCommit = revWalk.parseCommit(revertCommitId);
-    Change changeToRevert = notes.getChange();
     Change.Id changeId = Change.id(seq.nextChangeId());
-    if (input.workInProgress) {
+    if (input.workInProgress || input.silent) {
       input.notify = firstNonNull(input.notify, NotifyHandling.OWNER);
     }
     NotifyResolver.Result notify =
         notifyResolver.resolve(firstNonNull(input.notify, NotifyHandling.ALL), input.notifyDetails);
 
+    Change changeToRevert = notes.getChange();
     ChangeInserter ins =
         changeInserterFactory
-            .create(changeId, revertCommit, notes.getChange().getDest().branch())
+            .create(changeId, revertCommit, changeToRevert.getDest().branch())
             .setTopic(input.topic == null ? changeToRevert.getTopic() : input.topic.trim());
     ins.setMessage("Uploaded patch set 1.");
     ins.setValidationOptions(getValidateOptionsAsMultimap(input.validationOptions));
@@ -288,14 +288,16 @@ public class CommitUtil {
     ccs.remove(user.getAccountId());
     ins.setReviewersAndCcs(reviewers, ccs);
     ins.setRevertOf(notes.getChangeId());
-    ins.setWorkInProgress(input.workInProgress);
+    ins.setWorkInProgress(input.workInProgress || input.silent);
 
     try (BatchUpdate bu = updateFactory.create(notes.getProjectName(), user, ts)) {
       bu.setRepository(git, revWalk, oi);
       bu.setNotify(notify);
       bu.insertChange(ins);
-      bu.addOp(changeId, new NotifyOp(changeToRevert, ins));
-      bu.addOp(changeToRevert.getId(), new PostRevertedMessageOp(generatedChangeId));
+      if (!input.silent) {
+        bu.addOp(changeId, new NotifyOp(changeToRevert, ins));
+        bu.addOp(changeToRevert.getId(), new PostRevertedMessageOp(generatedChangeId));
+      }
       bu.execute();
     }
     return changeId;

@@ -335,12 +335,13 @@ public class RevertSubmission
               generatedChangeId,
               cherryPickRevertChangeId,
               timestamp,
-              revertInput.workInProgress));
-      bu.addOp(changeNotes.getChange().getId(), new PostRevertedMessageOp(generatedChangeId));
-      bu.addOp(
-          cherryPickRevertChangeId,
-          new NotifyOp(changeNotes.getChange(), cherryPickRevertChangeId));
-
+              revertInput.workInProgress || revertInput.silent));
+      if (!revertInput.silent) {
+        bu.addOp(changeNotes.getChange().getId(), new PostRevertedMessageOp(generatedChangeId));
+        bu.addOp(
+            cherryPickRevertChangeId,
+            new NotifyOp(changeNotes.getChange(), cherryPickRevertChangeId));
+      }
       bu.execute();
     }
   }

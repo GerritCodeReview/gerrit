@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c0b893e9_195af62c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-18T12:31:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aaf6ff07_4b401f42",
+      "range": {
+        "startLine": 11,
+        "startChar": 29,
+        "endLine": 12,
+        "endChar": 5
+      },
+      "revId": "2ac331800888a8eafc9f58fec3deed7a3dd5930b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "68056d2d_c0ded813",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 12
@@ -75,6 +99,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "55e5a911_4d97a87c",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-18T12:31:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "193edf0a_588833cf",
+      "revId": "2ac331800888a8eafc9f58fec3deed7a3dd5930b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c7e3f1ec_cd6f53f9",
@@ -88,6 +130,30 @@
       "writtenOn": "2022-10-17T14:22:51Z",
       "side": 1,
       "message": "[optional] Return a boolean to say whether an update was performed or not. This way we can have different flume counters for projects that are updated and projects that are skipped because nothing needs to be done.",
+      "range": {
+        "startLine": 89,
+        "startChar": 9,
+        "endLine": 89,
+        "endChar": 13
+      },
+      "revId": "2ac331800888a8eafc9f58fec3deed7a3dd5930b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e6834ab_2342c5ea",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-18T12:31:08Z",
+      "side": 1,
+      "message": "Good idea. Done.",
+      "parentUuid": "c7e3f1ec_cd6f53f9",
       "range": {
         "startLine": 89,
         "startChar": 9,
@@ -123,6 +189,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "912f3afb_8be37fa6",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-18T12:31:08Z",
+      "side": 1,
+      "message": "Done.\n\nWell, I just realized that the second run is a bit tricky, since the migrator will see that the label function is now \"NoBlock\" (first run did reset the label function from e.g. MaxWithBlock to NoBlock). So the second run expects to create a SR that\u0027s not applicable, but the first run created a blocking SR `label:CR\u003dMAX and -label:CR\u003dMIN`, so they are not matching.\n\nI highlighted this in the tests.",
+      "parentUuid": "17898cd2_36729817",
+      "range": {
+        "startLine": 119,
+        "startChar": 8,
+        "endLine": 127,
+        "endChar": 9
+      },
+      "revId": "2ac331800888a8eafc9f58fec3deed7a3dd5930b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "af7f501d_a9b57039",
         "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
         "patchSetId": 12
@@ -134,6 +224,30 @@
       "writtenOn": "2022-10-17T14:22:51Z",
       "side": 1,
       "message": "Maybe consider renaming this method. I got confused why MaxNoBlock a function that has \"no block\" is considered as \"blocking\". \n\nWhat\u0027s confusing here is that the function names use \u0027Block\u0027 if \u0027veto votes prevent submit\u0027 (AnyWithBlock, MaxWithBlock), but you seem to use \u0027Blocking\u0027 if \u0027submission is blocked until approved\u0027 (MaxWithBlock, MaxWithBlock)?\n\nEither way, no none of the 2 \u0027block\u0027 definitions seems to match all the 3 functions that are matched here.\n\nIf you rename this method here, please also rename \u0027createBlockingSr\u0027 above and the tests accordingly. Maybe use \"isApplicable\" and \u0027createApplicableSr\u0027?",
+      "range": {
+        "startLine": 255,
+        "startChar": 25,
+        "endLine": 255,
+        "endChar": 40
+      },
+      "revId": "2ac331800888a8eafc9f58fec3deed7a3dd5930b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0981f7a7_84501b65",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-18T12:31:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af7f501d_a9b57039",
       "range": {
         "startLine": 255,
         "startChar": 25,
@@ -167,6 +281,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1f32b1b_05b0f701",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-18T12:31:08Z",
+      "side": 1,
+      "message": "Thanks for the tip. Right. Done.",
+      "parentUuid": "7dc839ec_6629e49b",
+      "range": {
+        "startLine": 274,
+        "startChar": 5,
+        "endLine": 275,
+        "endChar": 68
+      },
+      "revId": "2ac331800888a8eafc9f58fec3deed7a3dd5930b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bf5eac24_a7adfe6f",
@@ -180,6 +318,30 @@
       "writtenOn": "2022-10-17T14:22:51Z",
       "side": 1,
       "message": "[optional] This may be slightly easier:\n\nRevCommit oldMetaCommit \u003d projectOperations.project(project).getHead(RefNames.REFS_CONFIG);\n\nThis method already parses the commit which make thinks easier below.",
+      "range": {
+        "startLine": 166,
+        "startChar": 4,
+        "endLine": 168,
+        "endChar": 5
+      },
+      "revId": "2ac331800888a8eafc9f58fec3deed7a3dd5930b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee1a6918_bc00c5f8",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/MigrateLabelFunctionsToSubmitRequirementIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-18T12:31:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf5eac24_a7adfe6f",
       "range": {
         "startLine": 166,
         "startChar": 4,
@@ -213,6 +375,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "51e665e1_38e89135",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/MigrateLabelFunctionsToSubmitRequirementIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-18T12:31:08Z",
+      "side": 1,
+      "message": "Thanks for the tip. Done.",
+      "parentUuid": "4f1eecfc_88d9cb9e",
+      "range": {
+        "startLine": 181,
+        "startChar": 3,
+        "endLine": 189,
+        "endChar": 5
+      },
+      "revId": "2ac331800888a8eafc9f58fec3deed7a3dd5930b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a77778cb_2da1f8a9",
@@ -226,6 +412,24 @@
       "writtenOn": "2022-10-17T14:22:51Z",
       "side": 1,
       "message": "Maybe just drop this test case.",
+      "revId": "2ac331800888a8eafc9f58fec3deed7a3dd5930b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58e301fa_b4c5ebeb",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/MigrateLabelFunctionsToSubmitRequirementIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-18T12:31:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a77778cb_2da1f8a9",
       "revId": "2ac331800888a8eafc9f58fec3deed7a3dd5930b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

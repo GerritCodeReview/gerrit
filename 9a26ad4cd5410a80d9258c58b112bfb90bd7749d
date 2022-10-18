@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a6d83e53_6204a9a2",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-10-18T08:21:52Z",
+      "side": 1,
+      "message": "I think those checks are unnecessary, since they are already covered by the existing logic, see [1] @hanwen@google.com, do you think they should be explicit in this API?\n\n[1]https://gerrit-review.googlesource.com/c/gerrit/+/347054/comment/53e31979_2f86416b/",
+      "parentUuid": "96be87e9_8fc1a04d",
+      "range": {
+        "startLine": 166,
+        "startChar": 4,
+        "endLine": 167,
+        "endChar": 31
+      },
+      "revId": "9a26ad4cd5410a80d9258c58b112bfb90bd7749d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "229ff8f9_4eabc4f5",
         "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
         "patchSetId": 10

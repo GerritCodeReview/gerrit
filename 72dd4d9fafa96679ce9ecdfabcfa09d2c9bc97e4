@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "000585af_8b93441b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2909,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-10-18T09:18:52Z",
+      "side": 0,
+      "message": "Document this new option",
+      "revId": "72dd4d9fafa96679ce9ecdfabcfa09d2c9bc97e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

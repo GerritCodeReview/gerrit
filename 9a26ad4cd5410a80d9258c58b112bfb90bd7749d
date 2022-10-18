@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e4301978_d0deab4a",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-10-18T11:50:11Z",
+      "side": 1,
+      "message": "should this say \"patch:apply\" , same for other messages.",
+      "range": {
+        "startLine": 145,
+        "startChar": 13,
+        "endLine": 145,
+        "endChar": 26
+      },
+      "revId": "9a26ad4cd5410a80d9258c58b112bfb90bd7749d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "56aa7124_9b0c0360",
         "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
         "patchSetId": 10
@@ -74,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ece322e6_1046d7e0",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-10-18T11:50:11Z",
+      "side": 1,
+      "message": "Marija is correct: the patchinserter already handles it, so we don\u0027t have to check again here. Is there a test that asserts the correct behavior?",
+      "parentUuid": "a6d83e53_6204a9a2",
+      "range": {
+        "startLine": 166,
+        "startChar": 4,
+        "endLine": 167,
+        "endChar": 31
+      },
+      "revId": "9a26ad4cd5410a80d9258c58b112bfb90bd7749d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "229ff8f9_4eabc4f5",
         "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
         "patchSetId": 10
@@ -121,6 +168,29 @@
       "side": 1,
       "message": "Nitzan\u0027s arguments on requiring author in input make sense. \nSince there are multiple ways to create the patch, it might be confusing for the users that the patch set author is not taken from commit, so I would suggest to make the field mandatory, to resolve any possible questions. We could skip the FORGE_CHECK if author matches the calling user.",
       "parentUuid": "dab46d45_9187a576",
+      "revId": "9a26ad4cd5410a80d9258c58b112bfb90bd7749d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3bc97f3_7d9381e2",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-10-18T11:50:11Z",
+      "side": 1,
+      "message": "this is now input.commitMessage, right? I guess the change must be rebased?",
+      "range": {
+        "startLine": 173,
+        "startChar": 20,
+        "endLine": 173,
+        "endChar": 28
+      },
       "revId": "9a26ad4cd5410a80d9258c58b112bfb90bd7749d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

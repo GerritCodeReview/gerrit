@@ -40,6 +40,8 @@ function requirePlugin(id) {
 }
 
 const resolve = requirePlugin('rollup-plugin-node-resolve');
+const commonjs = requirePlugin('rollup-plugin-commonjs');
+
 const {terser} = requirePlugin('rollup-plugin-terser');
 const define = requirePlugin('rollup-plugin-define');
 
@@ -86,6 +88,10 @@ export default {
       // when importing 'page/page'.
       extensions: ['.js'],
       moduleDirectory: 'external/ui_npm/node_modules',
+    }
+  }),
+  commonjs({
+    namedExports: {
     }
   }),
   define({

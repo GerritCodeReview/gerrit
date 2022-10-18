@@ -56,6 +56,24 @@
       "message": "can you check with Edwin/Patrick? This method is to surface action items in the UI, but not sure if that applies here.",
       "revId": "17b1fb9d76efe23aea21c1ec40c13a49577375af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ab7f880_aaf4e068",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-18T11:53:40Z",
+      "side": 1,
+      "message": "Yes, this method is for exposing this REST endpoint as an action in the UI. I don\u0027t think that this functionality needs to be available from the UI. Hence I would drop this method (just do not implement the UiAction interface).",
+      "parentUuid": "37172271_bcd1e8d4",
+      "revId": "17b1fb9d76efe23aea21c1ec40c13a49577375af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

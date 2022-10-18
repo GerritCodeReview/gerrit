@@ -190,6 +190,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "46674c7b_c929b58c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 2130,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-10-18T07:02:38Z",
+      "side": 1,
+      "message": "Thanks for that reference!\nChanged to `patch:apply` to align with `fix:apply` and others.",
+      "parentUuid": "bd7095e9_53c01f6c",
+      "range": {
+        "startLine": 2130,
+        "startChar": 47,
+        "endLine": 2130,
+        "endChar": 57
+      },
+      "revId": "12805679a1d7c57fd3a3e82c74ad8e2e887c1acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cf062c00_f0615e3f",

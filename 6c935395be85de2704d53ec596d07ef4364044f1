@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "796041cc_84a34e27",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-18T08:13:00Z",
+      "side": 1,
+      "message": "Let\u0027s submit the forward-fix instead: 348600: Fix browser \u0027back\u0027 for search result pages | https://gerrit-review.googlesource.com/c/gerrit/+/348600",
+      "revId": "6c935395be85de2704d53ec596d07ef4364044f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

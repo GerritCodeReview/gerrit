@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcbe8c58_c78f8208",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/SubmittedTogetherIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-18T10:06:36Z",
+      "side": 1,
+      "message": "This shouldn\u0027t be there, otherwise it is clear that only two changes are submittable together.",
+      "range": {
+        "startLine": 192,
+        "startChar": 4,
+        "endLine": 192,
+        "endChar": 32
+      },
+      "revId": "085f6aeb911e4d799f6ca7dc65395fc28be29ceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31c7ac5d_9908b62d",
+        "filename": "java/com/google/gerrit/extensions/api/changes/FileContentInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-10-18T08:05:09Z",
+      "side": 1,
+      "message": "Pretty sure this shouldn\u0027t be snake-case, I believe that it\u0027s the above `binary_content` that has the wrong case and should be `binaryContent`.",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 22
+      },
+      "revId": "7ba9e63a6e33a7f6419894b3ffb40b168a0e9c5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

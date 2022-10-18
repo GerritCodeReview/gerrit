@@ -159,6 +159,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f7d92e8_108c268f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-18T23:19:13Z",
+      "side": 1,
+      "message": "Oh yes, good idea. Done.",
+      "parentUuid": "840f71ed_c920cec5",
+      "revId": "67eb23e8bca2d9e6927705d55863b4351e4d2b0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb2a426a_1581166f",
@@ -190,6 +208,24 @@
       "side": 1,
       "message": "The `.warning` class in I971bc62bac was for customising its colour, which isn\u0027t necessarily related to this change.",
       "parentUuid": "cb2a426a_1581166f",
+      "revId": "67eb23e8bca2d9e6927705d55863b4351e4d2b0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42d071be_a8aceb34",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-18T23:19:13Z",
+      "side": 1,
+      "message": "Resolving this for now. @nasser.grainawi@linaro.org feel free to unchecking it if you believe there is more to be done.",
+      "parentUuid": "fbeeb34b_6940eceb",
       "revId": "67eb23e8bca2d9e6927705d55863b4351e4d2b0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

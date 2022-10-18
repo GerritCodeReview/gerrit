@@ -7967,6 +7967,9 @@ Topic can't contain quotation marks.
 When present, change is marked as Work In Progress. The `notify` input is
 used if it's present, otherwise it will be overridden to `OWNER`. +
 If not set, the default is false.
+|`silent`  |optional, default to `false`|
+Mark the revert as silent. Silent reverts are marked as WIP. The authors of the original change are
+added as reviewers, but they will only get notified once the change is no longer WIP.
 |`validation_options`|optional|
 Map with key-value pairs that are forwarded as options to the commit validation
 listeners (e.g. can be used to skip certain validations). Which validation

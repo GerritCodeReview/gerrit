@@ -257,9 +257,6 @@ public class RevertSubmission
       cherryPickInput.base = null;
       Project.NameKey project = projectAndBranch.project();
       cherryPickInput.destination = projectAndBranch.branch();
-      if (revertInput.workInProgress) {
-        cherryPickInput.notify = firstNonNull(cherryPickInput.notify, NotifyHandling.OWNER);
-      }
       Collection<ChangeData> changesInProjectAndBranch =
           changesPerProjectAndBranch.get(projectAndBranch);
 
@@ -335,12 +332,13 @@ public class RevertSubmission
               generatedChangeId,
               cherryPickRevertChangeId,
               timestamp,
-              revertInput.workInProgress));
-      bu.addOp(changeNotes.getChange().getId(), new PostRevertedMessageOp(generatedChangeId));
-      bu.addOp(
-          cherryPickRevertChangeId,
-          new NotifyOp(changeNotes.getChange(), cherryPickRevertChangeId));
-
+              revertInput.workInProgress || revertInput.silent));
+      if (!revertInput.silent) {
+        bu.addOp(changeNotes.getChange().getId(), new PostRevertedMessageOp(generatedChangeId));
+        bu.addOp(
+            cherryPickRevertChangeId,
+            new NotifyOp(changeNotes.getChange(), cherryPickRevertChangeId));
+      }
       bu.execute();
     }
   }
@@ -366,6 +364,11 @@ public class RevertSubmission
     // change is created for the cherry-picked commit. Notifications are sent only for this change,
     // but not for the intermediately created revert commit.
     cherryPickInput.notify = revertInput.notify;
+    if (revertInput.silent) {
+      cherryPickInput.notify = NotifyHandling.NONE;
+    } else if (revertInput.workInProgress) {
+      cherryPickInput.notify = firstNonNull(cherryPickInput.notify, NotifyHandling.OWNER);
+    }
     cherryPickInput.notifyDetails = revertInput.notifyDetails;
     cherryPickInput.parent = 1;
     cherryPickInput.keepReviewers = true;

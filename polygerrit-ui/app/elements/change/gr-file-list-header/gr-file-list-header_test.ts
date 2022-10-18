@@ -54,7 +54,6 @@ suite('gr-file-list-header tests', () => {
       ></gr-file-list-header>`
     );
     element.diffPrefs = createDefaultDiffPrefs();
-    await element.updateComplete;
   });
 
   test('render', () => {

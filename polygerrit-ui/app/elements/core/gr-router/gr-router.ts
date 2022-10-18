@@ -1542,8 +1542,9 @@ export class GrRouter implements Finalizable, NavigationService {
       patchNum: convertToPatchSetNum(ctx.params[3]) as RevisionPatchSetNum,
       view: GerritView.CHANGE,
       edit: true,
-      tab: queryMap.get('tab') ?? '',
     };
+    const tab = queryMap.get('tab');
+    if (tab) state.tab = tab;
     if (queryMap.has('forceReload')) {
       state.forceReload = true;
       history.replaceState(

@@ -51,6 +51,24 @@
       "parentUuid": "c389b30a_938f0a35",
       "revId": "bf40424ba2b0ae97e7d6a205b3eb14259a3e9728",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db565bba_37f22d6b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-10-18T09:58:19Z",
+      "side": 1,
+      "message": "if JGit makes its own decisions which BC version we build against, then it doesn\u0027t make a lot of sense to restrict it within gerrit. Let me check with the Git folks here.",
+      "parentUuid": "e57516b5_32d3e1f4",
+      "revId": "bf40424ba2b0ae97e7d6a205b3eb14259a3e9728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

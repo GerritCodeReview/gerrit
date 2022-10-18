@@ -8079,7 +8079,9 @@ RevertSubmission endpoint is `revert-{submission_id}-{timestamp.now}`.
 Topic can't contain quotation marks.
 |`work_in_progress`  |optional|
 When present, change is marked as Work In Progress. The `notify` input is
-used if it's present, otherwise it will be overridden to `OWNER`. +
+used if it's present, otherwise it will be overridden to `NONE`. +
+Notifications for the reverted change will only sent once the result change is
+no longer WIP. +
 If not set, the default is false.
 |`validation_options`|optional|
 Map with key-value pairs that are forwarded as options to the commit validation

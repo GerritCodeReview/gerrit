@@ -40,6 +40,8 @@ function requirePlugin(id) {
 }
 
 const resolve = requirePlugin('rollup-plugin-node-resolve');
+const commonjs = requirePlugin('rollup-plugin-commonjs');
+
 const {terser} = requirePlugin('rollup-plugin-terser');
 const define = requirePlugin('rollup-plugin-define');
 
@@ -60,7 +62,7 @@ const importLocalFontMetaUrlResolver = function() {
 
 export default {
   treeshake: false,
-  onwarn: warning => {
+  onwarn: (warning) => {
     // No warnings from rollupjs are allowed.
     // Most of the warnings are real error in our code (for example,
     // if some import couldn't be resolved we can't continue, but rollup
@@ -68,29 +70,39 @@ export default {
     throw new Error(warning.message);
   },
   output: {
-    format: 'iife',
+    format: "iife",
     compact: true,
     plugins: [
       terser({
         output: {
-          comments: false
-        }
-      })
-    ]
+          comments: false,
+        },
+      }),
+    ],
   },
   //Context must be set to window to correctly processing global variables
-  context: 'window',
-  plugins: [resolve({
-    customResolveOptions: {
-      // By default, it tries to use page.mjs file instead of page.js
-      // when importing 'page/page'.
-      extensions: ['.js'],
-      moduleDirectory: 'external/ui_npm/node_modules',
-    }
-  }),
-  define({
-    replacements: {
-      'process.env.NODE_ENV': JSON.stringify('production'),
-    },
-  }), importLocalFontMetaUrlResolver()],
+  context: "window",
+  plugins: [
+    resolve({
+      customResolveOptions: {
+        // By default, it tries to use page.mjs file instead of page.js
+        // when importing 'page/page'.
+        extensions: [".js"],
+        moduleDirectory: "external/ui_npm/node_modules",
+      },
+    }),
+    commonjs({
+      namedExports: {
+        "../../../../external/ui_npm/node_modules/safevalues/index.js": [
+          "sanitizeHtlmToFragment",
+        ],
+      },
+    }),
+    define({
+      replacements: {
+        "process.env.NODE_ENV": JSON.stringify("production"),
+      },
+    }),
+    importLocalFontMetaUrlResolver(),
+  ],
 };

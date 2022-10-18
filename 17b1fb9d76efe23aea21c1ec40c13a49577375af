@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "121aed0a_69199b75",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-10-18T11:42:34Z",
+      "side": 1,
+      "message": "maybe wait until today EOD for nasser to have a last chance to look.",
+      "revId": "17b1fb9d76efe23aea21c1ec40c13a49577375af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a198e4e_296aec8e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 2141,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-10-18T11:42:34Z",
+      "side": 1,
+      "message": "Applying the patch will fail ...",
+      "range": {
+        "startLine": 2141,
+        "startChar": 4,
+        "endLine": 2141,
+        "endChar": 9
+      },
+      "revId": "17b1fb9d76efe23aea21c1ec40c13a49577375af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37172271_bcd1e8d4",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-10-18T11:42:34Z",
+      "side": 1,
+      "message": "can you check with Edwin/Patrick? This method is to surface action items in the UI, but not sure if that applies here.",
+      "revId": "17b1fb9d76efe23aea21c1ec40c13a49577375af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

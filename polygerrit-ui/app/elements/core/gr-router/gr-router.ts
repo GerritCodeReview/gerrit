@@ -1356,8 +1356,6 @@ export class GrRouter implements Finalizable, NavigationService {
       view: GerritView.SEARCH,
       query: ctx.params[0],
       offset: ctx.params[2],
-      changes: [],
-      loading: false,
     };
     // Note that router model view must be updated before view models.
     this.setState(state);
@@ -1371,8 +1369,6 @@ export class GrRouter implements Finalizable, NavigationService {
     const state: SearchViewState = {
       view: GerritView.SEARCH,
       query: ctx.params[0],
-      changes: [],
-      loading: false,
     };
     // Note that router model view must be updated before view models.
     this.setState(state);

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98519a69_40f25d45",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-18T08:20:05Z",
+      "side": 1,
+      "message": "I don\u0027t follow why this lets the page load normally on the first load but stops working when browser Back is used.\nCan you explain that in the commit message?",
+      "range": {
+        "startLine": 9,
+        "startChar": 3,
+        "endLine": 9,
+        "endChar": 63
+      },
+      "revId": "b430d68bbf9494ea71e14c2600afa20ae8b9ad8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

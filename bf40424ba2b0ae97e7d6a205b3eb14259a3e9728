@@ -69,6 +69,24 @@
       "parentUuid": "e57516b5_32d3e1f4",
       "revId": "bf40424ba2b0ae97e7d6a205b3eb14259a3e9728",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc9bbed6_2fdc8c8c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-10-18T10:56:17Z",
+      "side": 1,
+      "message": "JGit will update to the latest release 1.72 soon, I already added that to Orbit for OSGi consumption",
+      "parentUuid": "db565bba_37f22d6b",
+      "revId": "bf40424ba2b0ae97e7d6a205b3eb14259a3e9728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

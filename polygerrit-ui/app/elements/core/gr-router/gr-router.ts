@@ -1360,31 +1360,28 @@ export class GrRouter implements Finalizable, NavigationService {
   }
 
   handleQueryRoute(ctx: PageContext) {
-    const state: SearchViewState = {
+    const state: Partial<SearchViewState> = {
       view: GerritView.SEARCH,
       query: ctx.params[0],
       offset: ctx.params[2],
-      changes: [],
-      loading: false,
     };
     // Note that router model view must be updated before view models.
-    this.setState(state);
-    this.searchViewModel.setState(state);
+    this.setState(state as AppElementParams);
+    this.searchViewModel.updateState(state);
   }
 
   handleChangeIdQueryRoute(ctx: PageContext) {
     // TODO(pcc): This will need to indicate that this was a change ID query if
     // standard queries gain the ability to search places like commit messages
     // for change IDs.
-    const state: SearchViewState = {
+    const state: Partial<SearchViewState> = {
       view: GerritView.SEARCH,
       query: ctx.params[0],
-      changes: [],
-      loading: false,
+      offset: '0',
     };
     // Note that router model view must be updated before view models.
-    this.setState(state);
-    this.searchViewModel.setState(state);
+    this.setState(state as AppElementParams);
+    this.searchViewModel.updateState(state);
   }
 
   handleQueryLegacySuffixRoute(ctx: PageContext) {

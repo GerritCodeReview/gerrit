@@ -2159,6 +2159,8 @@ export class GrChangeView extends LitElement {
       );
     }
 
+    console.log(`asdf 1 ${JSON.stringify(this.viewState)}`);
+
     if (this.viewState.basePatchNum === undefined)
       this.viewState.basePatchNum = PARENT;
 
@@ -2169,6 +2171,7 @@ export class GrChangeView extends LitElement {
       patchNum: this.viewState.patchNum,
       basePatchNum: this.viewState.basePatchNum,
     };
+    console.log(`asdf 2 ${JSON.stringify(this.patchRange)}`);
     this.scrollCommentId = this.viewState.commentId;
 
     const patchKnown =
@@ -2187,6 +2190,7 @@ export class GrChangeView extends LitElement {
           ...this.patchRange,
           patchNum: computeLatestPatchNum(this.allPatchSets),
         };
+        console.log(`asdf 3 ${JSON.stringify(this.patchRange)}`);
         patchNumChanged = true;
       }
       if (patchChanged) {

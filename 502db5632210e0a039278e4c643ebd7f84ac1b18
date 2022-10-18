@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b23c0569_f394f973",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevisionReviewers.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1152871
+      },
+      "writtenOn": "2022-10-18T18:51:52Z",
+      "side": 1,
+      "message": "Does it still throw this exception?",
+      "range": {
+        "startLine": 74,
+        "startChar": 55,
+        "endLine": 74,
+        "endChar": 80
+      },
+      "revId": "502db5632210e0a039278e4c643ebd7f84ac1b18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

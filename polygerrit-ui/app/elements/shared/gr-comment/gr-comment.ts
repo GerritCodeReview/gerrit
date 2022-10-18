@@ -1178,6 +1178,9 @@ export class GrComment extends LitElement {
 
   async save() {
     if (!isDraftOrUnsaved(this.comment)) throw new Error('not a draft');
+    // If it's an unsaved comment then it does not have a draftID yet which
+    // means sending another save() request will create a new draft
+    if (isUnsaved(this.comment) && this.saving) return;
 
     try {
       this.saving = true;

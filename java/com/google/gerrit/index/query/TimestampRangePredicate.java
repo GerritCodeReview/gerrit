@@ -14,7 +14,7 @@
 
 package com.google.gerrit.index.query;
 
-import com.google.gerrit.index.FieldDef;
+import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import com.google.gerrit.json.JavaSqlTimestampHelper;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -30,7 +30,7 @@ public abstract class TimestampRangePredicate<I> extends IndexPredicate<I> {
     }
   }
 
-  protected TimestampRangePredicate(FieldDef<I, Timestamp> def, String name, String value) {
+  protected TimestampRangePredicate(SchemaField<I, Timestamp> def, String name, String value) {
     super(def, name, value);
   }
 

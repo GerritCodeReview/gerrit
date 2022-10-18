@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.index.FieldDef;
+import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import com.google.gerrit.index.query.QueryParseException;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -26,7 +26,7 @@ import java.time.Instant;
 public class AfterPredicate extends TimestampRangeChangePredicate {
   protected final Instant cut;
 
-  public AfterPredicate(FieldDef<ChangeData, Timestamp> def, String name, String value)
+  public AfterPredicate(SchemaField<ChangeData, Timestamp> def, String name, String value)
       throws QueryParseException {
     super(def, name, value);
     cut = parse(value);

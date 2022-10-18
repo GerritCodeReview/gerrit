@@ -22,11 +22,11 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexCollection;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.Schema;
+import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
@@ -77,10 +77,10 @@ public class InternalQuery<T, Q extends InternalQuery<T, Q>> {
   }
 
   @SafeVarargs
-  public final Q setRequestedFields(FieldDef<T, ?>... fields) {
+  public final Q setRequestedFields(SchemaField<T, ?>... fields) {
     checkArgument(fields.length > 0, "requested field list is empty");
     queryProcessor.setRequestedFields(
-        Arrays.stream(fields).map(FieldDef::getName).collect(toSet()));
+        Arrays.stream(fields).map(SchemaField::getName).collect(toSet()));
     return self();
   }
 

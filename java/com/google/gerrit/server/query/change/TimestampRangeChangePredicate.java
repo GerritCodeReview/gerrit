@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.index.FieldDef;
+import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import com.google.gerrit.index.query.Matchable;
 import com.google.gerrit.index.query.TimestampRangePredicate;
 import java.sql.Timestamp;
@@ -22,7 +22,7 @@ import java.sql.Timestamp;
 public abstract class TimestampRangeChangePredicate extends TimestampRangePredicate<ChangeData>
     implements Matchable<ChangeData> {
   protected TimestampRangeChangePredicate(
-      FieldDef<ChangeData, Timestamp> def, String name, String value) {
+      SchemaField<ChangeData, Timestamp> def, String name, String value) {
     super(def, name, value);
   }
 

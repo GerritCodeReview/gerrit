@@ -14,18 +14,19 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.index.FieldDef;
+import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 
 /**
  * Predicate that is mapped to a field in the change index, with additional filtering done in the
  * {@code match} method.
  */
 public abstract class ChangeIndexPostFilterPredicate extends ChangeIndexPredicate {
-  protected ChangeIndexPostFilterPredicate(FieldDef<ChangeData, ?> def, String value) {
+  protected ChangeIndexPostFilterPredicate(SchemaField<ChangeData, ?> def, String value) {
     super(def, value);
   }
 
-  protected ChangeIndexPostFilterPredicate(FieldDef<ChangeData, ?> def, String name, String value) {
+  protected ChangeIndexPostFilterPredicate(
+      SchemaField<ChangeData, ?> def, String name, String value) {
     super(def, name, value);
   }
 }

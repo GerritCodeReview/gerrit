@@ -18,6 +18,46 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a7bd7bf_79d3821d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-19T05:55:43Z",
+      "side": 1,
+      "message": "This seems pretty ok other than the weird formatting for the patch input.",
+      "revId": "17b1fb9d76efe23aea21c1ec40c13a49577375af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d54204a0_3ae10b0c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 2136,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-19T05:55:43Z",
+      "side": 1,
+      "message": "Did you want to change this to `PatchApplyInput`?",
+      "range": {
+        "startLine": 2136,
+        "startChar": 31,
+        "endLine": 2136,
+        "endChar": 54
+      },
+      "revId": "17b1fb9d76efe23aea21c1ec40c13a49577375af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a198e4e_296aec8e",
@@ -36,6 +76,86 @@
         "startChar": 4,
         "endLine": 2141,
         "endChar": 9
+      },
+      "revId": "17b1fb9d76efe23aea21c1ec40c13a49577375af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88a48aee_1536310a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 2150,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-19T05:55:43Z",
+      "side": 1,
+      "message": "How is someone supposed to get their patch output formatted like this? Or to know it should be formatted this way? The Input doc below says to see the output of Get Patch, but that uses a base64 encoded output.",
+      "revId": "17b1fb9d76efe23aea21c1ec40c13a49577375af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "737d4660_15262535",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 6568,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-19T05:55:43Z",
+      "side": 1,
+      "message": "Does this need the `Apply` prefix or would `PatchInput` work as well (with the tweak to the line below to `s/about a patch to apply./about a patch./`)?",
+      "range": {
+        "startLine": 6568,
+        "startChar": 4,
+        "endLine": 6568,
+        "endChar": 19
+      },
+      "revId": "17b1fb9d76efe23aea21c1ec40c13a49577375af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6371763_244c7baf",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 6571,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-19T05:55:43Z",
+      "side": 1,
+      "message": "This text doesn\u0027t seem tied to this entity. Some endpoints might use a Patch for something else.",
+      "revId": "17b1fb9d76efe23aea21c1ec40c13a49577375af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5288e38f_4a5b932a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 6980,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-19T05:55:43Z",
+      "side": 1,
+      "message": "nit: should be `ApplyPatchInput`?",
+      "range": {
+        "startLine": 6980,
+        "startChar": 65,
+        "endLine": 6980,
+        "endChar": 75
       },
       "revId": "17b1fb9d76efe23aea21c1ec40c13a49577375af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

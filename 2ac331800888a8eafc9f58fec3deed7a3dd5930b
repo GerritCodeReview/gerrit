@@ -259,6 +259,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f89f8072_8800b880",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-19T09:48:25Z",
+      "side": 1,
+      "message": "Nice!",
+      "parentUuid": "aede3062_6ddcd898",
+      "range": {
+        "startLine": 119,
+        "startChar": 8,
+        "endLine": 127,
+        "endChar": 9
+      },
+      "revId": "2ac331800888a8eafc9f58fec3deed7a3dd5930b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "af7f501d_a9b57039",

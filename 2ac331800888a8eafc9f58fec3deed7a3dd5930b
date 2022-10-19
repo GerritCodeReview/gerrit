@@ -235,6 +235,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aede3062_6ddcd898",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-19T09:45:29Z",
+      "side": 1,
+      "message": "\u003e Checking whether the migration had already run can be done similarly as in MigrateLabelConfigToCopyCondition#hasMigrationAlreadyRun.\n\nNice! thanks for the idea.\n\nDone.\n\nWe discussed it offline and agreed that we can skip the migration if the project was previously migrated (i.e. second attempt). I also enhanced the code and now returning an enum from the migrator to reflect the result status.",
+      "parentUuid": "fb452735_fbbdde12",
+      "range": {
+        "startLine": 119,
+        "startChar": 8,
+        "endLine": 127,
+        "endChar": 9
+      },
+      "revId": "2ac331800888a8eafc9f58fec3deed7a3dd5930b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "af7f501d_a9b57039",

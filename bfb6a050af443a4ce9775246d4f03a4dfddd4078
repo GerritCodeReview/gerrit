@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2796a7a2_af57939f",
+        "filename": "tools/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-19T05:28:33Z",
+      "side": 1,
+      "message": "Looks like we probably also need \"-Werror\" for this to fail the build",
+      "revId": "bfb6a050af443a4ce9775246d4f03a4dfddd4078",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "861034be_0787a74d",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-19T08:51:39Z",
+      "side": 1,
+      "message": "I\u0027m wondering if the size field is unused, why we are introducing it? also should this apply on the concatenated iterable, or on each element?",
+      "range": {
+        "startLine": 282,
+        "startChar": 16,
+        "endLine": 282,
+        "endChar": 19
+      },
+      "revId": "997ab74571d20dd97a9d02d0676257fe5d2d9a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce9fafbf_1603ac92",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 879,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-19T08:51:39Z",
+      "side": 1,
+      "message": "Nice! thanks for adding descriptions. Will the description be surfaced somewhere, or is it just used as a code documentation for now?",
+      "revId": "997ab74571d20dd97a9d02d0676257fe5d2d9a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e8ae538_07340635",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-19T08:51:39Z",
+      "side": 1,
+      "message": "General question: now that we have a spec definition per field, is it possible e.g. to extend some operator such that it\u0027s searched with two specs?\nI think that could be done by having two different predicates, each using a different spec, that are or\u0027ed together, right?",
+      "range": {
+        "startLine": 147,
+        "startChar": 48,
+        "endLine": 147,
+        "endChar": 61
+      },
+      "revId": "997ab74571d20dd97a9d02d0676257fe5d2d9a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

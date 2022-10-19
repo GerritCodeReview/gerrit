@@ -1316,7 +1316,6 @@ suite('gr-router tests', () => {
           view: GerritView.CHANGE,
           patchNum: 3 as RevisionPatchSetNum,
           edit: true,
-          tab: '',
         };
 
         router.handleChangeEditRoute(ctx);

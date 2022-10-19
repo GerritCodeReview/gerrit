@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d6b3927_95554ff1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-10-19T16:31:58Z",
+      "side": 1,
+      "message": "maybe for a follow-up change, but could you have add the hovercard as well? It might not be obv to new users that they can mouse-over.",
+      "revId": "5d75635e57147bc172998111f927da4446ce21e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

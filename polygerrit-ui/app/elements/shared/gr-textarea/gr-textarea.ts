@@ -308,6 +308,7 @@ export class GrTextarea extends LitElement {
     textarea.selectionStart = textarea.value.length;
     textarea.selectionEnd = textarea.selectionStart;
     setTimeout(() => {
+      console.log("putCursorAtEnd focus called");
       textarea.focus();
     });
   }

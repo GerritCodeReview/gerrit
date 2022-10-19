@@ -1062,6 +1062,7 @@ export class GrComment extends LitElement {
       this.unresolved = this.comment?.unresolved ?? true;
       this.originalMessage = this.messageText;
       this.originalUnresolved = this.unresolved;
+      
       setTimeout(() => this.textarea?.putCursorAtEnd(), 1);
     }
 

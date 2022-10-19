@@ -397,6 +397,8 @@ export class GrReplyDialog extends LitElement {
 
   private latestPatchNum?: PatchSetNumber;
 
+  private focusTarget?: FocusTarget;
+
   storeTask?: DelayedTask;
 
   private isLoggedIn = false;
@@ -684,6 +686,21 @@ export class GrReplyDialog extends LitElement {
         ))
     );
   }
+
+  override async getUpdateComplete() {
+    await super.getUpdateComplete();
+    const result = await queryAndAssert<GrComment>(
+      this,
+      '#patchsetLevelComment'
+    ).updateComplete;
+    return result;
+  }
+
+  override firstUpdated() {
+    console.log("firstUpdated", this.focusTarget);
+    this.focusOn(this.focusTarget);
+  }
+
 
   override connectedCallback() {
     super.connectedCallback();
@@ -1264,6 +1281,7 @@ export class GrReplyDialog extends LitElement {
           : LatestPatchState.NOT_LATEST;
       });
 
+    this.focusTarget = focusTarget;
     this.focusOn(focusTarget);
     if (quote?.length) {
       // If a reply quote has been provided, use it.

@@ -51,8 +51,8 @@ export const grReportingMock: ReportingService & Finalizable = {
   reportErrorDialog: (message: string) => {
     log(`reportErrorDialog: ${message}`);
   },
-  error: e => {
-    log('error', e);
+  error: (label, e) => {
+    log(`error ${label}:`, e);
   },
   reportExecution: (_id: Execution, _details?: EventDetails) => {},
   trackApi: (_pluginApi: PluginApi, _object: string, _method: string) => {},

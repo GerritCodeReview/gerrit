@@ -100,6 +100,7 @@ export class GrPluginActionContext {
     if (!this.action.method) return;
     if (!this.action.__url) {
       this.reporting.error(
+        'GrPluginActionContext',
         new Error(`Unable to ${this.action.method} to ${this.action.__key}!`)
       );
       return;

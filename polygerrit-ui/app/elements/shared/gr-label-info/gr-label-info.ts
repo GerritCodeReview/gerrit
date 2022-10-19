@@ -275,7 +275,7 @@ export class GrLabelInfo extends LitElement {
         }
       })
       .catch(err => {
-        this.reporting.error(err);
+        this.reporting.error('Delete vote', err);
         target.disabled = false;
         return;
       });

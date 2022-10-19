@@ -1669,6 +1669,7 @@ export class GrDiffView extends LitElement {
     // If route is of type /comment/<commentId>/ then no patchNum is present
     if (!viewState.patchNum && !viewState.commentLink) {
       this.reporting.error(
+        'GrDiffView',
         new Error(`Invalid diff view URL, no patchNum found: ${this.viewState}`)
       );
       return;

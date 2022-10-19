@@ -784,7 +784,7 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
             // This should not happen and is really severe, because it means that
             // the Observable has terminated and we won't recover from that. No
             // further attempts to fetch results for this plugin will be made.
-            this.reporting.error(e, `checks-model crash for ${pluginName}`);
+            this.reporting.error(`checks-model crash for ${pluginName}`, e);
             return of(this.createErrorResponse(pluginName, e));
           })
         )

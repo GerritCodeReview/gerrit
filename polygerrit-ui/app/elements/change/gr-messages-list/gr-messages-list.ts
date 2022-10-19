@@ -448,6 +448,7 @@ export class GrMessagesList extends LitElement {
 
     if (!el && this.showAllActivity) {
       this.reporting.error(
+        'GrMessagesList scroll',
         new Error(`Failed to scroll to message: ${messageID}`)
       );
       return;

@@ -827,7 +827,10 @@ export class GrChangeView extends LitElement {
           this.pluginTabsContentEndpoints.length !==
           this.pluginTabsHeaderEndpoints.length
         ) {
-          this.reporting.error(new Error('Mismatch of headers and content.'));
+          this.reporting.error(
+            'Plugin change-view-tab',
+            new Error('Mismatch of headers and content.')
+          );
         }
       })
       .then(() => this.initActiveTab());

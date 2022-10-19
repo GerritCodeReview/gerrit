@@ -312,9 +312,7 @@ export class GrAutocomplete extends LitElement {
         </div>
       </paper-input>
       <gr-autocomplete-dropdown
-        vertical-align="top"
         .verticalOffset=${this.verticalOffset}
-        horizontal-align="left"
         id="suggestions"
         @item-selected=${this.handleItemSelect}
         @dropdown-closed=${this.focusWithoutDisplayingSuggestions}

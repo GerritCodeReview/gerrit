@@ -110,6 +110,13 @@ suite('gr-formatted-text tests', () => {
     assertTextBlock(result[0], [{type: 'link', text: 'text', url: 'url'}]);
   });
 
+  test('link with javascript protocol is emitted without href', () => {
+    const comment = '[text](javascript:`1`)';
+    const result = element._computeBlocks(comment);
+    assert.lengthOf(result, 1);
+    assertTextBlock(result[0], [{type: 'link', text: 'text', url: ''}]);
+  });
+
   test('parse inline code', () => {
     const comment = 'text `code`';
     const result = element._computeBlocks(comment);

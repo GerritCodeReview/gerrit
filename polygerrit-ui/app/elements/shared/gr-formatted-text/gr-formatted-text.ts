@@ -276,7 +276,12 @@ export class GrFormattedText extends LitElement {
         } else {
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const [_, text, url] = m;
-          result.push({type: 'link', text, url});
+          // Disallow javascript protocol in the href as an XSS mitigation
+          if (url.trimStart().startsWith('javascript:')) {
+            result.push({type: 'link', text, url: ''});
+          } else {
+            result.push({type: 'link', text, url});
+          }
         }
       }
     }

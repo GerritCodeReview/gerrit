@@ -22,6 +22,29 @@
       },
       "revId": "502db5632210e0a039278e4c643ebd7f84ac1b18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9ed24b8_1db9217d",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevisionReviewers.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-19T07:22:29Z",
+      "side": 1,
+      "message": "I don\u0027t think this is the right thing to do here.\n\nThis class implements the reviewers collection for a revision resource. This means the parse method should check if a reviewer with the given ID exists in this revision (aka patch set) and then return a ReviewerResource for it.\n\napprovalsUtil.byPatchSetUser gets the approvals/votes by user on the given patch set, if a reviewer hasn\u0027t voted on the patch set this reviewer is not returned, but the reviewers collection should also be able to find reviewers that haven\u0027t voted yet.\n\nUnfortunately getting reviewers by patch set is not implemented yet. I think that\u0027s what you would need here.",
+      "range": {
+        "startLine": 90,
+        "startChar": 4,
+        "endLine": 92,
+        "endChar": 60
+      },
+      "revId": "502db5632210e0a039278e4c643ebd7f84ac1b18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

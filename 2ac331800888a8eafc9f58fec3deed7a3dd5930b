@@ -213,6 +213,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fb452735_fbbdde12",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-19T08:36:43Z",
+      "side": 1,
+      "message": "I see. I don\u0027t have a really great suggestion, but may we could do this:\n\n* if the migration is run for the first time emit the warning as we do now\n* if the migration had run already, do not emit the warning for mismatching SRs if the label has the function NO_BLOCK (means we just assume that this label has already been migrated)\n\nChecking whether the migration had already run can be done similarly as in MigrateLabelConfigToCopyCondition#hasMigrationAlreadyRun.",
+      "parentUuid": "912f3afb_8be37fa6",
+      "range": {
+        "startLine": 119,
+        "startChar": 8,
+        "endLine": 127,
+        "endChar": 9
+      },
+      "revId": "2ac331800888a8eafc9f58fec3deed7a3dd5930b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "af7f501d_a9b57039",
         "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
         "patchSetId": 12

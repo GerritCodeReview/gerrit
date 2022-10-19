@@ -30,7 +30,7 @@ import {select} from '../../utils/observable-util';
 import {RouterModel} from '../../services/router/router-model';
 import {Finalizable} from '../../services/registry';
 import {define} from '../dependency';
-import {combineLatest, forkJoin, from, Observable} from 'rxjs';
+import {combineLatest, forkJoin, from, Observable, of} from 'rxjs';
 import {fire, fireAlert, fireEvent} from '../../utils/event-util';
 import {CURRENT} from '../../utils/patch-set-util';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
@@ -291,6 +291,10 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
           (user, index) =>
             index === users.findIndex(u => getUserId(u) === getUserId(user))
         );
+        // forkJoin only emits value when the array is non-empty
+        if (uniqueUsers.length === 0) {
+          return of(uniqueUsers);
+        }
         const filledUsers$: Observable<AccountInfo | undefined>[] =
           uniqueUsers.map(user => from(this.accountsModel.fillDetails(user)));
         return forkJoin(filledUsers$);
@@ -314,6 +318,10 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
           (user, index) =>
             index === users.findIndex(u => getUserId(u) === getUserId(user))
         );
+        // forkJoin only emits value when the array is non-empty
+        if (uniqueUsers.length === 0) {
+          return of(uniqueUsers);
+        }
         const filledUsers$: Observable<AccountInfo | undefined>[] =
           uniqueUsers.map(user => from(this.accountsModel.fillDetails(user)));
         return forkJoin(filledUsers$);

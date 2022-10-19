@@ -16,6 +16,23 @@
       "message": "UI changes LGTM",
       "revId": "44078a4143540091df5fad588bbbc287643d43df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7acb930e_ff5c2c8a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-10-19T07:20:05Z",
+      "side": 1,
+      "message": "I support the idea, but unfortunately we have a bunch of internal hosts that do not currently require a change ID, so we can\u0027t merge this as-is.\n\nThere is no timeline for a migration at this point as we aren\u0027t working on it actively.",
+      "revId": "44078a4143540091df5fad588bbbc287643d43df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

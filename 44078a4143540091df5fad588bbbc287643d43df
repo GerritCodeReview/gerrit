@@ -51,6 +51,24 @@
       "parentUuid": "7acb930e_ff5c2c8a",
       "revId": "44078a4143540091df5fad588bbbc287643d43df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4337a3c_1915ddf7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-10-19T09:02:40Z",
+      "side": 1,
+      "message": "Here is a recent public example of our use: https://chromium-review.googlesource.com/c/chromiumos/manifest-versions/+/3911704\n\n\u003e Shall we just remove the deprecation notice then?\n\nI am not sure, I think we should keep it. We don\u0027t want new workflows to be built on top of this feature and we would like to remove it, just no migration timeline. WDYT?",
+      "parentUuid": "0f5d67d8_dee16d58",
+      "revId": "44078a4143540091df5fad588bbbc287643d43df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

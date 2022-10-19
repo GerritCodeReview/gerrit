@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5509e9bb_c68e310a",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-19T13:08:14Z",
+      "side": 1,
+      "message": "If notify is not set, ALL is the expected default [1]. This means if notify\u003dnull we do not need this logging.\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#submit-input",
+      "range": {
+        "startLine": 441,
+        "startChar": 4,
+        "endLine": 445,
+        "endChar": 5
+      },
+      "revId": "85f8774178266b6a7997c83c151e39b99ad78d28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

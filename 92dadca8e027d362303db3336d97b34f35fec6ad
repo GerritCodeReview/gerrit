@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b0d4154_606ad0bb",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 7972,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-10-19T13:02:53Z",
+      "side": 1,
+      "message": "This overlaps with work_in_progress and I think we should be able to just use the work_in_progress flag and not create a new one. If the change is created as WiP, it\u0027s just per definition silent (we need to add that to the doc in l.7969).",
+      "range": {
+        "startLine": 7970,
+        "startChar": 0,
+        "endLine": 7972,
+        "endChar": 85
+      },
+      "revId": "92dadca8e027d362303db3336d97b34f35fec6ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "021ab729_59245396",
+        "filename": "java/com/google/gerrit/server/git/CommitUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-10-19T13:02:53Z",
+      "side": 1,
+      "message": "We could just change this to NONE. So for WiP changes, we default to being silent.\n\nThis comment applies to more places in the following code but I\u0027ll just post it once :-)",
+      "range": {
+        "startLine": 270,
+        "startChar": 63,
+        "endLine": 270,
+        "endChar": 68
+      },
+      "revId": "92dadca8e027d362303db3336d97b34f35fec6ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

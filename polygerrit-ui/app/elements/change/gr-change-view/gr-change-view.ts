@@ -761,6 +761,7 @@ export class GrChangeView extends LitElement {
       this,
       () => this.getChangeModel().change$,
       change => {
+        console.log('asdf');
         // The change view is tied to a specific change number, so don't update
         // change to undefined.
         if (change) this.change = change;

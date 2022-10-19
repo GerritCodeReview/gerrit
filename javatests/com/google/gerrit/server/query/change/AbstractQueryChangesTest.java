@@ -2015,7 +2015,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byMergedBefore() throws Exception {
-    assume().that(getSchema().hasField(ChangeField.MERGED_ON)).isTrue();
+    assume().that(getSchema().hasField(ChangeField.MERGED_ON_SPEC)).isTrue();
     long thirtyHoursInMs = MILLISECONDS.convert(30, HOURS);
 
     // Stop the clock, will set time to specific test values.
@@ -2075,7 +2075,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byMergedAfter() throws Exception {
-    assume().that(getSchema().hasField(ChangeField.MERGED_ON)).isTrue();
+    assume().that(getSchema().hasField(ChangeField.MERGED_ON_SPEC)).isTrue();
     long thirtyHoursInMs = MILLISECONDS.convert(30, HOURS);
 
     // Stop the clock, will set time to specific test values.
@@ -2145,7 +2145,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void updatedThenMergedOrder() throws Exception {
-    assume().that(getSchema().hasField(ChangeField.MERGED_ON)).isTrue();
+    assume().that(getSchema().hasField(ChangeField.MERGED_ON_SPEC)).isTrue();
     long thirtyHoursInMs = MILLISECONDS.convert(30, HOURS);
 
     // Stop the clock, will set time to specific test values.

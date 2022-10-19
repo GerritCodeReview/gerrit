@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
-import static com.google.gerrit.server.index.change.ChangeField.HASHTAG;
+import static com.google.gerrit.server.index.change.ChangeField.HASHTAG_SPEC;
 
 import dk.brics.automaton.RegExp;
 import dk.brics.automaton.RunAutomaton;
@@ -23,7 +23,7 @@ public class RegexHashtagPredicate extends ChangeRegexPredicate {
   protected final RunAutomaton pattern;
 
   public RegexHashtagPredicate(String re) {
-    super(HASHTAG, re);
+    super(HASHTAG_SPEC, re);
 
     if (re.startsWith("^")) {
       re = re.substring(1);

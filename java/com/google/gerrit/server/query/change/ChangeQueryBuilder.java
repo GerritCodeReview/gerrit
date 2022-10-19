@@ -536,16 +536,16 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> mergedBefore(String value) throws QueryParseException {
-    checkFieldAvailable(ChangeField.MERGED_ON, OPERATOR_MERGED_BEFORE);
+    checkFieldAvailable(ChangeField.MERGED_ON_SPEC, OPERATOR_MERGED_BEFORE);
     return new BeforePredicate(
-        ChangeField.MERGED_ON, ChangeQueryBuilder.OPERATOR_MERGED_BEFORE, value);
+        ChangeField.MERGED_ON_SPEC, ChangeQueryBuilder.OPERATOR_MERGED_BEFORE, value);
   }
 
   @Operator
   public Predicate<ChangeData> mergedAfter(String value) throws QueryParseException {
-    checkFieldAvailable(ChangeField.MERGED_ON, OPERATOR_MERGED_AFTER);
+    checkFieldAvailable(ChangeField.MERGED_ON_SPEC, OPERATOR_MERGED_AFTER);
     return new AfterPredicate(
-        ChangeField.MERGED_ON, ChangeQueryBuilder.OPERATOR_MERGED_AFTER, value);
+        ChangeField.MERGED_ON_SPEC, ChangeQueryBuilder.OPERATOR_MERGED_AFTER, value);
   }
 
   @Operator

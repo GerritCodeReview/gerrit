@@ -19,7 +19,7 @@ import com.google.gerrit.server.ioutil.RegexListSearcher;
 
 public class RegexPathPredicate extends ChangeRegexPredicate {
   public RegexPathPredicate(String re) {
-    super(ChangeField.PATH, re);
+    super(ChangeField.PATH_SPEC, re);
   }
 
   @Override

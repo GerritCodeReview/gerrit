@@ -103,7 +103,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   static final String UPDATED_SORT_FIELD = sortFieldName(ChangeField.UPDATED);
-  static final String MERGED_ON_SORT_FIELD = sortFieldName(ChangeField.MERGED_ON);
+  static final String MERGED_ON_SORT_FIELD = sortFieldName(ChangeField.MERGED_ON_SPEC);
   static final String ID_STR_SORT_FIELD = sortFieldName(ChangeField.LEGACY_ID_STR);
 
   private static final String CHANGES = "changes";

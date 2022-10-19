@@ -16,6 +16,29 @@
       "message": "maybe for a follow-up change, but could you have add the hovercard as well? It might not be obv to new users that they can mouse-over.",
       "revId": "5d75635e57147bc172998111f927da4446ce21e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ef62082_6b5b9442",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-10-19T17:00:30Z",
+      "side": 1,
+      "message": "not related to the feature but a bit surprised we update `this.account` even when the user has not saved their changes yet.\n\nI guess it\u0027s private state so that\u0027s fine but looks like `this.account` should refer to the user\u0027s account and not be updated until Save is pressed.\n\nWDYT?",
+      "range": {
+        "startLine": 216,
+        "startChar": 38,
+        "endLine": 216,
+        "endChar": 50
+      },
+      "revId": "5d75635e57147bc172998111f927da4446ce21e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

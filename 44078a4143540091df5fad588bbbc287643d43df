@@ -33,6 +33,24 @@
       "message": "I support the idea, but unfortunately we have a bunch of internal hosts that do not currently require a change ID, so we can\u0027t merge this as-is.\n\nThere is no timeline for a migration at this point as we aren\u0027t working on it actively.",
       "revId": "44078a4143540091df5fad588bbbc287643d43df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f5d67d8_dee16d58",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-19T08:02:11Z",
+      "side": 1,
+      "message": "\u003e I support the idea, but unfortunately we have a bunch of internal hosts that do not currently require a change ID, so we can\u0027t merge this as-is.\n\nAh, interesting, I didn\u0027t know about it. The feature has been deprecated for years.\n\n\u003e There is no timeline for a migration at this point as we aren\u0027t working on it actively.\n\nMmm ... deprecating a feature for years but never removing it, means that it isn\u0027t really deprecated isn\u0027t it.\n\nShall we just remove the deprecation notice then?",
+      "parentUuid": "7acb930e_ff5c2c8a",
+      "revId": "44078a4143540091df5fad588bbbc287643d43df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

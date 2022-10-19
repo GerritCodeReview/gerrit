@@ -8,6 +8,7 @@ import '../../shared/gr-avatar/gr-avatar';
 import '../../shared/gr-date-formatter/gr-date-formatter';
 import '../../../styles/gr-form-styles';
 import '../../../styles/shared-styles';
+import '../../shared/gr-account-chip/gr-account-chip';
 import {AccountDetailInfo, ServerInfo} from '../../../types/common';
 import {EditableAccountField} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
@@ -207,6 +208,12 @@ export class GrAccountInfo extends LitElement {
               @keydown=${this.handleKeydown}
             />
           </iron-input>
+        </span>
+      </section>
+      <section>
+        <span class="title">Account chip preview</span>
+        <span class="value">
+          <gr-account-chip .account=${this.account}></gr-account-chip>
         </span>
       </section>
     </div>`;

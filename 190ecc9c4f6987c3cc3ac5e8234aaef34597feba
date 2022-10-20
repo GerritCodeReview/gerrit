@@ -185,6 +185,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "244f92df_da4632cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-20T06:32:54Z",
+      "side": 1,
+      "message": "Thanks for the update. Much appreciated!",
+      "parentUuid": "17516002_99e1ef10",
+      "revId": "190ecc9c4f6987c3cc3ac5e8234aaef34597feba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "42f98609_8dceb1dd",

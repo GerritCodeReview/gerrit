@@ -133,6 +133,7 @@ export class ServiceWorker {
 
     // TODO(milutin): Add gerrit host icon
     this.ctx.registration.showNotification(change.subject, {body, data});
+    this.sendReport('notify about 1 change');
   }
 
   private showNotificationForDashboard(numOfChangesToNotifyAbout: number) {
@@ -140,6 +141,7 @@ export class ServiceWorker {
     const dashboardUrl = createDashboardUrl({});
     const data = {url: `${self.location.origin}${dashboardUrl}`};
     this.ctx.registration.showNotification(title, {data});
+    this.sendReport(`notify about ${numOfChangesToNotifyAbout} changes`);
   }
 
   // private but used in test
@@ -154,6 +156,7 @@ export class ServiceWorker {
     const prevLatestUpdateTimestampMs = this.latestUpdateTimestampMs;
     this.latestUpdateTimestampMs = Date.now();
     await this.saveState();
+    this.sendReport('polling');
     const changes = await this.getLatestAttentionSetChanges();
     const latestAttentionChanges = filterAttentionChangesAfter(
       changes,
@@ -167,10 +170,21 @@ export class ServiceWorker {
   async getLatestAttentionSetChanges(): Promise<ParsedChangeInfo[]> {
     // TODO(milutin): Implement more generic query builder
     const response = await fetch(
-      '/changes/?O=1000081&S=0&n=25&q=attention%3Aself'
+      '/changes/?O=1000081&S=0&n=25&q=attention%3Aself&usp=sw'
     );
     const payload = await readResponsePayload(response);
     const changes = payload.parsed as unknown as ParsedChangeInfo[] | undefined;
     return changes ?? [];
+  }
+
+  async sendReport(eventName: string) {
+    const clientsArr = await this.ctx.clients.matchAll({type: 'window'});
+    const lastFocusedClient = clientsArr?.[0];
+    if (!lastFocusedClient) return;
+
+    lastFocusedClient.postMessage({
+      type: ServiceWorkerMessageType.REPORTING,
+      eventName,
+    });
   }
 }

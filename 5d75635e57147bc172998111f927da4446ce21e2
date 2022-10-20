@@ -39,6 +39,30 @@
       },
       "revId": "5d75635e57147bc172998111f927da4446ce21e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d7e11ca_6624ad48",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-20T09:09:54Z",
+      "side": 1,
+      "message": "It\u0027s simple enough I don\u0027t feel we need a draft system atm. Maybe if we add a cancel/revert button or use draft account elsewhere on the page it would be a good next step.",
+      "parentUuid": "5ef62082_6b5b9442",
+      "range": {
+        "startLine": 216,
+        "startChar": 38,
+        "endLine": 216,
+        "endChar": 50
+      },
+      "revId": "5d75635e57147bc172998111f927da4446ce21e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

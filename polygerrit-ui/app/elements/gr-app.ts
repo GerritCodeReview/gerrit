@@ -68,6 +68,7 @@ export class GrApp extends LitElement {
     if (!this.serviceWorkerInstaller) {
       this.serviceWorkerInstaller = new ServiceWorkerInstaller(
         appContext.flagsService,
+        appContext.reportingService,
         appContext.userModel
       );
     }

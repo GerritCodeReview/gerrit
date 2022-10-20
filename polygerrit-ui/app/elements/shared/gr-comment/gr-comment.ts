@@ -49,7 +49,7 @@ import {
 } from '../../../types/events';
 import {fire, fireEvent} from '../../../utils/event-util';
 import {assertIsDefined, assert} from '../../../utils/common-util';
-import {Key, Modifier} from '../../../utils/dom-util';
+import {Key, Modifier, whenVisible} from '../../../utils/dom-util';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {subscribe} from '../../lit/subscription-controller';
@@ -974,6 +974,14 @@ export class GrComment extends LitElement {
     }
   }
 
+  override updated(changed: PropertyValues) {
+    if (changed.has('editing')) {
+      if (this.editing) {
+        whenVisible(this, () => this.textarea?.putCursorAtEnd());
+      }
+    }
+  }
+
   override willUpdate(changed: PropertyValues) {
     this.firstWillUpdate();
     if (changed.has('editing')) {
@@ -1062,7 +1070,6 @@ export class GrComment extends LitElement {
       this.unresolved = this.comment?.unresolved ?? true;
       this.originalMessage = this.messageText;
       this.originalUnresolved = this.unresolved;
-      setTimeout(() => this.textarea?.putCursorAtEnd(), 1);
     }
 
     // Parent components such as the reply dialog might be interested in whether

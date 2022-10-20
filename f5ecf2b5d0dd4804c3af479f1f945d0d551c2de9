@@ -43,6 +43,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "486c89f8_f2f9a869",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-10-20T13:36:58Z",
+      "side": 1,
+      "message": "Thanks Leo for change. I agree it would be nice to have better previews for gerrit, but as Ben and Edwin commented it needs to make sure that it doesn\u0027t decrease performance. \n\nThe first index is very important - we start to download js files only after this. Do you think it is possible to create title after page is rendered? Will it be parsed by search engines or messangers?\n\nBtw. I think *googlesource have robots.txt set so this host wouldn\u0027t benefit much from this, since it blocks search engines.",
+      "revId": "f5ecf2b5d0dd4804c3af479f1f945d0d551c2de9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1927d584_87aae588",
         "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
         "patchSetId": 4

@@ -60,6 +60,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "90a53c67_40ddfaa6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1108045
+      },
+      "writtenOn": "2022-10-20T14:27:10Z",
+      "side": 1,
+      "message": "\u003e The first index is very important - we start to download js files only after this. Do you think it is possible to create title after page is rendered? Will it be parsed by search engines or messangers?\n\nBoth. Some search engines execute JS, but messengers/link preview bots won\u0027t. They just download the page and look for the meta/OpenGraph tags. So yes, it unfortunately has to be rendered server-side.\n\nI\u0027ll abandon this change. How would you feel about doing it conditionally for a hardcoded list of known user agents?",
+      "parentUuid": "486c89f8_f2f9a869",
+      "revId": "f5ecf2b5d0dd4804c3af479f1f945d0d551c2de9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1927d584_87aae588",
         "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
         "patchSetId": 4

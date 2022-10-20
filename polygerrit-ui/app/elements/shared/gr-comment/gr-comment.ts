@@ -974,6 +974,21 @@ export class GrComment extends LitElement {
     }
   }
 
+  protected override async getUpdateComplete(): Promise<boolean> {
+    const result = await super.getUpdateComplete();
+    await this.textarea?.updateComplete;
+    return result;
+  }
+
+  override updated(changed: PropertyValues) {
+    if (changed.has('editing')) {
+      // trigger this.updateComplete so that getUpdateComplete needs to run
+      if (this.editing) {
+        this.updateComplete.then(() => this.textarea!.putCursorAtEnd());
+      }
+    }
+  }
+
   override willUpdate(changed: PropertyValues) {
     this.firstWillUpdate();
     if (changed.has('editing')) {
@@ -1062,7 +1077,6 @@ export class GrComment extends LitElement {
       this.unresolved = this.comment?.unresolved ?? true;
       this.originalMessage = this.messageText;
       this.originalUnresolved = this.unresolved;
-      setTimeout(() => this.textarea?.putCursorAtEnd(), 1);
     }
 
     // Parent components such as the reply dialog might be interested in whether

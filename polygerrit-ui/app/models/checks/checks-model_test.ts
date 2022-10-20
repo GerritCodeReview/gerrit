@@ -108,7 +108,7 @@ suite('checks-model tests', () => {
     assert.equal(model.changeNum, testChange._number);
   });
 
-  test('reload throttle', async () => {
+  test('fetch throttle', async () => {
     const clock = sinon.useFakeTimers();
     let change: ParsedChangeInfo | undefined = undefined;
     model.changeModel.change$.subscribe(c => (change = c));
@@ -125,16 +125,31 @@ suite('checks-model tests', () => {
     const testChange = createParsedChange();
     model.changeModel.updateStateChange(testChange);
     await waitUntil(() => change === testChange);
-    clock.tick(1);
+
+    model.reload('test-plugin');
+    model.reload('test-plugin');
+    model.reload('test-plugin');
+
+    // Does not emit at 'leading' of throttle interval,
+    // because fetch() is not called when change is undefined.
+    assert.equal(fetchSpy.callCount, 0);
+
+    // 600 ms is greater than the 500 ms throttle time.
+    clock.tick(600);
+    // emits at 'trailing' of throttle interval
     assert.equal(fetchSpy.callCount, 1);
 
-    // The second reload call will be processed, but only after a 1s throttle.
     model.reload('test-plugin');
-    clock.tick(100);
-    assert.equal(fetchSpy.callCount, 1);
-    // 2000 ms is greater than the 1000 ms throttle time.
-    clock.tick(2000);
+    model.reload('test-plugin');
+    model.reload('test-plugin');
+    model.reload('test-plugin');
+    // emits at 'leading' of throttle interval
     assert.equal(fetchSpy.callCount, 2);
+
+    // 600 ms is greater than the 500 ms throttle time.
+    clock.tick(600);
+    // emits at 'trailing' of throttle interval
+    assert.equal(fetchSpy.callCount, 3);
   });
 
   test('triggerAction', async () => {
@@ -282,8 +297,8 @@ suite('checks-model tests', () => {
     const testChange = createParsedChange();
     model.changeModel.updateStateChange(testChange);
     await waitUntil(() => change === testChange);
+    clock.tick(600); // need to wait for 500ms throttle
     await waitUntilCalled(fetchSpy, 'fetch');
-    clock.tick(1);
     const pollCount = fetchSpy.callCount;
 
     // polling should continue while we wait
@@ -309,6 +324,7 @@ suite('checks-model tests', () => {
     const testChange = createParsedChange();
     model.changeModel.updateStateChange(testChange);
     await waitUntil(() => change === testChange);
+    clock.tick(600); // need to wait for 500ms throttle
     await waitUntilCalled(fetchSpy, 'fetch');
     clock.tick(1);
     const pollCount = fetchSpy.callCount;

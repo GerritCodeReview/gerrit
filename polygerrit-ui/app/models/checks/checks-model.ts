@@ -32,6 +32,7 @@ import {
   timeout,
   throttleTime,
   withLatestFrom,
+  tap,
 } from 'rxjs/operators';
 import {
   Action,
@@ -747,21 +748,21 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
     // 2. Specific reload requests.
     // 3. Regular polling starting with an initial fetch right now.
     // 4. A hidden Gerrit tab becoming visible.
+    console.log(`asdf ${pluginName} ${patchset}`);
     this.subscriptions.push(
       combineLatest([
         this.changeModel.change$,
         patchset === ChecksPatchset.LATEST
           ? this.changeModel.latestPatchNum$
           : this.checksSelectedPatchsetNumber$,
-        this.reloadSubjects[pluginName].pipe(
-          throttleTime(1000, undefined, {trailing: true, leading: true})
-        ),
+        this.reloadSubjects[pluginName],
         pollIntervalMs === 0 ? from([0]) : timer(0, pollIntervalMs),
         this.documentVisibilityChange$,
       ])
         .pipe(
           takeWhile(_ => !!this.providers[pluginName]),
           filter(_ => document.visibilityState !== 'hidden'),
+          throttleTime(500, undefined, {leading: true, trailing: true}),
           switchMap(([change, patchNum]): Observable<FetchResponse> => {
             if (!change || !patchNum) return of(this.empty());
             if (typeof patchNum !== 'number') return of(this.empty());

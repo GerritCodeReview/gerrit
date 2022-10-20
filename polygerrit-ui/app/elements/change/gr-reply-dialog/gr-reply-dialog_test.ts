@@ -1446,8 +1446,8 @@ suite('gr-reply-dialog tests', () => {
     await element.updateComplete;
     const clock = sinon.useFakeTimers();
     const chooseFocusTargetSpy = sinon.spy(element, 'chooseFocusTarget');
-    element.focusOn();
-    // element.focus() is called after a setTimeout(). The focusOn() method
+    element.setFocusOnTarget();
+    // element.focus() is called after a setTimeout(). The setFocusOnTarget() method
     // does not trigger any changes in the element hence element.updateComplete
     // resolves immediately and cannot be used here, hence tick the clock here
     // explicitly instead
@@ -1459,7 +1459,7 @@ suite('gr-reply-dialog tests', () => {
       'patchsetLevelComment'
     );
 
-    element.focusOn(element.FocusTarget.ANY);
+    element.setFocusOnTarget(element.FocusTarget.ANY);
     clock.tick(1);
     assert.equal(chooseFocusTargetSpy.callCount, 2);
     assert.equal(element?.shadowRoot?.activeElement?.tagName, 'GR-COMMENT');
@@ -1468,7 +1468,7 @@ suite('gr-reply-dialog tests', () => {
       'patchsetLevelComment'
     );
 
-    element.focusOn(element.FocusTarget.BODY);
+    element.setFocusOnTarget(element.FocusTarget.BODY);
     clock.tick(1);
     assert.equal(chooseFocusTargetSpy.callCount, 2);
     assert.equal(element?.shadowRoot?.activeElement?.tagName, 'GR-COMMENT');
@@ -1477,7 +1477,7 @@ suite('gr-reply-dialog tests', () => {
       'patchsetLevelComment'
     );
 
-    element.focusOn(element.FocusTarget.REVIEWERS);
+    element.setFocusOnTarget(element.FocusTarget.REVIEWERS);
     clock.tick(1);
     assert.equal(chooseFocusTargetSpy.callCount, 2);
     assert.equal(
@@ -1486,7 +1486,7 @@ suite('gr-reply-dialog tests', () => {
     );
     assert.equal(element?.shadowRoot?.activeElement?.id, 'reviewers');
 
-    element.focusOn(element.FocusTarget.CCS);
+    element.setFocusOnTarget(element.FocusTarget.CCS);
     clock.tick(1);
     assert.equal(chooseFocusTargetSpy.callCount, 2);
     assert.equal(

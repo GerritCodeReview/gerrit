@@ -401,6 +401,8 @@ export class GrReplyDialog extends LitElement {
 
   private isLoggedIn = false;
 
+  private focusTarget?: FocusTarget;
+
   private readonly shortcuts = new ShortcutController(this);
 
   static override styles = [
@@ -1264,7 +1266,8 @@ export class GrReplyDialog extends LitElement {
           : LatestPatchState.NOT_LATEST;
       });
 
-    this.focusOn(focusTarget);
+    this.focusTarget = focusTarget;
+    this.setFocusOnTarget(focusTarget);
     if (quote?.length) {
       // If a reply quote has been provided, use it.
       this.patchsetLevelDraftMessage = quote;
@@ -1286,7 +1289,7 @@ export class GrReplyDialog extends LitElement {
   }
 
   override focus() {
-    this.focusOn(FocusTarget.ANY);
+    this.setFocusOnTarget(FocusTarget.ANY);
   }
 
   getFocusStops(): GrOverlayStops | undefined {
@@ -1489,15 +1492,16 @@ export class GrReplyDialog extends LitElement {
       });
   }
 
-  focusOn(section?: FocusTarget) {
+  setFocusOnTarget() {
     // Safeguard- always want to focus on something.
-    if (!section || section === FocusTarget.ANY) {
-      section = this.chooseFocusTarget();
+    if (!this.focusTarget || this.focusTarget === FocusTarget.ANY) {
+      this.focusTarget = this.chooseFocusTarget();
     }
-    if (section === FocusTarget.REVIEWERS) {
+    if (this.focusTarget === FocusTarget.REVIEWERS) {
       const reviewerEntry = this.reviewersList?.focusStart;
+      console.log("reviewerEntry focus from setFocusOnTarget");
       setTimeout(() => reviewerEntry?.focus());
-    } else if (section === FocusTarget.CCS) {
+    } else if (this.focusTarget === FocusTarget.CCS) {
       const ccEntry = this.ccsList?.focusStart;
       setTimeout(() => ccEntry?.focus());
     }
@@ -1928,12 +1932,12 @@ export class GrReplyDialog extends LitElement {
   confirmPendingReviewer() {
     if (this.ccPendingConfirmation) {
       this.ccsList?.confirmGroup(this.ccPendingConfirmation.group);
-      this.focusOn(FocusTarget.CCS);
+      this.setFocusOnTarget(FocusTarget.CCS);
       return;
     }
     if (this.reviewerPendingConfirmation) {
       this.reviewersList?.confirmGroup(this.reviewerPendingConfirmation.group);
-      this.focusOn(FocusTarget.REVIEWERS);
+      this.setFocusOnTarget(FocusTarget.REVIEWERS);
       return;
     }
     this.reporting.error(
@@ -1949,7 +1953,7 @@ export class GrReplyDialog extends LitElement {
     const target = this.ccPendingConfirmation
       ? FocusTarget.CCS
       : FocusTarget.REVIEWERS;
-    this.focusOn(target);
+    this.setFocusOnTarget(target);
   }
 
   handleAccountTextEntry() {

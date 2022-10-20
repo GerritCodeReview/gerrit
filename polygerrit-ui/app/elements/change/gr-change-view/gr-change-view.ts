@@ -2658,7 +2658,10 @@ export class GrChangeView extends LitElement {
       assertIsDefined(dialog, 'reply dialog');
       this.resetReplyOverlayFocusStops();
       dialog.open(focusTarget, quote);
-      const observer = new ResizeObserver(() => overlay.center());
+      const observer = new ResizeObserver(() => {
+        overlay.center();
+        dialog.setFocusOnTarget();
+      });
       observer.observe(dialog);
     });
     fireDialogChange(this, {opened: true});

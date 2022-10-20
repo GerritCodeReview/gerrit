@@ -167,7 +167,7 @@ export class ServiceWorker {
   async getLatestAttentionSetChanges(): Promise<ParsedChangeInfo[]> {
     // TODO(milutin): Implement more generic query builder
     const response = await fetch(
-      '/changes/?O=1000081&S=0&n=25&q=attention%3Aself'
+      '/changes/?O=1000081&S=0&n=25&q=attention%3Aself$usp=sw'
     );
     const payload = await readResponsePayload(response);
     const changes = payload.parsed as unknown as ParsedChangeInfo[] | undefined;

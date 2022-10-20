@@ -977,7 +977,10 @@ export class GrComment extends LitElement {
   override updated(changed: PropertyValues) {
     if (changed.has('editing')) {
       if (this.editing) {
-        whenVisible(this, () => this.textarea?.putCursorAtEnd());
+        whenVisible(this, () => {
+          this.textarea?.putCursorAtEnd();
+          fireEvent(this, 'comment-textarea-focused');
+        });
       }
     }
   }

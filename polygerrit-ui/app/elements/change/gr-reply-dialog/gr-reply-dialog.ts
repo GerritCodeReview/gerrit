@@ -397,6 +397,8 @@ export class GrReplyDialog extends LitElement {
 
   private latestPatchNum?: PatchSetNumber;
 
+  private focusTarget?: FocusTarget;
+
   storeTask?: DelayedTask;
 
   private isLoggedIn = false;
@@ -938,6 +940,9 @@ export class GrReplyDialog extends LitElement {
         }}
         @comment-text-changed=${(e: ValueChangedEvent<string>) => {
           this.patchsetLevelDraftMessage = e.detail.value;
+        }}
+        @comment-textarea-focused=${() => {
+          this.focusOn(this.focusTarget);
         }}
         .messagePlaceholder=${this.messagePlaceholder}
         hide-header
@@ -1494,6 +1499,7 @@ export class GrReplyDialog extends LitElement {
     if (!section || section === FocusTarget.ANY) {
       section = this.chooseFocusTarget();
     }
+    this.focusTarget = section;
     whenVisible(this, () => {
       if (section === FocusTarget.REVIEWERS) {
         const reviewerEntry = this.reviewersList?.focusStart;

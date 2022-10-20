@@ -45,6 +45,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Base64;
+import java.util.Collection;
 import java.util.Optional;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -71,8 +72,6 @@ public class ProjectBasicAuthFilterTest {
   @Mock private DynamicItem<WebSession> webSessionItem;
 
   @Mock private AccountCache accountCache;
-
-  @Mock private AccountState accountState;
 
   @Mock private AccountManager accountManager;
 
@@ -105,12 +104,8 @@ public class ProjectBasicAuthFilterTest {
     authRequestFactory = new AuthRequest.Factory(extIdKeyFactory);
     pwdVerifier = new PasswordVerifier(extIdKeyFactory, authConfig);
 
-    Account account = Account.builder(Account.id(1000000), Instant.now()).build();
     authSuccessful =
         new AuthResult(AUTH_ACCOUNT_ID, extIdKeyFactory.create("username", AUTH_USER), false);
-    doReturn(Optional.of(accountState)).when(accountCache).getByUsername(AUTH_USER);
-    doReturn(Optional.of(accountState)).when(accountCache).get(AUTH_ACCOUNT_ID);
-    doReturn(account).when(accountState).account();
     doReturn(authSuccessful).when(accountManager).authenticate(any());
 
     doReturn(new WebSessionManager.Key(AUTH_COOKIE_VALUE)).when(webSessionManager).createKey(any());
@@ -123,6 +118,7 @@ public class ProjectBasicAuthFilterTest {
 
   @Test
   public void shouldAllowAnonymousRequest() throws Exception {
+    initAccount();
     initMockedWebSession();
     res.setStatus(HttpServletResponse.SC_OK);
 
@@ -143,6 +139,7 @@ public class ProjectBasicAuthFilterTest {
 
   @Test
   public void shouldRequestAuthenticationForBasicAuthRequest() throws Exception {
+    initAccount();
     initMockedWebSession();
     req.addHeader("Authorization", "Basic " + AUTH_USER_B64);
     res.setStatus(HttpServletResponse.SC_OK);
@@ -165,6 +162,7 @@ public class ProjectBasicAuthFilterTest {
 
   @Test
   public void shouldAuthenticateSucessfullyAgainstRealmAndReturnCookie() throws Exception {
+    initAccount();
     initWebSessionWithoutCookie();
     requestBasicAuth(req);
     res.setStatus(HttpServletResponse.SC_OK);
@@ -191,9 +189,10 @@ public class ProjectBasicAuthFilterTest {
 
   @Test
   public void shouldValidateUserPasswordAndNotReturnCookie() throws Exception {
+    ExternalId extId = createUsernamePasswordExternalId();
+    initAccount(ImmutableSet.of(extId));
     initWebSessionWithoutCookie();
     requestBasicAuth(req);
-    initMockedUsernamePasswordExternalId();
     doReturn(GitBasicAuthPolicy.HTTP).when(authConfig).getGitBasicAuthPolicy();
     res.setStatus(HttpServletResponse.SC_OK);
 
@@ -217,6 +216,7 @@ public class ProjectBasicAuthFilterTest {
 
   @Test
   public void shouldNotReauthenticateForGitPostRequest() throws Exception {
+    initAccount();
     req.setPathInfo("/a/project.git/git-upload-pack");
     req.setMethod("POST");
     req.addHeader("Content-Type", "application/x-git-upload-pack-request");
@@ -229,6 +229,7 @@ public class ProjectBasicAuthFilterTest {
 
   @Test
   public void shouldReauthenticateForRegularRequestEvenIfAlreadySignedIn() throws Exception {
+    initAccount();
     doReturn(GitBasicAuthPolicy.LDAP).when(authConfig).getGitBasicAuthPolicy();
     doFilterForRequestWhenAlreadySignedIn();
 
@@ -239,6 +240,7 @@ public class ProjectBasicAuthFilterTest {
 
   @Test
   public void shouldReauthenticateEvenIfHasExistingCookie() throws Exception {
+    initAccount();
     initWebSessionWithCookie("GerritAccount=" + AUTH_COOKIE_VALUE);
     res.setStatus(HttpServletResponse.SC_OK);
     requestBasicAuth(req);
@@ -262,6 +264,7 @@ public class ProjectBasicAuthFilterTest {
 
   @Test
   public void shouldFailedAuthenticationAgainstRealm() throws Exception {
+    initAccount();
     initMockedWebSession();
     requestBasicAuth(req);
 
@@ -283,6 +286,17 @@ public class ProjectBasicAuthFilterTest {
 
     verify(chain, never()).doFilter(any(), any());
     assertThat(res.getStatus()).isEqualTo(HttpServletResponse.SC_UNAUTHORIZED);
+  }
+
+  private void initAccount() throws Exception {
+    initAccount(ImmutableSet.of());
+  }
+
+  private void initAccount(Collection<ExternalId> extIds) throws Exception {
+    Account account = Account.builder(Account.id(1000000), Instant.now()).build();
+    AccountState accountState = AccountState.forAccount(account, extIds);
+    doReturn(Optional.of(accountState)).when(accountCache).getByUsername(AUTH_USER);
+    doReturn(Optional.of(accountState)).when(accountCache).get(AUTH_ACCOUNT_ID);
   }
 
   private void doFilterForRequestWhenAlreadySignedIn()
@@ -322,14 +336,12 @@ public class ProjectBasicAuthFilterTest {
     doReturn(webSession).when(webSessionItem).get();
   }
 
-  private void initMockedUsernamePasswordExternalId() {
-    ExternalId extId =
-        extIdFactory.createWithPassword(
-            extIdKeyFactory.create(ExternalId.SCHEME_USERNAME, AUTH_USER),
-            AUTH_ACCOUNT_ID,
-            null,
-            AUTH_PASSWORD);
-    doReturn(ImmutableSet.builder().add(extId).build()).when(accountState).externalIds();
+  private ExternalId createUsernamePasswordExternalId() {
+    return extIdFactory.createWithPassword(
+        extIdKeyFactory.create(ExternalId.SCHEME_USERNAME, AUTH_USER),
+        AUTH_ACCOUNT_ID,
+        null,
+        AUTH_PASSWORD);
   }
 
   private void requestBasicAuth(FakeHttpServletRequest fakeReq) {

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.extensions.events;
 
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.events.GitBatchRefUpdateListener;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
@@ -22,6 +23,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.plugincontext.PluginContext.PluginMetrics;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import java.io.IOException;
+import java.time.Instant;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.lib.BatchRefUpdate;
@@ -41,10 +43,12 @@ public class GitReferenceUpdatedTest {
   private DynamicSet<GitReferenceUpdatedListener> refUpdatedListeners;
   private DynamicSet<GitBatchRefUpdateListener> batchRefUpdateListeners;
 
+  private final AccountState updater =
+      AccountState.forAccount(Account.builder(Account.id(1), Instant.now()).build());
+
   @Mock GitReferenceUpdatedListener refUpdatedListener;
   @Mock GitBatchRefUpdateListener batchRefUpdateListener;
   @Mock EventUtil util;
-  @Mock AccountState updater;
 
   @Before
   public void setup() {

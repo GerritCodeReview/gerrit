@@ -126,7 +126,7 @@ java_package_configuration(
         "-Xep:DoNotCallSuggester:ERROR",
         "-Xep:DoNotClaimAnnotations:ERROR",
         "-Xep:DoNotMock:ERROR",
-        "-Xep:DoNotMockAutoValue:WARN",
+        "-Xep:DoNotMockAutoValue:ERROR",
         "-Xep:DoubleBraceInitialization:ERROR",
         "-Xep:DoubleCheckedLocking:ERROR",
         "-Xep:DuplicateMapKeys:ERROR",

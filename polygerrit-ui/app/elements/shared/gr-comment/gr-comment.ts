@@ -976,7 +976,7 @@ export class GrComment extends LitElement {
 
   override updated(changed: PropertyValues) {
     if (changed.has('editing')) {
-      if (this.editing) {
+      if (this.editing && !this.permanentEditingMode) {
         whenVisible(this, () => this.textarea?.putCursorAtEnd());
       }
     }

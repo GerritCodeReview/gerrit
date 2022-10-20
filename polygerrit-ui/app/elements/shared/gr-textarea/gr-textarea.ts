@@ -307,9 +307,7 @@ export class GrTextarea extends LitElement {
     // Put the cursor at the end always.
     textarea.selectionStart = textarea.value.length;
     textarea.selectionEnd = textarea.selectionStart;
-    setTimeout(() => {
-      textarea.focus();
-    });
+    textarea.focus();
   }
 
   private getVisibleDropdown() {

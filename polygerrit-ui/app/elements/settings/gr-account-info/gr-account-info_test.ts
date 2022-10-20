@@ -113,6 +113,12 @@ suite('gr-account-info tests', () => {
             <span class="title">Account chip preview</span>
             <span class="value"><gr-account-chip></gr-account-chip></span>
           </section>
+          <section class="hovercardPreview">
+            <span class="title">Account hovercard preview</span>
+            <span class="value">
+              <gr-hovercard-account-contents></gr-hovercard-account-contents>
+            </span>
+          </section>
         </div>
       `
     );

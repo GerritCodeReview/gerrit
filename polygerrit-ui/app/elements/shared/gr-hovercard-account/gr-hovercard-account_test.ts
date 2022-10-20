@@ -8,56 +8,34 @@ import {fixture, assert} from '@open-wc/testing';
 import {html} from 'lit';
 import './gr-hovercard-account';
 import {GrHovercardAccount} from './gr-hovercard-account';
-import {
-  mockPromise,
-  query,
-  queryAndAssert,
-  stubRestApi,
-} from '../../../test/test-utils';
-import {
-  AccountDetailInfo,
-  AccountId,
-  EmailAddress,
-  ReviewerState,
-} from '../../../api/rest-api';
+import {queryAndAssert} from '../../../test/test-utils';
 import {
   createAccountDetailWithId,
   createChange,
-  createDetailedLabelInfo,
 } from '../../../test/test-data-generators';
 import {GrButton} from '../gr-button/gr-button';
-import {EventType} from '../../../types/events';
+import {GrHovercardAccountContents} from './gr-hovercard-account-contents';
+import {getAppContext} from '../../../services/app-context';
 
 suite('gr-hovercard-account tests', () => {
   let element: GrHovercardAccount;
-
-  const ACCOUNT: AccountDetailInfo = {
-    ...createAccountDetailWithId(31),
-    email: 'kermit@gmail.com' as EmailAddress,
-    username: 'kermit',
-    name: 'Kermit The Frog',
-    status: 'I am a frog',
-    _account_id: 31415926535 as AccountId,
-  };
+  let contents: GrHovercardAccountContents;
 
   setup(async () => {
-    const change = {
-      ...createChange(),
-      attention_set: {},
-      reviewers: {},
-      owner: {...ACCOUNT},
-    };
+    const account = createAccountDetailWithId(31);
     element = await fixture<GrHovercardAccount>(
       html`<gr-hovercard-account
         class="hovered"
-        .account=${ACCOUNT}
-        .change=${change}
+        .account=${account}
+        .change=${createChange()}
+        .highlightAttention=${true}
       >
       </gr-hovercard-account>`
     );
     await element.show({});
-    element.userModel.setAccount({...ACCOUNT});
+    getAppContext().userModel.setAccount({...account});
     await element.updateComplete;
+    contents = queryAndAssert(element, 'gr-hovercard-account-contents');
   });
 
   teardown(async () => {
@@ -70,337 +48,29 @@ suite('gr-hovercard-account tests', () => {
       element,
       /* HTML */ `
         <div id="container" role="tooltip" tabindex="-1">
-          <div class="top">
-            <div class="avatar">
-              <gr-avatar hidden="" imagesize="56"></gr-avatar>
-            </div>
-            <div class="account">
-              <h3 class="heading-3 name">Kermit The Frog</h3>
-              <div class="email">kermit@gmail.com</div>
-            </div>
-          </div>
-          <gr-endpoint-decorator name="hovercard-status">
-            <gr-endpoint-param name="account"></gr-endpoint-param>
-          </gr-endpoint-decorator>
-          <div class="status">
-            <span class="title">About me:</span>
-            <span class="value">I am a frog</span>
-          </div>
-          <div class="links">
-            <gr-icon icon="link" class="linkIcon"></gr-icon>
-            <a href="/q/owner:kermit%2540gmail.com">Changes</a>
-            ·
-            <a href="/dashboard/31415926535">Dashboard</a>
-          </div>
+          <gr-hovercard-account-contents></gr-hovercard-account-contents>
         </div>
       `
     );
   });
 
-  test('renders without change data', async () => {
-    const elementWithoutChange = await fixture<GrHovercardAccount>(
-      html`<gr-hovercard-account class="hovered" .account=${ACCOUNT}>
-      </gr-hovercard-account>`
-    );
-    await elementWithoutChange.show({});
-    assert.shadowDom.equal(
-      elementWithoutChange,
-      /* HTML */ `
-        <div id="container" role="tooltip" tabindex="-1">
-          <div class="top">
-            <div class="avatar">
-              <gr-avatar hidden="" imagesize="56"> </gr-avatar>
-            </div>
-            <div class="account">
-              <h3 class="heading-3 name">Kermit The Frog</h3>
-              <div class="email">kermit@gmail.com</div>
-            </div>
-          </div>
-          <gr-endpoint-decorator name="hovercard-status">
-            <gr-endpoint-param name="account"> </gr-endpoint-param>
-          </gr-endpoint-decorator>
-          <div class="status">
-            <span class="title"> About me: </span>
-            <span class="value"> I am a frog </span>
-          </div>
-          <div class="links">
-            <gr-icon class="linkIcon" icon="link"> </gr-icon>
-            <a href="/q/owner:kermit%2540gmail.com"> Changes </a>
-            ·
-            <a href="/dashboard/31415926535"> Dashboard </a>
-          </div>
-        </div>
-      `
-    );
-    elementWithoutChange.mouseHide(new MouseEvent('click'));
-    await elementWithoutChange.updateComplete;
+  test('hides when links are clicked', () => {
+    const changesLink = queryAndAssert<HTMLAnchorElement>(contents, 'a');
+    // Actually redirecting will break the test, replace URL with no-op
+    changesLink.href = 'javascript:';
+
+    assert.isTrue(element._isShowing);
+
+    changesLink.click();
+
+    assert.isFalse(element._isShowing);
   });
 
-  test('account name is shown', () => {
-    const name = queryAndAssert<HTMLHeadingElement>(element, '.name');
-    assert.equal(name.innerText, 'Kermit The Frog');
-  });
+  test('hides when actions are performed', () => {
+    assert.isTrue(element._isShowing);
 
-  test('computePronoun', async () => {
-    element.account = createAccountDetailWithId(1);
-    element.selfAccount = createAccountDetailWithId(1);
-    await element.updateComplete;
-    assert.equal(element.computePronoun(), 'Your');
-    element.account = createAccountDetailWithId(2);
-    await element.updateComplete;
-    assert.equal(element.computePronoun(), 'Their');
-  });
+    queryAndAssert<GrButton>(contents, 'gr-button.addToAttentionSet').click();
 
-  test('account status is not shown if the property is not set', async () => {
-    element.account = {...ACCOUNT, status: undefined};
-    await element.updateComplete;
-    assert.isUndefined(query(element, '.status'));
-  });
-
-  test('account status is displayed', () => {
-    const status = queryAndAssert<HTMLSpanElement>(element, '.status .value');
-    assert.equal(status.innerText, 'I am a frog');
-  });
-
-  test('voteable div is not shown if the property is not set', () => {
-    assert.isUndefined(query(element, '.voteable'));
-  });
-
-  test('voteable div is displayed', async () => {
-    element.change = {
-      ...createChange(),
-      labels: {
-        Foo: {
-          ...createDetailedLabelInfo(),
-          all: [
-            {
-              _account_id: 7 as AccountId,
-              permitted_voting_range: {max: 2, min: 0},
-            },
-          ],
-        },
-        Bar: {
-          ...createDetailedLabelInfo(),
-          all: [
-            {
-              ...createAccountDetailWithId(1),
-              permitted_voting_range: {max: 1, min: 0},
-            },
-            {
-              _account_id: 7 as AccountId,
-              permitted_voting_range: {max: 1, min: 0},
-            },
-          ],
-        },
-        FooBar: {
-          ...createDetailedLabelInfo(),
-          all: [{_account_id: 7 as AccountId, value: 0}],
-        },
-      },
-      permitted_labels: {
-        Foo: ['-1', ' 0', '+1', '+2'],
-        FooBar: ['-1', ' 0'],
-      },
-    };
-    element.account = createAccountDetailWithId(1);
-
-    await element.updateComplete;
-    const voteableEl = queryAndAssert<HTMLSpanElement>(
-      element,
-      '.voteable .value'
-    );
-    assert.equal(voteableEl.innerText, 'Bar: +1');
-  });
-
-  test('remove reviewer', async () => {
-    element.change = {
-      ...createChange(),
-      removable_reviewers: [ACCOUNT],
-      reviewers: {
-        [ReviewerState.REVIEWER]: [ACCOUNT],
-      },
-    };
-    await element.updateComplete;
-    stubRestApi('removeChangeReviewer').returns(
-      Promise.resolve({...new Response(), ok: true})
-    );
-    const reloadListener = sinon.spy();
-    element._target?.addEventListener('reload', reloadListener);
-    const button = queryAndAssert<GrButton>(element, '.removeReviewerOrCC');
-    assert.isOk(button);
-    assert.equal(button.innerText, 'Remove Reviewer');
-    button.click();
-    await element.updateComplete;
-    assert.isTrue(reloadListener.called);
-  });
-
-  test('move reviewer to cc', async () => {
-    element.change = {
-      ...createChange(),
-      removable_reviewers: [ACCOUNT],
-      reviewers: {
-        [ReviewerState.REVIEWER]: [ACCOUNT],
-      },
-    };
-    await element.updateComplete;
-    const saveReviewStub = stubRestApi('saveChangeReview').returns(
-      Promise.resolve({...new Response(), ok: true})
-    );
-    stubRestApi('removeChangeReviewer').returns(
-      Promise.resolve({...new Response(), ok: true})
-    );
-    const reloadListener = sinon.spy();
-    element._target?.addEventListener('reload', reloadListener);
-
-    const button = queryAndAssert<GrButton>(element, '.changeReviewerOrCC');
-
-    assert.isOk(button);
-    assert.equal(button.innerText, 'Move Reviewer to CC');
-    button.click();
-    await element.updateComplete;
-    assert.isTrue(saveReviewStub.called);
-    assert.isTrue(reloadListener.called);
-  });
-
-  test('move reviewer to cc', async () => {
-    element.change = {
-      ...createChange(),
-      removable_reviewers: [ACCOUNT],
-      reviewers: {
-        [ReviewerState.REVIEWER]: [],
-      },
-    };
-    await element.updateComplete;
-    const saveReviewStub = stubRestApi('saveChangeReview').returns(
-      Promise.resolve({...new Response(), ok: true})
-    );
-    stubRestApi('removeChangeReviewer').returns(
-      Promise.resolve({...new Response(), ok: true})
-    );
-    const reloadListener = sinon.spy();
-    element._target?.addEventListener('reload', reloadListener);
-
-    const button = queryAndAssert<GrButton>(element, '.changeReviewerOrCC');
-    assert.isOk(button);
-    assert.equal(button.innerText, 'Move CC to Reviewer');
-
-    button.click();
-    await element.updateComplete;
-    assert.isTrue(saveReviewStub.called);
-    assert.isTrue(reloadListener.called);
-  });
-
-  test('remove cc', async () => {
-    element.change = {
-      ...createChange(),
-      removable_reviewers: [ACCOUNT],
-      reviewers: {
-        [ReviewerState.REVIEWER]: [],
-      },
-    };
-    await element.updateComplete;
-    stubRestApi('removeChangeReviewer').returns(
-      Promise.resolve({...new Response(), ok: true})
-    );
-    const reloadListener = sinon.spy();
-    element._target?.addEventListener('reload', reloadListener);
-
-    const button = queryAndAssert<GrButton>(element, '.removeReviewerOrCC');
-
-    assert.equal(button.innerText, 'Remove CC');
-    assert.isOk(button);
-    button.click();
-    await element.updateComplete;
-    assert.isTrue(reloadListener.called);
-  });
-
-  test('add to attention set', async () => {
-    const apiPromise = mockPromise<Response>();
-    const apiSpy = stubRestApi('addToAttentionSet').returns(apiPromise);
-    element.highlightAttention = true;
-    element._target = document.createElement('div');
-    await element.updateComplete;
-    const showAlertListener = sinon.spy();
-    const hideAlertListener = sinon.spy();
-    const updatedListener = sinon.spy();
-    element._target.addEventListener(EventType.SHOW_ALERT, showAlertListener);
-    element._target.addEventListener('hide-alert', hideAlertListener);
-    element._target.addEventListener('attention-set-updated', updatedListener);
-
-    const button = queryAndAssert<GrButton>(element, '.addToAttentionSet');
-    assert.isOk(button);
-    assert.isTrue(element._isShowing, 'hovercard is showing');
-    button.click();
-
-    assert.equal(Object.keys(element.change?.attention_set ?? {}).length, 1);
-    const attention_set_info = Object.values(
-      element.change?.attention_set ?? {}
-    )[0];
-    assert.equal(
-      attention_set_info.reason,
-      `Added by <GERRIT_ACCOUNT_${ACCOUNT._account_id}>` +
-        ' using the hovercard menu'
-    );
-    assert.equal(
-      attention_set_info.reason_account?._account_id,
-      ACCOUNT._account_id
-    );
-    assert.isTrue(showAlertListener.called, 'showAlertListener was called');
-    assert.isTrue(updatedListener.called, 'updatedListener was called');
-    assert.isFalse(element._isShowing, 'hovercard is hidden');
-
-    apiPromise.resolve({...new Response(), ok: true});
-    await element.updateComplete;
-    assert.isTrue(apiSpy.calledOnce);
-    assert.equal(
-      apiSpy.lastCall.args[2],
-      `Added by <GERRIT_ACCOUNT_${ACCOUNT._account_id}>` +
-        ' using the hovercard menu'
-    );
-    assert.isTrue(hideAlertListener.called, 'hideAlertListener was called');
-  });
-
-  test('remove from attention set', async () => {
-    const apiPromise = mockPromise<Response>();
-    const apiSpy = stubRestApi('removeFromAttentionSet').returns(apiPromise);
-    element.highlightAttention = true;
-    element.change = {
-      ...createChange(),
-      attention_set: {
-        '31415926535': {account: ACCOUNT, reason: 'a good reason'},
-      },
-      reviewers: {},
-      owner: {...ACCOUNT},
-    };
-    element._target = document.createElement('div');
-    await element.updateComplete;
-    const showAlertListener = sinon.spy();
-    const hideAlertListener = sinon.spy();
-    const updatedListener = sinon.spy();
-    element._target.addEventListener(EventType.SHOW_ALERT, showAlertListener);
-    element._target.addEventListener('hide-alert', hideAlertListener);
-    element._target.addEventListener('attention-set-updated', updatedListener);
-
-    const button = queryAndAssert<GrButton>(element, '.removeFromAttentionSet');
-    assert.isOk(button);
-    assert.isTrue(element._isShowing, 'hovercard is showing');
-    button.click();
-
-    assert.isDefined(element.change?.attention_set);
-    assert.equal(Object.keys(element.change?.attention_set ?? {}).length, 0);
-    assert.isTrue(showAlertListener.called, 'showAlertListener was called');
-    assert.isTrue(updatedListener.called, 'updatedListener was called');
-    assert.isFalse(element._isShowing, 'hovercard is hidden');
-
-    apiPromise.resolve({...new Response(), ok: true});
-    await element.updateComplete;
-
-    assert.isTrue(apiSpy.calledOnce);
-    assert.equal(
-      apiSpy.lastCall.args[2],
-      `Removed by <GERRIT_ACCOUNT_${ACCOUNT._account_id}>` +
-        ' using the hovercard menu'
-    );
-    assert.isTrue(hideAlertListener.called, 'hideAlertListener was called');
+    assert.isFalse(element._isShowing);
   });
 });

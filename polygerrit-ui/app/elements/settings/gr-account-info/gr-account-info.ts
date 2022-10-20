@@ -9,6 +9,7 @@ import '../../shared/gr-date-formatter/gr-date-formatter';
 import '../../../styles/gr-form-styles';
 import '../../../styles/shared-styles';
 import '../../shared/gr-account-chip/gr-account-chip';
+import '../../shared/gr-hovercard-account/gr-hovercard-account-contents';
 import {AccountDetailInfo, ServerInfo} from '../../../types/common';
 import {EditableAccountField} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
@@ -75,6 +76,13 @@ export class GrAccountInfo extends LitElement {
       }
       div section.hide {
         display: none;
+      }
+      .hovercardPreview > .value {
+        max-width: 600px;
+        background: var(--dialog-background-color);
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius);
+        box-shadow: var(--elevation-level-5);
       }
     `,
   ];
@@ -214,6 +222,14 @@ export class GrAccountInfo extends LitElement {
         <span class="title">Account chip preview</span>
         <span class="value">
           <gr-account-chip .account=${this.account}></gr-account-chip>
+        </span>
+      </section>
+      <section class="hovercardPreview">
+        <span class="title">Account hovercard preview</span>
+        <span class="value">
+          <gr-hovercard-account-contents
+            .account=${this.account}
+          ></gr-hovercard-account-contents>
         </span>
       </section>
     </div>`;

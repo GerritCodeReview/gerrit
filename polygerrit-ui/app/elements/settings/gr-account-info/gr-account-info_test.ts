@@ -109,6 +109,10 @@ suite('gr-account-info tests', () => {
               </iron-input>
             </span>
           </section>
+          <section>
+            <span class="title">Account chip preview</span>
+            <span class="value"><gr-account-chip></gr-account-chip></span>
+          </section>
         </div>
       `
     );

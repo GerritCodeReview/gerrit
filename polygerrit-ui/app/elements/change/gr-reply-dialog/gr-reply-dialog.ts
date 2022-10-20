@@ -129,7 +129,7 @@ import {
   GrComment,
 } from '../../shared/gr-comment/gr-comment';
 import {ShortcutController} from '../../lit/shortcut-controller';
-import {Key, Modifier} from '../../../utils/dom-util';
+import {Key, Modifier, whenVisible} from '../../../utils/dom-util';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 
 export enum FocusTarget {
@@ -1494,13 +1494,15 @@ export class GrReplyDialog extends LitElement {
     if (!section || section === FocusTarget.ANY) {
       section = this.chooseFocusTarget();
     }
-    if (section === FocusTarget.REVIEWERS) {
-      const reviewerEntry = this.reviewersList?.focusStart;
-      setTimeout(() => reviewerEntry?.focus());
-    } else if (section === FocusTarget.CCS) {
-      const ccEntry = this.ccsList?.focusStart;
-      setTimeout(() => ccEntry?.focus());
-    }
+    whenVisible(this, () => {
+      if (section === FocusTarget.REVIEWERS) {
+        const reviewerEntry = this.reviewersList?.focusStart;
+        reviewerEntry?.focus();
+      } else if (section === FocusTarget.CCS) {
+        const ccEntry = this.ccsList?.focusStart;
+        ccEntry?.focus();
+      }
+    });
   }
 
   chooseFocusTarget() {

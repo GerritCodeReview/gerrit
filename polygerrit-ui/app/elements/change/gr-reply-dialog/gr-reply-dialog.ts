@@ -241,6 +241,8 @@ export class GrReplyDialog extends LitElement {
   @property({type: Object})
   projectConfig?: ConfigInfo;
 
+  @query('#patchsetLevelComment') patchsetLevelGrComment?: GrComment;
+
   @query('#reviewers') reviewersList?: GrAccountList;
 
   @query('#ccs') ccsList?: GrAccountList;
@@ -1446,11 +1448,7 @@ export class GrReplyDialog extends LitElement {
       reviewInput.remove_from_attention_set
     );
 
-    const patchsetLevelComment = queryAndAssert<GrComment>(
-      this,
-      '#patchsetLevelComment'
-    );
-    await patchsetLevelComment.save();
+    await this.patchsetLevelGrComment?.save();
 
     assertIsDefined(this.change, 'change');
     reviewInput.reviewers = this.computeReviewers();
@@ -1501,6 +1499,8 @@ export class GrReplyDialog extends LitElement {
       } else if (section === FocusTarget.CCS) {
         const ccEntry = this.ccsList?.focusStart;
         ccEntry?.focus();
+      } else {
+        this.patchsetLevelGrComment?.focus();
       }
     });
   }
@@ -1862,11 +1862,7 @@ export class GrReplyDialog extends LitElement {
         bubbles: false,
       })
     );
-    const patchsetLevelComment = queryAndAssert<GrComment>(
-      this,
-      '#patchsetLevelComment'
-    );
-    await patchsetLevelComment.save();
+    await this.patchsetLevelGrComment?.save();
     this.rebuildReviewerArrays();
   }
 

@@ -976,7 +976,7 @@ export class GrComment extends LitElement {
 
   override updated(changed: PropertyValues) {
     if (changed.has('editing')) {
-      if (this.editing) {
+      if (this.editing && !this.permanentEditingMode) {
         whenVisible(this, () => this.textarea?.putCursorAtEnd());
       }
     }
@@ -1086,6 +1086,10 @@ export class GrComment extends LitElement {
     if (this.saving) return true;
     if (this.comment.unresolved !== this.unresolved) return false;
     return !this.messageText?.trimEnd();
+  }
+
+  override focus() {
+    this.textarea?.focus();
   }
 
   private handleEsc() {

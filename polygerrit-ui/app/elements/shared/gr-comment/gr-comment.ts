@@ -974,6 +974,19 @@ export class GrComment extends LitElement {
     }
   }
 
+  protected override async getUpdateComplete(): Promise<boolean> {
+    const result = await super.getUpdateComplete();
+    await this.textarea?.updateComplete;
+    return result;
+  }
+
+  override firstUpdated(changed: PropertyValues) {
+    if (changed.has('editing')) {
+      // trigger this.updateComplete so that getUpdateComplete needs to run
+      this.updateComplete.then(() => this.textarea!.putCursorAtEnd());
+    }
+  }
+
   override willUpdate(changed: PropertyValues) {
     this.firstWillUpdate();
     if (changed.has('editing')) {

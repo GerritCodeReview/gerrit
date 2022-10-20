@@ -15,6 +15,7 @@ import {
   queryAndAssert,
   stubFlags,
   stubRestApi,
+  waitUntilVisible,
 } from '../../../test/test-utils';
 import {ChangeStatus, ReviewerState} from '../../../constants/constants';
 import {JSON_PREFIX} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
@@ -1444,14 +1445,10 @@ suite('gr-reply-dialog tests', () => {
 
   test('focusOn', async () => {
     await element.updateComplete;
-    const clock = sinon.useFakeTimers();
     const chooseFocusTargetSpy = sinon.spy(element, 'chooseFocusTarget');
     element.focusOn();
-    // element.focus() is called after a setTimeout(). The focusOn() method
-    // does not trigger any changes in the element hence element.updateComplete
-    // resolves immediately and cannot be used here, hence tick the clock here
-    // explicitly instead
-    clock.tick(1);
+    await waitUntilVisible(element); // let whenVisible resolve
+
     assert.equal(chooseFocusTargetSpy.callCount, 1);
     assert.equal(element?.shadowRoot?.activeElement?.tagName, 'GR-COMMENT');
     assert.equal(
@@ -1460,7 +1457,8 @@ suite('gr-reply-dialog tests', () => {
     );
 
     element.focusOn(element.FocusTarget.ANY);
-    clock.tick(1);
+    await waitUntilVisible(element); // let whenVisible resolve
+
     assert.equal(chooseFocusTargetSpy.callCount, 2);
     assert.equal(element?.shadowRoot?.activeElement?.tagName, 'GR-COMMENT');
     assert.equal(
@@ -1469,7 +1467,8 @@ suite('gr-reply-dialog tests', () => {
     );
 
     element.focusOn(element.FocusTarget.BODY);
-    clock.tick(1);
+    await waitUntilVisible(element); // let whenVisible resolve
+
     assert.equal(chooseFocusTargetSpy.callCount, 2);
     assert.equal(element?.shadowRoot?.activeElement?.tagName, 'GR-COMMENT');
     assert.equal(
@@ -1478,23 +1477,21 @@ suite('gr-reply-dialog tests', () => {
     );
 
     element.focusOn(element.FocusTarget.REVIEWERS);
-    clock.tick(1);
+    await waitUntilVisible(element); // let whenVisible resolve
+
     assert.equal(chooseFocusTargetSpy.callCount, 2);
-    assert.equal(
-      element?.shadowRoot?.activeElement?.tagName,
-      'GR-ACCOUNT-LIST'
+    await waitUntil(
+      () => element?.shadowRoot?.activeElement?.tagName === 'GR-ACCOUNT-LIST'
     );
     assert.equal(element?.shadowRoot?.activeElement?.id, 'reviewers');
 
     element.focusOn(element.FocusTarget.CCS);
-    clock.tick(1);
     assert.equal(chooseFocusTargetSpy.callCount, 2);
     assert.equal(
       element?.shadowRoot?.activeElement?.tagName,
       'GR-ACCOUNT-LIST'
     );
-    assert.equal(element?.shadowRoot?.activeElement?.id, 'ccs');
-    clock.restore();
+    await waitUntil(() => element?.shadowRoot?.activeElement?.id === 'ccs');
   });
 
   test('chooseFocusTarget', () => {

@@ -15,7 +15,7 @@ import {ReportingService} from '../services/gr-reporting/gr-reporting';
 import {UserModel} from '../models/user/user-model';
 import {queryAndAssert, query} from '../utils/common-util';
 import {FlagsService} from '../services/flags/flags';
-import {Key, Modifier} from '../utils/dom-util';
+import {Key, Modifier, whenVisible} from '../utils/dom-util';
 import {Observable} from 'rxjs';
 import {filter, take, timeout} from 'rxjs/operators';
 import {HighlightService} from '../services/highlight/highlight-service';
@@ -217,6 +217,12 @@ export async function waitUntil(
       sleep = sleep === 0 ? 1 : sleep * 4;
     };
     waiter();
+  });
+}
+
+export async function waitUntilVisible(element: Element): Promise<void> {
+  return new Promise(resolve => {
+    whenVisible(element, () => resolve());
   });
 }
 

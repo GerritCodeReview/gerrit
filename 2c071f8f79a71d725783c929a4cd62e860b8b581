@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ec6034f_bf4cfd73",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2672,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-20T20:34:31Z",
+      "side": 1,
+      "message": "I have verified that *IF* I remove this filtering, then Gerrit accepts having two different patch-sets of the same Change with different Change-Ids.",
+      "range": {
+        "startLine": 2671,
+        "startChar": 0,
+        "endLine": 2672,
+        "endChar": 44
+      },
+      "revId": "2c071f8f79a71d725783c929a4cd62e860b8b581",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

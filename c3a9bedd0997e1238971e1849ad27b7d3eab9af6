@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20638a9e_cad4c47d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-10-20T15:08:43Z",
+      "side": 1,
+      "message": "This is an improvement, but \u0027account chip preview\u0027, \u0027hovercard preview\u0027 sounds very technical. Do other products provide inspriation for alternate phrasing? Something along the lines of \"This is how you appear to others:\"\n\nOnce you have the components in place, you might want to ask UI/UX-D for some rough ideas.",
+      "revId": "c3a9bedd0997e1238971e1849ad27b7d3eab9af6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

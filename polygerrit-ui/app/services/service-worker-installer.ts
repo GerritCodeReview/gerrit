@@ -12,6 +12,8 @@ import {
 import {UserModel} from '../models/user/user-model';
 import {AccountDetailInfo} from '../api/rest-api';
 import {until} from '../utils/async-util';
+import {LifeCycle} from '../constants/reporting';
+import { ReportingService } from './gr-reporting/gr-reporting';
 
 /** Type of incoming messages for ServiceWorker. */
 export enum ServiceWorkerMessageType {
@@ -30,6 +32,7 @@ export class ServiceWorkerInstaller {
 
   constructor(
     private readonly flagsService: FlagsService,
+    private readonly reportingService: ReportingService,
     private readonly userModel: UserModel
   ) {
     if (!this.flagsService.isEnabled(KnownExperimentId.PUSH_NOTIFICATIONS)) {
@@ -74,6 +77,9 @@ export class ServiceWorkerInstaller {
     }
     await registerServiceWorker('/service-worker.js');
     const permission = await Notification.requestPermission();
+    this.reportingService.reportLifeCycle(LifeCycle.NOTIFICATION_PERMISSION, {
+      permission,
+    });
     if (this.isPermitted(permission)) this.startTriggerTimer();
     this.initialized = true;
   }

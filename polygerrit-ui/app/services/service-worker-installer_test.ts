@@ -14,9 +14,10 @@ suite('service worker installer tests', () => {
   test('init', async () => {
     const registerStub = sinon.stub(window.navigator.serviceWorker, 'register');
     const flagsService = getAppContext().flagsService;
+    const reportingService = getAppContext().reportingService;
     const userModel = getAppContext().userModel;
     sinon.stub(flagsService, 'isEnabled').returns(true);
-    new ServiceWorkerInstaller(flagsService, userModel);
+    new ServiceWorkerInstaller(flagsService, reportingService, userModel);
     const prefs = {
       ...createDefaultPreferences(),
       allow_browser_notifications: true,

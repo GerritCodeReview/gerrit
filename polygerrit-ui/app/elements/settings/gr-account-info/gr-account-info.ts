@@ -6,9 +6,11 @@
 import '@polymer/iron-input/iron-input';
 import '../../shared/gr-avatar/gr-avatar';
 import '../../shared/gr-date-formatter/gr-date-formatter';
+import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../../../styles/gr-form-styles';
 import '../../../styles/shared-styles';
 import '../../shared/gr-account-chip/gr-account-chip';
+import '../../shared/gr-hovercard-account/gr-hovercard-account-contents';
 import {AccountDetailInfo, ServerInfo} from '../../../types/common';
 import {EditableAccountField} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
@@ -75,6 +77,14 @@ export class GrAccountInfo extends LitElement {
       }
       div section.hide {
         display: none;
+      }
+      .hovercardPreview {
+        max-width: 600px;
+        margin-top: var(--spacing-m);
+        background: var(--dialog-background-color);
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius);
+        box-shadow: var(--elevation-level-5);
       }
     `,
   ];
@@ -211,9 +221,22 @@ export class GrAccountInfo extends LitElement {
         </span>
       </section>
       <section>
-        <span class="title">Account chip preview</span>
+        <span class="title">
+          <gr-tooltip-content
+            title="This is how you appear to others"
+            has-tooltip
+            show-icon
+          >
+            Account preview
+          </gr-tooltip-content>
+        </span>
         <span class="value">
           <gr-account-chip .account=${this.account}></gr-account-chip>
+          <div class="hovercardPreview">
+            <gr-hovercard-account-contents
+              .account=${this.account}
+            ></gr-hovercard-account-contents>
+          </div>
         </span>
       </section>
     </div>`;

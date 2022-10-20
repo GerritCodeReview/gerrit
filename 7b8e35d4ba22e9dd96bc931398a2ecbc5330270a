@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aea5dfeb_87d4c7c4",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 984,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-10-20T17:41:26Z",
+      "side": 1,
+      "message": "You could further test/debug this by running ChangeInput through GSON to get a string, and then using the resulting string restUserSession.post()\n\nif that works, you could dump the JSON onto stdout and see if that works against the local test server",
+      "revId": "7b8e35d4ba22e9dd96bc931398a2ecbc5330270a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

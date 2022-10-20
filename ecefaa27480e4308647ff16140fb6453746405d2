@@ -16,6 +16,24 @@
       "message": "Needs LC+1",
       "revId": "ecefaa27480e4308647ff16140fb6453746405d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5380ed9_876ae66a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-20T12:24:50Z",
+      "side": 1,
+      "message": "I think you can grant yourself now",
+      "parentUuid": "cffcab37_159832c4",
+      "revId": "ecefaa27480e4308647ff16140fb6453746405d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

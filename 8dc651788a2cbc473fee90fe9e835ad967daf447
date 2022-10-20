@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75275460_ae6f8775",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1152372
+      },
+      "writtenOn": "2022-10-20T19:45:01Z",
+      "side": 1,
+      "message": "Renamed new FileContent attribute to gitFileMode and added a check for valid file modes and overloaded file construction so the tests don\u0027t always have to provide the fileMode parameter.",
+      "revId": "8dc651788a2cbc473fee90fe9e835ad967daf447",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

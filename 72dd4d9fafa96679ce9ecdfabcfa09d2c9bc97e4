@@ -16,6 +16,24 @@
       "message": "Document this new option",
       "revId": "72dd4d9fafa96679ce9ecdfabcfa09d2c9bc97e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1682974f_fcb391d1",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2909,
+      "author": {
+        "id": 1152372
+      },
+      "writtenOn": "2022-10-20T19:45:01Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "000585af_8b93441b",
+      "revId": "72dd4d9fafa96679ce9ecdfabcfa09d2c9bc97e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

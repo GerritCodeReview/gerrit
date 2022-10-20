@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11671823_c79bd342",
+        "filename": "java/com/google/gerrit/extensions/api/changes/FileContentInput.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1152372
+      },
+      "writtenOn": "2022-10-20T19:45:01Z",
+      "side": 1,
+      "message": "Done, I\u0027ve opted for gitFileMode since it\u0027s more verbose for the formatting of the file permission.",
+      "parentUuid": "5490edb1_0273e65d",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 22
+      },
+      "revId": "7ba9e63a6e33a7f6419894b3ffb40b168a0e9c5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4bc89e4d_82d2011f",
@@ -61,6 +85,30 @@
       "writtenOn": "2022-10-18T11:07:22Z",
       "side": 1,
       "message": "nit: the naming is inconsistent (in other places, you just call it `fileMode`)\n\nThe concept of a Git file mode is not widely known IMO, it might easily be confused with unix file modes (\u003d access). Maybe call it `gitFileMode`?",
+      "range": {
+        "startLine": 229,
+        "startChar": 23,
+        "endLine": 229,
+        "endChar": 27
+      },
+      "revId": "7ba9e63a6e33a7f6419894b3ffb40b168a0e9c5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96b5e73b_45b7f649",
+        "filename": "java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1152372
+      },
+      "writtenOn": "2022-10-20T19:45:01Z",
+      "side": 1,
+      "message": "Done, I\u0027ve gone with gitFileMode",
+      "parentUuid": "4bc89e4d_82d2011f",
       "range": {
         "startLine": 229,
         "startChar": 23,
@@ -94,6 +142,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0933a658_e0df1186",
+        "filename": "java/com/google/gerrit/server/edit/tree/ChangeFileContentModification.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1152372
+      },
+      "writtenOn": "2022-10-20T19:45:01Z",
+      "side": 1,
+      "message": "Done, I\u0027ve added a check for valid FileMode types.",
+      "parentUuid": "04a5768c_550bc7d9",
+      "range": {
+        "startLine": 90,
+        "startChar": 17,
+        "endLine": 90,
+        "endChar": 72
+      },
+      "revId": "7ba9e63a6e33a7f6419894b3ffb40b168a0e9c5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "588e1705_d252bcea",
@@ -107,6 +179,30 @@
       "writtenOn": "2022-10-18T11:07:22Z",
       "side": 1,
       "message": "Please offer a default where .file(\"foo\") works and just creates a standard file (mode \u003d 0)",
+      "range": {
+        "startLine": 491,
+        "startChar": 55,
+        "endLine": 491,
+        "endChar": 70
+      },
+      "revId": "7ba9e63a6e33a7f6419894b3ffb40b168a0e9c5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad7c979d_3d6d0b55",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1152372
+      },
+      "writtenOn": "2022-10-20T19:45:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "588e1705_d252bcea",
       "range": {
         "startLine": 491,
         "startChar": 55,

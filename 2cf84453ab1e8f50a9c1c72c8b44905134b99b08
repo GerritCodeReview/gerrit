@@ -16,6 +16,24 @@
       "message": "Need one explicit test asserting that Change-Id cannot be edited across patch-sets",
       "revId": "2cf84453ab1e8f50a9c1c72c8b44905134b99b08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ba25e9c_aa955dd6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-20T20:28:28Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "faa2becc_7298e4e0",
+      "revId": "2cf84453ab1e8f50a9c1c72c8b44905134b99b08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

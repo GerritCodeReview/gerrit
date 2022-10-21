@@ -71,7 +71,7 @@ export interface SearchViewState extends ViewState {
 export interface SearchUrlOptions {
   query?: string;
   offset?: number;
-  project?: RepoName;
+  repo?: RepoName;
   branch?: BranchName;
   topic?: TopicName;
   statuses?: string[];
@@ -93,8 +93,8 @@ export function createSearchUrl(params: SearchUrlOptions): string {
   if (params.owner) {
     operators.push('owner:' + encodeURL(params.owner, false));
   }
-  if (params.project) {
-    operators.push('project:' + encodeURL(params.project, false));
+  if (params.repo) {
+    operators.push('project:' + encodeURL(params.repo, false));
   }
   if (params.branch) {
     operators.push('branch:' + encodeURL(params.branch, false));

@@ -94,7 +94,7 @@ suite('gr-smart-search tests', () => {
   });
 
   test('Autocompletes projects', () => {
-    stubRestApi('getSuggestedProjects').callsFake(() =>
+    stubRestApi('getSuggestedRepos').callsFake(() =>
       Promise.resolve({Polygerrit: {id: 'test' as UrlEncodedRepoName}})
     );
     return element.fetchProjects('project', 'pol').then(s => {

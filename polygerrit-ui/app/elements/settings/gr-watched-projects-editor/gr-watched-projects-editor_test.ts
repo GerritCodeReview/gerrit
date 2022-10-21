@@ -44,7 +44,7 @@ suite('gr-watched-projects-editor tests', () => {
     ] as ProjectWatchInfo[];
 
     stubRestApi('getWatchedProjects').returns(Promise.resolve(projects));
-    suggestionStub = stubRestApi('getSuggestedProjects').callsFake(input => {
+    suggestionStub = stubRestApi('getSuggestedRepos').callsFake(input => {
       if (input.startsWith('th')) {
         return Promise.resolve({
           'the project': {

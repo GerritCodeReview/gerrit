@@ -98,7 +98,7 @@ export class GrSmartSearch extends LitElement {
     expression: string
   ): Promise<AutocompleteSuggestion[]> {
     return this.restApiService
-      .getSuggestedProjects(expression, MAX_AUTOCOMPLETE_RESULTS)
+      .getSuggestedRepos(expression, MAX_AUTOCOMPLETE_RESULTS)
       .then(projects => {
         if (!projects) {
           return [];

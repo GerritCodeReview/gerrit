@@ -368,7 +368,7 @@ suite('gr-change-view tests', () => {
     element.viewState = {
       view: GerritView.CHANGE,
       changeNum: TEST_NUMERIC_CHANGE_ID,
-      project: 'gerrit' as RepoName,
+      repo: 'gerrit' as RepoName,
     };
     await element.updateComplete.then(() => {
       assertIsDefined(element.actions);
@@ -2461,7 +2461,7 @@ suite('gr-change-view tests', () => {
       element.viewState = {
         ...createChangeViewState(),
         changeNum: TEST_NUMERIC_CHANGE_ID,
-        project: TEST_PROJECT_NAME,
+        repo: TEST_PROJECT_NAME,
       };
       element.getChangeModel().setState({
         loadingStatus: LoadingStatus.LOADED,

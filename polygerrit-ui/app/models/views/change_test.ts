@@ -17,7 +17,7 @@ import {createChangeUrl, ChangeViewState} from './change';
 const STATE: ChangeViewState = {
   view: GerritView.CHANGE,
   changeNum: 1234 as NumericChangeId,
-  project: 'test' as RepoName,
+  repo: 'test' as RepoName,
 };
 
 suite('change view state tests', () => {
@@ -71,7 +71,7 @@ suite('change view state tests', () => {
     const state: ChangeViewState = {
       view: GerritView.CHANGE,
       changeNum: 1234 as NumericChangeId,
-      project: 'x+/y+/z+/w' as RepoName,
+      repo: 'x+/y+/z+/w' as RepoName,
     };
     assert.equal(createChangeUrl(state), '/c/x%252B/y%252B/z%252B/w/+/1234');
   });

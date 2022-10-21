@@ -234,8 +234,6 @@ export class ChangeComments {
    *
    * @param patchRange The patch-range object containing patchNum
    * and basePatchNum properties to represent the range.
-   * @param projectConfig Optional project config object to
-   * include in the meta sub-object.
    */
   getCommentsForPath(path: string, patchRange: PatchRange): CommentInfo[] {
     let comments: CommentInfo[] = [];
@@ -373,8 +371,6 @@ export class ChangeComments {
    *
    * @param patchRange The patch-range object containing patchNum
    * and basePatchNum properties to represent the range.
-   * @param projectConfig Optional project config object to
-   * include in the meta sub-object.
    */
   getCommentsForFile(
     file: PatchSetFile,

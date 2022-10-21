@@ -6,7 +6,7 @@
 import {CommentRange} from '../api/core';
 import {
   ChangeStatus,
-  ProjectState,
+  RepoState,
   SubmitType,
   InheritedBooleanInfoConfiguredValue,
   PermissionAction,
@@ -769,13 +769,13 @@ export interface ProjectAccessInfo {
   can_add?: boolean;
   can_add_tags?: boolean;
   config_visible?: boolean;
-  groups: ProjectAccessGroups;
+  groups: RepoAccessGroups;
   config_web_links: WebLinkInfo[];
 }
 
-export type ProjectAccessInfoMap = {[projectName: string]: ProjectAccessInfo};
+export type RepoAccessInfoMap = {[projectName: string]: ProjectAccessInfo};
 export type LocalAccessSectionInfo = {[ref: string]: AccessSectionInfo};
-export type ProjectAccessGroups = {[uuid: string]: GroupInfo};
+export type RepoAccessGroups = {[uuid: string]: GroupInfo};
 
 /**
  * The AccessSectionInfo describes the access rights that are assigned on a ref.
@@ -858,7 +858,7 @@ export interface ConfigInput {
   reject_empty_commit?: InheritedBooleanInfoConfiguredValue;
   max_object_size_limit?: MaxObjectSizeLimitInfo;
   submit_type?: SubmitType;
-  state?: ProjectState;
+  state?: RepoState;
   plugin_config_values?: PluginNameToPluginParametersMap;
   commentlinks?: ConfigInfoCommentLinks;
 }
@@ -907,13 +907,13 @@ export interface BranchInfo {
  * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#project-access-input
  */
 export interface ProjectAccessInput {
-  remove?: RefToProjectAccessInfoMap;
-  add?: RefToProjectAccessInfoMap;
+  remove?: RefToRepoAccessInfoMap;
+  add?: RefToRepoAccessInfoMap;
   message?: string;
   parent?: string;
 }
 
-export type RefToProjectAccessInfoMap = {[refName: string]: ProjectAccessInfo};
+export type RefToRepoAccessInfoMap = {[refName: string]: ProjectAccessInfo};
 
 /**
  * Represent a file in a base64 encoding

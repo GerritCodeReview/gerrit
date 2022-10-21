@@ -891,14 +891,14 @@ export class GrChangeMetadata extends LitElement {
 
   private computeProjectUrl(project?: RepoName) {
     if (!project) return '';
-    return createSearchUrl({project});
+    return createSearchUrl({repo: project});
   }
 
   private computeBranchUrl(project?: RepoName, branch?: BranchName) {
     if (!project || !branch || !this.change || !this.change.status) return '';
     return createSearchUrl({
       branch,
-      project,
+      repo: project,
       statuses:
         this.change.status === ChangeStatus.NEW
           ? ['open']
@@ -916,7 +916,7 @@ export class GrChangeMetadata extends LitElement {
     }
     return createChangeUrl({
       changeNum: change,
-      project,
+      repo: project,
       usp: 'metadata',
       patchNum: patchset,
     });

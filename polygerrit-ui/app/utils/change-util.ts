@@ -109,11 +109,11 @@ export function listChangesOptionsToHex(...args: number[]) {
 }
 
 export function changeBaseURL(
-  project: string,
+  repo: string,
   changeNum: NumericChangeId,
   patchNum: PatchSetNum
 ): string {
-  let v = `${getBaseUrl()}/changes/${encodeURIComponent(project)}~${changeNum}`;
+  let v = `${getBaseUrl()}/changes/${encodeURIComponent(repo)}~${changeNum}`;
   if (patchNum) {
     v += `/revisions/${patchNum}`;
   }

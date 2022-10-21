@@ -21,7 +21,7 @@ suite('diff view state tests', () => {
       changeNum: 42 as NumericChangeId,
       path: 'x+y/path.cpp' as RepoName,
       patchNum: 12 as RevisionPatchSetNum,
-      project: '' as RepoName,
+      repo: '' as RepoName,
     };
     assert.equal(createDiffUrl(params), '/c/42/12/x%252By/path.cpp');
 
@@ -29,7 +29,7 @@ suite('diff view state tests', () => {
     assert.equal(createDiffUrl(params).substring(0, 5), '/base');
     window.CANONICAL_PATH = undefined;
 
-    params.project = 'test' as RepoName;
+    params.repo = 'test' as RepoName;
     assert.equal(createDiffUrl(params), '/c/test/+/42/12/x%252By/path.cpp');
 
     params.basePatchNum = 6 as BasePatchSetNum;
@@ -57,7 +57,7 @@ suite('diff view state tests', () => {
       changeNum: 42 as NumericChangeId,
       path: 'x+y/path.cpp',
       patchNum: 12 as RevisionPatchSetNum,
-      project: 'x+/y' as RepoName,
+      repo: 'x+/y' as RepoName,
     };
     assert.equal(createDiffUrl(params), '/c/x%252B/y/+/42/12/x%252By/path.cpp');
   });

@@ -290,7 +290,7 @@ export class GrRepoCommands extends LitElement {
         this.getNavigation().setUrl(
           createEditUrl({
             changeNum: change._number,
-            project: change.project,
+            repo: change.project,
             path: CONFIG_PATH,
             patchNum: INITIAL_PATCHSET,
           })

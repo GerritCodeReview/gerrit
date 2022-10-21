@@ -421,7 +421,7 @@ suite('gr-diff-view tests', () => {
       element.viewState = {
         view: GerritView.DIFF,
         changeNum: 42 as NumericChangeId,
-        project: 'p' as RepoName,
+        repo: 'p' as RepoName,
         commentId: 'c1' as UrlEncodedCommentId,
         commentLink: true,
       };
@@ -1677,7 +1677,7 @@ suite('gr-diff-view tests', () => {
       element.viewState = {
         view: GerritView.DIFF,
         changeNum: 42 as NumericChangeId,
-        project: 'test' as RepoName,
+        repo: 'test' as RepoName,
       };
       await element.updateComplete;
 
@@ -2367,7 +2367,7 @@ suite('gr-diff-view tests', () => {
         view: GerritView.DIFF,
         patchNum: 1 as RevisionPatchSetNum,
         changeNum: 101 as NumericChangeId,
-        project: 'test-project' as RepoName,
+        repo: 'test-project' as RepoName,
         path: 'file1',
       };
       element.patchRange = {
@@ -2392,7 +2392,7 @@ suite('gr-diff-view tests', () => {
         view: GerritView.DIFF,
         patchNum: 1 as RevisionPatchSetNum,
         changeNum: 101 as NumericChangeId,
-        project: 'test-project' as RepoName,
+        repo: 'test-project' as RepoName,
         path: 'file2',
       };
       element.patchRange = {

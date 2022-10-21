@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "9df8be81_5d9d05e1",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-10-21T15:42:07Z",
+      "side": 1,
+      "message": "We can enforce the size internally. Added the comment to the filed: in case of repeatable, applies to each element separately.",
+      "parentUuid": "861034be_0787a74d",
+      "range": {
+        "startLine": 282,
+        "startChar": 16,
+        "endLine": 282,
+        "endChar": 19
+      },
+      "revId": "997ab74571d20dd97a9d02d0676257fe5d2d9a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ce9fafbf_1603ac92",
         "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 12
@@ -37,6 +61,24 @@
       "writtenOn": "2022-10-19T08:51:39Z",
       "side": 1,
       "message": "Nice! thanks for adding descriptions. Will the description be surfaced somewhere, or is it just used as a code documentation for now?",
+      "revId": "997ab74571d20dd97a9d02d0676257fe5d2d9a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfaac1fb_6e884568",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 879,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-10-21T15:42:07Z",
+      "side": 1,
+      "message": "We can have surfaced in our schema files, but here there are just a code documentation.",
+      "parentUuid": "ce9fafbf_1603ac92",
       "revId": "997ab74571d20dd97a9d02d0676257fe5d2d9a63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -54,6 +96,30 @@
       "writtenOn": "2022-10-19T08:51:39Z",
       "side": 1,
       "message": "General question: now that we have a spec definition per field, is it possible e.g. to extend some operator such that it\u0027s searched with two specs?\nI think that could be done by having two different predicates, each using a different spec, that are or\u0027ed together, right?",
+      "range": {
+        "startLine": 147,
+        "startChar": 48,
+        "endLine": 147,
+        "endChar": 61
+      },
+      "revId": "997ab74571d20dd97a9d02d0676257fe5d2d9a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5028c56f_3b18ebc7",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-10-21T15:42:07Z",
+      "side": 1,
+      "message": "Yes, ORing to specs on the same field should produce the desired result. Do you have a case for that in mind?",
+      "parentUuid": "9e8ae538_07340635",
       "range": {
         "startLine": 147,
         "startChar": 48,

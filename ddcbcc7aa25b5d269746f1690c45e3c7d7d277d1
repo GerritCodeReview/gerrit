@@ -16,6 +16,24 @@
       "message": "Probably want to add a test that _changeIdCommitMessageError returns the correct value when setting change/latestCommitMessage? (Although if you want to do that in a seperate change that\u0027s fine or later. Just thought it\u0027d be a good idea to make sure it works as lit vs polymer has different syntax).",
       "revId": "ddcbcc7aa25b5d269746f1690c45e3c7d7d277d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8e1b860_68ba1210",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1776,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-21T20:46:40Z",
+      "side": 1,
+      "message": "Yeah, this is merge-commit and I\u0027d prefer to keep the same coverage we had in the original commit.\n\nExtra coverage should be in a follow-up change IMHO.",
+      "parentUuid": "f0401c93_c6feae2a",
+      "revId": "ddcbcc7aa25b5d269746f1690c45e3c7d7d277d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

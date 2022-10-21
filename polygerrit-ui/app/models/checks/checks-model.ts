@@ -753,15 +753,14 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
         patchset === ChecksPatchset.LATEST
           ? this.changeModel.latestPatchNum$
           : this.checksSelectedPatchsetNumber$,
-        this.reloadSubjects[pluginName].pipe(
-          throttleTime(1000, undefined, {trailing: true, leading: true})
-        ),
+        this.reloadSubjects[pluginName],
         pollIntervalMs === 0 ? from([0]) : timer(0, pollIntervalMs),
         this.documentVisibilityChange$,
       ])
         .pipe(
           takeWhile(_ => !!this.providers[pluginName]),
           filter(_ => document.visibilityState !== 'hidden'),
+          throttleTime(500, undefined, {leading: true, trailing: true}),
           switchMap(([change, patchNum]): Observable<FetchResponse> => {
             if (!change || !patchNum) return of(this.empty());
             if (typeof patchNum !== 'number') return of(this.empty());

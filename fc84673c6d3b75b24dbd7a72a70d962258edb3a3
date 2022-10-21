@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b204c442_2ba56969",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/MigrateLabelFunctionsToSubmitRequirementIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-21T10:09:03Z",
+      "side": 0,
+      "message": "Thanks for fixing, but how did this method emit a CheckReturnValue warning? this method is returning \"void\".",
+      "range": {
+        "startLine": 315,
+        "startChar": 10,
+        "endLine": 315,
+        "endChar": 14
+      },
+      "revId": "fc84673c6d3b75b24dbd7a72a70d962258edb3a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

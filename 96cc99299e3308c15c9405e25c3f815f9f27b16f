@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a82ff893_6ba65378",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-21T10:09:03Z",
+      "side": 1,
+      "message": "nit: typo",
+      "range": {
+        "startLine": 16,
+        "startChar": 68,
+        "endLine": 16,
+        "endChar": 69
+      },
+      "revId": "96cc99299e3308c15c9405e25c3f815f9f27b16f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

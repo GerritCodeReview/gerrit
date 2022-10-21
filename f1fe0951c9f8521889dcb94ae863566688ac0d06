@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "234d1dc1_0342d6c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-10-21T15:30:35Z",
+      "side": 1,
+      "message": "What are examples of such queries, that use multiple DataSources? I thought we would always go to the index for the results?",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 25
+      },
+      "revId": "f1fe0951c9f8521889dcb94ae863566688ac0d06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

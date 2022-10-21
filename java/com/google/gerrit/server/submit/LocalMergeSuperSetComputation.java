@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -53,6 +54,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
@@ -63,6 +65,8 @@ import org.eclipse.jgit.revwalk.RevSort;
  */
 public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  public static final int MAX_SUBMITTABLE_CHANGES_AT_ONCE_DEFAULT = 1024;
 
   public static class Module extends AbstractModule {
     @Override
@@ -90,19 +94,24 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   private final Map<BranchNameKey, Optional<RevCommit>> heads;
   private final ProjectCache projectCache;
   private final ChangeIsVisibleToPredicate.Factory changeIsVisibleToPredicateFactory;
+  private final int maxSubmittableChangesAtOnce;
 
   @Inject
   LocalMergeSuperSetComputation(
       PermissionBackend permissionBackend,
       Provider<InternalChangeQuery> queryProvider,
       ProjectCache projectCache,
-      ChangeIsVisibleToPredicate.Factory changeIsVisibleToPredicateFactory) {
+      ChangeIsVisibleToPredicate.Factory changeIsVisibleToPredicateFactory,
+      @GerritServerConfig Config gerritConfig) {
     this.projectCache = projectCache;
     this.permissionBackend = permissionBackend;
     this.queryProvider = queryProvider;
     this.queryCache = new HashMap<>();
     this.heads = new HashMap<>();
     this.changeIsVisibleToPredicateFactory = changeIsVisibleToPredicateFactory;
+    this.maxSubmittableChangesAtOnce =
+        gerritConfig.getInt(
+            "change", "maxSubmittableAtOnce", MAX_SUBMITTABLE_CHANGES_AT_ONCE_DEFAULT);
   }
 
   @Override
@@ -147,8 +156,10 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
       }
 
       Set<String> visibleHashes =
-          walkChangesByHashes(visibleCommits, Collections.emptySet(), or, b);
-      Set<String> nonVisibleHashes = walkChangesByHashes(nonVisibleCommits, visibleHashes, or, b);
+          walkChangesByHashes(
+              visibleCommits, Collections.emptySet(), or, b, maxSubmittableChangesAtOnce);
+      Set<String> nonVisibleHashes =
+          walkChangesByHashes(nonVisibleCommits, visibleHashes, or, b, maxSubmittableChangesAtOnce);
 
       ChangeSet partialSet =
           byCommitsOnBranchNotMerged(or, b, visibleHashes, nonVisibleHashes, user);
@@ -248,7 +259,11 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   }
 
   private Set<String> walkChangesByHashes(
-      Collection<RevCommit> sourceCommits, Set<String> ignoreHashes, OpenRepo or, BranchNameKey b)
+      Collection<RevCommit> sourceCommits,
+      Set<String> ignoreHashes,
+      OpenRepo or,
+      BranchNameKey b,
+      int limit)
       throws IOException {
     Set<String> destHashes = new HashSet<>();
     or.rw.reset();
@@ -258,7 +273,11 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
       if (ignoreHashes.contains(name)) {
         continue;
       }
-      destHashes.add(name);
+      if (destHashes.size() < limit) {
+        destHashes.add(name);
+      } else {
+        break;
+      }
       or.rw.markStart(c);
     }
     for (RevCommit c : or.rw) {
@@ -266,7 +285,11 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
       if (ignoreHashes.contains(name)) {
         continue;
       }
-      destHashes.add(name);
+      if (destHashes.size() < limit) {
+        destHashes.add(name);
+      } else {
+        break;
+      }
     }
 
     return destHashes;

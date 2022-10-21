@@ -16,6 +16,24 @@
       "message": "Looks like we probably also need \"-Werror\" for this to fail the build",
       "revId": "bfb6a050af443a4ce9775246d4f03a4dfddd4078",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5dc1a4f8_2f0dd9da",
+        "filename": "tools/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-21T09:32:17Z",
+      "side": 1,
+      "message": "Thanks and sorry I missed this comment initially.\n\nThe problem with adding \"-Werror\" is that it makes the build fail if there is any warning, not only if there are unchecked lint warnings. E.g. also if any of the errorprone checks is set to WARN (e.g. as in l. 129 above).\n\nThis means with adding \"-Werror\" we would loose the ability to enable errorprone checks on warning level. So if we want to add \"-Werror\" it probably deserves its own change. Since unrelated to this change, I\u0027ve just fixed the last warnings for the errorprone checks that we use (see [1]) we could add \"-Werror\" now, but I\u0027m still wondering wether we want to keep the ability to enable new errorprone checks on warning level without breaking the build. WDYT?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/348854",
+      "parentUuid": "2796a7a2_af57939f",
+      "revId": "bfb6a050af443a4ce9775246d4f03a4dfddd4078",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -87,6 +87,30 @@
       },
       "revId": "8dc651788a2cbc473fee90fe9e835ad967daf447",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "470ec170_64970124",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2938,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-10-21T08:57:13Z",
+      "side": 1,
+      "message": "I\u0027m totally fine with both int and boolean, so the the following argument is just to explain why I\u0027m _ever so slightly_ in favor of an \"executable\" boolean.\n\nI might be lacking in imagination but I don\u0027t see a use-case for a client to do git-surgery through the REST API (adding blobs and trees instead of a file in a path), if that assumption is correct keeping the API more general (int instead of boolean) has it\u0027s benefits __if__ git starts caring about file-authorization in the future and I don\u0027t see why git would do that.\nIf both those assumptions are correct the int would always be limited to two values, 755 or 644, and in that case the appearance of a wider array of options is just confusing.\nThe boolean would be the equivalent of shorthand `chmod +x file.txt` so it\u0027s not totally unthinkable to add FileMode to the API at a later date and have both options in that case.",
+      "parentUuid": "edf8ce0d_3a1fb594",
+      "range": {
+        "startLine": 2938,
+        "startChar": 14,
+        "endLine": 2938,
+        "endChar": 42
+      },
+      "revId": "8dc651788a2cbc473fee90fe9e835ad967daf447",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

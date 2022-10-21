@@ -18,10 +18,12 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.api.projects.SubmitRequirementApi;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.common.LabelDefinitionInput;
 import com.google.gerrit.extensions.common.SubmitRequirementInfo;
@@ -312,13 +314,14 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
     gApi.projects().name(project.get()).label(labelName).create(input);
   }
 
-  private void createSubmitRequirement(String name, String submitExpression, boolean canOverride)
-      throws Exception {
+  @CanIgnoreReturnValue
+  private SubmitRequirementApi createSubmitRequirement(
+      String name, String submitExpression, boolean canOverride) throws Exception {
     SubmitRequirementInput input = new SubmitRequirementInput();
     input.name = name;
     input.submittabilityExpression = submitExpression;
     input.allowOverrideInChildProjects = canOverride;
-    gApi.projects().name(project.get()).submitRequirement(name).create(input);
+    return gApi.projects().name(project.get()).submitRequirement(name).create(input);
   }
 
   private void assertLabelFunction(String labelName, String function) throws Exception {

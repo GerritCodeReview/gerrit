@@ -16,7 +16,7 @@ import {
 import {
   EditablePermissionInfo,
   PermissionAccessSection,
-  EditableProjectAccessGroups,
+  EditableRepoAccessGroups,
 } from '../gr-repo-access/gr-repo-access-interfaces';
 import {
   CapabilityInfoMap,
@@ -68,7 +68,7 @@ export class GrAccessSection extends LitElement {
   section?: PermissionAccessSection;
 
   @property({type: Object})
-  groups?: EditableProjectAccessGroups;
+  groups?: EditableRepoAccessGroups;
 
   @property({type: Object})
   labels?: LabelNameToLabelTypeInfoMap;

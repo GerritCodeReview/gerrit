@@ -70,7 +70,7 @@ import {
   PreferencesInfo,
   PreferencesInput,
   ProjectAccessInfo,
-  ProjectAccessInfoMap,
+  RepoAccessInfoMap,
   ProjectAccessInput,
   ProjectInfo,
   ProjectInfoWithName,
@@ -287,7 +287,7 @@ export interface RestApiService extends Finalizable {
     errFn?: ErrorCallback
   ): Promise<DashboardInfo[] | undefined>;
 
-  getRepoAccess(repo: RepoName): Promise<ProjectAccessInfoMap | undefined>;
+  getRepoAccess(repo: RepoName): Promise<RepoAccessInfoMap | undefined>;
 
   getProjectConfig(
     repo: RepoName,
@@ -513,7 +513,7 @@ export interface RestApiService extends Finalizable {
 
   deleteWatchedProjects(projects: ProjectWatchInfo[]): Promise<Response>;
 
-  getSuggestedProjects(
+  getSuggestedRepos(
     inputVal: string,
     n?: number
   ): Promise<NameToProjectInfoMap | undefined>;

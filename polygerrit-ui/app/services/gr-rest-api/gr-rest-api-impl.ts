@@ -100,7 +100,7 @@ import {
   PreferencesInfo,
   PreferencesInput,
   ProjectAccessInfo,
-  ProjectAccessInfoMap,
+  RepoAccessInfoMap,
   ProjectAccessInput,
   ProjectInfo,
   ProjectInfoWithName,
@@ -350,13 +350,13 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }) as Promise<ConfigInfo | undefined>;
   }
 
-  getRepoAccess(repo: RepoName): Promise<ProjectAccessInfoMap | undefined> {
+  getRepoAccess(repo: RepoName): Promise<RepoAccessInfoMap | undefined> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     return this._fetchSharedCacheURL({
       url: '/access/?project=' + encodeURIComponent(repo),
       anonymizedUrl: '/access/?project=*',
-    }) as Promise<ProjectAccessInfoMap | undefined>;
+    }) as Promise<RepoAccessInfoMap | undefined>;
   }
 
   getRepoDashboards(
@@ -1631,7 +1631,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }) as Promise<GroupNameToGroupInfoMap | undefined>;
   }
 
-  getSuggestedProjects(
+  getSuggestedRepos(
     inputVal: string,
     n?: number
   ): Promise<NameToProjectInfoMap | undefined> {

@@ -22,7 +22,7 @@ import {
 } from '../../../types/common';
 import {
   InheritedBooleanInfoConfiguredValue,
-  ProjectState,
+  RepoState,
   SubmitType,
 } from '../../../constants/constants';
 import {hasOwnProperty} from '../../../utils/common-util';
@@ -42,9 +42,9 @@ import {subscribe} from '../../lit/subscription-controller';
 import {createSearchUrl} from '../../../models/views/search';
 
 const STATES = {
-  active: {value: ProjectState.ACTIVE, label: 'Active'},
-  readOnly: {value: ProjectState.READ_ONLY, label: 'Read Only'},
-  hidden: {value: ProjectState.HIDDEN, label: 'Hidden'},
+  active: {value: RepoState.ACTIVE, label: 'Active'},
+  readOnly: {value: RepoState.READ_ONLY, label: 'Read Only'},
+  hidden: {value: RepoState.HIDDEN, label: 'Hidden'},
 };
 
 const SUBMIT_TYPES = {
@@ -1130,7 +1130,7 @@ export class GrRepo extends LitElement {
     if (!this.repoConfig || this.loading) return;
     this.repoConfig = {
       ...this.repoConfig,
-      state: e.detail.value as ProjectState,
+      state: e.detail.value as RepoState,
     };
     this.requestUpdate();
   }

@@ -14,7 +14,7 @@ import {
   WebLinkInfo,
 } from '../../../types/common';
 import {GrCreateRepoDialog} from '../gr-create-repo-dialog/gr-create-repo-dialog';
-import {ProjectState, SHOWN_ITEMS_COUNT} from '../../../constants/constants';
+import {RepoState, SHOWN_ITEMS_COUNT} from '../../../constants/constants';
 import {fireTitleChange} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
@@ -164,7 +164,7 @@ export class GrRepoList extends LitElement {
           <a href=${this.computeChangesLink(item.name)}>view all</a>
         </td>
         <td class="readOnly">
-          ${item.state === ProjectState.READ_ONLY ? 'Y' : ''}
+          ${item.state === RepoState.READ_ONLY ? 'Y' : ''}
         </td>
         <td class="description">${item.description}</td>
       </tr>

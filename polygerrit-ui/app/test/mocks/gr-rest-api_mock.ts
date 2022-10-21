@@ -30,7 +30,7 @@ import {
   ConfigInfo,
   EditInfo,
   DashboardInfo,
-  ProjectAccessInfoMap,
+  RepoAccessInfoMap,
   IncludedInInfo,
   CommentInfo,
   PathToCommentsInfoMap,
@@ -376,7 +376,7 @@ export const grRestApiMock: RestApiService = {
       name: repo,
     });
   },
-  getRepoAccess(): Promise<ProjectAccessInfoMap | undefined> {
+  getRepoAccess(): Promise<RepoAccessInfoMap | undefined> {
     return Promise.resolve({});
   },
   getRepoAccessRights(): Promise<ProjectAccessInfo | undefined> {
@@ -412,7 +412,7 @@ export const grRestApiMock: RestApiService = {
   getSuggestedGroups(): Promise<GroupNameToGroupInfoMap | undefined> {
     return Promise.resolve({});
   },
-  getSuggestedProjects(): Promise<NameToProjectInfoMap | undefined> {
+  getSuggestedRepos(): Promise<NameToProjectInfoMap | undefined> {
     return Promise.resolve({});
   },
   getTopMenus(): Promise<TopMenuEntryInfo[] | undefined> {

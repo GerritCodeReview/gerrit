@@ -62,7 +62,8 @@ public class DelegateRepository extends Repository {
     this.delegate = delegate;
   }
 
-  Repository delegate() {
+  /** Returns the wrapped {@link Repository} instance. */
+  public Repository delegate() {
     return delegate;
   }
 

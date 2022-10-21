@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb714261_6c20e88b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-21T01:06:31Z",
+      "side": 1,
+      "message": "@geminica.programs@gmail.com I\u0027ve now fixed all the tests and also verified E2E that the change works.",
+      "revId": "a357c2427e7a8ebb292b34e9ce6bce47679369f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

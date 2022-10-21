@@ -194,11 +194,11 @@ export class GrWatchedProjectsEditor extends LitElement {
   // private but used in tests.
   getProjectSuggestions(input: string) {
     return this.restApiService.getSuggestedProjects(input).then(response => {
-      const projects: AutocompleteSuggestion[] = [];
-      for (const [name, project] of Object.entries(response ?? {})) {
-        projects.push({name, value: project.id});
+      const repos: AutocompleteSuggestion[] = [];
+      for (const [name, repo] of Object.entries(response ?? {})) {
+        repos.push({name, value: repo.id});
       }
-      return projects;
+      return repos;
     });
   }
 

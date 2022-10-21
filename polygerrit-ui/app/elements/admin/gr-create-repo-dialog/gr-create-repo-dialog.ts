@@ -207,8 +207,8 @@ export class GrCreateRepoDialog extends LitElement {
     const response = await this.restApiService.getSuggestedProjects(input);
 
     const repos = [];
-    for (const [name, project] of Object.entries(response ?? {})) {
-      repos.push({name, value: project.id});
+    for (const [name, repo] of Object.entries(response ?? {})) {
+      repos.push({name, value: repo.id});
     }
     return repos;
   }

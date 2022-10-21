@@ -318,7 +318,7 @@ export class GrRepoAccess extends LitElement {
 
     this.editing = false;
 
-    // Always reset sections when a project changes.
+    // Always reset sections when a repo changes.
     this.sections = [];
     const sectionsPromises = this.restApiService
       .getRepoAccessRights(repo, errFn)
@@ -399,17 +399,17 @@ export class GrRepoAccess extends LitElement {
     return this.restApiService
       .getRepos(this.inheritFromFilter, MAX_AUTOCOMPLETE_RESULTS)
       .then(response => {
-        const projects: AutocompleteSuggestion[] = [];
+        const repos: AutocompleteSuggestion[] = [];
         if (!response) {
-          return projects;
+          return repos;
         }
         for (const item of response) {
-          projects.push({
+          repos.push({
             name: item.name,
             value: item.id,
           });
         }
-        return projects;
+        return repos;
       });
   }
 

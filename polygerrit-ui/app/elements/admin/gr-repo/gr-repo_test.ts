@@ -52,7 +52,7 @@ suite('gr-repo tests', () => {
   let repoStub: sinon.SinonStub;
 
   const repoConf: ConfigInfo = {
-    description: 'Access inherited by all other projects.',
+    description: 'Access inherited by all other repositories.',
     use_contributor_agreements: {
       value: false,
       configured_value: InheritedBooleanInfoConfiguredValue.FALSE,

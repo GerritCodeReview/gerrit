@@ -252,6 +252,41 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1c92bef1_222b029b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-21T10:07:39Z",
+      "side": 1,
+      "message": "Let me block this for now and re-think the solution with a feature-flag.",
+      "revId": "4890c9e783354d335b5c6d9a8b4597035eb5c0f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66cbe789_ab3c926e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-21T10:07:39Z",
+      "side": 1,
+      "message": "Apologies for the delay, I have to agree with you and a feature flag would be best and it would also address the automatic flagging of the reviewed flag when visiting a diff.",
+      "parentUuid": "a256e8cc_4e60b29b",
+      "revId": "4890c9e783354d335b5c6d9a8b4597035eb5c0f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "08679b6e_d54c5206",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
         "patchSetId": 3

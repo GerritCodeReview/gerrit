@@ -63,6 +63,30 @@
       },
       "revId": "8dc651788a2cbc473fee90fe9e835ad967daf447",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edf8ce0d_3a1fb594",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2938,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-10-21T08:34:49Z",
+      "side": 1,
+      "message": "I was thinking about that but unix file modes are commonly known and if we\u0027d want to extend in the future, the int would allow to incorporate git-variants as well. WDYT?",
+      "parentUuid": "fe23f1bf_0c4f9dc4",
+      "range": {
+        "startLine": 2938,
+        "startChar": 14,
+        "endLine": 2938,
+        "endChar": 42
+      },
+      "revId": "8dc651788a2cbc473fee90fe9e835ad967daf447",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

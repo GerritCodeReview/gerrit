@@ -203,6 +203,13 @@ import {resolve, DIPolymerElement} from '../../../models/dependency';
 import {checksModelToken} from '../../../models/checks/checks-model';
 import {changeModelToken} from '../../../models/change/change-model';
 
+const CHANGE_ID_ERROR = {
+  MISMATCH: 'mismatch',
+  MISSING: 'missing',
+};
+const CHANGE_ID_REGEX_PATTERN =
+  /^(Change-Id:\s|Link:.*\/id\/)(I[0-9a-f]{8,40})/gm;
+
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
 const REVIEWERS_REGEX = /^(R|CC)=/gm;
@@ -383,6 +390,13 @@ export class GrChangeView extends base {
 
   @property({type: Object})
   _messages = NO_ROBOT_COMMENTS_THREADS_MSG;
+
+  @property({
+    type: String,
+    computed:
+      '_computeChangeIdCommitMessageError(_latestCommitMessage, _change)',
+  })
+  _changeIdCommitMessageError?: string;
 
   @property({type: Object})
   _patchRange?: ChangeViewPatchRange;
@@ -1610,6 +1624,53 @@ export class GrChangeView extends base {
     return GerritNav.getUrlForChange(change, {
       forceReload: !!forceReload,
     });
+  }
+
+  _computeChangeIdClass(displayChangeId: string) {
+    return displayChangeId === CHANGE_ID_ERROR.MISMATCH ? 'warning' : '';
+  }
+
+  _computeTitleAttributeWarning(displayChangeId: string) {
+    if (displayChangeId === CHANGE_ID_ERROR.MISMATCH) {
+      return 'Change-Id mismatch';
+    } else if (displayChangeId === CHANGE_ID_ERROR.MISSING) {
+      return 'No Change-Id in commit message';
+    }
+    return undefined;
+  }
+
+  _computeChangeIdCommitMessageError(
+    commitMessage?: string,
+    change?: ChangeInfo
+  ) {
+    if (change === undefined) {
+      return undefined;
+    }
+
+    if (!commitMessage) {
+      return CHANGE_ID_ERROR.MISSING;
+    }
+
+    // Find the last match in the commit message:
+    let changeId;
+    let changeIdArr;
+
+    while ((changeIdArr = CHANGE_ID_REGEX_PATTERN.exec(commitMessage))) {
+      changeId = changeIdArr[2];
+    }
+
+    if (changeId) {
+      // A change-id is detected in the commit message.
+
+      if (changeId === change.change_id) {
+        // The change-id found matches the real change-id.
+        return null;
+      }
+      // The change-id found does not match the change-id.
+      return CHANGE_ID_ERROR.MISMATCH;
+    }
+    // There is no change-id in the commit message.
+    return CHANGE_ID_ERROR.MISSING;
   }
 
   _computeReplyButtonLabel(

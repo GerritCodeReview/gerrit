@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c66baa31_94b48466",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-21T15:22:24Z",
+      "side": 1,
+      "message": "The equivalent change on master is merged: we can merge this one too, so that we minimise the maintenance and merge-ups in the future.",
+      "revId": "0f12266daab3adde7a335b1a0188bb81ec8b9f7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

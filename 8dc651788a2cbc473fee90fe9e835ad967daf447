@@ -39,6 +39,30 @@
       },
       "revId": "8dc651788a2cbc473fee90fe9e835ad967daf447",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe23f1bf_0c4f9dc4",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2938,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-10-21T08:16:47Z",
+      "side": 1,
+      "message": "If it\u0027s only supposed to govern whether the file is executable or not one might also argue that this should be a boolean and not an int in the API.",
+      "parentUuid": "1df002d1_5b474166",
+      "range": {
+        "startLine": 2938,
+        "startChar": 14,
+        "endLine": 2938,
+        "endChar": 42
+      },
+      "revId": "8dc651788a2cbc473fee90fe9e835ad967daf447",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

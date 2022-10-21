@@ -16,6 +16,29 @@
       "message": "Renamed new FileContent attribute to gitFileMode and added a check for valid file modes and overloaded file construction so the tests don\u0027t always have to provide the fileMode parameter.",
       "revId": "8dc651788a2cbc473fee90fe9e835ad967daf447",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1df002d1_5b474166",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2938,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-10-21T06:28:26Z",
+      "side": 1,
+      "message": "That\u0027s not entirely true, which now makes me wonder what your use case is :-)\n\nUNIX style file mode is what you describe here (755 and friends) - so marking what users have what permissions including if the file is executable.\n\nGit supports only a subset of these. For files, that is 755 (executable) and 644 (regular). Git uses higher bits to distinguish between files, trees (0040000), submodules (0160000).\n\nMore on that here: https://git-scm.com/docs/user-manual (\"Note that the files all have mode 644 or 755: Git actually only pays attention to the executable bit.\").\n\nWhat is your use case? Do you just want to make a file created over the API executable? Or do you want to create a git submodule link or something else over the API.\n\nIf just the former, I think we should start with just that, so accept an integer on the API, but add a check and throw an exception if it\u0027s not either 644 or 755. That spares us the effort of having to deal with more git internals (e.g. user claims new file is a gitlink or tree which means we need to validate).",
+      "range": {
+        "startLine": 2938,
+        "startChar": 14,
+        "endLine": 2938,
+        "endChar": 42
+      },
+      "revId": "8dc651788a2cbc473fee90fe9e835ad967daf447",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -39,6 +39,30 @@
       },
       "revId": "a357c2427e7a8ebb292b34e9ce6bce47679369f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "828f74a6_5ddfec27",
+        "filename": "java/com/google/gerrit/acceptance/PushOneCommit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-21T09:09:28Z",
+      "side": 1,
+      "message": "Good point, let me amend it.",
+      "parentUuid": "b234d2b7_9a091ab3",
+      "range": {
+        "startLine": 266,
+        "startChar": 28,
+        "endLine": 266,
+        "endChar": 42
+      },
+      "revId": "a357c2427e7a8ebb292b34e9ce6bce47679369f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

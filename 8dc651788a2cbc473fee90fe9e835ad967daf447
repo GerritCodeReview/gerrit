@@ -135,6 +135,30 @@
       },
       "revId": "8dc651788a2cbc473fee90fe9e835ad967daf447",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdb11437_b9b66384",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2938,
+      "author": {
+        "id": 1152372
+      },
+      "writtenOn": "2022-10-21T16:16:06Z",
+      "side": 1,
+      "message": "Actually, I\u0027ll opt for the boolean instead of the int. That makes the API less confusing.",
+      "parentUuid": "610c36b2_9b9146c8",
+      "range": {
+        "startLine": 2938,
+        "startChar": 14,
+        "endLine": 2938,
+        "endChar": 42
+      },
+      "revId": "8dc651788a2cbc473fee90fe9e835ad967daf447",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

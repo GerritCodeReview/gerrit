@@ -188,7 +188,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
      * com.google.gerrit.entities.Project.NameKey} and the numeric change ID are not available.
      */
     public ChangeNotes createCheckedUsingIndexLookup(Change.Id changeId) {
-      InternalChangeQuery query = queryProvider.get().noFields();
+      InternalChangeQuery query = queryProvider.get().setLimit(2).noFields();
       List<ChangeData> changes = query.byLegacyChangeId(changeId);
       if (changes.isEmpty()) {
         throw new NoSuchChangeException(changeId);

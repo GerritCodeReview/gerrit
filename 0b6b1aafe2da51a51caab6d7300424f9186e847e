@@ -16,6 +16,57 @@
       "message": "Tested E2E and working as expected",
       "revId": "0b6b1aafe2da51a51caab6d7300424f9186e847e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11b28b36_392f403d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-10-21T20:35:07Z",
+      "side": 1,
+      "message": "Drop the _ and also make this a state().",
+      "revId": "0b6b1aafe2da51a51caab6d7300424f9186e847e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "322c12bf_1699cae3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 2464,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-10-21T20:35:07Z",
+      "side": 1,
+      "message": "Drop the _ prefix and note that they are private by using `// private but used in test`.\n\nAlso the same for below.\n\nAnd also You can do `displayChangeId?: string | null` i think.",
+      "revId": "0b6b1aafe2da51a51caab6d7300424f9186e847e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e04bce48_f15ede98",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 2471,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-10-21T20:35:07Z",
+      "side": 1,
+      "message": "You can do `displayChangeId?: string | null` i think.",
+      "revId": "0b6b1aafe2da51a51caab6d7300424f9186e847e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

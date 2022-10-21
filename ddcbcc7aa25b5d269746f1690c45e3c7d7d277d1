@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0401c93_c6feae2a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1776,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-10-21T20:35:07Z",
+      "side": 1,
+      "message": "Probably want to add a test that _changeIdCommitMessageError returns the correct value when setting change/latestCommitMessage? (Although if you want to do that in a seperate change that\u0027s fine or later. Just thought it\u0027d be a good idea to make sure it works as lit vs polymer has different syntax).",
+      "revId": "ddcbcc7aa25b5d269746f1690c45e3c7d7d277d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

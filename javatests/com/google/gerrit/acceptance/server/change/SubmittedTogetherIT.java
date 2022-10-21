@@ -20,7 +20,9 @@ import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.N
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
+import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Project;
@@ -188,6 +190,26 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
       assertSubmittedTogetherWithTopicClosure(id2, id2, id1);
       assertSubmittedTogetherWithTopicClosure(id3, id3, id2, id1);
     }
+  }
+
+  @Test
+  @Sandboxed
+  @GerritConfig(name = "change.maxSubmittableAtOnce", value = "2")
+  public void submittedTogetherWithMaxChangesLimit() throws Exception {
+    String targetRef = "refs/for/master";
+
+    commitBuilder().add("a.txt", "1").message("subject: 1").create();
+    pushHead(testRepo, targetRef, false);
+
+    RevCommit c2_1 = commitBuilder().add("b.txt", "2").message("subject: 2").create();
+    String id2 = getChangeId(c2_1);
+    pushHead(testRepo, targetRef, false);
+
+    RevCommit c3_1 = commitBuilder().add("b.txt", "3").message("subject: 3").create();
+    String id3 = getChangeId(c3_1);
+    pushHead(testRepo, targetRef, false);
+
+    assertSubmittedTogether(id3, id3, id2);
   }
 
   @Test

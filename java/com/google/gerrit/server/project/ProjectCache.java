@@ -94,6 +94,9 @@ public interface ProjectCache {
   /** Returns sorted iteration of projects. */
   ImmutableSortedSet<Project.NameKey> all();
 
+  /** Refreshes project list cache */
+  void refreshProjectList();
+
   /**
    * Returns estimated set of relevant groups extracted from hot project access rules. If the cache
    * is cold or too small for the entire project set of the server, this set may be incomplete.

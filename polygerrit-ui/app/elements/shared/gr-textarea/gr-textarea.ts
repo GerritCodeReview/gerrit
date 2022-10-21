@@ -302,6 +302,10 @@ export class GrTextarea extends LitElement {
     return this.textarea!.textarea;
   }
 
+  override focus() {
+    this.textarea?.textarea.focus();
+  }
+
   putCursorAtEnd() {
     const textarea = this.getNativeTextarea();
     // Put the cursor at the end always.
@@ -341,7 +345,7 @@ export class GrTextarea extends LitElement {
     e.preventDefault();
     e.stopPropagation();
     this.getVisibleDropdown().cursorUp();
-    this.textarea!.textarea.focus();
+    this.focus();
   }
 
   private handleDownKey(e: KeyboardEvent) {
@@ -351,7 +355,7 @@ export class GrTextarea extends LitElement {
     e.preventDefault();
     e.stopPropagation();
     this.getVisibleDropdown().cursorDown();
-    this.textarea!.textarea.focus();
+    this.focus();
   }
 
   private handleTabKey(e: KeyboardEvent) {
@@ -566,7 +570,7 @@ export class GrTextarea extends LitElement {
   async handleTextChanged() {
     await this.computeSuggestions();
     this.openOrResetDropdown();
-    this.textarea!.textarea.focus();
+    this.focus();
   }
 
   private openEmojiDropdown() {

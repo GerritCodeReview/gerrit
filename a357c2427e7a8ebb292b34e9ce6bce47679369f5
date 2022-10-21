@@ -16,6 +16,29 @@
       "message": "@geminica.programs@gmail.com I\u0027ve now fixed all the tests and also verified E2E that the change works.",
       "revId": "a357c2427e7a8ebb292b34e9ce6bce47679369f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b234d2b7_9a091ab3",
+        "filename": "java/com/google/gerrit/acceptance/PushOneCommit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-10-21T07:11:05Z",
+      "side": 1,
+      "message": "what if `Change-Id:` footer is prepended with another footer e.g. `Release-Notes:` it wouldn\u0027t be found right? I guess that `\\nChange-Id: ` would do, WDYT?",
+      "range": {
+        "startLine": 266,
+        "startChar": 28,
+        "endLine": 266,
+        "endChar": 42
+      },
+      "revId": "a357c2427e7a8ebb292b34e9ce6bce47679369f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

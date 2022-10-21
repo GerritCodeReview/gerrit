@@ -20,6 +20,11 @@ files will have no effect on the behavior of Gerrit.  However, copying an
 example template to an equivalently named file without the `.example` extension
 and modifying it will allow an administrator to customize the template.
 
+[NOTE]
+The content of the templates at `'$site_path'/etc/mail/.*\.soy` are cached at
+startup by Gerrit. If they are modified Gerrit needs to be restarted before the
+changes takes effect.
+
 == Supported Mail Templates
 
 Each mail that Gerrit sends out is controlled by at least one template.  These

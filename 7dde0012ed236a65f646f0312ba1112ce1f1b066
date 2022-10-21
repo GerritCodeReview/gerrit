@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62a4d5eb_6638209f",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-10-21T10:19:24Z",
+      "side": 1,
+      "message": "Nit: We usually use \n```\nhas-tooltip\u003d\"\"\n```\nor\n```\nhas-tooltip\nshow-icon\n```",
+      "range": {
+        "startLine": 227,
+        "startChar": 13,
+        "endLine": 228,
+        "endChar": 29
+      },
+      "revId": "7dde0012ed236a65f646f0312ba1112ce1f1b066",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

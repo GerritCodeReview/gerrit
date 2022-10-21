@@ -283,7 +283,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   readonly _projectLookup = projectLookup; // Shared across instances.
 
   // The value is set in created, before any other actions
-  private readonly _restApiHelper: GrRestApiHelper;
+  readonly _restApiHelper: GrRestApiHelper;
 
   constructor(
     private readonly authService: AuthService,

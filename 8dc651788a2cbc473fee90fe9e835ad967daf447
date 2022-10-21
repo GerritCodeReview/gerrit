@@ -159,6 +159,30 @@
       },
       "revId": "8dc651788a2cbc473fee90fe9e835ad967daf447",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90521c50_d98a2b1e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2938,
+      "author": {
+        "id": 1152372
+      },
+      "writtenOn": "2022-10-21T19:56:28Z",
+      "side": 1,
+      "message": "As I was making the changes I realized that since Java booleans can only be true/false, that would mean REST API users may inadvertently modify the permissions when they don\u0027t explicitly intend to. So, I\u0027ve opted to stick with using an int, where if the value isn\u0027t specified, there will be no change in the file\u0027s mode.\n\nAs for the values accepted, I\u0027ve kept git\u0027s file mode values (100755 and 100644) as what\u0027s accepted by the API. If desired I can change that to just unix file mode values (755/644) and handle the conversion in the handler.",
+      "parentUuid": "fdb11437_b9b66384",
+      "range": {
+        "startLine": 2938,
+        "startChar": 14,
+        "endLine": 2938,
+        "endChar": 42
+      },
+      "revId": "8dc651788a2cbc473fee90fe9e835ad967daf447",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

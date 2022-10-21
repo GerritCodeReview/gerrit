@@ -280,10 +280,12 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   readonly _etags = grEtagDecorator; // Shared across instances.
 
-  readonly _projectLookup = projectLookup; // Shared across instances.
+  // readonly, but set in tests.
+  _projectLookup = projectLookup; // Shared across instances.
 
   // The value is set in created, before any other actions
-  private readonly _restApiHelper: GrRestApiHelper;
+  // Private, but used in tests.
+  readonly _restApiHelper: GrRestApiHelper;
 
   constructor(
     private readonly authService: AuthService,
@@ -3110,7 +3112,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   /**
-   * Alias for _changeBaseURL.then(_fetchJSON).
+   * Alias for _changeBaseURL.then(fetchJSON).
    */
   _getChangeURLAndFetch(
     req: FetchChangeJSON,

@@ -2152,10 +2152,10 @@ export class GrChangeView extends LitElement {
       return;
     }
 
-    if (this.viewState.changeNum && this.viewState.project) {
+    if (this.viewState.changeNum && this.viewState.repo) {
       this.restApiService.setInProjectLookup(
         this.viewState.changeNum,
-        this.viewState.project
+        this.viewState.repo
       );
     }
 
@@ -3223,7 +3223,7 @@ export class GrChangeView extends LitElement {
         this.getNavigation().setUrl(
           createEditUrl({
             changeNum: this.change._number,
-            project: this.change.project,
+            repo: this.change.project,
             path,
             patchNum: this.patchRange.patchNum,
           })

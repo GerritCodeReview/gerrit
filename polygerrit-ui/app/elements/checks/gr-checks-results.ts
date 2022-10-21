@@ -711,7 +711,7 @@ class GrResultExpanded extends LitElement {
         tooltip: `${path}${rangeText}`,
         url: createDiffUrl({
           changeNum: change._number,
-          project: change.project,
+          repo: change.project,
           path,
           patchNum: patchset,
           lineNum: line,

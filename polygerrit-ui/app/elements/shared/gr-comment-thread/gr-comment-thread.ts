@@ -741,7 +741,7 @@ export class GrCommentThread extends LitElement {
     if (this.isNewThread()) return undefined;
     return createDiffUrl({
       changeNum: this.changeNum,
-      project: this.repoName,
+      repo: this.repoName,
       path: this.thread.path,
       patchNum: this.thread.patchNum,
     });
@@ -770,7 +770,7 @@ export class GrCommentThread extends LitElement {
     assertIsDefined(this.rootId, 'rootId of comment thread');
     return createDiffUrl({
       changeNum: this.changeNum,
-      project: this.repoName,
+      repo: this.repoName,
       commentId: this.rootId,
     });
   }
@@ -784,13 +784,13 @@ export class GrCommentThread extends LitElement {
     if (this.isPatchsetLevel()) {
       url = createChangeUrl({
         changeNum: this.changeNum,
-        project: this.repoName,
+        repo: this.repoName,
         commentId: comment.id,
       });
     } else {
       url = createDiffUrl({
         changeNum: this.changeNum,
-        project: this.repoName,
+        repo: this.repoName,
         commentId: comment.id,
       });
     }

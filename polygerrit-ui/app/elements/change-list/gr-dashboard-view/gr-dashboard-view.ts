@@ -330,8 +330,8 @@ export class GrDashboardView extends LitElement {
   }
 
   // private but used in test
-  getProjectDashboard(
-    project: RepoName,
+  getRepositoryDashboard(
+    repo: RepoName,
     dashboard?: DashboardId
   ): Promise<UserDashboard | undefined> {
     const errFn = (response?: Response | null) => {
@@ -339,7 +339,7 @@ export class GrDashboardView extends LitElement {
     };
     assertIsDefined(dashboard, 'project dashboard must have id');
     return this.restApiService
-      .getDashboard(project, dashboard, errFn)
+      .getDashboard(repo, dashboard, errFn)
       .then(response => {
         if (!response) {
           return;
@@ -352,7 +352,7 @@ export class GrDashboardView extends LitElement {
               name: section.name,
               query: (section.query + suffix).replace(
                 PROJECT_PLACEHOLDER_PATTERN,
-                project
+                repo
               ),
             };
           }),
@@ -379,7 +379,7 @@ export class GrDashboardView extends LitElement {
     const {project, dashboard, title, user, sections} = this.viewState;
 
     const dashboardPromise: Promise<UserDashboard | undefined> = project
-      ? this.getProjectDashboard(project, dashboard)
+      ? this.getRepositoryDashboard(project, dashboard)
       : Promise.resolve(
           getUserDashboard(user, sections, title || this.computeTitle(user))
         );

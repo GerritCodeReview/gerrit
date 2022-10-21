@@ -31,7 +31,7 @@ import {
 import {
   EditablePermissionInfo,
   EditablePermissionRuleInfo,
-  EditableProjectAccessGroups,
+  EditableRepoAccessGroups,
 } from '../gr-repo-access/gr-repo-access-interfaces';
 import {getAppContext} from '../../../services/app-context';
 import {fire, fireEvent} from '../../../utils/event-util';
@@ -88,7 +88,7 @@ export class GrPermission extends LitElement {
   permission?: PermissionArrayItem<EditablePermissionInfo>;
 
   @property({type: Object})
-  groups?: EditableProjectAccessGroups;
+  groups?: EditableRepoAccessGroups;
 
   @property({type: String})
   section?: GitRef;
@@ -458,7 +458,7 @@ export class GrPermission extends LitElement {
   }
 
   computeGroupName(
-    groups: EditableProjectAccessGroups | undefined,
+    groups: EditableRepoAccessGroups | undefined,
     groupId: GitRef
   ) {
     return groups && groups[groupId] && groups[groupId].name

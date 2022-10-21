@@ -397,7 +397,7 @@ suite('gr-dashboard-view tests', () => {
           ],
         })
       );
-      const dashboard = await element.getProjectDashboard(
+      const dashboard = await element.getRepositoryDashboard(
         'project' as RepoName,
         '' as DashboardId
       );
@@ -429,7 +429,7 @@ suite('gr-dashboard-view tests', () => {
           ],
         })
       );
-      const dashboard = await element.getProjectDashboard(
+      const dashboard = await element.getRepositoryDashboard(
         'project' as RepoName,
         '' as DashboardId
       );

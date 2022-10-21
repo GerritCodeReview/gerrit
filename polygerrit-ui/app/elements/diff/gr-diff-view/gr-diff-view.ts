@@ -1405,7 +1405,7 @@ export class GrDiffView extends LitElement {
     const cursorAddress = this.cursor?.getAddress();
     const editUrl = createEditUrl({
       changeNum: this.change._number,
-      project: this.change.project,
+      repo: this.change.project,
       path: this.path,
       patchNum: this.patchRange.patchNum,
       lineNum: cursorAddress?.number,
@@ -1523,7 +1523,7 @@ export class GrDiffView extends LitElement {
     if (!this.path) return;
     const url = createDiffUrl({
       changeNum: this.changeNum,
-      project: this.change.project,
+      repo: this.change.project,
       path: this.path,
       patchNum: this.patchRange.patchNum,
       basePatchNum: this.patchRange.basePatchNum,
@@ -1653,10 +1653,10 @@ export class GrDiffView extends LitElement {
     this.commitRange = undefined;
     this.focusLineNum = undefined;
 
-    if (viewState.changeNum && viewState.project) {
+    if (viewState.changeNum && viewState.repo) {
       this.restApiService.setInProjectLookup(
         viewState.changeNum,
-        viewState.project
+        viewState.repo
       );
     }
 
@@ -1786,7 +1786,7 @@ export class GrDiffView extends LitElement {
     if (!change || !patchRange || !path) return '';
     return createDiffUrl({
       changeNum: change._number,
-      project: change.project,
+      repo: change.project,
       path,
       patchNum: patchRange.patchNum,
       basePatchNum: patchRange.basePatchNum,
@@ -1994,7 +1994,7 @@ export class GrDiffView extends LitElement {
 
   // Private but used in tests.
   computeDownloadFileLink(
-    project: RepoName,
+    repo: RepoName,
     changeNum: NumericChangeId,
     patchRange: PatchRange,
     path: string,
@@ -2013,7 +2013,7 @@ export class GrDiffView extends LitElement {
       }
     }
     let url =
-      changeBaseURL(project, changeNum, patchNum) +
+      changeBaseURL(repo, changeNum, patchNum) +
       `/files/${encodeURIComponent(path)}/download`;
     if (parent) url += `?parent=${parent}`;
 
@@ -2022,12 +2022,12 @@ export class GrDiffView extends LitElement {
 
   // Private but used in tests.
   computeDownloadPatchLink(
-    project: RepoName,
+    repo: RepoName,
     changeNum: NumericChangeId,
     patchRange: PatchRange,
     path: string
   ) {
-    let url = changeBaseURL(project, changeNum, patchRange.patchNum);
+    let url = changeBaseURL(repo, changeNum, patchRange.patchNum);
     url += '/patch?zip&path=' + encodeURIComponent(path);
     return url;
   }

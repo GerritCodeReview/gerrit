@@ -949,7 +949,7 @@ export class GrComment extends LitElement {
     if (!comment.id) throw new Error('comment must have an id');
     return createDiffUrl({
       changeNum: this.changeNum,
-      project: this.repoName,
+      repo: this.repoName,
       commentId: comment.id,
     });
   }

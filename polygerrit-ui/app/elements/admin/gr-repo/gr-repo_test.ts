@@ -25,14 +25,14 @@ import {
   InheritedBooleanInfo,
   MaxObjectSizeLimitInfo,
   PluginParameterToConfigParameterInfoMap,
-  ProjectAccessGroups,
-  ProjectAccessInfoMap,
+  RepoAccessGroups,
+  RepoAccessInfoMap,
   RepoName,
 } from '../../../types/common';
 import {
   ConfigParameterInfoType,
   InheritedBooleanInfoConfiguredValue,
-  ProjectState,
+  RepoState,
   SubmitType,
 } from '../../../constants/constants';
 import {
@@ -52,7 +52,7 @@ suite('gr-repo tests', () => {
   let repoStub: sinon.SinonStub;
 
   const repoConf: ConfigInfo = {
-    description: 'Access inherited by all other projects.',
+    description: 'Access inherited by all other repositories.',
     use_contributor_agreements: {
       value: false,
       configured_value: InheritedBooleanInfoConfiguredValue.FALSE,
@@ -534,10 +534,10 @@ suite('gr-repo tests', () => {
               url: 'test',
               name: 'test' as GroupName,
             },
-          } as ProjectAccessGroups,
+          } as RepoAccessGroups,
           config_web_links: [{name: 'gitiles', url: 'test'}],
         },
-      } as ProjectAccessInfoMap)
+      } as RepoAccessInfoMap)
     );
     await element.loadRepo();
     assert.isTrue(element.readOnly);
@@ -652,10 +652,10 @@ suite('gr-repo tests', () => {
                 url: 'test',
                 name: 'test' as GroupName,
               },
-            } as ProjectAccessGroups,
+            } as RepoAccessGroups,
             config_web_links: [{name: 'gitiles', url: 'test'}],
           },
-        } as ProjectAccessInfoMap)
+        } as RepoAccessInfoMap)
       );
     });
 
@@ -671,10 +671,10 @@ suite('gr-repo tests', () => {
 
     test('state gets set correctly', async () => {
       await element.loadRepo();
-      assert.equal(element.repoConfig!.state, ProjectState.ACTIVE);
+      assert.equal(element.repoConfig!.state, RepoState.ACTIVE);
       assert.equal(
         queryAndAssert<GrSelect>(element, '#stateSelect').bindValue,
-        ProjectState.ACTIVE
+        RepoState.ACTIVE
       );
     });
 
@@ -707,7 +707,7 @@ suite('gr-repo tests', () => {
         reject_empty_commit: InheritedBooleanInfoConfiguredValue.TRUE,
         max_object_size_limit: '10' as MaxObjectSizeLimitInfo,
         submit_type: SubmitType.FAST_FORWARD_ONLY,
-        state: ProjectState.READ_ONLY,
+        state: RepoState.READ_ONLY,
         enable_reviewer_by_email: InheritedBooleanInfoConfiguredValue.TRUE,
       };
 

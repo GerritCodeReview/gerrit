@@ -18,7 +18,7 @@ suite('edit view state tests', () => {
     const params: EditViewState = {
       view: GerritView.EDIT,
       changeNum: 42 as NumericChangeId,
-      project: 'test-project' as RepoName,
+      repo: 'test-project' as RepoName,
       path: 'x+y/path.cpp' as RepoName,
       patchNum: 12 as RevisionPatchSetNum,
       lineNum: 31,

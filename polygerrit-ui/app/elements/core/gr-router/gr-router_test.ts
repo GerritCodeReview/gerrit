@@ -1135,7 +1135,7 @@ suite('gr-router tests', () => {
           const ctx = makeParams('', '');
           assertctxToParams(ctx, 'handleChangeRoute', {
             view: GerritView.CHANGE,
-            project: 'foo/bar' as RepoName,
+            repo: 'foo/bar' as RepoName,
             changeNum: 1234 as NumericChangeId,
             basePatchNum: 4 as BasePatchSetNum,
             patchNum: 7 as RevisionPatchSetNum,
@@ -1155,7 +1155,7 @@ suite('gr-router tests', () => {
           ctx.querystring = queryMap.toString();
           assertctxToParams(ctx, 'handleChangeRoute', {
             view: GerritView.CHANGE,
-            project: 'foo/bar' as RepoName,
+            repo: 'foo/bar' as RepoName,
             changeNum: 1234 as NumericChangeId,
             basePatchNum: 4 as BasePatchSetNum,
             patchNum: 7 as RevisionPatchSetNum,
@@ -1195,7 +1195,7 @@ suite('gr-router tests', () => {
           const ctx = makeParams('foo/bar/baz', 'b44');
           assertctxToParams(ctx, 'handleDiffRoute', {
             view: GerritView.DIFF,
-            project: 'foo/bar' as RepoName,
+            repo: 'foo/bar' as RepoName,
             changeNum: 1234 as NumericChangeId,
             basePatchNum: 4 as BasePatchSetNum,
             patchNum: 7 as RevisionPatchSetNum,
@@ -1218,7 +1218,7 @@ suite('gr-router tests', () => {
             {params: groups!.slice(1)} as any,
             'handleCommentRoute',
             {
-              project: 'gerrit' as RepoName,
+              repo: 'gerrit' as RepoName,
               changeNum: 264833 as NumericChangeId,
               commentId: '00049681_f34fd6a9' as UrlEncodedCommentId,
               commentLink: true,
@@ -1239,7 +1239,7 @@ suite('gr-router tests', () => {
             {params: groups!.slice(1)} as any,
             'handleCommentsRoute',
             {
-              project: 'gerrit' as RepoName,
+              repo: 'gerrit' as RepoName,
               changeNum: 264833 as NumericChangeId,
               commentId: '00049681_f34fd6a9' as UrlEncodedCommentId,
               view: GerritView.CHANGE,
@@ -1261,7 +1261,7 @@ suite('gr-router tests', () => {
           },
         };
         const appParams: EditViewState = {
-          project: 'foo/bar' as RepoName,
+          repo: 'foo/bar' as RepoName,
           changeNum: 1234 as NumericChangeId,
           view: GerritView.EDIT,
           path: 'foo/bar/baz',
@@ -1287,7 +1287,7 @@ suite('gr-router tests', () => {
           },
         };
         const appParams: EditViewState = {
-          project: 'foo/bar' as RepoName,
+          repo: 'foo/bar' as RepoName,
           changeNum: 1234 as NumericChangeId,
           view: GerritView.EDIT,
           path: 'foo/bar/baz',
@@ -1312,7 +1312,7 @@ suite('gr-router tests', () => {
           },
         };
         const appParams: ChangeViewState = {
-          project: 'foo/bar' as RepoName,
+          repo: 'foo/bar' as RepoName,
           changeNum: 1234 as NumericChangeId,
           view: GerritView.CHANGE,
           patchNum: 3 as RevisionPatchSetNum,

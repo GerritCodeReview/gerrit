@@ -100,7 +100,7 @@ import {
   PreferencesInfo,
   PreferencesInput,
   ProjectAccessInfo,
-  ProjectAccessInfoMap,
+  RepoAccessInfoMap,
   ProjectAccessInput,
   ProjectInfo,
   ProjectInfoWithName,
@@ -350,13 +350,13 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }) as Promise<ConfigInfo | undefined>;
   }
 
-  getRepoAccess(repo: RepoName): Promise<ProjectAccessInfoMap | undefined> {
+  getRepoAccess(repo: RepoName): Promise<RepoAccessInfoMap | undefined> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     return this._fetchSharedCacheURL({
       url: '/access/?project=' + encodeURIComponent(repo),
       anonymizedUrl: '/access/?project=*',
-    }) as Promise<ProjectAccessInfoMap | undefined>;
+    }) as Promise<RepoAccessInfoMap | undefined>;
   }
 
   getRepoDashboards(
@@ -1631,7 +1631,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }) as Promise<GroupNameToGroupInfoMap | undefined>;
   }
 
-  getSuggestedProjects(
+  getSuggestedRepos(
     inputVal: string,
     n?: number
   ): Promise<NameToProjectInfoMap | undefined> {
@@ -1773,7 +1773,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   getChangeCherryPicks(
-    project: RepoName,
+    repo: RepoName,
     changeID: ChangeId,
     changeNum: NumericChangeId
   ): Promise<ChangeInfo[] | undefined> {
@@ -1782,7 +1782,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       ListChangesOption.CURRENT_COMMIT
     );
     const query = [
-      `project:${project}`,
+      `project:${repo}`,
       `change:${changeID}`,
       `-change:${changeNum}`,
       '-is:abandoned',
@@ -1929,7 +1929,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   createChange(
-    project: RepoName,
+    repo: RepoName,
     branch: BranchName,
     subject: string,
     topic?: string,
@@ -1942,7 +1942,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       method: HttpMethod.POST,
       url: '/changes/',
       body: {
-        project,
+        project: repo,
         branch,
         subject,
         topic,
@@ -2638,13 +2638,13 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   getCommitInfo(
-    project: RepoName,
+    repo: RepoName,
     commit: CommitId
   ): Promise<CommitInfo | undefined> {
     return this._restApiHelper.fetchJSON({
       url:
         '/projects/' +
-        encodeURIComponent(project) +
+        encodeURIComponent(repo) +
         '/commits/' +
         encodeURIComponent(commit),
       anonymizedUrl: '/projects/*/comments/*',
@@ -3224,13 +3224,13 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   getDashboard(
-    project: RepoName,
+    repo: RepoName,
     dashboard: DashboardId,
     errFn?: ErrorCallback
   ): Promise<DashboardInfo | undefined> {
     const url =
       '/projects/' +
-      encodeURIComponent(project) +
+      encodeURIComponent(repo) +
       '/dashboards/' +
       encodeURIComponent(dashboard);
     return this._fetchSharedCacheURL({

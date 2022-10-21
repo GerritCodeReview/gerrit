@@ -142,9 +142,9 @@ export enum ProblemInfoStatus {
 }
 
 /**
- * The state of the projects
+ * The state of the repository
  */
-export enum ProjectState {
+export enum RepoState {
   ACTIVE = 'ACTIVE',
   READ_ONLY = 'READ_ONLY',
   HIDDEN = 'HIDDEN',
@@ -489,7 +489,7 @@ export declare interface ConfigArrayParameterInfo
 
 /**
  * The ConfigInfo entity contains information about the effective
- * project configuration.
+ * repository configuration.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#config-info
  */
 export declare interface ConfigInfo {
@@ -508,7 +508,7 @@ export declare interface ConfigInfo {
   default_submit_type: SubmitTypeInfo;
   submit_type: SubmitType;
   match_author_to_committer_date?: InheritedBooleanInfo;
-  state?: ProjectState;
+  state?: RepoState;
   commentlinks: CommentLinks;
   plugin_config?: PluginNameToPluginParametersMap;
   actions?: {[viewName: string]: ActionInfo};
@@ -740,7 +740,7 @@ export type LabelInfo =
 export type LabelNameToLabelTypeInfoMap = {[labelName: string]: LabelTypeInfo};
 
 /**
- * The LabelTypeInfo entity contains metadata about the labels that a project
+ * The LabelTypeInfo entity contains metadata about the labels that a repository
  * has.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#label-type-info
  */
@@ -756,7 +756,7 @@ export type LabelValueToDescriptionMap = {[labelValue: string]: string};
 
 /**
  * The MaxObjectSizeLimitInfo entity contains information about the max object
- * size limit of a project.
+ * size limit of a repository.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#max-object-size-limit-info
  */
 export declare interface MaxObjectSizeLimitInfo {
@@ -835,23 +835,23 @@ export declare interface ProblemInfo {
 }
 
 /**
- * The ProjectInfo entity contains information about a project
+ * The ProjectInfo entity contains information about a repository
  * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#project-info
  */
 export declare interface ProjectInfo {
   id: UrlEncodedRepoName;
-  // name is not set if returned in a map where the project name is used as
+  // name is not set if returned in a map where the repo name is used as
   // map key
   name?: RepoName;
-  // ?-<n> if the parent project is not visible (<n> is a number which
-  // is increased for each non-visible project).
+  // ?-<n> if the parent repository is not visible (<n> is a number which
+  // is increased for each non-visible repository).
   parent?: RepoName;
   description?: string;
-  state?: ProjectState;
+  state?: RepoState;
   branches?: {[branchName: string]: CommitId};
-  // labels is filled for Create Project and Get Project calls.
+  // labels is filled for Create Repo and Get Repo calls.
   labels?: LabelNameToLabelTypeInfoMap;
-  // Links to the project in external sites
+  // Links to the repository in external sites
   web_links?: WebLinkInfo[];
 }
 
@@ -1005,8 +1005,8 @@ export type StarLabel = BrandType<string, '_startLabel'>;
 // where "'ffffffffff'" represents nanoseconds.
 
 /**
- * Information about the default submittype of a project, taking into account
- * project inheritance.
+ * Information about the default submittype of a repository, taking into account
+ * repository inheritance.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#submit-type-info
  */
 export declare interface SubmitTypeInfo {
@@ -1169,7 +1169,7 @@ export enum LabelStatus {
   /**
    * The label is required for submission, but is impossible to complete.
    * The likely cause is access has not been granted correctly by the
-   * project owner or site administrator.
+   * repository owner or site administrator.
    */
   IMPOSSIBLE = 'IMPOSSIBLE',
   OPTIONAL = 'OPTIONAL',

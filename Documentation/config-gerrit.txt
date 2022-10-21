@@ -1210,6 +1210,13 @@ in change tables and user dashboards.
 +
 By default 500.
 
+[[change.maxSubmittableAtOnce]]change.maxSubmittableAtOnce::
++
+Maximum number of changes that can be chained together in the same repository
+to be submitted at once.
++
+Default is 32767.
+
 [[change.move]]change.move::
 +
 Whether the link:rest-api-changes.html#move-change[Move Change] REST

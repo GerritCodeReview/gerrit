@@ -46,6 +46,30 @@
       },
       "revId": "fc84673c6d3b75b24dbd7a72a70d962258edb3a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ff74f41_6a90bf76",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/MigrateLabelFunctionsToSubmitRequirementIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-21T11:29:39Z",
+      "side": 0,
+      "message": "Ah OK, makes sense. LGTM.",
+      "parentUuid": "f7d445af_fa034693",
+      "range": {
+        "startLine": 315,
+        "startChar": 10,
+        "endLine": 315,
+        "endChar": 14
+      },
+      "revId": "fc84673c6d3b75b24dbd7a72a70d962258edb3a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

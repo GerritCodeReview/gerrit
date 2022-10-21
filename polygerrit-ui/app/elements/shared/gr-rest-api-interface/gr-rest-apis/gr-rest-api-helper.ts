@@ -275,16 +275,14 @@ s   */
    * by this method, it should be called immediately after the request
    * finishes.
    *
+   * Private, but used in tests.
+   *
    * @param startTime the time that the request was started.
    * @param status the HTTP status of the response. The status value
    *     is used here rather than the response object so there is no way this
    *     method can read the body stream.
    */
-  private _logCall(
-    req: FetchRequest,
-    startTime: number,
-    status: number | null
-  ) {
+  _logCall(req: FetchRequest, startTime: number, status: number | null) {
     const method =
       req.fetchOptions && req.fetchOptions.method
         ? req.fetchOptions.method

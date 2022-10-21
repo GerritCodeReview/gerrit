@@ -110,6 +110,30 @@
       },
       "revId": "502db5632210e0a039278e4c643ebd7f84ac1b18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff733ea6_5b55ef15",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevisionReviewers.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-21T08:44:22Z",
+      "side": 1,
+      "message": "\u003e I dont think we can get reviewers by patchset,\n\nI think in the metadata storage, the refs/changes/.../meta branch aka NoteDb, we already store on which patchsets reviewers are added/removed. So the information which reviewer is present on which patch set should be available there. I think it should be feasible to extend ChangeNotesParser to populate a map of reviewers by patch set (similar to the approvals map there), but doing this would mean diving into the internals of how change metadata is stored and parsed.\n\n\u003e The alternatives here,\n\u003e [1] (See the current implementation). to get reviewers only for the current \n\u003e patchset, such that:\n\u003e /changes/{change-id}/revisions/{revision-id}/reviewers returns results for \n\u003e current patchset only,\n\nI wouldn\u0027t like to do this, since from a callers point of view this is really unexpected.\n\n\u003e similar to GET /changes/{change-id}/revisions/{revision-id}/review\u0027\n\nDuh, I forgot about this REST endpoint. Having this REST endpoint always return labels for the current patch set looks pretty broken to me. Maybe it would be an option to try fixing this (not sure if this would break existing callers, but if we are concerned about this we may add a parameter for the new behaviour). Not sure if there are other things in the response that are always loaded from the current patch set and if it\u0027s feasible to fix those too (but maybe that\u0027s not required for your use-case).\n\n\u003e [2] We extend some other end-point such as /changes/{change-\n\u003e id}/revisions/{revision-id}/review which currently lists only\n\u003e current approvals, but we can potentially add a new field\n\u003e \"previous_label_values\" to incorporate per snapshot.\n\nYes, I think extending this REST endpoint is a good idea. Adding a new field to the response to return the patch set labels would be another option to keep this backwards compatible (not sure though if I would like \"previous_label_values\" as name here). Adding an option on the request and then populating the existing \u0027labels\u0027 field correctly may be easier. \n\n\u003e Also, I do not understand the history of the decisions taken as to why it is\n\u003e at /revision/ level and not at /changes/ level, if it is only returning\n\u003e results for the current patchset.\n\nI can make a guess. I think it\u0027s on the revision level to be consistent with the Set Review REST endpoint (POST /changes/{change-id}/revisions/{revision-id}/review). This POST REST endpoint is on revision level rather than on change level to prevent races. E.g. if you review patch set 2 and you post a Code-Review+2 vote to approve it, but at the same time someone else uploads patch set 3. If this was on change level it could happen that the Code-Review+2 is wrongly applied on the non-reviewed patch set 3. \n\n\u003e [3] any other option?\n\nAs explained above, I think it should be doable to parse the historic reviewers from the NoteDb data, but this means that this becomes more effort than what we initially thought.\n\nI like the idea of extending/fixing the GET /changes/{change-id}/revisions/{revision-id}/review REST endpoint. Looks like doing this would be easier.",
+      "parentUuid": "4f187086_5c3f9d18",
+      "range": {
+        "startLine": 90,
+        "startChar": 4,
+        "endLine": 92,
+        "endChar": 60
+      },
+      "revId": "502db5632210e0a039278e4c643ebd7f84ac1b18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

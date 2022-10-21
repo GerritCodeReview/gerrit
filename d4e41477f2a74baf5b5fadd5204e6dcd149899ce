@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "202baaba_b791166d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-21T19:21:16Z",
+      "side": 1,
+      "message": "Doesn\u0027t work E2E: something is missing in the UI",
+      "revId": "d4e41477f2a74baf5b5fadd5204e6dcd149899ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

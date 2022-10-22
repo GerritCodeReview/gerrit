@@ -34,6 +34,24 @@
       "parentUuid": "2796a7a2_af57939f",
       "revId": "bfb6a050af443a4ce9775246d4f03a4dfddd4078",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "841431c5_4576a8c7",
+        "filename": "tools/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-22T15:56:48Z",
+      "side": 1,
+      "message": "\u003e This means with adding \"-Werror\" we would loose the ability to enable errorprone checks on warning level. So if we want to add \"-Werror\" it probably deserves its own change. Since unrelated to this change, I\u0027ve just fixed the last warnings for the errorprone checks that we use (see [1]) we could add \"-Werror\" now, but I\u0027m still wondering wether we want to keep the ability to enable new errorprone checks on warning level without breaking the build. WDYT?\n\u003e \n\nI think you use that ability on a regular basis, so let\u0027s skip \u0027-Werror\u0027 for now.",
+      "parentUuid": "5dc1a4f8_2f0dd9da",
+      "revId": "bfb6a050af443a4ce9775246d4f03a4dfddd4078",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

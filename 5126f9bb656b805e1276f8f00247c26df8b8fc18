@@ -22,6 +22,30 @@
       },
       "revId": "5126f9bb656b805e1276f8f00247c26df8b8fc18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7398e93c_3dd1bde8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-10-22T16:28:07Z",
+      "side": 1,
+      "message": "It mentions some fixes for the arm64 macs (m1 etc) (not sure if they are beneficial for us though). Also updates the nodejs versions that you can use.",
+      "parentUuid": "d362fb69_f3b0e3b4",
+      "range": {
+        "startLine": 7,
+        "startChar": 35,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "5126f9bb656b805e1276f8f00247c26df8b8fc18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -22,6 +22,30 @@
       },
       "revId": "f1fe0951c9f8521889dcb94ae863566688ac0d06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5cff591c_e86d94a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-10-22T12:56:17Z",
+      "side": 1,
+      "message": "Unfortunately there are no operators which are dataSources other than Index in the Core as of now. But we (at Qualcomm) do have operators in plugins which are Datasources.\n\nSuppose there is an operator (say \"foo:bar\") provided by a plugin which is a datasource retuning around 10 changes. On a 3.4 test site against LUCENE which contains ~20K open changes, ~2.8M merged changes, ~1.2M abandoned changes, the performance of,\n\nquery \"foo:bar status:open\"\n  when status:open is datasource: 2.1s, 2.1s, 2.1s\n  when foo:bar is datasource: 0.07s, 0.07s, 0.07s\n\nquery \"foo:bar status:merged\"\n  when status:merged is datasource: 6m49s, 6m38s, 6m34s\n  when foo:bar is datasource: 0.07s, 0.07s, 0.07s\n \nI\u0027ll update this info in the commit message.",
+      "parentUuid": "234d1dc1_0342d6c6",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 25
+      },
+      "revId": "f1fe0951c9f8521889dcb94ae863566688ac0d06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

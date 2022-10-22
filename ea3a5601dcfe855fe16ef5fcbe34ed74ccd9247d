@@ -169,6 +169,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "55738366_f86eb29f",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-22T20:04:45Z",
+      "side": 1,
+      "message": "\u003e Yes, just calling IndexedField.getName() would be enough to know where to route this request.\n\u003e I am using the new names because:\n\u003e * it separates the IndexedFields (stored, used by the new implementation) from the SearchFields(old FieldDef). \n\u003e * I don\u0027t want to reuse the names like _hashtag, topic4, ... . In naming of IndexFields, I just want to ensure the consistent style, e.g. capital latter, descriptive name. So topic4,topic5,topic6 -\u003e Topic, status -\u003e Status.\n\nThat consistency sounds good. Can you please add some kind of documentation for that naming expectation before you finish the series?\n\n\u003e \n\u003e The interface to request fields from index on search is IndexPredicate[1].\n\u003e In case the implementation does not support multiple searches per field, it can call predicate.getField.getName() to build a query.\n\u003e If the implementation supports multiple searches by field, it can call predicate.getField.getField.getName() and use the operator from SearchOption to build the query[2], [3].\n\nAck, thanks!",
+      "parentUuid": "1326e3f4_b432c28f",
+      "range": {
+        "startLine": 133,
+        "startChar": 45,
+        "endLine": 133,
+        "endChar": 53
+      },
+      "revId": "ea3a5601dcfe855fe16ef5fcbe34ed74ccd9247d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dfb7fe7d_d9471776",
         "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 14
@@ -252,6 +276,30 @@
       "side": 1,
       "message": "\u003e Or I guess if you don\u0027t want to have it change without changing the index \nversion, you could add a test that confirms its accuracy?\n\nYou are right, changing the size will require the index upgrade. This is the case for field getters/setter today: you can accidentally change the fields getter (instead of creating a new field and adding new/removing old from schema), and this might not be caught by the test.\n\n\u003eIf we\u0027re not enforcing it and we\u0027re not going to, why set it?\n\nWe are not enforcing it internally, but index implementations again can choose to enforce the limit.\nWe could drop this property and add some kind of extension to enforce the limit, if this is a concern.",
       "parentUuid": "90e01c41_841938e9",
+      "range": {
+        "startLine": 135,
+        "startChar": 11,
+        "endLine": 135,
+        "endChar": 19
+      },
+      "revId": "ea3a5601dcfe855fe16ef5fcbe34ed74ccd9247d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb86428b_088e86e1",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-10-22T20:04:45Z",
+      "side": 1,
+      "message": "\u003e \u003eIf we\u0027re not enforcing it and we\u0027re not going to, why set it?\n\u003e \n\u003e We are not enforcing it internally, but index implementations again can choose to enforce the limit.\n\u003e We could drop this property and add some kind of extension to enforce the limit, if this is a concern.\n\nI think it\u0027s strange to set values for something that aren\u0027t used/tested in any way. Maybe add the property later when there is an implementation that wants to use it?",
+      "parentUuid": "d107f436_f7e4cd2c",
       "range": {
         "startLine": 135,
         "startChar": 11,

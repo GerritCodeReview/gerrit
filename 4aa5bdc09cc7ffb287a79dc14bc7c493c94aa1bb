@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "438581e1_ba90ede8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-10-24T23:01:58Z",
+      "side": 1,
+      "message": "Verified that we no longer see NPEs when a label contains a copyCondition contains a query with a group reference.",
+      "revId": "4aa5bdc09cc7ffb287a79dc14bc7c493c94aa1bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

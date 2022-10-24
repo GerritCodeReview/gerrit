@@ -128,6 +128,30 @@
       },
       "revId": "997ab74571d20dd97a9d02d0676257fe5d2d9a63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "757fa3ed_c54eaab6",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-24T08:46:43Z",
+      "side": 1,
+      "message": "Not yet. But we already used that to combine different specs for a field (e.g. exact/fuzzy and prefix topics).",
+      "parentUuid": "5028c56f_3b18ebc7",
+      "range": {
+        "startLine": 147,
+        "startChar": 48,
+        "endLine": 147,
+        "endChar": 61
+      },
+      "revId": "997ab74571d20dd97a9d02d0676257fe5d2d9a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

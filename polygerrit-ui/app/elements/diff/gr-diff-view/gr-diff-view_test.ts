@@ -24,7 +24,10 @@ import {
   waitUntil,
 } from '../../../test/test-utils';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api';
-import {GerritView} from '../../../services/router/router-model';
+import {
+  GerritView,
+  routerModelToken,
+} from '../../../services/router/router-model';
 import {
   createRevisions,
   createComment as createCommentGeneric,
@@ -74,8 +77,14 @@ import {Key} from '../../../utils/dom-util';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {testResolver} from '../../../test/common-test-setup';
 import {UserModel, userModelToken} from '../../../models/user/user-model';
-import {commentsModelToken, CommentsModel} from '../../../models/comments/comments-model';
-import {BrowserModel, browserModelToken} from '../../../models/browser/browser-model';
+import {
+  commentsModelToken,
+  CommentsModel,
+} from '../../../models/comments/comments-model';
+import {
+  BrowserModel,
+  browserModelToken,
+} from '../../../models/browser/browser-model';
 
 function createComment(
   id: string,
@@ -1563,7 +1572,7 @@ suite('gr-diff-view tests', () => {
           loadingStatus: LoadingStatus.LOADED,
         });
 
-        element.routerModel.setState({
+        testResolver(routerModelToken).setState({
           changeNum: TEST_NUMERIC_CHANGE_ID,
           view: GerritView.DIFF,
           patchNum: 2 as RevisionPatchSetNum,
@@ -1578,9 +1587,7 @@ suite('gr-diff-view tests', () => {
         assert.isFalse(setReviewedFileStatusStub.called);
 
         // if prefs are updated then the reviewed status should not be set again
-        userModel.setDiffPreferences(
-          createDefaultDiffPrefs()
-        );
+        userModel.setDiffPreferences(createDefaultDiffPrefs());
 
         await element.updateComplete;
         assert.isFalse(setReviewedFileStatusStub.called);
@@ -1607,7 +1614,7 @@ suite('gr-diff-view tests', () => {
         loadingStatus: LoadingStatus.LOADED,
       });
 
-      element.routerModel.setState({
+      testResolver(routerModelToken).setState({
         changeNum: TEST_NUMERIC_CHANGE_ID,
         view: GerritView.DIFF,
         patchNum: 22 as RevisionPatchSetNum,
@@ -1638,7 +1645,7 @@ suite('gr-diff-view tests', () => {
 
       userModel.setDiffPreferences(createDefaultDiffPrefs());
 
-      element.routerModel.setState({
+      testResolver(routerModelToken).setState({
         changeNum: TEST_NUMERIC_CHANGE_ID,
         view: GerritView.DIFF,
         patchNum: 2 as RevisionPatchSetNum,
@@ -1651,10 +1658,7 @@ suite('gr-diff-view tests', () => {
 
       await waitUntil(() => saveReviewedStub.called);
 
-      changeModel.updateStateFileReviewed(
-        '/COMMIT_MSG',
-        true
-      );
+      changeModel.updateStateFileReviewed('/COMMIT_MSG', true);
       await element.updateComplete;
 
       const reviewedStatusCheckBox = queryAndAssert<HTMLInputElement>(
@@ -1679,10 +1683,7 @@ suite('gr-diff-view tests', () => {
         false,
       ]);
 
-      changeModel.updateStateFileReviewed(
-        '/COMMIT_MSG',
-        false
-      );
+      changeModel.updateStateFileReviewed('/COMMIT_MSG', false);
       await element.updateComplete;
 
       reviewedStatusCheckBox.click();
@@ -1754,10 +1755,7 @@ suite('gr-diff-view tests', () => {
       };
       browserModel.setScreenWidth(0);
 
-      const userStub = sinon.stub(
-        userModel,
-        'updatePreferences'
-      );
+      const userStub = sinon.stub(userModel, 'updatePreferences');
 
       await element.updateComplete;
       // The mode selected in the view state reflects the selected option.
@@ -1951,10 +1949,7 @@ suite('gr-diff-view tests', () => {
     });
 
     test('handleToggleDiffMode', () => {
-      const userStub = sinon.stub(
-        userModel,
-        'updatePreferences'
-      );
+      const userStub = sinon.stub(userModel, 'updatePreferences');
       element.userPrefs = {
         ...createDefaultPreferences(),
         diff_view: DiffViewMode.SIDE_BY_SIDE,

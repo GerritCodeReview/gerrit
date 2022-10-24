@@ -992,10 +992,7 @@ suite('gr-change-view tests', () => {
     });
 
     test('m should toggle diff mode', async () => {
-      const updatePreferencesStub = sinon.stub(
-        userModel,
-        'updatePreferences'
-      );
+      const updatePreferencesStub = sinon.stub(userModel, 'updatePreferences');
       await element.updateComplete;
 
       const prefs = {

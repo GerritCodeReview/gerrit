@@ -34,8 +34,10 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.concurrent.ConcurrentHashMap;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
@@ -109,6 +111,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   }
 
   private final Path basePath;
+  private final Map<Project.NameKey, FileKey> fileKeyByProject = new ConcurrentHashMap<>();
 
   @Inject
   LocalDiskRepositoryManager(SitePaths site, @GerritServerConfig Config cfg) {
@@ -153,18 +156,25 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
 
   @Override
   public Repository openRepository(Project.NameKey name) throws RepositoryNotFoundException {
-    return openRepository(getBasePath(name), name);
-  }
-
-  private Repository openRepository(Path path, Project.NameKey name)
-      throws RepositoryNotFoundException {
-    if (isUnreasonableName(name)) {
-      throw new RepositoryNotFoundException("Invalid name: " + name);
+    FileKey location = fileKeyByProject.get(name);
+    boolean isLocationFromCache = true;
+    if (location == null) {
+      if (isUnreasonableName(name)) {
+        throw new RepositoryNotFoundException("Invalid name: " + name);
+      }
+      location = FileKey.lenient(getBasePath(name).resolve(name.get()).toFile(), FS.DETECTED);
+      isLocationFromCache = false;
     }
-    FileKey loc = FileKey.lenient(path.resolve(name.get()).toFile(), FS.DETECTED);
     try {
-      return RepositoryCache.open(loc);
+      Repository repo = RepositoryCache.open(location);
+      if (!isLocationFromCache) {
+        fileKeyByProject.put(name, location);
+      }
+      return repo;
     } catch (IOException e) {
+      if (fileKeyByProject.remove(name) != null) {
+        return openRepository(name);
+      }
       throw new RepositoryNotFoundException("Cannot open repository " + name, e);
     }
   }

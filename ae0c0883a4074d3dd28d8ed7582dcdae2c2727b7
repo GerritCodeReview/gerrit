@@ -16,6 +16,23 @@
       "message": "This is fixing the problem by updating the URL, which is incorrect IMHO.\n\nIf you are navigating a URL that doesn\u0027t exist, you should get a 404 or otherwise an error as it was doing before.\n\nLet me see if I can find another solution to the problem, will upload a change tonight for review.",
       "revId": "ae0c0883a4074d3dd28d8ed7582dcdae2c2727b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76c4c6da_78608c34",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-24T22:55:54Z",
+      "side": 1,
+      "message": "I\u0027ve tried to fix the issue on stable-3.6 with If08e3fd745.\n\nMy fix attempt restores the correct behaviour: navigating an invalid change brings a pop-up with a 404.\n\n@brohlfs@google.com WDYT of my approach?",
+      "revId": "ae0c0883a4074d3dd28d8ed7582dcdae2c2727b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

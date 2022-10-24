@@ -8,11 +8,7 @@
 import '../scripts/bundled-polymer';
 import {AppContext, injectAppContext} from '../services/app-context';
 import {Finalizable} from '../services/registry';
-import {
-  createTestAppContext,
-  createTestDependencies,
-  Creator,
-} from './test-app-context-init';
+import {createTestAppContext} from './test-app-context-init';
 import {_testOnly_resetPluginLoader} from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
 import {_testOnlyResetGrRestApiSharedObjects} from '../services/gr-rest-api/gr-rest-api-impl';
 import {
@@ -39,6 +35,7 @@ import {
 } from '../models/dependency';
 import * as sinon from 'sinon';
 import '../styles/themes/app-theme.ts';
+import {createAppDependencies, Creator} from '../services/app-context-init';
 
 declare global {
   interface Window {
@@ -104,7 +101,7 @@ setup(() => {
   appContext = createTestAppContext();
   injectAppContext(appContext);
   finalizers.push(appContext);
-  const dependencies = createTestDependencies(appContext, testResolver);
+  const dependencies = createAppDependencies(appContext, testResolver);
   for (const [token, provider] of dependencies) {
     injectDependency(token, provider);
   }

@@ -123,6 +123,18 @@ public class CommentTimestampAdapterTest {
   }
 
   @Test
+  public void fixedFallbackFormatCanParseOutputOfLegacyAdapter() {
+    assertThat(CommentTimestampAdapter.parseDateTimeWithFixedFormat("Feb 7, 2017 2:20:30 AM"))
+        .isEqualTo(Timestamp.from(ZonedDateTime.parse("2017-02-07T10:20:30Z").toInstant()));
+    assertThat(CommentTimestampAdapter.parseDateTimeWithFixedFormat("Feb 17, 2017 10:20:30 AM"))
+        .isEqualTo(Timestamp.from(ZonedDateTime.parse("2017-02-17T18:20:30Z").toInstant()));
+    assertThat(CommentTimestampAdapter.parseDateTimeWithFixedFormat("Feb 17, 2017 02:20:30 PM"))
+        .isEqualTo(Timestamp.from(ZonedDateTime.parse("2017-02-17T22:20:30Z").toInstant()));
+    assertThat(CommentTimestampAdapter.parseDateTimeWithFixedFormat("Feb 07, 2017 10:20:30 PM"))
+        .isEqualTo(Timestamp.from(ZonedDateTime.parse("2017-02-08T06:20:30Z").toInstant()));
+  }
+
+  @Test
   public void newAdapterDisagreesWithLegacyAdapterDuringDstTransition() {
     String duringJson = legacyGson.toJson(new Timestamp(MID_DST_MS));
     Timestamp duringTs = legacyGson.fromJson(duringJson, Timestamp.class);

@@ -16,6 +16,7 @@ package com.google.gerrit.server.notedb;
 
 import static java.time.format.DateTimeFormatter.ISO_INSTANT;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
@@ -27,7 +28,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.FormatStyle;
-import java.time.temporal.TemporalAccessor;
+import java.util.Locale;
 
 /**
  * Adapter that reads/writes {@link Timestamp}s as ISO 8601 instant in UTC.
@@ -49,6 +50,16 @@ class CommentTimestampAdapter extends TypeAdapter<Timestamp> {
   private static final DateTimeFormatter FALLBACK =
       DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM);
 
+  /**
+   * Fixed format to parse date/time in the "Feb 7, 2017 2:20:30 AM" format
+   *
+   * <p>Some old comments (created in Jan-Feb 2017) can be stored in legacy format, which can't be
+   * parsed with {@link #FALLBACK} formatter if the system/default locale has been changed. We will
+   * try to parse with a fixed format if {@link #FALLBACK} doesn't work.
+   */
+  private static final DateTimeFormatter FIXED_FORMAT_FALLBACK =
+      DateTimeFormatter.ofPattern("MMM d, yyyy h:mm:ss a").withLocale(Locale.US);
+
   @Override
   public void write(JsonWriter out, Timestamp ts) throws IOException {
     Timestamp truncated = new Timestamp(ts.getTime() / 1000 * 1000);
@@ -58,12 +69,26 @@ class CommentTimestampAdapter extends TypeAdapter<Timestamp> {
   @Override
   public Timestamp read(JsonReader in) throws IOException {
     String str = in.nextString();
-    TemporalAccessor ta;
     try {
-      ta = ISO_INSTANT.parse(str);
+      return Timestamp.from(Instant.from(ISO_INSTANT.parse(str)));
     } catch (DateTimeParseException e) {
-      ta = LocalDateTime.from(FALLBACK.parse(str)).atZone(ZoneId.systemDefault());
+      try {
+        return parseDateTimeWithDefaultLocaleFormat(str);
+      } catch (DateTimeParseException e2) {
+        return parseDateTimeWithFixedFormat(str);
+      }
     }
-    return Timestamp.from(Instant.from(ta));
+  }
+
+  public static Timestamp parseDateTimeWithDefaultLocaleFormat(String str) {
+    return Timestamp.from(
+        Instant.from(LocalDateTime.from(FALLBACK.parse(str)).atZone(ZoneId.systemDefault())));
+  }
+
+  @VisibleForTesting
+  public static Timestamp parseDateTimeWithFixedFormat(String str) {
+    return Timestamp.from(
+        Instant.from(
+            LocalDateTime.from(FIXED_FORMAT_FALLBACK.parse(str)).atZone(ZoneId.systemDefault())));
   }
 }

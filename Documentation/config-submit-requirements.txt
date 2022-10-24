@@ -187,6 +187,20 @@ An operator that always returns false for all changes. An example usage is to
 redefine a submit requirement in a child project and make the submit requirement
 always non-applicable.
 
+[[operator_has_submodule_update]]
+has:submodule-update::
++
+An operator that returns true if the diff of the latest patchset against the
+default parent has a submodule modified file, that is, a ".gitmodules" or a
+git link file.
++
+The optional `base` parameter can also be supplied for merge commits like
+`has:submodule-update,base=1`, or `has:submodule-update,base=2`. In these cases,
+the operator returns true if the diff of the latest patchset against parent
+number identified by `base` has a submodule modified file. Note that the
+operator will return false if the base parameter is greater than the number of
+parents for the latest patchset for the change.
+
 [[operator_file]]
 file:"'<filePattern>',withDiffContaining='<contentPattern>'"::
 +

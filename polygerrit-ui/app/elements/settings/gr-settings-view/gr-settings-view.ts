@@ -63,6 +63,7 @@ import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {settingsViewModelToken} from '../../../models/views/settings';
 import {areNotificationsEnabled} from '../../../utils/worker-util';
+import {userModelToken} from '../../../models/user/user-model';
 
 const GERRIT_DOCS_BASE_URL =
   'https://gerrit-review.googlesource.com/' + 'Documentation';
@@ -201,7 +202,7 @@ export class GrSettingsView extends LitElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
-  private readonly userModel = getAppContext().userModel;
+  private readonly getUserModel = resolve(this, userModelToken);
 
   // private but used in test
   readonly flagsService = getAppContext().flagsService;
@@ -220,14 +221,14 @@ export class GrSettingsView extends LitElement {
     );
     subscribe(
       this,
-      () => this.userModel.account$,
+      () => this.getUserModel().account$,
       acc => {
         this.account = acc;
       }
     );
     subscribe(
       this,
-      () => this.userModel.preferences$,
+      () => this.getUserModel().preferences$,
       prefs => {
         if (!prefs) {
           throw new Error('getPreferences returned undefined');
@@ -1148,7 +1149,7 @@ export class GrSettingsView extends LitElement {
 
   // private but used in test
   handleSavePreferences() {
-    return this.userModel.updatePreferences(this.localPrefs);
+    return this.getUserModel().updatePreferences(this.localPrefs);
   }
 
   // private but used in test

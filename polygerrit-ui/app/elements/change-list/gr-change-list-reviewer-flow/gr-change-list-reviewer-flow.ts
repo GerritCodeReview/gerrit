@@ -44,6 +44,7 @@ import {ValueChangedEvent} from '../../../types/events';
 import {fireAlert, fireReload} from '../../../utils/event-util';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {Interaction} from '../../../constants/reporting';
+import {userModelToken} from '../../../models/user/user-model';
 
 @customElement('gr-change-list-reviewer-flow')
 export class GrChangeListReviewerFlow extends LitElement {
@@ -95,9 +96,11 @@ export class GrChangeListReviewerFlow extends LitElement {
 
   private readonly reportingService = getAppContext().reportingService;
 
-  private getBulkActionsModel = resolve(this, bulkActionsModelToken);
+  private readonly getBulkActionsModel = resolve(this, bulkActionsModelToken);
 
-  private getConfigModel = resolve(this, configModelToken);
+  private readonly getConfigModel = resolve(this, configModelToken);
+
+  private readonly getUserModel = resolve(this, userModelToken);
 
   private restApiService = getAppContext().restApiService;
 
@@ -169,12 +172,12 @@ export class GrChangeListReviewerFlow extends LitElement {
     );
     subscribe(
       this,
-      () => getAppContext().userModel.loggedIn$,
+      () => this.getUserModel().loggedIn$,
       isLoggedIn => (this.isLoggedIn = isLoggedIn)
     );
     subscribe(
       this,
-      () => getAppContext().userModel.account$,
+      () => this.getUserModel().account$,
       account => (this.account = account)
     );
   }

@@ -16,6 +16,24 @@
       "message": "Test to catch this regression?",
       "revId": "6b1bb0ceccf35cd10970198c11799b81004313b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2211e4fa_4f53f242",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-24T08:50:06Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "32a88dd0_1aad540c",
+      "revId": "6b1bb0ceccf35cd10970198c11799b81004313b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

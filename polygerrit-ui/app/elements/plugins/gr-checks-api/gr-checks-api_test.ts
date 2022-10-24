@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {PluginApi} from '../../../api/plugin';
 import {ChecksPluginApi} from '../../../api/checks';
 import {assert} from '@open-wc/testing';
+import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-settings-api tests', () => {
   let checksApi: ChecksPluginApi | undefined;
@@ -21,7 +22,7 @@ suite('gr-settings-api tests', () => {
       '0.1',
       'http://test.com/plugins/testplugin/static/test.js'
     );
-    getPluginLoader().loadPlugins([]);
+    testResolver(pluginLoaderToken).loadPlugins([]);
     assert.isOk(pluginApi);
     checksApi = pluginApi!.checks();
   });

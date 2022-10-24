@@ -5,7 +5,7 @@
  */
 import '../../../test/common-test-setup';
 import './gr-change-metadata';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {ChangeRole, GrChangeMetadata} from './gr-change-metadata';
 import {
   createServerInfo,
@@ -56,6 +56,7 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {nothing} from 'lit';
 import {fixture, html, assert} from '@open-wc/testing';
 import {EventType} from '../../../types/events';
+import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-change-metadata tests', () => {
   let element: GrChangeMetadata;
@@ -978,7 +979,7 @@ suite('gr-change-metadata tests', () => {
       const hookEl = (await plugin!
         .hook('change-metadata-item')
         .getLastAttached()) as MetadataGrEndpointDecorator;
-      getPluginLoader().loadPlugins([]);
+      testResolver(pluginLoaderToken).loadPlugins([]);
       await element.updateComplete;
       assert.strictEqual(hookEl.plugin, plugin!);
       assert.strictEqual(hookEl.change, element.change);

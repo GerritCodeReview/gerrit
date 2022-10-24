@@ -18,7 +18,6 @@ import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {getDisplayName} from '../../../utils/display-name-util';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {getAppContext} from '../../../services/app-context';
 import {truncatePath} from '../../../utils/path-list-util';
 import {changeStatuses} from '../../../utils/change-util';
@@ -44,6 +43,7 @@ import {subscribe} from '../../lit/subscription-controller';
 import {classMap} from 'lit/directives/class-map.js';
 import {createSearchUrl} from '../../../models/views/search';
 import {createChangeUrl} from '../../../models/views/change';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
 enum ChangeSize {
   XS = 10,
@@ -124,6 +124,8 @@ export class GrChangeListItem extends LitElement {
 
   private readonly getNavigation = resolve(this, navigationToken);
 
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
+
   constructor() {
     super();
     subscribe(
@@ -138,7 +140,7 @@ export class GrChangeListItem extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    getPluginLoader()
+    this.getPluginLoader()
       .awaitPluginsLoaded()
       .then(() => {
         this.dynamicCellEndpoints = getPluginEndpoints().getDynamicEndpoints(

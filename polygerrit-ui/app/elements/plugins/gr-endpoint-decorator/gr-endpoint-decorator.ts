@@ -9,11 +9,12 @@ import {
   getPluginEndpoints,
   ModuleInfo,
 } from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {PluginApi} from '../../../api/plugin';
 import {HookApi, PluginElement} from '../../../api/hook';
 import {getAppContext} from '../../../services/app-context';
 import {assertIsDefined} from '../../../utils/common-util';
+import {resolve} from '../../../models/dependency';
 
 const INIT_PROPERTIES_TIMEOUT_MS = 10000;
 
@@ -38,6 +39,8 @@ export class GrEndpointDecorator extends LitElement {
 
   private readonly reporting = getAppContext().reportingService;
 
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
+
   override render() {
     return html`<slot></slot>`;
   }
@@ -46,7 +49,7 @@ export class GrEndpointDecorator extends LitElement {
     super.connectedCallback();
     assertIsDefined(this.name);
     getPluginEndpoints().onNewEndpoint(this.name, this.initModule);
-    getPluginLoader()
+    this.getPluginLoader()
       .awaitPluginsLoaded()
       .then(() => {
         assertIsDefined(this.name);

@@ -4,11 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {getBaseUrl} from '../../../utils/url-util';
-import {getPluginLoader} from '../gr-js-api-interface/gr-plugin-loader';
+import {pluginLoaderToken} from '../gr-js-api-interface/gr-plugin-loader';
 import {AccountInfo} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import {LitElement, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
+import {resolve} from '../../../models/dependency';
 
 /**
  * The <gr-avatar> component works by updating its own background and visibility
@@ -25,6 +26,8 @@ export class GrAvatar extends LitElement {
   @state() private hasAvatars = false;
 
   private readonly restApiService = getAppContext().restApiService;
+
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
   static override get styles() {
     return [
@@ -54,7 +57,7 @@ export class GrAvatar extends LitElement {
     super.connectedCallback();
     Promise.all([
       this.restApiService.getConfig(),
-      getPluginLoader().awaitPluginsLoaded(),
+      this.getPluginLoader().awaitPluginsLoaded(),
     ]).then(([cfg]) => {
       this.hasAvatars = Boolean(cfg?.plugin?.has_avatars);
       this.updateHostVisibilityAndImage();

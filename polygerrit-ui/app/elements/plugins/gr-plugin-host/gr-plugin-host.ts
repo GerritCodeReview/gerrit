@@ -5,7 +5,7 @@
  */
 import {LitElement} from 'lit';
 import {customElement, state} from 'lit/decorators.js';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {ServerInfo} from '../../../types/common';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
@@ -17,6 +17,8 @@ export class GrPluginHost extends LitElement {
   config?: ServerInfo;
 
   private readonly getConfigModel = resolve(this, configModelToken);
+
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
   constructor() {
     super();
@@ -30,7 +32,10 @@ export class GrPluginHost extends LitElement {
           ? [config.default_theme]
           : [];
         const instanceId = config?.gerrit?.instance_id;
-        getPluginLoader().loadPlugins([...themes, ...jsPlugins], instanceId);
+        this.getPluginLoader().loadPlugins(
+          [...themes, ...jsPlugins],
+          instanceId
+        );
       }
     );
   }

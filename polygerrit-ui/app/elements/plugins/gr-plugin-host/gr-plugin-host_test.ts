@@ -5,7 +5,7 @@
  */
 import '../../../test/common-test-setup';
 import './gr-plugin-host';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {GrPluginHost} from './gr-plugin-host';
 import {fixture, html, assert} from '@open-wc/testing';
 import {SinonStub} from 'sinon';
@@ -18,7 +18,10 @@ suite('gr-plugin-host tests', () => {
   let loadPluginsStub: SinonStub;
 
   setup(async () => {
-    loadPluginsStub = sinon.stub(getPluginLoader(), 'loadPlugins');
+    loadPluginsStub = sinon.stub(
+      testResolver(pluginLoaderToken),
+      'loadPlugins'
+    );
     element = await fixture<GrPluginHost>(html`
       <gr-plugin-host></gr-plugin-host>
     `);

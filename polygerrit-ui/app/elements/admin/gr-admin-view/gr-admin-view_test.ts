@@ -6,7 +6,7 @@
 import '../../../test/common-test-setup';
 import './gr-admin-view';
 import {AdminSubsectionLink, GrAdminView} from './gr-admin-view';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {stubBaseUrl, stubElement, stubRestApi} from '../../../test/test-utils';
 import {GerritView} from '../../../services/router/router-model';
 import {query, queryAll, queryAndAssert} from '../../../test/test-utils';
@@ -36,7 +36,9 @@ suite('gr-admin-view tests', () => {
     element = await fixture(html`<gr-admin-view></gr-admin-view>`);
     stubRestApi('getProjectConfig').returns(Promise.resolve(undefined));
     const pluginsLoaded = Promise.resolve();
-    sinon.stub(getPluginLoader(), 'awaitPluginsLoaded').returns(pluginsLoaded);
+    sinon
+      .stub(testResolver(pluginLoaderToken), 'awaitPluginsLoaded')
+      .returns(pluginsLoaded);
     await pluginsLoaded;
     await element.updateComplete;
   });

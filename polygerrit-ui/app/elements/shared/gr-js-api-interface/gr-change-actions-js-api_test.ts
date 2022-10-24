@@ -11,7 +11,7 @@ import {
   queryAndAssert,
   resetPlugins,
 } from '../../../test/test-utils';
-import {getPluginLoader} from './gr-plugin-loader';
+import {pluginLoaderToken} from './gr-plugin-loader';
 import {GrChangeActions} from '../../change/gr-change-actions/gr-change-actions';
 import {fixture, html, assert} from '@open-wc/testing';
 import {PluginApi} from '../../../api/plugin';
@@ -24,6 +24,7 @@ import {GrButton} from '../gr-button/gr-button';
 import {ChangeViewChangeInfo} from '../../../types/common';
 import {GrDropdown} from '../gr-dropdown/gr-dropdown';
 import {GrIcon} from '../gr-icon/gr-icon';
+import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-change-actions-js-api-interface tests', () => {
   let element: GrChangeActions;
@@ -41,7 +42,7 @@ suite('gr-change-actions-js-api-interface tests', () => {
         'http://test.com/plugins/testplugin/static/test.js'
       );
       // Mimic all plugins loaded.
-      getPluginLoader().loadPlugins([]);
+      testResolver(pluginLoaderToken).loadPlugins([]);
       changeActions = plugin.changeActions();
       element = await fixture<GrChangeActions>(html`
         <gr-change-actions></gr-change-actions>
@@ -76,7 +77,7 @@ suite('gr-change-actions-js-api-interface tests', () => {
       );
       changeActions = plugin.changeActions();
       // Mimic all plugins loaded.
-      getPluginLoader().loadPlugins([]);
+      testResolver(pluginLoaderToken).loadPlugins([]);
     });
 
     teardown(() => {

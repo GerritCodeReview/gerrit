@@ -9,6 +9,7 @@ import {PluginApi} from '../../../api/plugin';
 import {ChangeStatus} from '../../../constants/constants';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import '../../../test/common-test-setup';
+import {testResolver} from '../../../test/common-test-setup';
 import {
   createChange,
   createCommitInfoWithRequiredCommit,
@@ -38,7 +39,7 @@ import {
 import {ParsedChangeInfo} from '../../../types/types';
 import {getChangeNumber} from '../../../utils/change-util';
 import {GrEndpointDecorator} from '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import './gr-related-changes-list';
 import {
   ChangeMarkersInList,
@@ -676,7 +677,7 @@ suite('gr-related-changes-list', () => {
         '0.1',
         'http://some/plugins/url1.js'
       );
-      getPluginLoader().loadPlugins([]);
+      testResolver(pluginLoaderToken).loadPlugins([]);
       await waitEventLoop();
       assert.strictEqual(hookEl!.plugin, plugin!);
       assert.strictEqual(hookEl!.change, element.change);

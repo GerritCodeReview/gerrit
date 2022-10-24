@@ -5,7 +5,7 @@
  */
 import '../../../test/common-test-setup';
 import {PLUGIN_LOADING_TIMEOUT_MS} from './gr-api-utils';
-import {PluginLoader, _testOnly_resetPluginLoader} from './gr-plugin-loader';
+import {PluginLoader, pluginLoaderToken} from './gr-plugin-loader';
 import {
   resetPlugins,
   stubBaseUrl,
@@ -17,6 +17,7 @@ import {SinonFakeTimers} from 'sinon';
 import {Timestamp} from '../../../api/rest-api';
 import {EventType} from '../../../types/events';
 import {assert} from '@open-wc/testing';
+import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-plugin-loader tests', () => {
   let plugin: PluginApi;
@@ -35,7 +36,7 @@ suite('gr-plugin-loader tests', () => {
     stubRestApi('send').returns(
       Promise.resolve({...new Response(), status: 200})
     );
-    pluginLoader = _testOnly_resetPluginLoader();
+    pluginLoader = testResolver(pluginLoaderToken);
     bodyStub = sinon.stub(document.body, 'appendChild');
     url = window.location.origin;
   });

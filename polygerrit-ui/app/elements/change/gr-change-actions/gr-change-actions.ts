@@ -18,7 +18,7 @@ import '../gr-confirm-revert-dialog/gr-confirm-revert-dialog';
 import '../gr-confirm-submit-dialog/gr-confirm-submit-dialog';
 import '../../../styles/shared-styles';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {getAppContext} from '../../../services/app-context';
 import {CURRENT} from '../../../utils/patch-set-util';
 import {
@@ -544,6 +544,8 @@ export class GrChangeActions
 
   private readonly getNavigation = resolve(this, navigationToken);
 
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
+
   constructor() {
     super();
     this.addEventListener('fullscreen-overlay-opened', () =>
@@ -883,7 +885,7 @@ export class GrChangeActions
   }
 
   private handleLoadingComplete() {
-    getPluginLoader()
+    this.getPluginLoader()
       .awaitPluginsLoaded()
       .then(() => (this.loading = false));
   }

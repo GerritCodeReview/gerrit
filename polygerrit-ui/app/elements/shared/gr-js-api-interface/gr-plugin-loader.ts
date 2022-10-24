@@ -16,6 +16,9 @@ import {getPluginEndpoints} from './gr-plugin-endpoints';
 import {PluginApi} from '../../../api/plugin';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {fireAlert} from '../../../utils/event-util';
+import {Finalizable} from '../../../services/registry';
+import {PluginsModel} from '../../../models/plugins/plugins-model';
+import {define} from '../../../models/dependency';
 
 enum PluginState {
   /** State that indicates the plugin is pending to be loaded. */
@@ -55,6 +58,7 @@ const UNKNOWN_PLUGIN_PREFIX = '__$$__';
 // plugins with incompatible version will not be loaded.
 const API_VERSION = '0.1';
 
+export const pluginLoaderToken = define<PluginLoader>('plugin-loader');
 /**
  * PluginLoader, responsible for:
  *
@@ -64,7 +68,7 @@ const API_VERSION = '0.1';
  * Retrieve plugin.
  * Check plugin status and if all plugins loaded.
  */
-export class PluginLoader {
+export class PluginLoader implements Finalizable {
   _pluginListLoaded = false;
 
   _plugins = new Map<string, PluginObject>();
@@ -79,12 +83,19 @@ export class PluginLoader {
 
   private instanceId?: string;
 
-  _getReporting() {
-    if (!this._reporting) {
-      this._reporting = getAppContext().reportingService;
-    }
-    return this._reporting;
+  constructor(
+    private readonly reporting: ReportingService,
+    private readonly pluginsModel: PluginsModel
+  ) {}
+
+  reset() {
+    this._pluginListLoaded = false;
+    this._plugins = [];
+    this._loadingPromise = null;
+    this._loadingResolver = null;
   }
+
+  finalize() {}
 
   /**
    * Use the plugin name or use the full url if not recognized.
@@ -122,8 +133,8 @@ export class PluginLoader {
     this.awaitPluginsLoaded().then(() => {
       const loaded = this.getPluginsByState(PluginState.LOADED);
       const failed = this.getPluginsByState(PluginState.LOAD_FAILED);
-      this._getReporting().pluginsLoaded(loaded.map(p => p.name));
-      this._getReporting().pluginsFailed(failed.map(p => p.name));
+      this.reporting.pluginsLoaded(loaded.map(p => p.name));
+      this.reporting.pluginsFailed(failed.map(p => p.name));
     });
   }
 
@@ -132,11 +143,7 @@ export class PluginLoader {
       try {
         url = new URL(url);
       } catch (e: unknown) {
-        this._getReporting().error(
-          'GrPluginLoader',
-          new Error('url parse error'),
-          e
-        );
+        this.reporting.error('GrPluginLoader', new Error('url parse error'), e);
         return false;
       }
     }
@@ -178,7 +185,7 @@ export class PluginLoader {
     const pluginObject = this.getPlugin(url);
     let plugin = pluginObject && pluginObject.plugin;
     if (!plugin) {
-      plugin = new Plugin(url);
+      plugin = new Plugin(url, this.reporting, this.pluginsModel);
     }
     try {
       callback(plugin);
@@ -187,7 +194,7 @@ export class PluginLoader {
       if (e instanceof Error) {
         this._failToLoad(`${e.name}: ${e.message}`, src);
       } else {
-        this._getReporting().error(
+        this.reporting.error(
           'GrPluginLoader',
           new Error('plugin callback error'),
           e
@@ -253,7 +260,7 @@ export class PluginLoader {
   _pluginInstalled(url: string, plugin: PluginApi) {
     const pluginObj = this._updatePluginState(url, PluginState.LOADED);
     pluginObj.plugin = plugin;
-    this._getReporting().pluginLoaded(plugin.getPluginName() || url);
+    this.reporting.pluginLoaded(plugin.getPluginName() || url);
     this._checkIfCompleted();
   }
 
@@ -365,15 +372,4 @@ export class PluginLoader {
     }
     return this._loadingPromise;
   }
-}
-
-// TODO(dmfilippov): Convert to service and add to appContext
-let pluginLoader = new PluginLoader();
-export function _testOnly_resetPluginLoader() {
-  pluginLoader = new PluginLoader();
-  return pluginLoader;
-}
-
-export function getPluginLoader() {
-  return pluginLoader;
 }

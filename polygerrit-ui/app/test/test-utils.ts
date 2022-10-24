@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../types/globals';
-import {_testOnly_resetPluginLoader} from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
+import {pluginLoaderToken} from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
 import {_testOnly_resetEndpoints} from '../elements/shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getAppContext} from '../services/app-context';
 import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
@@ -19,6 +19,7 @@ import {Observable} from 'rxjs';
 import {filter, take, timeout} from 'rxjs/operators';
 import {HighlightService} from '../services/highlight/highlight-service';
 import {assert} from '@open-wc/testing';
+import {testResolver} from './common-test-setup';
 export {query, queryAll, queryAndAssert} from '../utils/common-util';
 
 export interface MockPromise<T> extends Promise<T> {
@@ -54,7 +55,8 @@ export function isVisible(el: Element) {
 // No gr-app found (running tests)
 export const resetPlugins = () => {
   _testOnly_resetEndpoints();
-  const pl = _testOnly_resetPluginLoader();
+  const pl = testResolver(pluginLoaderToken);
+  pl.reset();
   pl.loadPlugins([]);
 };
 

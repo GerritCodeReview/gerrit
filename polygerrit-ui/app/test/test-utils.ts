@@ -16,7 +16,6 @@ import {FlagsService} from '../services/flags/flags';
 import {Key, Modifier, whenVisible} from '../utils/dom-util';
 import {Observable} from 'rxjs';
 import {filter, take, timeout} from 'rxjs/operators';
-import {HighlightService} from '../services/highlight/highlight-service';
 import {assert} from '@open-wc/testing';
 export {query, queryAll, queryAndAssert} from '../utils/common-util';
 
@@ -105,12 +104,6 @@ export function stubRestApi<K extends keyof RestApiService>(method: K) {
 
 export function spyRestApi<K extends keyof RestApiService>(method: K) {
   return sinon.spy(getAppContext().restApiService, method);
-}
-
-export function stubHighlightService<K extends keyof HighlightService>(
-  method: K
-) {
-  return sinon.stub(getAppContext().highlightService, method);
 }
 
 export function stubAuth<K extends keyof AuthService>(method: K) {

@@ -11,7 +11,6 @@ import {AuthService} from './gr-auth/gr-auth';
 import {RestApiService} from './gr-rest-api/gr-rest-api';
 import {JsApiService} from '../elements/shared/gr-js-api-interface/gr-js-api-types';
 import {PluginsModel} from '../models/plugins/plugins-model';
-import {HighlightService} from './highlight/highlight-service';
 
 export interface AppContext {
   flagsService: FlagsService;
@@ -21,7 +20,6 @@ export interface AppContext {
   restApiService: RestApiService;
   jsApiService: JsApiService;
   pluginsModel: PluginsModel;
-  highlightService: HighlightService;
 }
 
 /**

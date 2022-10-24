@@ -33,7 +33,7 @@ import {
   HttpMethod,
   NotifyType,
 } from '../../../constants/constants';
-import {EventType as PluginEventType, TargetElement} from '../../../api/plugin';
+import {TargetElement} from '../../../api/plugin';
 import {
   AccountInfo,
   ActionInfo,
@@ -893,7 +893,7 @@ export class GrChangeActions
     change: ChangeInfo;
     revisionActions: ActionNameToActionInfoMap;
   }) {
-    this.jsAPI.handleEvent(PluginEventType.SHOW_REVISION_ACTIONS, detail);
+    this.jsAPI.handleShowRevisionActions(detail);
   }
 
   addActionButton(type: ActionType, label: string) {

@@ -276,6 +276,11 @@ public class PushOneCommit {
     return this;
   }
 
+  public PushOneCommit setTopLevelTreeId(ObjectId treeId) throws Exception {
+    commitBuilder.setTopLevelTree(treeId);
+    return this;
+  }
+
   public PushOneCommit setParent(RevCommit parent) throws Exception {
     commitBuilder.noParents();
     commitBuilder.parent(parent);

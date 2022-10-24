@@ -10,10 +10,16 @@ import {GrPluginHost} from './gr-plugin-host';
 import {fixture, html, assert} from '@open-wc/testing';
 import {SinonStub} from 'sinon';
 import {createServerInfo} from '../../../test/test-data-generators';
+import {
+  ConfigModel,
+  configModelToken,
+} from '../../../models/config/config-model';
+import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-plugin-host tests', () => {
   let element: GrPluginHost;
   let loadPluginsStub: SinonStub;
+  let configModel: ConfigModel;
 
   setup(async () => {
     loadPluginsStub = sinon.stub(getPluginLoader(), 'loadPlugins');
@@ -21,13 +27,14 @@ suite('gr-plugin-host tests', () => {
       <gr-plugin-host></gr-plugin-host>
     `);
     await element.updateComplete;
+    configModel = testResolver(configModelToken);
 
     sinon.stub(document.body, 'appendChild');
   });
 
   test('load plugins should be called', async () => {
     loadPluginsStub.reset();
-    element.getConfigModel().updateServerConfig({
+    configModel.updateServerConfig({
       ...createServerInfo(),
       plugin: {
         has_avatars: false,
@@ -46,7 +53,7 @@ suite('gr-plugin-host tests', () => {
 
   test('theme plugins should be loaded if enabled', async () => {
     loadPluginsStub.reset();
-    element.getConfigModel().updateServerConfig({
+    configModel.updateServerConfig({
       ...createServerInfo(),
       default_theme: 'gerrit-theme.js',
       plugin: {
@@ -69,7 +76,7 @@ suite('gr-plugin-host tests', () => {
     loadPluginsStub.reset();
     const config = createServerInfo();
     config.gerrit.instance_id = 'test-id';
-    element.getConfigModel().updateServerConfig(config);
+    configModel.updateServerConfig(config);
     assert.isTrue(loadPluginsStub.calledOnce);
     assert.isTrue(loadPluginsStub.calledWith([], 'test-id'));
   });

@@ -38,10 +38,10 @@ import {
   shortcutsServiceToken,
 } from '../../../services/shortcuts/shortcuts-service';
 import {resolve} from '../../../models/dependency';
-import {getAppContext} from '../../../services/app-context';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
 import {createChangeUrl} from '../../../models/views/change';
+import {userModelToken} from '../../../models/user/user-model';
 
 @customElement('gr-file-list-header')
 export class GrFileListHeader extends LitElement {
@@ -123,7 +123,7 @@ export class GrFileListHeader extends LitElement {
   // 'hide diffs' buttons still be functional.
   private readonly maxFilesForBulkActions = 225;
 
-  private readonly userModel = getAppContext().userModel;
+  private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly getNavigation = resolve(this, navigationToken);
 
@@ -131,7 +131,7 @@ export class GrFileListHeader extends LitElement {
     super();
     subscribe(
       this,
-      () => this.userModel.diffPreferences$,
+      () => this.getUserModel().diffPreferences$,
       diffPreferences => {
         if (!diffPreferences) return;
         this.diffPrefs = diffPreferences;

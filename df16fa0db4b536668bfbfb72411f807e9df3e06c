@@ -37,6 +37,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "b87bba58_cb5ebb46",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-24T11:39:08Z",
+      "side": 1,
+      "message": "Done, needed to set display block on gr-hovercard-account-contents",
+      "parentUuid": "7bb47ddd_26eba532",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "3070baf1_3e9175be",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
         "patchSetId": 7
@@ -292,6 +310,24 @@
       "side": 1,
       "message": "haha it\u0027s [your code](https://gerrit-review.googlesource.com/c/gerrit/+/330340) so I would ask you 😂 I have never seen it before. Seems like it is a [real but deprecated feature](https://developer.mozilla.org/en-US/docs/Web/API/Event/returnValue)?\n\nI will try out removing it",
       "parentUuid": "ab157765_11fcd1b7",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57613ab1_e45fdbc9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-24T11:39:08Z",
+      "side": 1,
+      "message": "Not needed.",
+      "parentUuid": "d908381a_e2e69449",
       "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -557,6 +593,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e08c18e6_1b08f482",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-24T11:39:08Z",
+      "side": 1,
+      "message": "Source? The guide says it is fine: https://google.github.io/styleguide/tsguide.html\n\n\u003e Getters and Setters (Accessors)\n\u003e Getters and setters for class members may be used. The getter method must be a\n\u003e pure function (i.e., result is consistent and has no side effects). They are also\n\u003e useful as a means of restricting the visibility of internal or verbose\n\u003e implementation details (shown below).",
+      "parentUuid": "bfa988b0_b83ea023",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34d9d499_495a9341",
@@ -570,6 +624,24 @@
       "writtenOn": "2022-10-24T08:34:08Z",
       "side": 1,
       "message": "Same comment as above. Getters don\u0027t optimize well in jscompiler.",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75bb8811_4c250418",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-24T11:39:08Z",
+      "side": 1,
+      "message": "source? What is the issue? I will prefer not to make API changes to existing code unless it seems like a significant impact.",
+      "parentUuid": "34d9d499_495a9341",
       "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

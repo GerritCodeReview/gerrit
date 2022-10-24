@@ -39,12 +39,13 @@ import {pluralize} from '../../../utils/string-util';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {Interaction} from '../../../constants/reporting';
 import {createChangeUrl} from '../../../models/views/change';
+import {userModelToken} from '../../../models/user/user-model';
 
 @customElement('gr-change-list-bulk-vote-flow')
 export class GrChangeListBulkVoteFlow extends LitElement {
   private readonly getBulkActionsModel = resolve(this, bulkActionsModelToken);
 
-  private readonly userModel = getAppContext().userModel;
+  private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly reportingService = getAppContext().reportingService;
 
@@ -141,7 +142,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     );
     subscribe(
       this,
-      () => this.userModel.account$,
+      () => this.getUserModel().account$,
       account => (this.account = account)
     );
   }

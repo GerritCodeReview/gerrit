@@ -1551,7 +1551,7 @@ suite('gr-file-list tests', () => {
             assert.equal(callCount++, 0);
             return Promise.resolve();
           },
-        },
+      },
       ] as any;
       element.renderInOrder([{path: 'p2'}], diffs);
       await element.updateComplete;

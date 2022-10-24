@@ -24,6 +24,7 @@ setPassiveTouchGestures(true);
 import {initGlobalVariables} from './gr-app-global-var-init';
 import './gr-app-element';
 import {Finalizable} from '../services/registry';
+<<<<<<< HEAD
 import {
   DependencyError,
   DependencyToken,
@@ -31,6 +32,9 @@ import {
   Provider,
   resolve,
 } from '../models/dependency';
+=======
+import {provide, resolve} from '../models/dependency';
+>>>>>>> 8c45b44aa9 (Move to Dependency injection for UserModel)
 import {installPolymerResin} from '../scripts/polymer-resin-install';
 
 import {
@@ -48,6 +52,7 @@ import {injectAppContext} from '../services/app-context';
 import {html, LitElement} from 'lit';
 import {customElement} from 'lit/decorators.js';
 import {ServiceWorkerInstaller} from '../services/service-worker-installer';
+import {userModelToken} from '../models/user/user-model';
 
 const appContext = createAppContext();
 injectAppContext(appContext);
@@ -104,7 +109,7 @@ export class GrApp extends LitElement {
     if (!this.serviceWorkerInstaller) {
       this.serviceWorkerInstaller = new ServiceWorkerInstaller(
         appContext.flagsService,
-        appContext.userModel
+        resolve(this, userModelToken)()
       );
     }
   }

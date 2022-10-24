@@ -27,6 +27,7 @@ import {
 } from '../../../models/views/search';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
+import {userModelToken} from '../../../models/user/user-model';
 
 const LIMIT_OPERATOR_PATTERN = /\blimit:(\d+)/i;
 
@@ -76,7 +77,7 @@ export class GrChangeListView extends LitElement {
 
   private reporting = getAppContext().reportingService;
 
-  private userModel = getAppContext().userModel;
+  private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly getViewModel = resolve(this, searchViewModelToken);
 
@@ -117,22 +118,22 @@ export class GrChangeListView extends LitElement {
     );
     subscribe(
       this,
-      () => this.userModel.account$,
+      () => this.getUserModel().account$,
       x => (this.account = x)
     );
     subscribe(
       this,
-      () => this.userModel.loggedIn$,
+      () => this.getUserModel().loggedIn$,
       x => (this.loggedIn = x)
     );
     subscribe(
       this,
-      () => this.userModel.preferenceChangesPerPage$,
+      () => this.getUserModel().preferenceChangesPerPage$,
       x => (this.changesPerPage = x)
     );
     subscribe(
       this,
-      () => this.userModel.preferences$,
+      () => this.getUserModel().preferences$,
       x => (this.preferences = x)
     );
   }

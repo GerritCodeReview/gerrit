@@ -17,7 +17,6 @@ import {EventEmitter} from '../services/gr-event-interface/gr-event-interface_im
 import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
 import {PluginsModel} from '../models/plugins/plugins-model';
 import {MockHighlightService} from '../services/highlight/highlight-service-mock';
-import {AccountsModel} from '../models/accounts-model/accounts-model';
 import {createAppDependencies, Creator} from '../services/app-context-init';
 import {navigationToken} from '../elements/core/gr-navigation/gr-navigation';
 import {DependencyToken} from '../models/dependency';
@@ -38,10 +37,6 @@ export function createTestAppContext(): AppContext & Finalizable {
       return new GrJsApiInterface(ctx.reportingService);
     },
     storageService: (_ctx: Partial<AppContext>) => grStorageMock,
-    accountsModel: (ctx: Partial<AppContext>) => {
-      assertIsDefined(ctx.restApiService, 'restApiService');
-      return new AccountsModel(ctx.restApiService);
-    },
     pluginsModel: (_ctx: Partial<AppContext>) => new PluginsModel(),
     highlightService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.reportingService, 'reportingService');

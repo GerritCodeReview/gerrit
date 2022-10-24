@@ -31,7 +31,7 @@ import {ConfigModel, configModelToken} from '../models/config/config-model';
 import {BrowserModel, browserModelToken} from '../models/browser/browser-model';
 import {PluginsModel} from '../models/plugins/plugins-model';
 import {HighlightService} from './highlight/highlight-service';
-import {AccountsModel} from '../models/accounts-model/accounts-model';
+import {AccountsModel, accountsModelToken} from '../models/accounts-model/accounts-model';
 import {
   DashboardViewModel,
   dashboardViewModelToken,
@@ -86,10 +86,6 @@ export function createAppContext(): AppContext & Finalizable {
       return new GrJsApiInterface(reportingService);
     },
     storageService: (_ctx: Partial<AppContext>) => new GrStorageService(),
-    accountsModel: (ctx: Partial<AppContext>) => {
-      assertIsDefined(ctx.restApiService, 'restApiService');
-      return new AccountsModel(ctx.restApiService);
-    },
     pluginsModel: (_ctx: Partial<AppContext>) => new PluginsModel(),
     highlightService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.reportingService, 'reportingService');
@@ -117,6 +113,9 @@ export function createAppDependencies(
   dependencies.set(userModelToken, userModelCreator);
   const browserModelCreator = () => new BrowserModel(resolver(userModelToken));
   dependencies.set(browserModelToken, browserModelCreator);
+
+  const accountsModelCreator = () => new AccountsModel(appContext.restApiService);
+  dependencies.set(accountsModelToken, accountsModelCreator);
 
   const adminViewModelCreator = () => new AdminViewModel();
   dependencies.set(adminViewModelToken, adminViewModelCreator);
@@ -181,7 +180,7 @@ export function createAppDependencies(
     new CommentsModel(
       resolver(routerModelToken),
       resolver(changeModelToken),
-      appContext.accountsModel,
+      resolver(accountsModelToken),
       appContext.restApiService,
       appContext.reportingService
     );

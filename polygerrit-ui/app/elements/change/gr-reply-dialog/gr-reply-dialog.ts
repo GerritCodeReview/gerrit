@@ -131,6 +131,7 @@ import {
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {Key, Modifier, whenVisible} from '../../../utils/dom-util';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
+import {accountsModelToken} from '../../../models/accounts-model/accounts-model';
 
 export enum FocusTarget {
   ANY = 'any',
@@ -395,7 +396,7 @@ export class GrReplyDialog extends LitElement {
 
   private readonly getConfigModel = resolve(this, configModelToken);
 
-  private readonly accountsModel = getAppContext().accountsModel;
+  private readonly getAccountsModel = resolve(this, accountsModelToken);
 
   private latestPatchNum?: PatchSetNumber;
 
@@ -1417,7 +1418,7 @@ export class GrReplyDialog extends LitElement {
 
     const newAttentionSetUsers = (
       await Promise.all(
-        newAttentionSetAdditions.map(a => this.accountsModel.fillDetails(a))
+        newAttentionSetAdditions.map(a => this.getAccountsModel().fillDetails(a))
       )
     ).filter(isDefined);
 

@@ -15,7 +15,6 @@ import {UserModel} from '../models/user/user-model';
 import {RouterModel} from './router/router-model';
 import {PluginsModel} from '../models/plugins/plugins-model';
 import {HighlightService} from './highlight/highlight-service';
-import {AccountsModel} from '../models/accounts-model/accounts-model';
 
 export interface AppContext {
   routerModel: RouterModel;
@@ -27,7 +26,6 @@ export interface AppContext {
   jsApiService: JsApiService;
   storageService: StorageService;
   userModel: UserModel;
-  accountsModel: AccountsModel;
   pluginsModel: PluginsModel;
   highlightService: HighlightService;
 }

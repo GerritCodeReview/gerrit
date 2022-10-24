@@ -3,7 +3,7 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {getPluginLoader} from './gr-plugin-loader';
+import {PluginLoader} from './gr-plugin-loader';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {
   ChangeInfo,
@@ -29,42 +29,40 @@ const elements: {[key: string]: HTMLElement} = {};
 const eventCallbacks: {[key: string]: EventCallback[]} = {};
 
 export class GrJsApiInterface implements JsApiService, Finalizable {
-  constructor(readonly reporting: ReportingService) {}
+  constructor(
+    readonly reporting: ReportingService,
+    private readonly pluginLoader: PluginLoader
+  ) {}
 
   finalize() {}
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handleEvent(type: EventType, detail: any) {
-    getPluginLoader()
-      .awaitPluginsLoaded()
-      .then(() => {
-        switch (type) {
-          case EventType.HISTORY:
-            this._handleHistory(detail);
-            break;
-          case EventType.SHOW_CHANGE:
-            this._handleShowChange(detail);
-            break;
-          case EventType.COMMENT:
-            this._handleComment(detail);
-            break;
-          case EventType.LABEL_CHANGE:
-            this._handleLabelChange(detail);
-            break;
-          case EventType.SHOW_REVISION_ACTIONS:
-            this._handleShowRevisionActions(detail);
-            break;
-          case EventType.HIGHLIGHTJS_LOADED:
-            this._handleHighlightjsLoaded(detail);
-            break;
-          default:
-            console.warn(
-              'handleEvent called with unsupported event type:',
-              type
-            );
-            break;
-        }
-      });
+    this.pluginLoader.awaitPluginsLoaded().then(() => {
+      switch (type) {
+        case EventType.HISTORY:
+          this._handleHistory(detail);
+          break;
+        case EventType.SHOW_CHANGE:
+          this._handleShowChange(detail);
+          break;
+        case EventType.COMMENT:
+          this._handleComment(detail);
+          break;
+        case EventType.LABEL_CHANGE:
+          this._handleLabelChange(detail);
+          break;
+        case EventType.SHOW_REVISION_ACTIONS:
+          this._handleShowRevisionActions(detail);
+          break;
+        case EventType.HIGHLIGHTJS_LOADED:
+          this._handleHighlightjsLoaded(detail);
+          break;
+        default:
+          console.warn('handleEvent called with unsupported event type:', type);
+          break;
+      }
+    });
   }
 
   addElement(key: TargetElement, el: HTMLElement) {

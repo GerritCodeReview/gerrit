@@ -13,10 +13,11 @@ import {
   queryAndAssert,
   resetPlugins,
 } from '../../../test/test-utils';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {GrEndpointDecorator} from './gr-endpoint-decorator';
 import {PluginApi} from '../../../api/plugin';
 import {GrEndpointParam} from '../gr-endpoint-param/gr-endpoint-param';
+import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-endpoint-decorator', () => {
   let container: HTMLElement;
@@ -101,7 +102,7 @@ suite('gr-endpoint-decorator', () => {
     replacementHook.onAttached(() => replacementHookPromise.resolve());
 
     // Mimic all plugins loaded.
-    getPluginLoader().loadPlugins([]);
+    testResolver(pluginLoaderToken).loadPlugins([]);
 
     await decorationHookPromise;
     await decorationHookSlotPromise;

@@ -5,9 +5,10 @@
  */
 import {updateStyles} from '@polymer/polymer/lib/mixins/element-mixin';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {LitElement, html, PropertyValues} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
+import {resolve} from '../../../models/dependency';
 
 @customElement('gr-external-style')
 export class GrExternalStyle extends LitElement {
@@ -20,6 +21,8 @@ export class GrExternalStyle extends LitElement {
 
   stylesElements: HTMLElement[] = [];
 
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
+
   override render() {
     return html`<slot></slot>`;
   }
@@ -29,7 +32,7 @@ export class GrExternalStyle extends LitElement {
       // We remove all styles defined for different name.
       this.removeStyles();
       this.importAndApply();
-      getPluginLoader()
+      this.getPluginLoader()
         .awaitPluginsLoaded()
         .then(() => this.importAndApply());
     }

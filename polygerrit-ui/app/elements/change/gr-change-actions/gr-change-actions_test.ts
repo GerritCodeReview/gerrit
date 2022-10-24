@@ -6,7 +6,7 @@
 import '../../../test/common-test-setup';
 import './gr-change-actions';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {
   createAccountWithId,
   createApproval,
@@ -120,7 +120,7 @@ suite('gr-change-actions tests', () => {
       });
 
       sinon
-        .stub(getPluginLoader(), 'awaitPluginsLoaded')
+        .stub(testResolver(pluginLoaderToken), 'awaitPluginsLoaded')
         .returns(Promise.resolve());
 
       element = await fixture<GrChangeActions>(html`
@@ -2685,7 +2685,7 @@ suite('gr-change-actions tests', () => {
       stubRestApi('send').returns(Promise.reject(new Error('error')));
 
       sinon
-        .stub(getPluginLoader(), 'awaitPluginsLoaded')
+        .stub(testResolver(pluginLoaderToken), 'awaitPluginsLoaded')
         .returns(Promise.resolve());
 
       element = await fixture<GrChangeActions>(html`

@@ -67,7 +67,10 @@ import {
   waitForEventOnce,
   fire,
 } from '../../../utils/event-util';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {
+  getPluginLoader,
+  pluginLoaderToken,
+} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {assertIsDefined} from '../../../utils/common-util';
 import {DiffContextExpandedEventDetail} from '../../../embed/diff/gr-diff-builder/gr-diff-builder';
 import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-highlight-layer';
@@ -330,8 +333,9 @@ export class GrDiffHost extends LitElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
-  // visible for testing
-  readonly getUserModel = resolve(this, userModelToken);
+  private readonly getUserModel = resolve(this, userModelToken);
+
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
   // visible for testing
   readonly jsAPI = getAppContext().jsApiService;
@@ -549,7 +553,7 @@ export class GrDiffHost extends LitElement {
 
   async initLayers() {
     const preferencesPromise = this.restApiService.getPreferences();
-    await getPluginLoader().awaitPluginsLoaded();
+    await this.getPluginLoader().awaitPluginsLoaded();
     const prefs = await preferencesPromise;
     const enableTokenHighlight = !prefs?.disable_token_highlighting;
 

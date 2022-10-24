@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup';
-import {getPluginLoader} from './gr-plugin-loader';
+import {pluginLoaderToken} from './gr-plugin-loader';
 import {resetPlugins} from '../../../test/test-utils';
 import {
   GerritInternal,
@@ -16,6 +16,7 @@ import {GrJsApiInterface} from './gr-js-api-interface-element';
 import {SinonFakeTimers} from 'sinon';
 import {Timestamp} from '../../../api/rest-api';
 import {assert} from '@open-wc/testing';
+import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-gerrit tests', () => {
   let element: GrJsApiInterface;
@@ -45,7 +46,7 @@ suite('gr-gerrit tests', () => {
     test('Gerrit._isPluginEnabled proxy to getPluginLoader()', () => {
       const stubFn = sinon.stub();
       sinon
-        .stub(getPluginLoader(), 'isPluginEnabled')
+        .stub(testResolver(pluginLoaderToken), 'isPluginEnabled')
         .callsFake((...args) => stubFn(...args));
       pluginApi._isPluginEnabled('test_plugin');
       assert.isTrue(stubFn.calledWith('test_plugin'));
@@ -54,7 +55,7 @@ suite('gr-gerrit tests', () => {
     test('Gerrit._isPluginLoaded proxy to getPluginLoader()', () => {
       const stubFn = sinon.stub();
       sinon
-        .stub(getPluginLoader(), 'isPluginLoaded')
+        .stub(testResolver(pluginLoaderToken), 'isPluginLoaded')
         .callsFake((...args) => stubFn(...args));
       pluginApi._isPluginLoaded('test_plugin');
       assert.isTrue(stubFn.calledWith('test_plugin'));

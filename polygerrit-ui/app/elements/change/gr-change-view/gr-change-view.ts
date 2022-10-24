@@ -39,7 +39,7 @@ import {pluralize} from '../../../utils/string-util';
 import {querySelectorAll, windowLocationReload} from '../../../utils/dom-util';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
 import {
   ChangeStatus,
@@ -552,6 +552,8 @@ export class GrChangeView extends LitElement {
 
   private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
 
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
+
   private replyRefitTask?: DelayedTask;
 
   private scrollTask?: DelayedTask;
@@ -814,7 +816,7 @@ export class GrChangeView extends LitElement {
     if (!this.isFirstConnection) return;
     this.isFirstConnection = false;
 
-    getPluginLoader()
+    this.getPluginLoader()
       .awaitPluginsLoaded()
       .then(() => {
         this.pluginTabsHeaderEndpoints =
@@ -2235,7 +2237,7 @@ export class GrChangeView extends LitElement {
       this.performPostLoadTasks();
     });
 
-    getPluginLoader()
+    this.getPluginLoader()
       .awaitPluginsLoaded()
       .then(() => {
         this.initActiveTab();
@@ -2316,7 +2318,7 @@ export class GrChangeView extends LitElement {
 
   // Private but used in tests.
   maybeShowRevertDialog() {
-    getPluginLoader()
+    this.getPluginLoader()
       .awaitPluginsLoaded()
       .then(() => {
         if (

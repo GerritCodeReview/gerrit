@@ -32,6 +32,8 @@ import {ChangeReplyPluginApi} from '../../../api/change-reply';
 import {RestPluginApi} from '../../../api/rest';
 import {HookApi, PluginElement, RegisterOptions} from '../../../api/hook';
 import {AttributeHelperPluginApi} from '../../../api/attribute-helper';
+import {PluginsModel} from '../../../models/plugins/plugins-model';
+import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 
 /**
  * Plugin-provided custom components can affect content in extension
@@ -62,11 +64,13 @@ export class Plugin implements PluginApi {
 
   private readonly jsApi = getAppContext().jsApiService;
 
-  private readonly report = getAppContext().reportingService;
-
   private readonly restApiService = getAppContext().restApiService;
 
-  constructor(url?: string) {
+  constructor(
+    url?: string,
+    private readonly report: ReportingService,
+    private readonly pluginsModel: PluginsModel
+  ) {
     this.domHooks = new GrDomHooksManager(this);
 
     if (!url) {
@@ -228,7 +232,7 @@ export class Plugin implements PluginApi {
   }
 
   checks(): GrChecksApi {
-    return new GrChecksApi(this);
+    return new GrChecksApi(this, this.report, this.pluginsModel);
   }
 
   reporting(): ReportingPluginApi {

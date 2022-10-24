@@ -19,7 +19,7 @@ import '../gr-repo-detail-list/gr-repo-detail-list';
 import '../gr-repo-list/gr-repo-list';
 import {getBaseUrl} from '../../../utils/url-util';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {
   AdminNavLinksOption,
   getAdminLinks,
@@ -126,6 +126,8 @@ export class GrAdminView extends LitElement {
   private readonly getRouterModel = resolve(this, routerModelToken);
 
   private readonly getNavigation = resolve(this, navigationToken);
+
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
   constructor() {
     super();
@@ -460,7 +462,7 @@ export class GrAdminView extends LitElement {
       const promises: [Promise<AccountDetailInfo | undefined>, Promise<void>] =
         [
           this.restApiService.getAccount(),
-          getPluginLoader().awaitPluginsLoaded(),
+          this.getPluginLoader().awaitPluginsLoaded(),
         ];
       const result = await Promise.all(promises);
       this.account = result[0];

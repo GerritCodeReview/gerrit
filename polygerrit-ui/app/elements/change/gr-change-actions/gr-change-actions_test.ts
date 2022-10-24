@@ -22,7 +22,6 @@ import {
   query,
   queryAll,
   queryAndAssert,
-  spyStorage,
   stubReporting,
   stubRestApi,
 } from '../../../test/test-utils';
@@ -48,7 +47,6 @@ import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {UIActionInfo} from '../../shared/gr-js-api-interface/gr-change-actions-js-api';
-import {getAppContext} from '../../../services/app-context';
 import {fixture, html, assert} from '@open-wc/testing';
 import {GrConfirmCherrypickDialog} from '../gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog';
 import {GrDropdown} from '../../shared/gr-dropdown/gr-dropdown';
@@ -60,6 +58,7 @@ import {GrConfirmAbandonDialog} from '../gr-confirm-abandon-dialog/gr-confirm-ab
 import {GrConfirmRevertDialog} from '../gr-confirm-revert-dialog/gr-confirm-revert-dialog';
 import {EventType} from '../../../types/events';
 import {testResolver} from '../../../test/common-test-setup';
+import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
 
 // TODO(dhruvsri): remove use of _populateRevertMessage as it's private
 suite('gr-change-actions tests', () => {
@@ -813,7 +812,7 @@ suite('gr-change-actions tests', () => {
         element.editPatchsetLoaded = true;
         await element.updateComplete;
 
-        const storage = getAppContext().storageService;
+        const storage = testResolver(storageServiceToken);
         storage.setEditableContentItem(
           'c42_ps2_index.php',
           '<?php\necho 42_ps_2'
@@ -836,7 +835,8 @@ suite('gr-change-actions tests', () => {
         assert.isOk(storage.getEditableContentItem('c42_ps2_index.php')!);
         assert.isNotOk(storage.getEditableContentItem('c50_psedit_index.php')!);
 
-        const eraseEditableContentItemsForChangeEditSpy = spyStorage(
+        const eraseEditableContentItemsForChangeEditSpy = sinon.spy(
+          storage,
           'eraseEditableContentItemsForChangeEdit'
         );
         sinon.stub(element, 'fireAction');

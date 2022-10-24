@@ -26,6 +26,8 @@ import {nothing} from 'lit';
 import {classMap} from 'lit/directives/class-map.js';
 import {when} from 'lit/directives/when.js';
 import {fontStyles} from '../../../styles/gr-font-styles';
+import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
+import {resolve} from '../../../models/dependency';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
@@ -90,7 +92,7 @@ export class GrEditableContent extends LitElement {
 
   @state() newContent = '';
 
-  private readonly storage = getAppContext().storageService;
+  private readonly getStorage = resolve(this, storageServiceToken);
 
   private readonly reporting = getAppContext().reportingService;
 
@@ -321,14 +323,14 @@ export class GrEditableContent extends LitElement {
       this.storeTask,
       () => {
         if (this.newContent.length) {
-          this.storage.setEditableContentItem(storageKey, this.newContent);
+          this.getStorage().setEditableContentItem(storageKey, this.newContent);
         } else {
           // This does not really happen, because we don't clear newContent
           // after saving (see below). So this only occurs when the user clears
           // all the content in the editable textarea. But GrStorage cleans
           // up itself after one day, so we are not so concerned about leaving
           // some garbage behind.
-          this.storage.eraseEditableContentItem(storageKey);
+          this.getStorage().eraseEditableContentItem(storageKey);
         }
       },
       STORAGE_DEBOUNCE_INTERVAL_MS
@@ -358,7 +360,7 @@ export class GrEditableContent extends LitElement {
 
     let content;
     if (this.storageKey) {
-      const storedContent = this.storage.getEditableContentItem(
+      const storedContent = this.getStorage().getEditableContentItem(
         this.storageKey
       );
       if (storedContent?.message) {

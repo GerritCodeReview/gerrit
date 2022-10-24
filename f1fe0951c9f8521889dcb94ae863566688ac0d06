@@ -46,6 +46,30 @@
       },
       "revId": "f1fe0951c9f8521889dcb94ae863566688ac0d06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e7606ba_75858075",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-10-24T15:19:41Z",
+      "side": 1,
+      "message": "Thank you for the explanation. This makes sense.\n\nWhen I run FakeQueryChangesLatestIndexVersionTest and FakeQueryChangesPreviousIndexVersionTest, they are failing with the following error:\n\n```\n\ncom.google.gerrit.exceptions.StorageException: No ChangeDataSource: reviewerin:bf211bb3774efeabb399a8cfa076abd922cda78a\n\tat com.google.gerrit.server.query.change.OrSource.read(OrSource.java:45)\n\tat com.google.gerrit.index.query.PaginatingSource.read(PaginatingSource.java:52)\n\tat com.google.gerrit.index.query.AndSource.read(AndSource.java:84)\n\tat com.google.gerrit.index.query.QueryProcessor.query(QueryProcessor.java:293)\n\tat com.google.gerrit.index.query.QueryProcessor.query(QueryProcessor.java:194)\n\tat com.google.gerrit.server.restapi.change.QueryChanges.query(QueryChanges.java:195)\n\tat com.google.gerrit.server.restapi.change.QueryChanges.apply(QueryChanges.java:152)\n\tat com.google.gerrit.server.api.changes.ChangesImpl.get(ChangesImpl.java:149)\n\tat com.google.gerrit.server.api.changes.ChangesImpl$1.get(ChangesImpl.java:124)\n\t\n```\n\nCould you, please, fix it before submitting the change?",
+      "parentUuid": "5cff591c_e86d94a0",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 25
+      },
+      "revId": "f1fe0951c9f8521889dcb94ae863566688ac0d06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

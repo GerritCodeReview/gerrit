@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe0e98bb_06863e2c",
+        "filename": "java/com/google/gerrit/server/query/account/AccountQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-24T09:59:19Z",
+      "side": 1,
+      "message": "Instead of disallowing this, could we just limit the query to all users that are involved in private change? E.g. return a predicate for: \"id:owner-id OR id:reviewer1-id OR id:reviewer2-id OR ... OR id:cc1-id OR cc2-id OR ...\"\n\nThis way the query would only match accounts that can see the private change.",
+      "range": {
+        "startLine": 125,
+        "startChar": 6,
+        "endLine": 128,
+        "endChar": 23
+      },
+      "revId": "7e21830d8c270f8b403aff18cdc12f105d4dbe0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

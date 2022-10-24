@@ -10,7 +10,6 @@ import {ReportingService} from './gr-reporting/gr-reporting';
 import {AuthService} from './gr-auth/gr-auth';
 import {RestApiService} from './gr-rest-api/gr-rest-api';
 import {JsApiService} from '../elements/shared/gr-js-api-interface/gr-js-api-types';
-import {StorageService} from './storage/gr-storage';
 import {PluginsModel} from '../models/plugins/plugins-model';
 import {HighlightService} from './highlight/highlight-service';
 
@@ -21,7 +20,6 @@ export interface AppContext {
   authService: AuthService;
   restApiService: RestApiService;
   jsApiService: JsApiService;
-  storageService: StorageService;
   pluginsModel: PluginsModel;
   highlightService: HighlightService;
 }

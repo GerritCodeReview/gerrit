@@ -6,17 +6,22 @@
 import '../../../test/common-test-setup';
 import './gr-editable-content';
 import {GrEditableContent} from './gr-editable-content';
-import {query, queryAndAssert, stubStorage} from '../../../test/test-utils';
+import {query, queryAndAssert} from '../../../test/test-utils';
 import {GrButton} from '../gr-button/gr-button';
 import {fixture, html, assert} from '@open-wc/testing';
 import {EventType} from '../../../types/events';
+import {StorageService} from '../../../services/storage/gr-storage';
+import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
+import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-editable-content tests', () => {
   let element: GrEditableContent;
+  let storageService: StorageService;
 
   setup(async () => {
     element = await fixture(html`<gr-editable-content></gr-editable-content>`);
     await element.updateComplete;
+    storageService = testResolver(storageServiceToken);
   });
 
   test('renders', () => {
@@ -177,7 +182,7 @@ suite('gr-editable-content tests', () => {
     });
 
     test('editing toggled to true, has stored data', async () => {
-      stubStorage('getEditableContentItem').returns({
+      sinon.stub(storageService, 'getEditableContentItem').returns({
         message: 'stored content',
         updated: 0,
       });
@@ -189,7 +194,7 @@ suite('gr-editable-content tests', () => {
     });
 
     test('editing toggled to true, has no stored data', async () => {
-      stubStorage('getEditableContentItem').returns(null);
+      sinon.stub(storageService, 'getEditableContentItem').returns(null);
       element.editing = true;
 
       await element.updateComplete;
@@ -199,8 +204,8 @@ suite('gr-editable-content tests', () => {
     });
 
     test('edits are cached', async () => {
-      const storeStub = stubStorage('setEditableContentItem');
-      const eraseStub = stubStorage('eraseEditableContentItem');
+      const storeStub = sinon.stub(storageService, 'setEditableContentItem');
+      const eraseStub = sinon.stub(storageService, 'eraseEditableContentItem');
       element.editing = true;
 
       // Needed because editingChanged resets newContent

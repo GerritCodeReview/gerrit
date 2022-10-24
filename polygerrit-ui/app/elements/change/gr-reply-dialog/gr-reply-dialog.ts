@@ -1420,7 +1420,9 @@ export class GrReplyDialog extends LitElement {
 
     const newAttentionSetUsers = (
       await Promise.all(
-        newAttentionSetAdditions.map(a => this.getAccountsModel().fillDetails(a))
+        newAttentionSetAdditions.map(a =>
+          this.getAccountsModel().fillDetails(a)
+        )
       )
     ).filter(isDefined);
 

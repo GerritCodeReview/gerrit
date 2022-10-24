@@ -15,7 +15,7 @@ import {ChangeModel, changeModelToken} from '../models/change/change-model';
 import {FilesModel, filesModelToken} from '../models/change/files-model';
 import {ChecksModel, checksModelToken} from '../models/checks/checks-model';
 import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
-import {GrStorageService} from './storage/gr-storage_impl';
+import {GrStorageService, storageServiceToken} from './storage/gr-storage_impl';
 import {UserModel, userModelToken} from '../models/user/user-model';
 import {
   CommentsModel,
@@ -31,7 +31,10 @@ import {ConfigModel, configModelToken} from '../models/config/config-model';
 import {BrowserModel, browserModelToken} from '../models/browser/browser-model';
 import {PluginsModel} from '../models/plugins/plugins-model';
 import {HighlightService} from './highlight/highlight-service';
-import {AccountsModel, accountsModelToken} from '../models/accounts-model/accounts-model';
+import {
+  AccountsModel,
+  accountsModelToken,
+} from '../models/accounts-model/accounts-model';
 import {
   DashboardViewModel,
   dashboardViewModelToken,
@@ -85,7 +88,6 @@ export function createAppContext(): AppContext & Finalizable {
       assertIsDefined(reportingService, 'reportingService');
       return new GrJsApiInterface(reportingService);
     },
-    storageService: (_ctx: Partial<AppContext>) => new GrStorageService(),
     pluginsModel: (_ctx: Partial<AppContext>) => new PluginsModel(),
     highlightService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.reportingService, 'reportingService');
@@ -114,7 +116,8 @@ export function createAppDependencies(
   const browserModelCreator = () => new BrowserModel(resolver(userModelToken));
   dependencies.set(browserModelToken, browserModelCreator);
 
-  const accountsModelCreator = () => new AccountsModel(appContext.restApiService);
+  const accountsModelCreator = () =>
+    new AccountsModel(appContext.restApiService);
   dependencies.set(accountsModelToken, accountsModelCreator);
 
   const adminViewModelCreator = () => new AdminViewModel();
@@ -212,6 +215,9 @@ export function createAppDependencies(
   const shortcutServiceCreator = () =>
     new ShortcutsService(resolver(userModelToken), appContext.reportingService);
   dependencies.set(shortcutsServiceToken, shortcutServiceCreator);
+
+  const storageServiceCreator = () => new GrStorageService();
+  dependencies.set(storageServiceToken, storageServiceCreator);
 
   return dependencies;
 }

@@ -28,7 +28,7 @@ import {PathToCommentsInfoMap} from '../../types/common';
 import {changeModelToken} from '../change/change-model';
 import {assert} from '@open-wc/testing';
 import {testResolver} from '../../test/common-test-setup';
-import { accountsModelToken } from '../accounts-model/accounts-model';
+import {accountsModelToken} from '../accounts-model/accounts-model';
 
 suite('comments model tests', () => {
   test('updateStateDeleteDraft', () => {

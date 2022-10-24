@@ -114,14 +114,6 @@ export function stubHighlightService<K extends keyof HighlightService>(
   return sinon.stub(getAppContext().highlightService, method);
 }
 
-export function stubStorage<K extends keyof StorageService>(method: K) {
-  return sinon.stub(getAppContext().storageService, method);
-}
-
-export function spyStorage<K extends keyof StorageService>(method: K) {
-  return sinon.spy(getAppContext().storageService, method);
-}
-
 export function stubAuth<K extends keyof AuthService>(method: K) {
   return sinon.stub(getAppContext().authService, method);
 }

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3879f565_5c4678bb",
+        "filename": "polygerrit-ui/app/elements/gr-app.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-24T08:09:51Z",
+      "side": 1,
+      "message": "Not a comment on this change, But maybe serviceWorkerinstaller should be parto f createAppDependencies? It doesn\u0027t feel like it\u0027s special compared to the others.",
+      "revId": "b2c49589423174bd28621481dcf93417993f555e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b6c9439_a057887e",
+        "filename": "polygerrit-ui/app/services/service-worker-installer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-24T08:09:51Z",
+      "side": 1,
+      "message": "I don\u0027t quite understand this.\n\nDoes this mean that if I have 3 tabs open and the service worker sends a \u0027REPORTING\u0027 message that we log 3 times?",
+      "revId": "b2c49589423174bd28621481dcf93417993f555e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fff7ae18_0cf85dfe",
+        "filename": "polygerrit-ui/app/workers/service-worker-class.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-24T08:09:51Z",
+      "side": 1,
+      "message": "Comment as to what this does?",
+      "revId": "b2c49589423174bd28621481dcf93417993f555e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

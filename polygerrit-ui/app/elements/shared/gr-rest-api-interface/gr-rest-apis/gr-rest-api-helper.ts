@@ -102,7 +102,7 @@ export class SiteBasedCache {
 
   get(key: '/accounts/self/emails'): EmailInfo[] | null;
 
-  get(key: '/accounts/self/detail'): AccountDetailInfo[] | null;
+  get(key: '/accounts/self/detail'): AccountDetailInfo | null;
 
   get(key: string): ParsedJSON | null;
 
@@ -112,7 +112,7 @@ export class SiteBasedCache {
 
   set(key: '/accounts/self/emails', value: EmailInfo[]): void;
 
-  set(key: '/accounts/self/detail', value: AccountDetailInfo[]): void;
+  set(key: '/accounts/self/detail', value: AccountDetailInfo): void;
 
   set(key: string, value: ParsedJSON | null): void;
 

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7f0c669_8ba38c4e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-24T14:17:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "552ad06a_08f55972",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 61
+      },
+      "revId": "43a69f5e9274d00ccd39323cc93ff1e9e19d9d5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4579bed5_b6b7bc5e",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e3634e1_69e78e60",
+        "filename": "polygerrit-ui/app/elements/gr-app.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-24T14:17:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4579bed5_b6b7bc5e",
+      "range": {
+        "startLine": 92,
+        "startChar": 43,
+        "endLine": 92,
+        "endChar": 48
+      },
+      "revId": "43a69f5e9274d00ccd39323cc93ff1e9e19d9d5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ed9932d2_7df89458",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-10-24T13:59:23Z",
       "side": 1,
       "message": "can this be rewritten to cover more than tests, now that it is applying to everything?",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 0
+      },
+      "revId": "43a69f5e9274d00ccd39323cc93ff1e9e19d9d5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56cc1c7b_8cc4a545",
+        "filename": "polygerrit-ui/app/services/app-context-init.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-24T14:17:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed9932d2_7df89458",
       "range": {
         "startLine": 109,
         "startChar": 0,

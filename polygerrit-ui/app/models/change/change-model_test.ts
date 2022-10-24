@@ -28,7 +28,7 @@ import {
 } from '../../types/common';
 import {ParsedChangeInfo} from '../../types/types';
 import {getAppContext} from '../../services/app-context';
-import {GerritView} from '../../services/router/router-model';
+import {GerritView, routerModelToken} from '../../services/router/router-model';
 import {ChangeState, LoadingStatus, updateChangeWithEdit} from './change-model';
 import {ChangeModel} from './change-model';
 import {assert} from '@open-wc/testing';
@@ -83,7 +83,7 @@ suite('change model tests', () => {
 
   setup(() => {
     changeModel = new ChangeModel(
-      getAppContext().routerModel,
+      testResolver(routerModelToken),
       getAppContext().restApiService,
       testResolver(userModelToken)
     );
@@ -121,7 +121,7 @@ suite('change model tests', () => {
     assert.equal(stub.callCount, 0);
     assert.isUndefined(state?.change);
 
-    changeModel.routerModel.setState({
+    testResolver(routerModelToken).setState({
       view: GerritView.CHANGE,
       changeNum: knownChange._number,
     });
@@ -140,7 +140,7 @@ suite('change model tests', () => {
     const promise = mockPromise<ParsedChangeInfo | undefined>();
     const stub = stubRestApi('getChangeDetail').callsFake(() => promise);
     let state: ChangeState;
-    changeModel.routerModel.setState({
+    testResolver(routerModelToken).setState({
       view: GerritView.CHANGE,
       changeNum: knownChange._number,
     });
@@ -164,7 +164,7 @@ suite('change model tests', () => {
     let promise = mockPromise<ParsedChangeInfo | undefined>();
     const stub = stubRestApi('getChangeDetail').callsFake(() => promise);
     let state: ChangeState;
-    changeModel.routerModel.setState({
+    testResolver(routerModelToken).setState({
       view: GerritView.CHANGE,
       changeNum: knownChange._number,
     });
@@ -178,7 +178,7 @@ suite('change model tests', () => {
       _number: 123 as NumericChangeId,
     };
     promise = mockPromise<ParsedChangeInfo | undefined>();
-    changeModel.routerModel.setState({
+    testResolver(routerModelToken).setState({
       view: GerritView.CHANGE,
       changeNum: otherChange._number,
     });
@@ -197,7 +197,7 @@ suite('change model tests', () => {
     let promise = mockPromise<ParsedChangeInfo | undefined>();
     const stub = stubRestApi('getChangeDetail').callsFake(() => promise);
     let state: ChangeState;
-    changeModel.routerModel.setState({
+    testResolver(routerModelToken).setState({
       view: GerritView.CHANGE,
       changeNum: knownChange._number,
     });
@@ -208,7 +208,7 @@ suite('change model tests', () => {
 
     promise = mockPromise<ParsedChangeInfo | undefined>();
     promise.resolve(undefined);
-    changeModel.routerModel.setState({
+    testResolver(routerModelToken).setState({
       view: GerritView.CHANGE,
       changeNum: undefined,
     });
@@ -220,7 +220,7 @@ suite('change model tests', () => {
 
     promise = mockPromise<ParsedChangeInfo | undefined>();
     promise.resolve(knownChange);
-    changeModel.routerModel.setState({
+    testResolver(routerModelToken).setState({
       view: GerritView.CHANGE,
       changeNum: knownChange._number,
     });
@@ -299,7 +299,9 @@ suite('change model tests', () => {
     assert.equal(spy.lastCall.firstArg, PARENT);
 
     // test update
-    changeModel.routerModel.updateState({basePatchNum: 1 as PatchSetNumber});
+    testResolver(routerModelToken).updateState({
+      basePatchNum: 1 as PatchSetNumber,
+    });
     assert.equal(spy.callCount, 2);
     assert.equal(spy.lastCall.firstArg, 1 as PatchSetNumber);
 

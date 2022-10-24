@@ -52,7 +52,6 @@ import {getShaByPatchNum} from '../../utils/patch-set-util';
 import {ReportingService} from '../../services/gr-reporting/gr-reporting';
 import {Execution, Interaction, Timing} from '../../constants/reporting';
 import {fireAlert, fireEvent} from '../../utils/event-util';
-import {RouterModel} from '../../services/router/router-model';
 import {Model} from '../model';
 import {define} from '../dependency';
 import {
@@ -373,11 +372,10 @@ export class ChecksModel extends Model<ChecksState> {
   );
 
   constructor(
-    readonly routerModel: RouterModel,
-    readonly changeViewModel: ChangeViewModel,
-    readonly changeModel: ChangeModel,
-    readonly reporting: ReportingService,
-    readonly pluginsModel: PluginsModel
+    private readonly changeViewModel: ChangeViewModel,
+    private readonly changeModel: ChangeModel,
+    private readonly reporting: ReportingService,
+    private readonly pluginsModel: PluginsModel
   ) {
     super({
       pluginStateLatest: {},

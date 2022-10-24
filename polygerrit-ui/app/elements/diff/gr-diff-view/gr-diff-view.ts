@@ -85,7 +85,7 @@ import {
   ValueChangedEvent,
 } from '../../../types/events';
 import {fireAlert, fireEvent, fireTitleChange} from '../../../utils/event-util';
-import {GerritView} from '../../../services/router/router-model';
+import {GerritView, routerModelToken} from '../../../services/router/router-model';
 import {assertIsDefined} from '../../../utils/common-util';
 import {Key, toggleClass} from '../../../utils/dom-util';
 import {CursorMoveResult} from '../../../api/core';
@@ -288,8 +288,7 @@ export class GrDiffView extends LitElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
-  // Private but used in tests.
-  readonly routerModel = getAppContext().routerModel;
+  private readonly getRouterModel = resolve(this, routerModelToken);
 
   private readonly getUserModel = resolve(this, userModelToken);
 
@@ -472,8 +471,8 @@ export class GrDiffView extends LitElement {
           switchMap(() =>
             combineLatest([
               this.getChangeModel().patchNum$,
-              this.routerModel.routerView$,
-              this.userModel.diffPreferences$,
+              this.getRouterModel().routerView$,
+              this.getUserModel().diffPreferences$,
               this.getChangeModel().reviewedFiles$,
             ]).pipe(
               filter(

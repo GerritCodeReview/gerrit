@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3730eac_3fcfe0f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-10-24T10:10:03Z",
+      "side": 1,
+      "message": "i\u0027ll leave to Chris to wrangle the CSS/HTML/TS further.",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7bb47ddd_26eba532",

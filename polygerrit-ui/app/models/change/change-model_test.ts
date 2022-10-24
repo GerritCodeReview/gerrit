@@ -32,6 +32,8 @@ import {GerritView} from '../../services/router/router-model';
 import {ChangeState, LoadingStatus, updateChangeWithEdit} from './change-model';
 import {ChangeModel} from './change-model';
 import {assert} from '@open-wc/testing';
+import {testResolver} from '../../test/common-test-setup';
+import {changeViewModelToken} from '../views/change';
 
 suite('updateChangeWithEdit() tests', () => {
   test('undefined change', async () => {
@@ -83,7 +85,8 @@ suite('change model tests', () => {
     changeModel = new ChangeModel(
       getAppContext().routerModel,
       getAppContext().restApiService,
-      getAppContext().userModel
+      getAppContext().userModel,
+      testResolver(changeViewModelToken)
     );
     knownChange = {
       ...createChange(),
@@ -304,5 +307,13 @@ suite('change model tests', () => {
     // test distinctUntilChanged
     changeModel.updateStateChange(createParsedChange());
     assert.equal(spy.callCount, 2);
+  });
+
+  test('loading a change updates the repo property of the view model', async () => {
+    changeModel.updateStateChange(knownChange);
+    await waitUntilObserved(
+      changeModel.changeViewModel.repo$,
+      r => r === knownChange.project
+    );
   });
 });

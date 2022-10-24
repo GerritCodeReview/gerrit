@@ -177,7 +177,8 @@ export function createTestDependencies(
     new ChangeModel(
       appContext.routerModel,
       appContext.restApiService,
-      appContext.userModel
+      appContext.userModel,
+      resolver(changeViewModelToken)
     );
   dependencies.set(changeModelToken, changeModelCreator);
 

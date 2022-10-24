@@ -39,6 +39,7 @@ import {Model} from '../model';
 import {UserModel} from '../user/user-model';
 import {define} from '../dependency';
 import {isOwner} from '../../utils/change-util';
+import {ChangeViewModel} from '../views/change';
 
 export enum LoadingStatus {
   NOT_LOADED = 'NOT_LOADED',
@@ -260,7 +261,8 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
   constructor(
     readonly routerModel: RouterModel,
     readonly restApiService: RestApiService,
-    readonly userModel: UserModel
+    readonly userModel: UserModel,
+    readonly changeViewModel: ChangeViewModel
   ) {
     super(initialState);
     this.subscriptions = [
@@ -301,6 +303,12 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
           })
         )
         .subscribe(),
+      // Gerrit will successfully load a change even when the URL contains the
+      // wrong repository name. But we should update the URL with the correct
+      // repo once the change was loaded.
+      this.repo$.subscribe(repo => {
+        if (repo) this.changeViewModel.updateState({project: repo});
+      }),
     ];
   }
 

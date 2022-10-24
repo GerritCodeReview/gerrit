@@ -177,6 +177,8 @@ export class ChangeViewModel extends Model<ChangeViewState | undefined> {
     state => state?.checksRunsSelected ?? new Set<string>()
   );
 
+  public readonly repo$ = select(this.state$, state => state?.project);
+
   constructor() {
     super(undefined);
     this.state$.subscribe(s => {

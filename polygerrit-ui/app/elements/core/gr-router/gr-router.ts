@@ -308,6 +308,13 @@ export class GrRouter {
   }
 
   setParams(params: AppElementParams | GenerateUrlParameters) {
+    if (
+      'project' in params &&
+      params.project !== undefined &&
+      'changeNum' in params
+    )
+      this.restApiService.setInProjectLookup(params.changeNum, params.project);
+
     this.routerModel.updateState({
       view: params.view,
       changeNum: 'changeNum' in params ? params.changeNum : undefined,

@@ -74,6 +74,7 @@ import {Interaction} from '../../../constants/reporting';
 import {HtmlPatched} from '../../../utils/lit-util';
 import {createDiffUrl} from '../../../models/views/diff';
 import {createChangeUrl} from '../../../models/views/change';
+import {userModelToken} from '../../../models/user/user-model';
 
 declare global {
   interface HTMLElementEventMap {
@@ -247,12 +248,11 @@ export class GrCommentThread extends LitElement {
   @state()
   saving = false;
 
-  // Private but used in tests.
-  readonly getCommentsModel = resolve(this, commentsModelToken);
+  private readonly getCommentsModel = resolve(this, commentsModelToken);
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
-  private readonly userModel = getAppContext().userModel;
+  private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly reporting = getAppContext().reportingService;
 
@@ -281,7 +281,7 @@ export class GrCommentThread extends LitElement {
     );
     subscribe(
       this,
-      () => this.userModel.account$,
+      () => this.getUserModel().account$,
       x => (this.account = x)
     );
     subscribe(
@@ -291,12 +291,12 @@ export class GrCommentThread extends LitElement {
     );
     subscribe(
       this,
-      () => this.userModel.diffPreferences$,
+      () => this.getUserModel().diffPreferences$,
       x => this.syntaxLayer.setEnabled(!!x.syntax_highlighting)
     );
     subscribe(
       this,
-      () => this.userModel.preferences$,
+      () => this.getUserModel().preferences$,
       prefs => {
         const layers: DiffLayer[] = [this.syntaxLayer];
         if (!prefs.disable_token_highlighting) {
@@ -307,7 +307,7 @@ export class GrCommentThread extends LitElement {
     );
     subscribe(
       this,
-      () => this.userModel.diffPreferences$,
+      () => this.getUserModel().diffPreferences$,
       prefs => {
         this.prefs = {
           ...prefs,

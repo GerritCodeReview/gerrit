@@ -34,6 +34,7 @@ import {assert} from '../../../utils/common-util';
 import {resolve} from '../../../models/dependency';
 import {createChangeUrl} from '../../../models/views/change';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
+import {userModelToken} from '../../../models/user/user-model';
 
 interface FilePreview {
   filepath: string;
@@ -89,7 +90,7 @@ export class GrApplyFixDialog extends LitElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
-  private readonly userModel = getAppContext().userModel;
+  private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly getNavigation = resolve(this, navigationToken);
 
@@ -97,7 +98,7 @@ export class GrApplyFixDialog extends LitElement {
     super();
     subscribe(
       this,
-      () => this.userModel.preferences$,
+      () => this.getUserModel().preferences$,
       preferences => {
         if (!preferences?.disable_token_highlighting) {
           this.layers = [new TokenHighlightLayer(this)];
@@ -106,7 +107,7 @@ export class GrApplyFixDialog extends LitElement {
     );
     subscribe(
       this,
-      () => this.userModel.diffPreferences$,
+      () => this.getUserModel().diffPreferences$,
       diffPreferences => {
         if (!diffPreferences) return;
         this.diffPrefs = diffPreferences;

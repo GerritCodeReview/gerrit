@@ -15,7 +15,8 @@ import {
 } from '../../../test/test-data-generators';
 import {GrButton} from '../gr-button/gr-button';
 import {GrHovercardAccountContents} from './gr-hovercard-account-contents';
-import {getAppContext} from '../../../services/app-context';
+import {userModelToken} from '../../../models/user/user-model';
+import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-hovercard-account tests', () => {
   let element: GrHovercardAccount;
@@ -33,7 +34,7 @@ suite('gr-hovercard-account tests', () => {
       </gr-hovercard-account>`
     );
     await element.show({});
-    getAppContext().userModel.setAccount({...account});
+    testResolver(userModelToken).setAccount({...account});
     await element.updateComplete;
     contents = queryAndAssert(element, 'gr-hovercard-account-contents');
   });

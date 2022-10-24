@@ -95,6 +95,7 @@ import {
 } from '../../../utils/async-util';
 import {subscribe} from '../../lit/subscription-controller';
 import {GeneratedWebLink} from '../../../utils/weblink-util';
+import {userModelToken} from '../../../models/user/user-model';
 
 const EMPTY_BLAME = 'No blame information for this diff.';
 
@@ -330,7 +331,7 @@ export class GrDiffHost extends LitElement {
   private readonly restApiService = getAppContext().restApiService;
 
   // visible for testing
-  readonly userModel = getAppContext().userModel;
+  readonly getUserModel = resolve(this, userModelToken);
 
   // visible for testing
   readonly jsAPI = getAppContext().jsApiService;
@@ -372,7 +373,7 @@ export class GrDiffHost extends LitElement {
     );
     subscribe(
       this,
-      () => this.userModel.loggedIn$,
+      () => this.getUserModel().loggedIn$,
       loggedIn => (this.loggedIn = loggedIn)
     );
     subscribe(
@@ -384,7 +385,7 @@ export class GrDiffHost extends LitElement {
     );
     subscribe(
       this,
-      () => this.userModel.diffPreferences$,
+      () => this.getUserModel().diffPreferences$,
       diffPreferences => {
         this.prefs = diffPreferences;
       }

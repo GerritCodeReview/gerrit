@@ -343,6 +343,7 @@ export class GrRouter implements Finalizable, NavigationService {
     for (const subscription of this.subscriptions) {
       subscription.unsubscribe();
     }
+    this.subscriptions = [];
   }
 
   start() {

@@ -70,6 +70,30 @@
       },
       "revId": "7e21830d8c270f8b403aff18cdc12f105d4dbe0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78bd9e5f_1c563eab",
+        "filename": "java/com/google/gerrit/server/query/account/AccountQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-24T10:19:30Z",
+      "side": 1,
+      "message": "Right. I meant not available as a user feature in the UI, unlike searching changes on the dashboard for example. Front-end (mention users) will need to adapt to this case in the FE.\n\nI gave it a second thought and I think your way is better. (let `cansee` work normally in this case and return empty or owner/reviewer/cc if caller in owner/reviewer/cc). I will adapt.",
+      "parentUuid": "8928e6af_36b66714",
+      "range": {
+        "startLine": 125,
+        "startChar": 6,
+        "endLine": 128,
+        "endChar": 23
+      },
+      "revId": "7e21830d8c270f8b403aff18cdc12f105d4dbe0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

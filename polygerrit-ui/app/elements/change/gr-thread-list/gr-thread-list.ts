@@ -44,6 +44,7 @@ import {changeModelToken} from '../../../models/change/change-model';
 import {Interaction} from '../../../constants/reporting';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {HtmlPatched} from '../../../utils/lit-util';
+import {userModelToken} from '../../../models/user/user-model';
 
 enum SortDropdownState {
   TIMESTAMP = 'Latest timestamp',
@@ -205,7 +206,7 @@ export class GrThreadList extends LitElement {
 
   private readonly flagsService = getAppContext().flagsService;
 
-  private readonly userModel = getAppContext().userModel;
+  private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly patched = new HtmlPatched(key => {
     this.reporting.reportInteraction(Interaction.AUTOCLOSE_HTML_PATCHED, {
@@ -228,7 +229,7 @@ export class GrThreadList extends LitElement {
     );
     subscribe(
       this,
-      () => this.userModel.account$,
+      () => this.getUserModel().account$,
       x => (this.account = x)
     );
     // for COMMENTS_AUTOCLOSE logging purposes only

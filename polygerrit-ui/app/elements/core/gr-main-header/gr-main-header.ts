@@ -29,6 +29,7 @@ import {customElement, property, state} from 'lit/decorators.js';
 import {fireEvent} from '../../../utils/event-util';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
+import {userModelToken} from '../../../models/user/user-model';
 
 type MainHeaderLink = RequireProperties<DropdownLink, 'url' | 'name'>;
 
@@ -142,9 +143,9 @@ export class GrMainHeader extends LitElement {
 
   private readonly jsAPI = getAppContext().jsApiService;
 
-  private readonly userModel = getAppContext().userModel;
+  private readonly getUserModel = resolve(this, userModelToken);
 
-  private readonly configModel = resolve(this, configModelToken);
+  private readonly getConfigModel = resolve(this, configModelToken);
 
   private subscriptions: Subscription[] = [];
 
@@ -153,8 +154,8 @@ export class GrMainHeader extends LitElement {
     this.loadAccount();
 
     this.subscriptions.push(
-      this.userModel.preferences$
-        .pipe(
+      this.getUserModel()
+        .preferences$.pipe(
           map(preferences => preferences?.my ?? []),
           distinctUntilChanged()
         )
@@ -163,7 +164,7 @@ export class GrMainHeader extends LitElement {
         })
     );
     this.subscriptions.push(
-      this.configModel().serverConfig$.subscribe(config => {
+      this.getConfigModel().serverConfig$.subscribe(config => {
         if (!config) return;
         this.serverConfig = config;
         this.retrieveFeedbackURL(config);

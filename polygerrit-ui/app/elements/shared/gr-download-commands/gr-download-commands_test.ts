@@ -18,9 +18,12 @@ import {createDefaultPreferences} from '../../../constants/constants';
 import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
 import {fixture, html, assert} from '@open-wc/testing';
 import {PaperTabElement} from '@polymer/paper-tabs/paper-tab';
+import {UserModel, userModelToken} from '../../../models/user/user-model';
+import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-download-commands', () => {
   let element: GrDownloadCommands;
+  let userModel: UserModel;
 
   const SCHEMES = ['http', 'repo', 'ssh'];
   const COMMANDS = [
@@ -57,6 +60,7 @@ suite('gr-download-commands', () => {
       element.commands = COMMANDS;
       element.selectedScheme = SELECTED_SCHEME;
       await element.updateComplete;
+      userModel = testResolver(userModelToken);
     });
 
     test('render', () => {
@@ -174,7 +178,7 @@ suite('gr-download-commands', () => {
       const element: GrDownloadCommands = await fixture(
         html`<gr-download-commands></gr-download-commands>`
       );
-      element.userModel.setPreferences({
+      userModel.setPreferences({
         ...createPreferences(),
         download_scheme: 'repo',
       });
@@ -185,7 +189,7 @@ suite('gr-download-commands', () => {
       const element: GrDownloadCommands = await fixture(
         html`<gr-download-commands></gr-download-commands>`
       );
-      element.userModel.setPreferences({
+      userModel.setPreferences({
         ...createPreferences(),
         download_scheme: 'REPO',
       });

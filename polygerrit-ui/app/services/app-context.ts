@@ -13,7 +13,6 @@ import {JsApiService} from '../elements/shared/gr-js-api-interface/gr-js-api-typ
 import {StorageService} from './storage/gr-storage';
 import {PluginsModel} from '../models/plugins/plugins-model';
 import {HighlightService} from './highlight/highlight-service';
-import {AccountsModel} from '../models/accounts-model/accounts-model';
 
 export interface AppContext {
   flagsService: FlagsService;
@@ -23,7 +22,6 @@ export interface AppContext {
   restApiService: RestApiService;
   jsApiService: JsApiService;
   storageService: StorageService;
-  accountsModel: AccountsModel;
   pluginsModel: PluginsModel;
   highlightService: HighlightService;
 }

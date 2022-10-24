@@ -30,6 +30,7 @@ import {fixture, html, waitUntil, assert} from '@open-wc/testing';
 import {GrButton} from '../gr-button/gr-button';
 import {SpecialFilePath} from '../../../constants/constants';
 import {GrIcon} from '../gr-icon/gr-icon';
+import {commentsModelToken} from '../../../models/comments/comments-model';
 
 const c1 = {
   author: {name: 'Kermit'},
@@ -311,7 +312,7 @@ suite('gr-comment-thread tests', () => {
     setup(async () => {
       savePromise = mockPromise<DraftInfo>();
       stub = sinon
-        .stub(element.getCommentsModel(), 'saveDraft')
+        .stub(testResolver(commentsModelToken), 'saveDraft')
         .returns(savePromise);
 
       element.thread = createThread(c1, {...c2, unresolved: true});

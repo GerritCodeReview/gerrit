@@ -12,12 +12,13 @@ import {formStyles} from '../../../styles/gr-form-styles';
 import {state, customElement} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
 import {subscribe} from '../../lit/subscription-controller';
-import {getAppContext} from '../../../services/app-context';
 import {deepEqual} from '../../../utils/deep-util';
 import {createDefaultPreferences} from '../../../constants/constants';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {classMap} from 'lit/directives/class-map.js';
 import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
+import {userModelToken} from '../../../models/user/user-model';
+import {resolve} from '../../../models/dependency';
 
 @customElement('gr-menu-editor')
 export class GrMenuEditor extends LitElement {
@@ -33,13 +34,13 @@ export class GrMenuEditor extends LitElement {
   @state()
   newUrl = '';
 
-  private readonly userModel = getAppContext().userModel;
+  private readonly getUserModel = resolve(this, userModelToken);
 
   constructor() {
     super();
     subscribe(
       this,
-      () => this.userModel.preferences$,
+      () => this.getUserModel().preferences$,
       prefs => {
         this.originalPrefs = prefs;
         this.menuItems = [...prefs.my];
@@ -196,7 +197,7 @@ export class GrMenuEditor extends LitElement {
   }
 
   private handleSave() {
-    this.userModel.updatePreferences({
+    this.getUserModel().updatePreferences({
       ...this.originalPrefs,
       my: this.menuItems,
     });

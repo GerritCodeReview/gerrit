@@ -86,6 +86,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ee5e452_ca49bdbe",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-24T11:01:40Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/342156/2//COMMIT_MSG#17",
+      "parentUuid": "c9e42537_8860bcc4",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "98f65974_4043b903",
@@ -103,6 +121,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbd7e69c_a7dca3d1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-24T11:01:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98f65974_4043b903",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2858398c_66acd94a",
@@ -116,6 +152,24 @@
       "writtenOn": "2022-10-24T08:34:08Z",
       "side": 1,
       "message": "Is this empty line necessary?",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a8c0abd_14f62c69",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-24T11:01:40Z",
+      "side": 1,
+      "message": "Done. My prettier extension was going rogue until I restarted VSCode.",
+      "parentUuid": "2858398c_66acd94a",
       "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -154,6 +208,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed67ea2d_552a2123",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-24T11:01:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "290a6da7_3b028656",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3cc5e2da_df7723f3",
@@ -167,6 +239,24 @@
       "writtenOn": "2022-10-24T08:34:08Z",
       "side": 1,
       "message": "Unnecessary emptyline?",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "def427a1_034be46d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-24T11:01:40Z",
+      "side": 1,
+      "message": "Done. My prettier extension was going rogue until I restarted VSCode.",
+      "parentUuid": "3cc5e2da_df7723f3",
       "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -190,6 +280,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d908381a_e2e69449",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-24T11:01:40Z",
+      "side": 1,
+      "message": "haha it\u0027s [your code](https://gerrit-review.googlesource.com/c/gerrit/+/330340) so I would ask you 😂 I have never seen it before. Seems like it is a [real but deprecated feature](https://developer.mozilla.org/en-US/docs/Web/API/Event/returnValue)?\n\nI will try out removing it",
+      "parentUuid": "ab157765_11fcd1b7",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7c91e8d2_232f91e7",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
         "patchSetId": 7
@@ -201,6 +309,24 @@
       "writtenOn": "2022-10-24T08:34:08Z",
       "side": 1,
       "message": "Unnecessary empty line?",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64e4cb14_246d226b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-24T11:01:40Z",
+      "side": 1,
+      "message": "Done. My prettier extension was going rogue until I restarted VSCode.",
+      "parentUuid": "7c91e8d2_232f91e7",
       "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -222,6 +348,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "37e96d26_239aa9cf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-24T11:01:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e125d61_fae27fec",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "935dd35c_a2a0189a",
@@ -235,6 +379,24 @@
       "writtenOn": "2022-10-24T08:34:08Z",
       "side": 1,
       "message": "Unnecessary empty line?",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ed6af39_35549d61",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-24T11:01:40Z",
+      "side": 1,
+      "message": "Done. My prettier extension was going rogue until I restarted VSCode.",
+      "parentUuid": "935dd35c_a2a0189a",
       "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -256,6 +418,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "444d20f7_ad49a399",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-24T11:01:40Z",
+      "side": 1,
+      "message": "Done. My prettier extension was going rogue until I restarted VSCode.",
+      "parentUuid": "67e54a05_197d21c5",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "96e0b135_143e9c61",
@@ -273,6 +453,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "27078996_965bf5b5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-24T11:01:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96e0b135_143e9c61",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63a6e3a2_f6124995",
@@ -286,6 +484,24 @@
       "writtenOn": "2022-10-24T08:34:08Z",
       "side": 1,
       "message": "```suggestion\n    if (!this.computeShowActionRemoveFromAttentionSet()) return nothing;\n```",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b1f182d_ffa1f4e2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-24T11:01:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63a6e3a2_f6124995",
       "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

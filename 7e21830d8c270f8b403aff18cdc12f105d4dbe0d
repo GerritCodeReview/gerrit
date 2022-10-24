@@ -46,6 +46,30 @@
       },
       "revId": "7e21830d8c270f8b403aff18cdc12f105d4dbe0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8928e6af_36b66714",
+        "filename": "java/com/google/gerrit/server/query/account/AccountQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-24T10:13:45Z",
+      "side": 1,
+      "message": "I thought this is used by the frontend to suggest users for mentions on private changes?",
+      "parentUuid": "9c90e729_cca94dcc",
+      "range": {
+        "startLine": 125,
+        "startChar": 6,
+        "endLine": 128,
+        "endChar": 23
+      },
+      "revId": "7e21830d8c270f8b403aff18cdc12f105d4dbe0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

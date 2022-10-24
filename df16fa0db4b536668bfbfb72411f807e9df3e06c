@@ -1,0 +1,378 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bb47ddd_26eba532",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-24T08:34:08Z",
+      "side": 1,
+      "message": "This div is not strictly necessary, the styling could be set directly on the gr-hovercard-account-contents.",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3070baf1_3e9175be",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-24T08:34:08Z",
+      "side": 1,
+      "message": "Request for future changes to make reviewing easier:\n\nMake the first patchset the new file a copy of the old file, then the second patchset can be the necessary modifications.",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be1f619b_14f7bc2e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-24T08:34:08Z",
+      "side": 1,
+      "message": "Optional nit: Maybe userAccount because it comes from the userModel?\n\nselfAccount is not immediately obvious until you see the subscription logic below.\n\nThis is because \u0027self\u0027 could refer to the gr-hovercard-account-contents rather than \u0027self\u0027 being the user.",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9e42537_8860bcc4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-24T08:34:08Z",
+      "side": 1,
+      "message": "Why is this using transform: scaleX rather than setting the fontsize to something snaller?",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98f65974_4043b903",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-24T08:34:08Z",
+      "side": 1,
+      "message": "```suggestion\n      return nothing;\n```",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2858398c_66acd94a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-24T08:34:08Z",
+      "side": 1,
+      "message": "Is this empty line necessary?",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ae3cb76_e64de4da",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-24T08:34:08Z",
+      "side": 1,
+      "message": "Minor nit: Why is selfAccount required here? It doesn\u0027t seem to be used by any of the click handlers.\n\nI\u0027m guessing this is because it\u0027s business logic that we do not allow unsigned users to remove a reviewer?\n\nMaybe add a method call here? \n\nif (!this.canRemove()) return nothing;",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "290a6da7_3b028656",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-24T08:34:08Z",
+      "side": 1,
+      "message": "```suggestion\n      return nothing;\n```",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cc5e2da_df7723f3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-24T08:34:08Z",
+      "side": 1,
+      "message": "Unnecessary emptyline?",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab157765_11fcd1b7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-24T08:34:08Z",
+      "side": 1,
+      "message": "What does \u0027return true\u0027 do?",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c91e8d2_232f91e7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-24T08:34:08Z",
+      "side": 1,
+      "message": "Unnecessary empty line?",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e125d61_fae27fec",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-24T08:34:08Z",
+      "side": 1,
+      "message": "```suggestion\n    if (!(this.isAttentionEnabled \u0026\u0026 this.hasUserAttention)) return nothing;\n```",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "935dd35c_a2a0189a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-24T08:34:08Z",
+      "side": 1,
+      "message": "Unnecessary empty line?",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67e54a05_197d21c5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-24T08:34:08Z",
+      "side": 1,
+      "message": "Unnecessary empty line?",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96e0b135_143e9c61",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-24T08:34:08Z",
+      "side": 1,
+      "message": "```suggestion\n    if (!this.computeShowActionAddToAttentionSet()) return nothing;\n```",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63a6e3a2_f6124995",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-24T08:34:08Z",
+      "side": 1,
+      "message": "```suggestion\n    if (!this.computeShowActionRemoveFromAttentionSet()) return nothing;\n```",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bbb0786_57ba9a31",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-24T08:34:08Z",
+      "side": 1,
+      "message": "@brohlfs@google.com This is a shortcoming of the createXXUrl API.  Ideally you just pass in an account",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "beb85708_b677f254",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-24T08:34:08Z",
+      "side": 1,
+      "message": "@brohlfs@google.com Same comment as above about limitations of createXXXUrl api.",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfa988b0_b83ea023",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-24T08:34:08Z",
+      "side": 1,
+      "message": "Style guide: Avoid getters when possible",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34d9d499_495a9341",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-24T08:34:08Z",
+      "side": 1,
+      "message": "Same comment as above. Getters don\u0027t optimize well in jscompiler.",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "618589e3_87540f52",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-24T08:34:08Z",
+      "side": 1,
+      "message": "Minor nit: We\u0027re exposing implementation details of this.getReviewerState() by checking for change/account.\n\nAn alterhative approach could be:\n\n```\nswitch (this.getReviewerState()) {\n  case ReviewerState.REVIEWER:\n    return \u0027Reviewer\u0027\n  case ReviewerState.CC:\n    return \u0027CC\u0027;\n  default:\n    return \u0027\u0027;\n}\n```\n\nAnd have getReviewerState not implicitly assume that account and/or change is set but return undefined if they\u0027re not.",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bb609cd_321dcb6a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-24T08:34:08Z",
+      "side": 1,
+      "message": "Same comment as previous method.",
+      "revId": "df16fa0db4b536668bfbfb72411f807e9df3e06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

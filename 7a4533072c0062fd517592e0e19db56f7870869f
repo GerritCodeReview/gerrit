@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8400af27_e29baf2e",
+        "filename": "polygerrit-ui/app/elements/gr-app_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-24T14:55:24Z",
+      "side": 1,
+      "message": "should not be needed. I downloaded this change and saw no issues removing it.",
+      "range": {
+        "startLine": 24,
+        "startChar": 11,
+        "endLine": 24,
+        "endChar": 12
+      },
+      "revId": "7a4533072c0062fd517592e0e19db56f7870869f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8c1df30_1eaa344a",
+        "filename": "polygerrit-ui/app/elements/gr-app_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-24T14:55:24Z",
+      "side": 1,
+      "message": "what is the purpose of this here? The tests pass fine without it and it used to just be in teardown, so it could use a comment to explain why it\u0027s here.",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 35
+      },
+      "revId": "7a4533072c0062fd517592e0e19db56f7870869f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

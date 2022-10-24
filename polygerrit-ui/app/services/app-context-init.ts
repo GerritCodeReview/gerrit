@@ -166,7 +166,8 @@ export function createAppDependencies(
   const changeModel = new ChangeModel(
     appContext.routerModel,
     appContext.restApiService,
-    appContext.userModel
+    appContext.userModel,
+    changeViewModel
   );
   dependencies.set(changeModelToken, changeModel);
 

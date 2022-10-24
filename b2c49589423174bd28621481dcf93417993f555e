@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "61b1f859_d4bea6e9",
+        "filename": "polygerrit-ui/app/elements/gr-app.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-10-24T14:00:54Z",
+      "side": 1,
+      "message": "I added todo about this.",
+      "parentUuid": "3879f565_5c4678bb",
+      "revId": "b2c49589423174bd28621481dcf93417993f555e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b6c9439_a057887e",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba374053_ef39ed65",
+        "filename": "polygerrit-ui/app/services/service-worker-installer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-10-24T14:00:54Z",
+      "side": 1,
+      "message": "Service worker will send event only to 1 client. I added assumption as comment",
+      "parentUuid": "8b6c9439_a057887e",
+      "revId": "b2c49589423174bd28621481dcf93417993f555e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fff7ae18_0cf85dfe",
@@ -48,6 +84,24 @@
       "writtenOn": "2022-10-24T08:09:51Z",
       "side": 1,
       "message": "Comment as to what this does?",
+      "revId": "b2c49589423174bd28621481dcf93417993f555e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4aad6fc_d56c81e1",
+        "filename": "polygerrit-ui/app/workers/service-worker-class.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-10-24T14:00:54Z",
+      "side": 1,
+      "message": "I added comment to describe this method.",
+      "parentUuid": "fff7ae18_0cf85dfe",
       "revId": "b2c49589423174bd28621481dcf93417993f555e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

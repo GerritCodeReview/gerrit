@@ -130,6 +130,7 @@ suite('change service tests', () => {
 
     changeModel.routerModel.setState({
       view: GerritView.CHANGE,
+      repo: knownChange.project,
       changeNum: knownChange._number,
     });
     state = await waitForLoadingStatus(LoadingStatus.LOADING);
@@ -142,6 +143,24 @@ suite('change service tests', () => {
     assert.equal(state?.change, knownChange);
   });
 
+  test('set project / change lookup when loading a change', async () => {
+    const promise = mockPromise<ParsedChangeInfo | undefined>();
+    const stub = stubRestApi('setInProjectLookup').callsFake(() => promise);
+    let state: ChangeState;
+
+    state = await waitForLoadingStatus(LoadingStatus.NOT_LOADED);
+    assert.equal(stub.callCount, 0);
+    assert.isUndefined(state?.change);
+
+    changeModel.routerModel.setState({
+      view: GerritView.CHANGE,
+      repo: knownChange.project,
+      changeNum: knownChange._number,
+    });
+    state = await waitForLoadingStatus(LoadingStatus.LOADING);
+    assert.equal(stub.callCount, 1);
+  });
+
   test('reload a change', async () => {
     // setting up a loaded change
     const promise = mockPromise<ParsedChangeInfo | undefined>();
@@ -149,6 +168,7 @@ suite('change service tests', () => {
     let state: ChangeState;
     changeModel.routerModel.setState({
       view: GerritView.CHANGE,
+      repo: knownChange.project,
       changeNum: knownChange._number,
     });
     promise.resolve(knownChange);
@@ -173,6 +193,7 @@ suite('change service tests', () => {
     let state: ChangeState;
     changeModel.routerModel.setState({
       view: GerritView.CHANGE,
+      repo: knownChange.project,
       changeNum: knownChange._number,
     });
     promise.resolve(knownChange);
@@ -187,6 +208,7 @@ suite('change service tests', () => {
     promise = mockPromise<ParsedChangeInfo | undefined>();
     changeModel.routerModel.setState({
       view: GerritView.CHANGE,
+      repo: knownChange.project,
       changeNum: otherChange._number,
     });
     state = await waitForLoadingStatus(LoadingStatus.LOADING);
@@ -206,6 +228,7 @@ suite('change service tests', () => {
     let state: ChangeState;
     changeModel.routerModel.setState({
       view: GerritView.CHANGE,
+      repo: knownChange.project,
       changeNum: knownChange._number,
     });
     promise.resolve(knownChange);
@@ -217,6 +240,7 @@ suite('change service tests', () => {
     promise.resolve(undefined);
     changeModel.routerModel.setState({
       view: GerritView.CHANGE,
+      repo: knownChange.project,
       changeNum: undefined,
     });
     state = await waitForLoadingStatus(LoadingStatus.NOT_LOADED);

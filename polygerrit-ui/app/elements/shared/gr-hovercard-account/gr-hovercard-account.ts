@@ -44,6 +44,7 @@ import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {createSearchUrl} from '../../../models/views/search';
 import {createDashboardUrl} from '../../../models/views/dashboard';
+import {userModelToken} from '../../../models/user/user-model';
 
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
 const base = HovercardMixin(LitElement);
@@ -79,8 +80,7 @@ export class GrHovercardAccount extends base {
 
   private readonly reporting = getAppContext().reportingService;
 
-  // private but used in tests
-  readonly userModel = getAppContext().userModel;
+  private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly getConfigModel = resolve(this, configModelToken);
 
@@ -88,7 +88,7 @@ export class GrHovercardAccount extends base {
     super();
     subscribe(
       this,
-      () => this.userModel.account$,
+      () => this.getUserModel().account$,
       x => (this.selfAccount = x)
     );
     subscribe(

@@ -39,19 +39,9 @@ export function createTestAppContext(): AppContext & Finalizable {
       return new GrJsApiInterface(ctx.reportingService);
     },
     storageService: (_ctx: Partial<AppContext>) => grStorageMock,
-    userModel: (ctx: Partial<AppContext>) => {
-      assertIsDefined(ctx.restApiService, 'restApiService');
-      return new UserModel(ctx.restApiService);
-    },
     accountsModel: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.restApiService, 'restApiService');
       return new AccountsModel(ctx.restApiService);
-    },
-    shortcutsService: (ctx: Partial<AppContext>) => {
-      assertIsDefined(ctx.userModel, 'userModel');
-      assertIsDefined(ctx.flagsService, 'flagsService');
-      assertIsDefined(ctx.reportingService, 'reportingService');
-      return new ShortcutsService(ctx.userModel, ctx.reportingService);
     },
     pluginsModel: (_ctx: Partial<AppContext>) => new PluginsModel(),
     highlightService: (ctx: Partial<AppContext>) => {

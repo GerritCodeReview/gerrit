@@ -40,6 +40,8 @@ import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {createSearchUrl} from '../../../models/views/search';
+import {userModelToken} from '../../../models/user/user-model';
+import {resolve} from '../../../models/dependency';
 
 const STATES = {
   active: {value: ProjectState.ACTIVE, label: 'Active'},
@@ -110,7 +112,7 @@ export class GrRepo extends LitElement {
 
   @state() private pluginConfigChanged = false;
 
-  private readonly userModel = getAppContext().userModel;
+  private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -118,7 +120,7 @@ export class GrRepo extends LitElement {
     super();
     subscribe(
       this,
-      () => this.userModel.preferences$,
+      () => this.getUserModel().preferences$,
       prefs => {
         if (prefs?.download_scheme) {
           // Note (issue 5180): normalize the download scheme with lower-case.

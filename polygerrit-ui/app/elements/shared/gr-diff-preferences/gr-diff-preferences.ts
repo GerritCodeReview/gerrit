@@ -18,6 +18,8 @@ import {convertToString} from '../../../utils/string-util';
 import {fire} from '../../../utils/event-util';
 import {ValueChangedEvent} from '../../../types/events';
 import {GrSelect} from '../gr-select/gr-select';
+import {resolve} from '../../../models/dependency';
+import {userModelToken} from '../../../models/user/user-model';
 
 @customElement('gr-diff-preferences')
 export class GrDiffPreferences extends LitElement {
@@ -51,13 +53,13 @@ export class GrDiffPreferences extends LitElement {
 
   @state() private originalDiffPrefs?: DiffPreferencesInfo;
 
-  private readonly userModel = getAppContext().userModel;
+  private readonly getUserModel = resolve(this, userModelToken);
 
   constructor() {
     super();
     subscribe(
       this,
-      () => this.userModel.diffPreferences$,
+      () => this.getUserModel().diffPreferences$,
       diffPreferences => {
         if (!diffPreferences) return;
         this.originalDiffPrefs = diffPreferences;
@@ -314,7 +316,7 @@ export class GrDiffPreferences extends LitElement {
 
   async save() {
     if (!this.diffPrefs) return;
-    await this.userModel.updateDiffPreference(this.diffPrefs);
+    await this.getUserModel().updateDiffPreference(this.diffPrefs);
     fire(this, 'has-unsaved-changes-changed', {
       value: this.hasUnsavedChanges(),
     });

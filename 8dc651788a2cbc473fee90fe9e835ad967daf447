@@ -183,6 +183,30 @@
       },
       "revId": "8dc651788a2cbc473fee90fe9e835ad967daf447",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e915f654_78334594",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2938,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-10-24T08:13:25Z",
+      "side": 1,
+      "message": "Java Boolean can also be null (null \u003d\u003e keep the execution bit as-is).",
+      "parentUuid": "90521c50_d98a2b1e",
+      "range": {
+        "startLine": 2938,
+        "startChar": 14,
+        "endLine": 2938,
+        "endChar": 42
+      },
+      "revId": "8dc651788a2cbc473fee90fe9e835ad967daf447",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

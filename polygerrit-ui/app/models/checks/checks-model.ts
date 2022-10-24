@@ -12,7 +12,6 @@ import {
 } from './checks-util';
 import {assertIsDefined} from '../../utils/common-util';
 import {select} from '../../utils/observable-util';
-import {Finalizable} from '../../services/registry';
 import {
   BehaviorSubject,
   combineLatest,
@@ -182,7 +181,7 @@ export interface ErrorMessages {
   [name: string]: string;
 }
 
-export class ChecksModel extends Model<ChecksState> implements Finalizable {
+export class ChecksModel extends Model<ChecksState> {
   private readonly providers: {[name: string]: ChecksProvider} = {};
 
   private readonly reloadSubjects: {[name: string]: Subject<void>} = {};

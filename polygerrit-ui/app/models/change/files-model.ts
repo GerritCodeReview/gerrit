@@ -15,7 +15,6 @@ import {
 import {combineLatest, of, from} from 'rxjs';
 import {switchMap, map} from 'rxjs/operators';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
-import {Finalizable} from '../../services/registry';
 import {select} from '../../utils/observable-util';
 import {FileInfoStatus, SpecialFilePath} from '../../constants/constants';
 import {specialFilePathCompare} from '../../utils/path-list-util';
@@ -113,7 +112,7 @@ const initialState: FilesState = {
 
 export const filesModelToken = define<FilesModel>('files-model');
 
-export class FilesModel extends Model<FilesState> implements Finalizable {
+export class FilesModel extends Model<FilesState> {
   public readonly files$ = select(this.state$, state => state.files);
 
   public readonly filesWithUnmodified$ = select(

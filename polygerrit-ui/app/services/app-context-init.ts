@@ -15,7 +15,7 @@ import {ChangeModel, changeModelToken} from '../models/change/change-model';
 import {FilesModel, filesModelToken} from '../models/change/files-model';
 import {ChecksModel, checksModelToken} from '../models/checks/checks-model';
 import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
-import {GrStorageService} from './storage/gr-storage_impl';
+import {GrStorageService, storageServiceToken} from './storage/gr-storage_impl';
 import {UserModel, userModelToken} from '../models/user/user-model';
 import {
   CommentsModel,
@@ -88,7 +88,6 @@ export function createAppContext(): AppContext & Finalizable {
       assertIsDefined(reportingService, 'reportingService');
       return new GrJsApiInterface(reportingService);
     },
-    storageService: (_ctx: Partial<AppContext>) => new GrStorageService(),
     pluginsModel: (_ctx: Partial<AppContext>) => new PluginsModel(),
     highlightService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.reportingService, 'reportingService');
@@ -215,6 +214,9 @@ export function createAppDependencies(
   const shortcutServiceCreator = () =>
     new ShortcutsService(resolver(userModelToken), appContext.reportingService);
   dependencies.set(shortcutsServiceToken, shortcutServiceCreator);
+
+  const storageServiceCreator = () => new GrStorageService();
+  dependencies.set(storageServiceToken, storageServiceCreator);
 
   return dependencies;
 }

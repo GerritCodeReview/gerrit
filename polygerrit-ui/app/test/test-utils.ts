@@ -9,7 +9,6 @@ import {_testOnly_resetEndpoints} from '../elements/shared/gr-js-api-interface/g
 import {getAppContext} from '../services/app-context';
 import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
 import {SinonSpy, SinonStub} from 'sinon';
-import {StorageService} from '../services/storage/gr-storage';
 import {AuthService} from '../services/gr-auth/gr-auth';
 import {ReportingService} from '../services/gr-reporting/gr-reporting';
 import {queryAndAssert, query} from '../utils/common-util';
@@ -112,14 +111,6 @@ export function stubHighlightService<K extends keyof HighlightService>(
   method: K
 ) {
   return sinon.stub(getAppContext().highlightService, method);
-}
-
-export function stubStorage<K extends keyof StorageService>(method: K) {
-  return sinon.stub(getAppContext().storageService, method);
-}
-
-export function spyStorage<K extends keyof StorageService>(method: K) {
-  return sinon.spy(getAppContext().storageService, method);
 }
 
 export function stubAuth<K extends keyof AuthService>(method: K) {

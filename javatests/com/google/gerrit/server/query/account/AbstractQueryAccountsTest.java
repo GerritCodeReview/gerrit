@@ -33,10 +33,12 @@ import com.google.gerrit.extensions.api.access.PermissionInfo;
 import com.google.gerrit.extensions.api.access.PermissionRuleInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.api.accounts.Accounts.QueryRequest;
+import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.ListAccountsOption;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
+import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountExternalIdInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -388,6 +390,46 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   }
 
   @Test
+  public void byCanSee_privateChange() throws Exception {
+    String domain = name("test.com");
+    AccountInfo user1 = newAccountWithEmail("account1", "account1@" + domain);
+    AccountInfo user2 = newAccountWithEmail("account2", "account2@" + domain);
+    AccountInfo user3 = newAccountWithEmail("account3", "account3@" + domain);
+    AccountInfo user4 = newAccountWithEmail("account4", "account4@" + domain);
+
+    Project.NameKey p = createProject(name("p"));
+
+    // Create the change as User1
+    requestContext.setContext(newRequestContext(Account.id(user1._accountId)));
+    ChangeInfo c = createPrivateChange(p);
+    assertThat(c.owner).isEqualTo(user1);
+
+    // Add user2 as a reviewer, user3 as a CC, and leave user4 dangling.
+    addReviewer(c.changeId, user2.email, ReviewerState.REVIEWER);
+    addReviewer(c.changeId, user3.email, ReviewerState.CC);
+
+    // Request as the owner
+    requestContext.setContext(newRequestContext(Account.id(user1._accountId)));
+    assertQuery("cansee:" + c.changeId, user1, user2, user3);
+
+    // Request as the reviewer
+    requestContext.setContext(newRequestContext(Account.id(user2._accountId)));
+    assertQuery("cansee:" + c.changeId, user1, user2, user3);
+
+    // Request as the CC
+    requestContext.setContext(newRequestContext(Account.id(user3._accountId)));
+    assertQuery("cansee:" + c.changeId, user1, user2, user3);
+
+    // Request as an account not in {owner, reviewer, CC}
+    requestContext.setContext(newRequestContext(Account.id(user4._accountId)));
+    BadRequestException exception =
+        assertThrows(BadRequestException.class, () -> newQuery("cansee:" + c.changeId).get());
+    assertThat(exception)
+        .hasMessageThat()
+        .isEqualTo(String.format("change %s not found", c.changeId));
+  }
+
+  @Test
   public void byWatchedProject() throws Exception {
     Project.NameKey p = createProject(name("p"));
     Project.NameKey p2 = createProject(name("p2"));
@@ -715,12 +757,29 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     gApi.projects().name(project.get()).access(in);
   }
 
+  protected ChangeInfo createPrivateChange(Project.NameKey project) throws RestApiException {
+    ChangeInput in = new ChangeInput();
+    in.subject = "A change";
+    in.project = project.get();
+    in.branch = "master";
+    in.isPrivate = true;
+    return gApi.changes().create(in).get();
+  }
+
   protected ChangeInfo createChange(Project.NameKey project) throws RestApiException {
     ChangeInput in = new ChangeInput();
     in.subject = "A change";
     in.project = project.get();
     in.branch = "master";
     return gApi.changes().create(in).get();
+  }
+
+  protected void addReviewer(String changeId, String email, ReviewerState state)
+      throws RestApiException {
+    ReviewerInput reviewerInput = new ReviewerInput();
+    reviewerInput.reviewer = email;
+    reviewerInput.state = state;
+    gApi.changes().id(changeId).addReviewer(reviewerInput);
   }
 
   protected GroupInfo createGroup(String name, AccountInfo... members) throws RestApiException {

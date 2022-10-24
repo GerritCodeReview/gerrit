@@ -16,7 +16,7 @@ import {FilesModel, filesModelToken} from '../models/change/files-model';
 import {ChecksModel, checksModelToken} from '../models/checks/checks-model';
 import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
 import {GrStorageService} from './storage/gr-storage_impl';
-import {UserModel} from '../models/user/user-model';
+import {UserModel, userModelToken} from '../models/user/user-model';
 import {
   CommentsModel,
   commentsModelToken,
@@ -87,10 +87,6 @@ export function createAppContext(): AppContext & Finalizable {
       return new GrJsApiInterface(reportingService);
     },
     storageService: (_ctx: Partial<AppContext>) => new GrStorageService(),
-    userModel: (ctx: Partial<AppContext>) => {
-      assertIsDefined(ctx.restApiService, 'restApiService');
-      return new UserModel(ctx.restApiService);
-    },
     accountsModel: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.restApiService, 'restApiService');
       return new AccountsModel(ctx.restApiService);
@@ -108,7 +104,9 @@ export function createAppDependencies(
   appContext: AppContext
 ): Map<DependencyToken<unknown>, Finalizable> {
   const dependencies = new Map<DependencyToken<unknown>, Finalizable>();
-  const browserModel = new BrowserModel(appContext.userModel);
+  const userModel = new UserModel(appContext.restApiService);
+  dependencies.set(userModelToken, userModel);
+  const browserModel = new BrowserModel(userModel);
   dependencies.set(browserModelToken, browserModel);
 
   const adminViewModel = new AdminViewModel();
@@ -159,7 +157,7 @@ export function createAppDependencies(
   const changeModel = new ChangeModel(
     appContext.routerModel,
     appContext.restApiService,
-    appContext.userModel
+    userModel
   );
   dependencies.set(changeModelToken, changeModel);
 
@@ -195,7 +193,7 @@ export function createAppDependencies(
   dependencies.set(checksModelToken, checksModel);
 
   const shortcutsService = new ShortcutsService(
-    appContext.userModel,
+    userModel,
     appContext.reportingService
   );
   dependencies.set(shortcutsServiceToken, shortcutsService);

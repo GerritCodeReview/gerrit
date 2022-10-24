@@ -322,8 +322,7 @@ export class GrMessagesList extends LitElement {
   @state()
   private combinedMessages: CombinedMessage[] = [];
 
-  // Private but used in tests.
-  readonly getCommentsModel = resolve(this, commentsModelToken);
+  private readonly getCommentsModel = resolve(this, commentsModelToken);
 
   private readonly changeModel = resolve(this, changeModelToken);
 

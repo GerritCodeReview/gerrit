@@ -181,6 +181,7 @@ import {
 } from '../../../models/views/change';
 import {rootUrl} from '../../../utils/url-util';
 import {createEditUrl} from '../../../models/views/edit';
+import {userModelToken} from '../../../models/user/user-model';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -535,16 +536,13 @@ export class GrChangeView extends LitElement {
 
   private readonly flagsService = getAppContext().flagsService;
 
-  // Private but used in tests.
-  readonly userModel = getAppContext().userModel;
+  private readonly getUserModel = resolve(this, userModelToken);
 
-  // Private but used in tests.
-  readonly getChangeModel = resolve(this, changeModelToken);
+  private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly routerModel = getAppContext().routerModel;
 
-  // Private but used in tests.
-  readonly getCommentsModel = resolve(this, commentsModelToken);
+  private readonly getCommentsModel = resolve(this, commentsModelToken);
 
   private readonly getConfigModel = resolve(this, configModelToken);
 
@@ -738,7 +736,7 @@ export class GrChangeView extends LitElement {
     );
     subscribe(
       this,
-      () => this.userModel.preferenceDiffViewMode$,
+      () => this.getUserModel().preferenceDiffViewMode$,
       diffViewMode => {
         this.diffViewMode = diffViewMode;
       }
@@ -768,14 +766,14 @@ export class GrChangeView extends LitElement {
     );
     subscribe(
       this,
-      () => this.userModel.account$,
+      () => this.getUserModel().account$,
       account => {
         this.account = account;
       }
     );
     subscribe(
       this,
-      () => this.userModel.loggedIn$,
+      () => this.getUserModel().loggedIn$,
       loggedIn => {
         this.loggedIn = loggedIn;
       }
@@ -1723,9 +1721,9 @@ export class GrChangeView extends LitElement {
   // Private but used in tests.
   handleToggleDiffMode() {
     if (this.diffViewMode === DiffViewMode.SIDE_BY_SIDE) {
-      this.userModel.updatePreferences({diff_view: DiffViewMode.UNIFIED});
+      this.getUserModel().updatePreferences({diff_view: DiffViewMode.UNIFIED});
     } else {
-      this.userModel.updatePreferences({
+      this.getUserModel().updatePreferences({
         diff_view: DiffViewMode.SIDE_BY_SIDE,
       });
     }

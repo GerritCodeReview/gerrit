@@ -131,6 +131,7 @@ import {
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {Key, Modifier} from '../../../utils/dom-util';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
+import {userModelToken} from '../../../models/user/user-model';
 
 export enum FocusTarget {
   ANY = 'any',
@@ -216,8 +217,7 @@ export class GrReplyDialog extends LitElement {
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
-  // Private but used in tests.
-  readonly getCommentsModel = resolve(this, commentsModelToken);
+  private readonly getCommentsModel = resolve(this, commentsModelToken);
 
   // TODO: update type to only ParsedChangeInfo
   @property({type: Object})
@@ -394,6 +394,8 @@ export class GrReplyDialog extends LitElement {
   private readonly getConfigModel = resolve(this, configModelToken);
 
   private readonly accountsModel = getAppContext().accountsModel;
+
+  private readonly getUserModel = resolve(this, userModelToken);
 
   private latestPatchNum?: PatchSetNumber;
 
@@ -629,7 +631,7 @@ export class GrReplyDialog extends LitElement {
 
     subscribe(
       this,
-      () => getAppContext().userModel.loggedIn$,
+      () => this.getUserModel().loggedIn$,
       isLoggedIn => (this.isLoggedIn = isLoggedIn)
     );
     subscribe(

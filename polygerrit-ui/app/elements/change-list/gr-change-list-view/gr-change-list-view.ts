@@ -32,6 +32,7 @@ import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
 import {createChangeUrl} from '../../../models/views/change';
 import {debounce, DelayedTask} from '../../../utils/async-util';
+import {userModelToken} from '../../../models/user/user-model';
 
 const GET_CHANGES_DEBOUNCE_INTERVAL_MS = 10;
 
@@ -111,7 +112,7 @@ export class GrChangeListView extends LitElement {
 
   private reporting = getAppContext().reportingService;
 
-  private userModel = getAppContext().userModel;
+  private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly getViewModel = resolve(this, searchViewModelToken);
 
@@ -129,17 +130,17 @@ export class GrChangeListView extends LitElement {
     );
     subscribe(
       this,
-      () => this.userModel.account$,
+      () => this.getUserModel().account$,
       x => (this.account = x)
     );
     subscribe(
       this,
-      () => this.userModel.loggedIn$,
+      () => this.getUserModel().loggedIn$,
       x => (this.loggedIn = x)
     );
     subscribe(
       this,
-      () => this.userModel.preferences$,
+      () => this.getUserModel().preferences$,
       x => {
         this.preferences = x;
         if (this.changesPerPage !== x.changes_per_page) {

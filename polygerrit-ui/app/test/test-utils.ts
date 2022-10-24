@@ -109,10 +109,6 @@ export function spyRestApi<K extends keyof RestApiService>(method: K) {
   return sinon.spy(getAppContext().restApiService, method);
 }
 
-export function stubUsers<K extends keyof UserModel>(method: K) {
-  return sinon.stub(getAppContext().userModel, method);
-}
-
 export function stubHighlightService<K extends keyof HighlightService>(
   method: K
 ) {

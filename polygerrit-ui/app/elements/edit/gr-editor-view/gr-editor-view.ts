@@ -33,6 +33,7 @@ import {changeModelToken} from '../../../models/change/change-model';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {editViewModelToken, EditViewState} from '../../../models/views/edit';
 import {createChangeUrl} from '../../../models/views/change';
+import {userModelToken} from '../../../models/user/user-model';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const SAVING_MESSAGE = 'Saving changes...';
@@ -89,7 +90,7 @@ export class GrEditorView extends LitElement {
 
   private readonly reporting = getAppContext().reportingService;
 
-  private readonly userModel = getAppContext().userModel;
+  private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
@@ -109,7 +110,7 @@ export class GrEditorView extends LitElement {
     });
     subscribe(
       this,
-      () => this.userModel.editPreferences$,
+      () => this.getUserModel().editPreferences$,
       editPreferences => (this.editPrefs = editPreferences)
     );
     subscribe(

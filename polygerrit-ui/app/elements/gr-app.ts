@@ -65,9 +65,11 @@ export class GrApp extends LitElement {
       this.finalizables.push(service);
       provide(this, token, () => service);
     }
+    // TODO(milutin): Move inside app dependencies.
     if (!this.serviceWorkerInstaller) {
       this.serviceWorkerInstaller = new ServiceWorkerInstaller(
         appContext.flagsService,
+        appContext.reportingService,
         appContext.userModel
       );
     }

@@ -9,7 +9,6 @@ import {GrDiffModeSelector} from './gr-diff-mode-selector';
 import {DiffViewMode} from '../../../constants/constants';
 import {
   queryAndAssert,
-  stubUsers,
   waitUntilObserved,
 } from '../../../test/test-utils';
 import {fixture, html, assert} from '@open-wc/testing';
@@ -18,10 +17,10 @@ import {
   BrowserModel,
   browserModelToken,
 } from '../../../models/browser/browser-model';
-import {getAppContext} from '../../../services/app-context';
-import {UserModel} from '../../../models/user/user-model';
+import {UserModel, userModelToken} from '../../../models/user/user-model';
 import {createPreferences} from '../../../test/test-data-generators';
 import {GrButton} from '../../../elements/shared/gr-button/gr-button';
+import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-diff-mode-selector tests', () => {
   let element: GrDiffModeSelector;
@@ -29,7 +28,7 @@ suite('gr-diff-mode-selector tests', () => {
   let userModel: UserModel;
 
   setup(async () => {
-    userModel = getAppContext().userModel;
+    userModel = testResolver(userModelToken);
     browserModel = new BrowserModel(userModel);
     element = (
       await fixture(
@@ -129,7 +128,7 @@ suite('gr-diff-mode-selector tests', () => {
 
   test('set mode', async () => {
     browserModel.setScreenWidth(0);
-    const saveStub = stubUsers('updatePreferences');
+    const saveStub = sinon.stub(userModel, 'updatePreferences');
 
     // Setting the mode initially does not save prefs.
     element.saveOnChange = true;

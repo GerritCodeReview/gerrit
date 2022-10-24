@@ -24,7 +24,10 @@ import {
   waitUntil,
 } from '../../../test/test-utils';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api';
-import {GerritView} from '../../../services/router/router-model';
+import {
+  GerritView,
+  routerModelToken,
+} from '../../../services/router/router-model';
 import {
   createRevisions,
   createComment as createCommentGeneric,
@@ -1569,7 +1572,7 @@ suite('gr-diff-view tests', () => {
           loadingStatus: LoadingStatus.LOADED,
         });
 
-        element.routerModel.setState({
+        testResolver(routerModelToken).setState({
           changeNum: TEST_NUMERIC_CHANGE_ID,
           view: GerritView.DIFF,
           patchNum: 2 as RevisionPatchSetNum,
@@ -1611,7 +1614,7 @@ suite('gr-diff-view tests', () => {
         loadingStatus: LoadingStatus.LOADED,
       });
 
-      element.routerModel.setState({
+      testResolver(routerModelToken).setState({
         changeNum: TEST_NUMERIC_CHANGE_ID,
         view: GerritView.DIFF,
         patchNum: 22 as RevisionPatchSetNum,
@@ -1642,7 +1645,7 @@ suite('gr-diff-view tests', () => {
 
       userModel.setDiffPreferences(createDefaultDiffPrefs());
 
-      element.routerModel.setState({
+      testResolver(routerModelToken).setState({
         changeNum: TEST_NUMERIC_CHANGE_ID,
         view: GerritView.DIFF,
         patchNum: 2 as RevisionPatchSetNum,

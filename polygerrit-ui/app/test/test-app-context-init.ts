@@ -15,7 +15,6 @@ import {GrAuthMock} from '../services/gr-auth/gr-auth_mock';
 import {FlagsServiceImplementation} from '../services/flags/flags_impl';
 import {EventEmitter} from '../services/gr-event-interface/gr-event-interface_impl';
 import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
-import {RouterModel} from '../services/router/router-model';
 import {PluginsModel} from '../models/plugins/plugins-model';
 import {MockHighlightService} from '../services/highlight/highlight-service-mock';
 import {AccountsModel} from '../models/accounts-model/accounts-model';
@@ -26,7 +25,6 @@ import {DependencyToken} from '../models/dependency';
 
 export function createTestAppContext(): AppContext & Finalizable {
   const appRegistry: Registry<AppContext> = {
-    routerModel: (_ctx: Partial<AppContext>) => new RouterModel(),
     flagsService: (_ctx: Partial<AppContext>) =>
       new FlagsServiceImplementation(),
     reportingService: (_ctx: Partial<AppContext>) => grReportingMock,

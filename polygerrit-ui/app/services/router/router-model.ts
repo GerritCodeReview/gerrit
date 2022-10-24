@@ -11,6 +11,7 @@ import {
 } from '../../types/common';
 import {Model} from '../../models/model';
 import {select} from '../../utils/observable-util';
+import {define} from '../../models/dependency';
 
 export enum GerritView {
   ADMIN = 'admin',
@@ -35,6 +36,7 @@ export interface RouterState {
   basePatchNum?: BasePatchSetNum;
 }
 
+export const routerModelToken = define<RouterModel>('router-model');
 export class RouterModel extends Model<RouterState> {
   readonly routerView$: Observable<GerritView | undefined> = select(
     this.state$,

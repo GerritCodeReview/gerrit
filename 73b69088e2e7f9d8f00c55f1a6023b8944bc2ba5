@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69ac1d46_84ae47ae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-10-24T10:36:19Z",
+      "side": 1,
+      "message": "modulo the test failure for addpatchset permission.",
+      "revId": "73b69088e2e7f9d8f00c55f1a6023b8944bc2ba5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

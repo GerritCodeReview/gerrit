@@ -53,6 +53,8 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {GrAnnotationActionsInterface} from '../../shared/gr-js-api-interface/gr-annotation-actions-js-api';
 import {fixture, html, assert} from '@open-wc/testing';
 import {EventType} from '../../../types/events';
+import {testResolver} from '../../../test/common-test-setup';
+import {userModelToken} from '../../../models/user/user-model';
 
 suite('gr-diff-host tests', () => {
   let element: GrDiffHost;
@@ -591,7 +593,7 @@ suite('gr-diff-host tests', () => {
   });
 
   test('cannot create comments when not logged in', () => {
-    element.userModel.setAccount(undefined);
+    testResolver(userModelToken).setAccount(undefined);
     element.patchRange = createPatchRange();
     const showAuthRequireSpy = sinon.spy();
     element.addEventListener('show-auth-required', showAuthRequireSpy);

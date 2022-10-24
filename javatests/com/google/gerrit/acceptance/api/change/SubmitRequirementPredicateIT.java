@@ -198,6 +198,18 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
         "distinctvoters:\"[Code-Review,Custom-Label,Custom-Label2],value=1,count>2\"", c1);
   }
 
+  @Test
+  public void hasSubmoduleUpdates_againstParent1_withSubmoduleChangeInParent2_matches() {}
+
+  @Test
+  public void hasSubmoduleUpdates_againstParent2_withSubmoduleChangeInParent1_matches() {}
+
+  @Test
+  public void hasSubmoduleUpdates_againstDefaultParent_withSubmoduleChange_matches() {}
+
+  @Test
+  public void hasSubmoduleUpdates_withoutSubmoduleChange_doesNotMatch() {}
+
   private void assertMatching(String requirement, Change.Id change) {
     assertThat(evaluate(requirement, change).status())
         .isEqualTo(SubmitRequirementExpressionResult.Status.PASS);

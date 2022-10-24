@@ -16,7 +16,7 @@ import {FilesModel, filesModelToken} from '../models/change/files-model';
 import {ChecksModel, checksModelToken} from '../models/checks/checks-model';
 import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
 import {GrStorageService} from './storage/gr-storage_impl';
-import {UserModel} from '../models/user/user-model';
+import {UserModel, userModelToken} from '../models/user/user-model';
 import {
   CommentsModel,
   commentsModelToken,
@@ -90,10 +90,6 @@ export function createAppContext(): AppContext & Finalizable {
       return new GrJsApiInterface(reportingService);
     },
     storageService: (_ctx: Partial<AppContext>) => new GrStorageService(),
-    userModel: (ctx: Partial<AppContext>) => {
-      assertIsDefined(ctx.restApiService, 'restApiService');
-      return new UserModel(ctx.restApiService);
-    },
     accountsModel: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.restApiService, 'restApiService');
       return new AccountsModel(ctx.restApiService);
@@ -118,7 +114,9 @@ export function createAppDependencies(
   resolver: <T>(token: DependencyToken<T>) => T
 ): Map<DependencyToken<unknown>, Creator<unknown>> {
   const dependencies = new Map<DependencyToken<unknown>, Creator<unknown>>();
-  const browserModelCreator = () => new BrowserModel(appContext.userModel);
+  const userModelCreator = () => new UserModel(appContext.restApiService);
+  dependencies.set(userModelToken, userModelCreator);
+  const browserModelCreator = () => new BrowserModel(resolver(userModelToken));
   dependencies.set(browserModelToken, browserModelCreator);
 
   const adminViewModelCreator = () => new AdminViewModel();
@@ -142,8 +140,10 @@ export function createAppDependencies(
   const repoViewModelCreator = () => new RepoViewModel();
   dependencies.set(repoViewModelToken, repoViewModelCreator);
   const searchViewModelCreator = () =>
-    new SearchViewModel(appContext.restApiService, appContext.userModel, () =>
-      resolver(navigationToken)
+    new SearchViewModel(
+      appContext.restApiService,
+      resolver(userModelToken),
+      () => resolver(navigationToken)
     );
   dependencies.set(searchViewModelToken, searchViewModelCreator);
   const settingsViewModelCreator = () => new SettingsViewModel();
@@ -174,7 +174,7 @@ export function createAppDependencies(
     new ChangeModel(
       appContext.routerModel,
       appContext.restApiService,
-      appContext.userModel
+      resolver(userModelToken)
     );
   dependencies.set(changeModelToken, changeModelCreator);
 
@@ -212,7 +212,7 @@ export function createAppDependencies(
   dependencies.set(checksModelToken, checksModelCreator);
 
   const shortcutServiceCreator = () =>
-    new ShortcutsService(appContext.userModel, appContext.reportingService);
+    new ShortcutsService(resolver(userModelToken), appContext.reportingService);
   dependencies.set(shortcutsServiceToken, shortcutServiceCreator);
 
   return dependencies;

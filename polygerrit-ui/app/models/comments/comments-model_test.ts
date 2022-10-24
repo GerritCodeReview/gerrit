@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import '../../test/common-test-setup-karma';
-import {createDraft} from '../../test/test-data-generators';
+import {createDraft, TEST_PROJECT_NAME} from '../../test/test-data-generators';
 import {UrlEncodedCommentId} from '../../types/common';
 import './comments-model';
 import {CommentsModel} from './comments-model';
@@ -102,6 +102,7 @@ suite('change service tests', () => {
 
     model.routerModel.updateState({
       view: GerritView.CHANGE,
+      repo: TEST_PROJECT_NAME,
       changeNum: TEST_NUMERIC_CHANGE_ID,
     });
     model.changeModel.updateStateChange(createParsedChange());

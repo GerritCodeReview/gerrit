@@ -205,13 +205,23 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
   ) {
     super(initialState);
     this.subscriptions = [
-      combineLatest([this.routerModel.routerChangeNum$, this.reload$])
+      combineLatest([
+        this.routerModel.routerRepo$,
+        this.routerModel.routerChangeNum$,
+        this.reload$,
+      ])
         .pipe(
-          map(([changeNum, _]) => changeNum),
-          switchMap(changeNum => {
-            if (changeNum !== undefined) this.updateStateLoading(changeNum);
-            const change = from(this.restApiService.getChangeDetail(changeNum));
-            const edit = from(this.restApiService.getChangeEdit(changeNum));
+          switchMap(([repo, repoChangeNum, _]) => {
+            if (repoChangeNum !== undefined && repo !== undefined)
+              this.updateStateLoading(repoChangeNum);
+
+            if (repoChangeNum !== undefined && repo !== undefined) {
+              this.restApiService.setInProjectLookup(repoChangeNum, repo);
+            }
+            const change = from(
+              this.restApiService.getChangeDetail(repoChangeNum)
+            );
+            const edit = from(this.restApiService.getChangeEdit(repoChangeNum));
             return forkJoin([change, edit]);
           }),
           withLatestFrom(this.routerModel.routerPatchNum$),

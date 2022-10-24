@@ -20,6 +20,7 @@ import {distinctUntilChanged, map} from 'rxjs/operators';
 import {Finalizable} from '../registry';
 import {NumericChangeId, PatchSetNum} from '../../types/common';
 import {Model} from '../../models/model';
+import {RepoName} from '../../api/rest-api';
 
 export enum GerritView {
   ADMIN = 'admin',
@@ -39,12 +40,15 @@ export enum GerritView {
 
 export interface RouterState {
   view?: GerritView;
+  repo?: RepoName;
   changeNum?: NumericChangeId;
   patchNum?: PatchSetNum;
 }
 
 export class RouterModel extends Model<RouterState> implements Finalizable {
   readonly routerView$: Observable<GerritView | undefined>;
+
+  readonly routerRepo$: Observable<RepoName | undefined>;
 
   readonly routerChangeNum$: Observable<NumericChangeId | undefined>;
 
@@ -54,6 +58,10 @@ export class RouterModel extends Model<RouterState> implements Finalizable {
     super({});
     this.routerView$ = this.state$.pipe(
       map(state => state.view),
+      distinctUntilChanged()
+    );
+    this.routerRepo$ = this.state$.pipe(
+      map(state => state.repo),
       distinctUntilChanged()
     );
     this.routerChangeNum$ = this.state$.pipe(

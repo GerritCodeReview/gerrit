@@ -47,6 +47,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd6e5630_02c20d7a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1152372
+      },
+      "writtenOn": "2022-10-24T20:13:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42e11e98_b1607959",
+      "range": {
+        "startLine": 15,
+        "startChar": 38,
+        "endLine": 15,
+        "endChar": 44
+      },
+      "revId": "a7a01198f4103ee0875b5b1c28c45aa40272fece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e46644f8_c3c64ae5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1152372
+      },
+      "writtenOn": "2022-10-24T20:13:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d85c606_8350ed32",
+      "range": {
+        "startLine": 15,
+        "startChar": 24,
+        "endLine": 15,
+        "endChar": 25
+      },
+      "revId": "a7a01198f4103ee0875b5b1c28c45aa40272fece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b4980238_f05e6595",
@@ -70,6 +118,47 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac421a61_20fb11d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1152372
+      },
+      "writtenOn": "2022-10-24T20:13:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4980238_f05e6595",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 6
+      },
+      "revId": "a7a01198f4103ee0875b5b1c28c45aa40272fece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86020ad1_b58104e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1152372
+      },
+      "writtenOn": "2022-10-24T20:13:35Z",
+      "side": 1,
+      "message": "Thanks for the additional reviews!",
+      "revId": "a7a01198f4103ee0875b5b1c28c45aa40272fece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9fd3bb4b_de0e7262",
@@ -83,6 +172,30 @@
       "writtenOn": "2022-10-24T08:18:18Z",
       "side": 1,
       "message": "unset",
+      "range": {
+        "startLine": 2939,
+        "startChar": 48,
+        "endLine": 2939,
+        "endChar": 57
+      },
+      "revId": "a7a01198f4103ee0875b5b1c28c45aa40272fece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3505c263_90c613e2",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2939,
+      "author": {
+        "id": 1152372
+      },
+      "writtenOn": "2022-10-24T20:13:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9fd3bb4b_de0e7262",
       "range": {
         "startLine": 2939,
         "startChar": 48,
@@ -116,6 +229,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e5e2b3d_05041f98",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2940,
+      "author": {
+        "id": 1152372
+      },
+      "writtenOn": "2022-10-24T20:13:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "432d0df1_5bf6aaa5",
+      "range": {
+        "startLine": 2940,
+        "startChar": 13,
+        "endLine": 2940,
+        "endChar": 14
+      },
+      "revId": "a7a01198f4103ee0875b5b1c28c45aa40272fece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "909fe16a_2921fd36",
@@ -129,6 +266,30 @@
       "writtenOn": "2022-10-24T08:18:18Z",
       "side": 1,
       "message": "@see org.eclipse.jgit.lib.FileMode",
+      "range": {
+        "startLine": 97,
+        "startChar": 96,
+        "endLine": 97,
+        "endChar": 97
+      },
+      "revId": "a7a01198f4103ee0875b5b1c28c45aa40272fece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3ddb1f2_7612dd16",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/TestChangeCreation.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1152372
+      },
+      "writtenOn": "2022-10-24T20:13:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "909fe16a_2921fd36",
       "range": {
         "startLine": 97,
         "startChar": 96,
@@ -162,6 +323,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "575a0620_b339e6be",
+        "filename": "java/com/google/gerrit/server/edit/tree/ChangeFileContentModification.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1152372
+      },
+      "writtenOn": "2022-10-24T20:13:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efd67556_566ff54f",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 19
+      },
+      "revId": "a7a01198f4103ee0875b5b1c28c45aa40272fece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0cdb4144_b9938f9e",
@@ -185,6 +370,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "66e5e154_f8389af9",
+        "filename": "java/com/google/gerrit/server/edit/tree/ChangeFileContentModification.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1152372
+      },
+      "writtenOn": "2022-10-24T20:13:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cdb4144_b9938f9e",
+      "range": {
+        "startLine": 107,
+        "startChar": 45,
+        "endLine": 107,
+        "endChar": 83
+      },
+      "revId": "a7a01198f4103ee0875b5b1c28c45aa40272fece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b17f638_ba3b50b5",
@@ -198,6 +407,30 @@
       "writtenOn": "2022-10-24T08:18:18Z",
       "side": 1,
       "message": "this is a wholesale catch for ISEs and they might have other reasons that aren\u0027t a wrong file mode.\n\nplease do a separate check before l.344 to see if the provided file modes are valid and if not, throw a BadRequestException.",
+      "range": {
+        "startLine": 348,
+        "startChar": 1,
+        "endLine": 350,
+        "endChar": 85
+      },
+      "revId": "a7a01198f4103ee0875b5b1c28c45aa40272fece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfbfc2e9_11a952fb",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1152372
+      },
+      "writtenOn": "2022-10-24T20:13:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b17f638_ba3b50b5",
       "range": {
         "startLine": 348,
         "startChar": 1,

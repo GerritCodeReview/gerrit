@@ -285,11 +285,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   // The value is set in created, before any other actions
   private readonly _restApiHelper: GrRestApiHelper;
 
-  constructor(
-    private readonly authService: AuthService,
-    // @ts-ignore: it's ok.
-    private readonly _flagsService: FlagsService
-  ) {
+  constructor(private readonly authService: AuthService) {
     this._restApiHelper = new GrRestApiHelper(
       this._cache,
       this.authService,

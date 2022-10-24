@@ -102,7 +102,11 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html, nothing} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
-import {assertIsDefined, queryAll} from '../../../utils/common-util';
+import {
+  assertIsDefined,
+  queryAll,
+  queryAndAssert,
+} from '../../../utils/common-util';
 import {Interaction} from '../../../constants/reporting';
 import {rootUrl} from '../../../utils/url-util';
 import {createSearchUrl} from '../../../models/views/search';
@@ -669,7 +673,7 @@ export class GrChangeActions
           <span id="moreMessage">More</span>
         </gr-dropdown>
       </div>
-      <gr-overlay id="overlay" with-backdrop="">
+      <dialog id="rebase-modal">
         <gr-confirm-rebase-dialog
           id="confirmRebase"
           class="confirmDialog"
@@ -682,6 +686,9 @@ export class GrChangeActions
             ? !!this.revisionRebaseAction.enabled
             : null}
         ></gr-confirm-rebase-dialog>
+      </dialog>
+
+      <gr-overlay id="overlay" with-backdrop="">
         <gr-confirm-cherrypick-dialog
           id="confirmCherrypick"
           class="confirmDialog"
@@ -1507,7 +1514,7 @@ export class GrChangeActions
     switch (key) {
       case RevisionActions.REBASE:
         assertIsDefined(this.confirmRebase, 'confirmRebase');
-        this.showActionDialog(this.confirmRebase);
+        queryAndAssert<HTMLDialogElement>(this, '#rebase-modal').showModal();
         this.confirmRebase.fetchRecentChanges();
         break;
       case RevisionActions.CHERRYPICK:
@@ -1567,6 +1574,7 @@ export class GrChangeActions
     }
     assertIsDefined(this.overlay, 'overlay');
     this.overlay.close();
+    queryAndAssert<HTMLDialogElement>(this, '#rebase-modal').close();
   }
 
   // private but used in test

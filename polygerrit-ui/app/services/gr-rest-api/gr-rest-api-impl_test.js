@@ -63,8 +63,7 @@ suite('gr-rest-api-service-impl tests', () => {
         .stub(getAppContext().authService, 'authCheck')
         .returns(Promise.resolve(true));
     element = new GrRestApiServiceImpl(
-        getAppContext().authService,
-        getAppContext().flagsService
+        getAppContext().authService
     );
     element._projectLookup = {};
   });

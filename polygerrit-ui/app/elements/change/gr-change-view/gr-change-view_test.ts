@@ -32,6 +32,7 @@ import {
   waitEventLoop,
   waitQueryAndAssert,
   waitUntil,
+  waitUntilCalled,
 } from '../../../test/test-utils';
 import {
   createChangeViewState,
@@ -1691,8 +1692,8 @@ suite('gr-change-view tests', () => {
     });
 
     await element.loadData(true);
+    await waitUntilCalled(reloadStub, 'relatedChanges.reload');
     assert.isFalse(setUrlStub.called);
-    assert.isTrue(reloadStub.called);
   });
 
   test('computeCopyTextForTitle', () => {

@@ -33,31 +33,6 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
 
   finalize() {}
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  handleEvent(type: EventType, detail: any) {
-    getPluginLoader()
-      .awaitPluginsLoaded()
-      .then(() => {
-        switch (type) {
-          case EventType.SHOW_CHANGE:
-            this._handleShowChange(detail);
-            break;
-          case EventType.LABEL_CHANGE:
-            this._handleLabelChange(detail);
-            break;
-          case EventType.SHOW_REVISION_ACTIONS:
-            this._handleShowRevisionActions(detail);
-            break;
-          default:
-            console.warn(
-              'handleEvent called with unsupported event type:',
-              type
-            );
-            break;
-        }
-      });
-  }
-
   addElement(key: TargetElement, el: HTMLElement) {
     elements[key] = el;
   }
@@ -98,7 +73,8 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
     }
   }
 
-  _handleShowChange(detail: ShowChangeDetail) {
+  async handleShowChange(detail: ShowChangeDetail) {
+    await getPluginLoader().awaitPluginsLoaded();
     // Note (issue 8221) Shallow clone the change object and add a mergeable
     // getter with deprecation warning. This makes the change detail appear as
     // though SKIP_MERGEABLE was not set, so that plugins that expect it can
@@ -143,7 +119,8 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
     }
   }
 
-  _handleShowRevisionActions(detail: ShowRevisionActionsDetail) {
+  async handleShowRevisionActions(detail: ShowRevisionActionsDetail) {
+    await getPluginLoader().awaitPluginsLoaded();
     const registeredCallbacks = this._getEventCallbacks(
       EventType.SHOW_REVISION_ACTIONS
     );
@@ -174,7 +151,8 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
     }
   }
 
-  _handleLabelChange(detail: {change: ChangeInfo}) {
+  async handleLabelChange(detail: {change?: ParsedChangeInfo}) {
+    await getPluginLoader().awaitPluginsLoaded();
     for (const cb of this._getEventCallbacks(EventType.LABEL_CHANGE)) {
       try {
         cb(detail.change);

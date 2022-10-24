@@ -17,14 +17,14 @@ import {GrAnnotationActionsInterface} from './gr-annotation-actions-js-api';
 import {MenuLink} from '../../../api/admin';
 
 export interface ShowChangeDetail {
-  change: ChangeInfo;
-  patchNum: PatchSetNum;
-  info: {mergeable: boolean};
+  change?: ParsedChangeInfo;
+  patchNum?: PatchSetNum;
+  info: {mergeable: boolean | null};
 }
 
 export interface ShowRevisionActionsDetail {
   change: ChangeInfo;
-  revisionActions: {[key: string]: ActionInfo};
+  revisionActions: {[key: string]: ActionInfo | undefined};
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -38,8 +38,9 @@ export interface JsApiService extends Finalizable {
     revertSubmissionMsg: string,
     origMsg: string
   ): string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  handleEvent(eventName: EventType, detail: any): void;
+  handleShowChange(detail: ShowChangeDetail): void;
+  handleShowRevisionActions(detail: ShowRevisionActionsDetail): void;
+  handleLabelChange(detail: {change?: ParsedChangeInfo}): void;
   modifyRevertMsg(
     change: ChangeInfo,
     revertMsg: string,

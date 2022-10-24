@@ -69,9 +69,6 @@ export function createDiffAppContext(): AppContext & Finalizable {
     pluginsModel: (_ctx: Partial<AppContext>) => {
       throw new Error('pluginsModel is not implemented');
     },
-    highlightService: (_ctx: Partial<AppContext>) => {
-      throw new Error('highlightService is not implemented');
-    },
   };
   return create<AppContext>(appRegistry);
 }

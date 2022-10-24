@@ -32,6 +32,8 @@ import {html} from 'lit';
 import {fixture, assert} from '@open-wc/testing';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {PaperToggleButtonElement} from '@polymer/paper-toggle-button';
+import {testResolver} from '../../../test/common-test-setup';
+import {commentsModelToken} from '../../../models/comments/comments-model';
 
 const author = {
   _account_id: 42 as AccountId,
@@ -136,7 +138,9 @@ suite('gr-messages-list tests', () => {
       element = await fixture<GrMessagesList>(
         html`<gr-messages-list></gr-messages-list>`
       );
-      await element.getCommentsModel().reloadComments(0 as NumericChangeId);
+      await testResolver(commentsModelToken).reloadComments(
+        0 as NumericChangeId
+      );
       element.messages = messages;
       await element.updateComplete;
     });

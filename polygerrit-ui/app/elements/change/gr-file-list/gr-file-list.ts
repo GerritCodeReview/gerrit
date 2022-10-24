@@ -76,6 +76,7 @@ import {HtmlPatched} from '../../../utils/lit-util';
 import {createDiffUrl} from '../../../models/views/diff';
 import {createEditUrl} from '../../../models/views/edit';
 import {createChangeUrl} from '../../../models/views/change';
+import {userModelToken} from '../../../models/user/user-model';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -285,7 +286,7 @@ export class GrFileList extends LitElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
-  private readonly userModel = getAppContext().userModel;
+  private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
@@ -766,7 +767,7 @@ export class GrFileList extends LitElement {
     );
     subscribe(
       this,
-      () => this.userModel.diffPreferences$,
+      () => this.getUserModel().diffPreferences$,
       diffPreferences => {
         this.diffPrefs = diffPreferences;
       }
@@ -775,7 +776,7 @@ export class GrFileList extends LitElement {
       this,
       () =>
         select(
-          this.userModel.preferences$,
+          this.getUserModel().preferences$,
           prefs => !!prefs?.size_bar_in_change_table
         ),
       sizeBarInChangeTable => {
@@ -784,7 +785,7 @@ export class GrFileList extends LitElement {
     );
     subscribe(
       this,
-      () => this.userModel.loggedIn$,
+      () => this.getUserModel().loggedIn$,
       loggedIn => {
         this.loggedIn = loggedIn;
       }
@@ -2595,7 +2596,7 @@ export class GrFileList extends LitElement {
   }
 
   private handleReloadingDiffPreference() {
-    this.userModel.getDiffPreferences();
+    this.getUserModel().getDiffPreferences();
   }
 
   private getOldPath(file: NormalizedFileInfo) {

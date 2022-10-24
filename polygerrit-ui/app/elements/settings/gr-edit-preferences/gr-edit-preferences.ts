@@ -15,6 +15,8 @@ import {LitElement, html, css} from 'lit';
 import {customElement, query, state} from 'lit/decorators.js';
 import {convertToString} from '../../../utils/string-util';
 import {subscribe} from '../../lit/subscription-controller';
+import {resolve} from '../../../models/dependency';
+import {userModelToken} from '../../../models/user/user-model';
 
 @customElement('gr-edit-preferences')
 export class GrEditPreferences extends LitElement {
@@ -46,13 +48,13 @@ export class GrEditPreferences extends LitElement {
 
   @state() private originalEditPrefs?: EditPreferencesInfo;
 
-  private readonly userModel = getAppContext().userModel;
+  private readonly getUserModel = resolve(this, userModelToken);
 
   constructor() {
     super();
     subscribe(
       this,
-      () => this.userModel.editPreferences$,
+      () => this.getUserModel().editPreferences$,
       editPreferences => {
         this.originalEditPrefs = editPreferences;
         this.editPrefs = {...editPreferences};
@@ -307,7 +309,7 @@ export class GrEditPreferences extends LitElement {
 
   async save() {
     if (!this.editPrefs) return;
-    await this.userModel.updateEditPreference(this.editPrefs);
+    await this.getUserModel().updateEditPreference(this.editPrefs);
   }
 }
 

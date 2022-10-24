@@ -5,8 +5,14 @@
  */
 import {assert} from '@open-wc/testing';
 import {DiffInfo, GrDiffLineType, Side} from '../../../api/diff';
+import {getAppContext} from '../../../services/app-context';
+import {
+  HighlightService,
+  highlightServiceToken,
+} from '../../../services/highlight/highlight-service';
 import '../../../test/common-test-setup';
-import {mockPromise, stubHighlightService} from '../../../test/test-utils';
+import {testResolver} from '../../../test/common-test-setup';
+import {mockPromise} from '../../../test/test-utils';
 import {SyntaxLayerLine} from '../../../types/syntax-worker-api';
 import {GrDiffLine} from '../gr-diff/gr-diff-line';
 import {GrSyntaxLayerWorker} from './gr-syntax-layer-worker';
@@ -62,6 +68,7 @@ const rightRanges: SyntaxLayerLine[] = [
 suite('gr-syntax-layer-worker tests', () => {
   let layer: GrSyntaxLayerWorker;
   let listener: sinon.SinonStub;
+  let highlightService: HighlightService;
 
   const annotate = (side: Side, lineNumber: number, text: string) => {
     const el = document.createElement('div');
@@ -76,7 +83,11 @@ suite('gr-syntax-layer-worker tests', () => {
   };
 
   setup(() => {
-    layer = new GrSyntaxLayerWorker();
+    highlightService = testResolver(highlightServiceToken);
+    layer = new GrSyntaxLayerWorker(
+      () => highlightService,
+      () => getAppContext().reportingService
+    );
   });
 
   test('cancel processing', async () => {
@@ -84,7 +95,7 @@ suite('gr-syntax-layer-worker tests', () => {
     const mockPromise2 = mockPromise<SyntaxLayerLine[]>();
     const mockPromise3 = mockPromise<SyntaxLayerLine[]>();
     const mockPromise4 = mockPromise<SyntaxLayerLine[]>();
-    const stub = stubHighlightService('highlight');
+    const stub = sinon.stub(highlightService, 'highlight');
     stub.onCall(0).returns(mockPromise1);
     stub.onCall(1).returns(mockPromise2);
     stub.onCall(2).returns(mockPromise3);
@@ -116,7 +127,7 @@ suite('gr-syntax-layer-worker tests', () => {
     setup(() => {
       listener = sinon.stub();
       layer.addListener(listener);
-      stubHighlightService('highlight').callsFake((lang?: string) => {
+      sinon.stub(highlightService, 'highlight').callsFake((lang?: string) => {
         if (lang === 'lang-left') return Promise.resolve(leftRanges);
         if (lang === 'lang-right') return Promise.resolve(rightRanges);
         return Promise.resolve([]);

@@ -8,9 +8,11 @@ import {FILE, GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
 import {DiffFileMetaInfo, DiffInfo} from '../../../types/diff';
 import {DiffLayer, DiffLayerListener} from '../../../types/types';
 import {Side} from '../../../constants/constants';
-import {getAppContext} from '../../../services/app-context';
 import {SyntaxLayerLine} from '../../../types/syntax-worker-api';
 import {CancelablePromise, makeCancelable} from '../../../scripts/util';
+import {HighlightService} from '../../../services/highlight/highlight-service';
+import {Provider} from '../../../models/dependency';
+import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 
 const LANGUAGE_MAP = new Map<string, string>([
   ['application/dart', 'dart'],
@@ -162,9 +164,10 @@ export class GrSyntaxLayerWorker implements DiffLayer {
 
   private listeners: DiffLayerListener[] = [];
 
-  private readonly highlightService = getAppContext().highlightService;
-
-  private readonly reportingService = getAppContext().reportingService;
+  constructor(
+    private readonly getHighlightService: Provider<HighlightService>,
+    private readonly getReportingService: Provider<ReportingService>
+  ) {}
 
   setEnabled(enabled: boolean) {
     this.enabled = enabled;
@@ -276,7 +279,7 @@ export class GrSyntaxLayerWorker implements DiffLayer {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       if (!err.isCanceled)
-        this.reportingService.error('Diff Syntax Layer', err as Error);
+        this.getReportingService().error('Diff Syntax Layer', err as Error);
       // One source of "error" can promise cancelation.
       this.leftRanges = [];
       this.rightRanges = [];
@@ -287,7 +290,7 @@ export class GrSyntaxLayerWorker implements DiffLayer {
     language?: string,
     code?: string
   ): CancelablePromise<SyntaxLayerLine[]> {
-    const hlPromise = this.highlightService.highlight(language, code);
+    const hlPromise = this.getHighlightService().highlight(language, code);
     return makeCancelable(hlPromise);
   }
 

@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {Observable, combineLatest} from 'rxjs';
-import {Finalizable} from '../../services/registry';
 import {define} from '../dependency';
 import {DiffViewMode} from '../../api/diff';
 import {UserModel} from '../user/user-model';
@@ -26,7 +25,7 @@ const initialState: BrowserState = {};
 
 export const browserModelToken = define<BrowserModel>('browser-model');
 
-export class BrowserModel extends Model<BrowserState> implements Finalizable {
+export class BrowserModel extends Model<BrowserState> {
   private readonly isScreenTooSmall$ = select(
     this.state$,
     state =>

@@ -28,7 +28,6 @@ import {
 import {deepEqual} from '../../utils/deep-util';
 import {select} from '../../utils/observable-util';
 import {RouterModel} from '../../services/router/router-model';
-import {Finalizable} from '../../services/registry';
 import {define} from '../dependency';
 import {combineLatest, forkJoin, from, Observable, of} from 'rxjs';
 import {fire, fireAlert, fireEvent} from '../../utils/event-util';
@@ -225,7 +224,7 @@ export function deleteDraft(
 }
 
 export const commentsModelToken = define<CommentsModel>('comments-model');
-export class CommentsModel extends Model<CommentState> implements Finalizable {
+export class CommentsModel extends Model<CommentState> {
   public readonly commentsLoading$ = select(
     this.state$,
     commentState =>

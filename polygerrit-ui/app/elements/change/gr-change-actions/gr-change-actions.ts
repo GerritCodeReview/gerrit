@@ -54,7 +54,6 @@ import {
   ReviewInput,
 } from '../../../types/common';
 import {GrConfirmAbandonDialog} from '../gr-confirm-abandon-dialog/gr-confirm-abandon-dialog';
-import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {GrCreateChangeDialog} from '../../admin/gr-create-change-dialog/gr-create-change-dialog';
 import {GrConfirmSubmitDialog} from '../gr-confirm-submit-dialog/gr-confirm-submit-dialog';
@@ -102,13 +101,18 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html, nothing} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
-import {assertIsDefined, queryAll} from '../../../utils/common-util';
+import {
+  assertIsDefined,
+  queryAll,
+  queryAndAssert,
+} from '../../../utils/common-util';
 import {Interaction} from '../../../constants/reporting';
 import {rootUrl} from '../../../utils/url-util';
 import {createSearchUrl} from '../../../models/views/search';
 import {createChangeUrl} from '../../../models/views/change';
 import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
 import {ShowRevisionActionsDetail} from '../../shared/gr-js-api-interface/gr-js-api-types';
+import {whenVisible} from '../../../utils/dom-util';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -352,7 +356,7 @@ export class GrChangeActions
 
   @query('#mainContent') mainContent?: Element;
 
-  @query('#overlay') overlay?: GrOverlay;
+  @query('#actions-modal') actionsModal?: HTMLDialogElement;
 
   @query('#confirmRebase') confirmRebase?: GrConfirmRebaseDialog;
 
@@ -578,6 +582,11 @@ export class GrChangeActions
         gr-button {
           display: block;
         }
+        dialog {
+          padding: 0;
+          border: 1px solid var(--border-color);
+          border-radius: var(--border-radius);
+        }
         #actionLoadingMessage {
           align-items: center;
           color: var(--deemphasized-text-color);
@@ -665,7 +674,7 @@ export class GrChangeActions
           <span id="moreMessage">More</span>
         </gr-dropdown>
       </div>
-      <gr-overlay id="overlay" with-backdrop="">
+      <dialog id="actions-modal" tabindex="-1">
         <gr-confirm-rebase-dialog
           id="confirmRebase"
           class="confirmDialog"
@@ -764,7 +773,7 @@ export class GrChangeActions
             Do you really want to delete the edit?
           </div>
         </gr-dialog>
-      </gr-overlay>
+      </dialog>
     `;
   }
 
@@ -1558,20 +1567,20 @@ export class GrChangeActions
     for (const dialogEl of dialogEls) {
       (dialogEl as HTMLElement).hidden = true;
     }
-    assertIsDefined(this.overlay, 'overlay');
-    this.overlay.close();
+    assertIsDefined(this.actionsModal, 'actionsModal');
+    this.actionsModal.close();
   }
 
   // private but used in test
   handleRebaseConfirm(e: CustomEvent<ConfirmRebaseEventDetail>) {
     assertIsDefined(this.confirmRebase, 'confirmRebase');
-    assertIsDefined(this.overlay, 'overlay');
+    assertIsDefined(this.actionsModal, 'actionsModal');
     const el = this.confirmRebase;
     const payload = {
       base: e.detail.base,
       allow_conflicts: e.detail.allowConflicts,
     };
-    this.overlay.close();
+    this.actionsModal.close();
     el.hidden = true;
     this.fireAction(
       '/rebase',
@@ -1594,7 +1603,7 @@ export class GrChangeActions
 
   private handleCherryPickRestApi(conflicts: boolean) {
     assertIsDefined(this.confirmCherrypick, 'confirmCherrypick');
-    assertIsDefined(this.overlay, 'overlay');
+    assertIsDefined(this.actionsModal, 'actionsModal');
     const el = this.confirmCherrypick;
     if (!el.branch) {
       fireAlert(this, ERR_BRANCH_EMPTY);
@@ -1604,7 +1613,7 @@ export class GrChangeActions
       fireAlert(this, ERR_COMMIT_EMPTY);
       return;
     }
-    this.overlay.close();
+    this.actionsModal.close();
     el.hidden = true;
     this.fireAction(
       '/cherrypick',
@@ -1622,13 +1631,13 @@ export class GrChangeActions
   // private but used in test
   handleMoveConfirm() {
     assertIsDefined(this.confirmMove, 'confirmMove');
-    assertIsDefined(this.overlay, 'overlay');
+    assertIsDefined(this.actionsModal, 'actionsModal');
     const el = this.confirmMove;
     if (!el.branch) {
       fireAlert(this, ERR_BRANCH_EMPTY);
       return;
     }
-    this.overlay.close();
+    this.actionsModal.close();
     el.hidden = true;
     this.fireAction('/move', assertUIActionInfo(this.actions.move), false, {
       destination_branch: el.branch,
@@ -1638,11 +1647,11 @@ export class GrChangeActions
 
   private handleRevertDialogConfirm(e: CustomEvent<ConfirmRevertEventDetail>) {
     assertIsDefined(this.confirmRevertDialog, 'confirmRevertDialog');
-    assertIsDefined(this.overlay, 'overlay');
+    assertIsDefined(this.actionsModal, 'actionsModal');
     const revertType = e.detail.revertType;
     const message = e.detail.message;
     const el = this.confirmRevertDialog;
-    this.overlay.close();
+    this.actionsModal.close();
     el.hidden = true;
     switch (revertType) {
       case RevertType.REVERT_SINGLE_CHANGE:
@@ -1674,9 +1683,9 @@ export class GrChangeActions
   // private but used in test
   handleAbandonDialogConfirm() {
     assertIsDefined(this.confirmAbandonDialog, 'confirmAbandonDialog');
-    assertIsDefined(this.overlay, 'overlay');
+    assertIsDefined(this.actionsModal, 'actionsModal');
     const el = this.confirmAbandonDialog;
-    this.overlay.close();
+    this.actionsModal.close();
     el.hidden = true;
     this.fireAction(
       '/abandon',
@@ -1695,8 +1704,8 @@ export class GrChangeActions
   }
 
   private handleCloseCreateFollowUpChange() {
-    assertIsDefined(this.overlay, 'overlay');
-    this.overlay.close();
+    assertIsDefined(this.actionsModal, 'actionsModal');
+    this.actionsModal.close();
   }
 
   private handleDeleteConfirm() {
@@ -1810,8 +1819,8 @@ export class GrChangeActions
     this.hideAllDialogs();
     if (dialog.init) dialog.init();
     dialog.hidden = false;
-    assertIsDefined(this.overlay, 'overlay');
-    this.overlay.open().then(() => {
+    queryAndAssert<HTMLDialogElement>(this, '#actions-modal').showModal();
+    whenVisible(dialog, () => {
       if (dialog.resetFocus) {
         dialog.resetFocus();
       }

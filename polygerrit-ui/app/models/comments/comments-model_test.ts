@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import '../../test/common-test-setup-karma';
-import {createDraft} from '../../test/test-data-generators';
+import {createDraft, TEST_PROJECT_NAME} from '../../test/test-data-generators';
 import {UrlEncodedCommentId} from '../../types/common';
 import './comments-model';
 import {CommentsModel} from './comments-model';
@@ -93,6 +93,8 @@ suite('change service tests', () => {
     const portedDraftsSpy = stubRestApi('getPortedDrafts').returns(
       Promise.resolve({})
     );
+    const setInProjectLookupSpy = stubRestApi('setInProjectLookup');
+
     let comments: PathToCommentsInfoMap = {};
     subscriptions.push(model.comments$.subscribe(c => (comments = c ?? {})));
     let portedComments: PathToCommentsInfoMap = {};
@@ -102,10 +104,12 @@ suite('change service tests', () => {
 
     model.routerModel.updateState({
       view: GerritView.CHANGE,
+      repo: TEST_PROJECT_NAME,
       changeNum: TEST_NUMERIC_CHANGE_ID,
     });
     model.changeModel.updateStateChange(createParsedChange());
 
+    await waitUntilCalled(setInProjectLookupSpy, 'setInProjectLookupSpy');
     await waitUntilCalled(diffCommentsSpy, 'diffCommentsSpy');
     await waitUntilCalled(diffRobotCommentsSpy, 'diffRobotCommentsSpy');
     await waitUntilCalled(diffDraftsSpy, 'diffDraftsSpy');

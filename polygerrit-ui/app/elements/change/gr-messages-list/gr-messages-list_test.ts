@@ -42,6 +42,7 @@ import {
 } from '../../../types/common';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {assertIsDefined} from '../../../utils/common-util';
+import {RepoName} from '../../../api/rest-api';
 
 createCommentApiMockWithTemplateElement(
   'gr-messages-list-comment-mock-api',
@@ -154,6 +155,8 @@ suite('gr-messages-list tests', () => {
       stubRestApi('getDiffComments').returns(Promise.resolve(comments));
       stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
       stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
+      stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
+      stubRestApi('setInProjectLookup');
 
       messages = generateRandomMessages(3);
       // Element must be wrapped in an element with direct access to the
@@ -163,7 +166,9 @@ suite('gr-messages-list tests', () => {
         commentApiWrapper,
         '#messagesList'
       );
-      await element.getCommentsModel().reloadComments(0 as NumericChangeId);
+      await element
+        .getCommentsModel()
+        .reloadComments('project' as RepoName, 0 as NumericChangeId);
       element.messages = messages;
       await flush();
     });

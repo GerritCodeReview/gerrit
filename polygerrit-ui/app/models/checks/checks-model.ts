@@ -373,11 +373,11 @@ export class ChecksModel extends Model<ChecksState> {
   );
 
   constructor(
-    readonly routerModel: RouterModel,
-    readonly changeViewModel: ChangeViewModel,
-    readonly changeModel: ChangeModel,
-    readonly reporting: ReportingService,
-    readonly pluginsModel: PluginsModel
+    private readonly routerModel: RouterModel,
+    private readonly changeViewModel: ChangeViewModel,
+    private readonly changeModel: ChangeModel,
+    private readonly reporting: ReportingService,
+    private readonly pluginsModel: PluginsModel
   ) {
     super({
       pluginStateLatest: {},

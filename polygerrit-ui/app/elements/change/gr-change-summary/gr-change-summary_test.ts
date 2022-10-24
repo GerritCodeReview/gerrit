@@ -16,11 +16,22 @@ import {
 } from '../../../test/test-data-generators';
 import {stubFlags} from '../../../test/test-utils';
 import {Timestamp} from '../../../api/rest-api';
+import {testResolver} from '../../../test/common-test-setup';
+import {UserModel, userModelToken} from '../../../models/user/user-model';
+import {
+  CommentsModel,
+  commentsModelToken,
+} from '../../../models/comments/comments-model';
 
 suite('gr-change-summary test', () => {
   let element: GrChangeSummary;
+  let commentsModel: CommentsModel;
+  let userModel: UserModel;
+
   setup(async () => {
     element = await fixture(html`<gr-change-summary></gr-change-summary>`);
+    commentsModel = testResolver(commentsModelToken);
+    userModel = testResolver(userModelToken);
   });
 
   test('is defined', () => {
@@ -29,7 +40,7 @@ suite('gr-change-summary test', () => {
   });
 
   test('renders', async () => {
-    element.getCommentsModel().setState({
+    commentsModel.setState({
       drafts: {
         a: [createDraft(), createDraft(), createDraft()],
       },
@@ -112,7 +123,7 @@ suite('gr-change-summary test', () => {
     element = await fixture(html`<gr-change-summary></gr-change-summary>`);
     await element.updateComplete;
 
-    element.getCommentsModel().setState({
+    commentsModel.setState({
       drafts: {
         a: [
           {
@@ -139,7 +150,7 @@ suite('gr-change-summary test', () => {
       },
       discardedDrafts: [],
     });
-    element.userModel.setAccount({
+    userModel.setAccount({
       ...createAccountWithEmail('abc@def.com'),
       registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
     });

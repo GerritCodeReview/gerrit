@@ -63,6 +63,11 @@ import {GrAccountLabel} from '../../shared/gr-account-label/gr-account-label';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {Key, Modifier} from '../../../utils/dom-util';
 import {GrComment} from '../../shared/gr-comment/gr-comment';
+import {testResolver} from '../../../test/common-test-setup';
+import {
+  CommentsModel,
+  commentsModelToken,
+} from '../../../models/comments/comments-model';
 
 function cloneableResponse(status: number, text: string) {
   return {
@@ -88,6 +93,7 @@ suite('gr-reply-dialog tests', () => {
   let element: GrReplyDialog;
   let changeNum: NumericChangeId;
   let patchNum: PatchSetNum;
+  let commentsModel: CommentsModel;
 
   let lastId = 1;
   const makeAccount = function () {
@@ -148,6 +154,7 @@ suite('gr-reply-dialog tests', () => {
     element.draftCommentThreads = [];
 
     await element.updateComplete;
+    commentsModel = testResolver(commentsModelToken);
   });
 
   function stubSaveReview(
@@ -2378,7 +2385,7 @@ suite('gr-reply-dialog tests', () => {
 
     test('replies to patchset level comments are not filtered out', async () => {
       const draft = {...createDraft(), in_reply_to: '1' as UrlEncodedCommentId};
-      element.getCommentsModel().setState({
+      commentsModel.setState({
         drafts: {
           'abc.txt': [draft],
         },
@@ -2414,7 +2421,7 @@ suite('gr-reply-dialog tests', () => {
         ...createDraft(),
         message: 'hey @abcd@def take a look at this',
       };
-      element.getCommentsModel().setState({
+      commentsModel.setState({
         comments: {},
         robotComments: {},
         drafts: {
@@ -2449,7 +2456,7 @@ suite('gr-reply-dialog tests', () => {
         message: 'hey @abcd@def.com take a look at this',
         unresolved: true,
       };
-      element.getCommentsModel().setState({
+      commentsModel.setState({
         comments: {},
         robotComments: {},
         drafts: {
@@ -2489,7 +2496,7 @@ suite('gr-reply-dialog tests', () => {
         message: 'hey @abcd@def.com take a look at this',
         unresolved: true,
       };
-      element.getCommentsModel().setState({
+      commentsModel.setState({
         comments: {},
         robotComments: {},
         drafts: {
@@ -2542,7 +2549,7 @@ suite('gr-reply-dialog tests', () => {
       };
       stubRestApi('getAccountDetails').returns(Promise.resolve(account));
 
-      element.getCommentsModel().setState({
+      commentsModel.setState({
         comments: {},
         robotComments: {},
         drafts: {
@@ -2579,7 +2586,7 @@ suite('gr-reply-dialog tests', () => {
         registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
       };
       stubRestApi('getAccountDetails').returns(Promise.resolve(account));
-      element.getCommentsModel().setState({
+      commentsModel.setState({
         comments: {},
         robotComments: {},
         drafts: {

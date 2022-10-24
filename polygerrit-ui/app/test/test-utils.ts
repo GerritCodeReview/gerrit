@@ -12,7 +12,6 @@ import {SinonSpy, SinonStub} from 'sinon';
 import {StorageService} from '../services/storage/gr-storage';
 import {AuthService} from '../services/gr-auth/gr-auth';
 import {ReportingService} from '../services/gr-reporting/gr-reporting';
-import {UserModel} from '../models/user/user-model';
 import {queryAndAssert, query} from '../utils/common-util';
 import {FlagsService} from '../services/flags/flags';
 import {Key, Modifier, whenVisible} from '../utils/dom-util';
@@ -107,10 +106,6 @@ export function stubRestApi<K extends keyof RestApiService>(method: K) {
 
 export function spyRestApi<K extends keyof RestApiService>(method: K) {
   return sinon.spy(getAppContext().restApiService, method);
-}
-
-export function stubUsers<K extends keyof UserModel>(method: K) {
-  return sinon.stub(getAppContext().userModel, method);
 }
 
 export function stubHighlightService<K extends keyof HighlightService>(

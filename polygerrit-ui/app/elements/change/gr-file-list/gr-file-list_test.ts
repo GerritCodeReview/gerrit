@@ -1551,7 +1551,7 @@ suite('gr-file-list tests', () => {
             assert.equal(callCount++, 0);
             return Promise.resolve();
           },
-        },
+      },
       ] as any;
       element.renderInOrder([{path: 'p2'}], diffs);
       await element.updateComplete;
@@ -1592,7 +1592,7 @@ suite('gr-file-list tests', () => {
       await element.updateComplete;
       assert.isFalse(reviewStub.called);
       delete element.diffPrefs.manual_review;
-      element.renderInOrder([{path: 'p'}], diffs);
+gr=dpwm    element.renderInOrder([{path: 'p'}], diffs);
       await element.updateComplete;
       // Wait for renderInOrder to finish
       await waitEventLoop();

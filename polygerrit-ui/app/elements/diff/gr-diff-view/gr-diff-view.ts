@@ -100,7 +100,6 @@ import {
 import {LoadingStatus} from '../../../models/change/change-model';
 import {DisplayLine} from '../../../api/diff';
 import {GrDownloadDialog} from '../../change/gr-download-dialog/gr-download-dialog';
-import {browserModelToken} from '../../../models/browser/browser-model';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {resolve} from '../../../models/dependency';
@@ -122,6 +121,7 @@ import {
 import {createChangeUrl} from '../../../models/views/change';
 import {createEditUrl} from '../../../models/views/edit';
 import {GeneratedWebLink} from '../../../utils/weblink-util';
+import {userModelToken} from '../../../models/user/user-model';
 
 const LOADING_BLAME = 'Loading blame...';
 const LOADED_BLAME = 'Blame loaded';
@@ -291,17 +291,11 @@ export class GrDiffView extends LitElement {
   // Private but used in tests.
   readonly routerModel = getAppContext().routerModel;
 
-  // Private but used in tests.
-  readonly userModel = getAppContext().userModel;
+  private readonly getUserModel = resolve(this, userModelToken);
 
-  // Private but used in tests.
-  readonly getChangeModel = resolve(this, changeModelToken);
+  private readonly getChangeModel = resolve(this, changeModelToken);
 
-  // Private but used in tests.
-  readonly getBrowserModel = resolve(this, browserModelToken);
-
-  // Private but used in tests.
-  readonly getCommentsModel = resolve(this, commentsModelToken);
+  private readonly getCommentsModel = resolve(this, commentsModelToken);
 
   private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
 
@@ -396,7 +390,7 @@ export class GrDiffView extends LitElement {
   private setupSubscriptions() {
     subscribe(
       this,
-      () => this.userModel.loggedIn$,
+      () => this.getUserModel().loggedIn$,
       loggedIn => {
         this.loggedIn = loggedIn;
       }
@@ -417,14 +411,14 @@ export class GrDiffView extends LitElement {
     );
     subscribe(
       this,
-      () => this.userModel.preferences$,
+      () => this.getUserModel().preferences$,
       preferences => {
         this.userPrefs = preferences;
       }
     );
     subscribe(
       this,
-      () => this.userModel.diffPreferences$,
+      () => this.getUserModel().diffPreferences$,
       diffPreferences => {
         this.prefs = diffPreferences;
       }
@@ -1315,9 +1309,9 @@ export class GrDiffView extends LitElement {
   handleToggleDiffMode() {
     if (!this.userPrefs) return;
     if (this.userPrefs.diff_view === DiffViewMode.SIDE_BY_SIDE) {
-      this.userModel.updatePreferences({diff_view: DiffViewMode.UNIFIED});
+      this.getUserModel().updatePreferences({diff_view: DiffViewMode.UNIFIED});
     } else {
-      this.userModel.updatePreferences({
+      this.getUserModel().updatePreferences({
         diff_view: DiffViewMode.SIDE_BY_SIDE,
       });
     }
@@ -2266,7 +2260,7 @@ export class GrDiffView extends LitElement {
   }
 
   private handleReloadingDiffPreference() {
-    this.userModel.getDiffPreferences();
+    this.getUserModel().getDiffPreferences();
   }
 
   private computeCanEdit() {

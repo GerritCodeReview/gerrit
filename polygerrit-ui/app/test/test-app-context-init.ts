@@ -20,6 +20,7 @@ import {MockHighlightService} from '../services/highlight/highlight-service-mock
 import {createAppDependencies, Creator} from '../services/app-context-init';
 import {navigationToken} from '../elements/core/gr-navigation/gr-navigation';
 import {DependencyToken} from '../models/dependency';
+import { storageServiceToken } from '../services/storage/gr-storage_impl';
 
 export function createTestAppContext(): AppContext & Finalizable {
   const appRegistry: Registry<AppContext> = {
@@ -36,7 +37,6 @@ export function createTestAppContext(): AppContext & Finalizable {
       assertIsDefined(ctx.reportingService, 'reportingService');
       return new GrJsApiInterface(ctx.reportingService);
     },
-    storageService: (_ctx: Partial<AppContext>) => grStorageMock,
     pluginsModel: (_ctx: Partial<AppContext>) => new PluginsModel(),
     highlightService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.reportingService, 'reportingService');
@@ -51,6 +51,7 @@ export function createTestDependencies(
   resolver: <T>(token: DependencyToken<T>) => T
 ): Map<DependencyToken<unknown>, Creator<unknown>> {
   const dependencies = createAppDependencies(appContext, resolver);
+  dependencies.set(storageServiceToken, () => grStorageMock);
   dependencies.set(navigationToken, () => {
     return {
       setUrl: () => {},

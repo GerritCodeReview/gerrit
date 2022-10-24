@@ -13,7 +13,6 @@ import {
   pressKey,
   query,
   stubRestApi,
-  stubStorage,
 } from '../../../test/test-utils';
 import {
   EDIT,
@@ -32,6 +31,8 @@ import {fixture, html, assert} from '@open-wc/testing';
 import {EventType} from '../../../types/events';
 import {Modifier} from '../../../utils/dom-util';
 import {testResolver} from '../../../test/common-test-setup';
+import { storageServiceToken } from '../../../services/storage/gr-storage_impl';
+import { StorageService } from '../../../services/storage/gr-storage';
 
 suite('gr-editor-view tests', () => {
   let element: GrEditorView;
@@ -40,6 +41,7 @@ suite('gr-editor-view tests', () => {
   let saveFileStub: sinon.SinonStub;
   let changeDetailStub: sinon.SinonStub;
   let navigateStub: sinon.SinonStub;
+  let storageService: StorageService;
 
   setup(async () => {
     element = await fixture(html`<gr-editor-view></gr-editor-view>`);
@@ -53,6 +55,7 @@ suite('gr-editor-view tests', () => {
     };
     element.latestPatchsetNumber = 1 as PatchSetNumber;
     await element.updateComplete;
+    storageService = testResolver(storageServiceToken);
   });
 
   test('render', () => {
@@ -178,7 +181,7 @@ suite('gr-editor-view tests', () => {
   });
 
   test('reacts to content-change event', async () => {
-    const storageStub = stubStorage('setEditableContentItem');
+    const storageStub = sinon.stub(storageService, 'setEditableContentItem');
     element.newContent = 'test';
     await element.updateComplete;
     query<GrEndpointDecorator>(element, '#editorEndpoint')!.dispatchEvent(
@@ -219,7 +222,7 @@ suite('gr-editor-view tests', () => {
 
     test('file modification and save, !ok response', async () => {
       const saveSpy = sinon.spy(element, 'saveEdit');
-      const eraseStub = stubStorage('eraseEditableContentItem');
+      const eraseStub = sinon.stub(storageService, 'eraseEditableContentItem');
       const alertStub = sinon.stub(element, 'showAlert');
       saveFileStub.returns(Promise.resolve({ok: false}));
       element.newContent = newText;
@@ -355,7 +358,7 @@ suite('gr-editor-view tests', () => {
       element.newContent = 'initial';
       element.content = 'initial';
       element.type = 'initial';
-      stubStorage('getEditableContentItem').returns(null);
+      sinon.stub(storageService, 'getEditableContentItem').returns(null);
     });
 
     test('res.ok', () => {
@@ -512,7 +515,7 @@ suite('gr-editor-view tests', () => {
 
   suite('gr-storage caching', () => {
     test('local edit exists', () => {
-      stubStorage('getEditableContentItem').returns({
+      sinon.stub(storageService, 'getEditableContentItem').returns({
         message: 'pending edit',
         updated: 0,
       });
@@ -544,7 +547,7 @@ suite('gr-editor-view tests', () => {
     });
 
     test('local edit exists, is same as remote edit', () => {
-      stubStorage('getEditableContentItem').returns({
+      sinon.stub(storageService, 'getEditableContentItem').returns({
         message: 'pending edit',
         updated: 0,
       });

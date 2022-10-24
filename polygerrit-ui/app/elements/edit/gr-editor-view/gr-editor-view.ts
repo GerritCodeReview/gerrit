@@ -34,6 +34,7 @@ import {ShortcutController} from '../../lit/shortcut-controller';
 import {editViewModelToken, EditViewState} from '../../../models/views/edit';
 import {createChangeUrl} from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
+import { storageServiceToken } from '../../../services/storage/gr-storage_impl';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const SAVING_MESSAGE = 'Saving changes...';
@@ -86,10 +87,10 @@ export class GrEditorView extends LitElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
-  private readonly storage = getAppContext().storageService;
-
   private readonly reporting = getAppContext().reportingService;
 
+  private readonly getStorage = resolve(this, storageServiceToken);
+  
   private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly getChangeModel = resolve(this, changeModelToken);
@@ -380,7 +381,7 @@ export class GrEditorView extends LitElement {
     assertIsDefined(patchNum, 'patchset number');
     assertIsDefined(path, 'path');
 
-    const storedContent = this.storage.getEditableContentItem(this.storageKey);
+    const storedContent = this.getStorage().getEditableContentItem(this.storageKey);
 
     return this.restApiService
       .getFileContent(changeNum, path, patchNum)
@@ -419,7 +420,7 @@ export class GrEditorView extends LitElement {
 
     this.saving = true;
     this.showAlert(SAVING_MESSAGE);
-    this.storage.eraseEditableContentItem(this.storageKey);
+    this.getStorage().eraseEditableContentItem(this.storageKey);
     if (!this.newContent)
       return Promise.reject(new Error('new content undefined'));
     return this.restApiService
@@ -500,9 +501,9 @@ export class GrEditorView extends LitElement {
         const content = e.detail.value;
         if (content) {
           this.newContent = e.detail.value;
-          this.storage.setEditableContentItem(this.storageKey, content);
+          this.getStorage().setEditableContentItem(this.storageKey, content);
         } else {
-          this.storage.eraseEditableContentItem(this.storageKey);
+          this.getStorage().eraseEditableContentItem(this.storageKey);
         }
       },
       STORAGE_DEBOUNCE_INTERVAL_MS

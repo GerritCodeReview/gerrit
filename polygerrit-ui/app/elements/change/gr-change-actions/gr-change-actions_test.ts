@@ -22,7 +22,6 @@ import {
   query,
   queryAll,
   queryAndAssert,
-  spyStorage,
   stubReporting,
   stubRestApi,
 } from '../../../test/test-utils';
@@ -60,6 +59,7 @@ import {GrConfirmAbandonDialog} from '../gr-confirm-abandon-dialog/gr-confirm-ab
 import {GrConfirmRevertDialog} from '../gr-confirm-revert-dialog/gr-confirm-revert-dialog';
 import {EventType} from '../../../types/events';
 import {testResolver} from '../../../test/common-test-setup';
+import { storageServiceToken } from '../../../services/storage/gr-storage_impl';
 
 // TODO(dhruvsri): remove use of _populateRevertMessage as it's private
 suite('gr-change-actions tests', () => {
@@ -813,7 +813,7 @@ suite('gr-change-actions tests', () => {
         element.editPatchsetLoaded = true;
         await element.updateComplete;
 
-        const storage = getAppContext().storageService;
+        const storage = testResolver(storageServiceToken);
         storage.setEditableContentItem(
           'c42_ps2_index.php',
           '<?php\necho 42_ps_2'
@@ -836,7 +836,7 @@ suite('gr-change-actions tests', () => {
         assert.isOk(storage.getEditableContentItem('c42_ps2_index.php')!);
         assert.isNotOk(storage.getEditableContentItem('c50_psedit_index.php')!);
 
-        const eraseEditableContentItemsForChangeEditSpy = spyStorage(
+        const eraseEditableContentItemsForChangeEditSpy = sinon.spy(testResolver(storageServiceToken),
           'eraseEditableContentItemsForChangeEdit'
         );
         sinon.stub(element, 'fireAction');

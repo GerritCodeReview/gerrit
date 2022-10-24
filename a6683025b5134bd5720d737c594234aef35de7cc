@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "731f463a_7f911357",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-types.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-10-24T11:55:45Z",
+      "side": 1,
+      "message": "Why is this change needed.",
+      "range": {
+        "startLine": 22,
+        "startChar": 27,
+        "endLine": 22,
+        "endChar": 34
+      },
+      "revId": "a6683025b5134bd5720d737c594234aef35de7cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

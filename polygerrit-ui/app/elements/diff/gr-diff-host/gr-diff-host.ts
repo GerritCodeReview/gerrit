@@ -84,7 +84,10 @@ import {distinctUntilChanged, map} from 'rxjs/operators';
 import {deepEqual} from '../../../utils/deep-util';
 import {Category} from '../../../api/checks';
 import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer-worker';
-import {CODE_MAX_LINES} from '../../../services/highlight/highlight-service';
+import {
+  CODE_MAX_LINES,
+  highlightServiceToken,
+} from '../../../services/highlight/highlight-service';
 import {html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {ValueChangedEvent} from '../../../types/events';
@@ -346,7 +349,10 @@ export class GrDiffHost extends LitElement {
 
   constructor() {
     super();
-    this.syntaxLayer = new GrSyntaxLayerWorker();
+    this.syntaxLayer = new GrSyntaxLayerWorker(
+      resolve(this, highlightServiceToken),
+      () => getAppContext().reportingService
+    );
     this.renderPrefs = {
       ...this.renderPrefs,
       use_lit_components: this.flags.isEnabled(

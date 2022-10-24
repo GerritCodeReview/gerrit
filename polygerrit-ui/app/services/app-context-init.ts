@@ -30,7 +30,7 @@ import {assertIsDefined} from '../utils/common-util';
 import {ConfigModel, configModelToken} from '../models/config/config-model';
 import {BrowserModel, browserModelToken} from '../models/browser/browser-model';
 import {PluginsModel} from '../models/plugins/plugins-model';
-import {HighlightService} from './highlight/highlight-service';
+import {HighlightService, highlightServiceToken} from './highlight/highlight-service';
 import {
   AccountsModel,
   accountsModelToken,
@@ -91,7 +91,7 @@ export function createAppContext(): AppContext & Finalizable {
     pluginsModel: (_ctx: Partial<AppContext>) => new PluginsModel(),
     highlightService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.reportingService, 'reportingService');
-      return new HighlightService(ctx.reportingService);
+      return ;
     },
   };
   return create<AppContext>(appRegistry);
@@ -217,6 +217,9 @@ export function createAppDependencies(
 
   const storageServiceCreator = () => new GrStorageService();
   dependencies.set(storageServiceToken, storageServiceCreator);
+
+  const highlightServiceCreator = () => new HighlightService(appContext.reportingService);
+  dependencies.set(highlightServiceToken, highlightServiceCreator);
 
   return dependencies;
 }

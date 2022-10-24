@@ -24,12 +24,18 @@ setPassiveTouchGestures(true);
 import {initGlobalVariables} from './gr-app-global-var-init';
 import './gr-app-element';
 import {Finalizable} from '../services/registry';
-import {provide} from '../models/dependency';
+import {
+  DependencyError,
+  DependencyToken,
+  provide,
+  Provider,
+} from '../models/dependency';
 import {installPolymerResin} from '../scripts/polymer-resin-install';
 
 import {
   createAppContext,
   createAppDependencies,
+  Creator,
 } from '../services/app-context-init';
 import {
   initVisibilityReporter,
@@ -60,10 +66,41 @@ export class GrApp extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    const dependencies = createAppDependencies(appContext);
-    for (const [token, service] of dependencies) {
-      this.finalizables.push(service);
-      provide(this, token, () => service);
+    const dependencies = new Map<DependencyToken<unknown>, Provider<unknown>>();
+
+    const injectDependency = <T>(
+      token: DependencyToken<T>,
+      creator: Creator<T>
+    ) => {
+      let service: (T & Finalizable) | undefined = undefined;
+      dependencies.set(token, () => {
+        if (service) return service;
+        service = creator();
+        this.finalizables.push(service);
+        return service;
+      });
+    };
+
+    const resolver = <T>(token: DependencyToken<T>): T => {
+      const provider = dependencies.get(token);
+      if (provider) {
+        return provider() as T;
+      } else {
+        throw new DependencyError(
+          token,
+          'Forgot to set up dependency for tests'
+        );
+      }
+    };
+
+    for (const [token, creator] of createAppDependencies(
+      appContext,
+      resolver
+    )) {
+      injectDependency(token, creator);
+    }
+    for (const [token, provider] of dependencies) {
+      provide(this, token, provider);
     }
     if (!this.serviceWorkerInstaller) {
       this.serviceWorkerInstaller = new ServiceWorkerInstaller(

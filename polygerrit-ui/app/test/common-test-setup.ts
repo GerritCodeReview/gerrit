@@ -11,7 +11,6 @@ import {Finalizable} from '../services/registry';
 import {
   createTestAppContext,
   createTestDependencies,
-  Creator,
 } from './test-app-context-init';
 import {_testOnly_resetPluginLoader} from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
 import {_testOnlyResetGrRestApiSharedObjects} from '../services/gr-rest-api/gr-rest-api-impl';
@@ -39,6 +38,7 @@ import {
 } from '../models/dependency';
 import * as sinon from 'sinon';
 import '../styles/themes/app-theme.ts';
+import {Creator} from '../services/app-context-init';
 
 declare global {
   interface Window {
@@ -129,6 +129,10 @@ setup(() => {
   _testOnlyResetGrRestApiSharedObjects();
 });
 
+export function removeRequestDependencyListener() {
+  document.removeEventListener('request-dependency', resolveDependency);
+}
+
 // Very simple function to catch unexpected elements in documents body.
 // It can't catch everything, but in most cases it is enough.
 function checkChildAllowed(element: Element) {
@@ -189,7 +193,7 @@ teardown(() => {
   removeThemeStyles();
   cancelAllTasks();
   cleanUpStorage();
-  document.removeEventListener('request-dependency', resolveDependency);
+  removeRequestDependencyListener();
   injectedDependencies.clear();
   // Reset state
   for (const f of finalizers) {

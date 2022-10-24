@@ -34,7 +34,10 @@ import {
 } from '../../../types/common';
 import {GroupNameChangedDetail} from '../gr-group/gr-group';
 import {getAppContext} from '../../../services/app-context';
-import {GerritView} from '../../../services/router/router-model';
+import {
+  GerritView,
+  routerModelToken,
+} from '../../../services/router/router-model';
 import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
 import {pageNavStyles} from '../../../styles/gr-page-nav-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -120,7 +123,7 @@ export class GrAdminView extends LitElement {
 
   private readonly getRepoViewModel = resolve(this, repoViewModelToken);
 
-  private readonly routerModel = getAppContext().routerModel;
+  private readonly getRouterModel = resolve(this, routerModelToken);
 
   private readonly getNavigation = resolve(this, navigationToken);
 
@@ -152,7 +155,7 @@ export class GrAdminView extends LitElement {
     );
     subscribe(
       this,
-      () => this.routerModel.routerView$,
+      () => this.getRouterModel().routerView$,
       view => {
         this.view = view;
         if (this.needsReload()) this.reload();

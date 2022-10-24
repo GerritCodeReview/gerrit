@@ -384,11 +384,11 @@ export class CommentsModel extends Model<CommentState> {
   private discardedDrafts: DraftInfo[] = [];
 
   constructor(
-    readonly routerModel: RouterModel,
-    readonly changeModel: ChangeModel,
-    readonly accountsModel: AccountsModel,
-    readonly restApiService: RestApiService,
-    readonly reporting: ReportingService
+    private readonly routerModel: RouterModel,
+    private readonly changeModel: ChangeModel,
+    private readonly accountsModel: AccountsModel,
+    private readonly restApiService: RestApiService,
+    private readonly reporting: ReportingService
   ) {
     super(initialState);
     this.subscriptions.push(

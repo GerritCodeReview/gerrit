@@ -50,7 +50,6 @@ import {UIActionInfo} from '../../shared/gr-js-api-interface/gr-change-actions-j
 import {fixture, html, assert} from '@open-wc/testing';
 import {GrConfirmCherrypickDialog} from '../gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog';
 import {GrDropdown} from '../../shared/gr-dropdown/gr-dropdown';
-import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrConfirmSubmitDialog} from '../gr-confirm-submit-dialog/gr-confirm-submit-dialog';
 import {GrConfirmRebaseDialog} from '../gr-confirm-rebase-dialog/gr-confirm-rebase-dialog';
 import {GrConfirmMoveDialog} from '../gr-confirm-move-dialog/gr-confirm-move-dialog';
@@ -207,13 +206,7 @@ suite('gr-change-actions tests', () => {
               <span id="moreMessage"> More </span>
             </gr-dropdown>
           </div>
-          <gr-overlay
-            aria-hidden="true"
-            id="overlay"
-            style="outline: none; display: none;"
-            tabindex="-1"
-            with-backdrop=""
-          >
+          <dialog id="actionsModal" tabindex="-1">
             <gr-confirm-rebase-dialog class="confirmDialog" id="confirmRebase">
             </gr-confirm-rebase-dialog>
             <gr-confirm-cherrypick-dialog
@@ -279,7 +272,7 @@ suite('gr-change-actions tests', () => {
                 Do you really want to delete the edit?
               </div>
             </gr-dialog>
-          </gr-overlay>
+          </dialog>
         `
       );
     });
@@ -479,9 +472,6 @@ suite('gr-change-actions tests', () => {
       stubRestApi('getFromProjectLookup').returns(
         Promise.resolve('test' as RepoName)
       );
-      sinon
-        .stub(queryAndAssert<GrOverlay>(element, '#overlay'), 'open')
-        .returns(Promise.resolve());
       element.change = {
         ...createChangeViewChange(),
         revisions: {
@@ -518,9 +508,6 @@ suite('gr-change-actions tests', () => {
       stubRestApi('getFromProjectLookup').returns(
         Promise.resolve('test' as RepoName)
       );
-      sinon
-        .stub(queryAndAssert<GrOverlay>(element, '#overlay'), 'open')
-        .returns(Promise.resolve());
       element.change = {
         ...createChangeViewChange(),
         revisions: {

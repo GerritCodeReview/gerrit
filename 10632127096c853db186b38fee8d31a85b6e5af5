@@ -16,6 +16,23 @@
       "message": "Tests need to be amended and integrated with the use-case of the project name",
       "revId": "10632127096c853db186b38fee8d31a85b6e5af5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40f09d1c_68735aea",
+        "filename": "polygerrit-ui/app/models/comments/comments-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1139951
+      },
+      "writtenOn": "2022-10-24T21:55:55Z",
+      "side": 1,
+      "message": "Should this be `routerRepo$`?",
+      "revId": "10632127096c853db186b38fee8d31a85b6e5af5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

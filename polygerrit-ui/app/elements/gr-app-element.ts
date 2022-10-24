@@ -53,7 +53,7 @@ import {
   RpcLogEvent,
   TitleChangeEventDetail,
 } from '../types/events';
-import {GerritView} from '../services/router/router-model';
+import {GerritView, routerModelToken} from '../services/router/router-model';
 import {Execution, LifeCycle} from '../constants/reporting';
 import {fireIronAnnounce} from '../utils/event-util';
 import {resolve} from '../models/dependency';
@@ -164,7 +164,7 @@ export class GrAppElement extends LitElement {
 
   private readonly getUserModel = resolve(this, userModelToken);
 
-  private readonly routerModel = getAppContext().routerModel;
+  private readonly getRouterModel = resolve(this, routerModelToken);
 
   constructor() {
     super();
@@ -219,7 +219,7 @@ export class GrAppElement extends LitElement {
     );
     subscribe(
       this,
-      () => this.routerModel.routerView$,
+      () => this.getRouterModel().routerView$,
       view => {
         this.view = view;
         if (view) this.errorView?.classList.remove('show');

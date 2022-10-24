@@ -11,13 +11,11 @@ import {AuthService} from './gr-auth/gr-auth';
 import {RestApiService} from './gr-rest-api/gr-rest-api';
 import {JsApiService} from '../elements/shared/gr-js-api-interface/gr-js-api-types';
 import {StorageService} from './storage/gr-storage';
-import {RouterModel} from './router/router-model';
 import {PluginsModel} from '../models/plugins/plugins-model';
 import {HighlightService} from './highlight/highlight-service';
 import {AccountsModel} from '../models/accounts-model/accounts-model';
 
 export interface AppContext {
-  routerModel: RouterModel;
   flagsService: FlagsService;
   reportingService: ReportingService;
   eventEmitter: EventEmitterService;

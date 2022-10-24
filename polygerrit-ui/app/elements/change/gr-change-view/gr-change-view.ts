@@ -135,7 +135,10 @@ import {
   fireReload,
   fireTitleChange,
 } from '../../../utils/event-util';
-import {GerritView} from '../../../services/router/router-model';
+import {
+  GerritView,
+  routerModelToken,
+} from '../../../services/router/router-model';
 import {
   debounce,
   DelayedTask,
@@ -540,7 +543,7 @@ export class GrChangeView extends LitElement {
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
-  private readonly routerModel = getAppContext().routerModel;
+  private readonly getRouterModel = resolve(this, routerModelToken);
 
   private readonly getCommentsModel = resolve(this, commentsModelToken);
 
@@ -715,14 +718,14 @@ export class GrChangeView extends LitElement {
     );
     subscribe(
       this,
-      () => this.routerModel.routerView$,
+      () => this.getRouterModel().routerView$,
       view => {
         this.isViewCurrent = view === GerritView.CHANGE;
       }
     );
     subscribe(
       this,
-      () => this.routerModel.routerPatchNum$,
+      () => this.getRouterModel().routerPatchNum$,
       patchNum => {
         this.routerPatchNum = patchNum;
       }

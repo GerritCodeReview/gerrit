@@ -47,6 +47,7 @@ import {injectAppContext} from '../services/app-context';
 import {html, LitElement} from 'lit';
 import {customElement} from 'lit/decorators.js';
 import {ServiceWorkerInstaller} from '../services/service-worker-installer';
+import {userModelToken} from '../models/user/user-model';
 
 const appContext = createAppContext();
 injectAppContext(appContext);
@@ -103,7 +104,7 @@ export class GrApp extends LitElement {
     if (!this.serviceWorkerInstaller) {
       this.serviceWorkerInstaller = new ServiceWorkerInstaller(
         appContext.flagsService,
-        appContext.userModel
+        resolver(userModelToken)
       );
     }
   }

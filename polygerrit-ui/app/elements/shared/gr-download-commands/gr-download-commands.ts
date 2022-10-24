@@ -16,6 +16,8 @@ import {LitElement, html, css} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {fire} from '../../../utils/event-util';
 import {BindValueChangeEvent} from '../../../types/events';
+import {resolve} from '../../../models/dependency';
+import {userModelToken} from '../../../models/user/user-model';
 
 declare global {
   interface HTMLElementEventMap {
@@ -53,7 +55,7 @@ export class GrDownloadCommands extends LitElement {
   private readonly restApiService = getAppContext().restApiService;
 
   // Private but used in tests.
-  readonly userModel = getAppContext().userModel;
+  readonly getUserModel = resolve(this, userModelToken);
 
   private subscriptions: Subscription[] = [];
 
@@ -63,7 +65,7 @@ export class GrDownloadCommands extends LitElement {
       this.loggedIn = loggedIn;
     });
     this.subscriptions.push(
-      this.userModel.preferences$.subscribe(prefs => {
+      this.getUserModel().preferences$.subscribe(prefs => {
         if (prefs?.download_scheme) {
           // Note (issue 5180): normalize the download scheme with lower-case.
           this.selectedScheme = prefs.download_scheme.toLowerCase();
@@ -194,7 +196,7 @@ export class GrDownloadCommands extends LitElement {
       this.selectedScheme = scheme;
       fire(this, 'selected-scheme-changed', {value: scheme});
       if (this.loggedIn) {
-        this.userModel.updatePreferences({
+        this.getUserModel().updatePreferences({
           download_scheme: this.selectedScheme,
         });
       }

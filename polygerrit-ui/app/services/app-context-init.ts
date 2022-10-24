@@ -57,7 +57,10 @@ import {GroupViewModel, groupViewModelToken} from '../models/views/group';
 import {PluginViewModel, pluginViewModelToken} from '../models/views/plugin';
 import {RepoViewModel, repoViewModelToken} from '../models/views/repo';
 import {SearchViewModel, searchViewModelToken} from '../models/views/search';
-import {navigationToken} from '../elements/core/gr-navigation/gr-navigation';
+import {
+  NavigationService,
+  navigationToken,
+} from '../elements/core/gr-navigation/gr-navigation';
 
 /**
  * The AppContext lazy initializator for all services
@@ -104,113 +107,105 @@ export function createAppContext(): AppContext & Finalizable {
   return create<AppContext>(appRegistry);
 }
 
-export type Creator<T> = () => T & Finalizable;
-
-// Test dependencies are provides as creator functions to ensure that they are
-// not created if a test doesn't depend on them. E.g. don't create a
-// change-model in change-model_test.ts because it creates one in the test
-// after setting up stubs.
 export function createAppDependencies(
-  appContext: AppContext,
-  resolver: <T>(token: DependencyToken<T>) => T
-): Map<DependencyToken<unknown>, Creator<unknown>> {
-  const dependencies = new Map<DependencyToken<unknown>, Creator<unknown>>();
-  const browserModelCreator = () => new BrowserModel(appContext.userModel);
-  dependencies.set(browserModelToken, browserModelCreator);
+  appContext: AppContext
+): Map<DependencyToken<unknown>, Finalizable> {
+  const dependencies = new Map<DependencyToken<unknown>, Finalizable>();
+  const browserModel = new BrowserModel(appContext.userModel);
+  dependencies.set(browserModelToken, browserModel);
 
-  const adminViewModelCreator = () => new AdminViewModel();
-  dependencies.set(adminViewModelToken, adminViewModelCreator);
-  const agreementViewModelCreator = () => new AgreementViewModel();
-  dependencies.set(agreementViewModelToken, agreementViewModelCreator);
-  const changeViewModelCreator = () => new ChangeViewModel();
-  dependencies.set(changeViewModelToken, changeViewModelCreator);
-  const dashboardViewModelCreator = () => new DashboardViewModel();
-  dependencies.set(dashboardViewModelToken, dashboardViewModelCreator);
-  const diffViewModelCreator = () => new DiffViewModel();
-  dependencies.set(diffViewModelToken, diffViewModelCreator);
-  const documentationViewModelCreator = () => new DocumentationViewModel();
-  dependencies.set(documentationViewModelToken, documentationViewModelCreator);
-  const editViewModelCreator = () => new EditViewModel();
-  dependencies.set(editViewModelToken, editViewModelCreator);
-  const groupViewModelCreator = () => new GroupViewModel();
-  dependencies.set(groupViewModelToken, groupViewModelCreator);
-  const pluginViewModelCreator = () => new PluginViewModel();
-  dependencies.set(pluginViewModelToken, pluginViewModelCreator);
-  const repoViewModelCreator = () => new RepoViewModel();
-  dependencies.set(repoViewModelToken, repoViewModelCreator);
-  const searchViewModelCreator = () =>
-    new SearchViewModel(appContext.restApiService, appContext.userModel, () =>
-      resolver(navigationToken)
-    );
-  dependencies.set(searchViewModelToken, searchViewModelCreator);
-  const settingsViewModelCreator = () => new SettingsViewModel();
-  dependencies.set(settingsViewModelToken, settingsViewModelCreator);
+  const adminViewModel = new AdminViewModel();
+  dependencies.set(adminViewModelToken, adminViewModel);
+  const agreementViewModel = new AgreementViewModel();
+  dependencies.set(agreementViewModelToken, agreementViewModel);
+  const changeViewModel = new ChangeViewModel();
+  dependencies.set(changeViewModelToken, changeViewModel);
+  const dashboardViewModel = new DashboardViewModel();
+  dependencies.set(dashboardViewModelToken, dashboardViewModel);
+  const diffViewModel = new DiffViewModel();
+  dependencies.set(diffViewModelToken, diffViewModel);
+  const documentationViewModel = new DocumentationViewModel();
+  dependencies.set(documentationViewModelToken, documentationViewModel);
+  const editViewModel = new EditViewModel();
+  dependencies.set(editViewModelToken, editViewModel);
+  const groupViewModel = new GroupViewModel();
+  dependencies.set(groupViewModelToken, groupViewModel);
+  const pluginViewModel = new PluginViewModel();
+  dependencies.set(pluginViewModelToken, pluginViewModel);
+  const repoViewModel = new RepoViewModel();
+  dependencies.set(repoViewModelToken, repoViewModel);
+  const searchViewModel = new SearchViewModel(
+    appContext.restApiService,
+    appContext.userModel,
+    () => dependencies.get(navigationToken) as unknown as NavigationService
+  );
+  dependencies.set(searchViewModelToken, searchViewModel);
+  const settingsViewModel = new SettingsViewModel();
+  dependencies.set(settingsViewModelToken, settingsViewModel);
 
-  const routerCreator = () =>
-    new GrRouter(
-      appContext.reportingService,
-      appContext.routerModel,
-      appContext.restApiService,
-      resolver(adminViewModelToken),
-      resolver(agreementViewModelToken),
-      resolver(changeViewModelToken),
-      resolver(dashboardViewModelToken),
-      resolver(diffViewModelToken),
-      resolver(documentationViewModelToken),
-      resolver(editViewModelToken),
-      resolver(groupViewModelToken),
-      resolver(pluginViewModelToken),
-      resolver(repoViewModelToken),
-      resolver(searchViewModelToken),
-      resolver(settingsViewModelToken)
-    );
-  dependencies.set(routerToken, routerCreator);
-  dependencies.set(navigationToken, () => resolver(routerToken));
+  const router = new GrRouter(
+    appContext.reportingService,
+    appContext.routerModel,
+    appContext.restApiService,
+    adminViewModel,
+    agreementViewModel,
+    changeViewModel,
+    dashboardViewModel,
+    diffViewModel,
+    documentationViewModel,
+    editViewModel,
+    groupViewModel,
+    pluginViewModel,
+    repoViewModel,
+    searchViewModel,
+    settingsViewModel
+  );
+  dependencies.set(routerToken, router);
+  dependencies.set(navigationToken, router);
 
-  const changeModelCreator = () =>
-    new ChangeModel(
-      appContext.routerModel,
-      appContext.restApiService,
-      appContext.userModel
-    );
-  dependencies.set(changeModelToken, changeModelCreator);
+  const changeModel = new ChangeModel(
+    appContext.routerModel,
+    appContext.restApiService,
+    appContext.userModel
+  );
+  dependencies.set(changeModelToken, changeModel);
 
-  const commentsModelCreator = () =>
-    new CommentsModel(
-      appContext.routerModel,
-      resolver(changeModelToken),
-      appContext.accountsModel,
-      appContext.restApiService,
-      appContext.reportingService
-    );
-  dependencies.set(commentsModelToken, commentsModelCreator);
+  const accountsModel = new AccountsModel(appContext.restApiService);
 
-  const filesModelCreator = () =>
-    new FilesModel(
-      resolver(changeModelToken),
-      resolver(commentsModelToken),
-      appContext.restApiService
-    );
-  dependencies.set(filesModelToken, filesModelCreator);
+  const commentsModel = new CommentsModel(
+    appContext.routerModel,
+    changeModel,
+    accountsModel,
+    appContext.restApiService,
+    appContext.reportingService
+  );
+  dependencies.set(commentsModelToken, commentsModel);
 
-  const configModelCreator = () =>
-    new ConfigModel(resolver(changeModelToken), appContext.restApiService);
-  dependencies.set(configModelToken, configModelCreator);
+  const filesModel = new FilesModel(
+    changeModel,
+    commentsModel,
+    appContext.restApiService
+  );
+  dependencies.set(filesModelToken, filesModel);
 
-  const checksModelCreator = () =>
-    new ChecksModel(
-      appContext.routerModel,
-      resolver(changeViewModelToken),
-      resolver(changeModelToken),
-      appContext.reportingService,
-      appContext.pluginsModel
-    );
+  const configModel = new ConfigModel(changeModel, appContext.restApiService);
+  dependencies.set(configModelToken, configModel);
 
-  dependencies.set(checksModelToken, checksModelCreator);
+  const checksModel = new ChecksModel(
+    appContext.routerModel,
+    changeViewModel,
+    changeModel,
+    appContext.reportingService,
+    appContext.pluginsModel
+  );
 
-  const shortcutServiceCreator = () =>
-    new ShortcutsService(appContext.userModel, appContext.reportingService);
-  dependencies.set(shortcutsServiceToken, shortcutServiceCreator);
+  dependencies.set(checksModelToken, checksModel);
+
+  const shortcutsService = new ShortcutsService(
+    appContext.userModel,
+    appContext.reportingService
+  );
+  dependencies.set(shortcutsServiceToken, shortcutsService);
 
   return dependencies;
 }

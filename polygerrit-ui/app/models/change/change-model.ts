@@ -257,9 +257,9 @@ export class ChangeModel extends Model<ChangeState> {
   );
 
   constructor(
-    readonly routerModel: RouterModel,
-    readonly restApiService: RestApiService,
-    readonly userModel: UserModel
+    private readonly routerModel: RouterModel,
+    private readonly restApiService: RestApiService,
+    private readonly userModel: UserModel
   ) {
     super(initialState);
     this.subscriptions = [

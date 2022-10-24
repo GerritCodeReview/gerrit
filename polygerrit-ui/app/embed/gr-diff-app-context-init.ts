@@ -72,9 +72,6 @@ export function createDiffAppContext(): AppContext & Finalizable {
     accountsModel: (_ctx: Partial<AppContext>) => {
       throw new Error('accountsModel is not implemented');
     },
-    routerModel: (_ctx: Partial<AppContext>) => {
-      throw new Error('routerModel is not implemented');
-    },
     pluginsModel: (_ctx: Partial<AppContext>) => {
       throw new Error('pluginsModel is not implemented');
     },

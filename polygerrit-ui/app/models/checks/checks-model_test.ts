@@ -24,6 +24,7 @@ import {assert} from '@open-wc/testing';
 import {testResolver} from '../../test/common-test-setup';
 import {changeViewModelToken} from '../views/change';
 import {NumericChangeId, PatchSetNumber} from '../../api/rest-api';
+import {routerModelToken} from '../../services/router/router-model';
 
 const PLUGIN_NAME = 'test-plugin';
 
@@ -69,7 +70,7 @@ suite('checks-model tests', () => {
 
   setup(() => {
     model = new ChecksModel(
-      getAppContext().routerModel,
+      testResolver(routerModelToken),
       testResolver(changeViewModelToken),
       testResolver(changeModelToken),
       getAppContext().reportingService,
@@ -84,7 +85,7 @@ suite('checks-model tests', () => {
 
   test('register and fetch', async () => {
     let change: ParsedChangeInfo | undefined = undefined;
-    model.changeModel.change$.subscribe(c => (change = c));
+    testResolver(changeModelToken).change$.subscribe(c => (change = c));
     const provider = createProvider();
     const fetchSpy = sinon.spy(provider, 'fetch');
 
@@ -96,7 +97,7 @@ suite('checks-model tests', () => {
     await waitUntil(() => change === undefined);
 
     const testChange = createParsedChange();
-    model.changeModel.updateStateChange(testChange);
+    testResolver(changeModelToken).updateStateChange(testChange);
     await waitUntil(() => change === testChange);
     await waitUntilCalled(fetchSpy, 'fetch');
 
@@ -111,7 +112,7 @@ suite('checks-model tests', () => {
   test('fetch throttle', async () => {
     const clock = sinon.useFakeTimers();
     let change: ParsedChangeInfo | undefined = undefined;
-    model.changeModel.change$.subscribe(c => (change = c));
+    testResolver(changeModelToken).change$.subscribe(c => (change = c));
     const provider = createProvider();
     const fetchSpy = sinon.spy(provider, 'fetch');
 
@@ -123,7 +124,7 @@ suite('checks-model tests', () => {
     await waitUntil(() => change === undefined);
 
     const testChange = createParsedChange();
-    model.changeModel.updateStateChange(testChange);
+    testResolver(changeModelToken).updateStateChange(testChange);
     await waitUntil(() => change === testChange);
 
     model.reload('test-plugin');
@@ -283,7 +284,7 @@ suite('checks-model tests', () => {
   test('polls for changes', async () => {
     const clock = sinon.useFakeTimers();
     let change: ParsedChangeInfo | undefined = undefined;
-    model.changeModel.change$.subscribe(c => (change = c));
+    testResolver(changeModelToken).change$.subscribe(c => (change = c));
     const provider = createProvider();
     const fetchSpy = sinon.spy(provider, 'fetch');
 
@@ -295,7 +296,7 @@ suite('checks-model tests', () => {
     await waitUntil(() => change === undefined);
     clock.tick(1);
     const testChange = createParsedChange();
-    model.changeModel.updateStateChange(testChange);
+    testResolver(changeModelToken).updateStateChange(testChange);
     await waitUntil(() => change === testChange);
     clock.tick(600); // need to wait for 500ms throttle
     await waitUntilCalled(fetchSpy, 'fetch');
@@ -310,7 +311,7 @@ suite('checks-model tests', () => {
   test('does not poll when config specifies 0 seconds', async () => {
     const clock = sinon.useFakeTimers();
     let change: ParsedChangeInfo | undefined = undefined;
-    model.changeModel.change$.subscribe(c => (change = c));
+    testResolver(changeModelToken).change$.subscribe(c => (change = c));
     const provider = createProvider();
     const fetchSpy = sinon.spy(provider, 'fetch');
 
@@ -322,7 +323,7 @@ suite('checks-model tests', () => {
     await waitUntil(() => change === undefined);
     clock.tick(1);
     const testChange = createParsedChange();
-    model.changeModel.updateStateChange(testChange);
+    testResolver(changeModelToken).updateStateChange(testChange);
     await waitUntil(() => change === testChange);
     clock.tick(600); // need to wait for 500ms throttle
     await waitUntilCalled(fetchSpy, 'fetch');

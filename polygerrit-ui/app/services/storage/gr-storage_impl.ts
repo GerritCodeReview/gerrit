@@ -6,6 +6,7 @@
 import {StorageLocation, StorageObject, StorageService} from './gr-storage';
 import {Finalizable} from '../registry';
 import {NumericChangeId} from '../../types/common';
+import {define} from '../../models/dependency';
 
 export const DURATION_DAY = 24 * 60 * 60 * 1000;
 
@@ -15,6 +16,8 @@ const CLEANUP_THROTTLE_INTERVAL = DURATION_DAY;
 const CLEANUP_PREFIXES_MAX_AGE_MAP = new Map<string, number>();
 CLEANUP_PREFIXES_MAX_AGE_MAP.set('draft', DURATION_DAY);
 CLEANUP_PREFIXES_MAX_AGE_MAP.set('editablecontent', DURATION_DAY);
+
+export const storageServiceToken = define<StorageService>('storage-service');
 
 export class GrStorageService implements StorageService, Finalizable {
   private lastCleanup = 0;

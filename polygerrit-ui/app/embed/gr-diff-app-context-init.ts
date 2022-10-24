@@ -66,9 +66,6 @@ export function createDiffAppContext(): AppContext & Finalizable {
     jsApiService: (_ctx: Partial<AppContext>) => {
       throw new Error('jsApiService is not implemented');
     },
-    storageService: (_ctx: Partial<AppContext>) => {
-      throw new Error('storageService is not implemented');
-    },
     pluginsModel: (_ctx: Partial<AppContext>) => {
       throw new Error('pluginsModel is not implemented');
     },

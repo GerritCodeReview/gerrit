@@ -19,7 +19,7 @@ import {ChangeModel, changeModelToken} from '../models/change/change-model';
 import {FilesModel, filesModelToken} from '../models/change/files-model';
 import {ChecksModel, checksModelToken} from '../models/checks/checks-model';
 import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
-import {UserModel} from '../models/user/user-model';
+import {UserModel, userModelToken} from '../models/user/user-model';
 import {
   CommentsModel,
   commentsModelToken,
@@ -81,19 +81,9 @@ export function createTestAppContext(): AppContext & Finalizable {
       return new GrJsApiInterface(ctx.reportingService);
     },
     storageService: (_ctx: Partial<AppContext>) => grStorageMock,
-    userModel: (ctx: Partial<AppContext>) => {
-      assertIsDefined(ctx.restApiService, 'restApiService');
-      return new UserModel(ctx.restApiService);
-    },
     accountsModel: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.restApiService, 'restApiService');
       return new AccountsModel(ctx.restApiService);
-    },
-    shortcutsService: (ctx: Partial<AppContext>) => {
-      assertIsDefined(ctx.userModel, 'userModel');
-      assertIsDefined(ctx.flagsService, 'flagsService');
-      assertIsDefined(ctx.reportingService, 'reportingService');
-      return new ShortcutsService(ctx.userModel, ctx.reportingService);
     },
     pluginsModel: (_ctx: Partial<AppContext>) => new PluginsModel(),
     highlightService: (ctx: Partial<AppContext>) => {
@@ -115,8 +105,10 @@ export function createTestDependencies(
   resolver: <T>(token: DependencyToken<T>) => T
 ): Map<DependencyToken<unknown>, Creator<unknown>> {
   const dependencies = new Map<DependencyToken<unknown>, Creator<unknown>>();
-  const browserModel = () => new BrowserModel(appContext.userModel);
-  dependencies.set(browserModelToken, browserModel);
+  const userModelCreator = () => new UserModel(appContext.restApiService);
+  dependencies.set(userModelToken, userModelCreator);
+  const browserModelCreator = () => new BrowserModel(resolver(userModelToken));
+  dependencies.set(browserModelToken, browserModelCreator);
 
   const adminViewModelCreator = () => new AdminViewModel();
   dependencies.set(adminViewModelToken, adminViewModelCreator);
@@ -139,8 +131,10 @@ export function createTestDependencies(
   const repoViewModelCreator = () => new RepoViewModel();
   dependencies.set(repoViewModelToken, repoViewModelCreator);
   const searchViewModelCreator = () =>
-    new SearchViewModel(appContext.restApiService, appContext.userModel, () =>
-      resolver(navigationToken)
+    new SearchViewModel(
+      appContext.restApiService,
+      resolver(userModelToken),
+      () => resolver(navigationToken)
     );
   dependencies.set(searchViewModelToken, searchViewModelCreator);
   const settingsViewModelCreator = () => new SettingsViewModel();
@@ -177,7 +171,7 @@ export function createTestDependencies(
     new ChangeModel(
       appContext.routerModel,
       appContext.restApiService,
-      appContext.userModel
+      resolver(userModelToken)
     );
   dependencies.set(changeModelToken, changeModelCreator);
 
@@ -219,7 +213,7 @@ export function createTestDependencies(
   dependencies.set(checksModelToken, checksModelCreator);
 
   const shortcutServiceCreator = () =>
-    new ShortcutsService(appContext.userModel, appContext.reportingService);
+    new ShortcutsService(resolver(userModelToken), appContext.reportingService);
   dependencies.set(shortcutsServiceToken, shortcutServiceCreator);
 
   return dependencies;

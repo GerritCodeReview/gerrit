@@ -57,6 +57,7 @@ import {SummaryChipStyles} from './gr-summary-chip';
 import {when} from 'lit/directives/when.js';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {combineLatest} from 'rxjs';
+import {userModelToken} from '../../../models/user/user-model';
 
 function handleSpaceOrEnter(e: KeyboardEvent, handler: () => void) {
   if (modifierPressed(e)) return;
@@ -109,11 +110,9 @@ export class GrChangeSummary extends LitElement {
 
   private readonly showAllChips = new Map<RunStatus | Category, boolean>();
 
-  // private but used in tests
-  readonly getCommentsModel = resolve(this, commentsModelToken);
+  private readonly getCommentsModel = resolve(this, commentsModelToken);
 
-  // private but used in tests
-  readonly userModel = getAppContext().userModel;
+  private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly getChecksModel = resolve(this, checksModelToken);
 
@@ -172,7 +171,7 @@ export class GrChangeSummary extends LitElement {
     );
     subscribe(
       this,
-      () => this.userModel.account$,
+      () => this.getUserModel().account$,
       x => (this.selfAccount = x)
     );
     if (this.flagsService.isEnabled(KnownExperimentId.MENTION_USERS)) {
@@ -180,7 +179,7 @@ export class GrChangeSummary extends LitElement {
         this,
         () =>
           combineLatest([
-            this.userModel.account$,
+            this.getUserModel().account$,
             this.getCommentsModel().threads$,
           ]),
         ([selfAccount, threads]) => {

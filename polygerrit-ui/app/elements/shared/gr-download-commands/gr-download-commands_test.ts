@@ -18,6 +18,8 @@ import {createDefaultPreferences} from '../../../constants/constants';
 import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
 import {fixture, html, assert} from '@open-wc/testing';
 import {PaperTabElement} from '@polymer/paper-tabs/paper-tab';
+import {userModelToken} from '../../../models/user/user-model';
+import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-download-commands', () => {
   let element: GrDownloadCommands;
@@ -174,7 +176,7 @@ suite('gr-download-commands', () => {
       const element: GrDownloadCommands = await fixture(
         html`<gr-download-commands></gr-download-commands>`
       );
-      element.userModel.setPreferences({
+      testResolver(userModelToken).setPreferences({
         ...createPreferences(),
         download_scheme: 'repo',
       });
@@ -185,7 +187,7 @@ suite('gr-download-commands', () => {
       const element: GrDownloadCommands = await fixture(
         html`<gr-download-commands></gr-download-commands>`
       );
-      element.userModel.setPreferences({
+      testResolver(userModelToken).setPreferences({
         ...createPreferences(),
         download_scheme: 'REPO',
       });

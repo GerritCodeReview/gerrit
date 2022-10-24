@@ -81,8 +81,9 @@ suite('GrJsApiInterface tests', () => {
     plugin.on(EventType.SHOW_CHANGE, (change, revision, info) => {
       resolve({change, revision, info});
     });
-    element.handleEvent(EventType.SHOW_CHANGE,
-        {change: testChange, patchNum: 1, info: {mergeable: false}});
+    element.handleShowChange(
+        {change: testChange, patchNum: 1, info: {mergeable: false}}
+    );
 
     const {change, revision, info} = await promise;
     assert.deepEqual(change, expectedChange);
@@ -102,8 +103,9 @@ suite('GrJsApiInterface tests', () => {
     plugin.on(EventType.SHOW_REVISION_ACTIONS, (actions, change) => {
       resolve({change, actions});
     });
-    element.handleEvent(EventType.SHOW_REVISION_ACTIONS,
-        {change: testChange, revisionActions: {test: {}}});
+    element.handleShowRevisionActions(
+        {change: testChange, revisionActions: {test: {}}}
+    );
 
     const {change, actions} = await promise;
     assert.deepEqual(change, testChange);
@@ -111,7 +113,7 @@ suite('GrJsApiInterface tests', () => {
     assert.isTrue(errorStub.calledOnce);
   });
 
-  test('handleEvent awaits plugins load', async () => {
+  test('handleShowChange awaits plugins load', async () => {
     const testChange = {
       _number: 42,
       revisions: {def: {_number: 2}, abc: {_number: 1}},
@@ -119,8 +121,7 @@ suite('GrJsApiInterface tests', () => {
     const spy = sinon.spy();
     getPluginLoader().loadPlugins(['plugins/test.js']);
     plugin.on(EventType.SHOW_CHANGE, spy);
-    element.handleEvent(EventType.SHOW_CHANGE,
-        {change: testChange, patchNum: 1});
+    element.handleShowChange({change: testChange, patchNum: 1});
     assert.isFalse(spy.called);
 
     // Timeout on loading plugins
@@ -201,7 +202,7 @@ suite('GrJsApiInterface tests', () => {
     const testChange = {_number: 42};
     plugin.on(EventType.LABEL_CHANGE, throwErrFn);
     plugin.on(EventType.LABEL_CHANGE, resolve);
-    element.handleEvent(EventType.LABEL_CHANGE, {change: testChange});
+    element.handleLabelChange({change: testChange});
 
     const change = await promise;
     assert.deepEqual(change, testChange);

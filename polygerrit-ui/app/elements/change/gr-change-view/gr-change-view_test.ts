@@ -21,7 +21,7 @@ import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {_testOnly_resetEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
-import {EventType, PluginApi} from '../../../api/plugin';
+import {PluginApi} from '../../../api/plugin';
 import {
   mockPromise,
   pressKey,
@@ -76,6 +76,7 @@ import {
   DetailedLabelInfo,
   RepoName,
   QuickLabelInfo,
+  PatchSetNumber,
 } from '../../../types/common';
 import {GrEditControls} from '../../edit/gr-edit-controls/gr-edit-controls';
 import {SinonFakeTimers, SinonStubbedMember} from 'sinon';
@@ -2229,13 +2230,12 @@ suite('gr-change-view tests', () => {
     element.change = {...change};
     element.patchRange = {patchNum: 4 as RevisionPatchSetNum};
     element.mergeable = true;
-    const showStub = sinon.stub(element.jsAPI, 'handleEvent');
+    const showStub = sinon.stub(element.jsAPI, 'handleShowChange');
     element.sendShowChangeEvent();
     assert.isTrue(showStub.calledOnce);
-    assert.equal(showStub.lastCall.args[0], EventType.SHOW_CHANGE);
-    assert.deepEqual(showStub.lastCall.args[1], {
+    assert.deepEqual(showStub.lastCall.args[0], {
       change,
-      patchNum: 4,
+      patchNum: 4 as PatchSetNumber,
       info: {mergeable: true},
     });
   });

@@ -33,7 +33,7 @@ import {
   HttpMethod,
   NotifyType,
 } from '../../../constants/constants';
-import {EventType as PluginEventType, TargetElement} from '../../../api/plugin';
+import {TargetElement} from '../../../api/plugin';
 import {
   AccountInfo,
   ActionInfo,
@@ -108,6 +108,7 @@ import {rootUrl} from '../../../utils/url-util';
 import {createSearchUrl} from '../../../models/views/search';
 import {createChangeUrl} from '../../../models/views/change';
 import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
+import {ShowRevisionActionsDetail} from '../../shared/gr-js-api-interface/gr-js-api-types';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -890,11 +891,8 @@ export class GrChangeActions
   }
 
   // private but used in test
-  sendShowRevisionActions(detail: {
-    change: ChangeInfo;
-    revisionActions: ActionNameToActionInfoMap;
-  }) {
-    this.jsAPI.handleEvent(PluginEventType.SHOW_REVISION_ACTIONS, detail);
+  sendShowRevisionActions(detail: ShowRevisionActionsDetail) {
+    this.jsAPI.handleShowRevisionActions(detail);
   }
 
   addActionButton(type: ActionType, label: string) {

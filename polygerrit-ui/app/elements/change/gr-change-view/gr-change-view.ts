@@ -65,7 +65,6 @@ import {
   isInvolved,
   roleDetails,
 } from '../../../utils/change-util';
-import {EventType as PluginEventType} from '../../../api/plugin';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {GrApplyFixDialog} from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {GrFileListHeader} from '../gr-file-list-header/gr-file-list-header';
@@ -2258,7 +2257,7 @@ export class GrChangeView extends LitElement {
   // Private but used in tests.
   sendShowChangeEvent() {
     assertIsDefined(this.patchRange, 'patchRange');
-    this.jsAPI.handleEvent(PluginEventType.SHOW_CHANGE, {
+    this.jsAPI.handleShowChange({
       change: this.change,
       patchNum: this.patchRange.patchNum,
       info: {mergeable: this.mergeable},
@@ -2644,7 +2643,7 @@ export class GrChangeView extends LitElement {
       return;
     }
     this.handleLabelRemoved(oldLabels, newLabels);
-    this.jsAPI.handleEvent(PluginEventType.LABEL_CHANGE, {
+    this.jsAPI.handleLabelChange({
       change: this.change,
     });
   }

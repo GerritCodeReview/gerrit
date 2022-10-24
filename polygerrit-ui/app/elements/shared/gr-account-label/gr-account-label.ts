@@ -22,6 +22,8 @@ import {classMap} from 'lit/directives/class-map.js';
 import {getRemovedByIconClickReason} from '../../../utils/attention-set-util';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {createSearchUrl} from '../../../models/views/search';
+import {accountsModelToken} from '../../../models/accounts-model/accounts-model';
+import {resolve} from '../../../models/dependency';
 
 @customElement('gr-account-label')
 export class GrAccountLabel extends LitElement {
@@ -97,7 +99,7 @@ export class GrAccountLabel extends LitElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
-  private readonly accountsModel = getAppContext().accountsModel;
+  private readonly getAccountsModel = resolve(this, accountsModelToken);
 
   static override get styles() {
     return [
@@ -190,7 +192,7 @@ export class GrAccountLabel extends LitElement {
 
   override async updated() {
     assertIsDefined(this.account, 'account');
-    const account = await this.accountsModel.fillDetails(this.account);
+    const account = await this.getAccountsModel().fillDetails(this.account);
     if (account) this.account = account;
   }
 

@@ -14,7 +14,6 @@ import {
   Hashtag,
 } from '../../api/rest-api';
 import {Model} from '../model';
-import {Finalizable} from '../../services/registry';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {define} from '../dependency';
 import {select} from '../../utils/observable-util';
@@ -50,10 +49,7 @@ const initialState: BulkActionsState = {
   allChanges: new Map(),
 };
 
-export class BulkActionsModel
-  extends Model<BulkActionsState>
-  implements Finalizable
-{
+export class BulkActionsModel extends Model<BulkActionsState> {
   constructor(private readonly restApiService: RestApiService) {
     super(initialState);
   }

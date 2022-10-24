@@ -6,7 +6,6 @@
 
 import {AccountDetailInfo, AccountInfo} from '../../api/rest-api';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
-import {Finalizable} from '../../services/registry';
 import {UserId} from '../../types/common';
 import {getUserId, isDetailedAccount} from '../../utils/account-util';
 import {define} from '../dependency';
@@ -18,7 +17,7 @@ export interface AccountsState {
 
 export const accountsModelToken = define<AccountsModel>('accounts-model');
 
-export class AccountsModel extends Model<AccountsState> implements Finalizable {
+export class AccountsModel extends Model<AccountsState> {
   constructor(readonly restApiService: RestApiService) {
     super({
       accounts: {},

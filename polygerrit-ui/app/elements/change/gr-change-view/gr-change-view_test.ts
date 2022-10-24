@@ -28,7 +28,6 @@ import {
   queryAndAssert,
   stubFlags,
   stubRestApi,
-  stubUsers,
   waitEventLoop,
   waitQueryAndAssert,
   waitUntil,
@@ -86,7 +85,10 @@ import {GerritView} from '../../../services/router/router-model';
 import {ParsedChangeInfo} from '../../../types/types';
 import {GrRelatedChangesList} from '../gr-related-changes-list/gr-related-changes-list';
 import {ChangeStates} from '../../shared/gr-change-status/gr-change-status';
-import {LoadingStatus} from '../../../models/change/change-model';
+import {
+  changeModelToken,
+  LoadingStatus,
+} from '../../../models/change/change-model';
 import {FocusTarget, GrReplyDialog} from '../gr-reply-dialog/gr-reply-dialog';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrChangeStar} from '../../shared/gr-change-star/gr-change-star';
@@ -101,6 +103,8 @@ import {GrCopyLinks} from '../gr-copy-links/gr-copy-links';
 import {ChangeViewState} from '../../../models/views/change';
 import {rootUrl} from '../../../utils/url-util';
 import {testResolver} from '../../../test/common-test-setup';
+import {userModelToken} from '../../../models/user/user-model';
+import {commentsModelToken} from '../../../models/comments/comments-model';
 
 suite('gr-change-view tests', () => {
   let element: GrChangeView;
@@ -805,7 +809,7 @@ suite('gr-change-view tests', () => {
     });
 
     test('A fires an error event when not logged in', async () => {
-      element.userModel.setAccount(undefined);
+      testResolver(userModelToken).setAccount(undefined);
       const loggedInErrorSpy = sinon.spy();
       element.addEventListener('show-auth-required', loggedInErrorSpy);
       pressKey(element, 'a');
@@ -978,14 +982,17 @@ suite('gr-change-view tests', () => {
     });
 
     test('m should toggle diff mode', async () => {
-      const updatePreferencesStub = stubUsers('updatePreferences');
+      const updatePreferencesStub = sinon.stub(
+        testResolver(userModelToken),
+        'updatePreferences'
+      );
       await element.updateComplete;
 
       const prefs = {
         ...createDefaultPreferences(),
         diff_view: DiffViewMode.SIDE_BY_SIDE,
       };
-      element.userModel.setPreferences(prefs);
+      testResolver(userModelToken).setPreferences(prefs);
       element.handleToggleDiffMode();
       assert.isTrue(
         updatePreferencesStub.calledWith({diff_view: DiffViewMode.UNIFIED})
@@ -995,7 +1002,7 @@ suite('gr-change-view tests', () => {
         ...createDefaultPreferences(),
         diff_view: DiffViewMode.UNIFIED,
       };
-      element.userModel.setPreferences(newPrefs);
+      testResolver(userModelToken).setPreferences(newPrefs);
       await element.updateComplete;
       element.handleToggleDiffMode();
       assert.isTrue(
@@ -1586,11 +1593,11 @@ suite('gr-change-view tests', () => {
     sinon.stub(element, 'loadAndSetCommitInfo');
     await element.updateComplete;
     const reloadPortedCommentsStub = sinon.stub(
-      element.getCommentsModel(),
+      testResolver(commentsModelToken),
       'reloadPortedComments'
     );
     const reloadPortedDraftsStub = sinon.stub(
-      element.getCommentsModel(),
+      testResolver(commentsModelToken),
       'reloadPortedDrafts'
     );
     sinon.stub(element.fileList, 'collapseAllDiffs');
@@ -1683,7 +1690,7 @@ suite('gr-change-view tests', () => {
     );
 
     element.viewState = createChangeViewState();
-    element.getChangeModel().setState({
+    testResolver(changeModelToken).setState({
       loadingStatus: LoadingStatus.LOADED,
       change: {
         ...createChangeViewChange(),
@@ -1776,7 +1783,7 @@ suite('gr-change-view tests', () => {
 
   test('topic is coalesced to null', async () => {
     sinon.stub(element, 'changeChanged');
-    element.getChangeModel().setState({
+    testResolver(changeModelToken).setState({
       loadingStatus: LoadingStatus.LOADED,
       change: {
         ...createChangeViewChange(),
@@ -1791,7 +1798,7 @@ suite('gr-change-view tests', () => {
   });
 
   test('commit sha is populated from getChangeDetail', async () => {
-    element.getChangeModel().setState({
+    testResolver(changeModelToken).setState({
       loadingStatus: LoadingStatus.LOADED,
       change: {
         ...createChangeViewChange(),
@@ -2161,7 +2168,7 @@ suite('gr-change-view tests', () => {
   test('selectedRevision updates when patchNum is changed', async () => {
     const revision1: RevisionInfo = createRevision(1);
     const revision2: RevisionInfo = createRevision(2);
-    element.getChangeModel().setState({
+    testResolver(changeModelToken).setState({
       loadingStatus: LoadingStatus.LOADED,
       change: {
         ...createChangeViewChange(),
@@ -2174,7 +2181,7 @@ suite('gr-change-view tests', () => {
         current_revision: 'bbb' as CommitId,
       },
     });
-    element.userModel.setPreferences(createPreferences());
+    testResolver(userModelToken).setPreferences(createPreferences());
 
     element.patchRange = {patchNum: 2 as RevisionPatchSetNum};
     await element.performPostChangeLoadTasks();
@@ -2189,7 +2196,7 @@ suite('gr-change-view tests', () => {
     const revision1 = createRevision(1);
     const revision2 = createRevision(2);
     const revision3 = createEditRevision();
-    element.getChangeModel().setState({
+    testResolver(changeModelToken).setState({
       loadingStatus: LoadingStatus.LOADED,
       change: {
         ...createChangeViewChange(),
@@ -2463,7 +2470,7 @@ suite('gr-change-view tests', () => {
         changeNum: TEST_NUMERIC_CHANGE_ID,
         project: TEST_PROJECT_NAME,
       };
-      element.getChangeModel().setState({
+      testResolver(changeModelToken).setState({
         loadingStatus: LoadingStatus.LOADED,
         change: {
           ...createChangeViewChange(),

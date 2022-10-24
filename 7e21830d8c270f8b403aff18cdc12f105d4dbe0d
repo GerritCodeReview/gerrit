@@ -22,6 +22,30 @@
       },
       "revId": "7e21830d8c270f8b403aff18cdc12f105d4dbe0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c90e729_cca94dcc",
+        "filename": "java/com/google/gerrit/server/query/account/AccountQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-24T10:04:26Z",
+      "side": 1,
+      "message": "Thought about that, but I don\u0027t see this as a useful use case, i.e. the user doing that can alternatively request the change data and get this info.\n\nAlso, you\u0027ll anyway need to disallow such query if querying user not in \u003cinvolved_parties\u003e (reviewer, cc, owner, ...), meaning that we still need to have this logic + exception for involved parties, as you suggested.\n\nWDYT? I also don\u0027t think this feature has many usages since\n  * it\u0027s not available in the UI\n  * I think it\u0027s an unlikely use case to be executed by bots. I can check the data if you want to.",
+      "parentUuid": "fe0e98bb_06863e2c",
+      "range": {
+        "startLine": 125,
+        "startChar": 6,
+        "endLine": 128,
+        "endChar": 23
+      },
+      "revId": "7e21830d8c270f8b403aff18cdc12f105d4dbe0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

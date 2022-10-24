@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3826ad7c_da5d3cd3",
+        "filename": "polygerrit-ui/app/elements/gr-app_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-24T14:59:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8400af27_e29baf2e",
+      "range": {
+        "startLine": 24,
+        "startChar": 11,
+        "endLine": 24,
+        "endChar": 12
+      },
+      "revId": "7a4533072c0062fd517592e0e19db56f7870869f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c8c1df30_1eaa344a",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-10-24T14:55:24Z",
       "side": 1,
       "message": "what is the purpose of this here? The tests pass fine without it and it used to just be in teardown, so it could use a comment to explain why it\u0027s here.",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 35
+      },
+      "revId": "7a4533072c0062fd517592e0e19db56f7870869f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6eefce67_6127e744",
+        "filename": "polygerrit-ui/app/elements/gr-app_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-10-24T14:59:00Z",
+      "side": 1,
+      "message": "Added a comment",
+      "parentUuid": "c8c1df30_1eaa344a",
       "range": {
         "startLine": 39,
         "startChar": 4,

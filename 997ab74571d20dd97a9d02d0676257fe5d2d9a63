@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "ed275757_3fecb584",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-10-24T08:46:59Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "9df8be81_5d9d05e1",
+      "range": {
+        "startLine": 282,
+        "startChar": 16,
+        "endLine": 282,
+        "endChar": 19
+      },
+      "revId": "997ab74571d20dd97a9d02d0676257fe5d2d9a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ce9fafbf_1603ac92",
         "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 12

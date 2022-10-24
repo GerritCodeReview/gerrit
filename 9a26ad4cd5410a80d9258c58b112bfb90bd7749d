@@ -169,6 +169,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "182bad82_19ca973e",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-10-24T09:48:04Z",
+      "side": 1,
+      "message": "Digging into your test, addPatchSet is always allowed for a change owner [1], and the permissions is granted on \u0027refs/for/*\u0027 on allProjects.\n\nSo you need to revoke permissions on allProjects and also issue an operation from a different user. You can do this like:\n\n```\n projectOperations\n     .project(allProjects)\n     .forUpdate()\n     .remove(permissionKey(Permission.ADD_PATCH_SET)\n     .ref(\"refs/for/*\").group(REGISTERED_USERS).build())\n     .update();\n     \n   \n requestScopeOperations.setApiUser(user.id());\n\n```\n\n\n[1]https://gerrit.googlesource.com/gerrit/+/refs/changes/54/347054/13/java/com/google/gerrit/server/permissions/ChangeControl.java#108",
+      "parentUuid": "0ab3f090_efe93500",
+      "range": {
+        "startLine": 166,
+        "startChar": 4,
+        "endLine": 167,
+        "endChar": 31
+      },
+      "revId": "9a26ad4cd5410a80d9258c58b112bfb90bd7749d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "229ff8f9_4eabc4f5",
         "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
         "patchSetId": 10

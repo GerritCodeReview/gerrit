@@ -45,6 +45,7 @@ import {configModelToken} from '../../../models/config/config-model';
 import {createSearchUrl} from '../../../models/views/search';
 import {createDashboardUrl} from '../../../models/views/dashboard';
 import {fire, fireEvent} from '../../../utils/event-util';
+import {userModelToken} from '../../../models/user/user-model';
 
 @customElement('gr-hovercard-account-contents')
 export class GrHovercardAccountContents extends LitElement {
@@ -77,8 +78,7 @@ export class GrHovercardAccountContents extends LitElement {
 
   private readonly reporting = getAppContext().reportingService;
 
-  // private but used in tests
-  readonly userModel = getAppContext().userModel;
+  private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly getConfigModel = resolve(this, configModelToken);
 
@@ -86,7 +86,7 @@ export class GrHovercardAccountContents extends LitElement {
     super();
     subscribe(
       this,
-      () => this.userModel.account$,
+      () => this.getUserModel().account$,
       x => (this.selfAccount = x)
     );
     subscribe(

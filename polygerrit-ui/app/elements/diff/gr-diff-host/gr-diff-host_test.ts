@@ -53,11 +53,14 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {GrAnnotationActionsInterface} from '../../shared/gr-js-api-interface/gr-annotation-actions-js-api';
 import {fixture, html, assert} from '@open-wc/testing';
 import {EventType} from '../../../types/events';
+import {testResolver} from '../../../test/common-test-setup';
+import {userModelToken, UserModel} from '../../../models/user/user-model';
 
 suite('gr-diff-host tests', () => {
   let element: GrDiffHost;
   let account = createAccountDetailWithId(1);
   let getDiffRestApiStub: SinonStub;
+  let userModel: UserModel;
 
   setup(async () => {
     stubRestApi('getAccount').callsFake(() => Promise.resolve(account));
@@ -70,6 +73,7 @@ suite('gr-diff-host tests', () => {
     // Fall back in case a test forgets to set one up
     getDiffRestApiStub.returns(Promise.resolve(createDiff()));
     await element.updateComplete;
+    userModel = testResolver(userModelToken);
   });
 
   suite('plugin layers', () => {
@@ -591,7 +595,7 @@ suite('gr-diff-host tests', () => {
   });
 
   test('cannot create comments when not logged in', () => {
-    element.userModel.setAccount(undefined);
+    userModel.setAccount(undefined);
     element.patchRange = createPatchRange();
     const showAuthRequireSpy = sinon.spy();
     element.addEventListener('show-auth-required', showAuthRequireSpy);

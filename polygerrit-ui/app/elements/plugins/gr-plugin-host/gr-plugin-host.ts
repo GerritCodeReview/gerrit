@@ -16,8 +16,7 @@ export class GrPluginHost extends LitElement {
   @state()
   config?: ServerInfo;
 
-  // visible for testing
-  readonly getConfigModel = resolve(this, configModelToken);
+  private readonly getConfigModel = resolve(this, configModelToken);
 
   constructor() {
     super();

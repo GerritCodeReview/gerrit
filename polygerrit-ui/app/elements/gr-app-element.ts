@@ -73,6 +73,7 @@ import {PluginViewState} from '../models/views/plugin';
 import {createSearchUrl, SearchViewState} from '../models/views/search';
 import {createSettingsUrl} from '../models/views/settings';
 import {createDashboardUrl} from '../models/views/dashboard';
+import {userModelToken} from '../models/user/user-model';
 
 interface ErrorInfo {
   text: string;
@@ -161,7 +162,7 @@ export class GrAppElement extends LitElement {
 
   private readonly shortcuts = new ShortcutController(this);
 
-  private readonly userModel = getAppContext().userModel;
+  private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly routerModel = getAppContext().routerModel;
 
@@ -210,7 +211,7 @@ export class GrAppElement extends LitElement {
 
     subscribe(
       this,
-      () => this.userModel.preferenceTheme$,
+      () => this.getUserModel().preferenceTheme$,
       theme => {
         this.theme = theme;
         this.applyTheme();
@@ -257,14 +258,14 @@ export class GrAppElement extends LitElement {
     // TODO(milutin): Remove saving preferences after while. This code is
     // for migration.
     if (window.localStorage.getItem('dark-theme')) {
-      this.userModel.updatePreferences({theme: AppTheme.DARK});
+      this.getUserModel().updatePreferences({theme: AppTheme.DARK});
       window.localStorage.removeItem('dark-theme');
       this.reporting.reportExecution(
         Execution.REACHABLE_CODE,
         'Dark theme was migrated from localstorage'
       );
     } else if (window.localStorage.getItem('light-theme')) {
-      this.userModel.updatePreferences({theme: AppTheme.LIGHT});
+      this.getUserModel().updatePreferences({theme: AppTheme.LIGHT});
       window.localStorage.removeItem('light-theme');
       this.reporting.reportExecution(
         Execution.REACHABLE_CODE,

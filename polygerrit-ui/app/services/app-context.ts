@@ -15,7 +15,6 @@ import {UserModel} from '../models/user/user-model';
 import {RouterModel} from './router/router-model';
 import {PluginsModel} from '../models/plugins/plugins-model';
 import {HighlightService} from './highlight/highlight-service';
-import {AccountsModel} from '../models/accounts-model/accounts-model';
 
 export interface AppContext {
   routerModel: RouterModel;
@@ -26,8 +25,11 @@ export interface AppContext {
   restApiService: RestApiService;
   jsApiService: JsApiService;
   storageService: StorageService;
+<<<<<<< HEAD
   userModel: UserModel;
   accountsModel: AccountsModel;
+=======
+>>>>>>> fb80f0bccc... Migrate to DI for AccountsModel
   pluginsModel: PluginsModel;
   highlightService: HighlightService;
 }

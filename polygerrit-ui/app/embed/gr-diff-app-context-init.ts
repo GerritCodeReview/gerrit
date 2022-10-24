@@ -69,6 +69,7 @@ export function createDiffAppContext(): AppContext & Finalizable {
     storageService: (_ctx: Partial<AppContext>) => {
       throw new Error('storageService is not implemented');
     },
+<<<<<<< HEAD
     userModel: (_ctx: Partial<AppContext>) => {
       throw new Error('userModel is not implemented');
     },
@@ -81,6 +82,8 @@ export function createDiffAppContext(): AppContext & Finalizable {
     shortcutsService: (_ctx: Partial<AppContext>) => {
       throw new Error('shortcutsService is not implemented');
     },
+=======
+>>>>>>> fb80f0bccc... Migrate to DI for AccountsModel
     pluginsModel: (_ctx: Partial<AppContext>) => {
       throw new Error('pluginsModel is not implemented');
     },

@@ -18,9 +18,12 @@ import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api
 import {RouterModel} from '../services/router/router-model';
 import {PluginsModel} from '../models/plugins/plugins-model';
 import {MockHighlightService} from '../services/highlight/highlight-service-mock';
+<<<<<<< HEAD
 import {AccountsModel} from '../models/accounts-model/accounts-model';
 import {UserModel} from '../models/user/user-model';
 import {ShortcutsService} from '../services/shortcuts/shortcuts-service';
+=======
+>>>>>>> fb80f0bccc... Migrate to DI for AccountsModel
 import {createAppDependencies, Creator} from '../services/app-context-init';
 import {navigationToken} from '../elements/core/gr-navigation/gr-navigation';
 import {DependencyToken} from '../models/dependency';
@@ -42,6 +45,7 @@ export function createTestAppContext(): AppContext & Finalizable {
       return new GrJsApiInterface(ctx.reportingService);
     },
     storageService: (_ctx: Partial<AppContext>) => grStorageMock,
+<<<<<<< HEAD
     userModel: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.restApiService, 'restApiService');
       return new UserModel(ctx.restApiService);
@@ -56,6 +60,8 @@ export function createTestAppContext(): AppContext & Finalizable {
       assertIsDefined(ctx.reportingService, 'reportingService');
       return new ShortcutsService(ctx.userModel, ctx.reportingService);
     },
+=======
+>>>>>>> fb80f0bccc... Migrate to DI for AccountsModel
     pluginsModel: (_ctx: Partial<AppContext>) => new PluginsModel(),
     highlightService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.reportingService, 'reportingService');

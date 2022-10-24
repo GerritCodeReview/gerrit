@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "450a0767_8fb6470a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-24T15:16:46Z",
+      "side": 1,
+      "message": "Many tests are using `testResolver` + tokens a lot within tests. We should be resolving once in `setup` and keeping the model in a suite-level variable like we do for `element`, since the injection is not relevant to the subject matter of the test.\n\nSame for the other test files.",
+      "range": {
+        "startLine": 631,
+        "startChar": 6,
+        "endLine": 631,
+        "endChar": 18
+      },
+      "revId": "c42163ebf7eff7f598a79c5ff179e17a1d740f9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

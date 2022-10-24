@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6351284b_19ae3f45",
+        "filename": "polygerrit-ui/app/embed/gr-diff-app-context-init.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-24T15:16:46Z",
+      "side": 0,
+      "message": "What are the changes to shortcutsService? Can you explain in your commit message?",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 54
+      },
+      "revId": "7a4533072c0062fd517592e0e19db56f7870869f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

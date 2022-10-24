@@ -113,7 +113,7 @@ const initialState: FilesState = {
 
 export const filesModelToken = define<FilesModel>('files-model');
 
-export class FilesModel extends Model<FilesState> implements Finalizable {
+export class FilesModel extends Model<FilesState> {
   public readonly files$ = select(this.state$, state => state.files);
 
   public readonly filesWithUnmodified$ = select(

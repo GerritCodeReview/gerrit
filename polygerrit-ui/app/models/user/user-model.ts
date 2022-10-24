@@ -23,7 +23,6 @@ import {
 } from '../../constants/constants';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {DiffPreferencesInfo} from '../../types/diff';
-import {Finalizable} from '../../services/registry';
 import {select} from '../../utils/observable-util';
 import {Model} from '../model';
 import {isDefined} from '../../types/types';
@@ -56,7 +55,7 @@ export interface UserState {
   capabilities?: AccountCapabilityInfo;
 }
 
-export class UserModel extends Model<UserState> implements Finalizable {
+export class UserModel extends Model<UserState> {
   /**
    * Note that the initially emitted `undefined` value can mean "not loaded
    * the account into object yet" or "user is not logged in". Consider using

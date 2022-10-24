@@ -32,7 +32,6 @@ import {fireAlert} from '../../utils/event-util';
 
 import {ChangeInfo} from '../../types/common';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
-import {Finalizable} from '../../services/registry';
 import {select} from '../../utils/observable-util';
 import {assertIsDefined} from '../../utils/common-util';
 import {Model} from '../model';
@@ -148,7 +147,7 @@ const initialState: ChangeState = {
 
 export const changeModelToken = define<ChangeModel>('change-model');
 
-export class ChangeModel extends Model<ChangeState> implements Finalizable {
+export class ChangeModel extends Model<ChangeState> {
   private change?: ParsedChangeInfo;
 
   private patchNum?: PatchSetNum;

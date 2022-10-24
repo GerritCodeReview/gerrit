@@ -36,7 +36,7 @@ export interface RouterState {
   basePatchNum?: BasePatchSetNum;
 }
 
-export class RouterModel extends Model<RouterState> implements Finalizable {
+export class RouterModel extends Model<RouterState> {
   readonly routerView$: Observable<GerritView | undefined> = select(
     this.state$,
     state => state.view

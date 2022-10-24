@@ -3,7 +3,6 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {Finalizable} from '../../services/registry';
 import {Observable, Subject} from 'rxjs';
 import {
   CheckResult,
@@ -37,7 +36,7 @@ interface PluginsState {
 
 export const pluginsModelToken = define<PluginsModel>('plugins-model');
 
-export class PluginsModel extends Model<PluginsState> implements Finalizable {
+export class PluginsModel extends Model<PluginsState> {
   /** Private version of the event bus below. */
   private checksAnnounceSubject$ = new Subject<ChecksPlugin>();
 

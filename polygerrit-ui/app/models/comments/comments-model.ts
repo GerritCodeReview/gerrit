@@ -35,6 +35,7 @@ import {
   reportingDetails,
   UnsavedInfo,
 } from '../../utils/comment-util';
+import {RepoName} from '../../api/rest-api';
 import {deepEqual} from '../../utils/deep-util';
 import {select} from '../../utils/observable-util';
 import {RouterModel} from '../../services/router/router-model';
@@ -277,6 +278,8 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
 
   private numPendingDraftRequests = 0;
 
+  private repo?: RepoName;
+
   private changeNum?: NumericChangeId;
 
   private patchNum?: PatchSetNum;
@@ -316,9 +319,11 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
     );
     this.subscriptions.push(
       combineLatest([
+        this.changeModel.repo$,
         this.changeModel.changeNum$,
         this.changeModel.currentPatchNum$,
-      ]).subscribe(([changeNum, patchNum]) => {
+      ]).subscribe(([repo, changeNum, patchNum]) => {
+        this.repo = repo;
         this.changeNum = changeNum;
         this.patchNum = patchNum;
         this.reloadAllPortedComments();
@@ -341,15 +346,17 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
 
   // Note that this does *not* reload ported comments.
   async reloadAllComments() {
+    if (!this.repo) return;
     if (!this.changeNum) return;
     await Promise.all([
-      this.reloadComments(this.changeNum),
-      this.reloadRobotComments(this.changeNum),
-      this.reloadDrafts(this.changeNum),
+      this.reloadComments(this.repo, this.changeNum),
+      this.reloadRobotComments(this.repo, this.changeNum),
+      this.reloadDrafts(this.repo, this.changeNum),
     ]);
   }
 
   async reloadAllPortedComments() {
+    if (!this.repo) return;
     if (!this.changeNum) return;
     if (!this.patchNum) return;
     await Promise.all([
@@ -369,12 +376,20 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
     this.subject$.next(state);
   }
 
-  async reloadComments(changeNum: NumericChangeId): Promise<void> {
+  async reloadComments(
+    repo: RepoName,
+    changeNum: NumericChangeId
+  ): Promise<void> {
+    this.restApiService.setInProjectLookup(changeNum, repo);
     const comments = await this.restApiService.getDiffComments(changeNum);
     this.updateState(s => setComments(s, comments));
   }
 
-  async reloadRobotComments(changeNum: NumericChangeId): Promise<void> {
+  async reloadRobotComments(
+    repo: RepoName,
+    changeNum: NumericChangeId
+  ): Promise<void> {
+    this.restApiService.setInProjectLookup(changeNum, repo);
     const robotComments = await this.restApiService.getDiffRobotComments(
       changeNum
     );
@@ -410,7 +425,11 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
     );
   }
 
-  async reloadDrafts(changeNum: NumericChangeId): Promise<void> {
+  async reloadDrafts(
+    repo: RepoName,
+    changeNum: NumericChangeId
+  ): Promise<void> {
+    this.restApiService.setInProjectLookup(changeNum, repo);
     const drafts = await this.restApiService.getDiffDrafts(changeNum);
     this.updateState(s => setDrafts(s, drafts));
   }

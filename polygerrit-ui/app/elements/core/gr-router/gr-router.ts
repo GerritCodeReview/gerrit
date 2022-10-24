@@ -310,6 +310,7 @@ export class GrRouter {
   setParams(params: AppElementParams | GenerateUrlParameters) {
     this.routerModel.updateState({
       view: params.view,
+      repo: 'project' in params ? params.project : undefined,
       changeNum: 'changeNum' in params ? params.changeNum : undefined,
       patchNum: 'patchNum' in params ? params.patchNum ?? undefined : undefined,
     });

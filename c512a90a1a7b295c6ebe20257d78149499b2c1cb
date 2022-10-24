@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6216ee33_096d3ad3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 894,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-10-24T18:18:15Z",
+      "side": 0,
+      "message": "Maybe this type can be ShowRevisionActionsDetail",
+      "range": {
+        "startLine": 893,
+        "startChar": 4,
+        "endLine": 894,
+        "endChar": 46
+      },
+      "revId": "c512a90a1a7b295c6ebe20257d78149499b2c1cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d34f7bc_f87b85ff",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface-element.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-10-24T18:18:15Z",
+      "side": 0,
+      "message": "Can we remove SHOW_CHANGE, LABEL_CHANGE, ...\n\nfrom eventType in plugin.ts?",
+      "range": {
+        "startLine": 42,
+        "startChar": 11,
+        "endLine": 52,
+        "endChar": 25
+      },
+      "revId": "c512a90a1a7b295c6ebe20257d78149499b2c1cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

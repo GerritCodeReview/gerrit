@@ -388,6 +388,20 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   }
 
   @Test
+  public void byCanSee_notAllowedForPrivateChanges() throws Exception {
+    Project.NameKey p = createProject(name("p"));
+    ChangeInfo c = createPrivateChange(p);
+    BadRequestException exception =
+        assertThrows(BadRequestException.class, () -> newQuery("cansee:" + c.changeId).get());
+    assertThat(exception)
+        .hasMessageThat()
+        .isEqualTo(
+            String.format(
+                "Change %s is private. Cannot use the 'cansee' operator with private changes.",
+                c.changeId));
+  }
+
+  @Test
   public void byWatchedProject() throws Exception {
     Project.NameKey p = createProject(name("p"));
     Project.NameKey p2 = createProject(name("p2"));
@@ -713,6 +727,15 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     in.add = ImmutableMap.of("refs/*", a);
 
     gApi.projects().name(project.get()).access(in);
+  }
+
+  protected ChangeInfo createPrivateChange(Project.NameKey project) throws RestApiException {
+    ChangeInput in = new ChangeInput();
+    in.subject = "A change";
+    in.project = project.get();
+    in.branch = "master";
+    in.isPrivate = true;
+    return gApi.changes().create(in).get();
   }
 
   protected ChangeInfo createChange(Project.NameKey project) throws RestApiException {

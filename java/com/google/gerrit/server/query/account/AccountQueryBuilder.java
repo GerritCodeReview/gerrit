@@ -121,7 +121,12 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState, AccountQuery
     if (!changeNotes.isPresent()) {
       throw error(String.format("change %s not found", change));
     }
-
+    if (changeNotes.get().getChange().isPrivate()) {
+      throw error(
+          String.format(
+              "Change %s is private. Cannot use the 'cansee' operator with private changes.",
+              change));
+    }
     if (!args.permissionBackend
         .user(args.getUser())
         .change(changeNotes.get())

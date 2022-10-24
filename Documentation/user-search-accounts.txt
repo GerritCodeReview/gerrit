@@ -26,7 +26,9 @@ text with no operator, which will match against a variety of fields.
 [[cansee]]
 cansee:'CHANGE'::
 +
-Matches accounts that can see the change 'CHANGE'.
+Matches accounts that can see the change 'CHANGE'. Note that this operator
+is not allowed with private changes, since users have no visibility over the
+change anyway (except change owner, reviewers and CCs).
 
 [[email]]
 email:'EMAIL'::

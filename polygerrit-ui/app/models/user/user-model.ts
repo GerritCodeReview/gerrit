@@ -24,6 +24,7 @@ import {
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {DiffPreferencesInfo} from '../../types/diff';
 import {select} from '../../utils/observable-util';
+import {define} from '../dependency';
 import {Model} from '../model';
 import {isDefined} from '../../types/types';
 
@@ -54,6 +55,8 @@ export interface UserState {
   editPreferences?: EditPreferencesInfo;
   capabilities?: AccountCapabilityInfo;
 }
+
+export const userModelToken = define<UserModel>('user-model');
 
 export class UserModel extends Model<UserState> {
   /**

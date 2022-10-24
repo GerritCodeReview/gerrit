@@ -64,6 +64,7 @@ import {Interaction} from '../../../constants/reporting';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {isBase64FileContent} from '../../../api/rest-api';
 import {createDiffUrl} from '../../../models/views/diff';
+import {userModelToken} from '../../../models/user/user-model';
 
 const UNSAVED_MESSAGE = 'Unable to save draft';
 
@@ -229,10 +230,9 @@ export class GrComment extends LitElement {
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
-  // Private but used in tests.
-  readonly getCommentsModel = resolve(this, commentsModelToken);
+  private readonly getCommentsModel = resolve(this, commentsModelToken);
 
-  private readonly userModel = getAppContext().userModel;
+  private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly shortcuts = new ShortcutController(this);
 
@@ -282,12 +282,12 @@ export class GrComment extends LitElement {
     }
     subscribe(
       this,
-      () => this.userModel.account$,
+      () => this.getUserModel().account$,
       x => (this.account = x)
     );
     subscribe(
       this,
-      () => this.userModel.isAdmin$,
+      () => this.getUserModel().isAdmin$,
       x => (this.isAdmin = x)
     );
 

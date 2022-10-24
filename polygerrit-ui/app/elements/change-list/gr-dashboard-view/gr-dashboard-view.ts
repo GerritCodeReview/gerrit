@@ -57,6 +57,7 @@ import {
   UserDashboard,
   YOUR_TURN,
 } from '../../../utils/dashboard-util';
+import {userModelToken} from '../../../models/user/user-model';
 
 const PROJECT_PLACEHOLDER_PATTERN = /\${project}/g;
 
@@ -107,7 +108,7 @@ export class GrDashboardView extends LitElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
-  private readonly userModel = getAppContext().userModel;
+  private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly getViewModel = resolve(this, dashboardViewModelToken);
 
@@ -119,7 +120,7 @@ export class GrDashboardView extends LitElement {
     super();
     subscribe(
       this,
-      () => this.userModel.account$,
+      () => this.getUserModel().account$,
       x => (this.account = x)
     );
     subscribe(

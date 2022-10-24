@@ -29,7 +29,7 @@ import {
 import {assertIsDefined} from '../utils/common-util';
 import {ConfigModel, configModelToken} from '../models/config/config-model';
 import {BrowserModel, browserModelToken} from '../models/browser/browser-model';
-import {PluginsModel} from '../models/plugins/plugins-model';
+import {PluginsModel, pluginsModelToken} from '../models/plugins/plugins-model';
 import {HighlightService} from './highlight/highlight-service';
 import {AccountsModel} from '../models/accounts-model/accounts-model';
 import {
@@ -58,6 +58,10 @@ import {PluginViewModel, pluginViewModelToken} from '../models/views/plugin';
 import {RepoViewModel, repoViewModelToken} from '../models/views/repo';
 import {SearchViewModel, searchViewModelToken} from '../models/views/search';
 import {navigationToken} from '../elements/core/gr-navigation/gr-navigation';
+import {
+  PluginLoader,
+  pluginLoaderToken,
+} from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
 
 /**
  * The AppContext lazy initializator for all services
@@ -212,6 +216,13 @@ export function createAppDependencies(
   const shortcutServiceCreator = () =>
     new ShortcutsService(resolver(userModelToken), appContext.reportingService);
   dependencies.set(shortcutsServiceToken, shortcutServiceCreator);
+
+  const pluginsModelCreator = () => new PluginsModel();
+  dependencies.set(pluginsModelToken, pluginsModelCreator);
+
+  const pluginLoaderCreator = () =>
+    new PluginLoader(appContext.reportingService, resolver(pluginsModelToken));
+  dependencies.set(pluginLoaderToken, pluginLoaderCreator);
 
   return dependencies;
 }

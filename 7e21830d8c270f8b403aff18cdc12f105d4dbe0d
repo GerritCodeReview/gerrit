@@ -94,6 +94,30 @@
       },
       "revId": "7e21830d8c270f8b403aff18cdc12f105d4dbe0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39d7f83b_ea7bdf87",
+        "filename": "java/com/google/gerrit/server/query/account/AccountQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-24T10:22:19Z",
+      "side": 1,
+      "message": "\u003e Front-end (mention users) will need to adapt to this case in the FE.\n\nIf it\u0027s feasible for us to make this work in the backend, I think that\u0027s preferred over special casing this in the frontend.\n\n\u003e I gave it a second thought and I think your way is better.\n\nThanks, let mw know how this goes :)",
+      "parentUuid": "78bd9e5f_1c563eab",
+      "range": {
+        "startLine": 125,
+        "startChar": 6,
+        "endLine": 128,
+        "endChar": 23
+      },
+      "revId": "7e21830d8c270f8b403aff18cdc12f105d4dbe0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

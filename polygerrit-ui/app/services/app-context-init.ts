@@ -21,7 +21,7 @@ import {
   CommentsModel,
   commentsModelToken,
 } from '../models/comments/comments-model';
-import {RouterModel} from './router/router-model';
+import {RouterModel, routerModelToken} from './router/router-model';
 import {
   ShortcutsService,
   shortcutsServiceToken,
@@ -64,7 +64,6 @@ import {navigationToken} from '../elements/core/gr-navigation/gr-navigation';
  */
 export function createAppContext(): AppContext & Finalizable {
   const appRegistry: Registry<AppContext> = {
-    routerModel: (_ctx: Partial<AppContext>) => new RouterModel(),
     flagsService: (_ctx: Partial<AppContext>) =>
       new FlagsServiceImplementation(),
     reportingService: (ctx: Partial<AppContext>) => {
@@ -112,6 +111,8 @@ export function createAppDependencies(
   resolver: <T>(token: DependencyToken<T>) => T
 ): Map<DependencyToken<unknown>, Creator<unknown>> {
   const dependencies = new Map<DependencyToken<unknown>, Creator<unknown>>();
+  const routerModelCreator = () => new RouterModel();
+  dependencies.set(routerModelToken, routerModelCreator);
   const userModelCreator = () => new UserModel(appContext.restApiService);
   dependencies.set(userModelToken, userModelCreator);
   const browserModelCreator = () => new BrowserModel(resolver(userModelToken));
@@ -150,7 +151,7 @@ export function createAppDependencies(
   const routerCreator = () =>
     new GrRouter(
       appContext.reportingService,
-      appContext.routerModel,
+      resolver(routerModelToken),
       appContext.restApiService,
       resolver(adminViewModelToken),
       resolver(agreementViewModelToken),
@@ -170,7 +171,7 @@ export function createAppDependencies(
 
   const changeModelCreator = () =>
     new ChangeModel(
-      appContext.routerModel,
+      resolver(routerModelToken),
       appContext.restApiService,
       resolver(userModelToken)
     );
@@ -178,7 +179,7 @@ export function createAppDependencies(
 
   const commentsModelCreator = () =>
     new CommentsModel(
-      appContext.routerModel,
+      resolver(routerModelToken),
       resolver(changeModelToken),
       appContext.accountsModel,
       appContext.restApiService,
@@ -200,7 +201,7 @@ export function createAppDependencies(
 
   const checksModelCreator = () =>
     new ChecksModel(
-      appContext.routerModel,
+      resolver(routerModelToken),
       resolver(changeViewModelToken),
       resolver(changeModelToken),
       appContext.reportingService,

@@ -23,7 +23,7 @@ import {
 } from '../../test/test-data-generators';
 import {stubRestApi, waitUntil, waitUntilCalled} from '../../test/test-utils';
 import {getAppContext} from '../../services/app-context';
-import {GerritView} from '../../services/router/router-model';
+import {GerritView, routerModelToken} from '../../services/router/router-model';
 import {PathToCommentsInfoMap} from '../../types/common';
 import {changeModelToken} from '../change/change-model';
 import {assert} from '@open-wc/testing';
@@ -69,7 +69,7 @@ suite('change service tests', () => {
 
   test('loads comments', async () => {
     const model = new CommentsModel(
-      getAppContext().routerModel,
+      testResolver(routerModelToken),
       testResolver(changeModelToken),
       getAppContext().accountsModel,
       getAppContext().restApiService,
@@ -97,11 +97,11 @@ suite('change service tests', () => {
       model.portedComments$.subscribe(c => (portedComments = c ?? {}))
     );
 
-    model.routerModel.setState({
+    testResolver(routerModelToken).setState({
       view: GerritView.CHANGE,
       changeNum: TEST_NUMERIC_CHANGE_ID,
     });
-    model.changeModel.updateStateChange(createParsedChange());
+    testResolver(changeModelToken).updateStateChange(createParsedChange());
 
     await waitUntilCalled(diffCommentsSpy, 'diffCommentsSpy');
     await waitUntilCalled(diffRobotCommentsSpy, 'diffRobotCommentsSpy');
@@ -130,7 +130,7 @@ suite('change service tests', () => {
     };
     stubRestApi('getAccountDetails').returns(Promise.resolve(account));
     const model = new CommentsModel(
-      getAppContext().routerModel,
+      testResolver(routerModelToken),
       testResolver(changeModelToken),
       getAppContext().accountsModel,
       getAppContext().restApiService,
@@ -158,7 +158,7 @@ suite('change service tests', () => {
     };
     stubRestApi('getAccountDetails').returns(Promise.resolve(account));
     const model = new CommentsModel(
-      getAppContext().routerModel,
+      testResolver(routerModelToken),
       testResolver(changeModelToken),
       getAppContext().accountsModel,
       getAppContext().restApiService,

@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {getBaseUrl} from '../../../utils/url-util';
-import {getPluginLoader} from '../gr-js-api-interface/gr-plugin-loader';
 import {AccountInfo} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import {LitElement, css, html} from 'lit';
@@ -25,6 +24,8 @@ export class GrAvatar extends LitElement {
   @state() private hasAvatars = false;
 
   private readonly restApiService = getAppContext().restApiService;
+
+  private readonly pluginLoader = getAppContext().pluginLoader;
 
   static override get styles() {
     return [
@@ -54,7 +55,7 @@ export class GrAvatar extends LitElement {
     super.connectedCallback();
     Promise.all([
       this.restApiService.getConfig(),
-      getPluginLoader().awaitPluginsLoaded(),
+      this.pluginLoader.awaitPluginsLoaded(),
     ]).then(([cfg]) => {
       this.hasAvatars = Boolean(cfg?.plugin?.has_avatars);
       this.updateHostVisibilityAndImage();

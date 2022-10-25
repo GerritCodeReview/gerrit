@@ -33,6 +33,24 @@
       "message": "I missed that Brandon is actually working on upgrading Bouncy Castle for all of Google, which is awesome news. Thanks Brandon! In this case I think it should be OK to submit this, even if Google is not on this version yet. There is only a small risk that we would need to revert the version if the upgrade inside Google fails.\n\nPatrick, WDYT? Can we approve and submit this already now?",
       "revId": "ce5b7351b7920f6e0448af476ef0455ca6425b1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe77a34a_782372d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-10-25T07:15:54Z",
+      "side": 1,
+      "message": "Generally LGTM if that is the version you are upgrading to and there are no incompatibilities (our code needs to be adjusted in lockstep with the upgrade). \nInternally we seem to be upgrading to 1.69 is that just an intermediary step @bweeks@google.com ?",
+      "parentUuid": "62574b54_d44ff3ef",
+      "revId": "ce5b7351b7920f6e0448af476ef0455ca6425b1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

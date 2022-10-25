@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "919fa3ef_43e75ce6",
+        "filename": "java/com/google/gerrit/server/query/change/HasSubmoduleUpdatePredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-25T14:55:04Z",
+      "side": 1,
+      "message": "I think it\u0027s better to not swallow these exceptions and rather fail with a 500 ISE if they occur (e.g. throw a RuntimeException like StorageException).\n\nImagine a case where changes should be submittable only if no submodule update is contained (submittableIf \u003d -has:submodule-update). If you have a change that contains a submodule update and such an exception occurs, the change will wrongly be submittable and since there is no error nobody will notice this immediately.",
+      "range": {
+        "startLine": 76,
+        "startChar": 4,
+        "endLine": 82,
+        "endChar": 5
+      },
+      "revId": "8cc1b1163575d2e3245f3fec91177e16ec8938db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09a3c4f5_5b2dc14d",
+        "filename": "java/com/google/gerrit/server/query/change/SubmitRequirementChangeQueryBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-25T14:55:04Z",
+      "side": 1,
+      "message": "I think in Gerrit we use Locale.US?",
+      "range": {
+        "startLine": 93,
+        "startChar": 26,
+        "endLine": 93,
+        "endChar": 37
+      },
+      "revId": "8cc1b1163575d2e3245f3fec91177e16ec8938db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45e8e3c9_8cf1bad4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementPredicateIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-25T14:55:04Z",
+      "side": 1,
+      "message": "[optional] Instead of having 3 tests for againstParent1, againstParent2, againstDefaultBase, would it be easier to just have 3 assertions here?",
+      "revId": "8cc1b1163575d2e3245f3fec91177e16ec8938db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d07bc818_051dddf0",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementPredicateIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-25T14:55:04Z",
+      "side": 1,
+      "message": "nit: should this be private?",
+      "range": {
+        "startLine": 419,
+        "startChar": 2,
+        "endLine": 419,
+        "endChar": 11
+      },
+      "revId": "8cc1b1163575d2e3245f3fec91177e16ec8938db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

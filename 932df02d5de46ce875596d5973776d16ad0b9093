@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09c3e9c0_47b52769",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-25T15:32:34Z",
+      "side": 1,
+      "message": "Nice! I have spent some time verifying the logs and looking through the code base. I think this is safe apart from 11 usages in 7 days of `on()` on Android hosts. No idea where those come from.",
+      "revId": "932df02d5de46ce875596d5973776d16ad0b9093",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

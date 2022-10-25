@@ -1216,13 +1216,29 @@ export class GrChangeView extends LitElement {
           @close=${this.handleIncludedInDialogClose}
         ></gr-included-in-dialog>
       </gr-overlay>
+      <dialog @close=${this.handleReplyCancel}>
+        ${when(
+          this.loggedIn,
+          () => html`
+            <gr-reply-dialog
+              id="replyDialog"
+              .patchNum=${computeLatestPatchNum(this.allPatchSets)}
+              .permittedLabels=${this.change?.permitted_labels}
+              .projectConfig=${this.projectConfig}
+              .canBeStarted=${this.canStartReview()}
+              @send=${this.handleReplySent}
+              @cancel=${this.handleReplyCancel}
+              @autogrow=${this.handleReplyAutogrow}
+              @send-disabled-changed=${this.resetReplyOverlayFocusStops}
+            >
+            </gr-reply-dialog>
+          `
+        )}
+      </dialog>
       <gr-overlay
         id="replyOverlay"
         class="scrollable"
-        no-cancel-on-outside-click=""
-        no-cancel-on-esc-key=""
         scroll-action="lock"
-        with-backdrop=""
         @iron-overlay-canceled=${this.onReplyOverlayCanceled}
         @opened-changed=${this.onReplyOverlayOpenedChanged}
       >

@@ -8,7 +8,6 @@ import {FlagsService} from './flags/flags';
 import {ReportingService} from './gr-reporting/gr-reporting';
 import {AuthService} from './gr-auth/gr-auth';
 import {RestApiService} from './gr-rest-api/gr-rest-api';
-import {PluginsModel} from '../models/plugins/plugins-model';
 import {PluginLoader} from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
 
 export interface AppContext {
@@ -16,7 +15,6 @@ export interface AppContext {
   reportingService: ReportingService;
   authService: AuthService;
   restApiService: RestApiService;
-  pluginsModel: PluginsModel;
   pluginLoader: PluginLoader;
 }
 

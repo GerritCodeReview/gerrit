@@ -35,8 +35,7 @@ suite('gr-plugin-loader tests', () => {
     );
     pluginLoader = new PluginLoader(
       getAppContext().reportingService,
-      getAppContext().restApiService,
-      getAppContext().pluginsModel
+      getAppContext().restApiService
     );
     window.Gerrit = pluginLoader;
     bodyStub = sinon.stub(document.body, 'appendChild');

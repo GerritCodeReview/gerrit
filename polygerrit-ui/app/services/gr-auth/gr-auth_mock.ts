@@ -3,7 +3,6 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {EventEmitterService} from '../gr-event-interface/gr-event-interface';
 import {
   AuthRequestInit,
   AuthService,
@@ -18,11 +17,7 @@ export class GrAuthMock implements AuthService {
 
   private _status = AuthStatus.UNDETERMINED;
 
-  public eventEmitter: EventEmitterService;
-
-  constructor(eventEmitter: EventEmitterService) {
-    this.eventEmitter = eventEmitter;
-  }
+  constructor() {}
 
   get isAuthed() {
     return this._status === Auth.STATUS.AUTHED;
@@ -33,10 +28,11 @@ export class GrAuthMock implements AuthService {
   private _setStatus(status: AuthStatus) {
     if (this._status === status) return;
     if (this._status === AuthStatus.AUTHED) {
-      this.eventEmitter.emit('auth-error', {
-        message: Auth.CREDS_EXPIRED_MSG,
-        action: 'Refresh credentials',
-      });
+      document.dispatchEvent(new CustomEvent('auth-error', {
+        detail: {
+          message: Auth.CREDS_EXPIRED_MSG,
+          action: 'Refresh credentials',
+      }});
     }
     this._status = status;
   }

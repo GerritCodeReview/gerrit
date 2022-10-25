@@ -5,22 +5,16 @@
  */
 import '../../test/common-test-setup';
 import {Auth} from './gr-auth_impl';
-import {getAppContext} from '../app-context';
 import {stubBaseUrl} from '../../test/test-utils';
-import {EventEmitterService} from '../gr-event-interface/gr-event-interface';
 import {SinonFakeTimers} from 'sinon';
 import {AuthRequestInit, DefaultAuthOptions} from './gr-auth';
 import {assert} from '@open-wc/testing';
 
 suite('gr-auth', () => {
   let auth: Auth;
-  let eventEmitter: EventEmitterService;
 
   setup(() => {
-    // TODO(poucet): Mock the eventEmitter completely instead of getting it
-    // from appContext.
-    eventEmitter = getAppContext().eventEmitter;
-    auth = new Auth(eventEmitter);
+    auth = new Auth();
   });
 
   suite('Auth class methods', () => {
@@ -118,11 +112,13 @@ suite('gr-auth', () => {
       assert.equal(auth.status, Auth.STATUS.AUTHED);
       clock.tick(1000 * 10000);
       fakeFetch.returns(Promise.resolve({status: 403}));
-      const emitStub = sinon.stub(eventEmitter, 'emit');
+      const emitStub = sinon.stub();
+      document.addEventListener('auth-error', emitStub);
       const authed2 = await auth.authCheck();
       assert.isFalse(authed2);
       assert.equal(auth.status, Auth.STATUS.NOT_AUTHED);
       assert.isTrue(emitStub.called);
+      document.removeEventListener('auth-error', emitStub);
     });
 
     test('fire event when switch from authed to error', async () => {
@@ -132,11 +128,13 @@ suite('gr-auth', () => {
       assert.equal(auth.status, Auth.STATUS.AUTHED);
       clock.tick(1000 * 10000);
       fakeFetch.returns(Promise.reject(new Error('random error')));
-      const emitStub = sinon.stub(eventEmitter, 'emit');
+      const emitStub = sinon.stub();
+      document.addEventListener('auth-error', emitStub);
       const authed2 = await auth.authCheck();
       assert.isFalse(authed2);
       assert.isTrue(emitStub.called);
       assert.equal(auth.status, Auth.STATUS.ERROR);
+      document.removeEventListener('auth-error', emitStub);
     });
 
     test('no event from non-authed to other status', async () => {
@@ -146,11 +144,13 @@ suite('gr-auth', () => {
       assert.equal(auth.status, Auth.STATUS.NOT_AUTHED);
       clock.tick(1000 * 10000);
       fakeFetch.returns(Promise.resolve({status: 204}));
-      const emitStub = sinon.stub(eventEmitter, 'emit');
+      const emitStub = sinon.stub();
+      document.addEventListener('auth-error', emitStub);
       const authed2 = await auth.authCheck();
       assert.isTrue(authed2);
       assert.isFalse(emitStub.called);
       assert.equal(auth.status, Auth.STATUS.AUTHED);
+      document.removeEventListener('auth-error', emitStub);
     });
 
     test('no event from non-authed to other status', async () => {
@@ -160,11 +160,13 @@ suite('gr-auth', () => {
       assert.equal(auth.status, Auth.STATUS.NOT_AUTHED);
       clock.tick(1000 * 10000);
       fakeFetch.returns(Promise.reject(new Error('random error')));
-      const emitStub = sinon.stub(eventEmitter, 'emit');
+      const emitStub = sinon.stub();
+      document.addEventListener('auth-error', emitStub);
       const authed2 = await auth.authCheck();
       assert.isFalse(authed2);
       assert.isFalse(emitStub.called);
       assert.equal(auth.status, Auth.STATUS.ERROR);
+      document.removeEventListener('auth-error', emitStub);
     });
   });
 

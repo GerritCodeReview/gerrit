@@ -95,12 +95,37 @@ export class GrAccountInfo extends LitElement {
       .lengthCounter {
         font-weight: var(--font-weight-normal);
       }
+      section.visibility .value,
+      section.discoverability .value {
+        max-width: 400px;
+      }
+      section.discoverability ul {
+        list-style-type: disc;
+        list-style-position: inside;
+      }
+      section.discoverability a {
+        cursor: pointer;
+      }
+      p {
+        max-width: 65ch;
+        margin-bottom: var(--spacing-m);
+      }
     `,
   ];
 
   override render() {
     if (!this.account || this.loading) return nothing;
     return html`<div class="gr-form-styles">
+      <p>
+        All profile fields below may be publicly displayed to others, including
+        on changes you are associated with, as well as in search and
+        autocompletion.
+        <a
+          href="https://gerrit-review.googlesource.com/Documentation/user-privacy.html"
+          >Learn more</a
+        >
+      </p>
+      <gr-endpoint-decorator name="profile"></gr-endpoint-decorator>
       <section>
         <span class="title"></span>
         <span class="value">

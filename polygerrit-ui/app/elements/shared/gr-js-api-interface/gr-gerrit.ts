@@ -8,9 +8,9 @@
  * This defines the Gerrit instance. All methods directly attached to Gerrit
  * should be defined or linked here.
  */
-import {getPluginLoader, PluginOptionMap} from './gr-plugin-loader';
+import {PluginLoader, PluginOptionMap} from './gr-plugin-loader';
 import {send} from './gr-api-utils';
-import {getAppContext, AppContext} from '../../../services/app-context';
+import {getAppContext} from '../../../services/app-context';
 import {PluginApi} from '../../../api/plugin';
 import {AuthService} from '../../../services/gr-auth/gr-auth';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
@@ -60,22 +60,12 @@ export interface GerritInternal extends EventEmitterService, Gerrit {
   isPluginLoaded(pathOrUrl: string): boolean;
   awaitPluginsLoaded(): Promise<unknown>;
   _loadPlugins(plugins: string[], opts: PluginOptionMap): void;
-  _arePluginsLoaded(): boolean;
   _isPluginEnabled(pathOrUrl: string): boolean;
   _isPluginLoaded(pathOrUrl: string): boolean;
   _customStyleSheet?: CSSStyleSheet;
 
   // exposed methods
   Auth: AuthService;
-}
-
-export function initGerritPluginApi(appContext: AppContext) {
-  window.Gerrit = window.Gerrit ?? new GerritImpl(appContext);
-}
-
-export function _testOnly_getGerritInternalPluginApi(): GerritInternal {
-  if (!window.Gerrit) throw new Error('initGerritPluginApi was not called');
-  return window.Gerrit as GerritInternal;
 }
 
 export function deprecatedDelete(
@@ -106,17 +96,10 @@ const fakeApi = {
 
 /**
  * TODO(brohlfs): Reduce this step by step until it only contains install().
+ * Exported only for tests and gr-app.ts
  */
-class GerritImpl implements GerritInternal {
+export class GerritImpl implements GerritInternal {
   _customStyleSheet?: CSSStyleSheet;
-
-  public readonly Auth: AuthService;
-
-  private readonly reportingService: ReportingService;
-
-  private readonly eventEmitter: EventEmitterService;
-
-  private readonly restApiService: RestApiService;
 
   public readonly styles = {
     font: fontStyles,
@@ -128,11 +111,14 @@ class GerritImpl implements GerritInternal {
     table: tableStyles,
   };
 
-  constructor(appContext: AppContext) {
-    this.Auth = appContext.authService;
-    this.reportingService = appContext.reportingService;
-    this.eventEmitter = appContext.eventEmitter;
-    this.restApiService = appContext.restApiService;
+  constructor(
+    public readonly Auth: AuthService,
+    private readonly reportingService: ReportingService,
+    private readonly eventEmitter: EventEmitterService,
+    private readonly restApiService: RestApiService,
+    // Private but used and overriden in tests
+    public pluginLoader: PluginLoader
+  ) {
     assertIsDefined(this.reportingService, 'reportingService');
     assertIsDefined(this.eventEmitter, 'eventEmitter');
     assertIsDefined(this.restApiService, 'restApiService');
@@ -166,7 +152,7 @@ class GerritImpl implements GerritInternal {
     version?: string,
     src?: string
   ) {
-    getPluginLoader().install(callback, version, src);
+    this.pluginLoader.install(callback, version, src);
   }
 
   getLoggedIn() {
@@ -211,24 +197,19 @@ class GerritImpl implements GerritInternal {
 
   awaitPluginsLoaded() {
     this.reportingService.trackApi(fakeApi, 'global', 'awaitPluginsLoaded');
-    return getPluginLoader().awaitPluginsLoaded();
+    return this.pluginLoader.awaitPluginsLoaded();
   }
 
   // TODO(taoalpha): consider removing these proxy methods
-  // and using getPluginLoader() directly
+  // and using this.pluginLoader directly
   _loadPlugins(plugins: string[] = []) {
     this.reportingService.trackApi(fakeApi, 'global', '_loadPlugins');
-    getPluginLoader().loadPlugins(plugins);
-  }
-
-  _arePluginsLoaded() {
-    this.reportingService.trackApi(fakeApi, 'global', '_arePluginsLoaded');
-    return getPluginLoader().arePluginsLoaded();
+    this.pluginLoader.loadPlugins(plugins);
   }
 
   _isPluginEnabled(pathOrUrl: string) {
     this.reportingService.trackApi(fakeApi, 'global', '_isPluginEnabled');
-    return getPluginLoader().isPluginEnabled(pathOrUrl);
+    return this.pluginLoader.isPluginEnabled(pathOrUrl);
   }
 
   isPluginLoaded(pathOrUrl: string) {
@@ -237,7 +218,7 @@ class GerritImpl implements GerritInternal {
 
   _isPluginLoaded(pathOrUrl: string) {
     this.reportingService.trackApi(fakeApi, 'global', '_isPluginLoaded');
-    return getPluginLoader().isPluginLoaded(pathOrUrl);
+    return this.pluginLoader.isPluginLoaded(pathOrUrl);
   }
 
   /**

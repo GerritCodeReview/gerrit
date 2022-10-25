@@ -43,14 +43,13 @@ import {
   initErrorReporter,
   initWebVitals,
 } from '../services/gr-reporting/gr-reporting_impl';
-import {injectAppContext} from '../services/app-context';
 import {html, LitElement} from 'lit';
 import {customElement} from 'lit/decorators.js';
 import {ServiceWorkerInstaller} from '../services/service-worker-installer';
 import {userModelToken} from '../models/user/user-model';
 
 const appContext = createAppContext();
-injectAppContext(appContext);
+initGlobalVariables(appContext);
 const reportingService = appContext.reportingService;
 initVisibilityReporter(reportingService);
 initPerformanceReporter(reportingService);
@@ -131,5 +130,3 @@ declare global {
     'gr-app': GrApp;
   }
 }
-
-initGlobalVariables(appContext);

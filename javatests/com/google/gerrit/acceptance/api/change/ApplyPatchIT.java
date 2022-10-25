@@ -371,7 +371,7 @@ public class ApplyPatchIT extends AbstractDaemonTest {
   }
 
   private void initDestBranch() throws Exception {
-    String head = getHead(repo(), org.eclipse.jgit.lib.Constants.HEAD).name();
+    String head = getHead(repo(), HEAD).name();
     createBranchWithRevision(BranchNameKey.create(project, ApplyPatchIT.DESTINATION_BRANCH), head);
   }
 

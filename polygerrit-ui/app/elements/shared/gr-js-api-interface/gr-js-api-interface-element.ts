@@ -20,7 +20,7 @@ import {
   ShowRevisionActionsDetail,
 } from './gr-js-api-types';
 import {EventType, TargetElement} from '../../../api/plugin';
-import {DiffLayer, HighlightJS, ParsedChangeInfo} from '../../../types/types';
+import {DiffLayer, ParsedChangeInfo} from '../../../types/types';
 import {MenuLink} from '../../../api/admin';
 import {Finalizable} from '../../../services/registry';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
@@ -39,23 +39,14 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
       .awaitPluginsLoaded()
       .then(() => {
         switch (type) {
-          case EventType.HISTORY:
-            this._handleHistory(detail);
-            break;
           case EventType.SHOW_CHANGE:
             this._handleShowChange(detail);
-            break;
-          case EventType.COMMENT:
-            this._handleComment(detail);
             break;
           case EventType.LABEL_CHANGE:
             this._handleLabelChange(detail);
             break;
           case EventType.SHOW_REVISION_ACTIONS:
             this._handleShowRevisionActions(detail);
-            break;
-          case EventType.HIGHLIGHTJS_LOADED:
-            this._handleHighlightjsLoaded(detail);
             break;
           default:
             console.warn(
@@ -104,21 +95,6 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
   _removeEventCallbacks() {
     for (const type of Object.values(EventType)) {
       eventCallbacks[type] = [];
-    }
-  }
-
-  // TODO(TS): The HISTORY event and its handler seem unused.
-  _handleHistory(detail: {path: string}) {
-    for (const cb of this._getEventCallbacks(EventType.HISTORY)) {
-      try {
-        cb(detail.path);
-      } catch (err: unknown) {
-        this.reporting.error(
-          'GrJsApiInterface',
-          new Error('handleHistory callback error'),
-          err
-        );
-      }
     }
   }
 
@@ -198,21 +174,6 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
     }
   }
 
-  // TODO(TS): The COMMENT event and its handler seem unused.
-  _handleComment(detail: {node: Node}) {
-    for (const cb of this._getEventCallbacks(EventType.COMMENT)) {
-      try {
-        cb(detail.node);
-      } catch (err: unknown) {
-        this.reporting.error(
-          'GrJsApiInterface',
-          new Error('comment callback error'),
-          err
-        );
-      }
-    }
-  }
-
   _handleLabelChange(detail: {change: ChangeInfo}) {
     for (const cb of this._getEventCallbacks(EventType.LABEL_CHANGE)) {
       try {
@@ -221,20 +182,6 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
         this.reporting.error(
           'GrJsApiInterface',
           new Error('labelChange callback error'),
-          err
-        );
-      }
-    }
-  }
-
-  _handleHighlightjsLoaded(detail: {hljs: HighlightJS}) {
-    for (const cb of this._getEventCallbacks(EventType.HIGHLIGHTJS_LOADED)) {
-      try {
-        cb(detail.hljs);
-      } catch (err: unknown) {
-        this.reporting.error(
-          'GrJsApiInterface',
-          new Error('HighlightjsLoaded callback error'),
           err
         );
       }

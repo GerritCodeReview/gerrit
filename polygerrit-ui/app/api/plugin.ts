@@ -22,19 +22,16 @@ export enum TargetElement {
 
 // Note: for new events, naming convention should be: `a-b`
 export enum EventType {
-  HISTORY = 'history',
   LABEL_CHANGE = 'labelchange',
   SHOW_CHANGE = 'showchange',
   SUBMIT_CHANGE = 'submitchange',
   SHOW_REVISION_ACTIONS = 'show-revision-actions',
   COMMIT_MSG_EDIT = 'commitmsgedit',
-  COMMENT = 'comment',
   REVERT = 'revert',
   REVERT_SUBMISSION = 'revert_submission',
   POST_REVERT = 'postrevert',
   ANNOTATE_DIFF = 'annotatediff',
   ADMIN_MENU_LINKS = 'admin-menu-links',
-  HIGHLIGHTJS_LOADED = 'highlightjs-loaded',
 }
 
 export declare interface PluginApi {

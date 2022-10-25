@@ -69,17 +69,6 @@ suite('GrJsApiInterface tests', () => {
     });
   });
 
-  test('history event', async () => {
-    let resolve;
-    const promise = new Promise(r => resolve = r);
-    plugin.on(EventType.HISTORY, throwErrFn);
-    plugin.on(EventType.HISTORY, resolve);
-    element.handleEvent(EventType.HISTORY, {path: '/path/to/awesomesauce'});
-    const path = await promise;
-    assert.equal(path, '/path/to/awesomesauce');
-    assert.isTrue(errorStub.calledOnce);
-  });
-
   test('showchange event', async () => {
     let resolve;
     const promise = new Promise(r => resolve = r);
@@ -139,19 +128,6 @@ suite('GrJsApiInterface tests', () => {
 
     await waitEventLoop();
     assert.isTrue(spy.called);
-  });
-
-  test('comment event', async () => {
-    let resolve;
-    const promise = new Promise(r => resolve = r);
-    const testCommentNode = {foo: 'bar'};
-    plugin.on(EventType.COMMENT, throwErrFn);
-    plugin.on(EventType.COMMENT, resolve);
-    element.handleEvent(EventType.COMMENT, {node: testCommentNode});
-
-    const commentNode = await promise;
-    assert.deepEqual(commentNode, testCommentNode);
-    assert.isTrue(errorStub.calledOnce);
   });
 
   test('revert event', () => {
@@ -241,19 +217,6 @@ suite('GrJsApiInterface tests', () => {
     plugin.on(EventType.SUBMIT_CHANGE, () => true);
     assert.isFalse(element.canSubmitChange());
     assert.isTrue(errorStub.calledTwice);
-  });
-
-  test('highlightjs-loaded event', async () => {
-    let resolve;
-    const promise = new Promise(r => resolve = r);
-    const testHljs = {_number: 42};
-    plugin.on(EventType.HIGHLIGHTJS_LOADED, throwErrFn);
-    plugin.on(EventType.HIGHLIGHTJS_LOADED, resolve);
-    element.handleEvent(EventType.HIGHLIGHTJS_LOADED, {hljs: testHljs});
-
-    const hljs = await promise;
-    assert.deepEqual(hljs, testHljs);
-    assert.isTrue(errorStub.calledOnce);
   });
 
   test('getLoggedIn', () => {

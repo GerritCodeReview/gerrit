@@ -388,6 +388,7 @@ export function createChangeMessages(count: number): ChangeMessageInfo[] {
     messages.push({
       ...createChangeMessageInfo((i + messageIdStart).toString(16)),
       date: dateToTimestamp(messageDate),
+      author: createAccountDetailWithId(i),
     });
     messageDate = new Date(messageDate);
     messageDate.setDate(messageDate.getDate() + 1);

@@ -5,18 +5,17 @@
  */
 import '../../../test/common-test-setup';
 import {PLUGIN_LOADING_TIMEOUT_MS} from './gr-api-utils';
-import {PluginLoader, _testOnly_resetPluginLoader} from './gr-plugin-loader';
-import {
-  resetPlugins,
-  stubBaseUrl,
-  waitEventLoop,
-} from '../../../test/test-utils';
+import {PluginLoader} from './gr-plugin-loader';
+import {stubBaseUrl, waitEventLoop} from '../../../test/test-utils';
 import {addListenerForTest, stubRestApi} from '../../../test/test-utils';
 import {PluginApi} from '../../../api/plugin';
 import {SinonFakeTimers} from 'sinon';
 import {Timestamp} from '../../../api/rest-api';
 import {EventType} from '../../../types/events';
 import {assert} from '@open-wc/testing';
+import {getAppContext} from '../../../services/app-context';
+import {_testOnly_resetEndpoints} from './gr-plugin-endpoints';
+import {GerritImpl} from './gr-gerrit';
 
 suite('gr-plugin-loader tests', () => {
   let plugin: PluginApi;
@@ -35,14 +34,20 @@ suite('gr-plugin-loader tests', () => {
     stubRestApi('send').returns(
       Promise.resolve({...new Response(), status: 200})
     );
-    pluginLoader = _testOnly_resetPluginLoader();
+    pluginLoader = new PluginLoader(
+      getAppContext().reportingService,
+      getAppContext().jsApiService,
+      getAppContext().restApiService,
+      getAppContext().pluginsModel
+    );
+    (window.Gerrit as GerritImpl).pluginLoader = pluginLoader;
     bodyStub = sinon.stub(document.body, 'appendChild');
     url = window.location.origin;
   });
 
   teardown(() => {
     clock.restore();
-    resetPlugins();
+    _testOnly_resetEndpoints();
   });
 
   test('reuse plugin for install calls', () => {

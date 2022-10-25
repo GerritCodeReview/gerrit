@@ -8,7 +8,6 @@ import './gr-js-api-interface';
 import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interface';
 import {EventType} from '../../../api/plugin';
 import {PLUGIN_LOADING_TIMEOUT_MS} from './gr-api-utils';
-import {getPluginLoader} from './gr-plugin-loader';
 import {
   stubRestApi,
   stubBaseUrl,
@@ -38,7 +37,7 @@ suite('GrJsApiInterface tests', () => {
     errorStub = sinon.stub(element.reporting, 'error');
     window.Gerrit.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
-    getPluginLoader().loadPlugins([]);
+    getAppContext().pluginLoader.loadPlugins([]);
   });
 
   teardown(() => {
@@ -117,7 +116,7 @@ suite('GrJsApiInterface tests', () => {
       revisions: {def: {_number: 2}, abc: {_number: 1}},
     };
     const spy = sinon.spy();
-    getPluginLoader().loadPlugins(['plugins/test.js']);
+    getAppContext().pluginLoader.loadPlugins(['plugins/test.js']);
     plugin.on(EventType.SHOW_CHANGE, spy);
     element.handleEvent(EventType.SHOW_CHANGE,
         {change: testChange, patchNum: 1});

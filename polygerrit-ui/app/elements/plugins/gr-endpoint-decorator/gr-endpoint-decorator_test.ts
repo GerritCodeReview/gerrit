@@ -13,7 +13,6 @@ import {
   queryAndAssert,
   resetPlugins,
 } from '../../../test/test-utils';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {GrEndpointDecorator} from './gr-endpoint-decorator';
 import {PluginApi} from '../../../api/plugin';
 import {GrEndpointParam} from '../gr-endpoint-param/gr-endpoint-param';
@@ -99,9 +98,6 @@ suite('gr-endpoint-decorator', () => {
     });
     const replacementHookPromise = mockPromise();
     replacementHook.onAttached(() => replacementHookPromise.resolve());
-
-    // Mimic all plugins loaded.
-    getPluginLoader().loadPlugins([]);
 
     await decorationHookPromise;
     await decorationHookSlotPromise;

@@ -18,7 +18,6 @@ import '../gr-confirm-revert-dialog/gr-confirm-revert-dialog';
 import '../gr-confirm-submit-dialog/gr-confirm-submit-dialog';
 import '../../../styles/shared-styles';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {getAppContext} from '../../../services/app-context';
 import {CURRENT} from '../../../utils/patch-set-util';
 import {
@@ -391,8 +390,9 @@ export class GrChangeActions
 
   private readonly reporting = getAppContext().reportingService;
 
-  // Accessed in tests
-  readonly jsAPI = getAppContext().jsApiService;
+  private readonly pluginLoader = getAppContext().pluginLoader;
+
+  private readonly jsAPI = getAppContext().jsApiService;
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
@@ -884,9 +884,7 @@ export class GrChangeActions
   }
 
   private handleLoadingComplete() {
-    getPluginLoader()
-      .awaitPluginsLoaded()
-      .then(() => (this.loading = false));
+    this.pluginLoader.awaitPluginsLoaded().then(() => (this.loading = false));
   }
 
   // private but used in test

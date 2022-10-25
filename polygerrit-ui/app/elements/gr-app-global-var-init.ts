@@ -15,16 +15,10 @@ import {GrAnnotation} from '../embed/diff/gr-diff-highlight/gr-annotation';
 import {GrPluginActionContext} from './shared/gr-js-api-interface/gr-plugin-action-context';
 import {AppContext, injectAppContext} from '../services/app-context';
 import {Finalizable} from '../services/registry';
-import {GerritImpl} from './shared/gr-js-api-interface/gr-gerrit';
 
 export function initGlobalVariables(appContext: AppContext & Finalizable) {
   injectAppContext(appContext);
   window.GrAnnotation = GrAnnotation;
   window.GrPluginActionContext = GrPluginActionContext;
-  window.Gerrit = new GerritImpl(
-    appContext.reportingService,
-    appContext.eventEmitter,
-    appContext.restApiService,
-    appContext.pluginLoader
-  );
+  window.Gerrit = appContext.pluginLoader;
 }

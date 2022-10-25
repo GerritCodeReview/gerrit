@@ -548,12 +548,6 @@ export class GrChangeActions
 
   constructor() {
     super();
-    this.addEventListener('fullscreen-overlay-opened', () =>
-      this.handleHideBackgroundContent()
-    );
-    this.addEventListener('fullscreen-overlay-closed', () =>
-      this.handleShowBackgroundContent()
-    );
   }
 
   override connectedCallback() {
@@ -2095,18 +2089,6 @@ export class GrChangeActions
       assertUIActionInfo(this.actions.rebaseEdit),
       false
     );
-  }
-
-  // private but used in test
-  handleHideBackgroundContent() {
-    assertIsDefined(this.mainContent, 'mainContent');
-    this.mainContent.classList.add('overlayOpen');
-  }
-
-  // private but used in test
-  handleShowBackgroundContent() {
-    assertIsDefined(this.mainContent, 'mainContent');
-    this.mainContent.classList.remove('overlayOpen');
   }
 
   /**

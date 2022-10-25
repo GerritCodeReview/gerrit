@@ -1148,11 +1148,6 @@ export class GrChangeView extends LitElement {
             flex: initial;
             margin: 0;
           }
-          /* Change actions are the only thing thant need to remain visible due
-            to the fact that they may have the currently visible overlay open. */
-          #mainContent.overlayOpen .hideOnMobileOverlay {
-            display: none;
-          }
           gr-reply-dialog {
             height: 100vh;
             min-width: initial;
@@ -1418,7 +1413,7 @@ export class GrChangeView extends LitElement {
       this.getEditMode()
     );
     return html` <div class="changeInfo">
-      <div class="changeInfo-column changeMetadata hideOnMobileOverlay">
+      <div class="changeInfo-column changeMetadata">
         <gr-change-metadata
           id="metadata"
           .change=${this.change}
@@ -1434,7 +1429,7 @@ export class GrChangeView extends LitElement {
         </gr-change-metadata>
       </div>
       <div id="mainChangeInfo" class="changeInfo-column mainChangeInfo">
-        <div id="commitAndRelated" class="hideOnMobileOverlay">
+        <div id="commitAndRelated">
           <div class="commitContainer">
             <h3 class="assistive-tech-only">Commit Message</h3>
             <div>
@@ -1588,7 +1583,6 @@ export class GrChangeView extends LitElement {
         </gr-file-list-header>
         <gr-file-list
           id="fileList"
-          class="hideOnMobileOverlay"
           .change=${this.change}
           .changeNum=${this.changeNum}
           .patchRange=${this.patchRange}
@@ -1694,7 +1688,6 @@ export class GrChangeView extends LitElement {
       <section class="changeLog">
         <h2 class="assistive-tech-only">Change Log</h2>
         <gr-messages-list
-          class="hideOnMobileOverlay"
           .labels=${this.change?.labels}
           .messages=${this.change?.messages}
           .reviewerUpdates=${this.change?.reviewer_updates}

@@ -555,7 +555,7 @@ suite('gr-change-view tests', () => {
         <gr-overlay
           aria-hidden="true"
           class="scrollable"
-          id="replyOverlay"
+          id="replyModal"
           no-cancel-on-esc-key=""
           no-cancel-on-outside-click=""
           scroll-action="lock"
@@ -823,16 +823,16 @@ suite('gr-change-view tests', () => {
       element.addEventListener('show-auth-required', loggedInErrorSpy);
       pressKey(element, 'a');
       await element.updateComplete;
-      assertIsDefined(element.replyOverlay);
-      assert.isFalse(element.replyOverlay.opened);
+      assertIsDefined(element.replyModal);
+      assert.isFalse(element.replyModalOpened);
       assert.isTrue(loggedInErrorSpy.called);
     });
 
     test('shift A does not open reply overlay', async () => {
       pressKey(element, 'a', Modifier.SHIFT_KEY);
       await element.updateComplete;
-      assertIsDefined(element.replyOverlay);
-      assert.isFalse(element.replyOverlay.opened);
+      assertIsDefined(element.replyModal);
+      assert.isFalse(element.replyModalOpened);
     });
 
     test('A toggles overlay when logged in', async () => {
@@ -848,10 +848,10 @@ suite('gr-change-view tests', () => {
 
       pressKey(element, 'a');
       await element.updateComplete;
-      assertIsDefined(element.replyOverlay);
-      assert.isTrue(element.replyOverlay.opened);
-      element.replyOverlay.close();
-      assert.isFalse(element.replyOverlay.opened);
+      assertIsDefined(element.replyModal);
+      assert.isTrue(element.replyModalOpened);
+      element.replyModal.close();
+      assert.isFalse(element.replyModalOpened);
       assert(
         openSpy.lastCall.calledWithExactly(FocusTarget.ANY),
         'openReplyDialog should have been passed ANY'
@@ -876,7 +876,7 @@ suite('gr-change-view tests', () => {
       };
       await element.updateComplete;
       const handlerSpy = sinon.spy(element, 'handleHideBackgroundContent');
-      const overlay = queryAndAssert<GrOverlay>(element, '#replyOverlay');
+      const overlay = queryAndAssert<GrOverlay>(element, '#replyModal');
       overlay.dispatchEvent(
         new CustomEvent('fullscreen-overlay-opened', {
           composed: true,
@@ -908,7 +908,7 @@ suite('gr-change-view tests', () => {
       };
       await element.updateComplete;
       const handlerSpy = sinon.spy(element, 'handleShowBackgroundContent');
-      const overlay = queryAndAssert<GrOverlay>(element, '#replyOverlay');
+      const overlay = queryAndAssert<GrOverlay>(element, '#replyModal');
       overlay.dispatchEvent(
         new CustomEvent('fullscreen-overlay-closed', {
           composed: true,

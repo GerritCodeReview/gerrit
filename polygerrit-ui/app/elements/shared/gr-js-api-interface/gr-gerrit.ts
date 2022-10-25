@@ -9,14 +9,10 @@
  * should be defined or linked here.
  */
 import {PluginLoader, PluginOptionMap} from './gr-plugin-loader';
-import {send} from './gr-api-utils';
-import {getAppContext} from '../../../services/app-context';
 import {PluginApi} from '../../../api/plugin';
 import {AuthService} from '../../../services/gr-auth/gr-auth';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
-import {HttpMethod} from '../../../constants/constants';
-import {RequestPayload} from '../../../types/common';
 import {
   EventCallback,
   EventEmitterService,
@@ -38,56 +34,11 @@ import {iconStyles} from '../../../styles/gr-icon-styles';
  * TypeScript one by one and while doing that remove those dependencies.
  */
 export interface GerritInternal extends EventEmitterService, Gerrit {
-  css(rule: string): string;
   install(
     callback: (plugin: PluginApi) => void,
     opt_version?: string,
     src?: string
   ): void;
-  getLoggedIn(): Promise<boolean>;
-  get(url: string, callback?: (response: unknown) => void): void;
-  post(
-    url: string,
-    payload?: RequestPayload,
-    callback?: (response: unknown) => void
-  ): void;
-  put(
-    url: string,
-    payload?: RequestPayload,
-    callback?: (response: unknown) => void
-  ): void;
-  delete(url: string, callback?: (response: unknown) => void): void;
-  isPluginLoaded(pathOrUrl: string): boolean;
-  awaitPluginsLoaded(): Promise<unknown>;
-  _loadPlugins(plugins: string[], opts: PluginOptionMap): void;
-  _isPluginEnabled(pathOrUrl: string): boolean;
-  _isPluginLoaded(pathOrUrl: string): boolean;
-  _customStyleSheet?: CSSStyleSheet;
-
-  // exposed methods
-  Auth: AuthService;
-}
-
-export function deprecatedDelete(
-  url: string,
-  callback?: (response: Response) => void
-) {
-  console.warn('.delete() is deprecated! Use plugin.restApi().delete()');
-  return getAppContext()
-    .restApiService.send(HttpMethod.DELETE, url)
-    .then(response => {
-      if (response.status !== 204) {
-        return response.text().then(text => {
-          if (text) {
-            return Promise.reject(new Error(text));
-          } else {
-            return Promise.reject(new Error(`${response.status}`));
-          }
-        });
-      }
-      if (callback) callback(response);
-      return response;
-    });
 }
 
 const fakeApi = {
@@ -99,8 +50,6 @@ const fakeApi = {
  * Exported only for tests and gr-app.ts
  */
 export class GerritImpl implements GerritInternal {
-  _customStyleSheet?: CSSStyleSheet;
-
   public readonly styles = {
     font: fontStyles,
     form: formStyles,
@@ -112,7 +61,6 @@ export class GerritImpl implements GerritInternal {
   };
 
   constructor(
-    public readonly Auth: AuthService,
     private readonly reportingService: ReportingService,
     private readonly eventEmitter: EventEmitterService,
     private readonly restApiService: RestApiService,
@@ -126,99 +74,12 @@ export class GerritImpl implements GerritInternal {
 
   finalize() {}
 
-  /**
-   * @deprecated Use plugin.styles().css(rulesStr) instead. Please, consult
-   * the documentation how to replace it accordingly.
-   */
-  css(rulesStr: string) {
-    this.reportingService.trackApi(fakeApi, 'global', 'css');
-    console.warn(
-      'Gerrit.css(rulesStr) is deprecated!',
-      'Use plugin.styles().css(rulesStr)'
-    );
-    if (!this._customStyleSheet) {
-      const styleEl = document.createElement('style');
-      document.head.appendChild(styleEl);
-      this._customStyleSheet = styleEl.sheet!;
-    }
-
-    const name = `__pg_js_api_class_${this._customStyleSheet.cssRules.length}`;
-    this._customStyleSheet.insertRule('.' + name + '{' + rulesStr + '}', 0);
-    return name;
-  }
-
   install(
     callback: (plugin: PluginApi) => void,
     version?: string,
     src?: string
   ) {
     this.pluginLoader.install(callback, version, src);
-  }
-
-  getLoggedIn() {
-    this.reportingService.trackApi(fakeApi, 'global', 'getLoggedIn');
-    console.warn(
-      'Gerrit.getLoggedIn() is deprecated! ' +
-        'Use plugin.restApi().getLoggedIn()'
-    );
-    return this.restApiService.getLoggedIn();
-  }
-
-  get(url: string, callback?: (response: unknown) => void) {
-    this.reportingService.trackApi(fakeApi, 'global', 'get');
-    console.warn('.get() is deprecated! Use plugin.restApi().get()');
-    send(this.restApiService, HttpMethod.GET, url, callback);
-  }
-
-  post(
-    url: string,
-    payload?: RequestPayload,
-    callback?: (response: unknown) => void
-  ) {
-    this.reportingService.trackApi(fakeApi, 'global', 'post');
-    console.warn('.post() is deprecated! Use plugin.restApi().post()');
-    send(this.restApiService, HttpMethod.POST, url, callback, payload);
-  }
-
-  put(
-    url: string,
-    payload?: RequestPayload,
-    callback?: (response: unknown) => void
-  ) {
-    this.reportingService.trackApi(fakeApi, 'global', 'put');
-    console.warn('.put() is deprecated! Use plugin.restApi().put()');
-    send(this.restApiService, HttpMethod.PUT, url, callback, payload);
-  }
-
-  delete(url: string, callback?: (response: Response) => void) {
-    this.reportingService.trackApi(fakeApi, 'global', 'delete');
-    deprecatedDelete(url, callback);
-  }
-
-  awaitPluginsLoaded() {
-    this.reportingService.trackApi(fakeApi, 'global', 'awaitPluginsLoaded');
-    return this.pluginLoader.awaitPluginsLoaded();
-  }
-
-  // TODO(taoalpha): consider removing these proxy methods
-  // and using this.pluginLoader directly
-  _loadPlugins(plugins: string[] = []) {
-    this.reportingService.trackApi(fakeApi, 'global', '_loadPlugins');
-    this.pluginLoader.loadPlugins(plugins);
-  }
-
-  _isPluginEnabled(pathOrUrl: string) {
-    this.reportingService.trackApi(fakeApi, 'global', '_isPluginEnabled');
-    return this.pluginLoader.isPluginEnabled(pathOrUrl);
-  }
-
-  isPluginLoaded(pathOrUrl: string) {
-    return this._isPluginLoaded(pathOrUrl);
-  }
-
-  _isPluginLoaded(pathOrUrl: string) {
-    this.reportingService.trackApi(fakeApi, 'global', '_isPluginLoaded');
-    return this.pluginLoader.isPluginLoaded(pathOrUrl);
   }
 
   /**

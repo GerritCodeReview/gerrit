@@ -11,7 +11,6 @@ import {getAppContext} from '../../../services/app-context';
 import {GrJsApiInterface} from './gr-js-api-interface-element';
 import {SinonFakeTimers} from 'sinon';
 import {Timestamp} from '../../../api/rest-api';
-import {assert} from '@open-wc/testing';
 
 suite('gr-gerrit tests', () => {
   let element: GrJsApiInterface;
@@ -29,7 +28,6 @@ suite('gr-gerrit tests', () => {
     );
     element = getAppContext().jsApiService as GrJsApiInterface;
     pluginApi = new GerritImpl(
-      getAppContext().authService,
       getAppContext().reportingService,
       getAppContext().eventEmitter,
       getAppContext().restApiService,
@@ -41,25 +39,5 @@ suite('gr-gerrit tests', () => {
     clock.restore();
     element._removeEventCallbacks();
     resetPlugins();
-  });
-
-  suite('proxy methods', () => {
-    test('Gerrit._isPluginEnabled proxy to getAppContext().pluginLoader', () => {
-      const stubFn = sinon.stub();
-      sinon
-        .stub(getAppContext().pluginLoader, 'isPluginEnabled')
-        .callsFake((...args) => stubFn(...args));
-      pluginApi._isPluginEnabled('test_plugin');
-      assert.isTrue(stubFn.calledWith('test_plugin'));
-    });
-
-    test('Gerrit._isPluginLoaded proxy to getAppContext().pluginLoader', () => {
-      const stubFn = sinon.stub();
-      sinon
-        .stub(getAppContext().pluginLoader, 'isPluginLoaded')
-        .callsFake((...args) => stubFn(...args));
-      pluginApi._isPluginLoaded('test_plugin');
-      assert.isTrue(stubFn.calledWith('test_plugin'));
-    });
   });
 });

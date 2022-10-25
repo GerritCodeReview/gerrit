@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../types/globals';
-import {_testOnly_resetPluginLoader} from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
 import {_testOnly_resetEndpoints} from '../elements/shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getAppContext} from '../services/app-context';
 import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
@@ -49,11 +48,10 @@ export function isVisible(el: Element) {
 }
 
 // Provide reset plugins function to clear installed plugins between tests.
-// No gr-app found (running tests)
 export const resetPlugins = () => {
   _testOnly_resetEndpoints();
-  const pl = _testOnly_resetPluginLoader();
-  pl.loadPlugins([]);
+  getAppContext().pluginLoader.reset();
+  getAppContext().pluginLoader.loadPlugins([]);
 };
 
 export type CleanupCallback = () => void;

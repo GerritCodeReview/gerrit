@@ -11,7 +11,6 @@ import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import {getAppContext} from '../../../services/app-context';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {GrCursorManager} from '../../shared/gr-cursor-manager/gr-cursor-manager';
 import {
   AccountInfo,
@@ -179,8 +178,8 @@ export class GrChangeList extends LitElement {
     this.restApiService.getConfig().then(config => {
       this.config = config;
     });
-    getPluginLoader()
-      .awaitPluginsLoaded()
+    getAppContext()
+      .pluginLoader.awaitPluginsLoaded()
       .then(() => {
         this.dynamicHeaderEndpoints =
           getPluginEndpoints().getDynamicEndpoints('change-list-header');

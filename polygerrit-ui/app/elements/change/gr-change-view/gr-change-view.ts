@@ -39,7 +39,6 @@ import {pluralize} from '../../../utils/string-util';
 import {querySelectorAll, windowLocationReload} from '../../../utils/dom-util';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
 import {
   ChangeStatus,
@@ -538,6 +537,8 @@ export class GrChangeView extends LitElement {
 
   private readonly flagsService = getAppContext().flagsService;
 
+  private readonly pluginLoader = getAppContext().pluginLoader;
+
   private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly getChangeModel = resolve(this, changeModelToken);
@@ -816,7 +817,7 @@ export class GrChangeView extends LitElement {
     if (!this.isFirstConnection) return;
     this.isFirstConnection = false;
 
-    getPluginLoader()
+    this.pluginLoader
       .awaitPluginsLoaded()
       .then(() => {
         this.pluginTabsHeaderEndpoints =
@@ -2237,11 +2238,9 @@ export class GrChangeView extends LitElement {
       this.performPostLoadTasks();
     });
 
-    getPluginLoader()
-      .awaitPluginsLoaded()
-      .then(() => {
-        this.initActiveTab();
-      });
+    this.pluginLoader.awaitPluginsLoaded().then(() => {
+      this.initActiveTab();
+    });
   }
 
   private initActiveTab() {
@@ -2318,23 +2317,21 @@ export class GrChangeView extends LitElement {
 
   // Private but used in tests.
   maybeShowRevertDialog() {
-    getPluginLoader()
-      .awaitPluginsLoaded()
-      .then(() => {
-        if (
-          !this.loggedIn ||
-          !this.change ||
-          this.change.status !== ChangeStatus.MERGED
-        ) {
-          // Do not display dialog if not logged-in or the change is not
-          // merged.
-          return;
-        }
-        if (this._getUrlParameter('revert')) {
-          assertIsDefined(this.actions);
-          this.actions.showRevertDialog();
-        }
-      });
+    this.pluginLoader.awaitPluginsLoaded().then(() => {
+      if (
+        !this.loggedIn ||
+        !this.change ||
+        this.change.status !== ChangeStatus.MERGED
+      ) {
+        // Do not display dialog if not logged-in or the change is not
+        // merged.
+        return;
+      }
+      if (this._getUrlParameter('revert')) {
+        assertIsDefined(this.actions);
+        this.actions.showRevertDialog();
+      }
+    });
   }
 
   private maybeShowReplyDialog() {

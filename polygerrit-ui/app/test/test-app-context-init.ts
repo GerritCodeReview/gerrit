@@ -22,6 +22,7 @@ import {navigationToken} from '../elements/core/gr-navigation/gr-navigation';
 import {DependencyToken} from '../models/dependency';
 import {storageServiceToken} from '../services/storage/gr-storage_impl';
 import {highlightServiceToken} from '../services/highlight/highlight-service';
+import {PluginLoader} from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
 
 export function createTestAppContext(): AppContext & Finalizable {
   const appRegistry: Registry<AppContext> = {
@@ -36,9 +37,28 @@ export function createTestAppContext(): AppContext & Finalizable {
     restApiService: (_ctx: Partial<AppContext>) => grRestApiMock,
     jsApiService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.reportingService, 'reportingService');
-      return new GrJsApiInterface(ctx.reportingService);
+      return new GrJsApiInterface(
+        () => ctx.pluginLoader!,
+        ctx.reportingService
+      );
     },
     pluginsModel: (_ctx: Partial<AppContext>) => new PluginsModel(),
+    pluginLoader: (ctx: Partial<AppContext>) => {
+      const reportingService = ctx.reportingService;
+      const jsApiService = ctx.jsApiService;
+      const restApiService = ctx.restApiService;
+      const pluginsModel = ctx.pluginsModel;
+      assertIsDefined(reportingService, 'reportingService');
+      assertIsDefined(jsApiService, 'jsApiService');
+      assertIsDefined(restApiService, 'restApiService');
+      assertIsDefined(pluginsModel, 'pluginsModel');
+      return new PluginLoader(
+        reportingService,
+        jsApiService,
+        restApiService,
+        pluginsModel
+      );
+    },
   };
   return create<AppContext>(appRegistry);
 }

@@ -3,7 +3,6 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {getPluginLoader} from './gr-plugin-loader';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {
   ChangeInfo,
@@ -24,12 +23,18 @@ import {DiffLayer, ParsedChangeInfo} from '../../../types/types';
 import {MenuLink} from '../../../api/admin';
 import {Finalizable} from '../../../services/registry';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
+import {getAppContext} from '../../../services/app-context';
+import {Provider} from '../../../models/dependency';
+import {PluginLoader} from './gr-plugin-loader';
 
 const elements: {[key: string]: HTMLElement} = {};
 const eventCallbacks: {[key: string]: EventCallback[]} = {};
 
 export class GrJsApiInterface implements JsApiService, Finalizable {
-  constructor(readonly reporting: ReportingService) {}
+  constructor(
+    private getPluginLoader: Provider<PluginLoader>,
+    readonly reporting: ReportingService
+  ) {}
 
   finalize() {}
 
@@ -74,7 +79,7 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
   }
 
   async handleShowChange(detail: ShowChangeDetail) {
-    await getPluginLoader().awaitPluginsLoaded();
+    await this.getPluginLoader().awaitPluginsLoaded();
     // Note (issue 8221) Shallow clone the change object and add a mergeable
     // getter with deprecation warning. This makes the change detail appear as
     // though SKIP_MERGEABLE was not set, so that plugins that expect it can
@@ -120,7 +125,7 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
   }
 
   async handleShowRevisionActions(detail: ShowRevisionActionsDetail) {
-    await getPluginLoader().awaitPluginsLoaded();
+    await this.getPluginLoader().awaitPluginsLoaded();
     const registeredCallbacks = this._getEventCallbacks(
       EventType.SHOW_REVISION_ACTIONS
     );
@@ -152,7 +157,7 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
   }
 
   async handleLabelChange(detail: {change?: ParsedChangeInfo}) {
-    await getPluginLoader().awaitPluginsLoaded();
+    await this.getPluginLoader().awaitPluginsLoaded();
     for (const cb of this._getEventCallbacks(EventType.LABEL_CHANGE)) {
       try {
         cb(detail.change);
@@ -245,8 +250,8 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
    * will resolve to null.
    */
   getCoverageAnnotationApis(): Promise<GrAnnotationActionsInterface[]> {
-    return getPluginLoader()
-      .awaitPluginsLoaded()
+    return getAppContext()
+      .pluginLoader.awaitPluginsLoaded()
       .then(() => {
         const providers: GrAnnotationActionsInterface[] = [];
         this._getEventCallbacks(EventType.ANNOTATE_DIFF).forEach(cb => {

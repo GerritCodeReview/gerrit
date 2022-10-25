@@ -15,17 +15,16 @@ import {GrAuthMock} from '../services/gr-auth/gr-auth_mock';
 import {FlagsServiceImplementation} from '../services/flags/flags_impl';
 import {EventEmitter} from '../services/gr-event-interface/gr-event-interface_impl';
 import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
-import {RouterModel} from '../services/router/router-model';
 import {PluginsModel} from '../models/plugins/plugins-model';
 import {MockHighlightService} from '../services/highlight/highlight-service-mock';
-import {AccountsModel} from '../models/accounts-model/accounts-model';
 import {createAppDependencies, Creator} from '../services/app-context-init';
 import {navigationToken} from '../elements/core/gr-navigation/gr-navigation';
 import {DependencyToken} from '../models/dependency';
+import {storageServiceToken} from '../services/storage/gr-storage_impl';
+import {highlightServiceToken} from '../services/highlight/highlight-service';
 
 export function createTestAppContext(): AppContext & Finalizable {
   const appRegistry: Registry<AppContext> = {
-    routerModel: (_ctx: Partial<AppContext>) => new RouterModel(),
     flagsService: (_ctx: Partial<AppContext>) =>
       new FlagsServiceImplementation(),
     reportingService: (_ctx: Partial<AppContext>) => grReportingMock,
@@ -39,16 +38,7 @@ export function createTestAppContext(): AppContext & Finalizable {
       assertIsDefined(ctx.reportingService, 'reportingService');
       return new GrJsApiInterface(ctx.reportingService);
     },
-    storageService: (_ctx: Partial<AppContext>) => grStorageMock,
-    accountsModel: (ctx: Partial<AppContext>) => {
-      assertIsDefined(ctx.restApiService, 'restApiService');
-      return new AccountsModel(ctx.restApiService);
-    },
     pluginsModel: (_ctx: Partial<AppContext>) => new PluginsModel(),
-    highlightService: (ctx: Partial<AppContext>) => {
-      assertIsDefined(ctx.reportingService, 'reportingService');
-      return new MockHighlightService(ctx.reportingService);
-    },
   };
   return create<AppContext>(appRegistry);
 }
@@ -58,6 +48,7 @@ export function createTestDependencies(
   resolver: <T>(token: DependencyToken<T>) => T
 ): Map<DependencyToken<unknown>, Creator<unknown>> {
   const dependencies = createAppDependencies(appContext, resolver);
+  dependencies.set(storageServiceToken, () => grStorageMock);
   dependencies.set(navigationToken, () => {
     return {
       setUrl: () => {},
@@ -65,5 +56,9 @@ export function createTestDependencies(
       finalize: () => {},
     };
   });
+  dependencies.set(
+    highlightServiceToken,
+    () => new MockHighlightService(appContext.reportingService)
+  );
   return dependencies;
 }

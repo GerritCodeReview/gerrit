@@ -9,7 +9,6 @@ import {_testOnly_resetEndpoints} from '../elements/shared/gr-js-api-interface/g
 import {getAppContext} from '../services/app-context';
 import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
 import {SinonSpy, SinonStub} from 'sinon';
-import {StorageService} from '../services/storage/gr-storage';
 import {AuthService} from '../services/gr-auth/gr-auth';
 import {ReportingService} from '../services/gr-reporting/gr-reporting';
 import {queryAndAssert, query} from '../utils/common-util';
@@ -17,7 +16,6 @@ import {FlagsService} from '../services/flags/flags';
 import {Key, Modifier, whenVisible} from '../utils/dom-util';
 import {Observable} from 'rxjs';
 import {filter, take, timeout} from 'rxjs/operators';
-import {HighlightService} from '../services/highlight/highlight-service';
 import {assert} from '@open-wc/testing';
 export {query, queryAll, queryAndAssert} from '../utils/common-util';
 
@@ -106,20 +104,6 @@ export function stubRestApi<K extends keyof RestApiService>(method: K) {
 
 export function spyRestApi<K extends keyof RestApiService>(method: K) {
   return sinon.spy(getAppContext().restApiService, method);
-}
-
-export function stubHighlightService<K extends keyof HighlightService>(
-  method: K
-) {
-  return sinon.stub(getAppContext().highlightService, method);
-}
-
-export function stubStorage<K extends keyof StorageService>(method: K) {
-  return sinon.stub(getAppContext().storageService, method);
-}
-
-export function spyStorage<K extends keyof StorageService>(method: K) {
-  return sinon.spy(getAppContext().storageService, method);
 }
 
 export function stubAuth<K extends keyof AuthService>(method: K) {

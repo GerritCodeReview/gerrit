@@ -107,6 +107,7 @@ import {Interaction} from '../../../constants/reporting';
 import {rootUrl} from '../../../utils/url-util';
 import {createSearchUrl} from '../../../models/views/search';
 import {createChangeUrl} from '../../../models/views/change';
+import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -540,7 +541,7 @@ export class GrChangeActions
 
   private readonly restApiService = getAppContext().restApiService;
 
-  private readonly storage = getAppContext().storageService;
+  private readonly getStorage = resolve(this, storageServiceToken);
 
   private readonly getNavigation = resolve(this, navigationToken);
 
@@ -1720,7 +1721,7 @@ export class GrChangeActions
 
     // We need to make sure that all cached version of a change
     // edit are deleted.
-    this.storage.eraseEditableContentItemsForChangeEdit(this.changeNum);
+    this.getStorage().eraseEditableContentItemsForChangeEdit(this.changeNum);
 
     this.fireAction(
       '/edit',
@@ -2077,7 +2078,7 @@ export class GrChangeActions
 
     // We need to make sure that all cached version of a change
     // edit are deleted.
-    this.storage.eraseEditableContentItemsForChangeEdit(this.changeNum);
+    this.getStorage().eraseEditableContentItemsForChangeEdit(this.changeNum);
 
     this.fireAction(
       '/edit:publish',

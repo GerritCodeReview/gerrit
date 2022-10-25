@@ -15,13 +15,13 @@ import {ChangeModel, changeModelToken} from '../models/change/change-model';
 import {FilesModel, filesModelToken} from '../models/change/files-model';
 import {ChecksModel, checksModelToken} from '../models/checks/checks-model';
 import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
-import {GrStorageService} from './storage/gr-storage_impl';
+import {GrStorageService, storageServiceToken} from './storage/gr-storage_impl';
 import {UserModel, userModelToken} from '../models/user/user-model';
 import {
   CommentsModel,
   commentsModelToken,
 } from '../models/comments/comments-model';
-import {RouterModel} from './router/router-model';
+import {RouterModel, routerModelToken} from './router/router-model';
 import {
   ShortcutsService,
   shortcutsServiceToken,
@@ -30,8 +30,14 @@ import {assertIsDefined} from '../utils/common-util';
 import {ConfigModel, configModelToken} from '../models/config/config-model';
 import {BrowserModel, browserModelToken} from '../models/browser/browser-model';
 import {PluginsModel} from '../models/plugins/plugins-model';
-import {HighlightService} from './highlight/highlight-service';
-import {AccountsModel} from '../models/accounts-model/accounts-model';
+import {
+  HighlightService,
+  highlightServiceToken,
+} from './highlight/highlight-service';
+import {
+  AccountsModel,
+  accountsModelToken,
+} from '../models/accounts-model/accounts-model';
 import {
   DashboardViewModel,
   dashboardViewModelToken,
@@ -64,7 +70,6 @@ import {navigationToken} from '../elements/core/gr-navigation/gr-navigation';
  */
 export function createAppContext(): AppContext & Finalizable {
   const appRegistry: Registry<AppContext> = {
-    routerModel: (_ctx: Partial<AppContext>) => new RouterModel(),
     flagsService: (_ctx: Partial<AppContext>) =>
       new FlagsServiceImplementation(),
     reportingService: (ctx: Partial<AppContext>) => {
@@ -78,24 +83,14 @@ export function createAppContext(): AppContext & Finalizable {
     },
     restApiService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.authService, 'authService');
-      assertIsDefined(ctx.flagsService, 'flagsService');
-      return new GrRestApiServiceImpl(ctx.authService, ctx.flagsService);
+      return new GrRestApiServiceImpl(ctx.authService);
     },
     jsApiService: (ctx: Partial<AppContext>) => {
       const reportingService = ctx.reportingService;
       assertIsDefined(reportingService, 'reportingService');
       return new GrJsApiInterface(reportingService);
     },
-    storageService: (_ctx: Partial<AppContext>) => new GrStorageService(),
-    accountsModel: (ctx: Partial<AppContext>) => {
-      assertIsDefined(ctx.restApiService, 'restApiService');
-      return new AccountsModel(ctx.restApiService);
-    },
     pluginsModel: (_ctx: Partial<AppContext>) => new PluginsModel(),
-    highlightService: (ctx: Partial<AppContext>) => {
-      assertIsDefined(ctx.reportingService, 'reportingService');
-      return new HighlightService(ctx.reportingService);
-    },
   };
   return create<AppContext>(appRegistry);
 }
@@ -112,10 +107,16 @@ export function createAppDependencies(
   resolver: <T>(token: DependencyToken<T>) => T
 ): Map<DependencyToken<unknown>, Creator<unknown>> {
   const dependencies = new Map<DependencyToken<unknown>, Creator<unknown>>();
+  const routerModelCreator = () => new RouterModel();
+  dependencies.set(routerModelToken, routerModelCreator);
   const userModelCreator = () => new UserModel(appContext.restApiService);
   dependencies.set(userModelToken, userModelCreator);
   const browserModelCreator = () => new BrowserModel(resolver(userModelToken));
   dependencies.set(browserModelToken, browserModelCreator);
+
+  const accountsModelCreator = () =>
+    new AccountsModel(appContext.restApiService);
+  dependencies.set(accountsModelToken, accountsModelCreator);
 
   const adminViewModelCreator = () => new AdminViewModel();
   dependencies.set(adminViewModelToken, adminViewModelCreator);
@@ -150,7 +151,7 @@ export function createAppDependencies(
   const routerCreator = () =>
     new GrRouter(
       appContext.reportingService,
-      appContext.routerModel,
+      resolver(routerModelToken),
       appContext.restApiService,
       resolver(adminViewModelToken),
       resolver(agreementViewModelToken),
@@ -170,7 +171,7 @@ export function createAppDependencies(
 
   const changeModelCreator = () =>
     new ChangeModel(
-      appContext.routerModel,
+      resolver(routerModelToken),
       appContext.restApiService,
       resolver(userModelToken)
     );
@@ -178,9 +179,9 @@ export function createAppDependencies(
 
   const commentsModelCreator = () =>
     new CommentsModel(
-      appContext.routerModel,
+      resolver(routerModelToken),
       resolver(changeModelToken),
-      appContext.accountsModel,
+      resolver(accountsModelToken),
       appContext.restApiService,
       appContext.reportingService
     );
@@ -200,7 +201,6 @@ export function createAppDependencies(
 
   const checksModelCreator = () =>
     new ChecksModel(
-      appContext.routerModel,
       resolver(changeViewModelToken),
       resolver(changeModelToken),
       appContext.reportingService,
@@ -212,6 +212,13 @@ export function createAppDependencies(
   const shortcutServiceCreator = () =>
     new ShortcutsService(resolver(userModelToken), appContext.reportingService);
   dependencies.set(shortcutsServiceToken, shortcutServiceCreator);
+
+  const storageServiceCreator = () => new GrStorageService();
+  dependencies.set(storageServiceToken, storageServiceCreator);
+
+  const highlightServiceCreator = () =>
+    new HighlightService(appContext.reportingService);
+  dependencies.set(highlightServiceToken, highlightServiceCreator);
 
   return dependencies;
 }

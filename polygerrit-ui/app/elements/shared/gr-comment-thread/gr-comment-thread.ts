@@ -75,6 +75,7 @@ import {HtmlPatched} from '../../../utils/lit-util';
 import {createDiffUrl} from '../../../models/views/diff';
 import {createChangeUrl} from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
+import {highlightServiceToken} from '../../../services/highlight/highlight-service';
 
 declare global {
   interface HTMLElementEventMap {
@@ -258,7 +259,10 @@ export class GrCommentThread extends LitElement {
 
   private readonly shortcuts = new ShortcutController(this);
 
-  private readonly syntaxLayer = new GrSyntaxLayerWorker();
+  private readonly syntaxLayer = new GrSyntaxLayerWorker(
+    resolve(this, highlightServiceToken),
+    () => getAppContext().reportingService
+  );
 
   // for COMMENTS_AUTOCLOSE logging purposes only
   readonly uid = performance.now().toString(36) + Math.random().toString(36);

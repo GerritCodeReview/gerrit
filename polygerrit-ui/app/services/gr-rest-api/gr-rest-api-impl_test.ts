@@ -88,10 +88,7 @@ suite('gr-rest-api-service-impl tests', () => {
     // fake auth
     authService = getAppContext().authService;
     sinon.stub(authService, 'authCheck').resolves(true);
-    element = new GrRestApiServiceImpl(
-      authService,
-      getAppContext().flagsService
-    );
+    element = new GrRestApiServiceImpl(authService);
 
     element._projectLookup = {};
   });

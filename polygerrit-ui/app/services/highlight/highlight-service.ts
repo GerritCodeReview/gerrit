@@ -3,6 +3,7 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import {define} from '../../models/dependency';
 import {
   SyntaxWorkerRequest,
   SyntaxWorkerInit,
@@ -39,6 +40,8 @@ export const CODE_MAX_LINES = 20 * 1000;
  */
 const CODE_MAX_LENGTH = 25 * CODE_MAX_LINES;
 
+export const highlightServiceToken =
+  define<HighlightService>('highlight-service');
 /**
  * Service for syntax highlighting. Maintains some HighlightJS workers doing
  * their job in the background.

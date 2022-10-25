@@ -142,7 +142,7 @@ export class GrMainHeader extends LitElement {
 
   private readonly pluginLoader = getAppContext().pluginLoader;
 
-  private readonly jsAPI = getAppContext().jsApiService;
+  private readonly jsAPI = getAppContext().pluginLoader.jsApiService;
 
   private readonly getUserModel = resolve(this, userModelToken);
 

@@ -338,7 +338,7 @@ export class GrDiffHost extends LitElement {
   readonly getUserModel = resolve(this, userModelToken);
 
   // visible for testing
-  readonly jsAPI = getAppContext().jsApiService;
+  readonly jsAPI = getAppContext().pluginLoader.jsApiService;
 
   // visible for testing
   readonly syntaxLayer: GrSyntaxLayerWorker;

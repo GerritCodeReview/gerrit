@@ -390,7 +390,7 @@ export class GrReplyDialog extends LitElement {
   private readonly restApiService: RestApiService =
     getAppContext().restApiService;
 
-  private readonly jsAPI = getAppContext().jsApiService;
+  private readonly jsAPI = getAppContext().pluginLoader.jsApiService;
 
   private readonly flagsService = getAppContext().flagsService;
 

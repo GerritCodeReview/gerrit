@@ -63,9 +63,6 @@ export function createDiffAppContext(): AppContext & Finalizable {
     restApiService: (_ctx: Partial<AppContext>) => {
       throw new Error('restApiService is not implemented');
     },
-    pluginsModel: (_ctx: Partial<AppContext>) => {
-      throw new Error('pluginsModel is not implemented');
-    },
     pluginLoader: (_Ctx: Partial<AppContext>) => {
       throw new Error('pluginLoader is not implemented');
     },

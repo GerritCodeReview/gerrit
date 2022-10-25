@@ -429,7 +429,7 @@ export class GrEditControls extends LitElement {
     assertIsDefined(this.patchNum, 'patchset number');
     const url = createEditUrl({
       changeNum: this.change._number,
-      project: this.change.project,
+      repo: this.change.project,
       path: this.path,
       patchNum: this.patchNum,
     });

@@ -31,7 +31,7 @@ suite('search view state tests', () => {
   test('createSearchUrl', () => {
     let options: SearchUrlOptions = {
       owner: 'a%b',
-      project: 'c%d' as RepoName,
+      repo: 'c%d' as RepoName,
       branch: 'e%f' as BranchName,
       topic: 'g%h' as TopicName,
       statuses: ['op%en'],

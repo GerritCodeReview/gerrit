@@ -22,7 +22,7 @@ import {ViewState} from './base';
 export interface EditViewState extends ViewState {
   view: GerritView.EDIT;
   changeNum: NumericChangeId;
-  project: RepoName;
+  repo: RepoName;
   path: string;
   patchNum: RevisionPatchSetNum;
   lineNum?: number;
@@ -43,8 +43,8 @@ export function createEditUrl(state: Omit<EditViewState, 'view'>): string {
     suffix += state.lineNum;
   }
 
-  if (state.project) {
-    const encodedProject = encodeURL(state.project, true);
+  if (state.repo) {
+    const encodedProject = encodeURL(state.repo, true);
     return `${getBaseUrl()}/c/${encodedProject}/+/${state.changeNum}${suffix}`;
   } else {
     return `${getBaseUrl()}/c/${state.changeNum}${suffix}`;

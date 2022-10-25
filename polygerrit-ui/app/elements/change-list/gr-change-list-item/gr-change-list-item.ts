@@ -671,14 +671,14 @@ export class GrChangeListItem extends LitElement {
 
   private computeRepoUrl() {
     if (!this.change) return '';
-    return createSearchUrl({project: this.change.project, statuses: ['open']});
+    return createSearchUrl({repo: this.change.project, statuses: ['open']});
   }
 
   private computeRepoBranchURL() {
     if (!this.change) return '';
     return createSearchUrl({
       branch: this.change.branch,
-      project: this.change.project,
+      repo: this.change.project,
     });
   }
 

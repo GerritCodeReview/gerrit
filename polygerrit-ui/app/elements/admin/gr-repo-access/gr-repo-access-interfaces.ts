@@ -66,6 +66,6 @@ export type PermissionAccessSection =
 export interface NewlyAddedGroupInfo {
   name: string;
 }
-export type EditableProjectAccessGroups = {
+export type EditableRepoAccessGroups = {
   [uuid: string]: GroupInfo | NewlyAddedGroupInfo;
 };

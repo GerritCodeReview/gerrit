@@ -1397,7 +1397,7 @@ export class GrRouter implements Finalizable, NavigationService {
     // Parameter order is based on the regex group number matched.
     const changeNum = Number(ctx.params[1]) as NumericChangeId;
     const state: ChangeViewState = {
-      project: ctx.params[0] as RepoName,
+      repo: ctx.params[0] as RepoName,
       changeNum,
       basePatchNum: convertToPatchSetNum(ctx.params[4]) as BasePatchSetNum,
       patchNum: convertToPatchSetNum(ctx.params[6]) as RevisionPatchSetNum,
@@ -1423,8 +1423,8 @@ export class GrRouter implements Finalizable, NavigationService {
     const selected = queryMap.get('checksRunsSelected');
     if (selected) state.checksRunsSelected = new Set(selected.split(','));
 
-    assertIsDefined(state.project, 'project');
-    this.reporting.setRepoName(state.project);
+    assertIsDefined(state.repo, 'project');
+    this.reporting.setRepoName(state.repo);
     this.reporting.setChangeId(changeNum);
     this.normalizePatchRangeParams(state);
     // Note that router model view must be updated before view models.
@@ -1435,13 +1435,13 @@ export class GrRouter implements Finalizable, NavigationService {
   handleCommentRoute(ctx: PageContext) {
     const changeNum = Number(ctx.params[1]) as NumericChangeId;
     const state: DiffViewState = {
-      project: ctx.params[0] as RepoName,
+      repo: ctx.params[0] as RepoName,
       changeNum,
       commentId: ctx.params[2] as UrlEncodedCommentId,
       view: GerritView.DIFF,
       commentLink: true,
     };
-    this.reporting.setRepoName(state.project ?? '');
+    this.reporting.setRepoName(state.repo ?? '');
     this.reporting.setChangeId(changeNum);
     this.normalizePatchRangeParams(state);
     // Note that router model view must be updated before view models.
@@ -1452,13 +1452,13 @@ export class GrRouter implements Finalizable, NavigationService {
   handleCommentsRoute(ctx: PageContext) {
     const changeNum = Number(ctx.params[1]) as NumericChangeId;
     const state: ChangeViewState = {
-      project: ctx.params[0] as RepoName,
+      repo: ctx.params[0] as RepoName,
       changeNum,
       commentId: ctx.params[2] as UrlEncodedCommentId,
       view: GerritView.CHANGE,
     };
-    assertIsDefined(state.project);
-    this.reporting.setRepoName(state.project);
+    assertIsDefined(state.repo);
+    this.reporting.setRepoName(state.repo);
     this.reporting.setChangeId(changeNum);
     this.normalizePatchRangeParams(state);
     // Note that router model view must be updated before view models.
@@ -1470,7 +1470,7 @@ export class GrRouter implements Finalizable, NavigationService {
     const changeNum = Number(ctx.params[1]) as NumericChangeId;
     // Parameter order is based on the regex group number matched.
     const state: DiffViewState = {
-      project: ctx.params[0] as RepoName,
+      repo: ctx.params[0] as RepoName,
       changeNum,
       basePatchNum: convertToPatchSetNum(ctx.params[4]) as BasePatchSetNum,
       patchNum: convertToPatchSetNum(ctx.params[6]) as RevisionPatchSetNum,
@@ -1482,7 +1482,7 @@ export class GrRouter implements Finalizable, NavigationService {
       state.leftSide = address.leftSide;
       state.lineNum = address.lineNum;
     }
-    this.reporting.setRepoName(state.project ?? '');
+    this.reporting.setRepoName(state.repo ?? '');
     this.reporting.setChangeId(changeNum);
     this.normalizePatchRangeParams(state);
     // Note that router model view must be updated before view models.
@@ -1516,7 +1516,7 @@ export class GrRouter implements Finalizable, NavigationService {
     const project = ctx.params[0] as RepoName;
     const changeNum = Number(ctx.params[1]) as NumericChangeId;
     const state: EditViewState = {
-      project,
+      repo: project,
       changeNum,
       // for edit view params, patchNum cannot be undefined
       patchNum: convertToPatchSetNum(ctx.params[2]) as RevisionPatchSetNum,
@@ -1538,7 +1538,7 @@ export class GrRouter implements Finalizable, NavigationService {
     const changeNum = Number(ctx.params[1]) as NumericChangeId;
     const queryMap = new URLSearchParams(ctx.querystring);
     const state: ChangeViewState = {
-      project,
+      repo: project,
       changeNum,
       patchNum: convertToPatchSetNum(ctx.params[3]) as RevisionPatchSetNum,
       view: GerritView.CHANGE,

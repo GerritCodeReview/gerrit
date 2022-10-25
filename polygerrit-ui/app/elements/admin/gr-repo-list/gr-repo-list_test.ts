@@ -17,7 +17,7 @@ import {
   ProjectInfoWithName,
   RepoName,
 } from '../../../types/common';
-import {ProjectState, SHOWN_ITEMS_COUNT} from '../../../constants/constants';
+import {RepoState, SHOWN_ITEMS_COUNT} from '../../../constants/constants';
 import {GerritView} from '../../../services/router/router-model';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
@@ -29,7 +29,7 @@ function createRepo(name: string, counter: number) {
   return {
     id: `${name}${counter}` as UrlEncodedRepoName,
     name: `${name}` as RepoName,
-    state: 'ACTIVE' as ProjectState,
+    state: 'ACTIVE' as RepoState,
     web_links: [
       {
         name: 'diffusion',

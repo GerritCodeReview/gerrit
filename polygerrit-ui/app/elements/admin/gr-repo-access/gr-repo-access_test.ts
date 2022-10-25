@@ -303,7 +303,7 @@ suite('gr-repo-access tests', () => {
     };
     await element.updateComplete;
 
-    // When there is a parent project, the link should be displayed.
+    // When there is a parent repo, the link should be displayed.
     assert.notEqual(
       getComputedStyle(
         queryAndAssert<HTMLHeadingElement>(element, '#inheritsFrom')

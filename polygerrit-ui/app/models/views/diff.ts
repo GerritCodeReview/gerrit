@@ -24,7 +24,7 @@ import {ViewState} from './base';
 export interface DiffViewState extends ViewState {
   view: GerritView.DIFF;
   changeNum: NumericChangeId;
-  project?: RepoName;
+  repo?: RepoName;
   commentId?: UrlEncodedCommentId;
   path?: string;
   patchNum?: RevisionPatchSetNum;
@@ -60,7 +60,7 @@ export function objToState(
       ...obj,
       view: GerritView.DIFF,
       changeNum: obj.change._number,
-      project: obj.change.project,
+      repo: obj.change.project,
     };
   }
   return {...obj, view: GerritView.DIFF};
@@ -87,8 +87,8 @@ export function createDiffUrl(
     suffix = `/comment/${state.commentId}` + suffix;
   }
 
-  if (state.project) {
-    const encodedProject = encodeURL(state.project, true);
+  if (state.repo) {
+    const encodedProject = encodeURL(state.repo, true);
     return `${getBaseUrl()}/c/${encodedProject}/+/${state.changeNum}${suffix}`;
   } else {
     return `${getBaseUrl()}/c/${state.changeNum}${suffix}`;

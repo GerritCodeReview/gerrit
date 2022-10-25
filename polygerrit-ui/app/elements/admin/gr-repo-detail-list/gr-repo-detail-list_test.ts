@@ -20,8 +20,8 @@ import {
   GitRef,
   GroupId,
   GroupName,
-  ProjectAccessGroups,
-  ProjectAccessInfoMap,
+  RepoAccessGroups,
+  RepoAccessInfoMap,
   RepoName,
   TagInfo,
   Timestamp,
@@ -2103,10 +2103,10 @@ suite('gr-repo-detail-list', () => {
                   url: 'test',
                   name: 'test' as GroupName,
                 },
-              } as ProjectAccessGroups,
+              } as RepoAccessGroups,
               config_web_links: [{name: 'gitiles', url: 'test'}],
             },
-          } as ProjectAccessInfoMap)
+          } as RepoAccessInfoMap)
         );
         await element.determineIfOwner('test' as RepoName);
         assert.equal(element.isOwner, false);
@@ -2157,10 +2157,10 @@ suite('gr-repo-detail-list', () => {
                   url: 'test',
                   name: 'test' as GroupName,
                 },
-              } as ProjectAccessGroups,
+              } as RepoAccessGroups,
               config_web_links: [{name: 'gitiles', url: 'test'}],
             },
-          } as ProjectAccessInfoMap)
+          } as RepoAccessInfoMap)
         );
         const handleSaveRevisionStub = sinon.stub(
           element,

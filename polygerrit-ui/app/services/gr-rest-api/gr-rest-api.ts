@@ -70,7 +70,7 @@ import {
   PreferencesInfo,
   PreferencesInput,
   ProjectAccessInfo,
-  ProjectAccessInfoMap,
+  RepoAccessInfoMap,
   ProjectAccessInput,
   ProjectInfo,
   ProjectInfoWithName,
@@ -287,7 +287,7 @@ export interface RestApiService extends Finalizable {
     errFn?: ErrorCallback
   ): Promise<DashboardInfo[] | undefined>;
 
-  getRepoAccess(repo: RepoName): Promise<ProjectAccessInfoMap | undefined>;
+  getRepoAccess(repo: RepoName): Promise<RepoAccessInfoMap | undefined>;
 
   getProjectConfig(
     repo: RepoName,
@@ -370,7 +370,7 @@ export interface RestApiService extends Finalizable {
   ): Promise<string>;
 
   createChange(
-    project: RepoName,
+    repo: RepoName,
     branch: BranchName,
     subject: string,
     topic?: string,
@@ -513,7 +513,7 @@ export interface RestApiService extends Finalizable {
 
   deleteWatchedProjects(projects: ProjectWatchInfo[]): Promise<Response>;
 
-  getSuggestedProjects(
+  getSuggestedRepos(
     inputVal: string,
     n?: number
   ): Promise<NameToProjectInfoMap | undefined>;
@@ -640,7 +640,7 @@ export interface RestApiService extends Finalizable {
   ): Promise<ChangeInfo[] | undefined>;
 
   getChangeCherryPicks(
-    project: RepoName,
+    repo: RepoName,
     changeID: ChangeId,
     changeNum: NumericChangeId
   ): Promise<ChangeInfo[] | undefined>;
@@ -764,7 +764,7 @@ export interface RestApiService extends Finalizable {
    * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#get-dashboard
    */
   getDashboard(
-    project: RepoName,
+    repo: RepoName,
     dashboard: DashboardId,
     errFn?: ErrorCallback
   ): Promise<DashboardInfo | undefined>;
@@ -802,7 +802,7 @@ export interface RestApiService extends Finalizable {
 
   getTopMenus(): Promise<TopMenuEntryInfo[] | undefined>;
 
-  setInProjectLookup(changeNum: NumericChangeId, project: RepoName): void;
+  setInProjectLookup(changeNum: NumericChangeId, repo: RepoName): void;
   getMergeable(changeNum: NumericChangeId): Promise<MergeableInfo | undefined>;
 
   putChangeCommitMessage(

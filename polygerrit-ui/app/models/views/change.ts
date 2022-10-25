@@ -30,7 +30,7 @@ export interface ChangeViewState extends ViewState {
   view: GerritView.CHANGE;
 
   changeNum: NumericChangeId;
-  project: RepoName;
+  repo: RepoName;
   edit?: boolean;
   patchNum?: RevisionPatchSetNum;
   basePatchNum?: BasePatchSetNum;
@@ -70,7 +70,7 @@ export interface ChangeViewState extends ViewState {
  */
 export type CreateChangeUrlObject = Omit<
   ChangeViewState,
-  'view' | 'changeNum' | 'project'
+  'view' | 'changeNum' | 'repo'
 > & {
   change: Pick<ChangeInfo, '_number' | 'project'>;
 };
@@ -89,7 +89,7 @@ export function objToState(
       ...obj,
       view: GerritView.CHANGE,
       changeNum: obj.change._number,
-      project: obj.change.project,
+      repo: obj.change.project,
     };
   }
   return {...obj, view: GerritView.CHANGE};
@@ -144,8 +144,8 @@ export function createChangeUrl(
   if (state.messageHash) {
     suffix += state.messageHash;
   }
-  if (state.project) {
-    const encodedProject = encodeURL(state.project, true);
+  if (state.repo) {
+    const encodedProject = encodeURL(state.repo, true);
     return `${getBaseUrl()}/c/${encodedProject}/+/${state.changeNum}${suffix}`;
   } else {
     return `${getBaseUrl()}/c/${state.changeNum}${suffix}`;

@@ -225,7 +225,7 @@ export class GrRelatedChangesList extends LitElement {
                 .href=${change?._change_number
                   ? createChangeUrl({
                       changeNum: change._change_number,
-                      project: change.project,
+                      repo: change.project,
                       usp: 'related-change',
                       patchNum: change._revision_number as RevisionPatchSetNum,
                     })

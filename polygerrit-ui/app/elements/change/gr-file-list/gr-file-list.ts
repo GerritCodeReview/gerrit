@@ -2109,14 +2109,14 @@ export class GrFileList extends LitElement {
     if (this.editMode && path !== SpecialFilePath.MERGE_LIST) {
       return createEditUrl({
         changeNum: this.change._number,
-        project: this.change.project,
+        repo: this.change.project,
         path,
         patchNum: this.patchRange.patchNum,
       });
     }
     return createDiffUrl({
       changeNum: this.change._number,
-      project: this.change.project,
+      repo: this.change.project,
       path,
       patchNum: this.patchRange.patchNum,
       basePatchNum: this.patchRange.basePatchNum,

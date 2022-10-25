@@ -698,7 +698,7 @@ export function createChangeViewState(): ChangeViewState {
   return {
     view: GerritView.CHANGE,
     changeNum: TEST_NUMERIC_CHANGE_ID,
-    project: TEST_PROJECT_NAME,
+    repo: TEST_PROJECT_NAME,
   };
 }
 
@@ -718,7 +718,7 @@ export function createEditViewState(): EditViewState {
     changeNum: TEST_NUMERIC_CHANGE_ID,
     patchNum: EDIT,
     path: 'foo/bar.baz',
-    project: TEST_PROJECT_NAME,
+    repo: TEST_PROJECT_NAME,
   };
 }
 

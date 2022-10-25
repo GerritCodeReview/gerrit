@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4eeab8bf_1f829ffc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-25T15:19:36Z",
+      "side": 1,
+      "message": "what about this one and `_pluginInstalled`?",
+      "range": {
+        "startLine": 123,
+        "startChar": 2,
+        "endLine": 123,
+        "endChar": 22
+      },
+      "revId": "d213cd24d8ba710375127c262a3cd79c85ad701d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23e4b881_ed2927da",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-10-25T15:19:36Z",
+      "side": 1,
+      "message": "consider also removing the `_` from everything now that we are using `private`",
+      "range": {
+        "startLine": 266,
+        "startChar": 2,
+        "endLine": 266,
+        "endChar": 13
+      },
+      "revId": "d213cd24d8ba710375127c262a3cd79c85ad701d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

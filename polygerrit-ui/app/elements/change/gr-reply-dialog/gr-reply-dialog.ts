@@ -181,13 +181,6 @@ export class GrReplyDialog extends LitElement {
    */
 
   /**
-   * Fired when the main textarea's value changes, which may have triggered
-   * a change in size for the dialog.
-   *
-   * @event autogrow
-   */
-
-  /**
    * Fires to show an alert when a send is attempted on the non-latest patch.
    *
    * @event show-alert
@@ -747,12 +740,6 @@ export class GrReplyDialog extends LitElement {
     if (changedProperties.has('canBeStarted')) {
       this.computeMessagePlaceholder();
       this.computeSendButtonLabel();
-    }
-    if (changedProperties.has('reviewFormatting')) {
-      this.handleHeightChanged();
-    }
-    if (changedProperties.has('draftCommentThreads')) {
-      this.handleHeightChanged();
     }
     if (changedProperties.has('sendDisabled')) {
       this.sendDisabledChanged();
@@ -1974,10 +1961,6 @@ export class GrReplyDialog extends LitElement {
       this.alreadyExists(this.reviewers, user) ||
       this.alreadyExists(this._ccs, user)
     );
-  }
-
-  handleHeightChanged() {
-    fireEvent(this, 'autogrow');
   }
 
   getLabelScores(): GrLabelScores {

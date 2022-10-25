@@ -19,6 +19,14 @@ import {JsApiService} from './gr-js-api-types';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {Finalizable} from '../../../services/registry';
 import {PluginsModel} from '../../../models/plugins/plugins-model';
+import {Gerrit} from '../../../api/gerrit';
+import {fontStyles} from '../../../styles/gr-font-styles';
+import {formStyles} from '../../../styles/gr-form-styles';
+import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
+import {spinnerStyles} from '../../../styles/gr-spinner-styles';
+import {subpageStyles} from '../../../styles/gr-subpage-styles';
+import {tableStyles} from '../../../styles/gr-table-styles';
+import {iconStyles} from '../../../styles/gr-icon-styles';
 
 enum PluginState {
   /** State that indicates the plugin is pending to be loaded. */
@@ -67,7 +75,17 @@ const API_VERSION = '0.1';
  * Retrieve plugin.
  * Check plugin status and if all plugins loaded.
  */
-export class PluginLoader implements Finalizable {
+export class PluginLoader implements Gerrit, Finalizable {
+  public readonly styles = {
+    font: fontStyles,
+    form: formStyles,
+    icon: iconStyles,
+    menuPage: menuPageStyles,
+    spinner: spinnerStyles,
+    subPage: subpageStyles,
+    table: tableStyles,
+  };
+
   _pluginListLoaded = false;
 
   _plugins = new Map<string, PluginObject>();

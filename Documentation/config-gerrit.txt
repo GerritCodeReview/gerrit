@@ -4255,6 +4255,14 @@ Values can be specified using standard time unit abbreviations ('ms',
 +
 Default is 5 seconds. Negative values will be converted to 0.
 
+[[plugins.transitionalPushOptions]]plugins.transitionalPushOptions::
++
+Additional push options which should be accepted by gerrit as valid
+options even if they are not registered by any plugin(e.g. "myplugin~foo").
++
+This config can be used when gerrit migrates from a deprecated plugin to the new one. The new plugin
+can (temporary) accept push options of the old plugin without registering such options.
+
 [[receive]]
 === Section receive
 

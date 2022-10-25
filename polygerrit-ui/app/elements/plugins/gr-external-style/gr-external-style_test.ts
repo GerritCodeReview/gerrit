@@ -7,9 +7,9 @@ import '../../../test/common-test-setup';
 import {mockPromise, MockPromise, resetPlugins} from '../../../test/test-utils';
 import './gr-external-style';
 import {GrExternalStyle} from './gr-external-style';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {PluginApi} from '../../../api/plugin';
 import {fixture, html, assert} from '@open-wc/testing';
+import {getAppContext} from '../../../services/app-context';
 
 suite('gr-external-style integration tests', () => {
   const TEST_URL = 'http://some.com/plugins/url.js';
@@ -60,7 +60,9 @@ suite('gr-external-style integration tests', () => {
 
   setup(() => {
     pluginsLoaded = mockPromise();
-    sinon.stub(getPluginLoader(), 'awaitPluginsLoaded').returns(pluginsLoaded);
+    sinon
+      .stub(getAppContext().pluginLoader, 'awaitPluginsLoaded')
+      .returns(pluginsLoaded);
   });
 
   teardown(() => {

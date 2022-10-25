@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dca28e05_db985dcc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-25T08:36:02Z",
+      "side": 1,
+      "message": "This seems unrelated to other things that you are doing in this change. Maybe keep the API classes consistent with each other and make that change in a separate change. For example `GrAdminApi` should be changed at the same time as `GrChecksApi` with regards to retrieving `reportingService` from app context or a parameter.",
+      "revId": "69bc87d79ff0ac3a060af90b26e974bbad7bd486",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

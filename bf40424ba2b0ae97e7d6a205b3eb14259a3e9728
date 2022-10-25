@@ -105,6 +105,24 @@
       "parentUuid": "dc9bbed6_2fdc8c8c",
       "revId": "bf40424ba2b0ae97e7d6a205b3eb14259a3e9728",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3e210a4_a3d49828",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-10-25T07:27:40Z",
+      "side": 1,
+      "message": "I very vaguely remember that Bouncycastle is somehow special in the sense that it\u0027s not packaged with Gerrit (as we are not allowed to ship it) and needs to be downloaded at the moment when Gerrit is installed. Maybe that\u0027s why we just don\u0027t have proper tests for this?",
+      "parentUuid": "3fa83e56_aade5e3a",
+      "revId": "bf40424ba2b0ae97e7d6a205b3eb14259a3e9728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

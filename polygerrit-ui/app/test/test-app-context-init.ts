@@ -38,7 +38,7 @@ export function createTestAppContext(): AppContext & Finalizable {
     jsApiService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.reportingService, 'reportingService');
       return new GrJsApiInterface(
-        () => ctx.pluginLoader!,
+        () => ctx.pluginLoader!.awaitPluginsLoaded(),
         ctx.reportingService
       );
     },

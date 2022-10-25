@@ -91,7 +91,10 @@ export function createAppContext(): AppContext & Finalizable {
       assertIsDefined(reportingService, 'reportingService');
       // Need delayed binding for pluginLoader because there's a circular
       // dependency between GrJsApiInterface and PluginLoader
-      return new GrJsApiInterface(() => ctx.pluginLoader!, reportingService);
+      return new GrJsApiInterface(
+        () => ctx.pluginLoader.awaitPluginsLoaded(),
+        reportingService
+      );
     },
     pluginsModel: (_ctx: Partial<AppContext>) => new PluginsModel(),
     pluginLoader: (ctx: Partial<AppContext>) => {

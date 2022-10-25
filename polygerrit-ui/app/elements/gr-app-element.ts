@@ -398,6 +398,7 @@ export class GrAppElement extends LitElement {
   }
 
   private renderHeader() {
+    if (this.hideHeaderAndFooter()) return nothing;
     return html`
       <gr-main-header
         id="mainHeader"
@@ -413,6 +414,7 @@ export class GrAppElement extends LitElement {
   }
 
   private renderFooter() {
+    if (this.hideHeaderAndFooter()) return nothing;
     return html`
       <footer ?aria-hidden=${this.footerHeaderAriaHidden}>
         <div>
@@ -432,6 +434,13 @@ export class GrAppElement extends LitElement {
         </div>
       </footer>
     `;
+  }
+
+  private hideHeaderAndFooter() {
+    return (
+      this.view === GerritView.PLUGIN_SCREEN &&
+      this.computePluginScreenName().includes('full')
+    );
   }
 
   private renderMobileSearch() {

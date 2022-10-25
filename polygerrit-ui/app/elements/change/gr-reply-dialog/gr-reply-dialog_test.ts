@@ -2022,17 +2022,6 @@ suite('gr-reply-dialog tests', () => {
     await promise;
   });
 
-  test('fires height change when the drafts comments load', async () => {
-    // Flush DOM operations before binding to the autogrow event so we don't
-    // catch the events fired from the initial layout.
-    await element.updateComplete;
-    const autoGrowHandler = sinon.stub();
-    element.addEventListener('autogrow', autoGrowHandler);
-    element.draftCommentThreads = [];
-    await element.updateComplete;
-    assert.isTrue(autoGrowHandler.called);
-  });
-
   suite('start review and save buttons', () => {
     let sendStub: sinon.SinonStub;
 

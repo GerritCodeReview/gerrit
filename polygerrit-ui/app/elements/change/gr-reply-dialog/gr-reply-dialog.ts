@@ -748,12 +748,6 @@ export class GrReplyDialog extends LitElement {
       this.computeMessagePlaceholder();
       this.computeSendButtonLabel();
     }
-    if (changedProperties.has('reviewFormatting')) {
-      this.handleHeightChanged();
-    }
-    if (changedProperties.has('draftCommentThreads')) {
-      this.handleHeightChanged();
-    }
     if (changedProperties.has('sendDisabled')) {
       this.sendDisabledChanged();
     }
@@ -1974,10 +1968,6 @@ export class GrReplyDialog extends LitElement {
       this.alreadyExists(this.reviewers, user) ||
       this.alreadyExists(this._ccs, user)
     );
-  }
-
-  handleHeightChanged() {
-    fireEvent(this, 'autogrow');
   }
 
   getLabelScores(): GrLabelScores {

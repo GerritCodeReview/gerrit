@@ -22,7 +22,6 @@ export function initGlobalVariables(appContext: AppContext & Finalizable) {
   window.GrAnnotation = GrAnnotation;
   window.GrPluginActionContext = GrPluginActionContext;
   window.Gerrit = new GerritImpl(
-    appContext.authService,
     appContext.reportingService,
     appContext.eventEmitter,
     appContext.restApiService,

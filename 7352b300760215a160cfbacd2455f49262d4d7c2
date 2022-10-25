@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ae008ba_c555efef",
+        "filename": "java/com/google/gerrit/index/query/Predicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-10-25T00:03:45Z",
+      "side": 1,
+      "message": "I don\u0027t see any advantage to this method over inlining this logic as either approach results in a straightforward \"if then else\". I realize that you override this in some places, but it feels weird and more complicated than needed to me. I would recommend figuring out a slightly simpler way to share.",
+      "revId": "7352b300760215a160cfbacd2455f49262d4d7c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

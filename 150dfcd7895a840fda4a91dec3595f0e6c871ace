@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b46df247_14f8a84a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-25T13:07:29Z",
+      "side": 1,
+      "message": "All the other ids use camelCase.",
+      "range": {
+        "startLine": 359,
+        "startChar": 11,
+        "endLine": 359,
+        "endChar": 25
+      },
+      "revId": "150dfcd7895a840fda4a91dec3595f0e6c871ace",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

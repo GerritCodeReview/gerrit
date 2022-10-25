@@ -246,7 +246,7 @@ export class GrChangeView extends LitElement {
 
   @query('#downloadDialog') downloadDialog?: GrDownloadDialog;
 
-  @query('#replyOverlay') replyOverlay?: GrOverlay;
+  @query('#replyModal') replyModal?: HTMLDialogElement;
 
   @query('#replyDialog') replyDialog?: GrReplyDialog;
 
@@ -524,7 +524,7 @@ export class GrChangeView extends LitElement {
 
   /** Just reflects the `opened` prop of the overlay. */
   @state()
-  private replyOverlayOpened = false;
+  private replyModalOpened = false;
 
   // Accessed in tests.
   readonly reporting = getAppContext().reportingService;
@@ -1154,7 +1154,7 @@ export class GrChangeView extends LitElement {
             min-width: initial;
             width: 100vw;
           }
-          #replyOverlay {
+          #replyModal {
             z-index: var(--reply-overlay-z-index);
           }
         }
@@ -1216,18 +1216,9 @@ export class GrChangeView extends LitElement {
           @close=${this.handleIncludedInDialogClose}
         ></gr-included-in-dialog>
       </gr-overlay>
-      <gr-overlay
-        id="replyOverlay"
-        class="scrollable"
-        no-cancel-on-outside-click=""
-        no-cancel-on-esc-key=""
-        scroll-action="lock"
-        with-backdrop=""
-        @iron-overlay-canceled=${this.onReplyOverlayCanceled}
-        @opened-changed=${this.onReplyOverlayOpenedChanged}
-      >
+      <dialog id="replyModal" @close=${this.handleReplyCancel}>
         ${when(
-          this.replyOverlayOpened && this.loggedIn,
+          this.replyModalOpened && this.loggedIn,
           () => html`
             <gr-reply-dialog
               id="replyDialog"
@@ -1238,12 +1229,12 @@ export class GrChangeView extends LitElement {
               @send=${this.handleReplySent}
               @cancel=${this.handleReplyCancel}
               @autogrow=${this.handleReplyAutogrow}
-              @send-disabled-changed=${this.resetReplyOverlayFocusStops}
+              @send-disabled-changed=${this.resetreplyModalFocusStops}
             >
             </gr-reply-dialog>
           `
         )}
-      </gr-overlay>
+      </dialog>
     `;
   }
 
@@ -1968,13 +1959,9 @@ export class GrChangeView extends LitElement {
     this.openReplyDialog(FocusTarget.ANY);
   }
 
-  private onReplyOverlayCanceled() {
+  private onreplyModalCanceled() {
     fireDialogChange(this, {canceled: true});
     this.changeViewAriaHidden = false;
-  }
-
-  private onReplyOverlayOpenedChanged(e: ValueChangedEvent<boolean>) {
-    this.replyOverlayOpened = e.detail.value;
   }
 
   private handleOpenDiffPrefs() {
@@ -2046,14 +2033,15 @@ export class GrChangeView extends LitElement {
       },
       {once: true}
     );
-    assertIsDefined(this.replyOverlay);
-    this.replyOverlay.cancel();
+    assertIsDefined(this.replyModal);
+    this.replyModal.close();
     fireReload(this);
   }
 
   private handleReplyCancel() {
-    assertIsDefined(this.replyOverlay);
-    this.replyOverlay.cancel();
+    assertIsDefined(this.replyModal);
+    this.replyModal.close();
+    this.onreplyModalCanceled();
   }
 
   private handleReplyAutogrow() {
@@ -2061,8 +2049,8 @@ export class GrChangeView extends LitElement {
     this.replyRefitTask = debounce(
       this.replyRefitTask,
       () => {
-        assertIsDefined(this.replyOverlay);
-        this.replyOverlay.refit();
+        assertIsDefined(this.replyModal);
+        this.replyModal.refit();
       },
       REPLY_REFIT_DEBOUNCE_INTERVAL_MS
     );
@@ -2640,13 +2628,15 @@ export class GrChangeView extends LitElement {
 
   openReplyDialog(focusTarget?: FocusTarget, quote?: string) {
     if (!this.change) return;
-    assertIsDefined(this.replyOverlay);
-    const overlay = this.replyOverlay;
+    this.replyModalOpened = true;
+    assertIsDefined(this.replyModal);
+    const overlay = this.replyModal;
+    
     overlay.open().finally(() => {
       // the following code should be executed no matter open succeed or not
       const dialog = this.replyDialog;
       assertIsDefined(dialog, 'reply dialog');
-      this.resetReplyOverlayFocusStops();
+      this.resetreplyModalFocusStops();
       dialog.open(focusTarget, quote);
       const observer = new ResizeObserver(() => overlay.center());
       observer.observe(dialog);
@@ -3291,12 +3281,12 @@ export class GrChangeView extends LitElement {
     );
   }
 
-  private resetReplyOverlayFocusStops() {
+  private resetreplyModalFocusStops() {
     const dialog = this.replyDialog;
     const focusStops = dialog?.getFocusStops();
     if (!focusStops) return;
-    assertIsDefined(this.replyOverlay);
-    this.replyOverlay.setFocusStops(focusStops);
+    assertIsDefined(this.replyModal);
+    this.replyModal.setFocusStops(focusStops);
   }
 
   // Private but used in tests.

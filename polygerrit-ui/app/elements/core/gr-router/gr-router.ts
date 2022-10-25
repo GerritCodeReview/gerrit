@@ -354,6 +354,9 @@ export class GrRouter implements Finalizable, NavigationService {
   }
 
   setState(state: AppElementParams) {
+    if ('repo' in state && state.repo !== undefined && 'changeNum' in state)
+      this.restApiService.setInProjectLookup(state.changeNum, state.repo);
+
     this.routerModel.setState({
       view: state.view,
       changeNum: 'changeNum' in state ? state.changeNum : undefined,

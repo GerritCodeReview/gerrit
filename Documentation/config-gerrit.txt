@@ -1507,6 +1507,13 @@ section:link:#change.mergeabilityComputationBehavior[change.mergeabilityComputat
 
 Default is true.
 
+[[change.maxSubmittableAtOnce]]change.maxSubmittableAtOnce::
++
+Maximum number of changes that can be chained together in the same repository
+to be submitted at once.
++
+Default is 32767.
+
 [[change.move]]change.move::
 +
 Whether the link:rest-api-changes.html#move-change[Move Change] REST
@@ -2542,6 +2549,26 @@ of the following steps:
 Rolling upgrade may or may not be possible depending on the changes introduced
 by the target version of the upgrade. Refer to the release notes and check whether
 the rolling upgrade is possible or not and the associated constraints.
+
+[[gerrit.importedServerId]]gerrit.importedServerId::
++
+ServerId of the repositories imported from other Gerrit servers. Changes coming
+associated with the imported serverIds are indexed and displayed in the UI.
++
+Specify multiple `gerrit.importedServerId` for allowing the import from multiple
+Gerrit servers with different serverIds.
++
+[NOTE]
+The account-ids referenced in the imported changes are used for looking up the
+associated account-id locally, using the `imported:` external-id.
+Example: the account-id 1000 from the imported server-id 59a4964e-6376-4ed9-beef
+will be looked up in the local accounts using the `imported:1000@59a4964e-6376-4ed9-beef`
+external-id.
++
+If this value is not set, all changes imported from other Gerrit servers will be
+ignored.
++
+By default empty.
 
 [[gerrit.serverId]]gerrit.serverId::
 +

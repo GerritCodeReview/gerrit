@@ -506,7 +506,7 @@ public class RevisionIT extends AbstractDaemonTest {
     PushOneCommit.Result r1 = createChange();
 
     // Push another new change (change 2)
-    String subject = "Test change\n\nChange-Id: Ideadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
+    String subject = "Test change";
     PushOneCommit push =
         pushFactory.create(
             admin.newIdent(), testRepo, subject, "another_file.txt", "another content");
@@ -520,7 +520,7 @@ public class RevisionIT extends AbstractDaemonTest {
     ChangeApi orig = gApi.changes().id(triplet);
     CherryPickInput in = new CherryPickInput();
     in.destination = "master";
-    in.message = subject;
+    in.message = subject + "\n\nChange-Id: " + r2.getChangeId();
     ChangeApi cherry = orig.revision(r2.getCommit().name()).cherryPick(in);
     ChangeInfo cherryInfo = cherry.get();
     assertThat(cherryInfo.messages).hasSize(2);

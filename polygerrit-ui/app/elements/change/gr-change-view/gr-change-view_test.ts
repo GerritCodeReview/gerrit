@@ -449,6 +449,11 @@ suite('gr-change-view tests', () => {
                       >
                         <gr-formatted-text></gr-formatted-text>
                       </gr-editable-content>
+                      <div class="changeId" hidden="">
+                        <hr />
+                        Change-Id:
+                        <span class="" title=""></span>
+                      </div>
                     </div>
                     <h3 class="assistive-tech-only">
                       Comments and Checks Summary
@@ -1785,6 +1790,103 @@ suite('gr-change-view tests', () => {
     element.commitMessageEditor.disabled = false;
     element.handleCommitMessageSave(mockEvent('\n\n\n\n\n\n\n\n'));
     assert.equal(putStub.lastCall.args[1], '\n\n\n\n\n\n\n\n');
+  });
+  test('computeChangeIdCommitMessageError', () => {
+    let commitMessage = 'Change-Id: I4ce18b2395bca69d7a9aa48bf4554faa56282483';
+    let change: ParsedChangeInfo = {
+      ...createChangeViewChange(),
+      change_id: 'I4ce18b2395bca69d7a9aa48bf4554faa56282483' as ChangeId,
+    };
+    assert.equal(
+      element.computeChangeIdCommitMessageError(commitMessage, change),
+      null
+    );
+
+    change = {
+      ...createChangeViewChange(),
+      change_id: 'I4ce18b2395bca69d7a9aa48bf4554faa56282484' as ChangeId,
+    };
+    assert.equal(
+      element.computeChangeIdCommitMessageError(commitMessage, change),
+      'mismatch'
+    );
+
+    commitMessage = 'This is the greatest change.';
+    assert.equal(
+      element.computeChangeIdCommitMessageError(commitMessage, change),
+      'missing'
+    );
+  });
+
+  test('multiple change Ids in commit message picks last', () => {
+    const commitMessage = [
+      'Change-Id: I4ce18b2395bca69d7a9aa48bf4554faa56282484',
+      'Change-Id: I4ce18b2395bca69d7a9aa48bf4554faa56282483',
+    ].join('\n');
+    let change: ParsedChangeInfo = {
+      ...createChangeViewChange(),
+      change_id: 'I4ce18b2395bca69d7a9aa48bf4554faa56282483' as ChangeId,
+    };
+    assert.equal(
+      element.computeChangeIdCommitMessageError(commitMessage, change),
+      null
+    );
+    change = {
+      ...createChangeViewChange(),
+      change_id: 'I4ce18b2395bca69d7a9aa48bf4554faa56282484' as ChangeId,
+    };
+    assert.equal(
+      element.computeChangeIdCommitMessageError(commitMessage, change),
+      'mismatch'
+    );
+  });
+
+  test('does not count change Id that starts mid line', () => {
+    const commitMessage = [
+      'Change-Id: I4ce18b2395bca69d7a9aa48bf4554faa56282484',
+      'Change-Id: I4ce18b2395bca69d7a9aa48bf4554faa56282483',
+    ].join(' and ');
+    let change: ParsedChangeInfo = {
+      ...createChangeViewChange(),
+      change_id: 'I4ce18b2395bca69d7a9aa48bf4554faa56282484' as ChangeId,
+    };
+    assert.equal(
+      element.computeChangeIdCommitMessageError(commitMessage, change),
+      null
+    );
+    change = {
+      ...createChangeViewChange(),
+      change_id: 'I4ce18b2395bca69d7a9aa48bf4554faa56282483' as ChangeId,
+    };
+    assert.equal(
+      element.computeChangeIdCommitMessageError(commitMessage, change),
+      'mismatch'
+    );
+  });
+
+  test('computeTitleAttributeWarning', () => {
+    let changeIdCommitMessageError = 'missing';
+    assert.equal(
+      element.computeTitleAttributeWarning(changeIdCommitMessageError),
+      'No Change-Id in commit message'
+    );
+
+    changeIdCommitMessageError = 'mismatch';
+    assert.equal(
+      element.computeTitleAttributeWarning(changeIdCommitMessageError),
+      'Change-Id mismatch'
+    );
+  });
+
+  test('computeChangeIdClass', () => {
+    let changeIdCommitMessageError = 'missing';
+    assert.equal(element.computeChangeIdClass(changeIdCommitMessageError), '');
+
+    changeIdCommitMessageError = 'mismatch';
+    assert.equal(
+      element.computeChangeIdClass(changeIdCommitMessageError),
+      'warning'
+    );
   });
 
   test('topic is coalesced to null', async () => {

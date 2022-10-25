@@ -146,7 +146,7 @@ public class GitwebConfig {
         type.setProject("?p=${project}.git;a=summary");
         type.setRevision("?p=${project}.git;a=commit;h=${commit}");
         type.setBranch("?p=${project}.git;a=shortlog;h=${branch}");
-        type.setTag("?p=${project}.git;a=tag;h=${tag}");
+        type.setTag("?p=${project}.git;a=shortlog;h=${tag}");
         type.setRootTree("?p=${project}.git;a=tree;hb=${commit}");
         type.setFile("?p=${project}.git;hb=${commit};f=${file}");
         type.setFileHistory("?p=${project}.git;a=history;hb=${branch};f=${file}");

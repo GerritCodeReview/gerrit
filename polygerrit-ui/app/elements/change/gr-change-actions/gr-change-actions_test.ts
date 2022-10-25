@@ -704,7 +704,7 @@ suite('gr-change-actions tests', () => {
       const review = {labels: {Foo: 1, 'Bar-Baz': -2}};
       const changeId = 1234 as NumericChangeId;
       sinon
-        .stub(getAppContext().jsApiService, 'getReviewPostRevert')
+        .stub(getAppContext().pluginLoader.jsApiService, 'getReviewPostRevert')
         .returns(review);
       const saveStub = stubRestApi('saveChangeReview').returns(
         Promise.resolve(new Response())

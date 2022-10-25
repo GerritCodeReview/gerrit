@@ -22,6 +22,30 @@
       },
       "revId": "a6683025b5134bd5720d737c594234aef35de7cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6b92df7_2a8ce03c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-types.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-25T07:15:16Z",
+      "side": 1,
+      "message": "Before this change `handleEvent` was used, which had a generic method signature and a `detail: any` in the parameter list. So the types were not checked at all. Now we have proper type checking when calling handler methods directly. And that required some small type changes. I just changed the things that the compiler was yelling at me about.",
+      "parentUuid": "731f463a_7f911357",
+      "range": {
+        "startLine": 22,
+        "startChar": 27,
+        "endLine": 22,
+        "endChar": 34
+      },
+      "revId": "a6683025b5134bd5720d737c594234aef35de7cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

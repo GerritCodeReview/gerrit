@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c08c247d_739c7ef9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 894,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-25T07:15:16Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "6216ee33_096d3ad3",
+      "range": {
+        "startLine": 893,
+        "startChar": 4,
+        "endLine": 894,
+        "endChar": 46
+      },
+      "revId": "c512a90a1a7b295c6ebe20257d78149499b2c1cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d34f7bc_f87b85ff",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-10-24T18:18:15Z",
       "side": 0,
       "message": "Can we remove SHOW_CHANGE, LABEL_CHANGE, ...\n\nfrom eventType in plugin.ts?",
+      "range": {
+        "startLine": 42,
+        "startChar": 11,
+        "endLine": 52,
+        "endChar": 25
+      },
+      "revId": "c512a90a1a7b295c6ebe20257d78149499b2c1cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39b3641c_86326018",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface-element.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-10-25T07:15:16Z",
+      "side": 0,
+      "message": "No, they are still used. Plugins register with those names and in `handleShowChange` we use `this._getEventCallbacks(EventType.SHOW_CHANGE)` to look up the registered callbacks.",
+      "parentUuid": "5d34f7bc_f87b85ff",
       "range": {
         "startLine": 42,
         "startChar": 11,

@@ -551,7 +551,11 @@ export class GrAdminView extends LitElement {
     if (this.selectedIsCurrentPage(selected)) return;
     if (selected.url === undefined) return;
     if (this.reloading) return;
+<<<<<<< HEAD
     this.getNavigation().setUrl(selected.url);
+=======
+    GerritNav.navigateToRelativeUrl(selected.url);
+>>>>>>> stable-3.6
   }
 
   isAdminView(): boolean {

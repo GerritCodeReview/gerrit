@@ -474,7 +474,6 @@ const appThemeCss = safeStyleSheet`
 
     /* misc */
     --border-radius: 4px;
-    --reply-overlay-z-index: 1000;
     --line-length-indicator-color: #681da8;
 
     /* paper and iron component overrides */

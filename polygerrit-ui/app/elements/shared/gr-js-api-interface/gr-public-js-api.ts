@@ -21,7 +21,6 @@ import {RequestPayload} from '../../../types/common';
 import {HttpMethod} from '../../../constants/constants';
 import {GrChangeActions} from '../../change/gr-change-actions/gr-change-actions';
 import {GrChecksApi} from '../../plugins/gr-checks-api/gr-checks-api';
-import {getAppContext} from '../../../services/app-context';
 import {AdminPluginApi} from '../../../api/admin';
 import {AnnotationPluginApi} from '../../../api/annotation';
 import {EventHelperPluginApi} from '../../../api/event-helper';
@@ -32,6 +31,10 @@ import {ChangeReplyPluginApi} from '../../../api/change-reply';
 import {RestPluginApi} from '../../../api/rest';
 import {HookApi, PluginElement, RegisterOptions} from '../../../api/hook';
 import {AttributeHelperPluginApi} from '../../../api/attribute-helper';
+import {JsApiService} from './gr-js-api-types';
+import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
+import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
+import {PluginsModel} from '../../../models/plugins/plugins-model';
 
 /**
  * Plugin-provided custom components can affect content in extension
@@ -60,13 +63,13 @@ export class Plugin implements PluginApi {
 
   private readonly _name: string = PLUGIN_NAME_NOT_SET;
 
-  private readonly jsApi = getAppContext().jsApiService;
-
-  private readonly report = getAppContext().reportingService;
-
-  private readonly restApiService = getAppContext().restApiService;
-
-  constructor(url?: string) {
+  constructor(
+    url: string,
+    private readonly jsApi: JsApiService,
+    private readonly report: ReportingService,
+    private readonly restApiService: RestApiService,
+    private readonly pluginsModel: PluginsModel
+  ) {
     this.domHooks = new GrDomHooksManager(this);
 
     if (!url) {
@@ -228,7 +231,7 @@ export class Plugin implements PluginApi {
   }
 
   checks(): GrChecksApi {
-    return new GrChecksApi(this);
+    return new GrChecksApi(this.report, this.pluginsModel, this);
   }
 
   reporting(): ReportingPluginApi {

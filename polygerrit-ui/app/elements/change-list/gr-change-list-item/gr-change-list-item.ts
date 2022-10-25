@@ -18,7 +18,6 @@ import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {getDisplayName} from '../../../utils/display-name-util';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {getAppContext} from '../../../services/app-context';
 import {truncatePath} from '../../../utils/path-list-util';
 import {changeStatuses} from '../../../utils/change-util';
@@ -120,6 +119,8 @@ export class GrChangeListItem extends LitElement {
 
   reporting: ReportingService = getAppContext().reportingService;
 
+  private readonly pluginLoader = getAppContext().pluginLoader;
+
   private readonly getBulkActionsModel = resolve(this, bulkActionsModelToken);
 
   private readonly getNavigation = resolve(this, navigationToken);
@@ -138,13 +139,11 @@ export class GrChangeListItem extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    getPluginLoader()
-      .awaitPluginsLoaded()
-      .then(() => {
-        this.dynamicCellEndpoints = getPluginEndpoints().getDynamicEndpoints(
-          'change-list-item-cell'
-        );
-      });
+    this.pluginLoader.awaitPluginsLoaded().then(() => {
+      this.dynamicCellEndpoints = getPluginEndpoints().getDynamicEndpoints(
+        'change-list-item-cell'
+      );
+    });
     this.addEventListener('click', this.onItemClick);
   }
 

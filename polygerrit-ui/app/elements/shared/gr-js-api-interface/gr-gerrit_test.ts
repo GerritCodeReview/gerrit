@@ -4,12 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup';
-import {getPluginLoader} from './gr-plugin-loader';
 import {resetPlugins} from '../../../test/test-utils';
-import {
-  GerritInternal,
-  _testOnly_getGerritInternalPluginApi,
-} from './gr-gerrit';
+import {GerritImpl, GerritInternal} from './gr-gerrit';
 import {stubRestApi} from '../../../test/test-utils';
 import {getAppContext} from '../../../services/app-context';
 import {GrJsApiInterface} from './gr-js-api-interface-element';
@@ -32,7 +28,7 @@ suite('gr-gerrit tests', () => {
       Promise.resolve({...new Response(), status: 200})
     );
     element = getAppContext().jsApiService as GrJsApiInterface;
-    pluginApi = _testOnly_getGerritInternalPluginApi();
+    pluginApi = new GerritImpl(getAppContext());
   });
 
   teardown(() => {
@@ -42,19 +38,19 @@ suite('gr-gerrit tests', () => {
   });
 
   suite('proxy methods', () => {
-    test('Gerrit._isPluginEnabled proxy to getPluginLoader()', () => {
+    test('Gerrit._isPluginEnabled proxy to getAppContext().pluginLoader', () => {
       const stubFn = sinon.stub();
       sinon
-        .stub(getPluginLoader(), 'isPluginEnabled')
+        .stub(getAppContext().pluginLoader, 'isPluginEnabled')
         .callsFake((...args) => stubFn(...args));
       pluginApi._isPluginEnabled('test_plugin');
       assert.isTrue(stubFn.calledWith('test_plugin'));
     });
 
-    test('Gerrit._isPluginLoaded proxy to getPluginLoader()', () => {
+    test('Gerrit._isPluginLoaded proxy to getAppContext().pluginLoader', () => {
       const stubFn = sinon.stub();
       sinon
-        .stub(getPluginLoader(), 'isPluginLoaded')
+        .stub(getAppContext().pluginLoader, 'isPluginLoaded')
         .callsFake((...args) => stubFn(...args));
       pluginApi._isPluginLoaded('test_plugin');
       assert.isTrue(stubFn.calledWith('test_plugin'));

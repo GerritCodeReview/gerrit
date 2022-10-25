@@ -8,7 +8,6 @@ import {create, Finalizable, Registry} from './registry';
 import {DependencyToken} from '../models/dependency';
 import {FlagsServiceImplementation} from './flags/flags_impl';
 import {GrReporting} from './gr-reporting/gr-reporting_impl';
-import {EventEmitter} from './gr-event-interface/gr-event-interface_impl';
 import {Auth} from './gr-auth/gr-auth_impl';
 import {GrRestApiServiceImpl} from './gr-rest-api/gr-rest-api-impl';
 import {ChangeModel, changeModelToken} from '../models/change/change-model';
@@ -76,10 +75,8 @@ export function createAppContext(): AppContext & Finalizable {
       assertIsDefined(ctx.flagsService, 'flagsService)');
       return new GrReporting(ctx.flagsService);
     },
-    eventEmitter: (_ctx: Partial<AppContext>) => new EventEmitter(),
-    authService: (ctx: Partial<AppContext>) => {
-      assertIsDefined(ctx.eventEmitter, 'eventEmitter');
-      return new Auth(ctx.eventEmitter);
+    authService: (_ctx: Partial<AppContext>) => {
+      return new Auth();
     },
     restApiService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.authService, 'authService');

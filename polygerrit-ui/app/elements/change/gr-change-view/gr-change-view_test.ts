@@ -20,7 +20,6 @@ import {
 import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {_testOnly_resetEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {EventType, PluginApi} from '../../../api/plugin';
 import {
   mockPromise,
@@ -109,6 +108,7 @@ import {
   CommentsModel,
   commentsModelToken,
 } from '../../../models/comments/comments-model';
+import {getAppContext} from '../../../services/app-context';
 
 suite('gr-change-view tests', () => {
   let element: GrChangeView;
@@ -358,7 +358,6 @@ suite('gr-change-view tests', () => {
     stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
     stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
 
-    getPluginLoader().loadPlugins([]);
     window.Gerrit.install(
       plugin => {
         plugin.registerDynamicCustomComponent(
@@ -1935,7 +1934,7 @@ suite('gr-change-view tests', () => {
 
   test('revert dialog opened with revert param', async () => {
     const awaitPluginsLoadedStub = sinon
-      .stub(getPluginLoader(), 'awaitPluginsLoaded')
+      .stub(getAppContext().pluginLoader, 'awaitPluginsLoaded')
       .callsFake(() => Promise.resolve());
 
     element.patchRange = {

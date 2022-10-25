@@ -13,7 +13,6 @@ import {grRestApiMock} from './mocks/gr-rest-api_mock';
 import {grStorageMock} from '../services/storage/gr-storage_mock';
 import {GrAuthMock} from '../services/gr-auth/gr-auth_mock';
 import {FlagsServiceImplementation} from '../services/flags/flags_impl';
-import {EventEmitter} from '../services/gr-event-interface/gr-event-interface_impl';
 import {PluginsModel} from '../models/plugins/plugins-model';
 import {MockHighlightService} from '../services/highlight/highlight-service-mock';
 import {createAppDependencies, Creator} from '../services/app-context-init';
@@ -28,10 +27,8 @@ export function createTestAppContext(): AppContext & Finalizable {
     flagsService: (_ctx: Partial<AppContext>) =>
       new FlagsServiceImplementation(),
     reportingService: (_ctx: Partial<AppContext>) => grReportingMock,
-    eventEmitter: (_ctx: Partial<AppContext>) => new EventEmitter(),
-    authService: (ctx: Partial<AppContext>) => {
-      assertIsDefined(ctx.eventEmitter, 'eventEmitter');
-      return new GrAuthMock(ctx.eventEmitter);
+    authService: (_ctx: Partial<AppContext>) => {
+      return new GrAuthMock();
     },
     restApiService: (_ctx: Partial<AppContext>) => grRestApiMock,
     pluginsModel: (_ctx: Partial<AppContext>) => new PluginsModel(),

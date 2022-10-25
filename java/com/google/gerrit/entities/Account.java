@@ -46,6 +46,10 @@ import java.util.Optional;
  */
 @AutoValue
 public abstract class Account {
+
+  /** Placeholder for indicating an account-id that does not correspond to any local account */
+  public static final Id UNKNOWN_ACCOUNT_ID = id(0);
+
   public static Id id(int id) {
     return new AutoValue_Account_Id(id);
   }

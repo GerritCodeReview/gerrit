@@ -188,7 +188,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
      * com.google.gerrit.entities.Project.NameKey} and the numeric change ID are not available.
      */
     public ChangeNotes createCheckedUsingIndexLookup(Change.Id changeId) {
-      InternalChangeQuery query = queryProvider.get().noFields();
+      InternalChangeQuery query = queryProvider.get().setLimit(2).noFields();
       List<ChangeData> changes = query.byLegacyChangeId(changeId);
       if (changes.isEmpty()) {
         throw new NoSuchChangeException(changeId);
@@ -404,6 +404,10 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   public ObjectId getMetaId() {
     return state.metaId();
+  }
+
+  public String getServerId() {
+    return state.serverId();
   }
 
   public ImmutableSortedMap<PatchSet.Id, PatchSet> getPatchSets() {
@@ -655,7 +659,9 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
      * be to bump the cache version, but that would invalidate all persistent cache entries, what we
      * rather try to avoid.
      */
-    if (!Strings.isNullOrEmpty(stateServerId) && !args.serverId.equals(stateServerId)) {
+    if (!Strings.isNullOrEmpty(stateServerId)
+        && !args.serverId.equals(stateServerId)
+        && !args.importedServerIds.contains(stateServerId)) {
       throw new InvalidServerIdException(args.serverId, stateServerId);
     }
 

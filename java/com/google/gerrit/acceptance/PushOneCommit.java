@@ -263,7 +263,11 @@ public class PushOneCommit {
     if (changeId != null) {
       commitBuilder = testRepo.amendRef("HEAD").insertChangeId(changeId.substring(1));
     } else {
-      commitBuilder = testRepo.branch("HEAD").commit().insertChangeId(nextChangeId());
+      if (subject.contains("\nChange-Id: ")) {
+        commitBuilder = testRepo.amendRef("HEAD");
+      } else {
+        commitBuilder = testRepo.branch("HEAD").commit().insertChangeId(nextChangeId());
+      }
     }
     commitBuilder.message(subject).author(i).committer(new PersonIdent(i, testRepo.getDate()));
   }

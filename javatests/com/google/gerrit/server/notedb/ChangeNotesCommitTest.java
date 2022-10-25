@@ -98,7 +98,8 @@ public class ChangeNotesCommitTest extends AbstractChangeNotesTest {
   private ChangeNotesParser newParser(ObjectId tip) throws Exception {
     walk.reset();
     ChangeNoteJson changeNoteJson = injector.getInstance(ChangeNoteJson.class);
-    return new ChangeNotesParser(newChange().getId(), tip, walk, changeNoteJson, args.metrics);
+    return new ChangeNotesParser(
+        newChange().getId(), tip, walk, changeNoteJson, args.metrics, serverId, externalIdCache);
   }
 
   private RevCommit writeCommit(String body) throws Exception {

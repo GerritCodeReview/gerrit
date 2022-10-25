@@ -513,6 +513,13 @@ export class GrComment extends LitElement {
         </gr-endpoint-param>
         <gr-endpoint-param name="editing" .value=${this.editing}>
         </gr-endpoint-param>
+        <gr-endpoint-param name="message" .value=${this.messageText}>
+        </gr-endpoint-param>
+        <gr-endpoint-param
+          name="draft"
+          .value=${isDraftOrUnsaved(this.comment)}
+        >
+        </gr-endpoint-param>
         <div id="container" class=${classMap(classes)}>
           ${this.renderHeader()}
           <div class="body">

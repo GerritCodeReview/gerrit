@@ -106,119 +106,109 @@ export function createAppDependencies(
   appContext: AppContext,
   resolver: <T>(token: DependencyToken<T>) => T
 ): Map<DependencyToken<unknown>, Creator<unknown>> {
-  const dependencies = new Map<DependencyToken<unknown>, Creator<unknown>>();
-  const routerModelCreator = () => new RouterModel();
-  dependencies.set(routerModelToken, routerModelCreator);
-  const userModelCreator = () => new UserModel(appContext.restApiService);
-  dependencies.set(userModelToken, userModelCreator);
-  const browserModelCreator = () => new BrowserModel(resolver(userModelToken));
-  dependencies.set(browserModelToken, browserModelCreator);
-
-  const accountsModelCreator = () =>
-    new AccountsModel(appContext.restApiService);
-  dependencies.set(accountsModelToken, accountsModelCreator);
-
-  const adminViewModelCreator = () => new AdminViewModel();
-  dependencies.set(adminViewModelToken, adminViewModelCreator);
-  const agreementViewModelCreator = () => new AgreementViewModel();
-  dependencies.set(agreementViewModelToken, agreementViewModelCreator);
-  const changeViewModelCreator = () => new ChangeViewModel();
-  dependencies.set(changeViewModelToken, changeViewModelCreator);
-  const dashboardViewModelCreator = () => new DashboardViewModel();
-  dependencies.set(dashboardViewModelToken, dashboardViewModelCreator);
-  const diffViewModelCreator = () => new DiffViewModel();
-  dependencies.set(diffViewModelToken, diffViewModelCreator);
-  const documentationViewModelCreator = () => new DocumentationViewModel();
-  dependencies.set(documentationViewModelToken, documentationViewModelCreator);
-  const editViewModelCreator = () => new EditViewModel();
-  dependencies.set(editViewModelToken, editViewModelCreator);
-  const groupViewModelCreator = () => new GroupViewModel();
-  dependencies.set(groupViewModelToken, groupViewModelCreator);
-  const pluginViewModelCreator = () => new PluginViewModel();
-  dependencies.set(pluginViewModelToken, pluginViewModelCreator);
-  const repoViewModelCreator = () => new RepoViewModel();
-  dependencies.set(repoViewModelToken, repoViewModelCreator);
-  const searchViewModelCreator = () =>
-    new SearchViewModel(
-      appContext.restApiService,
-      resolver(userModelToken),
-      () => resolver(navigationToken)
-    );
-  dependencies.set(searchViewModelToken, searchViewModelCreator);
-  const settingsViewModelCreator = () => new SettingsViewModel();
-  dependencies.set(settingsViewModelToken, settingsViewModelCreator);
-
-  const routerCreator = () =>
-    new GrRouter(
-      appContext.reportingService,
-      resolver(routerModelToken),
-      appContext.restApiService,
-      resolver(adminViewModelToken),
-      resolver(agreementViewModelToken),
-      resolver(changeViewModelToken),
-      resolver(dashboardViewModelToken),
-      resolver(diffViewModelToken),
-      resolver(documentationViewModelToken),
-      resolver(editViewModelToken),
-      resolver(groupViewModelToken),
-      resolver(pluginViewModelToken),
-      resolver(repoViewModelToken),
-      resolver(searchViewModelToken),
-      resolver(settingsViewModelToken)
-    );
-  dependencies.set(routerToken, routerCreator);
-  dependencies.set(navigationToken, () => resolver(routerToken));
-
-  const changeModelCreator = () =>
-    new ChangeModel(
-      resolver(routerModelToken),
-      appContext.restApiService,
-      resolver(userModelToken)
-    );
-  dependencies.set(changeModelToken, changeModelCreator);
-
-  const commentsModelCreator = () =>
-    new CommentsModel(
-      resolver(routerModelToken),
-      resolver(changeModelToken),
-      resolver(accountsModelToken),
-      appContext.restApiService,
-      appContext.reportingService
-    );
-  dependencies.set(commentsModelToken, commentsModelCreator);
-
-  const filesModelCreator = () =>
-    new FilesModel(
-      resolver(changeModelToken),
-      resolver(commentsModelToken),
-      appContext.restApiService
-    );
-  dependencies.set(filesModelToken, filesModelCreator);
-
-  const configModelCreator = () =>
-    new ConfigModel(resolver(changeModelToken), appContext.restApiService);
-  dependencies.set(configModelToken, configModelCreator);
-
-  const checksModelCreator = () =>
-    new ChecksModel(
-      resolver(changeViewModelToken),
-      resolver(changeModelToken),
-      appContext.reportingService,
-      appContext.pluginsModel
-    );
-
-  dependencies.set(checksModelToken, checksModelCreator);
-
-  const shortcutServiceCreator = () =>
-    new ShortcutsService(resolver(userModelToken), appContext.reportingService);
-  dependencies.set(shortcutsServiceToken, shortcutServiceCreator);
-
-  const storageServiceCreator = () => new GrStorageService();
-  dependencies.set(storageServiceToken, storageServiceCreator);
-
-  const highlightServiceCreator = () =>
-    new HighlightService(appContext.reportingService);
-  dependencies.set(highlightServiceToken, highlightServiceCreator);
-
-  return dependencies;
+  return new Map<DependencyToken<unknown>, Creator<unknown>>([
+    [routerModelToken, () => new RouterModel()],
+    [userModelToken, () => new UserModel(appContext.restApiService)],
+    [browserModelToken, () => new BrowserModel(resolver(userModelToken))],
+    [accountsModelToken, () => new AccountsModel(appContext.restApiService)],
+    [adminViewModelToken, () => new AdminViewModel()],
+    [agreementViewModelToken, () => new AgreementViewModel()],
+    [changeViewModelToken, () => new ChangeViewModel()],
+    [dashboardViewModelToken, () => new DashboardViewModel()],
+    [diffViewModelToken, () => new DiffViewModel()],
+    [documentationViewModelToken, () => new DocumentationViewModel()],
+    [editViewModelToken, () => new EditViewModel()],
+    [groupViewModelToken, () => new GroupViewModel()],
+    [pluginViewModelToken, () => new PluginViewModel()],
+    [repoViewModelToken, () => new RepoViewModel()],
+    [
+      searchViewModelToken,
+      () =>
+        new SearchViewModel(
+          appContext.restApiService,
+          resolver(userModelToken),
+          () => resolver(navigationToken)
+        ),
+    ],
+    [settingsViewModelToken, () => new SettingsViewModel()],
+    [
+      routerToken,
+      () =>
+        new GrRouter(
+          appContext.reportingService,
+          resolver(routerModelToken),
+          appContext.restApiService,
+          resolver(adminViewModelToken),
+          resolver(agreementViewModelToken),
+          resolver(changeViewModelToken),
+          resolver(dashboardViewModelToken),
+          resolver(diffViewModelToken),
+          resolver(documentationViewModelToken),
+          resolver(editViewModelToken),
+          resolver(groupViewModelToken),
+          resolver(pluginViewModelToken),
+          resolver(repoViewModelToken),
+          resolver(searchViewModelToken),
+          resolver(settingsViewModelToken)
+        ),
+    ],
+    [navigationToken, () => resolver(routerToken)],
+    [
+      changeModelToken,
+      () =>
+        new ChangeModel(
+          resolver(routerModelToken),
+          appContext.restApiService,
+          resolver(userModelToken)
+        ),
+    ],
+    [
+      commentsModelToken,
+      () =>
+        new CommentsModel(
+          resolver(routerModelToken),
+          resolver(changeModelToken),
+          resolver(accountsModelToken),
+          appContext.restApiService,
+          appContext.reportingService
+        ),
+    ],
+    [
+      filesModelToken,
+      () =>
+        new FilesModel(
+          resolver(changeModelToken),
+          resolver(commentsModelToken),
+          appContext.restApiService
+        ),
+    ],
+    [
+      configModelToken,
+      () =>
+        new ConfigModel(resolver(changeModelToken), appContext.restApiService),
+    ],
+    [
+      checksModelToken,
+      () =>
+        new ChecksModel(
+          resolver(changeViewModelToken),
+          resolver(changeModelToken),
+          appContext.reportingService,
+          appContext.pluginsModel
+        ),
+    ],
+    [
+      shortcutsServiceToken,
+      () =>
+        new ShortcutsService(
+          resolver(userModelToken),
+          appContext.reportingService
+        ),
+    ],
+    [storageServiceToken, () => new GrStorageService()],
+    [
+      highlightServiceToken,
+      () => new HighlightService(appContext.reportingService),
+    ],
+  ]);
 }

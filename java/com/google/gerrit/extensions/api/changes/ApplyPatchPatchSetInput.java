@@ -26,18 +26,18 @@ public class ApplyPatchPatchSetInput {
   /**
    * The commit message for the new patch set. If not specified, a predefined message will be used.
    */
-  public @Nullable String commitMessage;
+  @Nullable public String commitMessage;
 
   /**
    * 40-hex digit SHA-1 of the commit which will be the parent commit of the newly created patch
    * set. If set, it must be a merged commit or a change revision on the destination branch.
    * Otherwise, the target change's branch tip will be used.
    */
-  public @Nullable String base;
+  @Nullable public String base;
 
   /**
    * The author of the new patch set. Must include both {@link AccountInput#name} and {@link
    * AccountInput#email} fields.
    */
-  public @Nullable AccountInput author;
+  @Nullable public AccountInput author;
 }

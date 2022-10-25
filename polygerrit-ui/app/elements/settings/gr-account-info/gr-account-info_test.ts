@@ -69,6 +69,16 @@ suite('gr-account-info tests', () => {
       element,
       /* HTML */ `
         <div class="gr-form-styles">
+          <p>
+            All profile fields below may be publicly displayed to others,
+            including on changes you are associated with, as well as in search
+            and autocompletion.
+            <a
+              href="https://gerrit-review.googlesource.com/Documentation/user-privacy.html"
+              >Learn more</a
+            >
+          </p>
+          <gr-endpoint-decorator name="profile"></gr-endpoint-decorator>
           <section>
             <span class="title"></span>
             <span class="value">
@@ -134,7 +144,8 @@ suite('gr-account-info tests', () => {
             </span>
           </section>
         </div>
-      `
+      `,
+      {ignoreChildren: ['p']}
     );
   });
 

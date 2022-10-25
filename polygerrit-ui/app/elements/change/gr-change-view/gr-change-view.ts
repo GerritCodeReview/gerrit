@@ -522,10 +522,6 @@ export class GrChangeView extends LitElement {
   @state()
   scrollCommentId?: UrlEncodedCommentId;
 
-  /** Just reflects the `opened` prop of the overlay. */
-  @state()
-  private replyOverlayOpened = false;
-
   // Accessed in tests.
   readonly reporting = getAppContext().reportingService;
 
@@ -1224,10 +1220,9 @@ export class GrChangeView extends LitElement {
         scroll-action="lock"
         with-backdrop=""
         @iron-overlay-canceled=${this.onReplyOverlayCanceled}
-        @opened-changed=${this.onReplyOverlayOpenedChanged}
       >
         ${when(
-          this.replyOverlayOpened && this.loggedIn,
+          this.loggedIn,
           () => html`
             <gr-reply-dialog
               id="replyDialog"
@@ -1971,10 +1966,6 @@ export class GrChangeView extends LitElement {
   private onReplyOverlayCanceled() {
     fireDialogChange(this, {canceled: true});
     this.changeViewAriaHidden = false;
-  }
-
-  private onReplyOverlayOpenedChanged(e: ValueChangedEvent<boolean>) {
-    this.replyOverlayOpened = e.detail.value;
   }
 
   private handleOpenDiffPrefs() {

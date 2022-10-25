@@ -33,7 +33,7 @@ suite('GrJsApiInterface tests', () => {
 
     stubRestApi('getAccount').returns(Promise.resolve({name: 'Judy Hopps'}));
     sendStub = stubRestApi('send').returns(Promise.resolve({status: 200}));
-    element = getAppContext().jsApiService;
+    element = getAppContext().pluginLoader.jsApiService;
     errorStub = sinon.stub(element.reporting, 'error');
     window.Gerrit.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');

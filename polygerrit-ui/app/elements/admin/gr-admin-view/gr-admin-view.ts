@@ -112,7 +112,7 @@ export class GrAdminView extends LitElement {
   private reloading = false;
 
   // private but used in the tests
-  readonly jsAPI = getAppContext().jsApiService;
+  readonly jsAPI = getAppContext().pluginLoader.jsApiService;
 
   private readonly restApiService = getAppContext().restApiService;
 

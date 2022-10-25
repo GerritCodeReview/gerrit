@@ -11,7 +11,6 @@ import '../../shared/gr-icon/gr-icon';
 import '../gr-account-dropdown/gr-account-dropdown';
 import '../gr-smart-search/gr-smart-search';
 import {getBaseUrl, getDocsBaseUrl} from '../../../utils/url-util';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {getAdminLinks, NavLink} from '../../../utils/admin-nav-util';
 import {
   AccountDetailInfo,
@@ -140,6 +139,8 @@ export class GrMainHeader extends LitElement {
   @state() private serverConfig?: ServerInfo;
 
   private readonly restApiService = getAppContext().restApiService;
+
+  private readonly pluginLoader = getAppContext().pluginLoader;
 
   private readonly jsAPI = getAppContext().jsApiService;
 
@@ -571,7 +572,7 @@ export class GrMainHeader extends LitElement {
     return Promise.all([
       this.restApiService.getAccount(),
       this.restApiService.getTopMenus(),
-      getPluginLoader().awaitPluginsLoaded(),
+      this.pluginLoader.awaitPluginsLoaded(),
     ]).then(result => {
       const account = result[0];
       this.account = account;

@@ -13,11 +13,19 @@
 
 import {GrAnnotation} from '../embed/diff/gr-diff-highlight/gr-annotation';
 import {GrPluginActionContext} from './shared/gr-js-api-interface/gr-plugin-action-context';
-import {initGerritPluginApi} from './shared/gr-js-api-interface/gr-gerrit';
-import {AppContext} from '../services/app-context';
+import {AppContext, injectAppContext} from '../services/app-context';
+import {Finalizable} from '../services/registry';
+import {GerritImpl} from './shared/gr-js-api-interface/gr-gerrit';
 
-export function initGlobalVariables(appContext: AppContext) {
+export function initGlobalVariables(appContext: AppContext & Finalizable) {
+  injectAppContext(appContext);
   window.GrAnnotation = GrAnnotation;
   window.GrPluginActionContext = GrPluginActionContext;
-  initGerritPluginApi(appContext);
+  window.Gerrit = new GerritImpl(
+    appContext.authService,
+    appContext.reportingService,
+    appContext.eventEmitter,
+    appContext.restApiService,
+    appContext.pluginLoader
+  );
 }

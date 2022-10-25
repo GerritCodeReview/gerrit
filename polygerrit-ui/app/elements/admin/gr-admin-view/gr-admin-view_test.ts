@@ -6,7 +6,6 @@
 import '../../../test/common-test-setup';
 import './gr-admin-view';
 import {AdminSubsectionLink, GrAdminView} from './gr-admin-view';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {stubBaseUrl, stubElement, stubRestApi} from '../../../test/test-utils';
 import {GerritView} from '../../../services/router/router-model';
 import {query, queryAll, queryAndAssert} from '../../../test/test-utils';
@@ -20,6 +19,7 @@ import {GroupDetailView} from '../../../models/views/group';
 import {RepoDetailView} from '../../../models/views/repo';
 import {testResolver} from '../../../test/common-test-setup';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
+import {getAppContext} from '../../../services/app-context';
 
 function createAdminCapabilities() {
   return {
@@ -36,7 +36,9 @@ suite('gr-admin-view tests', () => {
     element = await fixture(html`<gr-admin-view></gr-admin-view>`);
     stubRestApi('getProjectConfig').returns(Promise.resolve(undefined));
     const pluginsLoaded = Promise.resolve();
-    sinon.stub(getPluginLoader(), 'awaitPluginsLoaded').returns(pluginsLoaded);
+    sinon
+      .stub(getAppContext().pluginLoader, 'awaitPluginsLoaded')
+      .returns(pluginsLoaded);
     await pluginsLoaded;
     await element.updateComplete;
   });

@@ -72,7 +72,7 @@ suite('checks-model tests', () => {
       testResolver(changeViewModelToken),
       testResolver(changeModelToken),
       getAppContext().reportingService,
-      getAppContext().pluginsModel
+      getAppContext().pluginLoader.pluginsModel
     );
     model.checksLatest$.subscribe(c => (current = c[PLUGIN_NAME]));
   });

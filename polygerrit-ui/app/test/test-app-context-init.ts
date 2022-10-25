@@ -31,15 +31,12 @@ export function createTestAppContext(): AppContext & Finalizable {
       return new GrAuthMock();
     },
     restApiService: (_ctx: Partial<AppContext>) => grRestApiMock,
-    pluginsModel: (_ctx: Partial<AppContext>) => new PluginsModel(),
     pluginLoader: (ctx: Partial<AppContext>) => {
       const reportingService = ctx.reportingService;
       const restApiService = ctx.restApiService;
-      const pluginsModel = ctx.pluginsModel;
       assertIsDefined(reportingService, 'reportingService');
       assertIsDefined(restApiService, 'restApiService');
-      assertIsDefined(pluginsModel, 'pluginsModel');
-      return new PluginLoader(reportingService, restApiService, pluginsModel);
+      return new PluginLoader(reportingService, restApiService);
     },
   };
   return create<AppContext>(appRegistry);

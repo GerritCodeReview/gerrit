@@ -27,7 +27,6 @@ import {
 import {assertIsDefined} from '../utils/common-util';
 import {ConfigModel, configModelToken} from '../models/config/config-model';
 import {BrowserModel, browserModelToken} from '../models/browser/browser-model';
-import {PluginsModel} from '../models/plugins/plugins-model';
 import {
   HighlightService,
   highlightServiceToken,
@@ -82,15 +81,12 @@ export function createAppContext(): AppContext & Finalizable {
       assertIsDefined(ctx.authService, 'authService');
       return new GrRestApiServiceImpl(ctx.authService);
     },
-    pluginsModel: (_ctx: Partial<AppContext>) => new PluginsModel(),
     pluginLoader: (ctx: Partial<AppContext>) => {
       const reportingService = ctx.reportingService;
       const restApiService = ctx.restApiService;
-      const pluginsModel = ctx.pluginsModel;
       assertIsDefined(reportingService, 'reportingService');
       assertIsDefined(restApiService, 'restApiService');
-      assertIsDefined(pluginsModel, 'pluginsModel');
-      return new PluginLoader(reportingService, restApiService, pluginsModel);
+      return new PluginLoader(reportingService, restApiService);
     },
   };
   return create<AppContext>(appRegistry);
@@ -195,7 +191,7 @@ export function createAppDependencies(
           resolver(changeViewModelToken),
           resolver(changeModelToken),
           appContext.reportingService,
-          appContext.pluginsModel
+          appContext.pluginLoader.pluginsModel
         ),
     ],
     [

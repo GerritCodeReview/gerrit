@@ -101,15 +101,17 @@ export class PluginLoader implements Gerrit, Finalizable {
 
   public readonly jsApiService: JsApiService;
 
+  public readonly pluginsModel: PluginsModel;
+
   constructor(
     private readonly reportingService: ReportingService,
-    private readonly restApiService: RestApiService,
-    private readonly pluginsModel: PluginsModel
+    private readonly restApiService: RestApiService
   ) {
     this.jsApiService = new GrJsApiInterface(
       () => this.awaitPluginsLoaded(),
       this.reportingService
     );
+    this.pluginsModel = new PluginsModel();
   }
 
   reset() {
